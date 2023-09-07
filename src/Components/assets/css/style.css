@@ -3984,7 +3984,11 @@ form#add_hcp_form .row:not(:first-child) {
 #mail-view .mail-stats ul {
   justify-content: space-between;
 }
-
+#mail-view .mail-stats ul.mail-stats-ul {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px 30px;
+}
 #mail-view .mail-stats ul li>div {
   background: var(--white);
   border: 1px solid #eeeeee;
