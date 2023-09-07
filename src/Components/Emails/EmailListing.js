@@ -1580,7 +1580,7 @@ const EmailList = (props) => {
                     </ul>
                   </div>
                   <div className="mail-stats">
-                    <ul className="mail-stats-ul">
+                    <ul className={viewEmailData[0]?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
                       <li
                         onClick={() => {
                           getReaderData("unique", "Emails sent", "#8a4e9c");
