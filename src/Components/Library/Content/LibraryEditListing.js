@@ -732,7 +732,7 @@ const LibraryEditListing = () => {
                             <>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
-                                  className="card"
+                                className= {key == "Role" ? "card upper" : "card"}
                                   eventKey={index}
                                 >
                                   <Accordion.Header className="card-header">
@@ -910,7 +910,7 @@ const LibraryEditListing = () => {
                               <div className="filter-div-list">
                                 {filterObject[key]?.map((item, index) => (
                                   <div
-                                    className="filter-result"
+                                    className={key == "Role" ? "filter-result upper" : "filter-result"}
                                     onClick={(event) =>
                                       removeindividualfilter(key, item)
                                     }
@@ -1783,7 +1783,7 @@ const LibraryEditListing = () => {
                                           <h6 className="tab-content-title">
                                             Roles
                                           </h6>
-                                          <h6>
+                                          <h6 className="upper">
                                             {data?.trail_user_type
                                               ? typeof data?.trail_user_type ==
                                                   "string" &&
