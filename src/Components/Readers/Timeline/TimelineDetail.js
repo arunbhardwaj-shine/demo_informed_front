@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row, Table,Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import moment from "moment";
 import { loader } from "../../../loader";
+// import {
+//   Accordion,
+//   Col,
+//   Row,
+//   Modal,
+//   Tab,
+//   Tabs,
+//   ProgressBar,
+//   Button,
+// } from "react-bootstrap";
 
 const TimelineDetail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -13,6 +23,8 @@ const TimelineDetail = (props) => {
   const { state } = useLocation();
   const [isActive, setIsActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [page, setPage] = useState(1);
+
   const [readerId, setReaderId] = useState(
     localStorage.getItem("myData")
   );
@@ -87,15 +99,21 @@ const TimelineDetail = (props) => {
       }
     }
   };
+  const handleLoadMore = () =>{
+    // alert("hi")
+    // console.log(" im here")
+    setPage(page+1)
+    getUserTimelineData(page+1)
+  }
 
-  const [timeLineData, setTimeLineData] = useState([]);
+  const [timeLineData, setTimeLineData] = useState({});
   const [apiFlag, setApiFlag] = useState(0);
 
   useEffect(() => {
     getUserTimelineData();
   }, []);
 
-  const getUserTimelineData = async () => {
+  const getUserTimelineData = async (pageNo = 1) => {
     try {
       loader("show");
       if (typeof readerId === "undefined") {
@@ -105,12 +123,28 @@ const TimelineDetail = (props) => {
       }
       const res = await postData(ENDPOINT.USERTIMELINE, {
         userId: readerId,
+        page:pageNo?pageNo:page,
+         loadMoreId:timeLineData?.loadMore?.[0]?.id
       });
-      setTimeLineData(res?.data?.data);
+      if(Object.keys(timeLineData)?.length){
+
+       
+        // let newAr = [...timeLineData?.timeline,...res?.data?.data?.timeline]
+        const data = {
+          timeline:res?.data?.data?.timeline,
+          user:timeLineData?.user,
+          loadMore:res?.data?.data?.loadMore
+        }
+        setTimeLineData(data);
+
+      }else{
+        setTimeLineData(res?.data?.data);
+
+      }
       loader("hide");
     } catch (err) {
       loader("hide");
-      console.log("err");
+      console.log("err",err);
     }
     setApiFlag(1);
   };
@@ -305,6 +339,7 @@ const TimelineDetail = (props) => {
                         {timeLineData?.timeline.map((details, index) => {
                           return (
                             <>
+               
                           {/* details?.action == "Article browsed" || */}
                               {( details.action == "Article opened") && (
                                 <div className="timeline-box">
@@ -322,7 +357,7 @@ const TimelineDetail = (props) => {
                                             alt=""
                                           />
                                         </div>
-                                        <h6>Read Content</h6>
+                                        <h6>Content Opened</h6>
                                       </div>
                                       <div className="timeline-time-view">
                                         <div className="timeline-time">
@@ -373,13 +408,24 @@ const TimelineDetail = (props) => {
                                                  }
                                                  </td>
                                           </tr>
+                                          <tr>
+                                            <th className="device-title">
+                                              Article Read
+                                            </th>
+                                            <td className="device-name">
+                                                 {
+                                                  details?.pdfTimeTracks 
+                                                 }
+                                                 </td>
+                                          </tr>
                                               
                                         </tbody>
                                       </Table>
                                     </div>
                                     {/* details.file_type && details.file_type == "ebook"? "": */}
                                     {
-                                     <div
+                                        details?.pdfTimeTracks == "No"?""
+                                       :<div
                                      className={
                                        isActive && details.id == activeIndex
                                          ? "timeline-article-detail-full active"
@@ -605,7 +651,7 @@ const TimelineDetail = (props) => {
                                             alt=""
                                           />
                                         </div>
-                                        <h6>{details?.action}</h6>
+                                        <h6>User logged into Docintel</h6>
                                       </div>
                                       <div className="timeline-time-view">
                                         <div className="timeline-time">
@@ -973,6 +1019,16 @@ const TimelineDetail = (props) => {
                             </>
                           );
                         })}
+                        {timeLineData?.loadMore?.length?<div className="load_more">
+                        <Button
+                          className="btn btn-primary btn-filled"
+                          onClick={handleLoadMore}
+                        >
+                          Load More
+                        </Button>
+                
+                       </div>:null}
+                        
 
                         {/*
                           <div className="timeline-box">
