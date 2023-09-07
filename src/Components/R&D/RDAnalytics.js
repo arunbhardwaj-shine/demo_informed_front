@@ -1802,11 +1802,11 @@ const RDAnalytics = () => {
                               </div>
                             </Accordion.Header>
                             {}
-                            {mostPopularContentSiteData[item.pdf?.id]?.length >
-                              0 && (
-                              <>
-                                <Accordion.Body>
-                                  <div className="contents-block d-flex">
+                            <Accordion.Body>
+                              <div className="contents-block d-flex">
+                                {mostPopularContentSiteData[item.pdf?.id]
+                                  ?.length ? (
+                                  <>
                                     <div className="contents-block-left">
                                       <Table>
                                         <thead>
@@ -1903,10 +1903,16 @@ const RDAnalytics = () => {
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </Accordion.Body>
-                              </>
-                            )}
+                                  </>
+                                ) : isContentSiteAccordionOpen[
+                                    item?.pdf?.id
+                                  ] ? (
+                                  <div className="no_data">No Data Found</div>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            </Accordion.Body>
                           </Accordion.Item>
                         </Accordion>
                       </div>
