@@ -1833,18 +1833,15 @@ const CreateEmail = (props) => {
 
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-
-        let tox = document.querySelector(
-          "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog"
-        );
-        let tox1 = document.querySelector(
-          "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop"
-        );
-
+      
+        let tox= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog") 
+         let tox1=document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop")
+        let aux= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div")
         xhr.upload.addEventListener("progress", (event) => {
-          setShowProgress(true);
-          tox.style.opacity = 0;
-          tox1.style.opacity = 0;
+          setShowProgress(true)
+         tox.style.opacity = 0
+         tox1.style.opacity = 0
+         aux.style.opacity = 0
           if (event.lengthComputable) {
             const percentComplete = (event.loaded / event.total) * 100;
 
@@ -1862,10 +1859,12 @@ const CreateEmail = (props) => {
             } catch (parseError) {
               console.error("Failed to parse response JSON:", parseError);
               reject(null);
-            } finally {
-              setShowProgress(false);
-              tox1.style.opacity = 1;
-              tox.style.opacity = 1;
+            }
+            finally{
+              setShowProgress(false)
+         tox1.style.opacity = 1
+         tox.style.opacity = 1
+         aux.style.opacity = 1
 
               setProgress(0);
               setPercent(0);

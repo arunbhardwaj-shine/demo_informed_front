@@ -1618,7 +1618,7 @@ const NewReaders = () => {
                               <>
                                 {filterdata[key]?.length > 0 ? (
                                   <Accordion.Item
-                                    className="card"
+                                    className= {key == "role" ? "card upper" : "card"}
                                     eventKey={index}
                                   >
                                     <Accordion.Header className="card-header">
@@ -1861,7 +1861,7 @@ const NewReaders = () => {
                                       {" "}
                                       {filterObject[key]?.map((item, index) => (
                                         <div
-                                          className="filter-result"
+                                          className={key == "role" ? "filter-result upper" : "filter-result"}
                                           id={item}
                                           rt={index}
                                           b
