@@ -1907,7 +1907,7 @@ const RDAnalytics = () => {
                                 ) : isContentSiteAccordionOpen[
                                     item?.pdf?.id
                                   ] ? (
-                                  <div className="no_data">No Data Found</div>
+                                  <div className="not_found">No Data Found</div>
                                 ) : (
                                   ""
                                 )}
