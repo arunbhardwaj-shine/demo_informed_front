@@ -28,6 +28,7 @@ import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import { Time } from "highcharts";
 import TimelineDetail from "../Timeline/TimelineDetail";
+import axios from "axios";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const NewReaders = () => {
@@ -42,18 +43,22 @@ const NewReaders = () => {
   const [page, setPage] = useState(1);
   const institutionData = [
     {
-      label:"Study site",value:"Study site"
+      label: "Study site",
+      value: "Study site",
     },
     {
-      label:"Premier Research",value:"Premier Research"
+      label: "Premier Research",
+      value: "Premier Research",
     },
     {
-      label:"Comac",value:"Comac"
+      label: "Comac",
+      value: "Comac",
     },
     {
-      label:"Octapharma",value:"Octapharma"
-    }
-  ]
+      label: "Octapharma",
+      value: "Octapharma",
+    },
+  ];
   const [totalCount, setCount] = useState(0);
   const [appliedFilter, setAppliedFilter] = useState({
     status: ["Registered"],
@@ -76,6 +81,7 @@ const NewReaders = () => {
   const [siteName, setSiteName] = useState([]);
 
   const [countryAll, setCountryAll] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
   const defaultCountry = useRef(null);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [selectedSiteName, setSelectedSiteName] = useState([]);
@@ -137,7 +143,6 @@ const NewReaders = () => {
   const [resetDataId, setResetDataId] = useState();
   const [instituteValue, setInstitute] = useState([]);
 
-
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
@@ -150,8 +155,6 @@ const NewReaders = () => {
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [refreshButton, setRefreshButton] = useState(false);
   const [defaultOwner, setDefaultOwner] = useState("");
-
-  
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -193,14 +196,24 @@ const NewReaders = () => {
       setFilterData(res?.data?.data?.data);
       setApiFilterData(res?.data?.data?.data);
 
-      if(res?.data?.data?.data["Content Owners"]?.length && res?.data?.data?.defaultOwner){
-       setAppliedFilter({...appliedFilter,["Content Owners"]: [res?.data?.data?.defaultOwner]  });
-       setFilterObject({...filterObject, ["Content Owners"]: [res?.data?.data?.defaultOwner] });
-       setApifilterObject({...apifilterObject, ["Content Owners"]: [res?.data?.data?.defaultOwner]});
-       setDefaultOwner(res?.data?.data?.defaultOwner)
+      if (
+        res?.data?.data?.data["Content Owners"]?.length &&
+        res?.data?.data?.defaultOwner
+      ) {
+        setAppliedFilter({
+          ...appliedFilter,
+          ["Content Owners"]: [res?.data?.data?.defaultOwner],
+        });
+        setFilterObject({
+          ...filterObject,
+          ["Content Owners"]: [res?.data?.data?.defaultOwner],
+        });
+        setApifilterObject({
+          ...apifilterObject,
+          ["Content Owners"]: [res?.data?.data?.defaultOwner],
+        });
+        setDefaultOwner(res?.data?.data?.defaultOwner);
       }
-
-      
 
       setOriginalFilterData({
         ...originalFilterData,
@@ -389,9 +402,8 @@ const NewReaders = () => {
       }
     }
 
-
-    if(key =="Content Owners"){
-      if(item == "IBU Owner" ){
+    if (key == "Content Owners") {
+      if (item == "IBU Owner") {
         let newData = [];
 
         delete apifilterObject?.["Business Unit"];
@@ -401,11 +413,10 @@ const NewReaders = () => {
           ...filterdata,
           "Business Unit": newData,
         });
-      }else{
+      } else {
         setFilterData(apiFilterData);
       }
     }
-    
 
     if (key == "status") {
       let newData = [];
@@ -418,7 +429,6 @@ const NewReaders = () => {
         delete apifilterObject?.["Business Unit"];
         delete apifilterObject?.["Content Owners"];
         delete apifilterObject?.topic;
-
 
         delete filterObject.tags;
         delete filterObject?.["RTR?"];
@@ -440,9 +450,9 @@ const NewReaders = () => {
           ...filterdata,
           tags: newData,
           "RTR?": newData,
-          "Content Owners":newData,
+          "Content Owners": newData,
           "Registered For Webinar": newData,
-          "Business Unit":newData,
+          "Business Unit": newData,
           "Registered For Title": newData,
           topic: newData,
         });
@@ -741,135 +751,136 @@ const NewReaders = () => {
     }
   };
 
-  const institutionFun = (e, i, index) =>{
+  const institutionFun = (e, i, index) => {
     let insitutedData = {
       index: i,
       value: e?.value,
     };
-      const instituteIndex = instituteValue.findIndex((el) => el.index === i);
-      if (instituteIndex === -1) {
-        setInstitute((oldarray) => [...oldarray, insitutedData]);
-      } else {
-        setInstitute((oldarray) =>
-          oldarray.map((el) => {
-            if (el.index === i) {
-              return { ...el, value: insitutedData };
-            }
-            return el;
-          })
-        );
-      }
-      let consent1 = {
-        index: i,
-        value: "",
-      };
-      if(selectedCountry?.length && Object.keys(selectedCountry[index])?.length){
-          let newAr = selectedCountry
-            newAr[index] = {
-              
-            }
-            setSelectedCountry(newAr)
-      }else{
-        let newAr = selectedCountry
-        newAr[index] = {
-          // label:"",
-          // value:""
-        }
-        setSelectedCountry(newAr)
-      }
-      // setSelectedCountry((prev) => {
-      //   const newSelectedCountry = [...prev];
-      //   newSelectedCountry[i] = {
-      //     value:"",
-      //     label: "",
-      //   };
-      //   return newSelectedCountry;
-      // });
-      const found2 = changeSiteNumberType.some((el) => el.index === i);
-      if (!found2) {
-        setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
-      } else {
-        const updatedArray = changeSiteNumberType.map((el) =>
-          el.index === i ? { ...el, value: consent1.value } : el
-        );
-        setChangeSiteNumberType(updatedArray);
-      }
-
-      let consent2 = {
-        index: i,
-        value: "",
-      };
-      const found3 = changeSiteNameType.some((el) => el.index === i);
-      if (!found3) {
-        setChangeSiteNameType((oldarray) => [...oldarray, consent2.value]);
-      } else {
-        const updatedArray = changeSiteNameType.map((el) =>
-          el.index === i ? { ...el, value: consent2.value } : el
-        );
-        setChangeSiteNameType(updatedArray);
-      }
-      setSelectedSiteNumber((prev) => {
-        const newSelectedSiteNumber = [...prev];
-        newSelectedSiteNumber[index] = true;
-        return newSelectedSiteNumber;
-      });
-
-      setSelectedSiteName((prev) => {
-        const newSelectedSiteName = [...prev];
-        newSelectedSiteName[index] = true;
-        return newSelectedSiteName;
-      });
-
-      // console.log(selectedSiteName[0].length);
-      let consetValue = e.value;
-      const filteredData = change.sideData.filter(
-        (item) => item.country === consetValue
+    const instituteIndex = instituteValue.findIndex((el) => el.index === i);
+    if (instituteIndex === -1) {
+      setInstitute((oldarray) => [...oldarray, insitutedData]);
+    } else {
+      setInstitute((oldarray) =>
+        oldarray.map((el) => {
+          if (el.index === i) {
+            return { ...el, value: insitutedData };
+          }
+          return el;
+        })
       );
-
-      const siteNumbers = filteredData.map((item) => ({
-        label: item.site_number,
-        value: item.site_number,
-      }));
-      const siteNames = filteredData.map((item) => ({
-        label: item.site_name,
-        value: item.site_name,
-      }));
-      setSiteNumber((prevSiteNumbers) => ({
-        ...prevSiteNumbers,
-        [index]: siteNumbers,
-      }));
-      setSiteName((prevSiteNumbers) => ({
-        ...prevSiteNumbers,
-        [index]: siteNames,
-      }));
-      
-      setSelectedRole((prev) => {
-        const newSelectedSiteName = [...prev];
-        newSelectedSiteName[index] = true;
-        return newSelectedSiteName;
-      });
-      let consetValueType = e.value == "Study site"?1:0;
-      let consent = {
-        index: i,
-        value: parseInt(consetValueType),
+    }
+    let consent1 = {
+      index: i,
+      value: "",
+    };
+    if (
+      selectedCountry?.length &&
+      Object.keys(selectedCountry[index])?.length
+    ) {
+      let newAr = selectedCountry;
+      newAr[index] = {};
+      setSelectedCountry(newAr);
+    } else {
+      let newAr = selectedCountry;
+      newAr[index] = {
+        // label:"",
+        // value:""
       };
-      
-      const foundIndex = changeIRTType.findIndex((el) => el.index === i);
-      if (foundIndex === -1) {
-        setChangeIRTType((oldarray) => [...oldarray, consent]);
-      } else {
-        setChangeIRTType((oldarray) =>
-          oldarray.map((el) => {
-            if (el.index === i) {
-              return { ...el, value: parseInt(consetValueType) };
-            }
-            return el;
-          })
-        );
-      }
+      setSelectedCountry(newAr);
+    }
+    // setSelectedCountry((prev) => {
+    //   const newSelectedCountry = [...prev];
+    //   newSelectedCountry[i] = {
+    //     value:"",
+    //     label: "",
+    //   };
+    //   return newSelectedCountry;
+    // });
+    const found2 = changeSiteNumberType.some((el) => el.index === i);
+    if (!found2) {
+      setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
+    } else {
+      const updatedArray = changeSiteNumberType.map((el) =>
+        el.index === i ? { ...el, value: consent1.value } : el
+      );
+      setChangeSiteNumberType(updatedArray);
+    }
+
+    let consent2 = {
+      index: i,
+      value: "",
+    };
+    const found3 = changeSiteNameType.some((el) => el.index === i);
+    if (!found3) {
+      setChangeSiteNameType((oldarray) => [...oldarray, consent2.value]);
+    } else {
+      const updatedArray = changeSiteNameType.map((el) =>
+        el.index === i ? { ...el, value: consent2.value } : el
+      );
+      setChangeSiteNameType(updatedArray);
+    }
+    setSelectedSiteNumber((prev) => {
+      const newSelectedSiteNumber = [...prev];
+      newSelectedSiteNumber[index] = true;
+      return newSelectedSiteNumber;
+    });
+
+    setSelectedSiteName((prev) => {
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] = true;
+      return newSelectedSiteName;
+    });
+
+    // console.log(selectedSiteName[0].length);
+    let consetValue = e.value;
+    const filteredData = change.sideData.filter(
+      (item) => item.country === consetValue
+    );
+
+    const siteNumbers = filteredData.map((item) => ({
+      label: item.site_number,
+      value: item.site_number,
+    }));
+    const siteNames = filteredData.map((item) => ({
+      label: item.site_name,
+      value: item.site_name,
+    }));
+    setSiteNumber((prevSiteNumbers) => ({
+      ...prevSiteNumbers,
+      [index]: siteNumbers,
+    }));
+    setSiteName((prevSiteNumbers) => ({
+      ...prevSiteNumbers,
+      [index]: siteNames,
+    }));
+
+    setSelectedRole((prev) => {
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] = true;
+      return newSelectedSiteName;
+    });
+    let consetValueType = e.value == "Study site" ? 1 : 0;
+    let consent = {
+      index: i,
+      value: parseInt(consetValueType),
+    };
+
+    const foundIndex = changeIRTType.findIndex((el) => el.index === i);
+    if (foundIndex === -1) {
+      setChangeIRTType((oldarray) => [...oldarray, consent]);
+    } else {
+      setChangeIRTType((oldarray) =>
+        oldarray.map((el) => {
+          if (el.index === i) {
+            return { ...el, value: parseInt(consetValueType) };
+          }
+          return el;
+        })
+      );
+    }
 
     // console.log("-e",e.value)
-  }
+  };
   const handleTimeLine = (data) => {
     window.open("/timeline-detail");
     localStorage.setItem("myData", data);
@@ -1053,7 +1064,7 @@ const NewReaders = () => {
       let siteName = "";
 
       let binded = "";
-      let institute = ""
+      let institute = "";
 
       if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
         const roleIndex = changeRoleType.findIndex(
@@ -1077,11 +1088,14 @@ const NewReaders = () => {
           binded = changeBlindedType[blindedIndex].value;
         }
 
-        const instituteIndex = instituteValue.findIndex((el)=>el.index === reader_id)
+        const instituteIndex = instituteValue.findIndex(
+          (el) => el.index === reader_id
+        );
 
         if (instituteIndex > -1) {
-
-          institute = instituteValue[instituteIndex]?instituteValue[instituteIndex].value?.value:"";
+          institute = instituteValue[instituteIndex]
+            ? instituteValue[instituteIndex].value?.value
+            : "";
         }
 
         const siteNumberIndex = changeSiteNumberType.findIndex(
@@ -1100,12 +1114,12 @@ const NewReaders = () => {
 
         if (
           (country !== "" ||
-          type !== "" ||
-          role !== "" ||
-          irt !== "" ||
-          binded !== "" ||
-          siteNumber !== "" ||
-          siteName !== "" ) &&
+            type !== "" ||
+            role !== "" ||
+            irt !== "" ||
+            binded !== "" ||
+            siteNumber !== "" ||
+            siteName !== "") &&
           institute !== ""
         ) {
           body = {
@@ -1116,7 +1130,7 @@ const NewReaders = () => {
             binded: binded,
             irt: irt,
             role: role,
-            institute:institute,
+            institute: institute,
             siteNumber: siteNumber,
             siteName: siteName,
           };
@@ -1178,12 +1192,12 @@ const NewReaders = () => {
         });
       } else {
         if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-          if(institute == ""){
+          if (institute == "") {
             toast.warning("Please select insitute value");
-          }else{
+          } else {
             toast.warning("Nothing to update.");
           }
-        }else{
+        } else {
           toast.warning("Nothing to update.");
         }
       }
@@ -1268,7 +1282,7 @@ const NewReaders = () => {
     }
   };
 
-  const tabClicked = async (key, userId) => {
+  const tabClicked = async (key, userId, index, country) => {
     setApiCallStatus(false);
     if (key == "usage") {
       let index = emailStats.findIndex((el) => el.userId == userId);
@@ -1294,17 +1308,64 @@ const NewReaders = () => {
       localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
     ) {
       const res = await getData(ENDPOINT.READER_USER_DROP);
+
       setChanges(res?.data?.data);
+      console.log("res--->", res);
+      // setSiteNumber((prevSiteNumbers) => ({
+      //   ...prevSiteNumbers,
+      //   all: res?.data?.data?.siteNumber,
+      // }));
+      // setSiteName((prevSiteName) => ({
+      //   ...prevSiteName,
+      //   all: res?.data?.data?.siteName,
+      // }));
+      let consetValue = country;
+      const filteredData = res?.data?.data?.sideData.filter(
+        (item) => item.country === consetValue
+      );
+
+      const siteNumbers = filteredData.map((item) => ({
+        label: item.site_number,
+        value: item.site_number,
+      }));
+      const siteNames = filteredData.map((item) => ({
+        label: item.site_name,
+        value: item.site_name,
+      }));
       setSiteNumber((prevSiteNumbers) => ({
         ...prevSiteNumbers,
-        all: res?.data?.data?.siteNumber,
+        [index]: siteNumbers,
       }));
-      setSiteName((prevSiteName) => ({
-        ...prevSiteName,
-        all: res?.data?.data?.siteName,
+      setSiteName((prevSiteNumbers) => ({
+        ...prevSiteNumbers,
+        [index]: siteNames,
       }));
+      axiosFun();
     }
     setApiCallStatus(true);
+  };
+
+  const axiosFun = async () => {
+    try {
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      const result = await axios.get(`emailapi/get_site`);
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+
+      setIRTCountry(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
   };
 
   const showConfirmationPopup = (stateMsg, e, id) => {
@@ -1380,7 +1441,6 @@ const NewReaders = () => {
           <Row>
             <div className="top-sticky">
               <div className="top-header reader_list">
-
                 <div className="page-title">
                   {localStorage.getItem("user_id") ==
                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
@@ -1394,17 +1454,22 @@ const NewReaders = () => {
                     </h4>
                   )}
 
-                  
-                  {((Object.keys(filterObject)?.length == 2 &&
-                    filterObject?.["status"] == "Registered" &&
-                    filterObject?.["contact Type"] == "HCP") || (Object.keys(filterObject)?.length == 3 &&
-                    filterObject?.["status"]?.includes("Registered") &&
-                    filterObject?.["contact Type"]?.includes("HCP")  && filterObject?.["Content Owners"]?.includes(defaultOwner)) ||
-                  (localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" &&
-                  Object.keys(filterObject)?.length <= 0)
-                    ? true
-                    : false) ? (
+                  {(
+                    (Object.keys(filterObject)?.length == 2 &&
+                      filterObject?.["status"] == "Registered" &&
+                      filterObject?.["contact Type"] == "HCP") ||
+                    (Object.keys(filterObject)?.length == 3 &&
+                      filterObject?.["status"]?.includes("Registered") &&
+                      filterObject?.["contact Type"]?.includes("HCP") &&
+                      filterObject?.["Content Owners"]?.includes(
+                        defaultOwner
+                      )) ||
+                    (localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" &&
+                      Object.keys(filterObject)?.length <= 0)
+                      ? true
+                      : false
+                  ) ? (
                     <div className="refresh-button">
                       <button
                         className={refreshFlag ? "refresh-rotate" : "refresh"}
@@ -1938,7 +2003,9 @@ const NewReaders = () => {
                         </div>
                         <div className="tabs-data">
                           <Tabs
-                            onSelect={(key) => tabClicked(key, data?.id)}
+                            onSelect={(key) =>
+                              tabClicked(key, data?.id, index, data?.country)
+                            }
                             defaultActiveKey="personal-details"
                             fill
                           >
@@ -1978,11 +2045,15 @@ const NewReaders = () => {
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
                                   localStorage.getItem("group_id") == "3" ? (
                                     <>
-                                     <li>
+                                      <li>
                                         <h6 className="tab-content-title">
                                           Institution
                                         </h6>
-                                        <h6>{data?.institute ? data?.institute : "N/A"}</h6>
+                                        <h6>
+                                          {data?.institute
+                                            ? data?.institute
+                                            : "N/A"}
+                                        </h6>
                                       </li>
                                       <li>
                                         <h6 className="tab-content-title">
@@ -2298,7 +2369,7 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                     QR openings/Article
+                                      QR openings/Article
                                       <LinkWithTooltip
                                         tooltip="Number of opening from Qr code counts for specific article."
                                         href="#"
@@ -2331,9 +2402,9 @@ const NewReaders = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                     GO openings/Article
+                                      GO openings/Article
                                       <LinkWithTooltip
-                                       tooltip="Number of opening from inforMedGO counts for specific article."
+                                        tooltip="Number of opening from inforMedGO counts for specific article."
                                         href="#"
                                       >
                                         <img
@@ -2400,16 +2471,17 @@ const NewReaders = () => {
                                       <h6 className="tab-content-title">
                                         Last content activity
                                         <LinkWithTooltip
-                                        tooltip="Last activity performed by user."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
+                                          tooltip="Last activity performed by user."
+                                          href="#"
+                                        >
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
+                                            }
+                                            alt="refresh-btn"
+                                          />
+                                        </LinkWithTooltip>
                                       </h6>
                                       <div className="data-progress content-opening">
                                         <ProgressBar
@@ -2537,10 +2609,10 @@ const NewReaders = () => {
                                             </div>
                                           </div>
                                         </li>*/}
-                                            <li>
+                                        <li>
                                           <h6 className="tab-content-title">
-                                          Institution                       
-                                            </h6>
+                                            Institution
+                                          </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
                                               <Select
@@ -2549,13 +2621,18 @@ const NewReaders = () => {
                                                   institutionData?.[
                                                     institutionData.findIndex(
                                                       (el) =>
-                                                        el.value == data?.institute
+                                                        el.value ==
+                                                        data?.institute
                                                     )
                                                   ]
                                                 }
-                                                onChange={(e)=>institutionFun(e,
-                                                  data.id,
-                                                  index)}
+                                                onChange={(e) =>
+                                                  institutionFun(
+                                                    e,
+                                                    data.id,
+                                                    index
+                                                  )
+                                                }
                                                 id={"irt_type" + data?.id}
                                                 className="dropdown-basic-button split-button-dropup"
                                                 isClearable
@@ -2689,36 +2766,82 @@ const NewReaders = () => {
                                           </h6>
                                           <div className="select-dropdown-wrapper">
                                             <div className="select">
-                                              <Select
-                                                ref={defaultCountry}
-                                                options={countryAll}
-                                                value={
-                                                  selectedCountry[index] !==
-                                                  undefined
-                                                    ? selectedCountry[index]
-                                                    : data?.country === "B&H"
-                                                    ? countryAll.find(
-                                                        (el) =>
-                                                          el.value ===
-                                                          "Bosnia and Herzegovina"
-                                                      )
-                                                    : countryAll.find(
-                                                        (el) =>
-                                                          el.value ===
-                                                          data?.country
-                                                      )
-                                                }
-                                                onChange={(event) =>
-                                                  onCountryChange(
-                                                    event,
-                                                    data.id,
-                                                    index
-                                                  )
-                                                }
-                                                id={data.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
+                                              {(
+                                                changeIRTType.filter(
+                                                  (el) => el.index == data.id
+                                                )?.length
+                                                  ? changeIRTType.filter(
+                                                      (el) =>
+                                                        el.index == data.id
+                                                    )?.[0]?.value
+                                                  : data?.irt == "Yes"
+                                                  ? true
+                                                  : false
+                                              ) ? (
+                                                <Select
+                                                  ref={defaultCountry}
+                                                  options={irtCountry}
+                                                  value={
+                                                    selectedCountry[index] !==
+                                                    undefined
+                                                      ? selectedCountry[index]
+                                                      : data?.country === "B&H"
+                                                      ? countryAll.find(
+                                                          (el) =>
+                                                            el.value ===
+                                                            "Bosnia and Herzegovina"
+                                                        )
+                                                      : irtCountry.find(
+                                                          (el) =>
+                                                            el.value ===
+                                                            data?.country
+                                                        )
+                                                  }
+                                                  onChange={(event) =>
+                                                    onCountryChange(
+                                                      event,
+                                                      data.id,
+                                                      index
+                                                    )
+                                                  }
+                                                  id={data.id}
+                                                  className="dropdown-basic-button split-button-dropup"
+                                                  isClearable
+                                                  placeholder="Select country"
+                                                />
+                                              ) : (
+                                                <Select
+                                                  ref={defaultCountry}
+                                                  options={countryAll}
+                                                  value={
+                                                    selectedCountry[index] !==
+                                                    undefined
+                                                      ? selectedCountry[index]
+                                                      : data?.country === "B&H"
+                                                      ? countryAll.find(
+                                                          (el) =>
+                                                            el.value ===
+                                                            "Bosnia and Herzegovina"
+                                                        )
+                                                      : countryAll.find(
+                                                          (el) =>
+                                                            el.value ===
+                                                            data?.country
+                                                        )
+                                                  }
+                                                  onChange={(event) =>
+                                                    onCountryChange(
+                                                      event,
+                                                      data.id,
+                                                      index
+                                                    )
+                                                  }
+                                                  id={data.id}
+                                                  className="dropdown-basic-button split-button-dropup"
+                                                  isClearable
+                                                  placeholder="Select country"
+                                                />
+                                              )}
                                             </div>
                                           </div>
                                         </li>
@@ -2852,21 +2975,19 @@ const NewReaders = () => {
                                             <div className="select">
                                               <Select
                                                 options={countryAll}
-                                                
                                                 defaultValue={
                                                   countryAll[
-                                                    data?.country == "B&H"?(
-                                                      countryAll.findIndex(
-                                                        (el) =>
-                                                          el.value ==
-                                                           "Bosnia and Herzegovina"
-                                                      )
-                                                    ):
-                                                    countryAll.findIndex(
-                                                      (el) =>
-                                                        el.value ==
-                                                        data?.country
-                                                    )
+                                                    data?.country == "B&H"
+                                                      ? countryAll.findIndex(
+                                                          (el) =>
+                                                            el.value ==
+                                                            "Bosnia and Herzegovina"
+                                                        )
+                                                      : countryAll.findIndex(
+                                                          (el) =>
+                                                            el.value ==
+                                                            data?.country
+                                                        )
                                                   ]
                                                 }
                                                 onChange={(event) =>

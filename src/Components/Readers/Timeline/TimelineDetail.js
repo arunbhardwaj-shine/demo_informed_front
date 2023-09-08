@@ -896,7 +896,7 @@ const TimelineDetail = (props) => {
                                   </div>
                                 )}
                               {details?.action &&
-                                details.action.includes("Saved") && (
+                                details.action.includes("Saved") ||  details.action.includes("Non Mandatory") && (
                                   <div className="timeline-box">
                                     <div className="timeline_date">
                                       {details?.date}
