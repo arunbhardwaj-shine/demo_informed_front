@@ -79,6 +79,7 @@ const NewReaders = () => {
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [siteNumber, setSiteNumber] = useState([]);
   const [siteName, setSiteName] = useState([]);
+  const [changeUpdateFlag, setChangeUpdateFlag] = useState([]);
 
   const [countryAll, setCountryAll] = useState([]);
   const [irtCountry, setIRTCountry] = useState([]);
@@ -655,6 +656,8 @@ const NewReaders = () => {
       );
       setChangeCountry(updatedArray);
     }
+    changeUpdateFlag.push(i);
+    setChangeUpdateFlag(changeUpdateFlag);
   };
 
   const onUserChange = (e, i) => {
@@ -674,6 +677,8 @@ const NewReaders = () => {
         )
       );
     }
+    changeUpdateFlag.push(i);
+    setChangeUpdateFlag(changeUpdateFlag);
   };
 
   const onBlindedChange = (e, i) => {
@@ -722,6 +727,8 @@ const NewReaders = () => {
         )
       );
     }
+    changeUpdateFlag.push(i);
+    setChangeUpdateFlag(changeUpdateFlag);
   };
 
   const onIrtChange = (e, i, index) => {
@@ -749,6 +756,91 @@ const NewReaders = () => {
         })
       );
     }
+
+    setSelectedRole((prev) => {
+      const newSelectedRole = [...prev];
+      newSelectedRole[index] = true;
+      return newSelectedRole;
+    });
+
+    if (selectedCountry?.length) {
+      let newAr = selectedCountry;
+      newAr[index] = {};
+      setSelectedCountry(newAr);
+    } else {
+      let newAr = selectedCountry;
+      newAr[index] = {};
+      setSelectedCountry(newAr);
+    }
+    let consent1 = {
+      index: i,
+      value: "",
+    };
+    const found2 = changeSiteNumberType.some((el) => el.index === i);
+
+    if (!found2) {
+      setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
+    } else {
+      const updatedArray = changeSiteNumberType.map((el) =>
+        el.index === i ? { ...el, value: consent1.value } : el
+      );
+      setChangeSiteNumberType(updatedArray);
+    }
+
+    const found3 = changeSiteNameType.some((el) => el.index === i);
+
+    if (!found3) {
+      setChangeSiteNameType((oldarray) => [...oldarray, consent1.value]);
+    } else {
+      const updatedArray = changeSiteNameType.map((el) =>
+        el.index === i ? { ...el, value: consent1.value } : el
+      );
+      setChangeSiteNameType(updatedArray);
+    }
+
+    const found4 = changeRoleType.some((el) => el.index === i);
+    if (!found4) {
+      setChangeRoleType((oldarray) => [...oldarray, consent1.value]);
+    } else {
+      const updatedArray = changeRoleType.map((el) =>
+        el.index === i ? { ...el, value: consent1.value } : el
+      );
+      setChangeRoleType(updatedArray);
+    }
+    const found5 = changeCountry.some((el) => el.index === i);
+    if (!found5) {
+      setChangeCountry((oldarray) => [...oldarray, consent1]);
+    } else {
+      const updatedArray = changeCountry.map((el) =>
+        el.index === i ? { ...el, value: consent1.value } : el
+      );
+      setChangeCountry(updatedArray);
+    }
+
+    setSelectedSiteNumber((prev) => {
+      const newSelectedSiteNumber = [...prev];
+      newSelectedSiteNumber[index] = true;
+      return newSelectedSiteNumber;
+    });
+
+    setSelectedSiteName((prev) => {
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] = true;
+      return newSelectedSiteName;
+    });
+
+    let siteNumbers = [];
+    let siteNames = [];
+    setSiteNumber((prevSiteNumbers) => ({
+      ...prevSiteNumbers,
+      [index]: siteNumbers,
+    }));
+    setSiteName((prevSiteNumbers) => ({
+      ...prevSiteNumbers,
+      [index]: siteNames,
+    }));
+    changeUpdateFlag.push(i);
+    setChangeUpdateFlag(changeUpdateFlag);
   };
 
   const institutionFun = (e, i, index) => {
@@ -763,7 +855,8 @@ const NewReaders = () => {
       setInstitute((oldarray) =>
         oldarray.map((el) => {
           if (el.index === i) {
-            return { ...el, value: insitutedData };
+            // return { ...el, value: insitutedData };
+            return { ...el, value: e?.value };
           }
           return el;
         })
@@ -774,28 +867,19 @@ const NewReaders = () => {
       value: "",
     };
     if (
-      selectedCountry?.length &&
-      Object.keys(selectedCountry[index])?.length
+      selectedCountry?.length
+      // &&
+      // Object.keys(selectedCountry[index])?.length
     ) {
       let newAr = selectedCountry;
       newAr[index] = {};
       setSelectedCountry(newAr);
     } else {
       let newAr = selectedCountry;
-      newAr[index] = {
-        // label:"",
-        // value:""
-      };
+      newAr[index] = {};
       setSelectedCountry(newAr);
     }
-    // setSelectedCountry((prev) => {
-    //   const newSelectedCountry = [...prev];
-    //   newSelectedCountry[i] = {
-    //     value:"",
-    //     label: "",
-    //   };
-    //   return newSelectedCountry;
-    // });
+
     const found2 = changeSiteNumberType.some((el) => el.index === i);
     if (!found2) {
       setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
@@ -819,6 +903,25 @@ const NewReaders = () => {
       );
       setChangeSiteNameType(updatedArray);
     }
+    const found4 = changeRoleType.some((el) => el.index === i);
+    if (!found4) {
+      setChangeRoleType((oldarray) => [...oldarray, consent1.value]);
+    } else {
+      const updatedArray = changeRoleType.map((el) =>
+        el.index === i ? { ...el, value: consent1.value } : el
+      );
+      setChangeRoleType(updatedArray);
+    }
+    const found5 = changeCountry.some((el) => el.index === i);
+    if (!found5) {
+      setChangeCountry((oldarray) => [...oldarray, consent1]);
+    } else {
+      const updatedArray = changeCountry.map((el) =>
+        el.index === i ? { ...el, value: consent1.value } : el
+      );
+      setChangeCountry(updatedArray);
+    }
+
     setSelectedSiteNumber((prev) => {
       const newSelectedSiteNumber = [...prev];
       newSelectedSiteNumber[index] = true;
@@ -829,6 +932,12 @@ const NewReaders = () => {
       const newSelectedSiteName = [...prev];
       newSelectedSiteName[index] = true;
       return newSelectedSiteName;
+    });
+
+    setSelectedRole((prev) => {
+      const newSelectedRole = [...prev];
+      newSelectedRole[index] = true;
+      return newSelectedRole;
     });
 
     // console.log(selectedSiteName[0].length);
@@ -854,11 +963,6 @@ const NewReaders = () => {
       [index]: siteNames,
     }));
 
-    setSelectedRole((prev) => {
-      const newSelectedSiteName = [...prev];
-      newSelectedSiteName[index] = true;
-      return newSelectedSiteName;
-    });
     let consetValueType = e.value == "Study site" ? 1 : 0;
     let consent = {
       index: i,
@@ -879,7 +983,14 @@ const NewReaders = () => {
       );
     }
 
-    // console.log("-e",e.value)
+    readerDataList[index].role = "";
+    readerDataList[index].siteName = "";
+    readerDataList[index].siteNumber = "";
+    readerDataList[index].country = "";
+    setReaderDataList(readerDataList);
+
+    changeUpdateFlag.push(i);
+    setChangeUpdateFlag(changeUpdateFlag);
   };
   const handleTimeLine = (data) => {
     window.open("/timeline-detail");
@@ -965,6 +1076,8 @@ const NewReaders = () => {
       updatedArray[index].value = consetValue;
       setChangeSiteNumberType(updatedArray);
     }
+    changeUpdateFlag.push(i);
+    setChangeUpdateFlag(changeUpdateFlag);
   };
   const onSiteNameChange = (e, i, index) => {
     const selectedSiteName = e.value;
@@ -1042,16 +1155,12 @@ const NewReaders = () => {
       };
       return newSelectedSiteName;
     });
+    changeUpdateFlag.push(i);
+    setChangeUpdateFlag(changeUpdateFlag);
   };
 
   const updateReaderDetails = async (reader_id, index) => {
     try {
-      const index = changeCountry.findIndex((el) => el.index === reader_id);
-
-      let country = "";
-      if (index !== -1) {
-        country = changeCountry[index].value;
-      }
       const tindex = changeUserType.findIndex((el) => el.index === reader_id);
       let type = "";
       if (tindex !== -1) {
@@ -1062,7 +1171,7 @@ const NewReaders = () => {
       let irt = "";
       let siteNumber = "";
       let siteName = "";
-
+      let country = "";
       let binded = "";
       let institute = "";
 
@@ -1070,15 +1179,34 @@ const NewReaders = () => {
         const roleIndex = changeRoleType.findIndex(
           (el) => el.index === reader_id
         );
+
         if (roleIndex !== -1) {
           role = changeRoleType[roleIndex].value;
+        } else {
+          const roleIndex = readerDataList.findIndex(
+            (el) => el.id === reader_id
+          );
+          role = readerDataList[roleIndex]?.role;
         }
 
         const irtIndex = changeIRTType.findIndex(
           (el) => el.index === reader_id
         );
+
         if (irtIndex !== -1) {
           irt = changeIRTType[irtIndex].value;
+        }
+        const countryIndex = changeCountry.findIndex(
+          (el) => el.index === reader_id
+        );
+
+        if (countryIndex !== -1) {
+          country = changeCountry[index].value;
+        } else {
+          const countryIndex = readerDataList.findIndex(
+            (el) => el.id === reader_id
+          );
+          country = readerDataList[countryIndex]?.country;
         }
 
         const blindedIndex = changeBlindedType.findIndex(
@@ -1094,8 +1222,13 @@ const NewReaders = () => {
 
         if (instituteIndex > -1) {
           institute = instituteValue[instituteIndex]
-            ? instituteValue[instituteIndex].value?.value
+            ? instituteValue[instituteIndex]?.value
             : "";
+        } else {
+          const instituteIndex = readerDataList.findIndex(
+            (el) => el.id === reader_id
+          );
+          institute = readerDataList[instituteIndex]?.institute;
         }
 
         const siteNumberIndex = changeSiteNumberType.findIndex(
@@ -1103,6 +1236,11 @@ const NewReaders = () => {
         );
         if (siteNumberIndex !== -1) {
           siteNumber = changeSiteNumberType[siteNumberIndex].value;
+        } else {
+          const siteNumberIndex = readerDataList.findIndex(
+            (el) => el.id === reader_id
+          );
+          siteNumber = readerDataList[siteNumberIndex]?.siteNumber;
         }
 
         const siteNameIndex = changeSiteNameType.findIndex(
@@ -1110,17 +1248,33 @@ const NewReaders = () => {
         );
         if (siteNameIndex !== -1) {
           siteName = changeSiteNameType[siteNameIndex].value;
+        } else {
+          const siteNameIndex = readerDataList.findIndex(
+            (el) => el.id === reader_id
+          );
+          siteName = readerDataList[siteNameIndex]?.siteName;
         }
 
+        // if (
+        //   (country !== "" ||
+        //     type !== "" ||
+        //     role !== "" ||
+        //     irt !== "" ||
+        //     binded !== "" ||
+        //     siteNumber !== "" ||
+        //     siteName !== "") &&
+        //   institute !== ""
+        // )
+
         if (
-          (country !== "" ||
-            type !== "" ||
+          country !== "" &&
+          (type !== "" ||
             role !== "" ||
             irt !== "" ||
             binded !== "" ||
             siteNumber !== "" ||
-            siteName !== "") &&
-          institute !== ""
+            siteName !== "" ||
+            institute !== "")
         ) {
           body = {
             type: 1,
@@ -1134,8 +1288,18 @@ const NewReaders = () => {
             siteNumber: siteNumber,
             siteName: siteName,
           };
+        } else {
+          toast.warning("Please select country.");
+          return;
         }
       } else {
+        const index = changeCountry.findIndex((el) => el.index === reader_id);
+
+        let country = "";
+        if (index !== -1) {
+          country = changeCountry[index].value;
+        }
+
         if (country !== "" || type !== "") {
           loader("show");
           body = {
@@ -1163,9 +1327,9 @@ const NewReaders = () => {
           readerDataList[libDataIndex].user_status = userTypeValue;
         }
 
-        if (role !== "") {
-          readerDataList[libDataIndex].role = role;
-        }
+        // if (role !== "") {
+        readerDataList[libDataIndex].role = role;
+        // }
 
         if (irt !== "") {
           readerDataList[libDataIndex].irt = irt == 1 ? "Yes" : "No";
@@ -1173,11 +1337,14 @@ const NewReaders = () => {
         if (binded !== "") {
           readerDataList[libDataIndex].binded = binded;
         }
-        if (siteName !== "") {
-          readerDataList[libDataIndex].siteName = siteName;
-        }
-        if (siteNumber !== "") {
-          readerDataList[libDataIndex].siteNumber = siteNumber;
+        // if (siteName !== "") {
+        readerDataList[libDataIndex].siteName = siteName;
+        // }
+        // if (siteNumber !== "") {
+        readerDataList[libDataIndex].siteNumber = siteNumber;
+        // }
+        if (institute !== "") {
+          readerDataList[libDataIndex].institute = institute;
         }
 
         const newData = readerDataList;
@@ -1191,16 +1358,23 @@ const NewReaders = () => {
           redirect: "",
         });
       } else {
-        if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-          if (institute == "") {
-            toast.warning("Please select insitute value");
-          } else {
-            toast.warning("Nothing to update.");
-          }
-        } else {
-          toast.warning("Nothing to update.");
-        }
+        // if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        //   if (institute == "") {
+        //     toast.warning("Please select insitute value");
+        //   } else {
+        //     toast.warning("Nothing to update.");
+        //   }
+        // }
+        // else {
+        //   toast.warning("Nothing to update.");
+        // }
+        toast.warning("Nothing to update.");
       }
+
+      // const changeUpdateFlag = changeUpdateFlag.map((id, index) => {
+      //   return id != reader_id;
+      // });
+      // setChangeUpdateFlag(changeUpdateFlag);
     } catch (err) {
       console.log("err", err);
       loader("hide");
@@ -1310,7 +1484,6 @@ const NewReaders = () => {
       const res = await getData(ENDPOINT.READER_USER_DROP);
 
       setChanges(res?.data?.data);
-      console.log("res--->", res);
       // setSiteNumber((prevSiteNumbers) => ({
       //   ...prevSiteNumbers,
       //   all: res?.data?.data?.siteNumber,
@@ -1618,7 +1791,9 @@ const NewReaders = () => {
                               <>
                                 {filterdata[key]?.length > 0 ? (
                                   <Accordion.Item
-                                    className= {key == "role" ? "card upper" : "card"}
+                                    className={
+                                      key == "role" ? "card upper" : "card"
+                                    }
                                     eventKey={index}
                                   >
                                     <Accordion.Header className="card-header">
@@ -1861,7 +2036,11 @@ const NewReaders = () => {
                                       {" "}
                                       {filterObject[key]?.map((item, index) => (
                                         <div
-                                          className={key == "role" ? "filter-result upper" : "filter-result"}
+                                          className={
+                                            key == "role"
+                                              ? "filter-result upper"
+                                              : "filter-result"
+                                          }
                                           id={item}
                                           rt={index}
                                           b
