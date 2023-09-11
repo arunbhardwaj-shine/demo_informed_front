@@ -303,7 +303,7 @@ const TimelineDetail = (props) => {
                                 <td>
                                   {
                                     localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
-                                    timeLineData?.user?.lex_consent == 1 ?  'Full Consent' : "Limited Consnet"
+                                    timeLineData?.user?.lex_consent == 1 ?  'Full Consent' :   timeLineData?.user?.lex_consent == 0 ?"Limited Consnet":"N/A"
                                     :
                                     timeLineData?.user?.other_option
                                     ? (timeLineData?.user?.other_option == 'checkbox1') ? 'Full Consent' :  (timeLineData?.user?.other_option =='checkbox3~checkbox4~checkbox5') ? 'Full Consent' : "Limited Consnet" :"N/A" 
@@ -334,13 +334,13 @@ const TimelineDetail = (props) => {
                       }
                      
                     </div>
-                    <div className="timeline-right-list">
+                    {
+                      timeLineData?.timeline?.length? <div className="timeline-right-list">
                       <div className="timeline-right-list-view">
                         {timeLineData?.timeline.map((details, index) => {
                           return (
                             <>
                
-                          {/* details?.action == "Article browsed" || */}
                               {( details.action == "Article opened") && (
                                 <div className="timeline-box">
                                   <div className="timeline_date">
@@ -896,7 +896,7 @@ const TimelineDetail = (props) => {
                                   </div>
                                 )}
                               {details?.action &&
-                                details.action.includes("Saved") && (
+                                details.action.includes("Saved") ||  details.action.includes("Non Mandatory") && (
                                   <div className="timeline-box">
                                     <div className="timeline_date">
                                       {details?.date}
@@ -1028,57 +1028,14 @@ const TimelineDetail = (props) => {
                         </Button>
                 
                        </div>:null}
-                        
-
-                        {/*
-                          <div className="timeline-box">
-                          <div className="timeline_date">
-                          17 Feb 2023
-                          </div>
-                          <div className="timeline-block">
-                          <div className="timeline-block-head registration">
-                          <div className="timeline-block-title">
-                          <div className="timeline-block-img">
-                          <img src={path_image + "registration.png"} alt="" />
-                          </div>
-                          <h6>Registration</h6>
-                          </div>
-                          <div className="timeline-time-view">
-                          <div className="timeline-time">
-                          08:36 AM
-                          </div>|
-                          <div className="timeline-timezone">
-                          Europe, London
-                          </div>
-                          </div>
-                          </div>
-                          <div className="timeline-article-device">
-                          <table>
-                          <tbody>
-                          <tr>
-                          <th className="device-title">
-                          Title
-                          </th>
-                          <td className="device-name">
-                          Octote condi ment zcsum dolor nibhdolor masa euismod phartra donec mas faucibus quisque nuneque ipsum
-                          </td>
-                          </tr>
-                          <tr>
-                          <th className="device-title">
-                          Device
-                          </th>
-                          <td className="device-name">
-                          Android
-                          </td>
-                          </tr>
-                          </tbody>
-                          </table>
-                          </div>
-                          </div>
-                          </div>
-                          */}
                       </div>
-                    </div>
+                    </div>:(
+                <div className="no_found">
+                  <p>No Data Found</p>
+                </div>
+              )
+                    }
+                   
                   </div>
                 </>
               ) : (
