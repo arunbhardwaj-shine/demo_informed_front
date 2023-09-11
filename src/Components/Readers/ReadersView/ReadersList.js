@@ -757,12 +757,11 @@ const NewReaders = () => {
       );
     }
 
-    // let role = [];
-    // setChangeRoleType((prev) => {
-    //   const newChangeRoleType = [...prev];
-    //   newChangeRoleType[index] = role;
-    //   return newChangeRoleType;
-    // });
+    setSelectedRole((prev) => {
+      const newSelectedRole = [...prev];
+      newSelectedRole[index] = true;
+      return newSelectedRole;
+    });
 
     if (selectedCountry?.length) {
       let newAr = selectedCountry;
@@ -803,10 +802,19 @@ const NewReaders = () => {
     if (!found4) {
       setChangeRoleType((oldarray) => [...oldarray, consent1.value]);
     } else {
-      const updatedArray = changeSiteNumberType.map((el) =>
+      const updatedArray = changeRoleType.map((el) =>
         el.index === i ? { ...el, value: consent1.value } : el
       );
       setChangeRoleType(updatedArray);
+    }
+    const found5 = changeCountry.some((el) => el.index === i);
+    if (!found5) {
+      setChangeCountry((oldarray) => [...oldarray, consent1]);
+    } else {
+      const updatedArray = changeCountry.map((el) =>
+        el.index === i ? { ...el, value: consent1.value } : el
+      );
+      setChangeCountry(updatedArray);
     }
 
     setSelectedSiteNumber((prev) => {
@@ -836,7 +844,6 @@ const NewReaders = () => {
   };
 
   const institutionFun = (e, i, index) => {
-    console.log("selected country-->", selectedCountry);
     let insitutedData = {
       index: i,
       value: e?.value,
@@ -872,14 +879,7 @@ const NewReaders = () => {
       newAr[index] = {};
       setSelectedCountry(newAr);
     }
-    // setSelectedCountry((prev) => {
-    //   const newSelectedCountry = [...prev];
-    //   newSelectedCountry[i] = {
-    //     value:"",
-    //     label: "",
-    //   };
-    //   return newSelectedCountry;
-    // });
+
     const found2 = changeSiteNumberType.some((el) => el.index === i);
     if (!found2) {
       setChangeSiteNumberType((oldarray) => [...oldarray, consent1.value]);
@@ -907,10 +907,19 @@ const NewReaders = () => {
     if (!found4) {
       setChangeRoleType((oldarray) => [...oldarray, consent1.value]);
     } else {
-      const updatedArray = changeSiteNumberType.map((el) =>
+      const updatedArray = changeRoleType.map((el) =>
         el.index === i ? { ...el, value: consent1.value } : el
       );
       setChangeRoleType(updatedArray);
+    }
+    const found5 = changeCountry.some((el) => el.index === i);
+    if (!found5) {
+      setChangeCountry((oldarray) => [...oldarray, consent1]);
+    } else {
+      const updatedArray = changeCountry.map((el) =>
+        el.index === i ? { ...el, value: consent1.value } : el
+      );
+      setChangeCountry(updatedArray);
     }
 
     setSelectedSiteNumber((prev) => {
@@ -925,12 +934,11 @@ const NewReaders = () => {
       return newSelectedSiteName;
     });
 
-    // let role = [];
-    // setChangeRoleType((prev) => {
-    //   const newChangeRoleType = [...prev];
-    //   newChangeRoleType[index] = role;
-    //   return newChangeRoleType;
-    // });
+    setSelectedRole((prev) => {
+      const newSelectedRole = [...prev];
+      newSelectedRole[index] = true;
+      return newSelectedRole;
+    });
 
     // console.log(selectedSiteName[0].length);
     let consetValue = e.value;
@@ -955,11 +963,6 @@ const NewReaders = () => {
       [index]: siteNames,
     }));
 
-    setSelectedRole((prev) => {
-      const newSelectedSiteName = [...prev];
-      newSelectedSiteName[index] = true;
-      return newSelectedSiteName;
-    });
     let consetValueType = e.value == "Study site" ? 1 : 0;
     let consent = {
       index: i,
@@ -979,6 +982,12 @@ const NewReaders = () => {
         })
       );
     }
+
+    readerDataList[index].role = "";
+    readerDataList[index].siteName = "";
+    readerDataList[index].siteNumber = "";
+    readerDataList[index].country = "";
+    setReaderDataList(readerDataList);
 
     changeUpdateFlag.push(i);
     setChangeUpdateFlag(changeUpdateFlag);
@@ -1151,14 +1160,7 @@ const NewReaders = () => {
   };
 
   const updateReaderDetails = async (reader_id, index) => {
-    console.log("flag--->", changeUpdateFlag);
     try {
-      const index = changeCountry.findIndex((el) => el.index === reader_id);
-
-      let country = "";
-      if (index !== -1) {
-        country = changeCountry[index].value;
-      }
       const tindex = changeUserType.findIndex((el) => el.index === reader_id);
       let type = "";
       if (tindex !== -1) {
@@ -1169,7 +1171,7 @@ const NewReaders = () => {
       let irt = "";
       let siteNumber = "";
       let siteName = "";
-
+      let country = "";
       let binded = "";
       let institute = "";
 
@@ -1180,6 +1182,11 @@ const NewReaders = () => {
 
         if (roleIndex !== -1) {
           role = changeRoleType[roleIndex].value;
+        } else {
+          const roleIndex = readerDataList.findIndex(
+            (el) => el.id === reader_id
+          );
+          role = readerDataList[roleIndex]?.role;
         }
 
         const irtIndex = changeIRTType.findIndex(
@@ -1188,6 +1195,18 @@ const NewReaders = () => {
 
         if (irtIndex !== -1) {
           irt = changeIRTType[irtIndex].value;
+        }
+        const countryIndex = changeCountry.findIndex(
+          (el) => el.index === reader_id
+        );
+
+        if (countryIndex !== -1) {
+          country = changeCountry[index].value;
+        } else {
+          const countryIndex = readerDataList.findIndex(
+            (el) => el.id === reader_id
+          );
+          country = readerDataList[countryIndex]?.country;
         }
 
         const blindedIndex = changeBlindedType.findIndex(
@@ -1217,6 +1236,11 @@ const NewReaders = () => {
         );
         if (siteNumberIndex !== -1) {
           siteNumber = changeSiteNumberType[siteNumberIndex].value;
+        } else {
+          const siteNumberIndex = readerDataList.findIndex(
+            (el) => el.id === reader_id
+          );
+          siteNumber = readerDataList[siteNumberIndex]?.siteNumber;
         }
 
         const siteNameIndex = changeSiteNameType.findIndex(
@@ -1224,6 +1248,11 @@ const NewReaders = () => {
         );
         if (siteNameIndex !== -1) {
           siteName = changeSiteNameType[siteNameIndex].value;
+        } else {
+          const siteNameIndex = readerDataList.findIndex(
+            (el) => el.id === reader_id
+          );
+          siteName = readerDataList[siteNameIndex]?.siteName;
         }
 
         // if (
@@ -1236,10 +1265,10 @@ const NewReaders = () => {
         //     siteName !== "") &&
         //   institute !== ""
         // )
+
         if (
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" &&
-          (country !== "" ||
-            type !== "" ||
+          country !== "" &&
+          (type !== "" ||
             role !== "" ||
             irt !== "" ||
             binded !== "" ||
@@ -1259,8 +1288,18 @@ const NewReaders = () => {
             siteNumber: siteNumber,
             siteName: siteName,
           };
+        } else {
+          toast.warning("Please select country.");
+          return;
         }
       } else {
+        const index = changeCountry.findIndex((el) => el.index === reader_id);
+
+        let country = "";
+        if (index !== -1) {
+          country = changeCountry[index].value;
+        }
+
         if (country !== "" || type !== "") {
           loader("show");
           body = {
@@ -1272,7 +1311,7 @@ const NewReaders = () => {
         }
       }
 
-      if (Object.keys(body)?.length !== 0 && changeUpdateFlag?.length) {
+      if (Object.keys(body)?.length !== 0) {
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
 
         const libDataIndex = readerDataList.findIndex(
@@ -1288,9 +1327,9 @@ const NewReaders = () => {
           readerDataList[libDataIndex].user_status = userTypeValue;
         }
 
-        if (role !== "") {
-          readerDataList[libDataIndex].role = role;
-        }
+        // if (role !== "") {
+        readerDataList[libDataIndex].role = role;
+        // }
 
         if (irt !== "") {
           readerDataList[libDataIndex].irt = irt == 1 ? "Yes" : "No";
@@ -1331,10 +1370,11 @@ const NewReaders = () => {
         // }
         toast.warning("Nothing to update.");
       }
-      const changeUpdateFlag = changeUpdateFlag.map((id, index) => {
-        return id != reader_id;
-      });
-      setChangeUpdateFlag(changeUpdateFlag);
+
+      // const changeUpdateFlag = changeUpdateFlag.map((id, index) => {
+      //   return id != reader_id;
+      // });
+      // setChangeUpdateFlag(changeUpdateFlag);
     } catch (err) {
       console.log("err", err);
       loader("hide");
