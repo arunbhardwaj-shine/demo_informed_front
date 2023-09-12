@@ -147,6 +147,7 @@ import CommanPage from "./Components/Firbase/CommanPage";
 import QuestionTrigger from "./Components/Firbase/QuestionTrigger";
 import PollQuestion from "./Components/Firbase/PollQuestion";
 import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf";
+import MarketingAddReader from "./Components/Readers/AddReader/MarketingAddReader";
 
 let platform = 0;
 let show = 0;
@@ -350,7 +351,7 @@ const Routing = () => {
         {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
           <Route
             path="/reader-add"
-            element={<LoginLayout component={ReaderAdd} />}
+            element={<LoginLayout component={MarketingAddReader} />}
           />
         ) : (
           <Route
