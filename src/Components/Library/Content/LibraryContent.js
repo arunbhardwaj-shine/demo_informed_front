@@ -1041,7 +1041,7 @@ const LibraryContent = (props) => {
                               <>
                                 {filterdata[key]?.length ? (
                                   <Accordion.Item
-                                    className="card"
+                                    className= {key == "Role" ? "card upper" : "card"}
                                     eventKey={index}
                                   >
                                     <Accordion.Header className="card-header">
@@ -1220,7 +1220,7 @@ const LibraryContent = (props) => {
 
                                 <div className="filter-div-list">
                                   {filterObject[key]?.map((item, index) => (
-                                    <div className="filter-result">
+                                    <div className={key == "Role" ? "filter-result upper" : "filter-result"}>
                                       {key == "draft" && item == "0"
                                         ? "live"
                                         : key == "draft" && item == "1"
@@ -2294,7 +2294,7 @@ const LibraryContent = (props) => {
                                           <h6 className="tab-content-title">
                                             Roles
                                           </h6>
-                                          <h6>
+                                          <h6 className="upper">
                                             {data?.trail_user_type
                                               ? typeof data?.trail_user_type ==
                                                   "string" &&
