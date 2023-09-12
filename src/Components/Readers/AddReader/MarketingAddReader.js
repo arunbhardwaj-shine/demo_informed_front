@@ -829,8 +829,8 @@ const MarketingAddReader = () => {
             <label htmlFor="">Quote valid until</label>
             <DatePicker
               selected={
-                userInputs?.expDatetime
-                  ? new Date(userInputs?.expDatetime)
+                userInputs?.quote_valid
+                  ? new Date(userInputs?.quote_valid)
                   : new Date(
                       moment(new Date(), "MM/DD/YYYY")
                         .add("years", 1)
@@ -838,7 +838,7 @@ const MarketingAddReader = () => {
                     )
               }
               name="Quote valid until"
-              onChange={(e) => handleChange(e, "expDatetime")}
+              onChange={(e) => handleChange(e, "quote_valid")}
               dateFormat="dd/MM/yyyy"
               className="form-control"
               minDate={currentDate}
