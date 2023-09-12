@@ -1,10 +1,840 @@
-import React from "react";
-import { Row, Col } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Button, Form } from "react-bootstrap";
+import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
+import CommonModel from "../../../Model/CommonModel";
+import { loader } from "../../../loader";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 
 const MarketingAddReader = () => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [titleOptions, setTitleOPtions] = useState([
+    { label: "Mr", value: "mr" },
+    { label: "Mrs", value: "mrs" },
+    { label: "Ms", value: "ms" },
+    { label: "Dr", value: "dr" },
+  ]);
+  const [prospectOptions, setProspectOPtions] = useState([
+    { label: "Customer", value: "customer" },
+    { label: "High priority", value: "high priority" },
+    { label: "Incoming enquiry", value: "incoming enquiry" },
+  ]);
+  const [ownershipOptions, setOwnershipOPtions] = useState([
+    { label: "Jacob contact", value: "jacob contact" },
+    { label: "Philip contact", value: "philip contact" },
+  ]);
+  const [customerOptions, setCustomerOPtions] = useState([
+    { label: "Publisher", value: "publiseher" },
+    { label: "Pharma maker", value: "pharma maker" },
+    { label: "Pharma R&D", value: "pharma r&d" },
+    { label: "Other", value: "other" },
+  ]);
+  const [logActivityOptions, setLogActivityOptions] = useState([
+    { label: "Call", value: "call" },
+    { label: "Email", value: "email" },
+    { label: "Incoming", value: "incoming" },
+    { label: "LinkedIn", value: "linkedIn" },
+    { label: "Event", value: "event" },
+  ]);
+  const [pipelineOptions, setPipelineOPtions] = useState([
+    { label: "New", value: "new" },
+    { label: "Qualified", value: "qualified" },
+    { label: "Meeting (initial intro)", value: "meetingInitialIntro" },
+    { label: "Meeting (presentation)", value: "meetingPresentation" },
+    { label: "Proposal", value: "proposal" },
+    { label: "Negotiation", value: "negotiation" },
+    { label: "Contract (closed)", value: "contract" },
+    { label: "Long grass", value: "longGrass" },
+  ]);
+  const [error, setError] = useState({});
+  const [commanShow, setCommanShow] = useState(false);
+  const [data, setData] = useState([]);
+  const [newProduct, setNewProduct] = useState({
+    label: "",
+    value: "",
+  });
+  const [commonHeader, setCommonHeader] = useState("");
+  const [commonFooter, setCommonFooter] = useState("");
+  const [userInputs, setUserInputs] = useState({
+    title: "",
+  });
+  const [countryCode, setCountryCode] = useState([
+    { value: "Afghanistan", label: "+93" },
+    { value: "Albania", label: "+355" },
+    { value: "Algeria", label: "+213" },
+    { value: "American Samoa", label: "+1-684" },
+    { value: "Andorra", label: "+376" },
+    { value: "Angola", label: "+244" },
+    { value: "Anguilla", label: "+1-264" },
+    { value: "Antarctica", label: "+672" },
+    { value: "Antigua and Barbuda", label: "+1-268" },
+    { value: "Argentina", label: "+54" },
+    { value: "Armenia", label: "+374" },
+    { value: "India", label: "+91" },
+    { value: "Azerbaijan", label: "+994" },
+    { value: "Bahamas", label: "+1-242" },
+    { value: "Bahrain", label: "+973" },
+    { value: "Bangladesh", label: "+880" },
+    { value: "Barbados", label: "+1-246" },
+    { value: "Belarus", label: "+375" },
+    { value: "Belgium", label: "+32" },
+  ]);
+
+  const handleChange = (e, isSelectedName) => {
+    console.log("e--->", e);
+    setUserInputs({
+      ...userInputs,
+      [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+        ? e
+        : e?.target?.value,
+    });
+  };
+
+  const addNewProductClicked = (e, statusMsg) => {
+    e.preventDefault();
+    setCommanShow(true);
+    if (statusMsg == "title") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "title",
+          label: "Title",
+          type: "input",
+          placeholder: "Type your title",
+        },
+      ]);
+      setCommonHeader("Add New Title");
+    }
+    if (statusMsg == "prospect") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "prospect",
+          label: "Prospect",
+          type: "input",
+          placeholder: "Type your prospect",
+        },
+      ]);
+      setCommonHeader("Add New Prospect");
+    }
+    if (statusMsg == "ownership") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "ownership",
+          label: "Ownership",
+          type: "input",
+          placeholder: "Type your contact ownership",
+        },
+      ]);
+      setCommonHeader("Add New Contact Ownership");
+    }
+    if (statusMsg == "company") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "company",
+          label: "Company",
+          type: "input",
+          placeholder: "Type your company",
+        },
+      ]);
+      setCommonHeader("Add New Company ");
+    }
+    if (statusMsg == "companyProduct") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "companyProduct",
+          label: "Company Product",
+          type: "input",
+          placeholder: "Type your company product",
+        },
+      ]);
+      setCommonHeader("Add New Company Product ");
+    }
+    if (statusMsg == "therapyArea") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "therapyArea",
+          label: "Therapy Area",
+          type: "input",
+          placeholder: "Type company therapy area",
+        },
+      ]);
+      setCommonHeader("Add New Company Therapy Area ");
+    }
+    if (statusMsg == "local") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "local",
+          label: "Local International",
+          type: "input",
+          placeholder: "Type Local International",
+        },
+      ]);
+      setCommonHeader("Add New");
+    }
+    if (statusMsg == "logActivity") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "logActivity",
+          label: "log Activity",
+          type: "input",
+          placeholder: "Type log activity",
+        },
+      ]);
+      setCommonHeader("Add New Log Activity");
+    }
+    if (statusMsg == "task") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "task",
+          label: "Task",
+          type: "input",
+          placeholder: "Type task",
+        },
+      ]);
+      setCommonHeader("Add New Task");
+    }
+    if (statusMsg == "pipeline") {
+      setNewProduct("");
+      setData(() => [
+        {
+          name: "pipeline",
+          label: "Pipeline",
+          type: "input",
+          placeholder: "Type pipeline",
+        },
+      ]);
+      setCommonHeader("Add New Pipeline");
+    }
+    setCommonFooter("Add");
+  };
+  const handleModelFun = (e) => {
+    setNewProduct({
+      label: e?.target?.name?.trim(),
+      value: e?.target?.value?.trim(),
+    });
+  };
+  const handleSubmitModelFun = async (e) => {
+    try {
+      loader("show");
+      console.log("submit model fun", newProduct);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
   const Main = () => {
-    return <></>;
+    return (
+      <>
+        <div className="create-change-content">
+          <div className="form_action">
+            <h4>About CRM you're creating</h4>
+            <div className="row">
+              <div className="col-12 col-md-6">
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Job title</Form.Label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="jobTitle"
+                    onChange={(e) => handleChange(e)}
+                    placeholder="Enter job title here"
+                  />
+                </Form.Group>
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Title</Form.Label>
+                  <Select
+                    options={titleOptions}
+                    name="title"
+                    value={userInputs?.title}
+                    onChange={(e) => handleChange(e, "title")}
+                    placeholder="Select title"
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
+                  />{" "}
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={(e) => addNewProductClicked(e, "title")}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New Title +
+                    </Button>
+                  </div>
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">First name</Form.Label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="firstName"
+                    onChange={(e) => handleChange(e)}
+                    placeholder="First name"
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Middle name</Form.Label>
+                  <input
+                    type="text"
+                    placeholder="Middle name"
+                    className="form-control"
+                    name="middleName"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Last name</Form.Label>
+                  <input
+                    type="text"
+                    placeholder="Last name"
+                    className="form-control"
+                    name="lastName"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">
+                    Primary email <span>*</span>
+                  </Form.Label>
+                  <input
+                    type="email"
+                    className={
+                      error?.email ? "form-control error" : "form-control"
+                    }
+                    placeholder="example@email.com"
+                    // ref={emailRef}
+                    name="email"
+                    onInput={(e) => handleChange(e)}
+                  />
+                  {error?.email ? (
+                    <div className="login-validation">{error?.email}</div>
+                  ) : (
+                    ""
+                  )}
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Alternative email </Form.Label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="example@email.com"
+                    name="alternativeEmail"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group primary_phone">
+                  <Form.Label htmlFor="">Primary phone </Form.Label>
+                  <Select
+                    options={countryCode}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                    placeholder=""
+                    onChange={(e) => handleChange(e, "countryCode")}
+                  />
+
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="primary_phone"
+                    placeholder="Phone number"
+                    onChange={(e) => handleChange(e)}
+                  />
+                  {error?.primary_phone ? (
+                    <div className="login-validation">
+                      {error?.primary_phone}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Alternative phone</Form.Label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="alternativePhone"
+                    placeholder="Alternative phone"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">LinkedIn</Form.Label>
+                  <input
+                    type="text"
+                    placeholder="Enter linkedIn"
+                    className="form-control"
+                    name="linkedIn"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Prospect</Form.Label>
+                  <Select
+                    options={prospectOptions}
+                    name="prospect"
+                    value={userInputs?.prospect}
+                    onChange={(e) => handleChange(e, "prospect")}
+                    placeholder="Select prospect"
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
+                  />{" "}
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={(e) => addNewProductClicked(e, "prospect")}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New Prospect +
+                    </Button>
+                  </div>
+                </Form.Group>
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Contact ownership</Form.Label>
+                  <Select
+                    options={ownershipOptions}
+                    name="ownership"
+                    value={userInputs?.ownership}
+                    onChange={(e) => handleChange(e, "ownership")}
+                    placeholder="Select contact ownership"
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
+                  />{" "}
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={(e) => addNewProductClicked(e, "ownership")}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New ownership +
+                    </Button>
+                  </div>
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Type of contact</Form.Label>
+                  <fieldset id="group2">
+                    <input
+                      type="checkbox"
+                      value="value1"
+                      name="group2"
+                      onClick={(e) => handleChange(e.target?.checked, "main")}
+                      id="limitagreed1"
+                    />
+                    <Form.Label htmlFor="limitagreed1">Main</Form.Label>
+                    <input
+                      type="checkbox"
+                      value="value2"
+                      name="group2"
+                      onClick={(e) =>
+                        handleChange(e.target?.checked, "influencer")
+                      }
+                      id="limitagreed2"
+                    />
+                    <Form.Label htmlFor="limitagreed2">Influencer</Form.Label>
+                    <input
+                      type="checkbox"
+                      value="value3"
+                      onClick={(e) =>
+                        handleChange(e.target?.checked, "decisionMaker")
+                      }
+                      name="group2"
+                      id="limitagreed3"
+                    />
+                    <Form.Label htmlFor="limitagreed3">
+                      Decision maker
+                    </Form.Label>
+                    <input
+                      type="checkbox"
+                      value="value4"
+                      name="group2"
+                      onClick={(e) =>
+                        handleChange(e.target?.checked, "introducer")
+                      }
+                      id="limitagreed4"
+                    />
+                    <Form.Label htmlFor="limitagreed4">Introducer</Form.Label>
+                  </fieldset>
+                </Form.Group>
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Customer type</Form.Label>
+                  <Select
+                    options={customerOptions}
+                    name="customerType"
+                    value={userInputs?.customerType}
+                    onChange={(e) => handleChange(e, "customerType")}
+                    placeholder="Select contact customer type"
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
+                  />
+                </Form.Group>
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Company name</Form.Label>
+                  <Select
+                    // options={ownershipOptions}
+                    name="company"
+                    value={userInputs?.company}
+                    onChange={(e) => handleChange(e, "company")}
+                    placeholder="Select contact company"
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
+                  />{" "}
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={(e) => addNewProductClicked(e, "company")}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New Company +
+                    </Button>
+                  </div>
+                </Form.Group>
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Country </Form.Label>
+                  <Select
+                    // options={countryCode}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                    placeholder="Select country"
+                    onChange={(e) => handleChange(e, "country")}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Company website</Form.Label>
+                  <input
+                    type="text"
+                    placeholder="Enter company website"
+                    className="form-control"
+                    name="companyWebsite"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Company product</Form.Label>
+                  <Select
+                    // options={ownershipOptions}
+                    name="companyProduct"
+                    value={userInputs?.companyProduct}
+                    onChange={(e) => handleChange(e, "companyProduct")}
+                    placeholder="Select company product"
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
+                  />{" "}
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={(e) => addNewProductClicked(e, "companyProduct")}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New Product +
+                    </Button>
+                  </div>
+                </Form.Group>
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Company therapy area</Form.Label>
+                  <Select
+                    // options={ownershipOptions}
+                    name="therapyArea"
+                    value={userInputs?.therapyArea}
+                    onChange={(e) => handleChange(e, "therapyArea")}
+                    placeholder="Select therapy area"
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
+                  />{" "}
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={(e) => addNewProductClicked(e, "therapyArea")}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New Therapy Area +
+                    </Button>
+                  </div>
+                </Form.Group>
+
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Local/International</Form.Label>
+                  <Select
+                    // options={ownershipOptions}
+                    name="local"
+                    value={userInputs?.local}
+                    onChange={(e) => handleChange(e, "local")}
+                    placeholder="Select "
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
+                  />{" "}
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={(e) => addNewProductClicked(e, "local")}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New +
+                    </Button>
+                  </div>
+                </Form.Group>
+
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Address</Form.Label>
+                  <input
+                    type="text"
+                    placeholder="Enter address"
+                    className="form-control"
+                    name="address"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Street 1</Form.Label>
+                  <input
+                    type="text"
+                    placeholder="Enter street 1"
+                    className="form-control"
+                    name="street1"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Street 2</Form.Label>
+                  <input
+                    type="text"
+                    placeholder="Enter street 2"
+                    className="form-control"
+                    name="street2"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">City</Form.Label>
+                  <input
+                    type="text"
+                    placeholder="Enter city"
+                    className="form-control"
+                    name="city"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Post code</Form.Label>
+                  <input
+                    type="text"
+                    placeholder="Enter post code"
+                    className="form-control"
+                    name="postcode"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Country</Form.Label>
+                  <input
+                    type="text"
+                    placeholder="Enter country"
+                    className="form-control"
+                    name="country"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Log activity</Form.Label>
+                  <Select
+                    options={logActivityOptions}
+                    name="logActivity"
+                    value={userInputs?.logActivity}
+                    onChange={(e) => handleChange(e, "logActivity")}
+                    placeholder="Select log activity"
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
+                  />{" "}
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={(e) => addNewProductClicked(e, "logActivity")}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New Log Activity +
+                    </Button>
+                  </div>
+                </Form.Group>
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Task</Form.Label>
+                  <Select
+                    // options={logActivityOptions}
+                    name="task"
+                    value={userInputs?.task}
+                    onChange={(e) => handleChange(e, "task")}
+                    placeholder="Select log activity"
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
+                  />{" "}
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      onClick={(e) => addNewProductClicked(e, "task")}
+                      className="btn-bordered btn-voilet"
+                    >
+                      Add New Task +
+                    </Button>
+                  </div>
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label>Next contact</Form.Label>
+                  <DatePicker
+                    selected={
+                      userInputs?.expDatetime
+                        ? new Date(userInputs?.expDatetime)
+                        : new Date(
+                            moment(new Date(), "MM/DD/YYYY")
+                              .add("years", 1)
+                              .format("MM/DD/YYYY")
+                          )
+                    }
+                    name="expDatetime"
+                    onChange={(e) => handleChange(e, "expDatetime")}
+                    dateFormat="dd/MM/yyyy"
+                    className="form-control"
+                    minDate={currentDate}
+                  />
+                </Form.Group>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+  const Opportunity = () => {
+    return (
+      <>
+        <div className="create-change-content">
+          <Form.Group className="form-group">
+            <Form.Label htmlFor="">Title</Form.Label>
+            <input
+              type="text"
+              className="form-control"
+              name="title"
+              placeholder="Title"
+              onChange={(e) => handleChange(e)}
+            />
+          </Form.Group>
+
+          <Form.Group className="form-group">
+            <Form.Label htmlFor="">Our Product</Form.Label>
+            <input
+              type="text"
+              className="form-control"
+              name="Our Product"
+              placeholder="Our Product"
+              onChange={(e) => handleChange(e)}
+            />
+          </Form.Group>
+
+          <Form.Group className="form-group">
+            <Form.Label htmlFor="">Pipeline Stage</Form.Label>
+            <Select
+              options={pipelineOptions}
+              placeholder="Select pipeline stage"
+              className="dropdown-basic-button split-button-dropup"
+              value={userInputs?.pipeline}
+              isClearable
+              onChange={(e) => handleChange(e?.value, "pipeline")}
+            />
+            <div className="add_product">
+              <span>&nbsp;</span>
+              <Button
+                className="btn-bordered btn-voilet"
+                onClick={(e) => addNewProductClicked(e, "pipeline")}
+              >
+                Add New Pipeline Stage +
+              </Button>
+            </div>
+          </Form.Group>
+
+          <Form.Group className="form-group">
+            <Form.Label htmlFor="">Value</Form.Label>
+            <input
+              type="number"
+              className="form-control"
+              name="value"
+              placeholder="value"
+              onChange={(e) => handleChange(e)}
+            />
+          </Form.Group>
+
+          <Form.Group className="form-group primary_phone">
+            <Form.Label htmlFor="">Probability %</Form.Label>
+            <Select
+              options={countryCode}
+              className="dropdown-basic-button split-button-dropup"
+              isClearable
+              placeholder=""
+              onChange={(e) => handleChange(e, "countryCode")}
+            />
+          </Form.Group>
+
+          <Form.Group className="form-group">
+            <Form.Label htmlFor=""> Weighted value</Form.Label>
+            <input
+              type="number"
+              className="form-control"
+              name="Weighted value"
+              placeholder="Weighted value"
+              onChange={(e) => handleChange(e)}
+            />
+          </Form.Group>
+
+          <div className="form-group">
+            <label htmlFor="setasdraft1">Quote Sent</label>
+            <fieldset id="group2">
+              <div className="switch">
+                <label className="switch-light">
+                  <input
+                    type="checkbox"
+                    value="value1"
+                    name="group2"
+                    id="setasdraft1"
+                    onChange={(e) => {
+                      handleChange(e.target?.checked, "draft");
+                    }}
+                  />
+                  <span>
+                    <span className="switch-btn active">No</span>
+                    <span className="switch-btn ">Yes</span>
+                  </span>
+                  <a className="btn"></a>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">Quote valid until</label>
+            <DatePicker
+              selected={
+                userInputs?.expDatetime
+                  ? new Date(userInputs?.expDatetime)
+                  : new Date(
+                      moment(new Date(), "MM/DD/YYYY")
+                        .add("years", 1)
+                        .format("MM/DD/YYYY")
+                    )
+              }
+              name="Quote valid until"
+              onChange={(e) => handleChange(e, "expDatetime")}
+              dateFormat="dd/MM/yyyy"
+              className="form-control"
+              minDate={currentDate}
+            />
+          </div>
+        </div>
+      </>
+    );
   };
 
   return (
@@ -48,9 +878,19 @@ const MarketingAddReader = () => {
               </Row>
             </div>
             {Main()}
+            {Opportunity()}
           </Row>
         </div>
       </Col>
+      <CommonModel
+        show={commanShow}
+        onClose={setCommanShow}
+        heading={commonHeader}
+        data={data}
+        footerButton={commonFooter}
+        handleChange={handleModelFun}
+        handleSubmit={handleSubmitModelFun}
+      />
     </>
   );
 };
