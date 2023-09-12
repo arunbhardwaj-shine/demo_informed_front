@@ -47,6 +47,13 @@ const MarketingAddReader = () => {
     { label: "Contract (closed)", value: "contract" },
     { label: "Long grass", value: "longGrass" },
   ]);
+  const [probabilityOptions, setProbabilityOptions] = useState([
+    { label: "10%", value: ".1" },
+    { label: "20%", value: ".2" },
+    { label: "30%", value: ".3" },
+    { label: "40%", value: ".4" },
+   
+  ]);
   const [error, setError] = useState({});
   const [commanShow, setCommanShow] = useState(false);
   const [data, setData] = useState([]);
@@ -436,7 +443,7 @@ const MarketingAddReader = () => {
                     <input
                       type="checkbox"
                       value="value1"
-                      name="group2"
+                      name="main"
                       onClick={(e) => handleChange(e.target?.checked, "main")}
                       id="limitagreed1"
                     />
@@ -444,7 +451,7 @@ const MarketingAddReader = () => {
                     <input
                       type="checkbox"
                       value="value2"
-                      name="group2"
+                      name="influencer"
                       onClick={(e) =>
                         handleChange(e.target?.checked, "influencer")
                       }
@@ -457,7 +464,7 @@ const MarketingAddReader = () => {
                       onClick={(e) =>
                         handleChange(e.target?.checked, "decisionMaker")
                       }
-                      name="group2"
+                      name="decisionMaker"
                       id="limitagreed3"
                     />
                     <Form.Label htmlFor="limitagreed3">
@@ -466,7 +473,7 @@ const MarketingAddReader = () => {
                     <input
                       type="checkbox"
                       value="value4"
-                      name="group2"
+                      name="introducer"
                       onClick={(e) =>
                         handleChange(e.target?.checked, "introducer")
                       }
@@ -491,9 +498,9 @@ const MarketingAddReader = () => {
                   <Form.Label htmlFor="">Company name</Form.Label>
                   <Select
                     // options={ownershipOptions}
-                    name="company"
+                    name="companyName"
                     value={userInputs?.company}
-                    onChange={(e) => handleChange(e, "company")}
+                    onChange={(e) => handleChange(e, "companyName")}
                     placeholder="Select contact company"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                     isClearable
@@ -649,7 +656,7 @@ const MarketingAddReader = () => {
                     type="text"
                     placeholder="Enter country"
                     className="form-control"
-                    name="country"
+                    name="addressCountry"
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -699,16 +706,16 @@ const MarketingAddReader = () => {
                   <Form.Label>Next contact</Form.Label>
                   <DatePicker
                     selected={
-                      userInputs?.expDatetime
-                        ? new Date(userInputs?.expDatetime)
+                      userInputs?.nextContact
+                        ? new Date(userInputs?.nextContact)
                         : new Date(
                             moment(new Date(), "MM/DD/YYYY")
-                              .add("years", 1)
+                              .add( 1,"years")
                               .format("MM/DD/YYYY")
                           )
                     }
-                    name="expDatetime"
-                    onChange={(e) => handleChange(e, "expDatetime")}
+                    name="nextContact"
+                    onChange={(e) => handleChange(e, "nextContact")}
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     minDate={currentDate}
@@ -730,7 +737,7 @@ const MarketingAddReader = () => {
             <input
               type="text"
               className="form-control"
-              name="title"
+              name="opportunityTitle"
               placeholder="Title"
               onChange={(e) => handleChange(e)}
             />
@@ -755,7 +762,7 @@ const MarketingAddReader = () => {
               className="dropdown-basic-button split-button-dropup"
               value={userInputs?.pipeline}
               isClearable
-              onChange={(e) => handleChange(e?.value, "pipeline")}
+              onChange={(e) => handleChange(e, "pipeline")}
             />
             <div className="add_product">
               <span>&nbsp;</span>
@@ -773,7 +780,7 @@ const MarketingAddReader = () => {
             <input
               type="number"
               className="form-control"
-              name="value"
+              name="opportunityValue"
               placeholder="value"
               onChange={(e) => handleChange(e)}
             />
@@ -782,11 +789,11 @@ const MarketingAddReader = () => {
           <Form.Group className="form-group primary_phone">
             <Form.Label htmlFor="">Probability %</Form.Label>
             <Select
-              options={countryCode}
+              options={probabilityOptions}
               className="dropdown-basic-button split-button-dropup"
               isClearable
               placeholder=""
-              onChange={(e) => handleChange(e, "countryCode")}
+              onChange={(e) => handleChange(e, "probability")}
             />
           </Form.Group>
 
@@ -795,7 +802,7 @@ const MarketingAddReader = () => {
             <input
               type="number"
               className="form-control"
-              name="Weighted value"
+              name="weightedValue"
               placeholder="Weighted value"
               onChange={(e) => handleChange(e)}
             />
@@ -809,10 +816,10 @@ const MarketingAddReader = () => {
                   <input
                     type="checkbox"
                     value="value1"
-                    name="group2"
+                    name="quoteSent"
                     id="setasdraft1"
                     onChange={(e) => {
-                      handleChange(e.target?.checked, "draft");
+                      handleChange(e.target?.checked, "quoteSent");
                     }}
                   />
                   <span>
@@ -829,16 +836,16 @@ const MarketingAddReader = () => {
             <label htmlFor="">Quote valid until</label>
             <DatePicker
               selected={
-                userInputs?.quote_valid
-                  ? new Date(userInputs?.quote_valid)
+                userInputs?.quoteValid
+                  ? new Date(userInputs?.quoteValid)
                   : new Date(
                       moment(new Date(), "MM/DD/YYYY")
-                        .add("years", 1)
+                        .add( 1,"years")
                         .format("MM/DD/YYYY")
                     )
               }
               name="Quote valid until"
-              onChange={(e) => handleChange(e, "quote_valid")}
+              onChange={(e) => handleChange(e, "quoteValid")}
               dateFormat="dd/MM/yyyy"
               className="form-control"
               minDate={currentDate}
@@ -871,24 +878,24 @@ const MarketingAddReader = () => {
       decision_maker: userInputs?.decisionMaker,
       introducer: userInputs?.introducer,
       customerType: userInputs?.customerType?.value,
-      company_name: userInputs?.company_name,
+      company_name: userInputs?.companyName,
       country: userInputs?.country,
-      company_website: userInputs?.company_website,
-      company_product: userInputs?.company_product,
-      company_therepy_area: userInputs?.therepy_area,
+      company_website: userInputs?.companyWebsite,
+      company_product: userInputs?.companyProduct,
+      company_therapy_area: userInputs?.therapyArea,
       local: userInputs?.local,
       address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
       log_activity: userInputs?.logActivity?.value,
       task: userInputs?.task,
-      next_contact: userInputs?.next_contact,
-      opportunity_title: userInputs?.opportunity_title,
-      our_product: userInputs?.our_product,
-      pipeline: userInputs?.pipeline,
-      opportunity_value: userInputs?.opportunity_value,
+      next_contact: userInputs?.nextContact,
+      opportunity_title: userInputs?.opportunityTitle,
+      our_product: userInputs?.ourProduct,
+      pipeline: userInputs?.pipeline?.value,
+      opportunity_value: userInputs?.opportunityValue,
       probability: userInputs?.probability,
-      weighted_value: userInputs?.weighted_value,
-      quote_sent: userInputs?.quote_sent,
-      quote_valid: userInputs?.quote_valid,
+      weighted_value: userInputs?.weightedValue,
+      quote_sent: userInputs?.quoteSent,
+      quote_valid: userInputs?.quoteValid,
     };
   };
 
