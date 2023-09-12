@@ -80,6 +80,18 @@ const MarketingAddReader = () => {
     { value: "Belarus", label: "+375" },
     { value: "Belgium", label: "+32" },
   ]);
+  const [userDetail, setUserDetail] = useState({
+    title: [],
+    prospect: [],
+    ownership: [],
+    company: [],
+    companyProduct: [],
+    therapyArea: [],
+    local: [],
+    logActivity: [],
+    task: [],
+    pipeline: [],
+  });
 
   const handleChange = (e, isSelectedName) => {
     console.log("e--->", e);
@@ -729,7 +741,7 @@ const MarketingAddReader = () => {
             <input
               type="text"
               className="form-control"
-              name="Our Product"
+              name="ourProduct"
               placeholder="Our Product"
               onChange={(e) => handleChange(e)}
             />
@@ -836,6 +848,49 @@ const MarketingAddReader = () => {
       </>
     );
   };
+  const nextButtonClicked = (e) => {
+    e.preventDefault();
+    console.log("user inputs", userInputs);
+    let data = {
+      jobTitle: userInputs?.jobTitle,
+      title: userInputs?.title,
+      firstName: userInputs?.firstName,
+      middleName: userInputs?.middleName,
+      lastName: userInputs?.lastName,
+      primaryEmail: userInputs?.email,
+      alternativeEmail: userInputs?.alternativeEmail,
+      primary_phone: `${
+        userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+      }-informed-${userInputs?.primary_phone}`,
+      alternativePhone: userInputs?.alternativePhone,
+      linkedIn: userInputs?.linkedIn,
+      prospect: userInputs?.prospect?.value,
+      contact_ownership: userInputs?.ownership?.value,
+      main: userInputs?.main,
+      influencer: userInputs?.influencer,
+      decision_maker: userInputs?.decisionMaker,
+      introducer: userInputs?.introducer,
+      customerType: userInputs?.customerType?.value,
+      company_name: userInputs?.company_name,
+      country: userInputs?.country,
+      company_website: userInputs?.company_website,
+      company_product: userInputs?.company_product,
+      company_therepy_area: userInputs?.therepy_area,
+      local: userInputs?.local,
+      address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
+      log_activity: userInputs?.logActivity?.value,
+      task: userInputs?.task,
+      next_contact: userInputs?.next_contact,
+      opportunity_title: userInputs?.opportunity_title,
+      our_product: userInputs?.our_product,
+      pipeline: userInputs?.pipeline,
+      opportunity_value: userInputs?.opportunity_value,
+      probability: userInputs?.probability,
+      weighted_value: userInputs?.weighted_value,
+      quote_sent: userInputs?.quote_sent,
+      quote_valid: userInputs?.quote_valid,
+    };
+  };
 
   return (
     <>
@@ -869,7 +924,7 @@ const MarketingAddReader = () => {
 
                     <button
                       className="btn btn-primary btn-filled next "
-                      //   onClick={nextButtonClicked}
+                      onClick={nextButtonClicked}
                     >
                       Next
                     </button>
