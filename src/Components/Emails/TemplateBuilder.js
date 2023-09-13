@@ -484,7 +484,7 @@ const TemplateBuilder = (props) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
         toast.warning("Please input the required fields.");
       } else {
-        toast.warning("Please input the email atleast");
+        toast.warning("Please input the required fields.");
       }
     }
   };
@@ -1704,11 +1704,12 @@ const TemplateBuilder = (props) => {
       
         let tox= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog") 
          let tox1=document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop")
-  
+         let aux= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div")
         xhr.upload.addEventListener("progress", (event) => {
           setShowProgress(true)
          tox.style.opacity = 0
          tox1.style.opacity = 0
+         aux.style.opacity = 0
           if (event.lengthComputable) {
             const percentComplete = (event.loaded / event.total) * 100;
     
@@ -1733,6 +1734,7 @@ const TemplateBuilder = (props) => {
               setShowProgress(false)
          tox1.style.opacity = 1
          tox.style.opacity = 1
+         aux.style.opacity = 1
 
               setProgress(0);
               setPercent(0);
