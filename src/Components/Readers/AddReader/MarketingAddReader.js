@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef} from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,9 +7,15 @@ import { loader } from "../../../loader";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import { getData } from "../../../axios/apiHelper";
+import { getData ,postData} from "../../../axios/apiHelper";
+import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
+import { toast } from "react-toastify";
 
 const MarketingAddReader = () => {
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const countryRef = useRef(null);
+  const phoneRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [titleOptions, setTitleOptions] = useState([
     { label: "Mr", value: "mr" },
@@ -17,6 +23,8 @@ const MarketingAddReader = () => {
     { label: "Ms", value: "ms" },
     { label: "Dr", value: "dr" },
   ]);
+  const [groupId, setGroupId] = useState();
+  const navigate = useNavigate();
   const [prospectOptions, setProspectOptions] = useState([
     { label: "Customer", value: "customer" },
     { label: "High priority", value: "high priority" },
@@ -156,8 +164,7 @@ const MarketingAddReader = () => {
   const initalFun = async () => {
     try {
       loader("show");
-      const hasData = await getData(`${ENDPOINT.READER_USER_DROP}`);
-
+      const hasData = await getData(`${ENDPOINT.READER_MARKETING_USER_DROP}`);
       let country = [];
       hasData?.data?.data?.country.reduce((objEntries, key) => {
         country.push({
@@ -198,7 +205,7 @@ const MarketingAddReader = () => {
             : e?.target?.value,
         });
       }
-    } else if (e.target.name == "opportunityValue") {
+    } else if (e.target == "opportunityValue") {
       if (userInputs?.probability?.value) {
         weighted_Value = userInputs?.probability?.value * e?.target?.value;
 
@@ -362,6 +369,7 @@ const MarketingAddReader = () => {
   const handleSubmitModelFun = async (e) => {
     try {
       loader("show");
+      const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`,{label:newProduct.label ,value:newProduct.value });
 
       if (newProduct.label == "title") {
         let title = titleOptions;
@@ -496,11 +504,23 @@ const MarketingAddReader = () => {
                   </Form.Label>
                   <input
                     type="text"
-                    className="form-control"
+                    className={
+                      error?.firstName
+                        ? "form-control error"
+                        : "form-control"
+                    }
                     name="firstName"
+                    ref={nameRef}
                     onChange={(e) => handleChange(e)}
                     placeholder="First name"
                   />
+                   {error?.firstName ? (
+                            <div className="login-validation">
+                              {error?.firstName}
+                            </div>
+                          ) : (
+                            ""
+                          )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Middle name</Form.Label>
@@ -532,7 +552,7 @@ const MarketingAddReader = () => {
                       error?.email ? "form-control error" : "form-control"
                     }
                     placeholder="example@email.com"
-                    // ref={emailRef}
+                    ref={emailRef}
                     name="email"
                     onInput={(e) => handleChange(e)}
                   />
@@ -553,7 +573,7 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
-                  <Form.Label htmlFor="">Primary phone </Form.Label>
+                  <Form.Label htmlFor="">Primary phone <span>*</span> </Form.Label>
                   <Select
                     options={countryCode}
                     className="dropdown-basic-button split-button-dropup"
@@ -564,9 +584,12 @@ const MarketingAddReader = () => {
 
                   <input
                     type="number"
-                    className="form-control"
+                    className={
+                      error?.primary_phone ? "form-control error" : "form-control"
+                    }
                     name="primary_phone"
                     placeholder="Phone number"
+                    ref={phoneRef}
                     onChange={(e) => handleChange(e)}
                   />
                   {error?.primary_phone ? (
@@ -726,8 +749,14 @@ const MarketingAddReader = () => {
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                     placeholder="Select country"
+                    ref={countryRef}
                     onChange={(e) => handleChange(e, "country")}
                   />
+                   {error?.country ? (
+                    <div className="login-validation">{error?.country}</div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Company website</Form.Label>
@@ -1080,7 +1109,25 @@ const MarketingAddReader = () => {
   };
   const nextButtonClicked = (e) => {
     e.preventDefault();
-
+    const result = AddReaderValidation(userInputs, groupId);
+    if (Object.keys(result)?.length) {
+      if (Object.keys(result)[0] == "firstName") {
+        nameRef.current.focus();
+      } else if (Object.keys(result)[0] == "email") {
+        emailRef.current.focus();
+      }
+      else if (Object.keys(result)[0] == "country") {
+        countryRef.current.focus();
+      }
+      else if (Object.keys(result)[0] == "primary_phone") {
+        phoneRef.current.focus();
+      }
+      toast.error(result[Object.keys(result)[0]]);
+      setError(result);
+      return;
+    }else {
+      try {
+        loader("show");
     let data = {
       jobTitle: userInputs?.jobTitle,
       title: userInputs?.title,
@@ -1123,6 +1170,18 @@ const MarketingAddReader = () => {
       quote_sent: userInputs?.quoteSent,
       quote_valid: userInputs?.quoteValid,
     };
+    loader("hide");
+    navigate("/reader-review", {
+      state: {
+        data: data,
+        flag: 1,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    loader("hide");
+  }
+}
     console.log("data--->", data);
   };
 
