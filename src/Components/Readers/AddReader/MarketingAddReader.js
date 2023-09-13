@@ -175,12 +175,8 @@ const MarketingAddReader = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
-    let weighted_Value = "";
-    // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
-    //   weighted_Value =
-    //     userInputs?.opportunityValue * userInputs?.probability?.value;
-    // }
     if (isSelectedName == "probability") {
+      let weighted_Value = "";
       if (userInputs?.opportunityValue) {
         weighted_Value = userInputs?.opportunityValue * e?.value;
         setUserInputs({
@@ -198,7 +194,8 @@ const MarketingAddReader = () => {
             : e?.target?.value,
         });
       }
-    } else if (e.target.name == "opportunityValue") {
+    } else if (e.target?.name === "opportunityValue") {
+      let weighted_Value = "";
       if (userInputs?.probability?.value) {
         weighted_Value = userInputs?.probability?.value * e?.target?.value;
 
