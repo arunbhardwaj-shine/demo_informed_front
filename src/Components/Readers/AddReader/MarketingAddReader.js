@@ -6,25 +6,32 @@ import CommonModel from "../../../Model/CommonModel";
 import { loader } from "../../../loader";
 import DatePicker from "react-datepicker";
 import moment from "moment";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { getData } from "../../../axios/apiHelper";
 
 const MarketingAddReader = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [titleOptions, setTitleOPtions] = useState([
+  const [titleOptions, setTitleOptions] = useState([
     { label: "Mr", value: "mr" },
     { label: "Mrs", value: "mrs" },
     { label: "Ms", value: "ms" },
     { label: "Dr", value: "dr" },
   ]);
-  const [prospectOptions, setProspectOPtions] = useState([
+  const [prospectOptions, setProspectOptions] = useState([
     { label: "Customer", value: "customer" },
     { label: "High priority", value: "high priority" },
     { label: "Incoming enquiry", value: "incoming enquiry" },
   ]);
-  const [ownershipOptions, setOwnershipOPtions] = useState([
+  const [ownershipOptions, setOwnershipOptions] = useState([
     { label: "Jacob contact", value: "jacob contact" },
     { label: "Philip contact", value: "philip contact" },
   ]);
-  const [customerOptions, setCustomerOPtions] = useState([
+  const [companyOptions, setCompanyOptions] = useState([]);
+  const [companyProductOptions, setCompanyProductOptions] = useState([]);
+  const [therapyAreaOptions, setTherapyAreaOptions] = useState([]);
+  const [localOptions, setLocalOptions] = useState([]);
+  const [taskOptions, setTaskOptions] = useState([]);
+  const [customerOptions, setCustomerOptions] = useState([
     { label: "Publisher", value: "publiseher" },
     { label: "Pharma maker", value: "pharma maker" },
     { label: "Pharma R&D", value: "pharma r&d" },
@@ -37,7 +44,7 @@ const MarketingAddReader = () => {
     { label: "LinkedIn", value: "linkedIn" },
     { label: "Event", value: "event" },
   ]);
-  const [pipelineOptions, setPipelineOPtions] = useState([
+  const [pipelineOptions, setPipelineOptions] = useState([
     { label: "New", value: "new" },
     { label: "Qualified", value: "qualified" },
     { label: "Meeting (initial intro)", value: "meetingInitialIntro" },
@@ -52,8 +59,8 @@ const MarketingAddReader = () => {
     { label: "20%", value: ".2" },
     { label: "30%", value: ".3" },
     { label: "40%", value: ".4" },
-   
   ]);
+  const [countryAll, setCountryAll] = useState([]);
   const [error, setError] = useState({});
   const [commanShow, setCommanShow] = useState(false);
   const [data, setData] = useState([]);
@@ -64,7 +71,50 @@ const MarketingAddReader = () => {
   const [commonHeader, setCommonHeader] = useState("");
   const [commonFooter, setCommonFooter] = useState("");
   const [userInputs, setUserInputs] = useState({
+    jobTitle: "",
     title: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    email: "",
+    alternativeEmail: "",
+    countryCode: "",
+    primary_phone: "",
+    alternativePhone: "",
+    linkedIn: "",
+    prospect: { value: "" },
+    ownership: { value: "" },
+    main: "",
+    influencer: "",
+    decisionMaker: "",
+    introducer: "",
+    customerType: { value: "" },
+    companyName: "",
+    country: "",
+    companyWebsite: "",
+    companyProduct: "",
+    therapyArea: "",
+    local: "",
+    address: "",
+    stree1: "",
+    street2: "",
+    city: "",
+    postcode: "",
+    addressCountry: "",
+    logActivity: { value: "" },
+    task: "",
+    nextContact: new Date(
+      moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+    ),
+    opportunityTitle: "",
+    ourProduct: "",
+    contactTotal: "",
+    pipeline: { value: "" },
+    opportunityValue: "",
+    probability: { value: "" },
+    // weightedValue: 0,
+    quoteSent: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+    quoteValid: "",
   });
   const [countryCode, setCountryCode] = useState([
     { value: "Afghanistan", label: "+93" },
@@ -100,14 +150,82 @@ const MarketingAddReader = () => {
     pipeline: [],
   });
 
+  useEffect(() => {
+    initalFun();
+  }, [userInputs]);
+  const initalFun = async () => {
+    try {
+      loader("show");
+      const hasData = await getData(`${ENDPOINT.READER_USER_DROP}`);
+
+      let country = [];
+      hasData?.data?.data?.country.reduce((objEntries, key) => {
+        country.push({
+          label: key,
+          value: key,
+        });
+      });
+
+      setCountryAll(country);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
+
   const handleChange = (e, isSelectedName) => {
-    console.log("e--->", e);
-    setUserInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-        ? e
-        : e?.target?.value,
-    });
+    let weighted_Value = "";
+    // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
+    //   weighted_Value =
+    //     userInputs?.opportunityValue * userInputs?.probability?.value;
+    // }
+    if (isSelectedName == "probability") {
+      if (userInputs?.opportunityValue) {
+        weighted_Value = userInputs?.opportunityValue * e?.value;
+        setUserInputs({
+          ...userInputs,
+          weightedValue: weighted_Value,
+          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+            ? e
+            : e?.target?.value,
+        });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+            ? e
+            : e?.target?.value,
+        });
+      }
+    } else if (e.target.name == "opportunityValue") {
+      if (userInputs?.probability?.value) {
+        weighted_Value = userInputs?.probability?.value * e?.target?.value;
+
+        setUserInputs({
+          ...userInputs,
+          weightedValue: weighted_Value,
+          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+            ? e
+            : e?.target?.value,
+        });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+            ? e
+            : e?.target?.value,
+        });
+      }
+    } else {
+      setUserInputs({
+        ...userInputs,
+
+        [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+          ? e
+          : e?.target?.value,
+      });
+    }
   };
 
   const addNewProductClicked = (e, statusMsg) => {
@@ -244,7 +362,89 @@ const MarketingAddReader = () => {
   const handleSubmitModelFun = async (e) => {
     try {
       loader("show");
-      console.log("submit model fun", newProduct);
+
+      if (newProduct.label == "title") {
+        let title = titleOptions;
+        title.unshift({
+          label: newProduct.value,
+          value: newProduct.value,
+        });
+        setTitleOptions(title);
+      }
+      if (newProduct.label == "prospect") {
+        let prospect = prospectOptions;
+        prospect.unshift({
+          label: newProduct.value,
+          value: newProduct.value,
+        });
+        setProspectOptions(prospect);
+      }
+      if (newProduct.label == "ownership") {
+        let ownership = ownershipOptions;
+        ownership.unshift({
+          label: newProduct.value,
+          value: newProduct.value,
+        });
+        setOwnershipOptions(ownership);
+      }
+      if (newProduct.label == "company") {
+        let company = companyOptions;
+        company.unshift({
+          label: newProduct.value,
+          value: newProduct.value,
+        });
+        setCompanyOptions(company);
+      }
+
+      if (newProduct.label == "companyProduct") {
+        let companyProduct = companyOptions;
+        companyProduct.unshift({
+          label: newProduct.value,
+          value: newProduct.value,
+        });
+        setCompanyProductOptions(companyProduct);
+      }
+      if (newProduct.label == "therapyArea") {
+        let therapyArea = therapyAreaOptions;
+        therapyArea.unshift({
+          label: newProduct.value,
+          value: newProduct.value,
+        });
+        setTherapyAreaOptions(therapyArea);
+      }
+      if (newProduct.label == "local") {
+        let local = localOptions;
+        local.unshift({
+          label: newProduct.value,
+          value: newProduct.value,
+        });
+        setLocalOptions(local);
+      }
+      if (newProduct.label == "logActivity") {
+        let logActivity = logActivityOptions;
+        logActivity.unshift({
+          label: newProduct.value,
+          value: newProduct.value,
+        });
+        setLogActivityOptions(logActivity);
+      }
+
+      if (newProduct.label == "task") {
+        let task = taskOptions;
+        task.unshift({
+          label: newProduct.value,
+          value: newProduct.value,
+        });
+        setTaskOptions(task);
+      }
+      if (newProduct.label == "pipeline") {
+        let pipeline = pipelineOptions;
+        pipeline.unshift({
+          label: newProduct.value,
+          value: newProduct.value,
+        });
+        setPipelineOptions(pipeline);
+      }
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -291,7 +491,9 @@ const MarketingAddReader = () => {
                   </div>
                 </Form.Group>
                 <Form.Group className="form-group">
-                  <Form.Label htmlFor="">First name</Form.Label>
+                  <Form.Label htmlFor="">
+                    First name <span>*</span>
+                  </Form.Label>
                   <input
                     type="text"
                     className="form-control"
@@ -497,7 +699,7 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Company name</Form.Label>
                   <Select
-                    // options={ownershipOptions}
+                    options={companyOptions}
                     name="companyName"
                     value={userInputs?.company}
                     onChange={(e) => handleChange(e, "companyName")}
@@ -516,9 +718,11 @@ const MarketingAddReader = () => {
                   </div>
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
-                  <Form.Label htmlFor="">Country </Form.Label>
+                  <Form.Label htmlFor="">
+                    Country <span>*</span>{" "}
+                  </Form.Label>
                   <Select
-                    // options={countryCode}
+                    options={countryAll}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                     placeholder="Select country"
@@ -538,7 +742,7 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Company product</Form.Label>
                   <Select
-                    // options={ownershipOptions}
+                    options={companyProductOptions}
                     name="companyProduct"
                     value={userInputs?.companyProduct}
                     onChange={(e) => handleChange(e, "companyProduct")}
@@ -559,7 +763,7 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Company therapy area</Form.Label>
                   <Select
-                    // options={ownershipOptions}
+                    options={therapyAreaOptions}
                     name="therapyArea"
                     value={userInputs?.therapyArea}
                     onChange={(e) => handleChange(e, "therapyArea")}
@@ -581,7 +785,7 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Local/International</Form.Label>
                   <Select
-                    // options={ownershipOptions}
+                    options={localOptions}
                     name="local"
                     value={userInputs?.local}
                     onChange={(e) => handleChange(e, "local")}
@@ -684,7 +888,7 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Task</Form.Label>
                   <Select
-                    // options={logActivityOptions}
+                    options={taskOptions}
                     name="task"
                     value={userInputs?.task}
                     onChange={(e) => handleChange(e, "task")}
@@ -709,16 +913,16 @@ const MarketingAddReader = () => {
                       userInputs?.nextContact
                         ? new Date(userInputs?.nextContact)
                         : new Date(
-                            moment(new Date(), "MM/DD/YYYY")
-                              .add( 1,"years")
-                              .format("MM/DD/YYYY")
+                            moment(new Date(), "MM/DD/YYYY").format(
+                              "MM/DD/YYYY"
+                            )
                           )
                     }
                     name="nextContact"
                     onChange={(e) => handleChange(e, "nextContact")}
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
-                    minDate={currentDate}
+                    // minDate={currentDate}
                   />
                 </Form.Group>
               </div>
@@ -753,6 +957,22 @@ const MarketingAddReader = () => {
               onChange={(e) => handleChange(e)}
             />
           </Form.Group>
+
+          <div className="form-group">
+            <label htmlFor="">Contact total</label>
+            <input
+              type="number"
+              name="contactTotal"
+              min="0"
+              // ref={limitFieldRef}
+              className={error?.limit ? "form-control error" : "form-control"}
+              placeholder="“0” value means unlimited limit"
+              onChange={(e) => handleChange(e)}
+            />
+            {error?.limit ? (
+              <div className="login-validation">{error?.limit}</div>
+            ) : null}
+          </div>
 
           <Form.Group className="form-group">
             <Form.Label htmlFor="">Pipeline Stage</Form.Label>
@@ -804,7 +1024,12 @@ const MarketingAddReader = () => {
               className="form-control"
               name="weightedValue"
               placeholder="Weighted value"
-              onChange={(e) => handleChange(e)}
+              value={
+                userInputs?.weightedValue
+                  ? (userInputs?.weightedValue).toFixed(2)
+                  : ""
+              }
+              // onChange={(e) => handleChange(e)}
             />
           </Form.Group>
 
@@ -839,16 +1064,14 @@ const MarketingAddReader = () => {
                 userInputs?.quoteValid
                   ? new Date(userInputs?.quoteValid)
                   : new Date(
-                      moment(new Date(), "MM/DD/YYYY")
-                        .add( 1,"years")
-                        .format("MM/DD/YYYY")
+                      moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
                     )
               }
-              name="Quote valid until"
+              name="quoteValid"
               onChange={(e) => handleChange(e, "quoteValid")}
               dateFormat="dd/MM/yyyy"
               className="form-control"
-              minDate={currentDate}
+              // minDate={currentDate}
             />
           </div>
         </div>
@@ -857,7 +1080,7 @@ const MarketingAddReader = () => {
   };
   const nextButtonClicked = (e) => {
     e.preventDefault();
-    console.log("user inputs", userInputs);
+
     let data = {
       jobTitle: userInputs?.jobTitle,
       title: userInputs?.title,
@@ -890,13 +1113,17 @@ const MarketingAddReader = () => {
       next_contact: userInputs?.nextContact,
       opportunity_title: userInputs?.opportunityTitle,
       our_product: userInputs?.ourProduct,
+      contact_total: userInputs?.contactTotal,
       pipeline: userInputs?.pipeline?.value,
       opportunity_value: userInputs?.opportunityValue,
-      probability: userInputs?.probability,
-      weighted_value: userInputs?.weightedValue,
+      probability: userInputs?.probability?.value,
+      weighted_value: userInputs?.weightedValue
+        ? userInputs?.weightedValue
+        : "",
       quote_sent: userInputs?.quoteSent,
       quote_valid: userInputs?.quoteValid,
     };
+    console.log("data--->", data);
   };
 
   return (
