@@ -893,7 +893,7 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "nextContact")}
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
-                    minDate={currentDate}
+                    // minDate={currentDate}
                   />
                 </Form.Group>
               </div>
@@ -1044,7 +1044,7 @@ const MarketingAddReader = () => {
               onChange={(e) => handleChange(e, "quoteValid")}
               dateFormat="dd/MM/yyyy"
               className="form-control"
-              minDate={currentDate}
+              // minDate={currentDate}
             />
           </div>
         </div>
