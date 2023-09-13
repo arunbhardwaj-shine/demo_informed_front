@@ -6,6 +6,8 @@ import CommonModel from "../../../Model/CommonModel";
 import { loader } from "../../../loader";
 import DatePicker from "react-datepicker";
 import moment from "moment";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { getData } from "../../../axios/apiHelper";
 
 const MarketingAddReader = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -58,6 +60,7 @@ const MarketingAddReader = () => {
     { label: "30%", value: ".3" },
     { label: "40%", value: ".4" },
   ]);
+  const [countryAll, setCountryAll] = useState([]);
   const [error, setError] = useState({});
   const [commanShow, setCommanShow] = useState(false);
   const [data, setData] = useState([]);
@@ -147,7 +150,29 @@ const MarketingAddReader = () => {
     pipeline: [],
   });
 
-  useEffect(() => {}, [userInputs]);
+  useEffect(() => {
+    initalFun();
+  }, [userInputs]);
+  const initalFun = async () => {
+    try {
+      loader("show");
+      const hasData = await getData(`${ENDPOINT.READER_USER_DROP}`);
+
+      let country = [];
+      hasData?.data?.data?.country.reduce((objEntries, key) => {
+        country.push({
+          label: key,
+          value: key,
+        });
+      });
+
+      setCountryAll(country);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
 
   const handleChange = (e, isSelectedName) => {
     let weighted_Value = "";
@@ -466,7 +491,9 @@ const MarketingAddReader = () => {
                   </div>
                 </Form.Group>
                 <Form.Group className="form-group">
-                  <Form.Label htmlFor="">First name</Form.Label>
+                  <Form.Label htmlFor="">
+                    First name <span>*</span>
+                  </Form.Label>
                   <input
                     type="text"
                     className="form-control"
@@ -691,9 +718,11 @@ const MarketingAddReader = () => {
                   </div>
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
-                  <Form.Label htmlFor="">Country </Form.Label>
+                  <Form.Label htmlFor="">
+                    Country <span>*</span>{" "}
+                  </Form.Label>
                   <Select
-                    // options={countryCode}
+                    options={countryAll}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                     placeholder="Select country"
@@ -930,9 +959,7 @@ const MarketingAddReader = () => {
           </Form.Group>
 
           <div className="form-group">
-            <label htmlFor="">
-              Contact total <span>*</span>
-            </label>
+            <label htmlFor="">Contact total</label>
             <input
               type="number"
               name="contactTotal"
