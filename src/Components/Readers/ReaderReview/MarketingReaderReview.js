@@ -15,7 +15,7 @@ import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { slice } from "@amcharts/amcharts4/.internal/core/utils/Array";
 
-const ReaderReview = () => {
+const MarketingReaderReview = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [field, setField] = useState([]);
@@ -232,11 +232,7 @@ const ReaderReview = () => {
                             </td>
                           </tr>
                         </>
-                      ) : 
-                      localStorage.getItem("user_id") !==
-                      "90VIqoM675WT4/peSRnbSQ==" ?
-                      (
-
+                      ) : (
                         <>
                           <tr>
                             <th className="tab-content-title">Province</th>
@@ -290,7 +286,7 @@ const ReaderReview = () => {
                             ""
                           )}
                         </>
-                      ):""}
+                      )}
                     </table>
                   </div>
                   <div className="crm-review-detail">
@@ -411,4 +407,4 @@ const ReaderReview = () => {
   );
 };
 
-export default ReaderReview;
+export default MarketingReaderReview;
