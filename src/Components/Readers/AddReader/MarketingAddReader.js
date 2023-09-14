@@ -400,7 +400,7 @@ const MarketingAddReader = () => {
         title: "title",
         prospect: "prospect",
         ownership: "contact_ownership",
-        companyName: "company_name",
+        company: "company_name",
         companyProduct: "company_product",
         therapyArea: "company_therapy_area",
         local: "local",
