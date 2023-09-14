@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import { loader } from "../../../loader";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import { getData ,postData} from "../../../axios/apiHelper";
+import { getData, postData } from "../../../axios/apiHelper";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
 import { toast } from "react-toastify";
 
@@ -160,7 +160,8 @@ const MarketingAddReader = () => {
 
   useEffect(() => {
     initalFun();
-  }, [userInputs]);
+  }, []);
+  useEffect(() => {}, [userInputs]);
   const initalFun = async () => {
     try {
       loader("show");
@@ -182,12 +183,8 @@ const MarketingAddReader = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
-    let weighted_Value = "";
-    // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
-    //   weighted_Value =
-    //     userInputs?.opportunityValue * userInputs?.probability?.value;
-    // }
     if (isSelectedName == "probability") {
+      let weighted_Value = "";
       if (userInputs?.opportunityValue) {
         weighted_Value = userInputs?.opportunityValue * e?.value;
         setUserInputs({
@@ -206,6 +203,7 @@ const MarketingAddReader = () => {
         });
       }
     } else if (e.target == "opportunityValue") {
+      let weighted_Value = "";
       if (userInputs?.probability?.value) {
         weighted_Value = userInputs?.probability?.value * e?.target?.value;
 
@@ -369,7 +367,10 @@ const MarketingAddReader = () => {
   const handleSubmitModelFun = async (e) => {
     try {
       loader("show");
-      const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`,{label:newProduct.label ,value:newProduct.value });
+      const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, {
+        label: newProduct.label,
+        value: newProduct.value,
+      });
 
       if (newProduct.label == "title") {
         let title = titleOptions;
@@ -505,22 +506,18 @@ const MarketingAddReader = () => {
                   <input
                     type="text"
                     className={
-                      error?.firstName
-                        ? "form-control error"
-                        : "form-control"
+                      error?.firstName ? "form-control error" : "form-control"
                     }
                     name="firstName"
                     ref={nameRef}
                     onChange={(e) => handleChange(e)}
                     placeholder="First name"
                   />
-                   {error?.firstName ? (
-                            <div className="login-validation">
-                              {error?.firstName}
-                            </div>
-                          ) : (
-                            ""
-                          )}
+                  {error?.firstName ? (
+                    <div className="login-validation">{error?.firstName}</div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Middle name</Form.Label>
@@ -573,7 +570,9 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
-                  <Form.Label htmlFor="">Primary phone <span>*</span> </Form.Label>
+                  <Form.Label htmlFor="">
+                    Primary phone <span>*</span>{" "}
+                  </Form.Label>
                   <Select
                     options={countryCode}
                     className="dropdown-basic-button split-button-dropup"
@@ -585,7 +584,9 @@ const MarketingAddReader = () => {
                   <input
                     type="number"
                     className={
-                      error?.primary_phone ? "form-control error" : "form-control"
+                      error?.primary_phone
+                        ? "form-control error"
+                        : "form-control"
                     }
                     name="primary_phone"
                     placeholder="Phone number"
@@ -752,7 +753,7 @@ const MarketingAddReader = () => {
                     ref={countryRef}
                     onChange={(e) => handleChange(e, "country")}
                   />
-                   {error?.country ? (
+                  {error?.country ? (
                     <div className="login-validation">{error?.country}</div>
                   ) : (
                     ""
@@ -1115,73 +1116,71 @@ const MarketingAddReader = () => {
         nameRef.current.focus();
       } else if (Object.keys(result)[0] == "email") {
         emailRef.current.focus();
-      }
-      else if (Object.keys(result)[0] == "country") {
+      } else if (Object.keys(result)[0] == "country") {
         countryRef.current.focus();
-      }
-      else if (Object.keys(result)[0] == "primary_phone") {
+      } else if (Object.keys(result)[0] == "primary_phone") {
         phoneRef.current.focus();
       }
       toast.error(result[Object.keys(result)[0]]);
       setError(result);
       return;
-    }else {
+    } else {
       try {
         loader("show");
-    let data = {
-      jobTitle: userInputs?.jobTitle,
-      title: userInputs?.title,
-      firstName: userInputs?.firstName,
-      middleName: userInputs?.middleName,
-      lastName: userInputs?.lastName,
-      primaryEmail: userInputs?.email,
-      alternativeEmail: userInputs?.alternativeEmail,
-      primary_phone: `${
-        userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
-      }-informed-${userInputs?.primary_phone}`,
-      alternativePhone: userInputs?.alternativePhone,
-      linkedIn: userInputs?.linkedIn,
-      prospect: userInputs?.prospect?.value,
-      contact_ownership: userInputs?.ownership?.value,
-      main: userInputs?.main,
-      influencer: userInputs?.influencer,
-      decision_maker: userInputs?.decisionMaker,
-      introducer: userInputs?.introducer,
-      customerType: userInputs?.customerType?.value,
-      company_name: userInputs?.companyName,
-      country: userInputs?.country,
-      company_website: userInputs?.companyWebsite,
-      company_product: userInputs?.companyProduct,
-      company_therapy_area: userInputs?.therapyArea,
-      local: userInputs?.local,
-      address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
-      log_activity: userInputs?.logActivity?.value,
-      task: userInputs?.task,
-      next_contact: userInputs?.nextContact,
-      opportunity_title: userInputs?.opportunityTitle,
-      our_product: userInputs?.ourProduct,
-      contact_total: userInputs?.contactTotal,
-      pipeline: userInputs?.pipeline?.value,
-      opportunity_value: userInputs?.opportunityValue,
-      probability: userInputs?.probability?.value,
-      weighted_value: userInputs?.weightedValue
-        ? userInputs?.weightedValue
-        : "",
-      quote_sent: userInputs?.quoteSent,
-      quote_valid: userInputs?.quoteValid,
-    };
-    loader("hide");
-    navigate("/reader-review", {
-      state: {
-        data: data,
-        flag: 1,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-    loader("hide");
-  }
-}
+        let data = {
+          jobTitle: userInputs?.jobTitle,
+          title: userInputs?.title,
+          firstName: userInputs?.firstName,
+          middleName: userInputs?.middleName,
+          lastName: userInputs?.lastName,
+          primaryEmail: userInputs?.email,
+          alternativeEmail: userInputs?.alternativeEmail,
+          primary_phone: `${
+            userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+          }-informed-${userInputs?.primary_phone}`,
+          alternativePhone: userInputs?.alternativePhone,
+          linkedIn: userInputs?.linkedIn,
+          prospect: userInputs?.prospect?.value,
+          contact_ownership: userInputs?.ownership?.value,
+          main: userInputs?.main,
+          influencer: userInputs?.influencer,
+          decision_maker: userInputs?.decisionMaker,
+          introducer: userInputs?.introducer,
+          customerType: userInputs?.customerType?.value,
+          company_name: userInputs?.companyName,
+          country: userInputs?.country,
+          company_website: userInputs?.companyWebsite,
+          company_product: userInputs?.companyProduct,
+          company_therapy_area: userInputs?.therapyArea,
+          local: userInputs?.local,
+          address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
+          log_activity: userInputs?.logActivity?.value,
+          task: userInputs?.task,
+          next_contact: userInputs?.nextContact,
+          opportunity_title: userInputs?.opportunityTitle,
+          our_product: userInputs?.ourProduct,
+          contact_total: userInputs?.contactTotal,
+          pipeline: userInputs?.pipeline?.value,
+          opportunity_value: userInputs?.opportunityValue,
+          probability: userInputs?.probability?.value,
+          weighted_value: userInputs?.weightedValue
+            ? userInputs?.weightedValue
+            : "",
+          quote_sent: userInputs?.quoteSent,
+          quote_valid: userInputs?.quoteValid,
+        };
+        loader("hide");
+        navigate("/reader-review", {
+          state: {
+            data: data,
+            flag: 1,
+          },
+        });
+      } catch (err) {
+        console.log(err);
+        loader("hide");
+      }
+    }
     console.log("data--->", data);
   };
 
