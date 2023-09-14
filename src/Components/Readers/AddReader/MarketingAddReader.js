@@ -909,7 +909,7 @@ const MarketingAddReader = () => {
                   </div>
                 </Form.Group>
 
-                <Form.Group className="form-group">
+                {/* <Form.Group className="form-group">
                   <Form.Label htmlFor="">Address</Form.Label>
                   <input
                     type="text"
@@ -918,7 +918,7 @@ const MarketingAddReader = () => {
                     name="address"
                     onChange={(e) => handleChange(e)}
                   />
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Street 1</Form.Label>
                   <input
@@ -1043,7 +1043,8 @@ const MarketingAddReader = () => {
     return (
       <>
         <div className="create-change-content reader_added">
-          <div className="form-action">
+          <div className="form_action">
+          <h4>Opportunity</h4>
             <div className="row">
               <div className="col-12 col-md-7">
                 <Form.Group className="form-group">
@@ -1248,7 +1249,7 @@ const MarketingAddReader = () => {
           company_product: userInputs?.companyProduct?.value,
           company_therapy_area: userInputs?.therapyArea?.value,
           local: userInputs?.local?.value,
-          address: `${userInputs?.address}-${userInputs?.street1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry?.value}`,
+          address: `${userInputs?.street1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry?.value}`,
           log_activity: userInputs?.logActivity?.value,
           task: userInputs?.task?.value,
           next_contact: userInputs?.nextContact,
