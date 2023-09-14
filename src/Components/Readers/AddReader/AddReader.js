@@ -546,22 +546,22 @@ const ReaderAdd = () => {
         siteName: newSiteName,
         siteNumber: newSiteNumber,
       });
-    } else if(isSelectedName == "institution") {
-        if(e == "Study site"){
-          setAddReaderInputs({
-            ...userInputs,
-            [isSelectedName]: e,
-            ["irt"]: 1,
-          });
-        }else{
-          setAddReaderInputs({
-            ...userInputs,
-            [isSelectedName]: e,
-            ["irt"]: 0,
-            ["siteName"]: "",
-            ["siteNumber"]: "",
-          });
-        }
+    } else if (isSelectedName == "institution") {
+      if (e == "Study site") {
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+          ["irt"]: 1,
+        });
+      } else {
+        setAddReaderInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+          ["irt"]: 0,
+          ["siteName"]: "",
+          ["siteNumber"]: "",
+        });
+      }
     } else {
       setAddReaderInputs({
         ...userInputs,
@@ -712,7 +712,7 @@ const ReaderAdd = () => {
 
           {error?.institution ? (
             <div className="login-validation">{error?.institution}</div>
-             ) : (
+          ) : (
             ""
           )}
         </Form.Group>
@@ -730,9 +730,8 @@ const ReaderAdd = () => {
               value: "Yes",
             }}
             value={
-              userDetail?.irt.findIndex(
-                (el) => el.value == userInputs?.irt
-              ) == -1
+              userDetail?.irt.findIndex((el) => el.value == userInputs?.irt) ==
+              -1
                 ? ""
                 : userDetail?.irt[
                     userDetail?.irt.findIndex(
@@ -761,10 +760,9 @@ const ReaderAdd = () => {
               ? "IRT role"
               : "Role"}
           </Form.Label>
-          
-          
-            {userInputs?.irt && userInputs.irt == 1 ? (
-              <>
+
+          {userInputs?.irt && userInputs.irt == 1 ? (
+            <>
               <Select
                 options={userDetail?.userIrtRoles}
                 placeholder="Select Role"
@@ -785,9 +783,9 @@ const ReaderAdd = () => {
                 isClearable
                 onChange={(e) => handleChange(e?.value, "role")}
               />
-              </>
-            ) : userInputs.irt == 0 ? (
-              <>
+            </>
+          ) : userInputs.irt == 0 ? (
+            <>
               <Select
                 options={userDetail?.role}
                 placeholder="Select Role"
@@ -807,15 +805,15 @@ const ReaderAdd = () => {
                 isClearable
                 onChange={(e) => handleChange(e?.value, "role")}
               />
-              </>
-            ) : (
-              <>
+            </>
+          ) : (
+            <>
               <Select
                 className="dropdown-basic-button split-button-dropup"
                 placeholder="Select Role"
               />
-              </>
-            )}
+            </>
+          )}
         </Form.Group>
         <Form.Group className="form-group">
           <Form.Label htmlFor="">

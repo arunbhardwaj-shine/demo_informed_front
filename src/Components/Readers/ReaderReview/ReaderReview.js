@@ -26,7 +26,12 @@ const ReaderReview = () => {
   const createUser = async () => {
     loader("show");
     try {
-      await postData(ENDPOINT.READER_CREATE, readerData);
+      if (localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==") {
+        await postData(ENDPOINT.CREATE_MARKETING_READER, readerData);
+      } else {
+        await postData(ENDPOINT.READER_CREATE, readerData);
+      }
+
       loader("hide");
       navigate("/readers-view");
     } catch (err) {
@@ -94,7 +99,7 @@ const ReaderReview = () => {
               </Col>
             </Row>
           </div>
-        
+
           {Object.keys(readerData).length > 0 ? (
             <div className="crm-detail">
               <div className="crm-detail-content">
@@ -223,8 +228,7 @@ const ReaderReview = () => {
                                     ?.charAt(0)
                                     ?.toUpperCase() +
                                   readerData?.blind_type?.slice(1)
-                                :
-                                 "N/A"}
+                                : "N/A"}
                             </td>
                           </tr>
                         </>

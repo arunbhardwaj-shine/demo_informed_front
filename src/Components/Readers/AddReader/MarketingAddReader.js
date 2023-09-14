@@ -18,57 +18,59 @@ const MarketingAddReader = () => {
   const phoneRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [titleOptions, setTitleOptions] = useState([
-    { label: "Mr", value: "mr" },
-    { label: "Mrs", value: "mrs" },
-    { label: "Ms", value: "ms" },
-    { label: "Dr", value: "dr" },
+    // { label: "Mr", value: "mr" },
+    // { label: "Mrs", value: "mrs" },
+    // { label: "Ms", value: "ms" },
+    // { label: "Dr", value: "dr" },
   ]);
   const [groupId, setGroupId] = useState();
   const navigate = useNavigate();
   const [prospectOptions, setProspectOptions] = useState([
-    { label: "Customer", value: "customer" },
-    { label: "High priority", value: "high priority" },
-    { label: "Incoming enquiry", value: "incoming enquiry" },
+    // { label: "Customer", value: "customer" },
+    // { label: "High priority", value: "high priority" },
+    // { label: "Incoming enquiry", value: "incoming enquiry" },
   ]);
   const [ownershipOptions, setOwnershipOptions] = useState([
-    { label: "Jacob contact", value: "jacob contact" },
-    { label: "Philip contact", value: "philip contact" },
+    // { label: "Jacob contact", value: "jacob contact" },
+    // { label: "Philip contact", value: "philip contact" },
   ]);
-  const [companyOptions, setCompanyOptions] = useState([]);
+
   const [companyProductOptions, setCompanyProductOptions] = useState([]);
   const [therapyAreaOptions, setTherapyAreaOptions] = useState([]);
   const [localOptions, setLocalOptions] = useState([]);
   const [taskOptions, setTaskOptions] = useState([]);
   const [customerOptions, setCustomerOptions] = useState([
-    { label: "Publisher", value: "publiseher" },
-    { label: "Pharma maker", value: "pharma maker" },
-    { label: "Pharma R&D", value: "pharma r&d" },
-    { label: "Other", value: "other" },
+    // { label: "Publisher", value: "publiseher" },
+    // { label: "Pharma maker", value: "pharma maker" },
+    // { label: "Pharma R&D", value: "pharma r&d" },
+    // { label: "Other", value: "other" },
   ]);
+  const [companyOptions, setCompanyOptions] = useState([]);
   const [logActivityOptions, setLogActivityOptions] = useState([
-    { label: "Call", value: "call" },
-    { label: "Email", value: "email" },
-    { label: "Incoming", value: "incoming" },
-    { label: "LinkedIn", value: "linkedIn" },
-    { label: "Event", value: "event" },
+    // { label: "Call", value: "call" },
+    // { label: "Email", value: "email" },
+    // { label: "Incoming", value: "incoming" },
+    // { label: "LinkedIn", value: "linkedIn" },
+    // { label: "Event", value: "event" },
   ]);
   const [pipelineOptions, setPipelineOptions] = useState([
-    { label: "New", value: "new" },
-    { label: "Qualified", value: "qualified" },
-    { label: "Meeting (initial intro)", value: "meetingInitialIntro" },
-    { label: "Meeting (presentation)", value: "meetingPresentation" },
-    { label: "Proposal", value: "proposal" },
-    { label: "Negotiation", value: "negotiation" },
-    { label: "Contract (closed)", value: "contract" },
-    { label: "Long grass", value: "longGrass" },
+    // { label: "New", value: "new" },
+    // { label: "Qualified", value: "qualified" },
+    // { label: "Meeting (initial intro)", value: "meetingInitialIntro" },
+    // { label: "Meeting (presentation)", value: "meetingPresentation" },
+    // { label: "Proposal", value: "proposal" },
+    // { label: "Negotiation", value: "negotiation" },
+    // { label: "Contract (closed)", value: "contract" },
+    // { label: "Long grass", value: "longGrass" },
   ]);
   const [probabilityOptions, setProbabilityOptions] = useState([
-    { label: "10%", value: ".1" },
-    { label: "20%", value: ".2" },
-    { label: "30%", value: ".3" },
-    { label: "40%", value: ".4" },
+    // { label: "10%", value: ".1" },
+    // { label: "20%", value: ".2" },
+    // { label: "30%", value: ".3" },
+    // { label: "40%", value: ".4" },
   ]);
   const [countryAll, setCountryAll] = useState([]);
+  const [typeOfContact, setTypeOfContact] = useState([]);
   const [error, setError] = useState({});
   const [commanShow, setCommanShow] = useState(false);
   const [data, setData] = useState([]);
@@ -80,7 +82,7 @@ const MarketingAddReader = () => {
   const [commonFooter, setCommonFooter] = useState("");
   const [userInputs, setUserInputs] = useState({
     jobTitle: "",
-    title: "",
+    title: { value: "" },
     firstName: "",
     middleName: "",
     lastName: "",
@@ -92,25 +94,22 @@ const MarketingAddReader = () => {
     linkedIn: "",
     prospect: { value: "" },
     ownership: { value: "" },
-    main: "",
-    influencer: "",
-    decisionMaker: "",
-    introducer: "",
+    typeContact: [],
     customerType: { value: "" },
-    companyName: "",
-    country: "",
+    companyName: { value: "" },
+    country: { value: "" },
     companyWebsite: "",
-    companyProduct: "",
-    therapyArea: "",
-    local: "",
+    companyProduct: { value: "" },
+    therapyArea: { value: "" },
+    local: { value: "" },
     address: "",
-    stree1: "",
+    street1: "",
     street2: "",
     city: "",
     postcode: "",
     addressCountry: "",
     logActivity: { value: "" },
-    task: "",
+    task: { value: "" },
     nextContact: new Date(
       moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
     ),
@@ -120,9 +119,9 @@ const MarketingAddReader = () => {
     pipeline: { value: "" },
     opportunityValue: "",
     probability: { value: "" },
-    // weightedValue: 0,
-    quoteSent: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
-    quoteValid: "",
+    weightedValue: "",
+    quoteSent: "",
+    quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
   const [countryCode, setCountryCode] = useState([
     { value: "Afghanistan", label: "+93" },
@@ -166,15 +165,30 @@ const MarketingAddReader = () => {
     try {
       loader("show");
       const hasData = await getData(`${ENDPOINT.READER_MARKETING_USER_DROP}`);
-      let country = [];
-      hasData?.data?.data?.country.reduce((objEntries, key) => {
-        country.push({
-          label: key,
-          value: key,
+      console.log("has data-->", hasData);
+      if (Object.keys(hasData?.data?.data)?.length) {
+        let country = [];
+        hasData?.data?.data?.country.reduce((objEntries, key) => {
+          country.push({
+            label: key,
+            value: key,
+          });
         });
-      });
-
-      setCountryAll(country);
+        setCountryAll(country);
+        setTitleOptions(hasData?.data?.data?.title);
+        setProspectOptions(hasData?.data?.data?.prospect);
+        setOwnershipOptions(hasData?.data?.data?.contact_ownership);
+        setCustomerOptions(hasData?.data?.data?.customer_type);
+        setCompanyOptions(hasData?.data?.data?.company_name);
+        setCompanyProductOptions(hasData?.data?.data?.company_product);
+        setTherapyAreaOptions(hasData?.data?.data?.company_therapy_area);
+        setLocalOptions(hasData?.data?.data?.local);
+        setTaskOptions(hasData?.data?.data?.task);
+        setPipelineOptions(hasData?.data?.data?.pipeline);
+        setProbabilityOptions(hasData?.data?.data?.probablity);
+        setTypeOfContact(hasData?.data?.data?.type_of_contact);
+        setLogActivityOptions(hasData?.data?.data?.log_activity);
+      }
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -182,11 +196,25 @@ const MarketingAddReader = () => {
     }
   };
 
-  const handleChange = (e, isSelectedName) => {
-    if (isSelectedName == "probability") {
+  const handleChange = (e, isSelectedName, key) => {
+    if (key == "typeContact") {
+      const typeContactArray = [...(userInputs?.typeContact || [])];
+      if (e == true) {
+        typeContactArray.push(isSelectedName);
+      } else {
+        const index = typeContactArray.indexOf(isSelectedName);
+        if (index !== -1) {
+          typeContactArray.splice(index, 1);
+        }
+      }
+      setUserInputs({
+        ...userInputs,
+        typeContact: typeContactArray,
+      });
+    } else if (isSelectedName == "probability") {
       let weighted_Value = "";
       if (userInputs?.opportunityValue) {
-        weighted_Value = userInputs?.opportunityValue * e?.value;
+        weighted_Value = (userInputs?.opportunityValue * e?.value) / 100;
         setUserInputs({
           ...userInputs,
           weightedValue: weighted_Value,
@@ -205,7 +233,8 @@ const MarketingAddReader = () => {
     } else if (e.target?.name == "opportunityValue") {
       let weighted_Value = "";
       if (userInputs?.probability?.value) {
-        weighted_Value = userInputs?.probability?.value * e?.target?.value;
+        weighted_Value =
+          (userInputs?.probability?.value * e?.target?.value) / 100;
 
         setUserInputs({
           ...userInputs,
@@ -367,8 +396,20 @@ const MarketingAddReader = () => {
   const handleSubmitModelFun = async (e) => {
     try {
       loader("show");
-      const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, {
-        label: newProduct.label,
+      const obj = {
+        title: "title",
+        prospect: "prospect",
+        ownership: "contact_ownership",
+        companyName: "company_name",
+        companyProduct: "company_product",
+        therapyArea: "company_therapy_area",
+        local: "local",
+        task: "task",
+        pipeline: "pipeline",
+        logActivity: "log_activity",
+      };
+      await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, {
+        label: obj[newProduct.label],
         value: newProduct.value,
       });
 
@@ -463,11 +504,11 @@ const MarketingAddReader = () => {
   const Main = () => {
     return (
       <>
-        <div className="create-change-content">
+        <div className="create-change-content reader_added">
           <div className="form_action">
             <h4>About CRM you're creating</h4>
             <div className="row">
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-7">
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Job title</Form.Label>
                   <input
@@ -570,9 +611,7 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
-                  <Form.Label htmlFor="">
-                    Primary phone {" "}
-                  </Form.Label>
+                  <Form.Label htmlFor="">Primary phone </Form.Label>
                   <Select
                     options={countryCode}
                     className="dropdown-basic-button split-button-dropup"
@@ -658,11 +697,39 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Type of contact</Form.Label>
                   <fieldset id="group2">
+                    {typeOfContact?.length
+                      ? typeOfContact?.map((item, index) => {
+                          return (
+                            <>
+                              <input
+                                type="checkbox"
+                                value="value1"
+                                name={item?.label}
+                                onClick={(e) =>
+                                  handleChange(
+                                    e.target?.checked,
+                                    item?.value,
+                                    "typeContact"
+                                  )
+                                }
+                                id="limitagreed1"
+                              />
+                              <Form.Label htmlFor={index}>
+                                {item?.label}
+                              </Form.Label>
+                            </>
+                          );
+                        })
+                      : ""}
+                  </fieldset>
+                  {/* <fieldset id="group2">
                     <input
                       type="checkbox"
                       value="value1"
                       name="main"
-                      onClick={(e) => handleChange(e.target?.checked, "main")}
+                      onClick={(e) =>
+                        handleChange(e.target?.checked, "main", "typeContact")
+                      }
                       id="limitagreed1"
                     />
                     <Form.Label htmlFor="limitagreed1">Main</Form.Label>
@@ -671,7 +738,11 @@ const MarketingAddReader = () => {
                       value="value2"
                       name="influencer"
                       onClick={(e) =>
-                        handleChange(e.target?.checked, "influencer")
+                        handleChange(
+                          e.target?.checked,
+                          "influencer",
+                          "typeContact"
+                        )
                       }
                       id="limitagreed2"
                     />
@@ -680,7 +751,11 @@ const MarketingAddReader = () => {
                       type="checkbox"
                       value="value3"
                       onClick={(e) =>
-                        handleChange(e.target?.checked, "decisionMaker")
+                        handleChange(
+                          e.target?.checked,
+                          "decisionMaker",
+                          "typeContact"
+                        )
                       }
                       name="decisionMaker"
                       id="limitagreed3"
@@ -693,12 +768,16 @@ const MarketingAddReader = () => {
                       value="value4"
                       name="introducer"
                       onClick={(e) =>
-                        handleChange(e.target?.checked, "introducer")
+                        handleChange(
+                          e.target?.checked,
+                          "introducer",
+                          "typeContact"
+                        )
                       }
                       id="limitagreed4"
                     />
                     <Form.Label htmlFor="limitagreed4">Introducer</Form.Label>
-                  </fieldset>
+                  </fieldset> */}
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Customer type</Form.Label>
@@ -878,12 +957,14 @@ const MarketingAddReader = () => {
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Country</Form.Label>
-                  <input
-                    type="text"
-                    placeholder="Enter country"
-                    className="form-control"
-                    name="addressCountry"
-                    onChange={(e) => handleChange(e)}
+
+                  <Select
+                    options={countryAll}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                    placeholder="Select country"
+                    ref={countryRef}
+                    onChange={(e) => handleChange(e, "addressCountry")}
                   />
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
@@ -957,144 +1038,154 @@ const MarketingAddReader = () => {
   const Opportunity = () => {
     return (
       <>
-        <div className="create-change-content">
-          <Form.Group className="form-group">
-            <Form.Label htmlFor="">Title</Form.Label>
-            <input
-              type="text"
-              className="form-control"
-              name="opportunityTitle"
-              placeholder="Title"
-              onChange={(e) => handleChange(e)}
-            />
-          </Form.Group>
-
-          <Form.Group className="form-group">
-            <Form.Label htmlFor="">Our Product</Form.Label>
-            <input
-              type="text"
-              className="form-control"
-              name="ourProduct"
-              placeholder="Our Product"
-              onChange={(e) => handleChange(e)}
-            />
-          </Form.Group>
-
-          <div className="form-group">
-            <label htmlFor="">Contact total</label>
-            <input
-              type="number"
-              name="contactTotal"
-              min="0"
-              // ref={limitFieldRef}
-              className={error?.limit ? "form-control error" : "form-control"}
-              placeholder="“0” value means unlimited limit"
-              onChange={(e) => handleChange(e)}
-            />
-            {error?.limit ? (
-              <div className="login-validation">{error?.limit}</div>
-            ) : null}
-          </div>
-
-          <Form.Group className="form-group">
-            <Form.Label htmlFor="">Pipeline Stage</Form.Label>
-            <Select
-              options={pipelineOptions}
-              placeholder="Select pipeline stage"
-              className="dropdown-basic-button split-button-dropup"
-              value={userInputs?.pipeline}
-              isClearable
-              onChange={(e) => handleChange(e, "pipeline")}
-            />
-            <div className="add_product">
-              <span>&nbsp;</span>
-              <Button
-                className="btn-bordered btn-voilet"
-                onClick={(e) => addNewProductClicked(e, "pipeline")}
-              >
-                Add New Pipeline Stage +
-              </Button>
-            </div>
-          </Form.Group>
-
-          <Form.Group className="form-group">
-            <Form.Label htmlFor="">Value</Form.Label>
-            <input
-              type="number"
-              className="form-control"
-              name="opportunityValue"
-              placeholder="value"
-              onChange={(e) => handleChange(e)}
-            />
-          </Form.Group>
-
-          <Form.Group className="form-group primary_phone">
-            <Form.Label htmlFor="">Probability %</Form.Label>
-            <Select
-              options={probabilityOptions}
-              className="dropdown-basic-button split-button-dropup"
-              isClearable
-              placeholder=""
-              onChange={(e) => handleChange(e, "probability")}
-            />
-          </Form.Group>
-
-          <Form.Group className="form-group">
-            <Form.Label htmlFor=""> Weighted value</Form.Label>
-            <input
-              type="number"
-              className="form-control"
-              name="weightedValue"
-              placeholder="Weighted value"
-              value={
-                userInputs?.weightedValue
-                  ? (userInputs?.weightedValue).toFixed(2)
-                  : ""
-              }
-              // onChange={(e) => handleChange(e)}
-            />
-          </Form.Group>
-
-          <div className="form-group">
-            <label htmlFor="setasdraft1">Quote Sent</label>
-            <fieldset id="group2">
-              <div className="switch">
-                <label className="switch-light">
+        <div className="create-change-content reader_added">
+          <div className="form-action">
+            <div className="row">
+              <div className="col-12 col-md-7">
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Title</Form.Label>
                   <input
-                    type="checkbox"
-                    value="value1"
-                    name="quoteSent"
-                    id="setasdraft1"
-                    onChange={(e) => {
-                      handleChange(e.target?.checked, "quoteSent");
-                    }}
+                    type="text"
+                    className="form-control"
+                    name="opportunityTitle"
+                    placeholder="Title"
+                    onChange={(e) => handleChange(e)}
                   />
-                  <span>
-                    <span className="switch-btn active">No</span>
-                    <span className="switch-btn ">Yes</span>
-                  </span>
-                  <a className="btn"></a>
-                </label>
-              </div>
-            </fieldset>
-          </div>
+                </Form.Group>
 
-          <div className="form-group">
-            <label htmlFor="">Quote valid until</label>
-            <DatePicker
-              selected={
-                userInputs?.quoteValid
-                  ? new Date(userInputs?.quoteValid)
-                  : new Date(
-                      moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
-                    )
-              }
-              name="quoteValid"
-              onChange={(e) => handleChange(e, "quoteValid")}
-              dateFormat="dd/MM/yyyy"
-              className="form-control"
-              // minDate={currentDate}
-            />
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Our Product</Form.Label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="ourProduct"
+                    placeholder="Our Product"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+
+                <div className="form-group">
+                  <label htmlFor="">Contact total</label>
+                  <input
+                    type="number"
+                    name="contactTotal"
+                    min="0"
+                    // ref={limitFieldRef}
+                    className={
+                      error?.limit ? "form-control error" : "form-control"
+                    }
+                    placeholder="“0” value means unlimited limit"
+                    onChange={(e) => handleChange(e)}
+                  />
+                  {error?.limit ? (
+                    <div className="login-validation">{error?.limit}</div>
+                  ) : null}
+                </div>
+
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Pipeline Stage</Form.Label>
+                  <Select
+                    options={pipelineOptions}
+                    placeholder="Select pipeline stage"
+                    className="dropdown-basic-button split-button-dropup"
+                    value={userInputs?.pipeline}
+                    isClearable
+                    onChange={(e) => handleChange(e, "pipeline")}
+                  />
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      className="btn-bordered btn-voilet"
+                      onClick={(e) => addNewProductClicked(e, "pipeline")}
+                    >
+                      Add New Pipeline Stage +
+                    </Button>
+                  </div>
+                </Form.Group>
+
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Value</Form.Label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="opportunityValue"
+                    placeholder="Value"
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="form-group ">
+                  <Form.Label htmlFor="">Probability %</Form.Label>
+                  <Select
+                    options={probabilityOptions}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                    placeholder=""
+                    onChange={(e) => handleChange(e, "probability")}
+                  />
+                </Form.Group>
+
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor=""> Weighted value</Form.Label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="weightedValue"
+                    placeholder="Weighted value"
+                    value={
+                      userInputs?.weightedValue
+                        ? (userInputs?.weightedValue).toFixed(2)
+                        : ""
+                    }
+                    // onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+
+                <div className="form-group">
+                  <label htmlFor="setasdraft1">Quote Sent</label>
+                  <fieldset id="group2">
+                    <div className="switch">
+                      <label className="switch-light">
+                        <input
+                          type="checkbox"
+                          value="value1"
+                          name="quoteSent"
+                          id="setasdraft1"
+                          onChange={(e) => {
+                            handleChange(e.target?.checked, "quoteSent");
+                          }}
+                        />
+                        <span>
+                          <span className="switch-btn active">No</span>
+                          <span className="switch-btn ">Yes</span>
+                        </span>
+                        <a className="btn"></a>
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="">Quote valid until</label>
+                  <DatePicker
+                    selected={
+                      userInputs?.quoteValid
+                        ? new Date(userInputs?.quoteValid)
+                        : new Date(
+                            moment(new Date(), "MM/DD/YYYY").format(
+                              "MM/DD/YYYY"
+                            )
+                          )
+                    }
+                    name="quoteValid"
+                    onChange={(e) => handleChange(e, "quoteValid")}
+                    dateFormat="dd/MM/yyyy"
+                    className="form-control"
+                    // minDate={currentDate}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </>
@@ -1119,11 +1210,11 @@ const MarketingAddReader = () => {
         loader("show");
         let data = {
           jobTitle: userInputs?.jobTitle,
-          title: userInputs?.title,
+          title: userInputs?.title?.value,
           firstName: userInputs?.firstName,
           middleName: userInputs?.middleName,
           lastName: userInputs?.lastName,
-          primaryEmail: userInputs?.email,
+          email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
           primary_phone: `${
             userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
@@ -1132,20 +1223,17 @@ const MarketingAddReader = () => {
           linkedIn: userInputs?.linkedIn,
           prospect: userInputs?.prospect?.value,
           contact_ownership: userInputs?.ownership?.value,
-          main: userInputs?.main,
-          influencer: userInputs?.influencer,
-          decision_maker: userInputs?.decisionMaker,
-          introducer: userInputs?.introducer,
+          type_of_contact: userInputs?.typeContact,
           customerType: userInputs?.customerType?.value,
-          company_name: userInputs?.companyName,
-          country: userInputs?.country,
+          company_name: userInputs?.companyName?.value,
+          country: userInputs?.country?.value,
           company_website: userInputs?.companyWebsite,
-          company_product: userInputs?.companyProduct,
-          company_therapy_area: userInputs?.therapyArea,
-          local: userInputs?.local,
-          address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
+          company_product: userInputs?.companyProduct?.value,
+          company_therapy_area: userInputs?.therapyArea?.value,
+          local: userInputs?.local?.value,
+          address: `${userInputs?.address}-${userInputs?.street1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry?.value}`,
           log_activity: userInputs?.logActivity?.value,
-          task: userInputs?.task,
+          task: userInputs?.task?.value,
           next_contact: userInputs?.nextContact,
           opportunity_title: userInputs?.opportunityTitle,
           our_product: userInputs?.ourProduct,
@@ -1163,15 +1251,14 @@ const MarketingAddReader = () => {
         navigate("/reader-review", {
           state: {
             data: data,
-            flag: 1,
           },
         });
+        console.log("data--->", data);
       } catch (err) {
         console.log(err);
         loader("hide");
       }
     }
-    console.log("data--->", data);
   };
 
   return (
