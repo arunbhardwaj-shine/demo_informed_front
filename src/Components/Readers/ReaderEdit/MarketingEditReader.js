@@ -7,7 +7,7 @@ import { loader } from "../../../loader";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import { getData ,postData} from "../../../axios/apiHelper";
+import { getData, postData } from "../../../axios/apiHelper";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
 import { toast } from "react-toastify";
 
@@ -19,57 +19,75 @@ const MarketingEditReader = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [groupId, setGroupId] = useState();
   const navigate = useNavigate();
-  const [titleOptions, setTitleOptions] = useState([
-    { label: "Mr", value: "mr" },
-    { label: "Mrs", value: "mrs" },
-    { label: "Ms", value: "ms" },
-    { label: "Dr", value: "dr" },
-  ]);
-  const [prospectOptions, setProspectOptions] = useState([
-    { label: "Customer", value: "customer" },
-    { label: "High priority", value: "high priority" },
-    { label: "Incoming enquiry", value: "incoming enquiry" },
-  ]);
-  const [ownershipOptions, setOwnershipOptions] = useState([
-    { label: "Jacob contact", value: "jacob contact" },
-    { label: "Philip contact", value: "philip contact" },
-  ]);
-  const [customerOptions, setCustomerOptions] = useState([
-    { label: "Publisher", value: "publiseher" },
-    { label: "Pharma maker", value: "pharma maker" },
-    { label: "Pharma R&D", value: "pharma r&d" },
-    { label: "Other", value: "other" },
-  ]);
+  // const [titleOptions, setTitleOptions] = useState([
+  //   { label: "Mr", value: "mr" },
+  //   { label: "Mrs", value: "mrs" },
+  //   { label: "Ms", value: "ms" },
+  //   { label: "Dr", value: "dr" },
+  // ]);
+  const [titleOptions, setTitleOptions] = useState([]);
+
+  // const [prospectOptions, setProspectOptions] = useState([
+  //   { label: "Customer", value: "customer" },
+  //   { label: "High priority", value: "high priority" },
+  //   { label: "Incoming enquiry", value: "incoming enquiry" },
+  // ]);
+  const [prospectOptions, setProspectOptions] = useState([]);
+
+  // const [ownershipOptions, setOwnershipOptions] = useState([
+  //   { label: "Jacob contact", value: "jacob contact" },
+  //   { label: "Philip contact", value: "philip contact" },
+  // ]);
+  const [ownershipOptions, setOwnershipOptions] = useState([]);
+
+
+  // const [customerOptions, setCustomerOptions] = useState([
+  //   { label: "Publisher", value: "publiseher" },
+  //   { label: "Pharma maker", value: "pharma maker" },
+  //   { label: "Pharma R&D", value: "pharma r&d" },
+  //   { label: "Other", value: "other" },
+  // ]);
+
+  const [customerOptions, setCustomerOptions] = useState([]);
   const [companyOptions, setCompanyOptions] = useState([]);
   const [companyProductOptions, setCompanyProductOptions] = useState([]);
   const [therapyAreaOptions, setTherapyAreaOptions] = useState([]);
   const [localOptions, setLocalOptions] = useState([]);
   const [taskOptions, setTaskOptions] = useState([]);
-  const [logActivityOptions, setLogActivityOptions] = useState([
-    { label: "Call", value: "call" },
-    { label: "Email", value: "email" },
-    { label: "Incoming", value: "incoming" },
-    { label: "LinkedIn", value: "linkedIn" },
-    { label: "Event", value: "event" },
-  ]);
-  const [pipelineOptions, setPipelineOptions] = useState([
-    { label: "New", value: "new" },
-    { label: "Qualified", value: "qualified" },
-    { label: "Meeting (initial intro)", value: "meetingInitialIntro" },
-    { label: "Meeting (presentation)", value: "meetingPresentation" },
-    { label: "Proposal", value: "proposal" },
-    { label: "Negotiation", value: "negotiation" },
-    { label: "Contract (closed)", value: "contract" },
-    { label: "Long grass", value: "longGrass" },
-  ]);
-  const [probabilityOptions, setProbabilityOptions] = useState([
-    { label: "10%", value: ".1" },
-    { label: "20%", value: ".2" },
-    { label: "30%", value: ".3" },
-    { label: "40%", value: ".4" },
-  ]);
+  // const [logActivityOptions, setLogActivityOptions] = useState([
+  //   { label: "Call", value: "call" },
+  //   { label: "Email", value: "email" },
+  //   { label: "Incoming", value: "incoming" },
+  //   { label: "LinkedIn", value: "linkedIn" },
+  //   { label: "Event", value: "event" },
+  // ]);
+  const [logActivityOptions, setLogActivityOptions] = useState([]);
+
+  // const [pipelineOptions, setPipelineOptions] = useState([
+  //   { label: "New", value: "new" },
+  //   { label: "Qualified", value: "qualified" },
+  //   { label: "Meeting (initial intro)", value: "meetingInitialIntro" },
+  //   { label: "Meeting (presentation)", value: "meetingPresentation" },
+  //   { label: "Proposal", value: "proposal" },
+  //   { label: "Negotiation", value: "negotiation" },
+  //   { label: "Contract (closed)", value: "contract" },
+  //   { label: "Long grass", value: "longGrass" },
+  // ]);
+
+  const [pipelineOptions, setPipelineOptions] = useState([]);
+
+  // const [probabilityOptions, setProbabilityOptions] = useState([
+  //   { label: "10%", value: ".1" },
+  //   { label: "20%", value: ".2" },
+  //   { label: "30%", value: ".3" },
+  //   { label: "40%", value: ".4" },
+  // ]);
+  const [probabilityOptions, setProbabilityOptions] = useState([]);
+
   const [error, setError] = useState({});
   const [countryAll, setCountryAll] = useState([]);
+
+
   const [commanShow, setCommanShow] = useState(false);
   const [data, setData] = useState([]);
   const [newProduct, setNewProduct] = useState({
@@ -175,9 +193,98 @@ const MarketingEditReader = () => {
 
   const initalFun = async () => {
     try {
-        loader("show");
+      loader("show");
       const hasData = await getData(`${ENDPOINT.READER_MARKETING_USER_DROP}`);
-       const usersData = await getData(`${ENDPOINT.GET_MARKETING_USER_DROP}`);
+      const response = hasData?.data?.data;
+      const responseTitle = response?.title;
+      const responseProspect = response?.prospect;
+      const responseContactOwnership = response?.contact_ownership;
+      const responseCustomerType = response?.customer_type;
+      const responseCompanyName = response?.company_name;
+      const responseCompanyProduct = response?.company_product;
+      const responseCompanyTherepayArea = response?.company_therapy_area;
+      const responseLocal = response?.local;
+      const responseLogActivity = response?.log_activity;
+      const responsesetTaskOptions = response?.task;
+      const responsePipeline = response?.pipeline;
+      const responseProbability = response?.probablity;
+     
+      const mergedOptions = responseTitle.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));
+      setTitleOptions(mergedOptions);
+
+      const prospectOptions = responseProspect.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));
+      setProspectOptions(prospectOptions)
+
+      const contactOwnershipOption = responseContactOwnership.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));
+      setOwnershipOptions(contactOwnershipOption);
+
+      const customerTypeOptions = responseCustomerType.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));
+      setCustomerOptions(customerTypeOptions);
+
+      const companyNameOptions = responseCompanyName.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));  
+      setCompanyOptions(companyNameOptions);
+
+
+      const companyProductOptions = responseCompanyProduct.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));  
+      setCompanyProductOptions(companyProductOptions);
+
+
+      const therapyAreaOptions = responseCompanyTherepayArea.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));  
+      setTherapyAreaOptions(therapyAreaOptions);
+
+      const localOptions = responseLocal.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));
+      setLocalOptions(localOptions);
+
+      const logActivityOptions = responseLogActivity.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));
+      setLogActivityOptions(logActivityOptions);
+
+      const taskOptions = responsesetTaskOptions.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));
+      setTaskOptions(taskOptions);
+
+      const pipelineOptions = responsePipeline.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));
+      setPipelineOptions(pipelineOptions);
+
+      const probabilityOptions = responseProbability.map((item) => ({
+        label: item.label,
+        value: item.value,
+      }));
+      setProbabilityOptions(probabilityOptions);
+
+
+      const usersData = await getData(`${ENDPOINT.GET_MARKETING_USER_DROP}`);
 
       let country = [];
       hasData?.data?.data?.country.reduce((objEntries, key) => {
@@ -384,7 +491,7 @@ const MarketingEditReader = () => {
   const handleSubmitModelFun = async (e) => {
     try {
       loader("show");
-      const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`,{label:newProduct.label ,value:newProduct.value });
+      const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, { label: newProduct.label, value: newProduct.value });
       console.log("submit model fun", newProduct);
       if (newProduct.label == "title") {
         let title = titleOptions;
@@ -761,7 +868,7 @@ const MarketingEditReader = () => {
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Company name</Form.Label>
                   <Select
-                   options={companyOptions}
+                    options={companyOptions}
                     name="companyName"
                     defaultValue={{
                       label: userInputs?.company,
@@ -844,7 +951,7 @@ const MarketingEditReader = () => {
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Company therapy area</Form.Label>
                   <Select
-                   options={therapyAreaOptions}
+                    options={therapyAreaOptions}
                     name="therapyArea"
                     value={userInputs?.therapyArea}
                     onChange={(e) => handleChange(e, "therapyArea")}
@@ -870,7 +977,7 @@ const MarketingEditReader = () => {
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Local/International</Form.Label>
                   <Select
-                     options={localOptions}
+                    options={localOptions}
                     name="local"
                     value={userInputs?.local}
                     defaultValue={{
@@ -1016,16 +1123,16 @@ const MarketingEditReader = () => {
                       userInputs?.nextContact
                         ? new Date(userInputs?.nextContact)
                         : new Date(
-                            moment(new Date(), "MM/DD/YYYY").format(
-                              "MM/DD/YYYY"
-                            )
+                          moment(new Date(), "MM/DD/YYYY").format(
+                            "MM/DD/YYYY"
                           )
+                        )
                     }
                     name="nextContact"
                     onChange={(e) => handleChange(e, "nextContact")}
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
-                    // minDate={currentDate}
+                  // minDate={currentDate}
                   />
                 </Form.Group>
               </div>
@@ -1142,7 +1249,7 @@ const MarketingEditReader = () => {
                   : ""
               }
               defaultValue={userInputs?.weightedValue}
-              // onChange={(e) => handleChange(e)}
+            // onChange={(e) => handleChange(e)}
             />
           </Form.Group>
 
@@ -1178,14 +1285,14 @@ const MarketingEditReader = () => {
                 userInputs?.quoteValid
                   ? new Date(userInputs?.quoteValid)
                   : new Date(
-                      moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
-                    )
+                    moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+                  )
               }
               name="quoteValid"
               onChange={(e) => handleChange(e, "quoteValid")}
               dateFormat="dd/MM/yyyy"
               className="form-control"
-              // minDate={currentDate}
+            // minDate={currentDate}
             />
           </div>
         </div>
@@ -1195,9 +1302,9 @@ const MarketingEditReader = () => {
   const nextButtonClicked = (e) => {
     e.preventDefault();
     console.log("user inputs", userInputs);
-  
+
     const result = AddReaderValidation(userInputs, groupId);
-    
+
     if (Object.keys(result)?.length) {
       if (Object.keys(result)[0] == "firstName") {
         nameRef.current.focus();
@@ -1220,9 +1327,8 @@ const MarketingEditReader = () => {
           lastName: userInputs?.lastName,
           primaryEmail: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
-          primary_phone: `${
-            userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
-          }-informed-${userInputs?.primary_phone}`,
+          primary_phone: `${userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+            }-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           linkedIn: userInputs?.linkedIn,
           prospect: userInputs?.prospect?.value,
