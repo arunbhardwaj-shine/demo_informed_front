@@ -175,7 +175,7 @@ const MarketingEditReader = () => {
 
   const initalFun = async () => {
     try {
-      //   loader("show");
+        loader("show");
       const hasData = await getData(`${ENDPOINT.READER_MARKETING_USER_DROP}`);
        const usersData = await getData(`${ENDPOINT.GET_MARKETING_USER_DROP}`);
 
@@ -594,7 +594,7 @@ const MarketingEditReader = () => {
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
                   <Form.Label htmlFor="">
-                    Primary phone <span>*</span>{" "}
+                    Primary phone {" "}
                   </Form.Label>
                   <Select
                     options={countryCode}
@@ -618,16 +618,8 @@ const MarketingEditReader = () => {
                     name="primary_phone"
                     placeholder="Phone number"
                     defaultValue={userInputs?.primary_phone}
-                    ref={phoneRef}
                     onChange={(e) => handleChange(e)}
                   />
-                  {error?.primary_phone ? (
-                    <div className="login-validation">
-                      {error?.primary_phone}
-                    </div>
-                  ) : (
-                    ""
-                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Alternative phone</Form.Label>
@@ -1213,8 +1205,6 @@ const MarketingEditReader = () => {
         emailRef.current.focus();
       } else if (Object.keys(result)[0] == "country") {
         countryRef.current.focus();
-      } else if (Object.keys(result)[0] == "primary_phone") {
-        phoneRef.current.focus();
       }
       toast.error(result[Object.keys(result)[0]]);
       setError(result);

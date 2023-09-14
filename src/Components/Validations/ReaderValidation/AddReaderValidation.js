@@ -28,9 +28,6 @@ export const AddReaderValidation = (data, groupId, flag) => {
     error.country = "Please select country";
   }
 
-  if (!data?.primary_phone) {
-    error.primary_phone = "Please enter the phone number";
-  }
 
   return error;
 };

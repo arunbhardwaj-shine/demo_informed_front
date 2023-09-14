@@ -202,7 +202,7 @@ const MarketingAddReader = () => {
             : e?.target?.value,
         });
       }
-    } else if (e.target == "opportunityValue") {
+    } else if (e.target?.name == "opportunityValue") {
       let weighted_Value = "";
       if (userInputs?.probability?.value) {
         weighted_Value = userInputs?.probability?.value * e?.target?.value;
@@ -571,7 +571,7 @@ const MarketingAddReader = () => {
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
                   <Form.Label htmlFor="">
-                    Primary phone <span>*</span>{" "}
+                    Primary phone {" "}
                   </Form.Label>
                   <Select
                     options={countryCode}
@@ -590,16 +590,8 @@ const MarketingAddReader = () => {
                     }
                     name="primary_phone"
                     placeholder="Phone number"
-                    ref={phoneRef}
                     onChange={(e) => handleChange(e)}
                   />
-                  {error?.primary_phone ? (
-                    <div className="login-validation">
-                      {error?.primary_phone}
-                    </div>
-                  ) : (
-                    ""
-                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Alternative phone</Form.Label>
@@ -1118,8 +1110,6 @@ const MarketingAddReader = () => {
         emailRef.current.focus();
       } else if (Object.keys(result)[0] == "country") {
         countryRef.current.focus();
-      } else if (Object.keys(result)[0] == "primary_phone") {
-        phoneRef.current.focus();
       }
       toast.error(result[Object.keys(result)[0]]);
       setError(result);
