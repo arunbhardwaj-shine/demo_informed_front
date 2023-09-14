@@ -190,14 +190,14 @@ const MarketingAddReader = () => {
         setUserInputs({
           ...userInputs,
           weightedValue: weighted_Value,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+          [isSelectedName ? isSelectedName : e.target?.name]: isSelectedName
             ? e
             : e?.target?.value,
         });
       } else {
         setUserInputs({
           ...userInputs,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+          [isSelectedName ? isSelectedName : e.target?.name]: isSelectedName
             ? e
             : e?.target?.value,
         });
