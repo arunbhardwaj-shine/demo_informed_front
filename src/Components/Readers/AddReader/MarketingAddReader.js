@@ -967,7 +967,7 @@ const MarketingAddReader = () => {
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                     placeholder="Select country"
-                    ref={countryRef}
+                    
                     onChange={(e) => handleChange(e, "addressCountry")}
                   />
                 </Form.Group>
