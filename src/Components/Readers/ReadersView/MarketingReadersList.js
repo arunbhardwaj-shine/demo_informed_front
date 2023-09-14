@@ -430,15 +430,6 @@ const MarketingReadersList = () => {
 
     if (e?.target?.checked == true) {
       if (
-        key == "Prospect" ||
-        key == "Contact ownership" ||
-        key == "Customer type" ||
-        key == "Company name" ||
-        key == "Company product" ||
-        key == "Company therapy area" ||
-        key == "Local / international" ||
-        key == "Log activity" ||
-        key == "Pipeline stage" ||
         key == "List"
       ) {
         if (key == "region") {
@@ -574,13 +565,9 @@ const MarketingReadersList = () => {
 
   const onDateChange = (newDate, i) => {
     if(newDate != ""){
-      const year = newDate.getFullYear();
-      const month = String(newDate.getMonth() + 1).padStart(2, '0');
-      const day = String(newDate.getDate()).padStart(2, '0');
-      const formattedDate = `${year}-${month}-${day}`;
       const found = readerDataList.findIndex((el) => el.id === i);
       if (found !== -1) {
-        readerDataList[found].next_contact_change = formattedDate;
+        readerDataList[found].next_contact_change = newDate;
         setReaderDataList(readerDataList);
       }
       changeUpdateFlag.push(i);
@@ -607,60 +594,87 @@ const MarketingReadersList = () => {
   const updateReaderDetails = async (reader_id, index) => {
     try {
       let body = {};
+      const user_index =   readerDataList.findIndex((el) => el.id === reader_id);
+
       const tindex = changeCompanyProduct.findIndex((el) => el.index === reader_id);
       let product = "";
       if (tindex !== -1) {
         product = changeCompanyProduct[tindex].value;
+      }else{
+        product = readerDataList?.[user_index]?.product ? readerDataList[user_index].product : "";
       }
 
       const pindex = changePipelineStage.findIndex((el) => el.index === reader_id);
       let pipeline = "";
       if (pindex !== -1) {
         pipeline = changePipelineStage[pindex].value;
+      }else{
+        pipeline = readerDataList?.[user_index]?.pipeline ? readerDataList[user_index].pipeline : "";
       }
 
       const probindex = changeProbablity.findIndex((el) => el.index === reader_id);
       let probability = "";
       if (probindex !== -1) {
         probability = changeProbablity[probindex].value;
+      }else{
+        probability = readerDataList?.[user_index]?.probability ? readerDataList[user_index].probability : "";
       }
 
-      const user_index =   readerDataList.findIndex((el) => el.index === reader_id);
+      
       let next_step = "";
       if (user_index !== -1) {
-        next_step = readerDataList[user_index].next_contact_change;
+       
+        next_step = readerDataList?.[user_index]?.next_contact_change ? readerDataList[user_index].next_contact_change : new Date(
+          moment(new Date(), "MM/DD/YYYY")
+          .format("MM/DD/YYYY")
+        );
+      }else{
+        next_step = new Date(
+          moment(new Date(), "MM/DD/YYYY")
+          .format("MM/DD/YYYY")
+        );
       }
-      
+      let new_date = "";
+      if(isValidDateFormat(next_step)){
+        new_date = convertDate(next_step);
+      }else{
+         new_date = formatDate(next_step);
+      }
 
-        if (pipeline !== "" || product !== "" || probability !== "" || next_step != "") {
-          loader("show");
+        if (pipeline !== "" || product !== "" || probability !== "" || new_date != "") {
+          // loader("show");
           body = {
             type: 0,
             readerId: reader_id,
             product: product,
             pipeline: pipeline,
             probability: probability,
-            next_step: next_step,
+            next_step: new_date,
           };
         }
 
       if (Object.keys(body)?.length !== 0) {
-        console.log(body,"Body");
-        // const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
+        const res = await postData(ENDPOINT.MARKETINGREADERSTATUSUPDATE, body);
 
-        // const libDataIndex = readerDataList.findIndex(
-        //   (el) => el?.id === reader_id
-        // );
+        const libDataIndex = readerDataList.findIndex(
+          (el) => el?.id === reader_id
+        );
 
-        // if (country !== "") {
-        //   readerDataList[libDataIndex].country = country;
-        // }
+        if (product !== "") {
+          readerDataList[libDataIndex].product = product;
+        }
 
-        // if (type !== "") {
-        //   let userTypeValue = userTypeValues?.[type];
-        //   readerDataList[libDataIndex].user_status = userTypeValue;
-        // }
+        if (pipeline !== "") {
+          readerDataList[libDataIndex].pipeline = pipeline;
+        }
 
+        if (probability !== "") {
+          readerDataList[libDataIndex].probability = probability;
+        }
+
+        if (new_date !== "") {
+          readerDataList[libDataIndex].next_contact = moment(new_date).format('DD MMMM YYYY');
+        }
         const newData = readerDataList;
         setReaderDataList(newData);
         setUpdateFlag(updateflag + 1);
@@ -679,6 +693,24 @@ const MarketingReadersList = () => {
       loader("hide");
     }
   };
+
+  const formatDate = (newDate) => {
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, '0');
+    const day = String(newDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  }
+
+  function isValidDateFormat(dateString) {
+    const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
+    return regex.test(dateString);
+  }
+
+  function convertDate(dateString) {
+    const formattedDate = moment(dateString, 'DD MMMM YYYY').format('YYYY-MM-DD');
+    return formattedDate;
+  }
 
   const clearFilter = () => {
     document.querySelectorAll("input")?.forEach((checkbox) => {
@@ -1109,19 +1141,6 @@ const MarketingReadersList = () => {
                                                     <label className="select-multiple-option">
                                                       <input
                                                         type={
-                                                          key == "Prospect" ||
-                                                          key ==
-                                                            "Contact ownership" ||
-                                                          key == "Customer type" ||
-                                                          key == "Company name" ||
-                                                          key ==
-                                                            "Company product" ||
-                                                          key == "Company therapy area" ||
-                                                          key == "Local / international" ||
-                                                          key ==
-                                                            "Log activity" ||
-                                                          key ==
-                                                            "Pipeline stage" ||
                                                           key == "List"
                                                             ? "radio"
                                                             : "checkbox"
@@ -1916,7 +1935,7 @@ const MarketingReadersList = () => {
                                           <h6 className="tab-content-title">
                                             Next step
                                           </h6>
-                                          <div>
+                                          <div className="crm_picker">
                                             <DatePicker
                                               selected={
                                                 data?.next_contact_change
