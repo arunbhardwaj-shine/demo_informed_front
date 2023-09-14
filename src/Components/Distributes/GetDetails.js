@@ -12,6 +12,7 @@ const GetDetails = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [heading, setHeading] = useState([]);
   const [sortingCount, setSortingCount] = useState(0);
   const [sortingCountEmail, setSortingCountEmail] = useState(0);
 
@@ -46,7 +47,38 @@ const GetDetails = () => {
             setUpdatedData([]);
           }
           const readers = res.data.response.data.readers;
+        //   const readers =[{
+        //     "first_name": " Kristiawan ",
+        //     "last_name": "",
+        //     "email": "kristiawan@sapharma.co.id",
+        //     "email_read": "Yes",
+        //     "heading": ["Agenda_clicked","One_source_link","Monograph_link"],
+        //     "Agenda_clicked":"No",
+        //     "One_source_link":"No",
+        //     "Monograph_link":"No",
+        //     "article_register": "No",
+        //     "article_already_register": 0,
+        //     "all_read_info": [],
+        //     "already_email_sent": 0,
+        //     "user_id": 29836253,
+        //     "list": "One source internal 3"
+        // }]
+        let heading =[];
+        let data= readers.length >0 ?readers[0]:undefined;
+
+        if(data!=undefined && data.heading!=undefined){
+          heading=data.heading;
+        
+         
+        }
+        else{
+      
+            heading.push("Link Open");
+         
+        }
+
           setData(readers);
+          setHeading(heading);
           setUpdatedData(readers);
           // const filteredData1 = readers.filter((reader) => {
           //   if (
@@ -528,7 +560,10 @@ const GetDetails = () => {
                               </div>
                             </th>
                             <th scope="col">Email read</th>
-                            <th scope="col">Link open</th>
+                            {heading.map((element)=>{
+                             return  <th scope="col">{element.replace(/_/g, " ")}</th>
+
+                            })}
                             <th scope="col">Registered</th>
                             {typeof data != "undefined" && data.length > 0 ? (
                               <>
@@ -569,7 +604,9 @@ const GetDetails = () => {
                                   <td>{item.last_name}</td>
                                   <td>{item.email}</td>
                                   <td>{item.email_read}</td>
-                                  <td>{item.article_open}</td>
+                                  {item.article_open!=undefined ?<td>{item.article_open}</td>:heading.map((element)=> {
+                                    return <td>{item[element]!=undefined?item[element]:""}</td>
+                                  })}
                                   <td>{item.article_register}</td>
                                   {item?.all_read_info &&
                                   item.all_read_info != ""
