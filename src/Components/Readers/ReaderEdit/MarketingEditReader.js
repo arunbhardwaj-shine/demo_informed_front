@@ -15,9 +15,8 @@ const MarketingEditReader = () => {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const countryRef = useRef(null);
-  const phoneRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [groupId, setGroupId] = useState();
+  // const [groupId, setGroupId] = useState();
   const navigate = useNavigate();
   const [titleOptions, setTitleOptions] = useState([
     { label: "Mr", value: "mr" },
@@ -171,14 +170,14 @@ const MarketingEditReader = () => {
   useEffect(() => {
     console.log(userInputs, "===>userInputs");
     initalFun();
-  }, [userInputs]);
+  }, []);
+  useEffect(() => {}, [userInputs]);
 
   const initalFun = async () => {
     try {
         loader("show");
       const hasData = await getData(`${ENDPOINT.READER_MARKETING_USER_DROP}`);
        const usersData = await getData(`${ENDPOINT.GET_MARKETING_USER_DROP}`);
-
       let country = [];
       hasData?.data?.data?.country.reduce((objEntries, key) => {
         country.push({
@@ -383,8 +382,20 @@ const MarketingEditReader = () => {
   };
   const handleSubmitModelFun = async (e) => {
     try {
+      const obj = {
+        title: "title",
+        prospect: "prospect",
+        ownership: "contact_ownership",
+        companyName :"company_name",
+        companyProduct :"company_product",
+        therapyArea :"company_therapy_area",
+        local:"local",
+        task:"task",
+        pipeline:"pipeline",
+        logActivity: "log_activity",
+      };
       loader("show");
-      const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`,{label:newProduct.label ,value:newProduct.value });
+       await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`,{label:obj[newProduct.label] ,value:newProduct.value });
       console.log("submit model fun", newProduct);
       if (newProduct.label == "title") {
         let title = titleOptions;
@@ -477,11 +488,11 @@ const MarketingEditReader = () => {
   const Main = () => {
     return (
       <>
-        <div className="create-change-content">
+        <div className="create-change-content reader_added">
           <div className="form_action">
-            <h4>About CRM you're creating</h4>
+            <h4>Please fill the following details</h4>
             <div className="row">
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-7">
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Job title</Form.Label>
                   <input
@@ -791,6 +802,7 @@ const MarketingEditReader = () => {
                     options={countryAll}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
+                    name="country"
                     placeholder="Select country"
                     defaultValue={{
                       label: userInputs?.country,
@@ -1038,7 +1050,10 @@ const MarketingEditReader = () => {
   const Opportunity = () => {
     return (
       <>
-        <div className="create-change-content">
+        <div className="create-change-content reader_added">
+          <div className="form-action">
+          <div className="row">
+          <div className="col-12 col-md-7">
           <Form.Group className="form-group">
             <Form.Label htmlFor="">Title</Form.Label>
             <input
@@ -1110,13 +1125,13 @@ const MarketingEditReader = () => {
               type="number"
               className="form-control"
               name="opportunityValue"
-              placeholder="value"
+              placeholder="Value"
               defaultValue={userInputs?.opportunityValue}
               onChange={(e) => handleChange(e)}
             />
           </Form.Group>
 
-          <Form.Group className="form-group primary_phone">
+          <Form.Group className="form-group">
             <Form.Label htmlFor="">Probability %</Form.Label>
             <Select
               options={probabilityOptions}
@@ -1188,6 +1203,9 @@ const MarketingEditReader = () => {
               // minDate={currentDate}
             />
           </div>
+          </div>
+        </div>
+        </div>
         </div>
       </>
     );
@@ -1196,17 +1214,18 @@ const MarketingEditReader = () => {
     e.preventDefault();
     console.log("user inputs", userInputs);
   
-    const result = AddReaderValidation(userInputs, groupId);
+    const result = AddReaderValidation(userInputs);
     
-    if (Object.keys(result)?.length) {
-      if (Object.keys(result)[0] == "firstName") {
-        nameRef.current.focus();
-      } else if (Object.keys(result)[0] == "email") {
-        emailRef.current.focus();
-      } else if (Object.keys(result)[0] == "country") {
-        countryRef.current.focus();
+    if (Object?.keys(result)?.length) {
+      if (Object?.keys(result)[0] == "firstName") {
+        nameRef?.current?.focus();
+      } else if (Object?.keys(result)[0] == "email") {
+        emailRef?.current?.focus();
+      } 
+      else if (Object?.keys(result)[0] == "country") {
+        countryRef?.current?.focus();
       }
-      toast.error(result[Object.keys(result)[0]]);
+      toast.error(result[Object?.keys(result)[0]]);
       setError(result);
       return;
     } else {
@@ -1233,7 +1252,7 @@ const MarketingEditReader = () => {
           introducer: userInputs?.introducer,
           customerType: userInputs?.customerType?.value,
           company_name: userInputs?.companyName,
-          country: userInputs?.country,
+          // country: userInputs?.country,
           company_website: userInputs?.companyWebsite,
           company_product: userInputs?.companyProduct,
           company_therapy_area: userInputs?.therapyArea,
@@ -1278,11 +1297,11 @@ const MarketingEditReader = () => {
                 <Col md={9}>
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="">Create Your Content</a>
+                      <a href="">Edit CRM</a>
                     </li>
 
                     <li className="">
-                      <a href="">Approve Your Content &amp; Publish</a>
+                      <a href="">Review &amp; Approve</a>
                     </li>
                   </ul>
                 </Col>
