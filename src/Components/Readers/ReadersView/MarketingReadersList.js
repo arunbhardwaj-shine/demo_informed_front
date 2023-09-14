@@ -572,6 +572,23 @@ const MarketingReadersList = () => {
     setChangeUpdateFlag(changeUpdateFlag);
   }
 
+  const onDateChange = (newDate, i) => {
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, '0');
+    const day = String(newDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    const found = readerDataList.findIndex((el) => el.id === i);
+    if (found !== -1) {
+      console.log(found);
+      readerDataList[found].next_contact_change = newDate;
+      setReaderDataList(readerDataList);
+      console.log(readerDataList)
+    }
+    changeUpdateFlag.push(i);
+    setChangeUpdateFlag(changeUpdateFlag);
+    // console.log(newDate,i, found,formattedDate)
+  }
+
   const handleTimeLine = (data) => {
     window.open("/timeline-detail");
     localStorage.setItem("myData", data);
@@ -1996,7 +2013,7 @@ const MarketingReadersList = () => {
                                                       data.id
                                                     )
                                                   }
-                                                  id={data.id}
+                                                  id={"pipeline_stage" + data?.id}
                                                   className="dropdown-basic-button split-button-dropup"
                                                   isClearable
                                                 />
@@ -2026,7 +2043,7 @@ const MarketingReadersList = () => {
                                                       data.id
                                                     )
                                                   }
-                                                  id={data.id}
+                                                  id={"probablity" + data?.id}
                                                   className="dropdown-basic-button split-button-dropup"
                                                   isClearable
                                                 />
@@ -2041,17 +2058,18 @@ const MarketingReadersList = () => {
                                           <div>
                                           <DatePicker
                                               selected={
-                                              data?.next_contact
-                                                ? new Date(data?.next_contact)
+                                                data?.next_contact_change
+                                                ? new Date(data?.next_contact_change)
                                                 : new Date(
                                                   moment(new Date(), "MM/DD/YYYY")
                                                   .format("MM/DD/YYYY")
                                                 )
                                               }
                                               name="expDatetime"
-                                              // onChange={(e) => handleChange(e, "expDatetime")}
+                                              onChange={(e) => onDateChange(e, data.id)}
                                               dateFormat="dd/MM/yyyy"
                                               className="form-control"
+                                              id={"date_change" + data?.id}
                                               minDate={currentDate}
                                           />
                                           </div>
