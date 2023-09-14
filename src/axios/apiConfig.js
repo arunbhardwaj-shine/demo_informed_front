@@ -43,6 +43,7 @@ export const ENDPOINT = {
   READERSFILTER: `/reader/get-reader-filter`,
   MARKETINGREADERSFILTER: `/reader/get-marketing-reader-filter`,
   READERACTIVITY: `/reader/reader-activity`,
+  MARKETINGREADERACTIVITY: `/reader/marketing-reader-activity`,
   TOPCLIENTS: `/analytics/reader-country`,
   TOPRESELLER: `/analytics/reader-country`,
   TOPSALES: `/analytics/reader-country`,

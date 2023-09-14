@@ -797,7 +797,7 @@ const MarketingReadersList = () => {
           let body = {
             readerId: userId,
           };
-          const res = await postData(ENDPOINT.READERACTIVITY, body);
+          const res = await postData(ENDPOINT.MARKETINGREADERACTIVITY, body);
           if (res?.data?.data) {
             let new_data = res?.data?.data;
             normal_data.push(new_data);
@@ -959,17 +959,8 @@ const MarketingReadersList = () => {
                   )}
 
                   {(
-                    (Object.keys(filterObject)?.length == 2 &&
-                      filterObject?.["status"] == "Registered" &&
-                      filterObject?.["contact Type"] == "HCP") ||
-                    (Object.keys(filterObject)?.length == 3 &&
-                      filterObject?.["status"]?.includes("Registered") &&
-                      filterObject?.["contact Type"]?.includes("HCP") &&
-                      filterObject?.["Content Owners"]?.includes(
-                        defaultOwner
-                      )) ||
                     (localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" &&
+                      "90VIqoM675WT4/peSRnbSQ=="  &&
                       Object.keys(filterObject)?.length <= 0)
                       ? true
                       : false
@@ -1538,6 +1529,39 @@ const MarketingReadersList = () => {
                                       {" "}
                                       <li>
                                         <h6 className="tab-content-title">
+                                          Contact total touches
+                                          <LinkWithTooltip
+                                            tooltip="Number of email opened,Note and calls."
+                                            href="#"
+                                          >
+                                            <img
+                                              src={
+                                                path_image + "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress delivered">
+                                          <ProgressBar
+                                            variant="default"
+                                            now={2}
+                                            label={
+                                              emailStats.findIndex(
+                                                (el) => el.userId == data?.id
+                                              ) !== -1
+                                                ? emailStats[
+                                                    emailStats.findIndex(
+                                                      (el) => el.userId == data?.id
+                                                    )
+                                                  ]?.TouchPoint
+                                                : "Loading"
+                                            }
+                                          />
+                                        </div>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
                                           Emails sent
                                           <LinkWithTooltip
                                             tooltip="Number of emails sent to this user"
@@ -1612,39 +1636,6 @@ const MarketingReadersList = () => {
                                   )}
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Content delivered
-                                      <LinkWithTooltip
-                                        tooltip="Content in a HCPs Docintel account."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress delivered">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={2}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.contentDeliverd
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
                                       Content with RTR
                                       <LinkWithTooltip
                                         tooltip="Number of unique content where HCP have read a little or a lot."
@@ -1676,109 +1667,10 @@ const MarketingReadersList = () => {
                                       />
                                     </div>
                                   </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      QR openings/Article
-                                      <LinkWithTooltip
-                                        tooltip="Number of opening from Qr code counts for specific article."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress qr-opening">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={11}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.qr
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      GO openings/Article
-                                      <LinkWithTooltip
-                                        tooltip="Number of opening from inforMedGO counts for specific article."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress go-opening">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={25}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.go
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Content openings
-                                      <LinkWithTooltip
-                                        tooltip="Total Number of article opening."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress content-opening">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={19}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.contentOpening
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
                                   {!data?.ipFlag ? (
                                     <li className="last-activity">
                                       <h6 className="tab-content-title">
-                                        Last content activity
+                                        Last touch point
                                         <LinkWithTooltip
                                           tooltip="Last activity performed by user."
                                           href="#"
