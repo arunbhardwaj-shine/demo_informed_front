@@ -3809,11 +3809,13 @@ form#add_hcp_form .row:not(:first-child) {
 #mail-view .mail-stats ul {
   justify-content: space-between;
 }
+
 #mail-view .mail-stats ul.mail-stats-ul {
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 20px 30px;
 }
+
 #mail-view .mail-stats ul li>div {
   background: var(--white);
   border: 1px solid #eeeeee;
@@ -7719,6 +7721,10 @@ section.search-hcp.smart-list-view .header-btn-left {
 .split-button-dropup.edit-country-dropdown div:nth-child(3)>div div[class*="-indicatorContainer"],
 .split-button-dropup.edit-country-dropdown div:nth-child(3)>div span[class*="-indicatorSeparator"] {
   display: none !important;
+}
+
+.dna-slider .slick-track {
+  display: flex;
 }
 
 /* ul.after-tag-selected li, .dropdown-menu.filter-options .accordion .card.upper ul label, .filter-block .filter-div .filter-result.upper,.tab-content .tab-mail-list h6.upper {

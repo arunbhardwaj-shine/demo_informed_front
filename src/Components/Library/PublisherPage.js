@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Container,
   Nav,
@@ -16,8 +16,11 @@ import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+import Slider from "react-slick";
 
 const PublisherPage = () => {
+  const sliderRef = useRef();
+  const parentRef = useRef('');
   const navigate = useNavigate();
   const playerRef = useRef(null);
   const [show, setShow] = useState(false);
@@ -77,7 +80,45 @@ const PublisherPage = () => {
       }
     }
   };
+  useEffect(() => {
+        if (!parentRef.current) {
+            return;
+        }
 
+        parentRef.current.addEventListener("wheel", e => { 
+            handleScroll(e)
+        });
+    }, [parentRef]);
+        const handleScroll = e => {
+        let sliderLength = sliderRef.current.props.children.length;
+
+        var element = document.getElementsByClassName('slick-active')[0];
+        var activeSlide = element.getAttribute('data-index'); 
+       
+      if (
+             (e.deltaY < 0 && activeSlide == 0) ||
+             (e.deltaY > 0 && activeSlide == sliderLength - 1)
+        ) {
+            return;
+        }
+
+        e.preventDefault();
+
+        if (e.deltaY < 0) {
+            let a= sliderRef.current.slickPrev();
+        } else {
+            let a= sliderRef.current.slickNext();
+        }
+    };
+      const settings = ({
+        infinite: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        dots: false,
+        arrows: false,
+        centerMode: true,
+        centerPadding: '10%',
+    });
   const handleShow = (type) => {
     if (type == "forgot") {
       setShow(true);
@@ -884,6 +925,45 @@ const PublisherPage = () => {
             </Row>
           </Container>
         </section>
+
+
+
+{/* Testing Purpose */}
+        <div className="dna-slider">
+            <div className="slider" ref={parentRef}>
+                <Slider {...settings} ref={sliderRef}  >
+                    <div className="slider-in">
+                        <div className="slider-in-view">
+                            <h1>our<br /> DNA</h1>
+                            <img src={path_image + "Docintel-GIF.gif"} alt="" />
+                        </div>
+                    </div>
+                    <div className="slider-in">
+                        <div className="slider-in-view">
+                            <h1>our<br /> DNA</h1>
+                            <img src={path_image + "Delivery-6-May.gif"} alt="" />
+                        </div>
+                    </div>
+                    <div className="slider-in">
+                        <div className="slider-in-view">
+                            <h1>our<br /> DNA</h1>
+                            <img src={path_image + "Analytics-10-June-GIF.gif"} alt="" />
+                        </div>
+                    </div>
+                    <div className="slider-in">
+                        <div className="slider-in-view">
+                            <h1>our<br /> DNA</h1>
+                            <img src={path_image + "post-webinar.png"} alt="" />
+                        </div>
+                    </div>
+                </Slider>
+            </div>
+        </div>
+{/* Testing Purpose End*/}
+
+
+
+
         <footer>
           <p>
             Copyright 2023
