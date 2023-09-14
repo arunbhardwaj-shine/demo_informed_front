@@ -160,7 +160,8 @@ const MarketingAddReader = () => {
 
   useEffect(() => {
     initalFun();
-  }, [userInputs]);
+  }, []);
+  useEffect(() => {}, [userInputs]);
   const initalFun = async () => {
     try {
       loader("show");
