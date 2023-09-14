@@ -573,21 +573,28 @@ const MarketingReadersList = () => {
   }
 
   const onDateChange = (newDate, i) => {
-    const year = newDate.getFullYear();
-    const month = String(newDate.getMonth() + 1).padStart(2, '0');
-    const day = String(newDate.getDate()).padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}`;
-    const found = readerDataList.findIndex((el) => el.id === i);
-    if (found !== -1) {
-      console.log(found);
-      readerDataList[found].next_contact_change = newDate;
-      setReaderDataList(readerDataList);
-      console.log(readerDataList)
+    if(newDate != ""){
+      const year = newDate.getFullYear();
+      const month = String(newDate.getMonth() + 1).padStart(2, '0');
+      const day = String(newDate.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+      const found = readerDataList.findIndex((el) => el.id === i);
+      if (found !== -1) {
+        readerDataList[found].next_contact_change = formattedDate;
+        setReaderDataList(readerDataList);
+      }
+      changeUpdateFlag.push(i);
+      setChangeUpdateFlag(changeUpdateFlag);
+      setUpdateFlag(updateflag+1);
     }
-    changeUpdateFlag.push(i);
-    setChangeUpdateFlag(changeUpdateFlag);
-    // console.log(newDate,i, found,formattedDate)
   }
+
+  const handleKeyDown = (e) => {
+    // Check if the backspace key was pressed
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      e.preventDefault(); // Prevent clearing the field
+    }
+  };
 
   const handleTimeLine = (data) => {
     window.open("/timeline-detail");
@@ -599,191 +606,60 @@ const MarketingReadersList = () => {
 
   const updateReaderDetails = async (reader_id, index) => {
     try {
-      const tindex = changeUserType.findIndex((el) => el.index === reader_id);
-      let type = "";
-      if (tindex !== -1) {
-        type = changeUserType[tindex].value;
-      }
       let body = {};
-      let role = "";
-      let irt = "";
-      let siteNumber = "";
-      let siteName = "";
-      let country = "";
-      let binded = "";
-      let institute = "";
+      const tindex = changeCompanyProduct.findIndex((el) => el.index === reader_id);
+      let product = "";
+      if (tindex !== -1) {
+        product = changeCompanyProduct[tindex].value;
+      }
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-        const roleIndex = changeRoleType.findIndex(
-          (el) => el.index === reader_id
-        );
+      const pindex = changePipelineStage.findIndex((el) => el.index === reader_id);
+      let pipeline = "";
+      if (pindex !== -1) {
+        pipeline = changePipelineStage[pindex].value;
+      }
 
-        if (roleIndex !== -1) {
-          role = changeRoleType[roleIndex].value;
-        } else {
-          const roleIndex = readerDataList.findIndex(
-            (el) => el.id === reader_id
-          );
-          role = readerDataList[roleIndex]?.role;
-        }
+      const probindex = changeProbablity.findIndex((el) => el.index === reader_id);
+      let probability = "";
+      if (probindex !== -1) {
+        probability = changeProbablity[probindex].value;
+      }
 
-        const irtIndex = changeIRTType.findIndex(
-          (el) => el.index === reader_id
-        );
+      const user_index =   readerDataList.findIndex((el) => el.index === reader_id);
+      let next_step = "";
+      if (user_index !== -1) {
+        next_step = readerDataList[user_index].next_contact_change;
+      }
+      
 
-        if (irtIndex !== -1) {
-          irt = changeIRTType[irtIndex].value;
-        }
-        const countryIndex = changeCountry.findIndex(
-          (el) => el.index === reader_id
-        );
-
-        if (countryIndex !== -1) {
-          country = changeCountry[index].value;
-        } else {
-          const countryIndex = readerDataList.findIndex(
-            (el) => el.id === reader_id
-          );
-          country = readerDataList[countryIndex]?.country;
-        }
-
-        const blindedIndex = changeBlindedType.findIndex(
-          (el) => el.index === reader_id
-        );
-        if (blindedIndex !== -1) {
-          binded = changeBlindedType[blindedIndex].value;
-        }
-
-        const instituteIndex = instituteValue.findIndex(
-          (el) => el.index === reader_id
-        );
-
-        if (instituteIndex > -1) {
-          institute = instituteValue[instituteIndex]
-            ? instituteValue[instituteIndex]?.value
-            : "";
-        } else {
-          const instituteIndex = readerDataList.findIndex(
-            (el) => el.id === reader_id
-          );
-          institute = readerDataList[instituteIndex]?.institute;
-        }
-
-        const siteNumberIndex = changeSiteNumberType.findIndex(
-          (el) => el.index === reader_id
-        );
-        if (siteNumberIndex !== -1) {
-          siteNumber = changeSiteNumberType[siteNumberIndex].value;
-        } else {
-          const siteNumberIndex = readerDataList.findIndex(
-            (el) => el.id === reader_id
-          );
-          siteNumber = readerDataList[siteNumberIndex]?.siteNumber;
-        }
-
-        const siteNameIndex = changeSiteNameType.findIndex(
-          (el) => el.index === reader_id
-        );
-        if (siteNameIndex !== -1) {
-          siteName = changeSiteNameType[siteNameIndex].value;
-        } else {
-          const siteNameIndex = readerDataList.findIndex(
-            (el) => el.id === reader_id
-          );
-          siteName = readerDataList[siteNameIndex]?.siteName;
-        }
-
-        // if (
-        //   (country !== "" ||
-        //     type !== "" ||
-        //     role !== "" ||
-        //     irt !== "" ||
-        //     binded !== "" ||
-        //     siteNumber !== "" ||
-        //     siteName !== "") &&
-        //   institute !== ""
-        // )
-
-        if (
-          country !== "" &&
-          (type !== "" ||
-            role !== "" ||
-            irt !== "" ||
-            binded !== "" ||
-            siteNumber !== "" ||
-            siteName !== "" ||
-            institute !== "")
-        ) {
-          body = {
-            type: 1,
-            readerId: reader_id,
-            userStatus: type,
-            country: country,
-            binded: binded,
-            irt: irt,
-            role: role,
-            institute: institute,
-            siteNumber: siteNumber,
-            siteName: siteName,
-          };
-        } else {
-          toast.warning("Please select country.");
-          return;
-        }
-      } else {
-        const index = changeCountry.findIndex((el) => el.index === reader_id);
-
-        let country = "";
-        if (index !== -1) {
-          country = changeCountry[index].value;
-        }
-
-        if (country !== "" || type !== "") {
+        if (pipeline !== "" || product !== "" || probability !== "" || next_step != "") {
           loader("show");
           body = {
             type: 0,
             readerId: reader_id,
-            userStatus: type,
-            country: country,
+            product: product,
+            pipeline: pipeline,
+            probability: probability,
+            next_step: next_step,
           };
         }
-      }
 
       if (Object.keys(body)?.length !== 0) {
-        const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
+        console.log(body,"Body");
+        // const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
 
-        const libDataIndex = readerDataList.findIndex(
-          (el) => el?.id === reader_id
-        );
+        // const libDataIndex = readerDataList.findIndex(
+        //   (el) => el?.id === reader_id
+        // );
 
-        if (country !== "") {
-          readerDataList[libDataIndex].country = country;
-        }
-
-        if (type !== "") {
-          let userTypeValue = userTypeValues?.[type];
-          readerDataList[libDataIndex].user_status = userTypeValue;
-        }
-
-        // if (role !== "") {
-        readerDataList[libDataIndex].role = role;
+        // if (country !== "") {
+        //   readerDataList[libDataIndex].country = country;
         // }
 
-        if (irt !== "") {
-          readerDataList[libDataIndex].irt = irt == 1 ? "Yes" : "No";
-        }
-        if (binded !== "") {
-          readerDataList[libDataIndex].binded = binded;
-        }
-        // if (siteName !== "") {
-        readerDataList[libDataIndex].siteName = siteName;
+        // if (type !== "") {
+        //   let userTypeValue = userTypeValues?.[type];
+        //   readerDataList[libDataIndex].user_status = userTypeValue;
         // }
-        // if (siteNumber !== "") {
-        readerDataList[libDataIndex].siteNumber = siteNumber;
-        // }
-        if (institute !== "") {
-          readerDataList[libDataIndex].institute = institute;
-        }
 
         const newData = readerDataList;
         setReaderDataList(newData);
@@ -796,23 +672,8 @@ const MarketingReadersList = () => {
           redirect: "",
         });
       } else {
-        // if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-        //   if (institute == "") {
-        //     toast.warning("Please select insitute value");
-        //   } else {
-        //     toast.warning("Nothing to update.");
-        //   }
-        // }
-        // else {
-        //   toast.warning("Nothing to update.");
-        // }
         toast.warning("Nothing to update.");
       }
-
-      // const changeUpdateFlag = changeUpdateFlag.map((id, index) => {
-      //   return id != reader_id;
-      // });
-      // setChangeUpdateFlag(changeUpdateFlag);
     } catch (err) {
       console.log("err", err);
       loader("hide");
@@ -2056,7 +1917,7 @@ const MarketingReadersList = () => {
                                             Next step
                                           </h6>
                                           <div>
-                                          <DatePicker
+                                            <DatePicker
                                               selected={
                                                 data?.next_contact_change
                                                 ? new Date(data?.next_contact_change)
@@ -2070,8 +1931,9 @@ const MarketingReadersList = () => {
                                               dateFormat="dd/MM/yyyy"
                                               className="form-control"
                                               id={"date_change" + data?.id}
+                                              onKeyDown={handleKeyDown}
                                               minDate={currentDate}
-                                          />
+                                            />
                                           </div>
                                           </li>
                                         </>
