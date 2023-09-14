@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -39,6 +39,9 @@ const MarketingReaderReview = () => {
       loader("hide");
     }
   };
+  useEffect(() => {
+    console.log("reader-->", readerData);
+  }, []);
 
   return (
     <Col className="right-sidebar custom-change">
@@ -108,6 +111,16 @@ const MarketingReaderReview = () => {
                   <div className="crm-review-detail">
                     <table className="tab-mail-list">
                       <tr>
+                        <th className="tab-content-title">Job title</th>
+                        <td>
+                          {readerData?.jobTitle ? readerData?.jobTitle : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Title</th>
+                        <td>{readerData?.title ? readerData?.title : "N/A"}</td>
+                      </tr>
+                      <tr>
                         <th className="tab-content-title">First name</th>
                         <td>
                           {readerData?.firstName
@@ -133,264 +146,241 @@ const MarketingReaderReview = () => {
                         <th className="tab-content-title">Primary email </th>
                         <td>{readerData?.email ? readerData?.email : "N/A"}</td>
                       </tr>
-                      {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <>
-                          <tr>
-                            <th className="tab-content-title">
-                              IRT mandatory training{" "}
-                            </th>
-                            <td>
-                              {readerData?.irt || readerData?.irt == 0
-                                ? readerData?.irt == 1 ||
-                                  readerData?.irt == "Yes"
-                                  ? "Yes"
-                                  : readerData?.irt == 0 ||
-                                    readerData?.irt == "No"
-                                  ? "No"
-                                  : "N/A"
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          <tr></tr>
-                        </>
-                      ) : (
-                        <>
-                          <tr>
-                            <th className="tab-content-title">
-                              Alternative email{" "}
-                            </th>
-                            <td>
-                              {readerData?.alternativeEmail
-                                ? readerData?.alternativeEmail
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th className="tab-content-title">
-                              Primary phone{" "}
-                            </th>
-                            <td>
-                              {readerData?.primary_phone !== "-informed-"
-                                ? readerData?.primary_phone.replace(
-                                    "-informed-",
-                                    "-"
-                                  )
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th className="tab-content-title">
-                              Alternative phone{" "}
-                            </th>
-                            <td>
-                              {readerData?.alternativePhone
-                                ? readerData?.alternativePhone
-                                : "N/A"}
-                            </td>
-                          </tr>
-                        </>
-                      )}
+
+                      <tr>
+                        <th className="tab-content-title">
+                          Alternative email{" "}
+                        </th>
+                        <td>
+                          {readerData?.alternativeEmail
+                            ? readerData?.alternativeEmail
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Primary phone </th>
+                        <td>
+                          {readerData?.primary_phone !== "-informed-"
+                            ? readerData?.primary_phone.replace(
+                                "-informed-",
+                                "-"
+                              )
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">
+                          Alternative phone{" "}
+                        </th>
+                        <td>
+                          {readerData?.alternativePhone
+                            ? readerData?.alternativePhone
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">LinkedIn </th>
+                        <td>
+                          {readerData?.linkedIn ? readerData?.linkedIn : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Prospect</th>
+                        <td>
+                          {readerData?.prospect ? readerData?.prospect : "N/A"}
+                        </td>
+                      </tr>
                     </table>
                   </div>
                   <div className="crm-review-detail">
                     <table className="tab-mail-list">
+                      <tr>
+                        <th className="tab-content-title">
+                          Contact ownership{" "}
+                        </th>
+                        <td>
+                          {readerData?.contact_ownership
+                            ? readerData?.contact_ownership
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Type of contact </th>
+                        <td>
+                          {readerData?.type_of_contact?.length
+                            ? readerData?.type_of_contact?.map((item) => {
+                                return (
+                                  <>
+                                    {item}
+                                    {","}
+                                  </>
+                                );
+                              })
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Customer type </th>
+                        <td>
+                          {readerData?.customerType
+                            ? readerData?.customerType
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Company name </th>
+                        <td>
+                          {readerData?.company_name
+                            ? readerData?.company_name
+                            : "N/A"}
+                        </td>
+                      </tr>
                       <tr>
                         <th className="tab-content-title">Country </th>
                         <td>
                           {readerData?.country ? readerData?.country : "N/A"}
                         </td>
                       </tr>
-                      {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <>
-                          <tr>
-                            <th className="tab-content-title">IRT role</th>
-                            <td>
-                              {readerData?.role ? readerData?.role : "N/A"}
-                            </td>
-                          </tr>
 
-                          <tr>
-                            <th className="tab-content-title">Study role</th>
-                            <td>
-                              {readerData?.sub_role
-                                ? readerData?.sub_role
-                                : "N/A"}
-                            </td>
-                          </tr>
+                      <tr>
+                        <th className="tab-content-title">Company website</th>
+                        <td>
+                          {readerData?.company_website
+                            ? readerData?.company_website
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Company product</th>
+                        <td>
+                          {readerData?.company_product
+                            ? readerData?.company_product
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">
+                          Company therapy area
+                        </th>
+                        <td>
+                          {readerData?.company_therapy_area
+                            ? readerData?.company_therapy_area
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">
+                          Local/International
+                        </th>
+                        <td>{readerData?.local ? readerData?.local : "N/A"}</td>
+                      </tr>
 
-                          <tr>
-                            <th className="tab-content-title">Blind type</th>
-                            <td>
-                              {readerData?.blind_type
-                                ? readerData?.blind_type
-                                    ?.charAt(0)
-                                    ?.toUpperCase() +
-                                  readerData?.blind_type?.slice(1)
-                                : "N/A"}
-                            </td>
-                          </tr>
-                        </>
-                      ) : (
-                        <>
-                          <tr>
-                            <th className="tab-content-title">Province</th>
-                            <td>
-                              {readerData?.province
-                                ? readerData?.province
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th className="tab-content-title">Hospital</th>
-                            <td>
-                              {readerData?.hospital
-                                ? readerData?.hospital
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th className="tab-content-title">Title</th>
-                            <td>
-                              {readerData?.title ? readerData?.title : "N/A"}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th className="tab-content-title">Speciality</th>
-                            <td>
-                              {readerData?.speciality
-                                ? readerData?.speciality
-                                : "N/A"}
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <th className="tab-content-title">Discipline</th>
-                            <td>
-                              {readerData?.discipline
-                                ? readerData?.discipline
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          {readerData?.ibu ? (
-                            <tr>
-                              <th className="tab-content-title">
-                                Bussiness Unit
-                              </th>
-                              <td>
-                                {readerData?.ibu ? readerData?.ibu : "N/A"}
-                              </td>
-                            </tr>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
+                      <tr>
+                        <th className="tab-content-title">Address</th>
+                        <td>
+                          {readerData?.address ? readerData?.address : "N/A"}
+                        </td>
+                      </tr>
                     </table>
                   </div>
                   <div className="crm-review-detail">
                     <table className="tab-mail-list">
-                      {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <>
-                          <tr>
-                            <th className="tab-content-title">Site number</th>
-                            <td>
-                              {readerData?.siteNumber &&
-                              readerData?.siteNumber != 0
-                                ? readerData?.siteNumber
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th className="tab-content-title">Site name</th>
-                            <td>
-                              {readerData?.siteName
-                                ? readerData?.siteName
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th className="tab-content-title">Institution</th>
-                            <td>
-                              {readerData?.institute
-                                ? readerData?.institute
-                                : "N/A"}
-                            </td>
-                          </tr>
-                        </>
-                      ) : (
-                        <>
-                          <tr>
-                            <th className="tab-content-title">Product</th>
-                            <td>
-                              {readerData?.product
-                                ? readerData?.product
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          {readerData?.userType ? (
-                            <tr>
-                              <th className="tab-content-title">User Type</th>
-                              <td>
-                                {readerData?.userType
-                                  ? readerData?.userType
-                                  : "N/A"}
-                              </td>
-                            </tr>
-                          ) : null}
-                          <tr>
-                            <th className="tab-content-title">Interest area</th>
-                            <td>
-                              {readerData?.interestArea
-                                ? readerData?.interestArea
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th className="tab-content-title">Rep contact</th>
-                            <td>
-                              {readerData?.repContact
-                                ? readerData?.repContact
-                                : "N/A"}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th className="tab-content-title">Notes</th>
-                            <td>
-                              {readerData?.notes
-                                ? readerData?.notes.trim().length > 100
-                                  ? readerData?.notes?.substring(0, 100)
-                                  : readerData?.notes.trim()
-                                : "N/A"}
-                              <Collapse in={openNotes}>
-                                <div id="collapse-text-view">
-                                  {readerData?.notes
-                                    ? readerData?.notes?.trim()
-                                    : ""}
-                                </div>
-                              </Collapse>
-                              {readerData?.notes ? (
-                                readerData?.notes?.trim().length > 100 ? (
-                                  <span
-                                    className="show_more"
-                                    onClick={() => setOpenNotes(!openNotes)}
-                                    aria-controls="example-collapse-text"
-                                    aria-expanded={openNotes}
-                                  >
-                                    ...
-                                  </span>
-                                ) : (
-                                  ""
-                                )
-                              ) : (
-                                ""
-                              )}
-                            </td>
-                          </tr>
-                        </>
-                      )}
+                      <tr>
+                        <th className="tab-content-title">Log activity</th>
+                        <td>
+                          {readerData?.log_activity
+                            ? readerData?.log_activity
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Task</th>
+                        <td>{readerData?.task ? readerData?.task : "N/A"}</td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Next contact</th>
+                        <td>
+                          {readerData?.next_contact
+                            ? readerData?.next_contact?.toLocaleDateString()
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Title</th>
+                        <td>
+                          {readerData?.opportunity_title
+                            ? readerData?.opportunity_title
+                            : "N/A"}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <th className="tab-content-title">Our Product</th>
+                        <td>
+                          {readerData?.our_product
+                            ? readerData?.our_product
+                            : "N/A"}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <th className="tab-content-title">Contact total</th>
+                        <td>
+                          {readerData?.contact_total
+                            ? readerData?.contact_total
+                            : "N/A"}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <th className="tab-content-title">Pipeline Stage</th>
+                        <td>
+                          {readerData?.pipeline ? readerData?.pipeline : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Value</th>
+                        <td>
+                          {readerData?.opportunity_value
+                            ? readerData?.opportunity_value
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Probability %</th>
+                        <td>
+                          {readerData?.probability
+                            ? readerData?.probability
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Weighted value</th>
+                        <td>
+                          {readerData?.weighted_value
+                            ? readerData?.weighted_value
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Quote Sent</th>
+                        <td>
+                          {readerData?.quote_sent == true
+                            ? "Yes"
+                            : readerData?.quote_sent == false
+                            ? "No"
+                            : "N/A"}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <th className="tab-content-title">Quote valid until</th>
+                        <td>
+                          {readerData?.quote_valid
+                            ? readerData?.quote_valid?.toLocaleDateString()
+                            : "N/A"}
+                        </td>
+                      </tr>
                     </table>
                   </div>
                 </div>

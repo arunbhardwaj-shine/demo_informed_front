@@ -15,7 +15,7 @@ const MarketingAddReader = () => {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const countryRef = useRef(null);
-  const phoneRef = useRef(null);
+  const contactTotalRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [titleOptions, setTitleOptions] = useState([
     // { label: "Mr", value: "mr" },
@@ -107,7 +107,7 @@ const MarketingAddReader = () => {
     street2: "",
     city: "",
     postcode: "",
-    addressCountry: "",
+    addressCountry: { value: "" },
     logActivity: { value: "" },
     task: { value: "" },
     nextContact: new Date(
@@ -120,7 +120,7 @@ const MarketingAddReader = () => {
     opportunityValue: "",
     probability: { value: "" },
     weightedValue: "",
-    quoteSent: "",
+    quoteSent: false,
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
   const [countryCode, setCountryCode] = useState([
@@ -712,9 +712,9 @@ const MarketingAddReader = () => {
                                     "typeContact"
                                   )
                                 }
-                                id="limitagreed1"
+                                id={`limitagreed${index}`}
                               />
-                              <Form.Label htmlFor={index}>
+                              <Form.Label htmlFor={`limitagreed${index}`}>
                                 {item?.label}
                               </Form.Label>
                             </>
@@ -818,7 +818,11 @@ const MarketingAddReader = () => {
                   </Form.Label>
                   <Select
                     options={countryAll}
-                    className="dropdown-basic-button split-button-dropup"
+                    className={
+                      error?.country
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
                     isClearable
                     placeholder="Select country"
                     ref={countryRef}
@@ -948,7 +952,7 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Post code</Form.Label>
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Enter post code"
                     className="form-control"
                     name="postcode"
@@ -1065,29 +1069,39 @@ const MarketingAddReader = () => {
                 </Form.Group>
 
                 <div className="form-group">
-                  <label htmlFor="">Contact total</label>
+                  <label htmlFor="">
+                    Contact total<span>*</span>
+                  </label>
                   <input
                     type="number"
                     name="contactTotal"
                     min="0"
-                    // ref={limitFieldRef}
+                    max="500"
+                    ref={contactTotalRef}
                     className={
-                      error?.limit ? "form-control error" : "form-control"
+                      error?.contactTotal
+                        ? "form-control error"
+                        : "form-control"
                     }
-                    placeholder="“0” value means unlimited limit"
+                    placeholder="Enter contact total"
                     onChange={(e) => handleChange(e)}
                   />
-                  {error?.limit ? (
-                    <div className="login-validation">{error?.limit}</div>
-                  ) : null}
+                  {error?.contactTotal ? (
+                    <div className="login-validation">
+                      {error?.contactTotal}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
 
-                <Form.Group className="form-group">
+                <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Pipeline Stage</Form.Label>
                   <Select
                     options={pipelineOptions}
                     placeholder="Select pipeline stage"
-                    className="dropdown-basic-button split-button-dropup"
+                    // className="dropdown-basic-button split-button-dropup"
+                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                     value={userInputs?.pipeline}
                     isClearable
                     onChange={(e) => handleChange(e, "pipeline")}
@@ -1194,6 +1208,7 @@ const MarketingAddReader = () => {
   const nextButtonClicked = (e) => {
     e.preventDefault();
     const result = AddReaderValidation(userInputs, groupId);
+    console.log("error", result);
     if (Object.keys(result)?.length) {
       if (Object.keys(result)[0] == "firstName") {
         nameRef.current.focus();
@@ -1201,6 +1216,8 @@ const MarketingAddReader = () => {
         emailRef.current.focus();
       } else if (Object.keys(result)[0] == "country") {
         countryRef.current.focus();
+      } else if (Object.keys(result)[0] == "contactTotal") {
+        contactTotalRef.current.focus();
       }
       toast.error(result[Object.keys(result)[0]]);
       setError(result);
