@@ -148,6 +148,7 @@ import QuestionTrigger from "./Components/Firbase/QuestionTrigger";
 import PollQuestion from "./Components/Firbase/PollQuestion";
 import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf";
 import MarketingAddReader from "./Components/Readers/AddReader/MarketingAddReader";
+import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditReader";
 
 let platform = 0;
 let show = 0;
@@ -344,10 +345,18 @@ const Routing = () => {
           path="/readers-view"
           element={<LoginLayout component={NewReaders} />}
         />
-        <Route
+        {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
+          <Route
+            path="/reader-edit"
+            element={<LoginLayout component={MarketingEditReader} />}
+          />
+        ) : (
+          <Route
           path="/reader-edit"
           element={<LoginLayout component={ReaderEdit} />}
         />
+        )}
+        
         {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
           <Route
             path="/reader-add"

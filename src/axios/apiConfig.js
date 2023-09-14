@@ -114,7 +114,8 @@ export const ENDPOINT = {
   ADD_EVENT_DATA: "/auth/add-event-data",
   EVENT_SUBMIT: "/auth/event-submit",
   EVENT_CLOSE: "/auth/close-submit",
-  ADD_WEBINAR_QUESTION :"/auth/add-webinar-question"
-
-  
+  ADD_WEBINAR_QUESTION :"/auth/add-webinar-question",
+  ADD_MARKETING_FEATURES :"/reader/add-marketing-features",
+  READER_MARKETING_USER_DROP: `/reader/user-marketing-detail`,
+  GET_MARKETING_USER_DROP: `/reader/get-marketing-reader/2147528434`,  
 };
