@@ -17,58 +17,20 @@ const MarketingAddReader = () => {
   const countryRef = useRef(null);
   const contactTotalRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [titleOptions, setTitleOptions] = useState([
-    // { label: "Mr", value: "mr" },
-    // { label: "Mrs", value: "mrs" },
-    // { label: "Ms", value: "ms" },
-    // { label: "Dr", value: "dr" },
-  ]);
+  const [titleOptions, setTitleOptions] = useState([]);
   const [groupId, setGroupId] = useState();
   const navigate = useNavigate();
-  const [prospectOptions, setProspectOptions] = useState([
-    // { label: "Customer", value: "customer" },
-    // { label: "High priority", value: "high priority" },
-    // { label: "Incoming enquiry", value: "incoming enquiry" },
-  ]);
-  const [ownershipOptions, setOwnershipOptions] = useState([
-    // { label: "Jacob contact", value: "jacob contact" },
-    // { label: "Philip contact", value: "philip contact" },
-  ]);
-
+  const [prospectOptions, setProspectOptions] = useState([]);
+  const [ownershipOptions, setOwnershipOptions] = useState([]);
   const [companyProductOptions, setCompanyProductOptions] = useState([]);
   const [therapyAreaOptions, setTherapyAreaOptions] = useState([]);
   const [localOptions, setLocalOptions] = useState([]);
   const [taskOptions, setTaskOptions] = useState([]);
-  const [customerOptions, setCustomerOptions] = useState([
-    // { label: "Publisher", value: "publiseher" },
-    // { label: "Pharma maker", value: "pharma maker" },
-    // { label: "Pharma R&D", value: "pharma r&d" },
-    // { label: "Other", value: "other" },
-  ]);
+  const [customerOptions, setCustomerOptions] = useState([]);
   const [companyOptions, setCompanyOptions] = useState([]);
-  const [logActivityOptions, setLogActivityOptions] = useState([
-    // { label: "Call", value: "call" },
-    // { label: "Email", value: "email" },
-    // { label: "Incoming", value: "incoming" },
-    // { label: "LinkedIn", value: "linkedIn" },
-    // { label: "Event", value: "event" },
-  ]);
-  const [pipelineOptions, setPipelineOptions] = useState([
-    // { label: "New", value: "new" },
-    // { label: "Qualified", value: "qualified" },
-    // { label: "Meeting (initial intro)", value: "meetingInitialIntro" },
-    // { label: "Meeting (presentation)", value: "meetingPresentation" },
-    // { label: "Proposal", value: "proposal" },
-    // { label: "Negotiation", value: "negotiation" },
-    // { label: "Contract (closed)", value: "contract" },
-    // { label: "Long grass", value: "longGrass" },
-  ]);
-  const [probabilityOptions, setProbabilityOptions] = useState([
-    // { label: "10%", value: ".1" },
-    // { label: "20%", value: ".2" },
-    // { label: "30%", value: ".3" },
-    // { label: "40%", value: ".4" },
-  ]);
+  const [logActivityOptions, setLogActivityOptions] = useState([]);
+  const [pipelineOptions, setPipelineOptions] = useState([]);
+  const [probabilityOptions, setProbabilityOptions] = useState([]);
   const [countryAll, setCountryAll] = useState([]);
   const [typeOfContact, setTypeOfContact] = useState([]);
   const [error, setError] = useState({});
@@ -88,7 +50,6 @@ const MarketingAddReader = () => {
     lastName: "",
     email: "",
     alternativeEmail: "",
-    countryCode: "",
     primary_phone: "",
     alternativePhone: "",
     linkedIn: "",
@@ -103,11 +64,6 @@ const MarketingAddReader = () => {
     therapyArea: { value: "" },
     local: { value: "" },
     address: "",
-    street1: "",
-    street2: "",
-    city: "",
-    postcode: "",
-    addressCountry: { value: "" },
     logActivity: { value: "" },
     task: { value: "" },
     nextContact: new Date(
@@ -197,7 +153,34 @@ const MarketingAddReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
-    if (key == "typeContact") {
+    if (isSelectedName == "address") {
+      if (e.target?.name == "street1") {
+        setUserInputs({
+          ...userInputs,
+          address: { ...userInputs?.address, street1: e?.target?.value },
+        });
+      } else if (e.target?.name == "street2") {
+        setUserInputs({
+          ...userInputs,
+          address: { ...userInputs?.address, street2: e?.target?.value },
+        });
+      } else if (e.target?.name == "city") {
+        setUserInputs({
+          ...userInputs,
+          address: { ...userInputs?.address, city: e?.target?.value },
+        });
+      } else if (key == "addressCountry") {
+        setUserInputs({
+          ...userInputs,
+          address: { ...userInputs?.address, country: e?.value },
+        });
+      } else if (e.target?.name == "postcode") {
+        setUserInputs({
+          ...userInputs,
+          address: { ...userInputs?.address, postcode: e?.target?.value },
+        });
+      }
+    } else if (key == "typeContact") {
       const typeContactArray = [...(userInputs?.typeContact || [])];
       if (e == true) {
         typeContactArray.push(isSelectedName);
@@ -506,7 +489,7 @@ const MarketingAddReader = () => {
       <>
         <div className="create-change-content reader_added">
           <div className="form_action">
-            <h4>About CRM you're creating</h4>
+            {/* <h4>About CRM you're creating</h4> */}
             <div className="row">
               <div className="col-12 col-md-7">
                 <Form.Group className="form-group">
@@ -926,7 +909,7 @@ const MarketingAddReader = () => {
                     placeholder="Enter street 1"
                     className="form-control"
                     name="street1"
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
@@ -936,7 +919,7 @@ const MarketingAddReader = () => {
                     placeholder="Enter street 2"
                     className="form-control"
                     name="street2"
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
@@ -946,7 +929,7 @@ const MarketingAddReader = () => {
                     placeholder="Enter city"
                     className="form-control"
                     name="city"
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
@@ -956,7 +939,7 @@ const MarketingAddReader = () => {
                     placeholder="Enter post code"
                     className="form-control"
                     name="postcode"
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
@@ -967,8 +950,9 @@ const MarketingAddReader = () => {
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
                     placeholder="Select country"
-                    
-                    onChange={(e) => handleChange(e, "addressCountry")}
+                    onChange={(e) =>
+                      handleChange(e, "address", "addressCountry")
+                    }
                   />
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
@@ -1044,7 +1028,7 @@ const MarketingAddReader = () => {
       <>
         <div className="create-change-content reader_added">
           <div className="form_action">
-          <h4>Opportunity</h4>
+            {/* <h4>Opportunity</h4> */}
             <div className="row">
               <div className="col-12 col-md-7">
                 <Form.Group className="form-group">
@@ -1237,6 +1221,7 @@ const MarketingAddReader = () => {
           primary_phone: `${
             userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
           }-informed-${userInputs?.primary_phone}`,
+
           alternativePhone: userInputs?.alternativePhone,
           linkedIn: userInputs?.linkedIn,
           prospect: userInputs?.prospect?.value,
@@ -1249,7 +1234,8 @@ const MarketingAddReader = () => {
           company_product: userInputs?.companyProduct?.value,
           company_therapy_area: userInputs?.therapyArea?.value,
           local: userInputs?.local?.value,
-          address: `${userInputs?.street1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry?.value}`,
+          // address: `${userInputs?.street1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry?.value}`,
+          address: userInputs?.address,
           log_activity: userInputs?.logActivity?.value,
           task: userInputs?.task?.value,
           next_contact: userInputs?.nextContact,
@@ -1263,6 +1249,7 @@ const MarketingAddReader = () => {
             ? userInputs?.weightedValue
             : "",
           quote_sent: userInputs?.quoteSent,
+
           quote_valid: userInputs?.quoteValid,
         };
         loader("hide");
