@@ -952,7 +952,7 @@
 }
 
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
-  flex: 0 0 148px;
+  flex: 0 0 152px;
 }
 
 .verify-email-detail-clear button {
@@ -976,6 +976,31 @@ input:-webkit-autofill {
 
 .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change h6.tab-content-title {
   flex: 0 0 95px;
+}
+
+.library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change .react-datepicker-wrapper input[type="text"] {
+  box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+  border-radius: 30px;
+  border: 0;
+  text-align: left;
+  height: auto;
+  background: $white url(../images/calender.png) no-repeat;
+  background-position: 92%;
+  background-size: 18px;
+  color: #0066be;
+  font-weight: 400;
+  min-height: 38px;
+  font-size: 14px;
+  padding: 5px 18px;
+}
+
+.library-content-box-layuot .doc-content-main-box .tab-content .data-main-box {
+  z-index: 4;
+}
+
+.tab-mail-list.data.change .react-datepicker-wrapper,
+.tab-mail-list.data.change .crm_picker {
+  width: 100%;
 }
 
 .sublink_right .edit_pdf_title {
