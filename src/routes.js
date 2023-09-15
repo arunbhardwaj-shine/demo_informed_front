@@ -65,6 +65,8 @@ import OctalatchCountryStats from "./Components/Analytics/OctalatchCountryStats"
 import OctaCountryRegistration from "./Components/Analytics/OctaCountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
+import ReadersLayout from "./Components/Readers/ReadersView/ReadersLayout";
+import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReadersList";
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
@@ -149,6 +151,7 @@ import PollQuestion from "./Components/Firbase/PollQuestion";
 import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf";
 import MarketingAddReader from "./Components/Readers/AddReader/MarketingAddReader";
 import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditReader";
+import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
 
 let platform = 0;
 let show = 0;
@@ -341,9 +344,22 @@ const Routing = () => {
           path="/sales-by-country"
           element={<LoginLayout component={SalesByCountry} />}
         />
-        <Route
-          path="/readers-view"
-          element={<LoginLayout component={NewReaders} />}
+        {/* <Route
+            path="/readers-view"
+            element={
+              localStorage.getItem('user_id') == '90VIqoM675WT4/peSRnbSQ==' ? (
+                <LoginLayout component={MarketingNewReaders} />
+              ) : (
+                <LoginLayout component={NewReaders} />
+              )
+            }
+        /> */}
+
+<Route
+            path="/readers-view"
+            element={
+              <LoginLayout component={ReadersLayout} />
+            }
         />
         {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
           <Route
@@ -352,11 +368,10 @@ const Routing = () => {
           />
         ) : (
           <Route
-          path="/reader-edit"
-          element={<LoginLayout component={ReaderEdit} />}
-        />
+            path="/reader-edit"
+            element={<LoginLayout component={ReaderEdit} />}
+          />
         )}
-        
         {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
           <Route
             path="/reader-add"
@@ -368,10 +383,18 @@ const Routing = () => {
             element={<LoginLayout component={ReaderAdd} />}
           />
         )}
-        <Route
-          path="/reader-review"
-          element={<LoginLayout component={ReaderReview} />}
-        />
+        {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
+          <Route
+            path="/reader-review"
+            element={<LoginLayout component={MarketingReaderReview} />}
+          />
+        ) : (
+          <Route
+            path="/reader-review"
+            element={<LoginLayout component={ReaderReview} />}
+          />
+        )}
+       
         <Route
           path="/readers-list"
           element={<LoginLayout component={ReadersListAdd} />}
