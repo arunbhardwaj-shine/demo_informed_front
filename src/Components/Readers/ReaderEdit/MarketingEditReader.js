@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 const MarketingEditReader = () => {
   const { state } = useLocation();
   const [id, setId] = useState(state.id);
-
+  const [typeOfContact, setTypeOfContact] = useState([]);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const countryRef = useRef(null);
@@ -120,17 +120,17 @@ const MarketingEditReader = () => {
     customerType: { value: "" },
 
     companyName: { value: "" },
-    country: { value: "" },
+    // country: { value: "" },
     companyWebsite: "",
     companyProduct: { value: "" },
     therapyArea: { value: "" },
     local: { value: "" },
-    address: "",
-    stree1: "",
-    street2: "",
-    city: "",
-    postcode: "",
-    addressCountry: "",
+    address: [],
+    // stree1: "",
+    // street2: "",
+    // city: "",
+    // postcode: "",
+    // addressCountry: "",
     logActivity: { value: "" },
     task: { value: "" },
     nextContact: new Date(
@@ -203,7 +203,7 @@ const MarketingEditReader = () => {
 
   useEffect(() => {
 
-    console.log(userInputs, "===>userInputs");
+    // console.log(userInputs, "===>userInputs");
 
     initalFun();
 
@@ -229,6 +229,7 @@ const MarketingEditReader = () => {
       setTaskOptions(response?.task);
       setPipelineOptions(response?.pipeline);
       setProbabilityOptions(response?.probablity);
+      setTypeOfContact(response?.type_of_contact);
 
       let country = [];
       hasData?.data?.data?.country.reduce((objEntries, key) => {
@@ -243,7 +244,9 @@ const MarketingEditReader = () => {
       const usersData = await getData(`${ENDPOINT.GET_MARKETING_USER_DROP}/${id}`);
       const data = usersData?.data?.data;
 
-      console.log("data?.primary_phone", data?.type_of_contact);
+
+      console.log(data)
+
       let phoneNumber = data?.primary_phone.split("-informed-");
 
       setUserInputs({
@@ -273,12 +276,12 @@ const MarketingEditReader = () => {
         therapyArea: { value: data?.company_therapy_area },
         local: { value: data?.local },
         //  address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
-
-        street1: data?.address.street1,
-        street2: data?.address.street2,
-        city: data?.address.city,
-        postcode: data?.address.postcode,
-        addressCountry: data?.address.country,
+address:data?.address,
+        // street1: data?.address.street1,
+        // street2: data?.address.street2,
+        // city: data?.address.city,
+        // postcode: data?.address.postcode,
+        // addressCountry: data?.address.country,
         logActivity: { value: data?.log_activity },
         task: { value: data?.task },
         opportunityTitle: data?.opportunity_title,
@@ -295,7 +298,7 @@ const MarketingEditReader = () => {
       })
 
 
-      console.log(data?.type_of_contact);
+    
       loader("hide");
     } catch (err) {
       console.log("--err", err);
@@ -305,33 +308,39 @@ const MarketingEditReader = () => {
   };
 
   const handleChange = (e, isSelectedName,key) => {
-    let weighted_Value = "";
+    let weighted_Value=""
+   console.log("e-->",e,"name-->",isSelectedName,"key-->",key)
     // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
     //   weighted_Value =
     //     userInputs?.opportunityValue * userInputs?.probability?.value;
     // }
     if (isSelectedName == "address") {
       if (e.target?.name == "street1") {
+        console.log("street1")
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street1: e?.target?.value },
         });
       } else if (e.target?.name == "street2") {
+        console.log("street2")
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street2: e?.target?.value },
         });
       } else if (e.target?.name == "city") {
+        console.log("city")
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, city: e?.target?.value },
         });
       } else if (key == "addressCountry") {
+        console.log("addressCountry")
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, country: e?.value },
         });
-      } else if (e.target?.name == "postcode") {
+      }  else if (e.target?.name == "postcode") {
+        console.log("postcode")
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, postcode: e?.target?.value },
@@ -340,14 +349,15 @@ const MarketingEditReader = () => {
     }
     if (isSelectedName == "probability") {
       if (userInputs?.opportunityValue) {
-        weighted_Value = userInputs?.opportunityValue * e?.value;
+        weighted_Value = (userInputs?.opportunityValue * e?.value) / 100;
         setUserInputs({
           ...userInputs,
-          weightedValue: weighted_Value,
+          weighted_value: weighted_Value,
           [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
             ? e
             : e?.target?.value,
         });
+    
       } else {
         setUserInputs({
           ...userInputs,
@@ -356,17 +366,21 @@ const MarketingEditReader = () => {
             : e?.target?.value,
         });
       }
-    } else if (e.target == "opportunityValue") {
+    } 
+    else if (e.target?.name == "opportunityValue") {
+      let weighted_Value = "";
       if (userInputs?.probability?.value) {
-        weighted_Value = userInputs?.probability?.value * e?.target?.value;
+        weighted_Value =
+          (userInputs?.probability?.value * e?.target?.value) / 100;
+          console.log(weighted_Value);
 
-        setUserInputs({
-          ...userInputs,
-          weightedValue: weighted_Value,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-            ? e
-            : e?.target?.value,
-        });
+          setUserInputs({
+            ...userInputs,
+            weighted_value: weighted_Value,
+            [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+              ? e
+              : e?.target?.value,
+          })
       } else {
         setUserInputs({
           ...userInputs,
@@ -375,20 +389,32 @@ const MarketingEditReader = () => {
             : e?.target?.value,
         });
       }
-    } else {
+    } else if (key == "typeContact") {
+      const typeContactArray = [...(userInputs?.typeContact || [])];
+      if (e == true) {
+        typeContactArray.push(isSelectedName);
+      } else {
+        const index = typeContactArray.indexOf(isSelectedName);
+        if (index !== -1) {
+          typeContactArray.splice(index, 1);
+        }
+      }
+      setUserInputs({
+        ...userInputs,
+        typeContact: typeContactArray,
+      });
+    }
+     else {
+      // console.log(userInputs);
       setUserInputs({
         ...userInputs,
 
         [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
           ? e
-          : e?.target?.label,
+          : e?.target?.value,
       });
 
-      console.log({
-        [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-          ? e
-          : e?.target?.label
-      });
+  
 
     }
   };
@@ -553,7 +579,7 @@ const MarketingEditReader = () => {
       loader("show");
       // const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, { label: newProduct.label, value: newProduct.value });
       await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`,{label:obj[newProduct.label] ,value:newProduct.value });
-      console.log("submit model fun", newProduct);
+
       if (newProduct.label == "title") {
         let title = titleOptions;
         title.unshift({
@@ -868,6 +894,32 @@ const MarketingEditReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Type of contact</Form.Label>
                   <fieldset id="group2">
+                  {typeOfContact?.length
+                      ? typeOfContact?.map((item, index) => {
+                          return (
+                            <>
+                              <input
+                                type="checkbox"
+                                value="value1"
+                                name={item?.label}
+                                onClick={(e) =>
+                                  handleChange(
+                                    e.target?.checked,
+                                    item?.value,
+                                    "typeContact"
+                                  )
+                                }
+                                id={`limitagreed${index}`}
+                              />
+                              <Form.Label htmlFor={`limitagreed${index}`}>
+                                {item?.label}
+                              </Form.Label>
+                            </>
+                          );
+                        })
+                      : ""}
+                      </fieldset>
+                  {/* <fieldset id="group2">
                     <input
                       type="checkbox"
                       value="value1"
@@ -912,7 +964,7 @@ const MarketingEditReader = () => {
                       id="limitagreed4"
                     />
                     <Form.Label htmlFor="limitagreed4">Introducer</Form.Label>
-                  </fieldset>
+                  </fieldset> */}
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Customer type</Form.Label>
@@ -1094,8 +1146,9 @@ const MarketingEditReader = () => {
                     placeholder="Enter street 1"
                     className="form-control"
                     name="street1"
-                    defaultValue={userInputs?.street1}
-                    onChange={(e) => handleChange(e)}
+                    defaultValue={userInputs?.address?.street1}
+                    value={userInputs?.address?.street1}
+                    onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
@@ -1105,8 +1158,9 @@ const MarketingEditReader = () => {
                     placeholder="Enter street 2"
                     className="form-control"
                     name="street2"
-                    defaultValue={userInputs?.street2}
-                    onChange={(e) => handleChange(e)}
+                    defaultValue={userInputs?.address?.street2}
+                    value={userInputs?.address?.street2}
+                    onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
@@ -1116,8 +1170,9 @@ const MarketingEditReader = () => {
                     placeholder="Enter city"
                     className="form-control"
                     name="city"
-                    defaultValue={userInputs?.city}
-                    onChange={(e) => handleChange(e)}
+                    defaultValue={userInputs?.address?.city}
+                    value={userInputs?.address?.city}
+                    onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
@@ -1127,11 +1182,28 @@ const MarketingEditReader = () => {
                     placeholder="Enter post code"
                     className="form-control"
                     name="postcode"
-                    defaultValue={userInputs?.postcode}
-                    onChange={(e) => handleChange(e)}
+                    defaultValue={userInputs?.address?.postcode}
+                    value={userInputs?.address?.postcode}
+                    onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Country</Form.Label>
+
+                  <Select
+                    options={countryAll}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                    placeholder="Select country"
+                    // defaultValue={userInputs?.addressCountry}
+                    defaultValue={countryAll.findIndex((el)=>el.value==userInputs?.address?.country)!=-1?
+                    countryAll[countryAll.findIndex((el)=>el.value==userInputs?.address?.country)]:""}
+                    onChange={(e) =>
+                      handleChange(e, "address", "addressCountry")
+                    }
+                  />
+                </Form.Group>
+                {/* <Form.Group className="form-group">
                   <Form.Label htmlFor="">Country</Form.Label>
                   <input
                     type="text"
@@ -1139,9 +1211,11 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="addressCountry"
                     defaultValue={userInputs?.addressCountry}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) =>
+                      handleChange(e, "address", "addressCountry")
+                    }
                   />
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Log activity</Form.Label>
                   <Select
@@ -1327,15 +1401,16 @@ const MarketingEditReader = () => {
             <input
               type="number"
               className="form-control"
-              name="weightedValue"
+              name="weighted_value"
               placeholder="Weighted value"
               value={
                 userInputs?.weighted_value
                   ? (parseFloat(userInputs?.weighted_value)).toFixed(2)
                   : ""
               }
+             
               defaultValue={userInputs?.weighted_value}
-            // onChange={(e) => handleChange(e)}
+            onChange={(e) => handleChange(e)}
             />
           </Form.Group>
 
@@ -1395,7 +1470,8 @@ const MarketingEditReader = () => {
   };
   const nextButtonClicked = (e) => {
     e.preventDefault();
-    console.log("user inputs", userInputs);
+   
+    console.log(userInputs);
   
     const result = AddReaderValidation(userInputs);
     
@@ -1420,40 +1496,46 @@ const MarketingEditReader = () => {
           firstName: userInputs?.firstName,
           middleName: userInputs?.middleName,
           lastName: userInputs?.lastName,
-          primaryEmail: userInputs?.email,
+          email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
           primary_phone: `${userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
             }-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           linkedIn: userInputs?.linkedIn,
           prospect: userInputs?.prospect?.value,
+          type_of_contact: userInputs?.typeContact,
           contact_ownership: userInputs?.ownership?.value,
-          main: userInputs?.main,
-          influencer: userInputs?.influencer,
-          decision_maker: userInputs?.decisionMaker,
-          introducer: userInputs?.introducer,
+          // main: userInputs?.main,
+          // influencer: userInputs?.influencer,
+          // decision_maker: userInputs?.decisionMaker,
+          // introducer: userInputs?.introducer,
           customerType: userInputs?.customerType?.value,
-          company_name: userInputs?.companyName,
-          // country: userInputs?.country,
+          company_name: userInputs?.companyName?.value,
+          country: userInputs?.country?.value,
           company_website: userInputs?.companyWebsite,
-          company_product: userInputs?.companyProduct,
-          company_therapy_area: userInputs?.therapyArea,
-          local: userInputs?.local,
+          company_product: userInputs?.companyProduct?.value,
+          company_therapy_area: userInputs?.therapyArea?.value,
+          local: userInputs?.local?.value,
           // address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
           address: userInputs?.address,
           log_activity: userInputs?.logActivity?.value,
-          task: userInputs?.task,
-          next_contact: userInputs?.nextContact,
+          task: userInputs?.task?.value,
+          next_contact: userInputs?.nextContact.toString(),
+          contact_total:userInputs?.contactTotal,
           opportunity_title: userInputs?.opportunityTitle,
           our_product: userInputs?.ourProduct,
           pipeline: userInputs?.pipeline?.value,
           opportunity_value: userInputs?.opportunityValue,
-          probability: userInputs?.probability,
-          weighted_value: userInputs?.weightedValue,
+          probability: userInputs?.probability?.value,
+          weighted_value: userInputs?.weighted_value
+            ? userInputs?.weighted_value
+            : "",
           quote_sent: userInputs?.quoteSent,
           quote_valid: userInputs?.quoteValid,
         };
+        console.log("user inputs", data);
         loader("hide");
+        // console.log(data);
         navigate("/reader-review", {
           state: {
             data: data,

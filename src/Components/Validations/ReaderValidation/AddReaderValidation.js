@@ -11,7 +11,7 @@ export const AddReaderValidation = (data, groupId, flag) => {
   if (!data?.email || regemail?.test(data?.email) === false) {
     error.email = "Email required with email pattern";
   }
-  if (data.country.value=="") {
+  if (data.country=="") {
 
     error.country = "Please select country";
 

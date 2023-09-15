@@ -14,6 +14,9 @@ const MarketingReaderReview = () => {
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}
   );
+  const [flag,setFlag]= useState(
+    typeof state?.flag !== "undefined" ? state?.flag : {}
+  );
   const createUser = async () => {
     loader("show");
     try {
@@ -281,11 +284,20 @@ const MarketingReaderReview = () => {
                     <table className="tab-mail-list">
                       <tr>
                         <th className="tab-content-title">Next contact</th>
+                        {flag==1?
+                         <td>
+                         {readerData?.next_contact
+                           ? readerData?.next_contact
+                           : "N/A"}
+                       </td>
+                        :
                         <td>
-                          {readerData?.next_contact
-                            ? readerData?.next_contact?.toLocaleDateString()
-                            : "N/A"}
-                        </td>
+                        {readerData?.next_contact
+                          ? readerData?.next_contact?.toLocaleDateString()
+                          : "N/A"}
+                      </td>
+                        }
+                       
                       </tr>
                       <tr>
                         <th className="tab-content-title">Title</th>
@@ -362,15 +374,35 @@ const MarketingReaderReview = () => {
                             : "N/A"}
                         </td>
                       </tr> */}
-
-                      <tr>
+{flag==1?
+ <tr>
+ <th className="tab-content-title">Quote valid until</th>
+ <td>
+   {readerData?.quote_valid 
+     ? readerData?.quote_valid
+     :
+      "N/A"}
+ </td>
+</tr>
+:
+<tr>
+ <th className="tab-content-title">Quote valid until</th>
+ <td>
+   {readerData?.quote_valid 
+     ? readerData?.quote_valid?.toLocaleDateString()
+     :
+      "N/A"}
+ </td>
+</tr>
+}
+                      {/* <tr>
                         <th className="tab-content-title">Quote valid until</th>
                         <td>
-                          {readerData?.quote_valid
+                          {readerData?.quote_valid 
                             ? readerData?.quote_valid?.toLocaleDateString()
                             : "N/A"}
                         </td>
-                      </tr>
+                      </tr> */}
                     </table>
                   </div>
                 </div>
