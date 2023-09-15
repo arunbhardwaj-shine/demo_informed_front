@@ -10,6 +10,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
+import MarketingAddReader from "./MarketingAddReader";
 import axios from "axios";
 const ReaderAdd = () => {
   const nameRef = useRef(null);
@@ -977,6 +978,9 @@ const ReaderAdd = () => {
   };
   return (
     <>
+
+    {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ?<MarketingAddReader/>:
+   
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
@@ -1859,7 +1863,7 @@ const ReaderAdd = () => {
           </div>
         </Modal>
       </Col>
-    </>
+   } </>
   );
 };
 

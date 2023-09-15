@@ -245,7 +245,7 @@ const MarketingEditReader = () => {
       const data = usersData?.data?.data;
 
 
-      console.log(data)
+      console.log("data")
 
       let phoneNumber = data?.primary_phone.split("-informed-");
 
@@ -276,7 +276,7 @@ const MarketingEditReader = () => {
         therapyArea: { value: data?.company_therapy_area },
         local: { value: data?.local },
         //  address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
-address:data?.address,
+address:JSON.parse(data?.address),
         // street1: data?.address.street1,
         // street2: data?.address.street2,
         // city: data?.address.city,
@@ -309,14 +309,16 @@ address:data?.address,
 
   const handleChange = (e, isSelectedName,key) => {
     let weighted_Value=""
-   console.log("e-->",e,"name-->",isSelectedName,"key-->",key)
+   console.log(userInputs?.address)
     // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
     //   weighted_Value =
     //     userInputs?.opportunityValue * userInputs?.probability?.value;
     // }
     if (isSelectedName == "address") {
+
+      console.log("street1",e?.target?.value )
+
       if (e.target?.name == "street1") {
-        console.log("street1")
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street1: e?.target?.value },
@@ -334,7 +336,7 @@ address:data?.address,
           address: { ...userInputs?.address, city: e?.target?.value },
         });
       } else if (key == "addressCountry") {
-        console.log("addressCountry")
+        console.log("addressCountry",e)
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, country: e?.value },
@@ -347,7 +349,7 @@ address:data?.address,
         });
       }
     }
-    if (isSelectedName == "probability") {
+    else if (isSelectedName == "probability") {
       if (userInputs?.opportunityValue) {
         weighted_Value = (userInputs?.opportunityValue * e?.value) / 100;
         setUserInputs({
@@ -405,7 +407,7 @@ address:data?.address,
       });
     }
      else {
-      // console.log(userInputs);
+      // console.log("i am herte ");
       setUserInputs({
         ...userInputs,
 
@@ -1196,8 +1198,8 @@ address:data?.address,
                     isClearable
                     placeholder="Select country"
                     // defaultValue={userInputs?.addressCountry}
-                    defaultValue={countryAll.findIndex((el)=>el.value==userInputs?.address?.country)!=-1?
-                    countryAll[countryAll.findIndex((el)=>el.value==userInputs?.address?.country)]:""}
+                    value={userInputs?.address?.country?{value:userInputs?.address?.country,label:userInputs?.address?.country}:{value:"",label:""}}
+         
                     onChange={(e) =>
                       handleChange(e, "address", "addressCountry")
                     }
@@ -1471,7 +1473,7 @@ address:data?.address,
   const nextButtonClicked = (e) => {
     e.preventDefault();
    
-    console.log(userInputs);
+    console.log(userInputs,"userInputs");
   
     const result = AddReaderValidation(userInputs);
     

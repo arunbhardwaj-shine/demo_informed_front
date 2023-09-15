@@ -361,28 +361,18 @@ const Routing = () => {
               <LoginLayout component={ReadersLayout} />
             }
         />
-        {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
-          <Route
-            path="/reader-edit"
-            element={<LoginLayout component={MarketingEditReader} />}
-          />
-        ) : (
+     
           <Route
             path="/reader-edit"
             element={<LoginLayout component={ReaderEdit} />}
           />
-        )}
-        {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
-          <Route
-            path="/reader-add"
-            element={<LoginLayout component={MarketingAddReader} />}
-          />
-        ) : (
+        
+     
           <Route
             path="/reader-add"
             element={<LoginLayout component={ReaderAdd} />}
           />
-        )}
+     
         {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
           <Route
             path="/reader-review"
