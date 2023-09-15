@@ -304,12 +304,40 @@ const MarketingEditReader = () => {
     }
   };
 
-  const handleChange = (e, isSelectedName) => {
+  const handleChange = (e, isSelectedName,key) => {
     let weighted_Value = "";
     // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
     //   weighted_Value =
     //     userInputs?.opportunityValue * userInputs?.probability?.value;
     // }
+    if (isSelectedName == "address") {
+      if (e.target?.name == "street1") {
+        setUserInputs({
+          ...userInputs,
+          address: { ...userInputs?.address, street1: e?.target?.value },
+        });
+      } else if (e.target?.name == "street2") {
+        setUserInputs({
+          ...userInputs,
+          address: { ...userInputs?.address, street2: e?.target?.value },
+        });
+      } else if (e.target?.name == "city") {
+        setUserInputs({
+          ...userInputs,
+          address: { ...userInputs?.address, city: e?.target?.value },
+        });
+      } else if (key == "addressCountry") {
+        setUserInputs({
+          ...userInputs,
+          address: { ...userInputs?.address, country: e?.value },
+        });
+      } else if (e.target?.name == "postcode") {
+        setUserInputs({
+          ...userInputs,
+          address: { ...userInputs?.address, postcode: e?.target?.value },
+        });
+      }
+    }
     if (isSelectedName == "probability") {
       if (userInputs?.opportunityValue) {
         weighted_Value = userInputs?.opportunityValue * e?.value;
@@ -1048,7 +1076,7 @@ const MarketingEditReader = () => {
                   </div>
                 </Form.Group>
 
-                <Form.Group className="form-group">
+                {/* <Form.Group className="form-group">
                   <Form.Label htmlFor="">Address</Form.Label>
                   <input
                     type="text"
@@ -1058,7 +1086,7 @@ const MarketingEditReader = () => {
                     value={userInputs?.address}
                     onChange={(e) => handleChange(e)}
                   />
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Street 1</Form.Label>
                   <input
@@ -1271,7 +1299,7 @@ const MarketingEditReader = () => {
               type="number"
               className="form-control"
               name="opportunityValue"
-              placeholder="value"
+              placeholder="Value"
               value={userInputs?.opportunityValue}
               onChange={(e) => handleChange(e)}
             />
@@ -1411,7 +1439,8 @@ const MarketingEditReader = () => {
           company_product: userInputs?.companyProduct,
           company_therapy_area: userInputs?.therapyArea,
           local: userInputs?.local,
-          address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
+          // address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
+          address: userInputs?.address,
           log_activity: userInputs?.logActivity?.value,
           task: userInputs?.task,
           next_contact: userInputs?.nextContact,
