@@ -264,6 +264,8 @@ const MarketingEditReader = () => {
         ownership: { value: data?.contact_ownership },
         main: data?.type_of_contact.includes("Main"),
         decisionMaker: data?.type_of_contact.includes("Decision-maker"),
+        influencer:data?.type_of_contact.includes("Influencer"),
+        introducer:data?.type_of_contact.includes("Introducer"),
         customerType: { value: data?.customer_type },
         companyName: { value: data?.company_name },
         country: { value: data?.country },
@@ -286,8 +288,9 @@ const MarketingEditReader = () => {
         opportunityValue: data?.opportunity_value,
         probability: { value: data?.probability },
         weighted_value: data?.weighted_value,
-        // quote_sent: data?.quoteSent,
-        // quote_valid: data?.quoteValid,
+        contactTotal:data?.contact_total,
+        quoteSent: data?.quote_sent,
+        quoteValid: data?.quote_valid_until,
 
 
       })
@@ -851,7 +854,7 @@ const MarketingEditReader = () => {
                       type="checkbox"
                       value="value2"
                       name="influencer"
-                      defaultChecked={userInputs?.influencer}
+                      checked={userInputs?.influencer}
                       onClick={(e) =>
                         handleChange(e.target?.checked, "influencer")
                       }
@@ -875,7 +878,7 @@ const MarketingEditReader = () => {
                       type="checkbox"
                       value="value4"
                       name="introducer"
-                      defaultChecked={userInputs?.introducer}
+                      checked={userInputs?.introducer}
                       onClick={(e) =>
                         handleChange(e.target?.checked, "introducer")
                       }
@@ -1226,6 +1229,7 @@ const MarketingEditReader = () => {
               type="number"
               name="contactTotal"
               min="0"
+              value={userInputs?.contactTotal}
               // ref={limitFieldRef}
               className={error?.limit ? "form-control error" : "form-control"}
               placeholder="“0” value means unlimited limit"
@@ -1315,7 +1319,7 @@ const MarketingEditReader = () => {
                   <input
                     type="checkbox"
                     value="value1"
-                    defaultChecked={userInputs?.quoteSent}
+                    checked={userInputs?.quoteSent}
                     name="quoteSent"
                     id="setasdraft1"
                     onChange={(e) => {
@@ -1343,6 +1347,11 @@ const MarketingEditReader = () => {
                   )
               }
               name="quoteValid"
+              value={userInputs?.quoteValid
+                  ? new Date(userInputs?.quoteValid)
+                  : new Date(
+                    moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+                  )}
               onChange={(e) => handleChange(e, "quoteValid")}
               dateFormat="dd/MM/yyyy"
               className="form-control"
