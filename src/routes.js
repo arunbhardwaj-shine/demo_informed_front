@@ -151,6 +151,7 @@ import PollQuestion from "./Components/Firbase/PollQuestion";
 import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf";
 import MarketingAddReader from "./Components/Readers/AddReader/MarketingAddReader";
 import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditReader";
+import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
 
 let platform = 0;
 let show = 0;
@@ -367,11 +368,10 @@ const Routing = () => {
           />
         ) : (
           <Route
-          path="/reader-edit"
-          element={<LoginLayout component={ReaderEdit} />}
-        />
+            path="/reader-edit"
+            element={<LoginLayout component={ReaderEdit} />}
+          />
         )}
-        
         {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
           <Route
             path="/reader-add"
@@ -383,10 +383,18 @@ const Routing = () => {
             element={<LoginLayout component={ReaderAdd} />}
           />
         )}
-        <Route
-          path="/reader-review"
-          element={<LoginLayout component={ReaderReview} />}
-        />
+        {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
+          <Route
+            path="/reader-review"
+            element={<LoginLayout component={MarketingReaderReview} />}
+          />
+        ) : (
+          <Route
+            path="/reader-review"
+            element={<LoginLayout component={ReaderReview} />}
+          />
+        )}
+       
         <Route
           path="/readers-list"
           element={<LoginLayout component={ReadersListAdd} />}

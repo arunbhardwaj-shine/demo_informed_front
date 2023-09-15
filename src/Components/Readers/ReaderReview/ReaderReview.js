@@ -232,7 +232,11 @@ const ReaderReview = () => {
                             </td>
                           </tr>
                         </>
-                      ) : (
+                      ) : 
+                      localStorage.getItem("user_id") !==
+                      "90VIqoM675WT4/peSRnbSQ==" ?
+                      (
+
                         <>
                           <tr>
                             <th className="tab-content-title">Province</th>
@@ -286,7 +290,7 @@ const ReaderReview = () => {
                             ""
                           )}
                         </>
-                      )}
+                      ):""}
                     </table>
                   </div>
                   <div className="crm-review-detail">
