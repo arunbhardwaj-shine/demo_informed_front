@@ -65,6 +65,8 @@ import OctalatchCountryStats from "./Components/Analytics/OctalatchCountryStats"
 import OctaCountryRegistration from "./Components/Analytics/OctaCountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
+import ReadersLayout from "./Components/Readers/ReadersView/ReadersLayout";
+import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReadersList";
 import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
@@ -342,9 +344,22 @@ const Routing = () => {
           path="/sales-by-country"
           element={<LoginLayout component={SalesByCountry} />}
         />
-        <Route
-          path="/readers-view"
-          element={<LoginLayout component={NewReaders} />}
+        {/* <Route
+            path="/readers-view"
+            element={
+              localStorage.getItem('user_id') == '90VIqoM675WT4/peSRnbSQ==' ? (
+                <LoginLayout component={MarketingNewReaders} />
+              ) : (
+                <LoginLayout component={NewReaders} />
+              )
+            }
+        /> */}
+
+<Route
+            path="/readers-view"
+            element={
+              <LoginLayout component={ReadersLayout} />
+            }
         />
         {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
           <Route
