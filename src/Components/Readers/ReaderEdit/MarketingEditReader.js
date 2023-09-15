@@ -42,7 +42,6 @@ const MarketingEditReader = () => {
   // ]);
   const [ownershipOptions, setOwnershipOptions] = useState([]);
 
-
   // const [customerOptions, setCustomerOptions] = useState([
   //   { label: "Publisher", value: "publiseher" },
   //   { label: "Pharma maker", value: "pharma maker" },
@@ -88,7 +87,6 @@ const MarketingEditReader = () => {
 
   const [error, setError] = useState({});
   const [countryAll, setCountryAll] = useState([]);
-
 
   const [commanShow, setCommanShow] = useState(false);
   const [data, setData] = useState([]);
@@ -145,6 +143,7 @@ const MarketingEditReader = () => {
     probability: { value: "" },
     weighted_value: 0,
     quoteSent: "",
+    typeContact: [],
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
   const [countryCode, setCountryCode] = useState([
@@ -202,11 +201,9 @@ const MarketingEditReader = () => {
   // }, []);
 
   useEffect(() => {
-
     // console.log(userInputs, "===>userInputs");
 
     initalFun();
-
   }, []);
 
   useEffect(() => {}, [userInputs]);
@@ -218,7 +215,7 @@ const MarketingEditReader = () => {
       const response = hasData?.data?.data;
 
       setTitleOptions(response?.title);
-      setProspectOptions(response?.prospect)
+      setProspectOptions(response?.prospect);
       setOwnershipOptions(response?.contact_ownership);
       setCustomerOptions(response?.customer_type);
       setCompanyOptions(response?.company_name);
@@ -241,11 +238,12 @@ const MarketingEditReader = () => {
 
       setCountryAll(country);
 
-      const usersData = await getData(`${ENDPOINT.GET_MARKETING_USER_DROP}/${id}`);
+      const usersData = await getData(
+        `${ENDPOINT.GET_MARKETING_USER_DROP}/${id}`
+      );
       const data = usersData?.data?.data;
 
-
-      console.log(data)
+      console.log(data);
 
       let phoneNumber = data?.primary_phone.split("-informed-");
 
@@ -266,8 +264,8 @@ const MarketingEditReader = () => {
         ownership: { value: data?.contact_ownership },
         main: data?.type_of_contact.includes("Main"),
         decisionMaker: data?.type_of_contact.includes("Decision-maker"),
-        influencer:data?.type_of_contact.includes("Influencer"),
-        introducer:data?.type_of_contact.includes("Introducer"),
+        influencer: data?.type_of_contact.includes("Influencer"),
+        introducer: data?.type_of_contact.includes("Introducer"),
         customerType: { value: data?.customer_type },
         companyName: { value: data?.company_name },
         country: { value: data?.country },
@@ -276,7 +274,7 @@ const MarketingEditReader = () => {
         therapyArea: { value: data?.company_therapy_area },
         local: { value: data?.local },
         //  address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
-address:data?.address,
+        address: data?.address,
         // street1: data?.address.street1,
         // street2: data?.address.street2,
         // city: data?.address.city,
@@ -290,15 +288,12 @@ address:data?.address,
         opportunityValue: data?.opportunity_value,
         probability: { value: data?.probability },
         weighted_value: data?.weighted_value,
-        contactTotal:data?.contact_total,
+        contactTotal: data?.contact_total,
         quoteSent: data?.quote_sent,
         quoteValid: data?.quote_valid_until,
+        typeContact: data?.type_of_contact,
+      });
 
-
-      })
-
-
-    
       loader("hide");
     } catch (err) {
       console.log("--err", err);
@@ -307,40 +302,40 @@ address:data?.address,
     }
   };
 
-  const handleChange = (e, isSelectedName,key) => {
-    let weighted_Value=""
-   console.log("e-->",e,"name-->",isSelectedName,"key-->",key)
+  const handleChange = (e, isSelectedName, key) => {
+    let weighted_Value = "";
+    console.log("e-->", e, "name-->", isSelectedName, "key-->", key);
     // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
     //   weighted_Value =
     //     userInputs?.opportunityValue * userInputs?.probability?.value;
     // }
     if (isSelectedName == "address") {
       if (e.target?.name == "street1") {
-        console.log("street1")
+        console.log("street1");
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street1: e?.target?.value },
         });
       } else if (e.target?.name == "street2") {
-        console.log("street2")
+        console.log("street2");
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street2: e?.target?.value },
         });
       } else if (e.target?.name == "city") {
-        console.log("city")
+        console.log("city");
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, city: e?.target?.value },
         });
       } else if (key == "addressCountry") {
-        console.log("addressCountry")
+        console.log("addressCountry");
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, country: e?.value },
         });
-      }  else if (e.target?.name == "postcode") {
-        console.log("postcode")
+      } else if (e.target?.name == "postcode") {
+        console.log("postcode");
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, postcode: e?.target?.value },
@@ -357,7 +352,6 @@ address:data?.address,
             ? e
             : e?.target?.value,
         });
-    
       } else {
         setUserInputs({
           ...userInputs,
@@ -366,21 +360,20 @@ address:data?.address,
             : e?.target?.value,
         });
       }
-    } 
-    else if (e.target?.name == "opportunityValue") {
+    } else if (e.target?.name == "opportunityValue") {
       let weighted_Value = "";
       if (userInputs?.probability?.value) {
         weighted_Value =
           (userInputs?.probability?.value * e?.target?.value) / 100;
-          console.log(weighted_Value);
+        console.log(weighted_Value);
 
-          setUserInputs({
-            ...userInputs,
-            weighted_value: weighted_Value,
-            [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-              ? e
-              : e?.target?.value,
-          })
+        setUserInputs({
+          ...userInputs,
+          weighted_value: weighted_Value,
+          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+            ? e
+            : e?.target?.value,
+        });
       } else {
         setUserInputs({
           ...userInputs,
@@ -403,8 +396,7 @@ address:data?.address,
         ...userInputs,
         typeContact: typeContactArray,
       });
-    }
-     else {
+    } else {
       // console.log(userInputs);
       setUserInputs({
         ...userInputs,
@@ -413,9 +405,6 @@ address:data?.address,
           ? e
           : e?.target?.value,
       });
-
-  
-
     }
   };
 
@@ -554,31 +543,32 @@ address:data?.address,
   const handleSubmitModelFun = async (e) => {
     try {
       const obj = {
-
         title: "title",
 
         prospect: "prospect",
 
         ownership: "contact_ownership",
 
-        companyName :"company_name",
+        companyName: "company_name",
 
-        companyProduct :"company_product",
+        companyProduct: "company_product",
 
-        therapyArea :"company_therapy_area",
+        therapyArea: "company_therapy_area",
 
-        local:"local",
+        local: "local",
 
-        task:"task",
+        task: "task",
 
-        pipeline:"pipeline",
+        pipeline: "pipeline",
 
         logActivity: "log_activity",
-
       };
       loader("show");
       // const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, { label: newProduct.label, value: newProduct.value });
-      await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`,{label:obj[newProduct.label] ,value:newProduct.value });
+      await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, {
+        label: obj[newProduct.label],
+        value: newProduct.value,
+      });
 
       if (newProduct.label == "title") {
         let title = titleOptions;
@@ -688,12 +678,11 @@ address:data?.address,
                   />
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
-
                   <Form.Label htmlFor="">Title</Form.Label>
                   <Select
                     options={titleOptions}
                     name="title"
-                    //   value={userInputs?.title?.value} 
+                    //   value={userInputs?.title?.value}
                     value={{
                       label: userInputs?.title?.value,
                       value: userInputs?.title?.value,
@@ -702,7 +691,6 @@ address:data?.address,
                     placeholder="Select title"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                     isClearable
-
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -790,9 +778,7 @@ address:data?.address,
                   />
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
-                  <Form.Label htmlFor="">
-                    Primary phone {" "}
-                  </Form.Label>
+                  <Form.Label htmlFor="">Primary phone </Form.Label>
                   <Select
                     options={countryCode}
                     value={{
@@ -891,10 +877,11 @@ address:data?.address,
                     </Button>
                   </div>
                 </Form.Group>
+                {console.log("type-->", userInputs?.type_of_contact)}
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Type of contact</Form.Label>
                   <fieldset id="group2">
-                  {typeOfContact?.length
+                    {typeOfContact?.length
                       ? typeOfContact?.map((item, index) => {
                           return (
                             <>
@@ -902,6 +889,11 @@ address:data?.address,
                                 type="checkbox"
                                 value="value1"
                                 name={item?.label}
+                                checked={
+                                  userInputs?.typeContact?.includes(item?.value)
+                                    ? true
+                                    : false
+                                }
                                 onClick={(e) =>
                                   handleChange(
                                     e.target?.checked,
@@ -918,7 +910,7 @@ address:data?.address,
                           );
                         })
                       : ""}
-                      </fieldset>
+                  </fieldset>
                   {/* <fieldset id="group2">
                     <input
                       type="checkbox"
@@ -1015,17 +1007,12 @@ address:data?.address,
                     options={countryAll}
                     // className="dropdown-basic-button split-button-dropup"
                     className={
-
                       error?.country
-
                         ? "dropdown-basic-button split-button-dropup error"
-
                         : "dropdown-basic-button split-button-dropup"
-
                     }
                     name="country"
                     isClearable
-                  
                     placeholder="Select country"
                     value={{
                       label: userInputs?.country?.value,
@@ -1196,8 +1183,17 @@ address:data?.address,
                     isClearable
                     placeholder="Select country"
                     // defaultValue={userInputs?.addressCountry}
-                    defaultValue={countryAll.findIndex((el)=>el.value==userInputs?.address?.country)!=-1?
-                    countryAll[countryAll.findIndex((el)=>el.value==userInputs?.address?.country)]:""}
+                    defaultValue={
+                      countryAll.findIndex(
+                        (el) => el.value == userInputs?.address?.country
+                      ) != -1
+                        ? countryAll[
+                            countryAll.findIndex(
+                              (el) => el.value == userInputs?.address?.country
+                            )
+                          ]
+                        : ""
+                    }
                     onChange={(e) =>
                       handleChange(e, "address", "addressCountry")
                     }
@@ -1273,16 +1269,16 @@ address:data?.address,
                       userInputs?.nextContact
                         ? new Date(userInputs?.nextContact)
                         : new Date(
-                          moment(new Date(), "MM/DD/YYYY").format(
-                            "MM/DD/YYYY"
+                            moment(new Date(), "MM/DD/YYYY").format(
+                              "MM/DD/YYYY"
+                            )
                           )
-                        )
                     }
                     name="nextContact"
                     onChange={(e) => handleChange(e, "nextContact")}
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
-                  // minDate={currentDate}
+                    // minDate={currentDate}
                   />
                 </Form.Group>
               </div>
@@ -1296,192 +1292,196 @@ address:data?.address,
     return (
       <>
         <div className="create-change-content reader_added">
-        <div className="form-action">
-
-<div className="row">
-
-<div className="col-12 col-md-7">
-          <Form.Group className="form-group">
-            <Form.Label htmlFor="">Title</Form.Label>
-            <input
-              type="text"
-              className="form-control"
-              name="opportunityTitle"
-              placeholder="Title"
-              value={userInputs?.opportunityTitle}
-              onChange={(e) => handleChange(e)}
-            />
-          </Form.Group>
-
-          <Form.Group className="form-group">
-            <Form.Label htmlFor="">Our Product</Form.Label>
-            <input
-              type="text"
-              className="form-control"
-              name="ourProduct"
-              placeholder="Our Product"
-              value={userInputs?.ourProduct}
-              onChange={(e) => handleChange(e)}
-            />
-          </Form.Group>
-
-          <div className="form-group">
-            <label htmlFor="">Contact total</label>
-            <input
-              type="number"
-              name="contactTotal"
-              min="0"
-              value={userInputs?.contactTotal}
-              // ref={limitFieldRef}
-              className={error?.limit ? "form-control error" : "form-control"}
-              placeholder="“0” value means unlimited limit"
-              onChange={(e) => handleChange(e)}
-            />
-            {error?.limit ? (
-              <div className="login-validation">{error?.limit}</div>
-            ) : null}
-          </div>
-
-          <Form.Group className="form-group margin-added">
-            <Form.Label htmlFor="">Pipeline Stage</Form.Label>
-            <Select
-              options={pipelineOptions}
-              placeholder="Select pipeline stage"
-              className="dropdown-basic-button split-button-dropup"
-              // value={userInputs?.pipeline}
-              value={{
-                label: userInputs?.pipeline?.value,
-                value: userInputs?.pipeline?.value,
-              }}
-              isClearable
-              onChange={(e) => handleChange(e, "pipeline")}
-            />
-            <div className="add_product">
-              <span>&nbsp;</span>
-              <Button
-                className="btn-bordered btn-voilet"
-                onClick={(e) => addNewProductClicked(e, "pipeline")}
-              >
-                Add New Pipeline Stage +
-              </Button>
-            </div>
-          </Form.Group>
-
-          <Form.Group className="form-group">
-            <Form.Label htmlFor="">Value</Form.Label>
-            <input
-              type="number"
-              className="form-control"
-              name="opportunityValue"
-              placeholder="Value"
-              value={userInputs?.opportunityValue}
-              onChange={(e) => handleChange(e)}
-            />
-          </Form.Group>
-
-          <Form.Group className="form-group">
-            <Form.Label htmlFor="">Probability %</Form.Label>
-            <Select
-              options={probabilityOptions}
-              className="dropdown-basic-button split-button-dropup"
-              isClearable
-              placeholder=""
-              name="probability"
-              value={{
-                label: userInputs?.probability?.value,
-                value: userInputs?.probability?.value,
-              }}
-              // value={userInputs?.probability}
-              onChange={(e) => handleChange(e, "probability")}
-            />
-          </Form.Group>
-
-          <Form.Group className="form-group">
-            <Form.Label htmlFor=""> Weighted value</Form.Label>
-            <input
-              type="number"
-              className="form-control"
-              name="weighted_value"
-              placeholder="Weighted value"
-              value={
-                userInputs?.weighted_value
-                  ? (parseFloat(userInputs?.weighted_value)).toFixed(2)
-                  : ""
-              }
-             
-              defaultValue={userInputs?.weighted_value}
-            onChange={(e) => handleChange(e)}
-            />
-          </Form.Group>
-
-          <div className="form-group">
-            <label htmlFor="setasdraft1">Quote Sent</label>
-            <fieldset id="group2">
-              <div className="switch">
-                <label className="switch-light">
+          <div className="form-action">
+            <div className="row">
+              <div className="col-12 col-md-7">
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Title</Form.Label>
                   <input
-                    type="checkbox"
-                    value="value1"
-                    checked={userInputs?.quoteSent}
-                    name="quoteSent"
-                    id="setasdraft1"
-                    onChange={(e) => {
-                      handleChange(e.target?.checked, "quoteSent");
-                    }}
+                    type="text"
+                    className="form-control"
+                    name="opportunityTitle"
+                    placeholder="Title"
+                    value={userInputs?.opportunityTitle}
+                    onChange={(e) => handleChange(e)}
                   />
-                  <span>
-                    <span className="switch-btn active">No</span>
-                    <span className="switch-btn ">Yes</span>
-                  </span>
-                  <a className="btn"></a>
-                </label>
-              </div>
-            </fieldset>
-          </div>
+                </Form.Group>
 
-          <div className="form-group">
-            <label htmlFor="">Quote valid until</label>
-            <DatePicker
-              selected={
-                userInputs?.quoteValid
-                  ? new Date(userInputs?.quoteValid)
-                  : new Date(
-                    moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
-                  )
-              }
-              name="quoteValid"
-              value={userInputs?.quoteValid
-                  ? new Date(userInputs?.quoteValid)
-                  : new Date(
-                    moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
-                  )}
-              onChange={(e) => handleChange(e, "quoteValid")}
-              dateFormat="dd/MM/yyyy"
-              className="form-control"
-            // minDate={currentDate}
-            />
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Our Product</Form.Label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="ourProduct"
+                    placeholder="Our Product"
+                    value={userInputs?.ourProduct}
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+
+                <div className="form-group">
+                  <label htmlFor="">Contact total</label>
+                  <input
+                    type="number"
+                    name="contactTotal"
+                    min="0"
+                    value={userInputs?.contactTotal}
+                    // ref={limitFieldRef}
+                    className={
+                      error?.limit ? "form-control error" : "form-control"
+                    }
+                    placeholder="“0” value means unlimited limit"
+                    onChange={(e) => handleChange(e)}
+                  />
+                  {error?.limit ? (
+                    <div className="login-validation">{error?.limit}</div>
+                  ) : null}
+                </div>
+
+                <Form.Group className="form-group margin-added">
+                  <Form.Label htmlFor="">Pipeline Stage</Form.Label>
+                  <Select
+                    options={pipelineOptions}
+                    placeholder="Select pipeline stage"
+                    className="dropdown-basic-button split-button-dropup"
+                    // value={userInputs?.pipeline}
+                    value={{
+                      label: userInputs?.pipeline?.value,
+                      value: userInputs?.pipeline?.value,
+                    }}
+                    isClearable
+                    onChange={(e) => handleChange(e, "pipeline")}
+                  />
+                  <div className="add_product">
+                    <span>&nbsp;</span>
+                    <Button
+                      className="btn-bordered btn-voilet"
+                      onClick={(e) => addNewProductClicked(e, "pipeline")}
+                    >
+                      Add New Pipeline Stage +
+                    </Button>
+                  </div>
+                </Form.Group>
+
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Value</Form.Label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="opportunityValue"
+                    placeholder="Value"
+                    value={userInputs?.opportunityValue}
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor="">Probability %</Form.Label>
+                  <Select
+                    options={probabilityOptions}
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                    placeholder=""
+                    name="probability"
+                    value={{
+                      label: userInputs?.probability?.value,
+                      value: userInputs?.probability?.value,
+                    }}
+                    // value={userInputs?.probability}
+                    onChange={(e) => handleChange(e, "probability")}
+                  />
+                </Form.Group>
+
+                <Form.Group className="form-group">
+                  <Form.Label htmlFor=""> Weighted value</Form.Label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="weighted_value"
+                    placeholder="Weighted value"
+                    value={
+                      userInputs?.weighted_value
+                        ? parseFloat(userInputs?.weighted_value).toFixed(2)
+                        : ""
+                    }
+                    defaultValue={userInputs?.weighted_value}
+                    onChange={(e) => handleChange(e)}
+                  />
+                </Form.Group>
+
+                <div className="form-group">
+                  <label htmlFor="setasdraft1">Quote Sent</label>
+                  <fieldset id="group2">
+                    <div className="switch">
+                      <label className="switch-light">
+                        <input
+                          type="checkbox"
+                          value="value1"
+                          checked={userInputs?.quoteSent}
+                          name="quoteSent"
+                          id="setasdraft1"
+                          onChange={(e) => {
+                            handleChange(e.target?.checked, "quoteSent");
+                          }}
+                        />
+                        <span>
+                          <span className="switch-btn active">No</span>
+                          <span className="switch-btn ">Yes</span>
+                        </span>
+                        <a className="btn"></a>
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="">Quote valid until</label>
+                  <DatePicker
+                    selected={
+                      userInputs?.quoteValid
+                        ? new Date(userInputs?.quoteValid)
+                        : new Date(
+                            moment(new Date(), "MM/DD/YYYY").format(
+                              "MM/DD/YYYY"
+                            )
+                          )
+                    }
+                    name="quoteValid"
+                    value={
+                      userInputs?.quoteValid
+                        ? new Date(userInputs?.quoteValid)
+                        : new Date(
+                            moment(new Date(), "MM/DD/YYYY").format(
+                              "MM/DD/YYYY"
+                            )
+                          )
+                    }
+                    onChange={(e) => handleChange(e, "quoteValid")}
+                    dateFormat="dd/MM/yyyy"
+                    className="form-control"
+                    // minDate={currentDate}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          </div>
-        </div>
-        </div>
         </div>
       </>
     );
   };
   const nextButtonClicked = (e) => {
     e.preventDefault();
-   
+
     console.log(userInputs);
-  
+
     const result = AddReaderValidation(userInputs);
-    
+
     if (Object?.keys(result)?.length) {
       if (Object?.keys(result)[0] == "firstName") {
         nameRef?.current?.focus();
       } else if (Object?.keys(result)[0] == "email") {
         emailRef?.current?.focus();
-      } 
-      else if (Object?.keys(result)[0] == "country") {
+      } else if (Object?.keys(result)[0] == "country") {
         countryRef?.current?.focus();
       }
       toast.error(result[Object?.keys(result)[0]]);
@@ -1498,8 +1498,9 @@ address:data?.address,
           lastName: userInputs?.lastName,
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
-          primary_phone: `${userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
-            }-informed-${userInputs?.primary_phone}`,
+          primary_phone: `${
+            userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+          }-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           linkedIn: userInputs?.linkedIn,
           prospect: userInputs?.prospect?.value,
@@ -1521,7 +1522,7 @@ address:data?.address,
           log_activity: userInputs?.logActivity?.value,
           task: userInputs?.task?.value,
           next_contact: userInputs?.nextContact.toString(),
-          contact_total:userInputs?.contactTotal,
+          contact_total: userInputs?.contactTotal,
           opportunity_title: userInputs?.opportunityTitle,
           our_product: userInputs?.ourProduct,
           pipeline: userInputs?.pipeline?.value,
