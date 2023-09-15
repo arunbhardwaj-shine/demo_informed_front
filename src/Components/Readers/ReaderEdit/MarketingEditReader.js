@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import Select from "react-select";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import CommonModel from "../../../Model/CommonModel";
 import { loader } from "../../../loader";
 import DatePicker from "react-datepicker";
@@ -12,6 +12,9 @@ import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReade
 import { toast } from "react-toastify";
 
 const MarketingEditReader = () => {
+  const { state } = useLocation();
+  const [id, setId] = useState(state.id);
+
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const countryRef = useRef(null);
@@ -98,53 +101,50 @@ const MarketingEditReader = () => {
   const [commonFooter, setCommonFooter] = useState("");
   const [userInputs, setUserInputs] = useState({
     jobTitle: "",
-    title: {value: ""},
+    title: { value: "" },
     firstName: "",
     middleName: "",
     lastName: "",
     email: "",
     alternativeEmail: "",
-    countryCode: "",
+    countryCode: { value: "" },
     primary_phone: "",
     alternativePhone: "",
     linkedIn: "",
-    // prospect: { value: "" },
-    prospect: "",
-   // ownership: { value: "" },
-   ownership: "",
+    prospect: { value: "" },
+
+    ownership: { value: "" },
     main: "",
     influencer: "",
     decisionMaker: "",
     introducer: "",
-    // customerType: { value: "" },
-    customerType: "",
-    companyName: "",
-    country: "",
+    customerType: { value: "" },
+
+    companyName: { value: "" },
+    country: { value: "" },
     companyWebsite: "",
-    companyProduct: "",
-    therapyArea: "",
-    local: "",
+    companyProduct: { value: "" },
+    therapyArea: { value: "" },
+    local: { value: "" },
     address: "",
     stree1: "",
     street2: "",
     city: "",
     postcode: "",
     addressCountry: "",
-   // logActivity: { value: "" },
-    logActivity: "",
-    task: "",
+    logActivity: { value: "" },
+    task: { value: "" },
     nextContact: new Date(
       moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
     ),
     opportunityTitle: "",
     ourProduct: "",
     contactTotal: "",
-    // pipeline: { value: "" },
-    pipeline:"",
+    pipeline: { value: "" },
+    pipeline: "",
     opportunityValue: "",
-   // probability: { value: "" },
-    probability: "",
-    // weightedValue: 0,
+    probability: { value: "" },
+    weighted_value: 0,
     quoteSent: "",
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
@@ -192,19 +192,29 @@ const MarketingEditReader = () => {
   //     }));
   //   };
 
+  // useEffect(() => {
+  //   console.log(userInputs, "===>userInputs");
+
+  // }, [userInputs]);
+
+  // useEffect(() => {
+  //   console.log(userInputs, "===>userInputs");
+  //   initalFun();
+  // }, []);
+
   useEffect(() => {
+
     console.log(userInputs, "===>userInputs");
 
-  }, [userInputs]);
-
-  useEffect(() => {
-    console.log(userInputs, "===>userInputs");
     initalFun();
+
   }, []);
+
+  useEffect(() => {}, [userInputs]);
 
   const initalFun = async () => {
     try {
-      // loader("show");
+      loader("show");
       const hasData = await getData(`${ENDPOINT.READER_MARKETING_USER_DROP}`);
       const response = hasData?.data?.data;
 
@@ -230,50 +240,60 @@ const MarketingEditReader = () => {
       });
 
       setCountryAll(country);
-      const usersData = await getData(`${ENDPOINT.GET_MARKETING_USER_DROP}`);
+
+      const usersData = await getData(`${ENDPOINT.GET_MARKETING_USER_DROP}/${id}`);
       const data = usersData?.data?.data;
 
-      console.log("data?.primary_phone", data?.country);
-     let phoneNumber = data?.primary_phone.split("-informed-");
+      console.log("data?.primary_phone", data?.type_of_contact);
+      let phoneNumber = data?.primary_phone.split("-informed-");
 
       setUserInputs({
         ...userInputs,
         jobTitle: data?.jobTitle,
-        title: data?.title,
+        title: { value: data?.title },
         firstName: data?.firstName,
         middleName: data?.middleName,
         lastName: data?.lastName,
         email: data?.email,
         alternativeEmail: data?.alternativeEmail,
-        countryCode: phoneNumber[0],
+        countryCode: { label: phoneNumber[0], value: phoneNumber[0] },
         primary_phone: phoneNumber[1],
         alternativePhone: parseInt(data?.alternativePhone),
-         linkedIn: data?.linkedIn,
-         prospect: data?.prospect,
-         ownership: data?.ownership,
-         main: data?.main,
-         customerType: data?.customer_type,
-        company_name: data?.company_name,
-        country: data?.country,
-         companyWebsite: data?.company_website,
-         companyProduct: data?.company_product,
-         therapyArea: data?.company_therapy_area,
-        local: data?.local,
-         address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
-         logActivity: data?.log_activity,
-         task: data?.task,
+        linkedIn: data?.linkedIn,
+        prospect: { value: data?.prospect },
+        ownership: { value: data?.contact_ownership },
+        main: data?.type_of_contact.includes("Main"),
+        decisionMaker: data?.type_of_contact.includes("Decision-maker"),
+        customerType: { value: data?.customer_type },
+        companyName: { value: data?.company_name },
+        country: { value: data?.country },
+        companyWebsite: data?.company_website,
+        companyProduct: { value: data?.company_product },
+        therapyArea: { value: data?.company_therapy_area },
+        local: { value: data?.local },
+        //  address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
+
+        street1: data?.address.street1,
+        street2: data?.address.street2,
+        city: data?.address.city,
+        postcode: data?.address.postcode,
+        addressCountry: data?.address.country,
+        logActivity: { value: data?.log_activity },
+        task: { value: data?.task },
         opportunityTitle: data?.opportunity_title,
         ourProduct: data?.our_product,
-        pipeline: data?.pipeline,
+        pipeline: { value: data?.pipeline },
         opportunityValue: data?.opportunity_value,
-        probability: data?.probability,
-        // weighted_value: data?.weightedValue,
+        probability: { value: data?.probability },
+        weighted_value: data?.weighted_value,
         // quote_sent: data?.quoteSent,
         // quote_valid: data?.quoteValid,
 
 
       })
 
+
+      console.log(data?.type_of_contact);
       loader("hide");
     } catch (err) {
       console.log("--err", err);
@@ -331,8 +351,15 @@ const MarketingEditReader = () => {
 
         [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
           ? e
-          : e?.target?.value,
+          : e?.target?.label,
       });
+
+      console.log({
+        [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+          ? e
+          : e?.target?.label
+      });
+
     }
   };
 
@@ -470,8 +497,32 @@ const MarketingEditReader = () => {
   };
   const handleSubmitModelFun = async (e) => {
     try {
+      const obj = {
+
+        title: "title",
+
+        prospect: "prospect",
+
+        ownership: "contact_ownership",
+
+        companyName :"company_name",
+
+        companyProduct :"company_product",
+
+        therapyArea :"company_therapy_area",
+
+        local:"local",
+
+        task:"task",
+
+        pipeline:"pipeline",
+
+        logActivity: "log_activity",
+
+      };
       loader("show");
-      const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, { label: newProduct.label, value: newProduct.value });
+      // const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, { label: newProduct.label, value: newProduct.value });
+      await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`,{label:obj[newProduct.label] ,value:newProduct.value });
       console.log("submit model fun", newProduct);
       if (newProduct.label == "title") {
         let title = titleOptions;
@@ -564,11 +615,11 @@ const MarketingEditReader = () => {
   const Main = () => {
     return (
       <>
-        <div className="create-change-content">
+        <div className="create-change-content reader_added  ">
           <div className="form_action">
-            <h4>About CRM you're creating</h4>
+            <h4>Please fill the following details</h4>
             <div className="row">
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-7">
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Job title</Form.Label>
                   <input
@@ -581,12 +632,12 @@ const MarketingEditReader = () => {
                   />
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
-                {console.log("value",userInputs?.title?.value)}
+
                   <Form.Label htmlFor="">Title</Form.Label>
                   <Select
                     options={titleOptions}
                     name="title"
-                 //   value={userInputs?.title?.value} 
+                    //   value={userInputs?.title?.value} 
                     value={{
                       label: userInputs?.title?.value,
                       value: userInputs?.title?.value,
@@ -689,8 +740,8 @@ const MarketingEditReader = () => {
                   <Select
                     options={countryCode}
                     value={{
-                      label: userInputs?.countryCode,
-                      value: userInputs?.countryCode,
+                      label: userInputs?.countryCode?.label,
+                      value: userInputs?.countryCode?.value,
                     }}
                     name="countryCode"
                     className="dropdown-basic-button split-button-dropup"
@@ -739,11 +790,11 @@ const MarketingEditReader = () => {
                   <Select
                     options={prospectOptions}
                     name="prospect"
-                   value={{
-                       label: userInputs?.prospect,
-                     value: userInputs?.prospect,
-                     }}
-                  //  value={userInputs?.prospect}
+                    value={{
+                      label: userInputs?.prospect?.value,
+                      value: userInputs?.prospect?.value,
+                    }}
+                    //  value={userInputs?.prospect}
                     onChange={(e) => handleChange(e, "prospect")}
                     placeholder="Select prospect"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -764,10 +815,10 @@ const MarketingEditReader = () => {
                   <Select
                     options={ownershipOptions}
                     name="ownership"
-                  //  value={userInputs?.ownership}
-                  value={{
-                      label: userInputs?.ownership,
-                      value: userInputs?.ownership,
+                    //  value={userInputs?.ownership}
+                    value={{
+                      label: userInputs?.ownership?.value,
+                      value: userInputs?.ownership?.value,
                     }}
                     onChange={(e) => handleChange(e, "ownership")}
                     placeholder="Select contact ownership"
@@ -791,7 +842,7 @@ const MarketingEditReader = () => {
                       type="checkbox"
                       value="value1"
                       name="main"
-                      defaultChecked={userInputs?.main}
+                      checked={userInputs?.main}
                       onClick={(e) => handleChange(e.target?.checked, "main")}
                       id="limitagreed1"
                     />
@@ -810,7 +861,7 @@ const MarketingEditReader = () => {
                     <input
                       type="checkbox"
                       value="value3"
-                      defaultChecked={userInputs?.decisionMaker}
+                      checked={userInputs?.decisionMaker}
                       onClick={(e) =>
                         handleChange(e.target?.checked, "decisionMaker")
                       }
@@ -839,10 +890,10 @@ const MarketingEditReader = () => {
                     options={customerOptions}
                     name="customerType"
                     value={{
-                      label: userInputs?.customerType,
-                      value: userInputs?.customerType,
+                      label: userInputs?.customerType?.value,
+                      value: userInputs?.customerType?.value,
                     }}
-                   // value={userInputs?.customerType}
+                    // value={userInputs?.customerType}
                     onChange={(e) => handleChange(e, "customerType")}
                     placeholder="Select contact customer type"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -855,10 +906,10 @@ const MarketingEditReader = () => {
                     options={companyOptions}
                     name="companyName"
                     value={{
-                      label: userInputs?.company_name,
-                      value: userInputs?.company_name,
+                      label: userInputs?.companyName?.value,
+                      value: userInputs?.companyName?.value,
                     }}
-                   // value={userInputs?.company}
+                    // value={userInputs?.company}
                     onChange={(e) => handleChange(e, "companyName")}
                     placeholder="Select contact company"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -880,13 +931,22 @@ const MarketingEditReader = () => {
                   </Form.Label>
                   <Select
                     options={countryAll}
-                    className="dropdown-basic-button split-button-dropup"
+                    // className="dropdown-basic-button split-button-dropup"
+                    className={
+
+                      error?.country
+
+                        ? "dropdown-basic-button split-button-dropup error"
+
+                        : "dropdown-basic-button split-button-dropup"
+
+                    }
                     name="country"
                     isClearable
                     placeholder="Select country"
                     value={{
-                      label: userInputs?.country,
-                      value: userInputs?.country,
+                      label: userInputs?.country?.value,
+                      value: userInputs?.country?.value,
                     }}
                     ref={countryRef}
                     onChange={(e) => handleChange(e, "country")}
@@ -915,8 +975,8 @@ const MarketingEditReader = () => {
                     name="companyProduct"
                     //value={userInputs?.companyProduct}
                     value={{
-                      label: userInputs?.companyProduct,
-                      value: userInputs?.companyProduct,
+                      label: userInputs?.companyProduct?.value,
+                      value: userInputs?.companyProduct?.value,
                     }}
                     onChange={(e) => handleChange(e, "companyProduct")}
                     placeholder="Select company product"
@@ -938,11 +998,11 @@ const MarketingEditReader = () => {
                   <Select
                     options={therapyAreaOptions}
                     name="therapyArea"
-                   // value={userInputs?.therapyArea}
+                    // value={userInputs?.therapyArea}
                     onChange={(e) => handleChange(e, "therapyArea")}
                     value={{
-                      label: userInputs?.therapyArea,
-                      value: userInputs?.therapyArea,
+                      label: userInputs?.therapyArea?.value,
+                      value: userInputs?.therapyArea?.value,
                     }}
                     placeholder="Select therapy area"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -964,10 +1024,10 @@ const MarketingEditReader = () => {
                   <Select
                     options={localOptions}
                     name="local"
-                   // value={userInputs?.local}
+                    // value={userInputs?.local}
                     value={{
-                      label: userInputs?.local,
-                      value: userInputs?.local,
+                      label: userInputs?.local?.value,
+                      value: userInputs?.local?.value,
                     }}
                     onChange={(e) => handleChange(e, "local")}
                     placeholder="Select "
@@ -992,7 +1052,7 @@ const MarketingEditReader = () => {
                     placeholder="Enter address"
                     className="form-control"
                     name="address"
-                    defaultValue={userInputs?.address}
+                    value={userInputs?.address}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -1056,10 +1116,10 @@ const MarketingEditReader = () => {
                   <Select
                     options={logActivityOptions}
                     name="logActivity"
-                   // value={userInputs?.logActivity}
+                    // value={userInputs?.logActivity}
                     value={{
-                      label: userInputs?.logActivity,
-                      value: userInputs?.logActivity,
+                      label: userInputs?.logActivity?.value,
+                      value: userInputs?.logActivity?.value,
                     }}
                     onChange={(e) => handleChange(e, "logActivity")}
                     placeholder="Select log activity"
@@ -1081,10 +1141,10 @@ const MarketingEditReader = () => {
                   <Select
                     options={taskOptions}
                     name="task"
-                   // value={userInputs?.task}
+                    // value={userInputs?.task}
                     value={{
-                      label: userInputs?.task,
-                      value: userInputs?.task,
+                      label: userInputs?.task?.value,
+                      value: userInputs?.task?.value,
                     }}
                     onChange={(e) => handleChange(e, "task")}
                     placeholder="Select log activity"
@@ -1130,7 +1190,12 @@ const MarketingEditReader = () => {
   const Opportunity = () => {
     return (
       <>
-        <div className="create-change-content">
+        <div className="create-change-content reader_added">
+        <div className="form-action">
+
+<div className="row">
+
+<div className="col-12 col-md-7">
           <Form.Group className="form-group">
             <Form.Label htmlFor="">Title</Form.Label>
             <input
@@ -1171,16 +1236,16 @@ const MarketingEditReader = () => {
             ) : null}
           </div>
 
-          <Form.Group className="form-group">
+          <Form.Group className="form-group margin-added">
             <Form.Label htmlFor="">Pipeline Stage</Form.Label>
             <Select
               options={pipelineOptions}
               placeholder="Select pipeline stage"
               className="dropdown-basic-button split-button-dropup"
-             // value={userInputs?.pipeline}
+              // value={userInputs?.pipeline}
               value={{
-                label: userInputs?.pipeline,
-                value: userInputs?.pipeline,
+                label: userInputs?.pipeline?.value,
+                value: userInputs?.pipeline?.value,
               }}
               isClearable
               onChange={(e) => handleChange(e, "pipeline")}
@@ -1208,7 +1273,7 @@ const MarketingEditReader = () => {
             />
           </Form.Group>
 
-          <Form.Group className="form-group primary_phone">
+          <Form.Group className="form-group">
             <Form.Label htmlFor="">Probability %</Form.Label>
             <Select
               options={probabilityOptions}
@@ -1216,11 +1281,11 @@ const MarketingEditReader = () => {
               isClearable
               placeholder=""
               name="probability"
-               value={{
-                label: userInputs?.probability,
-                value: userInputs?.probability,
+              value={{
+                label: userInputs?.probability?.value,
+                value: userInputs?.probability?.value,
               }}
-             // value={userInputs?.probability}
+              // value={userInputs?.probability}
               onChange={(e) => handleChange(e, "probability")}
             />
           </Form.Group>
@@ -1233,11 +1298,11 @@ const MarketingEditReader = () => {
               name="weightedValue"
               placeholder="Weighted value"
               value={
-                userInputs?.weightedValue
-                  ? (userInputs?.weightedValue).toFixed(2)
+                userInputs?.weighted_value
+                  ? (parseFloat(userInputs?.weighted_value)).toFixed(2)
                   : ""
               }
-              defaultValue={userInputs?.weightedValue}
+              defaultValue={userInputs?.weighted_value}
             // onChange={(e) => handleChange(e)}
             />
           </Form.Group>
@@ -1283,6 +1348,9 @@ const MarketingEditReader = () => {
               className="form-control"
             // minDate={currentDate}
             />
+          </div>
+          </div>
+          </div>
           </div>
         </div>
       </>
@@ -1373,11 +1441,11 @@ const MarketingEditReader = () => {
                 <Col md={9}>
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="">Create Your Content</a>
+                      <a href="">Edit CRM</a>
                     </li>
 
                     <li className="">
-                      <a href="">Approve Your Content &amp; Publish</a>
+                      <a href="">Review &amp; Approve</a>
                     </li>
                   </ul>
                 </Col>

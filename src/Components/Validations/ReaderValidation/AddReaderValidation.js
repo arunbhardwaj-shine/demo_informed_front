@@ -11,6 +11,11 @@ export const AddReaderValidation = (data, groupId, flag) => {
   if (!data?.email || regemail?.test(data?.email) === false) {
     error.email = "Email required with email pattern";
   }
+  if (data.country.value=="") {
+
+    error.country = "Please select country";
+
+  }
   // if (groupId == 2 || (groupId == 3 && flag == 0)) {
   //   if (!data?.primary_phone?.toString()) {
   //     error.primary_phone = "Phone number required with country code";

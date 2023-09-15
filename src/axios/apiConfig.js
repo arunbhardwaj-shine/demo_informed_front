@@ -123,6 +123,6 @@ export const ENDPOINT = {
   ADD_WEBINAR_QUESTION: "/auth/add-webinar-question",
   ADD_MARKETING_FEATURES: "/reader/add-marketing-features",
   READER_MARKETING_USER_DROP: `/reader/user-marketing-detail`,
-  GET_MARKETING_USER_DROP: `/reader/get-marketing-reader/2147528433`,
+  GET_MARKETING_USER_DROP: `/reader/get-marketing-reader`,
   CREATE_MARKETING_READER: `/reader/create-marketing-reader`,
 };
