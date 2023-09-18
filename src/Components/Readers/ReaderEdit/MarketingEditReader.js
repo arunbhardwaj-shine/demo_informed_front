@@ -1460,6 +1460,25 @@ const MarketingEditReader = () => {
       </>
     );
   };
+   const formatDate = (newDate) => {
+     const year = newDate.getFullYear();
+     const month = String(newDate.getMonth() + 1).padStart(2, "0");
+     const day = String(newDate.getDate()).padStart(2, "0");
+     const formattedDate = `${year}-${month}-${day}`;
+     return formattedDate;
+   };
+
+   function isValidDateFormat(dateString) {
+     const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
+     return regex.test(dateString);
+   }
+
+   function convertDate(dateString) {
+     const formattedDate = moment(dateString, "DD MMMM YYYY").format(
+       "YYYY-MM-DD"
+     );
+     return formattedDate;
+   }
   const nextButtonClicked = (e) => {
     e.preventDefault();
 
@@ -1485,6 +1504,18 @@ const MarketingEditReader = () => {
     } else {
       try {
         loader("show");
+        let nextContactDate = "";
+        if (isValidDateFormat(userInputs?.nextContact)) {
+          nextContactDate = convertDate(userInputs?.nextContact);
+        } else {
+          nextContactDate = formatDate(userInputs?.nextContact);
+        }
+        let quoteValidDate = "";
+        if (isValidDateFormat(userInputs?.quoteValid)) {
+          quoteValidDate = convertDate(userInputs?.quoteValid);
+        } else {
+          quoteValidDate = formatDate(userInputs?.quoteValid);
+        }
         let data = {
           jobTitle: userInputs?.jobTitle,
           title: userInputs?.title?.value,
@@ -1501,10 +1532,7 @@ const MarketingEditReader = () => {
           prospect: userInputs?.prospect?.value,
           type_of_contact: userInputs?.typeContact,
           contact_ownership: userInputs?.ownership?.value,
-          // main: userInputs?.main,
-          // influencer: userInputs?.influencer,
-          // decision_maker: userInputs?.decisionMaker,
-          // introducer: userInputs?.introducer,
+
           customerType: userInputs?.customerType?.value,
           company_name: userInputs?.companyName?.value,
           country: userInputs?.country?.value,
@@ -1516,7 +1544,7 @@ const MarketingEditReader = () => {
           address: userInputs?.address,
           log_activity: userInputs?.logActivity?.value,
           task: userInputs?.task?.value,
-          next_contact: userInputs?.nextContact.toString(),
+          next_contact: nextContactDate,
           contact_total: userInputs?.contactTotal,
           opportunity_title: userInputs?.opportunityTitle,
           our_product: userInputs?.ourProduct,
@@ -1527,7 +1555,7 @@ const MarketingEditReader = () => {
             ? userInputs?.weighted_value
             : "",
           quote_sent: userInputs?.quoteSent,
-          quote_valid: userInputs?.quoteValid,
+          quote_valid: quoteValidDate,
         };
         console.log("user inputs", data);
         loader("hide");
