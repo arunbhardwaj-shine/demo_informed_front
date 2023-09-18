@@ -312,7 +312,7 @@ const MarketingReaderReview = () => {
                         ) : (
                           <td>
                             {readerData?.next_contact
-                              ? readerData?.next_contact?.toLocaleDateString()
+                              ? readerData?.next_contact
                               : "N/A"}
                           </td>
                         )}
@@ -410,7 +410,7 @@ const MarketingReaderReview = () => {
                           </th>
                           <td>
                             {readerData?.quote_valid
-                              ? readerData?.quote_valid?.toLocaleDateString()
+                              ? readerData?.quote_valid
                               : "N/A"}
                           </td>
                         </tr>

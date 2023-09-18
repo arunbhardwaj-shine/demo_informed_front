@@ -1274,6 +1274,26 @@ const MarketingAddReader = () => {
       </>
     );
   };
+
+  const formatDate = (newDate) => {
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, "0");
+    const day = String(newDate.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
+
+  function isValidDateFormat(dateString) {
+    const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
+    return regex.test(dateString);
+  }
+
+  function convertDate(dateString) {
+    const formattedDate = moment(dateString, "DD MMMM YYYY").format(
+      "YYYY-MM-DD"
+    );
+    return formattedDate;
+  }
   const nextButtonClicked = (e) => {
     e.preventDefault();
     const result = AddReaderValidation(userInputs, groupId);
@@ -1298,6 +1318,18 @@ const MarketingAddReader = () => {
     } else {
       try {
         loader("show");
+        let nextContactDate = "";
+        if (isValidDateFormat(userInputs?.nextContact)) {
+          nextContactDate = convertDate(userInputs?.nextContact);
+        } else {
+          nextContactDate = formatDate(userInputs?.nextContact);
+        }
+        let quoteValidDate = "";
+        if (isValidDateFormat(userInputs?.quoteValid)) {
+          quoteValidDate = convertDate(userInputs?.quoteValid);
+        } else {
+          quoteValidDate = formatDate(userInputs?.quoteValid);
+        }
         let data = {
           jobTitle: userInputs?.jobTitle,
           title: userInputs?.title?.value,
@@ -1326,7 +1358,8 @@ const MarketingAddReader = () => {
           address: userInputs?.address,
           log_activity: userInputs?.logActivity?.value,
           task: userInputs?.task?.value,
-          next_contact: userInputs?.nextContact,
+          // next_contact: userInputs?.nextContact?.toDateString(),
+          next_contact: nextContactDate,
           opportunity_title: userInputs?.opportunityTitle,
           our_product: userInputs?.ourProduct,
           contact_total: userInputs?.contactTotal,
@@ -1337,7 +1370,7 @@ const MarketingAddReader = () => {
             ? userInputs?.weightedValue
             : "",
           quote_sent: userInputs?.quoteSent,
-          quote_valid: userInputs?.quoteValid?.toString(),
+          quote_valid: quoteValidDate,
         };
         loader("hide");
         navigate("/reader-review", {
