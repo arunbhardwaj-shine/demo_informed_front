@@ -185,6 +185,11 @@ const MarketingReaderReview = () => {
                         <th className="tab-content-title">Type of contact </th>
                         <td>
                           {readerData?.type_of_contact?.length
+                            ? readerData?.type_of_contact
+                                .map((item) => item)
+                                .join(", ")
+                            : "N/A"}
+                          {/* {readerData?.type_of_contact?.length
                             ? readerData?.type_of_contact?.map((item) => {
                                 return (
                                   <>
@@ -193,7 +198,7 @@ const MarketingReaderReview = () => {
                                   </>
                                 );
                               })
-                            : "N/A"}
+                            : "N/A"} */}
                         </td>
                       </tr>
                       <tr>
@@ -260,29 +265,24 @@ const MarketingReaderReview = () => {
                               {readerData?.address?.street1
                                 ? `${readerData?.address?.street1},`
                                 : ""}
+
                               {readerData?.address?.street2
-                                ? `${readerData?.address?.street2}`
+                                ? `${readerData?.address?.street2},`
                                 : ""}
+
                               {readerData?.address?.city
-                                ? `,${readerData?.address?.city}`
+                                ? `${readerData?.address?.city},`
                                 : ""}
+
                               {readerData?.address?.postcode
-                                ? `,${readerData?.address?.postcode}`
+                                ? `,${readerData?.address?.postcode},`
                                 : ""}
+
                               {readerData?.address?.country
-                                ? `,${readerData?.address?.country}`
+                                ? `${readerData?.address?.country}`
                                 : ""}
                             </>
                           ) : (
-                            // Object.keys(readerData?.address)?.map((item) => {
-                            //     return (
-                            //       <>
-                            //         {readerData?.address[item]
-                            //           ? `${readerData?.address[item]},`
-                            //           : null}
-                            //       </>
-                            //     );
-                            //   })
                             "N/A"
                           )}
                         </td>
@@ -295,23 +295,29 @@ const MarketingReaderReview = () => {
                             : "N/A"}
                         </td>
                       </tr> */}
+
                       <tr>
                         <th>Log activity</th>
                         <td>
-                          {readerData?.log_activity
-                            ? readerData?.log_activity?.trim().length > 100
-                              ? readerData?.log_activity?.substring(0, 100)
-                              : readerData?.log_activity.trim()
+                          {readerData?.log_activity?.value
+                            ? readerData?.log_activity?.value?.trim().length >
+                              100
+                              ? readerData?.log_activity?.value?.substring(
+                                  0,
+                                  100
+                                )
+                              : readerData?.log_activity?.value?.trim()
                             : "N/A"}
                           <Collapse in={openProduction}>
                             <div id="collapse-text-view">
-                              {readerData?.log_activity
-                                ? readerData?.log_activity?.trim()
+                              {readerData?.log_activity?.value
+                                ? readerData?.log_activity?.value?.trim()
                                 : ""}
                             </div>
                           </Collapse>
-                          {readerData?.log_activity ? (
-                            readerData?.log_activity?.trim().length > 100 ? (
+                          {readerData?.log_activity?.value ? (
+                            readerData?.log_activity?.value?.trim().length >
+                            100 ? (
                               <span
                                 className="show_more"
                                 onClick={() =>
