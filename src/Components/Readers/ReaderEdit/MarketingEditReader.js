@@ -281,7 +281,7 @@ address:JSON.parse(data?.address),
         // postcode: data?.address.postcode,
         // addressCountry: data?.address.country,
         logActivity: { value: data?.log_activity },
-        task: { value: data?.task },
+        task:  data?.task,
         opportunityTitle: data?.opportunity_title,
         ourProduct: data?.our_product,
         pipeline: { value: data?.pipeline },
@@ -398,6 +398,42 @@ address:JSON.parse(data?.address),
         ...userInputs,
         typeContact: typeContactArray,
       });
+    }
+
+     else if (isSelectedName == "taskValueChecked") {
+      // console.log();
+      if(e){
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task, taskCheckClicked: e,taskDate:new Date() }})
+      // console.log(userInputs);
+      }
+      else{
+        setUserInputs({
+          ...userInputs,
+          task: { ...userInputs?.task, taskCheckClicked: e }})
+        // console.log(userInputs);
+        
+      }
+    } 
+    
+    else if (isSelectedName == "taskDate") {
+
+      // console.log(e);
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task, taskDate:new Date(e) }})
+      // console.log(userInputs);
+   
+    }
+    else if (isSelectedName == "task") {
+
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task,
+        task: e?.value}
+      });
+      console.log(userInputs);
     }
      else {
       
@@ -1238,8 +1274,8 @@ address:JSON.parse(data?.address),
                     name="task"
                     // value={userInputs?.task}
                     value={{
-                      label: userInputs?.task?.value,
-                      value: userInputs?.task?.value,
+                      label: userInputs?.task?.task,
+                      value: userInputs?.task?.task,
                     }}
                     onChange={(e) => handleChange(e, "task")}
                     placeholder="Select log activity"
@@ -1255,7 +1291,52 @@ address:JSON.parse(data?.address),
                       Add New Task +
                     </Button>
                   </div>
+                  
                 </Form.Group>
+                <div>
+                  
+                <Form.Group className="form-group margin-added">
+                  <Form.Label></Form.Label>
+                  <DatePicker
+                    selected={
+                      userInputs?.task?.taskDate
+                        ? new Date(  userInputs?.task?.taskDate)
+                        :""
+                    }
+                    name="taskDate"
+                    onChange={(e) => handleChange(e, "taskDate")}
+                    dateFormat="dd/MM/yyyy"
+                    className="form-control"
+                    // minDate={currentDate}
+                  />
+                  <div className="add_check">
+                  <fieldset id="group2">
+                  <>
+                  <input
+                                type="checkbox"
+                                value="value1"
+                                name="taskCheckClicked"
+                                onClick={(e) =>
+                                  handleChange(
+                                    e.target?.checked,
+
+                                    "taskValueChecked"
+                                  )
+                                }
+                                checked={
+                                  userInputs?.task?.taskCheckClicked
+                                    ? true
+                                    : false
+                                }
+                                id={`taskCheckClicked`}
+                              />
+                       <Form.Label htmlFor="">Completed</Form.Label>
+                            </>
+                  </fieldset>
+                  </div>
+ 
+                </Form.Group>
+                </div>
                 <Form.Group className="form-group">
                   <Form.Label>Next contact</Form.Label>
                   <DatePicker
@@ -1430,9 +1511,11 @@ address:JSON.parse(data?.address),
 
                 <div className="form-group">
                   <label htmlFor="">Quote valid until</label>
+                  {console.log( typeof userInputs?.quoteValid,"  userInputs?.quoteValid")}
                   <DatePicker
+                  
                     selected={
-                      userInputs?.quoteValid
+                      userInputs?.quoteValid &&userInputs?.quoteValid !="0000-00-00 00:00:00"
                         ? new Date(userInputs?.quoteValid)
                         : new Date(
                             moment(new Date(), "MM/DD/YYYY").format(
@@ -1514,7 +1597,7 @@ address:JSON.parse(data?.address),
           // address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
           address: userInputs?.address,
           log_activity: userInputs?.logActivity?.value,
-          task: userInputs?.task?.value,
+          task: userInputs?.task,
           next_contact: userInputs?.nextContact.toString(),
           contact_total: userInputs?.contactTotal,
           opportunity_title: userInputs?.opportunityTitle,
