@@ -126,4 +126,6 @@ export const ENDPOINT = {
   READER_MARKETING_USER_DROP: `/reader/user-marketing-detail`,
   GET_MARKETING_USER_DROP: `/reader/get-marketing-reader`,
   CREATE_MARKETING_READER: `/reader/create-marketing-reader`,
+  UPDATETIMELINEMARKETINGDETAILS: `/reader/update-timeline-reader`
 };
+
