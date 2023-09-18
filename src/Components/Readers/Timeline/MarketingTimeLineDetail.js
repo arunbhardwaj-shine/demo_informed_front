@@ -10,6 +10,7 @@ import DatePicker from "react-datepicker";
 import CommonModel from "../../../Model/CommonModel";
 import { popup_alert } from "../../../popup_alert";
 import "react-datepicker/dist/react-datepicker.css";
+import { type } from "@amcharts/amcharts4/core";
 // import {
 //   Accordion,
 //   Col,
@@ -37,6 +38,7 @@ const MarketingTimeLineDetail = (props) => {
   const [changeProbablity, setChangeProbablity] = useState('');  
   const [commonHeader, setCommonHeader] = useState("");
   const [commonFooter, setCommonFooter] = useState("");
+  const [lastnoteTime, setlastnoteTime] = useState("");
   const [data, setData] = useState([]);
   const [readerId, setReaderId] = useState(
     localStorage.getItem("myData")
@@ -230,13 +232,26 @@ const MarketingTimeLineDetail = (props) => {
       }else{
         setTimeLineData(res?.data?.data);
       }
+      let note = "";
+      if(res?.data?.data?.user?.log_activity){
+        if(res?.data?.data?.user?.log_activity != ""){
+            let jsonString = res?.data?.data?.user?.log_activity;
+            const jsonObject = JSON.parse(jsonString);
+            // console.log(jsonObject,"jsonObject");
+            note = jsonObject?.value;
+            const dateTime = new Date(jsonObject?.date);
+            let lasttime = formatDate(dateTime);
+            setlastnoteTime(lasttime);
+        }
+      }
+    //   console.log(note,"note");
       setUserInputs({
         ...userInputs,
         pipeline: res?.data?.data?.user?.pipeline,
         channel : res?.data?.data?.user?.chanel,
         opportunity_value: res?.data?.data?.user?.opportunity_value,
         probability: res?.data?.data?.user?.probability,
-        log_activity:res?.data?.data?.user?.log_activity,
+        log_activity:note,
         next_contact: res?.data?.data?.user?.next_contact,
       });
       loader("hide");
@@ -525,7 +540,7 @@ const MarketingTimeLineDetail = (props) => {
               Object.keys(timeLineData).length > 0 ? (
                 <>
                   <div className="vertical-timeline d-flex align-items-start">
-                    <div>
+                    <div className="marketing_timeline">
                         <div className="timeline-left-user mb-3">
                             <div className="timeline-left-user-detail">
                             <h5>
@@ -701,6 +716,20 @@ const MarketingTimeLineDetail = (props) => {
                                             >
 
                                         </textarea>
+                                        {
+                                            typeof(lastnoteTime) !== "undefined" && lastnoteTime != "" && (
+                                                <span>
+                                                    <>
+                                                    Last Update:
+                                                    {
+                                                        moment(lastnoteTime).format('DD MMMM YYYY')
+                                                    }
+                                                    </>
+                                                </span>
+                                            )
+                                            
+                                        }
+                                        
                                                 {
                                                     /*<div className="select">
                                                     <Select
