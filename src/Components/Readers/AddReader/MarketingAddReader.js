@@ -42,6 +42,7 @@ const MarketingAddReader = () => {
   });
   const [commonHeader, setCommonHeader] = useState("");
   const [commonFooter, setCommonFooter] = useState("");
+  const [showTaskExtra, setShowTaskExtra] = useState(false);
   const [userInputs, setUserInputs] = useState({
     jobTitle: "",
     title: { value: "" },
@@ -153,6 +154,10 @@ const MarketingAddReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
+
+    if(isSelectedName=="task"){
+      setShowTaskExtra(true)
+    }
     if (isSelectedName == "address") {
       if (e.target?.name == "street1") {
         setUserInputs({
@@ -208,7 +213,35 @@ const MarketingAddReader = () => {
         ...userInputs,
         typeContact: typeContactArray,
       });
-    } else if (isSelectedName == "probability") {
+    }  
+    
+    else if (isSelectedName == "taskValueChecked") {
+      // console.log();
+      if(e){
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task, taskCheckClicked: e,taskDate:new Date() }})
+      // console.log(userInputs);
+      }
+      else{
+        setUserInputs({
+          ...userInputs,
+          task: { ...userInputs?.task, taskCheckClicked: e }})
+        // console.log(userInputs);
+        
+      }
+    } 
+    
+    else if (isSelectedName == "taskDate") {
+
+      // console.log(e);
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task, taskDate:new Date(e) }})
+      // console.log(userInputs);
+   
+    }
+    else if (isSelectedName == "probability") {
       let weighted_Value = "";
       if (userInputs?.opportunityValue) {
         weighted_Value = (userInputs?.opportunityValue * e?.value) / 100;
@@ -1023,7 +1056,7 @@ const MarketingAddReader = () => {
                   <Select
                     options={taskOptions}
                     name="task"
-                    value={userInputs?.task}
+                    value={userInputs?.task?.task}
                     onChange={(e) => handleChange(e, "task")}
                     placeholder="Select log activity"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -1039,6 +1072,47 @@ const MarketingAddReader = () => {
                     </Button>
                   </div>
                 </Form.Group>
+
+{showTaskExtra &&
+<div>
+                <Form.Group className="form-group">
+                  {/* <Form.Label>Next contact</Form.Label> */}
+                  <DatePicker
+                    selected={
+                      userInputs?.task?.taskDate
+                        ? new Date(  userInputs?.task?.taskDate)
+                        :""
+                    }
+                    name="taskDate"
+                    onChange={(e) => handleChange(e, "taskDate")}
+                    dateFormat="dd/MM/yyyy"
+                    className="form-control"
+                    // minDate={currentDate}
+                  />
+               
+               <Form.Group className="form-group">
+                  <fieldset id="group2">
+                  <>
+                              <input
+                                type="checkbox"
+                                value="value1"
+                                name="taskCheckClicked"
+                                onClick={(e) =>
+                                  handleChange(
+                                    e.target?.checked,
+
+                                    "taskValueChecked"
+                                  )
+                                }
+                                id={`taskCheckClicked`}
+                              />
+                       <Form.Label htmlFor="">Completed</Form.Label>
+                            </>
+                  </fieldset>
+                  </Form.Group>
+ 
+                </Form.Group>
+                </div>}
                 <Form.Group className="form-group">
                   <Form.Label>Next contact</Form.Label>
                   <DatePicker
@@ -1279,7 +1353,7 @@ const MarketingAddReader = () => {
           // address: `${userInputs?.street1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry?.value}`,
           address: userInputs?.address,
           log_activity: userInputs?.logActivity?.value,
-          task: userInputs?.task?.value,
+          task: {task:userInputs?.task?.value,taskCheckClicked:userInputs?.task?.taskCheckClicked,taskDate:userInputs?.task?.taskDate},
           next_contact: userInputs?.nextContact,
           opportunity_title: userInputs?.opportunityTitle,
           our_product: userInputs?.ourProduct,
