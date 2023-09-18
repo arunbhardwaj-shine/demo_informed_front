@@ -17,72 +17,23 @@ const MarketingEditReader = () => {
   const [typeOfContact, setTypeOfContact] = useState([]);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
+  const primaryPhoneRef = useRef(null);
+  const contactTotalRef = useRef(null);
   const countryRef = useRef(null);
+  const postcodeRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
-  // const [groupId, setGroupId] = useState();
   const navigate = useNavigate();
-  // const [titleOptions, setTitleOptions] = useState([
-  //   { label: "Mr", value: "mr" },
-  //   { label: "Mrs", value: "mrs" },
-  //   { label: "Ms", value: "ms" },
-  //   { label: "Dr", value: "dr" },
-  // ]);
   const [titleOptions, setTitleOptions] = useState([]);
-
-  // const [prospectOptions, setProspectOptions] = useState([
-  //   { label: "Customer", value: "customer" },
-  //   { label: "High priority", value: "high priority" },
-  //   { label: "Incoming enquiry", value: "incoming enquiry" },
-  // ]);
   const [prospectOptions, setProspectOptions] = useState([]);
-
-  // const [ownershipOptions, setOwnershipOptions] = useState([
-  //   { label: "Jacob contact", value: "jacob contact" },
-  //   { label: "Philip contact", value: "philip contact" },
-  // ]);
   const [ownershipOptions, setOwnershipOptions] = useState([]);
-
-  // const [customerOptions, setCustomerOptions] = useState([
-  //   { label: "Publisher", value: "publiseher" },
-  //   { label: "Pharma maker", value: "pharma maker" },
-  //   { label: "Pharma R&D", value: "pharma r&d" },
-  //   { label: "Other", value: "other" },
-  // ]);
-
   const [customerOptions, setCustomerOptions] = useState([]);
   const [companyOptions, setCompanyOptions] = useState([]);
   const [companyProductOptions, setCompanyProductOptions] = useState([]);
   const [therapyAreaOptions, setTherapyAreaOptions] = useState([]);
   const [localOptions, setLocalOptions] = useState([]);
   const [taskOptions, setTaskOptions] = useState([]);
-  // const [logActivityOptions, setLogActivityOptions] = useState([
-  //   { label: "Call", value: "call" },
-  //   { label: "Email", value: "email" },
-  //   { label: "Incoming", value: "incoming" },
-  //   { label: "LinkedIn", value: "linkedIn" },
-  //   { label: "Event", value: "event" },
-  // ]);
   const [logActivityOptions, setLogActivityOptions] = useState([]);
-
-  // const [pipelineOptions, setPipelineOptions] = useState([
-  //   { label: "New", value: "new" },
-  //   { label: "Qualified", value: "qualified" },
-  //   { label: "Meeting (initial intro)", value: "meetingInitialIntro" },
-  //   { label: "Meeting (presentation)", value: "meetingPresentation" },
-  //   { label: "Proposal", value: "proposal" },
-  //   { label: "Negotiation", value: "negotiation" },
-  //   { label: "Contract (closed)", value: "contract" },
-  //   { label: "Long grass", value: "longGrass" },
-  // ]);
-
   const [pipelineOptions, setPipelineOptions] = useState([]);
-
-  // const [probabilityOptions, setProbabilityOptions] = useState([
-  //   { label: "10%", value: ".1" },
-  //   { label: "20%", value: ".2" },
-  //   { label: "30%", value: ".3" },
-  //   { label: "40%", value: ".4" },
-  // ]);
   const [probabilityOptions, setProbabilityOptions] = useState([]);
 
   const [error, setError] = useState({});
@@ -180,29 +131,7 @@ const MarketingEditReader = () => {
     pipeline: [],
   });
 
-  //   const handleChange = (e, isSelectedName) => {
-  //     setUserInputs((prev) => ({
-  //       ...prev,
-
-  //       [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-  //         ? e
-  //         : e.target.value,
-  //     }));
-  //   };
-
-  // useEffect(() => {
-  //   console.log(userInputs, "===>userInputs");
-
-  // }, [userInputs]);
-
-  // useEffect(() => {
-  //   console.log(userInputs, "===>userInputs");
-  //   initalFun();
-  // }, []);
-
   useEffect(() => {
-    // console.log(userInputs, "===>userInputs");
-
     initalFun();
   }, []);
 
@@ -405,6 +334,28 @@ const MarketingEditReader = () => {
         setError(null);
       } else {
         setError({ primary_phone: "Number must be 12 digits or less" });
+      }
+    } else if (e?.target?.name == "alternativePhone") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue?.length <= 12) {
+        setUserInputs({
+          ...userInputs,
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
+      } else {
+        setError({ alternativePhone: "Number must be 12 digits or less" });
+      }
+    } else if (e.target?.name == "contactTotal") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue > 500 || cleanedValue < 0) {
+        setError({ contactTotal: "Contact total must be inbetween 0 to 500" });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
       }
     } else {
       setUserInputs({
@@ -790,6 +741,7 @@ const MarketingEditReader = () => {
                   <Form.Label htmlFor="">Primary phone </Form.Label>
                   <Select
                     options={countryCode}
+                    ref={primaryPhoneRef}
                     value={{
                       label: userInputs?.countryCode?.label,
                       value: userInputs?.countryCode?.value,
@@ -825,13 +777,24 @@ const MarketingEditReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Alternative phone</Form.Label>
                   <input
-                    type="number"
-                    className="form-control"
+                    type="tel"
+                    className={
+                      error?.alternativePhone
+                        ? "form-control error"
+                        : "form-control"
+                    }
                     name="alternativePhone"
                     placeholder="Alternative phone"
                     value={userInputs?.alternativePhone}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.alternativePhone ? (
+                    <div className="login-validation">
+                      {error?.alternativePhone}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">LinkedIn</Form.Label>
@@ -1188,6 +1151,7 @@ const MarketingEditReader = () => {
                       error?.postcode ? "form-control error" : "form-control"
                     }
                     name="postcode"
+                    ref={postcodeRef}
                     defaultValue={userInputs?.address?.postcode}
                     value={userInputs?.address?.postcode}
                     onChange={(e) => handleChange(e, "address")}
@@ -1347,16 +1311,22 @@ const MarketingEditReader = () => {
                     name="contactTotal"
                     min="0"
                     value={userInputs?.contactTotal}
-                    // ref={limitFieldRef}
+                    ref={contactTotalRef}
                     className={
-                      error?.limit ? "form-control error" : "form-control"
+                      error?.contactTotal
+                        ? "form-control error"
+                        : "form-control"
                     }
                     placeholder="“0” value means unlimited limit"
                     onChange={(e) => handleChange(e)}
                   />
-                  {error?.limit ? (
-                    <div className="login-validation">{error?.limit}</div>
-                  ) : null}
+                  {error?.contactTotal ? (
+                    <div className="login-validation">
+                      {error?.contactTotal}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
 
                 <Form.Group className="form-group margin-added">
@@ -1500,8 +1470,14 @@ const MarketingEditReader = () => {
         nameRef?.current?.focus();
       } else if (Object?.keys(result)[0] == "email") {
         emailRef?.current?.focus();
+      } else if (Object.keys(result)[0] == "primary_phone") {
+        primaryPhoneRef.current.focus();
       } else if (Object?.keys(result)[0] == "country") {
         countryRef?.current?.focus();
+      } else if (Object.keys(result)[0] == "postcode") {
+        postcodeRef.current.focus();
+      } else if (Object.keys(result)[0] == "contactTotal") {
+        contactTotalRef.current.focus();
       }
       toast.error(result[Object?.keys(result)[0]]);
       setError(result);
