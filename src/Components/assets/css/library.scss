@@ -1944,10 +1944,16 @@ form.product-unit button {
 .create-change-content .form-group fieldset {
   display: flex;
   align-items: center;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
 }
 
 .create-change-content .form-group fieldset label {
   cursor: pointer;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
 }
 
 .create-change-content .form-group fieldset input,

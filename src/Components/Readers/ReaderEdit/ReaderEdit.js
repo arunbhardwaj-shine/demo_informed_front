@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Button, Form } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+import MarketingEditReader from "./MarketingEditReader";
+
 import Select from "react-select";
 import CommonModel from "../../../Model/CommonModel";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
@@ -894,6 +896,9 @@ const ReaderEdit = () => {
 
   return (
     <>
+
+
+{localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ?<MarketingEditReader/>:
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
@@ -1578,7 +1583,7 @@ const ReaderEdit = () => {
           data={data}
           footerButton={commonFooter}
         />
-      </Col>
+      </Col>}
     </>
   );
 };
