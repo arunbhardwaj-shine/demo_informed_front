@@ -373,17 +373,12 @@ const Routing = () => {
             element={<LoginLayout component={ReaderAdd} />}
           />
      
-        {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
-          <Route
-            path="/reader-review"
-            element={<LoginLayout component={MarketingReaderReview} />}
-          />
-        ) : (
+
           <Route
             path="/reader-review"
             element={<LoginLayout component={ReaderReview} />}
           />
-        )}
+        
        
         <Route
           path="/readers-list"
