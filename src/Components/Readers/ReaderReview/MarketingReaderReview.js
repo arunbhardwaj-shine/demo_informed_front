@@ -14,7 +14,7 @@ const MarketingReaderReview = () => {
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}
   );
-  const [flag,setFlag]= useState(
+  const [flag, setFlag] = useState(
     typeof state?.flag !== "undefined" ? state?.flag : {}
   );
   const createUser = async () => {
@@ -253,17 +253,36 @@ const MarketingReaderReview = () => {
                       <tr>
                         <th className="tab-content-title">Address</th>
                         <td>
-                          {Object.keys(readerData?.address)?.length
-                            ? Object.keys(readerData?.address)?.map((item) => {
-                                return (
-                                  <>
-                                    {readerData?.address[item]
-                                      ? `${readerData?.address[item]},`
-                                      : null}
-                                  </>
-                                );
-                              })
-                            : "N/A"}
+                          {Object.keys(readerData?.address)?.length ? (
+                            <>
+                              {readerData?.address?.street1
+                                ? `${readerData?.address?.street1},`
+                                : ""}
+                              {readerData?.address?.street2
+                                ? `${readerData?.address?.street2}`
+                                : ""}
+                              {readerData?.address?.city
+                                ? `,${readerData?.address?.city}`
+                                : ""}
+                              {readerData?.address?.postcode
+                                ? `,${readerData?.address?.postcode}`
+                                : ""}
+                              {readerData?.address?.country
+                                ? `,${readerData?.address?.country}`
+                                : ""}
+                            </>
+                          ) : (
+                            // Object.keys(readerData?.address)?.map((item) => {
+                            //     return (
+                            //       <>
+                            //         {readerData?.address[item]
+                            //           ? `${readerData?.address[item]},`
+                            //           : null}
+                            //       </>
+                            //     );
+                            //   })
+                            "N/A"
+                          )}
                         </td>
                       </tr>
                       <tr>
@@ -284,20 +303,19 @@ const MarketingReaderReview = () => {
                     <table className="tab-mail-list">
                       <tr>
                         <th className="tab-content-title">Next contact</th>
-                        {flag==1?
-                         <td>
-                         {readerData?.next_contact
-                           ? readerData?.next_contact
-                           : "N/A"}
-                       </td>
-                        :
-                        <td>
-                        {readerData?.next_contact
-                          ? readerData?.next_contact?.toLocaleDateString()
-                          : "N/A"}
-                      </td>
-                        }
-                       
+                        {flag == 1 ? (
+                          <td>
+                            {readerData?.next_contact
+                              ? readerData?.next_contact
+                              : "N/A"}
+                          </td>
+                        ) : (
+                          <td>
+                            {readerData?.next_contact
+                              ? readerData?.next_contact
+                              : "N/A"}
+                          </td>
+                        )}
                       </tr>
                       <tr>
                         <th className="tab-content-title">Title</th>
@@ -374,27 +392,29 @@ const MarketingReaderReview = () => {
                             : "N/A"}
                         </td>
                       </tr> */}
-{flag==1?
- <tr>
- <th className="tab-content-title">Quote valid until</th>
- <td>
-   {readerData?.quote_valid 
-     ? readerData?.quote_valid
-     :
-      "N/A"}
- </td>
-</tr>
-:
-<tr>
- <th className="tab-content-title">Quote valid until</th>
- <td>
-   {readerData?.quote_valid 
-     ? readerData?.quote_valid?.toLocaleDateString()
-     :
-      "N/A"}
- </td>
-</tr>
-}
+                      {flag == 1 ? (
+                        <tr>
+                          <th className="tab-content-title">
+                            Quote valid until
+                          </th>
+                          <td>
+                            {readerData?.quote_valid
+                              ? readerData?.quote_valid
+                              : "N/A"}
+                          </td>
+                        </tr>
+                      ) : (
+                        <tr>
+                          <th className="tab-content-title">
+                            Quote valid until
+                          </th>
+                          <td>
+                            {readerData?.quote_valid
+                              ? readerData?.quote_valid
+                              : "N/A"}
+                          </td>
+                        </tr>
+                      )}
                       {/* <tr>
                         <th className="tab-content-title">Quote valid until</th>
                         <td>

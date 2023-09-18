@@ -17,72 +17,23 @@ const MarketingEditReader = () => {
   const [typeOfContact, setTypeOfContact] = useState([]);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
+  const primaryPhoneRef = useRef(null);
+  const contactTotalRef = useRef(null);
   const countryRef = useRef(null);
+  const postcodeRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
-  // const [groupId, setGroupId] = useState();
   const navigate = useNavigate();
-  // const [titleOptions, setTitleOptions] = useState([
-  //   { label: "Mr", value: "mr" },
-  //   { label: "Mrs", value: "mrs" },
-  //   { label: "Ms", value: "ms" },
-  //   { label: "Dr", value: "dr" },
-  // ]);
   const [titleOptions, setTitleOptions] = useState([]);
-
-  // const [prospectOptions, setProspectOptions] = useState([
-  //   { label: "Customer", value: "customer" },
-  //   { label: "High priority", value: "high priority" },
-  //   { label: "Incoming enquiry", value: "incoming enquiry" },
-  // ]);
   const [prospectOptions, setProspectOptions] = useState([]);
-
-  // const [ownershipOptions, setOwnershipOptions] = useState([
-  //   { label: "Jacob contact", value: "jacob contact" },
-  //   { label: "Philip contact", value: "philip contact" },
-  // ]);
   const [ownershipOptions, setOwnershipOptions] = useState([]);
-
-  // const [customerOptions, setCustomerOptions] = useState([
-  //   { label: "Publisher", value: "publiseher" },
-  //   { label: "Pharma maker", value: "pharma maker" },
-  //   { label: "Pharma R&D", value: "pharma r&d" },
-  //   { label: "Other", value: "other" },
-  // ]);
-
   const [customerOptions, setCustomerOptions] = useState([]);
   const [companyOptions, setCompanyOptions] = useState([]);
   const [companyProductOptions, setCompanyProductOptions] = useState([]);
   const [therapyAreaOptions, setTherapyAreaOptions] = useState([]);
   const [localOptions, setLocalOptions] = useState([]);
   const [taskOptions, setTaskOptions] = useState([]);
-  // const [logActivityOptions, setLogActivityOptions] = useState([
-  //   { label: "Call", value: "call" },
-  //   { label: "Email", value: "email" },
-  //   { label: "Incoming", value: "incoming" },
-  //   { label: "LinkedIn", value: "linkedIn" },
-  //   { label: "Event", value: "event" },
-  // ]);
   const [logActivityOptions, setLogActivityOptions] = useState([]);
-
-  // const [pipelineOptions, setPipelineOptions] = useState([
-  //   { label: "New", value: "new" },
-  //   { label: "Qualified", value: "qualified" },
-  //   { label: "Meeting (initial intro)", value: "meetingInitialIntro" },
-  //   { label: "Meeting (presentation)", value: "meetingPresentation" },
-  //   { label: "Proposal", value: "proposal" },
-  //   { label: "Negotiation", value: "negotiation" },
-  //   { label: "Contract (closed)", value: "contract" },
-  //   { label: "Long grass", value: "longGrass" },
-  // ]);
-
   const [pipelineOptions, setPipelineOptions] = useState([]);
-
-  // const [probabilityOptions, setProbabilityOptions] = useState([
-  //   { label: "10%", value: ".1" },
-  //   { label: "20%", value: ".2" },
-  //   { label: "30%", value: ".3" },
-  //   { label: "40%", value: ".4" },
-  // ]);
   const [probabilityOptions, setProbabilityOptions] = useState([]);
 
   const [error, setError] = useState({});
@@ -180,29 +131,7 @@ const MarketingEditReader = () => {
     pipeline: [],
   });
 
-  //   const handleChange = (e, isSelectedName) => {
-  //     setUserInputs((prev) => ({
-  //       ...prev,
-
-  //       [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-  //         ? e
-  //         : e.target.value,
-  //     }));
-  //   };
-
-  // useEffect(() => {
-  //   console.log(userInputs, "===>userInputs");
-
-  // }, [userInputs]);
-
-  // useEffect(() => {
-  //   console.log(userInputs, "===>userInputs");
-  //   initalFun();
-  // }, []);
-
   useEffect(() => {
-    // console.log(userInputs, "===>userInputs");
-
     initalFun();
   }, []);
 
@@ -274,14 +203,14 @@ const MarketingEditReader = () => {
         therapyArea: { value: data?.company_therapy_area },
         local: { value: data?.local },
         //  address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
-address:JSON.parse(data?.address),
+        address: JSON.parse(data?.address),
         // street1: data?.address.street1,
         // street2: data?.address.street2,
         // city: data?.address.city,
         // postcode: data?.address.postcode,
         // addressCountry: data?.address.country,
         logActivity: { value: data?.log_activity },
-        task:  data?.task,
+        task: data?.task,
         opportunityTitle: data?.opportunity_title,
         ourProduct: data?.our_product,
         pipeline: { value: data?.pipeline },
@@ -302,49 +231,47 @@ address:JSON.parse(data?.address),
     }
   };
 
-  const handleChange = (e, isSelectedName,key) => {
-    let weighted_Value=""
+  const handleChange = (e, isSelectedName, key) => {
+    let weighted_Value = "";
     // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
     //   weighted_Value =
     //     userInputs?.opportunityValue * userInputs?.probability?.value;
     // }
     if (isSelectedName == "address") {
-
-    
-
       if (e.target?.name == "street1") {
-
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street1: e?.target?.value },
         });
       } else if (e.target?.name == "street2") {
-   
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street2: e?.target?.value },
         });
       } else if (e.target?.name == "city") {
-     
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, city: e?.target?.value },
         });
       } else if (key == "addressCountry") {
-       
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, country: e?.value },
         });
       } else if (e.target?.name == "postcode") {
-    
-        setUserInputs({
-          ...userInputs,
-          address: { ...userInputs?.address, postcode: e?.target?.value },
-        });
+        const cleanedValue = e.target?.value;
+        if (cleanedValue?.length <= 12) {
+          setUserInputs({
+            ...userInputs,
+            address: { ...userInputs?.address, postcode: cleanedValue },
+          });
+
+          setError(null);
+        } else {
+          setError({ postcode: "Postcode maximum of 12 Character long" });
+        }
       }
-    }
-    else if (isSelectedName == "probability") {
+    } else if (isSelectedName == "probability") {
       if (userInputs?.opportunityValue) {
         weighted_Value = (userInputs?.opportunityValue * e?.value) / 100;
         setUserInputs({
@@ -367,8 +294,6 @@ address:JSON.parse(data?.address),
       if (userInputs?.probability?.value) {
         weighted_Value =
           (userInputs?.probability?.value * e?.target?.value) / 100;
-        console.log(weighted_Value);
-
         setUserInputs({
           ...userInputs,
           weighted_value: weighted_Value,
@@ -398,45 +323,69 @@ address:JSON.parse(data?.address),
         ...userInputs,
         typeContact: typeContactArray,
       });
-    }
-
-     else if (isSelectedName == "taskValueChecked") {
-      // console.log();
-      if(e){
-      setUserInputs({
-        ...userInputs,
-        task: { ...userInputs?.task, taskCheckClicked: e,taskDate:new Date() }})
-      // console.log(userInputs);
-      }
-      else{
+    } else if (e?.target?.name == "primary_phone") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue?.length <= 12) {
         setUserInputs({
           ...userInputs,
-          task: { ...userInputs?.task, taskCheckClicked: e }})
-        // console.log(userInputs);
-        
+
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
+      } else {
+        setError({ primary_phone: "Number must be 12 digits or less" });
       }
-    } 
-    
-    else if (isSelectedName == "taskDate") {
-
-      // console.log(e);
+    } else if (e?.target?.name == "alternativePhone") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue?.length <= 12) {
+        setUserInputs({
+          ...userInputs,
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
+      } else {
+        setError({ alternativePhone: "Number must be 12 digits or less" });
+      }
+    } else if (e.target?.name == "contactTotal") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue > 500 || cleanedValue < 0) {
+        setError({ contactTotal: "Contact total must be inbetween 0 to 500" });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
+      }
+    } else if (isSelectedName == "taskValueChecked") {
+      // console.log();
+      if (e) {
+        setUserInputs({
+          ...userInputs,
+          task: {
+            ...userInputs?.task,
+            taskCheckClicked: e,
+            taskDate: new Date(),
+          },
+        });
+        // console.log(userInputs);
+      } else {
+        setUserInputs({
+          ...userInputs,
+          task: { ...userInputs?.task, taskCheckClicked: e },
+        });
+      }
+    } else if (isSelectedName == "taskDate") {
       setUserInputs({
         ...userInputs,
-        task: { ...userInputs?.task, taskDate:new Date(e) }})
-      // console.log(userInputs);
-   
-    }
-    else if (isSelectedName == "task") {
-
-      setUserInputs({
-        ...userInputs,
-        task: { ...userInputs?.task,
-        task: e?.value}
+        task: { ...userInputs?.task, taskDate: new Date(e) },
       });
-      console.log(userInputs);
-    }
-     else {
-      
+    } else if (isSelectedName == "task") {
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task, task: e?.value },
+      });
+    } else {
       setUserInputs({
         ...userInputs,
 
@@ -702,7 +651,7 @@ address:JSON.parse(data?.address),
       <>
         <div className="create-change-content reader_added  ">
           <div className="form_action">
-            <h4>Please fill the following details</h4>
+            {/* <h4>Please fill the following details</h4> */}
             <div className="row">
               <div className="col-12 col-md-7">
                 <Form.Group className="form-group">
@@ -820,6 +769,7 @@ address:JSON.parse(data?.address),
                   <Form.Label htmlFor="">Primary phone </Form.Label>
                   <Select
                     options={countryCode}
+                    ref={primaryPhoneRef}
                     value={{
                       label: userInputs?.countryCode?.label,
                       value: userInputs?.countryCode?.value,
@@ -832,7 +782,7 @@ address:JSON.parse(data?.address),
                   />
 
                   <input
-                    type="number"
+                    type="tel"
                     className={
                       error?.primary_phone
                         ? "form-control error"
@@ -841,19 +791,38 @@ address:JSON.parse(data?.address),
                     name="primary_phone"
                     placeholder="Phone number"
                     defaultValue={userInputs?.primary_phone}
+                    value={userInputs?.primary_phone}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.primary_phone ? (
+                    <div className="login-validation">
+                      {error?.primary_phone}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Alternative phone</Form.Label>
                   <input
-                    type="number"
-                    className="form-control"
+                    type="tel"
+                    className={
+                      error?.alternativePhone
+                        ? "form-control error"
+                        : "form-control"
+                    }
                     name="alternativePhone"
                     placeholder="Alternative phone"
                     value={userInputs?.alternativePhone}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.alternativePhone ? (
+                    <div className="login-validation">
+                      {error?.alternativePhone}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">LinkedIn</Form.Label>
@@ -1206,12 +1175,20 @@ address:JSON.parse(data?.address),
                   <input
                     type="text"
                     placeholder="Enter post code"
-                    className="form-control"
+                    className={
+                      error?.postcode ? "form-control error" : "form-control"
+                    }
                     name="postcode"
+                    ref={postcodeRef}
                     defaultValue={userInputs?.address?.postcode}
                     value={userInputs?.address?.postcode}
                     onChange={(e) => handleChange(e, "address")}
                   />
+                  {error?.postcode ? (
+                    <div className="login-validation">{error?.postcode}</div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Country</Form.Label>
@@ -1222,8 +1199,14 @@ address:JSON.parse(data?.address),
                     isClearable
                     placeholder="Select country"
                     // defaultValue={userInputs?.addressCountry}
-                    value={userInputs?.address?.country?{value:userInputs?.address?.country,label:userInputs?.address?.country}:{value:"",label:""}}
-         
+                    value={
+                      userInputs?.address?.country
+                        ? {
+                            value: userInputs?.address?.country,
+                            label: userInputs?.address?.country,
+                          }
+                        : { value: "", label: "" }
+                    }
                     onChange={(e) =>
                       handleChange(e, "address", "addressCountry")
                     }
@@ -1291,51 +1274,46 @@ address:JSON.parse(data?.address),
                       Add New Task +
                     </Button>
                   </div>
-                  
                 </Form.Group>
                 <div>
-                  
-                <Form.Group className="form-group margin-added">
-                  <Form.Label></Form.Label>
-                  <DatePicker
-                    selected={
-                      userInputs?.task?.taskDate
-                        ? new Date(  userInputs?.task?.taskDate)
-                        :""
-                    }
-                    name="taskDate"
-                    onChange={(e) => handleChange(e, "taskDate")}
-                    dateFormat="dd/MM/yyyy"
-                    className="form-control"
-                    // minDate={currentDate}
-                  />
-                  <div className="add_check">
-                  <fieldset id="group2">
-                  <>
-                  <input
-                                type="checkbox"
-                                value="value1"
-                                name="taskCheckClicked"
-                                onClick={(e) =>
-                                  handleChange(
-                                    e.target?.checked,
+                  <Form.Group className="form-group margin-added">
+                    <Form.Label></Form.Label>
+                    <DatePicker
+                      selected={
+                        userInputs?.task?.taskDate
+                          ? new Date(userInputs?.task?.taskDate)
+                          : ""
+                      }
+                      name="taskDate"
+                      onChange={(e) => handleChange(e, "taskDate")}
+                      dateFormat="dd/MM/yyyy"
+                      className="form-control"
+                      // minDate={currentDate}
+                    />
+                    <div className="add_check">
+                      <fieldset id="group2">
+                        <>
+                          <input
+                            type="checkbox"
+                            value="value1"
+                            name="taskCheckClicked"
+                            onClick={(e) =>
+                              handleChange(
+                                e.target?.checked,
 
-                                    "taskValueChecked"
-                                  )
-                                }
-                                checked={
-                                  userInputs?.task?.taskCheckClicked
-                                    ? true
-                                    : false
-                                }
-                                id={`taskCheckClicked`}
-                              />
-                       <Form.Label htmlFor="">Completed</Form.Label>
-                            </>
-                  </fieldset>
-                  </div>
- 
-                </Form.Group>
+                                "taskValueChecked"
+                              )
+                            }
+                            checked={
+                              userInputs?.task?.taskCheckClicked ? true : false
+                            }
+                            id={`taskCheckClicked`}
+                          />
+                          <Form.Label htmlFor="">Completed</Form.Label>
+                        </>
+                      </fieldset>
+                    </div>
+                  </Form.Group>
                 </div>
                 <Form.Group className="form-group">
                   <Form.Label>Next contact</Form.Label>
@@ -1401,16 +1379,22 @@ address:JSON.parse(data?.address),
                     name="contactTotal"
                     min="0"
                     value={userInputs?.contactTotal}
-                    // ref={limitFieldRef}
+                    ref={contactTotalRef}
                     className={
-                      error?.limit ? "form-control error" : "form-control"
+                      error?.contactTotal
+                        ? "form-control error"
+                        : "form-control"
                     }
                     placeholder="“0” value means unlimited limit"
                     onChange={(e) => handleChange(e)}
                   />
-                  {error?.limit ? (
-                    <div className="login-validation">{error?.limit}</div>
-                  ) : null}
+                  {error?.contactTotal ? (
+                    <div className="login-validation">
+                      {error?.contactTotal}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
 
                 <Form.Group className="form-group margin-added">
@@ -1511,11 +1495,14 @@ address:JSON.parse(data?.address),
 
                 <div className="form-group">
                   <label htmlFor="">Quote valid until</label>
-                  {console.log( typeof userInputs?.quoteValid,"  userInputs?.quoteValid")}
+                  {console.log(
+                    typeof userInputs?.quoteValid,
+                    "  userInputs?.quoteValid"
+                  )}
                   <DatePicker
-                  
                     selected={
-                      userInputs?.quoteValid &&userInputs?.quoteValid !="0000-00-00 00:00:00"
+                      userInputs?.quoteValid &&
+                      userInputs?.quoteValid != "0000-00-00 00:00:00"
                         ? new Date(userInputs?.quoteValid)
                         : new Date(
                             moment(new Date(), "MM/DD/YYYY").format(
@@ -1546,11 +1533,28 @@ address:JSON.parse(data?.address),
       </>
     );
   };
+  const formatDate = (newDate) => {
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, "0");
+    const day = String(newDate.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
+
+  function isValidDateFormat(dateString) {
+    const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
+    return regex.test(dateString);
+  }
+
+  function convertDate(dateString) {
+    const formattedDate = moment(dateString, "DD MMMM YYYY").format(
+      "YYYY-MM-DD"
+    );
+    return formattedDate;
+  }
   const nextButtonClicked = (e) => {
     e.preventDefault();
-   
-  
-  
+
     const result = AddReaderValidation(userInputs);
 
     if (Object?.keys(result)?.length) {
@@ -1558,8 +1562,14 @@ address:JSON.parse(data?.address),
         nameRef?.current?.focus();
       } else if (Object?.keys(result)[0] == "email") {
         emailRef?.current?.focus();
+      } else if (Object.keys(result)[0] == "primary_phone") {
+        primaryPhoneRef.current.focus();
       } else if (Object?.keys(result)[0] == "country") {
         countryRef?.current?.focus();
+      } else if (Object.keys(result)[0] == "postcode") {
+        postcodeRef.current.focus();
+      } else if (Object.keys(result)[0] == "contactTotal") {
+        contactTotalRef.current.focus();
       }
       toast.error(result[Object?.keys(result)[0]]);
       setError(result);
@@ -1567,6 +1577,18 @@ address:JSON.parse(data?.address),
     } else {
       try {
         loader("show");
+        let nextContactDate = "";
+        if (isValidDateFormat(userInputs?.nextContact)) {
+          nextContactDate = convertDate(userInputs?.nextContact);
+        } else {
+          nextContactDate = formatDate(userInputs?.nextContact);
+        }
+        let quoteValidDate = "";
+        if (isValidDateFormat(userInputs?.quoteValid)) {
+          quoteValidDate = convertDate(userInputs?.quoteValid);
+        } else {
+          quoteValidDate = formatDate(userInputs?.quoteValid);
+        }
         let data = {
           jobTitle: userInputs?.jobTitle,
           title: userInputs?.title?.value,
@@ -1583,10 +1605,7 @@ address:JSON.parse(data?.address),
           prospect: userInputs?.prospect?.value,
           type_of_contact: userInputs?.typeContact,
           contact_ownership: userInputs?.ownership?.value,
-          // main: userInputs?.main,
-          // influencer: userInputs?.influencer,
-          // decision_maker: userInputs?.decisionMaker,
-          // introducer: userInputs?.introducer,
+
           customerType: userInputs?.customerType?.value,
           company_name: userInputs?.companyName?.value,
           country: userInputs?.country?.value,
@@ -1598,7 +1617,7 @@ address:JSON.parse(data?.address),
           address: userInputs?.address,
           log_activity: userInputs?.logActivity?.value,
           task: userInputs?.task,
-          next_contact: userInputs?.nextContact.toString(),
+          next_contact: nextContactDate,
           contact_total: userInputs?.contactTotal,
           opportunity_title: userInputs?.opportunityTitle,
           our_product: userInputs?.ourProduct,
@@ -1609,11 +1628,11 @@ address:JSON.parse(data?.address),
             ? userInputs?.weighted_value
             : "",
           quote_sent: userInputs?.quoteSent,
-          quote_valid: userInputs?.quoteValid,
+          quote_valid: quoteValidDate,
         };
         console.log("user inputs", data);
         loader("hide");
-        // console.log(data);
+
         navigate("/reader-review", {
           state: {
             data: data,
