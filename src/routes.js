@@ -67,7 +67,7 @@ import OctaCountryRegistration from "./Components/Analytics/OctaCountryRegistrat
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReadersLayout from "./Components/Readers/ReadersView/ReadersLayout";
 import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReadersList";
-import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
+import ReaderLayout from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
@@ -364,7 +364,7 @@ const Routing = () => {
      
           <Route
             path="/reader-edit"
-            element={<LoginLayout component={ReaderEdit} />}
+            element={<LoginLayout component={ReaderLayout} />}
           />
         
      
@@ -373,17 +373,12 @@ const Routing = () => {
             element={<LoginLayout component={ReaderAdd} />}
           />
      
-        {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
-          <Route
-            path="/reader-review"
-            element={<LoginLayout component={MarketingReaderReview} />}
-          />
-        ) : (
+
           <Route
             path="/reader-review"
             element={<LoginLayout component={ReaderReview} />}
           />
-        )}
+        
        
         <Route
           path="/readers-list"

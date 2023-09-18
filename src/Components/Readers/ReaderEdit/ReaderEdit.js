@@ -12,6 +12,11 @@ import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import axios from "axios";
+
+const ReaderLayout=()=>{
+  return (<>
+  {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ?<MarketingEditReader/>:<ReaderEdit/>}</>)
+}
 const ReaderEdit = () => {
   const { state } = useLocation();
   const nameRef = useRef(null);
@@ -898,7 +903,7 @@ const ReaderEdit = () => {
     <>
 
 
-{localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ?<MarketingEditReader/>:
+
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
@@ -1583,9 +1588,9 @@ const ReaderEdit = () => {
           data={data}
           footerButton={commonFooter}
         />
-      </Col>}
+      </Col>
     </>
   );
 };
 
-export default ReaderEdit;
+export default ReaderLayout;

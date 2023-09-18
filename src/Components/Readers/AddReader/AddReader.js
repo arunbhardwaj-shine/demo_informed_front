@@ -12,6 +12,10 @@ import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import MarketingAddReader from "./MarketingAddReader";
 import axios from "axios";
+const ReaderLayout=()=>{
+  return (<>
+  {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ?<MarketingAddReader/>:<ReaderAdd/>}</>)
+}
 const ReaderAdd = () => {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -979,7 +983,7 @@ const ReaderAdd = () => {
   return (
     <>
 
-    {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ?<MarketingAddReader/>:
+
    
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
@@ -1863,8 +1867,8 @@ const ReaderAdd = () => {
           </div>
         </Modal>
       </Col>
-   } </>
+    </>
   );
 };
 
-export default ReaderAdd;
+export default ReaderLayout;

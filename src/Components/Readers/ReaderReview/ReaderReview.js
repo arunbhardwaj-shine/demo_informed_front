@@ -14,6 +14,12 @@ import { loader } from "../../../loader";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { slice } from "@amcharts/amcharts4/.internal/core/utils/Array";
+import MarketingReaderReview from "./MarketingReaderReview";
+
+const ReaderLayout=()=>{
+  return (<>
+  {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ?<MarketingReaderReview/>:<ReaderReview/>}</>)
+}
 
 const ReaderReview = () => {
   const { state } = useLocation();
@@ -411,4 +417,4 @@ const ReaderReview = () => {
   );
 };
 
-export default ReaderReview;
+export default ReaderLayout;
