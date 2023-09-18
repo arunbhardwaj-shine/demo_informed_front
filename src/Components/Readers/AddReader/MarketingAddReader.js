@@ -175,12 +175,26 @@ const MarketingAddReader = () => {
           address: { ...userInputs?.address, country: e?.value },
         });
       } else if (e.target?.name == "postcode") {
-        setUserInputs({
-          ...userInputs,
-          address: { ...userInputs?.address, postcode: e?.target?.value },
-        });
+        const cleanedValue = e.target?.value?.replace(/\D/g, "");
+        if (cleanedValue?.length <= 6) {
+          setUserInputs({
+            ...userInputs,
+            [e.target.name]: cleanedValue,
+          });
+          setError(null);
+        } else {
+          setError({ postcode: "Postcode must be of 6 digits" });
+        }
       }
-    } else if (key == "typeContact") {
+    }
+    //   else if (e.target?.name == "postcode") {
+    //     setUserInputs({
+    //       ...userInputs,
+    //       address: { ...userInputs?.address, postcode: e?.target?.value },
+    //     });
+    //   }
+    // }
+    else if (key == "typeContact") {
       const typeContactArray = [...(userInputs?.typeContact || [])];
       if (e == true) {
         typeContactArray.push(isSelectedName);
@@ -233,6 +247,18 @@ const MarketingAddReader = () => {
             ? e
             : e?.target?.value,
         });
+      }
+    } else if (e?.target?.name == "primary_phone") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue?.length <= 10) {
+        setUserInputs({
+          ...userInputs,
+
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
+      } else {
+        setError({ primary_phone: "Number must be 10 digits or less" });
       }
     } else {
       setUserInputs({
@@ -604,7 +630,7 @@ const MarketingAddReader = () => {
                   />
 
                   <input
-                    type="number"
+                    type="tel"
                     className={
                       error?.primary_phone
                         ? "form-control error"
@@ -612,8 +638,16 @@ const MarketingAddReader = () => {
                     }
                     name="primary_phone"
                     placeholder="Phone number"
+                    value={userInputs?.primary_phone}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.primary_phone ? (
+                    <div className="login-validation">
+                      {error?.primary_phone}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Alternative phone</Form.Label>
@@ -935,12 +969,20 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Post code</Form.Label>
                   <input
-                    type="number"
+                    type="tel"
                     placeholder="Enter post code"
-                    className="form-control"
+                    className={
+                      error?.postcode ? "form-control error" : "form-control"
+                    }
                     name="postcode"
+                    value={userInputs?.postcode}
                     onChange={(e) => handleChange(e, "address")}
                   />
+                  {error?.postcode ? (
+                    <div className="login-validation">{error?.postcode}</div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Country</Form.Label>
@@ -1193,7 +1235,7 @@ const MarketingAddReader = () => {
   const nextButtonClicked = (e) => {
     e.preventDefault();
     const result = AddReaderValidation(userInputs, groupId);
-    console.log("error", result);
+
     if (Object.keys(result)?.length) {
       if (Object.keys(result)[0] == "firstName") {
         nameRef.current.focus();
