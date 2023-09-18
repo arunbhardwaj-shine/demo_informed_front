@@ -1,5 +1,5 @@
 export const AddReaderValidation = (data, groupId, flag) => {
- 
+  console.log("valid-->", data);
   let error = {};
 
   const regemail =
@@ -11,6 +11,11 @@ export const AddReaderValidation = (data, groupId, flag) => {
   if (!data?.email || regemail?.test(data?.email) === false) {
     error.email = "Email required with email pattern";
   }
+  if (data.country=="") {
+
+    error.country = "Please select country";
+
+  }
   // if (groupId == 2 || (groupId == 3 && flag == 0)) {
   //   if (!data?.primary_phone?.toString()) {
   //     error.primary_phone = "Phone number required with country code";
@@ -20,12 +25,24 @@ export const AddReaderValidation = (data, groupId, flag) => {
   //   }
   // }
   if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-    if (!data?.institution) {                                                                          
+    if (!data?.institution) {
       error.institution = "Please select institution";
     }
   }
   if (!data?.country) {
     error.country = "Please select country";
+  }
+  if (localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==") {
+    if (!data?.country?.value) {
+      error.country = "Please select country";
+    }
+    if (!data?.contactTotal) {
+      error.contactTotal = "Contact total required";
+    } else if (data?.contactTotal) {
+      if (data?.contactTotal > 500 || data?.contactTotal < 0) {
+        error.contactTotal = "Contact total must be inbetween 0 to 500";
+      }
+    }
   }
 
   return error;

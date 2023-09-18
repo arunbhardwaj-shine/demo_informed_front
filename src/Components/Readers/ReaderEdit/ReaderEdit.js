@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Button, Form } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+import MarketingEditReader from "./MarketingEditReader";
+
 import Select from "react-select";
 import CommonModel from "../../../Model/CommonModel";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
@@ -10,6 +12,11 @@ import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import axios from "axios";
+
+const ReaderLayout=()=>{
+  return (<>
+  {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ?<MarketingEditReader/>:<ReaderEdit/>}</>)
+}
 const ReaderEdit = () => {
   const { state } = useLocation();
   const nameRef = useRef(null);
@@ -894,6 +901,9 @@ const ReaderEdit = () => {
 
   return (
     <>
+
+
+
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
@@ -1583,4 +1593,4 @@ const ReaderEdit = () => {
   );
 };
 
-export default ReaderEdit;
+export default ReaderLayout;

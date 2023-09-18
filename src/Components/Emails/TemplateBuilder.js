@@ -164,7 +164,7 @@ const TemplateBuilder = (props) => {
   const [userTemplateType, setUserTemplateType] = useState(
     selectType[0]?.value
   );
-
+  const [saveTemplateType, setsaveTemplateType] = useState();
   const newArr = [];
 
   useEffect(() => {
@@ -296,6 +296,7 @@ const TemplateBuilder = (props) => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag, lng, ibu, userTemplateType) => {
+    console.log(flag,"flag");
     let check_lng_index = 10;
     if (lng == "All") {
       check_lng_index = 10;
@@ -355,6 +356,25 @@ const TemplateBuilder = (props) => {
         getSelectedTemplateSource(res.data.response.data);
         setDefaultTemplate(res.data.response.is_default);
         setCounter(counter + 1);
+        setTimeout(() => {
+          const result =  res.data.response.data.find(obj => obj.id === templateId);
+          if (result) {
+            // console.log('Found:', result?.id);
+            const myButton = document.getElementById('item_' + result?.id);
+            // Programmatically trigger a click event on the element
+            if(myButton){
+              myButton.click();
+            }
+          } else {
+            // console.log('Object not found',res.data.response.data?.[0]?.id);
+            let id= res.data.response.data?.[0]?.id;
+            const myButton = document.getElementById('item_' + id);
+            // Programmatically trigger a click event on the element
+            if(myButton){
+              myButton.click();
+            }
+          }
+        }, 1000);
       })
       .catch((err) => {
         console.log(err);
@@ -440,7 +460,7 @@ const TemplateBuilder = (props) => {
 
   const handleChange = (e) => {
     setUserTemplateType(e?.value);
-    getTemplateListData(0, selectedLanguage, selectedIbu, e?.value);
+    getTemplateListData(2, selectedLanguage, selectedIbu, e?.value);
   };
 
   const addMoreHcp = () => {
@@ -484,7 +504,7 @@ const TemplateBuilder = (props) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
         toast.warning("Please input the required fields.");
       } else {
-        toast.warning("Please input the email atleast");
+        toast.warning("Please input the required fields.");
       }
     }
   };
@@ -768,7 +788,10 @@ const TemplateBuilder = (props) => {
     setTemplateName(template.name);
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
-    e.target.classList.toggle("select_mm");
+    setsaveTemplateType(template.content_included);
+    if(e){
+      e.target.classList.toggle("select_mm");
+    }
   };
 
   const emailSubjectChanged = (e) => {
@@ -1582,6 +1605,7 @@ const TemplateBuilder = (props) => {
           name: templateName,
           status: 2,
           language: 2,
+          content_included: saveTemplateType,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -1664,6 +1688,10 @@ const TemplateBuilder = (props) => {
     setTemplateType(e);
   };
 
+  const onSaveTemplateTypeChange  = (e) => {
+    setsaveTemplateType(e);
+  };
+
   const replaceDangerHtml = (dynamicTempHtml) => {
     const modifiedContent = dynamicTempHtml?.replace(
       '<p><img style="display: none;" src="https://informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
@@ -1704,11 +1732,12 @@ const TemplateBuilder = (props) => {
       
         let tox= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog") 
          let tox1=document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop")
-  
+         let aux= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div")
         xhr.upload.addEventListener("progress", (event) => {
           setShowProgress(true)
          tox.style.opacity = 0
          tox1.style.opacity = 0
+         aux.style.opacity = 0
           if (event.lengthComputable) {
             const percentComplete = (event.loaded / event.total) * 100;
     
@@ -1733,6 +1762,7 @@ const TemplateBuilder = (props) => {
               setShowProgress(false)
          tox1.style.opacity = 1
          tox.style.opacity = 1
+         aux.style.opacity = 1
 
               setProgress(0);
               setPercent(0);
@@ -1974,6 +2004,7 @@ const TemplateBuilder = (props) => {
                         <>
                           <div
                             className="item"
+                            id={"item_" + template.id}
                             onClick={(e) => templateClicked(template, e)}
                           >
                             <img
@@ -2148,6 +2179,37 @@ const TemplateBuilder = (props) => {
                               <div className="form-buttons form-buttons-template right-side">
                                 {templateClickedd ? (
                                   <>
+                                    <div className="form-group">
+                                        <DropdownButton
+                                          className="dropdown-basic-button split-button-dropup"
+                                          title={
+                                            saveTemplateType == 0  ?  "Pure Text" : 
+                                            saveTemplateType == 1  ? "Article" :
+                                            "Select Type"
+                                          }
+                                          onSelect={(event) =>
+                                            onSaveTemplateTypeChange(event)
+                                          }
+                                        >
+                                          <Dropdown.Item
+                                            eventKey="1"
+                                            className={
+                                              saveTemplateType == 1  ? "active" : ""
+                                            }
+                                          >
+                                            Article
+                                          </Dropdown.Item>
+                                          <Dropdown.Item
+                                            eventKey="0"
+                                            className={
+                                              saveTemplateType == 0  ? "active" : ""
+                                            }
+                                          >
+                                            Pure text
+                                          </Dropdown.Item>
+                                          
+                                        </DropdownButton>
+                                      </div>
                                     <button
                                       className="btn btn-primary btn-filled"
                                       onClick={(e) => {
