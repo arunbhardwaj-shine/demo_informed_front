@@ -3457,7 +3457,8 @@ form#add_hcp_form .row:not(:first-child) {
 /** Filter dropdown End**/
 
 /**modal-resend-confirm**/
-.send-confirm .modal-dialog {
+.send-confirm .modal-dialog,
+.login-confirm .modal-dialog {
   max-width: 582px;
 }
 

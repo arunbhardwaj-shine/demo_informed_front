@@ -1481,6 +1481,106 @@ ul.tab-mail-list.data span.total-left small {
   }
 }
 
+.login-confirm #download-qr .modal-body .form-group .form-control {
+  max-width: 367px;
+  padding: 8px 52px;
+
+  &:focus {
+    box-shadow: 0px 0px 7px 0px rgba(0, 102, 190, 0.40);
+
+    &+span {
+      svg {
+        path {
+          fill: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+.login-confirm .modal-title.h4 {
+  color: $dark-blue;
+}
+
+.login-confirm #download-qr .modal-body .form-group {
+  position: relative;
+  margin: 0 0 40px;
+}
+
+.login-confirm #download-qr .modal-body .form-group.pass {
+  margin: 0 0 20px;
+}
+
+.login-confirm .form-check {
+  margin: 0 0 0 22px;
+}
+
+.login-confirm form button.save {
+  max-width: 140px;
+  width: 100%;
+  margin: 15px auto 30px;
+  display: block;
+  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.20));
+}
+
+.login-confirm .forgot-details {
+  text-align: center;
+}
+
+.forgot-details a {
+  font-size: 16px;
+  color: $primary-color
+}
+
+.login-confirm form .form-check input[type="checkbox"] {
+  border: 1px solid #97b6cf;
+  width: 16px;
+  height: 16px;
+  padding: 1px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.login-confirm form .form-check label {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+  color: #97B6CF;
+  margin-left: 3px;
+}
+
+.login-confirm form .form-check .form-check-input:checked[type=checkbox] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+  background-size: 16px;
+  background-position: center;
+}
+
+.login-confirm form input:checked[type="checkbox"] {
+  background-color: #39CABC;
+  border-color: #39CABC;
+}
+
+.login-confirm #download-qr form {
+  max-width: 368px;
+  margin: 0 auto;
+}
+
+.login-confirm #download-qr .modal-body .form-group span {
+  position: absolute;
+  left: 22px;
+  top: 49%;
+  -moz-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.login-confirm #download-qr .modal-body .form-group span.pawword_img {
+  right: 23px;
+  left: auto;
+  cursor: pointer;
+}
+
 .doc-content-main-box .nav-pills button.nav-link.active {
   color: $white !important;
   box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1);
@@ -7726,6 +7826,11 @@ svg.pencil_icon {
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
   position: relative;
 
+  &.pharma {
+    background: #0066BE url(../../../../public/componentAssets/images/pharma-marketing-bg.png) no-repeat;
+    background-size: cover;
+  }
+
   .landing-block {
     z-index: 1;
     padding: 159px 0 210px;
@@ -7783,6 +7888,11 @@ svg.pencil_icon {
 //   background-size: auto 100%;
 //   content: "";
 // }
+.pharma .circular-ring {
+  width: 1110px;
+  height: 1110px;
+}
+
 .circular-ring {
   margin: 0px auto;
   width: 350px;
@@ -8298,9 +8408,11 @@ svg.pencil_icon {
   &:focus {
     box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.50);
 
-    span {
-      img {
-        filter: brightness(0) invert(1);
+    +span {
+      svg {
+        path {
+          fill-opacity: 1;
+        }
       }
     }
   }

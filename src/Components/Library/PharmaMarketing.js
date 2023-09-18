@@ -5,7 +5,7 @@ import Header from '../CommonComponent/HeaderComponent/Header';
 import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 
-const MainLanding = () => {
+const PharmaMarketing = () => {
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const options = [
   { value: 'Algeria', label: 'Algeria' },
@@ -31,10 +31,14 @@ const options = [
             </Row>
         </Container>
     </div>
-    <div className='landing-banner'>
+    <div className='landing-banner pharma'>
         <Container>
             <Row>
                 <div className='landing-block'>
+                    <div className='landing-heading'>
+                        <h1>Predictive Relationship Builder!</h1>
+                    </div>
+                    <div className='landing-sub-heading'><h4>Connecting content & consent with intelligent predictions Allowing the right materials, to reach the right person, at the right time</h4></div>
                     <div className='circular-ring'>
                         <div class="big-circle">
                             <div class="icon-block big">
@@ -98,10 +102,7 @@ const options = [
                             </div>
                         </div>
                     </div>
-                    <div className='landing-heading'>
-                        <h1>Predictive Relationship Builder!</h1>
-                    </div>
-                    <div className='landing-sub-heading'><h4>Connecting content & consent with intelligent predictions Allowing the right materials, to reach the right person, at the right time</h4></div>
+                    
                 </div>
             </Row>
         </Container>
@@ -281,4 +282,4 @@ const options = [
   )
 }
 
-export default MainLanding
+export default PharmaMarketing

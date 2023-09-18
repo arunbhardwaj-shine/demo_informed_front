@@ -148,6 +148,7 @@ import QuestionTrigger from "./Components/Firbase/QuestionTrigger";
 import PollQuestion from "./Components/Firbase/PollQuestion";
 import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf";
 import MainLanding from "./Components/Library/MainLanding";
+import PharmaMarketing from "./Components/Library/PharmaMarketing";
 
 let platform = 0;
 let show = 0;
@@ -209,6 +210,10 @@ const Routing = () => {
         <Route
           path="/main-index"
           element={<DefaultLayout component={MainLanding} />}
+        />
+        <Route
+          path="/pharma-marketing"
+          element={<DefaultLayout component={PharmaMarketing} />}
         />
         <Route
           path="/webinar"
