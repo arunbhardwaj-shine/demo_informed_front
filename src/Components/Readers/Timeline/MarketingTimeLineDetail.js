@@ -8,6 +8,7 @@ import { loader } from "../../../loader";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import CommonModel from "../../../Model/CommonModel";
+import { popup_alert } from "../../../popup_alert";
 import "react-datepicker/dist/react-datepicker.css";
 // import {
 //   Accordion,
@@ -286,8 +287,13 @@ const MarketingTimeLineDetail = (props) => {
         payload.user_id = readerId;
         
         const res = await postData(ENDPOINT.UPDATETIMELINEMARKETINGDETAILS, payload);
-        // console.log(payload);
         loader("hide");
+        popup_alert({
+            visible: "show",
+            message: "Your Profile has been updated successfully!",
+            type: "success",
+            redirect: "",
+          });
     }catch(err){
         loader("hide");
         console.log(err);
