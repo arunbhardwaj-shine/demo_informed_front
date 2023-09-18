@@ -38,6 +38,7 @@ export const ENDPOINT = {
   READER_GET_READER_USER: `/reader/get-reader`,
   UPLOAD_READER_FILE: `/reader/upload-readers`,
   USERTIMELINE: `/reader/get-timetracking`,
+  MARKETINGUSERTIMELINE: `/reader/marketing-timetracking`,
   READERSTATUSUPDATE: `/reader/update-status`,
   MARKETINGREADERSTATUSUPDATE: `/reader/update-marketing-status`,
   READERSFILTER: `/reader/get-reader-filter`,

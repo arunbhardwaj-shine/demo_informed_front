@@ -72,6 +72,7 @@ import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
+import MarketingTimeLineDetail from "./Components/Readers/Timeline/MarketingTimeLineDetail";
 import TrialSite from "./Components/Readers/AddSite/TrialSite";
 import AddSite from "./Components/Readers/AddSite/AddSite";
 import EditSite from "./Components/Readers/AddSite/EditSite";
@@ -385,9 +386,22 @@ const Routing = () => {
           element={<LoginLayout component={ReadersListAdd} />}
         />
         <Route
+            path="/timeline-detail"
+            element={
+              localStorage.getItem('user_id') == '90VIqoM675WT4/peSRnbSQ==' ? (
+                <LoginLayout component={MarketingTimeLineDetail} />
+              ) : (
+                <LoginLayout component={TimelineDetail} />
+              )
+            }
+        />
+        {
+          /*<Route
           path="/timeline-detail"
           element={<LoginLayout component={TimelineDetail} />}
-        />
+        /> */
+        }
+        
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
