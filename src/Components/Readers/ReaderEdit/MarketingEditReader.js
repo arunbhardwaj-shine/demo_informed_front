@@ -200,7 +200,7 @@ const MarketingEditReader = () => {
         alternativeEmail: data?.alternativeEmail,
         countryCode: { label: phoneNumber[0], value: phoneNumber[0] },
         primary_phone: phoneNumber[1],
-        alternativePhone: parseInt(data?.alternativePhone),
+        alternativePhone: data?.alternativePhone,
         linkedIn: data?.linkedIn,
         prospect: { value: data?.prospect },
         ownership: { value: data?.contact_ownership },
@@ -215,6 +215,7 @@ const MarketingEditReader = () => {
         companyProduct: { value: data?.company_product },
         therapyArea: { value: data?.company_therapy_area },
         local: { value: data?.local },
+        nextContact: data?.next_contact,
         //  address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
         address: JSON.parse(data?.address),
         // street1: data?.address.street1,
@@ -1349,7 +1350,7 @@ const MarketingEditReader = () => {
                 </Form.Group>
               </div>
               <div className="col-12 col-md-5 d-flex justify-content-end right-change">
-                <div className="form-group justify-content-end align-items-start">
+                <div className="form-group justify-content-end align-items-start wrap-text">
                   <label htmlFor="">Log activity </label>
 
                   <textarea
