@@ -23,6 +23,7 @@ export const ENDPOINT = {
   LIBRARYGETSINGLESPC: `/library/getSpcById`,
   LIBRARYSPCDELETE: `/library/deletespc`,
   READER_LIST_DATA: `/reader/reader`,
+  MARKETING_READER_LIST_DATA: `/reader/marketing_reader`,
   SPC_PRO_DELETE: `/library/spcProductDelete/`,
   SPC_HELPER_LISTING: `/library/spc-helper-listing`,
   SPC_UPDATE: `/library/spc-edit`,
@@ -33,12 +34,16 @@ export const ENDPOINT = {
   READER_CREATE: `/reader/create-reader`,
   ADD_PDF_WORD: `/library/add-pdf-word`,
   READER_USER_DROP: `/reader/user-detail`,
+  MARKETING_READER_USER_DROP: `/reader/user-marketing-detail`,
   READER_GET_READER_USER: `/reader/get-reader`,
   UPLOAD_READER_FILE: `/reader/upload-readers`,
   USERTIMELINE: `/reader/get-timetracking`,
   READERSTATUSUPDATE: `/reader/update-status`,
+  MARKETINGREADERSTATUSUPDATE: `/reader/update-marketing-status`,
   READERSFILTER: `/reader/get-reader-filter`,
+  MARKETINGREADERSFILTER: `/reader/get-marketing-reader-filter`,
   READERACTIVITY: `/reader/reader-activity`,
+  MARKETINGREADERACTIVITY: `/reader/marketing-reader-activity`,
   TOPCLIENTS: `/analytics/reader-country`,
   TOPRESELLER: `/analytics/reader-country`,
   TOPSALES: `/analytics/reader-country`,
@@ -49,14 +54,13 @@ export const ENDPOINT = {
   READERANALYTICS: "/analytics/reader-analytics",
   SUBLINK_READER_ANALYTICS: "library/sublink-reader",
   OCTALATCH_TOTAL_HCP:
-    "https://webinar.docintel.app/lmn/api/analytics/octo_lach_stats",
+    "https://webinar.docintel.app/lmn/api/analytics/octo_lach_stats_sample",
   OCTALATCH_DELIVERY_REGISTRATION:
     "https://webinar.docintel.app/lmn/api/analytics/octa_delivery_registration",
 
   DELIVERYTRENDS: "analytics/trend",
   //CAMPAINGSTAT: "analytics/campaign-stats",
   CAMPAINGSTAT: "analytics/delivery-campaign-stats",
-
 
   MAPLOCATION: `analytics/map-location`,
   SUBLINK_MAPLOCATION: `library/Sublink-country`,
@@ -67,6 +71,7 @@ export const ENDPOINT = {
   CONTENT: "analytics/content",
   TRENDING_TOPIC: "analytics/topic",
   READER_DOWNLOAD: `/reader/reader-file`,
+  MARKETING_READER_DOWNLOAD: `/reader/marketing_reader_file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`,
   COUNTRY_REGISTRATION: `analytics/country`,
   ADD_TAGS: `/library/add-tags`,
@@ -88,6 +93,7 @@ export const ENDPOINT = {
   CHANGE_PASSWORD: "auth/change-password",
   INFORMED_USER_FORM: "https://webinar.docintel.app/lmn/contact_email",
   READER_REFRESH: "/reader/sync-reader",
+  MARKETING_READER_REFRESH: "/reader/sync-marketing-reader",
   LIBRARY_CLONE_ARTICLE: "/library/clone-article",
   WEBINAR_QUESTION: `/auth/questions`,
   POLL_ANSWER: `/auth/poll-answer`,
@@ -114,7 +120,9 @@ export const ENDPOINT = {
   ADD_EVENT_DATA: "/auth/add-event-data",
   EVENT_SUBMIT: "/auth/event-submit",
   EVENT_CLOSE: "/auth/close-submit",
-  ADD_WEBINAR_QUESTION :"/auth/add-webinar-question"
-
-  
+  ADD_WEBINAR_QUESTION: "/auth/add-webinar-question",
+  ADD_MARKETING_FEATURES: "/reader/add-marketing-features",
+  READER_MARKETING_USER_DROP: `/reader/user-marketing-detail`,
+  GET_MARKETING_USER_DROP: `/reader/get-marketing-reader`,
+  CREATE_MARKETING_READER: `/reader/create-marketing-reader`,
 };
