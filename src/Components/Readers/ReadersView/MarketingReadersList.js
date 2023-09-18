@@ -171,6 +171,7 @@ const MarketingReadersList = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
+    
     // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       setAppliedFilter({});
       setFilterObject({});
@@ -273,11 +274,13 @@ const MarketingReadersList = () => {
       }
 
       const res = await postData(ENDPOINT.MARKETING_READER_LIST_DATA, payload);
+      console.log("data-->",res)
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
         };
         const res_data = await getData(ENDPOINT.MARKETING_READER_USER_DROP, body);
+        console.log("data-->", res);
         let product = [];
         let pipeline = [];
         let probablity = [];
