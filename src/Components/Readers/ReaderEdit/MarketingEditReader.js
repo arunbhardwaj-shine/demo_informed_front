@@ -623,7 +623,7 @@ const MarketingEditReader = () => {
       <>
         <div className="create-change-content reader_added  ">
           <div className="form_action">
-            <h4>Please fill the following details</h4>
+            {/* <h4>Please fill the following details</h4> */}
             <div className="row">
               <div className="col-12 col-md-7">
                 <Form.Group className="form-group">

@@ -259,16 +259,16 @@ const MarketingReaderReview = () => {
                                 ? `${readerData?.address?.street1},`
                                 : ""}
                               {readerData?.address?.street2
-                                ? `${readerData?.address?.street2},`
+                                ? `${readerData?.address?.street2}`
                                 : ""}
                               {readerData?.address?.city
-                                ? `${readerData?.address?.city},`
+                                ? `,${readerData?.address?.city}`
                                 : ""}
                               {readerData?.address?.postcode
-                                ? `${readerData?.address?.postcode},`
+                                ? `,${readerData?.address?.postcode}`
                                 : ""}
                               {readerData?.address?.country
-                                ? readerData?.address?.country
+                                ?`,${ readerData?.address?.country}`
                                 : ""}
                             </>
                           ) : (

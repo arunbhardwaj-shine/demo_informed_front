@@ -255,8 +255,7 @@ const MarketingAddReader = () => {
       } else {
         setError({ primary_phone: "Number must be 12 digits or less" });
       }
-    }
-     else if (e?.target?.name == "alternativePhone") {
+    } else if (e?.target?.name == "alternativePhone") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
       if (cleanedValue?.length <= 12) {
         setUserInputs({
@@ -267,8 +266,7 @@ const MarketingAddReader = () => {
       } else {
         setError({ alternativePhone: "Number must be 12 digits or less" });
       }
-    } 
-    else if (e.target?.name == "contactTotal") {
+    } else if (e.target?.name == "contactTotal") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
       if (cleanedValue > 500 || cleanedValue < 0) {
         setError({ contactTotal: "Contact total must be inbetween 0 to 500" });
@@ -1147,6 +1145,7 @@ const MarketingAddReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
+                    value={userInputs?.contactTotal}
                     placeholder="Enter contact total"
                     onChange={(e) => handleChange(e)}
                   />

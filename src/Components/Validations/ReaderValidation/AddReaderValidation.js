@@ -33,6 +33,10 @@ export const AddReaderValidation = (data, groupId, flag) => {
   if (localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==") {
     if (!data?.primary_phone) {
       error.primary_phone = "Please enter Phone number";
+    } else if (data?.primary_phone) {
+      if (Object.keys(data?.primary_phone)?.length > 12) {
+        error.primary_phone = "Number must be 12 digits or less";
+      }
     }
     if (!data?.country?.value) {
       error.country = "Please select country";
@@ -42,6 +46,10 @@ export const AddReaderValidation = (data, groupId, flag) => {
     }
     if (!data?.contactTotal) {
       error.contactTotal = "Contact total required";
+    } else if (data?.contactTotal) {
+      if (data?.contactTotal > 500 || data?.contactTotal < 0) {
+        error.contactTotal = "Contact total must be inbetween 0 to 500";
+      }
     }
   }
 
