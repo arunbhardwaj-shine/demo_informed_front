@@ -47,6 +47,7 @@ const MarketingEditReader = () => {
   });
   const [commonHeader, setCommonHeader] = useState("");
   const [commonFooter, setCommonFooter] = useState("");
+  const [lastnoteTime, setlastnoteTime] = useState("");
   const [userInputs, setUserInputs] = useState({
     jobTitle: "",
     title: { value: "" },
@@ -80,7 +81,7 @@ const MarketingEditReader = () => {
     // city: "",
     // postcode: "",
     // addressCountry: "",
-    logActivity: { value: "" },
+    logActivity: "",
     task: { value: "" },
     nextContact: new Date(
       moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
@@ -176,6 +177,18 @@ const MarketingEditReader = () => {
 
       let phoneNumber = data?.primary_phone.split("-informed-");
 
+      let note = "";
+      if (data?.log_activity) {
+        if (data?.log_activity != "") {
+          let jsonString = data?.log_activity;
+          const jsonObject = JSON.parse(jsonString);
+          note = jsonObject?.value;
+          const dateTime = new Date(jsonObject?.date);
+          let lasttime = formatDate(dateTime);
+          setlastnoteTime(lasttime);
+        }
+      }
+
       setUserInputs({
         ...userInputs,
         jobTitle: data?.jobTitle,
@@ -209,7 +222,7 @@ const MarketingEditReader = () => {
         // city: data?.address.city,
         // postcode: data?.address.postcode,
         // addressCountry: data?.address.country,
-        logActivity: { value: data?.log_activity },
+        logActivity: note,
         task: data?.task,
         opportunityTitle: data?.opportunity_title,
         ourProduct: data?.our_product,
@@ -1225,12 +1238,12 @@ const MarketingEditReader = () => {
                     }
                   />
                 </Form.Group> */}
-                <Form.Group className="form-group margin-added">
+                {/* <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Log activity</Form.Label>
                   <Select
                     options={logActivityOptions}
                     name="logActivity"
-                    // value={userInputs?.logActivity}
+                    
                     value={{
                       label: userInputs?.logActivity?.value,
                       value: userInputs?.logActivity?.value,
@@ -1249,7 +1262,7 @@ const MarketingEditReader = () => {
                       Add New Log Activity +
                     </Button>
                   </div>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Task</Form.Label>
                   <Select
@@ -1334,6 +1347,35 @@ const MarketingEditReader = () => {
                     // minDate={currentDate}
                   />
                 </Form.Group>
+              </div>
+              <div className="col-12 col-md-5 d-flex justify-content-end right-change">
+                <div className="form-group justify-content-end align-items-start">
+                  <label htmlFor="">Log activity </label>
+
+                  <textarea
+                    name="logActivity"
+                    defaultValue={userInputs?.logActivity}
+                    value={userInputs?.logActivity}
+                    className="form-control"
+                    id="formControlTextarea"
+                    onChange={(e) =>
+                      handleChange(e?.target?.value, "logActivity")
+                    }
+                    rows="5"
+                    placeholder="Please type your notes here..."
+                  ></textarea>
+                  <span>
+                    {typeof lastnoteTime !== "undefined" &&
+                      lastnoteTime != "" && (
+                        <span>
+                          <>
+                            Last Update:
+                            {moment(lastnoteTime).format("DD MMMM YYYY")}
+                          </>
+                        </span>
+                      )}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -1534,11 +1576,14 @@ const MarketingEditReader = () => {
     );
   };
   const formatDate = (newDate) => {
-    const year = newDate.getFullYear();
-    const month = String(newDate.getMonth() + 1).padStart(2, "0");
-    const day = String(newDate.getDate()).padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
-    return formattedDate;
+    console.log(newDate, "newDate");
+    if (newDate != "") {
+      const year = newDate?.getFullYear();
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const day = String(newDate.getDate()).padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+      return formattedDate;
+    }
   };
 
   function isValidDateFormat(dateString) {
@@ -1587,7 +1632,9 @@ const MarketingEditReader = () => {
         if (isValidDateFormat(userInputs?.quoteValid)) {
           quoteValidDate = convertDate(userInputs?.quoteValid);
         } else {
-          quoteValidDate = formatDate(userInputs?.quoteValid);
+          const dateTime = new Date(userInputs?.quoteValid);
+          // let lasttime = formatDate(dateTime);
+          quoteValidDate = formatDate(dateTime);
         }
         let data = {
           jobTitle: userInputs?.jobTitle,
@@ -1615,7 +1662,7 @@ const MarketingEditReader = () => {
           local: userInputs?.local?.value,
           // address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
           address: userInputs?.address,
-          log_activity: userInputs?.logActivity?.value,
+          log_activity: userInputs?.logActivity,
           task: userInputs?.task,
           next_contact: nextContactDate,
           contact_total: userInputs?.contactTotal,

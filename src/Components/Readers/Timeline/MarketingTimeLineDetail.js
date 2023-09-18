@@ -10,6 +10,7 @@ import DatePicker from "react-datepicker";
 import CommonModel from "../../../Model/CommonModel";
 import { popup_alert } from "../../../popup_alert";
 import "react-datepicker/dist/react-datepicker.css";
+import { type } from "@amcharts/amcharts4/core";
 // import {
 //   Accordion,
 //   Col,
@@ -37,6 +38,7 @@ const MarketingTimeLineDetail = (props) => {
   const [changeProbablity, setChangeProbablity] = useState('');  
   const [commonHeader, setCommonHeader] = useState("");
   const [commonFooter, setCommonFooter] = useState("");
+  const [lastnoteTime, setlastnoteTime] = useState("");
   const [data, setData] = useState([]);
   const [readerId, setReaderId] = useState(
     localStorage.getItem("myData")
@@ -230,13 +232,26 @@ const MarketingTimeLineDetail = (props) => {
       }else{
         setTimeLineData(res?.data?.data);
       }
+      let note = "";
+      if(res?.data?.data?.user?.log_activity){
+        if(res?.data?.data?.user?.log_activity != ""){
+            let jsonString = res?.data?.data?.user?.log_activity;
+            const jsonObject = JSON.parse(jsonString);
+            // console.log(jsonObject,"jsonObject");
+            note = jsonObject?.value;
+            const dateTime = new Date(jsonObject?.date);
+            let lasttime = formatDate(dateTime);
+            setlastnoteTime(lasttime);
+        }
+      }
+    //   console.log(note,"note");
       setUserInputs({
         ...userInputs,
         pipeline: res?.data?.data?.user?.pipeline,
         channel : res?.data?.data?.user?.chanel,
         opportunity_value: res?.data?.data?.user?.opportunity_value,
         probability: res?.data?.data?.user?.probability,
-        log_activity:res?.data?.data?.user?.log_activity,
+        log_activity:note,
         next_contact: res?.data?.data?.user?.next_contact,
       });
       loader("hide");
@@ -257,7 +272,7 @@ const MarketingTimeLineDetail = (props) => {
   };
 
   const handleChange = async(e, isSelectedName) => {
-    if(isSelectedName == "opportunity_value"){
+    if(isSelectedName == "opportunity_value" || isSelectedName == "log_activity"){
         setUserInputs({
             ...userInputs,
             [isSelectedName ? isSelectedName : e.target.name]: isSelectedName ? e?.target?.value : e?.target?.value,
@@ -525,7 +540,7 @@ const MarketingTimeLineDetail = (props) => {
               Object.keys(timeLineData).length > 0 ? (
                 <>
                   <div className="vertical-timeline d-flex align-items-start">
-                    <div>
+                    <div className="marketing_timeline">
                         <div className="timeline-left-user mb-3">
                             <div className="timeline-left-user-detail">
                             <h5>
@@ -582,7 +597,7 @@ const MarketingTimeLineDetail = (props) => {
                             <div className="timeline-left-user-detail">
                                 <ul>
                                     <li>
-                                        <h6 class="tab-content-title">Chanel</h6>
+                                        <h6 className="tab-content-title">Chanel</h6>
                                         <div className="select-dropdown-wrapper">
                                                 <div className="select">
                                                     <>
@@ -690,7 +705,33 @@ const MarketingTimeLineDetail = (props) => {
                                     <li>
                                         <h6 class="tab-content-title">Note</h6>
                                         <div className="select-dropdown-wrapper">
-                                                <div className="select">
+                                        <textarea
+                                            className="form-control"
+                                            name="log_activity"
+                                            id="formControlTextarea"
+                                            defaultValue={userInputs?.log_activity}
+                                            rows="5"
+                                            placeholder="F2F, Call, Email, LinkedIn etc..."
+                                            onChange={(e) => handleChange(e, "log_activity")}
+                                            >
+
+                                        </textarea>
+                                        {
+                                            typeof(lastnoteTime) !== "undefined" && lastnoteTime != "" && (
+                                                <span>
+                                                    <>
+                                                    Last Update:
+                                                    {
+                                                        moment(lastnoteTime).format('DD MMMM YYYY')
+                                                    }
+                                                    </>
+                                                </span>
+                                            )
+                                            
+                                        }
+                                        
+                                                {
+                                                    /*<div className="select">
                                                     <Select
                                                         options={logactivity}
                                                         defaultValue={
@@ -708,7 +749,9 @@ const MarketingTimeLineDetail = (props) => {
                                                         className="dropdown-basic-button split-button-dropup"
                                                         isClearable
                                                     />
-                                                </div>
+                                                </div> */
+                                                }
+                                                
                                             </div>
                                     </li>
                                     <li>
