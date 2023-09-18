@@ -1511,9 +1511,11 @@ address:JSON.parse(data?.address),
 
                 <div className="form-group">
                   <label htmlFor="">Quote valid until</label>
+                  {console.log( typeof userInputs?.quoteValid,"  userInputs?.quoteValid")}
                   <DatePicker
+                  
                     selected={
-                      userInputs?.quoteValid
+                      userInputs?.quoteValid &&userInputs?.quoteValid !="0000-00-00 00:00:00"
                         ? new Date(userInputs?.quoteValid)
                         : new Date(
                             moment(new Date(), "MM/DD/YYYY").format(
