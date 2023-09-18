@@ -147,6 +147,7 @@ import CommanPage from "./Components/Firbase/CommanPage";
 import QuestionTrigger from "./Components/Firbase/QuestionTrigger";
 import PollQuestion from "./Components/Firbase/PollQuestion";
 import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf";
+import MainLanding from "./Components/Library/MainLanding";
 
 let platform = 0;
 let show = 0;
@@ -204,6 +205,10 @@ const Routing = () => {
         <Route
           path="/publisher-page"
           element={<DefaultLayout component={PublisherPage} />}
+        />
+        <Route
+          path="/main-index"
+          element={<DefaultLayout component={MainLanding} />}
         />
         <Route
           path="/webinar"
