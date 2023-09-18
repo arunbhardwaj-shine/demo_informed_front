@@ -295,7 +295,7 @@ const MarketingReaderReview = () => {
                       </tr>
                       <tr>
                         <th className="tab-content-title">Task</th>
-                        <td>{readerData?.task ? readerData?.task : "N/A"}</td>
+                        <td>{readerData?.task?.task ? readerData?.task?.task: "N/A"}</td>
                       </tr>
                     </table>
                   </div>

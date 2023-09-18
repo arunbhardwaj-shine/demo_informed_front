@@ -210,7 +210,7 @@ const MarketingEditReader = () => {
         // postcode: data?.address.postcode,
         // addressCountry: data?.address.country,
         logActivity: { value: data?.log_activity },
-        task: { value: data?.task },
+        task: data?.task,
         opportunityTitle: data?.opportunity_title,
         ourProduct: data?.our_product,
         pipeline: { value: data?.pipeline },
@@ -357,6 +357,34 @@ const MarketingEditReader = () => {
         });
         setError(null);
       }
+    } else if (isSelectedName == "taskValueChecked") {
+      // console.log();
+      if (e) {
+        setUserInputs({
+          ...userInputs,
+          task: {
+            ...userInputs?.task,
+            taskCheckClicked: e,
+            taskDate: new Date(),
+          },
+        });
+        // console.log(userInputs);
+      } else {
+        setUserInputs({
+          ...userInputs,
+          task: { ...userInputs?.task, taskCheckClicked: e },
+        });
+      }
+    } else if (isSelectedName == "taskDate") {
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task, taskDate: new Date(e) },
+      });
+    } else if (isSelectedName == "task") {
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task, task: e?.value },
+      });
     } else {
       setUserInputs({
         ...userInputs,
@@ -1229,8 +1257,8 @@ const MarketingEditReader = () => {
                     name="task"
                     // value={userInputs?.task}
                     value={{
-                      label: userInputs?.task?.value,
-                      value: userInputs?.task?.value,
+                      label: userInputs?.task?.task,
+                      value: userInputs?.task?.task,
                     }}
                     onChange={(e) => handleChange(e, "task")}
                     placeholder="Select log activity"
@@ -1247,6 +1275,46 @@ const MarketingEditReader = () => {
                     </Button>
                   </div>
                 </Form.Group>
+                <div>
+                  <Form.Group className="form-group margin-added">
+                    <Form.Label></Form.Label>
+                    <DatePicker
+                      selected={
+                        userInputs?.task?.taskDate
+                          ? new Date(userInputs?.task?.taskDate)
+                          : ""
+                      }
+                      name="taskDate"
+                      onChange={(e) => handleChange(e, "taskDate")}
+                      dateFormat="dd/MM/yyyy"
+                      className="form-control"
+                      // minDate={currentDate}
+                    />
+                    <div className="add_check">
+                      <fieldset id="group2">
+                        <>
+                          <input
+                            type="checkbox"
+                            value="value1"
+                            name="taskCheckClicked"
+                            onClick={(e) =>
+                              handleChange(
+                                e.target?.checked,
+
+                                "taskValueChecked"
+                              )
+                            }
+                            checked={
+                              userInputs?.task?.taskCheckClicked ? true : false
+                            }
+                            id={`taskCheckClicked`}
+                          />
+                          <Form.Label htmlFor="">Completed</Form.Label>
+                        </>
+                      </fieldset>
+                    </div>
+                  </Form.Group>
+                </div>
                 <Form.Group className="form-group">
                   <Form.Label>Next contact</Form.Label>
                   <DatePicker
@@ -1427,9 +1495,14 @@ const MarketingEditReader = () => {
 
                 <div className="form-group">
                   <label htmlFor="">Quote valid until</label>
+                  {console.log(
+                    typeof userInputs?.quoteValid,
+                    "  userInputs?.quoteValid"
+                  )}
                   <DatePicker
                     selected={
-                      userInputs?.quoteValid
+                      userInputs?.quoteValid &&
+                      userInputs?.quoteValid != "0000-00-00 00:00:00"
                         ? new Date(userInputs?.quoteValid)
                         : new Date(
                             moment(new Date(), "MM/DD/YYYY").format(
@@ -1460,25 +1533,25 @@ const MarketingEditReader = () => {
       </>
     );
   };
-   const formatDate = (newDate) => {
-     const year = newDate.getFullYear();
-     const month = String(newDate.getMonth() + 1).padStart(2, "0");
-     const day = String(newDate.getDate()).padStart(2, "0");
-     const formattedDate = `${year}-${month}-${day}`;
-     return formattedDate;
-   };
+  const formatDate = (newDate) => {
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, "0");
+    const day = String(newDate.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
 
-   function isValidDateFormat(dateString) {
-     const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
-     return regex.test(dateString);
-   }
+  function isValidDateFormat(dateString) {
+    const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
+    return regex.test(dateString);
+  }
 
-   function convertDate(dateString) {
-     const formattedDate = moment(dateString, "DD MMMM YYYY").format(
-       "YYYY-MM-DD"
-     );
-     return formattedDate;
-   }
+  function convertDate(dateString) {
+    const formattedDate = moment(dateString, "DD MMMM YYYY").format(
+      "YYYY-MM-DD"
+    );
+    return formattedDate;
+  }
   const nextButtonClicked = (e) => {
     e.preventDefault();
 
@@ -1543,7 +1616,7 @@ const MarketingEditReader = () => {
           // address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
           address: userInputs?.address,
           log_activity: userInputs?.logActivity?.value,
-          task: userInputs?.task?.value,
+          task: userInputs?.task,
           next_contact: nextContactDate,
           contact_total: userInputs?.contactTotal,
           opportunity_title: userInputs?.opportunityTitle,
@@ -1559,7 +1632,7 @@ const MarketingEditReader = () => {
         };
         console.log("user inputs", data);
         loader("hide");
-        // console.log(data);
+
         navigate("/reader-review", {
           state: {
             data: data,

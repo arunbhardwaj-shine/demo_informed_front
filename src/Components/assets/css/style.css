@@ -7921,7 +7921,10 @@ section.search-hcp.smart-list-view .header-btn-left {
   margin-bottom: 0;
   line-height: 25px;
 }
-
+.form-group .react-datepicker-wrapper {
+  width: 100%;
+  max-width: 470px;
+}
 /* ul.after-tag-selected li, .dropdown-menu.filter-options .accordion .card.upper ul label, .filter-block .filter-div .filter-result.upper,.tab-content .tab-mail-list h6.upper {
   text-transform: capitalize;
 } */
