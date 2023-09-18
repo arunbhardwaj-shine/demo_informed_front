@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Row, Col, Button, Form } from "react-bootstrap";
+import { Row, Col, Button, Form, FormGroup } from "react-bootstrap";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
 import CommonModel from "../../../Model/CommonModel";
@@ -14,7 +14,9 @@ import { toast } from "react-toastify";
 const MarketingAddReader = () => {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
+  const primaryPhoneRef = useRef(null);
   const countryRef = useRef(null);
+  const postcodeRef = useRef(null);
   const contactTotalRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [titleOptions, setTitleOptions] = useState([]);
@@ -42,6 +44,7 @@ const MarketingAddReader = () => {
   });
   const [commonHeader, setCommonHeader] = useState("");
   const [commonFooter, setCommonFooter] = useState("");
+  const [showTaskExtra, setShowTaskExtra] = useState(false);
   const [userInputs, setUserInputs] = useState({
     jobTitle: "",
     title: { value: "" },
@@ -65,10 +68,12 @@ const MarketingAddReader = () => {
     local: { value: "" },
     address: "",
     logActivity: { value: "" },
-    task: { value: "" },
-    nextContact: new Date(
-      moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
-    ),
+    task: { task: "",taskCheckClicked:false,taskDate:"" },
+    nextContact:
+    // `${
+    //   currentDate.getMonth() + 1
+    // }/${currentDate.getDate()}/${currentDate.getFullYear()}`,
+    new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     opportunityTitle: "",
     ourProduct: "",
     contactTotal: "",
@@ -77,7 +82,11 @@ const MarketingAddReader = () => {
     probability: { value: "" },
     weightedValue: "",
     quoteSent: false,
-    quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+    quoteValid:
+      // `${
+      //   currentDate.getMonth() + 1
+      // }/${currentDate.getDate()}/${currentDate.getFullYear()}`,
+      new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
   const [countryCode, setCountryCode] = useState([
     { value: "Afghanistan", label: "+93" },
@@ -153,6 +162,9 @@ const MarketingAddReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
+    if (isSelectedName == "task") {
+      setShowTaskExtra(true);
+    }
     if (isSelectedName == "address") {
       if (e.target?.name == "street1") {
         setUserInputs({
@@ -175,26 +187,19 @@ const MarketingAddReader = () => {
           address: { ...userInputs?.address, country: e?.value },
         });
       } else if (e.target?.name == "postcode") {
-        const cleanedValue = e.target?.value?.replace(/\D/g, "");
-        if (cleanedValue?.length <= 6) {
+        const cleanedValue = e.target?.value;
+        if (cleanedValue?.length <= 12) {
           setUserInputs({
             ...userInputs,
-            [e.target.name]: cleanedValue,
+            address: { ...userInputs?.address, postcode: cleanedValue },
           });
+
           setError(null);
         } else {
-          setError({ postcode: "Postcode must be of 6 digits" });
+          setError({ postcode: "Postcode maximum of 12 Character long" });
         }
       }
-    }
-    //   else if (e.target?.name == "postcode") {
-    //     setUserInputs({
-    //       ...userInputs,
-    //       address: { ...userInputs?.address, postcode: e?.target?.value },
-    //     });
-    //   }
-    // }
-    else if (key == "typeContact") {
+    } else if (key == "typeContact") {
       const typeContactArray = [...(userInputs?.typeContact || [])];
       if (e == true) {
         typeContactArray.push(isSelectedName);
@@ -207,6 +212,28 @@ const MarketingAddReader = () => {
       setUserInputs({
         ...userInputs,
         typeContact: typeContactArray,
+      });
+    } else if (isSelectedName == "taskValueChecked") {
+      // console.log();
+      if (e) {
+        setUserInputs({
+          ...userInputs,
+          task: {
+            ...userInputs?.task,
+            taskCheckClicked: e,
+            taskDate: new Date(),
+          },
+        });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          task: { ...userInputs?.task, taskCheckClicked: e },
+        });
+      }
+    } else if (isSelectedName == "taskDate") {
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task, taskDate: new Date(e) },
       });
     } else if (isSelectedName == "probability") {
       let weighted_Value = "";
@@ -250,7 +277,7 @@ const MarketingAddReader = () => {
       }
     } else if (e?.target?.name == "primary_phone") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
-      if (cleanedValue?.length <= 10) {
+      if (cleanedValue?.length <= 12) {
         setUserInputs({
           ...userInputs,
 
@@ -258,9 +285,42 @@ const MarketingAddReader = () => {
         });
         setError(null);
       } else {
-        setError({ primary_phone: "Number must be 10 digits or less" });
+        setError({ primary_phone: "Number must be 12 digits or less" });
       }
-    } else {
+    } else if (e?.target?.name == "alternativePhone") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue?.length <= 12) {
+        setUserInputs({
+          ...userInputs,
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
+      } else {
+        setError({ alternativePhone: "Number must be 12 digits or less" });
+      }
+    } else if (e.target?.name == "contactTotal") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue > 500 || cleanedValue < 0) {
+        setError({ contactTotal: "Contact total must be inbetween 0 to 500" });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
+      }
+    } 
+    else if (isSelectedName == "task") {
+
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task,
+        task: e?.value}
+      });
+      console.log(userInputs);
+    }
+     
+    else {
       setUserInputs({
         ...userInputs,
 
@@ -620,11 +680,14 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
-                  <Form.Label htmlFor="">Primary phone </Form.Label>
+                  <Form.Label htmlFor="">
+                    Primary phone<span>*</span>{" "}
+                  </Form.Label>
                   <Select
                     options={countryCode}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
+                    ref={primaryPhoneRef}
                     placeholder=""
                     onChange={(e) => handleChange(e, "countryCode")}
                   />
@@ -652,12 +715,24 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Alternative phone</Form.Label>
                   <input
-                    type="number"
-                    className="form-control"
+                    type="tel"
+                    className={
+                      error?.alternativePhone
+                        ? "form-control error"
+                        : "form-control"
+                    }
                     name="alternativePhone"
                     placeholder="Alternative phone"
+                    value={userInputs?.alternativePhone}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.alternativePhone ? (
+                    <div className="login-validation">
+                      {error?.alternativePhone}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">LinkedIn</Form.Label>
@@ -969,13 +1044,14 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Post code</Form.Label>
                   <input
-                    type="tel"
+                    type="text"
                     placeholder="Enter post code"
                     className={
                       error?.postcode ? "form-control error" : "form-control"
                     }
                     name="postcode"
-                    value={userInputs?.postcode}
+                    ref={postcodeRef}
+                    value={userInputs?.address?.postcode}
                     onChange={(e) => handleChange(e, "address")}
                   />
                   {error?.postcode ? (
@@ -997,7 +1073,7 @@ const MarketingAddReader = () => {
                     }
                   />
                 </Form.Group>
-                <Form.Group className="form-group margin-added">
+                {/* <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Log activity</Form.Label>
                   <Select
                     options={logActivityOptions}
@@ -1017,13 +1093,13 @@ const MarketingAddReader = () => {
                       Add New Log Activity +
                     </Button>
                   </div>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Task</Form.Label>
                   <Select
                     options={taskOptions}
                     name="task"
-                    value={userInputs?.task}
+                    value={{value:userInputs?.task?.task,label:userInputs?.task?.task}}
                     onChange={(e) => handleChange(e, "task")}
                     placeholder="Select log activity"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -1039,6 +1115,46 @@ const MarketingAddReader = () => {
                     </Button>
                   </div>
                 </Form.Group>
+
+                {showTaskExtra && (
+                  <div>
+                    <Form.Group className="form-group margin-added">
+                      <Form.Label></Form.Label>
+                      <DatePicker
+                        selected={
+                          userInputs?.task?.taskDate
+                            ? new Date(userInputs?.task?.taskDate)
+                            : ""
+                        }
+                        name="taskDate"
+                        onChange={(e) => handleChange(e, "taskDate")}
+                        dateFormat="dd/MM/yyyy"
+                        className="form-control"
+                        // minDate={currentDate}
+                      />
+                      <div className="add_check">
+                        <fieldset id="group2">
+                          <>
+                            <input
+                              type="checkbox"
+                              value="value1"
+                              name="taskCheckClicked"
+                              onClick={(e) =>
+                                handleChange(
+                                  e.target?.checked,
+
+                                  "taskValueChecked"
+                                )
+                              }
+                              id={`taskCheckClicked`}
+                            />
+                            <Form.Label htmlFor="">Completed</Form.Label>
+                          </>
+                        </fieldset>
+                      </div>
+                    </Form.Group>
+                  </div>
+                )}
                 <Form.Group className="form-group">
                   <Form.Label>Next contact</Form.Label>
                   <DatePicker
@@ -1058,6 +1174,23 @@ const MarketingAddReader = () => {
                     // minDate={currentDate}
                   />
                 </Form.Group>
+              </div>
+              <div className="col-12 col-md-5 d-flex justify-content-end right-change">
+                <div className="form-group justify-content-end align-items-start">
+                  <label htmlFor="">Log activity </label>
+
+                  <textarea
+                    name="logActivity"
+                    value={userInputs?.logActivity}
+                    className="form-control"
+                    id="formControlTextarea"
+                    onChange={(e) =>
+                      handleChange(e?.target?.value, "logActivity")
+                    }
+                    rows="5"
+                    placeholder="Please type your notes here..."
+                  ></textarea>
+                </div>
               </div>
             </div>
           </div>
@@ -1096,9 +1229,7 @@ const MarketingAddReader = () => {
                 </Form.Group>
 
                 <div className="form-group">
-                  <label htmlFor="">
-                    Contact total<span>*</span>
-                  </label>
+                  <label htmlFor="">Contact total</label>
                   <input
                     type="number"
                     name="contactTotal"
@@ -1110,6 +1241,7 @@ const MarketingAddReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
+                    value={userInputs?.contactTotal}
                     placeholder="Enter contact total"
                     onChange={(e) => handleChange(e)}
                   />
@@ -1232,6 +1364,26 @@ const MarketingAddReader = () => {
       </>
     );
   };
+
+  const formatDate = (newDate) => {
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, "0");
+    const day = String(newDate.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
+
+  function isValidDateFormat(dateString) {
+    const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
+    return regex.test(dateString);
+  }
+
+  function convertDate(dateString) {
+    const formattedDate = moment(dateString, "DD MMMM YYYY").format(
+      "YYYY-MM-DD"
+    );
+    return formattedDate;
+  }
   const nextButtonClicked = (e) => {
     e.preventDefault();
     const result = AddReaderValidation(userInputs, groupId);
@@ -1241,8 +1393,12 @@ const MarketingAddReader = () => {
         nameRef.current.focus();
       } else if (Object.keys(result)[0] == "email") {
         emailRef.current.focus();
+      } else if (Object.keys(result)[0] == "primary_phone") {
+        primaryPhoneRef.current.focus();
       } else if (Object.keys(result)[0] == "country") {
         countryRef.current.focus();
+      } else if (Object.keys(result)[0] == "postcode") {
+        postcodeRef.current.focus();
       } else if (Object.keys(result)[0] == "contactTotal") {
         contactTotalRef.current.focus();
       }
@@ -1252,6 +1408,18 @@ const MarketingAddReader = () => {
     } else {
       try {
         loader("show");
+        let nextContactDate = "";
+        if (isValidDateFormat(userInputs?.nextContact)) {
+          nextContactDate = convertDate(userInputs?.nextContact);
+        } else {
+          nextContactDate = formatDate(userInputs?.nextContact);
+        }
+        let quoteValidDate = "";
+        if (isValidDateFormat(userInputs?.quoteValid)) {
+          quoteValidDate = convertDate(userInputs?.quoteValid);
+        } else {
+          quoteValidDate = formatDate(userInputs?.quoteValid);
+        }
         let data = {
           jobTitle: userInputs?.jobTitle,
           title: userInputs?.title?.value,
@@ -1278,9 +1446,13 @@ const MarketingAddReader = () => {
           local: userInputs?.local?.value,
           // address: `${userInputs?.street1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry?.value}`,
           address: userInputs?.address,
-          log_activity: userInputs?.logActivity?.value,
-          task: userInputs?.task?.value,
-          next_contact: userInputs?.nextContact,
+          log_activity: userInputs?.logActivity,
+          task: {
+            task: userInputs?.task?.value,
+            taskCheckClicked: userInputs?.task?.taskCheckClicked,
+            taskDate: userInputs?.task?.taskDate,
+          },
+          next_contact: nextContactDate,
           opportunity_title: userInputs?.opportunityTitle,
           our_product: userInputs?.ourProduct,
           contact_total: userInputs?.contactTotal,
@@ -1291,8 +1463,7 @@ const MarketingAddReader = () => {
             ? userInputs?.weightedValue
             : "",
           quote_sent: userInputs?.quoteSent,
-
-          quote_valid: userInputs?.quoteValid,
+          quote_valid: quoteValidDate,
         };
         loader("hide");
         navigate("/reader-review", {

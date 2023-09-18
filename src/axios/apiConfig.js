@@ -38,6 +38,7 @@ export const ENDPOINT = {
   READER_GET_READER_USER: `/reader/get-reader`,
   UPLOAD_READER_FILE: `/reader/upload-readers`,
   USERTIMELINE: `/reader/get-timetracking`,
+  MARKETINGUSERTIMELINE: `/reader/marketing-timetracking`,
   READERSTATUSUPDATE: `/reader/update-status`,
   MARKETINGREADERSTATUSUPDATE: `/reader/update-marketing-status`,
   READERSFILTER: `/reader/get-reader-filter`,
@@ -125,4 +126,6 @@ export const ENDPOINT = {
   READER_MARKETING_USER_DROP: `/reader/user-marketing-detail`,
   GET_MARKETING_USER_DROP: `/reader/get-marketing-reader`,
   CREATE_MARKETING_READER: `/reader/create-marketing-reader`,
+  UPDATETIMELINEMARKETINGDETAILS: `/reader/update-timeline-reader`
 };
+
