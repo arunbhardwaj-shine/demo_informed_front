@@ -281,7 +281,7 @@ const MarketingReadersList = () => {
         let product = [];
         let pipeline = [];
         let probablity = [];
-        console.log(res_data?.data?.data?.company_product)
+        // console.log(res_data?.data?.data?.company_product)
         Object.entries(res_data?.data?.data?.company_product).map(([index, item]) => {
           product.push({
             value: item.value,
@@ -1843,10 +1843,10 @@ const MarketingReadersList = () => {
                                               className="form-control"
                                               id={"date_change" + data?.id}
                                               onKeyDown={handleKeyDown}
-                                              minDate={currentDate}
                                             />
                                           </div>
                                           </li>
+                                          {/*minDate={currentDate}*/}
                                         </>
                                       ) : (
                                         <div
