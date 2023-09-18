@@ -5,11 +5,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
+import Collapse from "react-bootstrap/Collapse";
 
 const MarketingReaderReview = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [field, setField] = useState([]);
+  const [openProduction, setOpenProduction] = useState(false);
   const [openNotes, setOpenNotes] = useState(false);
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}
@@ -285,22 +287,61 @@ const MarketingReaderReview = () => {
                           )}
                         </td>
                       </tr>
-                      <tr>
+                      {/* <tr>
                         <th className="tab-content-title">Log activity</th>
                         <td>
                           {readerData?.log_activity
                             ? readerData?.log_activity
                             : "N/A"}
                         </td>
-                      </tr>
+                      </tr> */}
                       <tr>
-                        <th className="tab-content-title">Task</th>
-                        <td>{readerData?.task?.task ? readerData?.task?.task: "N/A"}</td>
+                        <th>Log activity</th>
+                        <td>
+                          {readerData?.log_activity
+                            ? readerData?.log_activity?.trim().length > 100
+                              ? readerData?.log_activity?.substring(0, 100)
+                              : readerData?.log_activity.trim()
+                            : "N/A"}
+                          <Collapse in={openProduction}>
+                            <div id="collapse-text-view">
+                              {readerData?.log_activity
+                                ? readerData?.log_activity?.trim()
+                                : ""}
+                            </div>
+                          </Collapse>
+                          {readerData?.log_activity ? (
+                            readerData?.log_activity?.trim().length > 100 ? (
+                              <span
+                                className="show_more"
+                                onClick={() =>
+                                  setOpenProduction(!openProduction)
+                                }
+                                aria-controls="example-collapse-text"
+                                aria-expanded={openProduction}
+                              >
+                                ...
+                              </span>
+                            ) : (
+                              ""
+                            )
+                          ) : (
+                            ""
+                          )}
+                        </td>
                       </tr>
                     </table>
                   </div>
                   <div className="crm-review-detail">
                     <table className="tab-mail-list">
+                      <tr>
+                        <th className="tab-content-title">Task</th>
+                        <td>
+                          {readerData?.task?.task
+                            ? readerData?.task?.task
+                            : "N/A"}
+                        </td>
+                      </tr>
                       <tr>
                         <th className="tab-content-title">Next contact</th>
                         {flag == 1 ? (

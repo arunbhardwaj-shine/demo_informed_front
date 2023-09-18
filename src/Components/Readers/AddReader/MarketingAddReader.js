@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Row, Col, Button, Form } from "react-bootstrap";
+import { Row, Col, Button, Form, FormGroup } from "react-bootstrap";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
 import CommonModel from "../../../Model/CommonModel";
@@ -67,7 +67,7 @@ const MarketingAddReader = () => {
     therapyArea: { value: "" },
     local: { value: "" },
     address: "",
-    logActivity: { value: "" },
+    logActivity: "",
     task: { value: "" },
     nextContact:
       // `${
@@ -213,8 +213,7 @@ const MarketingAddReader = () => {
         ...userInputs,
         typeContact: typeContactArray,
       });
-    }
-     else if (isSelectedName == "taskValueChecked") {
+    } else if (isSelectedName == "taskValueChecked") {
       // console.log();
       if (e) {
         setUserInputs({
@@ -225,23 +224,18 @@ const MarketingAddReader = () => {
             taskDate: new Date(),
           },
         });
-        // console.log(userInputs);
       } else {
         setUserInputs({
           ...userInputs,
           task: { ...userInputs?.task, taskCheckClicked: e },
         });
-        // console.log(userInputs);
       }
     } else if (isSelectedName == "taskDate") {
-      // console.log(e);
       setUserInputs({
         ...userInputs,
         task: { ...userInputs?.task, taskDate: new Date(e) },
       });
-      // console.log(userInputs);
-    }
-     else if (isSelectedName == "probability") {
+    } else if (isSelectedName == "probability") {
       let weighted_Value = "";
       if (userInputs?.opportunityValue) {
         weighted_Value = (userInputs?.opportunityValue * e?.value) / 100;
@@ -1037,9 +1031,7 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
-                  <Form.Label htmlFor="">
-                    Post code<span>*</span>
-                  </Form.Label>
+                  <Form.Label htmlFor="">Post code</Form.Label>
                   <input
                     type="text"
                     placeholder="Enter post code"
@@ -1070,7 +1062,7 @@ const MarketingAddReader = () => {
                     }
                   />
                 </Form.Group>
-                <Form.Group className="form-group margin-added">
+                {/* <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Log activity</Form.Label>
                   <Select
                     options={logActivityOptions}
@@ -1090,7 +1082,7 @@ const MarketingAddReader = () => {
                       Add New Log Activity +
                     </Button>
                   </div>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Task</Form.Label>
                   <Select
@@ -1172,6 +1164,23 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
               </div>
+              <div className="col-12 col-md-5 d-flex justify-content-end right-change">
+                <div className="form-group justify-content-end align-items-start">
+                  <label htmlFor="">Log activity </label>
+
+                  <textarea
+                    name="logActivity"
+                    value={userInputs?.logActivity}
+                    className="form-control"
+                    id="formControlTextarea"
+                    onChange={(e) =>
+                      handleChange(e?.target?.value, "logActivity")
+                    }
+                    rows="5"
+                    placeholder="Please type your notes here..."
+                  ></textarea>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1209,9 +1218,7 @@ const MarketingAddReader = () => {
                 </Form.Group>
 
                 <div className="form-group">
-                  <label htmlFor="">
-                    Contact total<span>*</span>
-                  </label>
+                  <label htmlFor="">Contact total</label>
                   <input
                     type="number"
                     name="contactTotal"
@@ -1428,7 +1435,7 @@ const MarketingAddReader = () => {
           local: userInputs?.local?.value,
           // address: `${userInputs?.street1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry?.value}`,
           address: userInputs?.address,
-          log_activity: userInputs?.logActivity?.value,
+          log_activity: userInputs?.logActivity,
           task: {
             task: userInputs?.task?.value,
             taskCheckClicked: userInputs?.task?.taskCheckClicked,
