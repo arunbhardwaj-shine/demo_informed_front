@@ -402,7 +402,7 @@ const MarketingTimeLineDetail = (props) => {
                             <div className="timeline-left-user-detail">
                                 <ul>
                                     <li>
-                                        <h6 class="tab-content-title">Cannel</h6>
+                                        <h6 class="tab-content-title">Chanel</h6>
                                         <div className="select-dropdown-wrapper">
                                                 <div className="select">
                                                     <Select
@@ -528,6 +528,14 @@ const MarketingTimeLineDetail = (props) => {
                                         </div>
                                     </li>
                                 </ul>
+
+                                <div className="data-main-footer-sec">
+                                    <div className="footer-btn d-flex justify-content-end">
+                                    <Button className="btn btn-primary btn-filled update">
+                                        Update
+                                    </Button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         {/*Change Div End */}
