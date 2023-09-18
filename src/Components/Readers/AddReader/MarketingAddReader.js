@@ -66,7 +66,7 @@ const MarketingAddReader = () => {
     local: { value: "" },
     address: "",
     logActivity: { value: "" },
-    task: { value: "" },
+    task: { task: "",taskCheckClicked:false,taskDate:"" },
     nextContact: new Date(
       moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
     ),
@@ -293,7 +293,18 @@ const MarketingAddReader = () => {
       } else {
         setError({ primary_phone: "Number must be 10 digits or less" });
       }
-    } else {
+    } 
+    else if (isSelectedName == "task") {
+
+      setUserInputs({
+        ...userInputs,
+        task: { ...userInputs?.task,
+        task: e?.value}
+      });
+      console.log(userInputs);
+    }
+     
+    else {
       setUserInputs({
         ...userInputs,
 
@@ -1056,7 +1067,7 @@ const MarketingAddReader = () => {
                   <Select
                     options={taskOptions}
                     name="task"
-                    value={userInputs?.task?.task}
+                    value={{value:userInputs?.task?.task,label:userInputs?.task?.task}}
                     onChange={(e) => handleChange(e, "task")}
                     placeholder="Select log activity"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
