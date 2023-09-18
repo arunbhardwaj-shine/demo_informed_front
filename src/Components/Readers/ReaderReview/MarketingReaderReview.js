@@ -268,7 +268,7 @@ const MarketingReaderReview = () => {
                                 ? `,${readerData?.address?.postcode}`
                                 : ""}
                               {readerData?.address?.country
-                                ?`,${ readerData?.address?.country}`
+                                ? `,${readerData?.address?.country}`
                                 : ""}
                             </>
                           ) : (

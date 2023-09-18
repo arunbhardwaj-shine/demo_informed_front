@@ -68,9 +68,11 @@ const MarketingAddReader = () => {
     address: "",
     logActivity: { value: "" },
     task: { value: "" },
-    nextContact: new Date(
-      moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
-    ),
+    nextContact:
+      // `${
+      //   currentDate.getMonth() + 1
+      // }/${currentDate.getDate()}/${currentDate.getFullYear()}`,
+      new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     opportunityTitle: "",
     ourProduct: "",
     contactTotal: "",
@@ -79,7 +81,11 @@ const MarketingAddReader = () => {
     probability: { value: "" },
     weightedValue: "",
     quoteSent: false,
-    quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+    quoteValid:
+      // `${
+      //   currentDate.getMonth() + 1
+      // }/${currentDate.getDate()}/${currentDate.getFullYear()}`,
+      new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
   const [countryCode, setCountryCode] = useState([
     { value: "Afghanistan", label: "+93" },
@@ -1331,8 +1337,7 @@ const MarketingAddReader = () => {
             ? userInputs?.weightedValue
             : "",
           quote_sent: userInputs?.quoteSent,
-
-          quote_valid: userInputs?.quoteValid,
+          quote_valid: userInputs?.quoteValid?.toString(),
         };
         loader("hide");
         navigate("/reader-review", {
