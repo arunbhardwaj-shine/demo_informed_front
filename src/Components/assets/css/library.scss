@@ -1755,6 +1755,15 @@ ul.tab-mail-list.tag a {
   margin-left: auto;
   display: block;
 }
+.timeline-left-user-detail .select-dropdown-wrapper textarea {
+  color: #0066BE;
+  font-size: 14px;
+  border:0;
+  box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+  &:focus{
+    box-shadow: 0px 0px 5px rgba(0, 102, 190, 0.55);
+  }
+}
 .select-dropdown-wrapper .select button.btn {
   font-size: 14px;
   line-height: 13px;

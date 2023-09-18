@@ -257,7 +257,7 @@ const MarketingTimeLineDetail = (props) => {
   };
 
   const handleChange = async(e, isSelectedName) => {
-    if(isSelectedName == "opportunity_value"){
+    if(isSelectedName == "opportunity_value" || isSelectedName == "log_activity"){
         setUserInputs({
             ...userInputs,
             [isSelectedName ? isSelectedName : e.target.name]: isSelectedName ? e?.target?.value : e?.target?.value,
@@ -582,7 +582,7 @@ const MarketingTimeLineDetail = (props) => {
                             <div className="timeline-left-user-detail">
                                 <ul>
                                     <li>
-                                        <h6 class="tab-content-title">Chanel</h6>
+                                        <h6 className="tab-content-title">Chanel</h6>
                                         <div className="select-dropdown-wrapper">
                                                 <div className="select">
                                                     <>
@@ -690,7 +690,19 @@ const MarketingTimeLineDetail = (props) => {
                                     <li>
                                         <h6 class="tab-content-title">Note</h6>
                                         <div className="select-dropdown-wrapper">
-                                                <div className="select">
+                                        <textarea
+                                            className="form-control"
+                                            name="log_activity"
+                                            id="formControlTextarea"
+                                            defaultValue={userInputs?.log_activity}
+                                            rows="5"
+                                            placeholder="F2F, Call, Email, LinkedIn etc..."
+                                            onChange={(e) => handleChange(e, "log_activity")}
+                                            >
+
+                                        </textarea>
+                                                {
+                                                    /*<div className="select">
                                                     <Select
                                                         options={logactivity}
                                                         defaultValue={
@@ -708,7 +720,9 @@ const MarketingTimeLineDetail = (props) => {
                                                         className="dropdown-basic-button split-button-dropup"
                                                         isClearable
                                                     />
-                                                </div>
+                                                </div> */
+                                                }
+                                                
                                             </div>
                                     </li>
                                     <li>
