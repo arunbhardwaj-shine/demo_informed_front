@@ -1294,8 +1294,8 @@ address:JSON.parse(data?.address),
                   
                 </Form.Group>
                 <div>
-                <Form.Group className="form-group">
-                  {/* <Form.Label>Next contact</Form.Label> */}
+                <Form.Group className="form-group margin-added">
+                  <Form.Label></Form.Label>
                   <DatePicker
                     selected={
                       userInputs?.task?.taskDate
@@ -1308,11 +1308,10 @@ address:JSON.parse(data?.address),
                     className="form-control"
                     // minDate={currentDate}
                   />
-               
-               <Form.Group className="form-group">
+                  <div className="add_check">
                   <fieldset id="group2">
                   <>
-                              <input
+                  <input
                                 type="checkbox"
                                 value="value1"
                                 name="taskCheckClicked"
@@ -1333,7 +1332,7 @@ address:JSON.parse(data?.address),
                        <Form.Label htmlFor="">Completed</Form.Label>
                             </>
                   </fieldset>
-                  </Form.Group>
+                  </div>
  
                 </Form.Group>
                 </div>
