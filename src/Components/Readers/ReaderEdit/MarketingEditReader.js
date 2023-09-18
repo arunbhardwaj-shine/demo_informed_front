@@ -274,7 +274,7 @@ const MarketingEditReader = () => {
         therapyArea: { value: data?.company_therapy_area },
         local: { value: data?.local },
         //  address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
-address:JSON.parse(data?.address),
+        address: JSON.parse(data?.address),
         // street1: data?.address.street1,
         // street2: data?.address.street2,
         // city: data?.address.city,
@@ -302,49 +302,47 @@ address:JSON.parse(data?.address),
     }
   };
 
-  const handleChange = (e, isSelectedName,key) => {
-    let weighted_Value=""
+  const handleChange = (e, isSelectedName, key) => {
+    let weighted_Value = "";
     // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
     //   weighted_Value =
     //     userInputs?.opportunityValue * userInputs?.probability?.value;
     // }
     if (isSelectedName == "address") {
-
-    
-
       if (e.target?.name == "street1") {
-
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street1: e?.target?.value },
         });
       } else if (e.target?.name == "street2") {
-   
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street2: e?.target?.value },
         });
       } else if (e.target?.name == "city") {
-     
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, city: e?.target?.value },
         });
       } else if (key == "addressCountry") {
-       
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, country: e?.value },
         });
       } else if (e.target?.name == "postcode") {
-    
-        setUserInputs({
-          ...userInputs,
-          address: { ...userInputs?.address, postcode: e?.target?.value },
-        });
+        const cleanedValue = e.target?.value;
+        if (cleanedValue?.length <= 12) {
+          setUserInputs({
+            ...userInputs,
+            address: { ...userInputs?.address, postcode: cleanedValue },
+          });
+
+          setError(null);
+        } else {
+          setError({ postcode: "Postcode maximum of 12 Character long" });
+        }
       }
-    }
-    else if (isSelectedName == "probability") {
+    } else if (isSelectedName == "probability") {
       if (userInputs?.opportunityValue) {
         weighted_Value = (userInputs?.opportunityValue * e?.value) / 100;
         setUserInputs({
@@ -367,8 +365,6 @@ address:JSON.parse(data?.address),
       if (userInputs?.probability?.value) {
         weighted_Value =
           (userInputs?.probability?.value * e?.target?.value) / 100;
-        console.log(weighted_Value);
-
         setUserInputs({
           ...userInputs,
           weighted_value: weighted_Value,
@@ -398,9 +394,19 @@ address:JSON.parse(data?.address),
         ...userInputs,
         typeContact: typeContactArray,
       });
-    }
-     else {
-      
+    } else if (e?.target?.name == "primary_phone") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue?.length <= 12) {
+        setUserInputs({
+          ...userInputs,
+
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
+      } else {
+        setError({ primary_phone: "Number must be 12 digits or less" });
+      }
+    } else {
       setUserInputs({
         ...userInputs,
 
@@ -796,7 +802,7 @@ address:JSON.parse(data?.address),
                   />
 
                   <input
-                    type="number"
+                    type="tel"
                     className={
                       error?.primary_phone
                         ? "form-control error"
@@ -805,8 +811,16 @@ address:JSON.parse(data?.address),
                     name="primary_phone"
                     placeholder="Phone number"
                     defaultValue={userInputs?.primary_phone}
+                    value={userInputs?.primary_phone}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.primary_phone ? (
+                    <div className="login-validation">
+                      {error?.primary_phone}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Alternative phone</Form.Label>
@@ -1170,12 +1184,19 @@ address:JSON.parse(data?.address),
                   <input
                     type="text"
                     placeholder="Enter post code"
-                    className="form-control"
+                    className={
+                      error?.postcode ? "form-control error" : "form-control"
+                    }
                     name="postcode"
                     defaultValue={userInputs?.address?.postcode}
                     value={userInputs?.address?.postcode}
                     onChange={(e) => handleChange(e, "address")}
                   />
+                  {error?.postcode ? (
+                    <div className="login-validation">{error?.postcode}</div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Country</Form.Label>
@@ -1186,8 +1207,14 @@ address:JSON.parse(data?.address),
                     isClearable
                     placeholder="Select country"
                     // defaultValue={userInputs?.addressCountry}
-                    value={userInputs?.address?.country?{value:userInputs?.address?.country,label:userInputs?.address?.country}:{value:"",label:""}}
-         
+                    value={
+                      userInputs?.address?.country
+                        ? {
+                            value: userInputs?.address?.country,
+                            label: userInputs?.address?.country,
+                          }
+                        : { value: "", label: "" }
+                    }
                     onChange={(e) =>
                       handleChange(e, "address", "addressCountry")
                     }
@@ -1465,9 +1492,7 @@ address:JSON.parse(data?.address),
   };
   const nextButtonClicked = (e) => {
     e.preventDefault();
-   
-  
-  
+
     const result = AddReaderValidation(userInputs);
 
     if (Object?.keys(result)?.length) {

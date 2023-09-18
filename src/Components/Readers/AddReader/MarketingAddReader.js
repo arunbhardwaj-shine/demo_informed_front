@@ -175,26 +175,19 @@ const MarketingAddReader = () => {
           address: { ...userInputs?.address, country: e?.value },
         });
       } else if (e.target?.name == "postcode") {
-        const cleanedValue = e.target?.value?.replace(/\D/g, "");
-        if (cleanedValue?.length <= 6) {
+        const cleanedValue = e.target?.value;
+        if (cleanedValue?.length <= 12) {
           setUserInputs({
             ...userInputs,
-            [e.target.name]: cleanedValue,
+            address: { ...userInputs?.address, postcode: cleanedValue },
           });
+          
           setError(null);
         } else {
-          setError({ postcode: "Postcode must be of 6 digits" });
+          setError({ postcode: "Postcode maximum of 12 Character long" });
         }
       }
-    }
-    //   else if (e.target?.name == "postcode") {
-    //     setUserInputs({
-    //       ...userInputs,
-    //       address: { ...userInputs?.address, postcode: e?.target?.value },
-    //     });
-    //   }
-    // }
-    else if (key == "typeContact") {
+    } else if (key == "typeContact") {
       const typeContactArray = [...(userInputs?.typeContact || [])];
       if (e == true) {
         typeContactArray.push(isSelectedName);
@@ -248,9 +241,10 @@ const MarketingAddReader = () => {
             : e?.target?.value,
         });
       }
-    } else if (e?.target?.name == "primary_phone") {
+    } 
+    else if (e?.target?.name == "primary_phone") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
-      if (cleanedValue?.length <= 10) {
+      if (cleanedValue?.length <= 12) {
         setUserInputs({
           ...userInputs,
 
@@ -258,9 +252,10 @@ const MarketingAddReader = () => {
         });
         setError(null);
       } else {
-        setError({ primary_phone: "Number must be 10 digits or less" });
+        setError({ primary_phone: "Number must be 12 digits or less" });
       }
-    } else {
+    } 
+    else {
       setUserInputs({
         ...userInputs,
 
@@ -969,13 +964,13 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Post code</Form.Label>
                   <input
-                    type="tel"
+                    type="text"
                     placeholder="Enter post code"
                     className={
                       error?.postcode ? "form-control error" : "form-control"
                     }
                     name="postcode"
-                    value={userInputs?.postcode}
+                    value={userInputs?.address?.postcode}
                     onChange={(e) => handleChange(e, "address")}
                   />
                   {error?.postcode ? (
