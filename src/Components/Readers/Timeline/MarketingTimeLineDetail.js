@@ -7,6 +7,7 @@ import moment from "moment";
 import { loader } from "../../../loader";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
+import CommonModel from "../../../Model/CommonModel";
 import "react-datepicker/dist/react-datepicker.css";
 // import {
 //   Accordion,
@@ -33,11 +34,17 @@ const MarketingTimeLineDetail = (props) => {
   const [logactivity, setLogactivityAll] = useState([]);
   const [changePipelineStage, setChangePipelineStage] = useState('');
   const [changeProbablity, setChangeProbablity] = useState('');  
-  
+  const [commonHeader, setCommonHeader] = useState("");
+  const [commonFooter, setCommonFooter] = useState("");
+  const [data, setData] = useState([]);
   const [readerId, setReaderId] = useState(
     localStorage.getItem("myData")
   );
-
+  const [newProduct, setNewProduct] = useState({
+    label: "",
+    value: "",
+  });
+  const [commanShow, setCommanShow] = useState(false);
    let obj = {
      "em":"Email",
      "Email":"Email",
@@ -64,12 +71,15 @@ const MarketingTimeLineDetail = (props) => {
      "android":"Android APP",
      "Web":"Web",
      "web":"Web"
-
-
-
-
-
    }
+   const [userInputs, setUserInputs] = useState({
+    pipeline: "",
+    channel : "",
+    opportunity_value: "",
+    probability: "",
+    log_activity:"",
+    next_contact: "",
+   })
   const [ebookData, setEbookData] = useState([]);
   function isJSONValid(jsonString) {
     try {
@@ -151,7 +161,7 @@ const MarketingTimeLineDetail = (props) => {
         setProbablityAll(probablity);
         });
 
-        Object.entries(res_data?.data?.data?.channel).map(([index, item]) => {
+        Object.entries(res_data?.data?.data?.chanel).map(([index, item]) => {
             channel.push({
                 value: item.value,
                 label: item.label,
@@ -207,7 +217,7 @@ const MarketingTimeLineDetail = (props) => {
       await getTimeLineStatsData();
       if(Object.keys(timeLineData)?.length){
 
-       
+        console.log("First");
         // let newAr = [...timeLineData?.timeline,...res?.data?.data?.timeline]
         const data = {
           timeline:res?.data?.data?.timeline,
@@ -218,8 +228,16 @@ const MarketingTimeLineDetail = (props) => {
 
       }else{
         setTimeLineData(res?.data?.data);
-
       }
+      setUserInputs({
+        ...userInputs,
+        pipeline: res?.data?.data?.user?.pipeline,
+        channel : res?.data?.data?.user?.chanel,
+        opportunity_value: res?.data?.data?.user?.opportunity_value,
+        probability: res?.data?.data?.user?.probability,
+        log_activity:res?.data?.data?.user?.log_activity,
+        next_contact: res?.data?.data?.user?.next_contact,
+      });
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -236,6 +254,162 @@ const MarketingTimeLineDetail = (props) => {
     event.currentTarget.src = BrokenImage;
     event.currentTarget.className = "error";
   };
+
+  const handleChange = async(e, isSelectedName) => {
+    if(isSelectedName == "opportunity_value"){
+        setUserInputs({
+            ...userInputs,
+            [isSelectedName ? isSelectedName : e.target.name]: isSelectedName ? e?.target?.value : e?.target?.value,
+          });
+    }else{
+        setUserInputs({
+            ...userInputs,
+            [isSelectedName ? isSelectedName : e.target.name]: isSelectedName ? e : e?.target?.value,
+          });
+    }
+  }
+
+  const updateReaderDetails = async() => {
+    try{
+        loader("show");
+        let payload = userInputs;
+        let getDate = payload?.next_contact;
+        let new_date = "";
+        if(isValidDateFormat(getDate)){
+            new_date = convertDate(getDate);
+        }else if(issecondValidDateFormat(getDate)){
+            new_date = getDate;
+        }else{
+            new_date = formatDate(getDate);
+        }
+        payload.next_contact = new_date;
+        payload.user_id = readerId;
+        
+        const res = await postData(ENDPOINT.UPDATETIMELINEMARKETINGDETAILS, payload);
+        // console.log(payload);
+        loader("hide");
+    }catch(err){
+        loader("hide");
+        console.log(err);
+    }
+  }
+
+  const formatDate = (newDate) => {
+        const year = newDate.getFullYear();
+        const month = String(newDate.getMonth() + 1).padStart(2, '0');
+        const day = String(newDate.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        return formattedDate;
+    }
+
+    function isValidDateFormat(dateString) {
+        //30 September 2023
+        const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
+        return regex.test(dateString);
+    }
+
+    function issecondValidDateFormat(dateString) {
+        //2023-09-30
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+        return regex.test(dateString);
+    }
+
+    function convertDate(dateString) {
+        const formattedDate = moment(dateString, 'DD MMMM YYYY').format('YYYY-MM-DD');
+        return formattedDate;
+    }
+
+    const addNewProductClicked = async(e, statusMsg) => {
+        e.preventDefault();
+        setCommanShow(true);
+        if (statusMsg == "pipeline") {
+            setNewProduct("");
+            setData(() => [
+              {
+                name: "pipeline",
+                label: "Pipeline",
+                type: "input",
+                placeholder: "Type pipeline",
+              },
+            ]);
+            setCommonHeader("Add New Pipeline");
+        }
+
+        if (statusMsg == "chanel") {
+            setNewProduct("");
+            setData(() => [
+              {
+                name: "chanel",
+                label: "chanel",
+                type: "input",
+                placeholder: "Type chanel",
+              },
+            ]);
+            setCommonHeader("Add New chanel");
+        }
+        setCommonFooter("Add");
+    }
+
+    const handleModelFun = (e) => {
+        setNewProduct({
+          label: e?.target?.name?.trim(),
+          value: e?.target?.value?.trim(),
+        });
+    };
+
+    const handleSubmitModelFun = async (e) => {
+        try {
+          const obj = {
+            title: "title",
+    
+            prospect: "prospect",
+    
+            ownership: "contact_ownership",
+    
+            companyName: "company_name",
+    
+            companyProduct: "company_product",
+    
+            therapyArea: "company_therapy_area",
+    
+            local: "local",
+    
+            task: "task",
+    
+            pipeline: "pipeline",
+    
+            logActivity: "log_activity",
+
+            chanel: "chanel",
+          };
+          loader("show");
+          // const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, { label: newProduct.label, value: newProduct.value });
+          await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, {
+            label: obj[newProduct.label],
+            value: newProduct.value,
+          });
+            if (newProduct.label == "pipeline") {
+                let pipeline = pipelineStage;
+                pipeline.unshift({
+                label: newProduct.value,
+                value: newProduct.value,
+                });
+                setPipelineStageAll(pipeline);
+            }
+            if (newProduct.label == "chanel") {
+                let pipeline = channel;
+                channel.unshift({
+                label: newProduct.value,
+                value: newProduct.value,
+                });
+                setChannelAll(pipeline);
+            }
+        } catch (err) {
+          console.log("--err", err);
+        } finally {
+          loader("hide");
+        }
+      };
 
   return (
     <>
@@ -405,6 +579,7 @@ const MarketingTimeLineDetail = (props) => {
                                         <h6 class="tab-content-title">Chanel</h6>
                                         <div className="select-dropdown-wrapper">
                                                 <div className="select">
+                                                    <>
                                                     <Select
                                                         options={channel}
                                                         defaultValue={
@@ -412,14 +587,26 @@ const MarketingTimeLineDetail = (props) => {
                                                             channel.findIndex(
                                                             (el) =>
                                                                 el.value.toLowerCase() ==
-                                                                timeLineData?.user?.channel?.toLowerCase()
+                                                                userInputs?.channel?.toLowerCase()
                                                             )
                                                         ]
                                                         }
+                                                        name="channel"
+                                                        onChange={(e) => handleChange(e?.value, "channel")}
                                                         id={"channel"}
                                                         className="dropdown-basic-button split-button-dropup"
                                                         isClearable
                                                     />
+                                                    </>
+                                                    
+                                                </div>
+                                                <div className="add_product">
+                                                    <Button
+                                                    className="btn-bordered btn-voilet"
+                                                    onClick={(e) => addNewProductClicked(e, "chanel")}
+                                                    >
+                                                    Add +
+                                                    </Button>
                                                 </div>
                                             </div>
                                     </li>
@@ -430,14 +617,10 @@ const MarketingTimeLineDetail = (props) => {
                                                 <input
                                                     type="number"
                                                     className="form-control"
-                                                    name="weighted_value"
-                                                    placeholder="Weighted value"
-                                                    value={
-                                                        timeLineData?.user?.weighted_value
-                                                        ? parseFloat(timeLineData?.user?.weighted_value)?.toFixed(2)
-                                                        : ""
-                                                    }
-                                                    defaultValue={timeLineData?.user?.weighted_value}
+                                                    name="opportunity_value"
+                                                    placeholder="value"
+                                                    value={userInputs?.opportunity_value}
+                                                    onChange={(e) => handleChange(e, "opportunity_value")}
                                                 />
                                                 </div>
                                             </div>
@@ -449,18 +632,28 @@ const MarketingTimeLineDetail = (props) => {
                                                     <Select
                                                         options={pipelineStage}
                                                         defaultValue={
-                                                        pipelineStage[
-                                                            pipelineStage.findIndex(
-                                                            (el) =>
-                                                                el.value.toLowerCase() ==
-                                                                timeLineData?.user?.pipeline?.toLowerCase()
-                                                            )
-                                                        ]
+                                                            pipelineStage[
+                                                                pipelineStage.findIndex(
+                                                                (el) =>
+                                                                    el.value.toLowerCase() ==
+                                                                    userInputs?.pipeline?.toLowerCase()
+                                                                )
+                                                            ]
                                                         }
+                                                        name="pipeline"
+                                                        onChange={(e) => handleChange(e?.value, "pipeline")}
                                                         id={"pipeline_stage"}
                                                         className="dropdown-basic-button split-button-dropup"
                                                         isClearable
                                                     />
+                                                </div>
+                                                <div className="add_product">
+                                                    <Button
+                                                    className="btn-bordered btn-voilet"
+                                                    onClick={(e) => addNewProductClicked(e, "pipeline")}
+                                                    >
+                                                    Add +
+                                                    </Button>
                                                 </div>
                                             </div>
                                     </li>
@@ -475,11 +668,13 @@ const MarketingTimeLineDetail = (props) => {
                                                                 probablity.findIndex(
                                                             (el) =>
                                                                 el.value ==
-                                                                timeLineData?.user?.probability
+                                                                userInputs?.probability
                                                             )
                                                         ]
                                                         }
+                                                        name="probability"
                                                         id={"probability"}
+                                                        onChange={(e) => handleChange(e?.value, "probability")}
                                                         className="dropdown-basic-button split-button-dropup"
                                                         isClearable
                                                     />
@@ -497,11 +692,13 @@ const MarketingTimeLineDetail = (props) => {
                                                                 logactivity.findIndex(
                                                             (el) =>
                                                                 el.value.toLowerCase() ==
-                                                                timeLineData?.user?.log_activity?.toLowerCase()
+                                                                userInputs?.log_activity?.toLowerCase()
                                                             )
                                                         ]
                                                         }
+                                                        name="log_activity"
                                                         id={"note"}
+                                                        onChange={(e) => handleChange(e?.value, "log_activity")}
                                                         className="dropdown-basic-button split-button-dropup"
                                                         isClearable
                                                     />
@@ -513,8 +710,8 @@ const MarketingTimeLineDetail = (props) => {
                                         <div className="crm_picker">
                                             <DatePicker
                                                 selected={
-                                                    timeLineData?.user?.next_contact_change
-                                                    ? new Date(timeLineData?.user?.next_contact_change)
+                                                    userInputs?.next_contact
+                                                    ? new Date(userInputs?.next_contact)
                                                     : new Date(
                                                     moment(new Date(), "MM/DD/YYYY")
                                                     .format("MM/DD/YYYY")
@@ -523,6 +720,7 @@ const MarketingTimeLineDetail = (props) => {
                                                 name="expDatetime"
                                                 dateFormat="dd/MM/yyyy"
                                                 className="form-control"
+                                                onChange={(e) => handleChange(e, "next_contact")}
                                                 id={"date_change"}
                                                 />
                                         </div>
@@ -531,7 +729,7 @@ const MarketingTimeLineDetail = (props) => {
 
                                 <div className="data-main-footer-sec">
                                     <div className="footer-btn d-flex justify-content-end">
-                                    <Button className="btn btn-primary btn-filled update">
+                                    <Button className="btn btn-primary btn-filled update" onClick={(e) =>updateReaderDetails()}>
                                         Update
                                     </Button>
                                     </div>
@@ -612,7 +810,7 @@ const MarketingTimeLineDetail = (props) => {
                                 <tr>
                                     <th>Calls</th>
                                     <td>
-                                        <div className="data-progress rtr">
+                                        <div className="data-progress content-opening">
                                             <ProgressBar
                                             variant="default"
                                             now={2}
@@ -1348,6 +1546,16 @@ const MarketingTimeLineDetail = (props) => {
           </Row>
         </div>
       </Col>
+
+      <CommonModel
+        show={commanShow}
+        onClose={setCommanShow}
+        heading={commonHeader}
+        data={data}
+        footerButton={commonFooter}
+        handleChange={handleModelFun}
+        handleSubmit={handleSubmitModelFun}
+      />
     </>
   );
 };
