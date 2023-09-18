@@ -14,7 +14,9 @@ import { toast } from "react-toastify";
 const MarketingAddReader = () => {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
+  const primaryPhoneRef = useRef(null);
   const countryRef = useRef(null);
+  const postcodeRef = useRef(null);
   const contactTotalRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [titleOptions, setTitleOptions] = useState([]);
@@ -181,7 +183,7 @@ const MarketingAddReader = () => {
             ...userInputs,
             address: { ...userInputs?.address, postcode: cleanedValue },
           });
-          
+
           setError(null);
         } else {
           setError({ postcode: "Postcode maximum of 12 Character long" });
@@ -241,8 +243,7 @@ const MarketingAddReader = () => {
             : e?.target?.value,
         });
       }
-    } 
-    else if (e?.target?.name == "primary_phone") {
+    } else if (e?.target?.name == "primary_phone") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
       if (cleanedValue?.length <= 12) {
         setUserInputs({
@@ -254,8 +255,29 @@ const MarketingAddReader = () => {
       } else {
         setError({ primary_phone: "Number must be 12 digits or less" });
       }
-    } 
-    else {
+    } else if (e?.target?.name == "alternativePhone") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue?.length <= 12) {
+        setUserInputs({
+          ...userInputs,
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
+      } else {
+        setError({ alternativePhone: "Number must be 12 digits or less" });
+      }
+    } else if (e.target?.name == "contactTotal") {
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue > 500 || cleanedValue < 0) {
+        setError({ contactTotal: "Contact total must be inbetween 0 to 500" });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          [e.target.name]: cleanedValue,
+        });
+        setError(null);
+      }
+    } else {
       setUserInputs({
         ...userInputs,
 
@@ -615,11 +637,14 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
-                  <Form.Label htmlFor="">Primary phone </Form.Label>
+                  <Form.Label htmlFor="">
+                    Primary phone<span>*</span>{" "}
+                  </Form.Label>
                   <Select
                     options={countryCode}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
+                    ref={primaryPhoneRef}
                     placeholder=""
                     onChange={(e) => handleChange(e, "countryCode")}
                   />
@@ -647,12 +672,24 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Alternative phone</Form.Label>
                   <input
-                    type="number"
-                    className="form-control"
+                    type="tel"
+                    className={
+                      error?.alternativePhone
+                        ? "form-control error"
+                        : "form-control"
+                    }
                     name="alternativePhone"
                     placeholder="Alternative phone"
+                    value={userInputs?.alternativePhone}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.alternativePhone ? (
+                    <div className="login-validation">
+                      {error?.alternativePhone}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">LinkedIn</Form.Label>
@@ -962,7 +999,9 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
                 <Form.Group className="form-group">
-                  <Form.Label htmlFor="">Post code</Form.Label>
+                  <Form.Label htmlFor="">
+                    Post code<span>*</span>
+                  </Form.Label>
                   <input
                     type="text"
                     placeholder="Enter post code"
@@ -970,6 +1009,7 @@ const MarketingAddReader = () => {
                       error?.postcode ? "form-control error" : "form-control"
                     }
                     name="postcode"
+                    ref={postcodeRef}
                     value={userInputs?.address?.postcode}
                     onChange={(e) => handleChange(e, "address")}
                   />
@@ -1236,8 +1276,12 @@ const MarketingAddReader = () => {
         nameRef.current.focus();
       } else if (Object.keys(result)[0] == "email") {
         emailRef.current.focus();
+      } else if (Object.keys(result)[0] == "primary_phone") {
+        primaryPhoneRef.current.focus();
       } else if (Object.keys(result)[0] == "country") {
         countryRef.current.focus();
+      } else if (Object.keys(result)[0] == "postcode") {
+        postcodeRef.current.focus();
       } else if (Object.keys(result)[0] == "contactTotal") {
         contactTotalRef.current.focus();
       }
