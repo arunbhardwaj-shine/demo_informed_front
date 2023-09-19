@@ -618,6 +618,7 @@ const MarketingTimeLineDetail = (props) => {
                                                         ]
                                                         }
                                                         name="channel"
+                                                        placeholder="Select chanel"
                                                         onChange={(e) => handleChange(e?.value, "channel")}
                                                         id={"channel"}
                                                         className="dropdown-basic-button split-button-dropup"
@@ -644,7 +645,7 @@ const MarketingTimeLineDetail = (props) => {
                                                     type="number"
                                                     className="form-control"
                                                     name="opportunity_value"
-                                                    placeholder="value"
+                                                    placeholder="Enter Amount value"
                                                     value={userInputs?.opportunity_value}
                                                     onChange={(e) => handleChange(e, "opportunity_value")}
                                                 />
@@ -666,6 +667,7 @@ const MarketingTimeLineDetail = (props) => {
                                                                 )
                                                             ]
                                                         }
+                                                        placeholder="Select Pipeline"
                                                         name="pipeline"
                                                         onChange={(e) => handleChange(e?.value, "pipeline")}
                                                         id={"pipeline_stage"}
@@ -698,6 +700,7 @@ const MarketingTimeLineDetail = (props) => {
                                                             )
                                                         ]
                                                         }
+                                                        placeholder="Select Probablity"
                                                         name="probability"
                                                         id={"probability"}
                                                         onChange={(e) => handleChange(e?.value, "probability")}
