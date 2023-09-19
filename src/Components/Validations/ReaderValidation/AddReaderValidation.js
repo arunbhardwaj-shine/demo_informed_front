@@ -1,5 +1,4 @@
 export const AddReaderValidation = (data, groupId, flag) => {
-  console.log("valid-->", data);
   let error = {};
 
   const regemail =
