@@ -1139,7 +1139,7 @@ const MarketingAddReader = () => {
                               }
                               id={`taskCheckClicked`}
                             />
-                            <Form.Label htmlFor="">Completed</Form.Label>
+                            <Form.Label htmlFor="taskCheckClicked">Completed</Form.Label>
                           </>
                         </fieldset>
                       </div>
