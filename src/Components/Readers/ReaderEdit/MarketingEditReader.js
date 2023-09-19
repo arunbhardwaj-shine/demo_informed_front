@@ -772,12 +772,23 @@ const MarketingEditReader = () => {
                   <Form.Label htmlFor="">Alternative email </Form.Label>
                   <input
                     type="email"
-                    className="form-control"
+                    className={
+                      error?.alternativeEmail
+                        ? "form-control error"
+                        : "form-control"
+                    }
                     placeholder="example@email.com"
                     name="alternativeEmail"
                     defaultValue={userInputs?.alternativeEmail}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.alternativeEmail ? (
+                    <div className="login-validation">
+                      {error?.alternativeEmail}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
                   <Form.Label htmlFor="">Primary phone </Form.Label>
