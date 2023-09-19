@@ -171,6 +171,7 @@ const MarketingReadersList = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
+    
     // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       setAppliedFilter({});
       setFilterObject({});
@@ -273,15 +274,17 @@ const MarketingReadersList = () => {
       }
 
       const res = await postData(ENDPOINT.MARKETING_READER_LIST_DATA, payload);
+      console.log("data-->",res)
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
         };
         const res_data = await getData(ENDPOINT.MARKETING_READER_USER_DROP, body);
+        console.log("data-->", res);
         let product = [];
         let pipeline = [];
         let probablity = [];
-        console.log(res_data?.data?.data?.company_product)
+        // console.log(res_data?.data?.data?.company_product)
         Object.entries(res_data?.data?.data?.company_product).map(([index, item]) => {
           product.push({
             value: item.value,
@@ -1843,10 +1846,10 @@ const MarketingReadersList = () => {
                                               className="form-control"
                                               id={"date_change" + data?.id}
                                               onKeyDown={handleKeyDown}
-                                              minDate={currentDate}
                                             />
                                           </div>
                                           </li>
+                                          {/*minDate={currentDate}*/}
                                         </>
                                       ) : (
                                         <div

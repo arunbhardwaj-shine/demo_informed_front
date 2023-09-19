@@ -11,10 +11,8 @@ export const AddReaderValidation = (data, groupId, flag) => {
   if (!data?.email || regemail?.test(data?.email) === false) {
     error.email = "Email required with email pattern";
   }
-  if (data.country=="") {
-
+  if (data.country == "") {
     error.country = "Please select country";
-
   }
   // if (groupId == 2 || (groupId == 3 && flag == 0)) {
   //   if (!data?.primary_phone?.toString()) {
@@ -33,15 +31,31 @@ export const AddReaderValidation = (data, groupId, flag) => {
     error.country = "Please select country";
   }
   if (localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==") {
+    if (!data?.primary_phone) {
+      error.primary_phone = "Please enter Phone number";
+    } else if (data?.primary_phone) {
+      if (Object.keys(data?.primary_phone)?.length > 12) {
+        error.primary_phone = "Number must be 12 digits or less";
+      }
+    }
     if (!data?.country?.value) {
       error.country = "Please select country";
     }
-    if (!data?.contactTotal) {
-      error.contactTotal = "Contact total required";
-    } else if (data?.contactTotal) {
-      if (data?.contactTotal > 500 || data?.contactTotal < 0) {
-        error.contactTotal = "Contact total must be inbetween 0 to 500";
-      }
+    if (
+      data?.alternativeEmail &&
+      regemail?.test(data?.alternativeEmail) === false
+    ) {
+      error.alternativeEmail = "Alternative email required with email pattern";
+    }
+    if (
+      data?.address?.postcode?.length &&
+      data?.address?.postcode?.length > 12
+    ) {
+      error.postcode = "Please enter valid postcode";
+    }
+
+    if (data?.contactTotal > 500 || data?.contactTotal < 0) {
+      error.contactTotal = "Contact total must be inbetween 0 to 500";
     }
   }
 

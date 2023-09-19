@@ -72,6 +72,7 @@ import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
+import MarketingTimeLineDetail from "./Components/Readers/Timeline/MarketingTimeLineDetail";
 import TrialSite from "./Components/Readers/AddSite/TrialSite";
 import AddSite from "./Components/Readers/AddSite/AddSite";
 import EditSite from "./Components/Readers/AddSite/EditSite";
@@ -152,6 +153,7 @@ import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf
 import MarketingAddReader from "./Components/Readers/AddReader/MarketingAddReader";
 import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditReader";
 import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
+import PageNotFound from "./Components/CommonComponent/PageNotFound";
 
 let platform = 0;
 let show = 0;
@@ -215,7 +217,7 @@ const Routing = () => {
           element={<DefaultLayout component={Webinar} />}
         />
         <Route path="rd-register" element={<RDRegister />} />
-        <Route path="LEX-210-Registration" element={<RDRegister />} />
+        {/* <Route path="LEX-210-Registration" element={<RDRegister />} /> */}
         <Route
           path="/LEX-210-analytics"
           element={<LoginLayout component={RDAnalytics} />}
@@ -385,9 +387,22 @@ const Routing = () => {
           element={<LoginLayout component={ReadersListAdd} />}
         />
         <Route
+            path="/timeline-detail"
+            element={
+              localStorage.getItem('user_id') == '90VIqoM675WT4/peSRnbSQ==' ? (
+                <LoginLayout component={MarketingTimeLineDetail} />
+              ) : (
+                <LoginLayout component={TimelineDetail} />
+              )
+            }
+        />
+        {
+          /*<Route
           path="/timeline-detail"
           element={<LoginLayout component={TimelineDetail} />}
-        />
+        /> */
+        }
+        
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
@@ -650,6 +665,7 @@ const Routing = () => {
           path="/license-edit"
           element={<LoginLayout component={EditLicense} />}
         />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
   );

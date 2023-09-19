@@ -5,16 +5,19 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
+import Collapse from "react-bootstrap/Collapse";
 
 const MarketingReaderReview = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [field, setField] = useState([]);
+  const [openProduction, setOpenProduction] = useState(false);
   const [openNotes, setOpenNotes] = useState(false);
+
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}
   );
-  const [flag,setFlag]= useState(
+  const [flag, setFlag] = useState(
     typeof state?.flag !== "undefined" ? state?.flag : {}
   );
   const createUser = async () => {
@@ -33,9 +36,7 @@ const MarketingReaderReview = () => {
       loader("hide");
     }
   };
-  useEffect(() => {
-    console.log("reader-->", readerData);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Col className="right-sidebar custom-change">
@@ -183,6 +184,11 @@ const MarketingReaderReview = () => {
                         <th className="tab-content-title">Type of contact </th>
                         <td>
                           {readerData?.type_of_contact?.length
+                            ? readerData?.type_of_contact
+                                .filter((item) => item)
+                                .join(", ")
+                            : "N/A"}
+                          {/* {readerData?.type_of_contact?.length
                             ? readerData?.type_of_contact?.map((item) => {
                                 return (
                                   <>
@@ -191,7 +197,7 @@ const MarketingReaderReview = () => {
                                   </>
                                 );
                               })
-                            : "N/A"}
+                            : "N/A"} */}
                         </td>
                       </tr>
                       <tr>
@@ -253,51 +259,97 @@ const MarketingReaderReview = () => {
                       <tr>
                         <th className="tab-content-title">Address</th>
                         <td>
-                          {Object.keys(readerData?.address)?.length
-                            ? Object.keys(readerData?.address)?.map((item) => {
-                                return (
-                                  <>
-                                    {readerData?.address[item]
-                                      ? `${readerData?.address[item]},`
-                                      : null}
-                                  </>
-                                );
-                              })
-                            : "N/A"}
+                          {/* {Object.keys(readerData?.address)?.length ? ( */}
+                          {Object.values(readerData?.address)?.filter(
+                            (value) =>
+                              value !== undefined &&
+                              value !== null &&
+                              value !== ""
+                          )?.length ? (
+                            <>
+                              {Object.values(readerData?.address)
+                                .filter(
+                                  (value) =>
+                                    value !== undefined &&
+                                    value !== null &&
+                                    value !== ""
+                                )
+                                .join(", ")}
+                            </>
+                          ) : (
+                            "N/A"
+                          )}
+                          {/* {Object.keys(readerData?.address)?.length
+                            ? Object.keys(readerData?.address)
+                                ?.filter((item) => readerData?.address[item])
+                                ?.map((item) => readerData?.address[item])
+                                .join(",")
+                            : "N/A"} */}
                         </td>
                       </tr>
+
                       <tr>
-                        <th className="tab-content-title">Log activity</th>
+                        <th>Log activity</th>
                         <td>
                           {readerData?.log_activity
-                            ? readerData?.log_activity
+                            ? readerData?.log_activity?.trim().length > 100
+                              ? readerData?.log_activity?.substring(0, 100)
+                              : readerData?.log_activity?.trim()
                             : "N/A"}
+                          <Collapse in={openProduction}>
+                            <div id="collapse-text-view">
+                              {readerData?.log_activity
+                                ? readerData?.log_activity?.trim()
+                                : ""}
+                            </div>
+                          </Collapse>
+                          {readerData?.log_activity ? (
+                            readerData?.log_activity?.trim().length > 100 ? (
+                              <span
+                                className="show_more"
+                                onClick={() =>
+                                  setOpenProduction(!openProduction)
+                                }
+                                aria-controls="example-collapse-text"
+                                aria-expanded={openProduction}
+                              >
+                                ...
+                              </span>
+                            ) : (
+                              ""
+                            )
+                          ) : (
+                            ""
+                          )}
                         </td>
-                      </tr>
-                      <tr>
-                        <th className="tab-content-title">Task</th>
-                        <td>{readerData?.task ? readerData?.task : "N/A"}</td>
                       </tr>
                     </table>
                   </div>
                   <div className="crm-review-detail">
                     <table className="tab-mail-list">
                       <tr>
-                        <th className="tab-content-title">Next contact</th>
-                        {flag==1?
-                         <td>
-                         {readerData?.next_contact
-                           ? readerData?.next_contact
-                           : "N/A"}
-                       </td>
-                        :
+                        <th className="tab-content-title">Task</th>
                         <td>
-                        {readerData?.next_contact
-                          ? readerData?.next_contact?.toLocaleDateString()
-                          : "N/A"}
-                      </td>
-                        }
-                       
+                          {readerData?.task?.task
+                            ? readerData?.task?.task
+                            : "N/A"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th className="tab-content-title">Next contact</th>
+                        {flag == 1 ? (
+                          <td>
+                            {readerData?.next_contact
+                              ? readerData?.next_contact
+                              : "N/A"}
+                          </td>
+                        ) : (
+                          <td>
+                            {readerData?.next_contact
+                              ? readerData?.next_contact
+                              : "N/A"}
+                          </td>
+                        )}
                       </tr>
                       <tr>
                         <th className="tab-content-title">Title</th>
@@ -374,27 +426,29 @@ const MarketingReaderReview = () => {
                             : "N/A"}
                         </td>
                       </tr> */}
-{flag==1?
- <tr>
- <th className="tab-content-title">Quote valid until</th>
- <td>
-   {readerData?.quote_valid 
-     ? readerData?.quote_valid
-     :
-      "N/A"}
- </td>
-</tr>
-:
-<tr>
- <th className="tab-content-title">Quote valid until</th>
- <td>
-   {readerData?.quote_valid 
-     ? readerData?.quote_valid?.toLocaleDateString()
-     :
-      "N/A"}
- </td>
-</tr>
-}
+                      {flag == 1 ? (
+                        <tr>
+                          <th className="tab-content-title">
+                            Quote valid until
+                          </th>
+                          <td>
+                            {readerData?.quote_valid
+                              ? readerData?.quote_valid
+                              : "N/A"}
+                          </td>
+                        </tr>
+                      ) : (
+                        <tr>
+                          <th className="tab-content-title">
+                            Quote valid until
+                          </th>
+                          <td>
+                            {readerData?.quote_valid
+                              ? readerData?.quote_valid
+                              : "N/A"}
+                          </td>
+                        </tr>
+                      )}
                       {/* <tr>
                         <th className="tab-content-title">Quote valid until</th>
                         <td>
