@@ -246,6 +246,7 @@ const MarketingEditReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
+    
     let weighted_Value = "";
     // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
     //   weighted_Value =
@@ -1678,6 +1679,7 @@ const MarketingEditReader = () => {
             : "",
           quote_sent: userInputs?.quoteSent,
           quote_valid: quoteValidDate,
+          user_id:id
         };
         console.log("user inputs", data);
         loader("hide");
