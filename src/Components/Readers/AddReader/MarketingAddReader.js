@@ -66,14 +66,14 @@ const MarketingAddReader = () => {
     companyProduct: { value: "" },
     therapyArea: { value: "" },
     local: { value: "" },
-    address: "",
-    logActivity: { value: "" },
-    task: { task: "",taskCheckClicked:false,taskDate:"" },
+    address: {street1:"",street2:"",city:"",postcode:"",country:""},
+    logActivity: "",
+    task: { task: "", taskCheckClicked: false, taskDate: "" },
     nextContact:
-    // `${
-    //   currentDate.getMonth() + 1
-    // }/${currentDate.getDate()}/${currentDate.getFullYear()}`,
-    new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+      // `${
+      //   currentDate.getMonth() + 1
+      // }/${currentDate.getDate()}/${currentDate.getFullYear()}`,
+      new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     opportunityTitle: "",
     ourProduct: "",
     contactTotal: "",
@@ -309,18 +309,13 @@ const MarketingAddReader = () => {
         });
         setError(null);
       }
-    } 
-    else if (isSelectedName == "task") {
-
+    } else if (isSelectedName == "task") {
       setUserInputs({
         ...userInputs,
-        task: { ...userInputs?.task,
-        task: e?.value}
+        task: { ...userInputs?.task, task: e?.value },
       });
       console.log(userInputs);
-    }
-     
-    else {
+    } else {
       setUserInputs({
         ...userInputs,
 
@@ -1099,7 +1094,10 @@ const MarketingAddReader = () => {
                   <Select
                     options={taskOptions}
                     name="task"
-                    value={{value:userInputs?.task?.task,label:userInputs?.task?.task}}
+                    value={{
+                      value: userInputs?.task?.task,
+                      label: userInputs?.task?.task,
+                    }}
                     onChange={(e) => handleChange(e, "task")}
                     placeholder="Select log activity"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"

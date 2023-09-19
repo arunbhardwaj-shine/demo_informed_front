@@ -200,7 +200,7 @@ const MarketingEditReader = () => {
         alternativeEmail: data?.alternativeEmail,
         countryCode: { label: phoneNumber[0], value: phoneNumber[0] },
         primary_phone: phoneNumber[1],
-        alternativePhone: parseInt(data?.alternativePhone),
+        alternativePhone: data?.alternativePhone,
         linkedIn: data?.linkedIn,
         prospect: { value: data?.prospect },
         ownership: { value: data?.contact_ownership },
@@ -215,6 +215,7 @@ const MarketingEditReader = () => {
         companyProduct: { value: data?.company_product },
         therapyArea: { value: data?.company_therapy_area },
         local: { value: data?.local },
+        nextContact: data?.next_contact,
         //  address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
         address: JSON.parse(data?.address),
         // street1: data?.address.street1,
@@ -1626,7 +1627,8 @@ const MarketingEditReader = () => {
         if (isValidDateFormat(userInputs?.nextContact)) {
           nextContactDate = convertDate(userInputs?.nextContact);
         } else {
-          nextContactDate = formatDate(userInputs?.nextContact);
+          const dateTime = new Date(userInputs?.nextContact);
+          nextContactDate = formatDate(dateTime);
         }
         let quoteValidDate = "";
         if (isValidDateFormat(userInputs?.quoteValid)) {
