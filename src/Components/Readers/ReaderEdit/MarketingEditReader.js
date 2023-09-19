@@ -1349,8 +1349,8 @@ const MarketingEditReader = () => {
                   />
                 </Form.Group>
               </div>
-              <div className="col-12 col-md-5 d-flex justify-content-end right-change">
-                <div className="form-group justify-content-end align-items-start wrap-text">
+              <div className="col-12 col-md-5 right-change">
+                <div className="form-group justify-content-end align-items-start new-change">
                   <label htmlFor="">Log activity </label>
 
                   <textarea

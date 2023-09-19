@@ -66,8 +66,8 @@ const MarketingAddReader = () => {
     companyProduct: { value: "" },
     therapyArea: { value: "" },
     local: { value: "" },
-    address: "",
-    logActivity: { value: "" },
+    address: {street1:"",street2:"",city:"",postcode:"",country:""},
+    logActivity: "",
     task: { task: "", taskCheckClicked: false, taskDate: "" },
     nextContact:
       // `${
@@ -1179,7 +1179,7 @@ const MarketingAddReader = () => {
 
                   <textarea
                     name="logActivity"
-                    value={userInputs?.logActivity?.value}
+                    value={userInputs?.logActivity}
                     className="form-control"
                     id="formControlTextarea"
                     onChange={(e) =>
