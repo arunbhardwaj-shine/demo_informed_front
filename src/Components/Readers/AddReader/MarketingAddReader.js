@@ -826,62 +826,6 @@ const MarketingAddReader = () => {
                         })
                       : ""}
                   </fieldset>
-                  {/* <fieldset id="group2">
-                    <input
-                      type="checkbox"
-                      value="value1"
-                      name="main"
-                      onClick={(e) =>
-                        handleChange(e.target?.checked, "main", "typeContact")
-                      }
-                      id="limitagreed1"
-                    />
-                    <Form.Label htmlFor="limitagreed1">Main</Form.Label>
-                    <input
-                      type="checkbox"
-                      value="value2"
-                      name="influencer"
-                      onClick={(e) =>
-                        handleChange(
-                          e.target?.checked,
-                          "influencer",
-                          "typeContact"
-                        )
-                      }
-                      id="limitagreed2"
-                    />
-                    <Form.Label htmlFor="limitagreed2">Influencer</Form.Label>
-                    <input
-                      type="checkbox"
-                      value="value3"
-                      onClick={(e) =>
-                        handleChange(
-                          e.target?.checked,
-                          "decisionMaker",
-                          "typeContact"
-                        )
-                      }
-                      name="decisionMaker"
-                      id="limitagreed3"
-                    />
-                    <Form.Label htmlFor="limitagreed3">
-                      Decision maker
-                    </Form.Label>
-                    <input
-                      type="checkbox"
-                      value="value4"
-                      name="introducer"
-                      onClick={(e) =>
-                        handleChange(
-                          e.target?.checked,
-                          "introducer",
-                          "typeContact"
-                        )
-                      }
-                      id="limitagreed4"
-                    />
-                    <Form.Label htmlFor="limitagreed4">Introducer</Form.Label>
-                  </fieldset> */}
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Customer type</Form.Label>
@@ -894,7 +838,7 @@ const MarketingAddReader = () => {
                         : ""
                     }
                     onChange={(e) => handleChange(e, "customerType")}
-                    placeholder="Select contact customer type"
+                    placeholder="Select customer type"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                     isClearable
                   />
@@ -905,7 +849,9 @@ const MarketingAddReader = () => {
                     options={companyOptions}
                     name="companyName"
                     value={
-                      userInputs?.company?.value ? userInputs?.company : ""
+                      userInputs?.companyName?.value
+                        ? userInputs?.companyName
+                        : ""
                     }
                     onChange={(e) => handleChange(e, "companyName")}
                     placeholder="Select contact company"
