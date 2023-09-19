@@ -216,7 +216,7 @@ const Routing = () => {
           element={<DefaultLayout component={Webinar} />}
         />
         <Route path="rd-register" element={<RDRegister />} />
-        <Route path="LEX-210-Registration" element={<RDRegister />} />
+        {/* <Route path="LEX-210-Registration" element={<RDRegister />} /> */}
         <Route
           path="/LEX-210-analytics"
           element={<LoginLayout component={RDAnalytics} />}
