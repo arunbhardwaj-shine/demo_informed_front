@@ -329,7 +329,7 @@ const MarketingEditReader = () => {
         });
         setError(null);
       } else {
-        setError({ primary_phone: "Number must be 12 digits or less" });
+        setError({ primary_phone: "Number must be inbetween 10 to 12 digits" });
       }
     } else if (e?.target?.name == "alternativePhone") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
@@ -340,7 +340,9 @@ const MarketingEditReader = () => {
         });
         setError(null);
       } else {
-        setError({ alternativePhone: "Number must be 12 digits or less" });
+        setError({
+          alternativePhone: "Number must be inbetween 10 to 12 digits",
+        });
       }
     } else if (e.target?.name == "contactTotal") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
@@ -354,7 +356,6 @@ const MarketingEditReader = () => {
         setError(null);
       }
     } else if (isSelectedName == "taskValueChecked") {
-     
       if (e) {
         setUserInputs({
           ...userInputs,
@@ -364,7 +365,6 @@ const MarketingEditReader = () => {
             taskDate: new Date(),
           },
         });
-      
       } else {
         setUserInputs({
           ...userInputs,
@@ -791,7 +791,12 @@ const MarketingEditReader = () => {
                         : ""
                     }
                     name="countryCode"
-                    className="dropdown-basic-button split-button-dropup"
+                    className={
+                      error?.countryCode
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                    // className="dropdown-basic-button split-button-dropup"
                     isClearable
                     placeholder="Select"
                     onChange={(e) => handleChange(e, "countryCode")}
@@ -810,6 +815,11 @@ const MarketingEditReader = () => {
                     value={userInputs?.primary_phone}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.countryCode ? (
+                    <div className="login-validation">{error?.countryCode}</div>
+                  ) : (
+                    ""
+                  )}
                   {error?.primary_phone ? (
                     <div className="login-validation">
                       {error?.primary_phone}
@@ -942,7 +952,6 @@ const MarketingEditReader = () => {
                         })
                       : ""}
                   </fieldset>
-                 
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Customer type</Form.Label>
@@ -976,7 +985,6 @@ const MarketingEditReader = () => {
                           }
                         : ""
                     }
-                  
                     onChange={(e) => handleChange(e, "companyName")}
                     placeholder="Select contact company"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -1416,7 +1424,7 @@ const MarketingEditReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
-                    placeholder="“0” value means unlimited limit"
+                    placeholder="Enter contact total"
                     onChange={(e) => handleChange(e)}
                   />
                   {error?.contactTotal ? (
@@ -1462,7 +1470,7 @@ const MarketingEditReader = () => {
                     type="number"
                     className="form-control"
                     name="opportunityValue"
-                    placeholder="Value"
+                    placeholder="Amount"
                     value={userInputs?.opportunityValue}
                     onChange={(e) => handleChange(e)}
                   />

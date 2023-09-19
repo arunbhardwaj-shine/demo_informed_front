@@ -279,12 +279,6 @@ const MarketingReaderReview = () => {
                           ) : (
                             "N/A"
                           )}
-                          {/* {Object.keys(readerData?.address)?.length
-                            ? Object.keys(readerData?.address)
-                                ?.filter((item) => readerData?.address[item])
-                                ?.map((item) => readerData?.address[item])
-                                .join(",")
-                            : "N/A"} */}
                         </td>
                       </tr>
 
