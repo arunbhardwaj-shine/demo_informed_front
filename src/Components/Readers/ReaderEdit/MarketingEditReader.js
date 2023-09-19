@@ -246,7 +246,7 @@ const MarketingEditReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
-    
+
     let weighted_Value = "";
     // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
     //   weighted_Value =
@@ -758,10 +758,11 @@ const MarketingEditReader = () => {
                       error?.email ? "form-control error" : "form-control"
                     }
                     placeholder="example@email.com"
+                    disabled="disabled"
                     ref={emailRef}
                     name="email"
                     defaultValue={userInputs?.email}
-                    onInput={(e) => handleChange(e)}
+                    // onInput={(e) => handleChange(e)}
                   />
                   {error?.email ? (
                     <div className="login-validation">{error?.email}</div>
