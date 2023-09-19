@@ -297,25 +297,20 @@ const MarketingReaderReview = () => {
                       <tr>
                         <th>Log activity</th>
                         <td>
-                          {readerData?.log_activity?.value
-                            ? readerData?.log_activity?.value?.trim().length >
-                              100
-                              ? readerData?.log_activity?.value?.substring(
-                                  0,
-                                  100
-                                )
-                              : readerData?.log_activity?.value?.trim()
+                          {readerData?.log_activity
+                            ? readerData?.log_activity?.trim().length > 100
+                              ? readerData?.log_activity?.substring(0, 100)
+                              : readerData?.log_activity?.trim()
                             : "N/A"}
                           <Collapse in={openProduction}>
                             <div id="collapse-text-view">
-                              {readerData?.log_activity?.value
-                                ? readerData?.log_activity?.value?.trim()
+                              {readerData?.log_activity
+                                ? readerData?.log_activity?.trim()
                                 : ""}
                             </div>
                           </Collapse>
-                          {readerData?.log_activity?.value ? (
-                            readerData?.log_activity?.value?.trim().length >
-                            100 ? (
+                          {readerData?.log_activity ? (
+                            readerData?.log_activity?.trim().length > 100 ? (
                               <span
                                 className="show_more"
                                 onClick={() =>
