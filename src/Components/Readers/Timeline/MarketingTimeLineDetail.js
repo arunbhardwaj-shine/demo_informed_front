@@ -244,7 +244,12 @@ const MarketingTimeLineDetail = (props) => {
             setlastnoteTime(lasttime);
         }
       }
-    //   console.log(note,"note");
+
+      let newtDate = res?.data?.data?.user?.next_contact;
+      if(newtDate == "" || newtDate === null){
+        newtDate = moment().format('YYYY-MM-DD');
+      }
+      
       setUserInputs({
         ...userInputs,
         pipeline: res?.data?.data?.user?.pipeline,
@@ -252,7 +257,7 @@ const MarketingTimeLineDetail = (props) => {
         opportunity_value: res?.data?.data?.user?.opportunity_value,
         probability: res?.data?.data?.user?.probability,
         log_activity:note,
-        next_contact: res?.data?.data?.user?.next_contact,
+        next_contact: newtDate,
       });
       loader("hide");
     } catch (err) {
