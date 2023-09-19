@@ -66,7 +66,7 @@ const MarketingAddReader = () => {
     companyProduct: { value: "" },
     therapyArea: { value: "" },
     local: { value: "" },
-    address: "",
+    address: {street1:"",street2:"",city:"",postcode:"",country:""},
     logActivity: "",
     task: { task: "", taskCheckClicked: false, taskDate: "" },
     nextContact:

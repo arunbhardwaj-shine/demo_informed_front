@@ -13,6 +13,7 @@ const MarketingReaderReview = () => {
   const [field, setField] = useState([]);
   const [openProduction, setOpenProduction] = useState(false);
   const [openNotes, setOpenNotes] = useState(false);
+
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}
   );
@@ -35,9 +36,7 @@ const MarketingReaderReview = () => {
       loader("hide");
     }
   };
-  useEffect(() => {
-    console.log("reader-->", readerData);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Col className="right-sidebar custom-change">
@@ -260,27 +259,22 @@ const MarketingReaderReview = () => {
                       <tr>
                         <th className="tab-content-title">Address</th>
                         <td>
-                          {Object.keys(readerData?.address)?.length ? (
+                          {/* {Object.keys(readerData?.address)?.length ? ( */}
+                          {Object.values(readerData?.address)?.filter(
+                            (value) =>
+                              value !== undefined &&
+                              value !== null &&
+                              value !== ""
+                          )?.length ? (
                             <>
-                              {readerData?.address?.street1
-                                ? `${readerData?.address?.street1}, `
-                                : ""}
-
-                              {readerData?.address?.street2
-                                ? `${readerData?.address?.street2}, `
-                                : ""}
-
-                              {readerData?.address?.city
-                                ? `${readerData?.address?.city}, `
-                                : ""}
-
-                              {readerData?.address?.postcode
-                                ? `${readerData?.address?.postcode}, `
-                                : ""}
-
-                              {readerData?.address?.country
-                                ? `${readerData?.address?.country}`
-                                : ""}
+                              {Object.values(readerData?.address)
+                                .filter(
+                                  (value) =>
+                                    value !== undefined &&
+                                    value !== null &&
+                                    value !== ""
+                                )
+                                .join(", ")}
                             </>
                           ) : (
                             "N/A"
