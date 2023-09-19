@@ -186,7 +186,7 @@ const MarketingReaderReview = () => {
                         <td>
                           {readerData?.type_of_contact?.length
                             ? readerData?.type_of_contact
-                                .map((item) => item)
+                                .filter((item) => item)
                                 .join(", ")
                             : "N/A"}
                           {/* {readerData?.type_of_contact?.length
@@ -275,7 +275,7 @@ const MarketingReaderReview = () => {
                                 : ""}
 
                               {readerData?.address?.postcode
-                                ? `,${readerData?.address?.postcode}, `
+                                ? `${readerData?.address?.postcode}, `
                                 : ""}
 
                               {readerData?.address?.country
@@ -285,16 +285,14 @@ const MarketingReaderReview = () => {
                           ) : (
                             "N/A"
                           )}
+                          {/* {Object.keys(readerData?.address)?.length
+                            ? Object.keys(readerData?.address)
+                                ?.filter((item) => readerData?.address[item])
+                                ?.map((item) => readerData?.address[item])
+                                .join(",")
+                            : "N/A"} */}
                         </td>
                       </tr>
-                      {/* <tr>
-                        <th className="tab-content-title">Log activity</th>
-                        <td>
-                          {readerData?.log_activity
-                            ? readerData?.log_activity
-                            : "N/A"}
-                        </td>
-                      </tr> */}
 
                       <tr>
                         <th>Log activity</th>
