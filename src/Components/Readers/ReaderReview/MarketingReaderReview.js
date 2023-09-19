@@ -13,6 +13,7 @@ const MarketingReaderReview = () => {
   const [field, setField] = useState([]);
   const [openProduction, setOpenProduction] = useState(false);
   const [openNotes, setOpenNotes] = useState(false);
+
   const [readerData, setReaderData] = useState(
     typeof state?.data !== "undefined" ? state?.data : {}
   );
@@ -35,9 +36,7 @@ const MarketingReaderReview = () => {
       loader("hide");
     }
   };
-  useEffect(() => {
-    console.log("reader-->", readerData);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Col className="right-sidebar custom-change">
@@ -185,6 +184,11 @@ const MarketingReaderReview = () => {
                         <th className="tab-content-title">Type of contact </th>
                         <td>
                           {readerData?.type_of_contact?.length
+                            ? readerData?.type_of_contact
+                                .filter((item) => item)
+                                .join(", ")
+                            : "N/A"}
+                          {/* {readerData?.type_of_contact?.length
                             ? readerData?.type_of_contact?.map((item) => {
                                 return (
                                   <>
@@ -193,7 +197,7 @@ const MarketingReaderReview = () => {
                                   </>
                                 );
                               })
-                            : "N/A"}
+                            : "N/A"} */}
                         </td>
                       </tr>
                       <tr>
@@ -255,53 +259,42 @@ const MarketingReaderReview = () => {
                       <tr>
                         <th className="tab-content-title">Address</th>
                         <td>
-                          {Object.keys(readerData?.address)?.length ? (
+                          {/* {Object.keys(readerData?.address)?.length ? ( */}
+                          {Object.values(readerData?.address)?.filter(
+                            (value) =>
+                              value !== undefined &&
+                              value !== null &&
+                              value !== ""
+                          )?.length ? (
                             <>
-                              {readerData?.address?.street1
-                                ? `${readerData?.address?.street1},`
-                                : ""}
-                              {readerData?.address?.street2
-                                ? `${readerData?.address?.street2}`
-                                : ""}
-                              {readerData?.address?.city
-                                ? `,${readerData?.address?.city}`
-                                : ""}
-                              {readerData?.address?.postcode
-                                ? `,${readerData?.address?.postcode}`
-                                : ""}
-                              {readerData?.address?.country
-                                ? `,${readerData?.address?.country}`
-                                : ""}
+                              {Object.values(readerData?.address)
+                                .filter(
+                                  (value) =>
+                                    value !== undefined &&
+                                    value !== null &&
+                                    value !== ""
+                                )
+                                .join(", ")}
                             </>
                           ) : (
-                            // Object.keys(readerData?.address)?.map((item) => {
-                            //     return (
-                            //       <>
-                            //         {readerData?.address[item]
-                            //           ? `${readerData?.address[item]},`
-                            //           : null}
-                            //       </>
-                            //     );
-                            //   })
                             "N/A"
                           )}
+                          {/* {Object.keys(readerData?.address)?.length
+                            ? Object.keys(readerData?.address)
+                                ?.filter((item) => readerData?.address[item])
+                                ?.map((item) => readerData?.address[item])
+                                .join(",")
+                            : "N/A"} */}
                         </td>
                       </tr>
-                      {/* <tr>
-                        <th className="tab-content-title">Log activity</th>
-                        <td>
-                          {readerData?.log_activity
-                            ? readerData?.log_activity
-                            : "N/A"}
-                        </td>
-                      </tr> */}
+
                       <tr>
                         <th>Log activity</th>
                         <td>
                           {readerData?.log_activity
                             ? readerData?.log_activity?.trim().length > 100
                               ? readerData?.log_activity?.substring(0, 100)
-                              : readerData?.log_activity.trim()
+                              : readerData?.log_activity?.trim()
                             : "N/A"}
                           <Collapse in={openProduction}>
                             <div id="collapse-text-view">

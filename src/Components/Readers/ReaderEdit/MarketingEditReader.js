@@ -200,7 +200,7 @@ const MarketingEditReader = () => {
         alternativeEmail: data?.alternativeEmail,
         countryCode: { label: phoneNumber[0], value: phoneNumber[0] },
         primary_phone: phoneNumber[1],
-        alternativePhone: parseInt(data?.alternativePhone),
+        alternativePhone: data?.alternativePhone,
         linkedIn: data?.linkedIn,
         prospect: { value: data?.prospect },
         ownership: { value: data?.contact_ownership },
@@ -215,6 +215,7 @@ const MarketingEditReader = () => {
         companyProduct: { value: data?.company_product },
         therapyArea: { value: data?.company_therapy_area },
         local: { value: data?.local },
+        nextContact: data?.next_contact,
         //  address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
         address: JSON.parse(data?.address),
         // street1: data?.address.street1,
@@ -245,6 +246,7 @@ const MarketingEditReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
+
     let weighted_Value = "";
     // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
     //   weighted_Value =
@@ -756,10 +758,11 @@ const MarketingEditReader = () => {
                       error?.email ? "form-control error" : "form-control"
                     }
                     placeholder="example@email.com"
+                    disabled="disabled"
                     ref={emailRef}
                     name="email"
                     defaultValue={userInputs?.email}
-                    onInput={(e) => handleChange(e)}
+                    // onInput={(e) => handleChange(e)}
                   />
                   {error?.email ? (
                     <div className="login-validation">{error?.email}</div>
@@ -771,12 +774,23 @@ const MarketingEditReader = () => {
                   <Form.Label htmlFor="">Alternative email </Form.Label>
                   <input
                     type="email"
-                    className="form-control"
+                    className={
+                      error?.alternativeEmail
+                        ? "form-control error"
+                        : "form-control"
+                    }
                     placeholder="example@email.com"
                     name="alternativeEmail"
                     defaultValue={userInputs?.alternativeEmail}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.alternativeEmail ? (
+                    <div className="login-validation">
+                      {error?.alternativeEmail}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
                   <Form.Label htmlFor="">Primary phone </Form.Label>
@@ -1348,8 +1362,8 @@ const MarketingEditReader = () => {
                   />
                 </Form.Group>
               </div>
-              <div className="col-12 col-md-5 d-flex justify-content-end right-change">
-                <div className="form-group justify-content-end align-items-start">
+              <div className="col-12 col-md-5 right-change">
+                <div className="form-group justify-content-end align-items-start new-change">
                   <label htmlFor="">Log activity </label>
 
                   <textarea
@@ -1626,7 +1640,8 @@ const MarketingEditReader = () => {
         if (isValidDateFormat(userInputs?.nextContact)) {
           nextContactDate = convertDate(userInputs?.nextContact);
         } else {
-          nextContactDate = formatDate(userInputs?.nextContact);
+          const dateTime = new Date(userInputs?.nextContact);
+          nextContactDate = formatDate(dateTime);
         }
         let quoteValidDate = "";
         if (isValidDateFormat(userInputs?.quoteValid)) {
@@ -1676,6 +1691,7 @@ const MarketingEditReader = () => {
             : "",
           quote_sent: userInputs?.quoteSent,
           quote_valid: quoteValidDate,
+          user_id:id
         };
         console.log("user inputs", data);
         loader("hide");

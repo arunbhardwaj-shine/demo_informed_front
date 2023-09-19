@@ -42,15 +42,20 @@ export const AddReaderValidation = (data, groupId, flag) => {
       error.country = "Please select country";
     }
     if (
+      data?.alternativeEmail &&
+      regemail?.test(data?.alternativeEmail) === false
+    ) {
+      error.alternativeEmail = "Alternative email required with email pattern";
+    }
+    if (
       data?.address?.postcode?.length &&
       data?.address?.postcode?.length > 12
     ) {
       error.postcode = "Please enter valid postcode";
     }
-      
-      if (data?.contactTotal > 500 || data?.contactTotal < 0) {
-        error.contactTotal = "Contact total must be inbetween 0 to 500";
-     
+
+    if (data?.contactTotal > 500 || data?.contactTotal < 0) {
+      error.contactTotal = "Contact total must be inbetween 0 to 500";
     }
   }
 
