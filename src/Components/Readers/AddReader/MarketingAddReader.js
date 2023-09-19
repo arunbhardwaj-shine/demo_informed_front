@@ -130,7 +130,6 @@ const MarketingAddReader = () => {
     try {
       loader("show");
       const hasData = await getData(`${ENDPOINT.READER_MARKETING_USER_DROP}`);
-      console.log("has data-->", hasData);
       if (Object.keys(hasData?.data?.data)?.length) {
         let country = [];
         hasData?.data?.data?.country.reduce((objEntries, key) => {
@@ -214,7 +213,6 @@ const MarketingAddReader = () => {
         typeContact: typeContactArray,
       });
     } else if (isSelectedName == "taskValueChecked") {
-      // console.log();
       if (e) {
         setUserInputs({
           ...userInputs,
@@ -314,7 +312,6 @@ const MarketingAddReader = () => {
         ...userInputs,
         task: { ...userInputs?.task, task: e?.value },
       });
-      console.log(userInputs);
     } else {
       setUserInputs({
         ...userInputs,
@@ -588,7 +585,7 @@ const MarketingAddReader = () => {
                   <Select
                     options={titleOptions}
                     name="title"
-                    value={userInputs?.title}
+                    value={userInputs?.title?.value ? userInputs?.title : ""}
                     onChange={(e) => handleChange(e, "title")}
                     placeholder="Select title"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -693,8 +690,13 @@ const MarketingAddReader = () => {
                     options={countryCode}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
+                    value={
+                      userInputs?.countryCode?.value
+                        ? userInputs?.countryCode
+                        : ""
+                    }
                     ref={primaryPhoneRef}
-                    placeholder=""
+                    placeholder="Select "
                     onChange={(e) => handleChange(e, "countryCode")}
                   />
 
@@ -755,7 +757,9 @@ const MarketingAddReader = () => {
                   <Select
                     options={prospectOptions}
                     name="prospect"
-                    value={userInputs?.prospect}
+                    value={
+                      userInputs?.prospect?.value ? userInputs?.prospect : ""
+                    }
                     onChange={(e) => handleChange(e, "prospect")}
                     placeholder="Select prospect"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -776,7 +780,9 @@ const MarketingAddReader = () => {
                   <Select
                     options={ownershipOptions}
                     name="ownership"
-                    value={userInputs?.ownership}
+                    value={
+                      userInputs?.ownership?.value ? userInputs?.ownership : ""
+                    }
                     onChange={(e) => handleChange(e, "ownership")}
                     placeholder="Select contact ownership"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -820,71 +826,19 @@ const MarketingAddReader = () => {
                         })
                       : ""}
                   </fieldset>
-                  {/* <fieldset id="group2">
-                    <input
-                      type="checkbox"
-                      value="value1"
-                      name="main"
-                      onClick={(e) =>
-                        handleChange(e.target?.checked, "main", "typeContact")
-                      }
-                      id="limitagreed1"
-                    />
-                    <Form.Label htmlFor="limitagreed1">Main</Form.Label>
-                    <input
-                      type="checkbox"
-                      value="value2"
-                      name="influencer"
-                      onClick={(e) =>
-                        handleChange(
-                          e.target?.checked,
-                          "influencer",
-                          "typeContact"
-                        )
-                      }
-                      id="limitagreed2"
-                    />
-                    <Form.Label htmlFor="limitagreed2">Influencer</Form.Label>
-                    <input
-                      type="checkbox"
-                      value="value3"
-                      onClick={(e) =>
-                        handleChange(
-                          e.target?.checked,
-                          "decisionMaker",
-                          "typeContact"
-                        )
-                      }
-                      name="decisionMaker"
-                      id="limitagreed3"
-                    />
-                    <Form.Label htmlFor="limitagreed3">
-                      Decision maker
-                    </Form.Label>
-                    <input
-                      type="checkbox"
-                      value="value4"
-                      name="introducer"
-                      onClick={(e) =>
-                        handleChange(
-                          e.target?.checked,
-                          "introducer",
-                          "typeContact"
-                        )
-                      }
-                      id="limitagreed4"
-                    />
-                    <Form.Label htmlFor="limitagreed4">Introducer</Form.Label>
-                  </fieldset> */}
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Customer type</Form.Label>
                   <Select
                     options={customerOptions}
                     name="customerType"
-                    value={userInputs?.customerType}
+                    value={
+                      userInputs?.customerType?.value
+                        ? userInputs?.customerType
+                        : ""
+                    }
                     onChange={(e) => handleChange(e, "customerType")}
-                    placeholder="Select contact customer type"
+                    placeholder="Select customer type"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                     isClearable
                   />
@@ -894,7 +848,11 @@ const MarketingAddReader = () => {
                   <Select
                     options={companyOptions}
                     name="companyName"
-                    value={userInputs?.company}
+                    value={
+                      userInputs?.companyName?.value
+                        ? userInputs?.companyName
+                        : ""
+                    }
                     onChange={(e) => handleChange(e, "companyName")}
                     placeholder="Select contact company"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -922,6 +880,9 @@ const MarketingAddReader = () => {
                         : "dropdown-basic-button split-button-dropup"
                     }
                     isClearable
+                    value={
+                      userInputs?.country?.value ? userInputs?.country : ""
+                    }
                     placeholder="Select country"
                     ref={countryRef}
                     onChange={(e) => handleChange(e, "country")}
@@ -947,7 +908,11 @@ const MarketingAddReader = () => {
                   <Select
                     options={companyProductOptions}
                     name="companyProduct"
-                    value={userInputs?.companyProduct}
+                    value={
+                      userInputs?.companyProduct?.value
+                        ? userInputs?.companyProduct
+                        : ""
+                    }
                     onChange={(e) => handleChange(e, "companyProduct")}
                     placeholder="Select company product"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -968,7 +933,11 @@ const MarketingAddReader = () => {
                   <Select
                     options={therapyAreaOptions}
                     name="therapyArea"
-                    value={userInputs?.therapyArea}
+                    value={
+                      userInputs?.therapyArea?.value
+                        ? userInputs?.therapyArea
+                        : ""
+                    }
                     onChange={(e) => handleChange(e, "therapyArea")}
                     placeholder="Select therapy area"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -990,7 +959,7 @@ const MarketingAddReader = () => {
                   <Select
                     options={localOptions}
                     name="local"
-                    value={userInputs?.local}
+                    value={userInputs?.local?.value ? userInputs?.local : ""}
                     onChange={(e) => handleChange(e, "local")}
                     placeholder="Select "
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -1073,6 +1042,14 @@ const MarketingAddReader = () => {
                     options={countryAll}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
+                    value={
+                      userInputs?.address?.country
+                        ? {
+                            label: userInputs?.address?.country,
+                            value: userInputs?.address?.country,
+                          }
+                        : ""
+                    }
                     placeholder="Select country"
                     onChange={(e) =>
                       handleChange(e, "address", "addressCountry")
@@ -1105,12 +1082,16 @@ const MarketingAddReader = () => {
                   <Select
                     options={taskOptions}
                     name="task"
-                    value={{
-                      value: userInputs?.task?.task,
-                      label: userInputs?.task?.task,
-                    }}
+                    value={
+                      userInputs?.task?.task
+                        ? {
+                            value: userInputs?.task?.task,
+                            label: userInputs?.task?.task,
+                          }
+                        : ""
+                    }
                     onChange={(e) => handleChange(e, "task")}
-                    placeholder="Select log activity"
+                    placeholder="Select task"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                     isClearable
                   />{" "}
@@ -1139,6 +1120,7 @@ const MarketingAddReader = () => {
                         onChange={(e) => handleChange(e, "taskDate")}
                         dateFormat="dd/MM/yyyy"
                         className="form-control"
+                        placeholderText="Select task date"
                         // minDate={currentDate}
                       />
                       <div className="add_check">
@@ -1270,7 +1252,9 @@ const MarketingAddReader = () => {
                     placeholder="Select pipeline stage"
                     // className="dropdown-basic-button split-button-dropup"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    value={userInputs?.pipeline}
+                    value={
+                      userInputs?.pipeline?.value ? userInputs?.pipeline : ""
+                    }
                     isClearable
                     onChange={(e) => handleChange(e, "pipeline")}
                   />
@@ -1302,7 +1286,12 @@ const MarketingAddReader = () => {
                     options={probabilityOptions}
                     className="dropdown-basic-button split-button-dropup"
                     isClearable
-                    placeholder=""
+                    value={
+                      userInputs?.probability?.value
+                        ? userInputs?.probability
+                        : ""
+                    }
+                    placeholder="Select probability"
                     onChange={(e) => handleChange(e, "probability")}
                   />
                 </Form.Group>
@@ -1480,7 +1469,6 @@ const MarketingAddReader = () => {
             data: data,
           },
         });
-        console.log("data--->", data);
       } catch (err) {
         console.log(err);
         loader("hide");

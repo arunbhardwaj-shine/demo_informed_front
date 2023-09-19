@@ -153,6 +153,7 @@ import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf
 import MarketingAddReader from "./Components/Readers/AddReader/MarketingAddReader";
 import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditReader";
 import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
+import PageNotFound from "./Components/CommonComponent/PageNotFound";
 
 let platform = 0;
 let show = 0;
@@ -216,7 +217,7 @@ const Routing = () => {
           element={<DefaultLayout component={Webinar} />}
         />
         <Route path="rd-register" element={<RDRegister />} />
-        <Route path="LEX-210-Registration" element={<RDRegister />} />
+        {/* <Route path="LEX-210-Registration" element={<RDRegister />} /> */}
         <Route
           path="/LEX-210-analytics"
           element={<LoginLayout component={RDAnalytics} />}
@@ -664,6 +665,7 @@ const Routing = () => {
           path="/license-edit"
           element={<LoginLayout component={EditLicense} />}
         />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
   );
