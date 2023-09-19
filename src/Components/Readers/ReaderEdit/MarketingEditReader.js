@@ -1627,7 +1627,8 @@ const MarketingEditReader = () => {
         if (isValidDateFormat(userInputs?.nextContact)) {
           nextContactDate = convertDate(userInputs?.nextContact);
         } else {
-          nextContactDate = formatDate(userInputs?.nextContact);
+          const dateTime = new Date(userInputs?.nextContact);
+          nextContactDate = formatDate(dateTime);
         }
         let quoteValidDate = "";
         if (isValidDateFormat(userInputs?.quoteValid)) {

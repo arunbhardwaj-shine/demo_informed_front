@@ -263,19 +263,19 @@ const MarketingReaderReview = () => {
                           {Object.keys(readerData?.address)?.length ? (
                             <>
                               {readerData?.address?.street1
-                                ? `${readerData?.address?.street1},`
+                                ? `${readerData?.address?.street1}, `
                                 : ""}
 
                               {readerData?.address?.street2
-                                ? `${readerData?.address?.street2},`
+                                ? `${readerData?.address?.street2}, `
                                 : ""}
 
                               {readerData?.address?.city
-                                ? `${readerData?.address?.city},`
+                                ? `${readerData?.address?.city}, `
                                 : ""}
 
                               {readerData?.address?.postcode
-                                ? `,${readerData?.address?.postcode},`
+                                ? `,${readerData?.address?.postcode}, `
                                 : ""}
 
                               {readerData?.address?.country
