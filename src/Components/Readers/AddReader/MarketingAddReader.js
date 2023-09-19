@@ -66,7 +66,7 @@ const MarketingAddReader = () => {
     companyProduct: { value: "" },
     therapyArea: { value: "" },
     local: { value: "" },
-    address: {street1:"",street2:"",city:"",postcode:"",country:""},
+    address: { street1: "", street2: "", city: "", postcode: "", country: "" },
     logActivity: "",
     task: { task: "", taskCheckClicked: false, taskDate: "" },
     nextContact:
@@ -668,11 +668,22 @@ const MarketingAddReader = () => {
                   <Form.Label htmlFor="">Alternative email </Form.Label>
                   <input
                     type="email"
-                    className="form-control"
+                    className={
+                      error?.alternativeEmail
+                        ? "form-control error"
+                        : "form-control"
+                    }
                     placeholder="example@email.com"
                     name="alternativeEmail"
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.alternativeEmail ? (
+                    <div className="login-validation">
+                      {error?.alternativeEmail}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
                   <Form.Label htmlFor="">
@@ -1446,7 +1457,7 @@ const MarketingAddReader = () => {
           address: userInputs?.address,
           log_activity: userInputs?.logActivity,
           task: {
-            task: userInputs?.task?.value,
+            task: userInputs?.task?.task,
             taskCheckClicked: userInputs?.task?.taskCheckClicked,
             taskDate: userInputs?.task?.taskDate,
           },

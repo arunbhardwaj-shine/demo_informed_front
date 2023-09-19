@@ -246,6 +246,7 @@ const MarketingEditReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
+    
     let weighted_Value = "";
     // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
     //   weighted_Value =
@@ -772,12 +773,23 @@ const MarketingEditReader = () => {
                   <Form.Label htmlFor="">Alternative email </Form.Label>
                   <input
                     type="email"
-                    className="form-control"
+                    className={
+                      error?.alternativeEmail
+                        ? "form-control error"
+                        : "form-control"
+                    }
                     placeholder="example@email.com"
                     name="alternativeEmail"
                     defaultValue={userInputs?.alternativeEmail}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.alternativeEmail ? (
+                    <div className="login-validation">
+                      {error?.alternativeEmail}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
                   <Form.Label htmlFor="">Primary phone </Form.Label>
@@ -1678,6 +1690,7 @@ const MarketingEditReader = () => {
             : "",
           quote_sent: userInputs?.quoteSent,
           quote_valid: quoteValidDate,
+          user_id:id
         };
         console.log("user inputs", data);
         loader("hide");
