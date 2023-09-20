@@ -631,7 +631,7 @@ const MarketingAddReader = () => {
                     }
                     name="firstName"
                     ref={nameRef}
-                    onChange={(e) => handleChange(e)}
+                    onInput={(e) => handleChange(e)}
                     placeholder="First name"
                   />
                   {error?.firstName ? (

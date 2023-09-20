@@ -712,7 +712,7 @@ const MarketingEditReader = () => {
                     name="firstName"
                     defaultValue={userInputs?.firstName}
                     ref={nameRef}
-                    onChange={(e) => handleChange(e)}
+                    onInput={(e) => handleChange(e)}
                     placeholder="First name"
                   />
                   {error?.firstName ? (
@@ -757,6 +757,7 @@ const MarketingEditReader = () => {
                     ref={emailRef}
                     name="email"
                     defaultValue={userInputs?.email}
+                    readOnly
                     // onInput={(e) => handleChange(e)}
                   />
                   {error?.email ? (
