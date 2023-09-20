@@ -1,5 +1,4 @@
 export const AddReaderValidation = (data, groupId, flag) => {
-  console.log("data-->", data);
   let error = {};
 
   const regemail =
@@ -31,26 +30,27 @@ export const AddReaderValidation = (data, groupId, flag) => {
     error.country = "Please select country";
   }
   if (localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==") {
-    if (!data?.primary_phone) {
+    if (!data?.primary_phone || !data?.countryCode) {
       error.primary_phone = "Please enter phone number with country code";
     } else if (data?.primary_phone) {
       if (
         Object.keys(data?.primary_phone)?.length > 12 ||
         Object.keys(data?.primary_phone)?.length < 10
       ) {
-        error.primary_phone = "Number must be inbetween 10 to 12 digits";
+        error.primary_phone = "Number must be in between 10 to 12 digits";
       }
     }
+    // else if (!data?.countryCode) {
+    //   error.countryCode = "Please enter phone number with country code";
+    // }
     if (
       data?.alternativePhone &&
       (Object.keys(data?.alternativePhone)?.length > 12 ||
         Object.keys(data?.alternativePhone)?.length < 10)
     ) {
-      error.alternativePhone = "Number must be inbetween 10 to 12 digits";
+      error.alternativePhone = "Number must be in between 10 to 12 digits";
     }
-    if (!data?.countryCode) {
-      error.countryCode = "Please enter phone number with country code";
-    }
+
     if (!data?.country?.value) {
       error.country = "Please select country";
     }
@@ -68,7 +68,7 @@ export const AddReaderValidation = (data, groupId, flag) => {
     }
 
     if (data?.contactTotal > 500 || data?.contactTotal < 0) {
-      error.contactTotal = "Contact total must be inbetween 0 to 500";
+      error.contactTotal = "Contact total must be in between 0 to 500";
     }
   }
 
