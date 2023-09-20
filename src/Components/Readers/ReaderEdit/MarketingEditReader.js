@@ -1527,7 +1527,7 @@ const MarketingEditReader = () => {
                         : ""
                     }
                     defaultValue={userInputs?.weighted_value}
-                    onChange={(e) => handleChange(e)}
+                    // onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
 
