@@ -226,13 +226,16 @@ const MarketingEditReader = () => {
       loader("hide");
     }
   };
+  const handleKeyDown = (e) => {
+    // Check if the backspace key was pressed
+    if (e.key === "Backspace" || e.key === "Delete") {
+      e.preventDefault(); // Prevent clearing the field
+    }
+  };
 
   const handleChange = (e, isSelectedName, key) => {
     let weighted_Value = "";
-    // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
-    //   weighted_Value =
-    //     userInputs?.opportunityValue * userInputs?.probability?.value;
-    // }
+
     if (isSelectedName == "address") {
       if (e.target?.name == "street1") {
         setUserInputs({
@@ -286,23 +289,30 @@ const MarketingEditReader = () => {
         });
       }
     } else if (e.target?.name == "opportunityValue") {
-      let weighted_Value = "";
-      if (userInputs?.probability?.value) {
-        weighted_Value =
-          (userInputs?.probability?.value * e?.target?.value) / 100;
-        setUserInputs({
-          ...userInputs,
-          weighted_value: weighted_Value,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-            ? e
-            : e?.target?.value,
-        });
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      if (cleanedValue >= 0) {
+        let weighted_Value = "";
+        if (userInputs?.probability?.value) {
+          weighted_Value =
+            (userInputs?.probability?.value * cleanedValue) / 100;
+          setUserInputs({
+            ...userInputs,
+            weighted_value: weighted_Value,
+            [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+              ? e
+              : cleanedValue,
+          });
+        } else {
+          setUserInputs({
+            ...userInputs,
+            [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+              ? e
+              : cleanedValue,
+          });
+        }
       } else {
-        setUserInputs({
-          ...userInputs,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-            ? e
-            : e?.target?.value,
+        setError({
+          opportunityValue: "Please enter valid amount",
         });
       }
     } else if (key == "typeContact") {
@@ -657,6 +667,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="jobTitle"
                     defaultValue={userInputs?.jobTitle}
+                    value={userInputs?.jobTitle}
                     onChange={(e) => handleChange(e)}
                     placeholder="Enter job title here"
                   />
@@ -701,6 +712,7 @@ const MarketingEditReader = () => {
                     }
                     name="firstName"
                     defaultValue={userInputs?.firstName}
+                    value={userInputs?.firstName}
                     ref={nameRef}
                     onChange={(e) => handleChange(e)}
                     placeholder="First name"
@@ -719,6 +731,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="middleName"
                     defaultValue={userInputs?.middleName}
+                    value={userInputs?.middleName}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -730,6 +743,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="lastName"
                     defaultValue={userInputs?.lastName}
+                    value={userInputs?.lastName}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -747,6 +761,7 @@ const MarketingEditReader = () => {
                     ref={emailRef}
                     name="email"
                     defaultValue={userInputs?.email}
+                    readOnly
                     // onInput={(e) => handleChange(e)}
                   />
                   {error?.email ? (
@@ -767,6 +782,7 @@ const MarketingEditReader = () => {
                     placeholder="example@email.com"
                     name="alternativeEmail"
                     defaultValue={userInputs?.alternativeEmail}
+                    value={userInputs?.alternativeEmail}
                     onChange={(e) => handleChange(e)}
                   />
                   {error?.alternativeEmail ? (
@@ -792,7 +808,7 @@ const MarketingEditReader = () => {
                     }
                     name="countryCode"
                     className={
-                      error?.countryCode
+                      error?.primary_phone
                         ? "dropdown-basic-button split-button-dropup error"
                         : "dropdown-basic-button split-button-dropup"
                     }
@@ -815,11 +831,7 @@ const MarketingEditReader = () => {
                     value={userInputs?.primary_phone}
                     onChange={(e) => handleChange(e)}
                   />
-                  {error?.countryCode ? (
-                    <div className="login-validation">{error?.countryCode}</div>
-                  ) : (
-                    ""
-                  )}
+
                   {error?.primary_phone ? (
                     <div className="login-validation">
                       {error?.primary_phone}
@@ -858,6 +870,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="linkedIn"
                     defaultValue={userInputs?.linkedIn}
+                    value={userInputs?.linkedIn}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -1299,6 +1312,7 @@ const MarketingEditReader = () => {
                       className="form-control"
                       placeholderText="Select task date"
                       // minDate={currentDate}
+                      onKeyDown={handleKeyDown}
                     />
                     <div className="add_check">
                       <fieldset id="group2">
@@ -1319,7 +1333,9 @@ const MarketingEditReader = () => {
                             }
                             id={`taskCheckClicked`}
                           />
-                          <Form.Label htmlFor="taskCheckClicked">Completed</Form.Label>
+                          <Form.Label htmlFor="taskCheckClicked">
+                            Completed
+                          </Form.Label>
                         </>
                       </fieldset>
                     </div>
@@ -1342,6 +1358,7 @@ const MarketingEditReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
+                    onKeyDown={handleKeyDown}
                   />
                 </Form.Group>
               </div>
@@ -1414,7 +1431,7 @@ const MarketingEditReader = () => {
                 <div className="form-group">
                   <label htmlFor="">Contact total</label>
                   <input
-                    type="number"
+                    type="tel"
                     name="contactTotal"
                     min="0"
                     value={userInputs?.contactTotal}
@@ -1467,7 +1484,8 @@ const MarketingEditReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Value</Form.Label>
                   <input
-                    type="number"
+                    type="tel"
+                    min={0}
                     className="form-control"
                     name="opportunityValue"
                     placeholder="Amount"
@@ -1509,7 +1527,7 @@ const MarketingEditReader = () => {
                         : ""
                     }
                     defaultValue={userInputs?.weighted_value}
-                    onChange={(e) => handleChange(e)}
+                    // onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
 
@@ -1565,6 +1583,7 @@ const MarketingEditReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
+                    onKeyDown={handleKeyDown}
                   />
                 </div>
               </div>

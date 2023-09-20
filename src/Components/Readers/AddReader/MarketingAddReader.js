@@ -159,6 +159,12 @@ const MarketingAddReader = () => {
       loader("hide");
     }
   };
+  const handleKeyDown = (e) => {
+    // Check if the backspace key was pressed
+    if (e.key === "Backspace" || e.key === "Delete") {
+      e.preventDefault(); // Prevent clearing the field
+    }
+  };
 
   const handleChange = (e, isSelectedName, key) => {
     if (isSelectedName == "task") {
@@ -253,24 +259,34 @@ const MarketingAddReader = () => {
         });
       }
     } else if (e.target?.name == "opportunityValue") {
-      let weighted_Value = "";
-      if (userInputs?.probability?.value) {
-        weighted_Value =
-          (userInputs?.probability?.value * e?.target?.value) / 100;
+      const cleanedValue = e.target?.value?.replace(/\D/g, "");
 
-        setUserInputs({
-          ...userInputs,
-          weightedValue: weighted_Value,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-            ? e
-            : e?.target?.value,
-        });
+      if (cleanedValue >= 0) {
+        let weighted_Value = "";
+        if (userInputs?.probability?.value) {
+          weighted_Value =
+            (userInputs?.probability?.value * cleanedValue) / 100;
+
+          setUserInputs({
+            ...userInputs,
+            weightedValue: weighted_Value,
+            [isSelectedName ? isSelectedName : e.target?.name]: isSelectedName
+              ? e
+              : cleanedValue,
+          });
+          setError(null);
+        } else {
+          setUserInputs({
+            ...userInputs,
+            [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+              ? e
+              : cleanedValue,
+          });
+          setError(null);
+        }
       } else {
-        setUserInputs({
-          ...userInputs,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-            ? e
-            : e?.target?.value,
+        setError({
+          opportunityValue: "Please enter valid amount",
         });
       }
     } else if (e?.target?.name == "primary_phone") {
@@ -283,7 +299,9 @@ const MarketingAddReader = () => {
         });
         setError(null);
       } else {
-        setError({ primary_phone: "Number must be inbetween 10 to 12 digits" });
+        setError({
+          primary_phone: "Number must be in between 10 to 12 digits",
+        });
       }
     } else if (e?.target?.name == "alternativePhone") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
@@ -295,13 +313,13 @@ const MarketingAddReader = () => {
         setError(null);
       } else {
         setError({
-          alternativePhone: "Number must be inbetween 10 to 12 digits",
+          alternativePhone: "Number must be in between 10 to 12 digits",
         });
       }
     } else if (e.target?.name == "contactTotal") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
       if (cleanedValue > 500 || cleanedValue < 0) {
-        setError({ contactTotal: "Contact total must be inbetween 0 to 500" });
+        setError({ contactTotal: "Contact total must be in between 0 to 500" });
       } else {
         setUserInputs({
           ...userInputs,
@@ -317,7 +335,6 @@ const MarketingAddReader = () => {
     } else {
       setUserInputs({
         ...userInputs,
-
         [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
           ? e
           : e?.target?.value,
@@ -579,6 +596,7 @@ const MarketingAddReader = () => {
                     className="form-control"
                     name="jobTitle"
                     onChange={(e) => handleChange(e)}
+                    value={userInputs?.jobTitle}
                     placeholder="Enter job title here"
                   />
                 </Form.Group>
@@ -614,6 +632,7 @@ const MarketingAddReader = () => {
                     }
                     name="firstName"
                     ref={nameRef}
+                    value={userInputs?.firstName}
                     onChange={(e) => handleChange(e)}
                     placeholder="First name"
                   />
@@ -630,6 +649,7 @@ const MarketingAddReader = () => {
                     placeholder="Middle name"
                     className="form-control"
                     name="middleName"
+                    value={userInputs?.middleName}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -640,6 +660,7 @@ const MarketingAddReader = () => {
                     placeholder="Last name"
                     className="form-control"
                     name="lastName"
+                    value={userInputs?.lastName}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -655,7 +676,8 @@ const MarketingAddReader = () => {
                     placeholder="example@email.com"
                     ref={emailRef}
                     name="email"
-                    onInput={(e) => handleChange(e)}
+                    value={userInputs?.email}
+                    onChange={(e) => handleChange(e)}
                   />
                   {error?.email ? (
                     <div className="login-validation">{error?.email}</div>
@@ -674,6 +696,7 @@ const MarketingAddReader = () => {
                     }
                     placeholder="example@email.com"
                     name="alternativeEmail"
+                    value={userInputs?.alternativeEmail}
                     onChange={(e) => handleChange(e)}
                   />
                   {error?.alternativeEmail ? (
@@ -695,7 +718,6 @@ const MarketingAddReader = () => {
                         ? "dropdown-basic-button split-button-dropup error"
                         : "dropdown-basic-button split-button-dropup"
                     }
-                    // className="dropdown-basic-button split-button-dropup"
                     isClearable
                     value={
                       userInputs?.countryCode?.value
@@ -719,11 +741,7 @@ const MarketingAddReader = () => {
                     value={userInputs?.primary_phone}
                     onChange={(e) => handleChange(e)}
                   />
-                  {error?.countryCode ? (
-                    <div className="login-validation">{error?.countryCode}</div>
-                  ) : (
-                    ""
-                  )}
+
                   {error?.primary_phone ? (
                     <div className="login-validation">
                       {error?.primary_phone}
@@ -761,6 +779,7 @@ const MarketingAddReader = () => {
                     placeholder="Enter linkedIn"
                     className="form-control"
                     name="linkedIn"
+                    value={userInputs?.linkedIn}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -1134,6 +1153,7 @@ const MarketingAddReader = () => {
                         className="form-control"
                         placeholderText="Select task date"
                         // minDate={currentDate}
+                        onKeyDown={handleKeyDown}
                       />
                       <div className="add_check">
                         <fieldset id="group2">
@@ -1151,7 +1171,9 @@ const MarketingAddReader = () => {
                               }
                               id={`taskCheckClicked`}
                             />
-                            <Form.Label htmlFor="taskCheckClicked">Completed</Form.Label>
+                            <Form.Label htmlFor="taskCheckClicked">
+                              Completed
+                            </Form.Label>
                           </>
                         </fieldset>
                       </div>
@@ -1175,6 +1197,7 @@ const MarketingAddReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
+                    onKeyDown={handleKeyDown}
                   />
                 </Form.Group>
               </div>
@@ -1234,7 +1257,7 @@ const MarketingAddReader = () => {
                 <div className="form-group">
                   <label htmlFor="">Contact total</label>
                   <input
-                    type="number"
+                    type="tel"
                     name="contactTotal"
                     min="0"
                     max="500"
@@ -1284,12 +1307,25 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Value</Form.Label>
                   <input
-                    type="number"
-                    className="form-control"
+                    type="tel"
+                    min={0}
+                    className={
+                      error?.opportunityValue
+                        ? "form-control error"
+                        : "form-control"
+                    }
                     name="opportunityValue"
                     placeholder="Amount"
+                    value={userInputs?.opportunityValue}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.opportunityValue ? (
+                    <div className="login-validation">
+                      {error?.opportunityValue}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
 
                 <Form.Group className="form-group ">
@@ -1365,6 +1401,7 @@ const MarketingAddReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
+                    onKeyDown={handleKeyDown}
                   />
                 </div>
               </div>

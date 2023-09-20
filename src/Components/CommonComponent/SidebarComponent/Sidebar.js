@@ -22,7 +22,6 @@ const Sidebar = () => {
   const { selectedItem } = useSidebar();
 
   useEffect(() => {
-    console.log("id--->", selectedItem);
     let user_id = localStorage.getItem("user_id");
     if (user_id) {
       set_user_id(user_id);
@@ -5166,8 +5165,7 @@ const Sidebar = () => {
                         <li>Language of the content</li>
                         <li>Link Type</li>
                         <li>
-                          Enhanced (Identifying if the content
-                          contains: SPC{" "}
+                          Enhanced (Identifying if the content contains: SPC{" "}
                           <img src={path_image + "spc-img.png"} alt="" />,
                           videos{" "}
                           <img src={path_image + "video-img.png"} alt="" /> and
