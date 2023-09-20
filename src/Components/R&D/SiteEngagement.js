@@ -68,23 +68,23 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
 
   const tooltip = (
     <Tooltip id="tooltip">
-    This chart shows the total number of non-mandatory content
+      This chart shows the total number of non-mandatory content
     </Tooltip>
   );
 
-// Set your color here
-const entering = (e) => {
-  e.children[0].style.borderTopColor = '#E1EEFA';
-  e.children[1].style.backgroundColor = '#E1EEFA';
-  e.children[1].style.color = 'black'; 
-};
-
+  // Set your color here
+  const entering = (e) => {
+    e.children[0].style.borderTopColor = "#E1EEFA";
+    e.children[1].style.backgroundColor = "#E1EEFA";
+    e.children[1].style.color = "black";
+  };
 
   const getRdSiteChartData = async () => {
     try {
       const result = await getData(ENDPOINT.RD_SITE_ENGAGEMENT);
       const data = result?.data?.data;
-      setTotalRdSiteNumber(result?.data?.total_content);
+      // setTotalRdSiteNumber(result?.data?.total_content);
+      setTotalRdSiteNumber(result?.data?.engeged_users);
       setRdSiteData(data);
 
       let siteUsers = [];
@@ -172,11 +172,15 @@ const entering = (e) => {
               <h5>Site Engagement</h5>
               <div className="d-flex">
                 <div className="count-number">
-                  {totalRdSiteNumber ? totalRdSiteNumber : ""}
+                  {totalRdSiteNumber ? totalRdSiteNumber : 0}
                 </div>
-                <OverlayTrigger placement="left" overlay={tooltip} onEntering={entering}>
-                <img src={path_image + "site-engaged.svg"} alt="" />
-                    </OverlayTrigger>
+                <OverlayTrigger
+                  placement="left"
+                  overlay={tooltip}
+                  onEntering={entering}
+                >
+                  <img src={path_image + "site-engaged.svg"} alt="" />
+                </OverlayTrigger>
               </div>
             </div>
 
