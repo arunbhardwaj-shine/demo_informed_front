@@ -283,7 +283,7 @@ const MarketingAddReader = () => {
         });
         setError(null);
       } else {
-        setError({ primary_phone: "Number must be 12 digits or less" });
+        setError({ primary_phone: "Number must be inbetween 10 to 12 digits" });
       }
     } else if (e?.target?.name == "alternativePhone") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
@@ -294,7 +294,9 @@ const MarketingAddReader = () => {
         });
         setError(null);
       } else {
-        setError({ alternativePhone: "Number must be 12 digits or less" });
+        setError({
+          alternativePhone: "Number must be inbetween 10 to 12 digits",
+        });
       }
     } else if (e.target?.name == "contactTotal") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
@@ -688,7 +690,12 @@ const MarketingAddReader = () => {
                   </Form.Label>
                   <Select
                     options={countryCode}
-                    className="dropdown-basic-button split-button-dropup"
+                    className={
+                      error?.primary_phone
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                    // className="dropdown-basic-button split-button-dropup"
                     isClearable
                     value={
                       userInputs?.countryCode?.value
@@ -712,6 +719,11 @@ const MarketingAddReader = () => {
                     value={userInputs?.primary_phone}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.countryCode ? (
+                    <div className="login-validation">{error?.countryCode}</div>
+                  ) : (
+                    ""
+                  )}
                   {error?.primary_phone ? (
                     <div className="login-validation">
                       {error?.primary_phone}
@@ -1275,7 +1287,7 @@ const MarketingAddReader = () => {
                     type="number"
                     className="form-control"
                     name="opportunityValue"
-                    placeholder="Value"
+                    placeholder="Amount"
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
