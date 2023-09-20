@@ -596,6 +596,7 @@ const MarketingAddReader = () => {
                     className="form-control"
                     name="jobTitle"
                     onChange={(e) => handleChange(e)}
+                    value={userInputs?.jobTitle}
                     placeholder="Enter job title here"
                   />
                 </Form.Group>
@@ -631,7 +632,8 @@ const MarketingAddReader = () => {
                     }
                     name="firstName"
                     ref={nameRef}
-                    onInput={(e) => handleChange(e)}
+                    value={userInputs?.firstName}
+                    onChange={(e) => handleChange(e)}
                     placeholder="First name"
                   />
                   {error?.firstName ? (
@@ -647,6 +649,7 @@ const MarketingAddReader = () => {
                     placeholder="Middle name"
                     className="form-control"
                     name="middleName"
+                    value={userInputs?.middleName}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -657,6 +660,7 @@ const MarketingAddReader = () => {
                     placeholder="Last name"
                     className="form-control"
                     name="lastName"
+                    value={userInputs?.lastName}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -672,7 +676,8 @@ const MarketingAddReader = () => {
                     placeholder="example@email.com"
                     ref={emailRef}
                     name="email"
-                    onInput={(e) => handleChange(e)}
+                    value={userInputs?.email}
+                    onChange={(e) => handleChange(e)}
                   />
                   {error?.email ? (
                     <div className="login-validation">{error?.email}</div>
@@ -691,6 +696,7 @@ const MarketingAddReader = () => {
                     }
                     placeholder="example@email.com"
                     name="alternativeEmail"
+                    value={userInputs?.alternativeEmail}
                     onChange={(e) => handleChange(e)}
                   />
                   {error?.alternativeEmail ? (
@@ -712,7 +718,6 @@ const MarketingAddReader = () => {
                         ? "dropdown-basic-button split-button-dropup error"
                         : "dropdown-basic-button split-button-dropup"
                     }
-                    // className="dropdown-basic-button split-button-dropup"
                     isClearable
                     value={
                       userInputs?.countryCode?.value
@@ -774,6 +779,7 @@ const MarketingAddReader = () => {
                     placeholder="Enter linkedIn"
                     className="form-control"
                     name="linkedIn"
+                    value={userInputs?.linkedIn}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>

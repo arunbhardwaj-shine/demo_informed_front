@@ -667,6 +667,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="jobTitle"
                     defaultValue={userInputs?.jobTitle}
+                    value={userInputs?.jobTitle}
                     onChange={(e) => handleChange(e)}
                     placeholder="Enter job title here"
                   />
@@ -711,8 +712,9 @@ const MarketingEditReader = () => {
                     }
                     name="firstName"
                     defaultValue={userInputs?.firstName}
+                    value={userInputs?.firstName}
                     ref={nameRef}
-                    onInput={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e)}
                     placeholder="First name"
                   />
                   {error?.firstName ? (
@@ -729,6 +731,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="middleName"
                     defaultValue={userInputs?.middleName}
+                    value={userInputs?.middleName}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -740,6 +743,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="lastName"
                     defaultValue={userInputs?.lastName}
+                    value={userInputs?.lastName}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -778,6 +782,7 @@ const MarketingEditReader = () => {
                     placeholder="example@email.com"
                     name="alternativeEmail"
                     defaultValue={userInputs?.alternativeEmail}
+                    value={userInputs?.alternativeEmail}
                     onChange={(e) => handleChange(e)}
                   />
                   {error?.alternativeEmail ? (
@@ -865,6 +870,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="linkedIn"
                     defaultValue={userInputs?.linkedIn}
+                    value={userInputs?.linkedIn}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
