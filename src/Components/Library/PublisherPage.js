@@ -928,39 +928,6 @@ const PublisherPage = () => {
 
 
 
-{/* Testing Purpose */}
-        <div className="dna-slider">
-            <div className="slider" ref={parentRef}>
-                <Slider {...settings} ref={sliderRef}  >
-                    <div className="slider-in">
-                        <div className="slider-in-view">
-                            <h1>our<br /> DNA</h1>
-                            <img src={path_image + "Docintel-GIF.gif"} alt="" />
-                        </div>
-                    </div>
-                    <div className="slider-in">
-                        <div className="slider-in-view">
-                            <h1>our<br /> DNA</h1>
-                            <img src={path_image + "Delivery-6-May.gif"} alt="" />
-                        </div>
-                    </div>
-                    <div className="slider-in">
-                        <div className="slider-in-view">
-                            <h1>our<br /> DNA</h1>
-                            <img src={path_image + "Analytics-10-June-GIF.gif"} alt="" />
-                        </div>
-                    </div>
-                    <div className="slider-in">
-                        <div className="slider-in-view">
-                            <h1>our<br /> DNA</h1>
-                            <img src={path_image + "post-webinar.png"} alt="" />
-                        </div>
-                    </div>
-                </Slider>
-            </div>
-        </div>
-{/* Testing Purpose End*/}
-
 
 
 

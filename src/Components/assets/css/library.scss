@@ -7825,16 +7825,32 @@ svg.pencil_icon {
   background: #68D1E8 url(../../../../public/componentAssets/images/banner-bg-shade.svg) no-repeat;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
   position: relative;
+  background-size: 100% auto;
 
   &.pharma {
     background: #0066BE url(../../../../public/componentAssets/images/pharma-marketing-bg.png) no-repeat;
     background-size: cover;
+
+    &.rd {
+      background: #AF8ACD url(../../../../public/componentAssets/images/pharma-rd-bg.png) no-repeat;
+      background-size: cover;
+    }
   }
 
   .landing-block {
     z-index: 1;
     padding: 159px 0 210px;
   }
+}
+
+.landing-banner.pharma .landing-block {
+  padding-bottom: 0;
+}
+
+.pharma .circular-height {
+  overflow: hidden;
+  height: 578px;
+  padding: 82px 0 0;
 }
 
 .landing-heading {
@@ -7852,9 +7868,17 @@ svg.pencil_icon {
   text-transform: capitalize;
 }
 
+.pharma .landing-heading h1 {
+  text-shadow: 0px 0px 11px rgba(0, 0, 60, 0.40);
+}
+
 .landing-sub-heading {
   text-align: center;
   max-width: 790px;
+  margin: 0 auto;
+}
+
+.pharma .landing-sub-heading {
   margin: 0 auto;
 }
 
@@ -7865,32 +7889,16 @@ svg.pencil_icon {
   line-height: 40px;
 }
 
-// .landing-banner:before {
-//   background: url(../../../../public/componentAssets/images/banner-bg-left.png) no-repeat;
-//   width: 75%;
-//   position: absolute;
-//   height: 100%;
-//   top: 0;
-//   left: 0;
-//   border-radius: 0;
-//   background-size: auto 100%;
-//   content: "";
-// }
-
-// .landing-banner:after {
-//   background: url(../../../../public/componentAssets/images/banner-bg-right.png) no-repeat;
-//   width: 75%;
-//   position: absolute;
-//   height: 100%;
-//   top: 0;
-//   right: 0;
-//   border-radius: 0;
-//   background-size: auto 100%;
-//   content: "";
-// }
 .pharma .circular-ring {
-  width: 1110px;
-  height: 1110px;
+  width: 1070px;
+  height: 1070px;
+}
+
+.rd .circular-ring .icon-block {
+  fill: rgba(255, 255, 255, 0.08);
+  filter: drop-shadow(0px 0px 8px rgba(0, 74, 137, 0.15));
+  box-shadow: 0px 0px 8px rgba(0, 74, 137, 0.15);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .circular-ring {
@@ -7986,7 +7994,10 @@ svg.pencil_icon {
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
     }
+
   }
+
+
 
   .circle.circle-inner1 {
     border: 0;
@@ -8150,8 +8161,6 @@ svg.pencil_icon {
     }
   }
 
-
-
   .center-logo {
     position: absolute;
     top: 50%;
@@ -8165,12 +8174,361 @@ svg.pencil_icon {
   }
 }
 
+.pharma {
+  &.rd {
+    .circular-ring {
+      .big-circle {
+        border-color: #AF87E1;
+
+        .icon-block {
+          &:nth-child(2) {
+            background: linear-gradient(202deg, #812F99 7.05%, #0066BE 161.19%);
+          }
+
+          &:nth-child(8) {
+            background: linear-gradient(202deg, #812F99 7.05%, #0066BE 161.19%);
+          }
+        }
+      }
+
+      .circle {
+        &.circle-inner1 {
+          background: url(../../../../public/componentAssets/images/rd-circle-bg.svg) no-repeat;
+          background-position: center;
+        }
+
+        &.circle-inner2 {
+          border-color: #AF8ACD;
+
+          .icon-block {
+            &:nth-child(2) {
+              background: linear-gradient(202deg, #812F99 7.05%, #0066BE 161.19%);
+            }
+
+            &:nth-child(5) {
+              background: linear-gradient(202deg, #812F99 7.05%, #0066BE 161.19%);
+            }
+          }
+        }
+
+        &.circle-inner3 {
+          border-color: #5C1971;
+        }
+      }
+    }
+  }
+
+  .circular-ring {
+    .icon-block {
+      &.icon56 {
+        width: 56px;
+        height: 56px;
+      }
+
+      &.icon43 {
+        width: 43px;
+        height: 43px;
+      }
+
+      &.icon72 {
+        width: 72px;
+        height: 72px;
+      }
+
+      &.icon85 {
+        width: 85px;
+        height: 85px;
+      }
+
+      &.icon60 {
+        width: 60px;
+        height: 60px;
+      }
+
+      &.icon35 {
+        width: 35px;
+        height: 35px;
+      }
+
+      &.icon27 {
+        width: 27px;
+        height: 27px;
+      }
+    }
+
+    .big-circle {
+      .icon-block {
+        &:first-child {
+          top: 0;
+          left: 31%;
+
+          img {
+            width: 32px;
+          }
+        }
+
+        &:nth-child(2) {
+          top: 10%;
+          left: 76%;
+          background: linear-gradient(192deg, #82C5DF 4.83%, #0066BE 91.14%);
+
+        }
+
+        &:nth-child(3) {
+          top: 20%;
+          left: 94%;
+
+          img {
+            width: 40px
+          }
+        }
+
+        &:nth-child(4) {
+          top: 45%;
+          left: 100%;
+        }
+
+        &:nth-child(5) {
+          top: 69%;
+          left: 92%;
+
+          img {
+            width: 34px
+          }
+        }
+
+        &:nth-child(6) {
+          top: 87%;
+          left: 81%;
+        }
+
+        &:nth-child(7) {
+          top: 95%;
+          left: 62%;
+
+          img {
+            width: 32px
+          }
+        }
+
+        &:nth-child(8) {
+          top: 85%;
+          left: 14%;
+          background: linear-gradient(192deg, #82C5DF 4.83%, #0066BE 91.14%);
+        }
+
+        &:nth-child(9) {
+          top: 62%;
+          left: -1%;
+
+          img {
+            width: 32px
+          }
+        }
+
+        &:nth-child(10) {
+          top: 45%;
+          left: -2%;
+        }
+
+        &:nth-child(11) {
+          top: 24%;
+          left: 3%;
+
+          img {
+            width: 34px
+          }
+        }
+
+        &:nth-child(12) {
+          top: 13%;
+          left: 14%;
+        }
+
+      }
+    }
+
+    .circle {
+      &.circle-inner1 {
+        width: calc(100% - 100px);
+        height: calc(100% - 100px);
+        background: url(../../../../public/componentAssets/images/pharma-circle-bg.svg) no-repeat;
+        background-position: center;
+
+        .icon-block {
+          &:first-child {
+            top: 1.6%;
+            left: 48%;
+
+            img {
+              width: 42px;
+            }
+          }
+
+          &:nth-child(2) {
+            top: 12%;
+            left: 70%;
+
+          }
+
+          &:nth-child(3) {
+            top: 37%;
+            left: 94%;
+
+            img {
+              width: 35px;
+            }
+          }
+
+          &:nth-child(4) {
+            top: 93.4%;
+            left: 39%;
+
+            img {
+              width: 42px;
+            }
+          }
+
+          &:nth-child(5) {
+            top: 85.4%;
+            left: 23%;
+
+          }
+
+          &:nth-child(6) {
+            top: 57%;
+            left: 3%;
+
+            img {
+              width: 35px;
+            }
+          }
+        }
+      }
+
+      &.circle-inner2 {
+        width: calc(100% - 380px);
+        height: calc(100% - 380px);
+
+        .icon-block {
+          &:first-child {
+            top: -3%;
+            left: 34%;
+
+            img {
+              width: 34px;
+            }
+          }
+
+          &:nth-child(2) {
+            top: 7%;
+            left: 70%;
+            background: linear-gradient(192deg, #82C5DF 4.83%, #0066BE 91.14%);
+          }
+
+          &:nth-child(3) {
+            top: 44%;
+            left: 100%;
+
+            img {
+              width: 53px;
+            }
+          }
+
+          &:nth-child(4) {
+            top: 100%;
+            left: 56%;
+
+            img {
+              width: 34px;
+            }
+          }
+
+          &:nth-child(5) {
+            top: 85%;
+            left: 14%;
+            background: linear-gradient(192deg, #82C5DF 4.83%, #0066BE 91.14%);
+          }
+
+          &:nth-child(6) {
+            top: 38%;
+            left: -5%;
+
+            img {
+              width: 53px;
+            }
+          }
+        }
+      }
+
+      &.circle-inner3 {
+        width: calc(100% - 560px);
+        height: calc(100% - 560px);
+        border: 1px solid #004A89;
+        transform: translate(-50%, -50%) rotate(0deg);
+        -webkit-transform: translate(-50%, -50%) rotate(0deg);
+
+        .icon-block {
+          &:first-child {
+            top: 19%;
+            left: 89%;
+          }
+
+          &:nth-child(2) {
+            top: 71%;
+            left: 84%;
+
+            img {
+              width: 32px;
+            }
+          }
+
+          &:nth-child(3) {
+            top: 67%;
+            left: 5%;
+
+          }
+
+          &:nth-child(4) {
+            top: 25%;
+            left: 7%;
+
+            img {
+              width: 32px;
+            }
+          }
+        }
+      }
+
+    }
+
+    .center-logo {
+      top: 35%;
+
+      .icon {
+        width: 80px;
+        height: 80px;
+        fill: none;
+        filter: none;
+        box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+
+        img {
+          width: 80px;
+        }
+      }
+    }
+  }
+}
+
 .how-work {
   border-radius: 20px 20px;
   background: $white;
   box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
   margin-top: -30px;
   position: relative;
+  z-index: 1;
   padding: 135px 0 110px;
 }
 
@@ -8346,12 +8704,26 @@ svg.pencil_icon {
 }
 
 .contact-us {
-  background: #68D1E8 url(../../../../public/componentAssets/images/contact-bg.svg);
+  background: #68D1E8 url(../../../../public/componentAssets/images/contact-bg.svg) no-repeat;
   background-size: cover;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.50);
   margin: -15px 0 0;
   padding: 55px 0 48px;
   position: relative;
+  background-position: center;
+}
+
+.contact-us.pharma {
+  background: #0066BE url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
+  box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
+  background-position: center;
+  background-size: cover;
+}
+
+.contact-us.pharma.rd {
+  background: #AF8ACD url(../../../../public/componentAssets/images/rd-contact-bg.png) no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .contact-inset {
@@ -8437,6 +8809,10 @@ svg.pencil_icon {
   &:focus {
     box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.50);
   }
+}
+
+.contact-inset form .form-group .split-button-dropup>div:nth-child(3):focus {
+  box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.50)
 }
 
 .contact-inset form .form-group {
@@ -8546,6 +8922,437 @@ svg.pencil_icon {
 .form-sec .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
   color: rgba(255, 255, 255, 0.56);
 }
+
+
+
+/**pharma page**/
+.pharma-slider .slider .slick-list {
+  background: url(../../../../public/componentAssets/images/pharma-slide.png) no-repeat;
+  background-size: cover;
+}
+
+.pharma-slider .slider .slick-list .slick-track {
+  display: flex;
+  width: 100%;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide[data-index="1"] {
+  background: url(../../../../public/componentAssets/images/slide2-bg.jpg) no-repeat;
+  background-size: cover;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide[data-index="2"] {
+  background: url(../../../../public/componentAssets/images/slide3-bg.jpg) no-repeat;
+  background-size: cover;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide[data-index="3"] {
+  background: url(../../../../public/componentAssets/images/slide4-bg.jpg) no-repeat;
+  background-size: cover;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide[data-index="4"] {
+  background: url(../../../../public/componentAssets/images/slide1-bg.jpg) no-repeat;
+  background-size: cover;
+}
+
+.slider-in-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-in-view .slide-left-sided {
+  width: 50%;
+}
+
+.slider-in-view .slide-right-sided {
+  width: 50%;
+}
+
+.slider-in-view .slide-left-sided img {
+  width: 90%;
+}
+
+.slide-right-content {
+  max-width: 584px;
+  width: 100%;
+}
+
+.slide-right-content>img {
+  width: 62px;
+}
+
+.slide-right-content h3 {
+  margin: 18px 0;
+  font-size: 32px;
+  font-weight: 500;
+  color: #004A89;
+}
+
+.slide-right-content h5 {
+  font-size: 20px;
+  line-height: 30px;
+  color: #004A89;
+  font-weight: 400;
+  margin: 0 0 40px;
+}
+
+.slide-right-content h5:last-child {
+  margin: 0;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide>div {
+  width: 100%;
+}
+
+.slider-in-view.slide1 .slide-left-sided img {
+  max-width: 850px;
+}
+
+.slider-in-view.slide2 .slide-left-sided img {
+  max-width: 740px;
+}
+
+.slider-in-view.slide3 .slide-left-sided img {
+  max-width: 565px;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide .slide4 .slide-left-sided img {
+  max-width: 397px;
+}
+
+.slider-in-view.slide4 {
+  max-width: 1186px;
+  margin: 0 auto;
+}
+
+.slider-in-view.slide4 .slide-left-sided {
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.pharma-slider .slider {
+  width: 100%;
+  overflow: hidden;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pharma-slider .slider .slick-list {
+  height: 100%;
+  min-height: 569px;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide div {
+  height: 100%;
+}
+
+.slider-in-view .slide-right-sided .slide-right-content {
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide .slide2 .slide-left-sided {
+  text-align: right;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide .slide2 .slide-left-sided {
+  text-align: right;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide .slide2 .slide-right-sided {
+  margin-left: 19%;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide>div {
+  width: 100%;
+  min-height: 569px;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide .slide3 .slide-left-sided {
+  display: flex;
+  align-items: flex-end;
+}
+
+.pharma-slider .slider .slick-list .slick-track .slick-slide .slide3 .slide-left-sided {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: 25px;
+}
+
+.consent-content {
+  padding: 226px 0;
+  background: #fff;
+  border-radius: 20px;
+  background: #FFF;
+  box-shadow: 0px 0px 40px 0px rgba(0, 102, 190, 0.16);
+  margin: -15px 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+.consent-content-inner {
+  max-width: 1044px;
+  margin: 0 auto 205px;
+  padding: 0;
+}
+
+.consent-text {
+  border-radius: 11px;
+  border: 1px solid #FFF;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0px 1px 14px 0px rgba(0, 102, 190, 0.16);
+  backdrop-filter: blur(13px);
+  padding: 24px 19px 32px 20px;
+}
+
+.consent-text h5 {
+  color: #70899E;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 30.5px;
+}
+
+.consent-details {
+  display: flex;
+  align-items: center;
+}
+
+.consent-details .consent-img {
+  flex: 0 0 33%;
+  margin-top: -20px;
+}
+
+.consent-details .consent-img img {
+  max-width: 348px;
+  margin: 0 auto;
+}
+
+.consent-details ul {
+  flex: 0 0 33%;
+  padding-top: 50px;
+}
+
+.consent-details ul:first-child {
+  text-align: right;
+}
+
+.consent-details ul:first-child li {
+  padding-right: 52px;
+}
+
+.consent-details ul li {
+  color: #004A89;
+  font-family: Roboto;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30.5px;
+  position: relative;
+  padding-left: 52px;
+}
+
+.consent-details ul:first-child li:after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7ED3E5;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 28px;
+  left: auto;
+}
+
+.consent-details ul li:after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7ED3E5;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 28px;
+}
+
+.works-started-links h5 {
+  color: #70899E;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 30.5px;
+}
+
+.works-started-links.pharm-page h3 {
+  margin: 0 0 25px;
+}
+
+/**module**/
+.modules-diagram .circle {
+  display: grid;
+  grid-template-areas: "layer";
+  place-items: center;
+  border-radius: 50%;
+  --radius: 234px;
+  width: calc(2 * var(--radius));
+  height: calc(2 * var(--radius));
+  background: rgba(0, 102, 190, 0.06);
+  border: 25px solid #FFF;
+  position: relative;
+}
+
+.modules-diagram .circle:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  width: 75%;
+  height: 75%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background: #ffffff;
+}
+
+.stat {
+  grid-area: layer;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #FFF;
+  color: #5A6BB5;
+  font-weight: 500;
+  font-size: 12px;
+  filter: drop-shadow(0px 1px 19px rgba(0, 102, 190, 0.24));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 5px;
+  // Decimal value, 0-1 based on the child's index.
+  --d: calc(var(--i) / var(--total));
+  // Offset to get better starting placement on the circle
+  --r-offset: -0.33turn;
+  // Full circle
+  --r-amount: 1turn;
+  // Rotation based on the decimal and r modifiers
+  --r: calc((var(--r-amount) * var(--d)) + var(--r-offset));
+  // Rotate, transform out, then negative rotation so the content appears upright
+  --transform: rotate(var(--r)) translate(var(--radius)) rotate(calc(-1 * var(--r)));
+
+  transform: var(--transform);
+  transition: transform 1.5s ease-in-out;
+  //transition-delay: calc(0.1s * var(--i));
+
+}
+
+.stat img {
+  max-width: 28px;
+}
+
+.stat span {
+  text-align: center;
+  font-weight: 500;
+  line-height: 14px;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.read span {
+  color: #5A6BB5;
+}
+
+.rating span {
+  color: #2B9BC8
+}
+
+.spc span {
+  color: #19BBB9
+}
+
+.automail span {
+  color: #00D4C0
+}
+
+.ai span {
+  color: #00C1BF
+}
+
+.consent span {
+  color: #00A4BF;
+}
+
+.engine span {
+  color: #0084BE
+}
+
+.docintel span {
+  color: #0066BE
+}
+
+.informed span,
+.automatic-certificate span {
+  color: #045FAE
+}
+
+.qa span {
+  color: #3D48AB
+}
+
+.survey span {
+  color: #5058AA;
+}
+
+.web span,
+.site span {
+  color: #6E52A2
+}
+
+.webinar span {
+  color: #8A4E9C
+}
+
+
+.modules-diagram .module-logo {
+  position: absolute;
+  z-index: 1;
+}
+
+.modules-diagram .module-logo img {
+  max-width: 398px;
+}
+
+.modules-diagram {
+  margin: 290px auto 56px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/**MOdule End**/
+/**Pharma page End**/
 
 /* keyframe animation */
 

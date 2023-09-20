@@ -1,11 +1,14 @@
-import React,{useState} from 'react'
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Col, Container, Form, FormGroup, Row } from 'react-bootstrap';
 import Select from "react-select";
 import Header from '../CommonComponent/HeaderComponent/Header';
 import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
+import Slider from "react-slick";
 
 const PharmaMarketing = () => {
+const sliderRef = useRef();
+const parentRef = useRef('');
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const options = [
   { value: 'Algeria', label: 'Algeria' },
@@ -15,6 +18,46 @@ const options = [
  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+    useEffect(() => {
+        if (!parentRef.current) {
+            return;
+        }
+
+        parentRef.current.addEventListener("wheel", e => { 
+            handleScroll(e)
+        });
+    }, [parentRef]);
+        const handleScroll = e => {
+        let sliderLength = sliderRef.current.props.children.length;
+
+        var element = document.getElementsByClassName('slick-active')[0];
+        var activeSlide = element.getAttribute('data-index'); 
+       
+      if (
+             (e.deltaY < 0 && activeSlide == 0) ||
+             (e.deltaY > 0 && activeSlide == sliderLength - 1)
+        ) {
+            return;
+        }
+
+        e.preventDefault();
+
+        if (e.deltaY < 0) {
+            let a= sliderRef.current.slickPrev();
+        } else {
+            let a= sliderRef.current.slickNext();
+        }
+    };
+      const settings = ({
+        infinite: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        dots: false,
+        arrows: false,
+        centerMode: true,
+        centerPadding: '0%',
+        fade: true,
+    });
   return (
     <>
      <div className="header-landing" sticky="top">
@@ -39,70 +82,113 @@ const options = [
                         <h1>Predictive Relationship Builder!</h1>
                     </div>
                     <div className='landing-sub-heading'><h4>Connecting content & consent with intelligent predictions Allowing the right materials, to reach the right person, at the right time</h4></div>
+                    <div className="circular-height">
                     <div className='circular-ring'>
-                        <div class="big-circle">
-                            <div class="icon-block big">
-                                <img src={path_image + "docintel-icon.svg"} alt="" />
+                        <div className="big-circle">
+                            <div className="icon-block icon56">
+                                <img src={path_image + "subtract-icon.svg"} alt="" />
                             </div>
-                            <div class="icon-block medium">
+                            <div className="icon-block icon43 gradient">
                                 &nbsp;
                             </div>
-                            <div class="icon-block small">
+                            <div className="icon-block icon72">
+                                <img src={path_image + "statistics-icon.svg"} alt="" />
+                            </div>
+                            <div className="icon-block icon43">
+                                &nbsp;
+                            </div>
+                            <div className="icon-block icon60">
+                               <img src={path_image + "world-icon.svg"} alt="" />
+                            </div>
+                            <div className="icon-block icon27">
+                                &nbsp;
+                            </div>
+                            <div className="icon-block icon56">
+                               <img src={path_image + "survay-icon.svg"} alt="" />
+                            </div>
+                            <div className="icon-block icon43 gradient">
+                                &nbsp;
+                            </div>
+                            <div className="icon-block icon72">
+                                <img src={path_image + "legal-document-icon2.svg"} alt="" />
+                            </div>
+                            <div className="icon-block icon43">
+                                &nbsp;
+                            </div>
+                            <div className="icon-block icon60">
+                               <img src={path_image + "world-icon.svg"} alt="" />
+                            </div>
+                            <div className="icon-block icon27">
                                 &nbsp;
                             </div>
                         </div>
-                        <div class="circle circle-inner1">
-                            <div className='circle-half-bigger'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="253" height="149" viewBox="0 0 253 149" fill="none">
-                                    <path d="M0.407552 45.1106C0.407552 46.5834 1.60146 47.7773 3.07422 47.7773C4.54698 47.7773 5.74089 46.5834 5.74089 45.1106C5.74089 43.6379 4.54698 42.444 3.07422 42.444C1.60146 42.444 0.407552 43.6379 0.407552 45.1106ZM209.448 45.1106L209.807 44.7625L209.448 45.1106ZM247.408 145.414C247.408 146.887 248.601 148.081 250.074 148.081C251.547 148.081 252.741 146.887 252.741 145.414C252.741 143.941 251.547 142.747 250.074 142.747C248.601 142.747 247.408 143.941 247.408 145.414ZM3.43317 45.4587C29.4773 18.6011 65.9227 1.91406 106.261 1.91406V0.914062C65.6409 0.914062 28.9398 17.7189 2.71527 44.7625L3.43317 45.4587ZM106.261 1.91406C146.6 1.91406 183.045 18.6011 209.089 45.4587L209.807 44.7625C183.583 17.7189 146.881 0.914062 106.261 0.914062V1.91406ZM209.089 45.4587C234.147 71.2991 249.574 106.552 249.574 145.414H250.574C250.574 106.282 235.039 70.7821 209.807 44.7625L209.089 45.4587Z" fill="#356D9C"/>
-                                </svg>
-                                <div class="icon-block">
-                                    <img src={path_image + "statistics-icon.svg"} alt="" />
+                        <div className="circle circle-inner1">
+                                {/* <svg width="758" height="750" viewBox="0 0 758 750" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M-2.86102e-06 134.206C-2.86102e-06 138.625 3.58172 142.206 8 142.206C12.4183 142.206 16 138.625 16 134.206C16 129.788 12.4183 126.206 8 126.206C3.58172 126.206 -2.86102e-06 129.788 -2.86102e-06 134.206ZM148.701 37.2025L149.294 38.5806L149.294 38.5806L148.701 37.2025ZM492.269 37.2025L491.677 38.5806L491.677 38.5806L492.269 37.2025ZM632.97 134.206L631.894 135.251L631.894 135.251L632.97 134.206ZM724.547 274.805L723.155 275.366L723.155 275.366L724.547 274.805ZM724.547 600.555L725.938 601.116L725.938 601.116L724.547 600.555ZM624.97 741.154C624.97 745.572 628.552 749.154 632.97 749.154C637.389 749.154 640.97 745.572 640.97 741.154C640.97 736.735 637.389 733.154 632.97 733.154C628.552 733.154 624.97 736.735 624.97 741.154ZM9.07636 135.251C48.6992 94.4283 96.2717 61.3716 149.294 38.5806L148.109 35.8245C94.7183 58.7739 46.818 92.059 6.92364 133.162L9.07636 135.251ZM149.294 38.5806C201.816 16.0042 259.689 3.5 320.485 3.5V0.499999C259.274 0.499999 200.999 13.0901 148.109 35.8245L149.294 38.5806ZM320.485 3.5C381.281 3.5 439.154 16.0042 491.677 38.5806L492.862 35.8245C439.971 13.0901 381.696 0.499999 320.485 0.499999V3.5ZM491.677 38.5806C544.699 61.3716 592.271 94.4283 631.894 135.251L634.047 133.162C594.152 92.059 546.252 58.7739 492.862 35.8245L491.677 38.5806ZM631.894 135.251C670.744 175.278 701.95 222.768 723.155 275.366L725.938 274.244C704.584 221.281 673.163 173.463 634.047 133.162L631.894 135.251ZM723.155 275.366C743.371 325.507 754.5 380.291 754.5 437.68H757.5C757.5 379.901 746.295 324.736 725.938 274.244L723.155 275.366ZM754.5 437.68C754.5 495.069 743.371 549.853 723.155 599.994L725.938 601.116C746.295 550.624 757.5 495.459 757.5 437.68H754.5ZM723.155 599.994C701.95 652.592 670.744 700.082 631.894 740.109L634.047 742.198C673.163 701.898 704.584 654.079 725.938 601.116L723.155 599.994Z" fill="#004A89"/>
+                                    </svg> */}
+                                <div className="icon-block icon72">
+                                    <img src={path_image + "white-emails.svg"} alt="" />
                                 </div>
-                            </div>
-                            
-                            <div className='circle-half-small'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="106" viewBox="0 0 46 106" fill="none">
-                                    <path d="M40.5169 103.164C40.5169 104.637 41.7108 105.831 43.1836 105.831C44.6564 105.831 45.8503 104.637 45.8503 103.164C45.8503 101.691 44.6564 100.497 43.1836 100.497C41.7108 100.497 40.5169 101.691 40.5169 103.164ZM0.516927 3.16406C0.516927 4.63682 1.71083 5.83073 3.18359 5.83073C4.65635 5.83073 5.85026 4.63682 5.85026 3.16406C5.85026 1.6913 4.65635 0.497396 3.18359 0.497396C1.71083 0.497396 0.516927 1.6913 0.516927 3.16406ZM43.5447 102.818C18.8738 77.0567 3.68359 41.9101 3.68359 3.16406H2.68359C2.68359 42.1761 17.9791 77.5683 42.8225 103.51L43.5447 102.818Z" fill="#356D9C"/>
-                                </svg>
-                            </div>
+                                <div className="icon-block icon35">
+                                    &nbsp;
+                                </div>
+                                <div className="icon-block icon60">
+                                    <img src={path_image + "white-rtr.svg"} alt="" />
+                                </div>
+                                <div className="icon-block icon72">
+                                    <img src={path_image + "white-webinar.svg"} alt="" />
+                                </div>
+                                <div className="icon-block icon35">
+                                    &nbsp;
+                                </div>
+                                <div className="icon-block icon60">
+                                    <img src={path_image + "white-portal.svg"} alt="" />
+                                </div>
                             
                         
                         </div>
-                        <div class="circle circle-inner2">
-                            <div class="icon-block">
-                                 <img src={path_image + "world-icon.svg"} alt="" />
+                         <div className="circle circle-inner2">
+                            <div className="icon-block icon60">
+                                 <img src={path_image + "white-spc.svg"} alt="" />
                             </div>
-                            <div class="icon-block">
-                                 <img src={path_image + "subtract-icon.svg"} alt="" />
+                            <div className="icon-block icon35">
+                                  &nbsp;
+                            </div>
+                            <div className="icon-block icon85">
+                                 <img src={path_image + "white-docintel.svg"} alt="" />
+                            </div>
+                            <div className="icon-block icon60">
+                                 <img src={path_image + "white-rating.svg"} alt="" />
+                            </div>
+                            <div className="icon-block icon35">
+                                  &nbsp;
+                            </div>
+                            <div className="icon-block icon85">
+                                 <img src={path_image + "white-docintel.svg"} alt="" />
                             </div>
                         </div>
-                        <div class="circle circle-inner3">
-                            <div className='circle-half-bigger'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="178" height="161" viewBox="0 0 178 161" fill="none">
-                                    <path d="M20.4043 5.92969C20.4043 8.87521 22.7921 11.263 25.7376 11.263C28.6831 11.263 31.071 8.87521 31.071 5.92969C31.071 2.98417 28.6831 0.596354 25.7376 0.596354C22.7921 0.596354 20.4043 2.98417 20.4043 5.92969ZM145.968 5.92969C145.968 8.87521 148.356 11.263 151.301 11.263C154.247 11.263 156.635 8.87521 156.635 5.92969C156.635 2.98417 154.247 0.596354 151.301 0.596354C148.356 0.596354 145.968 2.98417 145.968 5.92969ZM145.968 128.279C145.968 131.225 148.356 133.613 151.301 133.613C154.247 133.613 156.635 131.225 156.635 128.279C156.635 125.334 154.247 122.946 151.301 122.946C148.356 122.946 145.968 125.334 145.968 128.279ZM83.1862 154.93C83.1862 157.875 85.574 160.263 88.5195 160.263C91.465 160.263 93.8529 157.875 93.8529 154.93C93.8529 151.984 91.465 149.596 88.5195 149.596C85.574 149.596 83.1862 151.984 83.1862 154.93ZM25.7376 128.279L26.4564 127.584L25.7376 128.279ZM2.01953 67.1045C2.01953 43.5896 11.3311 22.2603 26.4564 6.62497L25.0189 5.2344C9.54666 21.2284 0.0195312 43.0511 0.0195312 67.1045H2.01953ZM150.583 6.62497C165.708 22.2603 175.02 43.5896 175.02 67.1045H177.02C177.02 43.0511 167.492 21.2284 152.02 5.2344L150.583 6.62497ZM175.02 67.1045C175.02 90.6194 165.708 111.949 150.583 127.584L152.02 128.975C167.492 112.981 177.02 91.1579 177.02 67.1045H175.02ZM88.5195 153.93C64.1733 153.93 42.1771 143.835 26.4564 127.584L25.0189 128.975C41.1 145.598 63.6082 155.93 88.5195 155.93V153.93ZM26.4564 127.584C11.3311 111.949 2.01953 90.6194 2.01953 67.1045H0.0195312C0.0195312 91.1579 9.54666 112.981 25.0189 128.975L26.4564 127.584Z" fill="#49E9F3"/>
-                                </svg>
-                                <div class="icon-block">
-                                    <img src={path_image + "email-icon-circle.svg"} alt="" />
-                                 </div>
-                                <div class="icon-block">
-                                    <img src={path_image + "library-icon-circle.svg"} alt="" />
+                        <div className="circle circle-inner3">
+                                <div className="icon-block icon27">
+                                  &nbsp;
                                 </div>
-                            </div>
+                                <div className="icon-block icon60">
+                                    <img src={path_image + "white-polling.svg"} alt="" />
+                                </div>
+                                <div className="icon-block icon27">
+                                  &nbsp;
+                                </div>
+                                <div className="icon-block icon60">
+                                    <img src={path_image + "white-library.svg"} alt="" />
+                                </div>
                             
                         </div>
-                        <div class="circle circle-inner4">
-                            <div class="icon-block">
-                               &nbsp;
-                            </div>
-                        </div>
-                        <div class="center-logo">
-                            <div class="icon">
+                        <div className="center-logo">
+                            <div className="icon">
                                 <img src={path_image + "readers-bigger.svg"} alt="" />
                             </div>
                         </div>
                     </div>
-                    
+                    </div>
                 </div>
             </Row>
         </Container>
@@ -129,34 +215,147 @@ const options = [
                         <h4>The future doesn’t have to mean leaving your comfort zone, we’re here to expand it! </h4>
                         <span className='shade-right'>&nbsp;</span>
                     </div>
-                    <h5>With no disruptions, it is easily integrated whether you use our entire universe of tools or decide to onboard just one our planet, just know it won’t disturb your solar system. Think of us as a help in hand in the system you’ve already created.</h5>
+                    <h5>Built with and for the life science industry every module in our universe have faced HCPs, regulations and compliance across the planet. Our collaborative onboarding process aims to enhance your current work flow, and we'll support you every step of the way to ensure success.</h5>
+                </div>
+            </Row>
+        </Container>
+    </div>
+    <div className='pharma-slide'>
+                <div className="pharma-slider">
+                    <div className="slider" ref={parentRef}>
+                        <Slider {...settings} ref={sliderRef}>
+                            <div className="slider-in">
+                                <div className="slider-in-views">
+                                    <img src={path_image + "informed-logo-slide.svg"} alt="" />
+                                </div>
+                            </div>
+                            <div className="slider-in" style={{background:`url({path_image + "informed-logo-slide.svg"})`}}>
+                                <div className="slider-in-view slide1">
+                                    <div className="slide-left-sided d-flex align-items-start">
+                                        <img src={path_image + "arrow-slide1.png"} alt="" />
+                                    </div>
+                                    <div className="slide-right-sided">
+                                        <div className="slide-right-content">
+                                            <img src={path_image + "logo-shape1.png"} alt="" />
+                                            <h3>Content</h3>
+                                            <h5>Create a library of all your content and easily distribute it. We collect deep data, tracking what HCPs have opened, what pages they’ve read and how much time they’ve spent on them.</h5>
+                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="slider-in">
+                                <div className="slider-in-view slide2">
+                                    <div className="slide-right-sided">
+                                        <div className="slide-right-content">
+                                            <img src={path_image + "logo-shape2.png"} alt="" />
+                                            <h3>Consent</h3>
+                                            <h5>We’ve proven time and time again that HCPs give their consent and in return you equip them with content you can be confident they’ll love. Crucially, you’ll be able to observe the way they’re using your content.</h5>
+                                        </div>
+                                    </div>
+                                    <div className="slide-left-sided">
+                                        <img src={path_image + "arrow-slide2.png"} alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="slider-in">
+                                <div className="slider-in-view slide3">
+                                    <div className="slide-left-sided">
+                                        <img src={path_image + "arrow-slide3.png"} alt="" />
+                                    </div>
+                                    <div className="slide-right-sided">
+                                        <div className="slide-right-content">
+                                            <img src={path_image + "logo-shape3.png"} alt="" />
+                                            <h3>Delivery</h3>
+                                            <h5>Make <strong><i>push & pull, delivery & availability</i></strong> the standard for educating your HCPs. With a broad range of modules for every situation we ensure each HCP get what they need. And with AI recommendations we can help you optimise personalised delivery engagement. </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="slider-in">
+                                <div className="slider-in-view slide4">
+                                    <div className="slide-right-sided">
+                                        <div className="slide-right-content">
+                                            <h3>Personalisation</h3>
+                                            <h5>Mass communication that feels personal for each HCP? That’s the promise marketing has been waiting for.</h5>
+
+                                            <h5>Our proprietary AI can recommend content likely to interest each HCP based on their engagement history, saving you valuable time and effort. This becomes even more powerful when combined with other modules that can automate content delivery.</h5>
+                                        </div>
+                                    </div>
+                                    <div className="slide-left-sided">
+                                        <img src={path_image + "informed-logo-slide.svg"} alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </Slider>
+                    </div>
+                </div>
+    </div>
+    <div className="consent-content">
+        <Container>
+            <Row>
+                <div className="consent-content-inner">
+                    <div className="consent-text">
+                        <h5>Consent & content data is at the foundation of all our modules. This allows you to connect the data you collect in unprecedented ways, whether it's for automating tasks, reporting, analytics, or predictions, always with consent.</h5>
+                    </div>
+                    <div className="consent-details">
+                        <ul>
+                            <li>For Clinicians</li>
+                            <li>Gathers consent</li>
+                            <li>Read in any browser</li>
+                            <li>Read offline in the app</li>
+                        </ul>
+                        <div className="consent-img">
+                            <img src={path_image + "doc-info.png"} alt=""/>
+                        </div>
+                        <ul>
+                            <li>For Life science</li>
+                            <li>Host content</li>
+                            <li>Handles consent</li>
+                            <li>Predicts the future</li>
+                        </ul>
+                    </div>
                 </div>
                 <div className='works-started'>
-                    <h3>Let’s get started</h3>
-                    <div className='works-started-links'>
-                        <h3>Tell us what you work with?</h3>
-                        <div className='started-links d-flex justify-content-between'>
-                            <Link to="#" className='pharma-rd'>Pharma R&D</Link>
-                            <Link to="#" className='pharma-marketing'>Pharma Marketing</Link>
-                            <Link to="#" className='publisher-gradient'>Publishers</Link>
+                    <div className='works-started-links pharm-page'>
+                        <h3>Modules </h3>
+                        <h5>Click on a module to explore its capabilities and discover how it can benefit you. Learn about its connections with other modules and how they collectively help your clients succeed. These modules have been collaboratively developed with the pharmaceutical industry and are now integral parts of our comprehensive offerings aimed at enhancing your workflow.</h5>
+                    </div>
+                    <div className="modules-diagram">
+                        <div className="circle" style={{'--total': "13"}}>
+                            <div className="stat read" style={{'--i':"1"}}><img src={path_image+ "RTR-icon.svg"}alt="" /><span>Read-Through -Rate</span></div>
+                            <div className="stat rating" style={{'--i':"2"}}><img src={path_image+ "rating-icon.svg"}alt="" /><span>Rating Tool</span></div>
+                            <div className="stat spc" style={{'--i':"3"}}><img src={path_image+ "SPC-icon.svg"}alt="" /><span>SPC Engine</span></div>
+                            <div className="stat automail" style={{'--i':"4"}}><img src={path_image+ "auto-email-icon.svg"}alt="" /><span>Automail</span></div>
+                            <div className="stat ai" style={{'--i':"5"}}><img src={path_image+ "artificial-intelligence-icon.svg"}alt="" /><span>AI Prediction Tool</span></div>
+                            <div className="stat consent" style={{'--i':"6"}}><img src={path_image+ "legal-document-icon.svg"}alt="" /><span>Consent</span></div>
+                            <div className="stat engine" style={{'--i':"7"}}><img src={path_image+ "email-small-icon.svg"}alt="" /><span>Email Engine</span></div>
+                            <div className="stat docintel" style={{'--i':"8"}}><img src={path_image+ "docintel-small-icon.svg"}alt="" /><span>Docintel.app</span></div>
+                            <div className="stat informed" style={{'--i':"9"}}><img src={path_image+ "informedgo-icon.svg"}alt="" /><span>inforMedGo</span></div>
+                            <div className="stat qa" style={{'--i':"10"}}><img src={path_image+ "polling-icon.svg"}alt="" /><span>Q & Poll</span></div>
+                            <div className="stat survey" style={{'--i':"11"}}><img src={path_image+ "survey-icon.svg"}alt="" /><span>Survey Engine</span></div>
+                            <div className="stat web" style={{'--i':"12"}}><img src={path_image+ "web-portal-icon.svg"}alt="" /><span>Web Portal</span></div>
+                            <div className="stat webinar" style={{'--i':"13"}}><img src={path_image+ "webinar-small-icon.svg"}alt="" /><span>Webinar Portal</span></div>
+                            <div className="module-logo">
+                                <img src={path_image + "module-logo.svg"} alt=""/>
+                            </div>
                         </div>
                     </div>
                 </div>
             </Row>
         </Container>
     </div>
-    <div className='contact-us'>
+    <div className='contact-us pharma'>
         <Container>
             <Row>
                 <div className='contact-inset'>
                     <h3>Contact Us</h3>
                     <h5>We’re always happy to talk to you and answer any questions you have. You might have a question about something not covered on the page, something about compliance or other requests. <br/>Please let us know what it is and who you are so we can get back to you right away.</h5>
-                    <div class="form-sec">
+                    <div className="form-sec">
                         <Form>
                             <Row>
                                 <Col md="6">
                                     <div className="form-group">
-                                        <input type="text" placeholder='Name' name="name" class="form-control"/>
+                                        <input type="text" placeholder='Name' name="name" className="form-control"/>
                                         <span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M10.1034 8.41164C12.4325 8.41164 14.3202 6.52838 14.3202 4.20564C14.3202 1.88289 12.4321 0 10.1034 0C7.77476 0 5.88599 1.88325 5.88599 4.206C5.88599 6.52874 7.77476 8.41164 10.1034 8.41164ZM11.8921 8.69831H8.31405C5.33701 8.69831 2.91504 11.1145 2.91504 14.0839V18.4485L2.92616 18.5168L3.22756 18.611C6.06862 19.4964 8.53687 19.7917 10.5685 19.7917C14.5365 19.7917 16.8365 18.6632 16.9782 18.5913L17.2599 18.4492H17.29V14.0839C17.2911 11.1145 14.8691 8.69831 11.8921 8.69831Z" fill="white" fill-opacity="0.56"/>
                                         </svg></span>
@@ -164,11 +363,11 @@ const options = [
                                 </Col>
                                 <Col md="6">
                                     <div className="form-group">
-                                        <input type="email" placeholder='Email' name="email" class="form-control"/>
+                                        <input type="email" placeholder='Email' name="email" className="form-control"/>
                                         <span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M19.5428 4.05714L10.2285 9.6C10.1598 9.63751 10.0829 9.65717 10.0047 9.65717C9.92644 9.65717 9.84948 9.63751 9.78084 9.6L0.457031 4.05714C0.685807 3.73138 0.989475 3.46532 1.34249 3.28136C1.6955 3.09739 2.08753 3.0009 2.4856 3H17.5142C17.9122 3.0009 18.3043 3.09739 18.6573 3.28136C19.0103 3.46532 19.314 3.73138 19.5428 4.05714ZM10.7048 10.392L19.9333 4.90625C19.9775 5.09675 19.9999 5.29165 20 5.4872V14.8015C20 15.4607 19.7381 16.093 19.2719 16.5592C18.8058 17.0253 18.1735 17.2872 17.5143 17.2872H2.48571C1.82646 17.2872 1.19421 17.0253 0.728049 16.5592C0.261887 16.093 0 15.4607 0 14.8015V5.4872C0.000141946 5.29165 0.0225076 5.09675 0.0666666 4.90625L9.30476 10.392C9.5179 10.5139 9.7592 10.5781 10.0048 10.5781C10.2503 10.5781 10.4916 10.5139 10.7048 10.392Z" fill="white" fill-opacity="0.56"/>
-</svg>
-</span>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M19.5428 4.05714L10.2285 9.6C10.1598 9.63751 10.0829 9.65717 10.0047 9.65717C9.92644 9.65717 9.84948 9.63751 9.78084 9.6L0.457031 4.05714C0.685807 3.73138 0.989475 3.46532 1.34249 3.28136C1.6955 3.09739 2.08753 3.0009 2.4856 3H17.5142C17.9122 3.0009 18.3043 3.09739 18.6573 3.28136C19.0103 3.46532 19.314 3.73138 19.5428 4.05714ZM10.7048 10.392L19.9333 4.90625C19.9775 5.09675 19.9999 5.29165 20 5.4872V14.8015C20 15.4607 19.7381 16.093 19.2719 16.5592C18.8058 17.0253 18.1735 17.2872 17.5143 17.2872H2.48571C1.82646 17.2872 1.19421 17.0253 0.728049 16.5592C0.261887 16.093 0 15.4607 0 14.8015V5.4872C0.000141946 5.29165 0.0225076 5.09675 0.0666666 4.90625L9.30476 10.392C9.5179 10.5139 9.7592 10.5781 10.0048 10.5781C10.2503 10.5781 10.4916 10.5139 10.7048 10.392Z" fill="white" fill-opacity="0.56"/>
+                                        </svg>
+                                        </span>
                                     </div>
                                 </Col>
                                 <Col md="6">
@@ -193,13 +392,21 @@ const options = [
                                 </Col>
                                 <Col md="6">
                                     <div className="form-group">
-                                        <input type="text" placeholder='Company' name="company" class="form-control"/>
+                                        <input type="text" placeholder='Company' name="company" className="form-control"/>
                                         <span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1667 2.60713C14.1667 2.07122 13.6682 1.67463 13.146 1.79514L3.14603 4.10283C2.76792 4.19009 2.50008 4.52677 2.50008 4.91482V17.5H2.08341C1.8533 17.5 1.66675 17.6866 1.66675 17.9167C1.66675 18.1468 1.8533 18.3334 2.08341 18.3334H2.91511H2.91675H2.91839H6.66675V15.8334C6.66675 15.3731 7.03985 15 7.50008 15H9.16675C9.627 15 10.0001 15.3731 10.0001 15.8334V18.3334H13.7484H13.7501H13.7517H14.1667V2.60713ZM5.41675 6.66669C5.18663 6.66669 5.00008 6.85324 5.00008 7.08336V7.91669C5.00008 8.14681 5.18663 8.33336 5.41675 8.33336H6.25008C6.4802 8.33336 6.66675 8.14681 6.66675 7.91669V7.08336C6.66675 6.85324 6.4802 6.66669 6.25008 6.66669H5.41675ZM5.00008 9.58336C5.00008 9.35327 5.18663 9.16669 5.41675 9.16669H6.25008C6.4802 9.16669 6.66675 9.35327 6.66675 9.58336V10.4167C6.66675 10.6468 6.4802 10.8334 6.25008 10.8334H5.41675C5.18663 10.8334 5.00008 10.6468 5.00008 10.4167V9.58336ZM5.41675 11.6667C5.18663 11.6667 5.00008 11.8533 5.00008 12.0834V12.9167C5.00008 13.1468 5.18663 13.3334 5.41675 13.3334H6.25008C6.4802 13.3334 6.66675 13.1468 6.66675 12.9167V12.0834C6.66675 11.8533 6.4802 11.6667 6.25008 11.6667H5.41675ZM7.50008 7.08336C7.50008 6.85324 7.68663 6.66669 7.91675 6.66669H8.75008C8.98016 6.66669 9.16675 6.85324 9.16675 7.08336V7.91669C9.16675 8.14681 8.98016 8.33336 8.75008 8.33336H7.91675C7.68663 8.33336 7.50008 8.14681 7.50008 7.91669V7.08336ZM7.91675 9.16669C7.68663 9.16669 7.50008 9.35327 7.50008 9.58336V10.4167C7.50008 10.6468 7.68663 10.8334 7.91675 10.8334H8.75008C8.98016 10.8334 9.16675 10.6468 9.16675 10.4167V9.58336C9.16675 9.35327 8.98016 9.16669 8.75008 9.16669H7.91675ZM7.50008 12.0834C7.50008 11.8533 7.68663 11.6667 7.91675 11.6667H8.75008C8.98016 11.6667 9.16675 11.8533 9.16675 12.0834V12.9167C9.16675 13.1468 8.98016 13.3334 8.75008 13.3334H7.91675C7.68663 13.3334 7.50008 13.1468 7.50008 12.9167V12.0834ZM10.4167 6.66669C10.1867 6.66669 10.0001 6.85324 10.0001 7.08336V7.91669C10.0001 8.14681 10.1867 8.33336 10.4167 8.33336H11.2501C11.4802 8.33336 11.6667 8.14681 11.6667 7.91669V7.08336C11.6667 6.85324 11.4802 6.66669 11.2501 6.66669H10.4167ZM10.0001 9.58336C10.0001 9.35327 10.1867 9.16669 10.4167 9.16669H11.2501C11.4802 9.16669 11.6667 9.35327 11.6667 9.58336V10.4167C11.6667 10.6468 11.4802 10.8334 11.2501 10.8334H10.4167C10.1867 10.8334 10.0001 10.6468 10.0001 10.4167V9.58336ZM10.4167 11.6667C10.1867 11.6667 10.0001 11.8533 10.0001 12.0834V12.9167C10.0001 13.1468 10.1867 13.3334 10.4167 13.3334H11.2501C11.4802 13.3334 11.6667 13.1468 11.6667 12.9167V12.0834C11.6667 11.8533 11.4802 11.6667 11.2501 11.6667H10.4167Z" fill="white" fill-opacity="0.56"/>
                                             <path d="M15 4.74219V18.333H17.0822H17.0833H17.0845H17.9167C18.1468 18.333 18.3333 18.1464 18.3333 17.9164C18.3333 17.6863 18.1468 17.4997 17.9167 17.4997H17.5V6.50721C17.5 6.19157 17.3217 5.90301 17.0393 5.76185L15 4.74219Z" fill="white" fill-opacity="0.56"/>
                                             <path d="M9.16667 18.333H7.5V15.833H9.16667V18.333Z" fill="white" fill-opacity="0.56"/>
                                             </svg>
                                         </span>
+                                    </div>
+                                </Col>
+                                <Col md="6">
+                                    <div className="form-group">
+                                        <input type="number" placeholder='Phone' name="phone" className="form-control"/>
+                                        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+<path d="M19.5763 15.4867C19.3052 15.1839 18.4716 14.4293 17.8747 13.9796C17.2888 13.5191 16.329 12.8961 15.9552 12.7031C15.3446 12.3855 14.4247 12.4211 13.8532 12.805C13.3836 13.1319 12.9486 13.506 12.5552 13.9214L12.5466 13.9304C12.3317 14.1575 12.0432 14.3008 11.7324 14.3347C11.4217 14.3687 11.109 14.2912 10.8501 14.116C9.87673 13.4522 8.96826 12.698 8.13683 11.8632C7.30211 11.0318 6.54785 10.1233 5.88409 9.14996C5.70887 8.89109 5.63134 8.57839 5.66533 8.26764C5.69931 7.95691 5.84261 7.66835 6.06964 7.45348L6.07862 7.44488C6.49412 7.05147 6.86821 6.61651 7.19503 6.14684C7.57901 5.57535 7.61456 4.65543 7.29698 4.04488C7.10401 3.67145 6.48097 2.71285 6.02042 2.12535C5.57042 1.52848 4.81612 0.694883 4.51339 0.423789C4.01925 -0.0215235 3.18448 -0.137539 2.60206 0.179648C2.11284 0.457493 1.65453 0.786556 1.23487 1.16129L1.19073 1.20035C-1.38427 3.41559 0.311045 9.59879 5.35987 14.6379C10.4017 19.6875 16.5833 21.3839 18.7985 18.8089L18.8376 18.7648C19.2125 18.3452 19.5415 17.8869 19.8192 17.3976C20.1376 16.8156 20.0216 15.9808 19.5763 15.4867Z" fill="white" fill-opacity="0.56"/>
+</svg></span>
                                     </div>
                                 </Col>
                                 <Col md="12">
@@ -254,7 +461,7 @@ const options = [
                         placeholder="Password"
                         className="form-control" />
                         <span><svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.625 7.5H13V5C13 2.2425 10.7575 0 7.99999 0C5.2425 0 3 2.2425 3 5V7.5H2.375C1.34167 7.5 0.5 8.34083 0.5 9.37499V18.125C0.5 19.1592 1.34167 20 2.375 20H13.625C14.6583 20 15.5 19.1592 15.5 18.125V9.37499C15.5 8.34083 14.6583 7.5 13.625 7.5ZM4.66666 5C4.66666 3.16166 6.16166 1.66667 7.99999 1.66667C9.83833 1.66667 11.3333 3.16166 11.3333 5V7.5H4.66666V5ZM8.83333 13.935V15.8333C8.83333 16.2933 8.46083 16.6667 7.99999 16.6667C7.53916 16.6667 7.16666 16.2933 7.16666 15.8333V13.935C6.67083 13.6458 6.33333 13.1142 6.33333 12.5C6.33333 11.5808 7.08083 10.8333 7.99999 10.8333C8.91916 10.8333 9.66666 11.5808 9.66666 12.5C9.66666 13.1142 9.32916 13.6458 8.83333 13.935Z" fill="#97B6CF"></path></svg></span>
-                        <span class="pawword_img"><img src={path_image + "hide.svg"} alt=""/></span>
+                        <span className="pawword_img"><img src={path_image + "hide.svg"} alt=""/></span>
                     </div>
                 </FormGroup>
                 <FormGroup>
