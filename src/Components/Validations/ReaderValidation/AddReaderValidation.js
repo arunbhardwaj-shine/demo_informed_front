@@ -1,4 +1,5 @@
 export const AddReaderValidation = (data, groupId, flag) => {
+  console.log("data-->", data);
   let error = {};
 
   const regemail =
@@ -31,11 +32,24 @@ export const AddReaderValidation = (data, groupId, flag) => {
   }
   if (localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==") {
     if (!data?.primary_phone) {
-      error.primary_phone = "Please enter Phone number";
+      error.primary_phone = "Please enter phone number with country code";
     } else if (data?.primary_phone) {
-      if (Object.keys(data?.primary_phone)?.length > 12) {
-        error.primary_phone = "Number must be 12 digits or less";
+      if (
+        Object.keys(data?.primary_phone)?.length > 12 ||
+        Object.keys(data?.primary_phone)?.length < 10
+      ) {
+        error.primary_phone = "Number must be inbetween 10 to 12 digits";
       }
+    }
+    if (
+      data?.alternativePhone &&
+      (Object.keys(data?.alternativePhone)?.length > 12 ||
+        Object.keys(data?.alternativePhone)?.length < 10)
+    ) {
+      error.alternativePhone = "Number must be inbetween 10 to 12 digits";
+    }
+    if (!data?.countryCode) {
+      error.countryCode = "Please enter phone number with country code";
     }
     if (!data?.country?.value) {
       error.country = "Please select country";
