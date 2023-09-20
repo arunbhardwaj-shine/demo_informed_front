@@ -159,6 +159,12 @@ const MarketingAddReader = () => {
       loader("hide");
     }
   };
+  const handleKeyDown = (e) => {
+    // Check if the backspace key was pressed
+    if (e.key === "Backspace" || e.key === "Delete") {
+      e.preventDefault(); // Prevent clearing the field
+    }
+  };
 
   const handleChange = (e, isSelectedName, key) => {
     if (isSelectedName == "task") {
@@ -1141,6 +1147,7 @@ const MarketingAddReader = () => {
                         className="form-control"
                         placeholderText="Select task date"
                         // minDate={currentDate}
+                        onKeyDown={handleKeyDown}
                       />
                       <div className="add_check">
                         <fieldset id="group2">
@@ -1184,6 +1191,7 @@ const MarketingAddReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
+                    onKeyDown={handleKeyDown}
                   />
                 </Form.Group>
               </div>
@@ -1387,6 +1395,7 @@ const MarketingAddReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
+                    onKeyDown={handleKeyDown}
                   />
                 </div>
               </div>
