@@ -155,9 +155,9 @@ const MarketingAddReader = () => {
     }
   };
   const handleKeyDown = (e) => {
-    // Check if the backspace key was pressed
     if (e.key === "Backspace" || e.key === "Delete") {
-      e.preventDefault(); // Prevent clearing the field
+      // e.preventDefault();
+      setUserInputs({ ...userInputs, countryCode: { label: "", value: "" } });
     }
   };
 
@@ -468,8 +468,8 @@ const MarketingAddReader = () => {
       value: e?.target?.value?.trim(),
     });
   };
+
   const handleSubmitModelFun = async (e) => {
-    console.log("e--->", e);
     try {
       loader("show");
       const obj = {
@@ -605,7 +605,6 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "title")}
                     placeholder="Select title"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -712,7 +711,6 @@ const MarketingAddReader = () => {
                         ? "dropdown-basic-button split-button-dropup error"
                         : "dropdown-basic-button split-button-dropup"
                     }
-                    isClearable
                     value={
                       userInputs?.countryCode?.value
                         ? userInputs?.countryCode
@@ -788,7 +786,6 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "prospect")}
                     placeholder="Select prospect"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -811,7 +808,6 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "ownership")}
                     placeholder="Select contact ownership"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -865,7 +861,6 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "customerType")}
                     placeholder="Select customer type"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
                   />
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
@@ -881,7 +876,6 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "companyName")}
                     placeholder="Select contact company"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -904,7 +898,6 @@ const MarketingAddReader = () => {
                         ? "dropdown-basic-button split-button-dropup error"
                         : "dropdown-basic-button split-button-dropup"
                     }
-                    isClearable
                     value={
                       userInputs?.country?.value ? userInputs?.country : ""
                     }
@@ -942,7 +935,6 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "companyProduct")}
                     placeholder="Select company product"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -967,7 +959,6 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "therapyArea")}
                     placeholder="Select therapy area"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -989,7 +980,6 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "local")}
                     placeholder="Select "
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1070,7 +1060,6 @@ const MarketingAddReader = () => {
                   <Select
                     options={countryAll}
                     className="dropdown-basic-button split-button-dropup"
-                    isClearable
                     value={
                       userInputs?.address?.country
                         ? {
@@ -1094,7 +1083,7 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "logActivity")}
                     placeholder="Select log activity"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
+                   
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1122,7 +1111,6 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "task")}
                     placeholder="Select task"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1296,7 +1284,6 @@ const MarketingAddReader = () => {
                     value={
                       userInputs?.pipeline?.value ? userInputs?.pipeline : ""
                     }
-                    isClearable
                     onChange={(e) => handleChange(e, "pipeline")}
                   />
                   <div className="add_product">
@@ -1339,7 +1326,6 @@ const MarketingAddReader = () => {
                   <Select
                     options={probabilityOptions}
                     className="dropdown-basic-button split-button-dropup"
-                    isClearable
                     value={
                       userInputs?.probability?.value
                         ? userInputs?.probability
