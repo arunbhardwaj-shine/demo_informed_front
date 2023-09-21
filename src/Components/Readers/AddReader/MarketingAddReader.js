@@ -474,6 +474,7 @@ const MarketingAddReader = () => {
     });
   };
   const handleSubmitModelFun = async (e) => {
+    console.log("e--->", e);
     try {
       loader("show");
       const obj = {
@@ -527,7 +528,7 @@ const MarketingAddReader = () => {
       }
 
       if (newProduct.label == "companyProduct") {
-        let companyProduct = companyOptions;
+        let companyProduct = companyProductOptions;
         companyProduct.unshift({
           label: newProduct.value,
           value: newProduct.value,

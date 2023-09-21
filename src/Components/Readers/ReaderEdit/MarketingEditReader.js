@@ -529,26 +529,18 @@ const MarketingEditReader = () => {
     });
   };
   const handleSubmitModelFun = async (e) => {
+    
     try {
       const obj = {
         title: "title",
-
         prospect: "prospect",
-
         ownership: "contact_ownership",
-
-        companyName: "company_name",
-
+        company: "company_name",
         companyProduct: "company_product",
-
         therapyArea: "company_therapy_area",
-
         local: "local",
-
         task: "task",
-
         pipeline: "pipeline",
-
         logActivity: "log_activity",
       };
       loader("show");
@@ -592,7 +584,7 @@ const MarketingEditReader = () => {
       }
 
       if (newProduct.label == "companyProduct") {
-        let companyProduct = companyOptions;
+        let companyProduct = companyProductOptions;
         companyProduct.unshift({
           label: newProduct.value,
           value: newProduct.value,
