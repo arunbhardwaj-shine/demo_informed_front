@@ -1667,7 +1667,7 @@ const MarketingEditReader = () => {
     let weighted_Value = "";
 
     if (isSelectedName == "address") {
-      if (e.target?.name == "street1") {
+      if (e?.target?.name == "street1") {
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street1: e?.target?.value },
@@ -1677,7 +1677,7 @@ const MarketingEditReader = () => {
           ...userInputs,
           address: { ...userInputs?.address, street2: e?.target?.value },
         });
-      } else if (e.target?.name == "city") {
+      } else if (e?.target?.name == "city") {
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, city: e?.target?.value },
@@ -1687,8 +1687,8 @@ const MarketingEditReader = () => {
           ...userInputs,
           address: { ...userInputs?.address, country: e?.value },
         });
-      } else if (e.target?.name == "postcode") {
-        const cleanedValue = e.target?.value;
+      } else if (e?.target?.name == "postcode") {
+        const cleanedValue = e?.target?.value;
         if (cleanedValue?.length <= 12) {
           setUserInputs({
             ...userInputs,
@@ -1706,20 +1706,20 @@ const MarketingEditReader = () => {
         setUserInputs({
           ...userInputs,
           weighted_value: weighted_Value,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+          [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
             ? e
             : e?.target?.value,
         });
       } else {
         setUserInputs({
           ...userInputs,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+          [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
             ? e
             : e?.target?.value,
         });
       }
-    } else if (e.target?.name == "opportunityValue") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+    } else if (e?.target?.name == "opportunityValue") {
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue >= 0) {
         let weighted_Value = "";
         if (userInputs?.probability?.value) {
@@ -1728,14 +1728,14 @@ const MarketingEditReader = () => {
           setUserInputs({
             ...userInputs,
             weighted_value: weighted_Value,
-            [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+            [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
               ? e
               : cleanedValue,
           });
         } else {
           setUserInputs({
             ...userInputs,
-            [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+            [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
               ? e
               : cleanedValue,
           });
@@ -1760,12 +1760,12 @@ const MarketingEditReader = () => {
         typeContact: typeContactArray,
       });
     } else if (e?.target?.name == "primary_phone") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue?.length <= 12) {
         setUserInputs({
           ...userInputs,
 
-          [e.target.name]: cleanedValue,
+          [e?.target?.name]: cleanedValue,
         });
         setError(null);
       } else {
@@ -1774,11 +1774,11 @@ const MarketingEditReader = () => {
         });
       }
     } else if (e?.target?.name == "alternativePhone") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue?.length <= 12) {
         setUserInputs({
           ...userInputs,
-          [e.target.name]: cleanedValue,
+          [e?.target?.name]: cleanedValue,
         });
         setError(null);
       } else {
@@ -1786,14 +1786,14 @@ const MarketingEditReader = () => {
           alternativePhone: "Number must be in between 10 to 12 digits",
         });
       }
-    } else if (e.target?.name == "contactTotal") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+    } else if (e?.target?.name == "contactTotal") {
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue > 500 || cleanedValue < 0) {
         setError({ contactTotal: "Contact total must be in between 0 to 500" });
       } else {
         setUserInputs({
           ...userInputs,
-          [e.target.name]: cleanedValue,
+          [e?.target?.name]: cleanedValue,
         });
         setError(null);
       }
@@ -1827,7 +1827,7 @@ const MarketingEditReader = () => {
       setUserInputs({
         ...userInputs,
 
-        [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e
           : e?.target?.value,
       });
@@ -2222,7 +2222,7 @@ const MarketingEditReader = () => {
                     options={countryCode}
                     ref={primaryPhoneRef}
                     value={
-                      userInputs?.countryCode?.value
+                      userInputs?.countryCode?.label
                         ? {
                             label: userInputs?.countryCode?.label,
                             value: userInputs?.countryCode?.value,
@@ -3059,7 +3059,10 @@ const MarketingEditReader = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
           primary_phone: `${
-            userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+            userInputs?.countryCode?.label &&
+            userInputs?.countryCode?.label != "Select"
+              ? userInputs?.countryCode?.label
+              : ""
           }-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           linkedIn: userInputs?.linkedIn,

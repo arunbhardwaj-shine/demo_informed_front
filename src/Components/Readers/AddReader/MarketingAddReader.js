@@ -1598,9 +1598,10 @@ const MarketingAddReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
-    if (e == null) {
-      return;
-    }
+    // if (e == null) {
+    //   return;
+    // }
+   
 
     if (isSelectedName == "task") {
       setShowTaskExtra(true);
@@ -1611,12 +1612,12 @@ const MarketingAddReader = () => {
           ...userInputs,
           address: { ...userInputs?.address, street1: e?.target?.value },
         });
-      } else if (e.target?.name == "street2") {
+      } else if (e?.target?.name == "street2") {
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street2: e?.target?.value },
         });
-      } else if (e.target?.name == "city") {
+      } else if (e?.target?.name == "city") {
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, city: e?.target?.value },
@@ -1627,7 +1628,7 @@ const MarketingAddReader = () => {
           address: { ...userInputs?.address, country: e?.value },
         });
       } else if (e.target?.name == "postcode") {
-        const cleanedValue = e.target?.value?.replace(/[^a-zA-Z0-9]/g, "");
+        const cleanedValue = e?.target?.value?.replace(/[^a-zA-Z0-9]/g, "");
         if (cleanedValue?.length <= 12) {
           setUserInputs({
             ...userInputs,
@@ -1681,7 +1682,7 @@ const MarketingAddReader = () => {
         setUserInputs({
           ...userInputs,
           weightedValue: weighted_Value,
-          [isSelectedName ? isSelectedName : e.target?.name]: isSelectedName
+          [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
             ? e
             : e?.target?.value,
         });
@@ -1693,8 +1694,8 @@ const MarketingAddReader = () => {
             : e?.target?.value,
         });
       }
-    } else if (e.target?.name == "opportunityValue") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+    } else if (e?.target?.name == "opportunityValue") {
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
 
       if (cleanedValue >= 0) {
         let weighted_Value = "";
@@ -1705,7 +1706,7 @@ const MarketingAddReader = () => {
           setUserInputs({
             ...userInputs,
             weightedValue: weighted_Value,
-            [isSelectedName ? isSelectedName : e.target?.name]: isSelectedName
+            [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
               ? e
               : cleanedValue,
           });
@@ -1713,7 +1714,7 @@ const MarketingAddReader = () => {
         } else {
           setUserInputs({
             ...userInputs,
-            [isSelectedName ? isSelectedName : e.target?.name]: isSelectedName
+            [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
               ? e
               : cleanedValue,
           });
@@ -1725,12 +1726,12 @@ const MarketingAddReader = () => {
         });
       }
     } else if (e?.target?.name == "primary_phone") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue?.length <= 12) {
         setUserInputs({
           ...userInputs,
 
-          [e.target?.name]: cleanedValue,
+          [e?.target?.name]: cleanedValue,
         });
         setError(null);
       } else {
@@ -1739,11 +1740,11 @@ const MarketingAddReader = () => {
         });
       }
     } else if (e?.target?.name == "alternativePhone") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue?.length <= 12) {
         setUserInputs({
           ...userInputs,
-          [e.target?.name]: cleanedValue,
+          [e?.target?.name]: cleanedValue,
         });
         setError(null);
       } else {
@@ -1751,14 +1752,14 @@ const MarketingAddReader = () => {
           alternativePhone: "Number must be in between 10 to 12 digits",
         });
       }
-    } else if (e.target?.name == "contactTotal") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+    } else if (e?.target?.name == "contactTotal") {
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue > 500 || cleanedValue < 0) {
         setError({ contactTotal: "Contact total must be in between 0 to 500" });
       } else {
         setUserInputs({
           ...userInputs,
-          [e.target.name]: cleanedValue,
+          [e?.target?.name]: cleanedValue,
         });
         setError(null);
       }
@@ -1770,7 +1771,7 @@ const MarketingAddReader = () => {
     } else {
       setUserInputs({
         ...userInputs,
-        [isSelectedName ? isSelectedName : e.target?.name]: isSelectedName
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e
           : e?.target?.value,
       });
@@ -2920,6 +2921,7 @@ const MarketingAddReader = () => {
       setError(result);
       return;
     } else {
+     
       try {
         loader("show");
         let nextContactDate = "";
@@ -2943,7 +2945,10 @@ const MarketingAddReader = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
           primary_phone: `${
-            userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+            userInputs?.countryCode?.label &&
+            userInputs?.countryCode?.label != "Select"
+              ? userInputs?.countryCode?.label
+              : ""
           }-informed-${userInputs?.primary_phone}`,
 
           alternativePhone: userInputs?.alternativePhone,
