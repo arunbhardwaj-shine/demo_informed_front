@@ -136,9 +136,8 @@ const LicenseContent = (props) => {
   const filterRef = useRef(null);
 
   useEffect(() => {
-
-    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ=='){
-      const newObj = {value: "Sunshine USA", label: "Sunshine USA"};
+    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+      const newObj = { value: "Sunshine USA", label: "Sunshine USA" };
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);
     }
@@ -1450,7 +1449,7 @@ const LicenseContent = (props) => {
                                         href={data?.previewArticle}
                                         target="_blank"
                                       >
-                                        Preview aritcle
+                                        Preview article
                                       </a>
                                       <Button
                                         onClick={() => {
