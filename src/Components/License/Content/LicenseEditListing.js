@@ -1295,7 +1295,7 @@ const LicenseEditListing = () => {
                                         href={data?.previewArticle}
                                         target="_blank"
                                       >
-                                        Preview aritcle
+                                        Preview article
                                       </a>
                                       <Button
                                         onClick={() => {
