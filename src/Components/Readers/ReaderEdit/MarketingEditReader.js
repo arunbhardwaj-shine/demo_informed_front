@@ -333,7 +333,9 @@ const MarketingEditReader = () => {
         });
         setError(null);
       } else {
-        setError({ primary_phone: "Number must be inbetween 10 to 12 digits" });
+        setError({
+          primary_phone: "Number must be in between 10 to 12 digits",
+        });
       }
     } else if (e?.target?.name == "alternativePhone") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
@@ -345,13 +347,13 @@ const MarketingEditReader = () => {
         setError(null);
       } else {
         setError({
-          alternativePhone: "Number must be inbetween 10 to 12 digits",
+          alternativePhone: "Number must be in between 10 to 12 digits",
         });
       }
     } else if (e.target?.name == "contactTotal") {
       const cleanedValue = e.target?.value?.replace(/\D/g, "");
       if (cleanedValue > 500 || cleanedValue < 0) {
-        setError({ contactTotal: "Contact total must be inbetween 0 to 500" });
+        setError({ contactTotal: "Contact total must be in between 0 to 500" });
       } else {
         setUserInputs({
           ...userInputs,
@@ -532,23 +534,14 @@ const MarketingEditReader = () => {
     try {
       const obj = {
         title: "title",
-
         prospect: "prospect",
-
         ownership: "contact_ownership",
-
-        companyName: "company_name",
-
+        company: "company_name",
         companyProduct: "company_product",
-
         therapyArea: "company_therapy_area",
-
         local: "local",
-
         task: "task",
-
         pipeline: "pipeline",
-
         logActivity: "log_activity",
       };
       loader("show");
@@ -592,7 +585,7 @@ const MarketingEditReader = () => {
       }
 
       if (newProduct.label == "companyProduct") {
-        let companyProduct = companyOptions;
+        let companyProduct = companyProductOptions;
         companyProduct.unshift({
           label: newProduct.value,
           value: newProduct.value,

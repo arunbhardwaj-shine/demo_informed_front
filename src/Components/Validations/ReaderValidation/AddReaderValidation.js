@@ -30,19 +30,27 @@ export const AddReaderValidation = (data, groupId, flag) => {
     error.country = "Please select country";
   }
   if (localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==") {
-    if (!data?.primary_phone || !data?.countryCode) {
-      error.primary_phone = "Please enter phone number with country code";
-    } else if (data?.primary_phone) {
+    if (data?.primary_phone) {
       if (
         Object.keys(data?.primary_phone)?.length > 12 ||
         Object.keys(data?.primary_phone)?.length < 10
       ) {
         error.primary_phone = "Number must be in between 10 to 12 digits";
+      } else if (!data?.countryCode?.value) {
+        error.primary_phone = "Please select country code";
       }
     }
-    // else if (!data?.countryCode) {
-    //   error.countryCode = "Please enter phone number with country code";
-    // }
+    if (data?.countryCode?.value) {
+      if (!data?.primary_phone) {
+        error.primary_phone = "Please enter phone number";
+      } else if (
+        data?.primary_phone &&
+        (Object.keys(data?.primary_phone)?.length > 12 ||
+          Object.keys(data?.primary_phone)?.length < 10)
+      ) {
+        error.primary_phone = "Number must be in between 10 to 12 digits";
+      }
+    }
     if (
       data?.alternativePhone &&
       (Object.keys(data?.alternativePhone)?.length > 12 ||

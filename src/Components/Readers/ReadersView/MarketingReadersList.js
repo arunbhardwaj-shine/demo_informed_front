@@ -988,7 +988,8 @@ const MarketingReadersList = () => {
                   {(
                     localStorage.getItem("user_id") ==
                       "90VIqoM675WT4/peSRnbSQ==" &&
-                    Object.keys(filterObject)?.length <= 0
+                    Object.keys(filterObject)?.length <= 0 &&
+                    !search
                       ? true
                       : false
                   ) ? (
