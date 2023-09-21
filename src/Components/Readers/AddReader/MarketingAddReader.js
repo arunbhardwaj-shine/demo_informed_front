@@ -84,6 +84,7 @@ const MarketingAddReader = () => {
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
   const [countryCode, setCountryCode] = useState([
+    { value: "", label: "Select" },
     { value: "Afghanistan", label: "+93" },
     { value: "Albania", label: "+355" },
     { value: "Algeria", label: "+213" },
@@ -162,6 +163,10 @@ const MarketingAddReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
+    if (e == null) {
+      return;
+    }
+
     if (isSelectedName == "task") {
       setShowTaskExtra(true);
     }
@@ -273,7 +278,7 @@ const MarketingAddReader = () => {
         } else {
           setUserInputs({
             ...userInputs,
-            [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+            [isSelectedName ? isSelectedName : e.target?.name]: isSelectedName
               ? e
               : cleanedValue,
           });
@@ -290,7 +295,7 @@ const MarketingAddReader = () => {
         setUserInputs({
           ...userInputs,
 
-          [e.target.name]: cleanedValue,
+          [e.target?.name]: cleanedValue,
         });
         setError(null);
       } else {
@@ -303,7 +308,7 @@ const MarketingAddReader = () => {
       if (cleanedValue?.length <= 12) {
         setUserInputs({
           ...userInputs,
-          [e.target.name]: cleanedValue,
+          [e.target?.name]: cleanedValue,
         });
         setError(null);
       } else {
@@ -330,7 +335,7 @@ const MarketingAddReader = () => {
     } else {
       setUserInputs({
         ...userInputs,
-        [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+        [isSelectedName ? isSelectedName : e.target?.name]: isSelectedName
           ? e
           : e?.target?.value,
       });
@@ -602,6 +607,18 @@ const MarketingAddReader = () => {
                     options={titleOptions}
                     name="title"
                     value={userInputs?.title?.value ? userInputs?.title : ""}
+                    // value={
+                    //   titleOptions?.findIndex(
+                    //     (e) => e.value == userInputs?.title
+                    //   ) == -1
+                    //     ? ""
+                    //     : titleOptions[
+                    //         titleOptions?.findIndex(
+                    //           (e) => e.value == userInputs?.title
+                    //         )
+                    //       ]
+                    // }
+                    isClearable
                     onChange={(e) => handleChange(e, "title")}
                     placeholder="Select title"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -711,11 +728,18 @@ const MarketingAddReader = () => {
                         ? "dropdown-basic-button split-button-dropup error"
                         : "dropdown-basic-button split-button-dropup"
                     }
-                    value={
-                      userInputs?.countryCode?.value
-                        ? userInputs?.countryCode
-                        : ""
-                    }
+                    isClearable
+                    // value={
+                    //   countryCode?.findIndex(
+                    //     (e) => e.value == userInputs?.countryCode
+                    //   ) == -1
+                    //     ? ""
+                    //     : countryCode[
+                    //         countryCode?.findIndex(
+                    //           (e) => e.value == userInputs?.countryCode?.value
+                    //         )
+                    //       ]
+                    // }
                     ref={primaryPhoneRef}
                     placeholder="Select "
                     onChange={(e) => handleChange(e, "countryCode")}
@@ -783,6 +807,7 @@ const MarketingAddReader = () => {
                     value={
                       userInputs?.prospect?.value ? userInputs?.prospect : ""
                     }
+                    isClearable
                     onChange={(e) => handleChange(e, "prospect")}
                     placeholder="Select prospect"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -808,6 +833,7 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "ownership")}
                     placeholder="Select contact ownership"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -858,6 +884,7 @@ const MarketingAddReader = () => {
                         ? userInputs?.customerType
                         : ""
                     }
+                    isClearable
                     onChange={(e) => handleChange(e, "customerType")}
                     placeholder="Select customer type"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -873,6 +900,7 @@ const MarketingAddReader = () => {
                         ? userInputs?.companyName
                         : ""
                     }
+                    isClearable
                     onChange={(e) => handleChange(e, "companyName")}
                     placeholder="Select contact company"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -901,6 +929,7 @@ const MarketingAddReader = () => {
                     value={
                       userInputs?.country?.value ? userInputs?.country : ""
                     }
+                    isClearable
                     placeholder="Select country"
                     ref={countryRef}
                     onChange={(e) => handleChange(e, "country")}
@@ -932,6 +961,7 @@ const MarketingAddReader = () => {
                         ? userInputs?.companyProduct
                         : ""
                     }
+                    isClearable
                     onChange={(e) => handleChange(e, "companyProduct")}
                     placeholder="Select company product"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -956,6 +986,7 @@ const MarketingAddReader = () => {
                         ? userInputs?.therapyArea
                         : ""
                     }
+                    isClearable
                     onChange={(e) => handleChange(e, "therapyArea")}
                     placeholder="Select therapy area"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -980,6 +1011,7 @@ const MarketingAddReader = () => {
                     onChange={(e) => handleChange(e, "local")}
                     placeholder="Select "
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1068,6 +1100,7 @@ const MarketingAddReader = () => {
                           }
                         : ""
                     }
+                    isClearable
                     placeholder="Select country"
                     onChange={(e) =>
                       handleChange(e, "address", "addressCountry")
@@ -1082,6 +1115,7 @@ const MarketingAddReader = () => {
                     value={userInputs?.logActivity}
                     onChange={(e) => handleChange(e, "logActivity")}
                     placeholder="Select log activity"
+                     isClearable
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                    
                   />{" "}
@@ -1108,6 +1142,7 @@ const MarketingAddReader = () => {
                           }
                         : ""
                     }
+                    isClearable
                     onChange={(e) => handleChange(e, "task")}
                     placeholder="Select task"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -1284,6 +1319,7 @@ const MarketingAddReader = () => {
                     value={
                       userInputs?.pipeline?.value ? userInputs?.pipeline : ""
                     }
+                    isClearable
                     onChange={(e) => handleChange(e, "pipeline")}
                   />
                   <div className="add_product">
@@ -1331,6 +1367,7 @@ const MarketingAddReader = () => {
                         ? userInputs?.probability
                         : ""
                     }
+                    isClearable
                     placeholder="Select probability"
                     onChange={(e) => handleChange(e, "probability")}
                   />

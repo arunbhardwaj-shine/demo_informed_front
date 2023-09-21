@@ -90,6 +90,7 @@ const MarketingEditReader = () => {
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
   const [countryCode, setCountryCode] = useState([
+    { value: "", label: "Select" },
     { value: "Afghanistan", label: "+93" },
     { value: "Albania", label: "+355" },
     { value: "Algeria", label: "+213" },
@@ -676,6 +677,7 @@ const MarketingEditReader = () => {
                     onChange={(e) => handleChange(e, "title")}
                     placeholder="Select title"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -802,6 +804,7 @@ const MarketingEditReader = () => {
 
                     placeholder="Select"
                     onChange={(e) => handleChange(e, "countryCode")}
+                    isClearable
                   />
 
                   <input
@@ -877,6 +880,7 @@ const MarketingEditReader = () => {
                     onChange={(e) => handleChange(e, "prospect")}
                     placeholder="Select prospect"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -905,6 +909,7 @@ const MarketingEditReader = () => {
                     onChange={(e) => handleChange(e, "ownership")}
                     placeholder="Select contact ownership"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -966,6 +971,7 @@ const MarketingEditReader = () => {
                     onChange={(e) => handleChange(e, "customerType")}
                     placeholder="Select customer type"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
@@ -984,6 +990,7 @@ const MarketingEditReader = () => {
                     onChange={(e) => handleChange(e, "companyName")}
                     placeholder="Select contact company"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1019,6 +1026,7 @@ const MarketingEditReader = () => {
                     }
                     ref={countryRef}
                     onChange={(e) => handleChange(e, "country")}
+                    isClearable
                   />
                   {error?.country ? (
                     <div className="login-validation">{error?.country}</div>
@@ -1053,6 +1061,7 @@ const MarketingEditReader = () => {
                     onChange={(e) => handleChange(e, "companyProduct")}
                     placeholder="Select company product"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1080,6 +1089,7 @@ const MarketingEditReader = () => {
                     }
                     placeholder="Select therapy area"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1108,6 +1118,7 @@ const MarketingEditReader = () => {
                     onChange={(e) => handleChange(e, "local")}
                     placeholder="Select "
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1206,6 +1217,7 @@ const MarketingEditReader = () => {
                     onChange={(e) =>
                       handleChange(e, "address", "addressCountry")
                     }
+                    isClearable
                   />
                 </Form.Group>
 
@@ -1225,6 +1237,7 @@ const MarketingEditReader = () => {
                     onChange={(e) => handleChange(e, "task")}
                     placeholder="Select task"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                    isClearable
                   />{" "}
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1413,6 +1426,7 @@ const MarketingEditReader = () => {
                         : ""
                     }
                     onChange={(e) => handleChange(e, "pipeline")}
+                    isClearable
                   />
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1454,6 +1468,7 @@ const MarketingEditReader = () => {
                         : ""
                     }
                     onChange={(e) => handleChange(e, "probability")}
+                    isClearable
                   />
                 </Form.Group>
 
