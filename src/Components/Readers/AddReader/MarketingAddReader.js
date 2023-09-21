@@ -1601,7 +1601,7 @@ const MarketingAddReader = () => {
     // if (e == null) {
     //   return;
     // }
-    console.log(e);
+   
 
     if (isSelectedName == "task") {
       setShowTaskExtra(true);
@@ -2921,6 +2921,7 @@ const MarketingAddReader = () => {
       setError(result);
       return;
     } else {
+     
       try {
         loader("show");
         let nextContactDate = "";
@@ -2944,7 +2945,10 @@ const MarketingAddReader = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
           primary_phone: `${
-            userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+            userInputs?.countryCode?.label &&
+            userInputs?.countryCode?.label != "Select"
+              ? userInputs?.countryCode?.label
+              : ""
           }-informed-${userInputs?.primary_phone}`,
 
           alternativePhone: userInputs?.alternativePhone,

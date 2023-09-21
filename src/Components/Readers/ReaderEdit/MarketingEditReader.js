@@ -2222,7 +2222,7 @@ const MarketingEditReader = () => {
                     options={countryCode}
                     ref={primaryPhoneRef}
                     value={
-                      userInputs?.countryCode?.value
+                      userInputs?.countryCode?.label
                         ? {
                             label: userInputs?.countryCode?.label,
                             value: userInputs?.countryCode?.value,
@@ -3059,7 +3059,10 @@ const MarketingEditReader = () => {
           email: userInputs?.email,
           alternativeEmail: userInputs?.alternativeEmail,
           primary_phone: `${
-            userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
+            userInputs?.countryCode?.label &&
+            userInputs?.countryCode?.label != "Select"
+              ? userInputs?.countryCode?.label
+              : ""
           }-informed-${userInputs?.primary_phone}`,
           alternativePhone: userInputs?.alternativePhone,
           linkedIn: userInputs?.linkedIn,
