@@ -931,6 +931,7 @@ const MarketingAddReader = () => {
                     placeholder="Enter company website"
                     className="form-control"
                     name="companyWebsite"
+                    value={userInputs?.companyWebsite}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -1024,6 +1025,7 @@ const MarketingAddReader = () => {
                     placeholder="Enter street 1"
                     className="form-control"
                     name="street1"
+                    value={userInputs?.address?.street1}
                     onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
@@ -1034,6 +1036,7 @@ const MarketingAddReader = () => {
                     placeholder="Enter street 2"
                     className="form-control"
                     name="street2"
+                    value={userInputs?.address?.street2}
                     onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
@@ -1044,6 +1047,7 @@ const MarketingAddReader = () => {
                     placeholder="Enter city"
                     className="form-control"
                     name="city"
+                    value={userInputs?.address?.city}
                     onChange={(e) => handleChange(e, "address")}
                   />
                 </Form.Group>
@@ -1153,7 +1157,10 @@ const MarketingAddReader = () => {
                         className="form-control"
                         placeholderText="Select task date"
                         // minDate={currentDate}
-                        onKeyDown={handleKeyDown}
+                        // onKeyDown={handleKeyDown}
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                       <div className="add_check">
                         <fieldset id="group2">
@@ -1193,11 +1200,14 @@ const MarketingAddReader = () => {
                           )
                     }
                     name="nextContact"
-                    onChange={(e) => handleChange(e, "nextContact")}
+                    onChange={(date) => handleChange(date, "nextContact")}
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
-                    onKeyDown={handleKeyDown}
+                    // onKeyDown={handleKeyDown}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
                   />
                 </Form.Group>
               </div>
@@ -1239,6 +1249,7 @@ const MarketingAddReader = () => {
                     className="form-control"
                     name="opportunityTitle"
                     placeholder="Title"
+                    value={userInputs?.opportunityTitle}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -1250,6 +1261,7 @@ const MarketingAddReader = () => {
                     className="form-control"
                     name="ourProduct"
                     placeholder="Our Product"
+                    value={userInputs?.ourProduct}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -1401,7 +1413,10 @@ const MarketingAddReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
-                    onKeyDown={handleKeyDown}
+                    // onKeyDown={handleKeyDown}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
                   />
                 </div>
               </div>
