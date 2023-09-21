@@ -1672,7 +1672,7 @@ const MarketingEditReader = () => {
           ...userInputs,
           address: { ...userInputs?.address, street1: e?.target?.value },
         });
-      } else if (e.target?.name == "street2") {
+      } else if (e?.target?.name == "street2") {
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street2: e?.target?.value },
@@ -1688,7 +1688,7 @@ const MarketingEditReader = () => {
           address: { ...userInputs?.address, country: e?.value },
         });
       } else if (e?.target?.name == "postcode") {
-        const cleanedValue = e?.target?.value;
+        const cleanedValue = e?.target?.value?.replace(/[^a-zA-Z0-9]/g, "");
         if (cleanedValue?.length <= 12) {
           setUserInputs({
             ...userInputs,
@@ -2100,7 +2100,6 @@ const MarketingEditReader = () => {
                   <Select
                     options={titleOptions}
                     name="title"
-                    //   value={userInputs?.title?.value}
                     value={
                       userInputs?.title?.value
                         ? {
@@ -2222,12 +2221,16 @@ const MarketingEditReader = () => {
                     options={countryCode}
                     ref={primaryPhoneRef}
                     value={
-                      userInputs?.countryCode?.label
-                        ? {
-                            label: userInputs?.countryCode?.label,
-                            value: userInputs?.countryCode?.value,
-                          }
-                        : ""
+                      countryCode?.findIndex(
+                        (el) => el?.label == userInputs?.countryCode?.label
+                      ) == -1
+                        ? ""
+                        : countryCode[
+                            countryCode?.findIndex(
+                              (el) =>
+                                el?.label == userInputs?.countryCode?.label
+                            )
+                          ]
                     }
                     name="countryCode"
                     className={

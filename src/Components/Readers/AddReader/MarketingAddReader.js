@@ -1598,16 +1598,11 @@ const MarketingAddReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
-    // if (e == null) {
-    //   return;
-    // }
-   
-
     if (isSelectedName == "task") {
       setShowTaskExtra(true);
     }
     if (isSelectedName == "address") {
-      if (e.target?.name == "street1") {
+      if (e?.target?.name == "street1") {
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street1: e?.target?.value },
@@ -1627,7 +1622,7 @@ const MarketingAddReader = () => {
           ...userInputs,
           address: { ...userInputs?.address, country: e?.value },
         });
-      } else if (e.target?.name == "postcode") {
+      } else if (e?.target?.name == "postcode") {
         const cleanedValue = e?.target?.value?.replace(/[^a-zA-Z0-9]/g, "");
         if (cleanedValue?.length <= 12) {
           setUserInputs({
@@ -2921,7 +2916,6 @@ const MarketingAddReader = () => {
       setError(result);
       return;
     } else {
-     
       try {
         loader("show");
         let nextContactDate = "";
