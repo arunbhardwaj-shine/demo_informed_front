@@ -226,12 +226,6 @@ const MarketingEditReader = () => {
       loader("hide");
     }
   };
-  const handleKeyDown = (e) => {
-    // Check if the backspace key was pressed
-    if (e.key === "Backspace" || e.key === "Delete") {
-      e.preventDefault(); // Prevent clearing the field
-    }
-  };
 
   const handleChange = (e, isSelectedName, key) => {
     let weighted_Value = "";
@@ -1231,44 +1225,7 @@ const MarketingEditReader = () => {
                     }
                   />
                 </Form.Group>
-                {/* <Form.Group className="form-group">
-                  <Form.Label htmlFor="">Country</Form.Label>
-                  <input
-                    type="text"
-                    placeholder="Enter country"
-                    className="form-control"
-                    name="addressCountry"
-                    defaultValue={userInputs?.addressCountry}
-                    onChange={(e) =>
-                      handleChange(e, "address", "addressCountry")
-                    }
-                  />
-                </Form.Group> */}
-                {/* <Form.Group className="form-group margin-added">
-                  <Form.Label htmlFor="">Log activity</Form.Label>
-                  <Select
-                    options={logActivityOptions}
-                    name="logActivity"
-                    
-                    value={{
-                      label: userInputs?.logActivity?.value,
-                      value: userInputs?.logActivity?.value,
-                    }}
-                    onChange={(e) => handleChange(e, "logActivity")}
-                    placeholder="Select log activity"
-                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
-                  />{" "}
-                  <div className="add_product">
-                    <span>&nbsp;</span>
-                    <Button
-                      onClick={(e) => addNewProductClicked(e, "logActivity")}
-                      className="btn-bordered btn-voilet"
-                    >
-                      Add New Log Activity +
-                    </Button>
-                  </div>
-                </Form.Group> */}
+
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Task</Form.Label>
                   <Select
@@ -1312,7 +1269,10 @@ const MarketingEditReader = () => {
                       className="form-control"
                       placeholderText="Select task date"
                       // minDate={currentDate}
-                      onKeyDown={handleKeyDown}
+                      // onKeyDown={handleKeyDown}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                     />
                     <div className="add_check">
                       <fieldset id="group2">
@@ -1358,7 +1318,10 @@ const MarketingEditReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
-                    onKeyDown={handleKeyDown}
+                    // onKeyDown={handleKeyDown}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
                   />
                 </Form.Group>
               </div>
@@ -1583,7 +1546,10 @@ const MarketingEditReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
-                    onKeyDown={handleKeyDown}
+                    // onKeyDown={handleKeyDown}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
                   />
                 </div>
               </div>
