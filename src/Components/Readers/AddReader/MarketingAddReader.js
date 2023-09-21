@@ -187,7 +187,7 @@ const MarketingAddReader = () => {
           address: { ...userInputs?.address, country: e?.value },
         });
       } else if (e.target?.name == "postcode") {
-        const cleanedValue = e.target?.value;
+        const cleanedValue = e.target?.value?.replace(/[^a-zA-Z0-9]/g, "");
         if (cleanedValue?.length <= 12) {
           setUserInputs({
             ...userInputs,

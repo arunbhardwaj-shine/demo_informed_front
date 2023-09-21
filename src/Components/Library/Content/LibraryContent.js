@@ -186,8 +186,8 @@ const LibraryContent = (props) => {
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
 
-    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ=='){
-      const newObj = {value: "Sunshine USA", label: "Sunshine USA"};
+    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+      const newObj = { value: "Sunshine USA", label: "Sunshine USA" };
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);
     }
@@ -1041,7 +1041,9 @@ const LibraryContent = (props) => {
                               <>
                                 {filterdata[key]?.length ? (
                                   <Accordion.Item
-                                    className= {key == "Role" ? "card upper" : "card"}
+                                    className={
+                                      key == "Role" ? "card upper" : "card"
+                                    }
                                     eventKey={index}
                                   >
                                     <Accordion.Header className="card-header">
@@ -1220,7 +1222,13 @@ const LibraryContent = (props) => {
 
                                 <div className="filter-div-list">
                                   {filterObject[key]?.map((item, index) => (
-                                    <div className={key == "Role" ? "filter-result upper" : "filter-result"}>
+                                    <div
+                                      className={
+                                        key == "Role"
+                                          ? "filter-result upper"
+                                          : "filter-result"
+                                      }
+                                    >
                                       {key == "draft" && item == "0"
                                         ? "live"
                                         : key == "draft" && item == "1"
@@ -1562,7 +1570,7 @@ const LibraryContent = (props) => {
                                               handleSpcFun(data?.spcFile)
                                             }
                                           >
-                                            Preview content
+                                            Preview article
                                           </button>
                                         </>
                                       ) : (
@@ -1571,7 +1579,7 @@ const LibraryContent = (props) => {
                                           href={data?.previewArticle}
                                           target="_blank"
                                         >
-                                          Preview content
+                                          Preview article
                                         </a>
                                       )}
 
