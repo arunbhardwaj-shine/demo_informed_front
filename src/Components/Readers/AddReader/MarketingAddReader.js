@@ -53,6 +53,7 @@ const MarketingAddReader = () => {
     lastName: "",
     email: "",
     alternativeEmail: "",
+    countryCode: { value: "" },
     primary_phone: "",
     alternativePhone: "",
     linkedIn: "",
@@ -69,11 +70,9 @@ const MarketingAddReader = () => {
     address: { street1: "", street2: "", city: "", postcode: "", country: "" },
     logActivity: "",
     task: { task: "", taskCheckClicked: false, taskDate: "" },
-    nextContact:
-      // `${
-      //   currentDate.getMonth() + 1
-      // }/${currentDate.getDate()}/${currentDate.getFullYear()}`,
-      new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+    nextContact: new Date(
+      moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+    ),
     opportunityTitle: "",
     ourProduct: "",
     contactTotal: "",
@@ -82,11 +81,7 @@ const MarketingAddReader = () => {
     probability: { value: "" },
     weightedValue: "",
     quoteSent: false,
-    quoteValid:
-      // `${
-      //   currentDate.getMonth() + 1
-      // }/${currentDate.getDate()}/${currentDate.getFullYear()}`,
-      new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+    quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
   const [countryCode, setCountryCode] = useState([
     { value: "Afghanistan", label: "+93" },
@@ -709,9 +704,7 @@ const MarketingAddReader = () => {
                   )}
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
-                  <Form.Label htmlFor="">
-                    Primary phone<span>*</span>{" "}
-                  </Form.Label>
+                  <Form.Label htmlFor="">Primary phone </Form.Label>
                   <Select
                     options={countryCode}
                     className={
