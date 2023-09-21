@@ -562,7 +562,7 @@ const MarketingTimeLineDetail = (props) => {
                                 </tr>
                                 <tr>
                                     <th>Phone</th>
-                                    <td>{timeLineData?.user?.phone ? timeLineData?.user?.phone.split("-informed-") : "N/A"}</td>
+                                    <td>{timeLineData?.user?.phone ? timeLineData?.user?.phone == '-informed-' ? "N/A" :timeLineData?.user?.phone.split("-informed-") : "N/A"}</td>
                                 </tr>
                                 <tr>
                                     <th>Product</th>
