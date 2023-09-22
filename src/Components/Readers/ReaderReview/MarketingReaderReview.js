@@ -183,9 +183,10 @@ const MarketingReaderReview = () => {
                       <tr>
                         <th className="tab-content-title">Type of contact </th>
                         <td>
-                          {readerData?.type_of_contact?.length
+                           
+                          {readerData?.type_of_contact?.filter((value)=>value!=undefined&&value!=null&&value!="")?.length
                             ? readerData?.type_of_contact
-                                .filter((item) => item)
+                                .filter((item) => item != "")
                                 .join(", ")
                             : "N/A"}
                           {/* {readerData?.type_of_contact?.length

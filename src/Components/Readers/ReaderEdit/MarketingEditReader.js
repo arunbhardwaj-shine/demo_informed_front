@@ -1652,7 +1652,7 @@ const MarketingEditReader = () => {
         contactTotal: data?.contact_total,
         quoteSent: data?.quote_sent,
         quoteValid: data?.quote_valid_until,
-        typeContact: data?.type_of_contact,
+        typeContact: data?.type_of_contact ? data?.type_of_contact : [],
       });
 
       loader("hide");
