@@ -18,6 +18,8 @@ const MarketingAddReader = () => {
   const countryRef = useRef(null);
   const postcodeRef = useRef(null);
   const contactTotalRef = useRef(null);
+  const alternativeEmailRef = useRef(null);
+  const alternativePhoneRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [titleOptions, setTitleOptions] = useState([]);
   const [groupId, setGroupId] = useState();
@@ -2137,6 +2139,7 @@ const MarketingAddReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
+                    ref={alternativeEmailRef}
                     placeholder="example@email.com"
                     name="alternativeEmail"
                     value={userInputs?.alternativeEmail}
@@ -2207,6 +2210,7 @@ const MarketingAddReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
+                    ref={alternativePhoneRef}
                     name="alternativePhone"
                     placeholder="Alternative phone"
                     value={userInputs?.alternativePhone}
@@ -2987,15 +2991,19 @@ const MarketingAddReader = () => {
         nameRef.current.focus();
       } else if (Object.keys(result)[0] == "email") {
         emailRef.current.focus();
+      } else if (Object.keys(result)[0] == "alternativeEmail") {
+        alternativeEmailRef.current.focus();
       } else if (Object.keys(result)[0] == "primary_phone") {
         primaryPhoneRef.current.focus();
+      } else if (Object.keys(result)[0] == "alternativePhone") {
+        alternativePhoneRef.current.focus();
       } else if (Object.keys(result)[0] == "country") {
         countryRef.current.focus();
       } else if (Object.keys(result)[0] == "postcode") {
         postcodeRef.current.focus();
       } else if (Object.keys(result)[0] == "contactTotal") {
         contactTotalRef.current.focus();
-      }
+      } 
       toast.error(result[Object.keys(result)[0]]);
       setError(result);
       return;

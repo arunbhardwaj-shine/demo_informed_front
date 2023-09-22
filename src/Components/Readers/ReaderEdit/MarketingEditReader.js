@@ -21,6 +21,8 @@ const MarketingEditReader = () => {
   const contactTotalRef = useRef(null);
   const countryRef = useRef(null);
   const postcodeRef = useRef(null);
+  const alternativeEmailRef = useRef(null);
+  const alternativePhoneRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const navigate = useNavigate();
   const [titleOptions, setTitleOptions] = useState([]);
@@ -2204,6 +2206,7 @@ const MarketingEditReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
+                    ref={alternativeEmailRef}
                     placeholder="example@email.com"
                     name="alternativeEmail"
                     defaultValue={userInputs?.alternativeEmail}
@@ -2279,6 +2282,7 @@ const MarketingEditReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
+                    ref={alternativePhoneRef}
                     name="alternativePhone"
                     placeholder="Alternative phone"
                     value={userInputs?.alternativePhone}
@@ -3063,8 +3067,12 @@ const MarketingEditReader = () => {
         nameRef?.current?.focus();
       } else if (Object?.keys(result)[0] == "email") {
         emailRef?.current?.focus();
+      } else if (Object.keys(result)[0] == "alternativeEmail") {
+        alternativeEmailRef.current.focus();
       } else if (Object.keys(result)[0] == "primary_phone") {
         primaryPhoneRef.current.focus();
+      } else if (Object.keys(result)[0] == "alternativePhone") {
+        alternativePhoneRef.current.focus();
       } else if (Object?.keys(result)[0] == "country") {
         countryRef?.current?.focus();
       } else if (Object.keys(result)[0] == "postcode") {
