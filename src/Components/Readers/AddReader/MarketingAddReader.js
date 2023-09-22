@@ -110,6 +110,7 @@ const MarketingAddReader = () => {
     {
       label: "+7 840",
       value: "Abkhazia",
+      flag: "https://example.com/us-flag.png",
     },
 
     {
@@ -2037,18 +2038,17 @@ const MarketingAddReader = () => {
                   <Select
                     options={titleOptions}
                     name="title"
-                    value={userInputs?.title?.value ? userInputs?.title : ""}
-                    // value={
-                    //   titleOptions?.findIndex(
-                    //     (e) => e.value == userInputs?.title
-                    //   ) == -1
-                    //     ? ""
-                    //     : titleOptions[
-                    //         titleOptions?.findIndex(
-                    //           (e) => e.value == userInputs?.title
-                    //         )
-                    //       ]
-                    // }
+                    value={
+                      titleOptions?.findIndex(
+                        (e) => e.value == userInputs?.title?.value
+                      ) == -1
+                        ? ""
+                        : titleOptions[
+                            titleOptions?.findIndex(
+                              (e) => e.value == userInputs?.title?.value
+                            )
+                          ]
+                    }
                     isClearable
                     onChange={(e) => handleChange(e, "title")}
                     placeholder="Select title"
@@ -2159,18 +2159,19 @@ const MarketingAddReader = () => {
                         ? "dropdown-basic-button split-button-dropup error"
                         : "dropdown-basic-button split-button-dropup"
                     }
+                    value={
+                      countryCode?.findIndex(
+                        (el) => el?.label == userInputs?.countryCode?.label
+                      ) == -1
+                        ? ""
+                        : countryCode[
+                            countryCode?.findIndex(
+                              (el) =>
+                                el?.label == userInputs?.countryCode?.label
+                            )
+                          ]
+                    }
                     isClearable
-                    // value={
-                    //   countryCode?.findIndex(
-                    //     (e) => e.value == userInputs?.countryCode
-                    //   ) == -1
-                    //     ? ""
-                    //     : countryCode[
-                    //         countryCode?.findIndex(
-                    //           (e) => e.value == userInputs?.countryCode?.value
-                    //         )
-                    //       ]
-                    // }
                     ref={primaryPhoneRef}
                     placeholder="Select "
                     onChange={(e) => handleChange(e, "countryCode")}
@@ -2236,7 +2237,15 @@ const MarketingAddReader = () => {
                     options={prospectOptions}
                     name="prospect"
                     value={
-                      userInputs?.prospect?.value ? userInputs?.prospect : ""
+                      prospectOptions?.findIndex(
+                        (el) => el?.value == userInputs?.prospect?.value
+                      ) == -1
+                        ? ""
+                        : prospectOptions[
+                            prospectOptions?.findIndex(
+                              (el) => el?.value == userInputs?.prospect?.value
+                            )
+                          ]
                     }
                     isClearable
                     onChange={(e) => handleChange(e, "prospect")}
@@ -2259,7 +2268,15 @@ const MarketingAddReader = () => {
                     options={ownershipOptions}
                     name="ownership"
                     value={
-                      userInputs?.ownership?.value ? userInputs?.ownership : ""
+                      ownershipOptions?.findIndex(
+                        (el) => el?.value == userInputs?.ownership?.value
+                      ) == -1
+                        ? ""
+                        : ownershipOptions[
+                            ownershipOptions?.findIndex(
+                              (el) => el?.value == userInputs?.ownership?.value
+                            )
+                          ]
                     }
                     onChange={(e) => handleChange(e, "ownership")}
                     placeholder="Select contact ownership"
@@ -2311,9 +2328,16 @@ const MarketingAddReader = () => {
                     options={customerOptions}
                     name="customerType"
                     value={
-                      userInputs?.customerType?.value
-                        ? userInputs?.customerType
-                        : ""
+                      customerOptions?.findIndex(
+                        (el) => el?.value == userInputs?.customerType?.value
+                      ) == -1
+                        ? ""
+                        : customerOptions[
+                            customerOptions?.findIndex(
+                              (el) =>
+                                el?.value == userInputs?.customerType?.value
+                            )
+                          ]
                     }
                     isClearable
                     onChange={(e) => handleChange(e, "customerType")}
@@ -2327,9 +2351,16 @@ const MarketingAddReader = () => {
                     options={companyOptions}
                     name="companyName"
                     value={
-                      userInputs?.companyName?.value
-                        ? userInputs?.companyName
-                        : ""
+                      companyOptions?.findIndex(
+                        (el) => el?.value == userInputs?.companyName?.value
+                      ) == -1
+                        ? ""
+                        : companyOptions[
+                            companyOptions?.findIndex(
+                              (el) =>
+                                el?.value == userInputs?.companyName?.value
+                            )
+                          ]
                     }
                     isClearable
                     onChange={(e) => handleChange(e, "companyName")}
@@ -2358,7 +2389,15 @@ const MarketingAddReader = () => {
                         : "dropdown-basic-button split-button-dropup"
                     }
                     value={
-                      userInputs?.country?.value ? userInputs?.country : ""
+                      countryAll?.findIndex(
+                        (el) => el?.value == userInputs?.country?.value
+                      ) == -1
+                        ? ""
+                        : countryAll[
+                            countryAll?.findIndex(
+                              (el) => el?.value == userInputs?.country?.value
+                            )
+                          ]
                     }
                     isClearable
                     placeholder="Select country"
@@ -2388,9 +2427,16 @@ const MarketingAddReader = () => {
                     options={companyProductOptions}
                     name="companyProduct"
                     value={
-                      userInputs?.companyProduct?.value
-                        ? userInputs?.companyProduct
-                        : ""
+                      companyProductOptions?.findIndex(
+                        (el) => el?.value == userInputs?.companyProduct?.value
+                      ) == -1
+                        ? ""
+                        : companyProductOptions[
+                            companyProductOptions?.findIndex(
+                              (el) =>
+                                el?.value == userInputs?.companyProduct?.value
+                            )
+                          ]
                     }
                     isClearable
                     onChange={(e) => handleChange(e, "companyProduct")}
@@ -2413,9 +2459,16 @@ const MarketingAddReader = () => {
                     options={therapyAreaOptions}
                     name="therapyArea"
                     value={
-                      userInputs?.therapyArea?.value
-                        ? userInputs?.therapyArea
-                        : ""
+                      therapyAreaOptions?.findIndex(
+                        (el) => el?.value == userInputs?.therapyArea?.value
+                      ) == -1
+                        ? ""
+                        : therapyAreaOptions[
+                            therapyAreaOptions?.findIndex(
+                              (el) =>
+                                el?.value == userInputs?.therapyArea?.value
+                            )
+                          ]
                     }
                     isClearable
                     onChange={(e) => handleChange(e, "therapyArea")}
@@ -2438,7 +2491,17 @@ const MarketingAddReader = () => {
                   <Select
                     options={localOptions}
                     name="local"
-                    value={userInputs?.local?.value ? userInputs?.local : ""}
+                    value={
+                      localOptions?.findIndex(
+                        (el) => el?.value == userInputs?.local?.value
+                      ) == -1
+                        ? ""
+                        : localOptions[
+                            localOptions?.findIndex(
+                              (el) => el?.value == userInputs?.local?.value
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "local")}
                     placeholder="Select "
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -2524,12 +2587,15 @@ const MarketingAddReader = () => {
                     options={countryAll}
                     className="dropdown-basic-button split-button-dropup"
                     value={
-                      userInputs?.address?.country
-                        ? {
-                            label: userInputs?.address?.country,
-                            value: userInputs?.address?.country,
-                          }
-                        : ""
+                      countryAll?.findIndex(
+                        (el) => el?.value == userInputs?.address?.country
+                      ) == -1
+                        ? ""
+                        : countryAll[
+                            countryAll?.findIndex(
+                              (el) => el?.value == userInputs?.address?.country
+                            )
+                          ]
                     }
                     isClearable
                     placeholder="Select country"
@@ -2566,12 +2632,15 @@ const MarketingAddReader = () => {
                     options={taskOptions}
                     name="task"
                     value={
-                      userInputs?.task?.task
-                        ? {
-                            value: userInputs?.task?.task,
-                            label: userInputs?.task?.task,
-                          }
-                        : ""
+                      taskOptions?.findIndex(
+                        (el) => el?.value == userInputs?.task?.task
+                      ) == -1
+                        ? ""
+                        : taskOptions[
+                            taskOptions?.findIndex(
+                              (el) => el?.value == userInputs?.task?.task
+                            )
+                          ]
                     }
                     isClearable
                     onChange={(e) => handleChange(e, "task")}
@@ -2748,7 +2817,15 @@ const MarketingAddReader = () => {
                     // className="dropdown-basic-button split-button-dropup"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                     value={
-                      userInputs?.pipeline?.value ? userInputs?.pipeline : ""
+                      pipelineOptions?.findIndex(
+                        (el) => el?.value == userInputs?.pipeline?.value
+                      ) == -1
+                        ? ""
+                        : pipelineOptions[
+                            pipelineOptions?.findIndex(
+                              (el) => el?.value == userInputs?.pipeline?.value
+                            )
+                          ]
                     }
                     isClearable
                     onChange={(e) => handleChange(e, "pipeline")}
@@ -2794,9 +2871,16 @@ const MarketingAddReader = () => {
                     options={probabilityOptions}
                     className="dropdown-basic-button split-button-dropup"
                     value={
-                      userInputs?.probability?.value
-                        ? userInputs?.probability
-                        : ""
+                      probabilityOptions?.findIndex(
+                        (el) => el?.value == userInputs?.probability?.value
+                      ) == -1
+                        ? ""
+                        : probabilityOptions[
+                            probabilityOptions?.findIndex(
+                              (el) =>
+                                el?.value == userInputs?.probability?.value
+                            )
+                          ]
                     }
                     isClearable
                     placeholder="Select probability"

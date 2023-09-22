@@ -2975,7 +2975,7 @@ const MarketingEditReader = () => {
                         <input
                           type="checkbox"
                           value="value1"
-                          checked={userInputs?.quoteSent}
+                          checked={userInputs?.quoteSent == 1 ? true : false}
                           name="quoteSent"
                           id="setasdraft1"
                           onChange={(e) => {
