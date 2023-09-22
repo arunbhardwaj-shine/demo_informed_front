@@ -2454,13 +2454,24 @@ const MarketingEditReader = () => {
                     }
                     name="country"
                     placeholder="Select country"
+                    // value={
+                    //   userInputs?.country?.value
+                    //     ? {
+                    //         label: userInputs?.country?.value,
+                    //         value: userInputs?.country?.value,
+                    //       }
+                    //     : ""
+                    // }
                     value={
-                      userInputs?.country?.value
-                        ? {
-                            label: userInputs?.country?.value,
-                            value: userInputs?.country?.value,
-                          }
-                        : ""
+                      countryAll?.findIndex(
+                        (el) => el?.value == userInputs?.country?.value
+                      ) == -1
+                        ? ""
+                        : countryAll[
+                            countryAll?.findIndex(
+                              (el) => el?.value == userInputs?.country?.value
+                            )
+                          ]
                     }
                     ref={countryRef}
                     onChange={(e) => handleChange(e, "country")}
@@ -2644,13 +2655,24 @@ const MarketingEditReader = () => {
                     className="dropdown-basic-button split-button-dropup"
                     placeholder="Select country"
                     // defaultValue={userInputs?.addressCountry}
+                    // value={
+                    //   userInputs?.address?.country
+                    //     ? {
+                    //         value: userInputs?.address?.country,
+                    //         label: userInputs?.address?.country,
+                    //       }
+                    //     : ""
+                    // }
                     value={
-                      userInputs?.address?.country
-                        ? {
-                            value: userInputs?.address?.country,
-                            label: userInputs?.address?.country,
-                          }
-                        : ""
+                      countryAll?.findIndex(
+                        (el) => el?.value == userInputs?.address?.country
+                      ) == -1
+                        ? ""
+                        : countryAll[
+                            countryAll?.findIndex(
+                              (el) => el?.value == userInputs?.address?.country
+                            )
+                          ]
                     }
                     onChange={(e) =>
                       handleChange(e, "address", "addressCountry")
