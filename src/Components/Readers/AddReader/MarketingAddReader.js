@@ -2329,11 +2329,17 @@ const MarketingAddReader = () => {
         task: { ...userInputs?.task, task: e?.value },
       });
     } else if (isSelectedName == "countryCode") {
-      console.log("e", e);
-      setUserInputs({
-        ...userInputs,
-        [isSelectedName]: e,
-      });
+      if (e == userInputs?.countryCode) {
+        setUserInputs({
+          ...userInputs,
+          [isSelectedName]: "",
+        });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+        });
+      }
     } else {
       setUserInputs({
         ...userInputs,
@@ -2761,6 +2767,7 @@ const MarketingAddReader = () => {
                     countries={country}
                     placeholder="Select"
                   /> */}
+
                   <PhoneInput
                     international
                     ref={primaryPhoneRef}
@@ -2769,6 +2776,7 @@ const MarketingAddReader = () => {
                         ? "dropdown-basic-button split-button-dropup error"
                         : "dropdown-basic-button split-button-dropup"
                     }
+                    value={userInputs?.countryCode}
                     placeholder="Select"
                     name="primary_phone"
                     onChange={(e) => handleChange(e, "countryCode")}
@@ -3578,7 +3586,7 @@ const MarketingAddReader = () => {
   }
   const nextButtonClicked = (e) => {
     e.preventDefault();
-    console.log("userInputs-->", userInputs);
+
     const result = AddReaderValidation(userInputs, groupId);
 
     if (Object.keys(result)?.length) {
