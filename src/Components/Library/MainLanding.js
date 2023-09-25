@@ -135,7 +135,7 @@ const options = [
                     <div className='works-started-links'>
                         <h3>Tell us what you work with?</h3>
                         <div className='started-links d-flex justify-content-between'>
-                            <Link to="#" className='pharma-rd'>Pharma R&D</Link>
+                            <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link>
                             <Link to="/pharma-marketing" className='pharma-marketing'>Pharma Marketing</Link>
                             <Link to="#" className='publisher-gradient'>Publishers</Link>
                         </div>
@@ -199,6 +199,14 @@ const options = [
                                             <path d="M9.16667 18.333H7.5V15.833H9.16667V18.333Z" fill="white" fill-opacity="0.56"/>
                                             </svg>
                                         </span>
+                                    </div>
+                                </Col>
+                                <Col md="6">
+                                    <div className="form-group">
+                                        <input type="number" placeholder='Phone' name="phone" className="form-control"/>
+                                        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+<path d="M19.5763 15.4867C19.3052 15.1839 18.4716 14.4293 17.8747 13.9796C17.2888 13.5191 16.329 12.8961 15.9552 12.7031C15.3446 12.3855 14.4247 12.4211 13.8532 12.805C13.3836 13.1319 12.9486 13.506 12.5552 13.9214L12.5466 13.9304C12.3317 14.1575 12.0432 14.3008 11.7324 14.3347C11.4217 14.3687 11.109 14.2912 10.8501 14.116C9.87673 13.4522 8.96826 12.698 8.13683 11.8632C7.30211 11.0318 6.54785 10.1233 5.88409 9.14996C5.70887 8.89109 5.63134 8.57839 5.66533 8.26764C5.69931 7.95691 5.84261 7.66835 6.06964 7.45348L6.07862 7.44488C6.49412 7.05147 6.86821 6.61651 7.19503 6.14684C7.57901 5.57535 7.61456 4.65543 7.29698 4.04488C7.10401 3.67145 6.48097 2.71285 6.02042 2.12535C5.57042 1.52848 4.81612 0.694883 4.51339 0.423789C4.01925 -0.0215235 3.18448 -0.137539 2.60206 0.179648C2.11284 0.457493 1.65453 0.786556 1.23487 1.16129L1.19073 1.20035C-1.38427 3.41559 0.311045 9.59879 5.35987 14.6379C10.4017 19.6875 16.5833 21.3839 18.7985 18.8089L18.8376 18.7648C19.2125 18.3452 19.5415 17.8869 19.8192 17.3976C20.1376 16.8156 20.0216 15.9808 19.5763 15.4867Z" fill="white" fill-opacity="0.56"/>
+</svg></span>
                                     </div>
                                 </Col>
                                 <Col md="12">

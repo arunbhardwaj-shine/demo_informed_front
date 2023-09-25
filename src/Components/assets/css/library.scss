@@ -1532,7 +1532,8 @@ ul.tab-mail-list.data span.total-left small {
   color: $primary-color
 }
 
-.login-confirm form .form-check input[type="checkbox"] {
+.login-confirm form .form-check input[type="checkbox"],
+.module-register form .form-group input[type="checkbox"] {
   border: 1px solid #97b6cf;
   width: 16px;
   height: 16px;
@@ -1550,13 +1551,15 @@ ul.tab-mail-list.data span.total-left small {
   margin-left: 3px;
 }
 
-.login-confirm form .form-check .form-check-input:checked[type=checkbox] {
+.login-confirm form .form-check .form-check-input:checked[type=checkbox],
+.module-register form .form-group input:checked[type=checkbox] {
   background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
   background-size: 16px;
   background-position: center;
 }
 
-.login-confirm form input:checked[type="checkbox"] {
+.login-confirm form input:checked[type="checkbox"],
+.module-register form .form-group input:checked[type="checkbox"] {
   background-color: #39CABC;
   border-color: #39CABC;
 }
@@ -7808,7 +7811,7 @@ svg.pencil_icon {
 .login .btn-white {
   padding: 9px 32px;
   border-radius: 30px;
-  background: #FFF;
+  background: $white;
   border: 0;
   color: #0066BE;
   font-size: 16px;
@@ -7818,7 +7821,7 @@ svg.pencil_icon {
 .login .btn-white:hover {
   background: #0066BE;
   border: 0;
-  color: #ffffff;
+  color: $white;
 }
 
 .landing-banner {
@@ -7859,7 +7862,7 @@ svg.pencil_icon {
 }
 
 .landing-heading h1 {
-  color: #FFF;
+  color: $white;
   text-shadow: 0px 0px 11px rgba(0, 102, 190, 0.44);
   font-family: Roboto;
   font-size: 56px;
@@ -7883,7 +7886,7 @@ svg.pencil_icon {
 }
 
 .landing-sub-heading h4 {
-  color: #FFF;
+  color: $white;
   text-align: center;
   font-weight: 400;
   line-height: 40px;
@@ -8663,7 +8666,7 @@ svg.pencil_icon {
   font-weight: 500;
   line-height: 39px;
   font-size: 20px;
-  color: #fff;
+  color: $white;
   min-width: 266px;
   text-align: center;
   position: relative;
@@ -8733,7 +8736,7 @@ svg.pencil_icon {
 
 .contact-inset h3 {
   text-align: center;
-  color: #fff;
+  color: $white;
   font-size: 32px;
   font-weight: 700;
   margin: 0 0 24px;
@@ -8746,7 +8749,7 @@ svg.pencil_icon {
   font-style: normal;
   font-weight: 400;
   line-height: 30.5px;
-  color: #fff;
+  color: $white;
 }
 
 .contact-inset .form-sec {
@@ -8857,8 +8860,8 @@ svg.pencil_icon {
   flex: 0 1;
   margin: 0 auto;
   min-width: 140px;
-  background: #FFF;
-  border-color: #fff;
+  background: $white;
+  border-color: $white;
   color: #0066BE;
 
   &:hover {
@@ -8868,7 +8871,7 @@ svg.pencil_icon {
 }
 
 .footer {
-  background: #fff;
+  background: $white;
   border-radius: 20px 20px 0 0;
   margin: -15px 0 0;
   position: relative;
@@ -9099,9 +9102,9 @@ svg.pencil_icon {
 
 .consent-content {
   padding: 226px 0;
-  background: #fff;
+  background: $white;
   border-radius: 20px;
-  background: #FFF;
+  background: $white;
   box-shadow: 0px 0px 40px 0px rgba(0, 102, 190, 0.16);
   margin: -15px 0 0;
   position: relative;
@@ -9116,7 +9119,7 @@ svg.pencil_icon {
 
 .consent-text {
   border-radius: 11px;
-  border: 1px solid #FFF;
+  border: 1px solid $white;
   background: rgba(255, 255, 255, 0.06);
   box-shadow: 0px 1px 14px 0px rgba(0, 102, 190, 0.16);
   backdrop-filter: blur(13px);
@@ -9217,7 +9220,7 @@ svg.pencil_icon {
   width: calc(2 * var(--radius));
   height: calc(2 * var(--radius));
   background: rgba(0, 102, 190, 0.06);
-  border: 25px solid #FFF;
+  border: 30px solid $white;
   position: relative;
 }
 
@@ -9230,7 +9233,7 @@ svg.pencil_icon {
   left: 0;
   right: 0;
   margin: 0 auto;
-  background: #ffffff;
+  background: $white;
 }
 
 .stat {
@@ -9240,7 +9243,7 @@ svg.pencil_icon {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #FFF;
+  background: $white;
   color: #5A6BB5;
   font-weight: 500;
   font-size: 12px;
@@ -9489,7 +9492,160 @@ svg.pencil_icon {
   }
 }
 
+.module-bigger-size {
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0px 3px 19px 0px rgba(0, 102, 190, 0.26);
+  backdrop-filter: blur(40px);
+  width: 800px;
+  height: 800px;
+  padding: 48px 63px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  transition: 0.4s linear;
+}
 
+.module-bigger-size.show {
+  opacity: 1;
+  z-index: 5;
+}
+
+.modules-diagram .circle.bigger {
+  animation: fadeInbigger 1.8s;
+  opacity: 0.5;
+}
+
+@keyframes fadeInbigger {
+  0% {
+    opacity: 1;
+    scale: 1;
+    transform: rotate(0);
+  }
+
+  50% {
+    opacity: 0.5;
+    scale: 0.8;
+    transform: rotate(-345deg);
+  }
+
+  100% {
+    opacity: 0;
+    scale: 1;
+    transform: rotate(0deg);
+  }
+}
+
+.module-bigger-size img.close {
+  position: absolute;
+  top: 35px;
+  right: 110px;
+  cursor: pointer;
+}
+
+.module-bigger-size .module-register {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin: 0;
+
+  h4 {
+    color: #004A89;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 30px 0 50px;
+  }
+
+  p {
+    color: #59748A;
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0 0 70px;
+  }
+}
+
+.module-register form .row {
+  align-items: center;
+  justify-content: center;
+}
+
+.module-register form input.form-control {
+  border-radius: 30px;
+  border: 0;
+  color: #97B6CF;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 9px 10px 9px 48px;
+}
+
+.module-register form .form-group {
+  position: relative;
+  margin: 0 0 45px;
+}
+
+.module-register form .form-group span {
+  position: absolute;
+  left: 20px;
+  top: 8px;
+}
+
+.module-register form .form-group .form-consent {
+  color: #0066BE;
+  font-size: 14px;
+  text-align: left;
+}
+
+.module-register form .form-group .form-check label {
+  font-size: 12px;
+  color: #70899E;
+  font-weight: 400;
+}
+
+.module-register form .col-md-12 .form-group {
+  text-align: left;
+  max-width: 340px;
+  margin: 17px auto 65px;
+}
+
+.module-register .split-button-dropup>div:nth-child(3) {
+  padding: 4px 37px 3px 15px;
+}
+
+.module-register .split-button-dropup div:nth-child(3)>div div[class*=-placeholder],
+.module-register .split-button-dropup div:nth-child(3)>div div {
+  padding-left: 23px;
+  font-size: 14px;
+}
+
+.module-register .split-button-dropup>div:nth-child(4)>div div {
+  text-align: left;
+}
+
+
+.module-register form button {
+  width: 100%;
+  max-width: 169px;
+}
+
+.shape {
+  height: 100%;
+  width: 70px;
+  shape-margin: 3px;
+}
+
+.shape-left {
+  float: left;
+  shape-outside: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/18515/circle-left.svg);
+}
+
+.shape-right {
+  float: right;
+  shape-outside: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/18515/circle-right.svg);
+}
 
 
 .stat img {
@@ -9639,7 +9795,7 @@ svg.pencil_icon {
     font-size: 14px;
     font-weight: 500;
     border: 0;
-    padding: 6px 11px;
+    padding: 7px 13px;
     margin: 0 auto;
     width: auto;
     max-width: 95px;
@@ -13232,10 +13388,10 @@ img.change-password-image {
 
     &.active {
       background: #0066be;
-      color: #ffffff;
+      color: $white;
 
       svg path {
-        fill: #ffffff;
+        fill: $white;
       }
     }
 
@@ -14010,7 +14166,7 @@ img.change-password-image {
   border-radius: 20px 20px 0px 20px;
   background: #0066be;
   min-width: 38px;
-  color: #fff;
+  color: $white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14028,7 +14184,7 @@ img.change-password-image {
 .webinar-top-sec .webinar-top-btn span.default-side-buttons {
   padding: 0;
   line-height: 20px;
-  color: #fff;
+  color: $white;
   border: 0;
   font-size: 17px;
 }
@@ -14042,12 +14198,12 @@ img.change-password-image {
 }
 
 .webinar-question-results .reader_list .reader_list_footer.answer-footer button {
-  background: #ffffff;
+  background: $white;
   color: #00d3c1;
 }
 
 .webinar-question-results .reader_list .reader_list_footer.ignore-footer button {
-  background: #ffffff;
+  background: $white;
   color: #f58289;
 }
 
