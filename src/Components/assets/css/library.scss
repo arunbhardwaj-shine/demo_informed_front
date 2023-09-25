@@ -5050,7 +5050,8 @@ input.viewer-toolbar-current-page-input {
 
 .form-group .form-control.error,
 #add_hcp .modal-body .hcp-add-form form .form-group .form-control.error,
-.create_smart_list .create-smart-step .create-smart-step-box form .form-control.error {
+.create_smart_list .create-smart-step .create-smart-step-box form .form-control.error,
+.form-group.primary_phone .dropdown-basic-button.PhoneInput.error {
   box-shadow: 0px 1px 6px rgb(214 25 117 / 60%);
 }
 
