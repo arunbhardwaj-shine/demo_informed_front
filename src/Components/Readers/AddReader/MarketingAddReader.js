@@ -11,6 +11,8 @@ import { getData, postData } from "../../../axios/apiHelper";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
 import { toast } from "react-toastify";
 import ReactFlagsSelect from "react-flags-select";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 const MarketingAddReader = () => {
   const nameRef = useRef(null);
@@ -87,593 +89,583 @@ const MarketingAddReader = () => {
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
 
-  const [select, setSelect] = useState("");
+  // const country = [
+  //   "US",
 
-  const onSelect = (code) => {
-    console.log(countryCode[code]);
+  //   "BS",
 
-    //  setSelect(code);
+  //   "BB",
 
-    //  setSelectedCountryCode(countryCode[code]);
-  };
+  //   "AI",
 
-  const country = [
-    "US",
+  //   "AG",
 
-    "BS",
+  //   "VG",
 
-    "BB",
+  //   "KY",
 
-    "AI",
+  //   "BM",
 
-    "AG",
+  //   "GD",
 
-    "VG",
+  //   "TC",
 
-    "KY",
+  //   "MS",
 
-    "BM",
+  //   "MP",
 
-    "GD",
+  //   "GU",
 
-    "TC",
+  //   "AS",
 
-    "MS",
+  //   "LC",
 
-    "MP",
+  //   "DM",
 
-    "GU",
+  //   "DO",
 
-    "AS",
+  //   "TT",
 
-    "LC",
+  //   "KN",
 
-    "DM",
+  //   "JM",
 
-    "DO",
+  //   "EG",
 
-    "TT",
+  //   "ZA",
 
-    "KN",
+  //   "SS",
 
-    "JM",
+  //   "MA",
 
-    "EG",
+  //   "DZ",
 
-    "ZA",
+  //   "TN",
 
-    "SS",
+  //   "LY",
 
-    "MA",
+  //   "GY",
 
-    "DZ",
+  //   "GR",
 
-    "TN",
+  //   "NL",
 
-    "LY",
+  //   "BE",
 
-    "GY",
+  //   "FR",
 
-    "GR",
+  //   "ES",
 
-    "NL",
+  //   "GI",
 
-    "BE",
+  //   "PT",
 
-    "FR",
+  //   "LU",
 
-    "ES",
+  //   "IE",
 
-    "GI",
+  //   "IS",
 
-    "PT",
+  //   "AL",
 
-    "LU",
+  //   "MT",
 
-    "IE",
+  //   "CY",
 
-    "IS",
+  //   "FI",
 
-    "AL",
+  //   "BG",
 
-    "MT",
+  //   "LT",
 
-    "CY",
+  //   "LV",
 
-    "FI",
+  //   "EE",
 
-    "BG",
+  //   "MD",
 
-    "LT",
+  //   "AM",
 
-    "LV",
+  //   "BY",
 
-    "EE",
+  //   "AD",
 
-    "MD",
+  //   "MC",
 
-    "AM",
+  //   "SM",
 
-    "BY",
+  //   "VA",
 
-    "AD",
+  //   "UA",
 
-    "MC",
+  //   "RS",
 
-    "SM",
+  //   "ME",
 
-    "VA",
+  //   "XK",
 
-    "UA",
+  //   "HR",
 
-    "RS",
+  //   "SI",
 
-    "ME",
+  //   "BA",
 
-    "XK",
+  //   "MK",
 
-    "HR",
+  //   "CZ",
 
-    "SI",
+  //   "SK",
 
-    "BA",
+  //   "LI",
 
-    "MK",
+  //   "FK",
 
-    "CZ",
+  //   "BZ",
 
-    "SK",
+  //   "GT",
 
-    "LI",
+  //   "SV",
 
-    "FK",
+  //   "HN",
 
-    "BZ",
+  //   "NI",
 
-    "GT",
+  //   "CR",
 
-    "SV",
+  //   "PA",
 
-    "HN",
+  //   "PM",
 
-    "NI",
+  //   "HT",
 
-    "CR",
+  //   "GP",
 
-    "PA",
+  //   "BO",
 
-    "PM",
+  //   "GY",
 
-    "HT",
+  //   "EC",
 
-    "GP",
+  //   "GF",
 
-    "BO",
+  //   "PY",
 
-    "GY",
+  //   "MQ",
 
-    "EC",
+  //   "SR",
 
-    "GF",
+  //   "UY",
 
-    "PY",
+  //   "CW",
 
-    "MQ",
+  //   "MY",
 
-    "SR",
+  //   "AU",
 
-    "UY",
+  //   "ID",
 
-    "CW",
+  //   "PH",
 
-    "MY",
+  //   "NZ",
 
-    "AU",
+  //   "SG",
 
-    "ID",
+  //   "TH",
 
-    "PH",
+  //   "TL",
 
-    "NZ",
+  //   "NF",
 
-    "SG",
+  //   "BN",
 
-    "TH",
+  //   "NR",
 
-    "TL",
+  //   "PG",
 
-    "NF",
+  //   "TO",
 
-    "BN",
+  //   "SB",
 
-    "NR",
+  //   "VU",
 
-    "PG",
+  //   "FJ",
 
-    "TO",
+  //   "PW",
 
-    "SB",
+  //   "WF",
 
-    "VU",
+  //   "CK",
 
-    "FJ",
+  //   "NU",
 
-    "PW",
+  //   "WS",
 
-    "WF",
+  //   "KI",
 
-    "CK",
+  //   "NC",
 
-    "NU",
+  //   "TV",
 
-    "WS",
+  //   "PF",
 
-    "KI",
+  //   "TK",
 
-    "NC",
+  //   "FM",
 
-    "TV",
+  //   "MH",
 
-    "PF",
+  //   "RU",
 
-    "TK",
+  //   "KP",
 
-    "FM",
+  //   "HK",
 
-    "MH",
+  //   "MO",
 
-    "RU",
+  //   "KH",
 
-    "KP",
+  //   "LA",
 
-    "HK",
+  //   "BD",
 
-    "MO",
+  //   "TW",
 
-    "KH",
+  //   "MV",
 
-    "LA",
+  //   "LB",
 
-    "BD",
+  //   "JO",
 
-    "TW",
+  //   "SY",
 
-    "MV",
+  //   "IQ",
 
-    "LB",
+  //   "KW",
 
-    "JO",
+  //   "SA",
 
-    "SY",
+  //   "YE",
 
-    "IQ",
+  //   "OM",
 
-    "KW",
+  //   "PS",
 
-    "SA",
+  //   "AE",
 
-    "YE",
+  //   "IL",
 
-    "OM",
+  //   "BH",
 
-    "PS",
+  //   "QA",
 
-    "AE",
+  //   "BT",
 
-    "IL",
+  //   "MN",
 
-    "BH",
+  //   "NP",
 
-    "QA",
+  //   "TJ",
 
-    "BT",
+  //   "TM",
 
-    "MN",
+  //   "AZ",
 
-    "NP",
+  //   "GE",
 
-    "TJ",
+  //   "KG",
 
-    "TM",
+  //   "UZ",
+  // ];
 
-    "AZ",
+  // const countryCode = {
+  //   US: "+1",
 
-    "GE",
+  //   BS: "+1-242",
 
-    "KG",
+  //   BB: "+1-246",
 
-    "UZ",
-  ];
+  //   AI: "+1-264",
 
-  const countryCode = {
-    US: "+1",
+  //   AG: "+1-268",
 
-    BS: "+1-242",
+  //   VG: "+1-284",
 
-    BB: "+1-246",
+  //   KY: "+1-345",
 
-    AI: "+1-264",
+  //   BM: "+1-441",
 
-    AG: "+1-268",
+  //   GD: "+1-473",
 
-    VG: "+1-284",
+  //   TC: "+1-649",
 
-    KY: "+1-345",
+  //   MS: "+1-664",
 
-    BM: "+1-441",
+  //   MP: "+1-670",
 
-    GD: "+1-473",
+  //   GU: "+1-671",
 
-    TC: "+1-649",
+  //   AS: "+1-684",
 
-    MS: "+1-664",
+  //   LC: "+1-758",
 
-    MP: "+1-670",
+  //   DM: "+1-767",
 
-    GU: "+1-671",
+  //   EG: "+20",
 
-    AS: "+1-684",
+  //   ZA: "+27",
 
-    LC: "+1-758",
+  //   SS: "+211",
 
-    DM: "+1-767",
+  //   MA: "+212",
 
-    EG: "+20",
+  //   DZ: "+213",
 
-    ZA: "+27",
+  //   TN: "+216",
 
-    SS: "+211",
+  //   LY: "+218",
 
-    MA: "+212",
+  //   GM: "+220",
 
-    DZ: "+213",
+  //   SN: "+221",
 
-    TN: "+216",
+  //   GR: "+30",
 
-    LY: "+218",
+  //   NL: "+31",
 
-    GM: "+220",
+  //   BE: "+32",
 
-    SN: "+221",
+  //   FR: "+33",
 
-    GR: "+30",
+  //   ES: "+34",
 
-    NL: "+31",
+  //   GI: "+350",
 
-    BE: "+32",
+  //   PT: "+351",
 
-    FR: "+33",
+  //   LU: "+352",
 
-    ES: "+34",
+  //   IE: "+353",
 
-    GI: "+350",
+  //   IS: "+354",
 
-    PT: "+351",
+  //   AL: "+355",
 
-    LU: "+352",
+  //   MT: "+356",
 
-    IE: "+353",
+  //   CY: "+357",
 
-    IS: "+354",
+  //   FI: "+358",
 
-    AL: "+355",
+  //   BG: "+359",
 
-    MT: "+356",
+  //   LT: "+370",
 
-    CY: "+357",
+  //   LV: "+371",
 
-    FI: "+358",
+  //   EE: "+372",
 
-    BG: "+359",
+  //   MD: "+373",
 
-    LT: "+370",
+  //   AM: "+374",
 
-    LV: "+371",
+  //   BY: "+375",
 
-    EE: "+372",
+  //   AD: "+376",
 
-    MD: "+373",
+  //   MC: "+377",
 
-    AM: "+374",
+  //   SM: "+378",
 
-    BY: "+375",
+  //   VA: "+379",
 
-    AD: "+376",
+  //   UA: "+380",
 
-    MC: "+377",
+  //   RS: "+381",
 
-    SM: "+378",
+  //   ME: "+382",
 
-    VA: "+379",
+  //   XK: "+383",
 
-    UA: "+380",
+  //   HR: "+385",
 
-    RS: "+381",
+  //   SI: "+386",
 
-    ME: "+382",
+  //   BA: "+387",
 
-    XK: "+383",
+  //   MK: "+389",
 
-    HR: "+385",
+  //   CZ: "+420",
 
-    SI: "+386",
+  //   SK: "+421",
 
-    BA: "+387",
+  //   LI: "+423",
 
-    MK: "+389",
+  //   FK: "+500",
 
-    CZ: "+420",
+  //   BZ: "+501",
 
-    SK: "+421",
+  //   GT: "+502",
 
-    LI: "+423",
+  //   SV: "+503",
 
-    FK: "+500",
+  //   HN: "+504",
 
-    BZ: "+501",
+  //   NI: "+505",
 
-    GT: "+502",
+  //   CR: "+506",
 
-    SV: "+503",
+  //   PA: "+507",
 
-    HN: "+504",
+  //   PM: "+508",
 
-    NI: "+505",
+  //   HT: "+509",
 
-    CR: "+506",
+  //   GP: "+590",
 
-    PA: "+507",
+  //   BO: "+591",
 
-    PM: "+508",
+  //   GY: "+592",
 
-    HT: "+509",
+  //   EC: "+593",
 
-    GP: "+590",
+  //   GF: "+594",
 
-    BO: "+591",
+  //   PY: "+595",
 
-    GY: "+592",
+  //   MQ: "+596",
 
-    EC: "+593",
+  //   SR: "+597",
 
-    GF: "+594",
+  //   UY: "+598",
 
-    PY: "+595",
+  //   CW: "+599",
 
-    MQ: "+596",
+  //   MY: "+60",
 
-    SR: "+597",
+  //   AU: "+61",
 
-    UY: "+598",
+  //   ID: "+62",
 
-    CW: "+599",
+  //   PH: "+63",
 
-    MY: "+60",
+  //   NZ: "+64",
 
-    AU: "+61",
+  //   SG: "+65",
 
-    ID: "+62",
+  //   TH: "+66",
 
-    PH: "+63",
+  //   TL: "+670",
 
-    NZ: "+64",
+  //   NF: "+672",
 
-    SG: "+65",
+  //   BN: "+673",
 
-    TH: "+66",
+  //   NR: "+674",
 
-    TL: "+670",
+  //   PG: "+675",
 
-    NF: "+672",
+  //   TO: "+676",
 
-    BN: "+673",
+  //   SB: "+677",
 
-    NR: "+674",
+  //   VU: "+678",
 
-    PG: "+675",
+  //   FJ: "+679",
 
-    TO: "+676",
+  //   PW: "+680",
 
-    SB: "+677",
+  //   WF: "+681",
 
-    VU: "+678",
+  //   CK: "+682",
 
-    FJ: "+679",
+  //   NU: "+683",
 
-    PW: "+680",
+  //   WS: "+685",
 
-    WF: "+681",
+  //   KI: "+686",
 
-    CK: "+682",
+  //   NC: "+687",
 
-    NU: "+683",
+  //   TV: "+688",
 
-    WS: "+685",
+  //   PF: "+689",
 
-    KI: "+686",
+  //   TK: "+690",
 
-    NC: "+687",
+  //   FM: "+691",
 
-    TV: "+688",
+  //   MH: "+692",
 
-    PF: "+689",
+  //   RU: "+7",
 
-    TK: "+690",
+  //   KP: "+850",
 
-    FM: "+691",
+  //   HK: "+852",
 
-    MH: "+692",
+  //   MO: "+853",
 
-    RU: "+7",
+  //   KH: "+855",
 
-    KP: "+850",
+  //   LA: "+856",
 
-    HK: "+852",
+  //   BD: "+880",
 
-    MO: "+853",
+  //   TW: "+886",
 
-    KH: "+855",
+  //   MV: "+960",
 
-    LA: "+856",
+  //   LB: "+961",
 
-    BD: "+880",
+  //   JO: "+962",
 
-    TW: "+886",
+  //   SY: "+963",
 
-    MV: "+960",
+  //   IQ: "+964",
 
-    LB: "+961",
+  //   KW: "+965",
 
-    JO: "+962",
+  //   SA: "+966",
 
-    SY: "+963",
+  //   YE: "+967",
 
-    IQ: "+964",
+  //   OM: "+968",
 
-    KW: "+965",
+  //   PS: "+970",
 
-    SA: "+966",
+  //   AE: "+971",
 
-    YE: "+967",
+  //   IL: "+972",
 
-    OM: "+968",
+  //   BH: "+973",
 
-    PS: "+970",
+  //   QA: "+974",
 
-    AE: "+971",
+  //   BT: "+975",
 
-    IL: "+972",
+  //   MN: "+976",
 
-    BH: "+973",
+  //   NP: "+977",
 
-    QA: "+974",
+  //   TJ: "+992",
 
-    BT: "+975",
+  //   TM: "+993",
 
-    MN: "+976",
+  //   AZ: "+994",
 
-    NP: "+977",
+  //   GE: "+995",
 
-    TJ: "+992",
+  //   KG: "+996",
 
-    TM: "+993",
+  //   UZ: "+998",
 
-    AZ: "+994",
+  //   DO: "+1809",
 
-    GE: "+995",
+  //   TT: "+1868",
 
-    KG: "+996",
+  //   KN: "+1869",
 
-    UZ: "+998",
-
-    DO: "+1809",
-
-    TT: "+1868",
-
-    KN: "+1869",
-
-    JM: "+1876",
-  };
+  //   JM: "+1876",
+  // };
   // const [countryCode, setCountryCode] = useState([
   //   { value: "", label: "Select" },
   //   {
@@ -2160,16 +2152,17 @@ const MarketingAddReader = () => {
       loader("hide");
     }
   };
-  const handleKeyDown = (e) => {
-    if (e.key === "Backspace" || e.key === "Delete") {
-      // e.preventDefault();
-      setUserInputs({ ...userInputs, countryCode: { label: "", value: "" } });
+  const handleKeyDown = (e, isSelectedName) => {
+    if (isSelectedName == "countryCode") {
+      if (e.key === "Backspace" || e.key === "Delete") {
+        setUserInputs({ ...userInputs, countryCode: "" });
+      } else {
+        e.preventDefault();
+      }
     }
   };
 
   const handleChange = (e, isSelectedName, key) => {
-    console.log("e-->", countryCode[e], "name-->", isSelectedName);
-
     if (isSelectedName == "task") {
       setShowTaskExtra(true);
     }
@@ -2336,10 +2329,10 @@ const MarketingAddReader = () => {
         task: { ...userInputs?.task, task: e?.value },
       });
     } else if (isSelectedName == "countryCode") {
+      console.log("e", e);
       setUserInputs({
         ...userInputs,
-        [isSelectedName]: countryCode[e],
-        selectedCode: e,
+        [isSelectedName]: e,
       });
     } else {
       setUserInputs({
@@ -2754,7 +2747,7 @@ const MarketingAddReader = () => {
                     placeholder="Select "
                     onChange={(e) => handleChange(e, "countryCode")}
                   /> */}
-                  <ReactFlagsSelect
+                  {/* <ReactFlagsSelect
                     className={
                       error?.primary_phone
                         ? "dropdown-basic-button split-button-dropup error"
@@ -2762,13 +2755,24 @@ const MarketingAddReader = () => {
                     }
                     ref={primaryPhoneRef}
                     isClearable
-                    // selected={select}
                     selected={userInputs?.selectedCode}
-                    // onSelect={onSelect}
                     onSelect={(e) => handleChange(e, "countryCode")}
                     customLabels={countryCode}
                     countries={country}
                     placeholder="Select"
+                  /> */}
+                  <PhoneInput
+                    international
+                    ref={primaryPhoneRef}
+                    className={
+                      error?.primary_phone
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                    placeholder="Select"
+                    name="primary_phone"
+                    onChange={(e) => handleChange(e, "countryCode")}
+                    onKeyDown={(e) => handleKeyDown(e, "countryCode")}
                   />
 
                   <input
@@ -3632,6 +3636,8 @@ const MarketingAddReader = () => {
               ? userInputs?.countryCode
               : ""
           }-informed-${userInputs?.primary_phone}`,
+
+          // primary_phone: userInputs?.primary_phone,
 
           alternativePhone: userInputs?.alternativePhone,
           linkedIn: userInputs?.linkedIn,

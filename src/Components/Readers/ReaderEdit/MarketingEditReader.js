@@ -11,6 +11,9 @@ import { getData, postData } from "../../../axios/apiHelper";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
 import { toast } from "react-toastify";
 import ReactFlagsSelect from "react-flags-select";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { parsePhoneNumber } from "react-phone-number-input";
 
 const MarketingEditReader = () => {
   const { state } = useLocation();
@@ -59,7 +62,7 @@ const MarketingEditReader = () => {
     lastName: "",
     email: "",
     alternativeEmail: "",
-    countryCode: { value: "" },
+    countryCode: "",
     primary_phone: "",
     alternativePhone: "",
     linkedIn: "",
@@ -93,583 +96,583 @@ const MarketingEditReader = () => {
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
 
-  const country = [
-    "US",
+  // const country = [
+  //   "US",
 
-    "BS",
+  //   "BS",
 
-    "BB",
+  //   "BB",
 
-    "AI",
+  //   "AI",
 
-    "AG",
+  //   "AG",
 
-    "VG",
+  //   "VG",
 
-    "KY",
+  //   "KY",
 
-    "BM",
+  //   "BM",
 
-    "GD",
+  //   "GD",
 
-    "TC",
+  //   "TC",
 
-    "MS",
+  //   "MS",
 
-    "MP",
+  //   "MP",
 
-    "GU",
+  //   "GU",
 
-    "AS",
+  //   "AS",
 
-    "LC",
+  //   "LC",
 
-    "DM",
+  //   "DM",
 
-    "DO",
+  //   "DO",
 
-    "TT",
+  //   "TT",
 
-    "KN",
+  //   "KN",
 
-    "JM",
+  //   "JM",
 
-    "EG",
+  //   "EG",
 
-    "ZA",
+  //   "ZA",
 
-    "SS",
+  //   "SS",
 
-    "MA",
+  //   "MA",
 
-    "DZ",
+  //   "DZ",
 
-    "TN",
+  //   "TN",
 
-    "LY",
+  //   "LY",
 
-    "GY",
+  //   "GY",
 
-    "GR",
+  //   "GR",
 
-    "NL",
+  //   "NL",
 
-    "BE",
+  //   "BE",
 
-    "FR",
+  //   "FR",
 
-    "ES",
+  //   "ES",
 
-    "GI",
+  //   "GI",
 
-    "PT",
+  //   "PT",
 
-    "LU",
+  //   "LU",
 
-    "IE",
+  //   "IE",
 
-    "IS",
+  //   "IS",
 
-    "AL",
+  //   "AL",
 
-    "MT",
+  //   "MT",
 
-    "CY",
+  //   "CY",
 
-    "FI",
+  //   "FI",
 
-    "BG",
+  //   "BG",
 
-    "LT",
+  //   "LT",
 
-    "LV",
+  //   "LV",
 
-    "EE",
+  //   "EE",
 
-    "MD",
+  //   "MD",
 
-    "AM",
+  //   "AM",
 
-    "BY",
+  //   "BY",
 
-    "AD",
+  //   "AD",
 
-    "MC",
+  //   "MC",
 
-    "SM",
+  //   "SM",
 
-    "VA",
+  //   "VA",
 
-    "UA",
+  //   "UA",
 
-    "RS",
+  //   "RS",
 
-    "ME",
+  //   "ME",
 
-    "XK",
+  //   "XK",
 
-    "HR",
+  //   "HR",
 
-    "SI",
+  //   "SI",
 
-    "BA",
+  //   "BA",
 
-    "MK",
+  //   "MK",
 
-    "CZ",
+  //   "CZ",
 
-    "SK",
+  //   "SK",
 
-    "LI",
+  //   "LI",
 
-    "FK",
+  //   "FK",
 
-    "BZ",
+  //   "BZ",
 
-    "GT",
+  //   "GT",
 
-    "SV",
+  //   "SV",
 
-    "HN",
+  //   "HN",
 
-    "NI",
+  //   "NI",
 
-    "CR",
+  //   "CR",
 
-    "PA",
+  //   "PA",
 
-    "PM",
+  //   "PM",
 
-    "HT",
+  //   "HT",
 
-    "GP",
+  //   "GP",
 
-    "BO",
+  //   "BO",
 
-    "GY",
+  //   "GY",
 
-    "EC",
+  //   "EC",
 
-    "GF",
+  //   "GF",
 
-    "PY",
+  //   "PY",
 
-    "MQ",
+  //   "MQ",
 
-    "SR",
+  //   "SR",
 
-    "UY",
+  //   "UY",
 
-    "CW",
+  //   "CW",
 
-    "MY",
+  //   "MY",
 
-    "AU",
+  //   "AU",
 
-    "ID",
+  //   "ID",
 
-    "PH",
+  //   "PH",
 
-    "NZ",
+  //   "NZ",
 
-    "SG",
+  //   "SG",
 
-    "TH",
+  //   "TH",
 
-    "TL",
+  //   "TL",
 
-    "NF",
+  //   "NF",
 
-    "BN",
+  //   "BN",
 
-    "NR",
+  //   "NR",
 
-    "PG",
+  //   "PG",
 
-    "TO",
+  //   "TO",
 
-    "SB",
+  //   "SB",
 
-    "VU",
+  //   "VU",
 
-    "FJ",
+  //   "FJ",
 
-    "PW",
+  //   "PW",
 
-    "WF",
+  //   "WF",
 
-    "CK",
+  //   "CK",
 
-    "NU",
+  //   "NU",
 
-    "WS",
+  //   "WS",
 
-    "KI",
+  //   "KI",
 
-    "NC",
+  //   "NC",
 
-    "TV",
+  //   "TV",
 
-    "PF",
+  //   "PF",
 
-    "TK",
+  //   "TK",
 
-    "FM",
+  //   "FM",
 
-    "MH",
+  //   "MH",
 
-    "RU",
+  //   "RU",
 
-    "KP",
+  //   "KP",
 
-    "HK",
+  //   "HK",
 
-    "MO",
+  //   "MO",
 
-    "KH",
+  //   "KH",
 
-    "LA",
+  //   "LA",
 
-    "BD",
+  //   "BD",
 
-    "TW",
+  //   "TW",
 
-    "MV",
+  //   "MV",
 
-    "LB",
+  //   "LB",
 
-    "JO",
+  //   "JO",
 
-    "SY",
+  //   "SY",
 
-    "IQ",
+  //   "IQ",
 
-    "KW",
+  //   "KW",
 
-    "SA",
+  //   "SA",
 
-    "YE",
+  //   "YE",
 
-    "OM",
+  //   "OM",
 
-    "PS",
+  //   "PS",
 
-    "AE",
+  //   "AE",
 
-    "IL",
+  //   "IL",
 
-    "BH",
+  //   "BH",
 
-    "QA",
+  //   "QA",
 
-    "BT",
+  //   "BT",
 
-    "MN",
+  //   "MN",
 
-    "NP",
+  //   "NP",
 
-    "TJ",
+  //   "TJ",
 
-    "TM",
+  //   "TM",
 
-    "AZ",
+  //   "AZ",
 
-    "GE",
+  //   "GE",
 
-    "KG",
+  //   "KG",
 
-    "UZ",
-  ];
+  //   "UZ",
+  // ];
 
-  const countryCode = {
-    US: "+1",
+  // const countryCode = {
+  //   US: "+1",
 
-    BS: "+1-242",
+  //   BS: "+1-242",
 
-    BB: "+1-246",
+  //   BB: "+1-246",
 
-    AI: "+1-264",
+  //   AI: "+1-264",
 
-    AG: "+1-268",
+  //   AG: "+1-268",
 
-    VG: "+1-284",
+  //   VG: "+1-284",
 
-    KY: "+1-345",
+  //   KY: "+1-345",
 
-    BM: "+1-441",
+  //   BM: "+1-441",
 
-    GD: "+1-473",
+  //   GD: "+1-473",
 
-    TC: "+1-649",
+  //   TC: "+1-649",
 
-    MS: "+1-664",
+  //   MS: "+1-664",
 
-    MP: "+1-670",
+  //   MP: "+1-670",
 
-    GU: "+1-671",
+  //   GU: "+1-671",
 
-    AS: "+1-684",
+  //   AS: "+1-684",
 
-    LC: "+1-758",
+  //   LC: "+1-758",
 
-    DM: "+1-767",
+  //   DM: "+1-767",
 
-    EG: "+20",
+  //   EG: "+20",
 
-    ZA: "+27",
+  //   ZA: "+27",
 
-    SS: "+211",
+  //   SS: "+211",
 
-    MA: "+212",
+  //   MA: "+212",
 
-    DZ: "+213",
+  //   DZ: "+213",
 
-    TN: "+216",
+  //   TN: "+216",
 
-    LY: "+218",
+  //   LY: "+218",
 
-    GM: "+220",
+  //   GM: "+220",
 
-    SN: "+221",
+  //   SN: "+221",
 
-    GR: "+30",
+  //   GR: "+30",
 
-    NL: "+31",
+  //   NL: "+31",
 
-    BE: "+32",
+  //   BE: "+32",
 
-    FR: "+33",
+  //   FR: "+33",
 
-    ES: "+34",
+  //   ES: "+34",
 
-    GI: "+350",
+  //   GI: "+350",
 
-    PT: "+351",
+  //   PT: "+351",
 
-    LU: "+352",
+  //   LU: "+352",
 
-    IE: "+353",
+  //   IE: "+353",
 
-    IS: "+354",
+  //   IS: "+354",
 
-    AL: "+355",
+  //   AL: "+355",
 
-    MT: "+356",
+  //   MT: "+356",
 
-    CY: "+357",
+  //   CY: "+357",
 
-    FI: "+358",
+  //   FI: "+358",
 
-    BG: "+359",
+  //   BG: "+359",
 
-    LT: "+370",
+  //   LT: "+370",
 
-    LV: "+371",
+  //   LV: "+371",
 
-    EE: "+372",
+  //   EE: "+372",
 
-    MD: "+373",
+  //   MD: "+373",
 
-    AM: "+374",
+  //   AM: "+374",
 
-    BY: "+375",
+  //   BY: "+375",
 
-    AD: "+376",
+  //   AD: "+376",
 
-    MC: "+377",
+  //   MC: "+377",
 
-    SM: "+378",
+  //   SM: "+378",
 
-    VA: "+379",
+  //   VA: "+379",
 
-    UA: "+380",
+  //   UA: "+380",
 
-    RS: "+381",
+  //   RS: "+381",
 
-    ME: "+382",
+  //   ME: "+382",
 
-    XK: "+383",
+  //   XK: "+383",
 
-    HR: "+385",
+  //   HR: "+385",
 
-    SI: "+386",
+  //   SI: "+386",
 
-    BA: "+387",
+  //   BA: "+387",
 
-    MK: "+389",
+  //   MK: "+389",
 
-    CZ: "+420",
+  //   CZ: "+420",
 
-    SK: "+421",
+  //   SK: "+421",
 
-    LI: "+423",
+  //   LI: "+423",
 
-    FK: "+500",
+  //   FK: "+500",
 
-    BZ: "+501",
+  //   BZ: "+501",
 
-    GT: "+502",
+  //   GT: "+502",
 
-    SV: "+503",
+  //   SV: "+503",
 
-    HN: "+504",
+  //   HN: "+504",
 
-    NI: "+505",
+  //   NI: "+505",
 
-    CR: "+506",
+  //   CR: "+506",
 
-    PA: "+507",
+  //   PA: "+507",
 
-    PM: "+508",
+  //   PM: "+508",
 
-    HT: "+509",
+  //   HT: "+509",
 
-    GP: "+590",
+  //   GP: "+590",
 
-    BO: "+591",
+  //   BO: "+591",
 
-    GY: "+592",
+  //   GY: "+592",
 
-    EC: "+593",
+  //   EC: "+593",
 
-    GF: "+594",
+  //   GF: "+594",
 
-    PY: "+595",
+  //   PY: "+595",
 
-    MQ: "+596",
+  //   MQ: "+596",
 
-    SR: "+597",
+  //   SR: "+597",
 
-    UY: "+598",
+  //   UY: "+598",
 
-    CW: "+599",
+  //   CW: "+599",
 
-    MY: "+60",
+  //   MY: "+60",
 
-    AU: "+61",
+  //   AU: "+61",
 
-    ID: "+62",
+  //   ID: "+62",
 
-    PH: "+63",
+  //   PH: "+63",
 
-    NZ: "+64",
+  //   NZ: "+64",
 
-    SG: "+65",
+  //   SG: "+65",
 
-    TH: "+66",
+  //   TH: "+66",
 
-    TL: "+670",
+  //   TL: "+670",
 
-    NF: "+672",
+  //   NF: "+672",
 
-    BN: "+673",
+  //   BN: "+673",
 
-    NR: "+674",
+  //   NR: "+674",
 
-    PG: "+675",
+  //   PG: "+675",
 
-    TO: "+676",
+  //   TO: "+676",
 
-    SB: "+677",
+  //   SB: "+677",
 
-    VU: "+678",
+  //   VU: "+678",
 
-    FJ: "+679",
+  //   FJ: "+679",
 
-    PW: "+680",
+  //   PW: "+680",
 
-    WF: "+681",
+  //   WF: "+681",
 
-    CK: "+682",
+  //   CK: "+682",
 
-    NU: "+683",
+  //   NU: "+683",
 
-    WS: "+685",
+  //   WS: "+685",
 
-    KI: "+686",
+  //   KI: "+686",
 
-    NC: "+687",
+  //   NC: "+687",
 
-    TV: "+688",
+  //   TV: "+688",
 
-    PF: "+689",
+  //   PF: "+689",
 
-    TK: "+690",
+  //   TK: "+690",
 
-    FM: "+691",
+  //   FM: "+691",
 
-    MH: "+692",
+  //   MH: "+692",
 
-    RU: "+7",
+  //   RU: "+7",
 
-    KP: "+850",
+  //   KP: "+850",
 
-    HK: "+852",
+  //   HK: "+852",
 
-    MO: "+853",
+  //   MO: "+853",
 
-    KH: "+855",
+  //   KH: "+855",
 
-    LA: "+856",
+  //   LA: "+856",
 
-    BD: "+880",
+  //   BD: "+880",
 
-    TW: "+886",
+  //   TW: "+886",
 
-    MV: "+960",
+  //   MV: "+960",
 
-    LB: "+961",
+  //   LB: "+961",
 
-    JO: "+962",
+  //   JO: "+962",
 
-    SY: "+963",
+  //   SY: "+963",
 
-    IQ: "+964",
+  //   IQ: "+964",
 
-    KW: "+965",
+  //   KW: "+965",
 
-    SA: "+966",
+  //   SA: "+966",
 
-    YE: "+967",
+  //   YE: "+967",
 
-    OM: "+968",
+  //   OM: "+968",
 
-    PS: "+970",
+  //   PS: "+970",
 
-    AE: "+971",
+  //   AE: "+971",
 
-    IL: "+972",
+  //   IL: "+972",
 
-    BH: "+973",
+  //   BH: "+973",
 
-    QA: "+974",
+  //   QA: "+974",
 
-    BT: "+975",
+  //   BT: "+975",
 
-    MN: "+976",
+  //   MN: "+976",
 
-    NP: "+977",
+  //   NP: "+977",
 
-    TJ: "+992",
+  //   TJ: "+992",
 
-    TM: "+993",
+  //   TM: "+993",
 
-    AZ: "+994",
+  //   AZ: "+994",
 
-    GE: "+995",
+  //   GE: "+995",
 
-    KG: "+996",
+  //   KG: "+996",
 
-    UZ: "+998",
+  //   UZ: "+998",
 
-    DO: "+1809",
+  //   DO: "+1809",
 
-    TT: "+1868",
+  //   TT: "+1868",
 
-    KN: "+1869",
+  //   KN: "+1869",
 
-    JM: "+1876",
-  };
+  //   JM: "+1876",
+  // };
 
   // const [countryCode, setCountryCode] = useState([
   //   { value: "", label: "Select" },
@@ -2101,25 +2104,8 @@ const MarketingEditReader = () => {
     task: [],
     pipeline: [],
   });
-  const sortobj = (arrayOfObjects) => {
-    arrayOfObjects.sort((a, b) => {
-      const labelA = a.label.toUpperCase();
-      const labelB = b.label.toUpperCase();
-
-      if (labelA < labelB) {
-        return -1;
-      }
-      if (labelA > labelB) {
-        return 1;
-      }
-
-      // Labels are equal
-      return 0;
-    });
-  };
 
   useEffect(() => {
-    // sortobj(countryCode);
     initalFun();
   }, []);
 
@@ -2182,7 +2168,6 @@ const MarketingEditReader = () => {
         lastName: data?.lastName,
         email: data?.email,
         alternativeEmail: data?.alternativeEmail,
-        // countryCode: { label: phoneNumber[0], value: phoneNumber[0] },
         countryCode: phoneNumber[0],
         primary_phone: phoneNumber[1],
         alternativePhone: data?.alternativePhone,
@@ -2221,6 +2206,15 @@ const MarketingEditReader = () => {
       console.log("--err", err);
     } finally {
       loader("hide");
+    }
+  };
+  const handleKeyDown = (e, isSelectedName) => {
+    if (isSelectedName == "countryCode") {
+      if (e.key === "Backspace" || e.key === "Delete") {
+        setUserInputs({ ...userInputs, countryCode: "" });
+      } else {
+        e.preventDefault();
+      }
     }
   };
 
@@ -2387,8 +2381,7 @@ const MarketingEditReader = () => {
     } else if (isSelectedName == "countryCode") {
       setUserInputs({
         ...userInputs,
-        [isSelectedName]: countryCode[e],
-        selectedCode: e,
+        [isSelectedName]: e,
       });
     } else {
       setUserInputs({
@@ -2548,7 +2541,6 @@ const MarketingEditReader = () => {
         logActivity: "log_activity",
       };
       loader("show");
-      // const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, { label: newProduct.label, value: newProduct.value });
       await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, {
         label: obj[newProduct.label],
         value: newProduct.value,
@@ -2815,13 +2807,8 @@ const MarketingEditReader = () => {
                     onChange={(e) => handleChange(e, "countryCode")}
                     isClearable
                   /> */}
-                  {console.log(
-                    "key-->",
-                    Object.values(countryCode)?.findIndex(
-                      (el) => el == userInputs?.countryCode
-                    )
-                  )}
-                  <ReactFlagsSelect
+
+                  {/* <ReactFlagsSelect
                     className={
                       error?.primary_phone
                         ? "dropdown-basic-button split-button-dropup error"
@@ -2829,10 +2816,7 @@ const MarketingEditReader = () => {
                     }
                     ref={primaryPhoneRef}
                     isClearable
-                    // selected={select}
-                    // selected={Object.keys(
-                    //   (key) => key.value == userInputs?.countryCode
-                    // )}
+                    
                     selected={
                       Object.values(countryCode)?.findIndex(
                         (el) => el == userInputs?.countryCode
@@ -2844,11 +2828,26 @@ const MarketingEditReader = () => {
                           ]
                         : ""
                     }
-                    // onSelect={onSelect}
+                   
                     onSelect={(e) => handleChange(e, "countryCode")}
                     customLabels={countryCode}
                     countries={country}
                     placeholder="Select"
+                  /> */}
+
+                  <PhoneInput
+                    international
+                    ref={primaryPhoneRef}
+                    className={
+                      error?.primary_phone
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                    placeholder="Select"
+                    value={userInputs?.countryCode}
+                    name="primary_phone"
+                    onChange={(e) => handleChange(e, "countryCode")}
+                    onKeyDown={(e) => handleKeyDown(e, "countryCode")}
                   />
 
                   <input
@@ -3718,6 +3717,7 @@ const MarketingEditReader = () => {
           }-informed-${
             userInputs?.primary_phone ? userInputs?.primary_phone : ""
           }`,
+
           alternativePhone: userInputs?.alternativePhone
             ? userInputs?.alternativePhone
             : "",
