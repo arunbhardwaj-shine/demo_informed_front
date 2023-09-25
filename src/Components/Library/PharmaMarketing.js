@@ -7,6 +7,10 @@ import Modal from 'react-bootstrap/Modal';
 import Slider from "react-slick";
 
 const PharmaMarketing = () => {
+const [isActive, setIsActive] = useState(false);
+const handleClick = event => {
+    setIsActive(current => !current);
+};
 const sliderRef = useRef();
 const parentRef = useRef('');
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -322,8 +326,12 @@ const options = [
                     </div>
                     <div className="modules-diagram">
                         <div className="circle" style={{'--total': "13"}}>
-                            <div className="stat read" style={{'--i':"1"}}><img src={path_image+ "RTR-icon.svg"}alt="" /><span>Read-Through -Rate</span></div>
-                            <div className="stat rating" style={{'--i':"2"}}><img src={path_image+ "rating-icon.svg"}alt="" /><span>Rating Tool</span></div>
+                            <div className="stat read" style={{'--i':"1"}}>
+                                {/* <Form.Check aria-label="option 1" className="custom_select"/> */}
+                                <img src={path_image+ "RTR-icon.svg"}alt="" />
+                                <span>Read-Through -Rate</span>
+                            </div>
+                            <div className={isActive ? 'stat rating visible' : 'stat rating'} onClick={handleClick} style={{'--i':"2"}}><img src={path_image+ "rating-icon.svg"}alt="" /><span>Rating Tool</span><div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div></div>
                             <div className="stat spc" style={{'--i':"3"}}><img src={path_image+ "SPC-icon.svg"}alt="" /><span>SPC Engine</span></div>
                             <div className="stat automail" style={{'--i':"4"}}><img src={path_image+ "auto-email-icon.svg"}alt="" /><span>Automail</span></div>
                             <div className="stat ai" style={{'--i':"5"}}><img src={path_image+ "artificial-intelligence-icon.svg"}alt="" /><span>AI Prediction Tool</span></div>
@@ -337,6 +345,12 @@ const options = [
                             <div className="stat webinar" style={{'--i':"13"}}><img src={path_image+ "webinar-small-icon.svg"}alt="" /><span>Webinar Portal</span></div>
                             <div className="module-logo">
                                 <img src={path_image + "module-logo.svg"} alt=""/>
+                            </div>
+                            <div className={`mudule-article-overview ${isActive?"active":""}`}>
+                                <img src={path_image+ "rating-icon.svg"}alt="" />
+                                <h4>Rating Tool</h4>
+                                <p>Gauge the true sentiments of HCPs regarding your content by enabling them to provide ratings while they interact with it.</p>
+                                <Button>Read more</Button>
                             </div>
                         </div>
                     </div>

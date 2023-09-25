@@ -9250,6 +9250,8 @@ svg.pencil_icon {
   justify-content: center;
   flex-direction: column;
   padding: 5px;
+  z-index: 2;
+  cursor: pointer;
   // Decimal value, 0-1 based on the child's index.
   --d: calc(var(--i) / var(--total));
   // Offset to get better starting placement on the circle
@@ -9263,9 +9265,232 @@ svg.pencil_icon {
 
   transform: var(--transform);
   transition: transform 1.5s ease-in-out;
-  //transition-delay: calc(0.1s * var(--i));
 
+  //transition-delay: calc(0.1s * var(--i));
+  &.active {
+    outline-offset: 4px;
+
+    span {
+      color: $white;
+    }
+
+    img {
+      filter: brightness(0) invert(1);
+    }
+  }
+
+
+  &.docintel {
+    &.active {
+      background: $primary-color;
+      outline: 2px dashed $primary-color;
+      filter: drop-shadow(0px 0px 19px $primary-color);
+    }
+
+    &.visible {
+      background: $primary-color;
+
+      &~.mudule-article-overview {
+        background: $primary-color;
+      }
+    }
+  }
+
+  &.qa {
+    &.active {
+      background: #3D48AB;
+      outline: 2px dashed #3D48AB;
+      filter: drop-shadow(0px 0px 19px #3D48AB);
+    }
+
+    &.visible {
+      background: #3D48AB;
+
+      &~.mudule-article-overview {
+        background: #3D48AB;
+      }
+    }
+  }
+
+  &.read {
+    &.active {
+      background: #5A6BB5;
+      outline: 2px dashed #5A6BB5;
+      filter: drop-shadow(0px 0px 19px #5A6BB5);
+    }
+
+    &.visible {
+      background: #5A6BB5;
+
+      &~.mudule-article-overview {
+        background: #5A6BB5;
+      }
+    }
+  }
+
+  &.ai {
+    &.active {
+      background: #00C1BF;
+      outline: 2px dashed #00C1BF;
+      filter: drop-shadow(0px 0px 19px #00C1BF);
+    }
+
+    &.visible {
+      background: #00C1BF;
+
+      &~.mudule-article-overview {
+        background: #00C1BF;
+      }
+    }
+  }
+
+  &.informed {
+    &.active {
+      background: #045FAE;
+      outline: 2px dashed #045FAE;
+      filter: drop-shadow(0px 0px 19px #045FAE);
+    }
+
+    &.visible {
+      background: #045FAE;
+
+      &~.mudule-article-overview {
+        background: #045FAE;
+      }
+    }
+  }
+
+  &.web {
+    &.active {
+      background: #6E52A2;
+      outline: 2px dashed #6E52A2;
+      filter: drop-shadow(0px 0px 19px #6E52A2);
+    }
+
+    &.visible {
+      background: #6E52A2;
+
+      &~.mudule-article-overview {
+        background: #6E52A2;
+      }
+    }
+  }
+
+  &.consent {
+    &.active {
+      background: #00A4BF;
+      outline: 2px dashed #00A4BF;
+      filter: drop-shadow(0px 0px 19px #00A4BF);
+    }
+
+    &.visible {
+      background: #00A4BF;
+
+      &~.mudule-article-overview {
+        background: #00A4BF;
+      }
+    }
+  }
+
+  &.webinar {
+    &.active {
+      background: #8A4E9C;
+      outline: 2px dashed #8A4E9C;
+      filter: drop-shadow(0px 0px 19px #8A4E9C);
+    }
+
+    &.visible {
+      background: #8A4E9C;
+
+      &~.mudule-article-overview {
+        background: #8A4E9C;
+      }
+    }
+  }
+
+  &.automail {
+    &.active {
+      background: #00D4C0;
+      outline: 2px dashed #00D4C0;
+      filter: drop-shadow(0px 0px 19px #00D4C0);
+    }
+
+    &.visible {
+      background: #00D4C0;
+
+      &~.mudule-article-overview {
+        background: #00D4C0;
+      }
+    }
+  }
+
+  &.rating {
+    &.active {
+      background: #2B9BC8;
+      outline: 2px dashed #2B9BC8;
+      filter: drop-shadow(0px 0px 19px #2B9BC8);
+    }
+
+    &.visible {
+      background: #2B9BC8;
+
+      &~.mudule-article-overview {
+        background: #2B9BC8;
+      }
+    }
+  }
+
+  &.survey {
+    &.active {
+      background: #5058AA;
+      outline: 2px dashed #5058AA;
+      filter: drop-shadow(0px 0px 19px #5058AA);
+    }
+
+    &.visible {
+      background: #5058AA;
+
+      &~.mudule-article-overview {
+        background: #5058AA;
+      }
+    }
+  }
+
+  &.spc {
+    &.active {
+      background: #19BBB9;
+      outline: 2px dashed #19BBB9;
+      filter: drop-shadow(0px 0px 19px #19BBB9);
+    }
+
+    &.visible {
+      background: #19BBB9;
+
+      &~.mudule-article-overview {
+        background: #19BBB9;
+      }
+    }
+  }
+
+  &.engine {
+    &.active {
+      background: #0084BE;
+      outline: 2px dashed #0084BE;
+      filter: drop-shadow(0px 0px 19px #0084BE);
+    }
+
+    &.visible {
+      background: #0084BE;
+
+      &~.mudule-article-overview {
+        background: #0084BE;
+      }
+    }
+  }
 }
+
+
+
 
 .stat img {
   max-width: 28px;
@@ -9277,6 +9502,23 @@ svg.pencil_icon {
   line-height: 14px;
   font-size: 12px;
   margin-top: 6px;
+}
+
+.stat {
+  .article-close {
+    transform: translateX(200%);
+    opacity: 0;
+    transition: all 0.65s ease;
+    position: absolute;
+  }
+
+  &.visible {
+    .article-close {
+      transform: translateX(0px);
+      opacity: 1;
+      transition-timing-function: cubic-bezier(0.52, 1, 0.37, 1);
+    }
+  }
 }
 
 .read span {
@@ -9349,6 +9591,66 @@ svg.pencil_icon {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.mudule-article-overview {
+  position: absolute;
+  max-width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background: #2B9BC8;
+  box-shadow: 0px 1px 19px 0px rgba(0, 102, 190, 0.24);
+  z-index: 3;
+  padding: 24px 40px 34px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.65s ease;
+
+  &.active {
+    transform: translateX(0px);
+    opacity: 1;
+    transition-timing-function: cubic-bezier(0.52, 1, 0.37, 1);
+  }
+
+  img {
+    max-width: 48px;
+    margin: 0 auto;
+    width: 100%;
+    filter: brightness(0) invert(1);
+  }
+
+  h4 {
+    font-weight: 600;
+    color: $white;
+  }
+
+  p {
+    color: $white;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .btn {
+    color: $primary-color;
+    background: $white;
+    font-size: 14px;
+    font-weight: 500;
+    border: 0;
+    padding: 6px 11px;
+    margin: 0 auto;
+    width: auto;
+    max-width: 95px;
+
+    &:hover {
+      color: $primary-color;
+      background: $white;
+      border: 0;
+    }
+  }
+
 }
 
 /**MOdule End**/
