@@ -2379,10 +2379,17 @@ const MarketingEditReader = () => {
         task: { ...userInputs?.task, task: e?.value },
       });
     } else if (isSelectedName == "countryCode") {
-      setUserInputs({
-        ...userInputs,
-        [isSelectedName]: e,
-      });
+      if (e == userInputs?.countryCode) {
+        setUserInputs({
+          ...userInputs,
+          [isSelectedName]: "",
+        });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+        });
+      }
     } else {
       setUserInputs({
         ...userInputs,
