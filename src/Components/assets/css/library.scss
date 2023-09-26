@@ -3297,6 +3297,20 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
   background-size: 14px;
 }
 
+.PhoneInputCountrySelect option {
+  font-size: 14px;
+  color: #0066BE;
+  padding: 7px 5px;
+  line-height: 20px;
+
+}
+
+select.PhoneInputCountrySelect {
+  cursor: pointer;
+  background: white;
+  width: 330px;
+}
+
 .form-group.primary_phone .dropdown-basic-button.PhoneInput input.PhoneInputInput {
   font-size: 16px;
   color: #0066BE;
@@ -3360,6 +3374,11 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 
 .form-group.primary_phone input.form-control {
   max-width: 308px;
+}
+
+.form-group.primary_phone input.form-control[type="tel"] {
+  position: relative;
+  z-index: 2;
 }
 
 .modal .upload-file-box {
