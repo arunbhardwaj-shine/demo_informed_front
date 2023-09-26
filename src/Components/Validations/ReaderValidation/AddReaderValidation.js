@@ -36,11 +36,11 @@ export const AddReaderValidation = (data, groupId, flag) => {
         Object.keys(data?.primary_phone)?.length < 10
       ) {
         error.primary_phone = "Number must be in between 10 to 12 digits";
-      } else if (!data?.countryCode?.value) {
+      } else if (!data?.countryCode) {
         error.primary_phone = "Please select country code";
       }
     }
-    if (data?.countryCode?.value) {
+    if (data?.countryCode) {
       if (!data?.primary_phone) {
         error.primary_phone = "Please enter phone number";
       } else if (

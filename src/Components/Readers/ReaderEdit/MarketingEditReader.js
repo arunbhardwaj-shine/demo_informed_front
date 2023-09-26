@@ -10,6 +10,10 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { getData, postData } from "../../../axios/apiHelper";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
 import { toast } from "react-toastify";
+import ReactFlagsSelect from "react-flags-select";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { parsePhoneNumber } from "react-phone-number-input";
 
 const MarketingEditReader = () => {
   const { state } = useLocation();
@@ -21,6 +25,8 @@ const MarketingEditReader = () => {
   const contactTotalRef = useRef(null);
   const countryRef = useRef(null);
   const postcodeRef = useRef(null);
+  const alternativeEmailRef = useRef(null);
+  const alternativePhoneRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const navigate = useNavigate();
   const [titleOptions, setTitleOptions] = useState([]);
@@ -56,7 +62,7 @@ const MarketingEditReader = () => {
     lastName: "",
     email: "",
     alternativeEmail: "",
-    countryCode: { value: "" },
+    countryCode: "",
     primary_phone: "",
     alternativePhone: "",
     linkedIn: "",
@@ -89,1446 +95,295 @@ const MarketingEditReader = () => {
     typeContact: [],
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
-  // const [countryCode, setCountryCode] = useState([
-  //   { value: "", label: "Select" },
-  //   { value: "Afghanistan", label: "+93" },
-  //   { value: "Albania", label: "+355" },
-  //   { value: "Algeria", label: "+213" },
-  //   { value: "American Samoa", label: "+1-684" },
-  //   { value: "Andorra", label: "+376" },
-  //   { value: "Angola", label: "+244" },
-  //   { value: "Anguilla", label: "+1-264" },
-  //   { value: "Antarctica", label: "+672" },
-  //   { value: "Antigua and Barbuda", label: "+1-268" },
-  //   { value: "Argentina", label: "+54" },
-  //   { value: "Armenia", label: "+374" },
-  //   { value: "India", label: "+91" },
-  //   { value: "Azerbaijan", label: "+994" },
-  //   { value: "Bahamas", label: "+1-242" },
-  //   { value: "Bahrain", label: "+973" },
-  //   { value: "Bangladesh", label: "+880" },
-  //   { value: "Barbados", label: "+1-246" },
-  //   { value: "Belarus", label: "+375" },
-  //   { value: "Belgium", label: "+32" },
-  // ]);
-  const [countryCode, setCountryCode] = useState([
-    { value: "", label: "Select" },
-    {
-      label: "+7 840",
 
-      value: "Abkhazia",
-    },
+  // const country = [
+  //   "US",
 
-    {
-      label: "+93",
+  //   "BS",
 
-      value: "Afghanistan",
-    },
+  //   "BB",
 
-    {
-      label: "+355",
+  //   "AI",
 
-      value: "Albania",
-    },
+  //   "AG",
 
-    {
-      label: "+213",
+  //   "VG",
 
-      value: "Algeria",
-    },
+  //   "KY",
 
-    {
-      label: "+1 684",
+  //   "BM",
 
-      value: "American Samoa",
-    },
+  //   "GD",
 
-    {
-      label: "+376",
+  //   "TC",
 
-      value: "Andorra",
-    },
+  //   "MS",
 
-    {
-      label: "+244",
+  //   "MP",
 
-      value: "Angola",
-    },
+  //   "GU",
 
-    {
-      label: "+1 264",
+  //   "AS",
 
-      value: "Anguilla",
-    },
+  //   "LC",
 
-    {
-      label: "+1 268",
+  //   "DM",
 
-      value: "Antigua and Barbuda",
-    },
+  //   "DO",
 
-    {
-      label: "+54",
+  //   "TT",
 
-      value: "Argentina",
-    },
+  //   "KN",
 
-    {
-      label: "+374",
+  //   "JM",
 
-      value: "Armenia",
-    },
+  //   "EG",
 
-    {
-      label: "+297",
+  //   "ZA",
 
-      value: "Aruba",
-    },
+  //   "SS",
 
-    {
-      label: "+247",
+  //   "MA",
 
-      value: "Ascension",
-    },
+  //   "DZ",
 
-    {
-      label: "+61",
+  //   "TN",
 
-      value: "Australia",
-    },
+  //   "LY",
 
-    {
-      label: "+672",
+  //   "GY",
 
-      value: "Australian External Territories",
-    },
+  //   "GR",
 
-    {
-      label: "+43",
+  //   "NL",
 
-      value: "Austria",
-    },
+  //   "BE",
 
-    {
-      label: "+994",
+  //   "FR",
 
-      value: "Azerbaijan",
-    },
+  //   "ES",
 
-    {
-      label: "+1 242",
+  //   "GI",
 
-      value: "Bahamas",
-    },
+  //   "PT",
 
-    {
-      label: "+973",
+  //   "LU",
 
-      value: "Bahrain",
-    },
+  //   "IE",
 
-    {
-      label: "+880",
+  //   "IS",
 
-      value: "Bangladesh",
-    },
+  //   "AL",
 
-    {
-      label: "+1 246",
+  //   "MT",
 
-      value: "Barbados",
-    },
+  //   "CY",
 
-    {
-      label: "+1 268",
+  //   "FI",
 
-      value: "Barbuda",
-    },
+  //   "BG",
 
-    {
-      label: "+375",
+  //   "LT",
 
-      value: "Belarus",
-    },
+  //   "LV",
 
-    {
-      label: "+32",
+  //   "EE",
 
-      value: "Belgium",
-    },
+  //   "MD",
 
-    {
-      label: "+501",
+  //   "AM",
 
-      value: "Belize",
-    },
+  //   "BY",
 
-    {
-      label: "+229",
+  //   "AD",
 
-      value: "Benin",
-    },
+  //   "MC",
 
-    {
-      label: "+1 441",
+  //   "SM",
 
-      value: "Bermuda",
-    },
+  //   "VA",
 
-    {
-      label: "+975",
+  //   "UA",
 
-      value: "Bhutan",
-    },
+  //   "RS",
 
-    {
-      label: "+591",
+  //   "ME",
 
-      value: "Bolivia",
-    },
+  //   "XK",
 
-    {
-      label: "+387",
+  //   "HR",
 
-      value: "Bosnia and Herzegovina",
-    },
+  //   "SI",
 
-    {
-      label: "+267",
+  //   "BA",
 
-      value: "Botswana",
-    },
+  //   "MK",
 
-    {
-      label: "+55",
+  //   "CZ",
 
-      value: "Brazil",
-    },
+  //   "SK",
 
-    {
-      label: "+246",
+  //   "LI",
 
-      value: "British Indian Ocean Territory",
-    },
+  //   "FK",
 
-    {
-      label: "+1 284",
+  //   "BZ",
 
-      value: "British Virgin Islands",
-    },
+  //   "GT",
 
-    {
-      label: "+673",
+  //   "SV",
 
-      value: "Brunei",
-    },
+  //   "HN",
 
-    {
-      label: "+359",
+  //   "NI",
 
-      value: "Bulgaria",
-    },
+  //   "CR",
 
-    {
-      label: "+226",
+  //   "PA",
 
-      value: "Burkina Faso",
-    },
+  //   "PM",
 
-    {
-      label: "+257",
+  //   "HT",
 
-      value: "Burundi",
-    },
+  //   "GP",
 
-    {
-      label: "+855",
+  //   "BO",
 
-      value: "Cambodia",
-    },
+  //   "GY",
 
-    {
-      label: "+237",
+  //   "EC",
 
-      value: "Cameroon",
-    },
+  //   "GF",
 
-    {
-      label: "+1",
+  //   "PY",
 
-      value: "Canada",
-    },
+  //   "MQ",
 
-    {
-      label: "+238",
+  //   "SR",
 
-      value: "Cape Verde",
-    },
+  //   "UY",
 
-    {
-      label: "+ 345",
+  //   "CW",
 
-      value: "Cayman Islands",
-    },
+  //   "MY",
 
-    {
-      label: "+236",
+  //   "AU",
 
-      value: "Central African Republic",
-    },
+  //   "ID",
 
-    {
-      label: "+235",
+  //   "PH",
 
-      value: "Chad",
-    },
+  //   "NZ",
 
-    {
-      label: "+56",
+  //   "SG",
 
-      value: "Chile",
-    },
+  //   "TH",
 
-    {
-      label: "+86",
+  //   "TL",
 
-      value: "China",
-    },
+  //   "NF",
 
-    {
-      label: "+61",
+  //   "BN",
 
-      value: "Christmas Island",
-    },
+  //   "NR",
 
-    {
-      label: "+61",
+  //   "PG",
 
-      value: "Cocos-Keeling Islands",
-    },
+  //   "TO",
 
-    {
-      label: "+57",
+  //   "SB",
 
-      value: "Colombia",
-    },
+  //   "VU",
 
-    {
-      label: "+269",
+  //   "FJ",
 
-      value: "Comoros",
-    },
+  //   "PW",
 
-    {
-      label: "+242",
+  //   "WF",
 
-      value: "Congo",
-    },
+  //   "CK",
 
-    {
-      label: "+243",
+  //   "NU",
 
-      value: "Congo, Dem. Rep. of (Zaire)",
-    },
+  //   "WS",
 
-    {
-      label: "+682",
+  //   "KI",
 
-      value: "Cook Islands",
-    },
+  //   "NC",
 
-    {
-      label: "+506",
+  //   "TV",
 
-      value: "Costa Rica",
-    },
+  //   "PF",
 
-    {
-      label: "+385",
+  //   "TK",
 
-      value: "Croatia",
-    },
+  //   "FM",
 
-    {
-      label: "+53",
+  //   "MH",
 
-      value: "Cuba",
-    },
+  //   "RU",
 
-    {
-      label: "+599",
+  //   "KP",
 
-      value: "Curacao",
-    },
+  //   "HK",
 
-    {
-      label: "+537",
+  //   "MO",
 
-      value: "Cyprus",
-    },
+  //   "KH",
 
-    {
-      label: "+420",
+  //   "LA",
 
-      value: "Czech Republic",
-    },
+  //   "BD",
 
-    {
-      label: "+45",
+  //   "TW",
 
-      value: "Denmark",
-    },
+  //   "MV",
 
-    {
-      label: "+246",
+  //   "LB",
 
-      value: "Diego Garcia",
-    },
+  //   "JO",
 
-    {
-      label: "+253",
+  //   "SY",
 
-      value: "Djibouti",
-    },
+  //   "IQ",
 
-    {
-      label: "+1 767",
+  //   "KW",
 
-      value: "Dominica",
-    },
+  //   "SA",
 
-    {
-      label: "+1 809",
+  //   "YE",
 
-      value: "Dominican Republic",
-    },
+  //   "OM",
 
-    {
-      label: "+670",
+  //   "PS",
 
-      value: "East Timor",
-    },
+  //   "AE",
 
-    {
-      label: "+56",
+  //   "IL",
 
-      value: "Easter Island",
-    },
+  //   "BH",
 
-    {
-      label: "+593",
+  //   "QA",
 
-      value: "Ecuador",
-    },
+  //   "BT",
 
-    {
-      label: "+20",
+  //   "MN",
 
-      value: "Egypt",
-    },
+  //   "NP",
 
-    {
-      label: "+503",
+  //   "TJ",
 
-      value: "El Salvador",
-    },
+  //   "TM",
 
-    {
-      label: "+240",
+  //   "AZ",
 
-      value: "Equatorial Guinea",
-    },
+  //   "GE",
 
-    {
-      label: "+291",
+  //   "KG",
 
-      value: "Eritrea",
-    },
+  //   "UZ",
+  // ];
 
-    {
-      label: "+372",
-
-      value: "Estonia",
-    },
-
-    {
-      label: "+251",
-
-      value: "Ethiopia",
-    },
-
-    {
-      label: "+500",
-
-      value: "Falkland Islands",
-    },
-
-    {
-      label: "+298",
-
-      value: "Faroe Islands",
-    },
-
-    {
-      label: "+679",
-
-      value: "Fiji",
-    },
-
-    {
-      label: "+358",
-
-      value: "Finland",
-    },
-
-    {
-      label: "+33",
-
-      value: "France",
-    },
-
-    {
-      label: "+596",
-
-      value: "French Antilles",
-    },
-
-    {
-      label: "+594",
-
-      value: "French Guiana",
-    },
-
-    {
-      label: "+689",
-
-      value: "French Polynesia",
-    },
-
-    {
-      label: "+241",
-
-      value: "Gabon",
-    },
-
-    {
-      label: "+220",
-
-      value: "Gambia",
-    },
-
-    {
-      label: "+995",
-
-      value: "Georgia",
-    },
-
-    {
-      label: "+49",
-
-      value: "Germany",
-    },
-
-    {
-      label: "+233",
-
-      value: "Ghana",
-    },
-
-    {
-      label: "+350",
-
-      value: "Gibraltar",
-    },
-
-    {
-      label: "+30",
-
-      value: "Greece",
-    },
-
-    {
-      label: "+299",
-
-      value: "Greenland",
-    },
-
-    {
-      label: "+1 473",
-
-      value: "Grenada",
-    },
-
-    {
-      label: "+590",
-
-      value: "Guadeloupe",
-    },
-
-    {
-      label: "+1 671",
-
-      value: "Guam",
-    },
-
-    {
-      label: "+502",
-
-      value: "Guatemala",
-    },
-
-    {
-      label: "+224",
-
-      value: "Guinea",
-    },
-
-    {
-      label: "+245",
-
-      value: "Guinea-Bissau",
-    },
-
-    {
-      label: "+595",
-
-      value: "Guyana",
-    },
-
-    {
-      label: "+509",
-
-      value: "Haiti",
-    },
-
-    {
-      label: "+504",
-
-      value: "Honduras",
-    },
-
-    {
-      label: "+852",
-
-      value: "Hong Kong SAR China",
-    },
-
-    {
-      label: "+36",
-
-      value: "Hungary",
-    },
-
-    {
-      label: "+354",
-
-      value: "Iceland",
-    },
-
-    {
-      label: "+91",
-
-      value: "India",
-    },
-
-    {
-      label: "+62",
-
-      value: "Indonesia",
-    },
-
-    {
-      label: "+98",
-
-      value: "Iran",
-    },
-
-    {
-      label: "+964",
-
-      value: "Iraq",
-    },
-
-    {
-      label: "+353",
-
-      value: "Ireland",
-    },
-
-    {
-      label: "+972",
-
-      value: "Israel",
-    },
-
-    {
-      label: "+39",
-
-      value: "Italy",
-    },
-
-    {
-      label: "+225",
-
-      value: "Ivory Coast",
-    },
-
-    {
-      label: "+1 876",
-
-      value: "Jamaica",
-    },
-
-    {
-      label: "+81",
-
-      value: "Japan",
-    },
-
-    {
-      label: "+962",
-
-      value: "Jordan",
-    },
-
-    {
-      label: "+7 7",
-
-      value: "Kazakhstan",
-    },
-
-    {
-      label: "+254",
-
-      value: "Kenya",
-    },
-
-    {
-      label: "+686",
-
-      value: "Kiribati",
-    },
-
-    {
-      label: "+965",
-
-      value: "Kuwait",
-    },
-
-    {
-      label: "+996",
-
-      value: "Kyrgyzstan",
-    },
-
-    {
-      label: "+856",
-
-      value: "Laos",
-    },
-
-    {
-      label: "+371",
-
-      value: "Latvia",
-    },
-
-    {
-      label: "+961",
-
-      value: "Lebanon",
-    },
-
-    {
-      label: "+266",
-
-      value: "Lesotho",
-    },
-
-    {
-      label: "+231",
-
-      value: "Liberia",
-    },
-
-    {
-      label: "+218",
-
-      value: "Libya",
-    },
-
-    {
-      label: "+423",
-
-      value: "Liechtenstein",
-    },
-
-    {
-      label: "+370",
-
-      value: "Lithuania",
-    },
-
-    {
-      label: "+352",
-
-      value: "Luxembourg",
-    },
-
-    {
-      label: "+853",
-
-      value: "Macau SAR China",
-    },
-
-    {
-      label: "+389",
-
-      value: "Macedonia",
-    },
-
-    {
-      label: "+261",
-
-      value: "Madagascar",
-    },
-
-    {
-      label: "+265",
-
-      value: "Malawi",
-    },
-
-    {
-      label: "+60",
-
-      value: "Malaysia",
-    },
-
-    {
-      label: "+960",
-
-      value: "Maldives",
-    },
-
-    {
-      label: "+223",
-
-      value: "Mali",
-    },
-
-    {
-      label: "+356",
-
-      value: "Malta",
-    },
-
-    {
-      label: "+692",
-
-      value: "Marshall Islands",
-    },
-
-    {
-      label: "+596",
-
-      value: "Martinique",
-    },
-
-    {
-      label: "+222",
-
-      value: "Mauritania",
-    },
-
-    {
-      label: "+230",
-
-      value: "Mauritius",
-    },
-
-    {
-      label: "+262",
-
-      value: "Mayotte",
-    },
-
-    {
-      label: "+52",
-
-      value: "Mexico",
-    },
-
-    {
-      label: "+691",
-
-      value: "Micronesia",
-    },
-
-    {
-      label: "+1 808",
-
-      value: "Midway Island",
-    },
-
-    {
-      label: "+373",
-
-      value: "Moldova",
-    },
-
-    {
-      label: "+377",
-
-      value: "Monaco",
-    },
-
-    {
-      label: "+976",
-
-      value: "Mongolia",
-    },
-
-    {
-      label: "+382",
-
-      value: "Montenegro",
-    },
-
-    {
-      label: "+1664",
-
-      value: "Montserrat",
-    },
-
-    {
-      label: "+212",
-
-      value: "Morocco",
-    },
-
-    {
-      label: "+95",
-
-      value: "Myanmar",
-    },
-
-    {
-      label: "+264",
-
-      value: "Namibia",
-    },
-
-    {
-      label: "+674",
-
-      value: "Nauru",
-    },
-
-    {
-      label: "+977",
-
-      value: "Nepal",
-    },
-
-    {
-      label: "+31",
-
-      value: "Netherlands",
-    },
-
-    {
-      label: "+599",
-
-      value: "Netherlands Antilles",
-    },
-
-    {
-      label: "+1 869",
-
-      value: "Nevis",
-    },
-
-    {
-      label: "+687",
-
-      value: "New Caledonia",
-    },
-
-    {
-      label: "+64",
-
-      value: "New Zealand",
-    },
-
-    {
-      label: "+505",
-
-      value: "Nicaragua",
-    },
-
-    {
-      label: "+227",
-
-      value: "Niger",
-    },
-
-    {
-      label: "+234",
-
-      value: "Nigeria",
-    },
-
-    {
-      label: "+683",
-
-      value: "Niue",
-    },
-
-    {
-      label: "+672",
-
-      value: "Norfolk Island",
-    },
-
-    {
-      label: "+850",
-
-      value: "North Korea",
-    },
-
-    {
-      label: "+1 670",
-
-      value: "Northern Mariana Islands",
-    },
-
-    {
-      label: "+47",
-
-      value: "Norway",
-    },
-
-    {
-      label: "+968",
-
-      value: "Oman",
-    },
-
-    {
-      label: "+92",
-
-      value: "Pakistan",
-    },
-
-    {
-      label: "+680",
-
-      value: "Palau",
-    },
-
-    {
-      label: "+970",
-
-      value: "Palestinian Territory",
-    },
-
-    {
-      label: "+507",
-
-      value: "Panama",
-    },
-
-    {
-      label: "+675",
-
-      value: "Papua New Guinea",
-    },
-
-    {
-      label: "+595",
-
-      value: "Paraguay",
-    },
-
-    {
-      label: "+51",
-
-      value: "Peru",
-    },
-
-    {
-      label: "+63",
-
-      value: "Philippines",
-    },
-
-    {
-      label: "+48",
-
-      value: "Poland",
-    },
-
-    {
-      label: "+351",
-
-      value: "Portugal",
-    },
-
-    {
-      label: "+1 787",
-
-      value: "Puerto Rico",
-    },
-
-    {
-      label: "+974",
-
-      value: "Qatar",
-    },
-
-    {
-      label: "+262",
-
-      value: "Reunion",
-    },
-
-    {
-      label: "+40",
-
-      value: "Romania",
-    },
-
-    {
-      label: "+7",
-
-      value: "Russia",
-    },
-
-    {
-      label: "+250",
-
-      value: "Rwanda",
-    },
-
-    {
-      label: "+685",
-
-      value: "Samoa",
-    },
-
-    {
-      label: "+378",
-
-      value: "San Marino",
-    },
-
-    {
-      label: "+966",
-
-      value: "Saudi Arabia",
-    },
-
-    {
-      label: "+221",
-
-      value: "Senegal",
-    },
-
-    {
-      label: "+381",
-
-      value: "Serbia",
-    },
-
-    {
-      label: "+248",
-
-      value: "Seychelles",
-    },
-
-    {
-      label: "+232",
-
-      value: "Sierra Leone",
-    },
-
-    {
-      label: "+65",
-
-      value: "Singapore",
-    },
-
-    {
-      label: "+421",
-
-      value: "Slovakia",
-    },
-
-    {
-      label: "+386",
-
-      value: "Slovenia",
-    },
-
-    {
-      label: "+677",
-
-      value: "Solomon Islands",
-    },
-
-    {
-      label: "+27",
-
-      value: "South Africa",
-    },
-
-    {
-      label: "+500",
-
-      value: "South Georgia and the South Sandwich Islands",
-    },
-
-    {
-      label: "+82",
-
-      value: "South Korea",
-    },
-
-    {
-      label: "+34",
-
-      value: "Spain",
-    },
-
-    {
-      label: "+94",
-
-      value: "Sri Lanka",
-    },
-
-    {
-      label: "+249",
-
-      value: "Sudan",
-    },
-
-    {
-      label: "+597",
-
-      value: "Suriname",
-    },
-
-    {
-      label: "+268",
-
-      value: "Swaziland",
-    },
-
-    {
-      label: "+46",
-
-      value: "Sweden",
-    },
-
-    {
-      label: "+41",
-
-      value: "Switzerland",
-    },
-
-    {
-      label: "+963",
-
-      value: "Syria",
-    },
-
-    {
-      label: "+886",
-
-      value: "Taiwan",
-    },
-
-    {
-      label: "+992",
-
-      value: "Tajikistan",
-    },
-
-    {
-      label: "+255",
-
-      value: "Tanzania",
-    },
-
-    {
-      label: "+66",
-
-      value: "Thailand",
-    },
-
-    {
-      label: "+670",
-
-      value: "Timor Leste",
-    },
-
-    {
-      label: "+228",
-
-      value: "Togo",
-    },
-
-    {
-      label: "+690",
-
-      value: "Tokelau",
-    },
-
-    {
-      label: "+676",
-
-      value: "Tonga",
-    },
-
-    {
-      label: "+1 868",
-
-      value: "Trinidad and Tobago",
-    },
-
-    {
-      label: "+216",
-
-      value: "Tunisia",
-    },
-
-    {
-      label: "+90",
-
-      value: "Turkey",
-    },
-
-    {
-      label: "+993",
-
-      value: "Turkmenistan",
-    },
-
-    {
-      label: "+1 649",
-
-      value: "Turks and Caicos Islands",
-    },
-
-    {
-      label: "+688",
-
-      value: "Tuvalu",
-    },
-
-    {
-      label: "+1 340",
-
-      value: "U.S. Virgin Islands",
-    },
-
-    {
-      label: "+256",
-
-      value: "Uganda",
-    },
-
-    {
-      label: "+380",
-
-      value: "Ukraine",
-    },
-
-    {
-      label: "+971",
-
-      value: "United Arab Emirates",
-    },
-
-    {
-      label: "+44",
-
-      value: "United Kingdom",
-    },
-
-    {
-      label: "+1",
-
-      value: "United States",
-    },
-
-    {
-      label: "+598",
-
-      value: "Uruguay",
-    },
-
-    {
-      label: "+998",
-
-      value: "Uzbekistan",
-    },
-
-    {
-      label: "+678",
-
-      value: "Vanuatu",
-    },
-
-    {
-      label: "+58",
-
-      value: "Venezuela",
-    },
-
-    {
-      label: "+84",
-
-      value: "Vietnam",
-    },
-
-    {
-      label: "+1 808",
-
-      value: "Wake Island",
-    },
-
-    {
-      label: "+681",
-
-      value: "Wallis and Futuna",
-    },
-
-    {
-      label: "+967",
-
-      value: "Yemen",
-    },
-
-    {
-      label: "+260",
-
-      value: "Zambia",
-    },
-
-    {
-      label: "+255",
-
-      value: "Zanzibar",
-    },
-
-    {
-      label: "+263",
-
-      value: "Zimbabwe",
-    },
-  ]);
   const [userDetail, setUserDetail] = useState({
     title: [],
     prospect: [],
@@ -1541,25 +396,8 @@ const MarketingEditReader = () => {
     task: [],
     pipeline: [],
   });
-  const sortobj = (arrayOfObjects) => {
-    arrayOfObjects.sort((a, b) => {
-      const labelA = a.label.toUpperCase();
-      const labelB = b.label.toUpperCase();
-
-      if (labelA < labelB) {
-        return -1;
-      }
-      if (labelA > labelB) {
-        return 1;
-      }
-
-      // Labels are equal
-      return 0;
-    });
-  };
 
   useEffect(() => {
-    // sortobj(countryCode);
     initalFun();
   }, []);
 
@@ -1622,7 +460,7 @@ const MarketingEditReader = () => {
         lastName: data?.lastName,
         email: data?.email,
         alternativeEmail: data?.alternativeEmail,
-        countryCode: { label: phoneNumber[0], value: phoneNumber[0] },
+        countryCode: phoneNumber[0],
         primary_phone: phoneNumber[1],
         alternativePhone: data?.alternativePhone,
         linkedIn: data?.linkedIn,
@@ -1660,6 +498,15 @@ const MarketingEditReader = () => {
       console.log("--err", err);
     } finally {
       loader("hide");
+    }
+  };
+  const handleKeyDown = (e, isSelectedName) => {
+    if (isSelectedName == "countryCode") {
+      if (e.key === "Backspace" || e.key === "Delete") {
+        setUserInputs({ ...userInputs, countryCode: "" });
+      } else {
+        e.preventDefault();
+      }
     }
   };
 
@@ -1823,6 +670,18 @@ const MarketingEditReader = () => {
         ...userInputs,
         task: { ...userInputs?.task, task: e?.value },
       });
+    } else if (isSelectedName == "countryCode") {
+      if (e == userInputs?.countryCode) {
+        setUserInputs({
+          ...userInputs,
+          [isSelectedName]: "",
+        });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+        });
+      }
     } else {
       setUserInputs({
         ...userInputs,
@@ -1981,7 +840,6 @@ const MarketingEditReader = () => {
         logActivity: "log_activity",
       };
       loader("show");
-      // const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, { label: newProduct.label, value: newProduct.value });
       await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, {
         label: obj[newProduct.label],
         value: newProduct.value,
@@ -2204,6 +1062,7 @@ const MarketingEditReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
+                    ref={alternativeEmailRef}
                     placeholder="example@email.com"
                     name="alternativeEmail"
                     defaultValue={userInputs?.alternativeEmail}
@@ -2220,7 +1079,7 @@ const MarketingEditReader = () => {
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
                   <Form.Label htmlFor="">Primary phone </Form.Label>
-                  <Select
+                  {/* <Select
                     options={countryCode}
                     ref={primaryPhoneRef}
                     value={
@@ -2241,11 +1100,53 @@ const MarketingEditReader = () => {
                         ? "dropdown-basic-button split-button-dropup error"
                         : "dropdown-basic-button split-button-dropup"
                     }
-                    // className="dropdown-basic-button split-button-dropup"
+                   
 
                     placeholder="Select"
                     onChange={(e) => handleChange(e, "countryCode")}
                     isClearable
+                  /> */}
+
+                  {/* <ReactFlagsSelect
+                    className={
+                      error?.primary_phone
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                    ref={primaryPhoneRef}
+                    isClearable
+                    
+                    selected={
+                      Object.values(countryCode)?.findIndex(
+                        (el) => el == userInputs?.countryCode
+                      ) != -1
+                        ? Object.keys(countryCode)?.[
+                            Object.values(countryCode)?.findIndex(
+                              (el) => el == userInputs?.countryCode
+                            )
+                          ]
+                        : ""
+                    }
+                   
+                    onSelect={(e) => handleChange(e, "countryCode")}
+                    customLabels={countryCode}
+                    countries={country}
+                    placeholder="Select"
+                  /> */}
+
+                  <PhoneInput
+                    international
+                    ref={primaryPhoneRef}
+                    className={
+                      error?.primary_phone
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                    placeholder="Select"
+                    value={userInputs?.countryCode}
+                    name="primary_phone"
+                    onChange={(e) => handleChange(e, "countryCode")}
+                    onKeyDown={(e) => handleKeyDown(e, "countryCode")}
                   />
 
                   <input
@@ -2279,6 +1180,7 @@ const MarketingEditReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
+                    ref={alternativePhoneRef}
                     name="alternativePhone"
                     placeholder="Alternative phone"
                     value={userInputs?.alternativePhone}
@@ -3063,8 +1965,12 @@ const MarketingEditReader = () => {
         nameRef?.current?.focus();
       } else if (Object?.keys(result)[0] == "email") {
         emailRef?.current?.focus();
+      } else if (Object.keys(result)[0] == "alternativeEmail") {
+        alternativeEmailRef.current.focus();
       } else if (Object.keys(result)[0] == "primary_phone") {
         primaryPhoneRef.current.focus();
+      } else if (Object.keys(result)[0] == "alternativePhone") {
+        alternativePhoneRef.current.focus();
       } else if (Object?.keys(result)[0] == "country") {
         countryRef?.current?.focus();
       } else if (Object.keys(result)[0] == "postcode") {
@@ -3104,13 +2010,13 @@ const MarketingEditReader = () => {
             ? userInputs?.alternativeEmail
             : "",
           primary_phone: `${
-            userInputs?.countryCode?.label &&
-            userInputs?.countryCode?.label != "Select"
-              ? userInputs?.countryCode?.label
+            userInputs?.countryCode && userInputs?.countryCode != "Select"
+              ? userInputs?.countryCode
               : ""
           }-informed-${
             userInputs?.primary_phone ? userInputs?.primary_phone : ""
           }`,
+
           alternativePhone: userInputs?.alternativePhone
             ? userInputs?.alternativePhone
             : "",
