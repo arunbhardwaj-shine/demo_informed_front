@@ -2309,7 +2309,7 @@ const NewReaders = () => {
                                           </h6>
                                           <h6>
                                             {
-                                              consetCountry?.[data?.id] ?  consetCountry?.[data?.id] : "N/A"
+                                              consetCountry?.[data?.id] ?  consetCountry?.[data?.id] == "B&H" ? "Bosnia and Herzegovina" : consetCountry?.[data?.id] : "N/A"
                                             }
                                           </h6>
                                         </li>
