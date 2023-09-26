@@ -7,10 +7,17 @@ import Modal from 'react-bootstrap/Modal';
 import Slider from "react-slick";
 
 const PharmaMarketing = () => {
-const [isActive, setIsActive] = useState(false);
-const handleClick = event => {
-    setIsActive(current => !current);
-};
+const [activeModule, setActiveModule] = useState(null);
+
+// const [isActive, setIsActive] = useState(false);
+// const handleClick = event => {
+//     setIsActive(current => !current);
+// }
+
+const handleClick = (moduleName) => {
+    setActiveModule(moduleName === activeModule ? null : moduleName);
+  }
+
 const sliderRef = useRef();
 const parentRef = useRef('');
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -328,30 +335,191 @@ const options = [
                     </div>
                     <div className="modules-diagram">
                         <div className={`circle ${readStatus?"bigger":""}`} style={{'--total': "13"}}>
-                            <div className="stat read" style={{'--i':"1"}}>
+                            {/* <div className="stat read" style={{'--i':"1"}}> */}
                                 {/* <Form.Check aria-label="option 1" className="custom_select"/> */}
+                                {/* <img src={path_image+ "RTR-icon.svg"}alt="" />
+                                <span>Read-Through -Rate</span>
+                            </div> */}
+
+                             <div className={activeModule ==='read'? 'stat read visible' : activeModule === 'docintel' || activeModule === 'ai' ?  'stat read active' :'stat read'} onClick={() => handleClick('read')} style={{'--i':"1"}}>
                                 <img src={path_image+ "RTR-icon.svg"}alt="" />
                                 <span>Read-Through -Rate</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                             </div>
+
+                            {/* <div className={isActive ? 'stat rating visible' : 'stat rating'} onClick={handleClick} style={{'--i':"2"}}><img src={path_image+ "rating-icon.svg"}alt="" /><span>Rating Tool</span><div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div></div> */}
+
+                            <div className={activeModule === 'rating' ? 'stat rating visible' : activeModule === 'web' || activeModule === 'docintel' ? 'stat rating active' : 'stat rating'} onClick={() => handleClick('rating')} style={{'--i':"2"}}>
+                                <img src={path_image+ "rating-icon.svg"}alt="" />
+                                <span>Rating Tool</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                             </div>
-                            <div className={isActive ? 'stat rating visible' : 'stat rating'} onClick={handleClick} style={{'--i':"2"}}><img src={path_image+ "rating-icon.svg"}alt="" /><span>Rating Tool</span><div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div></div>
-                            <div className="stat spc" style={{'--i':"3"}}><img src={path_image+ "SPC-icon.svg"}alt="" /><span>SPC Engine</span></div>
-                            <div className="stat automail" style={{'--i':"4"}}><img src={path_image+ "auto-email-icon.svg"}alt="" /><span>Automail</span></div>
-                            <div className="stat ai" style={{'--i':"5"}}><img src={path_image+ "artificial-intelligence-icon.svg"}alt="" /><span>AI Prediction Tool</span></div>
-                            <div className="stat consent" style={{'--i':"6"}}><img src={path_image+ "legal-document-icon.svg"}alt="" /><span>Consent</span></div>
-                            <div className="stat engine" style={{'--i':"7"}}><img src={path_image+ "email-small-icon.svg"}alt="" /><span>Email Engine</span></div>
-                            <div className="stat docintel" style={{'--i':"8"}}><img src={path_image+ "docintel-small-icon.svg"}alt="" /><span>Docintel.app</span></div>
-                            <div className="stat informed" style={{'--i':"9"}}><img src={path_image+ "informedgo-icon.svg"}alt="" /><span>inforMedGo</span></div>
-                            <div className="stat qa" style={{'--i':"10"}}><img src={path_image+ "polling-icon.svg"}alt="" /><span>Q & Poll</span></div>
-                            <div className="stat survey" style={{'--i':"11"}}><img src={path_image+ "survey-icon.svg"}alt="" /><span>Survey Engine</span></div>
-                            <div className="stat web" style={{'--i':"12"}}><img src={path_image+ "web-portal-icon.svg"}alt="" /><span>Web Portal</span></div>
-                            <div className="stat webinar" style={{'--i':"13"}}><img src={path_image+ "webinar-small-icon.svg"}alt="" /><span>Webinar Portal</span></div>
+
+                            <div className={activeModule === 'spc' ? 'stat spc visible' :  activeModule === 'docintel' ? 'stat spc active': 'stat spc'} onClick={() => handleClick('spc')}  style={{'--i':"3"}}>
+                                <img src={path_image+ "SPC-icon.svg"}alt="" />
+                                <span>SPC Engine</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+
+                            <div className={activeModule === 'automail' ? 'stat automail visible' :  activeModule === 'engine' || activeModule === 'ai' || activeModule === 'autoemail' || activeModule === 'spc'   ? 'stat automail active': 'stat automail'} onClick={() => handleClick('automail')} style={{'--i':"4"}}>
+                                <img src={path_image+ "auto-email-icon.svg"}alt="" />
+                                <span>Automail</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+                            
+                            <div className={activeModule === 'ai' ? 'stat ai visible' : activeModule === 'read' || activeModule === 'informed' || activeModule === 'consent' || activeModule === 'autoemail' || activeModule === 'rating' ? 'stat ai active' : 'stat ai'} onClick={() => handleClick('ai')} style={{'--i':"5"}}>
+                                <img src={path_image+ "artificial-intelligence-icon.svg"}alt="" />
+                                <span>AI Prediction Tool</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+
+                            <div className={activeModule === 'consent' ? 'stat consent visible' : activeModule === 'webinar' || activeModule === 'web' || activeModule === 'informed' || activeModule === 'docintel' || activeModule === 'ai' ? 'stat consent active' : ' stat consent'} onClick={() => handleClick('consent')} style={{'--i':"6"}}>
+                                <img src={path_image+ "legal-document-icon.svg"}alt="" />
+                                <span>Consent</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+
+                            <div className={activeModule === 'engine' ? 'stat engine visible' : activeModule === 'survey' || activeModule === 'spc' ? 'stat engine active' : 'stat engine'} onClick={() => handleClick('engine')} style={{'--i':"7"}}>
+                                <img src={path_image+ "email-small-icon.svg"}alt="" />
+                                <span>Email Engine</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+
+                            <div  className={activeModule === 'docintel' ? 'stat docintel visible'  : activeModule === 'read' ||  activeModule === 'spc' || activeModule === 'web' || activeModule === 'consent'  || activeModule === 'survey' || activeModule === 'informed' || activeModule === 'engine' || activeModule === 'autoemail' || activeModule === 'rating' ? 'stat docintel active'  : 'stat docintel' } 
+                               onClick={() => handleClick('docintel')} style={{'--i':"8"}}>
+                                <img src={path_image+ "docintel-small-icon.svg"}alt="" />
+                                <span>Docintel.app</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+
+                            <div className={activeModule === 'informed' ? 'stat informed visible' :activeModule === 'consent' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'spc' ?'stat informed active' : 'stat'} onClick={() => handleClick('informed')} style={{'--i':"9"}}>
+                                <img src={path_image+ "informedgo-icon.svg"}alt="" />
+                                <span>inforMedGo</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+
+                            <div className={activeModule === 'qa' ? 'stat qa visible' : activeModule === 'webinar' || activeModule === 'survey' ?'stat qa active' : 'stat qa'} onClick={() => handleClick('qa')} style={{'--i':"10"}}>
+                                <img src={path_image+ "polling-icon.svg"}alt="" />
+                                <span>Q & Poll</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+
+                            <div className={activeModule === 'survey' ? 'stat survey visible' : activeModule === 'qa' || activeModule === 'engine'?  'stat survey active' :'stat survey'} onClick={() => handleClick('survey')} style={{'--i':"11"}}>
+                                <img src={path_image+ "survey-icon.svg"}alt="" />
+                                <span>Survey Engine</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+                                
+                            <div className={activeModule === 'web' ? 'stat web visible' : activeModule === 'webinar' || activeModule === 'docintel' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'rating' ? 'stat web active' : 'stat web'} onClick={() => handleClick('web')} style={{'--i':"12"}}>
+                                <img src={path_image+ "web-portal-icon.svg"}alt="" />
+                                <span>Web Portal</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+
+                            <div className={activeModule === 'webinar' ? 'stat webinar visible' : activeModule === 'qa' || activeModule === 'web'? 'stat webinar active':'stat webinar'} onClick={() => handleClick('webinar')} style={{'--i':"13"}}>
+                                <img src={path_image+ "webinar-small-icon.svg"}alt="" />
+                                <span>Webinar Portal</span>
+                                <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                            </div>
+
                             <div className="module-logo">
                                 <img src={path_image + "module-logo.svg"} alt=""/>
                             </div>
-                            <div className={`mudule-article-overview ${isActive?"active":""}`}>
+                            {/* <div className={`mudule-article-overview ${isActive?"active":""}`}>
                                 <img src={path_image+ "rating-icon.svg"}alt="" />
                                 <h4>Rating Tool</h4>
                                 <p>Gauge the true sentiments of HCPs regarding your content by enabling them to provide ratings while they interact with it.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div> */}
+
+                             <div className={`mudule-article-overview ${activeModule === 'read' ? "active" : ""}`}>
+                                <img src={path_image+ "RTR-icon.svg"} alt="" />
+                                <h4>Read-Through-Rate</h4>
+                                <p>Leran if HCPs are genuinely engaging with your content.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'rating' ? "active" : ""}`}>
+                                <img src={path_image+ "rating-icon.svg"}alt="" />
+                                <h4>Rating Tool</h4>
+                                <p>Gauge the true sentiments of HCPs regarding your content by enabling them to provide ratings while they interact with it.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'webinar' ? "active" : ""}`}>
+                               <img src={path_image+ "webinar-small-icon.svg"}alt="" />
+                                <h4>Webinar Portal</h4>
+                                <p>Make your webinars more engaging with live polls & questions and brand it to feel truly you.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'web' ? "active" : ""}`}>
+                               <img src={path_image+ "web-portal-icon.svg"}alt="" />
+                                <h4>Web Portal</h4>
+                                <p>Provide a personalized and dynamic web experience for each HCP, adapting to their location and past engagements.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'survey' ? "active" : ""}`}>
+                            <img src={path_image+ "survey-icon.svg"}alt="" />
+                                <h4>Survey Engine</h4>
+                                <p>Listen to the most important opinion - your HCPs!.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'qa' ? "active" : ""}`}>
+                            <img src={path_image+ "polling-icon.svg"}alt="" />
+                                <h4>Q & Poll</h4>
+                                <p>Make your events more engaging with your live questions and polls. Easy to manage - incredible learning.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'informed' ? "active" : ""}`}>
+                            <img src={path_image+ "informedgo-icon.svg"}alt="" />
+                                <h4>inforMedGo</h4>
+                                <p>Give your rep all content on their device and let them share and gather HCP consent on the spot.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'docintel' ? "active" : ""}`}>
+                            <img src={path_image+ "docintel-small-icon.svg"}alt="" />
+                                <h4>Docintel.app</h4>
+                                <p>Enable HCPs to access and utilize your content seamlessly across all their devices and whenever it's wanted.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'engine' ? "active" : ""}`}>
+                            <img src={path_image+ "email-small-icon.svg"}alt="" />
+                                <h4>Email Engine</h4>
+                                <p>Personalized emails are undeniably one of the most potent tools, ours is build for and with the industry.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'consent' ? "active" : ""}`}>
+                            <img src={path_image+ "legal-document-icon.svg"}alt="" />
+                                <h4>Consent</h4>
+                                <p>Consent forms the foundation of every relationship. Our solution to ensure you get it right everywhere and can legally personalize even AI engagements.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'ai' ? "active" : ""}`}>
+                             <img src={path_image+ "artificial-intelligence-icon.svg"}alt="" />
+                                <h4>AI Prediction Tool</h4>
+                                <p>AI can assist in predecting personalized content for each HCP-based on individualised behaviour and collective patterns.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'automail' ? "active" : ""}`}>
+                            <img src={path_image+ "auto-email-icon.svg"}alt="" />
+                                <h4>Automail</h4>
+                                <p>Automate emails to keep building the relationships with reminders, AI-based suggestions or just help to stay informed.</p>
+                                <Button onClick={()=>setReadStatus(true)}>Read more</Button>
+                            </div>
+
+                            <div className={`mudule-article-overview ${activeModule === 'spc' ? "active" : ""}`}>
+                            <img src={path_image+ "SPC-icon.svg"}alt="" />
+                                <h4>SPC Engine</h4>
+                                <p>Automatically attach the correct SPC for each country and update any changes to ensure only the latest SPC are seen by HCPs.</p>
                                 <Button onClick={()=>setReadStatus(true)}>Read more</Button>
                             </div>
                              
