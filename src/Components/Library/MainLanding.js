@@ -137,7 +137,7 @@ const options = [
                         <div className='started-links d-flex justify-content-between'>
                             <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link>
                             <Link to="/pharma-marketing" className='pharma-marketing'>Pharma Marketing</Link>
-                            <Link to="#" className='publisher-gradient'>Publishers</Link>
+                            <Link to="/landing-publisher" className='publisher-gradient'>Publishers</Link>
                         </div>
                     </div>
                 </div>
