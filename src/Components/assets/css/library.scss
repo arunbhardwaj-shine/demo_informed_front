@@ -9645,7 +9645,8 @@ svg.pencil_icon {
     text-align: center;
     font-size: 14px;
     line-height: 20px;
-    margin: 0 0 70px;
+    margin: 0 auto 70px;
+    max-width: 546px;
   }
 }
 
@@ -9706,7 +9707,6 @@ svg.pencil_icon {
   text-align: left;
 }
 
-
 .module-register form button {
   width: 100%;
   max-width: 169px;
@@ -9714,7 +9714,7 @@ svg.pencil_icon {
 
 .shape {
   height: 100%;
-  width: 70px;
+  width: 33px;
   shape-margin: 3px;
 }
 
@@ -9727,7 +9727,6 @@ svg.pencil_icon {
   float: right;
   shape-outside: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/18515/circle-right.svg);
 }
-
 
 .stat img {
   max-width: 28px;
@@ -9845,11 +9844,13 @@ svg.pencil_icon {
   transform: translateX(100%);
   opacity: 0;
   transition: all 0.65s ease;
+  z-index: -1;
 
   &.active {
     transform: translateX(0px);
     opacity: 1;
     transition-timing-function: cubic-bezier(0.52, 1, 0.37, 1);
+    z-index: 1;
   }
 
   img {
@@ -9890,7 +9891,115 @@ svg.pencil_icon {
 
 }
 
+.module-discribe img.module-content-view {
+  max-width: 440px;
+  margin: 0 auto 38px;
+}
+
+.module-discribe h4 {
+  font-weight: 600;
+  color: #5A6BB5;
+  margin: 20px auto 35px;
+}
+
+.module-discribe img.module-img {
+  max-width: 48px;
+  width: 100%;
+}
+
+.module-discribe p {
+  color: #59748A;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.module-discribe p.semibold {
+  font-weight: 600;
+  margin-top: 21px;
+}
+
+.module-discribe .key-features {
+  max-width: 475px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.key-features h5 {
+  color: #00003C;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  margin: 40px auto 8px;
+}
+
+.key-features ul {
+  padding-left: 22px;
+}
+
+.key-features ul li {
+  color: #59748A;
+  font-size: 14px;
+  line-height: 24px;
+  list-style-type: disc;
+}
+
+.fotter-btns {
+  gap: 22px;
+  margin-top: 145px;
+}
+
+.fotter-btns a {
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 0px 8px 0px rgba(0, 102, 190, 0.32);
+  width: 40px;
+  height: 40px;
+  padding: 6px;
+}
+
+.fotter-btns .btn {
+  min-width: 168px;
+}
+
+.fotter-btns a img {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto;
+}
+
+.module-bigger-size .module-diagram.circle {
+  position: absolute;
+  --radius: 480px;
+  border: 0;
+  left: 50%;
+  right: 0;
+  background: transparent;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.module-bigger-size .module-diagram.circle:after {
+  display: none;
+}
+
+.module-bigger-size .module-diagram.circle .stat {
+  --r-offset: -0.14turn;
+}
+
+.module-discribe {
+  z-index: 1;
+  position: relative;
+}
+
+.module-bigger-size .module-diagram.circle .stat.blank {
+  filter: none;
+  background: transparent;
+}
+
 /**MOdule End**/
+
+
 /**Pharma page End**/
 
 /* keyframe animation */

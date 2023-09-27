@@ -525,9 +525,9 @@ const options = [
                              
                         </div>
                         <div className={`module-bigger-size ${readStatus?"show":""}`}>
-                               <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={()=>setReadStatus(false)}/>
+                            {/* <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={()=>setReadStatus(false)}/> */}
                             <div class="shape shape-left"></div>
-                            <div className="module-register">
+                            {/* <div className="module-register">
                                 <h4>Registration</h4>
                                 <p>Register to access additional module details. Your information and activity remain confidential per GDPR, but we may occasionally notify you about new features or functions. Please confirm by ticking below if that's acceptable.</p>
                                 <Form>
@@ -599,8 +599,139 @@ const options = [
                                     <Button className='btn-filled'>Register</Button>
                                     </Row>
                                 </Form>
+                            </div> */}
+                            <div className="module-discribe">
+                                <img className="module-img" src={path_image +"rtr-image.svg"} alt="" />
+                                <h4>Read-Through-Rate </h4>
+                                 <img className="module-content-view" src={path_image +"rtr-content-list.png"} alt="" />
+                                <p>Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage. </p>
+                                <p className="semibold">Knowledge is power - how will you help your clients?</p>
+                                <div className="key-features">
+                                    <h5>
+                                        Key Features
+                                    </h5>
+                                    <ul>
+                                        <li>Track every engagement down to each second spend on individual pages</li>
+                                        <li>Track HCPs reading on & offline, in browser or in app</li>
+                                        <li>True engagement data</li>
+                                    </ul>
+                                </div>
+
+                                <div className="d-flex align-items-center justify-content-center fotter-btns">
+                                    <Button className='btn-filled'>Request</Button>
+                                    <Link to="/" className=""><img src={path_image +"downlaod-ppt.svg"} alt="" /></Link>
+                                </div>
+                                <div className="module-diagram circle" style={{'--total': "24"}}>
+                                
+                                <div className="stat rating" style={{'--i':"1"}}>
+                                    <img src={path_image+ "rating-icon.svg"}alt="" />
+                                    <span>Rating Tool</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+
+                                <div className="stat spc" style={{'--i':"2"}}>
+                                    <img src={path_image+ "SPC-icon.svg"}alt="" />
+                                    <span>SPC Engine</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+
+                                <div className="stat automail" style={{'--i':"3"}}>
+                                    <img src={path_image+ "auto-email-icon.svg"}alt="" />
+                                    <span>Automail</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+                                
+                                <div className="stat ai" style={{'--i':"4"}}>
+                                    <img src={path_image+ "artificial-intelligence-icon.svg"}alt="" />
+                                    <span>AI Prediction Tool</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+
+                                <div className="stat consent" style={{'--i':"5"}}>
+                                    <img src={path_image+ "legal-document-icon.svg"}alt="" />
+                                    <span>Consent</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+                                <div className="stat engine" style={{'--i':"6"}}>
+                                    <img src={path_image+ "email-small-icon.svg"} alt="" />
+                                    <span>Email Engine</span>
+                                    <div className="article-close">
+                                        <img src={path_image + "close-button.svg"} alt="" />
+                                    </div>
+                                </div>
+                                <div className="stat blank" style={{'--i':"7"}}>
+                                </div>
+                                <div className="stat blank" style={{'--i':"8"}}>
+
+                                </div>
+                                <div className="stat blank" style={{'--i':"9"}}>
+                                </div>
+                                <div className="stat blank" style={{'--i':"10"}}>
+                                </div>
+                                <div className="stat blank" style={{'--i':"11"}}>
+                                </div>
+
+                                <div  className="stat docintel" style={{'--i':"12"}}>
+                                    <img src={path_image+ "docintel-small-icon.svg"}alt="" />
+                                    <span>Docintel.app</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+
+                                <div className="stat informed" style={{'--i':"13"}}>
+                                    <img src={path_image+ "informedgo-icon.svg"}alt="" />
+                                    <span>inforMedGo</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+
+                                <div className="stat qa" style={{'--i':"14"}}>
+                                    <img src={path_image+ "polling-icon.svg"}alt="" />
+                                    <span>Q & Poll</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+
+                                <div className="stat survey" style={{'--i':"15"}}>
+                                    <img src={path_image+ "survey-icon.svg"}alt="" />
+                                    <span>Survey Engine</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+                                    
+                                <div className="stat web" style={{'--i':"16"}}>
+                                    <img src={path_image+ "web-portal-icon.svg"}alt="" />
+                                    <span>Web Portal</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+
+                                <div className="stat webinar" style={{'--i':"17"}}>
+                                    <img src={path_image+ "webinar-small-icon.svg"}alt="" />
+                                    <span>Webinar Portal</span>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                </div>
+                                <div className="stat read" style={{'--i':"18"}}>
+                                    <img src={path_image+ "RTR-icon.svg"} alt="" />
+                                    <span>Read-Through -Rate</span>
+                                    <div className="article-close">
+                                        <img src={path_image + "close-button.svg"} alt="" />
+                                    </div>
+                                </div>
+                                <div className="stat blank" style={{'--i':"19"}}>
+                                </div>
+                                <div className="stat blank" style={{'--i':"20"}}>
+
+                                </div>
+                                <div className="stat blank" style={{'--i':"21"}}>
+                                </div>
+                                <div className="stat blank" style={{'--i':"22"}}>
+                                </div>
+                                <div className="stat blank" style={{'--i':"23"}}>
+                                </div>
+                                <div className="stat blank" style={{'--i':"24"}}>
+                                </div>
                             </div>
+                            </div>
+                            
+
                             <div class="shape shape-right"></div> 
+
                         </div>
                     </div>
                 </div>
