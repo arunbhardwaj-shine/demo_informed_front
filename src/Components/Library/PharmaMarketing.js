@@ -111,27 +111,34 @@ const modules = [
   ];
   
   
-    const [moduleData, setModuleData] = useState({
-        active:false,
-        imagePath:"",
-        heading:"",
-        paragraph:""
+const [moduleData, setModuleData] = useState({
+    active:false,
+    imagePath:"",
+    heading:"",
+    paragraph:""
         
-    });
+ });
 
 
-    const handleClick = (moduleName,index) => {
+const handleClick = (moduleName, index) => {
+    setModuleData({
+        ...moduleData,
+        active:false
+     })
+     setActiveModule();
+    const data = modules[index];
+
+    setTimeout(() => {
+        setModuleData(prevState => ({
+           active: moduleName === activeModule ? !prevState.active : true,
+            imagePath: data?.icon,
+            heading: data?.title,
+            paragraph: data?.description
+        }));
         setActiveModule(moduleName === activeModule ? null : moduleName);
-        let data =modules[index];
-   
-        setModuleData({
-            active:!(moduleData?.active),
-            imagePath:data?.icon,
-            heading:data?.title,
-            paragraph:data?.description
-        })
-    }
+    }, 700); 
 
+}
 
 const sliderRef = useRef();
 const parentRef = useRef('');
@@ -547,15 +554,13 @@ const options = [
                                 <Button onClick={()=>setReadStatus(true)}>Read more</Button>
                             </div> */}
 
-                             <div className={`mudule-article-overview ${moduleData.active === true ? "active" : ""}`}>
-                                <img src={path_image+ ""+moduleData.imagePath} alt="" />
-                                <h4>{moduleData.heading}</h4>
-                                <p>{moduleData.paragraph}</p>
+                             <div className={`mudule-article-overview ${moduleData?.active === true ? "active" : ""}`}>
+                                <img src={path_image+ ""+moduleData?.imagePath} alt="" />
+                                <h4>{moduleData?.heading}</h4>
+                                <p>{moduleData?.paragraph}</p>
                                 <Button onClick={()=>setReadStatus(true)}>Read more</Button>
                             </div> 
-
-                             
-                             
+     
                         </div>
                         <div className={`module-bigger-size ${readStatus?"show":""}`}>
                             {/* <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={()=>setReadStatus(false)}/> */}
@@ -656,36 +661,36 @@ const options = [
                                 </div>
                                 <div className="module-diagram circle" style={{'--total': "24"}}>
                                 
-                                <div className="stat rating" style={{'--i':"1"}}>
+                                <div className={activeModule === 'rating' ? 'stat rating visible' : activeModule === 'web' || activeModule === 'docintel' ? 'stat rating active' : 'stat rating'} style={{'--i':"1"}}>
                                     <img src={path_image+ "rating-icon.svg"}alt="" />
                                     <span>Rating Tool</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className="stat spc" style={{'--i':"2"}}>
+                                <div className={activeModule === 'spc' ? 'stat spc visible' :  activeModule === 'docintel' ? 'stat spc active': 'stat spc'} style={{'--i':"2"}}>
                                     <img src={path_image+ "SPC-icon.svg"}alt="" />
                                     <span>SPC Engine</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className="stat automail" style={{'--i':"3"}}>
+                                <div className={activeModule === 'automail' ? 'stat automail visible' :  activeModule === 'engine' || activeModule === 'ai' || activeModule === 'autoemail' || activeModule === 'spc'   ? 'stat automail active': 'stat automail'} style={{'--i':"3"}}>
                                     <img src={path_image+ "auto-email-icon.svg"}alt="" />
                                     <span>Automail</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
                                 
-                                <div className="stat ai" style={{'--i':"4"}}>
+                                <div className={activeModule === 'ai' ? 'stat ai visible' : activeModule === 'read' || activeModule === 'informed' || activeModule === 'consent' || activeModule === 'autoemail' || activeModule === 'rating' ? 'stat ai active' : 'stat ai'} style={{'--i':"4"}}>
                                     <img src={path_image+ "artificial-intelligence-icon.svg"}alt="" />
                                     <span>AI Prediction Tool</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className="stat consent" style={{'--i':"5"}}>
+                                <div className={activeModule === 'consent' ? 'stat consent visible' : activeModule === 'webinar' || activeModule === 'web' || activeModule === 'informed' || activeModule === 'docintel' || activeModule === 'ai' ? 'stat consent active' : ' stat consent'} style={{'--i':"5"}}>
                                     <img src={path_image+ "legal-document-icon.svg"}alt="" />
                                     <span>Consent</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
-                                <div className="stat engine" style={{'--i':"6"}}>
+                                <div className={activeModule === 'engine' ? 'stat engine visible' : activeModule === 'survey' || activeModule === 'spc' ? 'stat engine active' : 'stat engine'} style={{'--i':"6"}}>
                                     <img src={path_image+ "email-small-icon.svg"} alt="" />
                                     <span>Email Engine</span>
                                     <div className="article-close">
@@ -704,42 +709,42 @@ const options = [
                                 <div className="stat blank" style={{'--i':"11"}}>
                                 </div>
 
-                                <div  className="stat docintel" style={{'--i':"12"}}>
+                                <div  className={activeModule === 'docintel' ? 'stat docintel visible'  : activeModule === 'read' ||  activeModule === 'spc' || activeModule === 'web' || activeModule === 'consent'  || activeModule === 'survey' || activeModule === 'informed' || activeModule === 'engine' || activeModule === 'autoemail' || activeModule === 'rating' ? 'stat docintel active'  : 'stat docintel' }  style={{'--i':"12"}}>
                                     <img src={path_image+ "docintel-small-icon.svg"}alt="" />
                                     <span>Docintel.app</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className="stat informed" style={{'--i':"13"}}>
+                                <div className={activeModule === 'informed' ? 'stat informed visible' :activeModule === 'consent' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'spc' ?'stat informed active' : 'stat'} style={{'--i':"13"}}>
                                     <img src={path_image+ "informedgo-icon.svg"}alt="" />
                                     <span>inforMedGo</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className="stat qa" style={{'--i':"14"}}>
+                                <div className={activeModule === 'qa' ? 'stat qa visible' : activeModule === 'webinar' || activeModule === 'survey' ?'stat qa active' : 'stat qa'} style={{'--i':"14"}}>
                                     <img src={path_image+ "polling-icon.svg"}alt="" />
                                     <span>Q & Poll</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className="stat survey" style={{'--i':"15"}}>
+                                <div className={activeModule === 'survey' ? 'stat survey visible' : activeModule === 'qa' || activeModule === 'engine'?  'stat survey active' :'stat survey'} style={{'--i':"15"}}>
                                     <img src={path_image+ "survey-icon.svg"}alt="" />
                                     <span>Survey Engine</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
                                     
-                                <div className="stat web" style={{'--i':"16"}}>
+                                <div className={activeModule === 'web' ? 'stat web visible' : activeModule === 'webinar' || activeModule === 'docintel' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'rating' ? 'stat web active' : 'stat web'} style={{'--i':"16"}}>
                                     <img src={path_image+ "web-portal-icon.svg"}alt="" />
                                     <span>Web Portal</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className="stat webinar" style={{'--i':"17"}}>
+                                <div className={activeModule === 'webinar' ? 'stat webinar visible' : activeModule === 'qa' || activeModule === 'web'? 'stat webinar active':'stat webinar'} style={{'--i':"17"}}>
                                     <img src={path_image+ "webinar-small-icon.svg"}alt="" />
                                     <span>Webinar Portal</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
-                                <div className="stat read" style={{'--i':"18"}}>
+                                <div className={activeModule ==='read'? 'stat read visible' : activeModule === 'docintel' || activeModule === 'ai' ?  'stat read active' :'stat read'}  style={{'--i':"18"}}>
                                     <img src={path_image+ "RTR-icon.svg"} alt="" />
                                     <span>Read-Through -Rate</span>
                                     <div className="article-close">
