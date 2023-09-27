@@ -397,7 +397,6 @@ const EditLibrary = () => {
     }
   };
   const handleChange = (e, isSelectedName) => {
-    console.log(e, isSelectedName);
     if (e?.target?.files?.length < 1) {
       return;
     }
