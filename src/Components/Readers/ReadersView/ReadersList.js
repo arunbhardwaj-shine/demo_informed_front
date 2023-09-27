@@ -2303,16 +2303,19 @@ const NewReaders = () => {
                                         ""
                                       ) : (
                                         <>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Consent Country
-                                          </h6>
-                                          <h6>
-                                            {
-                                              consetCountry?.[data?.id] ?  consetCountry?.[data?.id] == "B&H" ? "Bosnia and Herzegovina" : consetCountry?.[data?.id] : "N/A"
-                                            }
-                                          </h6>
-                                        </li>
+                                        {
+                                          localStorage.getItem('group_id') == 3 ?
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Consent Country
+                                            </h6>
+                                            <h6>
+                                              {
+                                                consetCountry?.[data?.id] ?  consetCountry?.[data?.id] == "B&H" ? "Bosnia and Herzegovina" : consetCountry?.[data?.id] : "N/A"
+                                              }
+                                            </h6>
+                                          </li>: null
+                                        }
                                         <li>
                                           <h6 className="tab-content-title">
                                             User Status
