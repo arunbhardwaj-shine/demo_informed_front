@@ -7840,6 +7840,11 @@ svg.pencil_icon {
     background-size: cover;
   }
 
+  &.publish {
+    background: #39CABC url(../../../../public/componentAssets/images/publisher-bg.png) no-repeat;
+    background-size: cover;
+  }
+
   .landing-block {
     z-index: 1;
     padding: 159px 0 210px;
@@ -7890,6 +7895,7 @@ svg.pencil_icon {
   text-align: center;
   font-weight: 400;
   line-height: 40px;
+  text-transform: none;
 }
 
 .pharma .circular-ring {
@@ -8617,6 +8623,7 @@ svg.pencil_icon {
   font-size: 20px;
   line-height: 30px;
   margin: 42px 0 0;
+  font-weight: 400;
 }
 
 .works-started>h3 {
@@ -8714,20 +8721,27 @@ svg.pencil_icon {
   padding: 55px 0 48px;
   position: relative;
   background-position: center;
+  background-size: cover;
+
+  &.pharma {
+    background: #0066BE url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
+    box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
+  }
+
+  &.rd {
+    background: #AF8ACD url(../../../../public/componentAssets/images/rd-contact-bg.png) no-repeat;
+    box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
+    background-size: cover;
+  }
+
+  &.publish {
+    background: #39CABC url(../../../../public/componentAssets/images/publisher-contact.png) no-repeat;
+    background-size: cover;
+    box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
+  }
 }
 
-.contact-us.pharma {
-  background: #0066BE url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
-  box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
-  background-position: center;
-  background-size: cover;
-}
 
-.contact-us.pharma.rd {
-  background: #AF8ACD url(../../../../public/componentAssets/images/rd-contact-bg.png) no-repeat;
-  background-position: center;
-  background-size: cover;
-}
 
 .contact-inset {
   max-width: 1044px;
@@ -8757,6 +8771,14 @@ svg.pencil_icon {
   border: 1px dashed #46F4FF;
   padding: 30px;
   margin: 45px 0 0;
+}
+
+.rd .contact-inset .form-sec {
+  border-color: #D875F5;
+}
+
+.publish .contact-inset .form-sec {
+  border-color: #35E9E9;
 }
 
 .form-sec form {
@@ -8791,6 +8813,62 @@ svg.pencil_icon {
       }
     }
   }
+}
+
+.rd .contact-inset form .form-group .form-control::-webkit-input-placeholder,
+.rd .contact-inset form .form-group textarea::-webkit-input-placeholder {
+  color: #D09DDF;
+  opacity: 1;
+}
+
+.publish .contact-inset form .form-group .form-control::-webkit-input-placeholder,
+.publish .contact-inset form .form-group textarea::-webkit-input-placeholder {
+  color: #A4EDE6;
+  opacity: 1;
+}
+
+.rd .contact-inset form .form-group .form-control::-moz-placeholder,
+.rd .contact-inset form .form-group textarea::-moz-placeholder {
+  color: #D09DDF;
+  opacity: 1;
+}
+
+.publish .contact-inset form .form-group .form-control::-moz-placeholder,
+.publish .contact-inset form .form-group textarea::-moz-placeholder {
+  color: #A4EDE6;
+  opacity: 1;
+}
+
+.rd .contact-inset form .form-group .form-control:-ms-input-placeholder,
+.rd .contact-inset form .form-group textarea:-ms-input-placeholder {
+  color: #D09DDF;
+  opacity: 1;
+}
+
+.rd .contact-inset form .form-group .form-control:-moz-placeholder,
+.rd .contact-inset form .form-group textarea:-moz-placeholder {
+  color: #D09DDF;
+  opacity: 1;
+}
+
+.publish .contact-inset form .form-group .form-control:-ms-input-placeholder,
+.publish .contact-inset form .form-group textarea:-ms-input-placeholder {
+  color: #A4EDE6;
+  opacity: 1;
+}
+
+.publish .contact-inset form .form-group .form-control:-moz-placeholder,
+.publish .contact-inset form .form-group textarea:-moz-placeholder {
+  color: #A4EDE6;
+  opacity: 1;
+}
+
+.rd .form-sec .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
+  color: #D09DDF;
+}
+
+.publish .form-sec .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
+  color: #A4EDE6;
 }
 
 .contact-inset form .form-group textarea {
@@ -9282,6 +9360,9 @@ svg.pencil_icon {
     }
   }
 
+  .publish .stat {
+    --r-offset: -0.37turn;
+  }
 
   &.docintel {
     &.active {

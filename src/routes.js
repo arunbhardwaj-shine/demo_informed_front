@@ -149,7 +149,8 @@ import PollQuestion from "./Components/Firbase/PollQuestion";
 import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf";
 import MainLanding from "./Components/Library/MainLanding";
 import PharmaMarketing from "./Components/Library/PharmaMarketing";
-import PharmaRd from "./Components/Library/PharmaRd";
+import PharmaRnd from "./Components/Library/PharmaRnd";
+import LandingPublisher from "./Components/Library/LandingPublisher";
 let platform = 0;
 let show = 0;
 
@@ -212,12 +213,16 @@ const Routing = () => {
           element={<DefaultLayout component={MainLanding} />}
         />
         <Route
+          path="/landing-publisher"
+          element={<DefaultLayout component={LandingPublisher} />}
+        />
+        <Route
           path="/pharma-marketing"
           element={<DefaultLayout component={PharmaMarketing} />}
         />
         <Route
           path="/pharma-rd"
-          element={<DefaultLayout component={PharmaRd} />}
+          element={<DefaultLayout component={PharmaRnd} />}
         />
         <Route
           path="/webinar"
