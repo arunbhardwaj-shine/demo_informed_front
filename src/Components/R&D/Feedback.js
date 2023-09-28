@@ -121,7 +121,7 @@ const Feedback = () => {
                             <>
                             {
                                 apiStatus ? 
-                                <h4>No Data Found</h4> : null
+                                <h4 className="not-found" style={{color:'#004A89'}}>No Data Found</h4> : null
                             }
                             </>
                         )
