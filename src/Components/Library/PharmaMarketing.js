@@ -118,8 +118,8 @@ const bigCircleModules = [
         logo: 'rtr-image.svg',
         title: 'Read-Through-Rate',
         image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Utilise this data to send reminders, recommendations, or equip your representatives for more informed conversations based on the specific interests and engagement patterns of each HCP.',
+        para:'Knowledge is power - how will you use yours?',
         features : [
            'Based on consent given by each HCP',
            'Track HCPs reading on & offline, in browser or in app',
@@ -132,10 +132,10 @@ const bigCircleModules = [
     {
         id: 2,
         active:false,
-        logo: 'rtr-image.svg',
+        logo: 'rating-icon.svg',
         title: 'Rating Tool',
-        image: 'rtr-content-list.png',
-        description: 'Introducing our revolutionary Rating Toll, assessing clinical value across your contents and events. Gather crucial insights at the moment HCPs engage with you. Learn their collective thoughts, focus on the exceptinal content, and ensure you usher in a new era of engagement.',
+        image: 'rating-tool-min.png',
+        description: 'Introducing our revolutionary Rating Tool, assessing clinical value across your content and events. Gather crucial insights at the moment HCPs engage with you. Learn their collective thoughts, focus on the exceptional content, and ensure you  usher in a new era of engagement.',
         features : [
            'Let HCPs rate your content',
            'Commission better content based on HCP opinions',
@@ -147,11 +147,11 @@ const bigCircleModules = [
     {
         id: 3,
         active:false,
-        logo: 'rtr-image.svg',
+        logo: 'SPC-icon.svg',
         title: 'SPC Engine',
-        image: 'rtr-content-list.png',
-        description: `Reclaim your time and end the worry about correct SPCs on older content. The SPC engine automatically attach the correct country & product SPC to each content, keeping your library well manage and easy to navigate . It's as simple to set up as making changes when necessay, ensuring that HCPs always have access to the latest SPC information.`,
-        para:'No more worry about compliance and changes HCPs',
+        image: 'spc-engine-min.png',
+        description: `Reclaim your time and end the worry about correct SPC’s on older content. The SPC engine automatically attach the correct country & product SPC to each content, keeping your library well managed and easy to navigate. It's as simple to set up as making changes when necessary, ensuring that HCPs always have access to the latest SPC information.`,
+        para:'No more worry about compliance and changed SPC’s.',
         features : [
            'Automatically matches the correct SPC with the country of the HCP',
            'Remains consistently updated, allowing you to have peace of mind to every account',
@@ -163,170 +163,172 @@ const bigCircleModules = [
     {
         id: 4,
         active: false,
-        logo: 'rtr-image.svg',
+        logo: 'auto-email-icon.svg',
         title: 'Automail',
-        image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        image: 'automail-min.png',
+        description: 'Automate personalised email reminders and AI-recommended content for HCPs who haven’t been reached within your KPI timeframe. Streamline time-consuming tasks associated with standard HCP interactions to save you time and effort, ultimately enhancing HCP engagement.',
+        para:'Designed exclusively for the life science sector, our comprehensive feature set makes this email tool the ultimate choice for enhancing relationships with healthcare professionals.',
         features : [
-           'Based on consent given by each HCP',
-           'Track HCPs reading on & offline, in browser or in app',
-           'Track every engagement down to each second spend on individual pages',
-           'Data integrate in CRM timeline',
-           'Key data for personalising AI predictions'
+           'Two level of AutoMail offerings (Essential & Predictive)',
+           'Automated post-Registration onboarding, reminders, etc',
+           'Predictive personalised automated emails',
+           'Increased engagement with pre-approved content',
+           'Customisable AutoMail settings'
         ]
     },
 
     {
         id: 5,
         active: false,
-        logo: 'rtr-image.svg',
+        logo: 'artificial-intelligence-icon.svg',
         title: 'AI Prediction Tool',
-        image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        image: 'ai-min.png',
+        description: 'Our AI leverages your HCP engagement data to formulate personalised predictions for each HCP. This process improves as your interactions with HCPs deepen. Enhanced content recommendations foster stronger relationships and trust, culminating in measurable success through the synergy of intelligence and foresight.',
+        para:'',
         features : [
-           'Based on consent given by each HCP',
-           'Track HCPs reading on & offline, in browser or in app',
-           'Track every engagement down to each second spend on individual pages',
-           'Data integrate in CRM timeline',
-           'Key data for personalising AI predictions'
+           'Use approved consent to create individually tailored predictions for each HCP',
+           'Improve HCP engagement by providing relevant content you can be sure they’ll love',
+           'Deliver in a way you know they’ll receive',
+           'Knowledge is power - The more you know, the more insightful you can be for every HCP',
+           'Customise how you use your collected data to best serve you'
         ]
     },
 
     {
         id: 6,
         active: false,
-        logo: 'rtr-image.svg',
+        logo: 'legal-document-icon.svg',
         title: 'Consent',
-        image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        image: 'consent-min.png',
+        description: 'Build better relationships with the right consent. Utilising consent to analyse engagement data enables precise predictions about HCPs’ interests. Our forms are in use on every continent and can be modified to any requirements. Integrating consent into distribution empowers AI usage for our predictive platform tailoring content for your HCPs. ',
+        para:'',
         features : [
-           'Based on consent given by each HCP',
-           'Track HCPs reading on & offline, in browser or in app',
-           'Track every engagement down to each second spend on individual pages',
-           'Data integrate in CRM timeline',
-           'Key data for personalising AI predictions'
+           'Consent is at the core and powers every module for success',
+           'Consent given at every point',
+           'Personalised experienced for your HCPs',
+           'HCPs can withdraw consent through their Docintel account'
         ]
     },
 
     {
         id: 7,
         active: false,
-        logo: 'rtr-image.svg',
+        logo: 'email-small-icon.svg',
         title: 'Email Engine',
-        image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        image: 'email-engine-min.png',
+        description: 'Personal emails are powerful, they feel like a direct outreach from a trusted source.  Our email engine, tailored for the life science sector, seamlessly integrates with other modules’ data to easily reach a single or a segment of HCPs. You can even let it monitor a group and automatically email individual follow up or apply AI assisted recommendations for new content.',
+        para:'Saves you time and effort, yet simple to use.',
         features : [
-           'Based on consent given by each HCP',
-           'Track HCPs reading on & offline, in browser or in app',
-           'Track every engagement down to each second spend on individual pages',
-           'Data integrate in CRM timeline',
-           'Key data for personalising AI predictions'
+           'Easy to use - built for the industry',
+           'Dynamic SmartLists save you from excel-hell',
+           'Track if HCP reads what you send',
+           'Email & content engagement stored in CRM',
+           'Add-on AutoMail for AI-automation and content recommendations'
         ]
     },
 
     {
         id: 8,
         active: false,
-        logo: 'rtr-image.svg',
+        logo: 'docintel-small-icon.svg',
         title: 'Docintel.app',
-        image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        image: 'docintel-min.png',
+        description: 'Beyond the elegant and user-friendly interfaces lies perhaps the most sophisticated and versatile technology accessible to pharmaceutical marketers. Tailorable consent mechanisms, usage tracking that fuels AI, multimedia content choices, and interactivity are all designed to enhance the digital rapport between you and healthcare professionals.',
+        para:'',
         features : [
-           'Based on consent given by each HCP',
-           'Track HCPs reading on & offline, in browser or in app',
-           'Track every engagement down to each second spend on individual pages',
-           'Data integrate in CRM timeline',
-           'Key data for personalising AI predictions'
+           'HCPs read on & offline, in any browser or in the app',
+           'Secure instant HCP consent',
+           'RTR tracks every second spend on individual pages',
+           'Stay consistent with your visual identity',
+           'Push content or let HCPs register new content with a code',
+           'Personalised AI predictive content for your HCPs'
         ]
     },
 
     {
         id: 9,
         active: false,
-        logo: 'rtr-image.svg',
+        logo: 'informedgo-icon.svg',
         title: 'inforMedGo',
-        image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        image: 'informedgo-min.png',
+        description: 'Streamline rep engagement and consent collection from HCPs. Providing your reps with the entire support materials library on their devices ensures ready resources for personalised conversations. Sharing and securing consent on-the-spot improves compliance and follow-up procedures.',
+        para:'',
         features : [
-           'Based on consent given by each HCP',
-           'Track HCPs reading on & offline, in browser or in app',
-           'Track every engagement down to each second spend on individual pages',
-           'Data integrate in CRM timeline',
-           'Key data for personalising AI predictions'
+           'Easy to use - Become a pro in under 15 minutes',
+           'Give Reps control over your entire content collection',
+           'Gather on-the-spot consent - Allowing you to send new & engaging content to your HCPs',
+           'Receive all content the country has made available - Applying to local and international',
+           'Send materials via the app by sales team member directly to the HCP',
+           'Works seamlessly with SPC engine to ensure compliance'
         ]
     },
 
     {
         id: 10,
         active: false,
-        logo: 'rtr-image.svg',
+        logo: 'polling-icon.svg',
         title: 'Q & Poll',
-        image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        image: 'poll-min.png',
+        description: 'Enhance HCP engagement at events. Add polls to presentations for personalised speaker-audience interaction. Immediate Q&A involvement empowers each HCP. Integrating votes and questions into CRM Timelines aids post-event personalisation.',
+        para:'',
         features : [
-           'Based on consent given by each HCP',
-           'Track HCPs reading on & offline, in browser or in app',
-           'Track every engagement down to each second spend on individual pages',
-           'Data integrate in CRM timeline',
-           'Key data for personalising AI predictions'
+           'Real-time interaction and queries',
+           'Screen questions before they reach the panel',
+           'Get to know your HCPs better (by knowing what’s got them thinking)',
+           'Instantaneous HCP engagement with no interruptions',
+           'Automatically integrate Q&Poll data and easily download'
         ]
     },
 
     {
         id: 11,
         active: false,
-        logo: 'rtr-image.svg',
+        logo: 'survey-icon.svg',
         title: 'Survey Engine',
-        image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        image: 'survey-engine-min.png',
+        description: 'Reveal valuable HCP Insights with custom surveys. Create your questions, target specific segments, and instantly gain deeper understanding about each HCP by seeing their answers. The survey engine syncs with the CRM data, and the email module enables easy resend to non-openers - integrate with AutoMail for efficiency.',
+        para:'',
         features : [
-           'Based on consent given by each HCP',
-           'Track HCPs reading on & offline, in browser or in app',
-           'Track every engagement down to each second spend on individual pages',
-           'Data integrate in CRM timeline',
-           'Key data for personalising AI predictions'
+           'Gain invaluable real-time feedback from your HCPs',
+           'Customise your survey - Let your brand shine through at every point',
+           'Integrate into your pages - Creating a seamless experience',
+           'Build better data for your AI',
         ]
     },
 
     {
         id: 12,
         active: false,
-        logo: 'rtr-image.svg',
+        logo: 'web-portal-icon.svg',
         title: 'Web Portal',
-        image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        image: 'web-portal-min.png',
+        description: 'Would you like a website that adapts to the individual HCP? Combine modules and AI to personalise content recommended, surveys, videos, news, and events to each HCP based on their location and past engagements. Simultaneously tracking their activity to learn and improve the user experience. ',
+        para:'',
         features : [
-           'Based on consent given by each HCP',
-           'Track HCPs reading on & offline, in browser or in app',
-           'Track every engagement down to each second spend on individual pages',
-           'Data integrate in CRM timeline',
-           'Key data for personalising AI predictions'
+           'Provide a unifying experience',
+           'Merge all your modules in one place for an evolved personal experience.',
+           'On demand for when the HCP want to know more',
+           'Let HCPs take what they want offline in their personal Docintel app account',
+           'Combining Local and Global users for promotion',
+           'Maintain your visual identity'
         ]
     },
 
     {
         id: 13,
         active: false,
-        logo: 'rtr-image.svg',
+        logo: 'webinar-small-icon.svg',
         title: 'Webinar Portal',
-        image: 'rtr-content-list.png',
-        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
-        para:'Knowledge is power - how will you help your clients?',
+        image: 'webinar-portal-min.png',
+        description: 'Transform your webinars to your own event with creative freedom and engagement tools that resonates and make HCPs feel valued and an active participant. Convert the recordings into valuable content that can be distributed in a user-friendly format, fostering post-event engagement and stronger relationships with HCPs.',
+        para:'',
         features : [
-           'Based on consent given by each HCP',
-           'Track HCPs reading on & offline, in browser or in app',
-           'Track every engagement down to each second spend on individual pages',
-           'Data integrate in CRM timeline',
-           'Key data for personalising AI predictions'
+           'Online Webinar Platform every HCP will find easy to use',
+           'Registration & Consent from your HCPs',
+           'Automated Calendar Reminders helping the HCPs be on time',
+           'Automated personalised emails with single-click-login ensure easy access for each HCP',
+           'Take your interaction to the next level & allow HCPs to ask real-time questions',
+           'Learn who stayed and engaged to improve your data for the AI Predictions'
         ]
     },
 
@@ -909,21 +911,24 @@ const options = [
                                     <Link to="/" className=""><img src={path_image +"downlaod-ppt.svg"} alt="" /></Link>
                                 </div> */}
 
-                               <div className={`${bigCircleModuleData?.active === true ? "active" : ""}`}>
-                                <img className="module-img" src={path_image +"" +bigCircleModuleData?.logoIconPath}/>
-                                <h4>{bigCircleModuleData?.heading}</h4>
-                                <img className="module-content-view" src={path_image +"" +bigCircleModuleData?.imagePath}/>
-                                <p>{bigCircleModuleData?.detail}</p>
-                                <p className="semibold">{bigCircleModuleData?.paragraph}</p>
-                                <div className="key-features">
-                                <h5> Key Features</h5>
-                                    <ul>
-                                    {bigCircleModuleData?.highlights?.map((feature, index) => (
-                                    <li key={index}>{feature}</li>
-                                    ))}
-                                    </ul>
+                               <div className={`${bigCircleModuleData?.active === true ? "active d-flex justify-content-between flex-column" : "d-flex justify-content-between flex-column"}`}>
+                                <div>
+                                    <img className="module-img" src={path_image +"" +bigCircleModuleData?.logoIconPath}/>
+                                    <h4>{bigCircleModuleData?.heading}</h4>
+                                    <img className="module-content-view" src={path_image +"" +bigCircleModuleData?.imagePath}/>
                                 </div>
-
+                                <div>
+                                    <p>{bigCircleModuleData?.detail}</p>
+                                    <p className="semibold">{bigCircleModuleData?.paragraph}</p>
+                                    <div className="key-features">
+                                    <h5> Key Features</h5>
+                                        <ul>
+                                        {bigCircleModuleData?.highlights?.map((feature, index) => (
+                                        <li key={index}>{feature}</li>
+                                        ))}
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div className="d-flex align-items-center justify-content-center fotter-btns">
                                     <Button className='btn-filled'>Request</Button>
                                     <Link to="/" className=""><img src={path_image +"downlaod-ppt.svg"} alt="" /></Link>
@@ -988,7 +993,7 @@ const options = [
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className={activeModule === 'informed' ? 'stat informed visible' :activeModule === 'consent' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'spc' ?'stat informed active' : 'stat'} onClick={() => handleClick('informed',8)} style={{'--i':"13"}}>
+                                <div className={activeModule === 'informed' ? 'stat informed visible' :activeModule === 'consent' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'spc' ?'stat informed active' : 'stat informed'} onClick={() => handleClick('informed',8)} style={{'--i':"13"}}>
                                     <img src={path_image+ "informedgo-icon.svg"}alt="" />
                                     <span>inforMedGo</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>

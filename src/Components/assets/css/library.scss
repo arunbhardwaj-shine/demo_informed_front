@@ -9575,7 +9575,7 @@ svg.pencil_icon {
 
 .module-bigger-size {
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 1);
   box-shadow: 0px 3px 19px 0px rgba(0, 102, 190, 0.26);
   backdrop-filter: blur(40px);
   width: 800px;
@@ -9892,14 +9892,14 @@ svg.pencil_icon {
 }
 
 .module-discribe img.module-content-view {
-  max-width: 440px;
-  margin: 0 auto 38px;
+  max-height: 191px;
+  margin: 0 auto 20px;
 }
 
 .module-discribe h4 {
   font-weight: 600;
   color: #5A6BB5;
-  margin: 20px auto 35px;
+  margin: 9px auto 24px;
 }
 
 .module-discribe img.module-img {
@@ -9916,11 +9916,11 @@ svg.pencil_icon {
 
 .module-discribe p.semibold {
   font-weight: 600;
-  margin-top: 21px;
+  margin-top: 10px;
 }
 
 .module-discribe .key-features {
-  max-width: 475px;
+  max-width: 575px;
   margin: 0 auto;
   text-align: left;
 }
@@ -9949,7 +9949,7 @@ svg.pencil_icon {
 
 .fotter-btns {
   gap: 22px;
-  margin-top: 145px;
+  margin-top: 75px;
 
   a {
     border-radius: 30px;
@@ -9992,10 +9992,12 @@ svg.pencil_icon {
   --r-offset: -0.14turn;
 }
 
-.module-discribe {
+.module-discribe,
+.module-discribe .active {
   z-index: 1;
   position: relative;
 }
+
 
 .module-bigger-size .module-diagram.circle .stat.blank {
   filter: none;
