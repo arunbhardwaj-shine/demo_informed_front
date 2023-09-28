@@ -154,7 +154,7 @@ import MarketingAddReader from "./Components/Readers/AddReader/MarketingAddReade
 import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditReader";
 import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
 import PageNotFound from "./Components/CommonComponent/PageNotFound";
-
+import Feedback from "./Components/R&D/Feedback";
 let platform = 0;
 let show = 0;
 
@@ -221,6 +221,10 @@ const Routing = () => {
         <Route
           path="/LEX-210-analytics"
           element={<LoginLayout component={RDAnalytics} />}
+        />
+        <Route
+          path="/feedback"
+          element={<LoginLayout component={Feedback} />}
         />
         //LoginLayout for pages after login
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
