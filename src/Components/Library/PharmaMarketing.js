@@ -108,7 +108,7 @@ const modules = [
       title: 'Webinar Portal',
       description: 'Make your webinars more engaging with live polls & questions and brand it to feel truly you.',
     },  
-  ];
+];
 
 
 const bigCircleModules = [
@@ -116,7 +116,8 @@ const bigCircleModules = [
         id: 1,
         active:false,
         logo: 'rtr-image.svg',
-        title: 'Read-Through-Rate',
+        // title: 'Read-Through-Rate',
+        title: <span style={{color:'#5A6BB5'}}>Read-Through-Rate</span>,
         image: 'rtr-content-list.png',
         description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
         para:'Knowledge is power - how will you help your clients?',
@@ -133,7 +134,8 @@ const bigCircleModules = [
         id: 2,
         active:false,
         logo: 'rtr-image.svg',
-        title: 'Rating Tool',
+        // title: 'Rating Tool',
+        title: <span style={{color:'#2B9BC8'}}>Rating Tool</span>,
         image: 'rtr-content-list.png',
         description: 'Introducing our revolutionary Rating Toll, assessing clinical value across your contents and events. Gather crucial insights at the moment HCPs engage with you. Learn their collective thoughts, focus on the exceptinal content, and ensure you usher in a new era of engagement.',
         features : [
@@ -356,38 +358,65 @@ const [bigCircleModuleData, setBigModuleData] = useState({
 
 
 
+// const handleClick = (moduleName, index) => {
+//     // setModuleData({
+//     //     ...moduleData,
+//     //     active:false
+//     //  })
+//     //  setActiveModule();
+//     const smallCircleData = modules[index];
+//     const bigCircleData = bigCircleModules[index];
+
+//     setTimeout(() => {
+//         setModuleData(prevState => ({
+//            active: moduleName === activeModule ? !prevState.active : true,
+//             imagePath: smallCircleData?.icon,
+//             heading: smallCircleData?.title,
+//             paragraph: smallCircleData?.description
+//         }));
+//         setActiveModule(moduleName === activeModule ? null : moduleName);
+//     }, 500); 
+
+//     // setTimeout(() => {
+//         setBigModuleData(prevState =>({
+//             active: moduleName === activeModule ? !prevState.active : true,
+//             logoIconPath: bigCircleData?.logo,
+//             heading: bigCircleData?.title,
+//             imagePath: bigCircleData?.image,
+//             detail: bigCircleData?.description,
+//             paragraph: bigCircleData?.para,
+//             highlights: bigCircleData?.features
+//         }))
+//     // },500)
+
+// }
+
 const handleClick = (moduleName, index) => {
-    // setModuleData({
-    //     ...moduleData,
-    //     active:false
-    //  })
-    //  setActiveModule();
     const smallCircleData = modules[index];
     const bigCircleData = bigCircleModules[index];
-
+    if (moduleName !== activeModule) {
+      setModuleData({ active: false, imagePath: smallCircleData?.icon, heading: smallCircleData?.title, paragraph: smallCircleData?.description });
+    }
     setTimeout(() => {
-        setModuleData(prevState => ({
-           active: moduleName === activeModule ? !prevState.active : true,
-            imagePath: smallCircleData?.icon,
-            heading: smallCircleData?.title,
-            paragraph: smallCircleData?.description
-        }));
-        setActiveModule(moduleName === activeModule ? null : moduleName);
-    }, 700); 
+      setModuleData(prevState => ({
+      active: moduleName === activeModule ? !prevState.active : true,
+      imagePath: smallCircleData?.icon,
+      heading: smallCircleData?.title,
+      paragraph: smallCircleData?.description
+      }));
+      setActiveModule(moduleName === activeModule ? null : moduleName);
+    }, 700);
 
-    setTimeout(() => {
-        setBigModuleData(prevState =>({
-            active: moduleName === activeModule ? !prevState.active : true,
-            logoIconPath: bigCircleData?.logo,
-            heading: bigCircleData?.title,
-            imagePath: bigCircleData?.image,
-            detail: bigCircleData?.description,
-            paragraph: bigCircleData?.para,
-            highlights: bigCircleData?.features
+    setBigModuleData(prevState =>({
+        active: moduleName === activeModule ? !prevState.active : true,
+        logoIconPath: bigCircleData?.logo,
+        heading: bigCircleData?.title,
+        imagePath: bigCircleData?.image,
+        detail: bigCircleData?.description,
+        paragraph: bigCircleData?.para,
+        highlights: bigCircleData?.features
         }))
-    })
-
-}
+  }
 
 const sliderRef = useRef();
 const parentRef = useRef('');
@@ -936,39 +965,41 @@ const options = [
                                 <div className={activeModule === 'rating' ? 'stat rating visible' : activeModule === 'web' || activeModule === 'docintel' ? 'stat rating active' : 'stat rating'} onClick={() => handleClick('rating',1)} style={{'--i':"1"}}>
                                     <img src={path_image+ "rating-icon.svg"}alt="" />
                                     <span>Rating Tool</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)}  /></div>
                                 </div>
 
                                 <div className={activeModule === 'spc' ? 'stat spc visible' :  activeModule === 'docintel' ? 'stat spc active': 'stat spc'} onClick={() => handleClick('spc',2)}  style={{'--i':"2"}}>
                                     <img src={path_image+ "SPC-icon.svg"}alt="" />
                                     <span>SPC Engine</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)} /></div>
                                 </div>
 
                                 <div className={activeModule === 'automail' ? 'stat automail visible' :  activeModule === 'engine' || activeModule === 'ai'  || activeModule === 'spc'   ? 'stat automail active': 'stat automail'} onClick={() => handleClick('automail',3)} style={{'--i':"3"}}>
                                     <img src={path_image+ "auto-email-icon.svg"}alt="" />
                                     <span>Automail</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)}/></div>
                                 </div>
                                 
                                 <div className={activeModule === 'ai' ? 'stat ai visible' : activeModule === 'read' || activeModule === 'informed' || activeModule === 'consent' || activeModule === 'automail' || activeModule === 'rating' ? 'stat ai active' : 'stat ai'} onClick={() => handleClick('ai',4)} style={{'--i':"4"}}>
                                     <img src={path_image+ "artificial-intelligence-icon.svg"}alt="" />
                                     <span>AI Prediction Tool</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)} /></div>
                                 </div>
 
                                 <div className={activeModule === 'consent' ? 'stat consent visible' : activeModule === 'webinar' || activeModule === 'web' || activeModule === 'informed' || activeModule === 'docintel' || activeModule === 'ai' ? 'stat consent active' : ' stat consent'} onClick={() => handleClick('consent',5)} style={{'--i':"5"}}>
                                     <img src={path_image+ "legal-document-icon.svg"}alt="" />
                                     <span>Consent</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)} /></div>
                                 </div>
+
                                 <div className={activeModule === 'engine' ? 'stat engine visible' : activeModule === 'survey' || activeModule === 'spc' || activeModule === 'automail' ? 'stat engine active' : 'stat engine'} onClick={() => handleClick('engine',6)} style={{'--i':"6"}}>
                                     <img src={path_image+ "email-small-icon.svg"} alt="" />
                                     <span>Email Engine</span>
                                     <div className="article-close">
-                                        <img src={path_image + "close-button.svg"} alt="" />
+                                        <img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)} />
                                     </div>
                                 </div>
+
                                 <div className="stat blank" style={{'--i':"7"}}>
                                 </div>
                                 <div className="stat blank" style={{'--i':"8"}}>
@@ -985,45 +1016,47 @@ const options = [
                                 onClick={() => handleClick('docintel',7)} style={{'--i':"12"}}>
                                     <img src={path_image+ "docintel-small-icon.svg"}alt="" />
                                     <span>Docintel.app</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)}/></div>
                                 </div>
 
                                 <div className={activeModule === 'informed' ? 'stat informed visible' :activeModule === 'consent' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'spc' ?'stat informed active' : 'stat'} onClick={() => handleClick('informed',8)} style={{'--i':"13"}}>
                                     <img src={path_image+ "informedgo-icon.svg"}alt="" />
                                     <span>inforMedGo</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)}/></div>
                                 </div>
 
                                 <div className={activeModule === 'qa' ? 'stat qa visible' : activeModule === 'webinar' || activeModule === 'survey' ?'stat qa active' : 'stat qa'} onClick={() => handleClick('qa',9)} style={{'--i':"14"}}>
                                     <img src={path_image+ "polling-icon.svg"}alt="" />
                                     <span>Q & Poll</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)}/></div>
                                 </div>
 
                                 <div className={activeModule === 'survey' ? 'stat survey visible' : activeModule === 'qa' || activeModule === 'engine'?  'stat survey active' :'stat survey'} onClick={() => handleClick('survey',10)} style={{'--i':"15"}}>
                                     <img src={path_image+ "survey-icon.svg"}alt="" />
                                     <span>Survey Engine</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)}/></div>
                                 </div>
                                     
                                 <div className={activeModule === 'web' ? 'stat web visible' : activeModule === 'webinar' || activeModule === 'docintel' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'rating' ? 'stat web active' : 'stat web'} onClick={() => handleClick('web',11)} style={{'--i':"16"}}>
                                     <img src={path_image+ "web-portal-icon.svg"}alt="" />
                                     <span>Web Portal</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)}/></div>
                                 </div>
 
                                 <div className={activeModule === 'webinar' ? 'stat webinar visible' : activeModule === 'qa' || activeModule === 'web'? 'stat webinar active':'stat webinar'} onClick={() => handleClick('webinar',12)} style={{'--i':"17"}}>
                                     <img src={path_image+ "webinar-small-icon.svg"}alt="" />
                                     <span>Webinar Portal</span>
-                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
+                                    <div className="article-close"><img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)}/></div>
                                 </div>
+
                                 <div className={activeModule ==='read'? 'stat read visible' : activeModule === 'docintel' || activeModule === 'ai' ?  'stat read active' :'stat read'}  style={{'--i':"18"}} onClick={() => handleClick('read',0)}>
                                     <img src={path_image+ "RTR-icon.svg"} alt="" />
                                     <span>Read-Through -Rate</span>
                                     <div className="article-close">
-                                        <img src={path_image + "close-button.svg"} alt="" />
+                                        <img src={path_image + "close-button.svg"} alt="" onClick={()=>setReadStatus(false)}/>
                                     </div>
                                 </div>
+
                                 <div className="stat blank" style={{'--i':"19"}}>
                                 </div>
                                 <div className="stat blank" style={{'--i':"20"}}>
