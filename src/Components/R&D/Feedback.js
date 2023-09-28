@@ -1,18 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-    Accordion,
-    Button,
-    Col,
-    OverlayTrigger,
-    Row,
-    Table,
-    Tooltip,
-  } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import axios from "axios";
 import { loader } from "../../loader";
 
 const Feedback = () => {
+    const [data, setData] = useState([]);
     const [feedbackData, setFeedback] = useState([]);
     const [search, setSearch] = useState("");
     const [apiStatus, setApiStatus] = useState(true);
@@ -28,6 +20,7 @@ const Feedback = () => {
             await axios
             .get(ENDPOINT.FEEDBACKLISTING)
             .then((response) => {
+                setData(response?.data?.data);
                 setFeedback(response?.data?.data);
             });
             setApiStatus(true);
@@ -41,10 +34,19 @@ const Feedback = () => {
 
     const searchChange = (e) => {
         setSearch(e.target.value.trim());
+        if (e.target.value === "") {
+            setFeedback(data);
+            setSearch("");
+        }
     };
 
     const submitHandler = (event) => {
         event.preventDefault();
+
+        const filteredData = data.filter(item =>
+            item.message.toLowerCase().includes(search.toLowerCase())
+        );
+        setFeedback(filteredData);
     };
 
     return (
