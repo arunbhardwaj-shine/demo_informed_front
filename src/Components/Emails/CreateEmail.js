@@ -1087,8 +1087,8 @@ const CreateEmail = (props) => {
       const list = [...hpc];
       const name = hpc[i].optIRT;
       list[i].optIRT = value;
-      list[i].role = "";
-      list[i].country = "";
+  list[i].role = e=="yes"?irtRole[0]?.value:"Other";   
+        list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
       list[i].siteName = "";
@@ -3156,8 +3156,8 @@ const CreateEmail = (props) => {
                                           onChange={(event) =>
                                             onRoleChange(event, i, "role")
                                           }
-                                          value={
-                                            irtRole.findIndex(
+                                          value={irtRole
+                                            .findIndex(
                                               (el) => el.value == val?.role
                                             ) == -1
                                               ? ""

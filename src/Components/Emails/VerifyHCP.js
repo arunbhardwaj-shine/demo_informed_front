@@ -472,7 +472,7 @@ const VerifyHCP = (props) => {
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
-      list[i].role = "";
+      list[i].role = e=="yes"?irtRole[0]?.value:"Other";   
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
