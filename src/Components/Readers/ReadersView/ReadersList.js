@@ -1255,17 +1255,6 @@ const NewReaders = () => {
           siteName = readerDataList[siteNameIndex]?.siteName;
         }
 
-        // if (
-        //   (country !== "" ||
-        //     type !== "" ||
-        //     role !== "" ||
-        //     irt !== "" ||
-        //     binded !== "" ||
-        //     siteNumber !== "" ||
-        //     siteName !== "") &&
-        //   institute !== ""
-        // )
-
         if (
           country !== "" &&
           (type !== "" ||
