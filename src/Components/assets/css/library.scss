@@ -978,7 +978,8 @@ input:-webkit-autofill {
   flex: 0 0 95px;
 }
 
-.library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change .react-datepicker-wrapper input[type="text"], .timeline-left-user .timeline-left-user-detail ul li .react-datepicker-wrapper .react-datepicker__input-container input[type="text"]{
+.library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change .react-datepicker-wrapper input[type="text"],
+.timeline-left-user .timeline-left-user-detail ul li .react-datepicker-wrapper .react-datepicker__input-container input[type="text"] {
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
   border-radius: 30px;
   border: 0;
@@ -1244,7 +1245,8 @@ ul.tab-mail-list.data span.total-left small {
   background: $dark-blue;
 }
 
-.readerlist .tab-mail-list.data .content-opening .progress,.content-opening .progress {
+.readerlist .tab-mail-list.data .content-opening .progress,
+.content-opening .progress {
   background: #00003c;
 }
 
@@ -1747,6 +1749,7 @@ ul.tab-mail-list.tag a {
   display: flex;
   align-items: center;
 }
+
 .timeline-left-user-detail .select-dropdown-wrapper .add_product button {
   font-size: 12px;
   padding: 6px 9px;
@@ -1755,15 +1758,18 @@ ul.tab-mail-list.tag a {
   margin-left: auto;
   display: block;
 }
+
 .timeline-left-user-detail .select-dropdown-wrapper textarea {
   color: #0066BE;
   font-size: 14px;
-  border:0;
+  border: 0;
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-  &:focus{
+
+  &:focus {
     box-shadow: 0px 0px 5px rgba(0, 102, 190, 0.55);
   }
 }
+
 .timeline-left-user .timeline-left-user-detail ul li .select-dropdown-wrapper span {
   font-size: 13px;
   color: #8A4E9C;
@@ -1771,6 +1777,7 @@ ul.tab-mail-list.tag a {
   display: block;
   margin: 4px 0 10px;
 }
+
 .select-dropdown-wrapper .select button.btn {
   font-size: 14px;
   line-height: 13px;
@@ -3274,6 +3281,90 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 .form-group.primary_phone .dropdown-basic-button {
   max-width: 124px;
   margin-right: 13px;
+  padding-bottom: 0;
+}
+
+.form-group.primary_phone .dropdown-basic-button.PhoneInput {
+  // background: $white url(../images/dropdown-arrow.svg) no-repeat 90% center;
+  background: $white;
+  border-radius: 30px;
+  border: 0;
+  padding: 12px 16px;
+  width: 100%;
+  color: #000000;
+  font-weight: 400;
+  box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+  background-size: 14px;
+}
+
+.PhoneInputCountrySelect option {
+  font-size: 14px;
+  color: #0066BE;
+  padding: 7px 5px;
+  line-height: 20px;
+
+}
+
+select.PhoneInputCountrySelect {
+  cursor: pointer;
+  background: white;
+  width: 330px;
+}
+
+.form-group.primary_phone .dropdown-basic-button.PhoneInput input.PhoneInputInput {
+  font-size: 16px;
+  color: #0066BE;
+}
+
+.dropdown-basic-button.PhoneInput input.PhoneInputInput::-webkit-input-placeholder {
+  color: $light-gray;
+  font-weight: 300;
+}
+
+.dropdown-basic-button.PhoneInput input.PhoneInputInput::-moz-placeholder {
+  color: $light-gray;
+  font-weight: 300;
+}
+
+.dropdown-basic-button.PhoneInput input.PhoneInputInput:-ms-input-placeholder {
+  color: $light-gray;
+  font-weight: 300;
+}
+
+.dropdown-basic-button.PhoneInput input.PhoneInputInput:-moz-placeholder {
+  color: $light-gray;
+  font-weight: 300;
+}
+
+
+// .form-group.primary_phone .dropdown-basic-button .PhoneInputCountrySelectArrow {
+//   display: none;
+// }
+
+.form-group.primary_phone .dropdown-basic-button ul {
+  width: 100%;
+  border: 0.5px solid rgba(0, 102, 190, 0.06);
+  box-sizing: border-box;
+  box-shadow: 0 0 20px -3px rgb(0 102 190 / 18%);
+  border-radius: 15px;
+  width: 100%;
+  padding: 8px;
+  max-height: 180px;
+}
+
+.form-group.primary_phone .dropdown-basic-button ul li {
+  padding: 0 4px;
+  font-size: 15px;
+  border-radius: 4px;
+}
+
+.form-group.primary_phone .dropdown-basic-button ul li:hover {
+  background: #e7eff6;
+
+}
+
+.form-group.primary_phone .dropdown-basic-button #rfs-btn span {
+  padding: 0 3px;
 }
 
 .form-group.primary_phone .dropdown-basic-button.split-button-dropup>div:nth-child(3) {
@@ -3283,6 +3374,11 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 
 .form-group.primary_phone input.form-control {
   max-width: 308px;
+}
+
+.form-group.primary_phone input.form-control[type="tel"] {
+  position: relative;
+  z-index: 2;
 }
 
 .modal .upload-file-box {
@@ -3401,10 +3497,11 @@ input[type="number"] {
 /**Library Style End**/
 
 /**Readers Style**/
-.marketing_timeline{
+.marketing_timeline {
   max-width: 320px;
-  width:100%;
+  width: 100%;
 }
+
 .timeline-left-user {
   background: $white;
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
@@ -4236,6 +4333,9 @@ section.verify_email.content_details {
 .no_found {
   min-height: 60vh;
 }
+.rd-analytics-content .no_found {
+  min-height: 260px;
+}
 
 .send-confirm .modal-body .modal-buttons {
   justify-content: space-evenly;
@@ -4272,7 +4372,8 @@ section.verify_email.content_details {
   right: auto;
 }
 
-.modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) div[class*="-IndicatorsContainer"], .split-button-dropup>div:nth-child(3) div[class*="-IndicatorsContainer"] {
+.modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) div[class*="-IndicatorsContainer"],
+.split-button-dropup>div:nth-child(3) div[class*="-IndicatorsContainer"] {
   display: none;
 }
 
@@ -4971,7 +5072,8 @@ input.viewer-toolbar-current-page-input {
 
 .form-group .form-control.error,
 #add_hcp .modal-body .hcp-add-form form .form-group .form-control.error,
-.create_smart_list .create-smart-step .create-smart-step-box form .form-control.error {
+.create_smart_list .create-smart-step .create-smart-step-box form .form-control.error,
+.form-group.primary_phone .dropdown-basic-button.PhoneInput.error {
   box-shadow: 0px 1px 6px rgb(214 25 117 / 60%);
 }
 
@@ -8007,6 +8109,10 @@ svg.pencil_icon {
     font-size: 14px;
   }
 
+  .form-group.primary_phone .dropdown-basic-button #rfs-btn {
+    font-size: 14px !important;
+  }
+
   .sublink_left {
     flex: 0 0 500px;
     padding-right: 35px;
@@ -8014,6 +8120,10 @@ svg.pencil_icon {
 
   .library_create {
     gap: 74px 100px;
+  }
+
+  .form-group.primary_phone .dropdown-basic-button.PhoneInput input.PhoneInputInput {
+    font-size: 14px;
   }
 }
 
@@ -8263,6 +8373,10 @@ svg.pencil_icon {
     padding: 9px 24px;
   }
 
+  .form-group.primary_phone .dropdown-basic-button #rfs-btn {
+    padding: 5px 10px;
+  }
+
   .create-change-content .upload-file-box,
   .create-change-content .form-group .form-control,
   .create-change-content .form-group .react-datepicker__input-container input {
@@ -8275,6 +8389,14 @@ svg.pencil_icon {
 
   .create-change-content .form-group.primary_phone .dropdown-basic-button {
     max-width: 124px;
+  }
+
+  .form-group.primary_phone .dropdown-basic-button.PhoneInput {
+    padding: 9px 16px;
+  }
+
+  .form-group.primary_phone .dropdown-basic-button.PhoneInput input.PhoneInputInput {
+    font-size: 14px;
   }
 
   .form-group.primary_phone input.form-control {

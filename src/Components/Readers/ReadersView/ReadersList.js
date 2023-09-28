@@ -37,6 +37,7 @@ const NewReaders = () => {
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [country, setCountry] = useState([]);
+  const [consetCountry, setConsetCountry] = useState({});
   const [isFlag, setFlag] = useState(0);
 
   const [isLoaded, setIsLoaded] = useState(false);
@@ -294,9 +295,12 @@ const NewReaders = () => {
           ...oldArray,
           ...res?.data?.data?.result,
         ]);
+
+        setConsetCountry({...consetCountry,...res?.data?.data?.otherCountry});
       } else {
         total_results = res?.data?.data?.result?.length;
         setReaderDataList(res?.data?.data?.result);
+        setConsetCountry(res?.data?.data?.otherCountry)
       }
 
       // if ( total_results <= res?.data?.data?.total) {
@@ -2287,12 +2291,27 @@ const NewReaders = () => {
                                       {data?.ipAddress || data?.ipFlag ? (
                                         ""
                                       ) : (
+                                        <>
+                                        {
+                                          localStorage.getItem('group_id') == 3 ?
+                                          <li>
+                                            <h6 className="tab-content-title">
+                                              Consent Country
+                                            </h6>
+                                            <h6>
+                                              {
+                                                consetCountry?.[data?.id] ?  consetCountry?.[data?.id] == "B&H" ? "Bosnia and Herzegovina" : consetCountry?.[data?.id] : "N/A"
+                                              }
+                                            </h6>
+                                          </li>: null
+                                        }
                                         <li>
                                           <h6 className="tab-content-title">
                                             User Status
                                           </h6>
                                           <h6>{data?.user_status}</h6>
                                         </li>
+                                        </>
                                       )}
 
                                       {data?.ipAddress || data?.ipFlag ? (

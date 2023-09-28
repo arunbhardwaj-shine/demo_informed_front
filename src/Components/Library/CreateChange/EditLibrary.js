@@ -588,7 +588,10 @@ const EditLibrary = () => {
         if (userInputs?.docintelFormat == "video") {
           formData.append("allowVideo", 0);
         } else {
-          formData.append("allowVideo", JSON.stringify(userInputs?.allowVideo));
+          formData.append(
+            "allowVideo",
+            JSON.stringify(userInputs?.allow_video)
+          );
         }
 
         formData.append("comDatetime", userInputs?.comDatetime);

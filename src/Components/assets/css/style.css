@@ -7926,7 +7926,9 @@ section.search-hcp.smart-list-view .header-btn-left {
   width: 100%;
   max-width: 470px;
 }
-
+.form-group .react-datepicker-wrapper input {
+ cursor: pointer;
+}
 .create-change-content .right-change .form-group.new-change {
   flex-wrap: wrap;
 }
