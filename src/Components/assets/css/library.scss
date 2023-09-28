@@ -9720,12 +9720,12 @@ svg.pencil_icon {
 
 .shape-left {
   float: left;
-  shape-outside: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/18515/circle-left.svg);
+  shape-outside: url(../images/circle-left.svg);
 }
 
 .shape-right {
   float: right;
-  shape-outside: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/18515/circle-right.svg);
+  shape-outside: url(../images/circle-right.svg);
 }
 
 .stat img {
@@ -9925,48 +9925,53 @@ svg.pencil_icon {
   text-align: left;
 }
 
-.key-features h5 {
-  color: #00003C;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 20px;
-  margin: 40px auto 8px;
+.key-features {
+  h5 {
+    color: #00003C;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    margin: 40px auto 8px;
+  }
+
+  ul {
+    padding-left: 22px;
+  }
+
+  li {
+    color: #59748A;
+    font-size: 14px;
+    line-height: 24px;
+    list-style-type: disc;
+  }
 }
 
-.key-features ul {
-  padding-left: 22px;
-}
-
-.key-features ul li {
-  color: #59748A;
-  font-size: 14px;
-  line-height: 24px;
-  list-style-type: disc;
-}
 
 .fotter-btns {
   gap: 22px;
   margin-top: 145px;
+
+  a {
+    border-radius: 30px;
+    background: #FFF;
+    box-shadow: 0px 0px 8px 0px rgba(0, 102, 190, 0.32);
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+
+    img {
+      width: 28px;
+      height: 28px;
+      margin: 0 auto;
+    }
+  }
+
+  .btn {
+    min-width: 168px;
+  }
 }
 
-.fotter-btns a {
-  border-radius: 30px;
-  background: #FFF;
-  box-shadow: 0px 0px 8px 0px rgba(0, 102, 190, 0.32);
-  width: 40px;
-  height: 40px;
-  padding: 6px;
-}
 
-.fotter-btns .btn {
-  min-width: 168px;
-}
-
-.fotter-btns a img {
-  width: 28px;
-  height: 28px;
-  margin: 0 auto;
-}
 
 .module-bigger-size .module-diagram.circle {
   position: absolute;
