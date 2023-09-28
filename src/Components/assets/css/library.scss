@@ -3659,7 +3659,25 @@ input[type="number"] {
   display: flex;
   align-items: center;
 }
-
+.feedback-block .timeline-block{
+  border-radius: 20px;
+}
+.feedback-block .library .timeline-block-title h6 {
+  color: #004A89;
+  font-size: 15px;
+}
+.feedback-block .timeline-block + .timeline-block{
+  margin:25px 0 10px;
+}
+.feedback-block .timeline-block-head {
+  margin: 0 0 0px;
+}
+.feedback-block .timeline-block-title p{
+  font-size: 15px;
+    line-height: 20px;
+    color: #004A89;
+    padding: 10px 0 14px;
+}
 .timeline-time-view {
   display: flex;
   align-items: center;

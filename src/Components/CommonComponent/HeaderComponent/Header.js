@@ -228,6 +228,7 @@ const Header = () => {
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
                     window.location.pathname == "/LEX-210-analytics" ||
+                    window.location.pathname == "/feedback" ||
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
                       : "nav-item"

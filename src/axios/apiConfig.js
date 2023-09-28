@@ -126,6 +126,7 @@ export const ENDPOINT = {
   READER_MARKETING_USER_DROP: `/reader/user-marketing-detail`,
   GET_MARKETING_USER_DROP: `/reader/get-marketing-reader`,
   CREATE_MARKETING_READER: `/reader/create-marketing-reader`,
-  UPDATETIMELINEMARKETINGDETAILS: `/reader/update-timeline-reader`
+  UPDATETIMELINEMARKETINGDETAILS: `/reader/update-timeline-reader`,
+  FEEDBACKLISTING:"http://192.168.0.96:3008/api/v2/feedback-listing"
 };
 
