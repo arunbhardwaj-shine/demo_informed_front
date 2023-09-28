@@ -296,11 +296,14 @@ const NewReaders = () => {
           ...res?.data?.data?.result,
         ]);
 
-        setConsetCountry({...consetCountry,...res?.data?.data?.otherCountry});
+        setConsetCountry({
+          ...consetCountry,
+          ...res?.data?.data?.otherCountry,
+        });
       } else {
         total_results = res?.data?.data?.result?.length;
         setReaderDataList(res?.data?.data?.result);
-        setConsetCountry(res?.data?.data?.otherCountry)
+        setConsetCountry(res?.data?.data?.otherCountry);
       }
 
       // if ( total_results <= res?.data?.data?.total) {
@@ -624,7 +627,7 @@ const NewReaders = () => {
         return newSelectedSiteName;
       });
 
-      // console.log(selectedSiteName[0].length);
+  
       let consetValue = e.value;
       const filteredData = change.sideData.filter(
         (item) => item.country === consetValue
@@ -944,7 +947,7 @@ const NewReaders = () => {
       return newSelectedRole;
     });
 
-    // console.log(selectedSiteName[0].length);
+
     let consetValue = e.value;
     const filteredData = change.sideData.filter(
       (item) => item.country === consetValue
@@ -2292,25 +2295,28 @@ const NewReaders = () => {
                                         ""
                                       ) : (
                                         <>
-                                        {
-                                          localStorage.getItem('group_id') == 3 ?
+                                          {localStorage.getItem("group_id") ==
+                                          3 ? (
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Consent Country
+                                              </h6>
+                                              <h6>
+                                                {consetCountry?.[data?.id]
+                                                  ? consetCountry?.[data?.id] ==
+                                                    "B&H"
+                                                    ? "Bosnia and Herzegovina"
+                                                    : consetCountry?.[data?.id]
+                                                  : "N/A"}
+                                              </h6>
+                                            </li>
+                                          ) : null}
                                           <li>
                                             <h6 className="tab-content-title">
-                                              Consent Country
+                                              User Status
                                             </h6>
-                                            <h6>
-                                              {
-                                                consetCountry?.[data?.id] ?  consetCountry?.[data?.id] == "B&H" ? "Bosnia and Herzegovina" : consetCountry?.[data?.id] : "N/A"
-                                              }
-                                            </h6>
-                                          </li>: null
-                                        }
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            User Status
-                                          </h6>
-                                          <h6>{data?.user_status}</h6>
-                                        </li>
+                                            <h6>{data?.user_status}</h6>
+                                          </li>
                                         </>
                                       )}
 
@@ -3062,7 +3068,6 @@ const NewReaders = () => {
                                                         )
                                                       ]
                                                 }
-                                                // placeholder="Select Site Number"
                                                 onChange={(event) =>
                                                   onSiteNumberChange(
                                                     event,
