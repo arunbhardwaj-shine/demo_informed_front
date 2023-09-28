@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ENDPOINT } from "../../axios/apiConfig";
 import axios from "axios";
 import { loader } from "../../loader";
+import moment from "moment";
 
 const Feedback = () => {
     const [data, setData] = useState([]);
@@ -108,8 +109,13 @@ const Feedback = () => {
                                 <div className="timeline-block-head library">
                                     <div className="timeline-block-title d-flex flex-column align-items-start">
                                         <h6>{item?.email}</h6>
-                                        <p> {item?.message}</p>
                                     </div>
+                                    <div className="timeline-time-view">
+                                    <div className="timeline-time">{moment(item?.createdAt).format('D MMMM YYYY')}</div>|<div className="timeline-timezone">{moment(item?.createdAt).format('h:mm A')}</div>
+                                    </div>
+                                </div>
+                                <div className="feedback-detail">
+                                    <p> {item?.message}</p>
                                 </div>
                             </div>
                             </>
