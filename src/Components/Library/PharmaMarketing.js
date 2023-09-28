@@ -109,34 +109,283 @@ const modules = [
       description: 'Make your webinars more engaging with live polls & questions and brand it to feel truly you.',
     },  
   ];
-  
-  
+
+
+const bigCircleModules = [
+    {
+        id: 1,
+        active:false,
+        logo: 'rtr-image.svg',
+        title: 'Read-Through-Rate',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+    {
+        id: 2,
+        active:false,
+        logo: 'rtr-image.svg',
+        title: 'Rating Tool',
+        image: 'rtr-content-list.png',
+        description: 'Introducing our revolutionary Rating Toll, assessing clinical value across your contents and events. Gather crucial insights at the moment HCPs engage with you. Learn their collective thoughts, focus on the exceptinal content, and ensure you usher in a new era of engagement.',
+        features : [
+           'Let HCPs rate your content',
+           'Commission better content based on HCP opinions',
+           'HCPs rate whenever they engage via browser or in-app',
+           'Build better data sets for your AI'
+        ]
+    },
+
+    {
+        id: 3,
+        active:false,
+        logo: 'rtr-image.svg',
+        title: 'SPC Engine',
+        image: 'rtr-content-list.png',
+        description: `Reclaim your time and end the worry about correct SPCs on older content. The SPC engine automatically attach the correct country & product SPC to each content, keeping your library well manage and easy to navigate . It's as simple to set up as making changes when necessay, ensuring that HCPs always have access to the latest SPC information.`,
+        para:'No more worry about compliance and changes HCPs',
+        features : [
+           'Automatically matches the correct SPC with the country of the HCP',
+           'Remains consistently updated, allowing you to have peace of mind to every account',
+           'Feel secure that every HCP has the latest SPC for all of their content, old or new',
+           'Only take 5 minutes to chnage an SPC',
+        ]
+    },
+
+    {
+        id: 4,
+        active: false,
+        logo: 'rtr-image.svg',
+        title: 'Automail',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+    {
+        id: 5,
+        active: false,
+        logo: 'rtr-image.svg',
+        title: 'AI Prediction Tool',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+    {
+        id: 6,
+        active: false,
+        logo: 'rtr-image.svg',
+        title: 'Consent',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+    {
+        id: 7,
+        active: false,
+        logo: 'rtr-image.svg',
+        title: 'Email Engine',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+    {
+        id: 8,
+        active: false,
+        logo: 'rtr-image.svg',
+        title: 'Docintel.app',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+    {
+        id: 9,
+        active: false,
+        logo: 'rtr-image.svg',
+        title: 'inforMedGo',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+    {
+        id: 10,
+        active: false,
+        logo: 'rtr-image.svg',
+        title: 'Q & Poll',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+    {
+        id: 11,
+        active: false,
+        logo: 'rtr-image.svg',
+        title: 'Survey Engine',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+    {
+        id: 12,
+        active: false,
+        logo: 'rtr-image.svg',
+        title: 'Web Portal',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+    {
+        id: 13,
+        active: false,
+        logo: 'rtr-image.svg',
+        title: 'Webinar Portal',
+        image: 'rtr-content-list.png',
+        description: 'Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.',
+        para:'Knowledge is power - how will you help your clients?',
+        features : [
+           'Based on consent given by each HCP',
+           'Track HCPs reading on & offline, in browser or in app',
+           'Track every engagement down to each second spend on individual pages',
+           'Data integrate in CRM timeline',
+           'Key data for personalising AI predictions'
+        ]
+    },
+
+
+]
+
+console.log(bigCircleModules[0]?.features,'===>features')
+ 
 const [moduleData, setModuleData] = useState({
     active:false,
     imagePath:"",
     heading:"",
     paragraph:""
         
- });
+});
+
+const [bigCircleModuleData, setBigModuleData] = useState({
+    active:false,
+    logoIconPath: "",
+    heading: "",
+    imagePath: "",
+    detail: "",
+    paragraph:"",
+    highlights: []
+
+})
+
 
 
 const handleClick = (moduleName, index) => {
-    setModuleData({
-        ...moduleData,
-        active:false
-     })
-     setActiveModule();
-    const data = modules[index];
+    // setModuleData({
+    //     ...moduleData,
+    //     active:false
+    //  })
+    //  setActiveModule();
+    const smallCircleData = modules[index];
+    const bigCircleData = bigCircleModules[index];
 
     setTimeout(() => {
         setModuleData(prevState => ({
            active: moduleName === activeModule ? !prevState.active : true,
-            imagePath: data?.icon,
-            heading: data?.title,
-            paragraph: data?.description
+            imagePath: smallCircleData?.icon,
+            heading: smallCircleData?.title,
+            paragraph: smallCircleData?.description
         }));
         setActiveModule(moduleName === activeModule ? null : moduleName);
     }, 700); 
+
+    setTimeout(() => {
+        setBigModuleData(prevState =>({
+            active: moduleName === activeModule ? !prevState.active : true,
+            logoIconPath: bigCircleData?.logo,
+            heading: bigCircleData?.title,
+            imagePath: bigCircleData?.image,
+            detail: bigCircleData?.description,
+            paragraph: bigCircleData?.para,
+            highlights: bigCircleData?.features
+        }))
+    })
 
 }
 
@@ -483,13 +732,13 @@ const options = [
                                 <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                             </div>
 
-                            <div className={activeModule === 'automail' ? 'stat automail visible' :  activeModule === 'engine' || activeModule === 'ai' || activeModule === 'autoemail' || activeModule === 'spc'   ? 'stat automail active': 'stat automail'} onClick={() => handleClick('automail',3)} style={{'--i':"4"}}>
+                            <div className={activeModule === 'automail' ? 'stat automail visible' :  activeModule === 'engine' || activeModule === 'ai'  || activeModule === 'spc'   ? 'stat automail active': 'stat automail'} onClick={() => handleClick('automail',3)} style={{'--i':"4"}}>
                                 <img src={path_image+ "auto-email-icon.svg"}alt="" />
                                 <span>Automail</span>
                                 <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                             </div>
                             
-                            <div className={activeModule === 'ai' ? 'stat ai visible' : activeModule === 'read' || activeModule === 'informed' || activeModule === 'consent' || activeModule === 'autoemail' || activeModule === 'rating' ? 'stat ai active' : 'stat ai'} onClick={() => handleClick('ai',4)} style={{'--i':"5"}}>
+                            <div className={activeModule === 'ai' ? 'stat ai visible' : activeModule === 'read' || activeModule === 'informed' || activeModule === 'consent' || activeModule === 'automail' || activeModule === 'rating' ? 'stat ai active' : 'stat ai'} onClick={() => handleClick('ai',4)} style={{'--i':"5"}}>
                                 <img src={path_image+ "artificial-intelligence-icon.svg"}alt="" />
                                 <span>AI Prediction Tool</span>
                                 <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
@@ -501,13 +750,13 @@ const options = [
                                 <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                             </div>
 
-                            <div className={activeModule === 'engine' ? 'stat engine visible' : activeModule === 'survey' || activeModule === 'spc' ? 'stat engine active' : 'stat engine'} onClick={() => handleClick('engine',6)} style={{'--i':"7"}}>
+                            <div className={activeModule === 'engine' ? 'stat engine visible' : activeModule === 'survey' || activeModule === 'spc' || activeModule === 'automail' ? 'stat engine active' : 'stat engine'} onClick={() => handleClick('engine',6)} style={{'--i':"7"}}>
                                 <img src={path_image+ "email-small-icon.svg"}alt="" />
                                 <span>Email Engine</span>
                                 <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                             </div>
 
-                            <div  className={activeModule === 'docintel' ? 'stat docintel visible'  : activeModule === 'read' ||  activeModule === 'spc' || activeModule === 'web' || activeModule === 'consent'  || activeModule === 'survey' || activeModule === 'informed' || activeModule === 'engine' || activeModule === 'autoemail' || activeModule === 'rating' ? 'stat docintel active'  : 'stat docintel' } 
+                            <div  className={activeModule === 'docintel' ? 'stat docintel visible'  : activeModule === 'read' ||  activeModule === 'spc' || activeModule === 'web' || activeModule === 'consent'  || activeModule === 'survey' || activeModule === 'informed' || activeModule === 'engine' || activeModule === 'automail' || activeModule === 'rating' ? 'stat docintel active'  : 'stat docintel' } 
                                onClick={() => handleClick('docintel',7)} style={{'--i':"8"}}>
                                 <img src={path_image+ "docintel-small-icon.svg"}alt="" />
                                 <span>Docintel.app</span>
@@ -639,7 +888,7 @@ const options = [
                                 </Form>
                             </div> */}
                             <div className="module-discribe">
-                                <img className="module-img" src={path_image +"rtr-image.svg"} alt="" />
+                                {/* <img className="module-img" src={path_image +"rtr-image.svg"} alt="" />
                                 <h4>Read-Through-Rate </h4>
                                  <img className="module-content-view" src={path_image +"rtr-content-list.png"} alt="" />
                                 <p>Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage. </p>
@@ -658,39 +907,62 @@ const options = [
                                 <div className="d-flex align-items-center justify-content-center fotter-btns">
                                     <Button className='btn-filled'>Request</Button>
                                     <Link to="/" className=""><img src={path_image +"downlaod-ppt.svg"} alt="" /></Link>
+                                </div> */}
+
+                               <div className={`${bigCircleModuleData?.active === true ? "active" : ""}`}>
+                                <img className="module-img" src={path_image +"" +bigCircleModuleData?.logoIconPath}/>
+                                <h4>{bigCircleModuleData?.heading}</h4>
+                                <img className="module-content-view" src={path_image +"" +bigCircleModuleData?.imagePath}/>
+                                <p>{bigCircleModuleData?.detail}</p>
+                                <p className="semibold">{bigCircleModuleData?.paragraph}</p>
+                                <div className="key-features">
+                                <h5> Key Features</h5>
+                                    <ul>
+                                    {bigCircleModuleData?.highlights?.map((feature, index) => (
+                                    <li key={index}>{feature}</li>
+                                    ))}
+                                    </ul>
                                 </div>
+
+                                <div className="d-flex align-items-center justify-content-center fotter-btns">
+                                    <Button className='btn-filled'>Request</Button>
+                                    <Link to="/" className=""><img src={path_image +"downlaod-ppt.svg"} alt="" /></Link>
+                                </div>
+                              
+                                </div>
+
                                 <div className="module-diagram circle" style={{'--total': "24"}}>
                                 
-                                <div className={activeModule === 'rating' ? 'stat rating visible' : activeModule === 'web' || activeModule === 'docintel' ? 'stat rating active' : 'stat rating'} style={{'--i':"1"}}>
+                                <div className={activeModule === 'rating' ? 'stat rating visible' : activeModule === 'web' || activeModule === 'docintel' ? 'stat rating active' : 'stat rating'} onClick={() => handleClick('rating',1)} style={{'--i':"1"}}>
                                     <img src={path_image+ "rating-icon.svg"}alt="" />
                                     <span>Rating Tool</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className={activeModule === 'spc' ? 'stat spc visible' :  activeModule === 'docintel' ? 'stat spc active': 'stat spc'} style={{'--i':"2"}}>
+                                <div className={activeModule === 'spc' ? 'stat spc visible' :  activeModule === 'docintel' ? 'stat spc active': 'stat spc'} onClick={() => handleClick('spc',2)}  style={{'--i':"2"}}>
                                     <img src={path_image+ "SPC-icon.svg"}alt="" />
                                     <span>SPC Engine</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className={activeModule === 'automail' ? 'stat automail visible' :  activeModule === 'engine' || activeModule === 'ai' || activeModule === 'autoemail' || activeModule === 'spc'   ? 'stat automail active': 'stat automail'} style={{'--i':"3"}}>
+                                <div className={activeModule === 'automail' ? 'stat automail visible' :  activeModule === 'engine' || activeModule === 'ai'  || activeModule === 'spc'   ? 'stat automail active': 'stat automail'} onClick={() => handleClick('automail',3)} style={{'--i':"3"}}>
                                     <img src={path_image+ "auto-email-icon.svg"}alt="" />
                                     <span>Automail</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
                                 
-                                <div className={activeModule === 'ai' ? 'stat ai visible' : activeModule === 'read' || activeModule === 'informed' || activeModule === 'consent' || activeModule === 'autoemail' || activeModule === 'rating' ? 'stat ai active' : 'stat ai'} style={{'--i':"4"}}>
+                                <div className={activeModule === 'ai' ? 'stat ai visible' : activeModule === 'read' || activeModule === 'informed' || activeModule === 'consent' || activeModule === 'automail' || activeModule === 'rating' ? 'stat ai active' : 'stat ai'} onClick={() => handleClick('ai',4)} style={{'--i':"4"}}>
                                     <img src={path_image+ "artificial-intelligence-icon.svg"}alt="" />
                                     <span>AI Prediction Tool</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className={activeModule === 'consent' ? 'stat consent visible' : activeModule === 'webinar' || activeModule === 'web' || activeModule === 'informed' || activeModule === 'docintel' || activeModule === 'ai' ? 'stat consent active' : ' stat consent'} style={{'--i':"5"}}>
+                                <div className={activeModule === 'consent' ? 'stat consent visible' : activeModule === 'webinar' || activeModule === 'web' || activeModule === 'informed' || activeModule === 'docintel' || activeModule === 'ai' ? 'stat consent active' : ' stat consent'} onClick={() => handleClick('consent',5)} style={{'--i':"5"}}>
                                     <img src={path_image+ "legal-document-icon.svg"}alt="" />
                                     <span>Consent</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
-                                <div className={activeModule === 'engine' ? 'stat engine visible' : activeModule === 'survey' || activeModule === 'spc' ? 'stat engine active' : 'stat engine'} style={{'--i':"6"}}>
+                                <div className={activeModule === 'engine' ? 'stat engine visible' : activeModule === 'survey' || activeModule === 'spc' || activeModule === 'automail' ? 'stat engine active' : 'stat engine'} onClick={() => handleClick('engine',6)} style={{'--i':"6"}}>
                                     <img src={path_image+ "email-small-icon.svg"} alt="" />
                                     <span>Email Engine</span>
                                     <div className="article-close">
@@ -709,42 +981,43 @@ const options = [
                                 <div className="stat blank" style={{'--i':"11"}}>
                                 </div>
 
-                                <div  className={activeModule === 'docintel' ? 'stat docintel visible'  : activeModule === 'read' ||  activeModule === 'spc' || activeModule === 'web' || activeModule === 'consent'  || activeModule === 'survey' || activeModule === 'informed' || activeModule === 'engine' || activeModule === 'autoemail' || activeModule === 'rating' ? 'stat docintel active'  : 'stat docintel' }  style={{'--i':"12"}}>
+                                <div  className={activeModule === 'docintel' ? 'stat docintel visible'  : activeModule === 'read' ||  activeModule === 'spc' || activeModule === 'web' || activeModule === 'consent'  || activeModule === 'survey' || activeModule === 'informed' || activeModule === 'engine' || activeModule === 'automail' || activeModule === 'rating' ? 'stat docintel active'  : 'stat docintel' } 
+                                onClick={() => handleClick('docintel',7)} style={{'--i':"12"}}>
                                     <img src={path_image+ "docintel-small-icon.svg"}alt="" />
                                     <span>Docintel.app</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className={activeModule === 'informed' ? 'stat informed visible' :activeModule === 'consent' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'spc' ?'stat informed active' : 'stat'} style={{'--i':"13"}}>
+                                <div className={activeModule === 'informed' ? 'stat informed visible' :activeModule === 'consent' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'spc' ?'stat informed active' : 'stat'} onClick={() => handleClick('informed',8)} style={{'--i':"13"}}>
                                     <img src={path_image+ "informedgo-icon.svg"}alt="" />
                                     <span>inforMedGo</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className={activeModule === 'qa' ? 'stat qa visible' : activeModule === 'webinar' || activeModule === 'survey' ?'stat qa active' : 'stat qa'} style={{'--i':"14"}}>
+                                <div className={activeModule === 'qa' ? 'stat qa visible' : activeModule === 'webinar' || activeModule === 'survey' ?'stat qa active' : 'stat qa'} onClick={() => handleClick('qa',9)} style={{'--i':"14"}}>
                                     <img src={path_image+ "polling-icon.svg"}alt="" />
                                     <span>Q & Poll</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className={activeModule === 'survey' ? 'stat survey visible' : activeModule === 'qa' || activeModule === 'engine'?  'stat survey active' :'stat survey'} style={{'--i':"15"}}>
+                                <div className={activeModule === 'survey' ? 'stat survey visible' : activeModule === 'qa' || activeModule === 'engine'?  'stat survey active' :'stat survey'} onClick={() => handleClick('survey',10)} style={{'--i':"15"}}>
                                     <img src={path_image+ "survey-icon.svg"}alt="" />
                                     <span>Survey Engine</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
                                     
-                                <div className={activeModule === 'web' ? 'stat web visible' : activeModule === 'webinar' || activeModule === 'docintel' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'rating' ? 'stat web active' : 'stat web'} style={{'--i':"16"}}>
+                                <div className={activeModule === 'web' ? 'stat web visible' : activeModule === 'webinar' || activeModule === 'docintel' || activeModule === 'consent' || activeModule === 'ai' || activeModule === 'rating' ? 'stat web active' : 'stat web'} onClick={() => handleClick('web',11)} style={{'--i':"16"}}>
                                     <img src={path_image+ "web-portal-icon.svg"}alt="" />
                                     <span>Web Portal</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
 
-                                <div className={activeModule === 'webinar' ? 'stat webinar visible' : activeModule === 'qa' || activeModule === 'web'? 'stat webinar active':'stat webinar'} style={{'--i':"17"}}>
+                                <div className={activeModule === 'webinar' ? 'stat webinar visible' : activeModule === 'qa' || activeModule === 'web'? 'stat webinar active':'stat webinar'} onClick={() => handleClick('webinar',12)} style={{'--i':"17"}}>
                                     <img src={path_image+ "webinar-small-icon.svg"}alt="" />
                                     <span>Webinar Portal</span>
                                     <div className="article-close"><img src={path_image + "close-button.svg"} alt="" /></div>
                                 </div>
-                                <div className={activeModule ==='read'? 'stat read visible' : activeModule === 'docintel' || activeModule === 'ai' ?  'stat read active' :'stat read'}  style={{'--i':"18"}}>
+                                <div className={activeModule ==='read'? 'stat read visible' : activeModule === 'docintel' || activeModule === 'ai' ?  'stat read active' :'stat read'}  style={{'--i':"18"}} onClick={() => handleClick('read',0)}>
                                     <img src={path_image+ "RTR-icon.svg"} alt="" />
                                     <span>Read-Through -Rate</span>
                                     <div className="article-close">
