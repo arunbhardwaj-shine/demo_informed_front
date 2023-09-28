@@ -62,7 +62,7 @@ const Feedback = () => {
               <div className="result-hcp-table">
                 <div className="table-title">
                   <h4>
-                    Total Feedbacks <span>| {feedbackData?.length}</span>
+                    Total Feedbacks <span>| {data?.length}</span>
                   </h4>
                   <div className="search-bar">
                   <form
@@ -98,16 +98,13 @@ const Feedback = () => {
                       </form>
                   </div>
                 </div>
-                <div
-                  className="selected-hcp-list search_view"
-                  id="analytics-hcp-table"
-                >
+                <div className="selected-hcp-list search_view">
                     <div className="feedback-block">
                     {typeof feedbackData !== "undefined" &&
                         feedbackData.length > 0 ? (
                             feedbackData.map((item, index) => (
                             <>
-                            <div className="timeline-block">
+                            <div className="timeline-block" key={index}>
                                 <div className="timeline-block-head library">
                                     <div className="timeline-block-title d-flex flex-column align-items-start">
                                         <h6>{item?.email}</h6>
