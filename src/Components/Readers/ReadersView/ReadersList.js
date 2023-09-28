@@ -853,7 +853,6 @@ const NewReaders = () => {
   };
 
   const institutionFun = (e, i, index) => {
-    
     let insitutedData = {
       index: i,
       value: e?.value,
@@ -926,12 +925,15 @@ const NewReaders = () => {
 
     const consent3 = {
       index: i,
-      value: e?.value == "Study site" ? change?.userIrtRoles[0]?.value : change?.role[4]?.value,
+      value:
+        e?.value == "Study site"
+          ? change?.userIrtRoles[0]?.value
+          : change?.role[4]?.value,
     };
 
     const found4 = changeRoleType.some((el) => el.index === i);
     if (!found4) {
-      setChangeRoleType((oldarray) => [...oldarray, consent3.value]);
+      setChangeRoleType((oldarray) => [...oldarray, consent3]);
     } else {
       const updatedArray = changeRoleType.map((el) =>
         el.index === i ? { ...el, value: consent3.value } : el
@@ -959,7 +961,7 @@ const NewReaders = () => {
     setSelectedRole((prev) => {
       const newSelectedSiteName = [...prev];
       newSelectedSiteName[index] =
-        e?.value == "Study site" ? change?.userIrtRoles[0] :change?.role[4];
+        e?.value == "Study site" ? change?.userIrtRoles[0] : change?.role[4];
       return newSelectedSiteName;
     });
 
@@ -1201,7 +1203,7 @@ const NewReaders = () => {
         const roleIndex = changeRoleType.findIndex(
           (el) => el.index === reader_id
         );
-      
+
         if (roleIndex !== -1) {
           role = changeRoleType[roleIndex].value;
         } else {
