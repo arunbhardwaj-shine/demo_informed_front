@@ -17,6 +17,7 @@ import Slider from "react-slick";
 const PharmaMarketing = () => {
   const [activeModule, setActiveModule] = useState(null);
   const [addClass, setAddClass] = useState(false);
+  const [showBigCircleData, setShowBigCircleData] = useState(true);
 
   // const [isActive, setIsActive] = useState(false);
   // const handleClick = event => {
@@ -444,6 +445,7 @@ const PharmaMarketing = () => {
       paragraph: bigCircleData?.para,
       highlights: bigCircleData?.features,
     }));
+    setShowBigCircleData(true);
   };
 
   const handleBigCircleClick = (moduleName, index) => {
@@ -462,6 +464,7 @@ const PharmaMarketing = () => {
 
   const handleRequestClick = () => {
     setAddClass(true);
+    setShowBigCircleData(false);
   }
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1244,6 +1247,8 @@ const PharmaMarketing = () => {
                           : "d-flex justify-content-between flex-column"
                       }`}
                     >
+                      {showBigCircleData && (
+                      <div className="big-circle-data">
                       <div>
                         <img
                           className="module-img"
@@ -1273,6 +1278,16 @@ const PharmaMarketing = () => {
                           </ul>
                         </div>
                       </div>
+                      </div>
+                       )}
+
+                     {!showBigCircleData && (
+                      <div className="big-circle-request-data">
+                        <h4>Module Request</h4>
+                        <p>Please tell us what you would you like us more about.</p>
+                      </div>
+                       )}
+
                       <div className="d-flex align-items-center justify-content-center fotter-btns">
                         <Button className="btn-filled" onClick={handleRequestClick}>Request</Button>
                         <Link to="/" className="">
