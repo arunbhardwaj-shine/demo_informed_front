@@ -446,8 +446,38 @@ const PharmaMarketing = () => {
     }));
   };
 
+  const handleBigCircleClick = (moduleName, index) => {
+    const bigCircleData = bigCircleModules[index];
+      setBigModuleData((prevState) => ({
+        active: moduleName === activeModule ? !prevState.active : true,
+        logoIconPath: bigCircleData?.logo,
+        heading: bigCircleData?.title,
+        imagePath: bigCircleData?.image,
+        detail: bigCircleData?.description,
+        paragraph: bigCircleData?.para,
+        highlights: bigCircleData?.features,
+      }));
+      setActiveModule(moduleName === activeModule ? null : moduleName);
+  }
+
   const handleRequestClick = () => {
     setAddClass(true);
+  }
+
+  const handleBigCircleClose = (moduleName, index) => {
+    const smallCircleData = modules[index];
+    if (moduleName !== activeModule) {
+      setModuleData({
+        active: false,
+        imagePath: smallCircleData?.icon,
+        heading: smallCircleData?.title,
+        paragraph: smallCircleData?.description,
+      });
+    }
+
+    setTimeout(() => {
+        setReadStatus(false);
+    }, 200);
 
   }
 
@@ -1264,7 +1294,7 @@ const PharmaMarketing = () => {
                             ? "stat rating active"
                             : "stat rating"
                         }
-                        onClick={() => handleClick("rating", 1)}
+                        onClick={() => handleBigCircleClick("rating", 1)}
                         style={{ "--i": "1" }}
                       >
                         <img src={path_image + "rating-icon.svg"} alt="" />
@@ -1273,7 +1303,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1286,7 +1316,7 @@ const PharmaMarketing = () => {
                             ? "stat spc active"
                             : "stat spc"
                         }
-                        onClick={() => handleClick("spc", 2)}
+                        onClick={() => handleBigCircleClick("spc", 2)}
                         style={{ "--i": "2" }}
                       >
                         <img src={path_image + "SPC-icon.svg"} alt="" />
@@ -1295,7 +1325,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1310,7 +1340,7 @@ const PharmaMarketing = () => {
                             ? "stat automail active"
                             : "stat automail"
                         }
-                        onClick={() => handleClick("automail", 3)}
+                        onClick={() => handleBigCircleClick("automail", 3)}
                         style={{ "--i": "3" }}
                       >
                         <img src={path_image + "auto-email-icon.svg"} alt="" />
@@ -1319,7 +1349,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1336,7 +1366,7 @@ const PharmaMarketing = () => {
                             ? "stat ai active"
                             : "stat ai"
                         }
-                        onClick={() => handleClick("ai", 4)}
+                        onClick={() => handleBigCircleClick("ai", 4)}
                         style={{ "--i": "4" }}
                       >
                         <img
@@ -1348,7 +1378,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1365,7 +1395,7 @@ const PharmaMarketing = () => {
                             ? "stat consent active"
                             : " stat consent"
                         }
-                        onClick={() => handleClick("consent", 5)}
+                        onClick={() => handleBigCircleClick("consent", 5)}
                         style={{ "--i": "5" }}
                       >
                         <img
@@ -1377,7 +1407,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1392,7 +1422,7 @@ const PharmaMarketing = () => {
                             ? "stat engine active"
                             : "stat engine"
                         }
-                        onClick={() => handleClick("engine", 6)}
+                        onClick={() => handleBigCircleClick("engine", 6)}
                         style={{ "--i": "6" }}
                       >
                         <img src={path_image + "email-small-icon.svg"} alt="" />
@@ -1401,7 +1431,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1428,7 +1458,7 @@ const PharmaMarketing = () => {
                             ? "stat docintel active"
                             : "stat docintel"
                         }
-                        onClick={() => handleClick("docintel", 7)}
+                        onClick={() => handleBigCircleClick("docintel", 7)}
                         style={{ "--i": "12" }}
                       >
                         <img
@@ -1440,7 +1470,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1456,7 +1486,7 @@ const PharmaMarketing = () => {
                             ? "stat informed active"
                             : "stat informed"
                         }
-                        onClick={() => handleClick("informed", 8)}
+                        onClick={() => handleBigCircleClick("informed", 8)}
                         style={{ "--i": "13" }}
                       >
                         <img src={path_image + "informedgo-icon.svg"} alt="" />
@@ -1465,7 +1495,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1479,7 +1509,7 @@ const PharmaMarketing = () => {
                             ? "stat qa active"
                             : "stat qa"
                         }
-                        onClick={() => handleClick("qa", 9)}
+                        onClick={() => handleBigCircleClick("qa", 9)}
                         style={{ "--i": "14" }}
                       >
                         <img src={path_image + "polling-icon.svg"} alt="" />
@@ -1488,7 +1518,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1501,7 +1531,7 @@ const PharmaMarketing = () => {
                             ? "stat survey active"
                             : "stat survey"
                         }
-                        onClick={() => handleClick("survey", 10)}
+                        onClick={() => handleBigCircleClick("survey", 10)}
                         style={{ "--i": "15" }}
                       >
                         <img src={path_image + "survey-icon.svg"} alt="" />
@@ -1510,7 +1540,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1527,7 +1557,7 @@ const PharmaMarketing = () => {
                             ? "stat web active"
                             : "stat web"
                         }
-                        onClick={() => handleClick("web", 11)}
+                        onClick={() => handleBigCircleClick("web", 11)}
                         style={{ "--i": "16" }}
                       >
                         <img src={path_image + "web-portal-icon.svg"} alt="" />
@@ -1536,7 +1566,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1549,7 +1579,7 @@ const PharmaMarketing = () => {
                             ? "stat webinar active"
                             : "stat webinar"
                         }
-                        onClick={() => handleClick("webinar", 12)}
+                        onClick={() => handleBigCircleClick("webinar", 12)}
                         style={{ "--i": "17" }}
                       >
                         <img
@@ -1561,7 +1591,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
@@ -1576,7 +1606,7 @@ const PharmaMarketing = () => {
                             : "stat read"
                         }
                         style={{ "--i": "18" }}
-                        onClick={() => handleClick("read", 0)}
+                        onClick={() => handleBigCircleClick("read", 0)}
                       >
                         <img src={path_image + "RTR-icon.svg"} alt="" />
                         <span>Read-Through -Rate</span>
@@ -1584,7 +1614,7 @@ const PharmaMarketing = () => {
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
-                            onClick={() => setReadStatus(false)}
+                            onClick={handleBigCircleClose}
                           />
                         </div>
                       </div>
