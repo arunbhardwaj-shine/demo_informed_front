@@ -3660,6 +3660,34 @@ input[type="number"] {
   align-items: center;
 }
 
+.feedback-block {
+  margin: 50px 0 30px;
+
+  .timeline-block {
+    border-radius: 20px;
+  }
+}
+
+.feedback-block .library .timeline-block-title h6 {
+  color: #004A89;
+  font-size: 15px;
+}
+
+.feedback-block .timeline-block+.timeline-block {
+  margin: 25px 0 10px;
+}
+
+.feedback-block .timeline-block-head {
+  margin: 0 0 0px;
+}
+
+.feedback-block .feedback-detail p {
+  font-size: 15px;
+  line-height: 20px;
+  color: #004A89;
+  padding: 10px 0 14px;
+}
+
 .timeline-time-view {
   display: flex;
   align-items: center;
@@ -4333,6 +4361,7 @@ section.verify_email.content_details {
 .no_found {
   min-height: 60vh;
 }
+
 .rd-analytics-content .no_found {
   min-height: 260px;
 }

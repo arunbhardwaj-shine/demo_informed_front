@@ -135,7 +135,6 @@ const SetPopup = (props) => {
 
   const getTemplateListData = async (flag = 1, lng, consent, firstFlag = 0) => {
     loader("show");
-
     try {
       let first_consent = "";
       setTemplateClicked(false);
@@ -239,6 +238,8 @@ const SetPopup = (props) => {
           consentType: consent,
 
           pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
+
+          language_change: 1,
         };
 
         const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
@@ -246,7 +247,7 @@ const SetPopup = (props) => {
         setTemplateList(res?.data?.data?.popupData);
         loader("hide");
         setTemplateId(res?.data?.data?.popupTempId);
-
+        setActualTemplateData(res);
         setTimeout(function () {
           const div_img = document.querySelector("#template_dyn1");
           if (div_img !== null && typeof div_img != "undefined") {
@@ -742,21 +743,21 @@ const SetPopup = (props) => {
                                   onClick={(e) => templateClicked(template, e)}
                                 >
                                   <img
-                                    id={"template_dyn" + template.popupNo}
+                                    id={"template_dyn" + template?.popupNo}
                                     src={
                                       process.env.REACT_APP_API_KEY_NEW_DESIGN +
                                       "/" +
-                                      template.template_img
+                                      template?.template_img
                                     }
                                     alt=""
                                     className={
                                       typeof templateId !== "undefined" &&
-                                      templateId == template.popupNo
+                                      templateId == template?.popupNo
                                         ? ""
                                         : ""
                                     }
                                   />
-                                  <p>{template.name}</p>
+                                  <p>{template?.name}</p>
                                 </div>
                               </>
                             );
