@@ -1534,7 +1534,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .login-confirm form .form-check input[type="checkbox"],
 .module-register form .form-group input[type="checkbox"] {
-  border: 1px solid #97b6cf;
+  border: 1px solid $light-gray;
   width: 16px;
   height: 16px;
   padding: 1px;
@@ -1547,7 +1547,7 @@ ul.tab-mail-list.data span.total-left small {
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;
-  color: #97B6CF;
+  color: $light-gray;
   margin-left: 3px;
 }
 
@@ -1560,8 +1560,8 @@ ul.tab-mail-list.data span.total-left small {
 
 .login-confirm form input:checked[type="checkbox"],
 .module-register form .form-group input:checked[type="checkbox"] {
-  background-color: #39CABC;
-  border-color: #39CABC;
+  background-color: $secondary-green;
+  border-color: $secondary-green;
 }
 
 .login-confirm #download-qr form {
@@ -2651,7 +2651,7 @@ form.product-unit button {
 }
 
 .sublink_right.preview-content .modal-body-content {
-  border: 0.5px solid #97b6cf;
+  border: 0.5px solid $light-gray;
   box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
   border-radius: 15px;
   min-height: 68vh;
@@ -3769,11 +3769,11 @@ input[type="number"] {
         }
 
         &.media-green {
-          border: 2px solid #39cabc;
+          border: 2px solid $secondary-green;
           box-shadow: 0px 1px 6px rgb(57 202 188 / 75%);
 
           .content-type {
-            color: #39cabc;
+            color: $secondary-green;
           }
         }
 
@@ -7793,7 +7793,7 @@ svg.pencil_icon {
 }
 
 .login-validation-upload-error {
-  color: #d61975;
+  color: $pink;
 }
 
 /**Publisher page End**/
@@ -7813,13 +7813,13 @@ svg.pencil_icon {
   border-radius: 30px;
   background: $white;
   border: 0;
-  color: #0066BE;
+  color: $primary-color;
   font-size: 16px;
   font-weight: 500;
 }
 
 .login .btn-white:hover {
-  background: #0066BE;
+  background: $primary-color;
   border: 0;
   color: $white;
 }
@@ -7831,7 +7831,7 @@ svg.pencil_icon {
   background-size: 100% auto;
 
   &.pharma {
-    background: #0066BE url(../../../../public/componentAssets/images/pharma-marketing-bg.png) no-repeat;
+    background: $primary-color url(../../../../public/componentAssets/images/pharma-marketing-bg.png) no-repeat;
     background-size: cover;
   }
 
@@ -7841,7 +7841,7 @@ svg.pencil_icon {
   }
 
   &.publish {
-    background: #39CABC url(../../../../public/componentAssets/images/publisher-bg.png) no-repeat;
+    background: $secondary-green url(../../../../public/componentAssets/images/publisher-bg.png) no-repeat;
     background-size: cover;
   }
 
@@ -8191,11 +8191,11 @@ svg.pencil_icon {
 
         .icon-block {
           &:nth-child(2) {
-            background: linear-gradient(202deg, #812F99 7.05%, #0066BE 161.19%);
+            background: linear-gradient(202deg, #812F99 7.05%, $primary-color 161.19%);
           }
 
           &:nth-child(8) {
-            background: linear-gradient(202deg, #812F99 7.05%, #0066BE 161.19%);
+            background: linear-gradient(202deg, #812F99 7.05%, $primary-color 161.19%);
           }
         }
       }
@@ -8211,11 +8211,11 @@ svg.pencil_icon {
 
           .icon-block {
             &:nth-child(2) {
-              background: linear-gradient(202deg, #812F99 7.05%, #0066BE 161.19%);
+              background: linear-gradient(202deg, #812F99 7.05%, $primary-color 161.19%);
             }
 
             &:nth-child(5) {
-              background: linear-gradient(202deg, #812F99 7.05%, #0066BE 161.19%);
+              background: linear-gradient(202deg, #812F99 7.05%, $primary-color 161.19%);
             }
           }
         }
@@ -8279,7 +8279,7 @@ svg.pencil_icon {
         &:nth-child(2) {
           top: 10%;
           left: 76%;
-          background: linear-gradient(192deg, #82C5DF 4.83%, #0066BE 91.14%);
+          background: linear-gradient(192deg, #82C5DF 4.83%, $primary-color 91.14%);
 
         }
 
@@ -8323,7 +8323,7 @@ svg.pencil_icon {
         &:nth-child(8) {
           top: 85%;
           left: 14%;
-          background: linear-gradient(192deg, #82C5DF 4.83%, #0066BE 91.14%);
+          background: linear-gradient(192deg, #82C5DF 4.83%, $primary-color 91.14%);
         }
 
         &:nth-child(9) {
@@ -8432,7 +8432,7 @@ svg.pencil_icon {
           &:nth-child(2) {
             top: 7%;
             left: 70%;
-            background: linear-gradient(192deg, #82C5DF 4.83%, #0066BE 91.14%);
+            background: linear-gradient(192deg, #82C5DF 4.83%, $primary-color 91.14%);
           }
 
           &:nth-child(3) {
@@ -8456,7 +8456,7 @@ svg.pencil_icon {
           &:nth-child(5) {
             top: 85%;
             left: 14%;
-            background: linear-gradient(192deg, #82C5DF 4.83%, #0066BE 91.14%);
+            background: linear-gradient(192deg, #82C5DF 4.83%, $primary-color 91.14%);
           }
 
           &:nth-child(6) {
@@ -8473,7 +8473,7 @@ svg.pencil_icon {
       &.circle-inner3 {
         width: calc(100% - 560px);
         height: calc(100% - 560px);
-        border: 1px solid #004A89;
+        border: 1px solid $dark-blue;
         transform: translate(-50%, -50%) rotate(0deg);
         -webkit-transform: translate(-50%, -50%) rotate(0deg);
 
@@ -8551,7 +8551,7 @@ svg.pencil_icon {
 }
 
 .how-work-text h3 {
-  color: #004A89;
+  color: $dark-blue;
   font-size: 32px;
   font-weight: 600;
   line-height: 25px;
@@ -8559,7 +8559,7 @@ svg.pencil_icon {
 }
 
 .how-work-text h5 {
-  color: #70899E;
+  color: $dark-gray;
   font-size: 20px;
   font-weight: 400;
   line-height: 30.5px;
@@ -8580,7 +8580,7 @@ svg.pencil_icon {
 }
 
 .future-expand-content h4 {
-  color: #004A89;
+  color: $dark-blue;
   text-align: center;
   font-size: 24px;
   font-weight: 500;
@@ -8608,17 +8608,17 @@ svg.pencil_icon {
 .future-expand span.shade-left {
   left: -31px;
   z-index: -1;
-  background: linear-gradient(180deg, #8A4E9C 0%, #0066BE 156.45%);
+  background: linear-gradient(180deg, $voilet 0%, $primary-color 156.45%);
 }
 
 .future-expand span.shade-right {
   right: -31px;
   z-index: -1;
-  background: linear-gradient(180deg, #0066BE -19.35%, #00D4C0 123.28%);
+  background: linear-gradient(180deg, $primary-color -19.35%, #00D4C0 123.28%);
 }
 
 .future-expand h5 {
-  color: #70899E;
+  color: $dark-gray;
   text-align: center;
   font-size: 20px;
   line-height: 30px;
@@ -8627,7 +8627,7 @@ svg.pencil_icon {
 }
 
 .works-started>h3 {
-  color: #8A4E9C;
+  color: $voilet;
   text-align: center;
   font-size: 32px;
   font-weight: 300;
@@ -8639,7 +8639,7 @@ svg.pencil_icon {
   font-size: 32px;
   font-weight: 600;
   line-height: 25px;
-  color: #004A89;
+  color: $dark-blue;
   margin: 0 0 75px;
 }
 
@@ -8668,7 +8668,7 @@ svg.pencil_icon {
   border-radius: 37px;
   padding: 8px 23px;
   border-radius: 81px;
-  background: linear-gradient(90deg, #0066BE -7.89%, #00D4C0 100%);
+  background: linear-gradient(90deg, $primary-color -7.89%, #00D4C0 100%);
   box-shadow: 0px 2px 4px 0px rgba(0, 74, 137, 0.50);
   font-weight: 500;
   line-height: 39px;
@@ -8679,24 +8679,24 @@ svg.pencil_icon {
   position: relative;
 
   &:hover {
-    background: linear-gradient(90deg, #00D4C0 -7.89%, #0066BE 100%);
+    background: linear-gradient(90deg, #00D4C0 -7.89%, $primary-color 100%);
   }
 }
 
 .started-links a.pharma-rd {
-  background: linear-gradient(90deg, #0066BE -33.6%, #8A4E9C 100%);
+  background: linear-gradient(90deg, $primary-color -33.6%, $voilet 100%);
 
   &:hover {
-    background: linear-gradient(90deg, #8A4E9C -33.6%, #0066BE 100%);
+    background: linear-gradient(90deg, $voilet -33.6%, $primary-color 100%);
   }
 }
 
 
 .started-links a.pharma-marketing {
-  background: linear-gradient(90deg, #0066BE -10.32%, #82C5DF 100%);
+  background: linear-gradient(90deg, $primary-color -10.32%, #82C5DF 100%);
 
   &:hover {
-    background: linear-gradient(90deg, #82C5DF -10.32%, #0066BE 100%);
+    background: linear-gradient(90deg, #82C5DF -10.32%, $primary-color 100%);
   }
 }
 
@@ -8724,7 +8724,7 @@ svg.pencil_icon {
   background-size: cover;
 
   &.pharma {
-    background: #0066BE url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
+    background: $primary-color url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
   }
 
@@ -8735,7 +8735,7 @@ svg.pencil_icon {
   }
 
   &.publish {
-    background: #39CABC url(../../../../public/componentAssets/images/publisher-contact.png) no-repeat;
+    background: $secondary-green url(../../../../public/componentAssets/images/publisher-contact.png) no-repeat;
     background-size: cover;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
   }
@@ -8798,7 +8798,7 @@ svg.pencil_icon {
   color: $white;
 
   &.error {
-    border: 1px solid #D61975;
+    border: 1px solid $pink;
     box-shadow: 0px 0px 6px 0px #FF9FCE;
   }
 
@@ -8940,7 +8940,7 @@ svg.pencil_icon {
   min-width: 140px;
   background: $white;
   border-color: $white;
-  color: #0066BE;
+  color: $primary-color;
 
   &:hover {
     background: $primary-color;
@@ -9074,13 +9074,13 @@ svg.pencil_icon {
   margin: 18px 0;
   font-size: 32px;
   font-weight: 500;
-  color: #004A89;
+  color: $dark-blue;
 }
 
 .slide-right-content h5 {
   font-size: 20px;
   line-height: 30px;
-  color: #004A89;
+  color: $dark-blue;
   font-weight: 400;
   margin: 0 0 40px;
 }
@@ -9205,7 +9205,7 @@ svg.pencil_icon {
 }
 
 .consent-text h5 {
-  color: #70899E;
+  color: $dark-gray;
   text-align: center;
   font-size: 20px;
   font-weight: 400;
@@ -9241,7 +9241,7 @@ svg.pencil_icon {
 }
 
 .consent-details ul li {
-  color: #004A89;
+  color: $dark-blue;
   font-family: Roboto;
   font-size: 20px;
   font-style: normal;
@@ -9277,7 +9277,7 @@ svg.pencil_icon {
 }
 
 .works-started-links h5 {
-  color: #70899E;
+  color: $dark-gray;
   text-align: center;
   font-size: 20px;
   font-weight: 400;
@@ -9478,16 +9478,16 @@ svg.pencil_icon {
 
   &.webinar {
     &.active {
-      background: #8A4E9C;
-      outline: 2px dashed #8A4E9C;
-      filter: drop-shadow(0px 0px 19px #8A4E9C);
+      background: $voilet;
+      outline: 2px dashed $voilet;
+      filter: drop-shadow(0px 0px 19px $voilet);
     }
 
     &.visible {
-      background: #8A4E9C;
+      background: $voilet;
 
       &~.mudule-article-overview {
-        background: #8A4E9C;
+        background: $voilet;
       }
     }
   }
@@ -9634,7 +9634,7 @@ svg.pencil_icon {
   margin: 0;
 
   h4 {
-    color: #004A89;
+    color: $dark-blue;
     font-size: 24px;
     font-weight: 700;
     margin: 30px 0 50px;
@@ -9658,7 +9658,7 @@ svg.pencil_icon {
 .module-register form input.form-control {
   border-radius: 30px;
   border: 0;
-  color: #97B6CF;
+  color: $light-gray;
   font-size: 14px;
   font-weight: 400;
   padding: 9px 10px 9px 48px;
@@ -9676,14 +9676,14 @@ svg.pencil_icon {
 }
 
 .module-register form .form-group .form-consent {
-  color: #0066BE;
+  color: $primary-color;
   font-size: 14px;
   text-align: left;
 }
 
 .module-register form .form-group .form-check label {
   font-size: 12px;
-  color: #70899E;
+  color: $dark-gray;
   font-weight: 400;
 }
 
@@ -9786,7 +9786,7 @@ svg.pencil_icon {
 }
 
 .docintel span {
-  color: #0066BE
+  color: $primary-color
 }
 
 .informed span,
@@ -9808,7 +9808,7 @@ svg.pencil_icon {
 }
 
 .webinar span {
-  color: #8A4E9C
+  color: $voilet
 }
 
 
@@ -9950,10 +9950,11 @@ svg.pencil_icon {
 .fotter-btns {
   gap: 22px;
   margin-top: 75px;
+  z-index: 2;
 
   a {
     border-radius: 30px;
-    background: #FFF;
+    background: $white;
     box-shadow: 0px 0px 8px 0px rgba(0, 102, 190, 0.32);
     width: 40px;
     height: 40px;
@@ -10014,11 +10015,118 @@ svg.pencil_icon {
   align-items: center;
   height: auto;
   justify-content: center;
-  gap: 28px;
+  gap: 16px 28px;
 }
+
+.module-discribe.request .stat {
+  width: 80px;
+  height: 80px;
+}
+
+.module-discribe.request .stat.active {
+  outline: none;
+  filter: none;
+}
+
+.module-discribe.request .stat span {
+  font-size: 10px;
+}
+
+
+.request-content {
+  form {
+    max-width: 572px;
+    margin: 0 auto;
+
+    textarea {
+      border-radius: 13px;
+      box-shadow: 0px 0px 7px 0px rgba(0, 102, 190, 0.2);
+      padding: 10px 12px;
+      resize: none;
+      height: 91px;
+      margin: 20px 0 10px;
+    }
+
+    input.form-control {
+      border-radius: 30px;
+      box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+      padding: 10px 18px 10px 48px;
+      max-width: 266px;
+    }
+  }
+}
+
+.request-content form textarea,
+.request-content form input.form-control {
+  background: $white;
+  border: 0;
+  font-size: 14px;
+  font-weight: 400;
+  width: 100%;
+}
+
 
 .module-discribe.request .module-diagram.circle .stat.blank {
   display: none;
+}
+
+.request-content .click-link label {
+  color: $light-gray;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+
+.request-content .click-link label span {
+  text-decoration: underline;
+  color: $primary-color;
+}
+
+.module-discribe .request-content form+p {
+  color: $dark-blue;
+  text-align: left;
+  font-weight: 500;
+  font-size: 16px;
+  margin: 15px 0 30px;
+}
+
+.form-feilds .form-group {
+  position: relative;
+}
+
+.form-feilds .col-md-6:nth-child(2n) .form-group span {
+  left: 37px;
+}
+
+
+
+.form-feilds .form-group span {
+  position: absolute;
+  left: 16px;
+  top: 7px;
+}
+
+.request-content form input.form-control[type="number"] {
+  float: right;
+}
+
+.request-content form .form-group .form-control:focus,
+.request-content form textarea:focus {
+  box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.4);
+}
+
+.request-content form .form-group .form-control:focus+span svg path {
+  fill-opacity: 1;
+}
+
+.request-content form textarea::-webkit-input-placeholder {
+  color: $light-gray;
+  font-weight: 300;
+}
+
+.module-discribe .request-content h4 {
+  color: $dark-blue;
 }
 
 /**MOdule End**/
@@ -13361,7 +13469,7 @@ img.change-password-image {
                 font-size: 14px;
                 line-height: 16px;
                 text-transform: capitalize;
-                color: #97b6cf;
+                color: $light-gray;
                 font-weight: 400;
                 margin: 0 0 7px;
 
@@ -13468,7 +13576,7 @@ img.change-password-image {
   }
 
   &:hover {
-    color: #97b6cf;
+    color: $light-gray;
   }
 }
 
@@ -13506,7 +13614,7 @@ img.change-password-image {
 }
 
 .rd-full-explain .rd-training-block .accordion .accordion-read.active .accordion-body {
-  border-bottom: 0.5px dashed #97b6cf;
+  border-bottom: 0.5px dashed $light-gray;
   border-top: 0;
   border-radius: 9px 9px 0px 0px;
 }
@@ -13601,7 +13709,7 @@ img.change-password-image {
     }
 
     &.active {
-      background: #0066be;
+      background: $primary-color;
       color: $white;
 
       svg path {
@@ -13682,15 +13790,15 @@ img.change-password-image {
 }
 
 .highcharts-subtitle tspan {
-  color: #70899e !important;
-  fill: #70899e !important;
+  color: $dark-gray !important;
+  fill: $dark-gray !important;
   text-align: center;
   font-size: 16px;
 }
 
 .highcharts-subtitle tspan:last-child:not(first-child) {
-  color: #0066be !important;
-  fill: #0066be !important;
+  color: $primary-color !important;
+  fill: $primary-color !important;
   text-align: center;
   font-size: 40px;
   font-weight: 700;
@@ -14255,7 +14363,7 @@ img.change-password-image {
     margin: 0;
 
     thead {
-      border-bottom: 2px solid #004a89;
+      border-bottom: 2px solid $dark-blue;
 
       th {
         color: $dark-blue;
@@ -14302,7 +14410,7 @@ img.change-password-image {
     }
 
     tfoot {
-      border-top: 2px solid #004a89 !important;
+      border-top: 2px solid $dark-blue !important;
 
       td {
         padding-top: 15px;
@@ -14378,7 +14486,7 @@ img.change-password-image {
 
 .webinar-top-sec .webinar-top-btn {
   border-radius: 20px 20px 0px 20px;
-  background: #0066be;
+  background: $primary-color;
   min-width: 38px;
   color: $white;
   display: flex;
