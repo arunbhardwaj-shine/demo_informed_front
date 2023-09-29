@@ -10004,9 +10004,23 @@ svg.pencil_icon {
   background: transparent;
 }
 
-.module-discribe.request{
-  
+.module-discribe.request .module-diagram.circle {
+  position: static;
+  --total: auto !important;
+  transform: none;
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  height: auto;
+  justify-content: center;
+  gap: 28px;
 }
+
+.module-discribe.request .module-diagram.circle .stat.blank {
+  display: none;
+}
+
 /**MOdule End**/
 
 
