@@ -93,7 +93,7 @@ const MarketingReadersList = () => {
 
   const [changeCompanyProduct, setChangeCompanyProduct] = useState([]);
   const [changePipelineStage, setChangePipelineStage] = useState([]);
-  const [changeProbablity, setChangeProbablity] = useState([]);  
+  const [changeProbablity, setChangeProbablity] = useState([]);
 
   const [irtCountry, setIRTCountry] = useState([]);
   const defaultCountry = useRef(null);
@@ -171,11 +171,10 @@ const MarketingReadersList = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
-    
     // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-      setAppliedFilter({});
-      setFilterObject({});
-      setApifilterObject({});
+    setAppliedFilter({});
+    setFilterObject({});
+    setApifilterObject({});
     // } else {
     //   setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
     //   setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
@@ -274,24 +273,29 @@ const MarketingReadersList = () => {
       }
 
       const res = await postData(ENDPOINT.MARKETING_READER_LIST_DATA, payload);
-      console.log("data-->",res)
+
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
         };
-        const res_data = await getData(ENDPOINT.MARKETING_READER_USER_DROP, body);
-        console.log("data-->", res);
+        const res_data = await getData(
+          ENDPOINT.MARKETING_READER_USER_DROP,
+          body
+        );
+
         let product = [];
         let pipeline = [];
         let probablity = [];
-        // console.log(res_data?.data?.data?.company_product)
-        Object.entries(res_data?.data?.data?.company_product).map(([index, item]) => {
-          product.push({
-            value: item.value,
-            label: item.label,
-          });
-          setCompanyProductAll(product);
-        });
+
+        Object.entries(res_data?.data?.data?.company_product).map(
+          ([index, item]) => {
+            product.push({
+              value: item.value,
+              label: item.label,
+            });
+            setCompanyProductAll(product);
+          }
+        );
 
         Object.entries(res_data?.data?.data?.pipeline).map(([index, item]) => {
           pipeline.push({
@@ -301,13 +305,15 @@ const MarketingReadersList = () => {
           setPipelineStageAll(pipeline);
         });
 
-        Object.entries(res_data?.data?.data?.probablity).map(([index, item]) => {
-          probablity.push({
-            value: item.value,
-            label: item.label,
-          });
-          setProbablityAll(probablity);
-        });
+        Object.entries(res_data?.data?.data?.probablity).map(
+          ([index, item]) => {
+            probablity.push({
+              value: item.value,
+              label: item.label,
+            });
+            setProbablityAll(probablity);
+          }
+        );
         setSpcFlag(1);
       }
 
@@ -374,9 +380,13 @@ const MarketingReadersList = () => {
       };
 
       let payload = { ...data, ...filterObject };
-      const res = await postFormData(ENDPOINT.MARKETING_READER_DOWNLOAD, payload, {
-        responseType: "blob",
-      });
+      const res = await postFormData(
+        ENDPOINT.MARKETING_READER_DOWNLOAD,
+        payload,
+        {
+          responseType: "blob",
+        }
+      );
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
@@ -423,7 +433,7 @@ const MarketingReadersList = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    
+
     if (!newObj[key]) {
       newObj[key] = [];
     }
@@ -432,9 +442,7 @@ const MarketingReadersList = () => {
     }
 
     if (e?.target?.checked == true) {
-      if (
-        key == "List"
-      ) {
+      if (key == "List") {
         if (key == "region") {
           newObj["country"] = [];
           newObj[key] = [];
@@ -502,7 +510,7 @@ const MarketingReadersList = () => {
       </OverlayTrigger>
     );
   }
- 
+
   const onProductChange = (e, i) => {
     const consetValue = e.value;
     const consent = {
@@ -522,7 +530,7 @@ const MarketingReadersList = () => {
     }
     changeUpdateFlag.push(i);
     setChangeUpdateFlag(changeUpdateFlag);
-  }
+  };
 
   const onPipeLineChange = (e, i) => {
     const consetValue = e.value;
@@ -543,7 +551,7 @@ const MarketingReadersList = () => {
     }
     changeUpdateFlag.push(i);
     setChangeUpdateFlag(changeUpdateFlag);
-  }
+  };
 
   const onProbablityChange = (e, i) => {
     const consetValue = e.value;
@@ -564,10 +572,10 @@ const MarketingReadersList = () => {
     }
     changeUpdateFlag.push(i);
     setChangeUpdateFlag(changeUpdateFlag);
-  }
+  };
 
   const onDateChange = (newDate, i) => {
-    if(newDate != ""){
+    if (newDate != "") {
       const found = readerDataList.findIndex((el) => el.id === i);
       if (found !== -1) {
         readerDataList[found].next_contact_change = newDate;
@@ -575,13 +583,13 @@ const MarketingReadersList = () => {
       }
       changeUpdateFlag.push(i);
       setChangeUpdateFlag(changeUpdateFlag);
-      setUpdateFlag(updateflag+1);
+      setUpdateFlag(updateflag + 1);
     }
-  }
+  };
 
   const handleKeyDown = (e) => {
     // Check if the backspace key was pressed
-    if (e.key === 'Backspace' || e.key === 'Delete') {
+    if (e.key === "Backspace" || e.key === "Delete") {
       e.preventDefault(); // Prevent clearing the field
     }
   };
@@ -597,64 +605,77 @@ const MarketingReadersList = () => {
   const updateReaderDetails = async (reader_id, index) => {
     try {
       let body = {};
-      const user_index =   readerDataList.findIndex((el) => el.id === reader_id);
+      const user_index = readerDataList.findIndex((el) => el.id === reader_id);
 
-      const tindex = changeCompanyProduct.findIndex((el) => el.index === reader_id);
+      const tindex = changeCompanyProduct.findIndex(
+        (el) => el.index === reader_id
+      );
       let product = "";
       if (tindex !== -1) {
         product = changeCompanyProduct[tindex].value;
-      }else{
-        product = readerDataList?.[user_index]?.product ? readerDataList[user_index].product : "";
+      } else {
+        product = readerDataList?.[user_index]?.product
+          ? readerDataList[user_index].product
+          : "";
       }
 
-      const pindex = changePipelineStage.findIndex((el) => el.index === reader_id);
+      const pindex = changePipelineStage.findIndex(
+        (el) => el.index === reader_id
+      );
       let pipeline = "";
       if (pindex !== -1) {
         pipeline = changePipelineStage[pindex].value;
-      }else{
-        pipeline = readerDataList?.[user_index]?.pipeline ? readerDataList[user_index].pipeline : "";
+      } else {
+        pipeline = readerDataList?.[user_index]?.pipeline
+          ? readerDataList[user_index].pipeline
+          : "";
       }
 
-      const probindex = changeProbablity.findIndex((el) => el.index === reader_id);
+      const probindex = changeProbablity.findIndex(
+        (el) => el.index === reader_id
+      );
       let probability = "";
       if (probindex !== -1) {
         probability = changeProbablity[probindex].value;
-      }else{
-        probability = readerDataList?.[user_index]?.probability ? readerDataList[user_index].probability : "";
+      } else {
+        probability = readerDataList?.[user_index]?.probability
+          ? readerDataList[user_index].probability
+          : "";
       }
 
-      
       let next_step = "";
       if (user_index !== -1) {
-       
-        next_step = readerDataList?.[user_index]?.next_contact_change ? readerDataList[user_index].next_contact_change : new Date(
-          moment(new Date(), "MM/DD/YYYY")
-          .format("MM/DD/YYYY")
-        );
-      }else{
+        next_step = readerDataList?.[user_index]?.next_contact_change
+          ? readerDataList[user_index].next_contact_change
+          : new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY"));
+      } else {
         next_step = new Date(
-          moment(new Date(), "MM/DD/YYYY")
-          .format("MM/DD/YYYY")
+          moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
         );
       }
       let new_date = "";
-      if(isValidDateFormat(next_step)){
+      if (isValidDateFormat(next_step)) {
         new_date = convertDate(next_step);
-      }else{
-         new_date = formatDate(next_step);
+      } else {
+        new_date = formatDate(next_step);
       }
 
-        if (pipeline !== "" || product !== "" || probability !== "" || new_date != "") {
-          // loader("show");
-          body = {
-            type: 0,
-            readerId: reader_id,
-            product: product,
-            pipeline: pipeline,
-            probability: probability,
-            next_step: new_date,
-          };
-        }
+      if (
+        pipeline !== "" ||
+        product !== "" ||
+        probability !== "" ||
+        new_date != ""
+      ) {
+        // loader("show");
+        body = {
+          type: 0,
+          readerId: reader_id,
+          product: product,
+          pipeline: pipeline,
+          probability: probability,
+          next_step: new_date,
+        };
+      }
 
       if (Object.keys(body)?.length !== 0) {
         const res = await postData(ENDPOINT.MARKETINGREADERSTATUSUPDATE, body);
@@ -676,7 +697,8 @@ const MarketingReadersList = () => {
         }
 
         if (new_date !== "") {
-          readerDataList[libDataIndex].next_contact = moment(new_date).format('DD MMMM YYYY');
+          readerDataList[libDataIndex].next_contact =
+            moment(new_date).format("DD MMMM YYYY");
         }
         const newData = readerDataList;
         setReaderDataList(newData);
@@ -699,11 +721,11 @@ const MarketingReadersList = () => {
 
   const formatDate = (newDate) => {
     const year = newDate.getFullYear();
-    const month = String(newDate.getMonth() + 1).padStart(2, '0');
-    const day = String(newDate.getDate()).padStart(2, '0');
+    const month = String(newDate.getMonth() + 1).padStart(2, "0");
+    const day = String(newDate.getDate()).padStart(2, "0");
     const formattedDate = `${year}-${month}-${day}`;
     return formattedDate;
-  }
+  };
 
   function isValidDateFormat(dateString) {
     const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
@@ -711,7 +733,9 @@ const MarketingReadersList = () => {
   }
 
   function convertDate(dateString) {
-    const formattedDate = moment(dateString, 'DD MMMM YYYY').format('YYYY-MM-DD');
+    const formattedDate = moment(dateString, "DD MMMM YYYY").format(
+      "YYYY-MM-DD"
+    );
     return formattedDate;
   }
 
@@ -962,9 +986,10 @@ const MarketingReadersList = () => {
                   )}
 
                   {(
-                    (localStorage.getItem("user_id") ==
-                      "90VIqoM675WT4/peSRnbSQ=="  &&
-                      Object.keys(filterObject)?.length <= 0)
+                    localStorage.getItem("user_id") ==
+                      "90VIqoM675WT4/peSRnbSQ==" &&
+                    Object.keys(filterObject)?.length <= 0 &&
+                    !search
                       ? true
                       : false
                   ) ? (
@@ -1384,7 +1409,9 @@ const MarketingReadersList = () => {
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
-                              {data?.first_name ? data?.first_name +" "+data?.last_name  : data?.name}
+                              {data?.first_name
+                                ? data?.first_name + " " + data?.last_name
+                                : data?.name}
                             </h4>
                           </div>
                         </div>
@@ -1408,19 +1435,15 @@ const MarketingReadersList = () => {
                                       Company
                                     </h6>
                                     <h6>
-                                      {data?.company
-                                        ? data?.company
-                                        : "N/A"}
+                                      {data?.company ? data?.company : "N/A"}
                                     </h6>
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                     Product
+                                      Product
                                     </h6>
                                     <h6>
-                                      {data?.product
-                                        ? data?.product
-                                        : "N/A"}
+                                      {data?.product ? data?.product : "N/A"}
                                     </h6>
                                   </li>
                                   <li>
@@ -1437,11 +1460,9 @@ const MarketingReadersList = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                      Primary Email 
+                                      Primary Email
                                     </h6>
-                                    <h6>
-                                      {data?.email ? data?.email : "N/A"}
-                                    </h6>
+                                    <h6>{data?.email ? data?.email : "N/A"}</h6>
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
@@ -1465,17 +1486,15 @@ const MarketingReadersList = () => {
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                    Pipeline stage
+                                      Pipeline stage
                                     </h6>
                                     <h6>
-                                      {data?.pipeline
-                                        ? data?.pipeline
-                                        : "N/A"}
+                                      {data?.pipeline ? data?.pipeline : "N/A"}
                                     </h6>
                                   </li>
                                   <li>
                                     <h6 className="tab-content-title">
-                                    Next step
+                                      Next step
                                     </h6>
                                     <h6>
                                       {data?.next_contact
@@ -1539,7 +1558,8 @@ const MarketingReadersList = () => {
                                           >
                                             <img
                                               src={
-                                                path_image + "info_circle_icon.svg"
+                                                path_image +
+                                                "info_circle_icon.svg"
                                               }
                                               alt="refresh-btn"
                                             />
@@ -1555,7 +1575,8 @@ const MarketingReadersList = () => {
                                               ) !== -1
                                                 ? emailStats[
                                                     emailStats.findIndex(
-                                                      (el) => el.userId == data?.id
+                                                      (el) =>
+                                                        el.userId == data?.id
                                                     )
                                                   ]?.TouchPoint
                                                 : "Loading"
@@ -1735,98 +1756,102 @@ const MarketingReadersList = () => {
                               <Tab eventKey="change-tab" title="Change">
                                 <div className="data-main-box change-tab-main-box">
                                   <ul className="tab-mail-list data change">
-                                    {
-                                      apiCallStatus ? (
-                                        <>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Product
-                                            </h6>
-                                            <div className="select-dropdown-wrapper">
-                                              <div className="select">
-                                                <Select
-                                                  options={companyProduct}
-                                                  defaultValue={
-                                                    companyProduct[
-                                                      companyProduct.findIndex(
-                                                        (el) =>
-                                                          el.value.toLowerCase() ==
-                                                          data?.product?.toLowerCase()
-                                                      )
-                                                    ]
-                                                  }
-                                                  onChange={(event) =>
-                                                    onProductChange(event, data.id)
-                                                  }
-                                                  id={"company_product_" + data?.id}
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  isClearable
-                                                />
-                                              </div>
-                                            </div>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Pipeline stage
-                                            </h6>
-                                            <div className="select-dropdown-wrapper">
-                                              <div className="select">
-                                                <Select
-                                                  options={pipelineStage}
-                                                  defaultValue={
-                                                    pipelineStage[
-                                                      pipelineStage.findIndex(
-                                                        (el) =>
-                                                          el.value.toLowerCase() ==
-                                                          data?.pipeline?.toLowerCase()
-                                                      )
-                                                    ]
-                                                  }
-                                                  onChange={(event) =>
-                                                    onPipeLineChange(
-                                                      event,
-                                                      data.id
+                                    {apiCallStatus ? (
+                                      <>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Product
+                                          </h6>
+                                          <div className="select-dropdown-wrapper">
+                                            <div className="select">
+                                              <Select
+                                                options={companyProduct}
+                                                defaultValue={
+                                                  companyProduct[
+                                                    companyProduct.findIndex(
+                                                      (el) =>
+                                                        el.value.toLowerCase() ==
+                                                        data?.product?.toLowerCase()
                                                     )
-                                                  }
-                                                  id={"pipeline_stage" + data?.id}
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  isClearable
-                                                />
-                                              </div>
+                                                  ]
+                                                }
+                                                onChange={(event) =>
+                                                  onProductChange(
+                                                    event,
+                                                    data.id
+                                                  )
+                                                }
+                                                id={
+                                                  "company_product_" + data?.id
+                                                }
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
                                             </div>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
+                                          </div>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Pipeline stage
+                                          </h6>
+                                          <div className="select-dropdown-wrapper">
+                                            <div className="select">
+                                              <Select
+                                                options={pipelineStage}
+                                                defaultValue={
+                                                  pipelineStage[
+                                                    pipelineStage.findIndex(
+                                                      (el) =>
+                                                        el.value.toLowerCase() ==
+                                                        data?.pipeline?.toLowerCase()
+                                                    )
+                                                  ]
+                                                }
+                                                onChange={(event) =>
+                                                  onPipeLineChange(
+                                                    event,
+                                                    data.id
+                                                  )
+                                                }
+                                                id={"pipeline_stage" + data?.id}
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            </div>
+                                          </div>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
                                             Probablity (%)
-                                            </h6>
-                                            <div className="select-dropdown-wrapper">
-                                              <div className="select">
-                                                <Select
-                                                  options={probablity}
-                                                  defaultValue={
-                                                    probablity[
-                                                      probablity.findIndex(
-                                                        (el) =>
-                                                          el.value.toLowerCase() ==
-                                                          data?.probability?.toLowerCase()
-                                                      )
-                                                    ]
-                                                  }
-                                                  onChange={(event) =>
-                                                    onProbablityChange(
-                                                      event,
-                                                      data.id
+                                          </h6>
+                                          <div className="select-dropdown-wrapper">
+                                            <div className="select">
+                                              <Select
+                                                options={probablity}
+                                                defaultValue={
+                                                  probablity[
+                                                    probablity.findIndex(
+                                                      (el) =>
+                                                        el.value.toLowerCase() ==
+                                                        data?.probability?.toLowerCase()
                                                     )
-                                                  }
-                                                  id={"probablity" + data?.id}
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  isClearable
-                                                />
-                                              </div>
+                                                  ]
+                                                }
+                                                onChange={(event) =>
+                                                  onProbablityChange(
+                                                    event,
+                                                    data.id
+                                                  )
+                                                }
+                                                id={"probablity" + data?.id}
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
                                             </div>
-                                          </li>
+                                          </div>
+                                        </li>
 
-                                          <li>
+                                        <li>
                                           <h6 className="tab-content-title">
                                             Next step
                                           </h6>
@@ -1834,42 +1859,47 @@ const MarketingReadersList = () => {
                                             <DatePicker
                                               selected={
                                                 data?.next_contact_change
-                                                ? new Date(data?.next_contact_change)
-                                                : new Date(
-                                                  moment(new Date(), "MM/DD/YYYY")
-                                                  .format("MM/DD/YYYY")
-                                                )
+                                                  ? new Date(
+                                                      data?.next_contact_change
+                                                    )
+                                                  : new Date(
+                                                      moment(
+                                                        new Date(),
+                                                        "MM/DD/YYYY"
+                                                      ).format("MM/DD/YYYY")
+                                                    )
                                               }
                                               name="expDatetime"
-                                              onChange={(e) => onDateChange(e, data.id)}
+                                              onChange={(e) =>
+                                                onDateChange(e, data.id)
+                                              }
                                               dateFormat="dd/MM/yyyy"
                                               className="form-control"
                                               id={"date_change" + data?.id}
                                               onKeyDown={handleKeyDown}
                                             />
                                           </div>
-                                          </li>
-                                          {/*minDate={currentDate}*/}
-                                        </>
-                                      ) : (
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            width: "100%",
-                                            height: "100%",
-                                          }}
-                                        >
-                                          <Spinner
-                                            color="#53aff4"
-                                            size={32}
-                                            speed={1}
-                                            animating={true}
-                                          />
-                                        </div>
-                                      )
-                                    }
+                                        </li>
+                                        {/*minDate={currentDate}*/}
+                                      </>
+                                    ) : (
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          width: "100%",
+                                          height: "100%",
+                                        }}
+                                      >
+                                        <Spinner
+                                          color="#53aff4"
+                                          size={32}
+                                          speed={1}
+                                          animating={true}
+                                        />
+                                      </div>
+                                    )}
                                   </ul>
 
                                   {apiCallStatus ? (

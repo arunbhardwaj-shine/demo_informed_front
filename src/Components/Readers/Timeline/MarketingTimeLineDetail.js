@@ -244,7 +244,12 @@ const MarketingTimeLineDetail = (props) => {
             setlastnoteTime(lasttime);
         }
       }
-    //   console.log(note,"note");
+
+      let newtDate = res?.data?.data?.user?.next_contact;
+      if(newtDate == "" || newtDate === null){
+        newtDate = moment().format('YYYY-MM-DD');
+      }
+      
       setUserInputs({
         ...userInputs,
         pipeline: res?.data?.data?.user?.pipeline,
@@ -252,7 +257,7 @@ const MarketingTimeLineDetail = (props) => {
         opportunity_value: res?.data?.data?.user?.opportunity_value,
         probability: res?.data?.data?.user?.probability,
         log_activity:note,
-        next_contact: res?.data?.data?.user?.next_contact,
+        next_contact: newtDate,
       });
       loader("hide");
     } catch (err) {
@@ -557,7 +562,7 @@ const MarketingTimeLineDetail = (props) => {
                                 </tr>
                                 <tr>
                                     <th>Phone</th>
-                                    <td>{timeLineData?.user?.phone ? timeLineData?.user?.phone.split("-informed-") : "N/A"}</td>
+                                    <td>{timeLineData?.user?.phone ? timeLineData?.user?.phone == '-informed-' ? "N/A" :timeLineData?.user?.phone.split("-informed-") : "N/A"}</td>
                                 </tr>
                                 <tr>
                                     <th>Product</th>
@@ -613,6 +618,7 @@ const MarketingTimeLineDetail = (props) => {
                                                         ]
                                                         }
                                                         name="channel"
+                                                        placeholder="Select chanel"
                                                         onChange={(e) => handleChange(e?.value, "channel")}
                                                         id={"channel"}
                                                         className="dropdown-basic-button split-button-dropup"
@@ -639,7 +645,7 @@ const MarketingTimeLineDetail = (props) => {
                                                     type="number"
                                                     className="form-control"
                                                     name="opportunity_value"
-                                                    placeholder="value"
+                                                    placeholder="Enter Amount value"
                                                     value={userInputs?.opportunity_value}
                                                     onChange={(e) => handleChange(e, "opportunity_value")}
                                                 />
@@ -661,6 +667,7 @@ const MarketingTimeLineDetail = (props) => {
                                                                 )
                                                             ]
                                                         }
+                                                        placeholder="Select Pipeline"
                                                         name="pipeline"
                                                         onChange={(e) => handleChange(e?.value, "pipeline")}
                                                         id={"pipeline_stage"}
@@ -693,6 +700,7 @@ const MarketingTimeLineDetail = (props) => {
                                                             )
                                                         ]
                                                         }
+                                                        placeholder="Select Probablity"
                                                         name="probability"
                                                         id={"probability"}
                                                         onChange={(e) => handleChange(e?.value, "probability")}

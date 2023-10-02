@@ -394,11 +394,17 @@ const Table = (props, ref) => {
       if(value == "Study site"){
         list[i].siteIrtIndex = 0;
         list[i].siteIrt = "Yes";
+        list[i].userType = irtRole[0]?.value;
+        list[i].roleIndex =0;     
+        
+
       }else{
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
         list[i].userType = "";
         list[i].userTypeIndex = "";
+        list[i].userType = "Other";  
+        list[i].roleIndex =4;  
       }
       
       list[i].siteNumberIndex = "";
@@ -418,6 +424,7 @@ const Table = (props, ref) => {
         setSiteNameAll(arr);
         setForceRender(!forceRender);
       }
+      console.log(list);
       setHpc(list);
     }
   };
@@ -506,9 +513,10 @@ const Table = (props, ref) => {
       list[i].siteIrt = value;
 
       let index = siteIrtAll.findIndex((x) => x.value === value);
-      console.log(index,value);
+      list[i].userType = value=="Yes"?irtRole[0]:"Other";  
+        list[i].roleIndex =value=="Yes"?0 :4;  
       list[i].siteIrtIndex = index;
-      list[i].userType = "";
+      // list[i].userType = "";
       list[i].userTypeIndex = "";
       list[i].country = "";
       list[i].siteNumberIndex = "";
@@ -2579,18 +2587,7 @@ const Table = (props, ref) => {
                                               onUserTypeChange(event, i)
                                             }
                                             value={
-                                              irtRole.findIndex(
-                                                (el) =>
-                                                  el.value == val?.userType
-                                              ) == -1
-                                                ? ""
-                                                : irtRole[
-                                                    irtRole.findIndex(
-                                                      (el) =>
-                                                        el.value ==
-                                                        val?.userType
-                                                    )
-                                                  ]
+                                              irtRole[hpc[i].roleIndex]
                                             }
                                             placeholder={"Select Role"}
                                             isClearable
@@ -2605,18 +2602,7 @@ const Table = (props, ref) => {
                                               onUserTypeChange(event, i)
                                             }
                                             value={
-                                              userTypeAll.findIndex(
-                                                (el) =>
-                                                  el.value == val?.userType
-                                              ) == -1
-                                                ? ""
-                                                : userTypeAll[
-                                                    userTypeAll.findIndex(
-                                                      (el) =>
-                                                        el.value ==
-                                                        val?.userType
-                                                    )
-                                                  ]
+                                              userTypeAll[hpc[i].roleIndex]
                                             }
                                             isClearable
                                             placeholder={"Select Role"}

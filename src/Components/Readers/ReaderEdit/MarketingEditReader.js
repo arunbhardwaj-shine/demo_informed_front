@@ -10,10 +10,14 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { getData, postData } from "../../../axios/apiHelper";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
 import { toast } from "react-toastify";
+import ReactFlagsSelect from "react-flags-select";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { parsePhoneNumber } from "react-phone-number-input";
 
 const MarketingEditReader = () => {
   const { state } = useLocation();
-  const [id, setId] = useState(state.id);
+  const [id, setId] = useState(state?.id ? state?.id : "");
   const [typeOfContact, setTypeOfContact] = useState([]);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -21,6 +25,8 @@ const MarketingEditReader = () => {
   const contactTotalRef = useRef(null);
   const countryRef = useRef(null);
   const postcodeRef = useRef(null);
+  const alternativeEmailRef = useRef(null);
+  const alternativePhoneRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const navigate = useNavigate();
   const [titleOptions, setTitleOptions] = useState([]);
@@ -56,31 +62,23 @@ const MarketingEditReader = () => {
     lastName: "",
     email: "",
     alternativeEmail: "",
-    countryCode: { value: "" },
+    countryCode: "",
     primary_phone: "",
     alternativePhone: "",
     linkedIn: "",
     prospect: { value: "" },
-
     ownership: { value: "" },
     main: "",
     influencer: "",
     decisionMaker: "",
     introducer: "",
     customerType: { value: "" },
-
     companyName: { value: "" },
-    // country: { value: "" },
     companyWebsite: "",
     companyProduct: { value: "" },
     therapyArea: { value: "" },
     local: { value: "" },
     address: [],
-    // stree1: "",
-    // street2: "",
-    // city: "",
-    // postcode: "",
-    // addressCountry: "",
     logActivity: "",
     task: { value: "" },
     nextContact: new Date(
@@ -90,7 +88,6 @@ const MarketingEditReader = () => {
     ourProduct: "",
     contactTotal: "",
     pipeline: { value: "" },
-    pipeline: "",
     opportunityValue: "",
     probability: { value: "" },
     weighted_value: 0,
@@ -98,27 +95,295 @@ const MarketingEditReader = () => {
     typeContact: [],
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
-  const [countryCode, setCountryCode] = useState([
-    { value: "Afghanistan", label: "+93" },
-    { value: "Albania", label: "+355" },
-    { value: "Algeria", label: "+213" },
-    { value: "American Samoa", label: "+1-684" },
-    { value: "Andorra", label: "+376" },
-    { value: "Angola", label: "+244" },
-    { value: "Anguilla", label: "+1-264" },
-    { value: "Antarctica", label: "+672" },
-    { value: "Antigua and Barbuda", label: "+1-268" },
-    { value: "Argentina", label: "+54" },
-    { value: "Armenia", label: "+374" },
-    { value: "India", label: "+91" },
-    { value: "Azerbaijan", label: "+994" },
-    { value: "Bahamas", label: "+1-242" },
-    { value: "Bahrain", label: "+973" },
-    { value: "Bangladesh", label: "+880" },
-    { value: "Barbados", label: "+1-246" },
-    { value: "Belarus", label: "+375" },
-    { value: "Belgium", label: "+32" },
-  ]);
+
+  // const country = [
+  //   "US",
+
+  //   "BS",
+
+  //   "BB",
+
+  //   "AI",
+
+  //   "AG",
+
+  //   "VG",
+
+  //   "KY",
+
+  //   "BM",
+
+  //   "GD",
+
+  //   "TC",
+
+  //   "MS",
+
+  //   "MP",
+
+  //   "GU",
+
+  //   "AS",
+
+  //   "LC",
+
+  //   "DM",
+
+  //   "DO",
+
+  //   "TT",
+
+  //   "KN",
+
+  //   "JM",
+
+  //   "EG",
+
+  //   "ZA",
+
+  //   "SS",
+
+  //   "MA",
+
+  //   "DZ",
+
+  //   "TN",
+
+  //   "LY",
+
+  //   "GY",
+
+  //   "GR",
+
+  //   "NL",
+
+  //   "BE",
+
+  //   "FR",
+
+  //   "ES",
+
+  //   "GI",
+
+  //   "PT",
+
+  //   "LU",
+
+  //   "IE",
+
+  //   "IS",
+
+  //   "AL",
+
+  //   "MT",
+
+  //   "CY",
+
+  //   "FI",
+
+  //   "BG",
+
+  //   "LT",
+
+  //   "LV",
+
+  //   "EE",
+
+  //   "MD",
+
+  //   "AM",
+
+  //   "BY",
+
+  //   "AD",
+
+  //   "MC",
+
+  //   "SM",
+
+  //   "VA",
+
+  //   "UA",
+
+  //   "RS",
+
+  //   "ME",
+
+  //   "XK",
+
+  //   "HR",
+
+  //   "SI",
+
+  //   "BA",
+
+  //   "MK",
+
+  //   "CZ",
+
+  //   "SK",
+
+  //   "LI",
+
+  //   "FK",
+
+  //   "BZ",
+
+  //   "GT",
+
+  //   "SV",
+
+  //   "HN",
+
+  //   "NI",
+
+  //   "CR",
+
+  //   "PA",
+
+  //   "PM",
+
+  //   "HT",
+
+  //   "GP",
+
+  //   "BO",
+
+  //   "GY",
+
+  //   "EC",
+
+  //   "GF",
+
+  //   "PY",
+
+  //   "MQ",
+
+  //   "SR",
+
+  //   "UY",
+
+  //   "CW",
+
+  //   "MY",
+
+  //   "AU",
+
+  //   "ID",
+
+  //   "PH",
+
+  //   "NZ",
+
+  //   "SG",
+
+  //   "TH",
+
+  //   "TL",
+
+  //   "NF",
+
+  //   "BN",
+
+  //   "NR",
+
+  //   "PG",
+
+  //   "TO",
+
+  //   "SB",
+
+  //   "VU",
+
+  //   "FJ",
+
+  //   "PW",
+
+  //   "WF",
+
+  //   "CK",
+
+  //   "NU",
+
+  //   "WS",
+
+  //   "KI",
+
+  //   "NC",
+
+  //   "TV",
+
+  //   "PF",
+
+  //   "TK",
+
+  //   "FM",
+
+  //   "MH",
+
+  //   "RU",
+
+  //   "KP",
+
+  //   "HK",
+
+  //   "MO",
+
+  //   "KH",
+
+  //   "LA",
+
+  //   "BD",
+
+  //   "TW",
+
+  //   "MV",
+
+  //   "LB",
+
+  //   "JO",
+
+  //   "SY",
+
+  //   "IQ",
+
+  //   "KW",
+
+  //   "SA",
+
+  //   "YE",
+
+  //   "OM",
+
+  //   "PS",
+
+  //   "AE",
+
+  //   "IL",
+
+  //   "BH",
+
+  //   "QA",
+
+  //   "BT",
+
+  //   "MN",
+
+  //   "NP",
+
+  //   "TJ",
+
+  //   "TM",
+
+  //   "AZ",
+
+  //   "GE",
+
+  //   "KG",
+
+  //   "UZ",
+  // ];
+
   const [userDetail, setUserDetail] = useState({
     title: [],
     prospect: [],
@@ -172,9 +437,6 @@ const MarketingEditReader = () => {
         `${ENDPOINT.GET_MARKETING_USER_DROP}/${id}`
       );
       const data = usersData?.data?.data;
-
-      console.log("data");
-
       let phoneNumber = data?.primary_phone.split("-informed-");
 
       let note = "";
@@ -198,7 +460,7 @@ const MarketingEditReader = () => {
         lastName: data?.lastName,
         email: data?.email,
         alternativeEmail: data?.alternativeEmail,
-        countryCode: { label: phoneNumber[0], value: phoneNumber[0] },
+        countryCode: phoneNumber[0],
         primary_phone: phoneNumber[1],
         alternativePhone: data?.alternativePhone,
         linkedIn: data?.linkedIn,
@@ -216,13 +478,7 @@ const MarketingEditReader = () => {
         therapyArea: { value: data?.company_therapy_area },
         local: { value: data?.local },
         nextContact: data?.next_contact,
-        //  address: `${data?.address}-${data?.stree1}-${data?.street2}-${data?.city}-${data?.postcode}-${data?.addressCountry}`,
         address: JSON.parse(data?.address),
-        // street1: data?.address.street1,
-        // street2: data?.address.street2,
-        // city: data?.address.city,
-        // postcode: data?.address.postcode,
-        // addressCountry: data?.address.country,
         logActivity: note,
         task: data?.task,
         opportunityTitle: data?.opportunity_title,
@@ -234,7 +490,7 @@ const MarketingEditReader = () => {
         contactTotal: data?.contact_total,
         quoteSent: data?.quote_sent,
         quoteValid: data?.quote_valid_until,
-        typeContact: data?.type_of_contact,
+        typeContact: data?.type_of_contact ? data?.type_of_contact : [],
       });
 
       loader("hide");
@@ -244,25 +500,31 @@ const MarketingEditReader = () => {
       loader("hide");
     }
   };
+  const handleKeyDown = (e, isSelectedName) => {
+    if (isSelectedName == "countryCode") {
+      if (e.key === "Backspace" || e.key === "Delete") {
+        setUserInputs({ ...userInputs, countryCode: "" });
+      } else {
+        e.preventDefault();
+      }
+    }
+  };
 
   const handleChange = (e, isSelectedName, key) => {
     let weighted_Value = "";
-    // if (userInputs?.opportunityValue && userInputs?.probability?.value) {
-    //   weighted_Value =
-    //     userInputs?.opportunityValue * userInputs?.probability?.value;
-    // }
+
     if (isSelectedName == "address") {
-      if (e.target?.name == "street1") {
+      if (e?.target?.name == "street1") {
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street1: e?.target?.value },
         });
-      } else if (e.target?.name == "street2") {
+      } else if (e?.target?.name == "street2") {
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, street2: e?.target?.value },
         });
-      } else if (e.target?.name == "city") {
+      } else if (e?.target?.name == "city") {
         setUserInputs({
           ...userInputs,
           address: { ...userInputs?.address, city: e?.target?.value },
@@ -272,8 +534,8 @@ const MarketingEditReader = () => {
           ...userInputs,
           address: { ...userInputs?.address, country: e?.value },
         });
-      } else if (e.target?.name == "postcode") {
-        const cleanedValue = e.target?.value;
+      } else if (e?.target?.name == "postcode") {
+        const cleanedValue = e?.target?.value?.replace(/[^a-zA-Z0-9]/g, "");
         if (cleanedValue?.length <= 12) {
           setUserInputs({
             ...userInputs,
@@ -291,36 +553,43 @@ const MarketingEditReader = () => {
         setUserInputs({
           ...userInputs,
           weighted_value: weighted_Value,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+          [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
             ? e
             : e?.target?.value,
         });
       } else {
         setUserInputs({
           ...userInputs,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+          [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
             ? e
             : e?.target?.value,
         });
       }
-    } else if (e.target?.name == "opportunityValue") {
-      let weighted_Value = "";
-      if (userInputs?.probability?.value) {
-        weighted_Value =
-          (userInputs?.probability?.value * e?.target?.value) / 100;
-        setUserInputs({
-          ...userInputs,
-          weighted_value: weighted_Value,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-            ? e
-            : e?.target?.value,
-        });
+    } else if (e?.target?.name == "opportunityValue") {
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
+      if (cleanedValue >= 0) {
+        let weighted_Value = "";
+        if (userInputs?.probability?.value) {
+          weighted_Value =
+            (userInputs?.probability?.value * cleanedValue) / 100;
+          setUserInputs({
+            ...userInputs,
+            weighted_value: weighted_Value,
+            [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+              ? e
+              : cleanedValue,
+          });
+        } else {
+          setUserInputs({
+            ...userInputs,
+            [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+              ? e
+              : cleanedValue,
+          });
+        }
       } else {
-        setUserInputs({
-          ...userInputs,
-          [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
-            ? e
-            : e?.target?.value,
+        setError({
+          opportunityValue: "Please enter valid amount",
         });
       }
     } else if (key == "typeContact") {
@@ -338,41 +607,44 @@ const MarketingEditReader = () => {
         typeContact: typeContactArray,
       });
     } else if (e?.target?.name == "primary_phone") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue?.length <= 12) {
         setUserInputs({
           ...userInputs,
 
-          [e.target.name]: cleanedValue,
+          [e?.target?.name]: cleanedValue,
         });
         setError(null);
       } else {
-        setError({ primary_phone: "Number must be 12 digits or less" });
+        setError({
+          primary_phone: "Number must be in between 10 to 12 digits",
+        });
       }
     } else if (e?.target?.name == "alternativePhone") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue?.length <= 12) {
         setUserInputs({
           ...userInputs,
-          [e.target.name]: cleanedValue,
+          [e?.target?.name]: cleanedValue,
         });
         setError(null);
       } else {
-        setError({ alternativePhone: "Number must be 12 digits or less" });
+        setError({
+          alternativePhone: "Number must be in between 10 to 12 digits",
+        });
       }
-    } else if (e.target?.name == "contactTotal") {
-      const cleanedValue = e.target?.value?.replace(/\D/g, "");
+    } else if (e?.target?.name == "contactTotal") {
+      const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue > 500 || cleanedValue < 0) {
-        setError({ contactTotal: "Contact total must be inbetween 0 to 500" });
+        setError({ contactTotal: "Contact total must be in between 0 to 500" });
       } else {
         setUserInputs({
           ...userInputs,
-          [e.target.name]: cleanedValue,
+          [e?.target?.name]: cleanedValue,
         });
         setError(null);
       }
     } else if (isSelectedName == "taskValueChecked") {
-      // console.log();
       if (e) {
         setUserInputs({
           ...userInputs,
@@ -382,7 +654,6 @@ const MarketingEditReader = () => {
             taskDate: new Date(),
           },
         });
-        // console.log(userInputs);
       } else {
         setUserInputs({
           ...userInputs,
@@ -399,11 +670,23 @@ const MarketingEditReader = () => {
         ...userInputs,
         task: { ...userInputs?.task, task: e?.value },
       });
+    } else if (isSelectedName == "countryCode") {
+      if (e == userInputs?.countryCode) {
+        setUserInputs({
+          ...userInputs,
+          [isSelectedName]: "",
+        });
+      } else {
+        setUserInputs({
+          ...userInputs,
+          [isSelectedName]: e,
+        });
+      }
     } else {
       setUserInputs({
         ...userInputs,
 
-        [isSelectedName ? isSelectedName : e.target.name]: isSelectedName
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e
           : e?.target?.value,
       });
@@ -546,27 +829,17 @@ const MarketingEditReader = () => {
     try {
       const obj = {
         title: "title",
-
         prospect: "prospect",
-
         ownership: "contact_ownership",
-
-        companyName: "company_name",
-
+        company: "company_name",
         companyProduct: "company_product",
-
         therapyArea: "company_therapy_area",
-
         local: "local",
-
         task: "task",
-
         pipeline: "pipeline",
-
         logActivity: "log_activity",
       };
       loader("show");
-      // const hasData = await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, { label: newProduct.label, value: newProduct.value });
       await postData(`${ENDPOINT.ADD_MARKETING_FEATURES}`, {
         label: obj[newProduct.label],
         value: newProduct.value,
@@ -606,7 +879,7 @@ const MarketingEditReader = () => {
       }
 
       if (newProduct.label == "companyProduct") {
-        let companyProduct = companyOptions;
+        let companyProduct = companyProductOptions;
         companyProduct.unshift({
           label: newProduct.value,
           value: newProduct.value,
@@ -675,6 +948,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="jobTitle"
                     defaultValue={userInputs?.jobTitle}
+                    value={userInputs?.jobTitle}
                     onChange={(e) => handleChange(e)}
                     placeholder="Enter job title here"
                   />
@@ -684,11 +958,17 @@ const MarketingEditReader = () => {
                   <Select
                     options={titleOptions}
                     name="title"
-                    //   value={userInputs?.title?.value}
-                    value={{
-                      label: userInputs?.title?.value,
-                      value: userInputs?.title?.value,
-                    }}
+                    value={
+                      titleOptions?.findIndex(
+                        (el) => el?.value == userInputs?.title?.value
+                      ) == -1
+                        ? ""
+                        : titleOptions[
+                            titleOptions?.findIndex(
+                              (el) => el?.value == userInputs?.title?.value
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "title")}
                     placeholder="Select title"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -715,6 +995,7 @@ const MarketingEditReader = () => {
                     }
                     name="firstName"
                     defaultValue={userInputs?.firstName}
+                    value={userInputs?.firstName}
                     ref={nameRef}
                     onChange={(e) => handleChange(e)}
                     placeholder="First name"
@@ -733,6 +1014,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="middleName"
                     defaultValue={userInputs?.middleName}
+                    value={userInputs?.middleName}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -744,6 +1026,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="lastName"
                     defaultValue={userInputs?.lastName}
+                    value={userInputs?.lastName}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -757,10 +1040,12 @@ const MarketingEditReader = () => {
                       error?.email ? "form-control error" : "form-control"
                     }
                     placeholder="example@email.com"
+                    disabled="disabled"
                     ref={emailRef}
                     name="email"
                     defaultValue={userInputs?.email}
-                    onInput={(e) => handleChange(e)}
+                    readOnly
+                    // onInput={(e) => handleChange(e)}
                   />
                   {error?.email ? (
                     <div className="login-validation">{error?.email}</div>
@@ -772,27 +1057,96 @@ const MarketingEditReader = () => {
                   <Form.Label htmlFor="">Alternative email </Form.Label>
                   <input
                     type="email"
-                    className="form-control"
+                    className={
+                      error?.alternativeEmail
+                        ? "form-control error"
+                        : "form-control"
+                    }
+                    ref={alternativeEmailRef}
                     placeholder="example@email.com"
                     name="alternativeEmail"
                     defaultValue={userInputs?.alternativeEmail}
+                    value={userInputs?.alternativeEmail}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.alternativeEmail ? (
+                    <div className="login-validation">
+                      {error?.alternativeEmail}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
                   <Form.Label htmlFor="">Primary phone </Form.Label>
-                  <Select
+                  {/* <Select
                     options={countryCode}
                     ref={primaryPhoneRef}
-                    value={{
-                      label: userInputs?.countryCode?.label,
-                      value: userInputs?.countryCode?.value,
-                    }}
+                    value={
+                      countryCode?.findIndex(
+                        (el) => el?.label == userInputs?.countryCode?.label
+                      ) == -1
+                        ? ""
+                        : countryCode[
+                            countryCode?.findIndex(
+                              (el) =>
+                                el?.label == userInputs?.countryCode?.label
+                            )
+                          ]
+                    }
                     name="countryCode"
-                    className="dropdown-basic-button split-button-dropup"
-                    isClearable
-                    placeholder=""
+                    className={
+                      error?.primary_phone
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                   
+
+                    placeholder="Select"
                     onChange={(e) => handleChange(e, "countryCode")}
+                    isClearable
+                  /> */}
+
+                  {/* <ReactFlagsSelect
+                    className={
+                      error?.primary_phone
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                    ref={primaryPhoneRef}
+                    isClearable
+                    
+                    selected={
+                      Object.values(countryCode)?.findIndex(
+                        (el) => el == userInputs?.countryCode
+                      ) != -1
+                        ? Object.keys(countryCode)?.[
+                            Object.values(countryCode)?.findIndex(
+                              (el) => el == userInputs?.countryCode
+                            )
+                          ]
+                        : ""
+                    }
+                   
+                    onSelect={(e) => handleChange(e, "countryCode")}
+                    customLabels={countryCode}
+                    countries={country}
+                    placeholder="Select"
+                  /> */}
+
+                  <PhoneInput
+                    international
+                    ref={primaryPhoneRef}
+                    className={
+                      error?.primary_phone
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                    placeholder="Select"
+                    value={userInputs?.countryCode}
+                    name="primary_phone"
+                    onChange={(e) => handleChange(e, "countryCode")}
+                    onKeyDown={(e) => handleKeyDown(e, "countryCode")}
                   />
 
                   <input
@@ -808,6 +1162,7 @@ const MarketingEditReader = () => {
                     value={userInputs?.primary_phone}
                     onChange={(e) => handleChange(e)}
                   />
+
                   {error?.primary_phone ? (
                     <div className="login-validation">
                       {error?.primary_phone}
@@ -825,6 +1180,7 @@ const MarketingEditReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
+                    ref={alternativePhoneRef}
                     name="alternativePhone"
                     placeholder="Alternative phone"
                     value={userInputs?.alternativePhone}
@@ -846,6 +1202,7 @@ const MarketingEditReader = () => {
                     className="form-control"
                     name="linkedIn"
                     defaultValue={userInputs?.linkedIn}
+                    value={userInputs?.linkedIn}
                     onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
@@ -854,11 +1211,17 @@ const MarketingEditReader = () => {
                   <Select
                     options={prospectOptions}
                     name="prospect"
-                    value={{
-                      label: userInputs?.prospect?.value,
-                      value: userInputs?.prospect?.value,
-                    }}
-                    //  value={userInputs?.prospect}
+                    value={
+                      prospectOptions?.findIndex(
+                        (el) => el?.value == userInputs?.prospect?.value
+                      ) == -1
+                        ? ""
+                        : prospectOptions[
+                            prospectOptions?.findIndex(
+                              (el) => el?.value == userInputs?.prospect?.value
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "prospect")}
                     placeholder="Select prospect"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -879,11 +1242,17 @@ const MarketingEditReader = () => {
                   <Select
                     options={ownershipOptions}
                     name="ownership"
-                    //  value={userInputs?.ownership}
-                    value={{
-                      label: userInputs?.ownership?.value,
-                      value: userInputs?.ownership?.value,
-                    }}
+                    value={
+                      ownershipOptions?.findIndex(
+                        (el) => el?.value == userInputs?.ownership?.value
+                      ) == -1
+                        ? ""
+                        : ownershipOptions[
+                            ownershipOptions?.findIndex(
+                              (el) => el?.value == userInputs?.ownership?.value
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "ownership")}
                     placeholder="Select contact ownership"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -899,7 +1268,6 @@ const MarketingEditReader = () => {
                     </Button>
                   </div>
                 </Form.Group>
-                {console.log("type-->", userInputs?.type_of_contact)}
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Type of contact</Form.Label>
                   <fieldset id="group2">
@@ -933,65 +1301,26 @@ const MarketingEditReader = () => {
                         })
                       : ""}
                   </fieldset>
-                  {/* <fieldset id="group2">
-                    <input
-                      type="checkbox"
-                      value="value1"
-                      name="main"
-                      checked={userInputs?.main}
-                      onClick={(e) => handleChange(e.target?.checked, "main")}
-                      id="limitagreed1"
-                    />
-                    <Form.Label htmlFor="limitagreed1">Main</Form.Label>
-                    <input
-                      type="checkbox"
-                      value="value2"
-                      name="influencer"
-                      checked={userInputs?.influencer}
-                      onClick={(e) =>
-                        handleChange(e.target?.checked, "influencer")
-                      }
-                      id="limitagreed2"
-                    />
-                    <Form.Label htmlFor="limitagreed2">Influencer</Form.Label>
-                    <input
-                      type="checkbox"
-                      value="value3"
-                      checked={userInputs?.decisionMaker}
-                      onClick={(e) =>
-                        handleChange(e.target?.checked, "decisionMaker")
-                      }
-                      name="decisionMaker"
-                      id="limitagreed3"
-                    />
-                    <Form.Label htmlFor="limitagreed3">
-                      Decision maker
-                    </Form.Label>
-                    <input
-                      type="checkbox"
-                      value="value4"
-                      name="introducer"
-                      checked={userInputs?.introducer}
-                      onClick={(e) =>
-                        handleChange(e.target?.checked, "introducer")
-                      }
-                      id="limitagreed4"
-                    />
-                    <Form.Label htmlFor="limitagreed4">Introducer</Form.Label>
-                  </fieldset> */}
                 </Form.Group>
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Customer type</Form.Label>
                   <Select
                     options={customerOptions}
                     name="customerType"
-                    value={{
-                      label: userInputs?.customerType?.value,
-                      value: userInputs?.customerType?.value,
-                    }}
-                    // value={userInputs?.customerType}
+                    value={
+                      customerOptions?.findIndex(
+                        (el) => el?.value == userInputs?.customerType?.value
+                      ) == -1
+                        ? ""
+                        : customerOptions[
+                            customerOptions?.findIndex(
+                              (el) =>
+                                el?.value == userInputs?.customerType?.value
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "customerType")}
-                    placeholder="Select contact customer type"
+                    placeholder="Select customer type"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                     isClearable
                   />
@@ -1001,11 +1330,18 @@ const MarketingEditReader = () => {
                   <Select
                     options={companyOptions}
                     name="companyName"
-                    value={{
-                      label: userInputs?.companyName?.value,
-                      value: userInputs?.companyName?.value,
-                    }}
-                    // value={userInputs?.company}
+                    value={
+                      companyOptions?.findIndex(
+                        (el) => el?.value == userInputs?.companyName?.value
+                      ) == -1
+                        ? ""
+                        : companyOptions[
+                            companyOptions?.findIndex(
+                              (el) =>
+                                el?.value == userInputs?.companyName?.value
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "companyName")}
                     placeholder="Select contact company"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -1027,21 +1363,27 @@ const MarketingEditReader = () => {
                   </Form.Label>
                   <Select
                     options={countryAll}
-                    // className="dropdown-basic-button split-button-dropup"
                     className={
                       error?.country
                         ? "dropdown-basic-button split-button-dropup error"
                         : "dropdown-basic-button split-button-dropup"
                     }
                     name="country"
-                    isClearable
                     placeholder="Select country"
-                    value={{
-                      label: userInputs?.country?.value,
-                      value: userInputs?.country?.value,
-                    }}
+                    value={
+                      countryAll?.findIndex(
+                        (el) => el?.value == userInputs?.country?.value
+                      ) == -1
+                        ? ""
+                        : countryAll[
+                            countryAll?.findIndex(
+                              (el) => el?.value == userInputs?.country?.value
+                            )
+                          ]
+                    }
                     ref={countryRef}
                     onChange={(e) => handleChange(e, "country")}
+                    isClearable
                   />
                   {error?.country ? (
                     <div className="login-validation">{error?.country}</div>
@@ -1065,11 +1407,18 @@ const MarketingEditReader = () => {
                   <Select
                     options={companyProductOptions}
                     name="companyProduct"
-                    //value={userInputs?.companyProduct}
-                    value={{
-                      label: userInputs?.companyProduct?.value,
-                      value: userInputs?.companyProduct?.value,
-                    }}
+                    value={
+                      companyProductOptions?.findIndex(
+                        (el) => el?.value == userInputs?.companyProduct?.value
+                      ) == -1
+                        ? ""
+                        : companyProductOptions[
+                            companyProductOptions?.findIndex(
+                              (el) =>
+                                el?.value == userInputs?.companyProduct?.value
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "companyProduct")}
                     placeholder="Select company product"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -1090,12 +1439,19 @@ const MarketingEditReader = () => {
                   <Select
                     options={therapyAreaOptions}
                     name="therapyArea"
-                    // value={userInputs?.therapyArea}
                     onChange={(e) => handleChange(e, "therapyArea")}
-                    value={{
-                      label: userInputs?.therapyArea?.value,
-                      value: userInputs?.therapyArea?.value,
-                    }}
+                    value={
+                      therapyAreaOptions?.findIndex(
+                        (el) => el?.value == userInputs?.therapyArea?.value
+                      ) == -1
+                        ? ""
+                        : therapyAreaOptions[
+                            therapyAreaOptions?.findIndex(
+                              (el) =>
+                                el?.value == userInputs?.therapyArea?.value
+                            )
+                          ]
+                    }
                     placeholder="Select therapy area"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                     isClearable
@@ -1116,11 +1472,17 @@ const MarketingEditReader = () => {
                   <Select
                     options={localOptions}
                     name="local"
-                    // value={userInputs?.local}
-                    value={{
-                      label: userInputs?.local?.value,
-                      value: userInputs?.local?.value,
-                    }}
+                    value={
+                      localOptions?.findIndex(
+                        (el) => el?.value == userInputs?.local?.value
+                      ) == -1
+                        ? ""
+                        : localOptions[
+                            localOptions?.findIndex(
+                              (el) => el?.value == userInputs?.local?.value
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "local")}
                     placeholder="Select "
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
@@ -1210,72 +1572,43 @@ const MarketingEditReader = () => {
                   <Select
                     options={countryAll}
                     className="dropdown-basic-button split-button-dropup"
-                    isClearable
                     placeholder="Select country"
-                    // defaultValue={userInputs?.addressCountry}
                     value={
-                      userInputs?.address?.country
-                        ? {
-                            value: userInputs?.address?.country,
-                            label: userInputs?.address?.country,
-                          }
-                        : { value: "", label: "" }
+                      countryAll?.findIndex(
+                        (el) => el?.value == userInputs?.address?.country
+                      ) == -1
+                        ? ""
+                        : countryAll[
+                            countryAll?.findIndex(
+                              (el) => el?.value == userInputs?.address?.country
+                            )
+                          ]
                     }
                     onChange={(e) =>
                       handleChange(e, "address", "addressCountry")
                     }
+                    isClearable
                   />
                 </Form.Group>
-                {/* <Form.Group className="form-group">
-                  <Form.Label htmlFor="">Country</Form.Label>
-                  <input
-                    type="text"
-                    placeholder="Enter country"
-                    className="form-control"
-                    name="addressCountry"
-                    defaultValue={userInputs?.addressCountry}
-                    onChange={(e) =>
-                      handleChange(e, "address", "addressCountry")
-                    }
-                  />
-                </Form.Group> */}
-                {/* <Form.Group className="form-group margin-added">
-                  <Form.Label htmlFor="">Log activity</Form.Label>
-                  <Select
-                    options={logActivityOptions}
-                    name="logActivity"
-                    
-                    value={{
-                      label: userInputs?.logActivity?.value,
-                      value: userInputs?.logActivity?.value,
-                    }}
-                    onChange={(e) => handleChange(e, "logActivity")}
-                    placeholder="Select log activity"
-                    className="dropdown-basic-button split-button-dropup edit-production-dropdown"
-                    isClearable
-                  />{" "}
-                  <div className="add_product">
-                    <span>&nbsp;</span>
-                    <Button
-                      onClick={(e) => addNewProductClicked(e, "logActivity")}
-                      className="btn-bordered btn-voilet"
-                    >
-                      Add New Log Activity +
-                    </Button>
-                  </div>
-                </Form.Group> */}
+
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Task</Form.Label>
                   <Select
                     options={taskOptions}
                     name="task"
-                    // value={userInputs?.task}
-                    value={{
-                      label: userInputs?.task?.task,
-                      value: userInputs?.task?.task,
-                    }}
+                    value={
+                      taskOptions?.findIndex(
+                        (el) => el?.value == userInputs?.task?.task
+                      ) == -1
+                        ? ""
+                        : taskOptions[
+                            taskOptions?.findIndex(
+                              (el) => el?.value == userInputs?.task?.task
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "task")}
-                    placeholder="Select log activity"
+                    placeholder="Select task"
                     className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                     isClearable
                   />{" "}
@@ -1302,7 +1635,12 @@ const MarketingEditReader = () => {
                       onChange={(e) => handleChange(e, "taskDate")}
                       dateFormat="dd/MM/yyyy"
                       className="form-control"
+                      placeholderText="Select task date"
                       // minDate={currentDate}
+                      // onKeyDown={handleKeyDown}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                     />
                     <div className="add_check">
                       <fieldset id="group2">
@@ -1323,7 +1661,9 @@ const MarketingEditReader = () => {
                             }
                             id={`taskCheckClicked`}
                           />
-                          <Form.Label htmlFor="">Completed</Form.Label>
+                          <Form.Label htmlFor="taskCheckClicked">
+                            Completed
+                          </Form.Label>
                         </>
                       </fieldset>
                     </div>
@@ -1346,6 +1686,10 @@ const MarketingEditReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
+                    // onKeyDown={handleKeyDown}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
                   />
                 </Form.Group>
               </div>
@@ -1418,7 +1762,7 @@ const MarketingEditReader = () => {
                 <div className="form-group">
                   <label htmlFor="">Contact total</label>
                   <input
-                    type="number"
+                    type="tel"
                     name="contactTotal"
                     min="0"
                     value={userInputs?.contactTotal}
@@ -1428,7 +1772,7 @@ const MarketingEditReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
-                    placeholder="“0” value means unlimited limit"
+                    placeholder="Enter contact total"
                     onChange={(e) => handleChange(e)}
                   />
                   {error?.contactTotal ? (
@@ -1446,13 +1790,19 @@ const MarketingEditReader = () => {
                     options={pipelineOptions}
                     placeholder="Select pipeline stage"
                     className="dropdown-basic-button split-button-dropup"
-                    // value={userInputs?.pipeline}
-                    value={{
-                      label: userInputs?.pipeline?.value,
-                      value: userInputs?.pipeline?.value,
-                    }}
-                    isClearable
+                    value={
+                      pipelineOptions?.findIndex(
+                        (el) => el?.value == userInputs?.pipeline?.value
+                      ) == -1
+                        ? ""
+                        : pipelineOptions[
+                            pipelineOptions?.findIndex(
+                              (el) => el?.value == userInputs?.pipeline?.value
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "pipeline")}
+                    isClearable
                   />
                   <div className="add_product">
                     <span>&nbsp;</span>
@@ -1468,10 +1818,11 @@ const MarketingEditReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Value</Form.Label>
                   <input
-                    type="number"
+                    type="tel"
+                    min={0}
                     className="form-control"
                     name="opportunityValue"
-                    placeholder="Value"
+                    placeholder="Amount"
                     value={userInputs?.opportunityValue}
                     onChange={(e) => handleChange(e)}
                   />
@@ -1482,15 +1833,22 @@ const MarketingEditReader = () => {
                   <Select
                     options={probabilityOptions}
                     className="dropdown-basic-button split-button-dropup"
-                    isClearable
-                    placeholder=""
+                    placeholder="Select probability"
                     name="probability"
-                    value={{
-                      label: userInputs?.probability?.value,
-                      value: userInputs?.probability?.value,
-                    }}
-                    // value={userInputs?.probability}
+                    value={
+                      probabilityOptions?.findIndex(
+                        (el) => el?.value == userInputs?.probability?.value
+                      ) == -1
+                        ? ""
+                        : probabilityOptions[
+                            probabilityOptions?.findIndex(
+                              (el) =>
+                                el?.value == userInputs?.probability?.value
+                            )
+                          ]
+                    }
                     onChange={(e) => handleChange(e, "probability")}
+                    isClearable
                   />
                 </Form.Group>
 
@@ -1507,7 +1865,7 @@ const MarketingEditReader = () => {
                         : ""
                     }
                     defaultValue={userInputs?.weighted_value}
-                    onChange={(e) => handleChange(e)}
+                    // onChange={(e) => handleChange(e)}
                   />
                 </Form.Group>
 
@@ -1519,7 +1877,7 @@ const MarketingEditReader = () => {
                         <input
                           type="checkbox"
                           value="value1"
-                          checked={userInputs?.quoteSent}
+                          checked={userInputs?.quoteSent == 1 ? true : false}
                           name="quoteSent"
                           id="setasdraft1"
                           onChange={(e) => {
@@ -1538,10 +1896,6 @@ const MarketingEditReader = () => {
 
                 <div className="form-group">
                   <label htmlFor="">Quote valid until</label>
-                  {console.log(
-                    typeof userInputs?.quoteValid,
-                    "  userInputs?.quoteValid"
-                  )}
                   <DatePicker
                     selected={
                       userInputs?.quoteValid &&
@@ -1567,6 +1921,10 @@ const MarketingEditReader = () => {
                     dateFormat="dd/MM/yyyy"
                     className="form-control"
                     // minDate={currentDate}
+                    // onKeyDown={handleKeyDown}
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
                   />
                 </div>
               </div>
@@ -1577,7 +1935,6 @@ const MarketingEditReader = () => {
     );
   };
   const formatDate = (newDate) => {
-    console.log(newDate, "newDate");
     if (newDate != "") {
       const year = newDate.getFullYear();
       const month = String(newDate.getMonth() + 1).padStart(2, "0");
@@ -1608,8 +1965,12 @@ const MarketingEditReader = () => {
         nameRef?.current?.focus();
       } else if (Object?.keys(result)[0] == "email") {
         emailRef?.current?.focus();
+      } else if (Object.keys(result)[0] == "alternativeEmail") {
+        alternativeEmailRef.current.focus();
       } else if (Object.keys(result)[0] == "primary_phone") {
         primaryPhoneRef.current.focus();
+      } else if (Object.keys(result)[0] == "alternativePhone") {
+        alternativePhoneRef.current.focus();
       } else if (Object?.keys(result)[0] == "country") {
         countryRef?.current?.focus();
       } else if (Object.keys(result)[0] == "postcode") {
@@ -1639,47 +2000,80 @@ const MarketingEditReader = () => {
           quoteValidDate = formatDate(dateTime);
         }
         let data = {
-          jobTitle: userInputs?.jobTitle,
-          title: userInputs?.title?.value,
-          firstName: userInputs?.firstName,
-          middleName: userInputs?.middleName,
-          lastName: userInputs?.lastName,
-          email: userInputs?.email,
-          alternativeEmail: userInputs?.alternativeEmail,
+          jobTitle: userInputs?.jobTitle ? userInputs?.jobTitle : "",
+          title: userInputs?.title?.value ? userInputs?.title?.value : "",
+          firstName: userInputs?.firstName ? userInputs?.firstName : "",
+          middleName: userInputs?.middleName ? userInputs?.middleName : "",
+          lastName: userInputs?.lastName ? userInputs?.lastName : "",
+          email: userInputs?.email ? userInputs?.email : "",
+          alternativeEmail: userInputs?.alternativeEmail
+            ? userInputs?.alternativeEmail
+            : "",
           primary_phone: `${
-            userInputs?.countryCode?.label ? userInputs?.countryCode?.label : ""
-          }-informed-${userInputs?.primary_phone}`,
-          alternativePhone: userInputs?.alternativePhone,
-          linkedIn: userInputs?.linkedIn,
-          prospect: userInputs?.prospect?.value,
-          type_of_contact: userInputs?.typeContact,
-          contact_ownership: userInputs?.ownership?.value,
+            userInputs?.countryCode && userInputs?.countryCode != "Select"
+              ? userInputs?.countryCode
+              : ""
+          }-informed-${
+            userInputs?.primary_phone ? userInputs?.primary_phone : ""
+          }`,
 
-          customerType: userInputs?.customerType?.value,
-          company_name: userInputs?.companyName?.value,
-          country: userInputs?.country?.value,
-          company_website: userInputs?.companyWebsite,
-          company_product: userInputs?.companyProduct?.value,
-          company_therapy_area: userInputs?.therapyArea?.value,
-          local: userInputs?.local?.value,
-          // address: `${userInputs?.address}-${userInputs?.stree1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry}`,
-          address: userInputs?.address,
-          log_activity: userInputs?.logActivity,
-          task: userInputs?.task,
+          alternativePhone: userInputs?.alternativePhone
+            ? userInputs?.alternativePhone
+            : "",
+          linkedIn: userInputs?.linkedIn ? userInputs?.linkedIn : "",
+          prospect: userInputs?.prospect?.value
+            ? userInputs?.prospect?.value
+            : "",
+          type_of_contact: userInputs?.typeContact,
+          contact_ownership: userInputs?.ownership?.value
+            ? userInputs?.ownership?.value
+            : "",
+
+          customerType: userInputs?.customerType?.value
+            ? userInputs?.customerType?.value
+            : "",
+          company_name: userInputs?.companyName?.value
+            ? userInputs?.companyName?.value
+            : "",
+          country: userInputs?.country?.value ? userInputs?.country?.value : "",
+          company_website: userInputs?.companyWebsite
+            ? userInputs?.companyWebsite
+            : "",
+          company_product: userInputs?.companyProduct?.value
+            ? userInputs?.companyProduct?.value
+            : "",
+          company_therapy_area: userInputs?.therapyArea?.value
+            ? userInputs?.therapyArea?.value
+            : "",
+          local: userInputs?.local?.value ? userInputs?.local?.value : "",
+
+          address: userInputs?.address ? userInputs?.address : "",
+          log_activity: userInputs?.logActivity ? userInputs?.logActivity : "",
+          task: userInputs?.task ? userInputs?.task : "",
           next_contact: nextContactDate,
-          contact_total: userInputs?.contactTotal,
-          opportunity_title: userInputs?.opportunityTitle,
-          our_product: userInputs?.ourProduct,
-          pipeline: userInputs?.pipeline?.value,
-          opportunity_value: userInputs?.opportunityValue,
-          probability: userInputs?.probability?.value,
+          contact_total: userInputs?.contactTotal
+            ? userInputs?.contactTotal
+            : "",
+          opportunity_title: userInputs?.opportunityTitle
+            ? userInputs?.opportunityTitle
+            : "",
+          our_product: userInputs?.ourProduct ? userInputs?.ourProduct : "",
+          pipeline: userInputs?.pipeline?.value
+            ? userInputs?.pipeline?.value
+            : "",
+          opportunity_value: userInputs?.opportunityValue
+            ? userInputs?.opportunityValue
+            : "",
+          probability: userInputs?.probability?.value
+            ? userInputs?.probability?.value
+            : "",
           weighted_value: userInputs?.weighted_value
             ? userInputs?.weighted_value
             : "",
           quote_sent: userInputs?.quoteSent,
           quote_valid: quoteValidDate,
+          user_id: id,
         };
-        console.log("user inputs", data);
         loader("hide");
 
         navigate("/reader-review", {

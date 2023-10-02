@@ -1,5 +1,4 @@
 export const AddReaderValidation = (data, groupId, flag) => {
-  console.log("valid-->", data);
   let error = {};
 
   const regemail =
@@ -31,15 +30,43 @@ export const AddReaderValidation = (data, groupId, flag) => {
     error.country = "Please select country";
   }
   if (localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==") {
-    if (!data?.primary_phone) {
-      error.primary_phone = "Please enter Phone number";
-    } else if (data?.primary_phone) {
-      if (Object.keys(data?.primary_phone)?.length > 12) {
-        error.primary_phone = "Number must be 12 digits or less";
+    if (data?.primary_phone) {
+      if (
+        Object.keys(data?.primary_phone)?.length > 12 ||
+        Object.keys(data?.primary_phone)?.length < 10
+      ) {
+        error.primary_phone = "Number must be in between 10 to 12 digits";
+      } else if (!data?.countryCode) {
+        error.primary_phone = "Please select country code";
       }
     }
+    if (data?.countryCode) {
+      if (!data?.primary_phone) {
+        error.primary_phone = "Please enter phone number";
+      } else if (
+        data?.primary_phone &&
+        (Object.keys(data?.primary_phone)?.length > 12 ||
+          Object.keys(data?.primary_phone)?.length < 10)
+      ) {
+        error.primary_phone = "Number must be in between 10 to 12 digits";
+      }
+    }
+    if (
+      data?.alternativePhone &&
+      (Object.keys(data?.alternativePhone)?.length > 12 ||
+        Object.keys(data?.alternativePhone)?.length < 10)
+    ) {
+      error.alternativePhone = "Number must be in between 10 to 12 digits";
+    }
+
     if (!data?.country?.value) {
       error.country = "Please select country";
+    }
+    if (
+      data?.alternativeEmail &&
+      regemail?.test(data?.alternativeEmail) === false
+    ) {
+      error.alternativeEmail = "Alternative email required with email pattern";
     }
     if (
       data?.address?.postcode?.length &&
@@ -47,10 +74,9 @@ export const AddReaderValidation = (data, groupId, flag) => {
     ) {
       error.postcode = "Please enter valid postcode";
     }
-      
-      if (data?.contactTotal > 500 || data?.contactTotal < 0) {
-        error.contactTotal = "Contact total must be inbetween 0 to 500";
-     
+
+    if (data?.contactTotal > 500 || data?.contactTotal < 0) {
+      error.contactTotal = "Contact total must be in between 0 to 500";
     }
   }
 

@@ -1147,6 +1147,8 @@ const ViewTable = (props) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].userType = value=="Yes"?irtRole[0]:"Other";  
+      list[i].roleIndex =value=="Yes"?0 :4;  
       setHpc(list);
     }
     let arr = [];
@@ -1273,11 +1275,13 @@ const ViewTable = (props) => {
       if(value == "Study site"){
         list[i].siteIrtIndex = 0;
         list[i].siteIrt = "Yes";
+        list[i].userType = irtRole[0]?.value;
+        list[i].roleIndex =0;   
       }else{
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
-        list[i].userType = "";
-        list[i].userTypeIndex = "";
+        list[i].userType = "Other";  
+        list[i].roleIndex =4;  
       }
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -2373,16 +2377,7 @@ const ViewTable = (props) => {
                                             onUserTypeChange(event, i)
                                           }
                                           value={
-                                            irtRole.findIndex(
-                                              (el) => el.value == val?.userType
-                                            ) == -1
-                                              ? ""
-                                              : irtRole[
-                                                  irtRole.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.userType
-                                                  )
-                                                ]
+                                            irtRole[hpc[i].roleIndex]
                                           }
                                           placeholder={"Select Role"}
                                           isClearable
@@ -2397,16 +2392,7 @@ const ViewTable = (props) => {
                                             onUserTypeChange(event, i)
                                           }
                                           value={
-                                            userTypeAll.findIndex(
-                                              (el) => el.value == val?.userType
-                                            ) == -1
-                                              ? ""
-                                              : userTypeAll[
-                                                  userTypeAll.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.userType
-                                                  )
-                                                ]
+                                            userTypeAll[hpc[i].roleIndex]
                                           }
                                           isClearable
                                           placeholder={"Select Role"}
