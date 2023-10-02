@@ -451,6 +451,8 @@ const PharmaMarketing = () => {
 
   const handleBigCircleClick = (moduleName, index) => {
     const bigCircleData = bigCircleModules[index];
+    setShowBigCircleData(true);
+    if(showBigCircleData){
       setBigModuleData((prevState) => ({
         active: moduleName === activeModule ? !prevState.active : true,
         logoIconPath: bigCircleData?.logo,
@@ -461,10 +463,35 @@ const PharmaMarketing = () => {
         highlights: bigCircleData?.features,
       }));
       setActiveModule(moduleName === activeModule ? null : moduleName);
-  }
+      }
+
+      else{
+        setShowBigCircleData(false);
+        setActiveModule(moduleName === activeModule ? null : moduleName);
+        setTimeout(() => {
+        const stats = document.querySelectorAll('.stat');
+              stats?.forEach(stat => {
+                if(stat?.classList?.contains('visible')) {
+                  stat?.classList?.replace('visible', 'active');
+                } else if(stat?.classList?.contains('active')) {
+                  stat?.classList?.remove('active');
+                }
+              });
+            }, 100);
+      }
+
+}
 
   const handleRequestClick = () => {
     setAddClass(true);
+    const stats = document.querySelectorAll('.module-diagram .stat');
+    stats?.forEach(stat => {
+      if(stat?.classList?.contains('visible')) {
+        stat?.classList?.replace('visible', 'active');
+      } else if(stat?.classList?.contains('active')) {
+        stat?.classList?.remove('active');
+      }
+    });
     setShowBigCircleData(false);
   }
 
