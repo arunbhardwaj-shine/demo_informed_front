@@ -1747,16 +1747,14 @@ const NewReaders = () => {
                             height="15.1911"
                             rx="1.04948"
                             transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                            // fill="#0066BE"
-                            fill="#fff"
+                            fill="#0066BE"
                           />
                           <rect
                             width="2.09896"
                             height="15.1911"
                             rx="1.04948"
                             transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                            // fill="#0066BE"
-                            fill="#fff"
+                            fill="#0066BE"
                           />
                         </svg>
                       ) : (
