@@ -417,7 +417,7 @@ const PharmaMarketing = () => {
   // }
 
   const handleClick = (moduleName, index) => {
-    setAddClass(false);
+    
     const smallCircleData = modules[index];
     const bigCircleData = bigCircleModules[index];
     if (moduleName !== activeModule) {
@@ -452,10 +452,10 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
-    setAddClass(false);
     const bigCircleData = bigCircleModules[index];
     setShowBigCircleData(true);
     if(showBigCircleData){
+      setAddClass(false);
       setBigModuleData((prevState) => ({
         active: moduleName === activeModule ? !prevState.active : true,
         logoIconPath: bigCircleData?.logo,
@@ -504,9 +504,11 @@ const PharmaMarketing = () => {
 
   const handleSubmitClick = () => {
     setSubmitData(true)
+    setAddClass(false);
   }
 
   const handleBigCircleClose = (moduleName, index) => {
+    setAddClass(false);
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
       setModuleData({
