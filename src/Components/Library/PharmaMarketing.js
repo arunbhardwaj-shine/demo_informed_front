@@ -20,6 +20,7 @@ const PharmaMarketing = () => {
   const [showBigCircleData, setShowBigCircleData] = useState(true);
   const [formFeilds, setFormFeilds] = useState(false)
   const [submitData, setSubmitData] = useState(false)
+  const [modulesSelect,setModulesSelect] = useState(true)
 
   // const [isActive, setIsActive] = useState(false);
   // const handleClick = event => {
@@ -417,7 +418,8 @@ const PharmaMarketing = () => {
   // }
 
   const handleClick = (moduleName, index) => {
-    
+    setModulesSelect(true)
+    setSubmitData(false)
     const smallCircleData = modules[index];
     const bigCircleData = bigCircleModules[index];
     if (moduleName !== activeModule) {
@@ -505,6 +507,7 @@ const PharmaMarketing = () => {
   const handleSubmitClick = () => {
     setSubmitData(true)
     setAddClass(false);
+    setModulesSelect(false)
   }
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1372,7 +1375,7 @@ const PharmaMarketing = () => {
                       <p>Please select the modules you're interested in:</p>
                     </div>
                        )}
-                    {!submitData &&(
+                    {modulesSelect &&(
                     <div
                       className="module-diagram circle"
                       style={{ "--total": "24" }}
