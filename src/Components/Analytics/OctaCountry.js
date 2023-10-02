@@ -125,6 +125,13 @@ const OctaCountry = () => {
           };
         });
 
+      country1.sort((a, b) => {
+        const countryA = a.value.toLowerCase();
+        const countryB = b.value.toLowerCase();
+        if (countryA < countryB) return -1;
+        if (countryA > countryB) return 1;
+        return 0;
+      });
       // setSelectedCountry(Object.entries(data.countryRegionArray));
       setSelectedCountry(country1);
       // for line chart
