@@ -19,6 +19,7 @@ const PharmaMarketing = () => {
   const [addClass, setAddClass] = useState(false);
   const [showBigCircleData, setShowBigCircleData] = useState(true);
   const [formFeilds, setFormFeilds] = useState(false)
+  const [submitData, setSubmitData] = useState(false)
 
   // const [isActive, setIsActive] = useState(false);
   // const handleClick = event => {
@@ -497,6 +498,10 @@ const PharmaMarketing = () => {
 
   const handleFormClick = () => {
     setFormFeilds(true)
+  }
+
+  const handleSubmitClick = () => {
+    setSubmitData(true)
   }
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1314,7 +1319,7 @@ const PharmaMarketing = () => {
                       </div>
                        )}
 
-                     {!showBigCircleData && (
+                     {!showBigCircleData && !submitData &&(
                       <div className="request-content">
                       <Form>
                         <h4>Module Request</h4>
@@ -1360,6 +1365,7 @@ const PharmaMarketing = () => {
                       <p>Please select the modules you're interested in:</p>
                     </div>
                        )}
+                    {!submitData &&(
                     <div
                       className="module-diagram circle"
                       style={{ "--total": "24" }}
@@ -1705,6 +1711,7 @@ const PharmaMarketing = () => {
                       <div className="stat blank" style={{ "--i": "23" }}></div>
                       <div className="stat blank" style={{ "--i": "24" }}></div>
                     </div>
+                     )}
                     {showBigCircleData && (
                       <div className="d-flex align-items-center justify-content-center fotter-btns">
                         <Button className="btn-filled" onClick={handleRequestClick}>Request</Button>
@@ -1714,17 +1721,20 @@ const PharmaMarketing = () => {
                       </div>
                        )}
 
-                  {!showBigCircleData && (
+                  {!showBigCircleData && !submitData &&(
                       <div className="d-flex align-items-center justify-content-center fotter-btns">
-                        <Button className="btn-filled" >Submit</Button>
+                        <Button className="btn-filled" onClick={handleSubmitClick} >Submit</Button>
                       </div>
                        )}
-
-
                     </div>
-                    
 
-                    
+                    {submitData &&(
+                    <div className='submit-section'>
+                      <h3>Thank You!</h3>
+                      <p>We appreciate your interset and will respond very quickly.</p>
+                      <Button className="btn-filled" onClick={handleBigCircleClose}>Close</Button>
+                    </div>
+                     )}
                   </div>
 
                   <div class="shape shape-right"></div>
