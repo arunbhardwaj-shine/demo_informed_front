@@ -273,6 +273,15 @@ const NewReaders = () => {
             label: item == "B&H" ? "Bosnia and Herzegovina" : item,
           });
 
+          countries.sort((a, b) => {
+            const countryA = a?.value?.toLowerCase();
+            const countryB = b?.value?.toLowerCase();
+
+            if (countryA < countryB) return -1;
+            if (countryA > countryB) return 1;
+            return 0;
+          });
+
           setCountryAll(countries);
         });
         setSpcFlag(1);
@@ -487,6 +496,13 @@ const NewReaders = () => {
         Object.keys(filterdata?.regionCountry)?.forEach((values) => {
           if (filterdata?.regionCountry[values] == item) {
             newCountry.push(values);
+            newCountry.sort((a, b) => {
+              const countryA = a?.toLowerCase();
+              const countryB = b?.toLowerCase();
+              if (countryA < countryB) return -1;
+              if (countryA > countryB) return 1;
+              return 0;
+            });
           }
         });
         delete apifilterObject.country;
