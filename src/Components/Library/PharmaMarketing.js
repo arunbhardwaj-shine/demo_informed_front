@@ -417,6 +417,7 @@ const PharmaMarketing = () => {
   // }
 
   const handleClick = (moduleName, index) => {
+    setAddClass(false);
     const smallCircleData = modules[index];
     const bigCircleData = bigCircleModules[index];
     if (moduleName !== activeModule) {
@@ -451,6 +452,7 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
+    setAddClass(false);
     const bigCircleData = bigCircleModules[index];
     setShowBigCircleData(true);
     if(showBigCircleData){
@@ -513,6 +515,7 @@ const PharmaMarketing = () => {
         heading: smallCircleData?.title,
         paragraph: smallCircleData?.description,
       });
+      setActiveModule(moduleName === activeModule ? null : moduleName);
     }
 
     setTimeout(() => {
@@ -1180,7 +1183,9 @@ const PharmaMarketing = () => {
                 <div
                   className={`module-bigger-size ${readStatus ? "show" : ""}`}
                 >
-                  {/* <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={()=>setReadStatus(false)}/> */}
+                  {!showBigCircleData && !submitData &&(
+                  <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
+                  )}
                   <div class="shape shape-left"></div>
                   {/* <div className="module-register">
                                 <h4>Registration</h4>
