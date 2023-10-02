@@ -260,7 +260,7 @@ const MarketingReaderReview = () => {
                       <tr>
                         <th className="tab-content-title">Address</th>
                         <td>
-                          {Object.keys(readerData?.address)?.length ? (
+                          {(readerData?.address&&Object.keys(readerData?.address)?.length )? (
                             <>
                               {readerData?.address?.street1
                                 ? `${readerData?.address?.street1},`

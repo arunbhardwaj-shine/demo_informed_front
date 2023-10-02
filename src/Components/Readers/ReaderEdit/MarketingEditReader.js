@@ -1349,8 +1349,8 @@ const MarketingEditReader = () => {
                   />
                 </Form.Group>
               </div>
-              <div className="col-12 col-md-5 d-flex justify-content-end right-change">
-                <div className="form-group justify-content-end align-items-start wrap-text">
+              <div className="col-12 col-md-5 right-change">
+                <div className="form-group justify-content-end align-items-start new-change">
                   <label htmlFor="">Log activity </label>
 
                   <textarea
@@ -1579,7 +1579,7 @@ const MarketingEditReader = () => {
   const formatDate = (newDate) => {
     console.log(newDate, "newDate");
     if (newDate != "") {
-      const year = newDate?.getFullYear();
+      const year = newDate.getFullYear();
       const month = String(newDate.getMonth() + 1).padStart(2, "0");
       const day = String(newDate.getDate()).padStart(2, "0");
       const formattedDate = `${year}-${month}-${day}`;
@@ -1627,7 +1627,8 @@ const MarketingEditReader = () => {
         if (isValidDateFormat(userInputs?.nextContact)) {
           nextContactDate = convertDate(userInputs?.nextContact);
         } else {
-          nextContactDate = formatDate(userInputs?.nextContact);
+          const dateTime = new Date(userInputs?.nextContact);
+          nextContactDate = formatDate(dateTime);
         }
         let quoteValidDate = "";
         if (isValidDateFormat(userInputs?.quoteValid)) {
