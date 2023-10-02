@@ -126,8 +126,8 @@ const OctaCountry = () => {
         });
 
       country1.sort((a, b) => {
-        const countryA = a.value.toLowerCase();
-        const countryB = b.value.toLowerCase();
+        const countryA = a?.value?.toLowerCase();
+        const countryB = b?.value?.toLowerCase();
         if (countryA < countryB) return -1;
         if (countryA > countryB) return 1;
         return 0;

@@ -274,8 +274,8 @@ const NewReaders = () => {
           });
 
           countries.sort((a, b) => {
-            const countryA = a.value.toLowerCase();
-            const countryB = b.value.toLowerCase();
+            const countryA = a?.value?.toLowerCase();
+            const countryB = b?.value?.toLowerCase();
 
             if (countryA < countryB) return -1;
             if (countryA > countryB) return 1;
@@ -497,8 +497,8 @@ const NewReaders = () => {
           if (filterdata?.regionCountry[values] == item) {
             newCountry.push(values);
             newCountry.sort((a, b) => {
-              const countryA = a.toLowerCase();
-              const countryB = b.toLowerCase();
+              const countryA = a?.toLowerCase();
+              const countryB = b?.toLowerCase();
               if (countryA < countryB) return -1;
               if (countryA > countryB) return 1;
               return 0;
