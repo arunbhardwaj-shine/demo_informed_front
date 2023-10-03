@@ -12,6 +12,7 @@ const OctaCountry = () => {
   // Line Chart
   const [selectedRegion, setSelectRegions] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState([]);
+  const [allCountries, setAllCountries] = useState([]);
   const [selectCountryByRegion, setSelectCountryByRegion] = useState([]);
   const [selectRegionVal, setSelectRegionVal] = useState("");
   const [isDataFound, setIsDataFound] = useState(false);
@@ -105,8 +106,34 @@ const OctaCountry = () => {
       });
       const data = response.data.data;
 
-      setSelectRegions(data.uniqueRegions);
-      setSelectedCountry(Object.entries(data.countryRegionArray));
+      let regions = data?.uniqueRegions?.map((item, index) => {
+        return {
+          label: item,
+          value: item,
+        };
+      });
+
+      // setSelectRegions(data.uniqueRegions);
+      setSelectRegions(regions);
+      setAllCountries(Object.entries(data?.countryRegionArray));
+      let country1 = Object.entries(data?.countryRegionArray)
+        ?.filter((country) => country[1] === region)
+        .map(([country]) => {
+          return {
+            label: country,
+            value: country,
+          };
+        });
+
+      country1.sort((a, b) => {
+        const countryA = a?.value?.toLowerCase();
+        const countryB = b?.value?.toLowerCase();
+        if (countryA < countryB) return -1;
+        if (countryA > countryB) return 1;
+        return 0;
+      });
+      // setSelectedCountry(Object.entries(data.countryRegionArray));
+      setSelectedCountry(country1);
       // for line chart
       const lineData = JSON.parse(data.haematology_data_rev);
 
@@ -167,12 +194,16 @@ const OctaCountry = () => {
     selectRegionValue.current = selectedRegion;
     setSelectRegionVal(selectedRegion);
 
-    const filteredCountries = selectedCountry.filter(
+    // const filteredCountries = selectedCountry.filter(
+    //   (country) => country[1] === selectedRegion
+    // );
+    const filteredCountries = allCountries.filter(
       (country) => country[1] === selectedRegion
     );
     setSelectCountryByRegion(filteredCountries);
 
     const firstCountry = filteredCountries[0][0];
+
     setSelectedCountry(filteredCountries[0]);
     selectCountryValue.current = firstCountry;
     setIsDataFound(true);
@@ -200,32 +231,58 @@ const OctaCountry = () => {
                 <div className="form-group ">
                   <label htmlFor=""></label>
                   <Select
-                    options={selectedRegion.map((region) => ({
-                      value: region,
-                      label: region,
-                    }))}
+                    // options={selectedRegion.map((region) => ({
+                    //   value: region,
+                    //   label: region,
+                    // }))}
+                    options={selectedRegion}
                     onChange={(selectedOption) =>
                       filterByRegion(selectedOption.value)
                     }
                     className="dropdown-basic-button split-button-dropup"
-                    value={{
-                      value: selectRegionValue.current,
-                      label: selectRegionValue.current,
-                    }}
+                    // value={{
+                    //   value: selectRegionValue.current,
+                    //   label: selectRegionValue.current,
+                    // }}
+                    value={
+                      selectedRegion?.findIndex(
+                        (item, index) => item.value == selectRegionValue.current
+                      ) != -1
+                        ? selectedRegion[
+                            selectedRegion?.findIndex(
+                              (item, index) =>
+                                item?.value == selectRegionValue.current
+                            )
+                          ]
+                        : ""
+                    }
                   />
                   <Select
-                    options={selectedCountry
-                      .filter(
-                        (country) => country[1] === selectRegionValue.current
-                      )
-                      .map(([country]) => ({ value: country, label: country }))}
+                    // options={selectedCountry
+                    //   .filter(
+                    //     (country) => country[1] === selectRegionValue.current
+                    //   )
+                    //   .map(([country]) => ({ value: country, label: country }))}
+                    options={selectedCountry}
                     onChange={(option) => filterByCountry(option)}
                     className="dropdown-basic-button split-button-dropup"
-                    value={{
-                      value: selectCountryValue.current,
-                      label: selectCountryValue.current,
-                    }} // Set the selected value for the second dropdown
-                    // isDisabled={selectCountryByRegion.length === 0}
+                    // value={{
+                    //   value: selectCountryValue.current,
+                    //   label: selectCountryValue.current,
+                    // }}
+                    value={
+                      selectedCountry?.findIndex(
+                        (country, index) =>
+                          country.value == selectCountryValue.current
+                      ) != -1
+                        ? selectedCountry[
+                            selectedCountry?.findIndex(
+                              (country, index) =>
+                                country.value == selectCountryValue.current
+                            )
+                          ]
+                        : ""
+                    }
                   />
                 </div>
               </Form>

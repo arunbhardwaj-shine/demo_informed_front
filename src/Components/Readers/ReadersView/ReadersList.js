@@ -303,6 +303,15 @@ const NewReaders = () => {
             label: item == "B&H" ? "Bosnia and Herzegovina" : item,
           });
 
+          countries.sort((a, b) => {
+            const countryA = a?.value?.toLowerCase();
+            const countryB = b?.value?.toLowerCase();
+
+            if (countryA < countryB) return -1;
+            if (countryA > countryB) return 1;
+            return 0;
+          });
+
           setCountryAll(countries);
         });
         setSpcFlag(1);
@@ -326,11 +335,14 @@ const NewReaders = () => {
           ...res?.data?.data?.result,
         ]);
 
-        setConsetCountry({...consetCountry,...res?.data?.data?.otherCountry});
+        setConsetCountry({
+          ...consetCountry,
+          ...res?.data?.data?.otherCountry,
+        });
       } else {
         total_results = res?.data?.data?.result?.length;
         setReaderDataList(res?.data?.data?.result);
-        setConsetCountry(res?.data?.data?.otherCountry)
+        setConsetCountry(res?.data?.data?.otherCountry);
       }
 
       // if ( total_results <= res?.data?.data?.total) {
@@ -514,6 +526,13 @@ const NewReaders = () => {
         Object.keys(filterdata?.regionCountry)?.forEach((values) => {
           if (filterdata?.regionCountry[values] == item) {
             newCountry.push(values);
+            newCountry.sort((a, b) => {
+              const countryA = a?.toLowerCase();
+              const countryB = b?.toLowerCase();
+              if (countryA < countryB) return -1;
+              if (countryA > countryB) return 1;
+              return 0;
+            });
           }
         });
         delete apifilterObject.country;
@@ -1786,16 +1805,14 @@ const NewReaders = () => {
                             height="15.1911"
                             rx="1.04948"
                             transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                            // fill="#0066BE"
-                            fill="#fff"
+                            fill="#0066BE"
                           />
                           <rect
                             width="2.09896"
                             height="15.1911"
                             rx="1.04948"
                             transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                            // fill="#0066BE"
-                            fill="#fff"
+                            fill="#0066BE"
                           />
                         </svg>
                       ) : (
@@ -2344,25 +2361,28 @@ const NewReaders = () => {
                                         ""
                                       ) : (
                                         <>
-                                        {
-                                          localStorage.getItem('group_id') == 3 ?
+                                          {localStorage.getItem("group_id") ==
+                                          3 ? (
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Consent Country
+                                              </h6>
+                                              <h6>
+                                                {consetCountry?.[data?.id]
+                                                  ? consetCountry?.[data?.id] ==
+                                                    "B&H"
+                                                    ? "Bosnia and Herzegovina"
+                                                    : consetCountry?.[data?.id]
+                                                  : "N/A"}
+                                              </h6>
+                                            </li>
+                                          ) : null}
                                           <li>
                                             <h6 className="tab-content-title">
-                                              Consent Country
+                                              User Status
                                             </h6>
-                                            <h6>
-                                              {
-                                                consetCountry?.[data?.id] ?  consetCountry?.[data?.id] == "B&H" ? "Bosnia and Herzegovina" : consetCountry?.[data?.id] : "N/A"
-                                              }
-                                            </h6>
-                                          </li>: null
-                                        }
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            User Status
-                                          </h6>
-                                          <h6>{data?.user_status}</h6>
-                                        </li>
+                                            <h6>{data?.user_status}</h6>
+                                          </li>
                                         </>
                                       )}
 
