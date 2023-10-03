@@ -870,7 +870,7 @@
 
   .dropdown-menu.filter-options {
     width: 370px;
-    max-height: 381px;
+    max-height: 481px;
   }
 
   .dropdown-menu.filter-options .card-header a,
@@ -907,7 +907,7 @@
 
   .dropdown-menu.filter-options .accordion {
     padding-right: 5px;
-    max-height: 275px;
+    max-height: 375px;
   }
 
   .smartlist-add {
