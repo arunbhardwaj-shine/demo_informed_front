@@ -377,6 +377,8 @@ const NewReaders = () => {
   const getDownloadData = async (page, obj, search) => {
     try {
       loader("show");
+      let payload =  {}
+      console.log("----->",filterObject,"test",obj)
       let data = {
         user_id: localStorage.getItem("user_id"),
         userType: 5,
@@ -384,8 +386,22 @@ const NewReaders = () => {
         type: "",
         page: 1,
       };
+      
+       if(localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+        payload = {
+          "contact Type": ["HCP"],
+          ...data,
+          ...filterObject,
+          status: ["Registered"],
+          
+        };
+        
+      }else {
+        payload = { ...data, ...filterObject };
+      }
 
-      let payload = { ...data, ...filterObject };
+
+      // let payload = { ...data, ...filterObject };
       const res = await postFormData(ENDPOINT.READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
