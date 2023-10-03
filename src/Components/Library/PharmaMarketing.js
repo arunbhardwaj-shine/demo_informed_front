@@ -482,7 +482,7 @@ const PharmaMarketing = () => {
                   stat?.classList?.remove('active');
                 }
               });
-            }, 100);
+            }, 10);
       }
 
 }
@@ -508,10 +508,12 @@ const PharmaMarketing = () => {
     setSubmitData(true)
     setAddClass(false);
     setModulesSelect(false)
+    setFormFeilds(false)
   }
 
   const handleBigCircleClose = (moduleName, index) => {
     setAddClass(false);
+    setFormFeilds(false)
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
       setModuleData({
