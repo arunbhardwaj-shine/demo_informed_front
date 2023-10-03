@@ -473,26 +473,26 @@ const PharmaMarketing = () => {
       else{
         setShowBigCircleData(false);
         setActiveModule(moduleName === activeModule ? null : moduleName);
-        setTimeout(() => {
-        const stats = document.querySelectorAll('.stat');
-              stats?.forEach(stat => {
-                if(stat?.classList?.contains('active')) {
-                  stat?.classList?.remove('active');
-                }
-              });
-            }, 5);
+        // setTimeout(() => {
+        // const stats = document.querySelectorAll('.stat');
+        //       stats?.forEach(stat => {
+        //         if(stat?.classList?.contains('active')) {
+        //           stat?.classList?.remove('active');
+        //         }
+        //       });
+        //     }, 5);
       }
 
 }
 
   const handleRequestClick = () => {
     setAddClass(true);
-    const stats = document.querySelectorAll('.module-diagram .stat');
-    stats?.forEach(stat => {
-      if(stat?.classList?.contains('active')) {
-        stat?.classList?.remove('active');
-      }
-    });
+    // const stats = document.querySelectorAll('.module-diagram .stat');
+    // stats?.forEach(stat => {
+    //   if(stat?.classList?.contains('active')) {
+    //     stat?.classList?.remove('active');
+    //   }
+    // });
     setShowBigCircleData(false);
   }
 
