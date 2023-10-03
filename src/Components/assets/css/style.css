@@ -3411,7 +3411,7 @@ form#add_hcp_form .row:not(:first-child) {
 
 .dropdown-menu.filter-options .accordion {
   overflow-y: auto;
-  max-height: 530px;
+  max-height: 570px;
   padding-right: 10px;
   height: 100%;
 }
@@ -3476,7 +3476,7 @@ form#add_hcp_form .row:not(:first-child) {
   padding: 0;
   margin: 0;
   overflow-y: auto;
-  max-height: 142px;
+  max-height: 188px;
 }
 
 .dropdown-menu.filter-options .accordion .card ul li,
@@ -7926,9 +7926,11 @@ section.search-hcp.smart-list-view .header-btn-left {
   width: 100%;
   max-width: 470px;
 }
+
 .form-group .react-datepicker-wrapper input {
- cursor: pointer;
+  cursor: pointer;
 }
+
 .create-change-content .right-change .form-group.new-change {
   flex-wrap: wrap;
 }
@@ -7950,9 +7952,11 @@ section.search-hcp.smart-list-view .header-btn-left {
 } */
 
 /**Not Found**/
-body, html {
+body,
+html {
   height: 100%;
 }
+
 .page_not_found {
   align-items: center;
   background: #fff;
@@ -7960,31 +7964,35 @@ body, html {
   flex-direction: column;
   height: 100vh;
   justify-content: center;
-  width:100%;
+  width: 100%;
 }
+
 .page_not_found-inset {
   -webkit-backdrop-filter: blur(8.5px);
   backdrop-filter: blur(8.5px);
-  background: hsla(0,0%,100%,.01);
+  background: hsla(0, 0%, 100%, .01);
   border-radius: 20px;
-  box-shadow: 0 0 25px rgba(0,20,137,.1);
+  box-shadow: 0 0 25px rgba(0, 20, 137, .1);
   margin: 0 auto;
   padding: 66px 108px;
   text-align: center;
 }
+
 .page_not_found h1 {
   display: inline-block;
   font-size: 160px;
   font-weight: 900;
   margin: 12px 0 0;
-  color:#004a89;
+  color: #004a89;
 }
+
 .page_not_found-inset h4 {
   color: #004a89;
   font-size: 32px;
   font-weight: 600;
   line-height: 192.5%;
 }
+
 .page_not_found-inset p {
   color: #004a89;
   font-size: 20px;
@@ -7994,10 +8002,11 @@ body, html {
   max-width: 600px;
   text-align: center;
 }
+
 .page_not_found-inset a {
   background: #0066BE;
   border-radius: 30px;
-  box-shadow: 0 1px 6px rgba(0,102,190,.2);
+  box-shadow: 0 1px 6px rgba(0, 102, 190, .2);
   color: #fff;
   color: var(--white);
   display: inline-block;
@@ -8008,12 +8017,15 @@ body, html {
   padding: 10px;
   position: relative;
 }
-@media only screen and (max-width: 1365px){
-.page_not_found h1 {
+
+@media only screen and (max-width: 1365px) {
+  .page_not_found h1 {
     font-size: 130px;
+  }
+
+  .page_not_found-inset p {
+    margin: 0 0 35px;
+  }
 }
-.page_not_found-inset p {
-  margin: 0 0 35px;
-}
-}
+
 /** Not founf End**/

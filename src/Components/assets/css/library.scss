@@ -5570,11 +5570,11 @@ caption.highcharts-table-caption {
 }
 
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4) {
-  max-height: 350px;
+  max-height: 500px;
 }
 
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4)>div {
-  max-height: 330px;
+  max-height: 480px;
 }
 
 .create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button {
@@ -5588,6 +5588,19 @@ caption.highcharts-table-caption {
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(3) {
   max-width: 580px;
   background-position: 97% center;
+  padding-right: 30px;
+}
+
+.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(3)>div div {
+  padding-right: 0;
+}
+
+.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4) {
+  max-height: 500px;
+}
+
+.create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4)>div {
+  max-height: 480px;
 }
 
 .delivery-trends .stats_precenage ul.ul_stats_first.informed {
@@ -5682,6 +5695,10 @@ svg.pencil_icon {
 
 .filter-by.nav-item.dropdown>button:focus {
   border: 0.5px solid transparent;
+}
+
+.filter-by.nav-item .filter_applied svg rect {
+  fill: #fff;
 }
 
 .spc-content .selected-products-list {
