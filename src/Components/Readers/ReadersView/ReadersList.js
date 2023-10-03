@@ -61,19 +61,20 @@ const NewReaders = () => {
     },
   ];
   const [totalCount, setCount] = useState(0);
-  const [appliedFilter, setAppliedFilter] = useState({
+  let staticFilter = {
     status: ["Registered"],
     "contact Type": ["HCP"],
-  });
+  }
+  let exceptionCase = {
+    "contact Type": ["HCP"],
+  }
+  if(localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="){
+    staticFilter = {}
+  }
+  const [appliedFilter, setAppliedFilter] = useState(localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="?exceptionCase:staticFilter);
   // const [appliedFilter, setAppliedFilter] = useState();
-  const [filterObject, setFilterObject] = useState({
-    status: ["Registered"],
-    "contact Type": ["HCP"],
-  });
-  const [apifilterObject, setApifilterObject] = useState({
-    status: ["Registered"],
-    "contact Type": ["HCP"],
-  });
+  const [filterObject, setFilterObject] = useState(staticFilter);
+  const [apifilterObject, setApifilterObject] = useState(staticFilter);
 
   const [filterApplyflag, setFilterApplyflag] = useState(1);
   const [pageAll, setPageAll] = useState(false);
@@ -101,12 +102,24 @@ const NewReaders = () => {
 
   const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
-  const [types, setTypes] = useState([
+  // const [types, setTypes] = useState([
+  //   { value: "0", label: "HCP" },
+  //   { value: "1", label: "Staff User" },
+  //   { value: "3", label: "Test User" },
+  //   { value: "4", label: "Competitor" },
+  // ]);
+  let types = [
     { value: "0", label: "HCP" },
     { value: "1", label: "Staff User" },
     { value: "3", label: "Test User" },
     { value: "4", label: "Competitor" },
-  ]);
+  ]
+  if(localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="){
+     types.push({
+      value: "5", label: "Pharma"
+     })
+  }
+  // 
   const [irtData, setIrtData] = useState([
     "All",
     "Site User-Blinded",
@@ -119,6 +132,7 @@ const NewReaders = () => {
     1: "Staff User",
     3: "Test User",
     4: "Competitor",
+    5: "Pharma"
   };
   const [changeCountry, setChangeCountry] = useState([]);
   const [changeUserType, setChangeUserType] = useState([]);
@@ -159,11 +173,17 @@ const NewReaders = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ) {
       setAppliedFilter({});
       setFilterObject({});
       setApifilterObject({});
-    } else {
+    } else if(localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="){
+      setAppliedFilter({"contact Type": ["HCP"]});
+      setFilterObject({});
+      setApifilterObject({});
+    
+    }
+    else {
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"] });
       setFilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
       setApifilterObject({ status: ["Registered"], "contact Type": ["HCP"] });
@@ -249,14 +269,24 @@ const NewReaders = () => {
         limit: limit,
       };
       let payload = {};
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ) {
         payload = {
           ...data,
           ...obj,
           status: ["Registered"],
           "contact Type": ["HCP"],
         };
-      } else {
+      }
+      else if(localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+        payload = {
+          "contact Type": ["HCP"],
+          ...data,
+          ...obj,
+          status: ["Registered"],
+          
+        };
+        
+      }else {
         payload = { ...data, ...obj };
       }
 
@@ -271,6 +301,15 @@ const NewReaders = () => {
           countries.push({
             value: item == "B&H" ? "Bosnia and Herzegovina" : item,
             label: item == "B&H" ? "Bosnia and Herzegovina" : item,
+          });
+
+          countries.sort((a, b) => {
+            const countryA = a?.value?.toLowerCase();
+            const countryB = b?.value?.toLowerCase();
+
+            if (countryA < countryB) return -1;
+            if (countryA > countryB) return 1;
+            return 0;
           });
 
           setCountryAll(countries);
@@ -296,11 +335,14 @@ const NewReaders = () => {
           ...res?.data?.data?.result,
         ]);
 
-        setConsetCountry({...consetCountry,...res?.data?.data?.otherCountry});
+        setConsetCountry({
+          ...consetCountry,
+          ...res?.data?.data?.otherCountry,
+        });
       } else {
         total_results = res?.data?.data?.result?.length;
         setReaderDataList(res?.data?.data?.result);
-        setConsetCountry(res?.data?.data?.otherCountry)
+        setConsetCountry(res?.data?.data?.otherCountry);
       }
 
       // if ( total_results <= res?.data?.data?.total) {
@@ -335,6 +377,8 @@ const NewReaders = () => {
   const getDownloadData = async (page, obj, search) => {
     try {
       loader("show");
+      let payload =  {}
+      console.log("----->",filterObject,"test",obj)
       let data = {
         user_id: localStorage.getItem("user_id"),
         userType: 5,
@@ -342,8 +386,22 @@ const NewReaders = () => {
         type: "",
         page: 1,
       };
+      
+       if(localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+        payload = {
+          "contact Type": ["HCP"],
+          ...data,
+          ...filterObject,
+          status: ["Registered"],
+          
+        };
+        
+      }else {
+        payload = { ...data, ...filterObject };
+      }
 
-      let payload = { ...data, ...filterObject };
+
+      // let payload = { ...data, ...filterObject };
       const res = await postFormData(ENDPOINT.READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
@@ -484,6 +542,13 @@ const NewReaders = () => {
         Object.keys(filterdata?.regionCountry)?.forEach((values) => {
           if (filterdata?.regionCountry[values] == item) {
             newCountry.push(values);
+            newCountry.sort((a, b) => {
+              const countryA = a?.toLowerCase();
+              const countryB = b?.toLowerCase();
+              if (countryA < countryB) return -1;
+              if (countryA > countryB) return 1;
+              return 0;
+            });
           }
         });
         delete apifilterObject.country;
@@ -1401,6 +1466,7 @@ const NewReaders = () => {
       getReaderListData(page, obj, search);
       setSearch("");
     }
+    
     if (originalFilterData?.role?.length) {
       setFilterData({ ...filterdata, role: originalFilterData.role });
     }
@@ -1641,6 +1707,14 @@ const NewReaders = () => {
                       filterObject?.["Content Owners"]?.includes(
                         defaultOwner
                       )) ||
+
+                      (localStorage.getItem("user_id") ==
+                      "b3APser7L8OELDIG8ee2HQ==" &&
+                      (( (  Object.keys(filterObject)?.length ==0) ||
+                        Object.keys(filterObject)?.length <=1 &&
+                        filterObject?.["contact Type"]?.includes("HCP")) )
+                     
+                      ) ||
                     (localStorage.getItem("user_id") ==
                       "56Ek4feL/1A8mZgIKQWEqg==" &&
                       Object.keys(filterObject)?.length <= 0)
@@ -2303,25 +2377,28 @@ const NewReaders = () => {
                                         ""
                                       ) : (
                                         <>
-                                        {
-                                          localStorage.getItem('group_id') == 3 ?
+                                          {localStorage.getItem("group_id") ==
+                                          3 ? (
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Consent Country
+                                              </h6>
+                                              <h6>
+                                                {consetCountry?.[data?.id]
+                                                  ? consetCountry?.[data?.id] ==
+                                                    "B&H"
+                                                    ? "Bosnia and Herzegovina"
+                                                    : consetCountry?.[data?.id]
+                                                  : "N/A"}
+                                              </h6>
+                                            </li>
+                                          ) : null}
                                           <li>
                                             <h6 className="tab-content-title">
-                                              Consent Country
+                                              User Status
                                             </h6>
-                                            <h6>
-                                              {
-                                                consetCountry?.[data?.id] ?  consetCountry?.[data?.id] == "B&H" ? "Bosnia and Herzegovina" : consetCountry?.[data?.id] : "N/A"
-                                              }
-                                            </h6>
-                                          </li>: null
-                                        }
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            User Status
-                                          </h6>
-                                          <h6>{data?.user_status}</h6>
-                                        </li>
+                                            <h6>{data?.user_status}</h6>
+                                          </li>
                                         </>
                                       )}
 
