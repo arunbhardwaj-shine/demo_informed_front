@@ -9757,57 +9757,72 @@ svg.pencil_icon {
   }
 }
 
-.read span {
+.read span,
+.request .active.read span {
   color: #5A6BB5;
 }
 
-.rating span {
+.rating span,
+.request .active.rating span {
   color: #2B9BC8
 }
 
-.spc span {
+.spc span,
+.request .active.spc span {
   color: #19BBB9
 }
 
-.automail span {
+.automail span,
+.request .active.automail span {
   color: #00D4C0
 }
 
-.ai span {
+.ai span,
+.request .active.ai span {
   color: #00C1BF
 }
 
-.consent span {
+.consent span,
+.request .active.consent span {
   color: #00A4BF;
 }
 
-.engine span {
+.engine span,
+.request .active.engine span {
   color: #0084BE
 }
 
-.docintel span {
+.docintel span,
+.request .active.docintel span {
   color: $primary-color
 }
 
 .informed span,
-.automatic-certificate span {
+.automatic-certificate span,
+.request .active.automatic-certificate span,
+.request .active.informed span {
   color: #045FAE
 }
 
-.qa span {
+.qa span,
+.request .active.qa span {
   color: #3D48AB
 }
 
-.survey span {
+.survey span,
+.request .active.survey span {
   color: #5058AA;
 }
 
 .web span,
-.site span {
+.site span,
+.request .active.web span,
+.request .active.site span {
   color: #6E52A2
 }
 
-.webinar span {
+.webinar span,
+.request .active.webinar span {
   color: $voilet
 }
 
@@ -10134,6 +10149,15 @@ svg.pencil_icon {
 .request-content form textarea::-webkit-input-placeholder {
   color: $light-gray;
   font-weight: 300;
+}
+
+.module-discribe.request .stat.active {
+  background: $white;
+  filter: drop-shadow(0px 1px 19px rgba(0, 102, 190, 0.24));
+}
+
+.module-discribe.request .stat.active img {
+  filter: none;
 }
 
 .module-discribe .request-content h4 {
