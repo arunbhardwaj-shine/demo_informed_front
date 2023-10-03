@@ -19,6 +19,8 @@ const PharmaMarketing = () => {
   const [addClass, setAddClass] = useState(false);
   const [showBigCircleData, setShowBigCircleData] = useState(true);
   const [formFeilds, setFormFeilds] = useState(false)
+  const [submitData, setSubmitData] = useState(false)
+  const [modulesSelect,setModulesSelect] = useState(true)
 
   // const [isActive, setIsActive] = useState(false);
   // const handleClick = event => {
@@ -416,6 +418,8 @@ const PharmaMarketing = () => {
   // }
 
   const handleClick = (moduleName, index) => {
+    setModulesSelect(true)
+    setSubmitData(false)
     const smallCircleData = modules[index];
     const bigCircleData = bigCircleModules[index];
     if (moduleName !== activeModule) {
@@ -451,6 +455,9 @@ const PharmaMarketing = () => {
 
   const handleBigCircleClick = (moduleName, index) => {
     const bigCircleData = bigCircleModules[index];
+    setShowBigCircleData(true);
+    if(showBigCircleData){
+      setAddClass(false);
       setBigModuleData((prevState) => ({
         active: moduleName === activeModule ? !prevState.active : true,
         logoIconPath: bigCircleData?.logo,
@@ -461,10 +468,35 @@ const PharmaMarketing = () => {
         highlights: bigCircleData?.features,
       }));
       setActiveModule(moduleName === activeModule ? null : moduleName);
-  }
+      }
+
+      else{
+        setShowBigCircleData(false);
+        setActiveModule(moduleName === activeModule ? null : moduleName);
+        setTimeout(() => {
+        const stats = document.querySelectorAll('.stat');
+              stats?.forEach(stat => {
+                if(stat?.classList?.contains('visible')) {
+                  stat?.classList?.replace('visible', 'active');
+                } else if(stat?.classList?.contains('active')) {
+                  stat?.classList?.remove('active');
+                }
+              });
+            }, 10);
+      }
+
+}
 
   const handleRequestClick = () => {
     setAddClass(true);
+    const stats = document.querySelectorAll('.module-diagram .stat');
+    stats?.forEach(stat => {
+      if(stat?.classList?.contains('visible')) {
+        stat?.classList?.replace('visible', 'active');
+      } else if(stat?.classList?.contains('active')) {
+        stat?.classList?.remove('active');
+      }
+    });
     setShowBigCircleData(false);
   }
 
@@ -472,7 +504,16 @@ const PharmaMarketing = () => {
     setFormFeilds(true)
   }
 
+  const handleSubmitClick = () => {
+    setSubmitData(true)
+    setAddClass(false);
+    setModulesSelect(false)
+    setFormFeilds(false)
+  }
+
   const handleBigCircleClose = (moduleName, index) => {
+    setAddClass(false);
+    setFormFeilds(false)
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
       setModuleData({
@@ -481,6 +522,7 @@ const PharmaMarketing = () => {
         heading: smallCircleData?.title,
         paragraph: smallCircleData?.description,
       });
+      setActiveModule(moduleName === activeModule ? null : moduleName);
     }
 
     setTimeout(() => {
@@ -1148,7 +1190,9 @@ const PharmaMarketing = () => {
                 <div
                   className={`module-bigger-size ${readStatus ? "show" : ""}`}
                 >
-                  {/* <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={()=>setReadStatus(false)}/> */}
+                  {!showBigCircleData && !submitData &&(
+                  <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
+                  )}
                   <div class="shape shape-left"></div>
                   {/* <div className="module-register">
                                 <h4>Registration</h4>
@@ -1287,7 +1331,7 @@ const PharmaMarketing = () => {
                       </div>
                        )}
 
-                     {!showBigCircleData && (
+                     {!showBigCircleData && !submitData &&(
                       <div className="request-content">
                       <Form>
                         <h4>Module Request</h4>
@@ -1333,6 +1377,7 @@ const PharmaMarketing = () => {
                       <p>Please select the modules you're interested in:</p>
                     </div>
                        )}
+                    {modulesSelect &&(
                     <div
                       className="module-diagram circle"
                       style={{ "--total": "24" }}
@@ -1678,6 +1723,7 @@ const PharmaMarketing = () => {
                       <div className="stat blank" style={{ "--i": "23" }}></div>
                       <div className="stat blank" style={{ "--i": "24" }}></div>
                     </div>
+                     )}
                     {showBigCircleData && (
                       <div className="d-flex align-items-center justify-content-center fotter-btns">
                         <Button className="btn-filled" onClick={handleRequestClick}>Request</Button>
@@ -1687,17 +1733,20 @@ const PharmaMarketing = () => {
                       </div>
                        )}
 
-                  {!showBigCircleData && (
+                  {!showBigCircleData && !submitData &&(
                       <div className="d-flex align-items-center justify-content-center fotter-btns">
-                        <Button className="btn-filled" >Submit</Button>
+                        <Button className="btn-filled" onClick={handleSubmitClick} >Submit</Button>
                       </div>
                        )}
-
-
                     </div>
-                    
 
-                    
+                    {submitData &&(
+                    <div className='submit-section'>
+                      <h3>Thank You!</h3>
+                      <p>We appreciate your interset and will respond very quickly.</p>
+                      <Button className="btn-filled" onClick={handleBigCircleClose}>Close</Button>
+                    </div>
+                     )}
                   </div>
 
                   <div class="shape shape-right"></div>
