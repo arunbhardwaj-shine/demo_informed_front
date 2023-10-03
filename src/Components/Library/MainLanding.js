@@ -134,8 +134,8 @@ const options = [
                     <h3>Let’s get started</h3>
                     <div className='works-started-links'>
                         <h3>Tell us what you work with?</h3>
-                        <div className='started-links d-flex justify-content-between'>
-                            <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link>
+                        <div className='started-links d-flex justify-content-evenly'>
+                            {/* <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link> */}
                             <Link to="/pharma-marketing" className='pharma-marketing'>Pharma Marketing</Link>
                             <Link to="/landing-publisher" className='publisher-gradient'>Publishers</Link>
                         </div>
