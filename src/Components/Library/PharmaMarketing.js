@@ -1738,8 +1738,9 @@ const PharmaMarketing = () => {
 
                     {submitData &&(
                     <div className='submit-section'>
-                      <h3>Thank You!</h3>
-                      <p>We appreciate your interset and will respond very quickly.</p>
+                      <img src={path_image + "thanks-img.svg"} alt="" />
+                      <h3>Thank you!</h3>
+                      <p>We appreciate your interest and will respond very quickly.</p>
                       <Button className="btn-filled" onClick={handleBigCircleClose}>Close</Button>
                     </div>
                      )}
