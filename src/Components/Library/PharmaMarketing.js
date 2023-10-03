@@ -476,13 +476,11 @@ const PharmaMarketing = () => {
         setTimeout(() => {
         const stats = document.querySelectorAll('.stat');
               stats?.forEach(stat => {
-                if(stat?.classList?.contains('visible')) {
-                  stat?.classList?.replace('visible', 'active');
-                } else if(stat?.classList?.contains('active')) {
+                if(stat?.classList?.contains('active')) {
                   stat?.classList?.remove('active');
                 }
               });
-            }, 10);
+            }, 5);
       }
 
 }
@@ -491,9 +489,7 @@ const PharmaMarketing = () => {
     setAddClass(true);
     const stats = document.querySelectorAll('.module-diagram .stat');
     stats?.forEach(stat => {
-      if(stat?.classList?.contains('visible')) {
-        stat?.classList?.replace('visible', 'active');
-      } else if(stat?.classList?.contains('active')) {
+      if(stat?.classList?.contains('active')) {
         stat?.classList?.remove('active');
       }
     });
