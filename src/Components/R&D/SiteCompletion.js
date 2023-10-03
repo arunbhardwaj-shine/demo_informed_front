@@ -89,11 +89,11 @@ const SiteCompletion = ({ siteCompletionfn }) => {
       });
 
       // Sort the newSeries array based on the maximum data
-      newSeries.sort((a, b) => {
-        const maxDataA = Math.max(...a.data);
-        const maxDataB = Math.max(...b.data);
-        return maxDataB - maxDataA;
-      });
+      // newSeries.sort((a, b) => {
+      //   const maxDataA = Math.max(...a.data);
+      //   const maxDataB = Math.max(...b.data);
+      //   return maxDataB - maxDataA;
+      // });
 
       const columnCategories = result?.data?.data?.site_numbers;
 
