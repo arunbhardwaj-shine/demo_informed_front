@@ -10032,6 +10032,17 @@ svg.pencil_icon {
   font-size: 10px;
 }
 
+.module-discribe.request .stat.visible span {
+  color: $white;
+}
+
+.module-discribe.request .stat.visible img {
+  filter: brightness(0) invert(1);
+}
+
+.module-discribe.request .stat.visible .article-close {
+  display: none;
+}
 
 .request-content {
   form {
@@ -10127,6 +10138,27 @@ svg.pencil_icon {
 
 .module-discribe .request-content h4 {
   color: $dark-blue;
+}
+
+.submit-section>img {
+  max-width: 114px;
+  margin-bottom: 24px;
+}
+
+.submit-section h3 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #004A89;
+  margin-bottom: 25px;
+}
+
+.submit-section p {
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.submit-section button.btn.btn-primary {
+  min-width: 168px;
 }
 
 /**MOdule End**/
