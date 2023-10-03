@@ -9841,9 +9841,9 @@ svg.pencil_icon {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  transform: translateX(100%);
+  transform: translateX(70%);
   opacity: 0;
-  transition: all 0.65s ease;
+  transition: all 0.5s ease;
   z-index: -1;
 
   &.active {
@@ -9949,7 +9949,7 @@ svg.pencil_icon {
 
 .fotter-btns {
   gap: 22px;
-  margin-top: 75px;
+  margin: 65px 0 10px;
   z-index: 2;
 
   a {
