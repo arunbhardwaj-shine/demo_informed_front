@@ -3476,7 +3476,7 @@ form#add_hcp_form .row:not(:first-child) {
   padding: 0;
   margin: 0;
   overflow-y: auto;
-  max-height: 188px;
+  max-height: 240px;
 }
 
 .dropdown-menu.filter-options .accordion .card ul li,

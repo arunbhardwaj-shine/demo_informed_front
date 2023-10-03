@@ -5570,11 +5570,11 @@ caption.highcharts-table-caption {
 }
 
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4) {
-  max-height: 500px;
+  max-height: 620px;
 }
 
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4)>div {
-  max-height: 480px;
+  max-height: 600px;
 }
 
 .create-change-content.analytic-charts .form_action .product-unit .form-group .dropdown-basic-button {
@@ -5596,11 +5596,11 @@ caption.highcharts-table-caption {
 }
 
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4) {
-  max-height: 500px;
+  max-height: 620px;
 }
 
 .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4)>div {
-  max-height: 480px;
+  max-height: 600px;
 }
 
 .delivery-trends .stats_precenage ul.ul_stats_first.informed {
@@ -9052,7 +9052,13 @@ svg.pencil_icon {
     width: 60px;
     height: 60px;
   }
-
+  .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4), .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4) {
+    max-height: 450px;
+  }
+  
+  .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4)>div, .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4)>div {
+    max-height: 430px;
+  }
   .pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text .formgroup .form-label {
     font-size: 16px;
   }
