@@ -1430,6 +1430,7 @@ const PharmaRd = () => {
 
                     {submitData &&(
                     <div className='submit-section'>
+                       <img src={path_image + "thanks-img.svg"} alt="" />
                       <h3>Thank You!</h3>
                       <p>We appreciate your interset and will respond very quickly.</p>
                       <Button className="btn-filled" onClick={handleBigCircleClose}>Close</Button>
