@@ -21,6 +21,7 @@ const PharmaMarketing = () => {
   const [formFeilds, setFormFeilds] = useState(false)
   const [submitData, setSubmitData] = useState(false)
   const [modulesSelect,setModulesSelect] = useState(true)
+  const [selectedModules, setSelectedModules] = useState([]);
 
   // const [isActive, setIsActive] = useState(false);
   // const handleClick = event => {
@@ -384,39 +385,6 @@ const PharmaMarketing = () => {
     highlights: [],
   });
 
-  // const handleClick = (moduleName, index) => {
-  //     // setModuleData({
-  //     //     ...moduleData,
-  //     //     active:false
-  //     //  })
-  //     //  setActiveModule();
-  //     const smallCircleData = modules[index];
-  //     const bigCircleData = bigCircleModules[index];
-
-  //     setTimeout(() => {
-  //         setModuleData(prevState => ({
-  //            active: moduleName === activeModule ? !prevState.active : true,
-  //             imagePath: smallCircleData?.icon,
-  //             heading: smallCircleData?.title,
-  //             paragraph: smallCircleData?.description
-  //         }));
-  //         setActiveModule(moduleName === activeModule ? null : moduleName);
-  //     }, 500);
-
-  //     // setTimeout(() => {
-  //         setBigModuleData(prevState =>({
-  //             active: moduleName === activeModule ? !prevState.active : true,
-  //             logoIconPath: bigCircleData?.logo,
-  //             heading: bigCircleData?.title,
-  //             imagePath: bigCircleData?.image,
-  //             detail: bigCircleData?.description,
-  //             paragraph: bigCircleData?.para,
-  //             highlights: bigCircleData?.features
-  //         }))
-  //     // },500)
-
-  // }
-
   const handleClick = (moduleName, index) => {
     setModulesSelect(true)
     setSubmitData(false)
@@ -454,46 +422,77 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
-    const bigCircleData = bigCircleModules[index];
+    const bigCircleData = bigCircleModules[index];   
     setShowBigCircleData(true);
-    if(showBigCircleData){
-      setAddClass(false);
-      setBigModuleData((prevState) => ({
-        active: moduleName === activeModule ? !prevState.active : true,
-        logoIconPath: bigCircleData?.logo,
-        heading: bigCircleData?.title,
-        imagePath: bigCircleData?.image,
-        detail: bigCircleData?.description,
-        paragraph: bigCircleData?.para,
-        highlights: bigCircleData?.features,
+  
+    if (showBigCircleData) {  
+      setAddClass(false);  
+      setBigModuleData((prevState) => ({ 
+  active: moduleName === activeModule ? !prevState.active : true,  
+        logoIconPath: bigCircleData?.logo,    
+        heading: bigCircleData?.title,   
+        imagePath: bigCircleData?.image, 
+        detail: bigCircleData?.description, 
+        paragraph: bigCircleData?.para, 
+        highlights: bigCircleData?.features, 
       }));
       setActiveModule(moduleName === activeModule ? null : moduleName);
-      }
+    } else { 
+      setShowBigCircleData(false);
+      setActiveModule(moduleName === activeModule ? null : moduleName);  
+      const visibleModules = document.querySelectorAll('.stat.visible'); 
+      const visibleModuleNames = Array.from(visibleModules).map(module => { 
+        const classNames = module.className.split(' '); 
+        return classNames[classNames.length - 2];
+      }); 
+      setSelectedModules(prevState => { 
+        const isPreviouslySelected = prevState.includes(moduleName);  
+        const updatedModules = isPreviouslySelected
+            ? prevState.filter(item => item !== moduleName) 
+          : [...prevState, moduleName]; 
+        const stats = document.querySelectorAll('.stat'); 
+        stats.forEach(stat => { 
+          if (stat.classList.contains(moduleName)) { 
+            stat.classList.toggle('visible'); 
+            stat.classList.toggle('active'); 
+          }
+        }); 
+        return updatedModules;
+      });
+   }
+ 
+  }
 
-      else{
-        setShowBigCircleData(false);
-        setActiveModule(moduleName === activeModule ? null : moduleName);
-        // setTimeout(() => {
-        // const stats = document.querySelectorAll('.stat');
-        //       stats?.forEach(stat => {
-        //         if(stat?.classList?.contains('active')) {
-        //           stat?.classList?.remove('active');
-        //         }
-        //       });
-        //     }, 5);
+  useEffect(() => {
+    const stats = document.querySelectorAll('.stat');
+    stats?.forEach(stat => {
+      if (stat.classList.contains('visible')) {
+        stat.classList.add('visible');
       }
-
-}
+    });
+    console.log(selectedModules,'===>selectedM')
+  }, [selectedModules]);
 
   const handleRequestClick = () => {
-    setAddClass(true);
-    // const stats = document.querySelectorAll('.module-diagram .stat');
-    // stats?.forEach(stat => {
-    //   if(stat?.classList?.contains('active')) {
-    //     stat?.classList?.remove('active');
-    //   }
-    // });
-    setShowBigCircleData(false);
+    setAddClass(true);  
+    const stats = document.querySelectorAll('.stat');  
+    stats?.forEach(stat => {  
+      if (stat.classList.contains('visible')) { 
+        stat.classList.add('visible');
+      }
+    });
+ 
+    setShowBigCircleData(false); 
+    setTimeout(() => { 
+      const visibleModules = document.querySelectorAll('.stat.visible'); 
+      const visibleModuleNames = Array.from(visibleModules).map(module => {
+        const classNames = module.className.split(' ');
+        return classNames[classNames.length - 2];
+      });
+      setSelectedModules(prevState => (
+        [...new Set([...visibleModuleNames, ...prevState])]
+      ));
+    }, 500);
   }
 
   const handleFormClick = () => {
@@ -505,6 +504,7 @@ const PharmaMarketing = () => {
     setAddClass(false);
     setModulesSelect(false)
     setFormFeilds(false)
+    console.log(selectedModules,'===>selectedModules')
   }
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -520,11 +520,10 @@ const PharmaMarketing = () => {
       });
       setActiveModule(moduleName === activeModule ? null : moduleName);
     }
-
     setTimeout(() => {
-        setReadStatus(false);
+    setReadStatus(false);
     }, 200);
-
+    setSelectedModules([])
   }
 
   const sliderRef = useRef();
@@ -1379,39 +1378,38 @@ const PharmaMarketing = () => {
                       style={{ "--total": "24" }}
                     >
                       <div
-                        className={
-                          activeModule === "rating"
-                            ? "stat rating visible"
-                            : activeModule === "web" ||
-                              activeModule === "docintel"
+                      className={
+                        selectedModules.includes('rating') || activeModule === "rating" 
+                          ? "stat rating visible"
+                          : activeModule === "web" ||  activeModule === "docintel"
                             ? "stat rating active"
                             : "stat rating"
-                        }
-                        onClick={() => handleBigCircleClick("rating", 1)}
-                        style={{ "--i": "1" }}
-                      >
-                        <img src={path_image + "rating-icon.svg"} alt="" />
-                        <span>Rating Tool</span>
-                        <div className="article-close">
-                          <img
-                            src={path_image + "close-button.svg"}
-                            alt=""
-                            onClick={handleBigCircleClose}
-                          />
-                        </div>
+                      }
+                      onClick={() => handleBigCircleClick("rating", 1)}
+                      style={{ "--i": "1" }}
+                    >
+                      <img src={path_image + "rating-icon.svg"} alt="" />
+                      <span>Rating Tool</span>
+                      <div className="article-close">
+                        <img
+                          src={path_image + "close-button.svg"}
+                          alt=""
+                          onClick={handleBigCircleClose}
+                        />
+                      </div>
                       </div>
 
-                      <div
+                        <div
                         className={
-                          activeModule === "spc"
+                          selectedModules.includes('spc') || activeModule === "spc"
                             ? "stat spc visible"
-                            : activeModule === "docintel"
-                            ? "stat spc active"
-                            : "stat spc"
+                            :  activeModule === "docintel"
+                              ? "stat spc active"
+                              : "stat spc"
                         }
                         onClick={() => handleBigCircleClick("spc", 2)}
                         style={{ "--i": "2" }}
-                      >
+                        >
                         <img src={path_image + "SPC-icon.svg"} alt="" />
                         <span>SPC Engine</span>
                         <div className="article-close">
@@ -1421,15 +1419,13 @@ const PharmaMarketing = () => {
                             onClick={handleBigCircleClose}
                           />
                         </div>
-                      </div>
+                        </div>
 
                       <div
                         className={
-                          activeModule === "automail"
+                          selectedModules?.includes('automail') || activeModule === "automail"
                             ? "stat automail visible"
-                            : activeModule === "engine" ||
-                              activeModule === "ai" ||
-                              activeModule === "spc"
+                            :  activeModule === "engine" || activeModule === "ai" || activeModule === "spc"
                             ? "stat automail active"
                             : "stat automail"
                         }
@@ -1449,9 +1445,9 @@ const PharmaMarketing = () => {
 
                       <div
                         className={
-                          activeModule === "ai"
+                          selectedModules?.includes('ai') || activeModule === "ai"
                             ? "stat ai visible"
-                            : activeModule === "read" ||
+                            :  activeModule === "read" ||
                               activeModule === "informed" ||
                               activeModule === "consent" ||
                               activeModule === "automail" ||
@@ -1478,9 +1474,9 @@ const PharmaMarketing = () => {
 
                       <div
                         className={
-                          activeModule === "consent"
+                          selectedModules.includes("consent") || activeModule === "consent"
                             ? "stat consent visible"
-                            : activeModule === "webinar" ||
+                            :  activeModule === "webinar" ||
                               activeModule === "web" ||
                               activeModule === "informed" ||
                               activeModule === "docintel" ||
@@ -1507,9 +1503,9 @@ const PharmaMarketing = () => {
 
                       <div
                         className={
-                          activeModule === "engine"
+                          selectedModules.includes("engine") || activeModule === "engine"
                             ? "stat engine visible"
-                            : activeModule === "survey" ||
+                            :   activeModule === "survey" ||
                               activeModule === "spc" ||
                               activeModule === "automail"
                             ? "stat engine active"
@@ -1537,9 +1533,9 @@ const PharmaMarketing = () => {
 
                       <div
                         className={
-                          activeModule === "docintel"
+                          selectedModules.includes("docintel") || activeModule === "docintel"
                             ? "stat docintel visible"
-                            : activeModule === "read" ||
+                            :  activeModule === "read" ||
                               activeModule === "spc" ||
                               activeModule === "web" ||
                               activeModule === "consent" ||
@@ -1570,9 +1566,9 @@ const PharmaMarketing = () => {
 
                       <div
                         className={
-                          activeModule === "informed"
+                          selectedModules.includes("informed") || activeModule === "informed"
                             ? "stat informed visible"
-                            : activeModule === "consent" ||
+                            :  activeModule === "consent" ||
                               activeModule === "consent" ||
                               activeModule === "ai" ||
                               activeModule === "spc"
@@ -1595,9 +1591,9 @@ const PharmaMarketing = () => {
 
                       <div
                         className={
-                          activeModule === "qa"
+                          selectedModules.includes("qa") || activeModule === "qa"
                             ? "stat qa visible"
-                            : activeModule === "webinar" ||
+                            :  activeModule === "webinar" ||
                               activeModule === "survey"
                             ? "stat qa active"
                             : "stat qa"
@@ -1618,9 +1614,9 @@ const PharmaMarketing = () => {
 
                       <div
                         className={
-                          activeModule === "survey"
+                          selectedModules.includes("survey") || activeModule === "survey"
                             ? "stat survey visible"
-                            : activeModule === "qa" || activeModule === "engine"
+                            :  activeModule === "qa" || activeModule === "engine"
                             ? "stat survey active"
                             : "stat survey"
                         }
@@ -1640,9 +1636,9 @@ const PharmaMarketing = () => {
 
                       <div
                         className={
-                          activeModule === "web"
+                          selectedModules.includes("web") ||  activeModule === "web" 
                             ? "stat web visible"
-                            : activeModule === "webinar" ||
+                            :activeModule === "webinar" ||
                               activeModule === "docintel" ||
                               activeModule === "consent" ||
                               activeModule === "ai" ||
@@ -1666,7 +1662,7 @@ const PharmaMarketing = () => {
 
                       <div
                         className={
-                          activeModule === "webinar"
+                          selectedModules.includes("webinar") || activeModule === "webinar" 
                             ? "stat webinar visible"
                             : activeModule === "qa" || activeModule === "web"
                             ? "stat webinar active"
@@ -1691,9 +1687,9 @@ const PharmaMarketing = () => {
 
                       <div
                         className={
-                          activeModule === "read"
+                          selectedModules.includes("read") || activeModule === "read"
                             ? "stat read visible"
-                            : activeModule === "docintel" ||
+                            :  activeModule === "docintel" ||
                               activeModule === "ai"
                             ? "stat read active"
                             : "stat read"
