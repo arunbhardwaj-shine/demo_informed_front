@@ -22,11 +22,7 @@ const PharmaMarketing = () => {
   const [submitData, setSubmitData] = useState(false)
   const [modulesSelect,setModulesSelect] = useState(true)
   const [selectedModules, setSelectedModules] = useState([]);
-
-  // const [isActive, setIsActive] = useState(false);
-  // const handleClick = event => {
-  //     setIsActive(current => !current);
-  // }
+  const [registerPage, setRegisterPage] = useState(true)
 
   const modules = [
     {
@@ -419,7 +415,12 @@ const PharmaMarketing = () => {
       highlights: bigCircleData?.features,
     }));
     setShowBigCircleData(true);
+    setRegisterPage(true)
   };
+
+  const handleReadClick = () => {
+    setRegisterPage(false)
+  }
 
   const handleBigCircleClick = (moduleName, index) => {
     const bigCircleData = bigCircleModules[index];   
@@ -525,6 +526,16 @@ const PharmaMarketing = () => {
     }, 200);
     setSelectedModules([])
   }
+ 
+  useEffect(() => {
+    if (submitData) {
+      setTimeout(() => {
+        setSubmitData(false);
+        setShowBigCircleData(true);
+        setModulesSelect(true);
+      }, 2000); 
+    }
+  }, [submitData]);
 
   const sliderRef = useRef();
   const parentRef = useRef("");
@@ -894,12 +905,6 @@ const PharmaMarketing = () => {
                   className={`circle ${readStatus ? "bigger" : ""}`}
                   style={{ "--total": "13" }}
                 >
-                  {/* <div className="stat read" style={{'--i':"1"}}> */}
-                  {/* <Form.Check aria-label="option 1" className="custom_select"/> */}
-                  {/* <img src={path_image+ "RTR-icon.svg"}alt="" />
-                                <span>Read-Through -Rate</span>
-                            </div> */}
-
                   <div
                     className={
                       activeModule === "read"
@@ -1189,7 +1194,11 @@ const PharmaMarketing = () => {
                   <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
                   )}
                   <div class="shape shape-left"></div>
-                  {/* <div className="module-register">
+                  
+                  {registerPage && ( 
+                    <div>
+                    <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
+                   <div className="module-register">
                                 <h4>Registration</h4>
                                 <p>Register to access additional module details. Your information and activity remain confidential per GDPR, but we may occasionally notify you about new features or functions. Please confirm by ticking below if that's acceptable.</p>
                                 <Form>
@@ -1258,32 +1267,13 @@ const PharmaMarketing = () => {
                                                 <Form.Check type="checkbox" label="Keep me informed about other news from inforMed.pro" />
                                             </div>
                                         </Col>
-                                    <Button className='btn-filled'>Register</Button>
+                                    <Button className='btn-filled' onClick={handleReadClick}>Register</Button>
                                     </Row>
                                 </Form>
-                            </div> */}
+                            </div> 
+                            </div>
+                            )} 
                   <div className={`module-discribe ${addClass ? 'request' : ''}`}>
-                    {/* <img className="module-img" src={path_image +"rtr-image.svg"} alt="" />
-                                <h4>Read-Through-Rate </h4>
-                                 <img className="module-content-view" src={path_image +"rtr-content-list.png"} alt="" />
-                                <p>Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage. </p>
-                                <p className="semibold">Knowledge is power - how will you help your clients?</p>
-                                <div className="key-features">
-                                    <h5>
-                                        Key Features
-                                    </h5>
-                                    <ul>
-                                        <li>Track every engagement down to each second spend on individual pages</li>
-                                        <li>Track HCPs reading on & offline, in browser or in app</li>
-                                        <li>True engagement data</li>
-                                    </ul>
-                                </div>
-
-                                <div className="d-flex align-items-center justify-content-center fotter-btns">
-                                    <Button className='btn-filled'>Request</Button>
-                                    <Link to="/" className=""><img src={path_image +"downlaod-ppt.svg"} alt="" /></Link>
-                                </div> */}
-
                     <div
                       className={`${
                         bigCircleModuleData?.active === true
@@ -1291,7 +1281,7 @@ const PharmaMarketing = () => {
                           : "d-flex justify-content-between flex-column"
                       }`}
                     >
-                      {showBigCircleData && (
+                      {showBigCircleData && !registerPage &&(
                       <div className="big-circle-data">
                       <div>
                         <img
@@ -1372,7 +1362,7 @@ const PharmaMarketing = () => {
                       <p>Please select the modules you're interested in:</p>
                     </div>
                        )}
-                    {modulesSelect &&(
+                    {modulesSelect && !registerPage &&(
                     <div
                       className="module-diagram circle"
                       style={{ "--total": "24" }}
@@ -1716,7 +1706,7 @@ const PharmaMarketing = () => {
                       <div className="stat blank" style={{ "--i": "24" }}></div>
                     </div>
                      )}
-                    {showBigCircleData && (
+                    {showBigCircleData && !registerPage && (
                       <div className="d-flex align-items-center justify-content-center fotter-btns">
                         <Button className="btn-filled" onClick={handleRequestClick}>Request</Button>
                         <Link to="/" className="">
@@ -1958,7 +1948,7 @@ const PharmaMarketing = () => {
             <FormGroup>
               <div className="form-group">
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   placeholder="Email"
                   className="form-control"

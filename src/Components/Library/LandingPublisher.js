@@ -14,6 +14,7 @@ const PharmaRd = () => {
   const [submitData, setSubmitData] = useState(false);
   const [modulesSelect, setModulesSelect] = useState(true);
   const [selectedModules, setSelectedModules] = useState([]);
+  const [registerPage, setRegisterPage] = useState(true)
 
   const modules = [
     {
@@ -309,7 +310,12 @@ const PharmaRd = () => {
       highlights: bigCircleData?.features,
     }));
     setShowBigCircleData(true);
+    setRegisterPage(true)
   };
+
+  const handleReadClick = () => {
+    setRegisterPage(false)
+  }
 
   const handleBigCircleClick = (moduleName, index) => {
     const bigCircleData = bigCircleModules[index];   
@@ -415,6 +421,16 @@ const PharmaRd = () => {
     }, 200);
     setSelectedModules([])
   }
+
+  useEffect(() => {
+    if (submitData) {
+      setTimeout(() => {
+        setSubmitData(false);
+        setShowBigCircleData(true);
+        setModulesSelect(true);
+      }, 2000); 
+    }
+  }, [submitData]);
 
   const sliderRef = useRef();
   const parentRef = useRef("");
@@ -989,7 +1005,11 @@ const PharmaRd = () => {
                   <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
                   )}
                   <div class="shape shape-left"></div>
-                  {/* <div className="module-register">
+
+                  {registerPage && ( 
+                    <div>
+                    <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
+                   <div className="module-register">
                                 <h4>Registration</h4>
                                 <p>Register to access additional module details. Your information and activity remain confidential per GDPR, but we may occasionally notify you about new features or functions. Please confirm by ticking below if that's acceptable.</p>
                                 <Form>
@@ -1058,32 +1078,13 @@ const PharmaRd = () => {
                                                 <Form.Check type="checkbox" label="Keep me informed about other news from inforMed.pro" />
                                             </div>
                                         </Col>
-                                    <Button className='btn-filled'>Register</Button>
+                                    <Button className='btn-filled' onClick={handleReadClick}>Register</Button>
                                     </Row>
                                 </Form>
-                            </div> */}
+                            </div> 
+                            </div>
+                            )} 
                   <div className={`module-discribe ${addClass ? 'request' : ''}`}>
-                    {/* <img className="module-img" src={path_image +"rtr-image.svg"} alt="" />
-                                <h4>Read-Through-Rate </h4>
-                                 <img className="module-content-view" src={path_image +"rtr-content-list.png"} alt="" />
-                                <p>Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage. </p>
-                                <p className="semibold">Knowledge is power - how will you help your clients?</p>
-                                <div className="key-features">
-                                    <h5>
-                                        Key Features
-                                    </h5>
-                                    <ul>
-                                        <li>Track every engagement down to each second spend on individual pages</li>
-                                        <li>Track HCPs reading on & offline, in browser or in app</li>
-                                        <li>True engagement data</li>
-                                    </ul>
-                                </div>
-
-                                <div className="d-flex align-items-center justify-content-center fotter-btns">
-                                    <Button className='btn-filled'>Request</Button>
-                                    <Link to="/" className=""><img src={path_image +"downlaod-ppt.svg"} alt="" /></Link>
-                                </div> */}
-
                     <div
                       className={`${
                         bigCircleModuleData?.active === true
@@ -1091,7 +1092,7 @@ const PharmaRd = () => {
                           : "d-flex justify-content-between flex-column"
                       }`}
                     >
-                      {showBigCircleData && (
+                      {showBigCircleData && !registerPage &&(
                       <div className="big-circle-data">
                       <div>
                         <img
@@ -1172,20 +1173,12 @@ const PharmaRd = () => {
                       <p>Please select the modules you're interested in:</p>
                     </div>
                        )}
-                    {modulesSelect &&(
+                    {modulesSelect && !registerPage &&(
                     <div
                       className="module-diagram circle"
                       style={{ "--total": "19" }}
                     >
                       <div
-                        // className={
-                        //   activeModule === "rating"
-                        //     ? "stat rating visible"
-                        //     : activeModule === "web" ||
-                        //       activeModule === "docintel"
-                        //     ? "stat rating active"
-                        //     : "stat rating"
-                        // }
                         className={
                           selectedModules.includes('rating') || activeModule === "rating" 
                             ? "stat rating visible"
@@ -1208,15 +1201,6 @@ const PharmaRd = () => {
                       </div>
 
                       <div
-                        // className={
-                        //   activeModule === "automail"
-                        //     ? "stat automail visible"
-                        //     : activeModule === "engine" ||
-                        //       activeModule === "ai" ||
-                        //       activeModule === "spc"
-                        //     ? "stat automail active"
-                        //     : "stat automail"
-                        // }
                         className={
                           selectedModules?.includes('automail') || activeModule === "automail"
                             ? "stat automail visible"
@@ -1239,17 +1223,6 @@ const PharmaRd = () => {
                       </div>
 
                       <div
-                        // className={
-                        //   activeModule === "consent"
-                        //     ? "stat consent visible"
-                        //     : activeModule === "webinar" ||
-                        //       activeModule === "web" ||
-                        //       activeModule === "informed" ||
-                        //       activeModule === "docintel" ||
-                        //       activeModule === "ai"
-                        //     ? "stat consent active"
-                        //     : " stat consent"
-                        // }
                         className={
                           selectedModules.includes("consent") || activeModule === "consent"
                             ? "stat consent visible"
@@ -1279,15 +1252,6 @@ const PharmaRd = () => {
                       </div>
 
                       <div
-                        // className={
-                        //   activeModule === "engine"
-                        //     ? "stat engine visible"
-                        //     : activeModule === "survey" ||
-                        //       activeModule === "spc" ||
-                        //       activeModule === "automail"
-                        //     ? "stat engine active"
-                        //     : "stat engine"
-                        // }
                         className={
                           selectedModules.includes("engine") || activeModule === "engine"
                             ? "stat engine visible"
@@ -1318,21 +1282,6 @@ const PharmaRd = () => {
                       <div className="stat blank" style={{ "--i": "9" }}></div>
 
                       <div
-                        // className={
-                        //   activeModule === "docintel"
-                        //     ? "stat docintel visible"
-                        //     : activeModule === "read" ||
-                        //       activeModule === "spc" ||
-                        //       activeModule === "web" ||
-                        //       activeModule === "consent" ||
-                        //       activeModule === "survey" ||
-                        //       activeModule === "informed" ||
-                        //       activeModule === "engine" ||
-                        //       activeModule === "automail" ||
-                        //       activeModule === "rating"
-                        //     ? "stat docintel active"
-                        //     : "stat docintel"
-                        // }
                         className={
                           selectedModules.includes("docintel") || activeModule === "docintel"
                             ? "stat docintel visible"
@@ -1366,16 +1315,6 @@ const PharmaRd = () => {
                       </div>
 
                       <div
-                        // className={
-                        //   activeModule === "informed"
-                        //     ? "stat informed visible"
-                        //     : activeModule === "consent" ||
-                        //       activeModule === "consent" ||
-                        //       activeModule === "ai" ||
-                        //       activeModule === "spc"
-                        //     ? "stat informed active"
-                        //     : "stat informed"
-                        // }
                         className={
                           selectedModules.includes("informed") || activeModule === "informed"
                             ? "stat informed visible"
@@ -1401,17 +1340,6 @@ const PharmaRd = () => {
                       </div>
 
                       <div
-                        // className={
-                        //   activeModule === "web"
-                        //     ? "stat web visible"
-                        //     : activeModule === "webinar" ||
-                        //       activeModule === "docintel" ||
-                        //       activeModule === "consent" ||
-                        //       activeModule === "ai" ||
-                        //       activeModule === "rating"
-                        //     ? "stat web active"
-                        //     : "stat web"
-                        // }
                         className={
                           selectedModules.includes("web") ||  activeModule === "web" 
                             ? "stat web visible"
@@ -1438,13 +1366,6 @@ const PharmaRd = () => {
                       </div>
 
                       <div
-                        // className={
-                        //   activeModule === "webinar"
-                        //     ? "stat webinar visible"
-                        //     : activeModule === "qa" || activeModule === "web"
-                        //     ? "stat webinar active"
-                        //     : "stat webinar"
-                        // }
                         className={
                           selectedModules.includes("webinar") || activeModule === "webinar" 
                             ? "stat webinar visible"
@@ -1470,14 +1391,6 @@ const PharmaRd = () => {
                       </div>
 
                       <div
-                        // className={
-                        //   activeModule === "read"
-                        //     ? "stat read visible"
-                        //     : activeModule === "docintel" ||
-                        //       activeModule === "ai"
-                        //     ? "stat read active"
-                        //     : "stat read"
-                        // }
                         className={
                           selectedModules.includes("read") || activeModule === "read"
                             ? "stat read visible"
@@ -1507,7 +1420,7 @@ const PharmaRd = () => {
                       <div className="stat blank" style={{ "--i": "19" }}></div>
                     </div>
                      )}
-                    {showBigCircleData && (
+                    {showBigCircleData && !registerPage && (
                       <div className="d-flex align-items-center justify-content-center fotter-btns">
                         <Button className="btn-filled" onClick={handleRequestClick}>Request</Button>
                         <Link to="/" className="">
