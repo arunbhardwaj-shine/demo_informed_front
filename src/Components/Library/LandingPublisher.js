@@ -20,7 +20,7 @@ const PharmaRd = () => {
       active: false,
       icon: "RTR-icon.svg",
       title: "Read-Through-Rate",
-      description: "Learn if HCPs are genuinely engaging with your content.",
+      description: "Show you clients what work.",
     },
     {
       id: 2,
@@ -37,7 +37,7 @@ const PharmaRd = () => {
       icon: "auto-email-icon.svg",
       title: "Automail",
       description:
-        "Automate emails to keep building the relationships with reminders, AI-based suggestions, or just help to stay informed.",
+        "Automate emails to keep building the relationships with reminders, AI-based suggestions or or just help to stay informed.",
     },
 
     {
@@ -46,7 +46,7 @@ const PharmaRd = () => {
       icon: "legal-document-icon.svg",
       title: "Consent",
       description:
-        "Consent forms the foundation of every relationship. Our solution to ensure you get it right everywhere and can legally personalize even AI engagements.",
+        "Help clients get the consent they require. ",
     },
     {
       id: 5,
@@ -54,7 +54,7 @@ const PharmaRd = () => {
       icon: "email-small-icon.svg",
       title: "Email Engine",
       description:
-        "Personalized emails are undeniably one of the most potent tools, ours is built for and with the industry.",
+        "Offer to run email campaigns for clients who need external one-off compliance",
     },
     {
       id: 6,
@@ -62,7 +62,7 @@ const PharmaRd = () => {
       icon: "docintel-small-icon.svg",
       title: "Docintel.app",
       description:
-        "Enable HCPs to access and utilize your content seamlessly across all their devices and whenever it's wanted.",
+        "HCPs can read in any browser and/or take offline in secure app",
     },
     {
       id: 7,
@@ -70,7 +70,7 @@ const PharmaRd = () => {
       icon: "informedgo-icon.svg",
       title: "inforMedGo",
       description:
-        "Give your rep all content on their device and let them share and gather HCP consent on the spot.",
+        "Give your clients a complimentary tool for in-person content distribution",
     },
 
     {
@@ -79,7 +79,7 @@ const PharmaRd = () => {
       icon: "web-portal-icon.svg",
       title: "Web Portal",
       description:
-        "Provide a personalized and dynamic web experience for each HCP, adapting to their location and past engagements.",
+        "Plug-and-play modules to suit your clients needs for a faster and more flexible experience ",
     },
 
     {
@@ -88,7 +88,7 @@ const PharmaRd = () => {
       icon: "webinar-small-icon.svg",
       title: "Webinar Portal",
       description:
-        "Make your webinars more engaging with live polls & questions and brand it to feel truly you.",
+        "Enhance your clients' webinars with personalised branding and interactive features like live polls and questions",
     },
   ];
 
@@ -100,14 +100,12 @@ const PharmaRd = () => {
       title: <span style={{ color: "#5A6BB5" }}>Read-Through-Rate</span>,
       image: "rtr-content-list.png",
       description:
-        "Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Utilise this data to send reminders, recommendations, or equip your representatives for more informed conversations based on the specific interests and engagement patterns of each HCP.",
+        "Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.",
       para: "Knowledge is power - how will you use yours?",
       features: [
-        "Based on consent given by each HCP",
-        "Track HCPs reading on & offline, in browser or in app",
         "Track every engagement down to each second spend on individual pages",
-        "Data integrate in CRM timeline",
-        "Key data for personalising AI predictions",
+        "Track HCPs reading on & offline, in browser or in app",
+        "True engagement data",
       ],
     },
 
@@ -134,7 +132,7 @@ const PharmaRd = () => {
       title: <span style={{ color: "#00D4C0" }}>Automail</span>,
       image: "automail-min.png",
       description:
-        "Automate personalised email reminders and AI-recommended content for HCPs who haven’t been reached within your KPI timeframe. Streamline time-consuming tasks associated with standard HCP interactions to save you time and effort, ultimately enhancing HCP engagement.",
+        "Custom emails strengthen bonds. Craft responsive HCP campaigns with dynamic SmartLists, cutting manual sorting via behaviour and consent. Automate basic onboarding and reminders to read or leverage data for personalised content suggestions when engagement is lacking.",
       para: "Designed exclusively for the life science sector, our comprehensive feature set makes this email tool the ultimate choice for enhancing relationships with healthcare professionals.",
       features: [
         "Two level of AutoMail offerings (Essential & Predictive)",
@@ -152,12 +150,12 @@ const PharmaRd = () => {
       title: <span style={{ color: "#00A4BF" }}>Consent</span>,
       image: "consent-min.png",
       description:
-        "Build better relationships with the right consent. Utilising consent to analyse engagement data enables precise predictions about HCPs’ interests. Our forms are in use on every continent and can be modified to any requirements. Integrating consent into distribution empowers AI usage for our predictive platform tailoring content for your HCPs. ",
+        "Consent is often a complicated affair. Our standard consent forms are in use on every continent and clients can modify what is collected, adjust to any language and branding. It is truly and fast to change.",
       para: "",
       features: [
-        "Consent is at the core and powers every module for success",
-        "Consent given at every point",
-        "Personalised experienced for your HCPs",
+        "Three standard consent forms makes it easy",
+        "Any language possible",
+        "Personalised experienced for the HCPs",
         "HCPs can withdraw consent through their Docintel account",
       ],
     },
@@ -169,14 +167,14 @@ const PharmaRd = () => {
       title: <span style={{ color: "#0084BE" }}>Email Engine</span>,
       image: "email-engine-min.png",
       description:
-        "Personal emails are powerful, they feel like a direct outreach from a trusted source.  Our email engine, tailored for the life science sector, seamlessly integrates with other modules’ data to easily reach a single or a segment of HCPs. You can even let it monitor a group and automatically email individual follow up or apply AI assisted recommendations for new content.",
-      para: "Saves you time and effort, yet simple to use.",
+        "Our email platform caters to the life science industry, designed for sending bulk emails with automated follow-ups tailored to each HCP's actions. It's commonly employed to invite HCPs to events or content launches using purchased lists, subject to email limits.",
+      para: "",
       features: [
         "Easy to use - built for the industry",
         "Dynamic SmartLists save you from excel-hell",
         "Track if HCP reads what you send",
         "Email & content engagement stored in CRM",
-        "Add-on AutoMail for AI-automation and content recommendations",
+        "Add-on AutoMail for AI-automation",
       ],
     },
 
@@ -187,15 +185,13 @@ const PharmaRd = () => {
       title: <span style={{ color: "#0066BE" }}>Docintel.app</span>,
       image: "docintel-min.png",
       description:
-        "Beyond the elegant and user-friendly interfaces lies perhaps the most sophisticated and versatile technology accessible to pharmaceutical marketers. Tailorable consent mechanisms, usage tracking that fuels AI, multimedia content choices, and interactivity are all designed to enhance the digital rapport between you and healthcare professionals.",
-      para: "",
+        "Beyond our elegant and user-friendly interfaces lies perhaps the most sophisticated and versatile technology accessible to publishers. Letting HCPs read on any device means flexibility for your clients and freedom to drive usage.",
+      para: "Tailorable consent mechanisms, usage tracking, live analytics, multimedia content choices, and interactivity are all designed to enhance your client offer.",
       features: [
+        "Secure and track limits agreed with client",
+        "Multimedia options to satisfy any clients wish",
         "HCPs read on & offline, in any browser or in the app",
-        "Secure instant HCP consent",
-        "RTR tracks every second spend on individual pages",
-        "Stay consistent with your visual identity",
-        "Push content or let HCPs register new content with a code",
-        "Personalised AI predictive content for your HCPs",
+        "Track every engagement down to each second spend on individual pages"
       ],
     },
 
@@ -206,15 +202,12 @@ const PharmaRd = () => {
       title: <span style={{ color: "#045FAE" }}>inforMedGo</span>,
       image: "informedgo-min.png",
       description:
-        "Streamline rep engagement and consent collection from HCPs. Providing your reps with the entire support materials library on their devices ensures ready resources for personalised conversations. Sharing and securing consent on-the-spot improves compliance and follow-up procedures.",
-      para: "",
+        "Maximize the success of pharma content distribution by including a complimentary InforMedGO app for Apple, Android, and Windows devices with every eprint. This enables reps to carry your eprints on any device, facilitating immediate distribution to HCPs.",
+      para: "The key to success lies in actively distributing valuable content.",
       features: [
-        "Easy to use - Become a pro in under 15 minutes",
+        "Easy to use - download free app and enter code for instant activation",
         "Give Reps control over your entire content collection",
-        "Gather on-the-spot consent - Allowing you to send new & engaging content to your HCPs",
-        "Receive all content the country has made available - Applying to local and international",
-        "Send materials via the app by sales team member directly to the HCP",
-        "Works seamlessly with SPC engine to ensure compliance",
+        "Gather on-the-spot consent"
       ],
     },
 
@@ -225,15 +218,14 @@ const PharmaRd = () => {
       title: <span style={{ color: "#6E52A2" }}>Web Portal</span>,
       image: "web-portal-min.png",
       description:
-        "Would you like a website that adapts to the individual HCP? Combine modules and AI to personalise content recommended, surveys, videos, news, and events to each HCP based on their location and past engagements. Simultaneously tracking their activity to learn and improve the user experience. ",
+        "Offering complete creative freedom to build custom libraries of your content and add options for your clients that enhance the HCP experience.  Implement secure consent mechanisms and comprehensive interaction tracking to gauge ROI and refine your offerings.",
       para: "",
       features: [
-        "Provide a unifying experience",
-        "Merge all your modules in one place for an evolved personal experience.",
+        "Enhancing content pages",
         "On demand for when the HCP want to know more",
         "Let HCPs take what they want offline in their personal Docintel app account",
         "Combining Local and Global users for promotion",
-        "Maintain your visual identity",
+        "Maintain your visual identity"
       ],
     },
 
@@ -244,15 +236,15 @@ const PharmaRd = () => {
       title: <span style={{ color: "#8A4E9C" }}>Webinar Portal</span>,
       image: "webinar-portal-min.png",
       description:
-        "Transform your webinars to your own event with creative freedom and engagement tools that resonates and make HCPs feel valued and an active participant. Convert the recordings into valuable content that can be distributed in a user-friendly format, fostering post-event engagement and stronger relationships with HCPs.",
+        "Transform your clients webinars with creative freedom and engagement tools that resonates and make HCPs feel valued and active participants. Convert the recordings into valuable content that can be distributed in a user-friendly format, fostering post-event engagement and stronger relationships with HCPs.",
       para: "",
       features: [
         "Online Webinar Platform every HCP will find easy to use",
-        "Registration & Consent from your HCPs",
+        "Registration & Consent to suit any regulation",
         "Automated Calendar Reminders helping the HCPs be on time",
         "Automated personalised emails with single-click-login ensure easy access for each HCP",
-        "Take your interaction to the next level & allow HCPs to ask real-time questions",
-        "Learn who stayed and engaged to improve your data for the AI Predictions",
+        "Take the interaction to the next level & allow HCPs to ask real-time questions",
+        "Learn who stayed and engaged to prove ROI",
       ],
     },
   ];
@@ -954,7 +946,7 @@ const PharmaRd = () => {
                   <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
                   )}
                   <div class="shape shape-left"></div>
-                  {/* <div className="module-register">
+                     <div className="module-register">
                                 <h4>Registration</h4>
                                 <p>Register to access additional module details. Your information and activity remain confidential per GDPR, but we may occasionally notify you about new features or functions. Please confirm by ticking below if that's acceptable.</p>
                                 <Form>
@@ -1026,7 +1018,10 @@ const PharmaRd = () => {
                                     <Button className='btn-filled'>Register</Button>
                                     </Row>
                                 </Form>
-                            </div> */}
+                            </div> 
+
+
+
                   <div className={`module-discribe ${addClass ? 'request' : ''}`}>
                     {/* <img className="module-img" src={path_image +"rtr-image.svg"} alt="" />
                                 <h4>Read-Through-Rate </h4>
