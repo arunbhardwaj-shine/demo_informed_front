@@ -2132,6 +2132,12 @@ const NewReaders = () => {
                                               ]?.find(
                                                 (element) => element.id == item
                                               )?.title
+                                            : key == "site"
+                                            ? filterdata?.[
+                                                "site"
+                                              ]?.find(
+                                                (element) => element.id == item
+                                              )?.title  
                                             : item}
                                           <img
                                             src={
