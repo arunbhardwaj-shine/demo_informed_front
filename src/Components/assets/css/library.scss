@@ -9877,71 +9877,71 @@ svg.pencil_icon {
 }
 
 .read span,
-.request .active.read span {
+.request .circle .active.read span {
   color: #5A6BB5;
 }
 
 .rating span,
-.request .active.rating span {
+.request .circle .active.rating span {
   color: #2B9BC8
 }
 
 .spc span,
-.request .active.spc span {
+.request .circle .active.spc span {
   color: #19BBB9
 }
 
 .automail span,
-.request .active.automail span {
+.request .circle .active.automail span {
   color: #00D4C0
 }
 
 .ai span,
-.request .active.ai span {
+.request .circle .active.ai span {
   color: #00C1BF
 }
 
 .consent span,
-.request .active.consent span {
+.request .circle .active.consent span {
   color: #00A4BF;
 }
 
 .engine span,
-.request .active.engine span {
+.request .circle .active.engine span {
   color: #0084BE
 }
 
 .docintel span,
-.request .active.docintel span {
+.request .circle .active.docintel span {
   color: $primary-color
 }
 
 .informed span,
 .automatic-certificate span,
-.request .active.automatic-certificate span,
-.request .active.informed span {
+.request .circle .active.automatic-certificate span,
+.request .circle .active.informed span {
   color: #045FAE
 }
 
 .qa span,
-.request .active.qa span {
+.request .circle .active.qa span {
   color: #3D48AB
 }
 
 .survey span,
-.request .active.survey span {
+.request .circle .active.survey span {
   color: #5058AA;
 }
 
 .web span,
 .site span,
-.request .active.web span,
-.request .active.site span {
+.request .circle .active.web span,
+.request .circle .active.site span {
   color: #6E52A2
 }
 
 .webinar span,
-.request .active.webinar span {
+.request .circle .active.webinar span {
   color: $voilet
 }
 
@@ -10067,6 +10067,7 @@ svg.pencil_icon {
     font-weight: 600;
     line-height: 20px;
     margin: 40px auto 8px;
+    text-align: left;
   }
 
   ul {
@@ -10278,9 +10279,10 @@ svg.pencil_icon {
   font-weight: 300;
 }
 
-.module-discribe.request .stat.active {
+.module-discribe.request .circle .stat.active {
   background: $white;
   filter: drop-shadow(0px 1px 19px rgba(0, 102, 190, 0.24));
+  outline: none;
 }
 
 .module-discribe.request .stat.active img {
