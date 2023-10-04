@@ -483,7 +483,8 @@ const PharmaMarketing = () => {
       }
     });
  
-    setShowBigCircleData(false); 
+    setShowBigCircleData(false);
+    setModulesSelect(true); 
     setTimeout(() => { 
       const visibleModules = document.querySelectorAll('.stat.visible'); 
       const visibleModuleNames = Array.from(visibleModules).map(module => {
@@ -503,6 +504,7 @@ const PharmaMarketing = () => {
   const handleSubmitClick = () => {
     setSubmitData(true)
     setAddClass(false);
+    setShowBigCircleData(false);
     setModulesSelect(false)
     setFormFeilds(false)
     console.log(selectedModules,'===>selectedModules')
@@ -533,9 +535,17 @@ const PharmaMarketing = () => {
         setSubmitData(false);
         setShowBigCircleData(true);
         setModulesSelect(true);
+        setSelectedModules([])
       }, 2000); 
     }
   }, [submitData]);
+
+  // const handleCloseClick = () => {
+  //   setShowBigCircleData(true);
+  //   setModulesSelect(true);
+  //   setSubmitData(false);
+  //   setSelectedModules([])
+  // }
 
   const sliderRef = useRef();
   const parentRef = useRef("");
