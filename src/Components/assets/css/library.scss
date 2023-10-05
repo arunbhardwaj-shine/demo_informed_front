@@ -10127,7 +10127,7 @@ svg.pencil_icon {
     }
 
     .stat {
-      --r-offset: -0.14turn;
+      --r-offset: -0.135turn;
 
       &.blank {
         filter: none;
@@ -10317,6 +10317,121 @@ svg.pencil_icon {
 .big-circle-data {
   position: relative;
   z-index: 1;
+}
+
+.modules-diagram .circle .stat.active:after {
+  content: "";
+  position: absolute;
+  left: 92px;
+  border-top: 2px dashed;
+  z-index: -1;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.modules-diagram .circle .stat.webinar.active:after {
+  border-color: #8A4E9C;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.read.active:after {
+  border-color: #5A6BB5;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.web.active:after {
+  border-color: #6E52A2;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.survey.active:after {
+  border-color: #5058AA;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.qa.active:after {
+  border-color: #3D48AB;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.informed.active:after {
+  border-color: #045FAE;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.docintel.active:after {
+  border-color: #0066BE;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.engine.active:after {
+  border-color: #0084BE;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.consent.active:after {
+  border-color: #00A4BF;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.ai.active:after {
+  border-color: #00C1BF;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.automail.active:after {
+  border-color: #00D4C0;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.spc.active:after {
+  border-color: #19BBB9;
+  width: 44px;
+}
+
+.modules-diagram .circle .stat.rating.active:after {
+  border-color: #2B9BC8;
+  width: 44px;
+}
+
+
+.modules-diagram .pharma_market.circle .stat.engine.active:after {
+  left: -46px;
+}
+
+.modules-diagram .pharma_market.circle .stat.consent.active:after {
+  left: -46px;
+}
+
+.modules-diagram .pharma_market.circle .stat.ai.active:after {
+  left: -46px;
+}
+
+.modules-diagram .pharma_market.circle .stat.automail.active:after {
+  left: -46px;
+}
+
+.modules-diagram .pharma_market.circle .stat.spc.active:after {
+  left: -46px;
+}
+
+.modules-diagram .pharma_market.circle .stat.rating.active:after {
+  left: -46px;
+}
+
+.modules-diagram .circle .stat.active:before {
+  content: "";
+  position: absolute;
+  background: inherit;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.modules-diagram .circle .stat.webinar.active:before {
+  left: calc(92px + 38px);
 }
 
 /**MOdule End**/
