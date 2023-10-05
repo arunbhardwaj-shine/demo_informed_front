@@ -9622,11 +9622,13 @@ svg.pencil_icon {
     align-items: center;
     justify-content: space-between;
     opacity: 0;
+    visibility: hidden;
     transition: 0.4s linear;
 
     &.show {
       opacity: 1;
       z-index: 5;
+      visibility: visible;
     }
 
     img.close {
@@ -10491,6 +10493,11 @@ svg.pencil_icon {
   width: 7px;
   height: 7px;
   border-radius: 50%;
+}
+
+.modules-diagram .request .pharma_market.circle .stat.active:after,
+.modules-diagram .request .pharma_market.circle .stat.active:before {
+  display: none
 }
 
 .modules-diagram .circle .stat.webinar.active:before {
