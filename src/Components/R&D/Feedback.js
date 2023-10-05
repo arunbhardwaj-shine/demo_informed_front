@@ -1,72 +1,136 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import axios from "axios";
 import { loader } from "../../loader";
 import moment from "moment";
+import { getData } from "../../axios/apiHelper";
 
 const Feedback = () => {
-    const [data, setData] = useState([]);
-    const [feedbackData, setFeedback] = useState([]);
-    const [search, setSearch] = useState("");
-    const [apiStatus, setApiStatus] = useState(true);
+  const activeTab = useRef(1);
+  const [data, setData] = useState([]);
+  const [feedbackData, setFeedback] = useState([]);
+  const [search, setSearch] = useState("");
+  const [apiStatus, setApiStatus] = useState(true);
+  const [sectionLoader, setSectionLoader] = useState(false);
 
-    useEffect(() => {
-        setApiStatus(false);
-        getFeedbackData();
-    },[]);
-
-    const getFeedbackData = async() => {
-        try{
-            loader(true);
-            await axios
-            .get(ENDPOINT.FEEDBACKLISTING)
-            .then((response) => {
-                setData(response?.data?.data);
-                setFeedback(response?.data?.data);
-            });
-            setApiStatus(true);
-            loader(false);
-        }catch(err){
-            console.log(err);
-            setApiStatus(true);
-            loader(false);
-        }
+  useEffect(() => {
+    setApiStatus(false);
+    getFeedbackData();
+  }, []);
+  const handleTabChange = (event) => {
+    setApiStatus(false);
+    setFeedback([]);
+    setData([]);
+    setSearch("");
+    activeTab.current = event;
+    setSectionLoader(true);
+    if (event == 1) {
+      getFeedbackData();
+    } else if (event == 2) {
+      getCommentData();
     }
+  };
 
-    const searchChange = (e) => {
-        setSearch(e.target.value.trim());
-        if (e.target.value === "") {
-            setFeedback(data);
-            setSearch("");
-        }
-    };
+  const getFeedbackData = async () => {
+    try {
+      // loader(true);
+      setSectionLoader(true);
+      await axios.get(ENDPOINT.FEEDBACKLISTING).then((response) => {
+        setData(response?.data?.data);
+        setFeedback(response?.data?.data);
+      });
+      setApiStatus(true);
+      // loader(false);
+      setSectionLoader(false);
+    } catch (err) {
+      console.log(err);
+      setApiStatus(true);
+      // loader(false);
+      setSectionLoader(false);
+    }
+  };
 
-    const submitHandler = (event) => {
-        event.preventDefault();
+  const getCommentData = async () => {
+    try {
+      setSectionLoader(true);
+      const comments = await getData(ENDPOINT.COMMENTLISTING);
+      setData(comments?.data?.data);
+      setFeedback(comments?.data?.data);
 
-        const filteredData = data.filter(item =>
-            item.message.toLowerCase().includes(search.toLowerCase())
-        );
-        setFeedback(filteredData);
-    };
+      setApiStatus(true);
+      setSectionLoader(false);
+    } catch (err) {
+      console.log(err);
+      setApiStatus(true);
+      setSectionLoader(false);
+    }
+  };
 
-    return (
-        <>
-          <div className="right-sidebar">
-            <div className="page-top-nav smart_list_names">
-              <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-11"></div>
-              </div>
+  const searchChange = (e) => {
+    setSearch(e?.target?.value?.trim());
+    if (e?.target?.value === "") {
+      setFeedback(data);
+      setSearch("");
+    }
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    const filteredData = data?.filter((item) =>
+      item?.message?.toLowerCase().includes(search?.toLowerCase())
+    );
+    setFeedback(filteredData);
+  };
+
+  return (
+    <>
+      <div className="right-sidebar">
+        <div className="page-top-nav smart_list_names">
+          <div className="row justify-content-end align-items-center">
+            <div className="col-12 col-md-11"></div>
+          </div>
+        </div>
+
+        <section className="search-hcp smart-list-view">
+          <div className="result-hcp-table">
+            <div className="table-title">
+              <h4>
+                {activeTab.current == 1 ? "Total Feedbacks" : "Total Comments"}{" "}
+                <span>| {data?.length}</span>
+              </h4>
             </div>
-    
-            <section className="search-hcp smart-list-view">
-              <div className="result-hcp-table">
-                <div className="table-title">
-                  <h4>
-                    Total Feedbacks <span>| {data?.length}</span>
-                  </h4>
-                  <div className="search-bar">
-                  <form
+
+            <div className="selected-hcp-list search_view">
+              <div className="feedback-block">
+                <div className="delivery-trends">
+                  <div className="tabs_content_load">
+                    <Tabs
+                      defaultActiveKey={activeTab.current}
+                      onSelect={handleTabChange}
+                    >
+                      <Tab eventKey="1" title="Feedback"></Tab>
+                      <Tab eventKey="2" title="Comments"></Tab>
+                    </Tabs>
+                    {sectionLoader ? (
+                      <div
+                        className={
+                          "loader tab-inside " + (sectionLoader ? "show" : "")
+                        }
+                        id="custom_loader"
+                      >
+                        <div className="loader_show">
+                          <span className="loader-view"> </span>
+                        </div>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  {data?.length ? (
+                    <div className="search-bar">
+                      <form
                         className="d-flex"
                         onSubmit={(e) => submitHandler(e)}
                       >
@@ -97,44 +161,50 @@ const Feedback = () => {
                           </button>
                         ) : null}
                       </form>
-                  </div>
-                </div>
-                <div className="selected-hcp-list search_view">
-                    <div className="feedback-block">
-                    {typeof feedbackData !== "undefined" &&
-                        feedbackData.length > 0 ? (
-                            feedbackData.map((item, index) => (
-                            <>
-                            <div className="timeline-block" key={index}>
-                                <div className="timeline-block-head library">
-                                    <div className="timeline-block-title d-flex flex-column align-items-start">
-                                        <h6>{item?.email}</h6>
-                                    </div>
-                                    <div className="timeline-time-view">
-                                    <div className="timeline-time">{moment(item?.createdAt).format('D MMMM YYYY')}</div>|<div className="timeline-timezone">{moment(item?.createdAt).format('h:mm A')}</div>
-                                    </div>
-                                </div>
-                                <div className="feedback-detail">
-                                    <p> {item?.message}</p>
-                                </div>
-                            </div>
-                            </>
-                          ))
-                        ) : (
-                            <>
-                            {
-                                apiStatus ? 
-                                <h4 className="not-found" style={{color:'#004A89'}}>No Data Found</h4> : null
-                            }
-                            </>
-                        )
-                    }
                     </div>
+                  ) : null}
+
+                  {typeof feedbackData !== "undefined" &&
+                  feedbackData?.length > 0 ? (
+                    feedbackData?.map((item, index) => (
+                      <>
+                        <div className="timeline-block" key={index}>
+                          <div className="timeline-block-head library">
+                            <div className="timeline-block-title d-flex flex-column align-items-start">
+                              <h6>{item?.email}</h6>
+                            </div>
+                            <div className="timeline-time-view">
+                              <div className="timeline-time">
+                                {moment(item?.createdAt).format("D MMMM YYYY")}
+                              </div>
+                              |
+                              <div className="timeline-timezone">
+                                {moment(item?.createdAt).format("h:mm A")}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="feedback-detail">
+                            <p> {item?.message}</p>
+                          </div>
+                        </div>
+                      </>
+                    ))
+                  ) : (
+                    <>
+                      {apiStatus ? (
+                        <h4 className="not-found" style={{ color: "#004A89" }}>
+                          No Data Found
+                        </h4>
+                      ) : null}
+                    </>
+                  )}
                 </div>
               </div>
-            </section>
+            </div>
           </div>
-        </>
-      );   
+        </section>
+      </div>
+    </>
+  );
 };
 export default Feedback;

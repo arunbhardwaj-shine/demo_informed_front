@@ -82,6 +82,14 @@ const SetLayout = () => {
         ? navigate("/octalatch-totalhcp")
         : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
         ? navigate("/LEX-210-analytics")
+        : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
+        ? navigate("/totalhcp")
+        : localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A=="
+        ? navigate("/totalhcp")
+        : localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ=="
+        ? navigate("/totalhcp")
+        : localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ=="
+        ? navigate("/totalhcp")
         : navigate("/content-analytics");
     } else if (title == "Email") {
       navigate("/EmailList");
