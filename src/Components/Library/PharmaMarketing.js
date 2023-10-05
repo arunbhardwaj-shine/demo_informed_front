@@ -527,7 +527,31 @@ const PharmaMarketing = () => {
     setTimeout(() => {
     setReadStatus(false);
     }, 200);
+    setSelectedModules([])  
+  }
+
+  const handleBigClose = (moduleName, index) => {
+    setAddClass(false);
+    setFormFeilds(false)
     setSelectedModules([])
+    setSubmitData(false);
+    setShowBigCircleData(false);
+    setModulesSelect(false);
+    const smallCircleData = modules[index];
+    if (moduleName !== activeModule) {
+      setTimeout(() => {
+      setModuleData({
+        active: false,
+        imagePath: smallCircleData?.icon,
+        heading: smallCircleData?.title,
+        paragraph: smallCircleData?.description,
+      });
+      setActiveModule(null);
+    }, 1000); 
+    }
+    setTimeout(() => {
+      setReadStatus(false);
+      }, 200); 
   }
  
   useEffect(() => {
@@ -538,9 +562,17 @@ const PharmaMarketing = () => {
         setShowBigCircleData(true);
         setModulesSelect(true);
         setActiveModule(intialModuleData?.activeModule);
-      }, 2000); 
+      }, 1000); 
     }
   }, [submitData]);
+
+  // const handleCloseClick = () => {
+  //   setSelectedModules([]);
+  //   setSubmitData(false);
+  //   setShowBigCircleData(true);
+  //   setModulesSelect(true);
+  //   setActiveModule(intialModuleData?.activeModule);
+  // }
 
   const handleRead = () => {
     setReadStatus(true)
@@ -1726,7 +1758,7 @@ const PharmaMarketing = () => {
 
                   {!showBigCircleData && !submitData &&(
                       <div className="d-flex align-items-center justify-content-center fotter-btns">
-                        <Button className="btn-filled" onClick={handleSubmitClick} >Submit</Button>
+                        <Button className="btn-filled" onClick={handleSubmitClick}>Submit</Button>
                       </div>
                        )}
                     </div>
@@ -1736,7 +1768,7 @@ const PharmaMarketing = () => {
                       <img src={path_image + "thanks-img.svg"} alt="" />
                       <h3>Thank you!</h3>
                       <p>We appreciate your interest and will respond very quickly.</p>
-                      <Button className="btn-filled" onClick={handleBigCircleClose}>Close</Button>
+                      <Button className="btn-filled" onClick={handleBigClose}>Close</Button>
                     </div>
                      )}
                   </div>
