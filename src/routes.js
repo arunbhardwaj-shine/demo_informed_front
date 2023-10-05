@@ -65,11 +65,14 @@ import OctalatchCountryStats from "./Components/Analytics/OctalatchCountryStats"
 import OctaCountryRegistration from "./Components/Analytics/OctaCountryRegistration";
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
-import ReaderEdit from "./Components/Readers/ReaderEdit/ReaderEdit";
+import ReadersLayout from "./Components/Readers/ReadersView/ReadersLayout";
+import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReadersList";
+import ReaderLayout from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
+import MarketingTimeLineDetail from "./Components/Readers/Timeline/MarketingTimeLineDetail";
 import TrialSite from "./Components/Readers/AddSite/TrialSite";
 import AddSite from "./Components/Readers/AddSite/AddSite";
 import EditSite from "./Components/Readers/AddSite/EditSite";
@@ -151,6 +154,11 @@ import MainLanding from "./Components/Library/MainLanding";
 import PharmaMarketing from "./Components/Library/PharmaMarketing";
 import PharmaRnd from "./Components/Library/PharmaRnd";
 import LandingPublisher from "./Components/Library/LandingPublisher";
+import MarketingAddReader from "./Components/Readers/AddReader/MarketingAddReader";
+import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditReader";
+import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
+import PageNotFound from "./Components/CommonComponent/PageNotFound";
+import Feedback from "./Components/R&D/Feedback";
 let platform = 0;
 let show = 0;
 
@@ -229,10 +237,14 @@ const Routing = () => {
           element={<DefaultLayout component={Webinar} />}
         />
         <Route path="rd-register" element={<RDRegister />} />
-        <Route path="LEX-210-Registration" element={<RDRegister />} />
+        {/* <Route path="LEX-210-Registration" element={<RDRegister />} /> */}
         <Route
           path="/LEX-210-analytics"
           element={<LoginLayout component={RDAnalytics} />}
+        />
+        <Route
+          path="/feedback"
+          element={<LoginLayout component={Feedback} />}
         />
         //LoginLayout for pages after login
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
@@ -358,30 +370,63 @@ const Routing = () => {
           path="/sales-by-country"
           element={<LoginLayout component={SalesByCountry} />}
         />
-        <Route
-          path="/readers-view"
-          element={<LoginLayout component={NewReaders} />}
+        {/* <Route
+            path="/readers-view"
+            element={
+              localStorage.getItem('user_id') == '90VIqoM675WT4/peSRnbSQ==' ? (
+                <LoginLayout component={MarketingNewReaders} />
+              ) : (
+                <LoginLayout component={NewReaders} />
+              )
+            }
+        /> */}
+
+<Route
+            path="/readers-view"
+            element={
+              <LoginLayout component={ReadersLayout} />
+            }
         />
-        <Route
-          path="/reader-edit"
-          element={<LoginLayout component={ReaderEdit} />}
-        />
-        <Route
-          path="/reader-add"
-          element={<LoginLayout component={ReaderAdd} />}
-        />
-        <Route
-          path="/reader-review"
-          element={<LoginLayout component={ReaderReview} />}
-        />
+     
+          <Route
+            path="/reader-edit"
+            element={<LoginLayout component={ReaderLayout} />}
+          />
+        
+     
+          <Route
+            path="/reader-add"
+            element={<LoginLayout component={ReaderAdd} />}
+          />
+     
+
+          <Route
+            path="/reader-review"
+            element={<LoginLayout component={ReaderReview} />}
+          />
+        
+       
         <Route
           path="/readers-list"
           element={<LoginLayout component={ReadersListAdd} />}
         />
         <Route
+            path="/timeline-detail"
+            element={
+              localStorage.getItem('user_id') == '90VIqoM675WT4/peSRnbSQ==' ? (
+                <LoginLayout component={MarketingTimeLineDetail} />
+              ) : (
+                <LoginLayout component={TimelineDetail} />
+              )
+            }
+        />
+        {
+          /*<Route
           path="/timeline-detail"
           element={<LoginLayout component={TimelineDetail} />}
-        />
+        /> */
+        }
+        
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
@@ -644,6 +689,7 @@ const Routing = () => {
           path="/license-edit"
           element={<LoginLayout component={EditLicense} />}
         />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
   );

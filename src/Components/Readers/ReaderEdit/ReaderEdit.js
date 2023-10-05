@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Button, Form } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+import MarketingEditReader from "./MarketingEditReader";
+
 import Select from "react-select";
 import CommonModel from "../../../Model/CommonModel";
 import { AddReaderValidation } from "../../Validations/ReaderValidation/AddReaderValidation";
@@ -10,6 +12,18 @@ import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import axios from "axios";
+
+const ReaderLayout = () => {
+  return (
+    <>
+      {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
+        <MarketingEditReader />
+      ) : (
+        <ReaderEdit />
+      )}
+    </>
+  );
+};
 const ReaderEdit = () => {
   const { state } = useLocation();
   const nameRef = useRef(null);
@@ -114,18 +128,22 @@ const ReaderEdit = () => {
   });
   const institutionData = [
     {
-      label:"Study site",value:"Study site"
+      label: "Study site",
+      value: "Study site",
     },
     {
-      label:"Premier Research",value:"Premier Research"
+      label: "Premier Research",
+      value: "Premier Research",
     },
     {
-      label:"Comac",value:"Comac"
+      label: "Comac",
+      value: "Comac",
     },
     {
-      label:"Octapharma",value:"Octapharma"
-    }
-  ]
+      label: "Octapharma",
+      value: "Octapharma",
+    },
+  ];
   const [userDetail, setUserDetail] = useState({
     speciality: [
       { value: "speciality1", label: "speciality1" },
@@ -266,7 +284,7 @@ const ReaderEdit = () => {
       irt: hasData?.data?.data?.irt,
       institution: hasData?.data?.data?.institution,
     });
-    changeSiteData()
+    changeSiteData();
     loader("hide");
   };
 
@@ -287,9 +305,9 @@ const ReaderEdit = () => {
       setAddReaderInputs({
         ...hasData?.data?.data,
         userType: obj[hasData?.data?.data.userType]
-          ? obj[hasData?.data?.data.userType]
-          : hasData?.data?.data.userType,
-        irt: hasData?.data?.data.irt == "Yes" ? 1 : 0,
+          ? obj[hasData?.data?.data?.userType]
+          : hasData?.data?.data?.userType,
+        irt: hasData?.data?.data?.irt == "Yes" ? 1 : 0,
       });
       loader("hide");
     } catch (err) {
@@ -441,7 +459,7 @@ const ReaderEdit = () => {
     if (typeof userDetail?.sideData !== "undefined") {
       let newSite = [],
         newSiteNumber = [];
-        console.log("-userInputs?.country",userInputs)
+      console.log("-userInputs?.country", userInputs);
       userDetail?.sideData?.forEach((item) => {
         if (item?.country == userInputs?.country) {
           newSite.push({ label: item?.site_name, value: item?.site_name });
@@ -451,14 +469,14 @@ const ReaderEdit = () => {
           });
         }
       });
-      console.log("--- inside changes Site Data",newSite)
+
       setUserDetail({
         ...userDetail,
         siteName: newSite,
         siteNumber: newSiteNumber,
       });
-    }else{
-      console.log("-- im here inside changes")
+    } else {
+      console.log("-- im here inside changes");
     }
   };
 
@@ -547,15 +565,15 @@ const ReaderEdit = () => {
         siteName: newSiteName,
         siteNumber: newSiteNumber,
       });
-    }else if(isSelectedName == "institution") {
-      if(e == "Study site"){
+    } else if (isSelectedName == "institution") {
+      if (e == "Study site") {
         setAddReaderInputs({
           ...userInputs,
           [isSelectedName]: e,
           ["role"]: "Site User-Blinded",
           ["irt"]: 1,
         });
-      }else{
+      } else {
         setAddReaderInputs({
           ...userInputs,
           [isSelectedName]: e,
@@ -564,7 +582,7 @@ const ReaderEdit = () => {
           ["siteNumber"]: "",
         });
       }
-     } else {
+    } else {
       setAddReaderInputs({
         ...userInputs,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -661,7 +679,6 @@ const ReaderEdit = () => {
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Institution <span>*</span>
-
           </Form.Label>
           <Select
             options={institutionData}
@@ -682,11 +699,11 @@ const ReaderEdit = () => {
 
           {error?.institution ? (
             <div className="login-validation">{error?.institution}</div>
-             ) : (
+          ) : (
             ""
           )}
         </Form.Group>
-         
+
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -700,9 +717,8 @@ const ReaderEdit = () => {
               value: userInputs?.irt,
             }}
             value={
-              userDetail?.irt.findIndex(
-                (el) => el.value == userInputs?.irt
-              ) == -1
+              userDetail?.irt.findIndex((el) => el.value == userInputs?.irt) ==
+              -1
                 ? ""
                 : userDetail?.irt[
                     userDetail?.irt.findIndex(
@@ -1583,4 +1599,4 @@ const ReaderEdit = () => {
   );
 };
 
-export default ReaderEdit;
+export default ReaderLayout;
