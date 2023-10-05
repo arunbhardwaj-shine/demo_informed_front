@@ -1405,7 +1405,7 @@ const PharmaMarketing = () => {
                        )}
                     {modulesSelect && !registerPage &&(
                     <div
-                      className="module-diagram circle"
+                      className="module-diagram circle pharma_market"
                       style={{ "--total": "24" }}
                     >
                       <div
