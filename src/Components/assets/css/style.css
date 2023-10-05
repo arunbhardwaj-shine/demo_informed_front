@@ -8018,6 +8018,13 @@ html {
   position: relative;
 }
 
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+
 @media only screen and (max-width: 1365px) {
   .page_not_found h1 {
     font-size: 130px;

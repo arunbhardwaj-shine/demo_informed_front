@@ -130,7 +130,6 @@ const Feedback = () => {
 
             <div className="selected-hcp-list search_view">
               <div className="feedback-block">
-                <Row>
                   <div className="delivery-trends">
                     <div className="tabs_content_load">
                       <Tabs
@@ -155,8 +154,7 @@ const Feedback = () => {
                         ""
                       )}
                     </div>
-                  </div>
-                </Row>
+
 
                 {typeof feedbackData !== "undefined" &&
                 feedbackData?.length > 0 ? (
@@ -192,7 +190,9 @@ const Feedback = () => {
                     ) : null}
                   </>
                 )}
+                   </div>
               </div>
+              
             </div>
           </div>
         </section>

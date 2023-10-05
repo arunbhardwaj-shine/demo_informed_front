@@ -4566,6 +4566,9 @@ input.viewer-toolbar-current-page-input {
   padding: 0px 10px 10px;
   background: $white;
   position: relative;
+  border-radius: 0;
+  box-shadow: 0 0 15px rgba(0, 102, 190, .1);
+  min-height: 70vh;
 
   // border-radius: 0 0 20px 20px;
   // display:flex;
@@ -4578,6 +4581,14 @@ input.viewer-toolbar-current-page-input {
     margin: 10px 0 10px;
     color: $primary-color;
     line-height: 1.2;
+  }
+
+  .tabs_content_load {
+    margin-bottom: 9px;
+
+    .tab-content {
+      padding: 7px 0px;
+    }
   }
 
   .nav-tabs {
@@ -9052,13 +9063,17 @@ svg.pencil_icon {
     width: 60px;
     height: 60px;
   }
-  .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4), .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4) {
+
+  .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4),
+  .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4) {
     max-height: 450px;
   }
-  
-  .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4)>div, .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4)>div {
+
+  .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4)>div,
+  .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4)>div {
     max-height: 430px;
   }
+
   .pdf-video-link .modal-dialog .modal-content .modal-header .embedding-video .side-step-text .formgroup .form-label {
     font-size: 16px;
   }
