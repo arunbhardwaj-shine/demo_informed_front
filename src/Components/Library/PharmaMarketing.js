@@ -23,6 +23,7 @@ const PharmaMarketing = () => {
   const [modulesSelect,setModulesSelect] = useState(true)
   const [selectedModules, setSelectedModules] = useState([]);
   const [registerPage, setRegisterPage] = useState(true)
+  const [intialModuleData, setIntialModuleData] = useState(null);
 
   const modules = [
     {
@@ -429,7 +430,7 @@ const PharmaMarketing = () => {
     if (showBigCircleData) {  
       setAddClass(false);  
       setBigModuleData((prevState) => ({ 
-  active: moduleName === activeModule ? !prevState.active : true,  
+        active: moduleName === activeModule ? !prevState.active : true,  
         logoIconPath: bigCircleData?.logo,    
         heading: bigCircleData?.title,   
         imagePath: bigCircleData?.image, 
@@ -471,7 +472,6 @@ const PharmaMarketing = () => {
         stat.classList.add('visible');
       }
     });
-    console.log(selectedModules,'===>selectedM')
   }, [selectedModules]);
 
   const handleRequestClick = () => {
@@ -482,7 +482,7 @@ const PharmaMarketing = () => {
         stat.classList.add('visible');
       }
     });
- 
+
     setShowBigCircleData(false);
     setModulesSelect(true); 
     setTimeout(() => { 
@@ -495,6 +495,7 @@ const PharmaMarketing = () => {
         [...new Set([...visibleModuleNames, ...prevState])]
       ));
     }, 500);
+    setIntialModuleData({bigCircleModuleData, activeModule});
   }
 
   const handleFormClick = () => {
@@ -532,20 +533,18 @@ const PharmaMarketing = () => {
   useEffect(() => {
     if (submitData) {
       setTimeout(() => {
+        setSelectedModules([]);
         setSubmitData(false);
         setShowBigCircleData(true);
         setModulesSelect(true);
-        setSelectedModules([])
+        setActiveModule(intialModuleData?.activeModule);
       }, 2000); 
     }
   }, [submitData]);
 
-  // const handleCloseClick = () => {
-  //   setShowBigCircleData(true);
-  //   setModulesSelect(true);
-  //   setSubmitData(false);
-  //   setSelectedModules([])
-  // }
+  const handleRead = () => {
+    setReadStatus(true)
+  }
 
   const sliderRef = useRef();
   const parentRef = useRef("");
@@ -1192,7 +1191,7 @@ const PharmaMarketing = () => {
                     <img src={path_image + "" + moduleData?.imagePath} alt="" />
                     <h4>{moduleData?.heading}</h4>
                     <p>{moduleData?.paragraph}</p>
-                    <Button onClick={() => setReadStatus(true)}>
+                    <Button onClick={handleRead}>
                       Read more
                     </Button>
                   </div>
@@ -1200,7 +1199,7 @@ const PharmaMarketing = () => {
                 <div
                   className={`module-bigger-size ${readStatus ? "show" : ""}`}
                 >
-                  {!showBigCircleData && !submitData &&(
+                  {!showBigCircleData && !submitData && (
                   <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
                   )}
                   <div class="shape shape-left"></div>

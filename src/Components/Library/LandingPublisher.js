@@ -15,6 +15,7 @@ const PharmaRd = () => {
   const [modulesSelect, setModulesSelect] = useState(true);
   const [selectedModules, setSelectedModules] = useState([]);
   const [registerPage, setRegisterPage] = useState(true)
+  const [intialModuleData, setIntialModuleData] = useState(null);
 
   const modules = [
     {
@@ -358,7 +359,6 @@ const PharmaRd = () => {
         stat.classList.add('visible');
       }
     });
-    console.log(selectedModules,'===>selectedM')
   }, [selectedModules]);
 
   const handleRequestClick = () => {
@@ -369,8 +369,9 @@ const PharmaRd = () => {
         stat.classList.add('visible');
       }
     });
- 
-    setShowBigCircleData(false); 
+
+    setShowBigCircleData(false);
+    setModulesSelect(true); 
     setTimeout(() => { 
       const visibleModules = document.querySelectorAll('.stat.visible'); 
       const visibleModuleNames = Array.from(visibleModules).map(module => {
@@ -381,6 +382,7 @@ const PharmaRd = () => {
         [...new Set([...visibleModuleNames, ...prevState])]
       ));
     }, 500);
+    setIntialModuleData({bigCircleModuleData, activeModule});
   }
 
   const handleFormClick = () => {
@@ -417,12 +419,18 @@ const PharmaRd = () => {
   useEffect(() => {
     if (submitData) {
       setTimeout(() => {
+        setSelectedModules([]);
         setSubmitData(false);
         setShowBigCircleData(true);
         setModulesSelect(true);
+        setActiveModule(intialModuleData?.activeModule);
       }, 2000); 
     }
   }, [submitData]);
+
+  const handleRead = () => {
+    setReadStatus(true)
+  }
 
   const sliderRef = useRef();
   const parentRef = useRef("");
@@ -985,7 +993,7 @@ const PharmaRd = () => {
                     <img src={path_image + "" + moduleData?.imagePath} alt="" />
                     <h4>{moduleData?.heading}</h4>
                     <p>{moduleData?.paragraph}</p>
-                    <Button onClick={() => setReadStatus(true)}>
+                    <Button onClick={handleRead}>
                       Read more
                     </Button>
                   </div>
