@@ -8270,7 +8270,10 @@ html {
   padding: 10px;
   position: relative;
 }
-
+.feedback-block .search-bar form.d-flex {
+  max-width: 279px;
+  margin: 0 0 20px auto;
+}
 @media only screen and (max-width: 1365px) {
   .page_not_found h1 {
     font-size: 130px;
