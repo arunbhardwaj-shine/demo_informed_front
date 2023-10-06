@@ -217,7 +217,7 @@ const Routing = () => {
           element={<DefaultLayout component={PublisherPage} />}
         />
         <Route
-          path="/main-index"
+          path="/main-landing"
           element={<DefaultLayout component={MainLanding} />}
         />
         <Route
