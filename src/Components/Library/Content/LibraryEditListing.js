@@ -1170,7 +1170,7 @@ const LibraryEditListing = () => {
                                         href={data?.previewArticle}
                                         target="_blank"
                                       >
-                                        Preview aritcle
+                                        Preview article
                                       </a>
                                       <Button
                                         onClick={() => {
