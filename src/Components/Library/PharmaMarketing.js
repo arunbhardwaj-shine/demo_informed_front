@@ -404,7 +404,7 @@ const PharmaMarketing = () => {
         paragraph: smallCircleData?.description,
       }));
       setActiveModule(moduleName === activeModule ? null : moduleName);
-    }, 700);
+    }, 500);
 
     setBigModuleData((prevState) => ({
       active: moduleName === activeModule ? !prevState.active : true,

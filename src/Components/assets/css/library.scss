@@ -9915,13 +9915,14 @@ svg.pencil_icon {
   flex-direction: column;
   transform: translateX(70%);
   opacity: 0;
-  transition: all 0.5s ease;
+  transition: all 0.4s ease;
   z-index: -1;
+  transition-timing-function: cubic-bezier(1, 1, 1, 1);
 
   &.active {
     transform: translateX(0px);
     opacity: 1;
-    transition-timing-function: cubic-bezier(0.52, 1, 0.37, 1);
+    transition-timing-function: cubic-bezier(1, 1, 1, 1);
     z-index: 1;
   }
 
@@ -10541,6 +10542,10 @@ svg.pencil_icon {
   right: -66px;
 }
 
+.modules-diagram .request .pharma_market.circle .stat.webinar.active:before {
+  left: calc(92px + 38px);
+}
+
 .modules-diagram .circle .stat.active:before {
   content: "";
   position: absolute;
@@ -10555,9 +10560,6 @@ svg.pencil_icon {
   display: none
 }
 
-.modules-diagram .circle .stat.webinar.active:before {
-  left: calc(92px + 38px);
-}
 
 /**MOdule End**/
 
