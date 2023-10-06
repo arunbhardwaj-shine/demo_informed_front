@@ -6080,6 +6080,10 @@ svg.pencil_icon {
           p {
             margin: 0;
             padding: 0 0 6px;
+
+            span {
+              color: $white
+            }
           }
 
           h2 {
@@ -6164,6 +6168,7 @@ svg.pencil_icon {
 
               &.saleforce_cont {
                 margin-left: 10px;
+                color: #ffffff
               }
             }
 
@@ -9009,6 +9014,7 @@ svg.pencil_icon {
   &.pharma {
     background: $primary-color url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
+    background-size: cover;
   }
 
   &.rd {
@@ -9089,6 +9095,18 @@ svg.pencil_icon {
           }
         }
 
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+          -webkit-text-fill-color: #ffffff !important;
+        }
+
         .split-button-dropup {
           >div:nth-child(3) {
             background-color: rgba(255, 255, 255, 0.06);
@@ -9115,6 +9133,7 @@ svg.pencil_icon {
 
           >div:nth-child(4) {
             @include split-btn-dropdown;
+            padding: 5px 0px;
           }
         }
 
@@ -9128,11 +9147,10 @@ svg.pencil_icon {
           -webkit-backdrop-filter: blur(1px);
           backdrop-filter: blur(1px);
           font-size: 14px;
-          font-style: normal;
-          font-weight: 400;
           padding: 10px;
           resize: none;
           color: $white;
+          font-weight: 300;
 
           &:focus {
             box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.50);
@@ -10184,13 +10202,14 @@ svg.pencil_icon {
   flex-direction: column;
   transform: translateX(70%);
   opacity: 0;
-  transition: all 0.5s ease;
+  transition: all 0.4s ease;
   z-index: -1;
+  transition-timing-function: cubic-bezier(1, 1, 1, 1);
 
   &.active {
     transform: translateX(0px);
     opacity: 1;
-    transition-timing-function: cubic-bezier(0.52, 1, 0.37, 1);
+    transition-timing-function: cubic-bezier(1, 1, 1, 1);
     z-index: 1;
   }
 
@@ -10810,6 +10829,10 @@ svg.pencil_icon {
   right: -66px;
 }
 
+.modules-diagram .request .pharma_market.circle .stat.webinar.active:before {
+  left: calc(92px + 38px);
+}
+
 .modules-diagram .circle .stat.active:before {
   content: "";
   position: absolute;
@@ -10824,9 +10847,6 @@ svg.pencil_icon {
   display: none
 }
 
-.modules-diagram .circle .stat.webinar.active:before {
-  left: calc(92px + 38px);
-}
 
 /**MOdule End**/
 
