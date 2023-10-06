@@ -2290,18 +2290,53 @@ const NewReaders = () => {
                                   ) : (
                                     ""
                                   )}
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Country
-                                    </h6>
-                                    <h6>
-                                      {data?.country
-                                        ? data?.country == "B&H"
-                                          ? "Bosnia and Herzegovina"
-                                          : data?.country
-                                        : "N/A"}
-                                    </h6>
-                                  </li>
+
+                                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("group_id") == 3 ? 
+                                    (
+                                      <>
+                                      
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Account Country
+                                        </h6>
+                                        <h6>
+                                          {data?.country
+                                            ? data?.country == "B&H"
+                                              ? "Bosnia and Herzegovina"
+                                              : data?.country
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Consent Country
+                                        </h6>
+                                        <h6>
+                                          {consetCountry?.[data?.id]
+                                            ? consetCountry?.[data?.id] ==
+                                              "B&H"
+                                              ? "Bosnia and Herzegovina"
+                                              : consetCountry?.[data?.id]
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      </>
+                                    ) : 
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Country
+                                        </h6>
+                                        <h6>
+                                          {data?.country
+                                            ? data?.country == "B&H"
+                                              ? "Bosnia and Herzegovina"
+                                              : data?.country
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                    }
+
+                                  
 
                                   {localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
@@ -2382,22 +2417,6 @@ const NewReaders = () => {
                                         ""
                                       ) : (
                                         <>
-                                          {localStorage.getItem("group_id") ==
-                                          3 ? (
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                Consent Country
-                                              </h6>
-                                              <h6>
-                                                {consetCountry?.[data?.id]
-                                                  ? consetCountry?.[data?.id] ==
-                                                    "B&H"
-                                                    ? "Bosnia and Herzegovina"
-                                                    : consetCountry?.[data?.id]
-                                                  : "N/A"}
-                                              </h6>
-                                            </li>
-                                          ) : null}
                                           <li>
                                             <h6 className="tab-content-title">
                                               User Status
