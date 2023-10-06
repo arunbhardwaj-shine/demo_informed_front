@@ -32,18 +32,12 @@ const LandingHeader = () => {
       setShowModal(true);
       setShow(false)
     } 
-    // else {
-    //   setPrivacyshow(true);
-    // }
   };
 
   const handleModalClose = (type) => {
     if (type == "forgot") {
       setShowModal(false);
     } 
-    // else {
-    //   setPrivacyshow(false);
-    // }
   };
 
 
