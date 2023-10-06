@@ -158,6 +158,7 @@ const Feedback = () => {
             <div className="selected-hcp-list search_view">
               <div className="feedback-block">
                 <div className="delivery-trends">
+                  <div className="delivery-trends-sticky">
                   <div className="tabs_content_load">
                     <Tabs
                       defaultActiveKey={activeTab.current}
@@ -245,7 +246,7 @@ const Feedback = () => {
                     </div>
                     </>
                   ) : null}
-
+                </div>
                   {typeof feedbackData !== "undefined" &&
                   feedbackData?.length > 0   || updateflag ? (
                     feedbackData?.map((item, index) => (
