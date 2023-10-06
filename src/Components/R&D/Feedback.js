@@ -192,7 +192,7 @@ const Feedback = () => {
                         <div className="wrap_div">
                           {
                             activeTab?.current == 1 ?
-                            <div className="radio_btn_type">
+                            <div className="radio_btn">
                                   <input 
                                     type="checkbox"
                                     value={item._id}
@@ -200,36 +200,38 @@ const Feedback = () => {
                                     checked={item.reply_status}
                                     onChange={(e) => handleOptionChange(e,item._id)}
                                   />
+                                  <span class="checkmark"></span>
+                                  <div className="timeline-block" key={index}>
+                                    <div className="timeline-block-head library">
+                                      <div className="timeline-block-title d-flex flex-column align-items-start">
+                                        <h6><span>Email:</span>{item?.email}</h6>
+                                        <h6><span>Country:</span>{item?.country ? item?.country : "N/A"}</h6>
+                                        <h6><span>Site:</span>{item?.site_data ? item?.site_data : "N/A"}</h6>
+                                        {
+                                          activeTab?.current == 2 ?
+                                          <h6>Title: {item?.title ? item?.title : "N/A"}</h6>
+                                          : null
+                                        }
+                                        
+                                      </div>
+                                      <div className="timeline-time-view">
+                                        <div className="timeline-time">
+                                          {moment(item?.createdAt).format("D MMMM YYYY")}
+                                        </div>
+                                        |
+                                        <div className="timeline-timezone">
+                                          {moment(item?.createdAt).format("h:mm A")}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="feedback-detail">
+                                      <p> {item?.message}</p>
+                                    </div>
+                                  </div>
                               </div>
                               : null
                           }
-                          <div className="timeline-block" key={index}>
-                            <div className="timeline-block-head library">
-                              <div className="timeline-block-title d-flex flex-column align-items-start">
-                                <h6>{item?.email}</h6>
-                                <h6>{item?.country ? item?.country : "N/A"}</h6>
-                                <h6>{item?.site_data ? item?.site_data : "N/A"}</h6>
-                                {
-                                  activeTab?.current == 2 ?
-                                  <h6>{item?.title ? item?.title : "N/A"}</h6>
-                                  : null
-                                }
-                                
-                              </div>
-                              <div className="timeline-time-view">
-                                <div className="timeline-time">
-                                  {moment(item?.createdAt).format("D MMMM YYYY")}
-                                </div>
-                                |
-                                <div className="timeline-timezone">
-                                  {moment(item?.createdAt).format("h:mm A")}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="feedback-detail">
-                              <p> {item?.message}</p>
-                            </div>
-                          </div>
+                          
                         </div>
                       </>
                     ))
