@@ -127,6 +127,7 @@ export const ENDPOINT = {
   GET_MARKETING_USER_DROP: `/reader/get-marketing-reader`,
   CREATE_MARKETING_READER: `/reader/create-marketing-reader`,
   UPDATETIMELINEMARKETINGDETAILS: `/reader/update-timeline-reader`,
-  FEEDBACKLISTING:"https://api.docintel.app/api/v2/feedback-listing"
+  FEEDBACKLISTING: "https://api.docintel.app/api/v2/feedback-listing",
+  COMMENTLISTING: "/analytics/rd-messages",
+  FEEDBACKUPDATE: "http://192.168.0.96:3008/api/v2/feedback-reply",
 };
-
