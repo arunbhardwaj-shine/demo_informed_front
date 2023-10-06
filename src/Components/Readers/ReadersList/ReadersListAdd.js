@@ -1130,9 +1130,10 @@ const ReadersListAdd = () => {
   };
 
   const addMoreHcp = () => {
+    console.log(hpc);
     const status = hpc.map((data) => {
       if(localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="){
-        if (data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") {
+        if (data.email == "" || data.firstname == "" || data.lastname == "" || data.country == "" || data.institute == "" || typeof(data.institute) == "undefined") {
           return "false";
         } else {
           return "true";
