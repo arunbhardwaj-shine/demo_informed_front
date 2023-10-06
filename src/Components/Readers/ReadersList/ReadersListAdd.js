@@ -1198,9 +1198,18 @@ const ReadersListAdd = () => {
           institute: data.institute ? data.institute : "",
         };
       });
-console.log(body_data);
+
       const status = body_data.map((data) => {
-        if (data.email == "") {
+        if (data.firtName == ""  && localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="  ) {
+          return "Please enter the First Name";
+        }
+        else if (data.lastName == ""  &&  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ) {
+          return "Please enter the Last Name";
+        }
+        else if (data.country == ""  &&  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ) {
+          return "Please select Country";
+        }
+        else if (data.email == "") {
           return "Please enter the email atleast";
         }else if(data.institute == ""){
           return "Please select Institution";
@@ -1798,8 +1807,9 @@ console.log(body_data);
                                   <label htmlFor="">
                                     {
                                       localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" ? "First name" : "First Name"
+                                      "56Ek4feL/1A8mZgIKQWEqg==" ? <>First name  <span>*</span></> : "First Name"
                                     }
+                                    
 
                                   </label>
                                   <input
@@ -1817,7 +1827,7 @@ console.log(body_data);
                                   <label htmlFor="">
                                     {
                                       localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" ? "Last name" : "Last Name"
+                                      "56Ek4feL/1A8mZgIKQWEqg==" ? <>Last name <span>*</span></> : "Last Name"
                                     }
 
                                     </label>
@@ -2135,7 +2145,10 @@ console.log(body_data);
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Country</label>
+                                      <label for="">Country {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
                                         <Select
