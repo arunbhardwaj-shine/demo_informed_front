@@ -4,7 +4,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import axios from "axios";
 import { loader } from "../../loader";
 import moment from "moment";
-import { getData } from "../../axios/apiHelper";
+import { getData, postData } from "../../axios/apiHelper";
 
 const Feedback = () => {
   const activeTab = useRef(1);
@@ -13,6 +13,7 @@ const Feedback = () => {
   const [search, setSearch] = useState("");
   const [apiStatus, setApiStatus] = useState(true);
   const [sectionLoader, setSectionLoader] = useState(false);
+  const [updateflag, setupdateFlag] = useState(0);
 
   useEffect(() => {
     setApiStatus(false);
@@ -83,6 +84,26 @@ const Feedback = () => {
     );
     setFeedback(filteredData);
   };
+
+  const handleOptionChange = async(event,feed_id) => {
+    const lib_data_index = feedbackData.findIndex(
+      (el) => el?._id === feed_id
+    );
+    if(feedbackData?.[lib_data_index]){
+      try{
+        feedbackData[lib_data_index].reply_status = event.target.checked;
+        setFeedback(feedbackData);
+        setupdateFlag(updateflag + 1);
+        let body = {
+          'id': feed_id,
+          'status': event.target.checked
+        };
+        await postData(ENDPOINT.FEEDBACKUPDATE,body);
+      }catch(err){
+        console.log(err);
+      }
+    }
+  }
 
   return (
     <>
@@ -165,26 +186,49 @@ const Feedback = () => {
                   ) : null}
 
                   {typeof feedbackData !== "undefined" &&
-                  feedbackData?.length > 0 ? (
+                  feedbackData?.length > 0   || updateflag ? (
                     feedbackData?.map((item, index) => (
                       <>
-                        <div className="timeline-block" key={index}>
-                          <div className="timeline-block-head library">
-                            <div className="timeline-block-title d-flex flex-column align-items-start">
-                              <h6>{item?.email}</h6>
-                            </div>
-                            <div className="timeline-time-view">
-                              <div className="timeline-time">
-                                {moment(item?.createdAt).format("D MMMM YYYY")}
+                        <div className="wrap_div">
+                          {
+                            activeTab?.current == 1 ?
+                            <div className="radio_btn_type">
+                                  <input 
+                                    type="checkbox"
+                                    value={item._id}
+                                    name={item._id}
+                                    checked={item.reply_status}
+                                    onChange={(e) => handleOptionChange(e,item._id)}
+                                  />
                               </div>
-                              |
-                              <div className="timeline-timezone">
-                                {moment(item?.createdAt).format("h:mm A")}
+                              : null
+                          }
+                          <div className="timeline-block" key={index}>
+                            <div className="timeline-block-head library">
+                              <div className="timeline-block-title d-flex flex-column align-items-start">
+                                <h6>{item?.email}</h6>
+                                <h6>{item?.country ? item?.country : "N/A"}</h6>
+                                <h6>{item?.site_data ? item?.site_data : "N/A"}</h6>
+                                {
+                                  activeTab?.current == 2 ?
+                                  <h6>{item?.title ? item?.title : "N/A"}</h6>
+                                  : null
+                                }
+                                
+                              </div>
+                              <div className="timeline-time-view">
+                                <div className="timeline-time">
+                                  {moment(item?.createdAt).format("D MMMM YYYY")}
+                                </div>
+                                |
+                                <div className="timeline-timezone">
+                                  {moment(item?.createdAt).format("h:mm A")}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="feedback-detail">
-                            <p> {item?.message}</p>
+                            <div className="feedback-detail">
+                              <p> {item?.message}</p>
+                            </div>
                           </div>
                         </div>
                       </>

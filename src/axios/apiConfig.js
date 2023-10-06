@@ -129,4 +129,5 @@ export const ENDPOINT = {
   UPDATETIMELINEMARKETINGDETAILS: `/reader/update-timeline-reader`,
   FEEDBACKLISTING: "https://api.docintel.app/api/v2/feedback-listing",
   COMMENTLISTING: "/analytics/rd-messages",
+  FEEDBACKUPDATE: "http://192.168.0.96:3008/api/v2/feedback-reply",
 };
