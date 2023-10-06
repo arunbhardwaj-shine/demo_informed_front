@@ -7824,7 +7824,6 @@ html {
   background: #0066be;
   border-radius: 30px;
   box-shadow: 0 1px 6px rgba(0, 102, 190, 0.2);
-  color: #fff;
   color: var(--white);
   display: inline-block;
   font-size: 16px;
@@ -7838,6 +7837,15 @@ html {
 .feedback-block .search-bar form {
   max-width: 279px;
   margin: 0 0 10px 15px;
+}
+
+.delivery-trends-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  margin-bottom: 15px;
+  background: var(--white);
+  margin: 0 -4px 15px;
 }
 
 .delivery-trends-sticky {
