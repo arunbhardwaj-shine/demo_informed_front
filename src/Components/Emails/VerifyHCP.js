@@ -472,7 +472,7 @@ const VerifyHCP = (props) => {
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
-      list[i].role = "";
+      list[i].role = e=="yes"?irtRole[0]?.value:"Other";   
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -627,9 +627,28 @@ const VerifyHCP = (props) => {
 
       const status = body.data.map((data) => {
         if (data.email == "" || data?.institution_type == "") {
-          if (data.email == "") {
+          if (data.first_name == "" && localStorage.getItem("user_id") ==
+          "56Ek4feL/1A8mZgIKQWEqg==" ) {
+            return "Please enter the first name";
+          }
+          else  if (data.last_name == ""  && localStorage.getItem("user_id") ==
+          "56Ek4feL/1A8mZgIKQWEqg==") {
+            return "Please enter the last name";
+          }
+          else if (data.email == "") {
             return "Please enter the email atleast";
-          } else if (data.email != "") {
+          }
+          
+          else  if (data.country == ""  && localStorage.getItem("user_id") ==
+          "56Ek4feL/1A8mZgIKQWEqg==") {
+            return "Please select the country";
+          } 
+          
+          else  if (data.institution_type == ""  && localStorage.getItem("user_id") ==
+          "56Ek4feL/1A8mZgIKQWEqg==") {
+            return "Please select the Institution";
+          } 
+          else if (data.email != "") {
             let email = data.email;
             let useremail = email.trim();
             var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -722,7 +741,7 @@ const VerifyHCP = (props) => {
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (data?.email == "" || data?.institutionType == "") {
+        if ( data?.firstname == ""  || data?.lastname == ""  || data?.country == ""  ||data?.email == "" || data?.institutionType == "") {
           return "false";
         } else {
           return "true";
@@ -1560,7 +1579,10 @@ const VerifyHCP = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First name</label>
+                                  <label htmlFor="">First name {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1573,7 +1595,10 @@ const VerifyHCP = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last name</label>
+                                  <label htmlFor="">Last name {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1790,7 +1815,10 @@ const VerifyHCP = (props) => {
                               )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Country</label>
+                                  <label htmlFor="">Country {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                   {val?.optIrt == "yes" ? (
                                     <Select
                                       options={irtCountry}

@@ -394,11 +394,17 @@ const Table = (props, ref) => {
       if(value == "Study site"){
         list[i].siteIrtIndex = 0;
         list[i].siteIrt = "Yes";
+        list[i].userType = irtRole[0]?.value;
+        list[i].roleIndex =0;     
+        
+
       }else{
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
         list[i].userType = "";
         list[i].userTypeIndex = "";
+        list[i].userType = "Other";  
+        list[i].roleIndex =4;  
       }
       
       list[i].siteNumberIndex = "";
@@ -418,6 +424,7 @@ const Table = (props, ref) => {
         setSiteNameAll(arr);
         setForceRender(!forceRender);
       }
+      console.log(list);
       setHpc(list);
     }
   };
@@ -506,9 +513,10 @@ const Table = (props, ref) => {
       list[i].siteIrt = value;
 
       let index = siteIrtAll.findIndex((x) => x.value === value);
-      console.log(index,value);
+      list[i].userType = value=="Yes"?irtRole[0]:"Other";  
+        list[i].roleIndex =value=="Yes"?0 :4;  
       list[i].siteIrtIndex = index;
-      list[i].userType = "";
+      // list[i].userType = "";
       list[i].userTypeIndex = "";
       list[i].country = "";
       list[i].siteNumberIndex = "";
@@ -1115,7 +1123,7 @@ const Table = (props, ref) => {
 
     const status = hpc.map((data) => {
       if(localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="){
-        if (data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") {
+        if (data.email == "" ||data.lastname == "" || data.firstname == "" || data.country == "" ||  data.institute == "" || typeof(data.institute) == "undefined") {
           return "false";
         } else {
           return "true";
@@ -1355,10 +1363,21 @@ const Table = (props, ref) => {
       const status = body.data.map((data) => {
         // let validRegex =
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        if (data.email == "") {
+        if (data.first_name == "" && localStorage.getItem("user_id") ==
+        "56Ek4feL/1A8mZgIKQWEqg==" ) {
+          return "Please enter the first name";
+        }
+        else  if (data.last_name == ""  && localStorage.getItem("user_id") ==
+        "56Ek4feL/1A8mZgIKQWEqg==") {
+          return "Please enter the last name";
+        }
+        else if (data.email == "") {
           return "Please enter the email atleast";
         }else if(data.institution_type == ""){
           return "Please select Institution";
+        }
+        else if(data.country == ""){
+          return "Please select country";
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -2352,7 +2371,10 @@ const Table = (props, ref) => {
                               <div className="row">
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label htmlFor="">First name</label>
+                                    <label htmlFor="">First name {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                     <input
                                       type="text"
                                       className="form-control"
@@ -2365,7 +2387,10 @@ const Table = (props, ref) => {
                                 </div>
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label htmlFor="">Last name</label>
+                                    <label htmlFor="">Last name {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                     <input
                                       type="text"
                                       className="form-control"
@@ -2462,7 +2487,7 @@ const Table = (props, ref) => {
                                 "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Country</label>
+                                      <label for="">Country </label>
                                       <Select
                                         options={countryall}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2579,18 +2604,7 @@ const Table = (props, ref) => {
                                               onUserTypeChange(event, i)
                                             }
                                             value={
-                                              irtRole.findIndex(
-                                                (el) =>
-                                                  el.value == val?.userType
-                                              ) == -1
-                                                ? ""
-                                                : irtRole[
-                                                    irtRole.findIndex(
-                                                      (el) =>
-                                                        el.value ==
-                                                        val?.userType
-                                                    )
-                                                  ]
+                                              irtRole[hpc[i].roleIndex]
                                             }
                                             placeholder={"Select Role"}
                                             isClearable
@@ -2605,18 +2619,7 @@ const Table = (props, ref) => {
                                               onUserTypeChange(event, i)
                                             }
                                             value={
-                                              userTypeAll.findIndex(
-                                                (el) =>
-                                                  el.value == val?.userType
-                                              ) == -1
-                                                ? ""
-                                                : userTypeAll[
-                                                    userTypeAll.findIndex(
-                                                      (el) =>
-                                                        el.value ==
-                                                        val?.userType
-                                                    )
-                                                  ]
+                                              userTypeAll[hpc[i].roleIndex]
                                             }
                                             isClearable
                                             placeholder={"Select Role"}
@@ -2687,7 +2690,10 @@ const Table = (props, ref) => {
 
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
-                                        <label for="">Country</label>
+                                        <label for="">Country {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                         {siteIrtAll[hpc[i].siteIrtIndex]
                                           ?.value === "Yes" ? (
                                           <Select
