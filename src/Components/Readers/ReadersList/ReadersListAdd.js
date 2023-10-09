@@ -1202,10 +1202,10 @@ const ReadersListAdd = () => {
 
       const status = body_data.map((data) => {
         if (data.firtName == ""  && localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="  ) {
-          return "Please enter the First Name";
+          return "Please enter the first name";
         }
         else if (data.lastName == ""  &&  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ) {
-          return "Please enter the Last Name";
+          return "Please enter the last name";
         }
       
         else if (data.email == "") {

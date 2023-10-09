@@ -629,11 +629,11 @@ const VerifyHCP = (props) => {
         if (data.email == "" || data?.institution_type == "") {
           if (data.first_name == "" && localStorage.getItem("user_id") ==
           "56Ek4feL/1A8mZgIKQWEqg==" ) {
-            return "Please enter the First name";
+            return "Please enter the first name";
           }
           else  if (data.last_name == ""  && localStorage.getItem("user_id") ==
           "56Ek4feL/1A8mZgIKQWEqg==") {
-            return "Please enter the Last name";
+            return "Please enter the last name";
           }
           else if (data.email == "") {
             return "Please enter the email atleast";
@@ -641,7 +641,7 @@ const VerifyHCP = (props) => {
           
           else  if (data.country == ""  && localStorage.getItem("user_id") ==
           "56Ek4feL/1A8mZgIKQWEqg==") {
-            return "Please select the Country";
+            return "Please select the country";
           } 
           
           else  if (data.institution_type == ""  && localStorage.getItem("user_id") ==

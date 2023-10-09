@@ -1462,10 +1462,11 @@ const CreateEmail = (props) => {
 
       const status = body.data.map((data, index) => {
         if (data.email == "" || data?.institution_type == "" || data?.last_name == "" ||data?.first_name == "" ||data?.country == "")  {
+         
           if (data.first_name == "" && localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ) {
          
             setValidationError({
-              newHcpFirstName: "Please enter the First name",
+              newHcpFirstName: "Please enter the first name",
               index: index,
             });
             return;
@@ -1474,7 +1475,7 @@ const CreateEmail = (props) => {
           "56Ek4feL/1A8mZgIKQWEqg==" ) {
          
             setValidationError({
-              newHcpLastName: "Please enter the Last name",
+              newHcpLastName: "Please enter the last name",
               index: index,
             });
             return;
@@ -1523,10 +1524,9 @@ const CreateEmail = (props) => {
           "56Ek4feL/1A8mZgIKQWEqg==" ) {
            
             setValidationError({
-              newHcpCountry: "Please select the Country",
+              newHcpCountry: "Please select the country",
               index: index,
             });
-            console.log(validationError,"validationError");
             return;
           }
          
@@ -3367,11 +3367,15 @@ const CreateEmail = (props) => {
                                       ) }
                                       </>
                                     
-                                  ) : (
+                                  ) : (<>
                                     <Select
                                       options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                      onChange={(event) =>
+   className={
+                                        validationError?.index == i &&
+                                        validationError?.newHcpCountry
+                                          ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                          : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      }                                      onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
                                       value={
@@ -3389,6 +3393,14 @@ const CreateEmail = (props) => {
                                       filterOption={createFilter(filterConfig)}
                                       isClearable
                                     />
+                                        {validationError?.newHcpCountry &&
+                                      validationError?.index == i && (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpCountry}
+                                        </div>
+                                      ) }
+
+                                      </>
                                   )}
 
                                   {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"

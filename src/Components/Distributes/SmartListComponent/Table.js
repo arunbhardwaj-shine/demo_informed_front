@@ -1365,11 +1365,11 @@ const Table = (props, ref) => {
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (data.first_name == "" && localStorage.getItem("user_id") ==
         "56Ek4feL/1A8mZgIKQWEqg==" ) {
-          return "Please enter the First name";
+          return "Please enter the first name";
         }
         else  if (data.last_name == ""  && localStorage.getItem("user_id") ==
         "56Ek4feL/1A8mZgIKQWEqg==") {
-          return "Please enter the Last name";
+          return "Please enter the last name";
         }
         else if (data.email == "") {
           return "Please enter the email atleast";
@@ -1377,7 +1377,7 @@ const Table = (props, ref) => {
           return "Please select Institution";
         }
         else if(data.country == ""){
-          return "Please select Country";
+          return "Please select country";
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();

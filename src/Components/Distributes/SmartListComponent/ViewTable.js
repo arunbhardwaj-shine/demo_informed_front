@@ -1429,7 +1429,7 @@ const ViewTable = (props) => {
           return "Please select Institution";
         } 
         else if(data.country == ""){
-          return "Please select Country";
+          return "Please select country";
         }
         else if (data.email != "") {
           let email = data.email;
