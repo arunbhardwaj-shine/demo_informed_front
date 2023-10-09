@@ -145,7 +145,7 @@ const Table = (props, ref) => {
               site_postcode = res.data.response.data.site_post_code;
               site_city = res.data.response.data.site_city;
               irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
-              institutions  = res?.data?.response?.data?.institution_type;
+              institutions = res?.data?.response?.data?.institution_type;
 
               arrUserType = [];
               arrSubRole = [];
@@ -389,24 +389,22 @@ const Table = (props, ref) => {
       setHpc(list);
     } else {
       const value = e.value;
-      
+
       const list = [...hpc];
-      if(value == "Study site"){
+      if (value == "Study site") {
         list[i].siteIrtIndex = 0;
         list[i].siteIrt = "Yes";
         list[i].userType = irtRole[0]?.value;
-        list[i].roleIndex =0;     
-        
-
-      }else{
+        list[i].roleIndex = 0;
+      } else {
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
         list[i].userType = "";
         list[i].userTypeIndex = "";
-        list[i].userType = "Other";  
-        list[i].roleIndex =4;  
+        list[i].userType = "Other";
+        list[i].roleIndex = 4;
       }
-      
+
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
       list[i].siteName = "";
@@ -418,13 +416,13 @@ const Table = (props, ref) => {
       let index = instituions.findIndex((x) => x.value === value);
       list[i].instituteIndex = index;
 
-      if(value != "Study site"){
+      if (value != "Study site") {
         let arr = [];
         setSiteNumberAll(arr);
         setSiteNameAll(arr);
         setForceRender(!forceRender);
       }
-      console.log(list);
+      // console.log(list);
       setHpc(list);
     }
   };
@@ -497,7 +495,6 @@ const Table = (props, ref) => {
     }
   };
   const onSiteIrtChange = (e, i) => {
-    
     if (e == null) {
       const list = [...hpc];
       list[i].siteIrt = "";
@@ -513,8 +510,8 @@ const Table = (props, ref) => {
       list[i].siteIrt = value;
 
       let index = siteIrtAll.findIndex((x) => x.value === value);
-      list[i].userType = value=="Yes"?irtRole[0]:"Other";  
-        list[i].roleIndex =value=="Yes"?0 :4;  
+      list[i].userType = value == "Yes" ? irtRole[0] : "Other";
+      list[i].roleIndex = value == "Yes" ? 0 : 4;
       list[i].siteIrtIndex = index;
       // list[i].userType = "";
       list[i].userTypeIndex = "";
@@ -724,7 +721,7 @@ const Table = (props, ref) => {
           console.log(err);
         });
     } else {
-      console.log(validator2.errorMessages);
+      // console.log(validator2.errorMessages);
       validator2.showMessages();
       setFileValidationMeassage(fileValidationMessage + 1);
     }
@@ -753,15 +750,15 @@ const Table = (props, ref) => {
     contact_type
   ) => {
     if (editable != 0) {
-      const name_edit = document.getElementById(
+      const name_edit = document?.getElementById(
         "field_name" + profile_user_id
-      ).innerText;
-      const country_edit = document.getElementById(
+      )?.innerText;
+      const country_edit = document?.getElementById(
         "field_country" + profile_user_id
-      ).value;
-      const contact_type_edit = document.getElementById(
+      )?.value;
+      const contact_type_edit = document?.getElementById(
         "field_contact_type" + profile_user_id
-      ).value;
+      )?.value;
 
       const arr = [];
       arr.push({
@@ -774,13 +771,14 @@ const Table = (props, ref) => {
         username: name_edit,
         contact_type: contact_type_edit,
       });
-      let prev_obj = editableData.find(
+      let prev_obj = editableData?.find(
         (x) => x.profile_user_id === profile_user_id
       );
       if (typeof prev_obj != "undefined") {
         //update existing
-        editableData.map(
-          (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
+        editableData?.map(
+          (obj) =>
+            arr?.find((o) => o.profile_user_id === profile_user_id) || obj
         );
       } else {
         //create new
@@ -969,24 +967,25 @@ const Table = (props, ref) => {
 
   const saveEditClicked = async () => {
     setEditable(0);
+  
 
-    if (editableData.length > 0) {
-      editableData.map((data) => {
+    if (editableData?.length > 0) {
+      editableData?.map((data) => {
         const name_edit = document.getElementById(
-          "field_name" + data.profile_user_id
-        ).innerText;
+          "field_name" + data?.profile_user_id
+        )?.innerText;
         const country_edit = document.getElementById(
-          "field_country" + data.profile_user_id
-        ).value;
+          "field_country" + data?.profile_user_id
+        )?.value;
         const edit_index = document.getElementById(
-          "field_index" + data.profile_user_id
-        ).value;
+          "field_index" + data?.profile_user_id
+        )?.value;
         const contact_type_edit = document.getElementById(
-          "field_contact_type" + data.profile_user_id
-        ).value;
+          "field_contact_type" + data?.profile_user_id
+        )?.value;
 
-        let prev_obj = editList.find(
-          (x) => x.profile_user_id === data.profile_user_id
+        let prev_obj = editList?.find(
+          (x) => x?.profile_user_id === data?.profile_user_id
         );
         if (typeof prev_obj != "undefined") {
           if (typeof editList[edit_index] != "undefined") {
@@ -1119,16 +1118,23 @@ const Table = (props, ref) => {
   };
 
   const addMoreHcp = () => {
-    console.log(hpc);
+    // console.log(hpc);
 
     const status = hpc.map((data) => {
-      if(localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="){
-        if (data.email == "" ||data.lastname == "" || data.firstname == "" || data.country == "" ||  data.institute == "" || typeof(data.institute) == "undefined") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (
+          data.email == "" ||
+          data.lastname == "" ||
+          data.firstname == "" ||
+          data.country == "" ||
+          data.institute == "" ||
+          typeof data.institute == "undefined"
+        ) {
           return "false";
         } else {
           return "true";
         }
-      }else{
+      } else {
         if (data.email == "") {
           return "false";
         } else {
@@ -1166,9 +1172,9 @@ const Table = (props, ref) => {
         },
       ]);
     } else {
-      if(localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="){
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
         toast.warning("Please input the required fields.");
-      }else{
+      } else {
         toast.warning("Please input the email atleast.");
       }
     }
@@ -1349,7 +1355,7 @@ const Table = (props, ref) => {
           sitePostalCode: data.sitePostCode ? data.sitePostCode : "",
           siteCity: data.siteCity ? data.siteCity : "",
           siteIrt:
-          data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
+            data.siteIrt == "Yes" ? 1 : data.siteIrt == "Training" ? 2 : 0,
           institution_type: data.institute ? data.institute : "",
         };
       });
@@ -1363,20 +1369,21 @@ const Table = (props, ref) => {
       const status = body.data.map((data) => {
         // let validRegex =
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        if (data.first_name == "" && localStorage.getItem("user_id") ==
-        "56Ek4feL/1A8mZgIKQWEqg==" ) {
+        if (
+          data.first_name == "" &&
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ) {
           return "Please enter the first name";
-        }
-        else  if (data.last_name == ""  && localStorage.getItem("user_id") ==
-        "56Ek4feL/1A8mZgIKQWEqg==") {
+        } else if (
+          data.last_name == "" &&
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ) {
           return "Please enter the last name";
-        }
-        else if (data.email == "") {
+        } else if (data.email == "") {
           return "Please enter the email atleast";
-        }else if(data.institution_type == ""){
+        } else if (data.institution_type == "") {
           return "Please select Institution";
-        }
-        else if(data.country == ""){
+        } else if (data.country == "") {
           return "Please select country";
         } else if (data.email != "") {
           let email = data.email;
@@ -1402,7 +1409,7 @@ const Table = (props, ref) => {
       if (status.every((element) => element == "true")) {
         loader("show");
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        console.log("b");
+        // console.log("b");
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -1439,7 +1446,7 @@ const Table = (props, ref) => {
           });
       } else {
         // toast.warning(status[0]);
-        const filteredArray = status.filter(value => value !== 'true');
+        const filteredArray = status.filter((value) => value !== "true");
         toast.warning(filteredArray?.[0]);
       }
 
@@ -1654,7 +1661,7 @@ const Table = (props, ref) => {
   // };
 
   const sortSelectedUsers = () => {
-    console.log("hi");
+    // console.log("hi");
     //console.log(readers);
     let normalArr = [];
     normalArr = editList;
@@ -1745,17 +1752,17 @@ const Table = (props, ref) => {
       <section className="search-hcp smart-list-view">
         <div className="result-hcp-table">
           <div className="table-title">
-            {props.upload_by_filter == 0 ? (
+            {props?.upload_by_filter == 0 ? (
               <h4>
                 {localStorage.getItem("user_id") == userId
                   ? "Uploaded Users for the smart list"
                   : "Uploaded HCPs for the smart list"}
-                <span>| {editList.length > 0 ? editList.length : 0}</span>
+                <span>| {editList?.length > 0 ? editList?.length : 0}</span>
               </h4>
             ) : (
               <h4>
                 Selected HCPs for the smart list |{" "}
-                <span> {editList.length > 0 ? editList.length : 0}</span>
+                <span> {editList?.length > 0 ? editList?.length : 0}</span>
               </h4>
             )}
 
@@ -1895,66 +1902,66 @@ const Table = (props, ref) => {
               </thead>
               <tbody>
                 {typeof getNewReaders !== "undefined" &&
-                  getNewReaders.length > 0 &&
-                  getNewReaders.map((item, index) => (
+                  getNewReaders?.length > 0 &&
+                  getNewReaders?.map((item, index) => (
                     <tr
                       key={item}
                       className="hcps-added"
                       id={`row-selected` + index}
                       onClick={(e) =>
                         editing(
-                          item.profile_id,
-                          item.profile_user_id,
-                          item.email,
-                          item.jobTitle,
-                          item.company,
-                          item.country,
-                          item.first_name + " " + item.last_name,
-                          item.contact_type
+                          item?.profile_id,
+                          item?.profile_user_id,
+                          item?.email,
+                          item?.jobTitle,
+                          item?.company,
+                          item?.country,
+                          item?.first_name + " " + item?.last_name,
+                          item?.contact_type
                         )
                       }
                     >
                       <td
                         contenteditable={editable === 0 ? "false" : "true"}
-                        id={`field_name` + item.profile_user_id}
+                        id={`field_name` + item?.profile_user_id}
                       >
-                        {inEditMode.status &&
-                        inEditMode.rowKey === item.profile_id ? (
+                        {inEditMode?.status &&
+                        inEditMode?.rowKey === item?.profile_id ? (
                           <input
                             value={name}
-                            onChange={(event) => setName(event.target.value)}
+                            onChange={(event) => setName(event?.target?.value)}
                           />
                         ) : (
-                          item.first_name + " " + item.last_name
+                          item?.first_name + " " + item?.last_name
                         )}
                       </td>
                       <td>
                         {" "}
-                        {inEditMode.status &&
-                        inEditMode.rowKey === item.profile_id ? (
+                        {inEditMode?.status &&
+                        inEditMode?.rowKey === item?.profile_id ? (
                           <input
                             value={email}
                             type="email"
-                            onChange={(event) => setEmail(event.target.value)}
+                            onChange={(event) => setEmail(event?.target?.value)}
                           />
                         ) : (
-                          item.email
+                          item?.email
                         )}
                       </td>
                       <input
                         type="hidden"
-                        id={`field_index` + item.profile_user_id}
+                        id={`field_index` + item?.profile_user_id}
                         value={index}
                       />
-                      <td>{item.bounce}</td>
+                      <td>{item?.bounce}</td>
                       <td>
                         {editable ? (
                           <EditCountry
-                            selected_country={item.country}
-                            profile_user={item.profile_user_id}
+                            selected_country={item?.country}
+                            profile_user={item?.profile_user_id}
                           ></EditCountry>
                         ) : (
-                          <span>{item.country}</span>
+                          <span>{item?.country}</span>
                         )}
                       </td>
                       <td>
@@ -1964,49 +1971,49 @@ const Table = (props, ref) => {
                           ? item?.irt
                             ? "Yes"
                             : "No"
-                          : item.ibu
-                          ? item.ibu
+                          : item?.ibu
+                          ? item?.ibu
                           : "N/A"}
                       </td>
                       <td>
                         {localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <span>
-                            {item.user_type != 0 ? item.user_type : "N/A"}
+                            {item?.user_type != 0 ? item?.user_type : "N/A"}
                           </span>
                         ) : editable ? (
                           <EditContactType
-                            selected_ibu={item.contact_type}
-                            profile_user={item.profile_user_id}
+                            selected_ibu={item?.contact_type}
+                            profile_user={item?.profile_user_id}
                           ></EditContactType>
                         ) : (
-                          <span>{item.contact_type}</span>
+                          <span>{item?.contact_type}</span>
                         )}
                       </td>
 
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item.consent}</span>{" "}
+                          <span>{item?.consent}</span>{" "}
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item.email_received}</span>
+                          <span>{item?.email_received}</span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item.email_opening}</span>
+                          <span>{item?.email_opening}</span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item.registration}</span>
+                          <span>{item?.registration}</span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item.last_email}</span>
+                          <span>{item?.last_email}</span>
                         </td>
                       ) : null}
 
@@ -2014,63 +2021,65 @@ const Table = (props, ref) => {
                         <img
                           src={path + "delete.svg"}
                           alt="Delete Row"
-                          onClick={() => deleteNewlyAdded(item.profile_user_id)}
+                          onClick={() =>
+                            deleteNewlyAdded(item?.profile_user_id)
+                          }
                         />
                       </td>
                     </tr>
                   ))}
                 {typeof getNewReaders !== "undefined" &&
-                  getNewReaders.length > 0 && (
+                  getNewReaders?.length > 0 && (
                     <tr className="seprator-add">
                       <td colspan="13"></td>
                     </tr>
                   )}
                 {typeof editList !== "undefined" &&
-                  editList.length > 0 &&
-                  editList.map((item, index) => (
+                  editList?.length > 0 &&
+                  editList?.map((item, index) => (
                     <tr
                       key={item}
                       id={`row-selected` + index}
                       onClick={(e) =>
                         editing(
                           //  e.currentTarget,
-                          item.profile_id,
-                          item.profile_user_id,
-                          item.email,
-                          item.jobTitle,
-                          item.company,
-                          item.country,
-                          item.first_name + " " + item.last_name,
-                          item.contact_type
+                          item?.profile_id,
+                          item?.profile_user_id,
+                          item?.email,
+                          item?.jobTitle,
+                          item?.company,
+                          item?.country,
+                          item?.first_name + " " + item?.last_name,
+                          item?.contact_type
                         )
                       }
                     >
                       <td
-                        id={`field_name` + item.profile_user_id}
+                        id={`field_name` + item?.profile_user_id}
                         contenteditable={editable === 0 ? "false" : "true"}
                       >
-                        <span>{item.first_name + " " + item.last_name}</span>
+                        <span>{item?.first_name + " " + item?.last_name}</span>
                       </td>
 
-                      <td id={`field_email` + item.profile_user_id}>
-                        {item.email}
+                      <td id={`field_email` + item?.profile_user_id}>
+                        {item?.email}
                       </td>
                       <input
                         type="hidden"
-                        id={`field_index` + item.profile_user_id}
+                        id={`field_index` + item?.profile_user_id}
                         value={index}
                       />
-                      <td id={`field_bounced` + item.profile_user_id}>
-                        {item.bounce}
+                      <td id={`field_bounced` + item?.profile_user_id}>
+                        {item?.bounce}
                       </td>
                       <td>
                         {editable ? (
                           <EditCountry
-                            selected_country={item.country}
-                            profile_user={item.profile_user_id}
+                            selected_country={item?.country}
+                            profile_user={item?.profile_user_id}
                           ></EditCountry>
                         ) : (
-                          <span>{item.country}</span>
+                          <span>{item?.country}</span>
                         )}
                       </td>
                       {/*showLessInfo == false ? (
@@ -2082,49 +2091,49 @@ const Table = (props, ref) => {
                           ? item?.irt
                             ? "Yes"
                             : "No"
-                          : item.ibu
-                          ? item.ibu
+                          : item?.ibu
+                          ? item?.ibu
                           : "N/A"}
                       </td>
                       <td id="field_interest">
                         {localStorage.getItem("user_id") ==
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <span>
-                            {item.user_type != 0 ? item.user_type : "N/A"}
+                            {item?.user_type != 0 ? item?.user_type : "N/A"}
                           </span>
                         ) : editable ? (
                           <EditContactType
-                            selected_ibu={item.contact_type}
-                            profile_user={item.profile_user_id}
+                            selected_ibu={item?.contact_type}
+                            profile_user={item?.profile_user_id}
                           ></EditContactType>
                         ) : (
-                          <span>{item.contact_type}</span>
+                          <span>{item?.contact_type}</span>
                         )}
                       </td>
 
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item.consent}</span>{" "}
+                          <span>{item?.consent}</span>{" "}
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item.email_received}</span>
+                          <span>{item?.email_received}</span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item.email_opening}</span>
+                          <span>{item?.email_opening}</span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item.registration}</span>
+                          <span>{item?.registration}</span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item.last_email}</span>
+                          <span>{item?.last_email}</span>
                         </td>
                       ) : null}
 
@@ -2133,15 +2142,16 @@ const Table = (props, ref) => {
                         colspan="12"
                         onClick={() =>
                           onDelete({
-                            id: item.profile_id,
-                            currentName: item.first_name + " " + item.last_name,
-                            currentJobTitle: item.jobTitle,
-                            currentCompany: item.company,
-                            currentIndication: item.indication,
-                            currentProduct: item.product,
-                            currentCountry: item.country,
-                            currentEmail: item.email,
-                            profile_user_id: item.profile_user_id,
+                            id: item?.profile_id,
+                            currentName:
+                              item?.first_name + " " + item?.last_name,
+                            currentJobTitle: item?.jobTitle,
+                            currentCompany: item?.company,
+                            currentIndication: item?.indication,
+                            currentProduct: item?.product,
+                            currentCountry: item?.country,
+                            currentEmail: item?.email,
+                            profile_user_id: item?.profile_user_id,
                           })
                         }
                       >
@@ -2371,10 +2381,13 @@ const Table = (props, ref) => {
                               <div className="row">
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label htmlFor="">First name {
-                                      localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
-                                    }</label>
+                                    <label htmlFor="">
+                                      First name{" "}
+                                      {localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                        <span>*</span>
+                                      )}
+                                    </label>
                                     <input
                                       type="text"
                                       className="form-control"
@@ -2387,10 +2400,13 @@ const Table = (props, ref) => {
                                 </div>
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label htmlFor="">Last name {
-                                      localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
-                                    }</label>
+                                    <label htmlFor="">
+                                      Last name{" "}
+                                      {localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                        <span>*</span>
+                                      )}
+                                    </label>
                                     <input
                                       type="text"
                                       className="form-control"
@@ -2539,7 +2555,9 @@ const Table = (props, ref) => {
                                     <hr />
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
-                                        <label for="">Institution <span>*</span></label>
+                                        <label for="">
+                                          Institution <span>*</span>
+                                        </label>
                                         <Select
                                           options={instituions}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2547,9 +2565,7 @@ const Table = (props, ref) => {
                                             onInstitutionChange(event, i)
                                           }
                                           defaultValue={
-                                            instituions[
-                                              hpc[i].instituteIndex
-                                            ]
+                                            instituions[hpc[i].instituteIndex]
                                           }
                                           placeholder={
                                             typeof instituions[
@@ -2603,9 +2619,7 @@ const Table = (props, ref) => {
                                             onChange={(event) =>
                                               onUserTypeChange(event, i)
                                             }
-                                            value={
-                                              irtRole[hpc[i].roleIndex]
-                                            }
+                                            value={irtRole[hpc[i].roleIndex]}
                                             placeholder={"Select Role"}
                                             isClearable
                                             // filterOption={createFilter(filterConfig)}
@@ -2690,10 +2704,13 @@ const Table = (props, ref) => {
 
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
-                                        <label for="">Country {
-                                      localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
-                                    }</label>
+                                        <label for="">
+                                          Country{" "}
+                                          {localStorage.getItem("user_id") ==
+                                            "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                            <span>*</span>
+                                          )}
+                                        </label>
                                         {siteIrtAll[hpc[i].siteIrtIndex]
                                           ?.value === "Yes" ? (
                                           <Select
