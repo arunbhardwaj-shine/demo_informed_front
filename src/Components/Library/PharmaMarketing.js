@@ -1204,8 +1204,11 @@ const PharmaMarketing = () => {
                       moduleData?.active === true ? "active" : ""
                     }`}
                   >
-                    <img src={path_image + "" + moduleData?.imagePath} alt="" />
-                    <h4>{moduleData?.heading}</h4>
+                     <div className="module-space">
+                        <img src={path_image + "" + moduleData?.imagePath} alt="" />
+                        <h4>{moduleData?.heading}</h4>
+                     </div>
+                    
                     <p>{moduleData?.paragraph}</p>
                     <Button onClick={handleRead}>
                       Read more
