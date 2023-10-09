@@ -796,6 +796,8 @@ const AutoEmail = () => {
             return "Please enter the first name";
           }else if(data.last_name == ""){
             return "Please enter the last name";
+          }else if (data?.country == ""){
+            return "Please select country";
           }
         }
          if (data.email == "") {
@@ -909,9 +911,8 @@ const AutoEmail = () => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      console.log("hpc-->", hpc);
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (data?.email == "" || data?.institutionType == "") {
+        if (data?.email == "" || data?.institutionType == "" || data?.first_name == ""|| data.last_name == "" || data.country == "") {
           return "false";
         } else {
           return "true";
@@ -2133,7 +2134,10 @@ const AutoEmail = () => {
                               )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Country</label>
+                                  <label htmlFor="">
+                                    Country
+                                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                  </label>
                                   {val?.optIrt == "yes" ? (
                                     <Select
                                       options={irtCountry}
