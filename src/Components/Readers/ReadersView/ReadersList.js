@@ -379,8 +379,8 @@ const NewReaders = () => {
   const getDownloadData = async (page, obj, search) => {
     try {
       loader("show");
-      let payload =  {}
-      console.log("----->",filterObject,"test",obj)
+      let payload = {};
+
       let data = {
         user_id: localStorage.getItem("user_id"),
         userType: 5,
@@ -388,20 +388,17 @@ const NewReaders = () => {
         type: "",
         page: 1,
       };
-      
-       if(localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+
+      if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
         payload = {
           "contact Type": ["HCP"],
           ...data,
           ...filterObject,
           status: ["Registered"],
-          
         };
-        
-      }else {
+      } else {
         payload = { ...data, ...filterObject };
       }
-
 
       // let payload = { ...data, ...filterObject };
       const res = await postFormData(ENDPOINT.READER_DOWNLOAD, payload, {
@@ -547,18 +544,18 @@ const NewReaders = () => {
             newCountry.push(
               values == "B&H" ? "Bosnia and Herzegovina" : values
             );
-            newCountry.sort((a, b) => {
-              const countryA = a?.toLowerCase();
-              const countryB = b?.toLowerCase();
-              if (countryA < countryB) return -1;
-              if (countryA > countryB) return 1;
-              return 0;
-            });
           }
         });
         delete apifilterObject.country;
         delete filterObject.country;
       }
+      newCountry.sort((a, b) => {
+        const countryA = a?.toLowerCase();
+        const countryB = b?.toLowerCase();
+        if (countryA < countryB) return -1;
+        if (countryA > countryB) return 1;
+        return 0;
+      });
       setFilterData({ ...filterdata, country: newCountry });
     }
 
@@ -2141,6 +2138,12 @@ const NewReaders = () => {
                                               ]?.find(
                                                 (element) => element.id == item
                                               )?.title
+                                            : key == "site"
+                                            ? filterdata?.[
+                                                "site"
+                                              ]?.find(
+                                                (element) => element.id == item
+                                              )?.title  
                                             : item}
                                           <img
                                             src={
@@ -2293,18 +2296,53 @@ const NewReaders = () => {
                                   ) : (
                                     ""
                                   )}
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Country
-                                    </h6>
-                                    <h6>
-                                      {data?.country
-                                        ? data?.country == "B&H"
-                                          ? "Bosnia and Herzegovina"
-                                          : data?.country
-                                        : "N/A"}
-                                    </h6>
-                                  </li>
+
+                                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("group_id") == 3 ? 
+                                    (
+                                      <>
+                                      
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Account Country
+                                        </h6>
+                                        <h6>
+                                          {data?.country
+                                            ? data?.country == "B&H"
+                                              ? "Bosnia and Herzegovina"
+                                              : data?.country
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Consent Country
+                                        </h6>
+                                        <h6>
+                                          {consetCountry?.[data?.id]
+                                            ? consetCountry?.[data?.id] ==
+                                              "B&H"
+                                              ? "Bosnia and Herzegovina"
+                                              : consetCountry?.[data?.id]
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                      </>
+                                    ) : 
+                                      <li>
+                                        <h6 className="tab-content-title">
+                                          Country
+                                        </h6>
+                                        <h6>
+                                          {data?.country
+                                            ? data?.country == "B&H"
+                                              ? "Bosnia and Herzegovina"
+                                              : data?.country
+                                            : "N/A"}
+                                        </h6>
+                                      </li>
+                                    }
+
+                                  
 
                                   {localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" &&
@@ -2385,22 +2423,6 @@ const NewReaders = () => {
                                         ""
                                       ) : (
                                         <>
-                                          {localStorage.getItem("group_id") ==
-                                          3 ? (
-                                            <li>
-                                              <h6 className="tab-content-title">
-                                                Consent Country
-                                              </h6>
-                                              <h6>
-                                                {consetCountry?.[data?.id]
-                                                  ? consetCountry?.[data?.id] ==
-                                                    "B&H"
-                                                    ? "Bosnia and Herzegovina"
-                                                    : consetCountry?.[data?.id]
-                                                  : "N/A"}
-                                              </h6>
-                                            </li>
-                                          ) : null}
                                           <li>
                                             <h6 className="tab-content-title">
                                               User Status

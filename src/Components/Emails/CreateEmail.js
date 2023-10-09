@@ -467,7 +467,7 @@ const CreateEmail = (props) => {
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (data?.email == "" || data?.institutionType == "") {
+        if (data?.email == "" ||  data?.lastname == "" || data?.firstname == "" || data?.country == "" || data?.institutionType == "") {
           return "false";
         } else {
           return "true";
@@ -1461,7 +1461,26 @@ const CreateEmail = (props) => {
       };
 
       const status = body.data.map((data, index) => {
-        if (data.email == "" || data?.institution_type == "") {
+        console.log(data);
+        if (data.email == "" || data?.institution_type == "" || ((data?.last_name == "" ||data?.first_name == "" ||data?.country == "") && localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ))  {
+         
+          if (data.first_name == "" && localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ) {
+         
+            setValidationError({
+              newHcpFirstName: "Please enter the first name",
+              index: index,
+            });
+            return;
+          }
+          if (data.last_name == "" && localStorage.getItem("user_id") ==
+          "56Ek4feL/1A8mZgIKQWEqg==" ) {
+         
+            setValidationError({
+              newHcpLastName: "Please enter the last name",
+              index: index,
+            });
+            return;
+          }
           if (data.email == "") {
             setValidationError({
               newHcpEmail: "Please enter the email atleast",
@@ -1469,7 +1488,8 @@ const CreateEmail = (props) => {
             });
 
             return;
-          } else if (data.email != "") {
+          } 
+          else if (data.email != "") {
             let email = data.email;
             let useremail = email.trim();
             var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -1492,6 +1512,29 @@ const CreateEmail = (props) => {
               return;
             }
           }
+          if (data.institution_type == "") {
+            setValidationError({
+              newHcpInstitution: "Please Select the institution ",
+              index: index,
+            });
+            return;
+          }
+   
+
+          if (data.country == "" && localStorage.getItem("user_id") ==
+          "56Ek4feL/1A8mZgIKQWEqg==" ) {
+           
+            setValidationError({
+              newHcpCountry: "Please select the country",
+              index: index,
+            });
+            return;
+          }
+         
+      
+         
+          
+        
           if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
             if (data.institution_type == "") {
               setValidationError({
@@ -3019,28 +3062,56 @@ const CreateEmail = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First name</label>
+                                  <label htmlFor="">First name {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    } </label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpFirstName &&
+                                      validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     onChange={(event) =>
                                       onFirstNameChange(event, i)
                                     }
                                     value={val.firstname}
                                   />
+                                    {validationError?.newHcpFirstName &&
+                                  validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpFirstName}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last name</label>
+                                  <label htmlFor="">Last name {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={
+                                      validationError?.newHcpLastName &&
+                                      validationError?.index == i
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     onChange={(event) =>
                                       onLastNameChange(event, i)
                                     }
                                     value={val.lastname}
                                   />
+                                    {validationError?.newHcpLastName &&
+                                  validationError?.index == i ? (
+                                    <div className="login-validation">
+                                      {validationError?.newHcpLastName}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
@@ -3257,11 +3328,20 @@ const CreateEmail = (props) => {
                               )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Country</label>
+                                  <label htmlFor="">Country {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                   {val.optIRT == "yes" ? (
+                                    <>
                                     <Select
                                       options={irtCountry}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      className={
+                                        validationError?.index == i &&
+                                        validationError?.newHcpCountry
+                                          ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                          : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      }
                                       onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
@@ -3280,11 +3360,23 @@ const CreateEmail = (props) => {
                                       filterOption={createFilter(filterConfig)}
                                       isClearable
                                     />
-                                  ) : (
+                                    {validationError?.newHcpCountry &&
+                                      validationError?.index == i && (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpCountry}
+                                        </div>
+                                      ) }
+                                      </>
+                                    
+                                  ) : (<>
                                     <Select
                                       options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                      onChange={(event) =>
+   className={
+                                        validationError?.index == i &&
+                                        validationError?.newHcpCountry
+                                          ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                          : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      }                                      onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
                                       value={
@@ -3302,6 +3394,14 @@ const CreateEmail = (props) => {
                                       filterOption={createFilter(filterConfig)}
                                       isClearable
                                     />
+                                        {validationError?.newHcpCountry &&
+                                      validationError?.index == i && (
+                                        <div className="login-validation">
+                                          {validationError?.newHcpCountry}
+                                        </div>
+                                      ) }
+
+                                      </>
                                   )}
 
                                   {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"
