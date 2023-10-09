@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import CommonLineGraph from "./CommonLineGraph";
 import CommonPieChart from "./CommonPieChart";
 import axios from "axios";
+import OctalatchCommonLineGraph from "./OctalatchCommonLineGraph";
 exporting(Highcharts);
 exportData(Highcharts);
 const OctalatchDeliveryRegistration = () => {
@@ -44,22 +45,21 @@ const OctalatchDeliveryRegistration = () => {
             return;
           }
 
-          console.log("hadData",hadData);
-// Sort the data object by the ibu property in alphabetical order for each key
-Object.keys(hadData).forEach((key) => {
-  const sortedData = {};
-  Object.keys(hadData[key])
-    .sort((a, b) => hadData[key][a].ibu.localeCompare(hadData[key][b].ibu))
-    .forEach((ibuKey) => {
-      sortedData[ibuKey] = hadData[key][ibuKey];
-    });
-    hadData[key] = sortedData;
-});
+          // Sort the data object by the ibu property in alphabetical order for each key
+          Object.keys(hadData).forEach((key) => {
+            const sortedData = {};
 
-
+            Object.keys(hadData[key])
+              .sort((a, b) =>
+                hadData[key][a].ibu.localeCompare(hadData[key][b].ibu)
+              )
+              .forEach((ibuKey) => {
+                sortedData[ibuKey] = hadData[key][ibuKey];
+              });
+            hadData[key] = sortedData;
+          });
 
           const ibu = hadData?.Ibu;
-
           const data = hadData;
 
           setPieData(pieData);
@@ -95,9 +95,15 @@ Object.keys(hadData).forEach((key) => {
                   />
                 </div>
 
-                {Object.keys(data)?.map((item, index) => (
+                {/* {Object.keys(data)?.map((item, index) => (
                   <div className="high_charts" keys={index}>
                     <CommonLineGraph data={data[item]} name={item} />
+                  </div>
+                ))} */}
+
+                {Object.keys(data)?.map((item, index) => (
+                  <div className="high_charts" keys={index}>
+                    <OctalatchCommonLineGraph data={data[item]} name={item} />
                   </div>
                 ))}
               </div>
