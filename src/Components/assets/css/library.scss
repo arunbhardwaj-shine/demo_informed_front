@@ -3744,7 +3744,9 @@ input[type="number"] {
 }
 
 .timeline-block-title {
-  @include flex-align-center;
+  display: flex;
+  align-items: center;
+  flex: 1 1;
 }
 
 .timeline-block-title h6 {
