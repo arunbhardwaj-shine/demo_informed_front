@@ -626,7 +626,7 @@ const VerifyHCP = (props) => {
       };
 
       const status = body.data.map((data) => {
-        if (data.email == "" || data?.institution_type == "") {
+        if (data.email == "" || data?.institution_type == "" || data.first_name == "" ||   data.last_name == "" ||    data.country == "") {
           if (data.first_name == "" && localStorage.getItem("user_id") ==
           "56Ek4feL/1A8mZgIKQWEqg==" ) {
             return "Please enter the first name";
@@ -639,15 +639,7 @@ const VerifyHCP = (props) => {
             return "Please enter the email atleast";
           }
           
-          else  if (data.country == ""  && localStorage.getItem("user_id") ==
-          "56Ek4feL/1A8mZgIKQWEqg==") {
-            return "Please select the country";
-          } 
-          
-          else  if (data.institution_type == ""  && localStorage.getItem("user_id") ==
-          "56Ek4feL/1A8mZgIKQWEqg==") {
-            return "Please select the Institution";
-          } 
+       
           else if (data.email != "") {
             let email = data.email;
             let useremail = email.trim();
@@ -661,11 +653,19 @@ const VerifyHCP = (props) => {
               return "Email format is not valid";
             }
           }
+       
+            
+        
           if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
             if (data.institution_type == "") {
               return "Please enter the institution ";
             }
+            if (data.country == "" ) {
+              return "Please select the country";
+            }
           }
+          return "true";
+
         } else {
           return "true";
         }
