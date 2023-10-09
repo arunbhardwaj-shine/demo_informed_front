@@ -26,7 +26,7 @@ export const AddReaderValidation = (data, groupId, flag) => {
       error.institution = "Please select institution";
     }
     if (!data?.lastName) {
-      error.lastName = "Last Name required";
+      error.lastName = "Last name required";
     }
     
   }
