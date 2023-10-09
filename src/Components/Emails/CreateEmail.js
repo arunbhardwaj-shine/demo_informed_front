@@ -1461,7 +1461,8 @@ const CreateEmail = (props) => {
       };
 
       const status = body.data.map((data, index) => {
-        if (data.email == "" || data?.institution_type == "" || data?.last_name == "" ||data?.first_name == "" ||data?.country == "")  {
+        console.log(data);
+        if (data.email == "" || data?.institution_type == "" || ((data?.last_name == "" ||data?.first_name == "" ||data?.country == "") && localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ))  {
          
           if (data.first_name == "" && localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ) {
          

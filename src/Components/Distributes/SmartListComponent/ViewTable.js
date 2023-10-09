@@ -620,9 +620,14 @@ const ViewTable = (props) => {
     e.preventDefault();
     console.log(hpc);
     const status = hpc.map((data) => {
-      if (data.firstname == "" || data.lastname == "" || data.country == "" ||data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") {
+      if ((data.firstname == "" || data.lastname == "" || data.country == "" ||data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==") {
         return "false";
-      } else {
+      } 
+      else if(data.email == ""){
+        return "false";
+
+      }
+      else {
         return "true";
       }
     });
@@ -1428,7 +1433,7 @@ const ViewTable = (props) => {
           
           return "Please select Institution";
         } 
-        else if(data.country == ""){
+        else if(data.country == "" && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="){
           return "Please select country";
         }
         else if (data.email != "") {
