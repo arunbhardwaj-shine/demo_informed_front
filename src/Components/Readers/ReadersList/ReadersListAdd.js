@@ -1207,14 +1207,16 @@ const ReadersListAdd = () => {
         else if (data.lastName == ""  &&  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ) {
           return "Please enter the Last Name";
         }
-        else if (data.country == ""  &&  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ) {
-          return "Please select Country";
-        }
+      
         else if (data.email == "") {
           return "Please enter the email atleast";
         }else if(data.institute == ""){
           return "Please select Institution";
-        } else if (data.email != "") {
+        }
+        else if (data.country == ""  &&  localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg==" ) {
+          return "Please select Country";
+        }
+        else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
