@@ -1190,19 +1190,11 @@ const TemplateBuilder = (props) => {
               [`lastName-${index}`]: "Please enter the last name",
             });
             return
-          }else if(data?.country == ""){
-            setValidationError({
-              [`country-${index}`]: "Please select country ",
-            });
-            return
           }else{
             let obj =  {...validationError}
            delete obj?.[`firstName-${index}`]
            delete obj?.[`lastName-${index}`]
-           delete obj?.[`country-${index}`]
-
-          //  delete obj?.[index]
-          //  setValidationError(obj)
+        
           }
         }
 
@@ -1248,9 +1240,21 @@ const TemplateBuilder = (props) => {
               return;
             }
           }
-        } else {
-          return "true";
         }
+        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+          if(data?.country == ""){
+            setValidationError({
+              [`country-${index}`]: "Please select country ",
+            });
+            return
+          }else{
+            let obj =  {...validationError}
+            delete obj?.[`country-${index}`]
+          }
+        }
+          return "true";
+        
+        
       });
       status.sort();
       if (status.every((element) => element == "true")) {

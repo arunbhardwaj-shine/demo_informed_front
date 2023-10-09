@@ -796,15 +796,19 @@ const AutoEmail = () => {
             return "Please enter the first name";
           }else if(data.last_name == ""){
             return "Please enter the last name";
-          }else if (data?.country == ""){
-            return "Please select country";
           }
         }
          if (data.email == "") {
           return "Please enter the email atleast";
         } else if (data?.institution_type == "") {
           return "Please select the institution type";
-        } else if (data.email != "") {
+        } 
+        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+          if(data?.country == ""){
+            return "Please select country";
+          }
+        }
+        if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -818,9 +822,8 @@ const AutoEmail = () => {
           } else {
             return "Email format is not valid";
           }
-        } else {
+        } 
           return "true";
-        }
       });
       status.sort();
       if (status.every((element) => element == "true")) {
