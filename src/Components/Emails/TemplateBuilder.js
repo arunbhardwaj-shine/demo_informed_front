@@ -465,7 +465,7 @@ const TemplateBuilder = (props) => {
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (data.email == "" || data?.institutionType == "" || data?.first_name || data?.last_name || data?.country) {
+        if (data.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" || data?.country == "") {
           return "false";
         } 
         else {
