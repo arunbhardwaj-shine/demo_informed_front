@@ -1106,14 +1106,25 @@ const ReaderAdd = () => {
                       />
                     </Form.Group>
                     <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Last name</Form.Label>
+                      <Form.Label htmlFor="">
+                        Last name  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                      </Form.Label>
                       <input
                         type="text"
                         placeholder="Last name"
-                        className="form-control"
+                        className={
+                          error?.lastName
+                          ? "form-control error"
+                          : "form-control"
+                        }
                         name="lastName"
                         onChange={(e) => handleChange(e)}
                       />
+                      {error?.lastName ? (
+                        <div className="login-validation">
+                          {error?.lastName}
+                        </div>
+                      ) : null}
                     </Form.Group>
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">

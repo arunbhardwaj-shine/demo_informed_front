@@ -758,6 +758,7 @@ const AutoEmail = () => {
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+         
           return {
             first_name: data.firstname,
             last_name: data.lastname,
@@ -790,8 +791,14 @@ const AutoEmail = () => {
       };
 
       const status = body.data.map((data) => {
-        console.log("data", data);
-        if (data.email == "") {
+        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+          if(data.first_name == ""){
+            return "Please enter the first name";
+          }else if(data.last_name == ""){
+            return "Please enter the last name";
+          }
+        }
+         if (data.email == "") {
           return "Please enter the email atleast";
         } else if (data?.institution_type == "") {
           return "Please select the institution type";
@@ -1906,7 +1913,10 @@ const AutoEmail = () => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First name</label>
+                                  <label htmlFor="">
+                                    First name {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                    
+                                    </label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1919,7 +1929,9 @@ const AutoEmail = () => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last name</label>
+                                  <label htmlFor="">Last name
+                                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                  </label>
                                   <input
                                     type="text"
                                     className="form-control"
