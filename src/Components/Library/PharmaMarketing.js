@@ -74,7 +74,7 @@ const PharmaMarketing = () => {
       icon: "legal-document-icon.svg",
       title: "Consent",
       description:
-        "Consent forms the foundation of every relationship. Our solution to ensure you get it right everywhere and can legally personalize even AI engagements.",
+        "Consent forms the foundation of every relationship. Our solution ensure you get it right everywhere and can legally personalize even AI engagements.",
     },
     {
       id: 7,
@@ -82,7 +82,7 @@ const PharmaMarketing = () => {
       icon: "email-small-icon.svg",
       title: "Email Engine",
       description:
-        "Personalized emails are undeniably one of the most potent tools, ours is built for and with the industry.",
+        "Personalized emails are undeniably one of the most potent tools, ours is build for and with the industry.",
     },
     {
       id: 8,
@@ -632,12 +632,25 @@ const PharmaMarketing = () => {
     arrows: false,
     centerMode: true,
     centerPadding: "0%",
+    speed: 1000,
     fade: true,
+       responsive: [
+      {
+        breakpoint: 767,
+        settings: {
+          swipe: true,
+          touchMove: true,
+          vertical: true,
+          verticalScrolling: true,
+          speed: 1000,
+        },
+      }
+    ],
   };
   return (
     <>
       <LandingHeader/>
-
+      {/* <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta> */}
       <div className="landing-banner pharma">
         <Container>
           <Row>
@@ -787,14 +800,18 @@ const PharmaMarketing = () => {
               <div className="slider-in">
                 <div className="slider-in-views">
                   <img src={path_image + "informed-logo-slide.svg"} alt="" />
+                  <div className="slider-bg-icons">
+                    <img src={path_image + "ellipse-bg1.png"} alt="" className="slide-ellipse1"/>
+                    <img src={path_image + "ellipse-bg2.png"} alt="" className="slide-ellipse2"/>
+                    <img src={path_image + "ellipse-bg3.png"} alt="" className="slide-ellipse3" />
+                    <img src={path_image + "ellipse-bg4.png"} alt="" className="slide-ellipse4"/>
+                    <img src={path_image + "ellipse-bg5.png"} alt="" className="slide-ellipse5"/>
+                    <img src={path_image + "ellipse-bg6.png"} alt="" className="slide-ellipse6"/>
+                  </div>
                 </div>
               </div>
               <div
-                className="slider-in"
-                style={{
-                  background: `url({path_image + "informed-logo-slide.svg"})`,
-                }}
-              >
+                className="slider-in">
                 <div className="slider-in-view slide1">
                   <div className="slide-left-sided d-flex align-items-start">
                     <img src={path_image + "arrow-slide1.png"} alt="" />
@@ -810,6 +827,14 @@ const PharmaMarketing = () => {
                         they’ve spent on them.
                       </h5>
                     </div>
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img src={path_image + "ellipse-bg1.png"} alt="" className="slide-ellipse1"/>
+                    <img src={path_image + "ellipse-bg2.png"} alt="" className="slide-ellipse2"/>
+                    <img src={path_image + "ellipse-bg3.png"} alt="" className="slide-ellipse3" />
+                    <img src={path_image + "ellipse-bg4.png"} alt="" className="slide-ellipse4"/>
+                    <img src={path_image + "ellipse-bg5.png"} alt="" className="slide-ellipse5"/>
+                    <img src={path_image + "ellipse-bg6.png"} alt="" className="slide-ellipse6"/>
                   </div>
                 </div>
               </div>
@@ -830,12 +855,20 @@ const PharmaMarketing = () => {
                   <div className="slide-left-sided">
                     <img src={path_image + "arrow-slide2.png"} alt="" />
                   </div>
+                  <div className="slider-bg-icons">
+                    <img src={path_image + "ellipse-bg1.png"} alt="" className="slide-ellipse1"/>
+                    <img src={path_image + "ellipse-bg2.png"} alt="" className="slide-ellipse2"/>
+                    <img src={path_image + "ellipse-bg3.png"} alt="" className="slide-ellipse3" />
+                    <img src={path_image + "ellipse-bg4.png"} alt="" className="slide-ellipse4"/>
+                    <img src={path_image + "ellipse-bg5.png"} alt="" className="slide-ellipse5"/>
+                    <img src={path_image + "ellipse-bg6.png"} alt="" className="slide-ellipse6"/>
+                  </div>
                 </div>
               </div>
               <div className="slider-in">
                 <div className="slider-in-view slide3">
                   <div className="slide-left-sided">
-                    <img src={path_image + "arrow-slide3.png"} alt="" />
+                    <img src={path_image + "arrow-slide2.png"} alt="" />
                   </div>
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
@@ -852,6 +885,14 @@ const PharmaMarketing = () => {
                         you optimise personalised delivery engagement.{" "}
                       </h5>
                     </div>
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img src={path_image + "ellipse-bg1.png"} alt="" className="slide-ellipse1"/>
+                    <img src={path_image + "ellipse-bg2.png"} alt="" className="slide-ellipse2"/>
+                    <img src={path_image + "ellipse-bg3.png"} alt="" className="slide-ellipse3" />
+                    <img src={path_image + "ellipse-bg4.png"} alt="" className="slide-ellipse4"/>
+                    <img src={path_image + "ellipse-bg5.png"} alt="" className="slide-ellipse5"/>
+                    <img src={path_image + "ellipse-bg6.png"} alt="" className="slide-ellipse6"/>
                   </div>
                 </div>
               </div>
@@ -876,6 +917,14 @@ const PharmaMarketing = () => {
                   </div>
                   <div className="slide-left-sided">
                     <img src={path_image + "informed-logo-slide.svg"} alt="" />
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img src={path_image + "ellipse-bg1.png"} alt="" className="slide-ellipse1"/>
+                    <img src={path_image + "ellipse-bg2.png"} alt="" className="slide-ellipse2"/>
+                    <img src={path_image + "ellipse-bg3.png"} alt="" className="slide-ellipse3" />
+                    <img src={path_image + "ellipse-bg4.png"} alt="" className="slide-ellipse4"/>
+                    <img src={path_image + "ellipse-bg5.png"} alt="" className="slide-ellipse5"/>
+                    <img src={path_image + "ellipse-bg6.png"} alt="" className="slide-ellipse6"/>
                   </div>
                 </div>
               </div>
