@@ -664,14 +664,18 @@ const PharmaRd = () => {
               <div className="slider-in">
                 <div className="slider-in-views">
                   <img src={path_image + "informed-logo-slide.svg"} alt="" />
+                  <div className="slider-bg-icons">
+                    <img src={path_image + "ellipse-bg1.png"} alt="" className="slide-ellipse1"/>
+                    <img src={path_image + "ellipse-bg2.png"} alt="" className="slide-ellipse2"/>
+                    <img src={path_image + "ellipse-bg3.png"} alt="" className="slide-ellipse3" />
+                    <img src={path_image + "ellipse-bg4.png"} alt="" className="slide-ellipse4"/>
+                    <img src={path_image + "ellipse-bg5.png"} alt="" className="slide-ellipse5"/>
+                    <img src={path_image + "ellipse-bg6.png"} alt="" className="slide-ellipse6"/>
+                  </div>
                 </div>
               </div>
               <div
-                className="slider-in"
-                style={{
-                  background: `url({path_image + "informed-logo-slide.svg"})`,
-                }}
-              >
+                className="slider-in">
                 <div className="slider-in-view slide1">
                   <div className="slide-left-sided d-flex align-items-start">
                     <img src={path_image + "arrow-slide1.png"} alt="" />
@@ -687,6 +691,14 @@ const PharmaRd = () => {
                         they’ve spent on them.
                       </h5>
                     </div>
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img src={path_image + "ellipse-bg1.png"} alt="" className="slide-ellipse1"/>
+                    <img src={path_image + "ellipse-bg2.png"} alt="" className="slide-ellipse2"/>
+                    <img src={path_image + "ellipse-bg3.png"} alt="" className="slide-ellipse3" />
+                    <img src={path_image + "ellipse-bg4.png"} alt="" className="slide-ellipse4"/>
+                    <img src={path_image + "ellipse-bg5.png"} alt="" className="slide-ellipse5"/>
+                    <img src={path_image + "ellipse-bg6.png"} alt="" className="slide-ellipse6"/>
                   </div>
                 </div>
               </div>
@@ -707,12 +719,20 @@ const PharmaRd = () => {
                   <div className="slide-left-sided">
                     <img src={path_image + "arrow-slide2.png"} alt="" />
                   </div>
+                  <div className="slider-bg-icons">
+                    <img src={path_image + "ellipse-bg1.png"} alt="" className="slide-ellipse1"/>
+                    <img src={path_image + "ellipse-bg2.png"} alt="" className="slide-ellipse2"/>
+                    <img src={path_image + "ellipse-bg3.png"} alt="" className="slide-ellipse3" />
+                    <img src={path_image + "ellipse-bg4.png"} alt="" className="slide-ellipse4"/>
+                    <img src={path_image + "ellipse-bg5.png"} alt="" className="slide-ellipse5"/>
+                    <img src={path_image + "ellipse-bg6.png"} alt="" className="slide-ellipse6"/>
+                  </div>
                 </div>
               </div>
               <div className="slider-in">
                 <div className="slider-in-view slide3">
                   <div className="slide-left-sided">
-                    <img src={path_image + "arrow-slide3.png"} alt="" />
+                    <img src={path_image + "arrow-slide2.png"} alt="" />
                   </div>
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
@@ -729,6 +749,14 @@ const PharmaRd = () => {
                         you optimise personalised delivery engagement.{" "}
                       </h5>
                     </div>
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img src={path_image + "ellipse-bg1.png"} alt="" className="slide-ellipse1"/>
+                    <img src={path_image + "ellipse-bg2.png"} alt="" className="slide-ellipse2"/>
+                    <img src={path_image + "ellipse-bg3.png"} alt="" className="slide-ellipse3" />
+                    <img src={path_image + "ellipse-bg4.png"} alt="" className="slide-ellipse4"/>
+                    <img src={path_image + "ellipse-bg5.png"} alt="" className="slide-ellipse5"/>
+                    <img src={path_image + "ellipse-bg6.png"} alt="" className="slide-ellipse6"/>
                   </div>
                 </div>
               </div>
@@ -753,6 +781,14 @@ const PharmaRd = () => {
                   </div>
                   <div className="slide-left-sided">
                     <img src={path_image + "informed-logo-slide.svg"} alt="" />
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img src={path_image + "ellipse-bg1.png"} alt="" className="slide-ellipse1"/>
+                    <img src={path_image + "ellipse-bg2.png"} alt="" className="slide-ellipse2"/>
+                    <img src={path_image + "ellipse-bg3.png"} alt="" className="slide-ellipse3" />
+                    <img src={path_image + "ellipse-bg4.png"} alt="" className="slide-ellipse4"/>
+                    <img src={path_image + "ellipse-bg5.png"} alt="" className="slide-ellipse5"/>
+                    <img src={path_image + "ellipse-bg6.png"} alt="" className="slide-ellipse6"/>
                   </div>
                 </div>
               </div>
