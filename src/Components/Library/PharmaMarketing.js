@@ -74,7 +74,7 @@ const PharmaMarketing = () => {
       icon: "legal-document-icon.svg",
       title: "Consent",
       description:
-        "Consent forms the foundation of every relationship. Our solution to ensure you get it right everywhere and can legally personalize even AI engagements.",
+        "Consent forms the foundation of every relationship. Our solution ensure you get it right everywhere and can legally personalize even AI engagements.",
     },
     {
       id: 7,
@@ -82,7 +82,7 @@ const PharmaMarketing = () => {
       icon: "email-small-icon.svg",
       title: "Email Engine",
       description:
-        "Personalized emails are undeniably one of the most potent tools, ours is built for and with the industry.",
+        "Personalized emails are undeniably one of the most potent tools, ours is build for and with the industry.",
     },
     {
       id: 8,

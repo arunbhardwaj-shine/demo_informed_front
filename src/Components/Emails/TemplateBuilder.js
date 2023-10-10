@@ -296,7 +296,6 @@ const TemplateBuilder = (props) => {
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag, lng, ibu, userTemplateType) => {
-    console.log(flag,"flag");
     let check_lng_index = 10;
     if (lng == "All") {
       check_lng_index = 10;
@@ -466,9 +465,10 @@ const TemplateBuilder = (props) => {
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (data.email == "" || data?.institutionType == "") {
+        if (data.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" || data?.country == "") {
           return "false";
-        } else {
+        } 
+        else {
           return "true";
         }
       } else {
@@ -1009,7 +1009,8 @@ const TemplateBuilder = (props) => {
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
-      list[i].role = "";
+      // list[i].role = "";
+      list[i].role = e=="yes"?irtRole[0]?.value:"Other";   
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -1177,6 +1178,27 @@ const TemplateBuilder = (props) => {
     
 
       const status = body.data.map((data, index) => {
+        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+          if(data?.first_name == ""){
+            setValidationError({
+              [`firstName-${index}`]: "Please enter the first name",
+            });
+            return
+          
+          }else if(data?.last_name == ""){
+            setValidationError({
+              [`lastName-${index}`]: "Please enter the last name",
+            });
+            return
+          }else{
+            let obj =  {...validationError}
+           delete obj?.[`firstName-${index}`]
+           delete obj?.[`lastName-${index}`]
+        
+          }
+        }
+
+
         if (data.email == "" || data.institution_type == "") {
           if (data.email == "") {
             setValidationError({
@@ -1184,7 +1206,11 @@ const TemplateBuilder = (props) => {
               index: index,
             });
             return;
-          } else if (data.email != "") {
+          } 
+
+
+          
+           if (data.email != "") {
             let email = data.email;
             let useremail = email.trim();
             var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -1214,9 +1240,21 @@ const TemplateBuilder = (props) => {
               return;
             }
           }
-        } else {
-          return "true";
         }
+        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
+          if(data?.country == ""){
+            setValidationError({
+              [`country-${index}`]: "Please select country ",
+            });
+            return
+          }else{
+            let obj =  {...validationError}
+            delete obj?.[`country-${index}`]
+          }
+        }
+          return "true";
+        
+        
       });
       status.sort();
       if (status.every((element) => element == "true")) {
@@ -2954,28 +2992,51 @@ const TemplateBuilder = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First name</label>
+                                  <label htmlFor="">First name
+                                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                  </label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={
+                                      validationError?.[`firstName-${i}`]  && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     onChange={(event) =>
                                       onFirstNameChange(event, i)
                                     }
                                     value={val.firstname}
                                   />
+                                   {validationError?.[`firstName-${i}`]  &&   localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    <div className="login-validation">
+                                      {validationError?.[`firstName-${i}`]}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last name</label>
+                                  <label htmlFor="">Last name
+                                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                  </label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className={
+                                      validationError?.[`lastName-${i}`] 
+                                      && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
                                     onChange={(event) =>
                                       onLastNameChange(event, i)
                                     }
                                     value={val.lastname}
                                   />
+                                   {validationError?.[`lastName-${i}`] &&   localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    <div className="login-validation">
+                                      {validationError?.[`lastName-${i}`]}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
@@ -3190,12 +3251,22 @@ const TemplateBuilder = (props) => {
                                 </>
                               )}
                               <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Country</label>
+                                <div className="form-group"
+                                
+                                >
+                                  <label htmlFor="">Country
+                                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                  </label>
                                   {val?.optIrt == "yes" ? (
                                     <Select
                                       options={irtCountry}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      className={
+                                        validationError?.[`country-${i}`] 
+                                        && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                          ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                          : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      }
+                                      
                                       onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
@@ -3217,7 +3288,13 @@ const TemplateBuilder = (props) => {
                                   ) : (
                                     <Select
                                       options={countryall}
-                                      className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      className={
+                                        validationError?.[`country-${i}`] 
+                                        && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                          ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                          : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                      }
                                       onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
@@ -3237,6 +3314,11 @@ const TemplateBuilder = (props) => {
                                       isClearable
                                     />
                                   )}
+                                    {validationError?.[`country-${i}`] &&   localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    <div className="login-validation">
+                                      {validationError?.[`country-${i}`]}
+                                    </div>
+                                  ) : null}
                                 </div>
                               </div>
                               {/* <div className="col-12 col-md-6">

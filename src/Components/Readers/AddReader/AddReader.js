@@ -12,10 +12,17 @@ import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import MarketingAddReader from "./MarketingAddReader";
 import axios from "axios";
-const ReaderLayout=()=>{
-  return (<>
-  {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ?<MarketingAddReader/>:<ReaderAdd/>}</>)
-}
+const ReaderLayout = () => {
+  return (
+    <>
+      {localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
+        <MarketingAddReader />
+      ) : (
+        <ReaderAdd />
+      )}
+    </>
+  );
+};
 const ReaderAdd = () => {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -537,6 +544,12 @@ const ReaderAdd = () => {
       let country = "";
       let newSiteName = [],
         newSiteNumber = [];
+      let role = "";
+      if (e == 1) {
+        role = userDetail?.userIrtRoles[0]?.value;
+      } else {
+        role = userDetail?.role[4]?.value;
+      }
 
       setAddReaderInputs({
         ...userInputs,
@@ -544,6 +557,7 @@ const ReaderAdd = () => {
         ["country"]: country,
         ["siteName"]: "",
         ["siteNumber"]: "",
+        ["role"]: role,
       });
       setUserDetail({
         ...userDetail,
@@ -557,6 +571,7 @@ const ReaderAdd = () => {
           ...userInputs,
           [isSelectedName]: e,
           ["irt"]: 1,
+          ["role"]: userDetail?.userIrtRoles[0]?.value,
         });
       } else {
         setAddReaderInputs({
@@ -565,6 +580,7 @@ const ReaderAdd = () => {
           ["irt"]: 0,
           ["siteName"]: "",
           ["siteNumber"]: "",
+          ["role"]: userDetail?.role[4]?.value,
         });
       }
     } else {
@@ -613,7 +629,6 @@ const ReaderAdd = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
-
     const result = AddReaderValidation(userInputs, groupId, flag);
 
     if (Object.keys(result)?.length) {
@@ -800,7 +815,7 @@ const ReaderAdd = () => {
                   userDetail?.role.findIndex(
                     (el) => el.value == userInputs?.role
                   ) == -1
-                    ? ""
+                    ? userDetail?.role[4]
                     : userDetail?.role[
                         userDetail?.role.findIndex(
                           (el) => el.value == userInputs?.role
@@ -982,9 +997,6 @@ const ReaderAdd = () => {
   };
   return (
     <>
-
-
-   
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
@@ -1106,14 +1118,25 @@ const ReaderAdd = () => {
                       />
                     </Form.Group>
                     <Form.Group className="form-group">
-                      <Form.Label htmlFor="">Last name</Form.Label>
+                      <Form.Label htmlFor="">
+                        Last name  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                      </Form.Label>
                       <input
                         type="text"
                         placeholder="Last name"
-                        className="form-control"
+                        className={
+                          error?.lastName
+                          ? "form-control error"
+                          : "form-control"
+                        }
                         name="lastName"
                         onChange={(e) => handleChange(e)}
                       />
+                      {error?.lastName ? (
+                        <div className="login-validation">
+                          {error?.lastName}
+                        </div>
+                      ) : null}
                     </Form.Group>
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">

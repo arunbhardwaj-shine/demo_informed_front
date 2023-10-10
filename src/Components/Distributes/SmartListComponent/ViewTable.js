@@ -618,10 +618,16 @@ const ViewTable = (props) => {
 
   const addMoreHcp = (e) => {
     e.preventDefault();
+    console.log(hpc);
     const status = hpc.map((data) => {
-      if (data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") {
+      if ((data.firstname == "" || data.lastname == "" || data.country == "" ||data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==") {
         return "false";
-      } else {
+      } 
+      else if(data.email == ""){
+        return "false";
+
+      }
+      else {
         return "true";
       }
     });
@@ -1147,6 +1153,8 @@ const ViewTable = (props) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
+      list[i].userType = value=="Yes"?irtRole[0]:"Other";  
+      list[i].roleIndex =value=="Yes"?0 :4;  
       setHpc(list);
     }
     let arr = [];
@@ -1273,11 +1281,13 @@ const ViewTable = (props) => {
       if(value == "Study site"){
         list[i].siteIrtIndex = 0;
         list[i].siteIrt = "Yes";
+        list[i].userType = irtRole[0]?.value;
+        list[i].roleIndex =0;   
       }else{
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
-        list[i].userType = "";
-        list[i].userTypeIndex = "";
+        list[i].userType = "Other";  
+        list[i].roleIndex =4;  
       }
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -1407,14 +1417,26 @@ const ViewTable = (props) => {
    
 
       const status = body.data.map((data) => {
-        if (data.email == "") {
+        if (data.first_name == "" && localStorage.getItem("user_id") ==
+        "56Ek4feL/1A8mZgIKQWEqg==" ) {
+          return "Please enter the First name";
+        }
+        else  if (data.last_name == ""  && localStorage.getItem("user_id") ==
+        "56Ek4feL/1A8mZgIKQWEqg==") {
+          return "Please enter the Last name";
+        }
+        else if (data.email == "") {
           // setValidationError({ newHcpEmail: "Please enter the email atleast" });
           return "Please enter the email atleast";
         }
         else if(data.institution_type == "" && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="){
           
           return "Please select Institution";
-        } else if (data.email != "") {
+        } 
+        else if(data.country == "" && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="){
+          return "Please select country";
+        }
+        else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           // var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -2152,7 +2174,10 @@ const ViewTable = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First name</label>
+                                  <label htmlFor="">First name {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    } </label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2165,7 +2190,10 @@ const ViewTable = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last name</label>
+                                  <label htmlFor="">Last name {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2373,16 +2401,7 @@ const ViewTable = (props) => {
                                             onUserTypeChange(event, i)
                                           }
                                           value={
-                                            irtRole.findIndex(
-                                              (el) => el.value == val?.userType
-                                            ) == -1
-                                              ? ""
-                                              : irtRole[
-                                                  irtRole.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.userType
-                                                  )
-                                                ]
+                                            irtRole[hpc[i].roleIndex]
                                           }
                                           placeholder={"Select Role"}
                                           isClearable
@@ -2397,16 +2416,7 @@ const ViewTable = (props) => {
                                             onUserTypeChange(event, i)
                                           }
                                           value={
-                                            userTypeAll.findIndex(
-                                              (el) => el.value == val?.userType
-                                            ) == -1
-                                              ? ""
-                                              : userTypeAll[
-                                                  userTypeAll.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.userType
-                                                  )
-                                                ]
+                                            userTypeAll[hpc[i].roleIndex]
                                           }
                                           isClearable
                                           placeholder={"Select Role"}
@@ -2481,7 +2491,10 @@ const ViewTable = (props) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Country</label>
+                                      <label for="">Country {
+                                      localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && <span>*</span>
+                                    }</label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
                                         <Select
