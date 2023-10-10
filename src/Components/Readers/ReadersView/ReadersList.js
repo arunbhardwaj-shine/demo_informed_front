@@ -2303,7 +2303,7 @@ const NewReaders = () => {
                                       
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Account Country
+                                          Country
                                         </h6>
                                         <h6>
                                           {data?.country
