@@ -356,20 +356,22 @@ const TemplateBuilder = (props) => {
         setDefaultTemplate(res.data.response.is_default);
         setCounter(counter + 1);
         setTimeout(() => {
-          const result =  res.data.response.data.find(obj => obj.id === templateId);
+          const result = res.data.response.data.find(
+            (obj) => obj.id === templateId
+          );
           if (result) {
             // console.log('Found:', result?.id);
-            const myButton = document.getElementById('item_' + result?.id);
+            const myButton = document.getElementById("item_" + result?.id);
             // Programmatically trigger a click event on the element
-            if(myButton){
+            if (myButton) {
               myButton.click();
             }
           } else {
             // console.log('Object not found',res.data.response.data?.[0]?.id);
-            let id= res.data.response.data?.[0]?.id;
-            const myButton = document.getElementById('item_' + id);
+            let id = res.data.response.data?.[0]?.id;
+            const myButton = document.getElementById("item_" + id);
             // Programmatically trigger a click event on the element
-            if(myButton){
+            if (myButton) {
               myButton.click();
             }
           }
@@ -465,10 +467,15 @@ const TemplateBuilder = (props) => {
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (data.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" || data?.country == "") {
+        if (
+          data.email == "" ||
+          data?.institutionType == "" ||
+          data?.first_name == "" ||
+          data?.last_name == "" ||
+          data?.country == ""
+        ) {
           return "false";
-        } 
-        else {
+        } else {
           return "true";
         }
       } else {
@@ -789,7 +796,7 @@ const TemplateBuilder = (props) => {
     setNewTemplateName(template.name);
     setTemplate(template.source_code);
     setsaveTemplateType(template.content_included);
-    if(e){
+    if (e) {
       e.target.classList.toggle("select_mm");
     }
   };
@@ -1010,7 +1017,7 @@ const TemplateBuilder = (props) => {
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
       // list[i].role = "";
-      list[i].role = e=="yes"?irtRole[0]?.value:"Other";   
+      list[i].role = e == "yes" ? irtRole[0]?.value : "Other";
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -1175,29 +1182,25 @@ const TemplateBuilder = (props) => {
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
-    
 
       const status = body.data.map((data, index) => {
-        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-          if(data?.first_name == ""){
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          if (data?.first_name == "") {
             setValidationError({
               [`firstName-${index}`]: "Please enter the first name",
             });
-            return
-          
-          }else if(data?.last_name == ""){
+            return;
+          } else if (data?.last_name == "") {
             setValidationError({
               [`lastName-${index}`]: "Please enter the last name",
             });
-            return
-          }else{
-            let obj =  {...validationError}
-           delete obj?.[`firstName-${index}`]
-           delete obj?.[`lastName-${index}`]
-        
+            return;
+          } else {
+            let obj = { ...validationError };
+            delete obj?.[`firstName-${index}`];
+            delete obj?.[`lastName-${index}`];
           }
         }
-
 
         if (data.email == "" || data.institution_type == "") {
           if (data.email == "") {
@@ -1206,31 +1209,8 @@ const TemplateBuilder = (props) => {
               index: index,
             });
             return;
-          } 
-
-
-          
-           if (data.email != "") {
-            let email = data.email;
-            let useremail = email.trim();
-            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (regex.test(String(useremail).toLowerCase())) {
-              let prev_obj = selectedHcp.find((x) => x.email === useremail);
-              if (typeof prev_obj != "undefined") {
-                setValidationError({
-                  newHcpEmail: "User with same email already added in list.",
-                  index: index,
-                });
-                return;
-              }
-            } else {
-              setValidationError({
-                newHcpEmail: "Email format is not valid",
-                index: index,
-              });
-              return;
-            }
           }
+
           if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
             if (data.institution_type == "") {
               setValidationError({
@@ -1241,20 +1221,40 @@ const TemplateBuilder = (props) => {
             }
           }
         }
-        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-          if(data?.country == ""){
+        if (data.email != "") {
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            let prev_obj = selectedHcp.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+                index: index,
+              });
+              return;
+            }
+          } else {
+            setValidationError({
+              newHcpEmail: "Email format is not valid",
+              index: index,
+            });
+            return;
+          }
+        }
+
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          if (data?.country == "") {
             setValidationError({
               [`country-${index}`]: "Please select country ",
             });
-            return
-          }else{
-            let obj =  {...validationError}
-            delete obj?.[`country-${index}`]
+            return;
+          } else {
+            let obj = { ...validationError };
+            delete obj?.[`country-${index}`];
           }
         }
-          return "true";
-        
-        
+        return "true";
       });
       status.sort();
       if (status.every((element) => element == "true")) {
@@ -1726,7 +1726,7 @@ const TemplateBuilder = (props) => {
     setTemplateType(e);
   };
 
-  const onSaveTemplateTypeChange  = (e) => {
+  const onSaveTemplateTypeChange = (e) => {
     setsaveTemplateType(e);
   };
 
@@ -1760,32 +1760,36 @@ const TemplateBuilder = (props) => {
     );
     return modifiedString;
   };
-  const uploadImageToServer =    async function uploadImageToServer(file) {
+  const uploadImageToServer = async function uploadImageToServer(file) {
     try {
       const formData = new FormData();
       formData.append("image", file);
-  
+
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-      
-        let tox= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog") 
-         let tox1=document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop")
-         let aux= document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div")
+
+        let tox = document.querySelector(
+          "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog"
+        );
+        let tox1 = document.querySelector(
+          "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog-wrap__backdrop"
+        );
+        let aux = document.querySelector(
+          "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div"
+        );
         xhr.upload.addEventListener("progress", (event) => {
-          setShowProgress(true)
-         tox.style.opacity = 0
-         tox1.style.opacity = 0
-         aux.style.opacity = 0
+          setShowProgress(true);
+          tox.style.opacity = 0;
+          tox1.style.opacity = 0;
+          aux.style.opacity = 0;
           if (event.lengthComputable) {
             const percentComplete = (event.loaded / event.total) * 100;
-    
 
-  setProgress(parseInt(event.loaded / event.total) );
-  setPercent(parseInt(percentComplete));
-  
+            setProgress(parseInt(event.loaded / event.total));
+            setPercent(parseInt(percentComplete));
           }
         });
-  
+
         xhr.addEventListener("load", () => {
           if (xhr.status === 200) {
             try {
@@ -1795,29 +1799,26 @@ const TemplateBuilder = (props) => {
             } catch (parseError) {
               console.error("Failed to parse response JSON:", parseError);
               reject(null);
-            }
-            finally{
-              setShowProgress(false)
-         tox1.style.opacity = 1
-         tox.style.opacity = 1
-         aux.style.opacity = 1
+            } finally {
+              setShowProgress(false);
+              tox1.style.opacity = 1;
+              tox.style.opacity = 1;
+              aux.style.opacity = 1;
 
               setProgress(0);
               setPercent(0);
-              
-
             }
           } else {
             console.error("Image upload failed");
             reject(null);
           }
         });
-  
+
         xhr.addEventListener("error", (error) => {
           console.error("Image upload error:", error);
           reject(null);
         });
-  
+
         xhr.open("POST", "https://onesource.informed.pro/api/upload-image");
         xhr.send(formData);
       });
@@ -1825,7 +1826,7 @@ const TemplateBuilder = (props) => {
       console.error("Image upload error:", error);
       return null;
     }
-  }
+  };
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
       let dialog = document.getElementsByClassName("tox-dialog")[0];
@@ -1911,8 +1912,6 @@ const TemplateBuilder = (props) => {
   };
   return (
     <>
-         
-
       <div className="col right-sidebar">
         <div className="custom-container">
           <div className="row">
@@ -2218,36 +2217,41 @@ const TemplateBuilder = (props) => {
                                 {templateClickedd ? (
                                   <>
                                     <div className="form-group">
-                                        <DropdownButton
-                                          className="dropdown-basic-button split-button-dropup"
-                                          title={
-                                            saveTemplateType == 0  ?  "Pure Text" : 
-                                            saveTemplateType == 1  ? "Article" :
-                                            "Select Type"
-                                          }
-                                          onSelect={(event) =>
-                                            onSaveTemplateTypeChange(event)
+                                      <DropdownButton
+                                        className="dropdown-basic-button split-button-dropup"
+                                        title={
+                                          saveTemplateType == 0
+                                            ? "Pure Text"
+                                            : saveTemplateType == 1
+                                            ? "Article"
+                                            : "Select Type"
+                                        }
+                                        onSelect={(event) =>
+                                          onSaveTemplateTypeChange(event)
+                                        }
+                                      >
+                                        <Dropdown.Item
+                                          eventKey="1"
+                                          className={
+                                            saveTemplateType == 1
+                                              ? "active"
+                                              : ""
                                           }
                                         >
-                                          <Dropdown.Item
-                                            eventKey="1"
-                                            className={
-                                              saveTemplateType == 1  ? "active" : ""
-                                            }
-                                          >
-                                            Article
-                                          </Dropdown.Item>
-                                          <Dropdown.Item
-                                            eventKey="0"
-                                            className={
-                                              saveTemplateType == 0  ? "active" : ""
-                                            }
-                                          >
-                                            Pure text
-                                          </Dropdown.Item>
-                                          
-                                        </DropdownButton>
-                                      </div>
+                                          Article
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                          eventKey="0"
+                                          className={
+                                            saveTemplateType == 0
+                                              ? "active"
+                                              : ""
+                                          }
+                                        >
+                                          Pure text
+                                        </Dropdown.Item>
+                                      </DropdownButton>
+                                    </div>
                                     <button
                                       className="btn btn-primary btn-filled"
                                       onClick={(e) => {
@@ -2332,26 +2336,34 @@ const TemplateBuilder = (props) => {
                 </div>
 
                 <div className="row">
-               
-                {showProgress?  <div className="progressloader"> <div
-            className="circular-progressbar"
-            style={{
-              position:"absolute",
-              top:"50%",
-              left:"0",
-              right:"0",
-              margin:"0 auto",
-              width: 200,
-              height: 200,
-              zIndex: "999999",
-            }}
-          > <CircularProgressbar
-              value={percent}
-              text={`${percent}%`}
-              strokeWidth={5}
-            /></div></div>:""}
+                  {showProgress ? (
+                    <div className="progressloader">
+                      {" "}
+                      <div
+                        className="circular-progressbar"
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "0",
+                          right: "0",
+                          margin: "0 auto",
+                          width: 200,
+                          height: 200,
+                          zIndex: "999999",
+                        }}
+                      >
+                        {" "}
+                        <CircularProgressbar
+                          value={percent}
+                          text={`${percent}%`}
+                          strokeWidth={5}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   {templateClickedd ? (
-                    
                     <Editor
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
@@ -2992,13 +3004,19 @@ const TemplateBuilder = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First name
-                                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                  <label htmlFor="">
+                                    First name
+                                    {localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      <span>*</span>
+                                    ) : null}
                                   </label>
                                   <input
                                     type="text"
                                     className={
-                                      validationError?.[`firstName-${i}`]  && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                      validationError?.[`firstName-${i}`] &&
+                                      localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg=="
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3007,7 +3025,9 @@ const TemplateBuilder = (props) => {
                                     }
                                     value={val.firstname}
                                   />
-                                   {validationError?.[`firstName-${i}`]  &&   localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  {validationError?.[`firstName-${i}`] &&
+                                  localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                     <div className="login-validation">
                                       {validationError?.[`firstName-${i}`]}
                                     </div>
@@ -3016,14 +3036,19 @@ const TemplateBuilder = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last name
-                                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                  <label htmlFor="">
+                                    Last name
+                                    {localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      <span>*</span>
+                                    ) : null}
                                   </label>
                                   <input
                                     type="text"
                                     className={
-                                      validationError?.[`lastName-${i}`] 
-                                      && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                      validationError?.[`lastName-${i}`] &&
+                                      localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg=="
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3032,7 +3057,9 @@ const TemplateBuilder = (props) => {
                                     }
                                     value={val.lastname}
                                   />
-                                   {validationError?.[`lastName-${i}`] &&   localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  {validationError?.[`lastName-${i}`] &&
+                                  localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                     <div className="login-validation">
                                       {validationError?.[`lastName-${i}`]}
                                     </div>
@@ -3251,22 +3278,24 @@ const TemplateBuilder = (props) => {
                                 </>
                               )}
                               <div className="col-12 col-md-6">
-                                <div className="form-group"
-                                
-                                >
-                                  <label htmlFor="">Country
-                                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                <div className="form-group">
+                                  <label htmlFor="">
+                                    Country
+                                    {localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      <span>*</span>
+                                    ) : null}
                                   </label>
                                   {val?.optIrt == "yes" ? (
                                     <Select
                                       options={irtCountry}
                                       className={
-                                        validationError?.[`country-${i}`] 
-                                        && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                        validationError?.[`country-${i}`] &&
+                                        localStorage.getItem("user_id") ==
+                                          "56Ek4feL/1A8mZgIKQWEqg=="
                                           ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                           : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       }
-                                      
                                       onChange={(event) =>
                                         onCountryChange(event, i)
                                       }
@@ -3290,8 +3319,9 @@ const TemplateBuilder = (props) => {
                                       options={countryall}
                                       // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       className={
-                                        validationError?.[`country-${i}`] 
-                                        && localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                                        validationError?.[`country-${i}`] &&
+                                        localStorage.getItem("user_id") ==
+                                          "56Ek4feL/1A8mZgIKQWEqg=="
                                           ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                           : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       }
@@ -3314,7 +3344,9 @@ const TemplateBuilder = (props) => {
                                       isClearable
                                     />
                                   )}
-                                    {validationError?.[`country-${i}`] &&   localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  {validationError?.[`country-${i}`] &&
+                                  localStorage.getItem("user_id") ==
+                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                     <div className="login-validation">
                                       {validationError?.[`country-${i}`]}
                                     </div>
