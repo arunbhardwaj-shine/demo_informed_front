@@ -1,13 +1,374 @@
-import React from "react";
+import React, { useState,useRef } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+import { postData } from "../../axios/apiHelper";
+import { loader } from "../../loader";
+import { ENDPOINT } from "../../axios/apiConfig";
 
 const LandingContact = () => {
-  const options = [
+  const [country, setCountry] = useState([
+    { value: "Afghanistan", label: "Afghanistan" },
+    { value: "Albania", label: "Albania" },
     { value: "Algeria", label: "Algeria" },
+    { value: "American Samoa", label: "American Samoa" },
+    { value: "Andorra", label: "Andorra" },
+    { value: "Angola", label: "Angola" },
+    { value: "Anguilla", label: "Anguilla" },
+    { value: "Antarctica", label: "Antarctica" },
+    { value: "Antigua and Barbuda", label: "Antigua and Barbuda" },
+    { value: "Argentina", label: "Argentina" },
+    { value: "Armenia", label: "Armenia" },
+    { value: "Aruba", label: "Aruba" },
     { value: "Australia", label: "Australia" },
-    { value: "America", label: "America" },
-  ];
+    { value: "Austria", label: "Austria" },
+    { value: "Azerbaijan", label: "Azerbaijan" },
+    { value: "Bahamas", label: "Bahamas" },
+    { value: "Bahrain", label: "Bahrain" },
+    { value: "Bangladesh", label: "Bangladesh" },
+    { value: "Barbados", label: "Barbados" },
+    { value: "Belarus", label: "Belarus" },
+    { value: "Belgium", label: "Belgium" },
+    { value: "Belize", label: "Belize" },
+    { value: "Benin", label: "Benin" },
+    { value: "Bermuda", label: "Bermuda" },
+    { value: "Bhutan", label: "Bhutan" },
+    { value: "Bolivia", label: "Bolivia" },
+    { value: "B&H", label: "Bosnia and Herzegovina" },
+    { value: "Botswana", label: "Botswana" },
+    { value: "Bouvet Island", label: "Bouvet Island" },
+    { value: "Brazil", label: "Brazil" },
+    {
+      value: "British Indian Ocean Territory",
+      label: "British Indian Ocean Territory",
+    },
+    { value: "Brunei Darussalam", label: "Brunei Darussalam" },
+    { value: "Bulgaria", label: "Bulgaria" },
+    { value: "Burkina Faso", label: "Burkina Faso" },
+    { value: "Burundi", label: "Burundi" },
+    { value: "Cambodia", label: "Cambodia" },
+    { value: "Cameroon", label: "Cameroon" },
+    { value: "Canada", label: "Canada" },
+    { value: "Cape Verde", label: "Cape Verde" },
+    { value: "Cayman Islands", label: "Cayman Islands" },
+    { value: "Central African Republic", label: "Central African Republic" },
+    { value: "Chad", label: "Chad" },
+    { value: "Chile", label: "Chile" },
+    { value: "China", label: "China" },
+    { value: "Christmas Island", label: "Christmas Island" },
+    { value: "Cocos (Keeling) Islands", label: "Cocos (Keeling) Islands" },
+    { value: "Colombia", label: "Colombia" },
+    { value: "Comoros", label: "Comoros" },
+    { value: "Congo", label: "Congo" },
+    {
+      value: "Congo, The Democratic Republic of The",
+      label: "Congo, The Democratic Republic of The",
+    },
+    { value: "Cook Islands", label: "Cook Islands" },
+    { value: "Costa Rica", label: "Costa Rica" },
+    { value: "Cote D'ivoire", label: "Cote D'ivoire" },
+    { value: "Croatia", label: "Croatia" },
+    { value: "Cuba", label: "Cuba" },
+    { value: "Cyprus", label: "Cyprus" },
+    { value: "Czech Republic", label: "Czech Republic" },
+    { value: "Denmark", label: "Denmark" },
+    { value: "Djibouti", label: "Djibouti" },
+    { value: "Dominica", label: "Dominica" },
+    { value: "Dominican Republic", label: "Dominican Republic" },
+    { value: "Ecuador", label: "Ecuador" },
+    { value: "Egypt", label: "Egypt" },
+    { value: "El Salvador", label: "El Salvador" },
+    { value: "Equatorial Guinea", label: "Equatorial Guinea" },
+    { value: "Eritrea", label: "Eritrea" },
+    { value: "Estonia", label: "Estonia" },
+    { value: "Ethiopia", label: "Ethiopia" },
+    {
+      value: "Falkland Islands (Malvinas)",
+      label: "Falkland Islands (Malvinas)",
+    },
+    { value: "Faroe Islands", label: "Faroe Islands" },
+    { value: "Fiji", label: "Fiji" },
+    { value: "Finland", label: "Finland" },
+    { value: "France", label: "France" },
+    { value: "French Guiana", label: "French Guiana" },
+    { value: "French Polynesia", label: "French Polynesia" },
+    {
+      value: "French Southern Territories",
+      label: "French Southern Territories",
+    },
+    { value: "Gabon", label: "Gabon" },
+    { value: "Gambia", label: "Gambia" },
+    { value: "Georgia", label: "Georgia" },
+    { value: "Germany", label: "Germany" },
+    { value: "Ghana", label: "Ghana" },
+    { value: "Gibraltar", label: "Gibraltar" },
+    { value: "Greece", label: "Greece" },
+    { value: "Greenland", label: "Greenland" },
+    { value: "Grenada", label: "Grenada" },
+    { value: "Guadeloupe", label: "Guadeloupe" },
+    { value: "Guam", label: "Guam" },
+    { value: "Guatemala", label: "Guatemala" },
+    { value: "Guinea", label: "Guinea" },
+    { value: "Guinea-bissau", label: "Guinea-bissau" },
+    { value: "Guyana", label: "Guyana" },
+    { value: "Haiti", label: "Haiti" },
+    {
+      value: "Heard Island and Mcdonald Islands",
+      label: "Heard Island and Mcdonald Islands",
+    },
+    {
+      value: "Holy See (Vatican City State)",
+      label: "Holy See (Vatican City State)",
+    },
+    { value: "Honduras", label: "Honduras" },
+    { value: "Hong Kong", label: "Hong Kong" },
+    { value: "Hungary", label: "Hungary" },
+    { value: "Iceland", label: "Iceland" },
+    { value: "India", label: "India" },
+    { value: "Indonesia", label: "Indonesia" },
+    { value: "Iran, Islamic Republic of", label: "Iran, Islamic Republic of" },
+    { value: "Iraq", label: "Iraq" },
+    { value: "Ireland", label: "Ireland" },
+    { value: "Israel", label: "Israel" },
+    { value: "Italy", label: "Italy" },
+    { value: "Jamaica", label: "Jamaica" },
+    { value: "Japan", label: "Japan" },
+    { value: "Jordan", label: "Jordan" },
+    { value: "Kazakhstan", label: "Kazakhstan" },
+    { value: "Kenya", label: "Kenya" },
+    { value: "Kiribati", label: "Kiribati" },
+    {
+      value: "Korea, Democratic People's Republic of",
+      label: "Korea, Democratic People's Republic of",
+    },
+    { value: "Korea, Republic of", label: "Korea, Republic of" },
+    { value: "Kosovo", label: "Kosovo" },
+    { value: "Kuwait", label: "Kuwait" },
+    { value: "Kyrgyzstan", label: "Kyrgyzstan" },
+    {
+      value: "Lao People's Democratic Republic",
+      label: "Lao People's Democratic Republic",
+    },
+    { value: "Latvia", label: "Latvia" },
+    { value: "Lebanon", label: "Lebanon" },
+    { value: "Lesotho", label: "Lesotho" },
+    { value: "Liberia", label: "Liberia" },
+    { value: "Libyan Arab Jamahiriya", label: "Libyan Arab Jamahiriya" },
+    { value: "Liechtenstein", label: "Liechtenstein" },
+    { value: "Lithuania", label: "Lithuania" },
+    { value: "Luxembourg", label: "Luxembourg" },
+    { value: "Macao", label: "Macao" },
+    { value: "North Macedonia", label: "North Macedonia" },
+    { value: "Madagascar", label: "Madagascar" },
+    { value: "Malawi", label: "Malawi" },
+    { value: "Malaysia", label: "Malaysia" },
+    { value: "Maldives", label: "Maldives" },
+    { value: "Mali", label: "Mali" },
+    { value: "Malta", label: "Malta" },
+    { value: "Marshall Islands", label: "Marshall Islands" },
+    { value: "Martinique", label: "Martinique" },
+    { value: "Mauritania", label: "Mauritania" },
+    { value: "Mauritius", label: "Mauritius" },
+    { value: "Mayotte", label: "Mayotte" },
+    { value: "Mexico", label: "Mexico" },
+    {
+      value: "Micronesia, Federated States of",
+      label: "Micronesia, Federated States of",
+    },
+    { value: "Moldova, Republic of", label: "Moldova, Republic of" },
+    { value: "Monaco", label: "Monaco" },
+    { value: "Mongolia", label: "Mongolia" },
+    { value: "Montserrat", label: "Montserrat" },
+    { value: "Morocco", label: "Morocco" },
+    { value: "Mozambique", label: "Mozambique" },
+    { value: "Myanmar", label: "Myanmar" },
+    { value: "Namibia", label: "Namibia" },
+    { value: "Nauru", label: "Nauru" },
+    { value: "Nepal", label: "Nepal" },
+    { value: "Netherlands", label: "Netherlands" },
+    { value: "Netherlands Antilles", label: "Netherlands Antilles" },
+    { value: "New Caledonia", label: "New Caledonia" },
+    { value: "New Zealand", label: "New Zealand" },
+    { value: "Nicaragua", label: "Nicaragua" },
+    { value: "Niger", label: "Niger" },
+    { value: "Nigeria", label: "Nigeria" },
+    { value: "Niue", label: "Niue" },
+    { value: "Norfolk Island", label: "Norfolk Island" },
+    { value: "Northern Mariana Islands", label: "Northern Mariana Islands" },
+    { value: "Norway", label: "Norway" },
+    { value: "Oman", label: "Oman" },
+    { value: "Pakistan", label: "Pakistan" },
+    { value: "Palau", label: "Palau" },
+    {
+      value: "Palestinian Territory, Occupied",
+      label: "Palestinian Territory, Occupied",
+    },
+    { value: "Panama", label: "Panama" },
+    { value: "Papua New Guinea", label: "Papua New Guinea" },
+    { value: "Paraguay", label: "Paraguay" },
+    { value: "Peru", label: "Peru" },
+    { value: "Philippines", label: "Philippines" },
+    { value: "Pitcairn", label: "Pitcairn" },
+    { value: "Poland", label: "Poland" },
+    { value: "Portugal", label: "Portugal" },
+    { value: "Puerto Rico", label: "Puerto Rico" },
+    { value: "Qatar", label: "Qatar" },
+    { value: "Reunion", label: "Reunion" },
+    { value: "Romania", label: "Romania" },
+    { value: "Russian Federation", label: "Russian Federation" },
+    { value: "Rwanda", label: "Rwanda" },
+    { value: "Saint Helena", label: "Saint Helena" },
+    { value: "Saint Kitts and Nevis", label: "Saint Kitts and Nevis" },
+    { value: "Saint Lucia", label: "Saint Lucia" },
+    { value: "Saint Pierre and Miquelon", label: "Saint Pierre and Miquelon" },
+    {
+      value: "Saint Vincent and The Grenadines",
+      label: "Saint Vincent and The Grenadines",
+    },
+    { value: "Samoa", label: "Samoa" },
+    { value: "San Marino", label: "San Marino" },
+    { value: "Sao Tome and Principe", label: "Sao Tome and Principe" },
+    { value: "Saudi Arabia", label: "Saudi Arabia" },
+    { value: "Senegal", label: "Senegal" },
+    { value: "Serbia", label: "Serbia" },
+    { value: "Montenegro", label: "Montenegro" },
+    { value: "Seychelles", label: "Seychelles" },
+    { value: "Sierra Leone", label: "Sierra Leone" },
+    { value: "Singapore", label: "Singapore" },
+    { value: "Slovakia", label: "Slovakia" },
+    { value: "Slovenia", label: "Slovenia" },
+    { value: "Solomon Islands", label: "Solomon Islands" },
+    { value: "Somalia", label: "Somalia" },
+    { value: "South Africa", label: "South Africa" },
+    {
+      value: "South Georgia and The South Sandwich Islands",
+      label: "South Georgia and The South Sandwich Islands",
+    },
+    { value: "Spain", label: "Spain" },
+    { value: "Sri Lanka", label: "Sri Lanka" },
+    { value: "Sudan", label: "Sudan" },
+    { value: "Suriname", label: "Suriname" },
+    { value: "Svalbard and Jan Mayen", label: "Svalbard and Jan Mayen" },
+    { value: "Swaziland", label: "Swaziland" },
+    { value: "Sweden", label: "Sweden" },
+    { value: "Switzerland", label: "Switzerland" },
+    { value: "Syrian Arab Republic", label: "Syrian Arab Republic" },
+    { value: "Taiwan, Province of China", label: "Taiwan, Province of China" },
+    { value: "Tajikistan", label: "Tajikistan" },
+    {
+      value: "Tanzania, United Republic of",
+      label: "Tanzania, United Republic of",
+    },
+    { value: "Thailand", label: "Thailand" },
+    { value: "Timor-leste", label: "Timor-leste" },
+    { value: "Togo", label: "Togo" },
+    { value: "Tokelau", label: "Tokelau" },
+    { value: "Tonga", label: "Tonga" },
+    { value: "Trinidad and Tobago", label: "Trinidad and Tobago" },
+    { value: "Tunisia", label: "Tunisia" },
+    { value: "Turkey", label: "Turkey" },
+    { value: "Turkmenistan", label: "Turkmenistan" },
+    { value: "Turks and Caicos Islands", label: "Turks and Caicos Islands" },
+    { value: "Tuvalu", label: "Tuvalu" },
+    { value: "Uganda", label: "Uganda" },
+    { value: "Ukraine", label: "Ukraine" },
+    { value: "United Arab Emirates", label: "United Arab Emirates" },
+    { value: "United Kingdom", label: "United Kingdom" },
+    { value: "United States", label: "United States" },
+    {
+      value: "United States Minor Outlying Islands",
+      label: "United States Minor Outlying Islands",
+    },
+    { value: "Uruguay", label: "Uruguay" },
+    { value: "Uzbekistan", label: "Uzbekistan" },
+    { value: "Vanuatu", label: "Vanuatu" },
+    { value: "Venezuela", label: "Venezuela" },
+    { value: "Viet Nam", label: "Viet Nam" },
+    { value: "Virgin Islands, British", label: "Virgin Islands, British" },
+    { value: "Virgin Islands, U.S.", label: "Virgin Islands, U.S." },
+    { value: "Wallis and Futuna", label: "Wallis and Futuna" },
+    { value: "Western Sahara", label: "Western Sahara" },
+    { value: "Yemen", label: "Yemen" },
+    { value: "Zambia", label: "Zambia" },
+    { value: "Zimbabwe", label: "Zimbabwe" },
+  ]);
+
+  const [contactFormInputs, setContactFormInputs] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    country: "",
+    message: "",
+
+  });
+
+  const [conatctError, setContactError] = useState(false);
+  const [forceRender, setForceRender] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState([]);
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const companyRef = useRef(null);
+  const phoneRef = useRef(null);
+  const countryRef = useRef(null);
+
+  const handleContactFormChange = (e, isSelectedName) => {
+    setContactFormInputs({
+      ...contactFormInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e.target?.files
+          : e
+        : e?.target?.value, 
+    });
+  };
+
+
+  // send contact infromation
+  const sendContactInformation = async (event) => {
+    event.preventDefault();
+    const err = HomeValidation(contactFormInputs);
+    if (Object.keys(err)?.length) {
+      if (Object?.keys(err)[0] == "name") {
+        nameRef?.current?.focus();
+      } else if (Object?.keys(err)[0] == "email") {
+        emailRef?.current?.focus();
+      } else if (Object.keys(err)[0] == "comapny") {
+        companyRef.current.focus();
+      } else if (Object.keys(err)[0] == "phone") {
+        phoneRef.current.focus();
+      } else if (Object.keys(err)[0] == "country") {
+        countryRef.current.focus();
+      } 
+      setContactError(err);
+      return;
+      
+    } else {
+      loader("show");
+      try {
+        const res = await postData(ENDPOINT.INFORMED_USER_FORM, {
+          name: contactFormInputs?.name?.trim(),
+          email: contactFormInputs?.email?.trim(),
+          phone: contactFormInputs?.phone?.trim(),
+          company: contactFormInputs?.company?.trim(),
+          country: contactFormInputs?.country?.trim(),
+          message: contactFormInputs?.message?.trim(),
+        });
+        let obj = {};
+        loader("hide");
+        setContactFormInputs(obj);
+        setSelectedCountry([]);
+        setContactError(false);
+        setForceRender(!forceRender);
+       
+      } catch (err) {
+        console.log(err);
+        loader("hide");
+      }
+    }
+    console.log(contactFormInputs,'===>sendContactInformation')
+  };
+ 
   return (
     <>
       <div className="contact-inset">
@@ -28,7 +389,20 @@ const LandingContact = () => {
                     type="text"
                     placeholder="Name"
                     name="name"
-                    class="form-control"
+                    ref={nameRef}
+                    // class="form-control"
+                    className={
+                      !conatctError?.name
+                        ? "form-control"
+                        : "form-control error"
+                    }
+                    value={
+                      contactFormInputs?.name
+                        ? contactFormInputs?.name
+                        : ""
+                    }
+                    onChange={handleContactFormChange} 
+                   
                   />
                   <span>
                     <svg
@@ -46,6 +420,11 @@ const LandingContact = () => {
                     </svg>
                   </span>
                 </div>
+                {conatctError?.name ? (
+                    <div className="contact-validation">{conatctError?.name}</div>
+                  ) : (
+                    ""
+                  )}
               </Col>
               <Col md="6">
                 <div className="form-group">
@@ -53,7 +432,19 @@ const LandingContact = () => {
                     type="email"
                     placeholder="Email"
                     name="email"
-                    class="form-control"
+                    ref={emailRef}
+                    // class="form-control"
+                    className={
+                      !conatctError?.email
+                        ? "form-control"
+                        : "form-control error"
+                    }
+                    value={
+                      contactFormInputs?.email
+                        ? contactFormInputs?.email
+                        : ""
+                    }
+                    onChange={handleContactFormChange}
                   />
                   <span>
                     <svg
@@ -73,34 +464,65 @@ const LandingContact = () => {
                     </svg>
                   </span>
                 </div>
+                {conatctError?.email ? (
+                    <div className="contact-validation">{conatctError?.email}</div>
+                  ) : (
+                    ""
+                  )}
               </Col>
               <Col md="6">
-                <div className="form-group">
+                <div 
+                className="form-group"
+                >
                   <Select
-                    options={options}
+                    options={country}
                     placeholder="Select country"
-                    className="dropdown-basic-button split-button-dropup"
+                    // className="dropdown-basic-button split-button-dropup"
+                    className={
+                      !conatctError?.country
+                        ? "dropdown-basic-button split-button-dropup"
+                        : "dropdown-basic-button split-button-dropup error"
+                    }
+                    isClearable
+                    onChange={(e) => {
+                      handleContactFormChange(e?.value, "country");
+                      setSelectedCountry(e);
+                    }}
+                    value={selectedCountry}
+                    ref={countryRef}
                   />
                   <span>
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <g clip-path="url(#clip0_450_4809)">
+                        {" "}
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M19.9999 9.99993C19.9999 12.1465 19.3199 14.1372 18.1645 15.7682C17.7528 16.1293 17.1149 16.1879 16.8712 16.0462C16.8091 16.0102 16.7874 15.9797 16.8112 15.8842C17.0536 14.9078 17.0149 14.4061 16.9774 13.9212C16.9616 13.7167 16.9465 13.5235 16.9516 13.2898C16.9754 12.165 16.8217 11.4929 16.4533 11.1102C16.0757 10.7182 15.5549 10.7091 15.0517 10.7007C14.6845 10.6944 14.3053 10.6879 13.9212 10.5547C12.7616 9.78114 13.085 9.272 13.5308 8.56965C13.7862 8.16766 14.0734 7.71536 13.9138 7.23922C13.979 7.11028 14.175 6.89895 14.2762 6.87063C15.1036 7.12934 17.1108 7.17848 17.4945 7.07348C17.9003 6.96223 18.2496 6.29289 18.1871 5.74739C18.1279 5.23059 17.7253 4.90762 17.1099 4.88344C17.0186 4.87973 16.8482 4.89582 16.5024 4.92883C16.0783 4.96953 15.1396 5.05938 14.805 5.01926C14.6938 4.6318 14.6083 3.85496 14.9475 3.54516C15.297 3.22535 15.9216 3.01676 16.3778 2.86445C16.5675 2.80113 16.7142 2.75121 16.8299 2.70305C18.7795 4.52907 19.9999 7.12446 19.9999 9.99993ZM4.30078 1.78785C4.66269 1.9009 4.92453 1.99445 5.13937 2.07152C6.00234 2.38031 6.09351 2.38016 7.57414 2.06856C8.54582 1.86391 8.75242 2.03356 9.06574 2.29047C9.32285 2.50141 9.64328 2.76383 10.3211 2.86035C10.5257 2.88965 10.8056 2.89809 10.9532 3.0634C11.0244 3.1436 11.0549 3.25367 11.0578 3.36082C11.0635 3.57805 10.9902 3.78328 10.9548 3.99477C10.9253 4.16992 10.9216 4.37082 10.7881 4.50528C10.6269 4.66766 10.2875 4.67926 10.074 4.72348C9.4636 4.84985 8.93996 5.05215 8.38738 5.33481C7.87274 5.59805 7.23231 5.92551 7.04359 6.89149C6.98953 7.17024 6.6025 7.24707 6.01789 7.33239C5.49363 7.40883 4.95168 7.48786 4.74937 7.92446C4.52785 8.40172 4.87144 8.89711 5.09691 9.30149C5.31414 9.69051 5.54566 10.1257 5.9357 10.3685C6.23371 10.5543 6.53445 10.5191 7.03277 10.4609C7.21402 10.4398 7.43949 10.4135 7.71152 10.3919C8.03649 10.3919 10.3728 11.0457 11.1736 11.9012C11.3318 12.0699 11.4065 12.224 11.3965 12.3588C11.3161 13.4152 10.8235 13.9965 10.302 14.612C9.81192 15.1899 9.30575 15.7875 9.18567 16.7548C9.04727 17.8733 8.64684 18.4436 8.46149 18.4485C8.4611 18.4485 8.46031 18.4485 8.45992 18.4485C8.33313 18.4485 7.90992 18.0642 7.60246 16.341C7.23289 14.2674 6.59543 13.8351 6.08336 13.4877C5.66621 13.2047 5.36488 13.0002 5.34777 11.4919C5.33656 10.492 4.80992 9.77954 3.95816 9.28614C3.19191 8.84247 1.77894 8.02254 0.966085 5.71457C1.71898 4.13356 2.87523 2.78035 4.30078 1.78785ZM9.99989 20.0001C12.9007 20.0001 15.5166 18.7579 17.3449 16.7784C17.3007 16.7814 17.2565 16.7834 17.2128 16.7834C16.9608 16.7834 16.7245 16.7318 16.5362 16.6225C16.2103 16.4334 16.0711 16.0971 16.1641 15.7234C16.3807 14.8518 16.3473 14.4247 16.3125 13.9727C16.2962 13.761 16.2791 13.5424 16.2848 13.2757C16.3036 12.3803 16.1987 11.8072 15.9728 11.5725C15.7961 11.389 15.5174 11.3754 15.0403 11.3671C14.6269 11.3602 14.1583 11.3522 13.6566 11.168C13.6324 11.1591 13.6094 11.1477 13.5882 11.1338C12.8304 10.6368 12.4608 10.1104 12.4579 9.52477C12.4557 9.01938 12.7278 8.59067 12.9678 8.21223C13.2082 7.83364 13.3488 7.59145 13.2703 7.42258C13.1386 7.1393 13.3883 6.79313 13.5487 6.61192C13.8449 6.27715 14.1779 6.13797 14.4612 6.22996C15.159 6.45641 16.9944 6.48926 17.3033 6.43344C17.3996 6.35856 17.579 6.01118 17.515 5.7702C17.5016 5.7193 17.4603 5.56438 17.0841 5.54965C17.029 5.54809 16.7829 5.57164 16.5657 5.5925C14.8121 5.76036 14.3991 5.7293 14.2394 5.41715C13.9312 4.81348 13.9261 3.82707 14.3153 3.2625C14.3678 3.18625 14.4291 3.11567 14.4973 3.05317C14.9516 2.63781 15.654 2.40328 16.1664 2.23207C16.1949 2.22262 16.224 2.21281 16.2535 2.20297C14.5398 0.825626 12.3649 0 9.99989 0C8.1916 0 6.49398 0.482383 5.02871 1.32551C5.15648 1.36973 5.26773 1.40926 5.36406 1.44383C6.08332 1.70094 6.08332 1.70094 7.43652 1.41613C8.62895 1.16508 9.03899 1.40649 9.48817 1.77488C9.71106 1.9575 9.92141 2.13008 10.4152 2.20047C10.8506 2.26238 11.2298 2.33688 11.4623 2.62094C11.8341 3.07481 11.6566 3.87352 11.5416 4.39129C11.4539 4.78504 11.2406 5.12512 10.8315 5.23539C10.4575 5.33606 10.072 5.3836 9.70199 5.50016C9.35309 5.61024 9.01063 5.76477 8.69102 5.92829C8.22613 6.16614 7.82434 6.37157 7.69813 7.01926C7.54891 7.78235 6.71937 7.90344 6.1139 7.99192C5.84851 8.03082 5.40488 8.09551 5.35394 8.20481C5.3514 8.21012 5.29656 8.34083 5.5739 8.78547L5.68301 8.96141C5.97726 9.43419 6.15476 9.71961 6.28805 9.80254C6.38437 9.86251 6.55184 9.84579 6.95523 9.7988C7.14273 9.77676 7.37648 9.74965 7.66231 9.72684C8.0761 9.69383 10.5934 10.3808 11.6044 11.3881C11.9339 11.7162 12.0878 12.06 12.0611 12.4093C11.9643 13.6813 11.3514 14.4047 10.8102 15.043C10.3447 15.5922 9.94278 16.0668 9.84723 16.8367C9.67856 18.2029 9.14133 19.0974 8.47926 19.1148C8.4718 19.115 8.46473 19.1152 8.45762 19.1152C7.76883 19.1152 7.26051 18.2214 6.94594 16.4579C6.62555 14.6612 6.1384 14.3308 5.7089 14.0393C5.10051 13.6266 4.70047 13.227 4.68101 11.4993C4.67316 10.7752 4.23597 10.2175 3.62382 9.86286C2.91378 9.45161 1.5189 8.64348 0.59796 6.59204C0.210889 7.65629 -0.000244141 8.80372 -0.000244141 9.99985C-8.78904e-05 15.5141 4.48578 20.0001 9.99989 20.0001Z"
+                          fill="white"
+                          fill-opacity="0.56"
+                        />
+                      </g>
 
-<g clip-path="url(#clip0_450_4809)"> <path fill-rule="evenodd" clip-rule="evenodd" d="M19.9999 9.99993C19.9999 12.1465 19.3199 14.1372 18.1645 15.7682C17.7528 16.1293 17.1149 16.1879 16.8712 16.0462C16.8091 16.0102 16.7874 15.9797 16.8112 15.8842C17.0536 14.9078 17.0149 14.4061 16.9774 13.9212C16.9616 13.7167 16.9465 13.5235 16.9516 13.2898C16.9754 12.165 16.8217 11.4929 16.4533 11.1102C16.0757 10.7182 15.5549 10.7091 15.0517 10.7007C14.6845 10.6944 14.3053 10.6879 13.9212 10.5547C12.7616 9.78114 13.085 9.272 13.5308 8.56965C13.7862 8.16766 14.0734 7.71536 13.9138 7.23922C13.979 7.11028 14.175 6.89895 14.2762 6.87063C15.1036 7.12934 17.1108 7.17848 17.4945 7.07348C17.9003 6.96223 18.2496 6.29289 18.1871 5.74739C18.1279 5.23059 17.7253 4.90762 17.1099 4.88344C17.0186 4.87973 16.8482 4.89582 16.5024 4.92883C16.0783 4.96953 15.1396 5.05938 14.805 5.01926C14.6938 4.6318 14.6083 3.85496 14.9475 3.54516C15.297 3.22535 15.9216 3.01676 16.3778 2.86445C16.5675 2.80113 16.7142 2.75121 16.8299 2.70305C18.7795 4.52907 19.9999 7.12446 19.9999 9.99993ZM4.30078 1.78785C4.66269 1.9009 4.92453 1.99445 5.13937 2.07152C6.00234 2.38031 6.09351 2.38016 7.57414 2.06856C8.54582 1.86391 8.75242 2.03356 9.06574 2.29047C9.32285 2.50141 9.64328 2.76383 10.3211 2.86035C10.5257 2.88965 10.8056 2.89809 10.9532 3.0634C11.0244 3.1436 11.0549 3.25367 11.0578 3.36082C11.0635 3.57805 10.9902 3.78328 10.9548 3.99477C10.9253 4.16992 10.9216 4.37082 10.7881 4.50528C10.6269 4.66766 10.2875 4.67926 10.074 4.72348C9.4636 4.84985 8.93996 5.05215 8.38738 5.33481C7.87274 5.59805 7.23231 5.92551 7.04359 6.89149C6.98953 7.17024 6.6025 7.24707 6.01789 7.33239C5.49363 7.40883 4.95168 7.48786 4.74937 7.92446C4.52785 8.40172 4.87144 8.89711 5.09691 9.30149C5.31414 9.69051 5.54566 10.1257 5.9357 10.3685C6.23371 10.5543 6.53445 10.5191 7.03277 10.4609C7.21402 10.4398 7.43949 10.4135 7.71152 10.3919C8.03649 10.3919 10.3728 11.0457 11.1736 11.9012C11.3318 12.0699 11.4065 12.224 11.3965 12.3588C11.3161 13.4152 10.8235 13.9965 10.302 14.612C9.81192 15.1899 9.30575 15.7875 9.18567 16.7548C9.04727 17.8733 8.64684 18.4436 8.46149 18.4485C8.4611 18.4485 8.46031 18.4485 8.45992 18.4485C8.33313 18.4485 7.90992 18.0642 7.60246 16.341C7.23289 14.2674 6.59543 13.8351 6.08336 13.4877C5.66621 13.2047 5.36488 13.0002 5.34777 11.4919C5.33656 10.492 4.80992 9.77954 3.95816 9.28614C3.19191 8.84247 1.77894 8.02254 0.966085 5.71457C1.71898 4.13356 2.87523 2.78035 4.30078 1.78785ZM9.99989 20.0001C12.9007 20.0001 15.5166 18.7579 17.3449 16.7784C17.3007 16.7814 17.2565 16.7834 17.2128 16.7834C16.9608 16.7834 16.7245 16.7318 16.5362 16.6225C16.2103 16.4334 16.0711 16.0971 16.1641 15.7234C16.3807 14.8518 16.3473 14.4247 16.3125 13.9727C16.2962 13.761 16.2791 13.5424 16.2848 13.2757C16.3036 12.3803 16.1987 11.8072 15.9728 11.5725C15.7961 11.389 15.5174 11.3754 15.0403 11.3671C14.6269 11.3602 14.1583 11.3522 13.6566 11.168C13.6324 11.1591 13.6094 11.1477 13.5882 11.1338C12.8304 10.6368 12.4608 10.1104 12.4579 9.52477C12.4557 9.01938 12.7278 8.59067 12.9678 8.21223C13.2082 7.83364 13.3488 7.59145 13.2703 7.42258C13.1386 7.1393 13.3883 6.79313 13.5487 6.61192C13.8449 6.27715 14.1779 6.13797 14.4612 6.22996C15.159 6.45641 16.9944 6.48926 17.3033 6.43344C17.3996 6.35856 17.579 6.01118 17.515 5.7702C17.5016 5.7193 17.4603 5.56438 17.0841 5.54965C17.029 5.54809 16.7829 5.57164 16.5657 5.5925C14.8121 5.76036 14.3991 5.7293 14.2394 5.41715C13.9312 4.81348 13.9261 3.82707 14.3153 3.2625C14.3678 3.18625 14.4291 3.11567 14.4973 3.05317C14.9516 2.63781 15.654 2.40328 16.1664 2.23207C16.1949 2.22262 16.224 2.21281 16.2535 2.20297C14.5398 0.825626 12.3649 0 9.99989 0C8.1916 0 6.49398 0.482383 5.02871 1.32551C5.15648 1.36973 5.26773 1.40926 5.36406 1.44383C6.08332 1.70094 6.08332 1.70094 7.43652 1.41613C8.62895 1.16508 9.03899 1.40649 9.48817 1.77488C9.71106 1.9575 9.92141 2.13008 10.4152 2.20047C10.8506 2.26238 11.2298 2.33688 11.4623 2.62094C11.8341 3.07481 11.6566 3.87352 11.5416 4.39129C11.4539 4.78504 11.2406 5.12512 10.8315 5.23539C10.4575 5.33606 10.072 5.3836 9.70199 5.50016C9.35309 5.61024 9.01063 5.76477 8.69102 5.92829C8.22613 6.16614 7.82434 6.37157 7.69813 7.01926C7.54891 7.78235 6.71937 7.90344 6.1139 7.99192C5.84851 8.03082 5.40488 8.09551 5.35394 8.20481C5.3514 8.21012 5.29656 8.34083 5.5739 8.78547L5.68301 8.96141C5.97726 9.43419 6.15476 9.71961 6.28805 9.80254C6.38437 9.86251 6.55184 9.84579 6.95523 9.7988C7.14273 9.77676 7.37648 9.74965 7.66231 9.72684C8.0761 9.69383 10.5934 10.3808 11.6044 11.3881C11.9339 11.7162 12.0878 12.06 12.0611 12.4093C11.9643 13.6813 11.3514 14.4047 10.8102 15.043C10.3447 15.5922 9.94278 16.0668 9.84723 16.8367C9.67856 18.2029 9.14133 19.0974 8.47926 19.1148C8.4718 19.115 8.46473 19.1152 8.45762 19.1152C7.76883 19.1152 7.26051 18.2214 6.94594 16.4579C6.62555 14.6612 6.1384 14.3308 5.7089 14.0393C5.10051 13.6266 4.70047 13.227 4.68101 11.4993C4.67316 10.7752 4.23597 10.2175 3.62382 9.86286C2.91378 9.45161 1.5189 8.64348 0.59796 6.59204C0.210889 7.65629 -0.000244141 8.80372 -0.000244141 9.99985C-8.78904e-05 15.5141 4.48578 20.0001 9.99989 20.0001Z"  fill="white"  fill-opacity="0.56"/>
-
-</g>
-
-<defs>
-
-<clipPath id="clip0_450_4809">
-
-<rect width="20" height="20" fill="white"/>
-
-</clipPath>
-
-</defs>
-
-</svg>
-</span>
+                      <defs>
+                        <clipPath id="clip0_450_4809">
+                          <rect width="20" height="20" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </span>
                 </div>
+                {conatctError?.country ? (
+                    <div className="contact-validation">{conatctError?.country}</div>
+                  ) : (
+                    ""
+                  )}
               </Col>
               <Col md="6">
                 <div className="form-group">
@@ -108,7 +530,19 @@ const LandingContact = () => {
                     type="text"
                     placeholder="Company"
                     name="company"
-                    class="form-control"
+                    // class="form-control"
+                    ref={companyRef}
+                    className={
+                      !conatctError?.company
+                        ? "form-control"
+                        : "form-control error"
+                    }
+                    value={
+                      contactFormInputs?.company
+                        ? contactFormInputs?.company
+                        : ""
+                    }
+                    onChange={handleContactFormChange}
                   />
                   <span>
                     <svg
@@ -138,6 +572,11 @@ const LandingContact = () => {
                     </svg>
                   </span>
                 </div>
+                {conatctError?.company ? (
+                    <div className="contact-validation">{conatctError?.company}</div>
+                  ) : (
+                    ""
+                  )}
               </Col>
               <Col md="6">
                 <div className="form-group">
@@ -145,7 +584,19 @@ const LandingContact = () => {
                     type="number"
                     placeholder="Phone"
                     name="phone"
-                    className="form-control"
+                    // className="form-control"
+                    ref={phoneRef}
+                    className={
+                      !conatctError?.phone
+                        ? "form-control"
+                        : "form-control error"
+                    }
+                    value={
+                      contactFormInputs?.phone
+                        ? contactFormInputs?.phone
+                        : ""
+                    }
+                    onChange={handleContactFormChange}
                   />
                   <span>
                     <svg
@@ -163,13 +614,28 @@ const LandingContact = () => {
                     </svg>
                   </span>
                 </div>
+                {conatctError?.phone ? (
+                    <div className="contact-validation">{conatctError?.phone}</div>
+                  ) : (
+                    ""
+                  )}
               </Col>
               <Col md="12">
                 <div className="form-group">
-                  <textarea placeholder="Type Your Message.." />
+                  {/* <textarea placeholder="Type Your Message.." /> */}
+                  <textarea
+                          placeholder="Type Your Message.."
+                          name="message"
+                          value={
+                            contactFormInputs?.message
+                              ? contactFormInputs?.message
+                              : ""
+                          }
+                          onChange={handleContactFormChange}
+                        ></textarea>
                 </div>
               </Col>
-              <Button className="btn-filled">Send</Button>
+              <Button className="btn-filled"  onClick={sendContactInformation}>Send</Button>
             </Row>
           </Form>
         </div>

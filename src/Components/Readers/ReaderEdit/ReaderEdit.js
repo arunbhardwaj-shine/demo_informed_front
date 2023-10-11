@@ -598,7 +598,7 @@ const ReaderEdit = () => {
           ? e?.target?.files
             ? e?.target?.files
             : e
-          : e?.target?.value,
+          : e?.target?.value?e?.target?.value:"",
       });
     }
   };
@@ -616,8 +616,6 @@ const ReaderEdit = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
-    console.log("userInputs-->", userInputs);
-
     const result = AddReaderValidation(userInputs, groupId);
     if (Object.keys(result)?.length) {
       if (Object.keys(result)[0] == "firstName") {
@@ -1034,15 +1032,28 @@ const ReaderEdit = () => {
                           />
                         </Form.Group>
                         <Form.Group className="form-group">
-                          <Form.Label htmlFor="">Last name</Form.Label>
+                          <Form.Label htmlFor="">
+                            Last name  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                          </Form.Label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              error?.lastName
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             name="lastName"
-                            defaultValue={userInputs?.lastName}
+                            value={userInputs?.lastName}
                             placeholder="Last name"
                             onChange={(e) => handleChange(e)}
                           />
+                           {error?.lastName ? (
+                            <div className="login-validation">
+                              {error?.lastName}
+                            </div>
+                          ) : (
+                            ""
+                          )}
                         </Form.Group>
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">

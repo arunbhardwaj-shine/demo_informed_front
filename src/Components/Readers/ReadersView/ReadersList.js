@@ -2265,7 +2265,7 @@ const NewReaders = () => {
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
-                              {data?.first_name ? data?.first_name : data?.name}
+                            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?`${data?.first_name} ${data?.last_name} ` :data?.first_name ? data?.first_name : data?.name}
                             </h4>
                           </div>
                         </div>
@@ -2303,7 +2303,7 @@ const NewReaders = () => {
                                       
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Account Country
+                                          Country
                                         </h6>
                                         <h6>
                                           {data?.country
