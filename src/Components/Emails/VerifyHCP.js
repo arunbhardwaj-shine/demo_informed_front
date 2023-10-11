@@ -645,19 +645,20 @@ const VerifyHCP = (props) => {
             return "Please enter the last name";
           } else if (data.email == "") {
             return "Please enter the email atleast";
-          } else if (data.email != "") {
-            let email = data.email;
-            let useremail = email.trim();
-            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (regex.test(String(useremail).toLowerCase())) {
-              let prev_obj = selectedHcp.find((x) => x.email === useremail);
-              if (typeof prev_obj != "undefined") {
-                return "User with same email already added in list.";
-              }
-            } else {
-              return "Email format is not valid";
-            }
           }
+          // else if (data.email != "") {
+          //   let email = data.email;
+          //   let useremail = email.trim();
+          //   var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          //   if (regex.test(String(useremail).toLowerCase())) {
+          //     let prev_obj = selectedHcp.find((x) => x.email === useremail);
+          //     if (typeof prev_obj != "undefined") {
+          //       return "User with same email already added in list.";
+          //     }
+          //   } else {
+          //     return "Email format is not valid";
+          //   }
+          // }
 
           if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
             if (data.institution_type == "") {
@@ -666,6 +667,19 @@ const VerifyHCP = (props) => {
             if (data.country == "") {
               return "Please select the country";
             }
+          }
+          return "true";
+        } else if (data.email != "") {
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            let prev_obj = selectedHcp.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined") {
+              return "User with same email already added in list.";
+            }
+          } else {
+            return "Email format is not valid";
           }
           return "true";
         } else {
@@ -880,7 +894,6 @@ const VerifyHCP = (props) => {
   };
 
   const saveEditClicked = async () => {
-    
     setEditable(0);
     if (editableData?.length > 0) {
       editableData?.map((data) => {

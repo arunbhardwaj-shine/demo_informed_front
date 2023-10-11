@@ -620,7 +620,13 @@ const SelectSmartListUsers = (props) => {
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (data?.email == "" || data?.institutionType == "" ||    data.last_name == "" ||   data.first_name  == "" ||    data.country == "") {
+        if (
+          data?.email == "" ||
+          data?.institutionType == "" ||
+          data.last_name == "" ||
+          data.first_name == "" ||
+          data.country == ""
+        ) {
           return "false";
         } else {
           return "true";
@@ -913,7 +919,13 @@ const SelectSmartListUsers = (props) => {
       };
 
       const status = body.data.map((data, index) => {
-        if (data.email == "" ||( data?.institution_type == "" || data.first_name == "" ||   data.last_name == "" ||    data.country == "")) {
+        if (
+          data.email == "" ||
+          data?.institution_type == "" ||
+          data.first_name == "" ||
+          data.last_name == "" ||
+          data.country == ""
+        ) {
           if (
             data.first_name == "" &&
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -941,27 +953,28 @@ const SelectSmartListUsers = (props) => {
             });
 
             return;
-          } else if (data.email != "") {
-            let email = data.email;
-            let useremail = email.trim();
-            var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (regex.test(String(useremail).toLowerCase())) {
-              let prev_obj = readers.find((x) => x.email === useremail);
-              if (typeof prev_obj != "undefined") {
-                setValidationError({
-                  newHcpEmail: "User with same email already added in list.",
-                  index: index,
-                });
-                return;
-              }
-            } else {
-              setValidationError({
-                newHcpEmail: "Email format is not valid",
-                index: index,
-              });
-              return;
-            }
           }
+          //  else if (data.email != "") {
+          //   let email = data.email;
+          //   let useremail = email.trim();
+          //   var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          //   if (regex.test(String(useremail).toLowerCase())) {
+          //     let prev_obj = readers.find((x) => x.email === useremail);
+          //     if (typeof prev_obj != "undefined") {
+          //       setValidationError({
+          //         newHcpEmail: "User with same email already added in list.",
+          //         index: index,
+          //       });
+          //       return;
+          //     }
+          //   } else {
+          //     setValidationError({
+          //       newHcpEmail: "Email format is not valid",
+          //       index: index,
+          //     });
+          //     return;
+          //   }
+          // }
           if (
             data.institution_type == "" &&
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -972,7 +985,7 @@ const SelectSmartListUsers = (props) => {
             });
             return;
           }
-          
+
           if (
             data.country == "" &&
             localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
@@ -984,8 +997,34 @@ const SelectSmartListUsers = (props) => {
             return;
           }
           return "true";
+        } else if (data.email != "") {
+          let email = data.email;
+          let useremail = email.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            let prev_obj = readers.find((x) => x.email === useremail);
+            let prev_obj_new = readersNewlyAdded.find(
+              (x) => x.email === useremail
+            );
 
-
+            if (
+              typeof prev_obj != "undefined" ||
+              typeof prev_obj_new != "undefined"
+            ) {
+              setValidationError({
+                newHcpEmail: "User with same email already added in list.",
+                index: index,
+              });
+              return;
+            }
+          } else {
+            setValidationError({
+              newHcpEmail: "Email format is not valid",
+              index: index,
+            });
+            return;
+          }
+          return "true";
         } else {
           return "true";
         }
