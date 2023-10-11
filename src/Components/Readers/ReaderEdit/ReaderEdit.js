@@ -459,7 +459,7 @@ const ReaderEdit = () => {
     if (typeof userDetail?.sideData !== "undefined") {
       let newSite = [],
         newSiteNumber = [];
-      console.log("-userInputs?.country", userInputs);
+
       userDetail?.sideData?.forEach((item) => {
         if (item?.country == userInputs?.country) {
           newSite.push({ label: item?.site_name, value: item?.site_name });
@@ -551,6 +551,12 @@ const ReaderEdit = () => {
       let country = "";
       let newSiteName = [];
       let newSiteNumber = [];
+      let role = "";
+      if (e == 1) {
+        role = userDetail?.userIrtRoles[0]?.value;
+      } else {
+        role = userDetail?.role[4]?.value;
+      }
 
       setAddReaderInputs({
         ...userInputs,
@@ -558,6 +564,7 @@ const ReaderEdit = () => {
         ["country"]: country,
         ["siteName"]: "",
         ["siteNumber"]: "",
+        ["role"]: role,
       });
       setUserDetail({
         ...userDetail,
@@ -572,6 +579,7 @@ const ReaderEdit = () => {
           [isSelectedName]: e,
           ["role"]: "Site User-Blinded",
           ["irt"]: 1,
+          ["role"]: userDetail?.userIrtRoles[0]?.value,
         });
       } else {
         setAddReaderInputs({
@@ -580,6 +588,7 @@ const ReaderEdit = () => {
           ["irt"]: 0,
           ["siteName"]: "",
           ["siteNumber"]: "",
+          ["role"]: userDetail?.role[4]?.value,
         });
       }
     } else {
@@ -589,7 +598,7 @@ const ReaderEdit = () => {
           ? e?.target?.files
             ? e?.target?.files
             : e
-          : e?.target?.value,
+          : e?.target?.value?e?.target?.value:"",
       });
     }
   };
@@ -607,7 +616,6 @@ const ReaderEdit = () => {
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
-
     const result = AddReaderValidation(userInputs, groupId);
     if (Object.keys(result)?.length) {
       if (Object.keys(result)[0] == "firstName") {
@@ -759,7 +767,7 @@ const ReaderEdit = () => {
                 userDetail?.userIrtRoles.findIndex(
                   (el) => el.value == userInputs?.role
                 ) == -1
-                  ? ""
+                  ? userDetail?.userIrtRoles[0]
                   : userDetail?.userIrtRoles[
                       userDetail?.userIrtRoles.findIndex(
                         (el) => el.value == userInputs?.role
@@ -777,7 +785,7 @@ const ReaderEdit = () => {
                 userDetail?.role.findIndex(
                   (el) => el.value == userInputs?.role
                 ) == -1
-                  ? ""
+                  ? userDetail?.role[4]
                   : userDetail?.role[
                       userDetail?.role.findIndex(
                         (el) => el.value == userInputs?.role
@@ -840,7 +848,7 @@ const ReaderEdit = () => {
               ""
             )}
           </Form.Group>*/}
-        {console.log("-", userInputs?.country)}
+
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Country <span>*</span>
@@ -1024,15 +1032,28 @@ const ReaderEdit = () => {
                           />
                         </Form.Group>
                         <Form.Group className="form-group">
-                          <Form.Label htmlFor="">Last name</Form.Label>
+                          <Form.Label htmlFor="">
+                            Last name  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                          </Form.Label>
                           <input
                             type="text"
-                            className="form-control"
+                            className={
+                              error?.lastName
+                                ? "form-control error"
+                                : "form-control"
+                            }
                             name="lastName"
-                            defaultValue={userInputs?.lastName}
+                            value={userInputs?.lastName}
                             placeholder="Last name"
                             onChange={(e) => handleChange(e)}
                           />
+                           {error?.lastName ? (
+                            <div className="login-validation">
+                              {error?.lastName}
+                            </div>
+                          ) : (
+                            ""
+                          )}
                         </Form.Group>
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">

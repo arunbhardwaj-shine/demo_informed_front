@@ -691,7 +691,6 @@ const NewReaders = () => {
         return newSelectedSiteName;
       });
 
-      // console.log(selectedSiteName[0].length);
       let consetValue = e.value;
       const filteredData = change.sideData.filter(
         (item) => item.country === consetValue
@@ -805,9 +804,11 @@ const NewReaders = () => {
   const onIrtChange = (e, i, index) => {
     setSelectedRole((prev) => {
       const newSelectedSiteName = [...prev];
-      newSelectedSiteName[index] = true;
+      newSelectedSiteName[index] =
+        e?.value == 1 ? change?.userIrtRoles[0] : change?.role[4];
       return newSelectedSiteName;
     });
+
     let consetValue = e.value;
     let consent = {
       index: i,
@@ -827,12 +828,6 @@ const NewReaders = () => {
         })
       );
     }
-
-    setSelectedRole((prev) => {
-      const newSelectedRole = [...prev];
-      newSelectedRole[index] = true;
-      return newSelectedRole;
-    });
 
     if (selectedCountry?.length) {
       let newAr = selectedCountry;
@@ -869,12 +864,19 @@ const NewReaders = () => {
       setChangeSiteNameType(updatedArray);
     }
 
+    const consent2 = {
+      index: i,
+      value:
+        e?.value == 1 ? change?.userIrtRoles[0]?.value : change?.role[4]?.value,
+    };
+
     const found4 = changeRoleType.some((el) => el.index === i);
+
     if (!found4) {
-      setChangeRoleType((oldarray) => [...oldarray, consent1.value]);
+      setChangeRoleType((oldarray) => [...oldarray, consent2]);
     } else {
       const updatedArray = changeRoleType.map((el) =>
-        el.index === i ? { ...el, value: consent1.value } : el
+        el.index === i ? { ...el, value: consent2.value } : el
       );
       setChangeRoleType(updatedArray);
     }
@@ -974,15 +976,7 @@ const NewReaders = () => {
       );
       setChangeSiteNameType(updatedArray);
     }
-    const found4 = changeRoleType.some((el) => el.index === i);
-    if (!found4) {
-      setChangeRoleType((oldarray) => [...oldarray, consent1.value]);
-    } else {
-      const updatedArray = changeRoleType.map((el) =>
-        el.index === i ? { ...el, value: consent1.value } : el
-      );
-      setChangeRoleType(updatedArray);
-    }
+
     const found5 = changeCountry.some((el) => el.index === i);
     if (!found5) {
       setChangeCountry((oldarray) => [...oldarray, consent1]);
@@ -991,6 +985,24 @@ const NewReaders = () => {
         el.index === i ? { ...el, value: consent1.value } : el
       );
       setChangeCountry(updatedArray);
+    }
+
+    const consent3 = {
+      index: i,
+      value:
+        e?.value == "Study site"
+          ? change?.userIrtRoles[0]?.value
+          : change?.role[4]?.value,
+    };
+
+    const found4 = changeRoleType.some((el) => el.index === i);
+    if (!found4) {
+      setChangeRoleType((oldarray) => [...oldarray, consent3]);
+    } else {
+      const updatedArray = changeRoleType.map((el) =>
+        el.index === i ? { ...el, value: consent3.value } : el
+      );
+      setChangeRoleType(updatedArray);
     }
 
     setSelectedSiteNumber((prev) => {
@@ -1005,13 +1017,18 @@ const NewReaders = () => {
       return newSelectedSiteName;
     });
 
+    // setSelectedRole((prev) => {
+    //   const newSelectedRole = [...prev];
+    //   newSelectedRole[index] = true;
+    //   return newSelectedRole;
+    // });
     setSelectedRole((prev) => {
-      const newSelectedRole = [...prev];
-      newSelectedRole[index] = true;
-      return newSelectedRole;
+      const newSelectedSiteName = [...prev];
+      newSelectedSiteName[index] =
+        e?.value == "Study site" ? change?.userIrtRoles[0] : change?.role[4];
+      return newSelectedSiteName;
     });
 
-    // console.log(selectedSiteName[0].length);
     let consetValue = e.value;
     const filteredData = change.sideData.filter(
       (item) => item.country === consetValue
@@ -1054,7 +1071,7 @@ const NewReaders = () => {
       );
     }
 
-    readerDataList[index].role = "";
+    // readerDataList[index].role = "";
     readerDataList[index].siteName = "";
     readerDataList[index].siteNumber = "";
     readerDataList[index].country = "";
@@ -1325,17 +1342,6 @@ const NewReaders = () => {
           );
           siteName = readerDataList[siteNameIndex]?.siteName;
         }
-
-        // if (
-        //   (country !== "" ||
-        //     type !== "" ||
-        //     role !== "" ||
-        //     irt !== "" ||
-        //     binded !== "" ||
-        //     siteNumber !== "" ||
-        //     siteName !== "") &&
-        //   institute !== ""
-        // )
 
         if (
           country !== "" &&
@@ -2259,7 +2265,7 @@ const NewReaders = () => {
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
-                              {data?.first_name ? data?.first_name : data?.name}
+                            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?`${data?.first_name} ${data?.last_name} ` :data?.first_name ? data?.first_name : data?.name}
                             </h4>
                           </div>
                         </div>
@@ -2297,7 +2303,7 @@ const NewReaders = () => {
                                       
                                       <li>
                                         <h6 className="tab-content-title">
-                                          Account Country
+                                          Country
                                         </h6>
                                         <h6>
                                           {data?.country
@@ -3008,7 +3014,9 @@ const NewReaders = () => {
                                                       : selectedRole[index] ==
                                                         true
                                                       ? null
-                                                      : change?.userIrtRoles.find(
+                                                      : // change
+                                                        //     ?.userIrtRoles?.[0]
+                                                        change?.userIrtRoles.find(
                                                           (roleObj) =>
                                                             roleObj.value ===
                                                             data?.role
@@ -3174,7 +3182,6 @@ const NewReaders = () => {
                                                         )
                                                       ]
                                                 }
-                                                // placeholder="Select Site Number"
                                                 onChange={(event) =>
                                                   onSiteNumberChange(
                                                     event,

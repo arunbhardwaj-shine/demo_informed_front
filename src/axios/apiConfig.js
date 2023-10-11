@@ -133,4 +133,5 @@ export const ENDPOINT = {
   FEEDBACKLISTINGMESSAGE: `/analytics/feedback-messages`,
   FEEDBACKIMPORT: `/analytics/download-feedback-excel`,
   QUESTIONUPDATE: `/analytics/update_question_reply`,
+  REGISTER:"/auth/register_module"
 };
