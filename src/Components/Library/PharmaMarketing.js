@@ -31,10 +31,9 @@ const PharmaMarketing = () => {
   const [selectedModules, setSelectedModules] = useState([]);
   const [registerPage, setRegisterPage] = useState(true);
   const [intialModuleData, setIntialModuleData] = useState(null);
-
+  const [payloadData, setPayloadData] = useState({});
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
-  const [apiData, setApiData] = useState(null);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -829,27 +828,25 @@ const PharmaMarketing = () => {
         else {
           consent = "No Consent";
         }
-        const res = await postData(ENDPOINT.REGISTER, {
-          // let data = {
+        let data =
+        {
           name: registerFormInputs?.name?.trim(),
           email: registerFormInputs?.email?.trim(),
           phone: registerFormInputs?.phone?.trim(),
           company: registerFormInputs?.company?.trim(),
           country: registerFormInputs?.country?.trim(),
           consent: consent,
-          consentType: consentType,
+          consent_type: consentType,
           type:'register'
-          // }
-        });
+        }
+        setPayloadData(data)
+        const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
-        setApiData(res);
-        // setApiData(data);
         loader("hide");
         setRegisterFormInputs(obj);
         setSelectedCountry([]);
         setRegisterError(false);
         setRegisterPage(false);
-        // console.log(data, "===> data");
         console.log(res, "===> data");
       } catch (err) {
         console.log(err);
@@ -963,19 +960,16 @@ const PharmaMarketing = () => {
     loader("show");
       try {
         const res = await postData(ENDPOINT.REGISTER, {
-        // let data = {
-          ...apiData,
+          ...payloadData,
           message: moduleFormInputs?.message?.trim(),
-          secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
-          secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
+          email: moduleFormInputs?.secondaryEmail?.trim(),
+          phone: moduleFormInputs?.secondaryPhone?.trim(),
           modules: selectedModules,
           type:'modules'
-        // };
         });
         let obj = {};
         loader("hide");
         setModuleFormInputs(obj);
-        // console.log(data, "===> data2222");
         console.log(res, "===> data2222");
       } catch (err) {
         console.log(err);
