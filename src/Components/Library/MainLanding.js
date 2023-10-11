@@ -105,12 +105,29 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
             <Row>
                 <div className='future-expand'>
                     <div className='future-expand-content'>
-                        <span className='shade-left'>&nbsp;</span>
                         <h4>The future doesn’t have to mean leaving your comfort zone, we’re here to expand it! </h4>
+                    </div>
+                    <div className='future-expand-content-shape'>
+                        <span className='shade-left'>&nbsp;</span>
                         <span className='shade-right'>&nbsp;</span>
                     </div>
-                    <h5>With no disruptions, it is easily integrated whether you use our entire universe of tools or decide to onboard just one our planet, just know it won’t disturb your solar system. Think of us as a help in hand in the system you’ve already created.</h5>
+                    {/* <h5>With no disruptions, it is easily integrated whether you use our entire universe of tools or decide to onboard just one our planet, just know it won’t disturb your solar system. Think of us as a help in hand in the system you’ve already created.</h5> */}
                 </div>
+            </Row>
+            <Row className='margin-gap'>
+                <Col md={6} className='d-flex justify-content-center align-items-center'>
+                    <div className='how-work-text'>
+                        <h3>Built with and for the life sciences</h3>
+                        <h5>Every module has faced HCPs, regulations and compliance. Our collaborative onboarding process is designed to enhance your current workflow.</h5>
+                    </div>
+                </Col>
+                <Col md={5} className="build_with d-flex justify-content-end">
+                    <div className='how-work-img'>
+                        <img src={path_image + "build-with.png"} alt=""/>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
                 <div className='works-started'>
                     <h3>Let’s get started</h3>
                     <div className='works-started-links'>
@@ -125,6 +142,7 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                     </div>
                 </div>
             </Row>
+            
         </Container>
     </div>
 

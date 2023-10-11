@@ -9005,6 +9005,16 @@ svg.pencil_icon {
     }
   }
 
+  .margin-gap {
+    margin-bottom: 116px;
+  }
+
+  .build_with {
+    img {
+      max-width: 329px;
+    }
+  }
+
   .how-work-text {
     max-width: 583px;
 
@@ -9506,7 +9516,7 @@ svg.pencil_icon {
   border-radius: 20px 20px 0 0;
   margin: -15px 0 0;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   padding: 40px 0;
 
   .footer-inset {
@@ -10691,7 +10701,7 @@ svg.pencil_icon {
 
 .stat {
   .article-close {
-    transform: translateX(200%);
+    transform: translateX(0%);
     opacity: 0;
     transition: all 0.65s ease;
     position: absolute;
@@ -10699,7 +10709,7 @@ svg.pencil_icon {
 
   &.visible {
     .article-close {
-      transform: translateX(0px);
+      // transform: translateX(0px);
       opacity: 1;
       transition-timing-function: cubic-bezier(0.52, 1, 0.37, 1);
     }
@@ -10813,18 +10823,32 @@ svg.pencil_icon {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  transform: translate(70%, 0);
-  // transform: scale(0, 0);
+  // transform: translate(70%, 0) scale(0.3);
   opacity: 0;
-  transition: all 0.7s ease;
+  transition: transform 0.5s ease;
   z-index: -1;
   transition-timing-function: cubic-bezier(1, 1, 1, 1);
+  --d: calc(var(--i) / var(--total));
+  --r-offset: -0.33turn;
+  --r-amount: 1turn;
+  --r: calc((var(--r-amount) * var(--d)) + var(--r-offset));
+  --transform: rotate(var(--r)) translate(var(--radius)) rotate(calc(-1 * var(--r)));
+  transform: var(--transform) scale(0.3);
 
   &.active {
-    transform: translate(0, 0);
-    // transform: scale(1, 1);
+    transform: translate(0, 0) scale(1);
     opacity: 1;
     z-index: 1;
+    transition-timing-function: cubic-bezier(1, 1, 1, 1);
+    --d: calc(var(--i) / var(--total));
+    --r-offset: -0.33turn;
+    --r-amount: 1turn;
+    --r: calc((var(--r-amount) * var(--d)) + var(--r-offset));
+    --transform: rotate(var(--r)) translate(var(--radius)) rotate(calc(-1 * var(--r)));
+    transform: scale(1);
+    // max-width: 350px;
+    // width: 100%;
+    // height: 350px;
   }
 
   .module-space {
@@ -16329,3 +16353,97 @@ img.change-password-image {
 }
 
 /**Landing page Responsive End**/
+
+
+.modal-backdrop.show {
+  background: rgba(0, 0, 36, 0.65);
+  backdrop-filter: blur(10px);
+  --bs-backdrop-zindex: 1050;
+  --bs-backdrop-bg: #000;
+  --bs-backdrop-opacity: 1;
+}
+
+.cookie-popup {
+  border-radius: 18px 18px 0px 0px;
+  background: #FFF;
+  box-shadow: 0px -6px 20px 0px #00003C;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 16px;
+}
+
+.cookie-popup-btns {
+  flex: 1 1;
+  display: flex;
+  gap: 16px;
+}
+
+.cookie-popup-btns button.btn {
+  min-width: 140px;
+}
+
+.cookie-popup-text p {
+  font-size: 15px;
+  color: #70899E;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+.cookie-popup-text {
+  padding-right: 150px;
+}
+
+.cookie-popup-text h5 {
+  font-size: 20px;
+  color: #004A89;
+  font-weight: 600;
+  line-height: 25px;
+  margin: 0 0 10px;
+}
+
+.cookies-popup-inset {
+  background: rgba(255, 255, 255, 0.19);
+  box-shadow: 0px 0px 16px rgb(0 102 190 / 10%);
+  border-radius: 15px;
+  z-index: 9;
+  padding: 15px;
+}
+
+.cookies-popup-inset .used-cookies-table {
+  height: calc(100% - 63px);
+  overflow-y: auto;
+}
+
+.used-cookies-table table thead {
+  position: sticky;
+  top: 0;
+  background: #fff;
+}
+
+.used-cookies-table table thead th {
+  min-width: 150px;
+  color: #00a993;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 0 10px 20px 0;
+}
+
+.used-cookies-table table td {
+  vertical-align: top;
+  font-size: 15px;
+  color: #9e9da3;
+  padding: 0 10px 20px 0;
+}
+
+.cookies-popup .modal-dialog .modal-content {
+  background: #FFFFFF;
+  box-shadow: 0px 0px 19px rgb(0 0 0 / 7%);
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.cookies-popup .modal-title.h4 {
+  color: #001489;
+  font-weight: 600;
+}

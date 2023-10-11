@@ -1255,22 +1255,30 @@ const PharmaMarketing = () => {
           <Row>
             <div className="future-expand">
               <div className="future-expand-content">
-                <span className="shade-left">&nbsp;</span>
                 <h4>
                   The future doesn’t have to mean leaving your comfort zone,
                   we’re here to expand it!{" "}
                 </h4>
+              </div>
+              <div className="future-expand-content-shape">
+                <span className="shade-left">&nbsp;</span>
                 <span className="shade-right">&nbsp;</span>
               </div>
-              <h5>
-                Built with and for the life science industry every module in our
-                universe have faced HCPs, regulations and compliance across the
-                planet. Our collaborative onboarding process aims to enhance
-                your current work flow, and we'll support you every step of the
-                way to ensure success.
-              </h5>
             </div>
           </Row>
+          <Row>
+                <Col md={6} className='d-flex justify-content-center align-items-center'>
+                    <div className='how-work-text'>
+                        <h3>Built with and for the life sciences</h3>
+                        <h5>Every module has faced HCPs, regulations and compliance. Our collaborative onboarding process is designed to enhance your current workflow.</h5>
+                    </div>
+                </Col>
+                <Col md={5} className="build_with d-flex justify-content-end">
+                    <div className='how-work-img'>
+                        <img src={path_image + "build-with.png"} alt=""/>
+                    </div>
+                </Col>
+            </Row>
         </Container>
       </div>
       <div className="pharma-slide">

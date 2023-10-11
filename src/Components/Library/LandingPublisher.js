@@ -651,22 +651,30 @@ const PharmaRd = () => {
           <Row>
             <div className="future-expand">
               <div className="future-expand-content">
-                <span className="shade-left">&nbsp;</span>
                 <h4>
                   The future doesn't have to mean leaving your comfort zone,
                   we're here to expand it!{" "}
                 </h4>
+              </div>
+              <div className="future-expand-content-shape">
+                <span className="shade-left">&nbsp;</span>
                 <span className="shade-right">&nbsp;</span>
               </div>
-              <h5>
-                Say yes to more of your clients requests. With a decade of
-                eprints in our system we’ve seen it all and solved more. With a
-                universe of included tools you can help your clients achieve
-                success. Allow us to demonstrate why our service continues to
-                garnered enthusiastic praise from clients.
-              </h5>
             </div>
           </Row>
+           <Row>
+                <Col md={6} className='d-flex justify-content-center align-items-center'>
+                    <div className='how-work-text'>
+                        <h3>Built with and for the life sciences</h3>
+                        <h5>Every module has faced HCPs, regulations and compliance. Our collaborative onboarding process is designed to enhance your current workflow.</h5>
+                    </div>
+                </Col>
+                <Col md={5} className="build_with d-flex justify-content-end">
+                    <div className='how-work-img'>
+                        <img src={path_image + "build-with.png"} alt=""/>
+                    </div>
+                </Col>
+            </Row>
         </Container>
       </div>
       <div className="pharma-slide">
