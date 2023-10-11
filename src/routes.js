@@ -159,9 +159,6 @@ import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditRe
 import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
 import PageNotFound from "./Components/CommonComponent/PageNotFound";
 import Feedback from "./Components/R&D/Feedback";
-import MainLanding from "./Components/Library/MainLanding";
-import PharmaMarketing from "./Components/Library/PharmaMarketing";
-import LandingPublisher from "./Components/Library/LandingPublisher";
 let platform = 0;
 let show = 0;
 

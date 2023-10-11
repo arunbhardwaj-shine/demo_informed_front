@@ -25,12 +25,21 @@ const PharmaMarketing = () => {
   const [activeModule, setActiveModule] = useState(null);
   const [addClass, setAddClass] = useState(false);
   const [showBigCircleData, setShowBigCircleData] = useState(true);
-  const [formFeilds, setFormFeilds] = useState(false)
-  const [submitData, setSubmitData] = useState(false)
-  const [modulesSelect,setModulesSelect] = useState(true)
+  const [formFeilds, setFormFeilds] = useState(false);
+  const [submitData, setSubmitData] = useState(false);
+  const [modulesSelect, setModulesSelect] = useState(true);
   const [selectedModules, setSelectedModules] = useState([]);
-  const [registerPage, setRegisterPage] = useState(true)
+  const [registerPage, setRegisterPage] = useState(true);
   const [intialModuleData, setIntialModuleData] = useState(null);
+
+  const [registerError, setRegisterError] = useState(false);
+  const [forceRender, setForceRender] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState([]);
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const companyRef = useRef(null);
+  const phoneRef = useRef(null);
+  const countryRef = useRef(null);
 
   const modules = [
     {
