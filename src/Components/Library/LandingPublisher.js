@@ -23,6 +23,7 @@ const PharmaRd = () => {
   const modules = [
     {
       id: 1,
+      style: "1",
       active: false,
       icon: "RTR-icon.svg",
       title: "Read-Through-Rate",
@@ -30,6 +31,7 @@ const PharmaRd = () => {
     },
     {
       id: 2,
+      style: "2",
       active: false,
       icon: "rating-icon.svg",
       title: "Rating Tool",
@@ -39,6 +41,7 @@ const PharmaRd = () => {
 
     {
       id: 3,
+      style: "3",
       active: false,
       icon: "auto-email-icon.svg",
       title: "Automail",
@@ -48,6 +51,7 @@ const PharmaRd = () => {
 
     {
       id: 4,
+      style: "4",
       active: false,
       icon: "legal-document-icon.svg",
       title: "Consent",
@@ -56,6 +60,7 @@ const PharmaRd = () => {
     },
     {
       id: 5,
+      style: "5",
       active: false,
       icon: "email-small-icon.svg",
       title: "Email Engine",
@@ -64,6 +69,7 @@ const PharmaRd = () => {
     },
     {
       id: 6,
+      style: "6",
       active: false,
       icon: "docintel-small-icon.svg",
       title: "Docintel.app",
@@ -72,6 +78,7 @@ const PharmaRd = () => {
     },
     {
       id: 7,
+      style: "7",
       active: false,
       icon: "informedgo-icon.svg",
       title: "inforMedGo",
@@ -81,6 +88,7 @@ const PharmaRd = () => {
 
     {
       id: 8,
+      style: "8",
       active: false,
       icon: "web-portal-icon.svg",
       title: "Web Portal",
@@ -90,6 +98,7 @@ const PharmaRd = () => {
 
     {
       id: 9,
+      style: "9",
       active: false,
       icon: "webinar-small-icon.svg",
       title: "Webinar Portal",
@@ -257,6 +266,7 @@ const PharmaRd = () => {
 
   const [moduleData, setModuleData] = useState({
     active: false,
+    style: "",
     imagePath: "",
     heading: "",
     paragraph: "",
@@ -280,6 +290,7 @@ const PharmaRd = () => {
     if (moduleName !== activeModule) {
       setModuleData({
         active: false,
+        style: smallCircleData?.style,
         imagePath: smallCircleData?.icon,
         heading: smallCircleData?.title,
         paragraph: smallCircleData?.description,
@@ -289,6 +300,7 @@ const PharmaRd = () => {
     setTimeout(() => {
       setModuleData((prevState) => ({
         active: moduleName === activeModule ? !prevState.active : true,
+        style: moduleName === activeModule ? prevState.style : smallCircleData?.style,
         imagePath: smallCircleData?.icon,
         heading: smallCircleData?.title,
         paragraph: smallCircleData?.description,
@@ -1034,7 +1046,7 @@ const PharmaRd = () => {
                   <div
                     className={`mudule-article-overview ${
                       moduleData?.active === true ? "active" : ""
-                    }`}
+                    }`} style={{ "--i": moduleData?.style }}
                   >
                     
                     <div className="module-space">

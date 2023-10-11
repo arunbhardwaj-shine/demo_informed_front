@@ -967,7 +967,6 @@ const Table = (props, ref) => {
 
   const saveEditClicked = async () => {
     setEditable(0);
-  
 
     if (editableData?.length > 0) {
       editableData?.map((data) => {
@@ -1386,18 +1385,21 @@ const Table = (props, ref) => {
         } else if (data.country == "") {
           return "Please select country";
         } else if (data.email != "") {
+        
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = editList.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
+            let prev_obj_new = getNewReaders.find((x) => x.email === useremail);
+            if (
+              typeof prev_obj != "undefined" ||
+              typeof prev_obj_new != "undefined"
+            ) {
               return "User with same email already added in list.";
             } else {
               return "true";
             }
-
-            return "true";
           } else {
             return "Email format is not valid";
           }
@@ -1661,8 +1663,7 @@ const Table = (props, ref) => {
   // };
 
   const sortSelectedUsers = () => {
-    // console.log("hi");
-    //console.log(readers);
+    
     let normalArr = [];
     normalArr = editList;
     if (sorting === 0) {
