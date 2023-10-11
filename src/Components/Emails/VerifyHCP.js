@@ -472,7 +472,7 @@ const VerifyHCP = (props) => {
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
-      list[i].role = "";
+      list[i].role = e == "yes" ? irtRole[0]?.value : "Other";
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -626,8 +626,24 @@ const VerifyHCP = (props) => {
       };
 
       const status = body.data.map((data) => {
-        if (data.email == "" || data?.institution_type == "") {
-          if (data.email == "") {
+        if (
+          data.email == "" ||
+          data?.institution_type == "" ||
+          data.first_name == "" ||
+          data.last_name == "" ||
+          data.country == ""
+        ) {
+          if (
+            data.first_name == "" &&
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ) {
+            return "Please enter the first name";
+          } else if (
+            data.last_name == "" &&
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ) {
+            return "Please enter the last name";
+          } else if (data.email == "") {
             return "Please enter the email atleast";
           } else if (data.email != "") {
             let email = data.email;
@@ -642,11 +658,16 @@ const VerifyHCP = (props) => {
               return "Email format is not valid";
             }
           }
+
           if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
             if (data.institution_type == "") {
               return "Please enter the institution ";
             }
+            if (data.country == "") {
+              return "Please select the country";
+            }
           }
+          return "true";
         } else {
           return "true";
         }
@@ -722,7 +743,13 @@ const VerifyHCP = (props) => {
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (data?.email == "" || data?.institutionType == "") {
+        if (
+          data?.firstname == "" ||
+          data?.lastname == "" ||
+          data?.country == "" ||
+          data?.email == "" ||
+          data?.institutionType == ""
+        ) {
           return "false";
         } else {
           return "true";
@@ -780,13 +807,13 @@ const VerifyHCP = (props) => {
     if (editable != 0) {
       const name_edit = document.getElementById(
         "field_name" + profile_user_id
-      ).innerText;
+      )?.innerText;
       const country_edit = document.getElementById(
         "field_country" + profile_user_id
-      ).value;
+      )?.value;
       const contact_type_edit = document.getElementById(
         "field_contact_type" + profile_user_id
-      ).value;
+      )?.value;
 
       const arr = [];
       arr.push({
@@ -853,21 +880,22 @@ const VerifyHCP = (props) => {
   };
 
   const saveEditClicked = async () => {
+    
     setEditable(0);
-    if (editableData.length > 0) {
-      editableData.map((data) => {
+    if (editableData?.length > 0) {
+      editableData?.map((data) => {
         const name_edit = document.getElementById(
           "field_name" + data.profile_user_id
         ).innerText;
         const country_edit = document.getElementById(
           "field_country" + data.profile_user_id
-        ).value;
+        )?.value;
         const edit_index = document.getElementById(
           "field_index" + data.profile_user_id
-        ).value;
+        )?.value;
         const contact_type_edit = document.getElementById(
           "field_contact_type" + data.profile_user_id
-        ).value;
+        )?.value;
 
         let prev_obj = selectedHcp.find(
           (x) => x.profile_user_id === data.profile_user_id
@@ -1142,12 +1170,12 @@ const VerifyHCP = (props) => {
               <div className="search-hcp-table">
                 <div
                   className={
-                    searchedUsers.length === 0
+                    searchedUsers?.length === 0
                       ? "search-hcp-table-inside not-found"
                       : "search-hcp-table-inside"
                   }
                 >
-                  {searchedUsers.length === 0 ? (
+                  {searchedUsers?.length === 0 ? (
                     <div className="not-found">
                       <h4>No Record Found !</h4>
                     </div>
@@ -1181,22 +1209,22 @@ const VerifyHCP = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {searchedUsers.map((users, index) => {
+                        {searchedUsers?.map((users, index) => {
                           return (
                             <>
                               <tr>
-                                <td>{users.name}</td>
-                                <td>{users.email}</td>
-                                <td>{users.bounce}</td>
-                                <td>{users.country}</td>
+                                <td>{users?.name}</td>
+                                <td>{users?.email}</td>
+                                <td>{users?.bounce}</td>
+                                <td>{users?.country}</td>
                                 <td>
                                   {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
                                     ? users?.irt
                                       ? "Yes"
                                       : "No"
-                                    : users.ibu
-                                    ? users.ibu
+                                    : users?.ibu
+                                    ? users?.ibu
                                     : "N/A"}
                                 </td>
                                 <td>
@@ -1205,24 +1233,24 @@ const VerifyHCP = (props) => {
                                     ? users?.user_type
                                       ? users?.user_type
                                       : "N/A"
-                                    : users.contact_type
+                                    : users?.contact_type
                                     ? users?.contact_type
                                     : "N/A"}
                                 </td>
                                 <td>
-                                  <span>{users.consent}</span>
+                                  <span>{users?.consent}</span>
                                 </td>
                                 <td>
-                                  <span>{users.email_received}</span>
+                                  <span>{users?.email_received}</span>
                                 </td>
                                 <td>
-                                  <span>{users.email_opening}</span>
+                                  <span>{users?.email_opening}</span>
                                 </td>
                                 <td>
-                                  <span>{users.registration}</span>
+                                  <span>{users?.registration}</span>
                                 </td>
                                 <td>
-                                  <span>{users.last_email}</span>
+                                  <span>{users?.last_email}</span>
                                 </td>
                                 <td className="add-new-hcp">
                                   <img
@@ -1265,7 +1293,7 @@ const VerifyHCP = (props) => {
                     {localStorage.getItem("user_id") == userId
                       ? "Selected Users"
                       : "Selected HCPs"}
-                    <span>| {selectedHcp.length}</span>
+                    <span>| {selectedHcp?.length}</span>
                   </h4>
                   <div className="selected-hcp-table-action">
                     {editable == false ? (
@@ -1376,7 +1404,7 @@ const VerifyHCP = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {selectedHcp.map((data, index) => {
+                        {selectedHcp?.map((data, index) => {
                           return (
                             <>
                               <tr
@@ -1384,29 +1412,29 @@ const VerifyHCP = (props) => {
                                 onClick={(e) =>
                                   editing(
                                     //  e.currentTarget,
-                                    data.profile_id,
-                                    data.profile_user_id,
-                                    data.email,
-                                    data.jobTitle,
-                                    data.company,
-                                    data.country,
-                                    data.first_name + " " + data.last_name,
+                                    data?.profile_id,
+                                    data?.profile_user_id,
+                                    data?.email,
+                                    data?.jobTitle,
+                                    data?.company,
+                                    data?.country,
+                                    data?.first_name + " " + data?.last_name,
                                     localStorage.getItem("user_id") ===
                                       "56Ek4feL/1A8mZgIKQWEqg=="
                                       ? data?.user_type
-                                      : data.contact_type
+                                      : data?.contact_type
                                   )
                                 }
                               >
                                 <td
-                                  id={`field_name` + data.profile_user_id}
+                                  id={`field_name` + data?.profile_user_id}
                                   contenteditable={
                                     editable === 0 ? "false" : "true"
                                   }
                                 >
                                   <span>{data?.name || data?.first_name}</span>
                                 </td>
-                                <td id={`field_email` + data.profile_user_id}>
+                                <td id={`field_email` + data?.profile_user_id}>
                                   {data?.email ? data?.email : "N/A"}
                                 </td>
                                 <input
@@ -1414,14 +1442,16 @@ const VerifyHCP = (props) => {
                                   id={`field_index` + data.profile_user_id}
                                   value={index}
                                 />
-                                <td id={`field_bounced` + data.profile_user_id}>
+                                <td
+                                  id={`field_bounced` + data?.profile_user_id}
+                                >
                                   {data?.bounce ? data?.bounce : "N/A"}
                                 </td>
                                 <td>
                                   {editable ? (
                                     <EditCountry
-                                      selected_country={data.country}
-                                      profile_user={data.profile_user_id}
+                                      selected_country={data?.country}
+                                      profile_user={data?.profile_user_id}
                                     ></EditCountry>
                                   ) : (
                                     <span>
@@ -1433,11 +1463,11 @@ const VerifyHCP = (props) => {
                                   {/*data?.ibu ? data?.ibu : "N/A"*/}
                                   {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? data.irt
+                                    ? data?.irt
                                       ? "Yes"
                                       : "No"
-                                    : data.ibu
-                                    ? data.ibu
+                                    : data?.ibu
+                                    ? data?.ibu
                                     : "N/A"}
                                 </td>
                                 <td>
@@ -1450,8 +1480,8 @@ const VerifyHCP = (props) => {
                                     )
                                   ) : editable ? (
                                     <EditContactType
-                                      selected_ibu={data.contact_type}
-                                      profile_user={data.profile_user_id}
+                                      selected_ibu={data?.contact_type}
+                                      profile_user={data?.profile_user_id}
                                     ></EditContactType>
                                   ) : (
                                     <span>
@@ -1560,7 +1590,13 @@ const VerifyHCP = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First name</label>
+                                  <label htmlFor="">
+                                    First name{" "}
+                                    {localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                      <span>*</span>
+                                    )}
+                                  </label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1573,7 +1609,13 @@ const VerifyHCP = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last name</label>
+                                  <label htmlFor="">
+                                    Last name{" "}
+                                    {localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                      <span>*</span>
+                                    )}
+                                  </label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1790,7 +1832,13 @@ const VerifyHCP = (props) => {
                               )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Country</label>
+                                  <label htmlFor="">
+                                    Country{" "}
+                                    {localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                      <span>*</span>
+                                    )}
+                                  </label>
                                   {val?.optIrt == "yes" ? (
                                     <Select
                                       options={irtCountry}

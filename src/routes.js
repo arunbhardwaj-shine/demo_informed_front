@@ -159,6 +159,9 @@ import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditRe
 import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
 import PageNotFound from "./Components/CommonComponent/PageNotFound";
 import Feedback from "./Components/R&D/Feedback";
+import MainLanding from "./Components/Library/MainLanding";
+import PharmaMarketing from "./Components/Library/PharmaMarketing";
+import LandingPublisher from "./Components/Library/LandingPublisher";
 let platform = 0;
 let show = 0;
 
@@ -690,6 +693,12 @@ const Routing = () => {
           element={<LoginLayout component={EditLicense} />}
         />
         <Route path="*" element={<PageNotFound />} />
+
+        <Route path="/main-landing" element={<DefaultLayout component={MainLanding} />}/>
+
+        <Route path="/landing-publisher" element={<DefaultLayout component={LandingPublisher} />} />
+
+        <Route path="/pharma-marketing" element={<DefaultLayout component={PharmaMarketing} />}/>
       </Routes>
     </Router>
   );
