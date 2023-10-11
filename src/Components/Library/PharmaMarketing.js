@@ -18,6 +18,8 @@ import LandingContact from "./LandingContact";
 import LandingFooter from "./LandingFooter";
 import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 import { loader } from "../../loader";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
 
 const PharmaMarketing = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -29,9 +31,8 @@ const PharmaMarketing = () => {
   const [selectedModules, setSelectedModules] = useState([]);
   const [registerPage, setRegisterPage] = useState(true);
   const [intialModuleData, setIntialModuleData] = useState(null);
-
+  const [payloadData, setPayloadData] = useState({});
   const [registerError, setRegisterError] = useState(false);
-  const [forceRender, setForceRender] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -42,6 +43,7 @@ const PharmaMarketing = () => {
   const modules = [
     {
       id: 1,
+      style: "1",
       active: false,
       icon: "RTR-icon.svg",
       title: "Read-Through-Rate",
@@ -49,6 +51,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 2,
+      style: "2",
       active: false,
       icon: "rating-icon.svg",
       title: "Rating Tool",
@@ -57,6 +60,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 3,
+      style: "3",
       active: false,
       icon: "SPC-icon.svg",
       title: "SPC Engine",
@@ -65,6 +69,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 4,
+      style: "4",
       active: false,
       icon: "auto-email-icon.svg",
       title: "Automail",
@@ -73,6 +78,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 5,
+      style: "5",
       active: false,
       icon: "artificial-intelligence-icon.svg",
       title: "AI Prediction Tool",
@@ -81,6 +87,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 6,
+      style: "6",
       active: false,
       icon: "legal-document-icon.svg",
       title: "Consent",
@@ -89,6 +96,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 7,
+      style: "7",
       active: false,
       icon: "email-small-icon.svg",
       title: "Email Engine",
@@ -97,6 +105,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 8,
+      style: "8",
       active: false,
       icon: "docintel-small-icon.svg",
       title: "Docintel.app",
@@ -105,6 +114,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 9,
+      style: "9",
       active: false,
       icon: "informedgo-icon.svg",
       title: "inforMedGo",
@@ -113,6 +123,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 10,
+      style: "10",
       active: false,
       icon: "polling-icon.svg",
       title: "Q & Poll",
@@ -121,6 +132,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 11,
+      style: "11",
       active: false,
       icon: "survey-icon.svg",
       title: "Survey Engine",
@@ -128,6 +140,7 @@ const PharmaMarketing = () => {
     },
     {
       id: 12,
+      style: "12",
       active: false,
       icon: "web-portal-icon.svg",
       title: "Web Portal",
@@ -137,6 +150,7 @@ const PharmaMarketing = () => {
 
     {
       id: 13,
+      style: "13",
       active: false,
       icon: "webinar-small-icon.svg",
       title: "Webinar Portal",
@@ -671,12 +685,19 @@ const PharmaMarketing = () => {
     phone: "",
     company: "",
     country: "",
-    consent1 : false,
-    consent2 : false,
+    consent1: { label: "Email me only about modules I’ve looked at", checked: false },
+    consent2: { label: "Keep me informed about other news from inforMed.pro", checked: false },
+  });
+
+  const [moduleFormInputs, setModuleFormInputs] = useState({
+    message: "",
+    secondaryEmail: "",
+    secondaryPhone: "",
   });
 
   const [moduleData, setModuleData] = useState({
     active: false,
+    style: "",
     imagePath: "",
     heading: "",
     paragraph: "",
@@ -700,6 +721,7 @@ const PharmaMarketing = () => {
     if (moduleName !== activeModule) {
       setModuleData({
         active: false,
+        style: smallCircleData?.style,
         imagePath: smallCircleData?.icon,
         heading: smallCircleData?.title,
         paragraph: smallCircleData?.description,
@@ -709,6 +731,7 @@ const PharmaMarketing = () => {
     setTimeout(() => {
       setModuleData((prevState) => ({
         active: moduleName === activeModule ? !prevState.active : true,
+        style: moduleName === activeModule ? prevState.style : smallCircleData?.style,
         imagePath: smallCircleData?.icon,
         heading: smallCircleData?.title,
         paragraph: smallCircleData?.description,
@@ -729,8 +752,50 @@ const PharmaMarketing = () => {
     setRegisterPage(true);
   };
 
-  const handleReadClick = (event) => {
-    event.preventDefault();
+  // const handleReadClick = (event) => {
+  //   event.preventDefault();
+  //   const err = HomeValidation(registerFormInputs);
+  //   if (Object.keys(err)?.length) {
+  //     if (Object?.keys(err)[0] == "name") {
+  //       nameRef?.current?.focus();
+  //     } else if (Object?.keys(err)[0] == "email") {
+  //       emailRef?.current?.focus();
+  //     } else if (Object.keys(err)[0] == "comapny") {
+  //       companyRef.current.focus();
+  //     } else if (Object.keys(err)[0] == "phone") {
+  //       phoneRef.current.focus();
+  //     } else if (Object.keys(err)[0] == "country") {
+  //       countryRef.current.focus();
+  //     }
+  //     setRegisterError(err);
+  //     return;
+  //   } else {
+  //     loader("show");
+  //     try {
+  //       let data = {
+  //         name: registerFormInputs?.name?.trim(),
+  //         email: registerFormInputs?.email?.trim(),
+  //         phone: registerFormInputs?.phone?.trim(),
+  //         company: registerFormInputs?.company?.trim(),
+  //         country: registerFormInputs?.country?.trim(),
+  //       };
+  //       let obj = {};
+  //       loader("hide");
+  //       setRegisterFormInputs(obj);
+  //       setSelectedCountry([]);
+  //       setRegisterError(false);
+  //       setRegisterPage(false);
+  //       // setForceRender(!forceRender);
+  //     } catch (err) {
+  //       console.log(err);
+  //       loader("hide");
+  //     }
+  //   }
+  //   console.log(registerFormInputs, "===>setRegisterFormInputs");
+  // };
+
+  const handleReadClick = async (event) => {
+    event.preventDefault(); 
     const err = HomeValidation(registerFormInputs);
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
@@ -747,26 +812,46 @@ const PharmaMarketing = () => {
       setRegisterError(err);
       return;
     } else {
-      loader("show");
+      loader("show"); 
       try {
-        let data = {
+        let consent= "";
+        let consentType= ""
+        if (registerFormInputs?.consent1 === 'on' && registerFormInputs?.consent2 === 'on') {
+          consent = "Full Consent";
+        }
+        else if(registerFormInputs?.consent1 === 'on' || registerFormInputs?.consent2 === 'on') {
+          consent = "Limited Consent";
+          consentType = registerFormInputs?.consent1 === 'on'
+            ? "Email me only about modules I’ve looked at"
+            : "Keep me informed about other news from inforMed.pro";
+        } 
+        else {
+          consent = "No Consent";
+        }
+        let data =
+        {
           name: registerFormInputs?.name?.trim(),
           email: registerFormInputs?.email?.trim(),
           phone: registerFormInputs?.phone?.trim(),
           company: registerFormInputs?.company?.trim(),
           country: registerFormInputs?.country?.trim(),
-        };
+          consent: consent,
+          consent_type: consentType,
+          type:'register'
+        }
+        setPayloadData(data)
+        const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
         setSelectedCountry([]);
         setRegisterError(false);
         setRegisterPage(false);
-        setForceRender(!forceRender);
+        console.log(res, "===> data");
       } catch (err) {
         console.log(err);
         loader("hide");
-      }
+      } 
     }
     console.log(registerFormInputs, "===>setRegisterFormInputs");
   };
@@ -774,6 +859,17 @@ const PharmaMarketing = () => {
   const handleRegisterFormChange = (e, isSelectedName) => {
     setRegisterFormInputs({
       ...registerFormInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e.target?.files
+          : e
+        : e?.target?.value,
+    });
+  };
+
+  const handleModuleFormChange = (e, isSelectedName) => {
+    setModuleFormInputs({
+      ...moduleFormInputs,
       [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
         ? e?.target?.files
           ? e.target?.files
@@ -860,14 +956,33 @@ const PharmaMarketing = () => {
     setFormFeilds(true);
   };
 
-  const handleSubmitClick = () => {
-    setSubmitData(true);
-    setAddClass(false);
-    setShowBigCircleData(false);
-    setModulesSelect(false);
-    setFormFeilds(false);
-    console.log(selectedModules, "===>selectedModules");
-  };
+  const handleSubmitClick = async () => {
+    loader("show");
+      try {
+        const res = await postData(ENDPOINT.REGISTER, {
+          ...payloadData,
+          message: moduleFormInputs?.message?.trim(),
+          email: moduleFormInputs?.secondaryEmail?.trim(),
+          phone: moduleFormInputs?.secondaryPhone?.trim(),
+          modules: selectedModules,
+          type:'modules'
+        });
+        let obj = {};
+        loader("hide");
+        setModuleFormInputs(obj);
+        console.log(res, "===> data2222");
+      } catch (err) {
+        console.log(err);
+        loader("hide");
+      }
+      console.log(moduleFormInputs, "===>setModuleFormInputs");
+        setSubmitData(true);
+        setAddClass(false);
+        setShowBigCircleData(false);
+        setModulesSelect(false);
+        setFormFeilds(false);
+        console.log(selectedModules, "===>selectedModules");
+    }
 
   const handleBigCircleClose = (moduleName, index) => {
     setAddClass(false);
@@ -1002,6 +1117,7 @@ const PharmaMarketing = () => {
       }
     ],
   };
+
   return (
     <>
       <LandingHeader />
@@ -1609,7 +1725,7 @@ const PharmaMarketing = () => {
                   <div
                     className={`mudule-article-overview ${
                       moduleData?.active === true ? "active" : ""
-                    }`}
+                    }`} style={{ "--i": moduleData?.style }}
                   >
                     <div className="module-space">
                       <img
@@ -1915,17 +2031,31 @@ const PharmaMarketing = () => {
                                   I also consent to:
                                 </FormLabel>
                                 <Form.Check
+                                  // type="checkbox"
+                                  // label="Email me only about modules I’ve looked at"
+                                  // name="consent1"
+                                  // checked={registerFormInputs.consent1}
+                                  // onChange={handleRegisterFormChange}
+
                                   type="checkbox"
+                                  // label={registerFormInputs.consent1.label}
                                   label="Email me only about modules I’ve looked at"
-                                  name="consent1"
-                                  checked={registerFormInputs.consent1}
+                                  name="consent1"                               
+                                  checked={registerFormInputs?.consent1?.checked}                               
                                   onChange={handleRegisterFormChange}
                                 />
                                 <Form.Check
+                                  // type="checkbox"
+                                  // label="Keep me informed about other news from inforMed.pro"
+                                  // name="consent2"
+                                  // checked={registerFormInputs.consent2}
+                                  // onChange={handleRegisterFormChange}
+
                                   type="checkbox"
-                                  label="Keep me informed about other news from inforMed.pro"
-                                  name="consent2"
-                                  checked={registerFormInputs.consent2}
+                                  // label={registerFormInputs.consent2.label}  
+                                  label="Keep me informed about other news from inforMed.pro"                            
+                                  name="consent2"                               
+                                  checked={registerFormInputs?.consent2?.checked}                               
                                   onChange={handleRegisterFormChange}
                                 />
                               </div>
@@ -2001,7 +2131,16 @@ const PharmaMarketing = () => {
                             <Row>
                               <Col md="12">
                                 <div className="form-group">
-                                  <textarea placeholder="Type Your Message.." />
+                                  <textarea
+                                  placeholder="Type Your Message.."
+                                  name="message"
+                                  value={
+                                    moduleFormInputs?.message
+                                      ? moduleFormInputs?.message
+                                      : ""
+                                  }
+                                  onChange={handleModuleFormChange}
+                                ></textarea>
                                 </div>
                                 {!formFeilds && (
                                   <div className="form-group click-link">
@@ -2022,8 +2161,14 @@ const PharmaMarketing = () => {
                                       <input
                                         type="email"
                                         placeholder="Email"
-                                        name="email"
+                                        name="secondaryEmail"
                                         className="form-control"
+                                        value={
+                                          moduleFormInputs?.secondaryEmail
+                                            ? moduleFormInputs?.secondaryEmail
+                                            : ""
+                                        }
+                                        onChange={handleModuleFormChange}
                                       />
                                       <span>
                                         <svg
@@ -2049,8 +2194,14 @@ const PharmaMarketing = () => {
                                       <input
                                         type="number"
                                         placeholder="Phone"
-                                        name="phone"
+                                        name="secondaryPhone"
                                         className="form-control"
+                                        value={
+                                          moduleFormInputs?.secondaryPhone
+                                            ? moduleFormInputs?.secondaryPhone
+                                            : ""
+                                        }
+                                        onChange={handleModuleFormChange}
                                       />
                                       <span>
                                         <svg
