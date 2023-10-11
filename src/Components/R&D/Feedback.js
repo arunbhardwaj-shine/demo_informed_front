@@ -128,7 +128,7 @@ const Feedback = () => {
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
-      link.download = "user_"+type+".xlsx";
+      link.download = type+".xlsx";
       link.click();
       loader("hide");
     } catch (err) {
@@ -165,7 +165,7 @@ const Feedback = () => {
                       onSelect={handleTabChange}
                     >
                       <Tab eventKey="1" title="User Feedback"></Tab>
-                      <Tab eventKey="2" title="User Questions"></Tab>
+                      <Tab eventKey="2" title="Content Questions"></Tab>
                     </Tabs>
                     {sectionLoader ? (
                       <div
