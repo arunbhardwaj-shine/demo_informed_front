@@ -775,11 +775,13 @@ const PharmaMarketing = () => {
           <Row>
             <div className="future-expand">
               <div className="future-expand-content">
-                <span className="shade-left">&nbsp;</span>
                 <h4>
                   The future doesn’t have to mean leaving your comfort zone,
                   we’re here to expand it!{" "}
                 </h4>
+              </div>
+              <div className="future-expand-content-shape">
+                <span className="shade-left">&nbsp;</span>
                 <span className="shade-right">&nbsp;</span>
               </div>
               <h5>
@@ -1340,8 +1342,8 @@ const PharmaMarketing = () => {
                                         <Col md="12">
                                             <div className="form-group">
                                                 <FormLabel className="form-consent">I also consent to:</FormLabel>
-                                                <Form.Check type="checkbox" label="Email me only about modules I’ve looked at" />
-                                                <Form.Check type="checkbox" label="Keep me informed about other news from inforMed.pro" />
+                                                <Form.Check type="checkbox" id="check1" label="Email me only about modules I’ve looked at" for="check1"/>
+                                                <Form.Check type="checkbox" id="check2" label="Keep me informed about other news from inforMed.pro" for="check2"/>
                                             </div>
                                         </Col>
                                     <Button className='btn-filled' onClick={handleReadClick}>Register</Button>

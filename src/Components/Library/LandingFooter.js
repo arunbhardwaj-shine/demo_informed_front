@@ -22,7 +22,7 @@ const LandingFooter = () => {
                         <img src={path_image +"footer-logo.svg"} alt="" />
                     </div>
                     <div className='copyright'>
-                        <p>Copyright MedArkive Ltd 2023. Read our <Link onClick={(e) => handleShow("privacy")}>Privacy Policy</Link> and <Link to="https://albert.docintel.app/terms_of_use/">Terms of Use</Link></p>
+                        <p>Copyright MedArkive Ltd 2023. Read our <Link onClick={(e) => handleShow("privacy")}>Privacy Policy</Link> and <Link target="_blank "to="https://albert.docintel.app/terms_of_use/">Terms of Use</Link></p>
                     </div>
                     <Modal show={privacyshow} onHide={(e) => handleClose("privacy")}>
                     <Modal.Header closeButton>

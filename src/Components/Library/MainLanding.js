@@ -14,7 +14,7 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     <div className='landing-banner'>
         <Container>
             <Row>
-                <div className='landing-block'>
+                <div className='landing-block main-outer'>
                     <div className='circular-ring'>
                         <div class="big-circle">
                             <div class="icon-block big">
@@ -105,8 +105,10 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
             <Row>
                 <div className='future-expand'>
                     <div className='future-expand-content'>
-                        <span className='shade-left'>&nbsp;</span>
                         <h4>The future doesn’t have to mean leaving your comfort zone, we’re here to expand it! </h4>
+                    </div>
+                    <div className='future-expand-content-shape'>
+                        <span className='shade-left'>&nbsp;</span>
                         <span className='shade-right'>&nbsp;</span>
                     </div>
                     <h5>With no disruptions, it is easily integrated whether you use our entire universe of tools or decide to onboard just one our planet, just know it won’t disturb your solar system. Think of us as a help in hand in the system you’ve already created.</h5>

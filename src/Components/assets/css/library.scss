@@ -1557,7 +1557,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .login-confirm .form-check {
-  margin: 0 0 0 22px;
+  margin: -16px 0 0 22px;
 }
 
 .login-confirm form button.save {
@@ -7171,6 +7171,8 @@ svg.pencil_icon {
   font-size: 12px;
   margin-top: 5px;
   color: #D61975;
+  position: absolute;
+  bottom: -23px;
 }
 
 .header-forgot .modal-content .modal-header {
@@ -8162,8 +8164,8 @@ svg.pencil_icon {
 
 /**New Landign Page**/
 .header-landing {
-  position: absolute;
-  z-index: 5;
+  position: fixed;
+  z-index: 1;
   width: 100%;
   top: 34px;
 }
@@ -8190,7 +8192,8 @@ svg.pencil_icon {
 .landing-banner {
   background: #68D1E8 url(../../../../public/componentAssets/images/banner-bg-shade.svg) no-repeat;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
-  position: relative;
+  position: sticky;
+  top: 0;
   background-size: cover;
 
   &.pharma {
@@ -8206,6 +8209,41 @@ svg.pencil_icon {
   &.publish {
     background: $secondary-green url(../../../../public/componentAssets/images/publisher-bg.png) no-repeat;
     background-size: cover;
+
+    .circular-ring {
+      .big-circle {
+        .icon-block {
+          &.gradient {
+            background: linear-gradient(216deg, #00D4C0 14.8%, #004A89 120.1%);
+          }
+        }
+      }
+
+      .circle {
+        &.circle-inner1 {
+          background: url(../../../../public/componentAssets/images/publisher-circle-bg.svg) no-repeat;
+          background-position: center center;
+        }
+
+        &.circle-inner2 {
+          .icon-block {
+            &:nth-child(2) {
+              background: linear-gradient(216deg, #00D4C0 14.8%, #004A89 120.1%);
+            }
+
+            &:nth-child(5) {
+              background: linear-gradient(216deg, #00D4C0 14.8%, #004A89 120.1%);
+            }
+          }
+        }
+
+        &.circle-inner3 {
+          border: 1px solid #00647A;
+        }
+      }
+
+
+    }
   }
 
   .landing-block {
@@ -8520,8 +8558,8 @@ svg.pencil_icon {
   }
 
   .circle {
-    animation: circle-rotate 20s linear infinite;
-    -webkit-animation: circle-rotate 20s linear infinite;
+    animation: circle-rotate 26s linear infinite;
+    -webkit-animation: circle-rotate 26s linear infinite;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -8534,8 +8572,8 @@ svg.pencil_icon {
 
     .icon-block {
       img {
-        animation: img-rotate 20s linear infinite;
-        -webkit-animation: img-rotate 20s linear infinite;
+        animation: img-rotate 26s linear infinite;
+        -webkit-animation: img-rotate 26s linear infinite;
       }
     }
   }
@@ -8553,7 +8591,47 @@ svg.pencil_icon {
   }
 }
 
+.main-outer {
+  .circular-ring {
+    // .big-circle {
+    //   animation-duration: 13s;
+    //   -webkit-animation-duration: 13s;
+    // }
+
+    // .icon-block {
+    //   img {
+    //     animation-duration: 13s;
+    //     -webkit-animation-duration: 13s;
+    //   }
+    // }
+
+    .circle {
+      &.circle-inner2 {
+        animation-name: circle-rotate-reverse;
+
+        .icon-block {
+          img {
+            animation: img-rotate-reverse 13s linear infinite;
+            -webkit-animation: img-rotate-reverse 13s linear infinite;
+          }
+        }
+      }
+
+      animation-duration: 13s;
+      -webkit-animation-duration: 13s;
+
+      .icon-block {
+        img {
+          animation-duration: 13s;
+          -webkit-animation-duration: 13s;
+        }
+      }
+    }
+  }
+}
+
 .pharma {
+
   &.rd {
     .circular-ring {
       .big-circle {
@@ -8596,6 +8674,9 @@ svg.pencil_icon {
       }
     }
   }
+
+
+
 
   .circular-ring {
     .icon-block {
@@ -8733,8 +8814,15 @@ svg.pencil_icon {
         height: calc(100% - 100px);
         background: url(../../../../public/componentAssets/images/pharma-circle-bg.svg) no-repeat;
         background-position: center;
+        animation: circle-rotate-reverse 26s linear infinite;
+        -webkit-animation: circle-rotate-reverse 26s linear infinite;
 
         .icon-block {
+          img {
+            animation: img-rotate-reverse 26s linear infinite;
+            -webkit-animation: img-rotate-reverse 26s linear infinite;
+          }
+
           &:first-child {
             top: 1.6%;
             left: 48%;
@@ -8907,7 +8995,7 @@ svg.pencil_icon {
   box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
   margin-top: -30px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   padding: 135px 0 110px;
 
   .how-work-img {
@@ -8957,14 +9045,14 @@ svg.pencil_icon {
       font-weight: 500;
       line-height: 39px;
       padding: 23px 10px;
-      border-radius: 11px;
-      border: 1px solid $white;
-      background: rgba(255, 255, 255, 0.06);
-      box-shadow: 0px 1px 14px 0px rgba(0, 102, 190, 0.16);
-      -webkit-backdrop-filter: blur(13px);
-      backdrop-filter: blur(13px);
       text-transform: none;
     }
+  }
+
+  .future-expand-content-shape {
+    position: relative;
+    width: 100%;
+    top: -43px;
 
     span {
       width: 62px;
@@ -9112,6 +9200,7 @@ svg.pencil_icon {
   position: relative;
   background-position: center;
   background-size: cover;
+  z-index: 1;
 
   &.pharma {
     background: $primary-color url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
@@ -9210,6 +9299,13 @@ svg.pencil_icon {
         }
 
         .split-button-dropup {
+          &.error {
+            >div:nth-child(3) {
+              border: 1px solid #d61975;
+              box-shadow: 0px 0px 6px 0px #FF9FCE;
+            }
+          }
+
           >div:nth-child(3) {
             background-color: rgba(255, 255, 255, 0.06);
             border: 0.5px solid rgba(255, 255, 255, 0.5);
@@ -9261,13 +9357,21 @@ svg.pencil_icon {
 
         span {
           position: absolute;
-          top: 50%;
+          top: 21px;
           transform: translateY(-50%);
           left: 18px;
 
           img {
             max-width: 20px;
           }
+        }
+
+        .contact-validation {
+          color: #C80061;
+          font-size: 10px;
+          text-align: right;
+          text-shadow: 0px 0px 2px #FFF;
+          margin-top: 4px;
         }
       }
 
@@ -9402,6 +9506,7 @@ svg.pencil_icon {
   border-radius: 20px 20px 0 0;
   margin: -15px 0 0;
   position: relative;
+  z-index: 1;
   padding: 40px 0;
 
   .footer-inset {
@@ -9438,6 +9543,11 @@ svg.pencil_icon {
   .slider {
     width: 100%;
     overflow: hidden;
+    background: linear-gradient(180deg, #CDE8FF 0%, #FFF 100%);
+    position: relative;
+    z-index: 1;
+    padding-top: 20px;
+    margin-top: -20px;
 
     .slick-list {
       background: linear-gradient(180deg, #CDE8FF 0%, #FFF 100%);
@@ -10703,16 +10813,17 @@ svg.pencil_icon {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  transform: translateX(70%);
+  transform: translate(70%, 0);
+  // transform: scale(0, 0);
   opacity: 0;
-  transition: all 0.4s ease;
+  transition: all 0.7s ease;
   z-index: -1;
   transition-timing-function: cubic-bezier(1, 1, 1, 1);
 
   &.active {
-    transform: translateX(0px);
+    transform: translate(0, 0);
+    // transform: scale(1, 1);
     opacity: 1;
-    transition-timing-function: cubic-bezier(1, 1, 1, 1);
     z-index: 1;
   }
 
@@ -11422,6 +11533,46 @@ svg.pencil_icon {
 
   to {
     -webkit-transform: translate(-50%, -50%) rotate(405deg);
+  }
+}
+
+@keyframes circle-rotate-reverse {
+  from {
+    transform: translate(-50%, -50%) rotate(405deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+}
+
+@-webkit-keyframes circle-rotate-reverse {
+  from {
+    -webkit-transform: translate(-50%, -50%) rotate(405deg);
+  }
+
+  to {
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
+  }
+}
+
+@keyframes img-rotate-reverse {
+  from {
+    transform: rotate(-405deg);
+  }
+
+  to {
+    transform: rotate(-45deg);
+  }
+}
+
+@-webkit-keyframes img-rotate-reverse {
+  from {
+    -webkit-transform: rotate(-405deg);
+  }
+
+  to {
+    -webkit-transform: rotate(-45deg);
   }
 }
 
@@ -15836,3 +15987,345 @@ img.change-password-image {
 }
 
 /**Speaker Zone Page End**/
+
+
+
+/**Landing page Responsive Start**/
+@media only screen and (max-width:1550px) {
+  .landing-banner {
+    .landing-block {
+      padding: 80px 0 140px;
+    }
+
+    .landing-heading {
+      margin: 30px 0 20px;
+
+      h1 {
+        font-size: 46px;
+      }
+    }
+
+    .landing-sub-heading {
+      h4 {
+        line-height: 32px;
+      }
+    }
+
+    &.pharma {
+      &+.how-work {
+        padding: 50px 0 20px;
+      }
+    }
+  }
+
+  .how-work {
+    padding: 80px 0 100px;
+
+    .future-expand {
+      margin: 75px auto 60px;
+    }
+
+    .works-started {
+      .works-started-links {
+        padding: 85px 0 0;
+      }
+    }
+  }
+
+  .consent-content {
+    padding: 110px 0;
+
+    .consent-content-inner {
+      margin: 0 auto 45px;
+    }
+
+    .works-started {
+      .works-started-links {
+        padding: 85px 0 0;
+      }
+
+      .modules-diagram {
+        margin: 210px auto 120px;
+      }
+    }
+
+  }
+
+
+
+  .footer {
+    padding: 30px 0;
+  }
+}
+
+@media only screen and (max-width:1500px) {
+  .landing-banner {
+    .landing-block {
+      padding: 80px 0 110px;
+    }
+  }
+
+  .future-expand {
+    .future-expand-content {
+      h4 {
+        font-size: 22px;
+        padding: 20px 10px;
+      }
+    }
+
+    h5 {
+      font-size: 18px;
+      margin: 30px 0 0;
+    }
+  }
+
+  .how-work {
+    .works-started {
+      .works-started-links {
+        padding: 75px 0 0;
+
+        h3 {
+          font-size: 28px;
+          margin: 0 0 65px;
+        }
+      }
+    }
+  }
+
+  .contact-us {
+    .form-sec {
+      form {
+        .btn-filled {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  .landing-banner.pharma {
+    .circular-height {
+      height: 548px;
+    }
+
+    .circular-ring {
+      width: 800px;
+      height: 800px;
+
+      .big-circle {
+        .icon-block {
+          &:first-child {
+            top: -1%;
+          }
+
+          &:nth-child(2) {
+            top: 11%;
+          }
+
+          &:nth-child(3) {
+            left: 96%;
+          }
+
+          &:nth-child(5) {
+            top: 70%;
+            left: 91%;
+          }
+
+          &:nth-child(9) {
+            top: 62%;
+            left: -2%;
+          }
+
+          &:nth-child(10) {
+            left: -3%;
+          }
+
+          &:nth-child(11) {
+            left: 1.5%;
+          }
+
+          &:nth-child(12) {
+            top: 11%;
+            left: 15%;
+          }
+        }
+      }
+
+      .circle {
+        &.circle-inner1 {
+          background-size: calc(100% - 90px);
+
+          .icon-block {
+            &:nth-child(2) {
+              top: 16%;
+              left: 72%;
+            }
+
+            &:nth-child(3) {
+              left: 93%;
+            }
+
+            &:nth-child(4) {
+              top: 91.4%;
+              left: 40%;
+            }
+
+            &:nth-child(5) {
+              top: 83.4%;
+              left: 23%;
+            }
+
+            &:nth-child(6) {
+              left: 4%;
+            }
+          }
+        }
+
+        &.circle-inner2 {
+          .icon-block {
+            &:first-child {
+              top: -5%;
+            }
+
+            &:nth-child(2) {
+              top: 8%;
+            }
+
+            &:nth-child(3) {
+              left: 98%;
+            }
+
+            &:nth-child(6) {
+              left: -9%;
+            }
+          }
+        }
+
+        &.circle-inner3 {
+          .icon-block {
+            &:nth-child(2) {
+              left: 69%;
+            }
+          }
+        }
+      }
+
+      .center-logo {
+        top: 47%;
+      }
+    }
+  }
+}
+
+@media (max-width: $layout-breakpoint-extraLarge) {
+  .login {
+    .btn-white {
+      min-width: 100px;
+    }
+  }
+
+  .landing-banner {
+    .landing-heading {
+      margin: 45px 0 20px;
+
+      h1 {
+        font-size: 42px;
+      }
+    }
+
+    .landing-sub-heading {
+      h4 {
+        line-height: 30px;
+      }
+    }
+  }
+
+  .how-work {
+    padding: 50px 0 85px;
+
+    .future-expand {
+      margin: 50px auto 60px;
+    }
+
+    .works-started {
+      .works-started-links {
+        padding: 50px 0 0;
+
+        .started-links {
+          a {
+            line-height: 37px;
+            min-width: 240px;
+          }
+        }
+      }
+    }
+
+    .how-work-text {
+      h3 {
+        font-size: 28px;
+        margin: 0 0 15px;
+      }
+
+      h5 {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .future-expand {
+    .future-expand-content {
+      span {
+        width: 52px;
+        height: 52px;
+
+        &.shade-left {
+          left: -26px;
+        }
+
+        &.shade-right {
+          right: -26px;
+        }
+      }
+    }
+  }
+
+  .contact-us {
+    .contact-inset {
+      h5 {
+        font-size: 18px;
+        line-height: 26px;
+      }
+    }
+  }
+
+  #download-qr {
+    .modal-body {
+      .form-group:last-child {
+        margin-bottom: 40px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width:1300px) {
+  .landing-banner {
+    .landing-block {
+      padding: 110px 0 80px;
+    }
+
+    .landing-heading {
+      margin: 38px 0 14px;
+    }
+  }
+
+  .how-work {
+    .future-expand {
+      margin: 50px auto 30px;
+    }
+  }
+
+  .footer {
+    padding: 23px 0;
+  }
+}
+
+/**Landing page Responsive End**/
