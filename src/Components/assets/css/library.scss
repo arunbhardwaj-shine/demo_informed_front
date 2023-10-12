@@ -8996,6 +8996,10 @@ svg.pencil_icon {
   z-index: 2;
   padding: 135px 0 10px;
 
+  &.main-sec {
+    padding: 135px 0 110px;
+  }
+
   .how-work-img {
     img {
       width: 100%;

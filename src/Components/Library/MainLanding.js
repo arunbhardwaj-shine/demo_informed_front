@@ -87,7 +87,7 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
         </Container>
     </div>
 
-    <div className='how-work'>
+    <div className='how-work main-sec'>
         <Container>
             <Row>
                 <Col md={5}>
