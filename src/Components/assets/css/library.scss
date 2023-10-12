@@ -1526,7 +1526,7 @@ ul.tab-mail-list.data span.total-left small {
   padding: 8px 52px;
 
   &:focus {
-    box-shadow: 0px 0px 7px 0px rgba(0, 102, 190, 0.40);
+    box-shadow: 0px 0px 7px 0px rgba(0, 102, 190, 0.4);
 
     &+span {
       svg {
@@ -1539,8 +1539,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .login-confirm #download-qr .modal-body .form-group.error .form-control {
-  box-shadow: 0px 0px 4px 0px #D61975;
-  ;
+  box-shadow: 0px 0px 4px 0px #d61975;
 }
 
 .login-confirm .modal-title.h4 {
@@ -1565,7 +1564,7 @@ ul.tab-mail-list.data span.total-left small {
   width: 100%;
   margin: 15px auto 30px;
   display: block;
-  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.20));
+  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
 }
 
 .login-confirm .forgot-details {
@@ -1574,7 +1573,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .forgot-details a {
   font-size: 16px;
-  color: $primary-color
+  color: $primary-color;
 }
 
 .login-confirm form .form-check input[type="checkbox"],
@@ -1596,8 +1595,8 @@ ul.tab-mail-list.data span.total-left small {
   margin-left: 3px;
 }
 
-.login-confirm form .form-check .form-check-input:checked[type=checkbox],
-.module-register form .form-group input:checked[type=checkbox] {
+.login-confirm form .form-check .form-check-input:checked[type="checkbox"],
+.module-register form .form-group input:checked[type="checkbox"] {
   background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
   background-size: 16px;
   background-position: center;
@@ -1861,7 +1860,7 @@ ul.tab-mail-list.tag a {
 }
 
 .timeline-left-user-detail .select-dropdown-wrapper textarea {
-  color: #0066BE;
+  color: #0066be;
   font-size: 14px;
   border: 0;
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
@@ -1873,7 +1872,7 @@ ul.tab-mail-list.tag a {
 
 .timeline-left-user .timeline-left-user-detail ul li .select-dropdown-wrapper span {
   font-size: 13px;
-  color: #8A4E9C;
+  color: #8a4e9c;
   text-align: right;
   display: block;
   margin: 4px 0 10px;
@@ -3392,10 +3391,9 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 
 .PhoneInputCountrySelect option {
   font-size: 14px;
-  color: #0066BE;
+  color: #0066be;
   padding: 7px 5px;
   line-height: 20px;
-
 }
 
 select.PhoneInputCountrySelect {
@@ -3406,7 +3404,7 @@ select.PhoneInputCountrySelect {
 
 .form-group.primary_phone .dropdown-basic-button.PhoneInput input.PhoneInputInput {
   font-size: 16px;
-  color: #0066BE;
+  color: #0066be;
 }
 
 .dropdown-basic-button.PhoneInput input.PhoneInputInput::-webkit-input-placeholder {
@@ -3428,7 +3426,6 @@ select.PhoneInputCountrySelect {
   color: $light-gray;
   font-weight: 300;
 }
-
 
 // .form-group.primary_phone .dropdown-basic-button .PhoneInputCountrySelectArrow {
 //   display: none;
@@ -3453,7 +3450,6 @@ select.PhoneInputCountrySelect {
 
 .form-group.primary_phone .dropdown-basic-button ul li:hover {
   background: #e7eff6;
-
 }
 
 .form-group.primary_phone .dropdown-basic-button #rfs-btn span {
@@ -3636,7 +3632,7 @@ input[type="number"] {
             border: 0;
             padding: 9px 17px;
             width: 100%;
-            color: #0066BE;
+            color: #0066be;
             font-weight: 400;
             max-width: 445px;
             font-size: 14px;
@@ -3756,9 +3752,8 @@ input[type="number"] {
 
 .timeline-block-title span {
   font-weight: 400;
-  color: #004A89;
+  color: #004a89;
 }
-
 
 .feedback-block {
   margin: 50px 0 30px;
@@ -3769,7 +3764,7 @@ input[type="number"] {
 }
 
 .feedback-block .library .timeline-block-title h6 {
-  color: #004A89;
+  color: #004a89;
   font-size: 15px;
   margin-bottom: 5px;
   font-weight: 400;
@@ -3794,7 +3789,7 @@ input[type="number"] {
 .feedback-block .feedback-detail p {
   font-size: 15px;
   line-height: 20px;
-  color: #004A89;
+  color: #004a89;
   padding: 10px 0 14px;
 }
 
@@ -3817,7 +3812,7 @@ input[type="number"] {
 //   right: 15px;
 //   top: 8px;
 // }
-.wrap_div .radio_btn input[type=checkbox] {
+.wrap_div .radio_btn input[type="checkbox"] {
   width: 24px;
   height: 24px;
   opacity: 0;
@@ -4079,11 +4074,11 @@ input[type="number"] {
         }
 
         &.media-yellow {
-          border: 2px solid #FFBE2C;
+          border: 2px solid #ffbe2c;
           box-shadow: 0px 1px 6px rgb(255 190 44 / 75%);
 
           .content-type {
-            color: #FFBE2C;
+            color: #ffbe2c;
           }
         }
 
@@ -4734,8 +4729,11 @@ input.viewer-toolbar-current-page-input {
   background: $white;
   position: relative;
   border-radius: 0;
-  box-shadow: 0 0 15px rgba(0, 102, 190, .1);
-  min-height: 70vh;
+
+  &.feedback {
+    min-height: 70vh;
+    box-shadow: 0 0 15px rgba(0, 102, 190, 0.1);
+  }
 
   // border-radius: 0 0 20px 20px;
   // display:flex;
@@ -6170,7 +6168,7 @@ svg.pencil_icon {
             padding: 0 0 6px;
 
             span {
-              color: $white
+              color: $white;
             }
           }
 
@@ -6256,7 +6254,7 @@ svg.pencil_icon {
 
               &.saleforce_cont {
                 margin-left: 10px;
-                color: #ffffff
+                color: #ffffff;
               }
             }
 
@@ -8160,8 +8158,6 @@ svg.pencil_icon {
 
 /**Publisher page End**/
 
-
-
 /**New Landign Page**/
 .header-landing {
   position: fixed;
@@ -8188,9 +8184,8 @@ svg.pencil_icon {
   }
 }
 
-
 .landing-banner {
-  background: #68D1E8 url(../../../../public/componentAssets/images/banner-bg-shade.svg) no-repeat;
+  background: #68d1e8 url(../../../../public/componentAssets/images/banner-bg-shade.svg) no-repeat;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
   position: sticky;
   top: 0;
@@ -8202,7 +8197,7 @@ svg.pencil_icon {
   }
 
   &.rd {
-    background: #AF8ACD url(../../../../public/componentAssets/images/pharma-rd-bg.png) no-repeat;
+    background: #af8acd url(../../../../public/componentAssets/images/pharma-rd-bg.png) no-repeat;
     background-size: cover;
   }
 
@@ -8266,7 +8261,7 @@ svg.pencil_icon {
 
     .landing-heading {
       h1 {
-        text-shadow: 0px 0px 11px rgba(0, 0, 60, 0.40);
+        text-shadow: 0px 0px 11px rgba(0, 0, 60, 0.4);
       }
     }
 
@@ -8306,7 +8301,6 @@ svg.pencil_icon {
   }
 }
 
-
 .rd {
   .circular-ring {
     .icon-block {
@@ -8328,7 +8322,7 @@ svg.pencil_icon {
     height: 100%;
     width: 100%;
     position: relative;
-    border: 1px solid #49E9F3;
+    border: 1px solid #49e9f3;
     border-radius: 50%;
     display: flex;
     display: -webkit-flex;
@@ -8411,10 +8405,7 @@ svg.pencil_icon {
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
     }
-
   }
-
-
 
   .circle.circle-inner1 {
     border: 0;
@@ -8457,7 +8448,7 @@ svg.pencil_icon {
   .circle.circle-inner2 {
     width: calc(100% - 112px);
     height: calc(100% - 112px);
-    border: 1px solid #4AC9FF;
+    border: 1px solid #4ac9ff;
   }
 
   .circle.circle-inner2 .icon-block {
@@ -8473,7 +8464,6 @@ svg.pencil_icon {
   .circle.circle-inner2 .icon-block:nth-child(2) {
     width: 32px;
     height: 32px;
-
   }
 
   .circle.circle-inner2 .icon-block:nth-child(2) img {
@@ -8501,7 +8491,6 @@ svg.pencil_icon {
   }
 
   .circle.circle-inner3 .circle-half-bigger .icon-block {
-
     width: 24px;
     height: 24px;
   }
@@ -8518,7 +8507,6 @@ svg.pencil_icon {
 
   .circle.circle-inner3 .circle-half-bigger .icon-block:last-child img {
     width: 20px;
-
   }
 
   .circle.circle-inner3 .circle-half-bigger .icon-block:nth-child(2) {
@@ -8635,15 +8623,19 @@ svg.pencil_icon {
   &.rd {
     .circular-ring {
       .big-circle {
-        border-color: #AF87E1;
+        border-color: #af87e1;
 
         .icon-block {
           &:nth-child(2) {
-            background: linear-gradient(202deg, #812F99 7.05%, $primary-color 161.19%);
+            background: linear-gradient(202deg,
+                #812f99 7.05%,
+                $primary-color 161.19%);
           }
 
           &:nth-child(8) {
-            background: linear-gradient(202deg, #812F99 7.05%, $primary-color 161.19%);
+            background: linear-gradient(202deg,
+                #812f99 7.05%,
+                $primary-color 161.19%);
           }
         }
       }
@@ -8655,21 +8647,25 @@ svg.pencil_icon {
         }
 
         &.circle-inner2 {
-          border-color: #AF8ACD;
+          border-color: #af8acd;
 
           .icon-block {
             &:nth-child(2) {
-              background: linear-gradient(202deg, #812F99 7.05%, $primary-color 161.19%);
+              background: linear-gradient(202deg,
+                  #812f99 7.05%,
+                  $primary-color 161.19%);
             }
 
             &:nth-child(5) {
-              background: linear-gradient(202deg, #812F99 7.05%, $primary-color 161.19%);
+              background: linear-gradient(202deg,
+                  #812f99 7.05%,
+                  $primary-color 161.19%);
             }
           }
         }
 
         &.circle-inner3 {
-          border-color: #5C1971;
+          border-color: #5c1971;
         }
       }
     }
@@ -8730,8 +8726,9 @@ svg.pencil_icon {
         &:nth-child(2) {
           top: 10%;
           left: 76%;
-          background: linear-gradient(192deg, #82C5DF 4.83%, $primary-color 91.14%);
-
+          background: linear-gradient(192deg,
+              #82c5df 4.83%,
+              $primary-color 91.14%);
         }
 
         &:nth-child(3) {
@@ -8739,7 +8736,7 @@ svg.pencil_icon {
           left: 94%;
 
           img {
-            width: 40px
+            width: 40px;
           }
         }
 
@@ -8753,7 +8750,7 @@ svg.pencil_icon {
           left: 92%;
 
           img {
-            width: 34px
+            width: 34px;
           }
         }
 
@@ -8767,14 +8764,16 @@ svg.pencil_icon {
           left: 62%;
 
           img {
-            width: 32px
+            width: 32px;
           }
         }
 
         &:nth-child(8) {
           top: 85%;
           left: 14%;
-          background: linear-gradient(192deg, #82C5DF 4.83%, $primary-color 91.14%);
+          background: linear-gradient(192deg,
+              #82c5df 4.83%,
+              $primary-color 91.14%);
         }
 
         &:nth-child(9) {
@@ -8782,7 +8781,7 @@ svg.pencil_icon {
           left: -1%;
 
           img {
-            width: 32px
+            width: 32px;
           }
         }
 
@@ -8796,7 +8795,7 @@ svg.pencil_icon {
           left: 3%;
 
           img {
-            width: 34px
+            width: 34px;
           }
         }
 
@@ -8804,7 +8803,6 @@ svg.pencil_icon {
           top: 13%;
           left: 14%;
         }
-
       }
     }
 
@@ -8835,7 +8833,6 @@ svg.pencil_icon {
           &:nth-child(2) {
             top: 12%;
             left: 70%;
-
           }
 
           &:nth-child(3) {
@@ -8859,7 +8856,6 @@ svg.pencil_icon {
           &:nth-child(5) {
             top: 85.4%;
             left: 23%;
-
           }
 
           &:nth-child(6) {
@@ -8890,7 +8886,9 @@ svg.pencil_icon {
           &:nth-child(2) {
             top: 7%;
             left: 70%;
-            background: linear-gradient(192deg, #82C5DF 4.83%, $primary-color 91.14%);
+            background: linear-gradient(192deg,
+                #82c5df 4.83%,
+                $primary-color 91.14%);
           }
 
           &:nth-child(3) {
@@ -8914,7 +8912,9 @@ svg.pencil_icon {
           &:nth-child(5) {
             top: 85%;
             left: 14%;
-            background: linear-gradient(192deg, #82C5DF 4.83%, $primary-color 91.14%);
+            background: linear-gradient(192deg,
+                #82c5df 4.83%,
+                $primary-color 91.14%);
           }
 
           &:nth-child(6) {
@@ -8953,7 +8953,6 @@ svg.pencil_icon {
           &:nth-child(3) {
             top: 67%;
             left: 5%;
-
           }
 
           &:nth-child(4) {
@@ -8966,7 +8965,6 @@ svg.pencil_icon {
           }
         }
       }
-
     }
 
     .center-logo {
@@ -9035,7 +9033,6 @@ svg.pencil_icon {
   }
 }
 
-
 .future-expand {
   max-width: 1024px;
   margin: 105px auto 100px;
@@ -9082,7 +9079,9 @@ svg.pencil_icon {
       &.shade-right {
         right: -31px;
         z-index: -1;
-        background: linear-gradient(180deg, $primary-color -19.35%, #00D4C0 123.28%);
+        background: linear-gradient(180deg,
+            $primary-color -19.35%,
+            #00d4c0 123.28%);
       }
     }
   }
@@ -9096,7 +9095,6 @@ svg.pencil_icon {
     font-weight: 400;
   }
 }
-
 
 // .future-expand h5 {
 //   color: $dark-gray;
@@ -9153,8 +9151,8 @@ svg.pencil_icon {
         border-radius: 37px;
         padding: 8px 23px;
         border-radius: 81px;
-        background: linear-gradient(90deg, $primary-color -7.89%, #00D4C0 100%);
-        box-shadow: 0px 2px 4px 0px rgba(0, 74, 137, 0.50);
+        background: linear-gradient(90deg, $primary-color -7.89%, #00d4c0 100%);
+        box-shadow: 0px 2px 4px 0px rgba(0, 74, 137, 0.5);
         font-weight: 500;
         line-height: 39px;
         font-size: 20px;
@@ -9164,22 +9162,32 @@ svg.pencil_icon {
         position: relative;
 
         &:hover {
-          background: linear-gradient(90deg, #00D4C0 -7.89%, $primary-color 100%);
+          background: linear-gradient(90deg,
+              #00d4c0 -7.89%,
+              $primary-color 100%);
         }
 
         &.pharma-rd {
-          background: linear-gradient(90deg, $primary-color -33.6%, $voilet 100%);
+          background: linear-gradient(90deg,
+              $primary-color -33.6%,
+              $voilet 100%);
 
           &:hover {
-            background: linear-gradient(90deg, $voilet -33.6%, $primary-color 100%);
+            background: linear-gradient(90deg,
+                $voilet -33.6%,
+                $primary-color 100%);
           }
         }
 
         &.pharma-marketing {
-          background: linear-gradient(90deg, $primary-color -10.32%, #82C5DF 100%);
+          background: linear-gradient(90deg,
+              $primary-color -10.32%,
+              #82c5df 100%);
 
           &:hover {
-            background: linear-gradient(90deg, #82C5DF -10.32%, $primary-color 100%);
+            background: linear-gradient(90deg,
+                #82c5df -10.32%,
+                $primary-color 100%);
           }
         }
 
@@ -9196,15 +9204,13 @@ svg.pencil_icon {
         }
       }
     }
-
   }
 }
 
-
 .contact-us {
-  background: #68D1E8 url(../../../../public/componentAssets/images/contact-bg.svg) no-repeat;
+  background: #68d1e8 url(../../../../public/componentAssets/images/contact-bg.svg) no-repeat;
   background-size: cover;
-  box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.50);
+  box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
   margin: -15px 0 0;
   padding: 55px 0 48px;
   position: relative;
@@ -9219,7 +9225,7 @@ svg.pencil_icon {
   }
 
   &.rd {
-    background: #AF8ACD url(../../../../public/componentAssets/images/rd-contact-bg.png) no-repeat;
+    background: #af8acd url(../../../../public/componentAssets/images/rd-contact-bg.png) no-repeat;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
     background-size: cover;
   }
@@ -9254,7 +9260,7 @@ svg.pencil_icon {
 
     .form-sec {
       border-radius: 16px;
-      border: 1px dashed #46F4FF;
+      border: 1px dashed #46f4ff;
       padding: 30px;
       margin: 45px 0 0;
     }
@@ -9269,9 +9275,9 @@ svg.pencil_icon {
 
         .form-control {
           border-radius: 30px;
-          border: 0.5px solid rgba(255, 255, 255, 0.50);
+          border: 0.5px solid rgba(255, 255, 255, 0.5);
           background: rgba(255, 255, 255, 0.06);
-          box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+          box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
           backdrop-filter: blur(1px);
           padding: 9px 46px;
           font-size: 14px;
@@ -9280,11 +9286,11 @@ svg.pencil_icon {
 
           &.error {
             border: 1px solid $pink;
-            box-shadow: 0px 0px 6px 0px #FF9FCE;
+            box-shadow: 0px 0px 6px 0px #ff9fce;
           }
 
           &:focus {
-            box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.50);
+            box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.5);
 
             +span {
               svg {
@@ -9349,9 +9355,9 @@ svg.pencil_icon {
           width: 100%;
           min-height: 88px;
           border-radius: 13px;
-          border: 0.5px solid rgba(255, 255, 255, 0.50);
+          border: 0.5px solid rgba(255, 255, 255, 0.5);
           background: rgba(255, 255, 255, 0.06);
-          box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+          box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
           -webkit-backdrop-filter: blur(1px);
           backdrop-filter: blur(1px);
           font-size: 14px;
@@ -9361,7 +9367,7 @@ svg.pencil_icon {
           font-weight: 300;
 
           &:focus {
-            box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.50);
+            box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.5);
           }
         }
 
@@ -9400,15 +9406,13 @@ svg.pencil_icon {
         }
       }
     }
-
   }
 }
-
 
 .rd {
   .contact-inset {
     .form-sec {
-      border-color: #D875F5;
+      border-color: #d875f5;
     }
   }
 }
@@ -9416,7 +9420,7 @@ svg.pencil_icon {
 .publish {
   .contact-inset {
     .form-sec {
-      border-color: #35E9E9;
+      border-color: #35e9e9;
     }
   }
 }
@@ -9432,63 +9436,62 @@ svg.pencil_icon {
 
 .rd .contact-inset form .form-group .form-control::-webkit-input-placeholder,
 .rd .contact-inset form .form-group textarea::-webkit-input-placeholder {
-  color: #D09DDF;
+  color: #d09ddf;
   opacity: 1;
 }
 
 .publish .contact-inset form .form-group .form-control::-webkit-input-placeholder,
 .publish .contact-inset form .form-group textarea::-webkit-input-placeholder {
-  color: #A4EDE6;
+  color: #a4ede6;
   opacity: 1;
 }
 
 .rd .contact-inset form .form-group .form-control::-moz-placeholder,
 .rd .contact-inset form .form-group textarea::-moz-placeholder {
-  color: #D09DDF;
+  color: #d09ddf;
   opacity: 1;
 }
 
 .publish .contact-inset form .form-group .form-control::-moz-placeholder,
 .publish .contact-inset form .form-group textarea::-moz-placeholder {
-  color: #A4EDE6;
+  color: #a4ede6;
   opacity: 1;
 }
 
 .rd .contact-inset form .form-group .form-control:-ms-input-placeholder,
 .rd .contact-inset form .form-group textarea:-ms-input-placeholder {
-  color: #D09DDF;
+  color: #d09ddf;
   opacity: 1;
 }
 
 .rd .contact-inset form .form-group .form-control:-moz-placeholder,
 .rd .contact-inset form .form-group textarea:-moz-placeholder {
-  color: #D09DDF;
+  color: #d09ddf;
   opacity: 1;
 }
 
 .publish .contact-inset form .form-group .form-control:-ms-input-placeholder,
 .publish .contact-inset form .form-group textarea:-ms-input-placeholder {
-  color: #A4EDE6;
+  color: #a4ede6;
   opacity: 1;
 }
 
 .publish .contact-inset form .form-group .form-control:-moz-placeholder,
 .publish .contact-inset form .form-group textarea:-moz-placeholder {
-  color: #A4EDE6;
+  color: #a4ede6;
   opacity: 1;
 }
 
-.rd .form-sec .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
-  color: #D09DDF;
+.rd .form-sec .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"] {
+  color: #d09ddf;
 }
 
-.publish .form-sec .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
-  color: #A4EDE6;
+.publish .form-sec .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"] {
+  color: #a4ede6;
 }
-
 
 .contact-inset form .form-group .split-button-dropup>div:nth-child(3):focus {
-  box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.50)
+  box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.5);
 }
 
 .form-sec ::-webkit-input-placeholder {
@@ -9507,7 +9510,7 @@ svg.pencil_icon {
   color: rgba(255, 255, 255, 0.56);
 }
 
-.form-sec .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
+.form-sec .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"] {
   color: rgba(255, 255, 255, 0.56);
 }
 
@@ -9534,14 +9537,14 @@ svg.pencil_icon {
       padding: 0;
 
       p {
-        color: rgba(0, 74, 137, 0.40);
+        color: rgba(0, 74, 137, 0.4);
         font-size: 14px;
         line-height: normal;
       }
 
       a {
         text-decoration: underline;
-        color: rgba(0, 74, 137, 0.40);
+        color: rgba(0, 74, 137, 0.4);
       }
     }
   }
@@ -9579,7 +9582,7 @@ svg.pencil_icon {
     }
 
     .slick-list {
-      background: linear-gradient(180deg, #CDE8FF 0%, #FFF 100%);
+      background: linear-gradient(180deg, #cde8ff 0%, #fff 100%);
       // background: url(../../../../public/componentAssets/images/pharma-slide.png) no-repeat;
       background-size: cover;
       height: 100%;
@@ -9707,7 +9710,6 @@ svg.pencil_icon {
 
                 img.slide-ellipse3 {
                   transform: translate(-225%, 57px) scale(1.3);
-
                 }
 
                 img.slide-ellipse4 {
@@ -9740,7 +9742,6 @@ svg.pencil_icon {
                 img.slide-ellipse2 {
                   transform: translate(140px, 280px);
                   transition: 1.2s ease transform;
-
                 }
 
                 img.slide-ellipse3 {
@@ -9787,7 +9788,6 @@ svg.pencil_icon {
                 img.slide-ellipse2 {
                   transform: translate(-130px, 140px);
                   transition: 1.2s ease transform;
-
                 }
 
                 img.slide-ellipse3 {
@@ -9836,7 +9836,6 @@ svg.pencil_icon {
                 img.slide-ellipse2 {
                   transform: translate(-100px, 300px);
                   transition: 1.2s ease transform;
-
                 }
 
                 img.slide-ellipse3 {
@@ -9933,7 +9932,6 @@ svg.pencil_icon {
                   img.slide-ellipse2 {
                     transform: translate(150px, 340px);
                     transition: 1.2s ease transform;
-
                   }
 
                   img.slide-ellipse3 {
@@ -9968,7 +9966,6 @@ svg.pencil_icon {
                   img.slide-ellipse2 {
                     transform: translate(-130px, 140px);
                     transition: 1.2s ease transform;
-
                   }
 
                   img.slide-ellipse3 {
@@ -10003,7 +10000,6 @@ svg.pencil_icon {
                   img.slide-ellipse2 {
                     transform: translate(-100px, 300px);
                     transition: 1.2s ease transform;
-
                   }
 
                   img.slide-ellipse3 {
@@ -10038,7 +10034,6 @@ svg.pencil_icon {
                   img.slide-ellipse2 {
                     transform: translate(-190px, 30px);
                     transition: 1.2s ease transform;
-
                   }
 
                   img.slide-ellipse3 {
@@ -10064,7 +10059,6 @@ svg.pencil_icon {
               }
             }
           }
-
         }
       }
     }
@@ -10094,7 +10088,6 @@ svg.pencil_icon {
 
 .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slide-right-sided {
   transform: translate(0%, 0px);
-
 }
 
 .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slide-left-sided {
@@ -10113,7 +10106,6 @@ svg.pencil_icon {
 
 .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slide-right-sided {
   transform: translate(0%, 0px);
-
 }
 
 .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slide-left-sided {
@@ -10124,12 +10116,10 @@ svg.pencil_icon {
   max-width: 675px;
 }
 
-
 .pharma-slider .slider .slick-list .slick-track .slick-slide>div {
   width: 100%;
   min-height: 569px;
 }
-
 
 .consent-content {
   padding: 126px 0 226px;
@@ -10171,7 +10161,7 @@ svg.pencil_icon {
         ul {
           li {
             &:after {
-              background: #39CABC;
+              background: #39cabc;
             }
           }
         }
@@ -10220,7 +10210,7 @@ svg.pencil_icon {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #7ED3E5;
+            background: #7ed3e5;
             top: 50%;
             transform: translateY(-50%);
             left: 28px;
@@ -10230,9 +10220,6 @@ svg.pencil_icon {
     }
   }
 }
-
-
-
 
 /**module**/
 
@@ -10269,7 +10256,7 @@ svg.pencil_icon {
       display: grid;
       place-items: center;
       background: $white;
-      color: #5A6BB5;
+      color: #5a6bb5;
       font-weight: 500;
       font-size: 12px;
       filter: drop-shadow(0px 1px 19px rgba(0, 102, 190, 0.24));
@@ -10329,96 +10316,96 @@ svg.pencil_icon {
 
       &.qa {
         &.active {
-          background: #3D48AB;
-          outline: 2px dashed #3D48AB;
-          filter: drop-shadow(0px 0px 19px #3D48AB);
+          background: #3d48ab;
+          outline: 2px dashed #3d48ab;
+          filter: drop-shadow(0px 0px 19px #3d48ab);
         }
 
         &.visible {
-          background: #3D48AB;
+          background: #3d48ab;
 
           &~.mudule-article-overview {
-            background: #3D48AB;
+            background: #3d48ab;
           }
         }
       }
 
       &.read {
         &.active {
-          background: #5A6BB5;
-          outline: 2px dashed #5A6BB5;
-          filter: drop-shadow(0px 0px 19px #5A6BB5);
+          background: #5a6bb5;
+          outline: 2px dashed #5a6bb5;
+          filter: drop-shadow(0px 0px 19px #5a6bb5);
         }
 
         &.visible {
-          background: #5A6BB5;
+          background: #5a6bb5;
 
           &~.mudule-article-overview {
-            background: #5A6BB5;
+            background: #5a6bb5;
           }
         }
       }
 
       &.ai {
         &.active {
-          background: #00C1BF;
-          outline: 2px dashed #00C1BF;
-          filter: drop-shadow(0px 0px 19px #00C1BF);
+          background: #00c1bf;
+          outline: 2px dashed #00c1bf;
+          filter: drop-shadow(0px 0px 19px #00c1bf);
         }
 
         &.visible {
-          background: #00C1BF;
+          background: #00c1bf;
 
           &~.mudule-article-overview {
-            background: #00C1BF;
+            background: #00c1bf;
           }
         }
       }
 
       &.informed {
         &.active {
-          background: #045FAE;
-          outline: 2px dashed #045FAE;
-          filter: drop-shadow(0px 0px 19px #045FAE);
+          background: #045fae;
+          outline: 2px dashed #045fae;
+          filter: drop-shadow(0px 0px 19px #045fae);
         }
 
         &.visible {
-          background: #045FAE;
+          background: #045fae;
 
           &~.mudule-article-overview {
-            background: #045FAE;
+            background: #045fae;
           }
         }
       }
 
       &.web {
         &.active {
-          background: #6E52A2;
-          outline: 2px dashed #6E52A2;
-          filter: drop-shadow(0px 0px 19px #6E52A2);
+          background: #6e52a2;
+          outline: 2px dashed #6e52a2;
+          filter: drop-shadow(0px 0px 19px #6e52a2);
         }
 
         &.visible {
-          background: #6E52A2;
+          background: #6e52a2;
 
           &~.mudule-article-overview {
-            background: #6E52A2;
+            background: #6e52a2;
           }
         }
       }
 
       &.consent {
         &.active {
-          background: #00A4BF;
-          outline: 2px dashed #00A4BF;
-          filter: drop-shadow(0px 0px 19px #00A4BF);
+          background: #00a4bf;
+          outline: 2px dashed #00a4bf;
+          filter: drop-shadow(0px 0px 19px #00a4bf);
         }
 
         &.visible {
-          background: #00A4BF;
+          background: #00a4bf;
 
           &~.mudule-article-overview {
-            background: #00A4BF;
+            background: #00a4bf;
           }
         }
       }
@@ -10441,80 +10428,80 @@ svg.pencil_icon {
 
       &.automail {
         &.active {
-          background: #00D4C0;
-          outline: 2px dashed #00D4C0;
-          filter: drop-shadow(0px 0px 19px #00D4C0);
+          background: #00d4c0;
+          outline: 2px dashed #00d4c0;
+          filter: drop-shadow(0px 0px 19px #00d4c0);
         }
 
         &.visible {
-          background: #00D4C0;
+          background: #00d4c0;
 
           &~.mudule-article-overview {
-            background: #00D4C0;
+            background: #00d4c0;
           }
         }
       }
 
       &.rating {
         &.active {
-          background: #2B9BC8;
-          outline: 2px dashed #2B9BC8;
-          filter: drop-shadow(0px 0px 19px #2B9BC8);
+          background: #2b9bc8;
+          outline: 2px dashed #2b9bc8;
+          filter: drop-shadow(0px 0px 19px #2b9bc8);
         }
 
         &.visible {
-          background: #2B9BC8;
+          background: #2b9bc8;
 
           &~.mudule-article-overview {
-            background: #2B9BC8;
+            background: #2b9bc8;
           }
         }
       }
 
       &.survey {
         &.active {
-          background: #5058AA;
-          outline: 2px dashed #5058AA;
-          filter: drop-shadow(0px 0px 19px #5058AA);
+          background: #5058aa;
+          outline: 2px dashed #5058aa;
+          filter: drop-shadow(0px 0px 19px #5058aa);
         }
 
         &.visible {
-          background: #5058AA;
+          background: #5058aa;
 
           &~.mudule-article-overview {
-            background: #5058AA;
+            background: #5058aa;
           }
         }
       }
 
       &.spc {
         &.active {
-          background: #19BBB9;
-          outline: 2px dashed #19BBB9;
-          filter: drop-shadow(0px 0px 19px #19BBB9);
+          background: #19bbb9;
+          outline: 2px dashed #19bbb9;
+          filter: drop-shadow(0px 0px 19px #19bbb9);
         }
 
         &.visible {
-          background: #19BBB9;
+          background: #19bbb9;
 
           &~.mudule-article-overview {
-            background: #19BBB9;
+            background: #19bbb9;
           }
         }
       }
 
       &.engine {
         &.active {
-          background: #0084BE;
-          outline: 2px dashed #0084BE;
-          filter: drop-shadow(0px 0px 19px #0084BE);
+          background: #0084be;
+          outline: 2px dashed #0084be;
+          filter: drop-shadow(0px 0px 19px #0084be);
         }
 
         &.visible {
-          background: #0084BE;
+          background: #0084be;
 
           &~.mudule-article-overview {
-            background: #0084BE;
+            background: #0084be;
           }
         }
       }
@@ -10580,7 +10567,7 @@ svg.pencil_icon {
       }
 
       p {
-        color: #59748A;
+        color: #59748a;
         text-align: center;
         font-size: 14px;
         line-height: 20px;
@@ -10646,7 +10633,6 @@ svg.pencil_icon {
               font-weight: 400;
             }
           }
-
         }
 
         button {
@@ -10666,7 +10652,7 @@ svg.pencil_icon {
       padding: 4px 37px 3px 15px;
     }
 
-    .module-register .split-button-dropup div:nth-child(3)>div div[class*=-placeholder],
+    .module-register .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"],
     .module-register .split-button-dropup div:nth-child(3)>div div {
       padding-left: 23px;
       font-size: 14px;
@@ -10677,8 +10663,6 @@ svg.pencil_icon {
     }
   }
 }
-
-
 
 @keyframes fadeInbigger {
   0% {
@@ -10699,8 +10683,6 @@ svg.pencil_icon {
     transform: rotate(0deg);
   }
 }
-
-
 
 .shape {
   height: 100%;
@@ -10749,73 +10731,72 @@ svg.pencil_icon {
 
 .read span,
 .request .circle .active.read span {
-  color: #5A6BB5;
+  color: #5a6bb5;
 }
 
 .rating span,
 .request .circle .active.rating span {
-  color: #2B9BC8
+  color: #2b9bc8;
 }
 
 .spc span,
 .request .circle .active.spc span {
-  color: #19BBB9
+  color: #19bbb9;
 }
 
 .automail span,
 .request .circle .active.automail span {
-  color: #00D4C0
+  color: #00d4c0;
 }
 
 .ai span,
 .request .circle .active.ai span {
-  color: #00C1BF
+  color: #00c1bf;
 }
 
 .consent span,
 .request .circle .active.consent span {
-  color: #00A4BF;
+  color: #00a4bf;
 }
 
 .engine span,
 .request .circle .active.engine span {
-  color: #0084BE
+  color: #0084be;
 }
 
 .docintel span,
 .request .circle .active.docintel span {
-  color: $primary-color
+  color: $primary-color;
 }
 
 .informed span,
 .automatic-certificate span,
 .request .circle .active.automatic-certificate span,
 .request .circle .active.informed span {
-  color: #045FAE
+  color: #045fae;
 }
 
 .qa span,
 .request .circle .active.qa span {
-  color: #3D48AB
+  color: #3d48ab;
 }
 
 .survey span,
 .request .circle .active.survey span {
-  color: #5058AA;
+  color: #5058aa;
 }
 
 .web span,
 .site span,
 .request .circle .active.web span,
 .request .circle .active.site span {
-  color: #6E52A2
+  color: #6e52a2;
 }
 
 .webinar span,
 .request .circle .active.webinar span {
-  color: $voilet
+  color: $voilet;
 }
-
 
 // .modules-diagram .module-logo {
 //   position: absolute;
@@ -10847,7 +10828,7 @@ svg.pencil_icon {
   width: 100%;
   height: 350px;
   border-radius: 50%;
-  background: #2B9BC8;
+  background: #2b9bc8;
   box-shadow: 0px 1px 19px 0px rgba(0, 102, 190, 0.24);
   z-index: 3;
   padding: 24px 40px 34px;
@@ -10886,7 +10867,6 @@ svg.pencil_icon {
     img {
       margin-bottom: 12px;
     }
-
   }
 
   img {
@@ -10924,7 +10904,6 @@ svg.pencil_icon {
       border: 0;
     }
   }
-
 }
 
 // .module-discribe img.module-content-view {
@@ -10941,12 +10920,12 @@ svg.pencil_icon {
 .module-discribe {
   h4 {
     font-weight: 600;
-    color: #5A6BB5;
+    color: #5a6bb5;
     margin: 9px auto 24px;
   }
 
   p {
-    color: #59748A;
+    color: #59748a;
     font-size: 14px;
     font-weight: 400;
     line-height: 21px;
@@ -10973,7 +10952,7 @@ svg.pencil_icon {
     text-align: left;
 
     h5 {
-      color: #00003C;
+      color: #00003c;
       font-size: 16px;
       font-weight: 600;
       line-height: 20px;
@@ -10986,7 +10965,7 @@ svg.pencil_icon {
     }
 
     li {
-      color: #59748A;
+      color: #59748a;
       font-size: 14px;
       line-height: 24px;
       list-style-type: disc;
@@ -11062,8 +11041,6 @@ svg.pencil_icon {
   }
 }
 
-
-
 .module-bigger-size {
   .module-diagram.circle {
     position: absolute;
@@ -11090,13 +11067,11 @@ svg.pencil_icon {
   }
 }
 
-
 .module-discribe,
 .module-discribe .active {
   z-index: 1;
   position: relative;
 }
-
 
 .module-discribe.request .module-diagram.circle {
   position: static;
@@ -11154,7 +11129,7 @@ svg.pencil_icon {
     input {
       &.form-control {
         border-radius: 30px;
-        box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+        box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
         padding: 10px 18px 10px 48px;
         max-width: 266px;
       }
@@ -11170,7 +11145,6 @@ svg.pencil_icon {
   font-weight: 400;
   width: 100%;
 }
-
 
 .module-discribe.request .module-diagram.circle .stat.blank {
   display: none;
@@ -11205,8 +11179,6 @@ svg.pencil_icon {
 .form-feilds .col-md-6:nth-child(2n) .form-group span {
   left: 37px;
 }
-
-
 
 .form-feilds .form-group span {
   position: absolute;
@@ -11254,7 +11226,7 @@ svg.pencil_icon {
 .submit-section h3 {
   font-size: 32px;
   font-weight: 700;
-  color: #004A89;
+  color: #004a89;
   margin-bottom: 25px;
 }
 
@@ -11285,70 +11257,69 @@ svg.pencil_icon {
 }
 
 .modules-diagram .pharma_market.circle .stat.webinar.active:after {
-  border-color: #8A4E9C;
+  border-color: #8a4e9c;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.read.active:after {
-  border-color: #5A6BB5;
+  border-color: #5a6bb5;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.web.active:after {
-  border-color: #6E52A2;
+  border-color: #6e52a2;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.survey.active:after {
-  border-color: #5058AA;
+  border-color: #5058aa;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.qa.active:after {
-  border-color: #3D48AB;
+  border-color: #3d48ab;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.informed.active:after {
-  border-color: #045FAE;
+  border-color: #045fae;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.docintel.active:after {
-  border-color: #0066BE;
+  border-color: #0066be;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.engine.active:after {
-  border-color: #0084BE;
+  border-color: #0084be;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.consent.active:after {
-  border-color: #00A4BF;
+  border-color: #00a4bf;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.ai.active:after {
-  border-color: #00C1BF;
+  border-color: #00c1bf;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.automail.active:after {
-  border-color: #00D4C0;
+  border-color: #00d4c0;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.spc.active:after {
-  border-color: #19BBB9;
+  border-color: #19bbb9;
   width: 44px;
 }
 
 .modules-diagram .pharma_market.circle .stat.rating.active:after {
-  border-color: #2B9BC8;
+  border-color: #2b9bc8;
   width: 44px;
 }
-
 
 .modules-diagram .pharma_market.circle .stat.engine.active:after {
   left: -70px;
@@ -11414,7 +11385,6 @@ svg.pencil_icon {
 .modules-diagram .pharma_market.circle .stat.rating.active::before {
   left: -56px;
 }
-
 
 .modules-diagram .pharma_market.circle .stat.docintel.active:after {
   width: 89px;
@@ -11520,12 +11490,10 @@ svg.pencil_icon {
 
 .modules-diagram .request .pharma_market.circle .stat.active:after,
 .modules-diagram .request .pharma_market.circle .stat.active:before {
-  display: none
+  display: none;
 }
 
-
 /**MOdule End**/
-
 
 /**Pharma page End**/
 
@@ -11651,10 +11619,7 @@ svg.pencil_icon {
   }
 }
 
-
 /**New Landign Page End**/
-
-
 
 /**Library Responsive**/
 
@@ -15728,7 +15693,7 @@ img.change-password-image {
   }
 }
 
-@media only screen and (max-width:767px) {
+@media only screen and (max-width: 767px) {
   // .pharma-slider,.pharma-slider .slider{
   //   height:100vh;
   // }
