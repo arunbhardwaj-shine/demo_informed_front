@@ -98,7 +98,7 @@ const MapComponent = ({ data }) => {
     chart: {
       map: "custom/world",
       proj4,
-      plotBackgroundColor: '#aad3df',  
+      plotBackgroundColor: "#aad3df",
     },
     title: {
       text: "Regions",
@@ -133,7 +133,8 @@ const MapComponent = ({ data }) => {
 
         tooltip: {
           headerFormat: "",
-          pointFormat: '<span style="font-weight: bold">Total Registration : {point.totalIndex}</span>',
+          pointFormat:
+            '<span style="font-weight: bold">Total Registration : {point.totalIndex}</span>',
         },
         showInLegend: false,
         marker: {
@@ -289,8 +290,11 @@ const TabComponent = ({ data }) => {
                   <Barcomponent
                     countries={region.countries}
                     countriesData={region.countries_data}
-                  //  title={region.region_name}
-                  title="HCP"
+                    //  title={region.region_name}
+                    title={`HCP (${region?.countries_data?.reduce(
+                      (acc, val) => acc + val,
+                      0
+                    )})`}
                   />
                 </Col>
               </Row>
