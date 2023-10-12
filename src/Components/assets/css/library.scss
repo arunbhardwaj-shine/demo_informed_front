@@ -8990,13 +8990,13 @@ svg.pencil_icon {
 }
 
 .how-work {
-  border-radius: 20px 20px;
+  // border-radius: 20px 20px;
   background: $white;
-  box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
+  // box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
   margin-top: -30px;
   position: relative;
   z-index: 2;
-  padding: 135px 0 110px;
+  padding: 135px 0 10px;
 
   .how-work-img {
     img {
@@ -9559,6 +9559,25 @@ svg.pencil_icon {
     padding-top: 20px;
     margin-top: -20px;
 
+    .add-space {
+      height: 100px;
+      background: $white;
+
+      &.top {
+        box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
+        border-radius: 0 0 20px 20px;
+        z-index: 1;
+        position: relative;
+      }
+
+      &.bottom {
+        box-shadow: 0px 0px 40px 0px rgba(0, 102, 190, 0.16);
+        border-radius: 20px 20px 0 0;
+        z-index: 1;
+        position: relative;
+      }
+    }
+
     .slick-list {
       background: linear-gradient(180deg, #CDE8FF 0%, #FFF 100%);
       // background: url(../../../../public/componentAssets/images/pharma-slide.png) no-repeat;
@@ -9599,6 +9618,8 @@ svg.pencil_icon {
             width: 100%;
             height: 100%;
           }
+
+
 
           .slider-in-views {
             display: flex;
@@ -10111,11 +10132,11 @@ svg.pencil_icon {
 
 
 .consent-content {
-  padding: 226px 0;
+  padding: 126px 0 226px;
   background: $white;
-  border-radius: 20px;
+  // border-radius: 20px;
   background: $white;
-  box-shadow: 0px 0px 40px 0px rgba(0, 102, 190, 0.16);
+  // box-shadow: 0px 0px 40px 0px rgba(0, 102, 190, 0.16);
   margin: -15px 0 0;
   position: relative;
   z-index: 1;
@@ -10512,7 +10533,7 @@ svg.pencil_icon {
 
   .circle {
     &.bigger {
-      animation: fadeInbigger 1.8s;
+      animation: opacity 1.8s;
       opacity: 0.5;
     }
   }
@@ -10600,6 +10621,16 @@ svg.pencil_icon {
             position: absolute;
             left: 20px;
             top: 7px;
+          }
+
+          .contact-validation {
+            font-size: 12px;
+            color: #D61975;
+            text-align: right;
+            position: absolute;
+            margin-left: auto;
+            width: 100%;
+            bottom: -22px;
           }
 
           .form-consent {
@@ -10701,7 +10732,7 @@ svg.pencil_icon {
 
 .stat {
   .article-close {
-    transform: translateX(0%);
+    // transform: translateX(0%);
     opacity: 0;
     transition: all 0.65s ease;
     position: absolute;

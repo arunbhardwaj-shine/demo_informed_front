@@ -937,6 +937,7 @@ const PharmaRd = () => {
     centerMode: true,
     centerPadding: "0%",
     fade: true,
+    speed: 1500,
   };
   return (
     <>
@@ -1095,6 +1096,7 @@ const PharmaRd = () => {
       <div className="pharma-slide">
         <div className="pharma-slider">
           <div className="slider" ref={parentRef}>
+              <div className="add-space top"></div>
             <Slider {...settings} ref={sliderRef}>
               <div className="slider-in">
                 <div className="slider-in-views">
@@ -1228,6 +1230,7 @@ const PharmaRd = () => {
                 </div>
               </div>
             </Slider>
+              <div className="add-space top"></div>
           </div>
         </div>
       </div>
@@ -1742,14 +1745,15 @@ const PharmaRd = () => {
                                     />
                                   </svg>
                                 </span>
-                              </div>
-                              {registerError?.email ? (
+                                {registerError?.email ? (
                                 <div className="contact-validation">
                                   {registerError?.email}
                                 </div>
                               ) : (
                                 ""
                               )}
+                              </div>
+                              
                             </Col>
 
                             <Col md="12">
