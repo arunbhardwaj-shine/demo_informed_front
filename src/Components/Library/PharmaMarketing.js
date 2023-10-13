@@ -20,6 +20,7 @@ import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
+import LandingSliderSection from "./LandingSliderSection";
 
 const PharmaMarketing = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -31,7 +32,7 @@ const PharmaMarketing = () => {
   const [selectedModules, setSelectedModules] = useState([]);
   const [registerPage, setRegisterPage] = useState(true);
   const [intialModuleData, setIntialModuleData] = useState(null);
-
+  const [payloadData, setPayloadData] = useState({});
   const [registerError, setRegisterError] = useState(false);
   const [forceRender, setForceRender] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
@@ -1065,58 +1066,68 @@ const PharmaMarketing = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  useEffect(() => {
-    if (!parentRef.current) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (!parentRef.current) {
+  //     return;
+  //   }
 
-    parentRef.current.addEventListener("wheel", (e) => {
-      handleScroll(e);
-    });
-  }, [parentRef]);
-  const handleScroll = (e) => {
-    let sliderLength = sliderRef.current.props.children.length;
+  //   parentRef.current.addEventListener("wheel", (e) => {
+  //     handleScroll(e);
+  //   });
+  // }, [parentRef]);
+  // const handleScroll = (e) => {
+  //   let sliderLength = sliderRef.current.props.children.length;
 
-    var element = document.getElementsByClassName("slick-active")[0];
-    var activeSlide = element.getAttribute("data-index");
+  //   var element = document.getElementsByClassName("slick-active")[0];
+  //   var activeSlide = element.getAttribute("data-index");
 
-    if (
-      (e.deltaY < 0 && activeSlide == 0) ||
-      (e.deltaY > 0 && activeSlide == sliderLength - 1)
-    ) {
-      return;
-    }
+  //   if (
+  //     (e.deltaY < 0 && activeSlide == 0) ||
+  //     (e.deltaY > 0 && activeSlide == sliderLength - 1)
+  //   ) {
+  //     return;
+  //   }
 
-    e.preventDefault();
+  //   e.preventDefault();
 
-    if (e.deltaY < 0) {
-      let a = sliderRef.current.slickPrev();
-    } else {
-      let a = sliderRef.current.slickNext();
-    }
-  };
-  const settings = {
+  //   if (e.deltaY < 0) {
+  //     let a = sliderRef.current.slickPrev();
+  //   } else {
+  //     let a = sliderRef.current.slickNext();
+  //   }
+  // };
+  // const settings = {
+  //   infinite: false,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  //   dots: false,
+  //   arrows: false,
+  //   centerMode: true,
+  //   centerPadding: "0%",
+  //   speed: 1000,
+  //   fade: true,
+  //      responsive: [
+  //     {
+  //       breakpoint: 767,
+  //       settings: {
+  //         swipe: true,
+  //         touchMove: true,
+  //         vertical: true,
+  //         verticalScrolling: true,
+  //         speed: 1000,
+  //       },
+  //     }
+  //   ],
+  // };
+
+
+  const sliderSettings = {
+    dots: true,
     infinite: false,
+    speed: 1500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    dots: false,
-    arrows: false,
-    centerMode: true,
-    centerPadding: "0%",
-    speed: 1000,
-    fade: true,
-       responsive: [
-      {
-        breakpoint: 767,
-        settings: {
-          swipe: true,
-          touchMove: true,
-          vertical: true,
-          verticalScrolling: true,
-          speed: 1000,
-        },
-      }
-    ],
+    arrows: true,
   };
 
   return (
@@ -1276,7 +1287,7 @@ const PharmaMarketing = () => {
             </Row>
         </Container>
       </div>
-      <div className="pharma-slide">
+      {/* <div className="pharma-slide">
         <div className="pharma-slider">
           <div className="slider" ref={parentRef}>
             <Slider {...settings} ref={sliderRef}>
@@ -1414,7 +1425,8 @@ const PharmaMarketing = () => {
             </Slider>
           </div>
         </div>
-      </div>
+      </div> */}
+      <LandingSliderSection/>
       <div className="consent-content">
         <Container>
           <Row>
@@ -1748,6 +1760,7 @@ const PharmaMarketing = () => {
                     <Button onClick={handleRead}>Read more</Button>
                   </div>
                 </div>
+
                 <div
                   className={`module-bigger-size ${readStatus ? "show" : ""}`}
                 >
@@ -2079,8 +2092,9 @@ const PharmaMarketing = () => {
                         </Form>
                       </div>
                     </div>
-                  )}
-                  <div
+                  )} 
+
+                <div
                     className={`module-discribe ${addClass ? "request" : ""}`}
                   >
                     <div

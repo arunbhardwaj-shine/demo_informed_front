@@ -12,6 +12,7 @@ import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
+import LandingSliderSection from "./LandingSliderSection";
 
 const PharmaRd = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -898,47 +899,47 @@ const PharmaRd = () => {
   const [readStatus, setReadStatus] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  useEffect(() => {
-    if (!parentRef.current) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (!parentRef.current) {
+  //     return;
+  //   }
 
-    parentRef.current.addEventListener("wheel", (e) => {
-      handleScroll(e);
-    });
-  }, [parentRef]);
-  const handleScroll = (e) => {
-    let sliderLength = sliderRef.current.props.children.length;
+  //   parentRef.current.addEventListener("wheel", (e) => {
+  //     handleScroll(e);
+  //   });
+  // }, [parentRef]);
+  // const handleScroll = (e) => {
+  //   let sliderLength = sliderRef.current.props.children.length;
 
-    var element = document.getElementsByClassName("slick-active")[0];
-    var activeSlide = element.getAttribute("data-index");
+  //   var element = document.getElementsByClassName("slick-active")[0];
+  //   var activeSlide = element.getAttribute("data-index");
 
-    if (
-      (e.deltaY < 0 && activeSlide == 0) ||
-      (e.deltaY > 0 && activeSlide == sliderLength - 1)
-    ) {
-      return;
-    }
+  //   if (
+  //     (e.deltaY < 0 && activeSlide == 0) ||
+  //     (e.deltaY > 0 && activeSlide == sliderLength - 1)
+  //   ) {
+  //     return;
+  //   }
 
-    e.preventDefault();
+  //   e.preventDefault();
 
-    if (e.deltaY < 0) {
-      let a = sliderRef.current.slickPrev();
-    } else {
-      let a = sliderRef.current.slickNext();
-    }
-  };
-  const settings = {
-    infinite: false,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    dots: false,
-    arrows: false,
-    centerMode: true,
-    centerPadding: "0%",
-    fade: true,
-    speed: 1500,
-  };
+  //   if (e.deltaY < 0) {
+  //     let a = sliderRef.current.slickPrev();
+  //   } else {
+  //     let a = sliderRef.current.slickNext();
+  //   }
+  // };
+  // const settings = {
+  //   infinite: false,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  //   dots: false,
+  //   arrows: false,
+  //   centerMode: true,
+  //   centerPadding: "0%",
+  //   fade: true,
+  //   speed: 1500,
+  // };
   return (
     <>
       <LandingHeader/>
@@ -1093,7 +1094,7 @@ const PharmaRd = () => {
             </Row>
         </Container>
       </div>
-      <div className="pharma-slide">
+      {/* <div className="pharma-slide">
         <div className="pharma-slider">
           <div className="slider" ref={parentRef}>
               <div className="add-space top"></div>
@@ -1233,7 +1234,8 @@ const PharmaRd = () => {
               <div className="add-space top"></div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <LandingSliderSection/>
       <div className="consent-content">
         <Container>
           <Row>
