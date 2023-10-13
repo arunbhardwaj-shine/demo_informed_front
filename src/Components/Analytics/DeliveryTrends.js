@@ -445,6 +445,8 @@ const DeliveryTrends = () => {
       getDataFromApi("critical_care");
     } else if (event == 4) {
       getDataFromApi("immunology");
+    }else if (event == 5) {
+      getDataFromApi("ibu");
     }
   };
 
@@ -493,6 +495,16 @@ const DeliveryTrends = () => {
                       ) : null}
                     </Tab>
                     <Tab eventKey="4" title="Immunotherapy">
+                      {isDataFound ? (
+                        <GaugeComponent tab={data.tab} list={listData.tab} />
+                      ) : apiCallStatus ? (
+                        <div className="no_found">
+                          <p>No Data Found</p>
+                        </div>
+                      ) : null}
+                    </Tab>
+
+                    <Tab eventKey="5" title="IBU">
                       {isDataFound ? (
                         <GaugeComponent tab={data.tab} list={listData.tab} />
                       ) : apiCallStatus ? (
