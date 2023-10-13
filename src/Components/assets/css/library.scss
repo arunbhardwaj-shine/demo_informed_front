@@ -8445,10 +8445,24 @@ svg.pencil_icon {
     height: 28px;
   }
 
-  .circle.circle-inner2 {
-    width: calc(100% - 112px);
-    height: calc(100% - 112px);
-    border: 1px solid #4ac9ff;
+  .circle {
+
+
+    &.circle-inner2 {
+      width: calc(100% - 112px);
+      height: calc(100% - 112px);
+      border: 1px solid #4ac9ff;
+      animation-name: circle-rotate-reverse;
+      animation-duration: 26s;
+      -webkit-animation-duration: 26s;
+
+      .icon-block {
+        img {
+          animation: img-rotate-reverse 26s linear infinite;
+          -webkit-animation: img-rotate-reverse 26s linear infinite;
+        }
+      }
+    }
   }
 
   .circle.circle-inner2 .icon-block {
@@ -8596,6 +8610,8 @@ svg.pencil_icon {
     .circle {
       &.circle-inner2 {
         animation-name: circle-rotate-reverse;
+        animation-duration: 13s;
+        -webkit-animation-duration: 13s;
 
         .icon-block {
           img {
@@ -8605,8 +8621,7 @@ svg.pencil_icon {
         }
       }
 
-      animation-duration: 13s;
-      -webkit-animation-duration: 13s;
+
 
       .icon-block {
         img {
@@ -10718,7 +10733,7 @@ svg.pencil_icon {
 
 .stat {
   .article-close {
-    // transform: translateX(0%);
+    display: none;
     opacity: 0;
     transition: all 0.65s ease;
     position: absolute;
@@ -10726,7 +10741,7 @@ svg.pencil_icon {
 
   &.visible {
     .article-close {
-      // transform: translateX(0px);
+      display: block;
       opacity: 1;
       transition-timing-function: cubic-bezier(0.52, 1, 0.37, 1);
     }
@@ -14440,38 +14455,6 @@ img.change-password-image {
           margin: 0;
         }
 
-        // &.sort_btn {
-        //   padding: 10px 14px;
-        //   svg {
-        //     margin-left: 14px;
-        //   }
-        //   &.active {
-        //     background: $primary-color;
-        //     color: $white;
-        //     svg path {
-        //       fill: $white;
-        //     }
-        //   }
-        //   &.svg_active {
-        //     #dsc {
-        //       fill: $primary-color;
-        //     }
-        //   }
-        //   &.svg_asc {
-        //     #asc {
-        //       fill: $primary-color;
-        //     }
-        //   }
-        // }
-        // &:hover {
-        //   background: $primary-color;
-        //   color: $white;
-        //   svg {
-        //     path {
-        //       fill: $white;
-        //     }
-        //   }
-        // }
         &:hover {
           color: $primary-color;
         }
@@ -16012,7 +15995,104 @@ img.change-password-image {
 
 /**Speaker Zone Page End**/
 
+.cookie-popup {
+  border-radius: 18px 18px 0px 0px;
+  background: #FFF;
+  box-shadow: 0px -6px 20px 0px #00003C;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 16px;
 
+  .cookie-popup-btns {
+    flex: 1 1;
+    display: flex;
+    gap: 16px;
+
+    button.btn {
+      min-width: 140px;
+    }
+  }
+
+  .cookie-popup-text {
+    padding-right: 150px;
+
+    h5 {
+      font-size: 20px;
+      color: #004A89;
+      font-weight: 600;
+      line-height: 25px;
+      margin: 0 0 10px;
+    }
+
+    p {
+      font-size: 15px;
+      color: #70899E;
+      line-height: 22px;
+      font-weight: 400;
+    }
+  }
+
+  .cookies-popup-inset {
+    background: rgba(255, 255, 255, 0.19);
+    box-shadow: 0px 0px 16px rgb(0 102 190 / 10%);
+    border-radius: 15px;
+    z-index: 9;
+    padding: 15px;
+
+    .used-cookies-table {
+      height: calc(100% - 63px);
+      overflow-y: auto;
+
+      table {
+        thead {
+          position: sticky;
+          top: 0;
+          background: #fff;
+
+          th {
+            min-width: 150px;
+            color: #00a993;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 0 10px 20px 0;
+          }
+        }
+
+        td {
+          vertical-align: top;
+          font-size: 15px;
+          color: #9e9da3;
+          padding: 0 10px 20px 0;
+        }
+      }
+    }
+  }
+
+  .modal-dialog {
+    .modal-content {
+      background: #FFFFFF;
+      box-shadow: 0px 0px 19px rgb(0 0 0 / 7%);
+      border-radius: 15px;
+      padding: 15px;
+
+      .modal-title {
+        &.h4 {
+          color: #001489;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+.modal-backdrop.show {
+  background: rgba(0, 0, 36, 0.65);
+  backdrop-filter: blur(10px);
+  --bs-backdrop-zindex: 1050;
+  --bs-backdrop-bg: #000;
+  --bs-backdrop-opacity: 1;
+}
 
 /**Landing page Responsive Start**/
 @media only screen and (max-width:1650px) {
@@ -16150,8 +16230,6 @@ img.change-password-image {
 
   }
 
-
-
   .footer {
     padding: 30px 0;
   }
@@ -16201,126 +16279,93 @@ img.change-password-image {
     }
   }
 
-  .landing-banner.pharma {
-    .circular-height {
-      height: 548px;
-    }
-
-    .circular-ring {
-      width: 800px;
-      height: 800px;
-
-      .big-circle {
-        .icon-block {
-          &:first-child {
-            top: -1%;
-          }
-
-          &:nth-child(2) {
-            top: 11%;
-          }
-
-          &:nth-child(3) {
-            left: 96%;
-          }
-
-          &:nth-child(5) {
-            top: 70%;
-            left: 91%;
-          }
-
-          &:nth-child(9) {
-            top: 62%;
-            left: -2%;
-          }
-
-          &:nth-child(10) {
-            left: -3%;
-          }
-
-          &:nth-child(11) {
-            left: 1.5%;
-          }
-
-          &:nth-child(12) {
-            top: 11%;
-            left: 15%;
-          }
-        }
+  .landing-banner {
+    &.pharma {
+      .circular-height {
+        height: 548px;
       }
 
-      .circle {
-        &.circle-inner1 {
-          background-size: calc(100% - 90px);
+      .circular-ring {
+        width: 800px;
+        height: 800px;
 
-          .icon-block {
-            &:nth-child(2) {
-              top: 16%;
-              left: 72%;
-            }
+        .circle {
+          &.circle-inner1 {
+            background-size: calc(100% - 90px);
 
-            &:nth-child(3) {
-              left: 93%;
-            }
+            // .icon-block {
+            //   &:nth-child(2) {
+            //     top: 16%;
+            //     left: 72%;
+            //   }
 
-            &:nth-child(4) {
-              top: 91.4%;
-              left: 40%;
-            }
+            //   &:nth-child(3) {
+            //     left: 93%;
+            //   }
 
-            &:nth-child(5) {
-              top: 83.4%;
-              left: 23%;
-            }
+            //   &:nth-child(4) {
+            //     top: 91.4%;
+            //     left: 40%;
+            //   }
 
-            &:nth-child(6) {
-              left: 4%;
-            }
+            //   &:nth-child(5) {
+            //     top: 83.4%;
+            //     left: 23%;
+            //   }
+
+            //   &:nth-child(6) {
+            //     left: 4%;
+            //   }
+            // }
           }
+
+          // &.circle-inner2 {
+          //   .icon-block {
+          //     &:first-child {
+          //       top: -5%;
+          //     }
+
+          //     &:nth-child(2) {
+          //       top: 8%;
+          //     }
+
+          //     &:nth-child(3) {
+          //       left: 98%;
+          //     }
+
+          //     &:nth-child(6) {
+          //       left: -9%;
+          //     }
+          //   }
+          // }
+
+          // &.circle-inner3 {
+          //   .icon-block {
+          //     &:nth-child(2) {
+          //       left: 69%;
+          //     }
+          //   }
+          // }
         }
 
-        &.circle-inner2 {
-          .icon-block {
-            &:first-child {
-              top: -5%;
-            }
-
-            &:nth-child(2) {
-              top: 8%;
-            }
-
-            &:nth-child(3) {
-              left: 98%;
-            }
-
-            &:nth-child(6) {
-              left: -9%;
-            }
-          }
+        .center-logo {
+          top: 46%;
         }
-
-        &.circle-inner3 {
-          .icon-block {
-            &:nth-child(2) {
-              left: 69%;
-            }
-          }
-        }
-      }
-
-      .center-logo {
-        top: 46%;
       }
     }
   }
 
   .consent-content {
+    padding: 10px 0 100px;
 
     .works-started {
       .modules-diagram {
+        margin: 170px auto 120px;
+
         .module-bigger-size {
           width: 600px;
           height: 600px;
+          padding: 32px 45px;
 
           .shape {
             width: 25px;
@@ -16334,10 +16379,10 @@ img.change-password-image {
 
           .module-register {
             margin: 0 auto;
-            max-width: 90%;
+            max-width: 88%;
 
             h4 {
-              margin: 20px 0 20px;
+              margin: 0px 0 20px;
               font-size: 22px;
             }
 
@@ -16349,6 +16394,23 @@ img.change-password-image {
             form {
               .form-group {
                 margin: 0 0 35px;
+
+                input {
+                  &.form-control {
+                    font-size: 13px;
+                    padding: 7px 10px 7px 35px;
+                  }
+                }
+
+                span {
+                  left: 12px;
+                  top: 4px;
+
+                  svg {
+                    width: 17px;
+                    height: 17px;
+                  }
+                }
               }
 
               .col-md-12 {
@@ -16365,27 +16427,149 @@ img.change-password-image {
             }
           }
         }
+
+        .circle {
+          .stat {
+            width: 80px;
+            height: 80px;
+
+            span {
+              font-size: 11px;
+              line-height: 13px;
+            }
+          }
+        }
       }
 
       .module-discribe {
         h4 {
-          margin: 9px auto 15px;
+          margin: 5px auto 12px;
+          font-size: 20px;
+        }
+
+        p {
+          font-size: 13px;
+          line-height: 19px;
         }
 
         .key-features {
+          max-width: 405px;
+
           h5 {
-            margin: 25px auto 8px;
+            margin: 10px auto 8px;
+          }
+
+          li {
+            font-size: 13px;
+            line-height: 19px;
           }
         }
 
         img {
           &.module-content-view {
-            max-height: 115px;
+            max-height: 110px;
+            margin: 0 auto 5px;
           }
         }
       }
     }
 
+  }
+
+  .fotter-btns {
+    gap: 17px;
+    margin: 20px auto 10px;
+
+    .btn {
+      min-width: 136px;
+      font-size: 15px;
+    }
+
+    a {
+      width: 39px;
+      height: 39px;
+      padding: 6px;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+  }
+
+  .how-work {
+    &.main-sec {
+      padding: 55px 0 110px;
+    }
+
+    .margin-gap {
+      margin-bottom: 65px;
+    }
+  }
+
+  .modules-diagram .module-bigger-size .module-register .split-button-dropup div:nth-child(3)>div div[class*=-placeholder],
+  .modules-diagram .module-bigger-size .module-register .split-button-dropup div:nth-child(3)>div div {
+    padding-left: 12px;
+    font-size: 13px;
+  }
+
+  .modules-diagram .module-bigger-size .module-register .split-button-dropup>div:nth-child(3) {
+    padding: 3px 32px 3px 15px;
+    line-height: 15px;
+    height: 33px;
+    min-height: 33px;
+  }
+
+  .pharma-slider {
+    .slider {
+      .slick-list {
+        .slick-track {
+          .slick-slide>div {
+            width: 100%;
+            min-height: 520px;
+          }
+        }
+      }
+    }
+  }
+
+  .modules-diagram {
+    .module-bigger-size {
+      img {
+        &.close {
+          top: 35px;
+          right: 70px;
+        }
+      }
+    }
+
+    .pharma_market {
+      &.circle {
+        .stat {
+          &.qa {
+            &.active {
+              &:before {
+                right: -44px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .cookie-popup {
+    .cookie-popup-btns {
+      button.btn {
+        min-width: 130px;
+        font-size: 15px;
+      }
+    }
+  }
+
+  .footer {
+    padding: 25px 0;
   }
 }
 
@@ -16398,16 +16582,19 @@ img.change-password-image {
 
   .landing-banner {
     .landing-heading {
-      margin: 45px 0 20px;
+      margin: 30px 0 15px;
 
       h1 {
-        font-size: 42px;
+        font-size: 34px;
       }
     }
 
     .landing-sub-heading {
       h4 {
-        line-height: 30px;
+        line-height: 26px;
+        font-size: 18px;
+        max-width: 770px;
+        margin: 0 auto;
       }
     }
   }
@@ -16477,6 +16664,11 @@ img.change-password-image {
       }
     }
   }
+
+  .circular-ring {
+    width: 320px;
+    height: 320px;
+  }
 }
 
 @media only screen and (max-width:1300px) {
@@ -16501,104 +16693,22 @@ img.change-password-image {
   }
 }
 
+@media (max-width:$layout-breakpoint-large) {
+  .landing-banner {
+    .landing-heading {
+      margin: 28px 0 14px;
+
+      h1 {
+        font-size: 34px;
+      }
+    }
+
+    .landing-sub-heading {
+      h4 {
+        line-height: 30px;
+      }
+    }
+  }
+}
+
 /**Landing page Responsive End**/
-
-
-.modal-backdrop.show {
-  background: rgba(0, 0, 36, 0.65);
-  backdrop-filter: blur(10px);
-  --bs-backdrop-zindex: 1050;
-  --bs-backdrop-bg: #000;
-  --bs-backdrop-opacity: 1;
-}
-
-.cookie-popup {
-  border-radius: 18px 18px 0px 0px;
-  background: #FFF;
-  box-shadow: 0px -6px 20px 0px #00003C;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  padding: 16px;
-
-  .cookie-popup-btns {
-    flex: 1 1;
-    display: flex;
-    gap: 16px;
-
-    button.btn {
-      min-width: 140px;
-    }
-  }
-
-  .cookie-popup-text {
-    padding-right: 150px;
-
-    h5 {
-      font-size: 20px;
-      color: #004A89;
-      font-weight: 600;
-      line-height: 25px;
-      margin: 0 0 10px;
-    }
-
-    p {
-      font-size: 15px;
-      color: #70899E;
-      line-height: 22px;
-      font-weight: 400;
-    }
-  }
-
-  .cookies-popup-inset {
-    background: rgba(255, 255, 255, 0.19);
-    box-shadow: 0px 0px 16px rgb(0 102 190 / 10%);
-    border-radius: 15px;
-    z-index: 9;
-    padding: 15px;
-
-    .used-cookies-table {
-      height: calc(100% - 63px);
-      overflow-y: auto;
-
-      table {
-        thead {
-          position: sticky;
-          top: 0;
-          background: #fff;
-
-          th {
-            min-width: 150px;
-            color: #00a993;
-            font-weight: 600;
-            font-size: 15px;
-            padding: 0 10px 20px 0;
-          }
-        }
-
-        td {
-          vertical-align: top;
-          font-size: 15px;
-          color: #9e9da3;
-          padding: 0 10px 20px 0;
-        }
-      }
-    }
-  }
-
-  .modal-dialog {
-    .modal-content {
-      background: #FFFFFF;
-      box-shadow: 0px 0px 19px rgb(0 0 0 / 7%);
-      border-radius: 15px;
-      padding: 15px;
-
-      .modal-title {
-        &.h4 {
-          color: #001489;
-          font-weight: 600;
-        }
-      }
-    }
-  }
-}
