@@ -1121,15 +1121,6 @@ const PharmaMarketing = () => {
   // };
 
 
-  const sliderSettings = {
-    dots: true,
-    infinite: false,
-    speed: 1500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-  };
-
   return (
     <>
       <LandingHeader />
@@ -2104,7 +2095,7 @@ const PharmaMarketing = () => {
                           : "d-flex justify-content-between flex-column"
                       }`}
                     >
-                      {showBigCircleData && !registerPage && (
+                      {showBigCircleData && !registerPage &&  (
                         <div className="big-circle-data">
                           <div>
                             <img
@@ -2250,7 +2241,7 @@ const PharmaMarketing = () => {
                           <p>Please select the modules you're interested in:</p>
                         </div>
                       )}
-                      {modulesSelect && !registerPage && (
+                      {modulesSelect && !registerPage &&  (
                         <div
                           className="module-diagram circle pharma_market"
                           style={{ "--total": "24" }}
@@ -2270,13 +2261,15 @@ const PharmaMarketing = () => {
                           >
                             <img src={path_image + "rating-icon.svg"} alt="" />
                             <span>Rating Tool</span>
-                            <div className="article-close">
-                              <img
-                                src={path_image + "close-button.svg"}
-                                alt=""
-                                onClick={handleBigCircleClose}
-                              />
-                            </div>
+                            {activeModule === "rating" && (
+                               <div className="article-close">
+                               <img
+                                 src={path_image + "close-button.svg"}
+                                 alt=""
+                                 onClick={handleBigCircleClose}
+                               />
+                             </div>
+                            ) }
                           </div>
 
                           <div
@@ -2293,13 +2286,15 @@ const PharmaMarketing = () => {
                           >
                             <img src={path_image + "SPC-icon.svg"} alt="" />
                             <span>SPC Engine</span>
-                            <div className="article-close">
-                              <img
-                                src={path_image + "close-button.svg"}
-                                alt=""
-                                onClick={handleBigCircleClose}
-                              />
-                            </div>
+                            {activeModule === "spc" && (
+                               <div className="article-close">
+                               <img
+                                 src={path_image + "close-button.svg"}
+                                 alt=""
+                                 onClick={handleBigCircleClose}
+                               />
+                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2321,13 +2316,15 @@ const PharmaMarketing = () => {
                               alt=""
                             />
                             <span>Automail</span>
-                            <div className="article-close">
+                            {activeModule === "automail" && (
+                              <div className="article-close">
                               <img
                                 src={path_image + "close-button.svg"}
                                 alt=""
                                 onClick={handleBigCircleClose}
                               />
                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2353,13 +2350,15 @@ const PharmaMarketing = () => {
                               alt=""
                             />
                             <span>AI Prediction Tool</span>
-                            <div className="article-close">
+                            { activeModule === "ai" && (
+                              <div className="article-close">
                               <img
                                 src={path_image + "close-button.svg"}
                                 alt=""
                                 onClick={handleBigCircleClose}
                               />
                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2383,13 +2382,15 @@ const PharmaMarketing = () => {
                               alt=""
                             />
                             <span>Consent</span>
-                            <div className="article-close">
+                            {activeModule === "consent" && (
+                              <div className="article-close">
                               <img
                                 src={path_image + "close-button.svg"}
                                 alt=""
                                 onClick={handleBigCircleClose}
                               />
                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2411,13 +2412,15 @@ const PharmaMarketing = () => {
                               alt=""
                             />
                             <span>Email Engine</span>
-                            <div className="article-close">
-                              <img
-                                src={path_image + "close-button.svg"}
-                                alt=""
-                                onClick={handleBigCircleClose}
-                              />
-                            </div>
+                            {activeModule === "engine" && (
+                               <div className="article-close">
+                               <img
+                                 src={path_image + "close-button.svg"}
+                                 alt=""
+                                 onClick={handleBigCircleClose}
+                               />
+                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2466,13 +2469,15 @@ const PharmaMarketing = () => {
                               alt=""
                             />
                             <span>Docintel.app</span>
-                            <div className="article-close">
+                            {activeModule === "docintel" && (
+                              <div className="article-close">
                               <img
                                 src={path_image + "close-button.svg"}
                                 alt=""
                                 onClick={handleBigCircleClose}
                               />
                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2495,13 +2500,15 @@ const PharmaMarketing = () => {
                               alt=""
                             />
                             <span>inforMedGo</span>
-                            <div className="article-close">
+                            {activeModule === "informed" && (
+                              <div className="article-close">
                               <img
                                 src={path_image + "close-button.svg"}
                                 alt=""
                                 onClick={handleBigCircleClose}
                               />
                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2519,13 +2526,15 @@ const PharmaMarketing = () => {
                           >
                             <img src={path_image + "polling-icon.svg"} alt="" />
                             <span>Q & Poll</span>
-                            <div className="article-close">
-                              <img
-                                src={path_image + "close-button.svg"}
-                                alt=""
-                                onClick={handleBigCircleClose}
-                              />
-                            </div>
+                            {activeModule === "qa" && (
+                               <div className="article-close">
+                               <img
+                                 src={path_image + "close-button.svg"}
+                                 alt=""
+                                 onClick={handleBigCircleClose}
+                               />
+                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2543,13 +2552,15 @@ const PharmaMarketing = () => {
                           >
                             <img src={path_image + "survey-icon.svg"} alt="" />
                             <span>Survey Engine</span>
-                            <div className="article-close">
+                            {activeModule === "survey" && (
+                              <div className="article-close">
                               <img
                                 src={path_image + "close-button.svg"}
                                 alt=""
                                 onClick={handleBigCircleClose}
                               />
                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2573,13 +2584,15 @@ const PharmaMarketing = () => {
                               alt=""
                             />
                             <span>Web Portal</span>
-                            <div className="article-close">
+                            { activeModule === "web" && (
+                              <div className="article-close">
                               <img
                                 src={path_image + "close-button.svg"}
                                 alt=""
                                 onClick={handleBigCircleClose}
                               />
                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2600,13 +2613,15 @@ const PharmaMarketing = () => {
                               alt=""
                             />
                             <span>Webinar Portal</span>
-                            <div className="article-close">
+                            { activeModule === "webinar" && (
+                              <div className="article-close">
                               <img
                                 src={path_image + "close-button.svg"}
                                 alt=""
                                 onClick={handleBigCircleClose}
                               />
                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2624,13 +2639,15 @@ const PharmaMarketing = () => {
                           >
                             <img src={path_image + "RTR-icon.svg"} alt="" />
                             <span>Read-Through -Rate</span>
-                            <div className="article-close">
+                            {activeModule === "read" && (
+                              <div className="article-close">
                               <img
                                 src={path_image + "close-button.svg"}
                                 alt=""
                                 onClick={handleBigCircleClose}
                               />
                             </div>
+                            )}
                           </div>
 
                           <div
@@ -2659,7 +2676,7 @@ const PharmaMarketing = () => {
                           ></div>
                         </div>
                       )}
-                      {showBigCircleData && !registerPage && (
+                      {showBigCircleData && !registerPage &&  (
                         <div className="d-flex align-items-center justify-content-center fotter-btns">
                           <Button
                             className="btn-filled"

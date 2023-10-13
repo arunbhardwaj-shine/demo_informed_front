@@ -1972,13 +1972,16 @@ const PharmaRd = () => {
                       >
                         <img src={path_image + "rating-icon.svg"} alt="" />
                         <span>Rating Tool</span>
-                        <div className="article-close">
+                        {activeModule === "rating"  && (
+                          <div className="article-close">
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
                             onClick={handleBigCircleClose}
                           />
                         </div>
+                        )}
+                      
                       </div>
 
                       <div
@@ -1994,13 +1997,15 @@ const PharmaRd = () => {
                       >
                         <img src={path_image + "auto-email-icon.svg"} alt="" />
                         <span>Automail</span>
-                        <div className="article-close">
-                          <img
-                            src={path_image + "close-button.svg"}
-                            alt=""
-                            onClick={handleBigCircleClose}
-                          />
-                        </div>
+                        {activeModule === "automail" && (
+                            <div className="article-close">
+                            <img
+                              src={path_image + "close-button.svg"}
+                              alt=""
+                              onClick={handleBigCircleClose}
+                            />
+                          </div>
+                        )}
                       </div>
 
                       <div
@@ -2023,13 +2028,15 @@ const PharmaRd = () => {
                           alt=""
                         />
                         <span>Consent</span>
-                        <div className="article-close">
+                        {activeModule === "consent" && (
+                          <div className="article-close">
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
                             onClick={handleBigCircleClose}
                           />
                         </div>
+                        )}
                       </div>
 
                       <div
@@ -2047,13 +2054,15 @@ const PharmaRd = () => {
                       >
                         <img src={path_image + "email-small-icon.svg"} alt="" />
                         <span>Email Engine</span>
-                        <div className="article-close">
-                          <img
-                            src={path_image + "close-button.svg"}
-                            alt=""
-                            onClick={handleBigCircleClose}
-                          />
-                        </div>
+                        {activeModule === "engine" && (
+                           <div className="article-close">
+                           <img
+                             src={path_image + "close-button.svg"}
+                             alt=""
+                             onClick={handleBigCircleClose}
+                           />
+                         </div>
+                        )}
                       </div>
 
                       <div className="stat blank" style={{ "--i": "5" }}></div>
@@ -2086,13 +2095,15 @@ const PharmaRd = () => {
                           alt=""
                         />
                         <span>Docintel.app</span>
-                        <div className="article-close">
-                          <img
-                            src={path_image + "close-button.svg"}
-                            alt=""
-                            onClick={handleBigCircleClose}
-                          />
-                        </div>
+                        {activeModule === "docintel" && (
+                           <div className="article-close">
+                           <img
+                             src={path_image + "close-button.svg"}
+                             alt=""
+                             onClick={handleBigCircleClose}
+                           />
+                         </div>
+                        )}
                       </div>
 
                       <div
@@ -2111,13 +2122,15 @@ const PharmaRd = () => {
                       >
                         <img src={path_image + "informedgo-icon.svg"} alt="" />
                         <span>inforMedGo</span>
-                        <div className="article-close">
+                        {activeModule === "informed" && (
+                          <div className="article-close">
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
                             onClick={handleBigCircleClose}
                           />
                         </div>
+                        )}
                       </div>
 
                       <div
@@ -2137,13 +2150,15 @@ const PharmaRd = () => {
                       >
                         <img src={path_image + "web-portal-icon.svg"} alt="" />
                         <span>Web Portal</span>
-                        <div className="article-close">
-                          <img
-                            src={path_image + "close-button.svg"}
-                            alt=""
-                            onClick={handleBigCircleClose}
-                          />
-                        </div>
+                        {activeModule === "web" && (
+                           <div className="article-close">
+                           <img
+                             src={path_image + "close-button.svg"}
+                             alt=""
+                             onClick={handleBigCircleClose}
+                           />
+                         </div>
+                        )}
                       </div>
 
                       <div
@@ -2162,13 +2177,15 @@ const PharmaRd = () => {
                           alt=""
                         />
                         <span>Webinar Portal</span>
-                        <div className="article-close">
-                          <img
-                            src={path_image + "close-button.svg"}
-                            alt=""
-                            onClick={handleBigCircleClose}
-                          />
-                        </div>
+                        {activeModule === "webinar"  && (
+                           <div className="article-close">
+                           <img
+                             src={path_image + "close-button.svg"}
+                             alt=""
+                             onClick={handleBigCircleClose}
+                           />
+                         </div>
+                        )}
                       </div>
 
                       <div
@@ -2185,13 +2202,15 @@ const PharmaRd = () => {
                       >
                         <img src={path_image + "RTR-icon.svg"} alt="" />
                         <span>Read-Through -Rate</span>
-                        <div className="article-close">
+                        {activeModule === "read" && (
+                          <div className="article-close">
                           <img
                             src={path_image + "close-button.svg"}
                             alt=""
                             onClick={handleBigCircleClose}
                           />
                         </div>
+                        )}
                       </div>
 
                       <div className="stat blank" style={{ "--i": "15" }}></div>
