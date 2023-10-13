@@ -6,6 +6,7 @@ const LandingFooter = () => {
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [privacyshow, setPrivacyshow] = useState(false);
     const [cookieshow, setCookieshow] = useState(false);
+    const [cookieSection, setCookieSection] = useState(true)
 
     const handleClose = () => {
           setPrivacyshow(false);
@@ -19,6 +20,9 @@ const LandingFooter = () => {
       const handleCookieShow = () => {
           setCookieshow(true);
       };
+      const handleCookieSection = () => {
+        setCookieSection(false)
+      }
   return (
     <>
      <div className='footer'>
@@ -439,7 +443,8 @@ const LandingFooter = () => {
                 </div>
             </Row>
         </Container>
-        <div className='cookie-popup'>
+        {cookieSection && (
+            <div className='cookie-popup'>
             <Container>
                 <Row>
                     <div className='cookie-popup-inset d-flex justify-content-between align-items-center'>
@@ -448,13 +453,15 @@ const LandingFooter = () => {
                             <p>We use our own cookies to make re-login easier and to learn what matters to visitors. We do not share any data outside our company. To see the short list of essential cookies please <Link onClick={(e) => handleCookieShow("cookie")}>click here</Link>.</p>
                         </div>
                         <div className='cookie-popup-btns'>
-                            <Button className="btn-filled">Accept</Button>
-                            <Button className="btn-bordered">Close</Button>
+                            <Button className="btn-filled" onClick={handleCookieSection}>Accept</Button>
+                            <Button className="btn-bordered" onClick={handleCookieSection}>Close</Button>
                         </div>
                     </div>
                 </Row>     
             </Container>
         </div>
+        )}
+        
         <Modal className="cookies-popup" show={cookieshow} onHide={(e) => handleCookieClose("cookie")}>
             <div className='cookies-popup-inset'>
                 <Modal.Header closeButton>
