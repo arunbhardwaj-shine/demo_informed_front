@@ -1082,13 +1082,13 @@ const PharmaRd = () => {
            <Row>
                 <Col md={6} className='d-flex justify-content-center align-items-center'>
                     <div className='how-work-text'>
-                        <h3>Built with and for the life sciences</h3>
-                        <h5>Every module has faced HCPs, regulations and compliance. Our collaborative onboarding process is designed to enhance your current workflow.</h5>
+                        <h3>Say yes to more of your clients requests</h3>
+                        <h5>With a decade of eprints in our system we’ve seen it all and solved more. With a universe of included tools you can help your clients achieve success. Allow us to demonstrate why our service continues to garnered enthusiastic praise from clients.</h5>
                     </div>
                 </Col>
                 <Col md={5} className="build_with d-flex justify-content-end">
                     <div className='how-work-img'>
-                        <img src={path_image + "build-with.png"} alt=""/>
+                        <img src={path_image + "publisher-more.png"} alt=""/>
                     </div>
                 </Col>
             </Row>
@@ -1770,10 +1770,10 @@ const PharmaRd = () => {
                                   // checked={registerFormInputs.consent1}
                                   // onChange={handleRegisterFormChange}
 
-                                  type="checkbox"
+                                  type="checkbox" id="consent1"
                                   // label={registerFormInputs.consent1.label}
                                   label="Email me only about modules I’ve looked at"
-                                  name="consent1"                               
+                                  name="consent1"  for="#consent2"                              
                                   checked={registerFormInputs?.consent1?.checked}                               
                                   onChange={handleRegisterFormChange}
                                 />
@@ -1784,10 +1784,10 @@ const PharmaRd = () => {
                                   // checked={registerFormInputs.consent2}
                                   // onChange={handleRegisterFormChange}
 
-                                  type="checkbox"
+                                  type="checkbox" id="consent2"
                                   // label={registerFormInputs.consent2.label}  
                                   label="Keep me informed about other news from inforMed.pro"                            
-                                  name="consent2"                               
+                                  name="consent2"  for="#consent2"                             
                                   checked={registerFormInputs?.consent2?.checked}                               
                                   onChange={handleRegisterFormChange}
                                 />
@@ -1814,20 +1814,20 @@ const PharmaRd = () => {
                     >
                       {showBigCircleData && !registerPage &&(
                       <div className="big-circle-data">
-                      <div>
+                      <div className="big-circle-top">
                         <img
                           className="module-img"
                           src={
                             path_image + "" + bigCircleModuleData?.logoIconPath
                           }
                         />
-                        <h4>{bigCircleModuleData?.heading}</h4>
+                      </div>
+                      <div lassName="big-circle-middle">
+                         <h4>{bigCircleModuleData?.heading}</h4>
                         <img
                           className="module-content-view"
                           src={path_image + "" + bigCircleModuleData?.imagePath}
                         />
-                      </div>
-                      <div>
                         <p>{bigCircleModuleData?.detail}</p>
                         <p className="semibold">
                           {bigCircleModuleData?.paragraph}

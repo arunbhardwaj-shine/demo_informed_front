@@ -842,14 +842,14 @@ const PharmaMarketing = () => {
           type:'register'
         }
         setPayloadData(data)
-        const res = await postData(ENDPOINT.REGISTER,data );
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
         setSelectedCountry([]);
         setRegisterError(false);
         setRegisterPage(false);
-        console.log(res, "===> data");
+        // console.log(res, "===> data");
       } catch (err) {
         console.log(err);
         loader("hide");
