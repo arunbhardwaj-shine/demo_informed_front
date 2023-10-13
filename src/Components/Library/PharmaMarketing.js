@@ -31,7 +31,7 @@ const PharmaMarketing = () => {
   const [selectedModules, setSelectedModules] = useState([]);
   const [registerPage, setRegisterPage] = useState(true);
   const [intialModuleData, setIntialModuleData] = useState(null);
-
+  const [payloadData, setPayloadData] = useState({});
   const [registerError, setRegisterError] = useState(false);
   const [forceRender, setForceRender] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
@@ -841,14 +841,14 @@ const PharmaMarketing = () => {
           type:'register'
         }
         setPayloadData(data)
-        const res = await postData(ENDPOINT.REGISTER,data );
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
         setSelectedCountry([]);
         setRegisterError(false);
         setRegisterPage(false);
-        console.log(res, "===> data");
+        // console.log(res, "===> data");
       } catch (err) {
         console.log(err);
         loader("hide");

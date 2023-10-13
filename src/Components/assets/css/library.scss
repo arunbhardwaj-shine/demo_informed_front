@@ -16015,7 +16015,7 @@ img.change-password-image {
 
 
 /**Landing page Responsive Start**/
-@media only screen and (max-width:1550px) {
+@media only screen and (max-width:1650px) {
   .landing-banner {
     .landing-block {
       padding: 80px 0 140px;
@@ -16036,6 +16036,21 @@ img.change-password-image {
     }
 
     &.pharma {
+      .circular-ring {
+        width: 1020px;
+        height: 1020px;
+
+        .circle {
+          &.circle-inner1 {
+            background-size: calc(100% - 90px);
+          }
+        }
+      }
+
+      .circular-height {
+        height: 545px;
+      }
+
       &+.how-work {
         padding: 50px 0 20px;
       }
@@ -16057,7 +16072,7 @@ img.change-password-image {
   }
 
   .consent-content {
-    padding: 110px 0;
+    padding: 50px 0 150px;
 
     .consent-content-inner {
       margin: 0 auto 45px;
@@ -16070,6 +16085,66 @@ img.change-password-image {
 
       .modules-diagram {
         margin: 210px auto 120px;
+
+        .module-bigger-size {
+          width: 700px;
+          height: 700px;
+
+          .shape {
+            width: 75px;
+          }
+
+          .module-diagram {
+            &.circle {
+              --radius: 430px;
+            }
+          }
+
+          .module-register {
+            margin: 0 auto;
+            max-width: 90%;
+
+            h4 {
+              margin: 20px 0 30px;
+            }
+
+            p {
+              margin: 0 auto 40px;
+            }
+
+            form {
+              .col-md-12 {
+                .form-group {
+                  margin: 17px auto 40px;
+                }
+              }
+
+              .split-button-dropup {
+                div:nth-child(3)>div div {
+                  padding-right: 0px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .module-discribe {
+        h4 {
+          margin: 9px auto 15px;
+        }
+
+        .key-features {
+          h5 {
+            margin: 25px auto 8px;
+          }
+        }
+
+        img {
+          &.module-content-view {
+            max-height: 115px;
+          }
+        }
       }
     }
 
@@ -16234,9 +16309,83 @@ img.change-password-image {
       }
 
       .center-logo {
-        top: 47%;
+        top: 46%;
       }
     }
+  }
+
+  .consent-content {
+
+    .works-started {
+      .modules-diagram {
+        .module-bigger-size {
+          width: 600px;
+          height: 600px;
+
+          .shape {
+            width: 25px;
+          }
+
+          .module-diagram {
+            &.circle {
+              --radius: 380px;
+            }
+          }
+
+          .module-register {
+            margin: 0 auto;
+            max-width: 90%;
+
+            h4 {
+              margin: 20px 0 20px;
+              font-size: 22px;
+            }
+
+            p {
+              margin: 0 auto 30px;
+              font-size: 12px;
+            }
+
+            form {
+              .form-group {
+                margin: 0 0 35px;
+              }
+
+              .col-md-12 {
+                .form-group {
+                  margin: 7px auto 25px;
+                }
+              }
+
+              .split-button-dropup {
+                div:nth-child(3)>div div {
+                  padding-right: 0px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .module-discribe {
+        h4 {
+          margin: 9px auto 15px;
+        }
+
+        .key-features {
+          h5 {
+            margin: 25px auto 8px;
+          }
+        }
+
+        img {
+          &.module-content-view {
+            max-height: 115px;
+          }
+        }
+      }
+    }
+
   }
 }
 
@@ -16371,79 +16520,85 @@ img.change-password-image {
   bottom: 0;
   width: 100%;
   padding: 16px;
-}
 
-.cookie-popup-btns {
-  flex: 1 1;
-  display: flex;
-  gap: 16px;
-}
+  .cookie-popup-btns {
+    flex: 1 1;
+    display: flex;
+    gap: 16px;
 
-.cookie-popup-btns button.btn {
-  min-width: 140px;
-}
+    button.btn {
+      min-width: 140px;
+    }
+  }
 
-.cookie-popup-text p {
-  font-size: 15px;
-  color: #70899E;
-  line-height: 22px;
-  font-weight: 400;
-}
+  .cookie-popup-text {
+    padding-right: 150px;
 
-.cookie-popup-text {
-  padding-right: 150px;
-}
+    h5 {
+      font-size: 20px;
+      color: #004A89;
+      font-weight: 600;
+      line-height: 25px;
+      margin: 0 0 10px;
+    }
 
-.cookie-popup-text h5 {
-  font-size: 20px;
-  color: #004A89;
-  font-weight: 600;
-  line-height: 25px;
-  margin: 0 0 10px;
-}
+    p {
+      font-size: 15px;
+      color: #70899E;
+      line-height: 22px;
+      font-weight: 400;
+    }
+  }
 
-.cookies-popup-inset {
-  background: rgba(255, 255, 255, 0.19);
-  box-shadow: 0px 0px 16px rgb(0 102 190 / 10%);
-  border-radius: 15px;
-  z-index: 9;
-  padding: 15px;
-}
+  .cookies-popup-inset {
+    background: rgba(255, 255, 255, 0.19);
+    box-shadow: 0px 0px 16px rgb(0 102 190 / 10%);
+    border-radius: 15px;
+    z-index: 9;
+    padding: 15px;
 
-.cookies-popup-inset .used-cookies-table {
-  height: calc(100% - 63px);
-  overflow-y: auto;
-}
+    .used-cookies-table {
+      height: calc(100% - 63px);
+      overflow-y: auto;
 
-.used-cookies-table table thead {
-  position: sticky;
-  top: 0;
-  background: #fff;
-}
+      table {
+        thead {
+          position: sticky;
+          top: 0;
+          background: #fff;
 
-.used-cookies-table table thead th {
-  min-width: 150px;
-  color: #00a993;
-  font-weight: 600;
-  font-size: 15px;
-  padding: 0 10px 20px 0;
-}
+          th {
+            min-width: 150px;
+            color: #00a993;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 0 10px 20px 0;
+          }
+        }
 
-.used-cookies-table table td {
-  vertical-align: top;
-  font-size: 15px;
-  color: #9e9da3;
-  padding: 0 10px 20px 0;
-}
+        td {
+          vertical-align: top;
+          font-size: 15px;
+          color: #9e9da3;
+          padding: 0 10px 20px 0;
+        }
+      }
+    }
+  }
 
-.cookies-popup .modal-dialog .modal-content {
-  background: #FFFFFF;
-  box-shadow: 0px 0px 19px rgb(0 0 0 / 7%);
-  border-radius: 15px;
-  padding: 15px;
-}
+  .modal-dialog {
+    .modal-content {
+      background: #FFFFFF;
+      box-shadow: 0px 0px 19px rgb(0 0 0 / 7%);
+      border-radius: 15px;
+      padding: 15px;
 
-.cookies-popup .modal-title.h4 {
-  color: #001489;
-  font-weight: 600;
+      .modal-title {
+        &.h4 {
+          color: #001489;
+          font-weight: 600;
+        }
+      }
+    }
+  }
 }
