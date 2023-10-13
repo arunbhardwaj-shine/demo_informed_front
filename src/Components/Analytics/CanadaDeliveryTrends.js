@@ -295,7 +295,7 @@ const CanadaDeliveryTrends = () => {
                   radius: "87%",
                   innerRadius: "63%",
                   y: g4_2,
-                  z: g4.total_shared_2nd,
+                  z: g4.total_opened_2nd,
                   p: 99,
                 },
               ],
