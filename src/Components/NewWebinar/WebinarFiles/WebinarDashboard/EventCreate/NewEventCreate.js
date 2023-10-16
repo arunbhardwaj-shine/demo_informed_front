@@ -4,10 +4,14 @@ import { loader } from "../../../../../loader";
 import CommonAddEventModel from "./CommonAddEventModel";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { popup_alert } from "../../../../../popup_alert";
+import { getData } from "../../../../../axios/apiHelper";
+import { ENDPOINT } from "../../../../../axios/apiConfig";
+import moment from "moment";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
   const [isData, setIsData] = useState();
+  const [webinarDetail, setWebinarDetail] = useState({});
   const [editEvent, setEditEvent] = useState(false);
   const [eventData, setEventData] = useState("");
   const [eventId, setEventId] = useState();
@@ -18,32 +22,32 @@ const NewEventCreate = () => {
   const [isActive, setIsActive] = useState("");
   const [sortDirection, setSortDirection] = useState(0);
 
-  let apiData = [
-    ["27-06-2023 13:15 PM", "Nuwiq Symposium ISTH 2023", 384],
-    ["26-06-2023 13:15 PM", "Wilate Symposium ISTH 2023", 383],
-    [
-      "12-07-2022 13:15 PM",
-      "ISTH symposium - Focus on Females: Patient experiences &Novel treatment strategies in bleeding disorders",
-      356,
-    ],
-    [
-      "09-07-2022 11:30 AM",
-      "ISTH symposium - A Key Factor: Aiming for All-Round Bleed Protection in Haemophilia A",
-      355,
-    ],
-    [
-      "23-07-2021 18:30 PM",
-      "ISTH 2021, Octapharma symposium: \u201cFrom Clinical Insights to Patient Experience: Suzanne\u2019s Journey with von Willebrand Disease\u201d",
-      336,
-    ],
-    [
-      "20-07-2021 18:30 PM",
-      "ISTH 2021, Octapharma symposium: \u201cFactor in the Future: Informed Treatment Decisions for Haemostasis and Beyond\u201d",
-      337,
-    ],
-    ["27-06-2021 13:15 PM", "ISTH2023-VWD", 385],
-    ["27-06-2021 13:15 PM", "ISTH2023-Haemophilia A", 386],
-  ];
+  // let apiData = [
+  //   ["27-06-2023 13:15 PM", "Nuwiq Symposium ISTH 2023", 384],
+  //   ["26-06-2023 13:15 PM", "Wilate Symposium ISTH 2023", 383],
+  //   [
+  //     "12-07-2022 13:15 PM",
+  //     "ISTH symposium - Focus on Females: Patient experiences &Novel treatment strategies in bleeding disorders",
+  //     356,
+  //   ],
+  //   [
+  //     "09-07-2022 11:30 AM",
+  //     "ISTH symposium - A Key Factor: Aiming for All-Round Bleed Protection in Haemophilia A",
+  //     355,
+  //   ],
+  //   [
+  //     "23-07-2021 18:30 PM",
+  //     "ISTH 2021, Octapharma symposium: \u201cFrom Clinical Insights to Patient Experience: Suzanne\u2019s Journey with von Willebrand Disease\u201d",
+  //     336,
+  //   ],
+  //   [
+  //     "20-07-2021 18:30 PM",
+  //     "ISTH 2021, Octapharma symposium: \u201cFactor in the Future: Informed Treatment Decisions for Haemostasis and Beyond\u201d",
+  //     337,
+  //   ],
+  //   ["27-06-2021 13:15 PM", "ISTH2023-VWD", 385],
+  //   ["27-06-2021 13:15 PM", "ISTH2023-Haemophilia A", 386],
+  // ];
   let apiEditData = {
     id: "355",
     event_code: "event-nuwiq-2022",
@@ -79,12 +83,32 @@ const NewEventCreate = () => {
   };
 
   useEffect(() => {
+    getWebinarFilterData();
     getDataFromApi(page, search);
   }, []);
+  const getWebinarFilterData = async () => {
+    try {
+      loader("show");
+      const response = await getData(ENDPOINT.WEBINAR_DETAIL);
+
+      setWebinarDetail(response?.data?.data);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
   const getDataFromApi = async (page, search) => {
     try {
       loader("show");
-      setIsData(apiData);
+      const response = await getData(ENDPOINT.WEBINAR_GET_EVENT_LISTING);
+
+      const date = moment(
+        new Date(response?.data?.data?.[0].dateStart),
+        "MM/DD/YYYY"
+      ).format("MM/DD/YYYY");
+
+      setIsData(response?.data?.data);
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -176,6 +200,7 @@ const NewEventCreate = () => {
       setIsActive("asc");
     }
   };
+  useEffect(() => {}, [isData]);
 
   return (
     <>
@@ -269,12 +294,27 @@ const NewEventCreate = () => {
                       <th>Action</th>
                     </tr>
                   </thead>
+
                   <tbody>
                     {isData?.map((item, index) => {
                       return (
                         <tr>
-                          <td>{item[0]}</td>
-                          <td>{item[1]}</td>
+                          <td>
+                            <tr>
+                              <td>
+                                {moment(
+                                  new Date(item?.dateStart),
+                                  "MM/DD/YYYY"
+                                ).format("MM/DD/YYYY")}
+                              </td>
+                              <td>
+                                {`${item?.dateStartHour}:${
+                                  item?.dateStartMin
+                                } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
+                              </td>
+                            </tr>
+                          </td>
+                          <td>{item?.title}</td>
                           <td>
                             <button
                               className="btn-edit btn-voilet"
@@ -316,6 +356,7 @@ const NewEventCreate = () => {
         show={editEvent}
         onClose={handleCommonEventModalClose}
         eventId={eventId}
+        webinarDetail={webinarDetail ? webinarDetail : ""}
         data={eventData}
         apiData={isEditData}
         handleSubmit={handleAddModalSubmit}
