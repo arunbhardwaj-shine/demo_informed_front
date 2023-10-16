@@ -117,6 +117,7 @@ import GetDetails from "./Components/Distributes/GetDetails";
 import StatsWebinar from "./Components/NewWebinar/WebinarFiles/StatsWebinar";
 import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
 import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
+import NewEventCreate from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/EventCreate/NewEventCreate";
 import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
 import AddLinkToPdf from "./Components/Library/CreateChange/AddLinkToPdf";
@@ -363,53 +364,40 @@ const Routing = () => {
               )
             }
         /> */}
-
-<Route
-            path="/readers-view"
-            element={
-              <LoginLayout component={ReadersLayout} />
-            }
+        <Route
+          path="/readers-view"
+          element={<LoginLayout component={ReadersLayout} />}
         />
-     
-          <Route
-            path="/reader-edit"
-            element={<LoginLayout component={ReaderLayout} />}
-          />
-        
-     
-          <Route
-            path="/reader-add"
-            element={<LoginLayout component={ReaderAdd} />}
-          />
-     
-
-          <Route
-            path="/reader-review"
-            element={<LoginLayout component={ReaderReview} />}
-          />
-        
-       
+        <Route
+          path="/reader-edit"
+          element={<LoginLayout component={ReaderLayout} />}
+        />
+        <Route
+          path="/reader-add"
+          element={<LoginLayout component={ReaderAdd} />}
+        />
+        <Route
+          path="/reader-review"
+          element={<LoginLayout component={ReaderReview} />}
+        />
         <Route
           path="/readers-list"
           element={<LoginLayout component={ReadersListAdd} />}
         />
         <Route
-            path="/timeline-detail"
-            element={
-              localStorage.getItem('user_id') == '90VIqoM675WT4/peSRnbSQ==' ? (
-                <LoginLayout component={MarketingTimeLineDetail} />
-              ) : (
-                <LoginLayout component={TimelineDetail} />
-              )
-            }
+          path="/timeline-detail"
+          element={
+            localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
+              <LoginLayout component={MarketingTimeLineDetail} />
+            ) : (
+              <LoginLayout component={TimelineDetail} />
+            )
+          }
         />
-        {
-          /*<Route
+        {/*<Route
           path="/timeline-detail"
           element={<LoginLayout component={TimelineDetail} />}
-        /> */
-        }
-        
+        /> */}
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
@@ -527,6 +515,10 @@ const Routing = () => {
         <Route
           path="/event-create"
           element={<LoginLayout component={EventCreate} />}
+        />
+        <Route
+          path="/new-event-create"
+          element={<LoginLayout component={NewEventCreate} />}
         />
         <Route
           path="/setting-webinar"
@@ -673,12 +665,18 @@ const Routing = () => {
           element={<LoginLayout component={EditLicense} />}
         />
         <Route path="*" element={<PageNotFound />} />
-
-        <Route path="/main-landing" element={<DefaultLayout component={MainLanding} />}/>
-
-        <Route path="/landing-publisher" element={<DefaultLayout component={LandingPublisher} />} />
-
-        <Route path="/pharma-marketing" element={<DefaultLayout component={PharmaMarketing} />}/>
+        <Route
+          path="/main-landing"
+          element={<DefaultLayout component={MainLanding} />}
+        />
+        <Route
+          path="/landing-publisher"
+          element={<DefaultLayout component={LandingPublisher} />}
+        />
+        <Route
+          path="/pharma-marketing"
+          element={<DefaultLayout component={PharmaMarketing} />}
+        />
       </Routes>
     </Router>
   );
