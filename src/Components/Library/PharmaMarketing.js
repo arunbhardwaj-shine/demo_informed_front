@@ -1086,6 +1086,7 @@ const PharmaMarketing = () => {
 
   return (
     <>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <LandingHeader />
 
       <div className="landing-banner pharma">
@@ -1098,7 +1099,7 @@ const PharmaMarketing = () => {
               <div className="landing-sub-heading">
                 <h4>
                   Connecting content & consent with intelligent predictions.
-                  <br />
+                  <br /><br />
                   Ensuring the right materials reach the right person, at the
                   right time
                 </h4>
@@ -1226,7 +1227,7 @@ const PharmaMarketing = () => {
               </div>
             </div>
           </Row>
-          <Row>
+          <Row className="how-work-reverse">
             <Col
               md={6}
               className="d-flex justify-content-center align-items-center"
@@ -1255,7 +1256,7 @@ const PharmaMarketing = () => {
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                  Consent & content data is at the foundation of all our
+                  <strong>Consent & content</strong> data is at the foundation of all our
                   modules. This allows you to connect the data you collect in
                   unprecedented ways, whether it's for automating tasks,
                   reporting, analytics, or predictions, always with consent.

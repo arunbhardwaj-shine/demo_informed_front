@@ -119,7 +119,7 @@ const LandingHeader = () => {
       <div className="header-landing" sticky="top">
         <Container>
           <Row>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between align-items-center">
               <div className="logo">
                 <img
                   src={path_image + "informed_logo.svg"}

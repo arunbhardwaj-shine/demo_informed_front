@@ -450,7 +450,7 @@ const LandingFooter = () => {
                     <div className='cookie-popup-inset d-flex justify-content-between align-items-center'>
                         <div className='cookie-popup-text'>
                             <h5>Cookies</h5>
-                            <p>We use our own cookies to make re-login easier and to learn what matters to visitors. We do not share any data outside our company. To see the short list of essential cookies please <Link onClick={(e) => handleCookieShow("cookie")}>click here</Link>.</p>
+                            <p>We use our own cookies to make re-login easier and to learn what matters to visitors. We do not share any data outside our company. To see the short list of essential cookies please <Link onClick={(e) => handleCookieShow("cookie")}>Click Here</Link>.</p>
                         </div>
                         <div className='cookie-popup-btns'>
                             <Button className="btn-filled" onClick={handleCookieSection}>Accept</Button>

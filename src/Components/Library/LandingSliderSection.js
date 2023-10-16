@@ -304,7 +304,7 @@ const LandingConsentSection = () => {
                 </div>
               </div>
             </Slider>
-            <div className="add-space top"></div>
+            <div className="add-space bottom"></div>
           </div>
         </div>
       </div>
