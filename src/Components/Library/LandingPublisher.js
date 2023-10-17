@@ -127,6 +127,7 @@ const PharmaRd = () => {
       logo: "rtr-image.svg",
       title: <span style={{ color: "#5A6BB5" }}>Read-Through-Rate</span>,
       image: "rtr-content-list.png",
+      ppt:"../../../componentAssets/images/publisherPpt/rtr.pptx",
       description:
         "Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage",
       para: "Knowledge is power - how will you help your clients?",
@@ -156,6 +157,7 @@ const PharmaRd = () => {
       logo: "rating-icon.svg",
       title: <span style={{ color: "#2B9BC8" }}>Rating Tool</span>,
       image: "rating-tool-min.png",
+      ppt:"../../../componentAssets/images/publisherPpt/rating.pptx",
       description:
         "Introducing our revolutionary Rating Tool, assessing clinical value across your content. Gather insights as HCPs engage, guiding clients to prioritize value over quantity.",
       features: [
@@ -180,6 +182,7 @@ const PharmaRd = () => {
       logo: "auto-email-icon.svg",
       title: <span style={{ color: "#00D4C0" }}>Automail</span>,
       image: "automail-min.png",
+      ppt:"../../../componentAssets/images/publisherPpt/automail.pptx",
       description:
         "We keep track of all your licensed content with confirmation emails and the limits you’ve agreed with your clients, You receive alerts prior to reaching limits, whether they are expiration or quantity-based",
       para: "",
@@ -205,6 +208,7 @@ const PharmaRd = () => {
       logo: "legal-document-icon.svg",
       title: <span style={{ color: "#00A4BF" }}>Consent</span>,
       image: "consent-min.png",
+      ppt:"../../../componentAssets/images/publisherPpt/consent.pptx",
       description:
         "Clients often realize their consent needs only after receiving the eprint. Our platform enables you and them to modify consent forms and language online anytime.",
       para: "",
@@ -238,6 +242,7 @@ const PharmaRd = () => {
       logo: "email-small-icon.svg",
       title: <span style={{ color: "#0084BE" }}>Email Engine</span>,
       image: "email-engine-min.png",
+      ppt:"../../../componentAssets/images/publisherPpt/email.pptx",
       description:
         "Our email platform caters to the life science industry, designed for sending bulk emails with automated follow-ups tailored to each HCP's actions. It's commonly employed to invite HCPs to events or content launches using purchased lists, subject to email limits.",
       para: "",
@@ -271,6 +276,7 @@ const PharmaRd = () => {
       logo: "docintel-small-icon.svg",
       title: <span style={{ color: "#0066BE" }}>Docintel.app</span>,
       image: "docintel-min.png",
+      ppt:"../../../componentAssets/images/publisherPpt/docintel.pptx",
       description:
         "Beyond our elegant and user-friendly interfaces lies perhaps the most sophisticated and versatile technology accessible to publishers. Letting HCPs read on any device means flexibility for your clients and freedom to drive usage.",
       para: "Tailorable consent mechanisms, usage tracking, live analytics, multimedia content choices, and interactivity are all designed to enhance your client offer.",
@@ -306,6 +312,7 @@ const PharmaRd = () => {
       logo: "informedgo-icon.svg",
       title: <span style={{ color: "#045FAE" }}>inforMedGo</span>,
       image: "informedgo-min.png",
+      ppt:"../../../componentAssets/images/publisherPpt/informed.pptx",
       description:
         "Maximize the success of pharma content distribution by including a complimentary InforMedGO app for Apple, Android, and Windows devices with every eprint. This enables reps to carry your eprints on any device, facilitating immediate distribution to HCPs.",
       para: "The key to success lies in actively distributing valuable content.",
@@ -331,6 +338,7 @@ const PharmaRd = () => {
       logo: "web-portal-icon.svg",
       title: <span style={{ color: "#6E52A2" }}>Web Portal</span>,
       image: "web-portal-min.png",
+      ppt:"../../../componentAssets/images/publisherPpt/web.pptx",
       description:
         "Offering complete creative freedom to build custom libraries of your content and add options for your clients that enhance the HCP experience. Implement secure consent mechanisms and comprehensive interaction tracking to gauge ROI and refine your offerings.",
       para: "",
@@ -364,6 +372,7 @@ const PharmaRd = () => {
       logo: "webinar-small-icon.svg",
       title: <span style={{ color: "#8A4E9C" }}>Webinar Portal</span>,
       image: "webinar-portal-min.png",
+      ppt:"../../../componentAssets/images/publisherPpt/webinar.pptx",
       description:
         "Transform your clients webinars with creative freedom and engagement tools that resonates and make HCPs feel valued and active participants. Convert the recordings into valuable content that can be distributed in a user-friendly format, fostering post-event engagement and stronger relationships with HCPs",
       para: "",
@@ -716,6 +725,7 @@ const PharmaRd = () => {
     heading: "",
     imagePath: "",
     detail: "",
+    ppt:"",
     paragraph: "",
     highlights: [],
   });
@@ -750,6 +760,7 @@ const PharmaRd = () => {
       active: moduleName === activeModule ? !prevState.active : true,
       logoIconPath: bigCircleData?.logo,
       heading: bigCircleData?.title,
+      ppt:bigCircleData?.ppt,
       imagePath: bigCircleData?.image,
       detail: bigCircleData?.description,
       paragraph: bigCircleData?.para,
@@ -851,7 +862,8 @@ const PharmaRd = () => {
       setBigModuleData((prevState) => ({ 
   active: moduleName === activeModule ? !prevState.active : true,  
         logoIconPath: bigCircleData?.logo,    
-        heading: bigCircleData?.title,   
+        heading: bigCircleData?.title,
+        ppt:bigCircleData?.ppt,   
         imagePath: bigCircleData?.image, 
         detail: bigCircleData?.description, 
         paragraph: bigCircleData?.para, 
@@ -2169,9 +2181,15 @@ const PharmaRd = () => {
                     {showBigCircleData && !registerPage && (
                       <div className="d-flex align-items-center justify-content-center fotter-btns">
                         <Button className="btn-filled" onClick={handleRequestClick}>Request</Button>
-                        <Link to="/" className="">
+
+                        {/* <Link to="/" className="">
                           <img src={path_image + "downlaod-ppt.svg"} alt="" />
-                        </Link>
+                        </Link> */}
+
+                        <a href={bigCircleModuleData?.ppt} download>
+                          <img src={path_image + "downlaod-ppt.svg"} alt="" />
+                        </a>
+
                       </div>
                        )}
 

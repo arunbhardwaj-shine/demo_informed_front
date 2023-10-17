@@ -27,6 +27,8 @@ import "slick-carousel/slick/slick-theme.css";
 const PharmaMarketing = () => {
   const [activeModule, setActiveModule] = useState(null);
   const [addClass, setAddClass] = useState(false);
+  const [addDivClass, setAddDivClass] = useState(false);
+  const [addHideClass, setAddHideClass] = useState(false);
   const [showBigCircleData, setShowBigCircleData] = useState(true);
   const [formFeilds, setFormFeilds] = useState(false);
   const [submitData, setSubmitData] = useState(false);
@@ -169,6 +171,7 @@ const PharmaMarketing = () => {
       logo: "rtr-image.svg",
       title: <span style={{ color: "#5A6BB5" }}>Read-Through-Rate</span>,
       image: "rtr-content-list.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/rtr.pptx",
       description:
         "Our proprietary Read-Through-Rate metric lets you determine the level of HCP engagement. Utilise this data to send reminders, recommendations, or equip your representatives so they can have more informed conversations based on the specific interests and engagement patterns of healthcare professionals.",
       para: "",
@@ -202,6 +205,7 @@ const PharmaMarketing = () => {
       logo: "rating-icon.svg",
       title: <span style={{ color: "#2B9BC8" }}>Rating Tool</span>,
       image: "rating-tool-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/rating.pptx",
       description:
         "Introducing our revolutionary Rating Tool to assess clinical value across your content and events. Gather crucial insights the moment HCPs engage with you. Learn their collective thoughts, focus on exceptional content enabling you to drive a new level of engagement.",
       features: [
@@ -232,6 +236,7 @@ const PharmaMarketing = () => {
       image: "spc-engine-min.png",
       description: `Reclaim your time and end the worry about correct SPCs on older content. The SPC engine automatically attaches the correct country and product SPC to each piece of content, keeping your library up-to-date and easy to navigate. Simple to set up and update. This ensures HCPs always have access to the latest SPC information.`,
       para: "No more worry about compliance and superseded SPCs",
+      ppt:"../../../componentAssets/images/pharmaPpt/spc.pptx",
       features: [
         {
           keyFeature: "Automatically matches the correct SPC with the HCP’s country",
@@ -258,6 +263,7 @@ const PharmaMarketing = () => {
       logo: "auto-email-icon.svg",
       title: <span style={{ color: "#00D4C0" }}>Automail</span>,
       image: "automail-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/automail.pptx",
       description:
         "Automate personalised email reminders and AI-recommended content for HCPs, who haven't been reached within your KPI timeframe. Streamline time-consuming tasks associated with standard HCP interactions to save you time and effort, ultimately enhancing HCP engagement",
       para: "Designed exclusively for the life sciences sector, our comprehensive feature set makes this email tool the ultimate choice for enhancing relationships with HCPs",
@@ -294,6 +300,7 @@ const PharmaMarketing = () => {
       logo: "artificial-intelligence-icon.svg",
       title: <span style={{ color: "#00C1BF" }}>AI Prediction Tool</span>,
       image: "ai-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/ai.pptx",
       description:
         "Our AI leverages your HCP engagement data to formulate personalised predictions for each HCP. This process improves as your interactions with HCPs deepen. Enhanced content recommendations foster stronger relationships and trust, culminating in measurable success through the synergy of intelligence and foresight",
       para: "",
@@ -327,6 +334,7 @@ const PharmaMarketing = () => {
       logo: "legal-document-icon.svg",
       title: <span style={{ color: "#00A4BF" }}>Consent</span>,
       image: "consent-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/consent.pptx",
       description:
         "Build better relationships with consent - so you can analyse engagement data to give you precise predictions about HCPs' interests. Our method is in use on every continent and can be modified to any specific requirement. This integration of consent, usage and AI results in tailored content for your HCPs",
       para: "",
@@ -356,6 +364,7 @@ const PharmaMarketing = () => {
       logo: "email-small-icon.svg",
       title: <span style={{ color: "#0084BE" }}>Email Engine</span>,
       image: "email-engine-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/email.pptx",
       description:
         "Personal emails are powerful, they feel like a direct outreach from a trusted source. Our email engine, tailored for the life sciences sector, seamlessly integrates with other modules' data to easily reach an individual or a segment of HCPs. You can even let it monitor a group and automatically email individual follow ups or apply AI-assisted recommendations for new content. Saves you time and effort, and simple to use",
       para: "",
@@ -389,6 +398,7 @@ const PharmaMarketing = () => {
       logo: "docintel-small-icon.svg",
       title: <span style={{ color: "#0066BE" }}>Docintel.app</span>,
       image: "docintel-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/docintel.pptx",
       description:
         "Beyond the elegant and user-friendly interfaces lies perhaps the most sophisticated and versatile technology accessible to pharmaceutical marketers. Tailorable consent mechanisms, usage tracking that fuels AI, multimedia content choices and interactivity are all designed to enhance the digital rapport between you and HCPs",
       para: "",
@@ -426,6 +436,7 @@ const PharmaMarketing = () => {
       logo: "informedgo-icon.svg",
       title: <span style={{ color: "#045FAE" }}>inforMedGo</span>,
       image: "informedgo-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/informed.pptx",
       description:
         "Streamline rep engagement and consent collection from HCPs. Providing your reps with the entire support materials library on their devices ensures ready resources for personalised conversations. Sharing and securing consent on-the-spot improves compliance and follow-up procedures.",
       para: "",
@@ -463,6 +474,7 @@ const PharmaMarketing = () => {
       logo: "polling-icon.svg",
       title: <span style={{ color: "#3D48AB" }}>Q & Poll</span>,
       image: "poll-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/q&poll.pptx",
       description:
         "Enhance HCP engagement at events. Add polls to presentations for personalised speaker-audience interaction. Immediate Q&A involvement empowers each HCP. Integrating votes and questions into CRM timelines aids post-event personalisation.",
       para: "",
@@ -503,6 +515,7 @@ const PharmaMarketing = () => {
       logo: "survey-icon.svg",
       title: <span style={{ color: "#5058AA" }}>Survey Engine</span>,
       image: "survey-engine-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/survey.pptx",
       description:
         "Reveal valuable HCP insights with custom surveys.Create your questions, target specific segments and instantly gain deeper understanding about each HCP by seeing their answers. The survey engine syncs with the CRM data and the email module enables easy resend to non-openers - integrate with AutoMail for efficiency.",
       para: "",
@@ -532,6 +545,7 @@ const PharmaMarketing = () => {
       logo: "web-portal-icon.svg",
       title: <span style={{ color: "#6E52A2" }}>Web Portal</span>,
       image: "web-portal-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/web.pptx",
       description:
         "A website that adapts to the individual HCP. Combine modules and AI to personalise recommended content, surveys, videos, news, and events to each HCP - based on their location and prior engagements. Simultaneously tracking their activity to learn and improve the user experience.",
       para: "",
@@ -565,6 +579,7 @@ const PharmaMarketing = () => {
       logo: "webinar-small-icon.svg",
       title: <span style={{ color: "#8A4E9C" }}>Webinar Portal</span>,
       image: "webinar-portal-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/webinar.pptx",
       description:
         "Transform your webinars into events with creative freedom and engagement tools that resonate and make HCPs feel appreciated and involved. Convert recordings into invaluable content that can be distributed in user-friendly formats, which stimulate post-event engagement and build stronger HCP relationships",
       para: "",
@@ -919,6 +934,7 @@ const PharmaMarketing = () => {
     heading: "",
     imagePath: "",
     detail: "",
+    ppt:"",
     paragraph: "",
     highlights: [],
   });
@@ -956,6 +972,7 @@ const PharmaMarketing = () => {
       active: moduleName === activeModule ? !prevState.active : true,
       logoIconPath: bigCircleData?.logo,
       heading: bigCircleData?.title,
+      ppt:bigCircleData?.ppt,
       imagePath: bigCircleData?.image,
       detail: bigCircleData?.description,
       paragraph: bigCircleData?.para,
@@ -966,6 +983,7 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
+    setAddDivClass(false)
     event.preventDefault();
     const err = HomeValidation(registerFormInputs);
     if (Object.keys(err)?.length) {
@@ -1061,6 +1079,7 @@ const PharmaMarketing = () => {
         active: moduleName === activeModule ? !prevState.active : true,
         logoIconPath: bigCircleData?.logo,
         heading: bigCircleData?.title,
+        ppt:bigCircleData?.ppt,
         imagePath: bigCircleData?.image,
         detail: bigCircleData?.description,
         paragraph: bigCircleData?.para,
@@ -1103,6 +1122,7 @@ const PharmaMarketing = () => {
 
   const handleRequestClick = () => {
     setAddClass(true);
+    setAddDivClass(true)
     const stats = document.querySelectorAll(".stat");
     stats?.forEach((stat) => {
       if (stat.classList.contains("visible")) {
@@ -1130,16 +1150,20 @@ const PharmaMarketing = () => {
   };
 
   const handleSubmitClick = async () => {
+    setAddDivClass(true)
+    setAddHideClass(true)
     loader("show");
     try {
-      const res = await postData(ENDPOINT.REGISTER, {
+      // const res = await postData(ENDPOINT.REGISTER, {
+        let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         email: moduleFormInputs?.secondaryEmail?.trim(),
         phone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      });
+        }
+      // });
       let obj = {};
       loader("hide");
       setModuleFormInputs(obj);
@@ -1200,6 +1224,8 @@ const PharmaMarketing = () => {
   useEffect(() => {
     if (submitData) {
       setTimeout(() => {
+        setAddHideClass(false)
+        setAddDivClass(false)
         setSelectedModules([]);
         setSubmitData(false);
         setShowBigCircleData(true);
@@ -1217,19 +1243,9 @@ const PharmaMarketing = () => {
   //   setActiveModule(intialModuleData?.activeModule);
   // }
 
-  //   const handleDownloadPPT = () => {
-  //   const element = document.querySelector('.module-discribe'); 
-
-  //   html2canvas(element).then(canvas => {
-  //     const imgData = canvas.toDataURL('image/png');
-  //     const pdf = new jsPDF();
-  //     pdf.addImage(imgData, 'PNG', 0, 0);
-  //     pdf.save('downloaded-ppt.pdf');
-  //   });
-  // }
-
   const handleRead = () => {
     setReadStatus(true);
+    setAddDivClass(true)
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1746,7 +1762,7 @@ const PharmaMarketing = () => {
                 </div>
 
                 <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""}`}
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${addHideClass ? "hide" : ""}`}
                 >
                   {!showBigCircleData && !submitData && (
                     <img
@@ -2704,13 +2720,14 @@ const PharmaMarketing = () => {
                             Request
                           </Button>
 
-                          <Link to="/" className="">
+                          {/* <Link to="/" className="">
                             <img src={path_image + "downlaod-ppt.svg"} alt="" />
-                          </Link>
+                          </Link> */}
 
-                        {/* <button onClick={handleDownloadPPT}>
-                        <img src={path_image + "downlaod-ppt.svg"} alt="Download PPT" />
-                      </button> */}
+                         
+                          <a href={bigCircleModuleData?.ppt} download>
+                          <img src={path_image + "downlaod-ppt.svg"} alt="" />
+                        </a>
 
                         </div>
                       )}
@@ -2744,7 +2761,7 @@ const PharmaMarketing = () => {
 
                   {/* <-------- MOBILE VIEW --------->*/}
 
-                  {/* {showBigCircleData && !registerPage && (
+                 {/* {showBigCircleData && !registerPage && (
                     
                     <Slider
                       {...sliderSettings}
@@ -2800,11 +2817,18 @@ const PharmaMarketing = () => {
                           <div className="key-features">
                             <h5>Key Features</h5>
                             <ul>
-                              {bigCircleModuleData?.highlights?.map(
-                                (feature, index) => (
-                                  <li key={index}>{feature}</li>
-                                )
-                              )}
+                            {bigCircleModuleData?.highlights?.map((feature, index) => (
+                                <li key={index}>
+                                  {feature?.keyFeature}
+                                  {feature?.subKeyFeatures && feature?.subKeyFeatures.length > 0 && (
+                                    <ul>
+                                      {feature?.subKeyFeatures?.map((subFeature, subIndex) => (
+                                        <li key={subIndex}>{subFeature}</li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                </li>
+                                ))}
                             </ul>
                             {showBigCircleData && !registerPage && (
                               <div className="d-flex align-items-center justify-content-center fotter-btns">
@@ -2970,6 +2994,7 @@ const PharmaMarketing = () => {
           </Row>
         </Container>
       </div>
+      <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
       <div className="contact-us pharma">
         <Container>
           <Row>
