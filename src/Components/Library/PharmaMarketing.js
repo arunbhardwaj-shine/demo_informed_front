@@ -965,48 +965,6 @@ const PharmaMarketing = () => {
     setRegisterPage(true);
   };
 
-  // const handleReadClick = (event) => {
-  //   event.preventDefault();
-  //   const err = HomeValidation(registerFormInputs);
-  //   if (Object.keys(err)?.length) {
-  //     if (Object?.keys(err)[0] == "name") {
-  //       nameRef?.current?.focus();
-  //     } else if (Object?.keys(err)[0] == "email") {
-  //       emailRef?.current?.focus();
-  //     } else if (Object.keys(err)[0] == "comapny") {
-  //       companyRef.current.focus();
-  //     } else if (Object.keys(err)[0] == "phone") {
-  //       phoneRef.current.focus();
-  //     } else if (Object.keys(err)[0] == "country") {
-  //       countryRef.current.focus();
-  //     }
-  //     setRegisterError(err);
-  //     return;
-  //   } else {
-  //     loader("show");
-  //     try {
-  //       let data = {
-  //         name: registerFormInputs?.name?.trim(),
-  //         email: registerFormInputs?.email?.trim(),
-  //         phone: registerFormInputs?.phone?.trim(),
-  //         company: registerFormInputs?.company?.trim(),
-  //         country: registerFormInputs?.country?.trim(),
-  //       };
-  //       let obj = {};
-  //       loader("hide");
-  //       setRegisterFormInputs(obj);
-  //       setSelectedCountry([]);
-  //       setRegisterError(false);
-  //       setRegisterPage(false);
-  //       // setForceRender(!forceRender);
-  //     } catch (err) {
-  //       console.log(err);
-  //       loader("hide");
-  //     }
-  //   }
-  //   console.log(registerFormInputs, "===>setRegisterFormInputs");
-  // };
-
   const handleReadClick = async (event) => {
     event.preventDefault();
     const err = HomeValidation(registerFormInputs);
@@ -1057,20 +1015,18 @@ const PharmaMarketing = () => {
           type: "register",
         };
         setPayloadData(data);
-        const res = await postData(ENDPOINT.REGISTER,data );
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
         setSelectedCountry([]);
         setRegisterError(false);
         setRegisterPage(false);
-        console.log(res, "===> data");
       } catch (err) {
         console.log(err);
         loader("hide");
       }
     }
-    console.log(registerFormInputs, "===>setRegisterFormInputs");
   };
 
   const handleRegisterFormChange = (e, isSelectedName) => {
@@ -1187,18 +1143,15 @@ const PharmaMarketing = () => {
       let obj = {};
       loader("hide");
       setModuleFormInputs(obj);
-      console.log(res, "===> data2222");
     } catch (err) {
       console.log(err);
       loader("hide");
     }
-    console.log(moduleFormInputs, "===>setModuleFormInputs");
     setSubmitData(true);
     setAddClass(false);
     setShowBigCircleData(false);
     setModulesSelect(false);
     setFormFeilds(false);
-    console.log(selectedModules, "===>selectedModules");
   };
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1262,6 +1215,17 @@ const PharmaMarketing = () => {
   //   setShowBigCircleData(true);
   //   setModulesSelect(true);
   //   setActiveModule(intialModuleData?.activeModule);
+  // }
+
+  //   const handleDownloadPPT = () => {
+  //   const element = document.querySelector('.module-discribe'); 
+
+  //   html2canvas(element).then(canvas => {
+  //     const imgData = canvas.toDataURL('image/png');
+  //     const pdf = new jsPDF();
+  //     pdf.addImage(imgData, 'PNG', 0, 0);
+  //     pdf.save('downloaded-ppt.pdf');
+  //   });
   // }
 
   const handleRead = () => {
@@ -2739,9 +2703,15 @@ const PharmaMarketing = () => {
                           >
                             Request
                           </Button>
+
                           <Link to="/" className="">
                             <img src={path_image + "downlaod-ppt.svg"} alt="" />
                           </Link>
+
+                        {/* <button onClick={handleDownloadPPT}>
+                        <img src={path_image + "downlaod-ppt.svg"} alt="Download PPT" />
+                      </button> */}
+
                         </div>
                       )}
 
