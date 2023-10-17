@@ -1,6 +1,5 @@
 const EventModelValidation = (data) => {
   let error = {};
-  console.log("validation Data--->", data);
   if (!data?.title) {
     error.title = "Please enter title";
   }
@@ -15,6 +14,11 @@ const EventModelValidation = (data) => {
   }
   if (!data?.is_client_stream) {
     error.is_client_stream = "Please select client stream";
+  }
+  if (data?.is_client_stream == "Yes") {
+    if (!data?.client_stream_url) {
+      error.client_stream_url = "Please enter url";
+    }
   }
   if (!data?.dateStart) {
     error.dateStart = "Please select event date";

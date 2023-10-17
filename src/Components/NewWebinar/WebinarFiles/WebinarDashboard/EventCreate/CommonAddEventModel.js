@@ -68,6 +68,7 @@ const CommonAddEventModel = ({
     timezone: "",
     country_timezone: "",
     is_client_stream: "",
+    client_stream_url: "",
     dateStartHour: "",
     dateStartMin: "",
     dateEndHour: "",
@@ -90,8 +91,6 @@ const CommonAddEventModel = ({
     setBUOptions(webinarDetail?.ibu);
     setTimezoneOptions(webinarDetail?.timezoneName);
     if (data) {
-      console.log("data--->", data);
-      let dateStart = moment(data?.dateStart, "DD/MM/YYYY").toDate();
       setEventInputs({
         ...data,
         title: data?.title,
@@ -99,6 +98,9 @@ const CommonAddEventModel = ({
         timezone: data?.timezone,
         country_timezone: data?.country_timezone,
         is_client_stream: data?.is_client_stream == 1 ? "Yes" : "No",
+        client_stream_url: data?.client_stream_url
+          ? data?.client_stream_url
+          : "",
         dateStart: data?.dateStart,
         dateStartHour: data?.dateStartHour,
         dateStartMin: data?.dateStartMin,
@@ -111,7 +113,11 @@ const CommonAddEventModel = ({
   }, [show]);
   const handleClose = () => {
     setError({});
-    setEventInputs({});
+    setEventInputs({
+      dateStart: new Date(
+        moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+      ),
+    });
     onClose(false);
   };
   const handleChange = (e, isSelectedName) => {
@@ -123,14 +129,13 @@ const CommonAddEventModel = ({
     });
   };
   const saveClicked = async (e) => {
-    const error = EventModelValidation(eventInputs);
-    if (Object.keys(error)?.length) {
-      toast.error(error[Object.keys(error)[0]]);
-      setError(error);
-      return;
-    } else {
-      // handleSubmit();
-      try {
+    try {
+      const error = EventModelValidation(eventInputs);
+      if (Object.keys(error)?.length) {
+        // toast.error(error[Object.keys(error)[0]]);
+        setError(error);
+        return;
+      } else {
         loader("show");
         let dataObj = {
           title: eventInputs?.title,
@@ -138,6 +143,9 @@ const CommonAddEventModel = ({
           timezone: eventInputs?.timezone,
           countryTimezone: eventInputs?.country_timezone,
           isClientStream: eventInputs?.is_client_stream == "Yes" ? 1 : 0,
+          clientStreamUrl: eventInputs?.client_stream_url
+            ? eventInputs?.client_stream_url
+            : "",
           dateStart: eventInputs?.dateStart,
           dateStartHour: eventInputs?.dateStartHour,
           dateStartMin: eventInputs?.dateStartMin,
@@ -157,14 +165,18 @@ const CommonAddEventModel = ({
         }
 
         onClose(false);
-        setEventInputs({});
+        setEventInputs({
+          dateStart: new Date(
+            moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+          ),
+        });
         handleSubmit();
         setError({});
-      } catch (err) {
-        console.log("--err", err);
-      } finally {
-        loader("hide");
       }
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
     }
   };
   return (
@@ -394,12 +406,44 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
+                          {eventInputs?.is_client_stream == "Yes" ? (
+                            <div className="col-12 col-md-6">
+                              <div className="form-group">
+                                <label htmlFor="">
+                                  Client Stream URL <span> *</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  name="client_stream_url"
+                                  placeholder="Event Title"
+                                  className={
+                                    error?.client_stream_url
+                                      ? "form-control error"
+                                      : "form-control"
+                                  }
+                                  onChange={(e) => handleChange(e)}
+                                  value={
+                                    eventInputs?.client_stream_url
+                                      ? eventInputs?.client_stream_url
+                                      : ""
+                                  }
+                                />
+                                {error?.client_stream_url ? (
+                                  <div className="login-validation">
+                                    {error?.client_stream_url}
+                                  </div>
+                                ) : null}
+                              </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
                           <div className="col-12 col-md-6">
                             <div className="form-group">
                               <label htmlFor="">
                                 Event Date <span> *</span>
                               </label>
-                              {console.log("--->", eventInputs?.dateStart)}
+
                               <DatePicker
                                 name="dateStart"
                                 className={
@@ -470,9 +514,8 @@ const CommonAddEventModel = ({
 
                               <Select
                                 options={timeMinutes}
-                                // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                 className={
-                                  error?.dateEndHour
+                                  error?.dateStartHour
                                     ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                     : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                 }
@@ -500,7 +543,10 @@ const CommonAddEventModel = ({
 
                           <div className="col-12 col-md-6">
                             <div className="form-group double-select">
-                              <label htmlFor=""> Event End Time</label>
+                              <label htmlFor="">
+                                {" "}
+                                Event End Time <span> *</span>
+                              </label>
                               <Select
                                 options={timeHours}
                                 className={

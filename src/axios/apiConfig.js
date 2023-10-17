@@ -138,4 +138,5 @@ export const ENDPOINT = {
   WEBINAR_ADD_NEW_EVENT: "/webinar/add-new-event",
   WEBINAR_GET_EVENT_LISTING: "/webinar/get-event-list",
   WEBINAR_UPDATE_EVENT: "/webinar/update-event",
+  WEBINAR_DELETE_EVENT: "/webinar/delete-event",
 };
