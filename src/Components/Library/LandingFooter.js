@@ -7,6 +7,7 @@ const LandingFooter = () => {
     const [privacyshow, setPrivacyshow] = useState(false);
     const [cookieshow, setCookieshow] = useState(false);
     const [cookieSection, setCookieSection] = useState(true)
+    const [acceptedCookies, setAcceptedCookies] = useState(localStorage.getItem('acceptedCookies'));
 
     const handleClose = () => {
           setPrivacyshow(false);
@@ -23,6 +24,12 @@ const LandingFooter = () => {
       const handleCookieSection = () => {
         setCookieSection(false)
       }
+
+      const handleCookieAccept = () => {
+        localStorage.setItem('acceptedCookies', 'true');
+        setAcceptedCookies(true);
+      };
+
   return (
     <>
      <div className='footer'>
@@ -443,7 +450,7 @@ const LandingFooter = () => {
                 </div>
             </Row>
         </Container>
-        {cookieSection && (
+        { !acceptedCookies && cookieSection && (
             <div className='cookie-popup'>
             <Container>
                 <Row>
@@ -453,7 +460,7 @@ const LandingFooter = () => {
                             <p>We use our own cookies to make re-login easier and to learn what matters to visitors. We do not share any data outside our company. To see the short list of essential cookies please <Link onClick={(e) => handleCookieShow("cookie")}>Click Here</Link>.</p>
                         </div>
                         <div className='cookie-popup-btns'>
-                            <Button className="btn-filled" onClick={handleCookieSection}>Accept</Button>
+                            <Button className="btn-filled" onClick={handleCookieAccept}>Accept</Button>
                             <Button className="btn-bordered" onClick={handleCookieSection}>Close</Button>
                         </div>
                     </div>

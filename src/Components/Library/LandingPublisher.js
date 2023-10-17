@@ -128,12 +128,25 @@ const PharmaRd = () => {
       title: <span style={{ color: "#5A6BB5" }}>Read-Through-Rate</span>,
       image: "rtr-content-list.png",
       description:
-        "Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage.",
-      para: "Knowledge is power - how will you use yours?",
+        "Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage",
+      para: "Knowledge is power - how will you help your clients?",
       features: [
-        "Track every engagement down to each second spend on individual pages",
-        "Track HCPs reading on & offline, in browser or in app",
-        "True engagement data",
+        {
+          keyFeature: "First captures each HCP’s consent",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Track every engagement down to each second spend on individual pages",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Track HCPs reading on & offline, in browser or in app",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "True engagement data",
+          subKeyFeatures: []
+        },
       ],
     },
 
@@ -144,12 +157,20 @@ const PharmaRd = () => {
       title: <span style={{ color: "#2B9BC8" }}>Rating Tool</span>,
       image: "rating-tool-min.png",
       description:
-        "Introducing our revolutionary Rating Tool, assessing clinical value across your content and events. Gather crucial insights at the moment HCPs engage with you. Learn their collective thoughts, focus on the exceptional content, and ensure you  usher in a new era of engagement.",
+        "Introducing our revolutionary Rating Tool, assessing clinical value across your content. Gather insights as HCPs engage, guiding clients to prioritize value over quantity.",
       features: [
-        "Let HCPs rate your content",
-        "Commission better content based on HCP opinions",
-        "HCPs rate whenever they engage via browser or in-app",
-        "Build better data sets for your AI",
+        {
+          keyFeature: "Let HCPs rate your content",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "HCPs rate whenever they engage via browser or in-app",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Prove ROI",
+          subKeyFeatures: []
+        },
       ],
     },
 
@@ -160,14 +181,21 @@ const PharmaRd = () => {
       title: <span style={{ color: "#00D4C0" }}>Automail</span>,
       image: "automail-min.png",
       description:
-        "Custom emails strengthen bonds. Craft responsive HCP campaigns with dynamic SmartLists, cutting manual sorting via behaviour and consent. Automate basic onboarding and reminders to read or leverage data for personalised content suggestions when engagement is lacking.",
-      para: "Designed exclusively for the life science sector, our comprehensive feature set makes this email tool the ultimate choice for enhancing relationships with healthcare professionals.",
+        "We keep track of all your licensed content with confirmation emails and the limits you’ve agreed with your clients, You receive alerts prior to reaching limits, whether they are expiration or quantity-based",
+      para: "",
       features: [
-        "Two level of AutoMail offerings (Essential & Predictive)",
-        "Automated post-Registration onboarding, reminders, etc",
-        "Predictive personalised automated emails",
-        "Increased engagement with pre-approved content",
-        "Customisable AutoMail settings",
+        {
+          keyFeature: "Automated confirmation email",
+          subKeyFeatures: ["Nearing expiration", "Nearing quantity limit"]
+        },
+        {
+          keyFeature: "Alert to both sales & production",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Customisable AutoMail settings",
+          subKeyFeatures: []
+        },
       ],
     },
 
@@ -178,13 +206,29 @@ const PharmaRd = () => {
       title: <span style={{ color: "#00A4BF" }}>Consent</span>,
       image: "consent-min.png",
       description:
-        "Consent is often a complicated affair. Our standard consent forms are in use on every continent and clients can modify what is collected, adjust to any language and branding. It is truly and fast to change.",
+        "Clients often realize their consent needs only after receiving the eprint. Our platform enables you and them to modify consent forms and language online anytime.",
       para: "",
       features: [
-        "Three standard consent forms makes it easy",
-        "Any language possible",
-        "Personalised experienced for the HCPs",
-        "HCPs can withdraw consent through their Docintel account",
+        {
+          keyFeature: "Three standard consent forms makes it easy",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Any language possible",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature:"Change online at any time",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Personalised experienced for the HCPs",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "HCPs can withdraw consent through their Docintel account",
+          subKeyFeatures: []
+        },
       ],
     },
 
@@ -198,11 +242,26 @@ const PharmaRd = () => {
         "Our email platform caters to the life science industry, designed for sending bulk emails with automated follow-ups tailored to each HCP's actions. It's commonly employed to invite HCPs to events or content launches using purchased lists, subject to email limits.",
       para: "",
       features: [
-        "Easy to use - built for the industry",
-        "Dynamic SmartLists save you from excel-hell",
-        "Track if HCP reads what you send",
-        "Email & content engagement stored in CRM",
-        "Add-on AutoMail for AI-automation",
+        {
+          keyFeature: "Easy to use - built for the industry",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Dynamic SmartLists save you from excel-hell",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Track if HCP reads what you send",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Email & content engagement stored in CRM",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Add-on AutoMail for AI-automation",
+          subKeyFeatures: []
+        },
       ],
     },
 
@@ -216,10 +275,28 @@ const PharmaRd = () => {
         "Beyond our elegant and user-friendly interfaces lies perhaps the most sophisticated and versatile technology accessible to publishers. Letting HCPs read on any device means flexibility for your clients and freedom to drive usage.",
       para: "Tailorable consent mechanisms, usage tracking, live analytics, multimedia content choices, and interactivity are all designed to enhance your client offer.",
       features: [
-        "Secure and track limits agreed with client",
-        "Multimedia options to satisfy any clients wish",
-        "HCPs read on & offline, in any browser or in the app",
-        "Track every engagement down to each second spend on individual pages"
+        "",
+        "",
+        "",
+        ""
+      ],
+      features: [
+        {
+          keyFeature: "Secure and track limits agreed with client",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Multimedia options to satisfy any clients wish",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "HCPs read on & offline, in any browser or in the app",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Track every engagement down to each second spend on individual pages",
+          subKeyFeatures: []
+        },
       ],
     },
 
@@ -233,9 +310,18 @@ const PharmaRd = () => {
         "Maximize the success of pharma content distribution by including a complimentary InforMedGO app for Apple, Android, and Windows devices with every eprint. This enables reps to carry your eprints on any device, facilitating immediate distribution to HCPs.",
       para: "The key to success lies in actively distributing valuable content.",
       features: [
-        "Easy to use - download free app and enter code for instant activation",
-        "Give Reps control over your entire content collection",
-        "Gather on-the-spot consent"
+        {
+          keyFeature: "Easy to use - download free app and enter code for instant activation",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Give Reps control over your entire content collection",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Gather on-the-spot consent",
+          subKeyFeatures: []
+        },
       ],
     },
 
@@ -246,14 +332,29 @@ const PharmaRd = () => {
       title: <span style={{ color: "#6E52A2" }}>Web Portal</span>,
       image: "web-portal-min.png",
       description:
-        "Offering complete creative freedom to build custom libraries of your content and add options for your clients that enhance the HCP experience.  Implement secure consent mechanisms and comprehensive interaction tracking to gauge ROI and refine your offerings.",
+        "Offering complete creative freedom to build custom libraries of your content and add options for your clients that enhance the HCP experience. Implement secure consent mechanisms and comprehensive interaction tracking to gauge ROI and refine your offerings.",
       para: "",
       features: [
-        "Enhancing content pages",
-        "On demand for when the HCP want to know more",
-        "Let HCPs take what they want offline in their personal Docintel app account",
-        "Combining Local and Global users for promotion",
-        "Maintain your visual identity"
+        {
+          keyFeature: "Enhancing content pages",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "On demand for when the HCP want to know more",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Let HCPs take what they want offline in their personal Docintel app account",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Combining Local and Global users for promotion",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Customise to clients visual identity",
+          subKeyFeatures: []
+        },
       ],
     },
 
@@ -264,15 +365,37 @@ const PharmaRd = () => {
       title: <span style={{ color: "#8A4E9C" }}>Webinar Portal</span>,
       image: "webinar-portal-min.png",
       description:
-        "Transform your clients webinars with creative freedom and engagement tools that resonates and make HCPs feel valued and active participants. Convert the recordings into valuable content that can be distributed in a user-friendly format, fostering post-event engagement and stronger relationships with HCPs.",
+        "Transform your clients webinars with creative freedom and engagement tools that resonates and make HCPs feel valued and active participants. Convert the recordings into valuable content that can be distributed in a user-friendly format, fostering post-event engagement and stronger relationships with HCPs",
       para: "",
       features: [
-        "Online Webinar Platform every HCP will find easy to use",
-        "Registration & Consent to suit any regulation",
-        "Automated Calendar Reminders helping the HCPs be on time",
-        "Automated personalised emails with single-click-login ensure easy access for each HCP",
-        "Take the interaction to the next level & allow HCPs to ask real-time questions",
-        "Learn who stayed and engaged to prove ROI",
+        {
+          keyFeature: "Online Webinar Platform every HCP will find easy to use",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Registration & Consent to suit any regulation",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Automated Calendar Reminders helping the HCPs be on time",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Automated personalised emails with single-click-login ensure easy access for each HCP",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Take the interaction to the next level & allow",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "HCPs to ask real-time questions",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Learn who stayed and engaged to prove",
+          subKeyFeatures: []
+        },
       ],
     },
   ];
@@ -1101,7 +1224,7 @@ const PharmaRd = () => {
                     className={
                       activeModule === "read"
                         ? "stat read visible"
-                        : activeModule === "docintel" || activeModule === "ai"
+                        : activeModule === "docintel" || activeModule === "ai" || activeModule === "webinar" 
                         ? "stat read active"
                         : "stat read"
                     }
@@ -1137,7 +1260,7 @@ const PharmaRd = () => {
                     className={
                       activeModule === "automail"
                         ? "stat automail visible"
-                        : activeModule === "engine" ||
+                        : activeModule === "engine" || activeModule === "webinar" ||  activeModule === "informed" ||
                           activeModule === "ai" ||
                           activeModule === "spc"
                         ? "stat automail active"
@@ -1160,7 +1283,7 @@ const PharmaRd = () => {
                         : activeModule === "webinar" ||
                           activeModule === "web" ||
                           activeModule === "informed" ||
-                          activeModule === "docintel" ||
+                          activeModule === "docintel" || activeModule === "read" || activeModule === "automail" ||
                           activeModule === "ai"
                         ? "stat consent active"
                         : " stat consent"
@@ -1206,7 +1329,6 @@ const PharmaRd = () => {
                           activeModule === "survey" ||
                           activeModule === "informed" ||
                           activeModule === "engine" ||
-                          activeModule === "automail" ||
                           activeModule === "rating"
                         ? "stat docintel active"
                         : "stat docintel"
@@ -1226,7 +1348,7 @@ const PharmaRd = () => {
                       activeModule === "informed"
                         ? "stat informed visible"
                         : activeModule === "consent" ||
-                          activeModule === "ai" ||
+                          activeModule === "ai" || activeModule === "webinar" || activeModule === "automail" ||
                           activeModule === "spc"
                         ? "stat informed active"
                         : "stat informed"
@@ -1649,11 +1771,24 @@ const PharmaRd = () => {
                         <div className="key-features">
                           <h5> Key Features</h5>
                           <ul>
-                            {bigCircleModuleData?.highlights?.map(
+                            {/* {bigCircleModuleData?.highlights?.map(
                               (feature, index) => (
                                 <li key={index}>{feature}</li>
                               )
-                            )}
+                            )} */}
+
+                            {bigCircleModuleData?.highlights?.map((feature, index) => (
+                                <li key={index}>
+                                  {feature?.keyFeature}
+                                  {feature?.subKeyFeatures && feature?.subKeyFeatures.length > 0 && (
+                                    <ul>
+                                      {feature?.subKeyFeatures?.map((subFeature, subIndex) => (
+                                        <li key={subIndex}>{subFeature}</li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                </li>
+                                ))}
                           </ul>
                         </div>
                       </div>
@@ -1801,7 +1936,7 @@ const PharmaRd = () => {
                         className={
                           selectedModules?.includes('automail') || activeModule === "automail"
                             ? "stat automail visible"
-                            :  activeModule === "engine" || activeModule === "ai" || activeModule === "spc"
+                            :  activeModule === "engine" || activeModule === "ai" || activeModule === "spc" || activeModule === "webinar" || activeModule === "informed"
                             ? "stat automail active"
                             : "stat automail"
                         }
@@ -1828,7 +1963,7 @@ const PharmaRd = () => {
                             :  activeModule === "webinar" ||
                               activeModule === "web" ||
                               activeModule === "informed" ||
-                              activeModule === "docintel" ||
+                              activeModule === "docintel" || activeModule === "read" || activeModule === "automail" ||
                               activeModule === "ai"
                             ? "stat consent active"
                             : " stat consent"
@@ -1895,7 +2030,6 @@ const PharmaRd = () => {
                               activeModule === "survey" ||
                               activeModule === "informed" ||
                               activeModule === "engine" ||
-                              activeModule === "automail" ||
                               activeModule === "rating"
                             ? "stat docintel active"
                             : "stat docintel"
@@ -1924,7 +2058,7 @@ const PharmaRd = () => {
                           selectedModules.includes("informed") || activeModule === "informed"
                             ? "stat informed visible"
                             :  activeModule === "consent" ||
-                              activeModule === "consent" ||
+                              activeModule === "consent" || activeModule === "webinar" || activeModule === "automail" ||
                               activeModule === "ai" ||
                               activeModule === "spc"
                             ? "stat informed active"
@@ -2005,7 +2139,7 @@ const PharmaRd = () => {
                         className={
                           selectedModules.includes("read") || activeModule === "read"
                             ? "stat read visible"
-                            :  activeModule === "docintel" ||
+                            :  activeModule === "docintel" || activeModule === "webinar" ||
                               activeModule === "ai"
                             ? "stat read active"
                             : "stat read"
