@@ -17,6 +17,8 @@ import LandingSliderSection from "./LandingSliderSection";
 const PharmaRd = () => {
   const [activeModule, setActiveModule] = useState(null);
   const [addClass, setAddClass] = useState(false);
+  const [addDivClass, setAddDivClass] = useState(false);
+  const [addHideClass, setAddHideClass] = useState(false);
   const [showBigCircleData, setShowBigCircleData] = useState(true);
   const [formFeilds, setFormFeilds] = useState(false);
   const [submitData, setSubmitData] = useState(false);
@@ -771,6 +773,7 @@ const PharmaRd = () => {
   };
 
   const handleReadClick = async (event) => {
+    setAddDivClass(false)
     event.preventDefault(); 
     const err = HomeValidation(registerFormInputs);
     if (Object.keys(err)?.length) {
@@ -906,7 +909,8 @@ const PharmaRd = () => {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
-    setAddClass(true);  
+    setAddClass(true);
+    setAddDivClass(true)  
     const stats = document.querySelectorAll('.stat');  
     stats?.forEach(stat => {  
       if (stat.classList.contains('visible')) { 
@@ -934,6 +938,8 @@ const PharmaRd = () => {
   };
 
   const handleSubmitClick = async () => {
+    setAddDivClass(true)
+    setAddHideClass(true)
     loader("show");
       try {
         const res = await postData(ENDPOINT.REGISTER, {
@@ -1004,6 +1010,8 @@ const PharmaRd = () => {
   useEffect(() => {
     if (submitData) {
       setTimeout(() => {
+        setAddDivClass(false)
+        setAddHideClass(false)
         setSelectedModules([]);
         setSubmitData(false);
         setShowBigCircleData(true);
@@ -1015,6 +1023,7 @@ const PharmaRd = () => {
 
   const handleRead = () => {
     setReadStatus(true)
+    setAddDivClass(true)
   }
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1431,7 +1440,7 @@ const PharmaRd = () => {
                   </div>
                 </div>
                 <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""}`}
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${addHideClass ? "hide" : ""}`}
                 >
                   {!showBigCircleData && !submitData &&(
                   <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
@@ -2219,6 +2228,7 @@ const PharmaRd = () => {
           </Row>
         </Container>
       </div>
+      <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
       <div className="contact-us pharma publish">
         <Container>
           <Row>
