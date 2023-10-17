@@ -17502,12 +17502,6 @@ img.change-password-image {
   }
 
   .modules-diagram {
-    .module-logo {
-      img {
-        max-width: 242px;
-      }
-    }
-
     .circle {
       --radius: 150px;
       border: 20px solid #fff;
@@ -17519,6 +17513,14 @@ img.change-password-image {
         }
       }
     }
+
+    .module-logo {
+      img {
+        max-width: 242px;
+      }
+    }
+
+
   }
 
   .footer {
