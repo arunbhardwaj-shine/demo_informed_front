@@ -29,6 +29,7 @@ const PharmaMarketing = () => {
   const [addClass, setAddClass] = useState(false);
   const [addDivClass, setAddDivClass] = useState(false);
   const [addHideClass, setAddHideClass] = useState(false);
+  const [addSmallClass, setAddSmallClass] = useState(false);
   const [showBigCircleData, setShowBigCircleData] = useState(true);
   const [formFeilds, setFormFeilds] = useState(false);
   const [submitData, setSubmitData] = useState(false);
@@ -983,6 +984,7 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
+    setAddSmallClass(true)
     setAddDivClass(false)
     event.preventDefault();
     const err = HomeValidation(registerFormInputs);
@@ -1123,6 +1125,7 @@ const PharmaMarketing = () => {
   const handleRequestClick = () => {
     setAddClass(true);
     setAddDivClass(true)
+    setAddSmallClass(false)
     const stats = document.querySelectorAll(".stat");
     stats?.forEach((stat) => {
       if (stat.classList.contains("visible")) {
@@ -1152,6 +1155,7 @@ const PharmaMarketing = () => {
   const handleSubmitClick = async () => {
     setAddDivClass(true)
     setAddHideClass(true)
+    setAddSmallClass(true)
     loader("show");
     try {
       // const res = await postData(ENDPOINT.REGISTER, {
@@ -1181,6 +1185,7 @@ const PharmaMarketing = () => {
   const handleBigCircleClose = (moduleName, index) => {
     setAddClass(false);
     setFormFeilds(false);
+    setAddSmallClass(false)
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
       setModuleData({
@@ -1220,6 +1225,7 @@ const PharmaMarketing = () => {
       setReadStatus(false);
     }, 200);
   };
+  
 
   useEffect(() => {
     if (submitData) {
@@ -1762,7 +1768,7 @@ const PharmaMarketing = () => {
                 </div>
 
                 <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""} ${addHideClass ? "hide" : ""}`}
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${addHideClass ? "hide" : ""} ${addSmallClass ? "small" : ""}`}
                 >
                   {!showBigCircleData && !submitData && (
                     <img
@@ -2761,7 +2767,8 @@ const PharmaMarketing = () => {
 
                   {/* <-------- MOBILE VIEW --------->*/}
 
-                 {/* {showBigCircleData && !registerPage && (
+
+                {/* {showBigCircleData && !registerPage && (
                     
                     <Slider
                       {...sliderSettings}
@@ -2846,6 +2853,15 @@ const PharmaMarketing = () => {
                                 </Link>
                               </div>
                             )}
+
+                             {!submitData && (
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
+                  )}
                           </div>
                         </div>
                       </div>
@@ -2983,7 +2999,7 @@ const PharmaMarketing = () => {
                         Close
                       </Button>
                     </div>
-                  )} */}
+                  )}  */}
 
                   {/* <------- Uncomment these above 4 divs to see the slider and  do display none to the above module describe div  ---------> */}
 
