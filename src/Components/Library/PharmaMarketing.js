@@ -1431,6 +1431,7 @@ const PharmaMarketing = () => {
       </div>
       <LandingSliderSection />
       <div className="consent-content">
+         <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
         <Container>
           <Row>
             <div className="consent-content-inner">
@@ -2760,8 +2761,8 @@ const PharmaMarketing = () => {
                   </div>
 
                   {/* <-------- MOBILE VIEW --------->*/}
-
-                 {/* {showBigCircleData && !registerPage && (
+                <div className="mobile-slider">
+                 {showBigCircleData && !registerPage && (
                     
                     <Slider
                       {...sliderSettings}
@@ -2853,7 +2854,7 @@ const PharmaMarketing = () => {
                   
                   )}
 
-                  {!showBigCircleData && !submitData && (
+                  {/* {!showBigCircleData && !submitData && (
                     <div className="request-content">
                       <Form>
                         <h4>Module Request</h4>
@@ -2969,9 +2970,9 @@ const PharmaMarketing = () => {
                         Submit
                       </Button>
                     </div>
-                  )}
+                  )} */}
 
-                  {submitData && (
+                  {/* {submitData && (
                     <div className="submit-section">
                       <img src={path_image + "thanks-img.svg"} alt="" />
                       <h3>Thank you!</h3>
@@ -2983,8 +2984,9 @@ const PharmaMarketing = () => {
                         Close
                       </Button>
                     </div>
-                  )} */}
-
+                  )} 
+                 */}
+                 </div>
                   {/* <------- Uncomment these above 4 divs to see the slider and  do display none to the above module describe div  ---------> */}
 
                   <div class="shape shape-right"></div>
@@ -2994,7 +2996,7 @@ const PharmaMarketing = () => {
           </Row>
         </Container>
       </div>
-      <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
+     
       <div className="contact-us pharma">
         <Container>
           <Row>
