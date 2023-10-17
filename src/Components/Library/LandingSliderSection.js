@@ -44,7 +44,7 @@ const LandingConsentSection = () => {
     centerMode: true,
     centerPadding: "0%",
     fade: true,
-    speed: 1500,
+    speed: 2000,
   };
   return (
     <>
@@ -97,7 +97,7 @@ const LandingConsentSection = () => {
                   </div>
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
-                      <img src={path_image + "logo-shape1.png"} alt="" />
+                      <span className="add-shadow"><img src={path_image + "logo-shape1.png"} alt="" /></span>
                       <h3>Content</h3>
                       <h5>
                         Create a library of all your content and easily
@@ -145,7 +145,7 @@ const LandingConsentSection = () => {
                 <div className="slider-in-view slide2">
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
-                      <img src={path_image + "logo-shape2.png"} alt="" />
+                      <span className="add-shadow"><img src={path_image + "logo-shape2.png"} alt="" /></span>
                       <h3>Consent</h3>
                       <h5>
                         We’ve proven time and time again that HCPs give their
@@ -199,7 +199,7 @@ const LandingConsentSection = () => {
                   </div>
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
-                      <img src={path_image + "logo-shape3.png"} alt="" />
+                      <span className="add-shadow"><img src={path_image + "logo-shape3.png"} alt="" /></span>
                       <h3>Delivery</h3>
                       <h5>
                         Make{" "}
