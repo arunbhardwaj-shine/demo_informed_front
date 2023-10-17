@@ -813,13 +813,11 @@ const PharmaRd = () => {
         setSelectedCountry([]);
         setRegisterError(false);
         setRegisterPage(false);
-        console.log(res, "===> data");
       } catch (err) {
         console.log(err);
         loader("hide");
       } 
     }
-    console.log(registerFormInputs, "===>setRegisterFormInputs");
   };
 
   const handleRegisterFormChange = (e, isSelectedName) => {
@@ -937,18 +935,15 @@ const PharmaRd = () => {
         let obj = {};
         loader("hide");
         setModuleFormInputs(obj);
-        console.log(res, "===> data2222");
       } catch (err) {
         console.log(err);
         loader("hide");
       }
-      console.log(moduleFormInputs, "===>setModuleFormInputs");
         setSubmitData(true);
         setAddClass(false);
         setShowBigCircleData(false);
         setModulesSelect(false);
         setFormFeilds(false);
-        console.log(selectedModules, "===>selectedModules");
     }
 
   const handleBigCircleClose = (moduleName, index) => {

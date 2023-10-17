@@ -58,7 +58,14 @@ const Header = () => {
   };
 
   const logout = () => {
-    localStorage.clear();
+    // localStorage.clear();
+    const keysToKeep = ['uname', 'pass']; 
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (!keysToKeep.includes(key)) {
+        localStorage.removeItem(key);
+      }
+    }
     navigate("/");
   };
 

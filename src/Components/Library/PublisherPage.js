@@ -65,7 +65,8 @@ const PublisherPage = () => {
           password: userInputs?.password,
         });
 
-        localStorage.clear();
+        // localStorage.clear();
+        clearLocalStorageExcept();
         localStorage.setItem("user_id", res?.data?.data?.userToken);
         localStorage.setItem("group_id", res?.data?.data?.groupId);
         localStorage.setItem("webinar_flag", res?.data?.data?.webinar_flag);
@@ -203,6 +204,16 @@ const PublisherPage = () => {
       }
     }
   };
+
+  const clearLocalStorageExcept = () => {
+    const keysToKeep = ['uname', 'pass']; 
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (!keysToKeep.includes(key)) {
+      localStorage.removeItem(key);
+      }
+    }
+  }
 
   return (
     <>
