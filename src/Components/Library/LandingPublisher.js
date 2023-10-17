@@ -1196,10 +1196,10 @@ const PharmaRd = () => {
                   <img src={path_image + "doc-pharma-info.png"} alt="" />
                 </div>
                 <ul>
-                  <li>For Life science</li>
+                  <li>For content owners</li>
                   <li>Host content</li>
-                  <li>Handles consent</li>
-                  <li>Predicts the future</li>
+                  <li>Secure limits</li>
+                  <li>In-depth analytics</li>
                 </ul>
               </div>
             </div>
@@ -1748,17 +1748,20 @@ const PharmaRd = () => {
                       }`}
                     >
                       {showBigCircleData && !registerPage &&(
+                        <>
                       <div className="big-circle-data">
-                      <div className="big-circle-top">
-                        <img
-                          className="module-img"
-                          src={
-                            path_image + "" + bigCircleModuleData?.logoIconPath
-                          }
-                        />
+                        <div>
+                          <img
+                            className="module-img"
+                            src={
+                              path_image + "" + bigCircleModuleData?.logoIconPath
+                            }
+                          />
+                          <h4>{bigCircleModuleData?.heading}</h4>
+                        </div>
                       </div>
-                      <div lassName="big-circle-middle">
-                         <h4>{bigCircleModuleData?.heading}</h4>
+                      <div className="big-circle-data bigger">
+                        <div className="module-text-space">
                         <img
                           className="module-content-view"
                           src={path_image + "" + bigCircleModuleData?.imagePath}
@@ -1793,6 +1796,7 @@ const PharmaRd = () => {
                         </div>
                       </div>
                       </div>
+                      </>
                        )}
 
                      {!showBigCircleData && !submitData &&(

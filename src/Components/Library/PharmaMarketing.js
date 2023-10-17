@@ -1456,10 +1456,7 @@ const PharmaMarketing = () => {
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                  <strong>Consent & content</strong> data is at the foundation of all our
-                  modules. This allows you to connect the data you collect in
-                  unprecedented ways, whether it's for automating tasks,
-                  reporting, analytics, or predictions, always with consent.
+                  <strong>Consent & content</strong> underpins all our modules. So you can connect the data you collect in unprecedented always - whether it's for automating tasks, reporting, analytics, or predictions - and always with consent.
                 </h5>
               </div>
               <div className="consent-details">
@@ -2139,6 +2136,7 @@ const PharmaMarketing = () => {
                       }`}
                     >
                       {showBigCircleData && !registerPage && (
+                        <>
                         <div className="big-circle-data">
                           <div>
                             <img
@@ -2150,14 +2148,17 @@ const PharmaMarketing = () => {
                               }
                             />
                             <h4>{bigCircleModuleData?.heading}</h4>
+                            
+                          </div>
+                        </div>
+                        <div className="big-circle-data bigger">
+                          <div className="module-text-space">
                             <img
                               className="module-content-view"
                               src={
                                 path_image + "" + bigCircleModuleData?.imagePath
                               }
                             />
-                          </div>
-                          <div>
                             <p>{bigCircleModuleData?.detail}</p>
                             <p className="semibold">
                               {bigCircleModuleData?.paragraph}
@@ -2188,6 +2189,7 @@ const PharmaMarketing = () => {
                             </div>
                           </div>
                         </div>
+                        </>
                       )}
 
                       {!showBigCircleData && !submitData && (
