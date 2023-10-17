@@ -45,6 +45,17 @@ const LandingConsentSection = () => {
     centerPadding: "0%",
     fade: true,
     speed: 2000,
+    responsive: [
+        {
+          breakpoint: 558,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: true,
+            arrows: true
+          }
+        }
+      ]
   };
   return (
     <>

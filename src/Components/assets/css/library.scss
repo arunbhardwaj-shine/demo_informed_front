@@ -7145,6 +7145,11 @@ svg.pencil_icon {
   padding: 12px 24px;
 }
 
+.header-forgot .modal-content .form-field.error {
+  box-shadow: 0px 0px 4px 0px #d61975;
+}
+
+
 .header-forgot .modal-content button.btn {
   margin: 30px auto 0;
   display: block;
@@ -7152,9 +7157,10 @@ svg.pencil_icon {
 }
 
 .header-forgot .modal-content p {
-  color: $pink;
-  font-size: 14px;
+  color: #d61975;
+  font-size: 12px;
   margin: 0;
+  text-align: right;
 }
 
 .login-confirm .form-group {
@@ -8850,10 +8856,10 @@ svg.pencil_icon {
         // -webkit-animation: circle-rotate-reverse 26s linear infinite;
 
         .icon-block {
-          img {
-            // animation: img-rotate-reverse 26s linear infinite;
-            // -webkit-animation: img-rotate-reverse 26s linear infinite;
-          }
+          // img {
+          //   // animation: img-rotate-reverse 26s linear infinite;
+          //   // -webkit-animation: img-rotate-reverse 26s linear infinite;
+          // }
 
           &:first-child {
             top: 1.6%;
@@ -16134,6 +16140,9 @@ img.change-password-image {
       font-weight: 400;
     }
   }
+}
+
+.cookies-popup {
 
   .cookies-popup-inset {
     background: rgba(255, 255, 255, 0.19);
@@ -16169,19 +16178,20 @@ img.change-password-image {
         }
       }
     }
-  }
 
-  .modal-dialog {
-    .modal-content {
-      background: #FFFFFF;
-      box-shadow: 0px 0px 19px rgb(0 0 0 / 7%);
-      border-radius: 15px;
-      padding: 15px;
 
-      .modal-title {
-        &.h4 {
-          color: #001489;
-          font-weight: 600;
+    .modal-dialog {
+      .modal-content {
+        background: #FFFFFF;
+        box-shadow: 0px 0px 19px rgb(0 0 0 / 7%);
+        border-radius: 15px;
+        padding: 15px;
+
+        .modal-title {
+          &.h4 {
+            color: #001489;
+            font-weight: 600;
+          }
         }
       }
     }
@@ -16600,13 +16610,9 @@ img.change-password-image {
         .key-features {
           max-width: 405px;
 
-          h5 {
-            margin: 10px auto 8px;
-          }
-
           li {
             font-size: 13px;
-            line-height: 19px;
+            line-height: 21px;
           }
         }
 
@@ -17208,6 +17214,7 @@ img.change-password-image {
 
     &.pharma {
       background: url(../../../../public/componentAssets/images/landing-pharma-header-bg.jpg) no-repeat;
+      background-size: cover;
 
       .landing-heading {
         margin: 84px 0 30px;
@@ -17225,8 +17232,8 @@ img.change-password-image {
       }
 
       .circular-ring {
-        width: 375;
-        height: 375;
+        width: 375px;
+        height: 375px;
 
         .icon-block {
           &.icon43 {
@@ -17460,6 +17467,11 @@ img.change-password-image {
           }
         }
       }
+    }
+
+    &.publish {
+      background: url(../../../../public/componentAssets/images/landing-publisher-header-bg.jpg) no-repeat;
+      background-size: cover;
     }
 
     .landing-block {
@@ -17827,9 +17839,19 @@ img.change-password-image {
             height: 56px;
             padding: 2px;
 
+            &.active {
+              outline-offset: 2px;
+            }
+
             span {
               font-size: 8px;
               line-height: 10px;
+            }
+
+            .article-close {
+              img {
+                width: 16px;
+              }
             }
           }
         }
@@ -17842,7 +17864,7 @@ img.change-password-image {
   .modules-diagram {
     .circle {
       --radius: 150px;
-      border: 20px solid #fff;
+      border: 23px solid #fff;
 
       .stat {
         &>img {
@@ -17877,6 +17899,17 @@ img.change-password-image {
           line-height: 19px;
           padding: 0 10px;
         }
+      }
+    }
+  }
+
+  .header-forgot {
+    padding: 0 16px !important;
+
+    .modal-content {
+      .form-field {
+        padding: 10px 24px;
+        font-size: 14px;
       }
     }
   }
@@ -17920,6 +17953,408 @@ img.change-password-image {
         }
       }
     }
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views .slider-bg-icons img.slide-ellipse6,
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slider-bg-icons img.slide-ellipse6 {
+    display: none
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view {
+    flex-direction: column;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-left-sided {
+    width: 100%;
+    min-height: initial;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-right-sided {
+    width: 100%;
+    min-height: initial;
+    padding: 53px 25px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-right-sided .slide-right-content h5 {
+    font-size: 15px;
+    line-height: 22px;
+    color: #004A89;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-right-sided .slide-right-content h3 {
+    margin: 8px 0 10px;
+    font-size: 24px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse1 {
+    transform: translate(20%, 0px);
+    right: 0;
+    max-width: 130px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse2 {
+    transform: translate(220px, 220px);
+    max-width: 250px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse3 {
+    transform: translate(-40%, 135px);
+    left: 0;
+    max-width: 180px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-left-sided img {
+    width: 100%;
+    transform: translateX(94px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse4 {
+    transform: translate(295px, 125px);
+    width: 16px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(40px, 107px);
+    width: 16px;
+    left: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide1 .slide-left-sided img {
+    width: 100%;
+    transform: translateX(-90px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide div {
+    min-height: initial;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide2 .slide-right-sided {
+    margin-left: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slider-bg-icons img.slide-ellipse1 {
+    transform: translate(210px, -10px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slider-bg-icons img.slide-ellipse2 {
+    transform: translate(-130px, 270px);
+    max-width: 260px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slider-bg-icons img.slide-ellipse3 {
+    transform: translate(50%, 73%);
+    bottom: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slider-bg-icons img.slide-ellipse4 {
+    transform: translate(123px, 377px);
+    bottom: auto;
+    width: 16px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(-97px, 1px);
+    width: 16px;
+    right: 0;
+    bottom: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide3 {
+    flex-direction: column-reverse;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide3 .slide-right-sided {
+    text-align: right;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide3 .slide-right-sided .slide-right-content {
+    align-items: flex-end;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide3 .slide-right-sided .slide-right-content span:after {
+    left: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slider-bg-icons img.slide-ellipse1 {
+    transform: translate(50px, -20px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slider-bg-icons img.slide-ellipse2 {
+    transform: translate(105%, 350px);
+    max-width: 235px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slider-bg-icons img.slide-ellipse3 {
+    transform: translate(-47%, 250px);
+    max-width: 200px;
+    left: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide4 .slide-right-sided {
+    padding-left: 25px;
+    width: 100%;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views {
+    min-height: 580px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view {
+    min-height: 580px;
+    justify-content: space-between;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slide-left-sided {
+    transform: translate(0%, 0px) rotate(125deg);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slider-bg-icons img.slide-ellipse4 {
+    transform: translate(265px, -204px);
+    width: 16px;
+    bottom: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(33px, -125px);
+    width: 16px;
+    left: 0;
+    bottom: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide4 {
+    flex-direction: column-reverse;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide4 .slide-left-sided {
+    width: 100%;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide4 .slide-left-sided img {
+    max-width: 145px;
+    transform: translate(0px, 50px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse1 {
+    transform: translate(200px, 60px);
+    bottom: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse2 {
+    transform: translate(-90px, -40px);
+    max-width: 210px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse3 {
+    transform: translate(40%, 18%);
+    max-width: 180px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse4 {
+    transform: translate(110px, 38px);
+    width: 16px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(-60px, 182px);
+    width: 16px;
+  }
+
+  .pharma-slider .slider .slick-dots {
+    bottom: 10px;
+    // transform: rotate(90deg);
+    // left: -160px;
+    // top: 50%;
+    // left: -46.2%;
+    // height: 33px;
+  }
+
+  .landing-banner.pharma .landing-block {
+    overflow-x: hidden;
+    height: 100%;
+    min-height: 90vh;
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pharma-slider .slider .slick-dots button {
+    border: 2px solid #0066be;
+    border-radius: 50%;
+    background: #fff;
+    width: 16px;
+    height: 16px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background: transparent;
+  }
+
+  .pharma-slider .slick-dots li button:before {
+    font-size: 0;
+    line-height: 0;
+    content: "";
+    background: #0066be;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    top: 4px;
+    left: -4px;
+    right: 0;
+    margin: 0 auto;
+  }
+
+  .pharma-slider .slick-dots li.slick-active button:before {
+    opacity: 1;
+  }
+
+  .mudule-article-overview {
+    max-width: 215px;
+    width: 100%;
+    height: 215px;
+    padding: 16px 20px 18px;
+
+    h4 {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 11px;
+      line-height: 16px;
+    }
+
+    .btn {
+      padding: 5px 5px;
+      font-size: 12px;
+      min-width: 83px;
+      max-width: 83px;
+    }
+
+    img {
+      max-width: 32px;
+      margin-bottom: 4px;
+    }
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div {
+    width: 100%;
+    max-width: 295px;
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size .module-register {
+    max-width: 100%;
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size .module-register form .form-group {
+    margin: 0 0 32px;
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size .module-register form .form-group input.form-control {
+    font-size: 14px;
+    padding: 9px 10px 9px 35px;
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size .module-register form .form-group span {
+    top: 7px;
+  }
+
+  .modules-diagram .module-bigger-size .module-register .split-button-dropup>div:nth-child(3) {
+    height: 39px;
+  }
+
+  .modules-diagram .module-bigger-size .module-register .split-button-dropup div:nth-child(3)>div div[class*=-placeholder],
+  .modules-diagram .module-bigger-size .module-register .split-button-dropup div:nth-child(3)>div div {
+    font-size: 14px;
+  }
+
+  .modules-diagram .module-bigger-size .module-register form button {
+    font-size: 16px;
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size .module-register form .col-md-12 .form-group {
+    margin: -5px auto 25px;
+  }
+
+  .modules-diagram .module-bigger-size img.close {
+    top: 0px;
+    right: 180px;
+  }
+
+  .module-discribe.request .module-diagram.circle {
+    gap: 16px 19px;
+  }
+
+  .consent-content .works-started .module-discribe p {
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: 15px;
+  }
+
+  .request-content form input.form-control {
+    max-width: 100%;
+  }
+
+  .request-content .form-feilds {
+    flex-direction: column;
+  }
+
+  .request-content .form-feilds .col-md-6 {
+    width: 100%;
+    margin: 12px 0 12px;
+  }
+
+  .request-content .form-feilds .col-md-6:nth-child(2n) .form-group span {
+    left: 17px;
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show .submit-section {
+    width: 343px;
+    height: 343px;
+    background: $white;
+    box-shadow: 0px 0px 24px 0px rgba(0, 0, 60, 0.50);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .submit-section img {
+    width: 80px;
+  }
+
+  .submit-section h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .submit-section p {
+    font-size: 14px;
+    margin: 0 0 32px;
+    padding: 0 20px;
+    line-height: 18px;
+  }
+
+  .submit-section button.btn {
+    min-width: 100px;
+    font-size: 14px;
+    padding: 8px 14px;
+  }
+
+  .header-forgot .modal-title.h4 {
+    color: #004A89;
+    font-size: 20px;
+  }
+
+  .header-forgot .modal-header {
+    padding: 0px 11px 10px;
   }
 }
 
