@@ -415,7 +415,7 @@ const CommonAddEventModel = ({
                                 <input
                                   type="text"
                                   name="client_stream_url"
-                                  placeholder="Event Title"
+                                  placeholder="Event url"
                                   className={
                                     error?.client_stream_url
                                       ? "form-control error"
