@@ -19,12 +19,12 @@ const EventModelValidation = (data) => {
   if (!data?.dateStart) {
     error.dateStart = "Please select event date";
   }
-  if (!data?.dateStartHour) {
+  if (!data?.dateStartHour || !data?.dateStartMin?.toString()) {
     error.dateStartHour = "Please select event start time";
   }
-  // if (!data?.dateEndHour?.value) {
-  //   error.dateEndHour = "Please select event end time";
-  // }
+  if (!data?.dateEndHour || !data?.dateEndMin?.toString()) {
+    error.dateEndHour = "Please select event end time";
+  }
   if (!data?.event_code) {
     error.event_code = "Please select event code";
   }

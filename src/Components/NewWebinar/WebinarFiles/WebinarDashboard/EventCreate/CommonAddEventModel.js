@@ -62,54 +62,29 @@ const CommonAddEventModel = ({
     { label: "55 ", value: "55" },
   ]);
   const [eventInputs, setEventInputs] = useState({
-    // title: "",
-    // eventDate: "",
-    // eventCode: "",
-    // eventDescription: "",
+    dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+    title: "",
+    type: "",
+    timezone: "",
+    country_timezone: "",
+    is_client_stream: "",
+    dateStartHour: "",
+    dateStartMin: "",
+    dateEndHour: "",
+    dateEndMin: "",
+    event_code: "",
+    description: "",
   });
-  const [error, setError] = useState();
+  const [error, setError] = useState({});
 
   const [countryTimezone, setCountryTimezone] = useState([]);
-  // [webinarDetail?.countryTimezone]
-  //   [
-  //   { label: "Africa/Johannesburg", value: "Africa/Johannesburg" },
-  //   { label: "America/Chicago", value: "America/Chicago" },
-  //   { label: "America/Mexico_City", value: "America/Mexico_City" },
-  //   { label: "America/New_York", value: "America/New_York" },
-  //   { label: "Asia/Kolkata", value: "Asia/Kolkata" },
-  //   { label: "Asia/Singapore", value: "Asia/Singapore" },
-  //   { label: "Europe/Albania", value: "Europe/Albania" },
-  //   { label: "Europe/Amsterdam", value: "Europe/Amsterdam" },
-  //   { label: "Europe/AmsterdamORG", value: "Europe/AmsterdamORG" },
-  //   { label: "Europe/London", value: "Europe/London" },
-  //   { label: "Europe/Tallinn", value: "Europe/Tallinn" },
-  //   { label: "europe/tirane", value: "europe/tirane" },
-  // ]
 
   const [clientStreamOptions, setClientStreamOptions] = useState([
     { label: "Yes", value: "1" },
     { label: "No", value: "0" },
   ]);
-  const [timezoneOptions, setTimezoneOptions] = useState([
-    // webinarDetail?.timezoneName,
-    // { label: "BST", value: "BST" },
-    // { label: "CDT", value: "CDT" },
-    // { label: "CEST", value: "CEST" },
-    // { label: "CET", value: "CET" },
-    // { label: "CST", value: "CST" },
-    // { label: "EEST", value: "EEST" },
-    // { label: "EST", value: "EST" },
-    // { label: "IST", value: "IST" },
-    // { label: "SAST", value: "SAST" },
-    // { label: "SGT", value: "SGT" },
-    // { label: "UTC", value: "UTC" },
-  ]);
-  const [buOptions, setBUOptions] = useState([
-    // webinarDetail?.ibu,
-    // { label: "Hematology", value: "Hematology" },
-    // { label: "Critical care", value: "Critical care" },
-    // { label: "Immunotherapy", value: "Immunotherapy" },
-  ]);
+  const [timezoneOptions, setTimezoneOptions] = useState([]);
+  const [buOptions, setBUOptions] = useState([]);
   useEffect(() => {
     setCountryTimezone(webinarDetail?.countryTimezone);
     setBUOptions(webinarDetail?.ibu);
@@ -123,7 +98,7 @@ const CommonAddEventModel = ({
         type: data?.type,
         timezone: data?.timezone,
         country_timezone: data?.country_timezone,
-        is_client_stream: data?.is_client_stream,
+        is_client_stream: data?.is_client_stream == 1 ? "Yes" : "No",
         dateStart: data?.dateStart,
         dateStartHour: data?.dateStartHour,
         dateStartMin: data?.dateStartMin,
@@ -132,8 +107,6 @@ const CommonAddEventModel = ({
         event_code: data?.event_code,
         description: data?.description ? data?.description : "",
       });
-    } else {
-      setEventInputs({});
     }
   }, [show]);
   const handleClose = () => {
@@ -164,12 +137,12 @@ const CommonAddEventModel = ({
           type: eventInputs?.type,
           timezone: eventInputs?.timezone,
           countryTimezone: eventInputs?.country_timezone,
-          isClientStream: eventInputs?.is_client_stream,
+          isClientStream: eventInputs?.is_client_stream == "Yes" ? 1 : 0,
           dateStart: eventInputs?.dateStart,
           dateStartHour: eventInputs?.dateStartHour,
           dateStartMin: eventInputs?.dateStartMin,
-          dateEndHour: eventInputs?.dateEndHour ? eventInputs?.dateEndHour : "",
-          dateEndMin: eventInputs?.dateEndMin ? eventInputs?.dateEndMin : "",
+          dateEndHour: eventInputs?.dateEndHour,
+          dateEndMin: eventInputs?.dateEndMin,
           eventCode: eventInputs?.event_code,
           description: eventInputs?.description ? eventInputs?.description : "",
         };
@@ -186,6 +159,7 @@ const CommonAddEventModel = ({
         onClose(false);
         setEventInputs({});
         handleSubmit();
+        setError({});
       } catch (err) {
         console.log("--err", err);
       } finally {
@@ -394,18 +368,18 @@ const CommonAddEventModel = ({
                                     : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                 }
                                 onChange={(e) =>
-                                  handleChange(e?.value, "is_client_stream")
+                                  handleChange(e?.label, "is_client_stream")
                                 }
                                 value={
                                   clientStreamOptions?.findIndex(
                                     (item) =>
-                                      item?.value ==
+                                      item?.label ==
                                       eventInputs?.is_client_stream
                                   ) != -1
                                     ? clientStreamOptions[
                                         clientStreamOptions?.findIndex(
                                           (item) =>
-                                            item?.value ==
+                                            item?.label ==
                                             eventInputs?.is_client_stream
                                         )
                                       ]
@@ -425,17 +399,15 @@ const CommonAddEventModel = ({
                               <label htmlFor="">
                                 Event Date <span> *</span>
                               </label>
+                              {console.log("--->", eventInputs?.dateStart)}
                               <DatePicker
-                                type="text"
                                 name="dateStart"
-                                dateFormat="dd/MM/yyyy"
                                 className={
                                   error?.dateStart
                                     ? "form-control error"
                                     : "form-control"
                                 }
                                 placeholderText="Event Date"
-                                // selected={eventInputs?.dateStart}
                                 selected={
                                   eventInputs?.dateStart
                                     ? new Date(eventInputs?.dateStart)
@@ -445,8 +417,10 @@ const CommonAddEventModel = ({
                                         )
                                       )
                                 }
-                                onChange={(e) => handleChange(e, "dateStart")}
-                                isClearable
+                                onChange={(date) =>
+                                  handleChange(date, "dateStart")
+                                }
+                                dateFormat="dd/MM/yyyy"
                               />
                               {error?.dateStart ? (
                                 <div className="login-validation">
@@ -493,14 +467,15 @@ const CommonAddEventModel = ({
                                   {error?.dateStartHour}
                                 </div>
                               ) : null}
-                              {console.log(
-                                "start time-->",
-                                eventInputs?.dateStartMin
-                              )}
 
                               <Select
                                 options={timeMinutes}
-                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                className={
+                                  error?.dateEndHour
+                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                }
                                 onChange={(e) =>
                                   handleChange(e?.value, "dateStartMin")
                                 }
@@ -537,7 +512,7 @@ const CommonAddEventModel = ({
                                   handleChange(e?.value, "dateEndHour")
                                 }
                                 value={
-                                  timeHours.findIndex(
+                                  timeHours?.findIndex(
                                     (item) =>
                                       item?.value == eventInputs?.dateEndHour
                                   ) != -1
@@ -559,7 +534,12 @@ const CommonAddEventModel = ({
                               ) : null}
                               <Select
                                 options={timeMinutes}
-                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                className={
+                                  error?.dateEndHour
+                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                }
                                 onChange={(e) =>
                                   handleChange(e?.value, "dateEndMin")
                                 }
