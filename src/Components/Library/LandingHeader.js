@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Container, Form, FormGroup, Row } from "react-bootstrap";
 import { Link ,useNavigate} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
+import CryptoJS from 'crypto-js';
+
 
 const LandingHeader = () => {
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ const LandingHeader = () => {
   const [email, setEmail] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const [loginerrors, setLoginerrors] = useState("");
   const [privacyshow, setPrivacyshow] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,8 +27,37 @@ const LandingHeader = () => {
   const [addPasswordClass, setAddPasswordClass] = useState(false);
   const [addEmailClass, setAddEmailClass] = useState(false);
   const [passshow, setPassShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+    setShowError(false);
+    setShowUserNameError('');
+    setShowPasswordError('');
+    setAddNameClass(false);
+    setAddPasswordClass(false);
+  }
   const handleShow = () => setShow(true);
+  const SECRET_KEY = 'XkhZG4fW2t2W'; 
+
+  useEffect(() => {
+    if (localStorage.getItem("uname") && localStorage.getItem("pass")) {
+      setRememberMe(true);
+      const rememberedUsername = localStorage.getItem('uname');
+      const rememberedPassword = localStorage.getItem('pass');
+
+      if (rememberedUsername && rememberedPassword) {
+        decryptData(rememberedUsername).then(decryptedUsername => {
+          let unquotedStr = decryptedUsername.replace(/^"(.*)"$/, '$1');
+          setUsername(unquotedStr);
+        });
+  
+        decryptData(rememberedPassword).then(decryptedPassword => {
+          let unquotedStr = decryptedPassword.replace(/^"(.*)"$/, '$1');
+          setPassword(unquotedStr);
+        });
+      }
+    }
+  }, []);
 
   const handleModalShow = (type) => {
     if (type == "forgot") {
@@ -36,7 +68,15 @@ const LandingHeader = () => {
 
   const handleModalClose = (type) => {
     if (type == "forgot") {
+      setErrorMsg("");
+      setAddEmailClass(false)
       setShowModal(false);
+      setShow(false);
+      setShowError(false);
+      setShowUserNameError('');
+      setShowPasswordError('');
+      setAddNameClass(false);
+      setAddPasswordClass(false);
     } 
   };
 
@@ -57,15 +97,28 @@ const LandingHeader = () => {
           setShowPasswordError("Please enter a valid password");
           setAddPasswordClass(true); 
         } else {
-          setShowError(null);
+          setShowError(false);
           loader("show");
           try {
+
             const res = await postData(ENDPOINT.LOGIN, {
               email: username,
               password: password,
             });
-    
-            localStorage.clear();
+            // localStorage.clear();
+            clearLocalStorageExcept();
+            if (rememberMe == true) {
+              const encryptedUsername = await encryptData(username);
+              
+              const encryptedPassword = await encryptData(password)
+
+              localStorage.setItem("uname", encryptedUsername);
+              localStorage.setItem("pass", encryptedPassword);
+            } else {
+              localStorage.removeItem("uname");
+              localStorage.removeItem("pass");
+            }
+
             localStorage.setItem("user_id", res?.data?.data?.userToken);
             localStorage.setItem("group_id", res?.data?.data?.groupId);
             localStorage.setItem("webinar_flag", res?.data?.data?.webinar_flag);
@@ -79,7 +132,7 @@ const LandingHeader = () => {
             }
           } catch (err) {
             console.log(err);
-            setShowError(err?.response?.data?.message);
+            setLoginerrors(err?.response?.data?.message);
             loader("hide");
           }
         }
@@ -118,8 +171,37 @@ const LandingHeader = () => {
       const toggleState = () => {
         setPassShow(!passshow);
       };
+
+      const rememberMeClicked = (e) => {
+        setRememberMe(e.target.checked);
+      };
+
+      const clearLocalStorageExcept = () => {
+        const keysToKeep = ['uname', 'pass']; 
+        for (let i = localStorage.length - 1; i >= 0; i--) {
+          const key = localStorage.key(i);
+          if (!keysToKeep.includes(key)) {
+            localStorage.removeItem(key);
+          }
+        }
+      }
+
+      const encryptData = async (data) => {
+        const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), SECRET_KEY).toString();
+        return encrypted;
+      };
+
+      const decryptData = async (encrypted) => {
+        const decrypted = CryptoJS.AES.decrypt(encrypted, SECRET_KEY).toString(CryptoJS.enc.Utf8);
+        return decrypted;
+      };
   return (
     <>
+      <div className="loader" id="custom_loader">
+        <div className="loader_show">
+          <span className="loader-view"> </span>
+        </div>
+      </div>
       <div className="header-landing" sticky="top">
         <Container>
           <Row>
@@ -140,10 +222,11 @@ const LandingHeader = () => {
         </Container>
       </div>
 
-      <Modal show={show} onHide={handleClose} className='login-confirm' id="download-qr" aria-labelledby="contained-modal-title-vcenter"
+      <Modal show={show}  className='login-confirm' id="download-qr" aria-labelledby="contained-modal-title-vcenter"
       centered>
-        <Modal.Header closeButton>
+        <Modal.Header >
           <Modal.Title>Login</Modal.Title>
+          <button type="button" className="btn-close" aria-label="Close" onClick={handleClose}></button>
         </Modal.Header>
         <Modal.Body>
             <Form onSubmit={handleLogin}>
@@ -152,7 +235,7 @@ const LandingHeader = () => {
                         <input
                         type="text"
                         name="email"
-                        placeholder="Email"
+                        placeholder="Username"
                         value={username}
                         onChange={(event) => {setUsername(event.target.value); setShowUserNameError(null); setAddNameClass(false); }}
                         className="form-control" />
@@ -179,12 +262,17 @@ const LandingHeader = () => {
                     <div className="form-check">
                         <input
                         type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => {
+                          rememberMeClicked(e);
+                        }}
                         className="form-check-input"
                         id="check-remember"
                         />
                         <label className="form-check-label" for="check-remember">Remember me</label>
                     </div>
                 </FormGroup>
+                {loginerrors && <p className="error-msg">{loginerrors}</p>}
               <button type="submit" className="btn btn-primary save btn-filled">
                 Login
               </button>
@@ -198,11 +286,11 @@ const LandingHeader = () => {
 
       <Modal
         show={showModal}
-        onHide={(e) => handleModalClose("forgot")}
         className="header-forgot"
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>Reset Your Password</Modal.Title>
+          <button type="button" className="btn-close" aria-label="Close" onClick={(e) => handleModalClose("forgot")}></button>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={onSendEmail}>
