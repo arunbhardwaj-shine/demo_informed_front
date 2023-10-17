@@ -1195,6 +1195,7 @@ const PharmaRd = () => {
       </div>
       <LandingSliderSection/>
       <div className="consent-content">
+      <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
         <Container>
           <Row>
             <div className="consent-content-inner">
@@ -2227,8 +2228,9 @@ const PharmaRd = () => {
 
 
                    {/* <-------- MOBILE VIEW --------->*/}
-
-                 {/* {showBigCircleData && !registerPage && (
+                   <div className="mobile-slider">
+                <div className="mobile-slider-inset">
+                 {showBigCircleData && !registerPage && (
                     
                     <Slider
                       {...sliderSettings}
@@ -2266,6 +2268,7 @@ const PharmaRd = () => {
                               {bigCircleModuleData?.paragraph}
                             </p>
                           </div>
+                          <div><h6>Swipe for Key Features >></h6></div>
                         </div>
                       </div>
 
@@ -2328,8 +2331,10 @@ const PharmaRd = () => {
                     </Slider>
                   
                   )}
+                  </div>
+                  </div>
 
-                  {!showBigCircleData && !submitData && (
+                  {/* {!showBigCircleData && !submitData && (
                     <div className="request-content">
                       <Form>
                         <h4>Module Request</h4>
@@ -2460,7 +2465,6 @@ const PharmaRd = () => {
                       </Button>
                     </div>
                   )} */}
-
                   {/* <------- Uncomment these above 4 divs to see the slider and  do display none to the above module describe div  ---------> */}
 
                   <div class="shape shape-right"></div>
@@ -2471,7 +2475,7 @@ const PharmaRd = () => {
           </Row>
         </Container>
       </div>
-      <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
+
       <div className="contact-us pharma publish">
         <Container>
           <Row>

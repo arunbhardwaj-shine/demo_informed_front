@@ -70,7 +70,7 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                         <h1>Predictive Relationship Builder!</h1>
                     </div>
                     <div className='landing-sub-heading'><h4>Connecting content & consent with intelligent predictions<br/><br/>
-The right materials reaching the right person at the right time</h4></div>
+                    Allowing the right materials, to reach the right person, at the right time</h4></div>
                 </div>
             </Row>
         </Container>

@@ -89,7 +89,7 @@ const PharmaMarketing = () => {
       icon: "artificial-intelligence-icon.svg",
       title: "AI Prediction Tool",
       description:
-        "AI can assist in predicting personalized content for each HCP based on individualized behavior and collective patterns.",
+        "AI can assist in predicting personalized content for each HCP - based on individualized behavior and collective patterns.",
     },
     {
       id: 6,
@@ -1443,7 +1443,7 @@ const PharmaMarketing = () => {
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                  <strong>Consent & content</strong> underpins all our modules. So you can connect the data you collect in unprecedented always - whether it's for automating tasks, reporting, analytics, or predictions - and always with consent.
+                  Consent & content data is at the foundation of all our modules. This allows you to connect the data you collect in unprecedented ways, whether it's for automating tasks, reporting, analytics, or predictions, always with consent.
                 </h5>
               </div>
               <div className="consent-details">
@@ -2768,11 +2768,11 @@ const PharmaMarketing = () => {
 
                   {/* <-------- MOBILE VIEW --------->*/}
                 <div className="mobile-slider">
+                <div className="mobile-slider-inset">
                  {showBigCircleData && !registerPage && (
                     
                     <Slider
                       {...sliderSettings}
-                      style={{ width: "770px", padding: "0px" }}
                     >
                       <div
                         className={`module-discribe ${
@@ -2806,6 +2806,7 @@ const PharmaMarketing = () => {
                               {bigCircleModuleData?.paragraph}
                             </p>
                           </div>
+                          <div><h6>Swipe for Key Features >></h6></div>
                         </div>
                       </div>
 
@@ -3001,6 +3002,7 @@ const PharmaMarketing = () => {
                     </div>
                   )} 
                  */}
+                 </div>
                  </div>
                   {/* <------- Uncomment these above 4 divs to see the slider and  do display none to the above module describe div  ---------> */}
 
