@@ -1037,7 +1037,14 @@ const PharmaRd = () => {
   const [readStatus, setReadStatus] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
+  const sliderSettings = {
+    infinite: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: true,
+    centerMode: true,
+  };
   return (
     <>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
