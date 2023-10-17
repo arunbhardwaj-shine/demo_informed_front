@@ -18297,6 +18297,8 @@ img.change-password-image {
   .modules-diagram .module-bigger-size img.close {
     top: 0px;
     right: 180px;
+    filter: brightness(0) invert(1);
+    width: 16px;
   }
 
   .module-discribe.request .module-diagram.circle {
