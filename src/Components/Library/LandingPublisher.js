@@ -12,7 +12,6 @@ import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-import LandingSliderSection from "./LandingSliderSection";
 
 const PharmaRd = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -120,6 +119,15 @@ const PharmaRd = () => {
       title: "Webinar Portal",
       description:
         "Enhance your clients' webinars with personalised branding and interactive features like live polls and questions",
+    },
+
+    {
+      id: 10,
+      style: "11",
+      active: false,
+      icon: "survey-icon.svg",
+      title: "Survey Engine",
+      description: "Listen to the most important opinion - your HCPs!.",
     },
   ];
 
@@ -406,6 +414,36 @@ const PharmaRd = () => {
         },
         {
           keyFeature: "Learn who stayed and engaged to prove",
+          subKeyFeatures: []
+        },
+      ],
+    },
+
+    {
+      id: 10,
+      active: false,
+      logo: "survey-icon.svg",
+      title: <span style={{ color: "#5058AA" }}>Survey Engine</span>,
+      image: "survey-engine-min.png",
+      ppt:"../../../componentAssets/images/pharmaPpt/survey.pptx",
+      description:
+        "Reveal valuable HCP insights with custom surveys.Create your questions, target specific segments and instantly gain deeper understanding about each HCP by seeing their answers. The survey engine syncs with the CRM data and the email module enables easy resend to non-openers - integrate with AutoMail for efficiency.",
+      para: "",
+      features: [
+        {
+          keyFeature: "Gain invaluable real-time feedback from your HCPs",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Customise your survey - let your brand shine through at every point",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Integrate into your pages - creating a seamless experience",
+          subKeyFeatures: []
+        },
+        {
+          keyFeature: "Build better data for your AI",
           subKeyFeatures: []
         },
       ],
@@ -1037,6 +1075,63 @@ const PharmaRd = () => {
   const [readStatus, setReadStatus] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const sliderRef = useRef();
+  const parentRef = useRef("");
+  useEffect(() => {
+    if (!parentRef.current) {
+      return;
+    }
+
+    parentRef.current.addEventListener("wheel", (e) => {
+      handleScroll(e);
+    });
+  }, [parentRef]);
+  const handleScroll = (e) => {
+    let sliderLength = sliderRef.current.props.children.length;
+
+    var element = document.getElementsByClassName("slick-active")[0];
+    var activeSlide = element.getAttribute("data-index");
+
+    if (
+      (e.deltaY < 0 && activeSlide == 0) ||
+      (e.deltaY > 0 && activeSlide == sliderLength - 1)
+    ) {
+      return;
+    }
+
+    e.preventDefault();
+
+    if (e.deltaY < 0) {
+      let a = sliderRef.current.slickPrev();
+    } else {
+      let a = sliderRef.current.slickNext();
+    }
+  };
+
+  const settings = {
+    infinite: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    arrows: false,
+    centerMode: true,
+    centerPadding: "0%",
+    fade: true,
+    speed: 2000,
+    responsive: [
+        {
+          breakpoint: 558,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: true,
+            arrows: true
+          }
+        }
+      ]
+  };
+
   const sliderSettings = {
     infinite: false,
     slidesToShow: 1,
@@ -1200,7 +1295,252 @@ const PharmaRd = () => {
             </Row>
         </Container>
       </div>
-      <LandingSliderSection/>
+      <div className="pharma-slide">
+        <div className="pharma-slider">
+          <div className="slider" ref={parentRef}>
+            <div className="add-space top"></div>
+            <Slider {...settings} ref={sliderRef}>
+              <div className="slider-in">
+                <div className="slider-in-views">
+                  <img src={path_image + "informed-logo-slide.svg"} alt="" />
+                  <div className="slider-bg-icons">
+                    <img
+                      src={path_image + "ellipse-bg1.png"}
+                      alt=""
+                      className="slide-ellipse1"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg2.png"}
+                      alt=""
+                      className="slide-ellipse2"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg3.png"}
+                      alt=""
+                      className="slide-ellipse3"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg4.png"}
+                      alt=""
+                      className="slide-ellipse4"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg5.png"}
+                      alt=""
+                      className="slide-ellipse5"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg6.png"}
+                      alt=""
+                      className="slide-ellipse6"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="slider-in">
+                <div className="slider-in-view slide1">
+                  <div className="slide-left-sided d-flex align-items-start">
+                    <img src={path_image + "arrow-slide1.png"} alt="" />
+                  </div>
+                  <div className="slide-right-sided">
+                    <div className="slide-right-content">
+                      <span className="add-shadow"><img src={path_image + "logo-shape1.png"} alt="" /></span>
+                      <h3>Content</h3>
+                      <h5>
+                        Create a library of all your content and easily
+                        distribute it. We collect deep data, tracking what HCPs
+                        have opened, what pages they’ve read and how much time
+                        they’ve spent on them.
+                      </h5>
+                    </div>
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img
+                      src={path_image + "ellipse-bg1.png"}
+                      alt=""
+                      className="slide-ellipse1"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg2.png"}
+                      alt=""
+                      className="slide-ellipse2"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg3.png"}
+                      alt=""
+                      className="slide-ellipse3"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg4.png"}
+                      alt=""
+                      className="slide-ellipse4"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg5.png"}
+                      alt=""
+                      className="slide-ellipse5"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg6.png"}
+                      alt=""
+                      className="slide-ellipse6"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="slider-in">
+                <div className="slider-in-view slide2">
+                  <div className="slide-right-sided">
+                    <div className="slide-right-content">
+                      <span className="add-shadow"><img src={path_image + "logo-shape2.png"} alt="" /></span>
+                      <h3>Consent</h3>
+                      <h5>
+                        Effortlessly customize consent to match your clients and preferences. 
+                        The correct consent empowers your client to gather unparalleled data,
+                         providing insights into HCP'c reading habita and boosting their engagement success.
+                      </h5>
+                    </div>
+                  </div>
+                  <div className="slide-left-sided">
+                    <img src={path_image + "arrow-slide2.png"} alt="" />
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img
+                      src={path_image + "ellipse-bg1.png"}
+                      alt=""
+                      className="slide-ellipse1"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg2.png"}
+                      alt=""
+                      className="slide-ellipse2"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg3.png"}
+                      alt=""
+                      className="slide-ellipse3"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg4.png"}
+                      alt=""
+                      className="slide-ellipse4"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg5.png"}
+                      alt=""
+                      className="slide-ellipse5"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg6.png"}
+                      alt=""
+                      className="slide-ellipse6"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="slider-in">
+                <div className="slider-in-view slide3">
+                  <div className="slide-left-sided">
+                    <img src={path_image + "arrow-slide2.png"} alt="" />
+                  </div>
+                  <div className="slide-right-sided">
+                    <div className="slide-right-content">
+                      <span className="add-shadow"><img src={path_image + "logo-shape3.png"} alt="" /></span>
+                      <h3>Delivery</h3>
+                      <h5>
+                       ePrints success hinges on clients distributing content to HCPs . We provide free distribution tools
+                        and analytics dashboard to track effective channels-all included with every ePrint.
+                      </h5>
+                    </div>
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img
+                      src={path_image + "ellipse-bg1.png"}
+                      alt=""
+                      className="slide-ellipse1"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg2.png"}
+                      alt=""
+                      className="slide-ellipse2"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg3.png"}
+                      alt=""
+                      className="slide-ellipse3"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg4.png"}
+                      alt=""
+                      className="slide-ellipse4"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg5.png"}
+                      alt=""
+                      className="slide-ellipse5"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg6.png"}
+                      alt=""
+                      className="slide-ellipse6"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="slider-in">
+                <div className="slider-in-view slide4">
+                  <div className="slide-right-sided">
+                    <div className="slide-right-content">
+                      <h3>Service</h3>
+                      <h5>
+                       Saying Yes to clients and delievering quickly is a lot mor enjoylable. We have automated
+                      the majority of he eprints process, and for the remmaning  5% of unique customisation requests, we can turn them around in just one day.
+                     <h5> Our commitement is to keep your clients happy and staisfied. </h5>
+                      </h5>
+                    </div>
+                  </div>
+                  <div className="slide-left-sided">
+                    <img src={path_image + "informed-logo-slide.svg"} alt="" />
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img
+                      src={path_image + "ellipse-bg1.png"}
+                      alt=""
+                      className="slide-ellipse1"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg2.png"}
+                      alt=""
+                      className="slide-ellipse2"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg3.png"}
+                      alt=""
+                      className="slide-ellipse3"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg4.png"}
+                      alt=""
+                      className="slide-ellipse4"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg5.png"}
+                      alt=""
+                      className="slide-ellipse5"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg6.png"}
+                      alt=""
+                      className="slide-ellipse6"
+                    />
+                  </div>
+                </div>
+              </div>
+            </Slider>
+            <div className="add-space bottom"></div>
+          </div>
+        </div>
+      </div>
       <div className="consent-content">
       <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
         <Container>
@@ -1248,7 +1588,7 @@ const PharmaRd = () => {
               <div className="modules-diagram publish">
                 <div
                   className={`circle ${readStatus ? "bigger" : ""}`}
-                  style={{ "--total": "9" }}
+                  style={{ "--total": "10" }}
                 >
                   <div
                     className={
@@ -1428,6 +1768,24 @@ const PharmaRd = () => {
                   >
                     <img src={path_image + "webinar-small-icon.svg"} alt="" />
                     <span>Webinar Portal</span>
+                    <div className="article-close">
+                      <img src={path_image + "close-button.svg"} alt="" />
+                    </div>
+                  </div>
+
+                  <div
+                    className={
+                      activeModule === "survey"
+                        ? "stat survey visible"
+                        : activeModule === "qa" || activeModule === "engine"
+                        ? "stat survey active"
+                        : "stat survey"
+                    }
+                    onClick={() => handleClick("survey", 9)}
+                    style={{ "--i": "10" }}
+                  >
+                    <img src={path_image + "survey-icon.svg"} alt="" />
+                    <span>Survey Engine</span>
                     <div className="article-close">
                       <img src={path_image + "close-button.svg"} alt="" />
                     </div>
@@ -1939,7 +2297,7 @@ const PharmaRd = () => {
                     {modulesSelect && !registerPage &&(
                     <div
                       className="module-diagram circle pharma_market publisher"
-                      style={{ "--total": "19" }}
+                      style={{ "--total": "20" }}
                     >
                       <div
                         className={
@@ -2170,6 +2528,32 @@ const PharmaRd = () => {
                       </div>
 
                       <div
+                            className={
+                              selectedModules.includes("survey") ||
+                              activeModule === "survey"
+                                ? "stat survey visible"
+                                : activeModule === "qa" ||
+                                  activeModule === "engine"
+                                ? "stat survey active"
+                                : "stat survey"
+                            }
+                            onClick={() => handleBigCircleClick("survey", 9)}
+                            style={{ "--i": "14" }}
+                          >
+                            <img src={path_image + "survey-icon.svg"} alt="" />
+                            <span>Survey Engine</span>
+                            {activeModule === "survey" && (
+                              <div className="article-close">
+                                <img
+                                  src={path_image + "close-button.svg"}
+                                  alt=""
+                                  onClick={handleBigCircleClose}
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                      <div
                         className={
                           selectedModules.includes("read") || activeModule === "read"
                             ? "stat read visible"
@@ -2178,7 +2562,7 @@ const PharmaRd = () => {
                             ? "stat read active"
                             : "stat read"
                         }
-                        style={{ "--i": "14" }}
+                        style={{ "--i": "15" }}
                         onClick={() => handleBigCircleClick("read", 0)}
                       >
                         <img src={path_image + "RTR-icon.svg"} alt="" />
@@ -2235,19 +2619,18 @@ const PharmaRd = () => {
 
 
                    {/* <-------- MOBILE VIEW --------->*/}
-                   <img
+                   {/* <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
                       alt=""
                       onClick={handleBigCircleClose}
-                    />
+                    /> */}
                    <div className="mobile-slider">
                 <div className="mobile-slider-inset">
                  {showBigCircleData && !registerPage && (
                     
                     <Slider
                       {...sliderSettings}
-                      style={{ width: "770px", padding: "0px" }}
                     >
                       <div
                         className={`module-discribe ${
@@ -2328,153 +2711,14 @@ const PharmaRd = () => {
                                   />
                                 </Link>
                               </div>
-                           
-
-                             
-                   
-                
                           </div>
                         </div>
                       </div>
                     </Slider>
                   
                   )}
-                  </div>
-                  </div>
-
-                  {/* {!showBigCircleData && !submitData && (
-                    <div className="request-content">
-                      <Form>
-                        <h4>Module Request</h4>
-                        <p>
-                          Please tell us what you would like to know more about.
-                        </p>
-                        <Row>
-                          <Col md="12">
-                            <div className="form-group">
-                              <textarea
-                                placeholder="Type Your Message.."
-                                name="message"
-                                value={
-                                  moduleFormInputs?.message
-                                    ? moduleFormInputs?.message
-                                    : ""
-                                }
-                                onChange={handleModuleFormChange}
-                              ></textarea>
-                            </div>
-                            {!formFeilds && (
-                              <div className="form-group click-link">
-                                <FormLabel>
-                                  If you want to enter new contact details{" "}
-                                  <span onClick={handleFormClick}>
-                                    Click here
-                                  </span>
-                                </FormLabel>
-                              </div>
-                            )}
-                          </Col>
-
-                          {formFeilds && (
-                            <div className="form-feilds d-flex">
-                              <Col md="6">
-                                <div className="form-group">
-                                  <input
-                                    type="email"
-                                    placeholder="Email"
-                                    name="secondaryEmail"
-                                    className="form-control"
-                                    value={
-                                      moduleFormInputs?.secondaryEmail
-                                        ? moduleFormInputs?.secondaryEmail
-                                        : ""
-                                    }
-                                    onChange={handleModuleFormChange}
-                                  />
-                                  <span>
-                                    <svg
-                                      width="20"
-                                      height="20"
-                                      viewBox="0 0 20 20"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
-                                        d="M19.5428 4.05714L10.2285 9.6C10.1598 9.63751 10.0829 9.65717 10.0047 9.65717C9.92644 9.65717 9.84948 9.63751 9.78084 9.6L0.457031 4.05714C0.685807 3.73138 0.989475 3.46532 1.34249 3.28136C1.6955 3.09739 2.08753 3.0009 2.4856 3H17.5142C17.9122 3.0009 18.3043 3.09739 18.6573 3.28136C19.0103 3.46532 19.314 3.73138 19.5428 4.05714ZM10.7048 10.392L19.9333 4.90625C19.9775 5.09675 19.9999 5.29165 20 5.4872V14.8015C20 15.4607 19.7381 16.093 19.2719 16.5592C18.8058 17.0253 18.1735 17.2872 17.5143 17.2872H2.48571C1.82646 17.2872 1.19421 17.0253 0.728049 16.5592C0.261887 16.093 0 15.4607 0 14.8015V5.4872C0.000141946 5.29165 0.0225076 5.09675 0.0666666 4.90625L9.30476 10.392C9.5179 10.5139 9.7592 10.5781 10.0048 10.5781C10.2503 10.5781 10.4916 10.5139 10.7048 10.392Z"
-                                        fill="#97B6CF"
-                                        fill-opacity="0.56"
-                                      />
-                                    </svg>
-                                  </span>
-                                </div>
-                              </Col>
-                              <Col md="6">
-                                <div className="form-group">
-                                  <input
-                                    type="number"
-                                    placeholder="Phone"
-                                    name="secondaryPhone"
-                                    className="form-control"
-                                    value={
-                                      moduleFormInputs?.secondaryPhone
-                                        ? moduleFormInputs?.secondaryPhone
-                                        : ""
-                                    }
-                                    onChange={handleModuleFormChange}
-                                  />
-                                  <span>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="20"
-                                      height="20"
-                                      viewBox="0 0 20 20"
-                                      fill="none"
-                                    >
-                                      <path
-                                        d="M19.5763 15.4867C19.3052 15.1839 18.4716 14.4293 17.8747 13.9796C17.2888 13.5191 16.329 12.8961 15.9552 12.7031C15.3446 12.3855 14.4247 12.4211 13.8532 12.805C13.3836 13.1319 12.9486 13.506 12.5552 13.9214L12.5466 13.9304C12.3317 14.1575 12.0432 14.3008 11.7324 14.3347C11.4217 14.3687 11.109 14.2912 10.8501 14.116C9.87673 13.4522 8.96826 12.698 8.13683 11.8632C7.30211 11.0318 6.54785 10.1233 5.88409 9.14996C5.70887 8.89109 5.63134 8.57839 5.66533 8.26764C5.69931 7.95691 5.84261 7.66835 6.06964 7.45348L6.07862 7.44488C6.49412 7.05147 6.86821 6.61651 7.19503 6.14684C7.57901 5.57535 7.61456 4.65543 7.29698 4.04488C7.10401 3.67145 6.48097 2.71285 6.02042 2.12535C5.57042 1.52848 4.81612 0.694883 4.51339 0.423789C4.01925 -0.0215235 3.18448 -0.137539 2.60206 0.179648C2.11284 0.457493 1.65453 0.786556 1.23487 1.16129L1.19073 1.20035C-1.38427 3.41559 0.311045 9.59879 5.35987 14.6379C10.4017 19.6875 16.5833 21.3839 18.7985 18.8089L18.8376 18.7648C19.2125 18.3452 19.5415 17.8869 19.8192 17.3976C20.1376 16.8156 20.0216 15.9808 19.5763 15.4867Z"
-                                        fill="#97B6CF"
-                                        fill-opacity="0.56"
-                                      />
-                                    </svg>
-                                  </span>
-                                </div>
-                              </Col>
-                            </div>
-                          )}
-                        </Row>
-                      </Form>
-                      <p>Please select the modules you're interested in:</p>
-                    </div>
-                  )}
-
-                  {!showBigCircleData && !submitData && (
-                    <div className="d-flex align-items-center justify-content-center fotter-btns">
-                      <Button
-                        className="btn-filled"
-                        onClick={handleSubmitClick}
-                      >
-                        Submit
-                      </Button>
-                    </div>
-                  )}
-
-                  {submitData && (
-                    <div className="submit-section">
-                      <img src={path_image + "thanks-img.svg"} alt="" />
-                      <h3>Thank you!</h3>
-                      <p>
-                        We appreciate your interest and will respond very
-                        quickly.
-                      </p>
-                      <Button className="btn-filled" onClick={handleBigClose}>
-                        Close
-                      </Button>
-                    </div>
-                  )} */}
-                  {/* <------- Uncomment these above 4 divs to see the slider and  do display none to the above module describe div  ---------> */}
-
+                 </div>
+                 </div>
                   <div class="shape shape-right"></div>
                 </div>
              
