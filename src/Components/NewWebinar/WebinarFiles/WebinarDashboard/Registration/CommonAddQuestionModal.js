@@ -1,11 +1,60 @@
-import React, { useEffect } from "react";
-import { Modal } from "react-bootstrap";
+import React, { useEffect,useState } from "react";
+import { Modal} from "react-bootstrap";
+import Select from 'react-select'
 
-const CommonAddQuestionModal = ({ show, onClose }) => {
+const CommonAddQuestionModal = ({ show, onClose,handleSave }) => {
+  const [inputOptions,setInputOption]=useState([
+    {label:"Text",value:"text"},
+    {label:"Email",value:"email"},
+    {label:"Checkbox",value:"checkbox"},
+    {label:"Radio",value:"radio"}
+  ]
+    )
+  const [formData,setFormData]=useState({
+    label:"",
+    inputType:"",
+    placeholder:"",
+    option:[]
+  })
   useEffect(() => {}, [show]);
   const handleClose = () => {
     onClose(false);
   };
+  const handleChange=(e,isSelectedName,index)=>{
+    console.log("e--->",e)
+if(isSelectedName=="optionValue"){
+console.log("in if")
+let updateOption=[...formData?.option]
+updateOption[index]=e?.target?.value
+setFormData({...formData,option:updateOption})
+
+}else{
+  console.log("in else")
+  setFormData({...formData,
+    [isSelectedName?isSelectedName:e?.target?.name]:isSelectedName?e:e?.target?.value
+  })
+}
+  
+// }
+
+  }
+
+  const saveClicked=(e)=>{
+    e.preventDefault()
+    console.log("formData-->",formData)
+    
+    handleSave(formData)
+    handleClose()
+  }
+  const AddOptions=(e)=>{
+    e.preventDefault()
+    let optionObj={
+      optionLabel:"",
+      optionInput:""
+    }
+   
+    setFormData({...formData,option:[...formData?.option,optionObj]})
+  }
   return (
     <>
       <Modal
@@ -50,12 +99,57 @@ const CommonAddQuestionModal = ({ show, onClose }) => {
                               <label htmlFor="">Add Label</label>
                               <input
                                 type="text"
+                                name="label"
                                 placeholder="Enter label"
                                 className="form-control"
-                                // onChange={handleChange}
+                                onChange={(e)=>handleChange(e)}
                               />
                             </div>
                           </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="">Placeholder</label>
+                              <input
+                                type="text"
+                                name="placeholder"
+                                placeholder="Enter placeholder"
+                                className="form-control"
+                                onChange={(e)=>handleChange(e)}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="">Input type</label>
+                              <Select
+                                options={inputOptions}
+                                name="inputType"
+                                placeholder="Enter input type"
+                                className="dropdown-basic-button split-button-dropup edit-country-dropdown bottom"
+                                onChange={(e)=>handleChange(e?.value,"inputType")}
+                              />
+                            </div>
+                          </div>
+                          {console.log("option-->",Object.keys(formData?.option))}
+                          {Object.keys(formData?.option)?.length?
+                          Object.keys(formData?.option)?.map((item,index)=>(
+                            <div className="col-12 col-md-6" key={index}>
+                                <div className="form-group">
+                                  <label htmlFor="">{`Option ${index+1}`}</label>
+                                  <input
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="Enter option"
+                                    onChange={(e)=>handleChange(e,"optionValue",index)}
+                                     />
+                                </div>
+                              </div>
+                          ))
+                          :""}
+                          {formData?.inputType=="radio"||formData?.inputType=="checkbox"?
+                          <button onClick={(e)=>AddOptions(e)}>Add options</button>
+                          :""}
+                        
                         </div>
                       </div>
                     </div>
@@ -65,6 +159,24 @@ const CommonAddQuestionModal = ({ show, onClose }) => {
             </div>
           </div>
         </Modal.Body>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-primary save btn-filled"
+            onClick={(e) => {
+              saveClicked(e);
+            }}
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary save btn-filled"
+            onClick={handleClose}
+          >
+            Close
+          </button>
+        </div>
       </Modal>
     </>
   );
