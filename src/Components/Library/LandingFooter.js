@@ -1,17 +1,35 @@
 import React,{useState} from 'react'
-import { Container, Row,Modal } from 'react-bootstrap';
+import { Container, Row,Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const LandingFooter = () => {
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [privacyshow, setPrivacyshow] = useState(false);
+    const [cookieshow, setCookieshow] = useState(false);
+    const [cookieSection, setCookieSection] = useState(true)
+    const [acceptedCookies, setAcceptedCookies] = useState(localStorage.getItem('acceptedCookies'));
 
     const handleClose = () => {
           setPrivacyshow(false);
       };
+       const handleCookieClose = () => {
+           setCookieshow(false);
+      };
       const handleShow = () => {
           setPrivacyshow(true);
       };
+      const handleCookieShow = () => {
+          setCookieshow(true);
+      };
+      const handleCookieSection = () => {
+        setCookieSection(false)
+      }
+
+      const handleCookieAccept = () => {
+        localStorage.setItem('acceptedCookies', 'true');
+        setAcceptedCookies(true);
+      };
+
   return (
     <>
      <div className='footer'>
@@ -22,7 +40,7 @@ const LandingFooter = () => {
                         <img src={path_image +"footer-logo.svg"} alt="" />
                     </div>
                     <div className='copyright'>
-                        <p>Copyright MedArkive Ltd 2023. Read our <Link onClick={(e) => handleShow("privacy")}>Privacy Policy</Link> and <Link to="https://albert.docintel.app/terms_of_use/">Terms of Use</Link></p>
+                        <p>Copyright MedArkive Ltd 2023. Read our <Link onClick={(e) => handleShow("privacy")}>Privacy Policy</Link> and <Link target="_blank "to="https://albert.docintel.app/terms_of_use/">Terms of Use</Link></p>
                     </div>
                     <Modal show={privacyshow} onHide={(e) => handleClose("privacy")}>
                     <Modal.Header closeButton>
@@ -428,10 +446,39 @@ const LandingFooter = () => {
                         </p>
                     </div>
                     </Modal.Body>
-                </Modal>
+                    </Modal>
                 </div>
             </Row>
         </Container>
+        { !acceptedCookies && cookieSection && (
+            <div className='cookie-popup'>
+            <Container>
+                <Row>
+                    <div className='cookie-popup-inset d-flex justify-content-between align-items-center'>
+                        <div className='cookie-popup-text'>
+                            <h5>Cookies</h5>
+                            <p>We use our own cookies to make re-login easier and to learn what matters to visitors. We do not share any data outside our company. To see the short list of essential cookies please <Link onClick={(e) => handleCookieShow("cookie")}>Click Here</Link>.</p>
+                        </div>
+                        <div className='cookie-popup-btns'>
+                            <Button className="btn-filled" onClick={handleCookieAccept}>Accept</Button>
+                            <Button className="btn-bordered" onClick={handleCookieSection}>Close</Button>
+                        </div>
+                    </div>
+                </Row>     
+            </Container>
+        </div>
+        )}
+        
+        <Modal className="cookies-popup" show={cookieshow} onHide={(e) => handleCookieClose("cookie")}>
+            <div className='cookies-popup-inset'>
+                <Modal.Header closeButton>
+                <Modal.Title>Used Cookies</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <div class="used-cookies-table"><table><thead><tr><th>Name</th><th>Purpose</th></tr></thead><tbody><tr><td>userlang</td><td>For storing language preferance of user</td></tr><tr><td>LANGUAGE_COOKIE_NAME</td><td>For storing language preferance of user </td></tr><tr><td>csrftoken</td><td>This cookie helps to authenticated calls to webservices.</td></tr></tbody></table></div>
+                </Modal.Body>
+            </div>
+        </Modal>
     </div>
     </>
   )
