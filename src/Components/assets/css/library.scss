@@ -15543,7 +15543,7 @@ img.change-password-image {
     }
 
     .stat {
-      --r-offset: -0.121turn;
+      --r-offset: -0.135turn;
 
       &.blank {
         filter: none;
@@ -15551,6 +15551,10 @@ img.change-password-image {
       }
     }
   }
+}
+
+.module-bigger-size .module-diagram.circle.publisher .stat {
+  --r-offset: -0.121turn;
 }
 
 .module-discribe,
