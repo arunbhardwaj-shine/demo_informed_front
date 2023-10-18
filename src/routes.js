@@ -160,6 +160,7 @@ import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditRe
 import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
 import PageNotFound from "./Components/CommonComponent/PageNotFound";
 import Feedback from "./Components/R&D/Feedback";
+import WebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/WebinarRegistration";
 let platform = 0;
 let show = 0;
 
@@ -536,6 +537,10 @@ const Routing = () => {
         <Route
           path="/new-event-create"
           element={<LoginLayout component={NewEventCreate} />}
+        />
+        <Route
+          path="/webinar-registration"
+          element={<LoginLayout component={WebinarRegistration} />}
         />
         <Route
           path="/setting-webinar"

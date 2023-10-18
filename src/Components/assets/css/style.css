@@ -8130,3 +8130,129 @@ html {
 }
 
 /** Not founf End**/
+
+/** Webinar Registration Css start **/
+.outer {
+  padding-left: 3%;
+
+  padding-right: 3%;
+}
+
+.header {
+  height: 210px;
+  width: 100%;
+  border: 7px solid rgb(247, 249, 249);
+  box-shadow: inset;
+  border-bottom-left-radius: 2px;
+  background-color: rgb(192, 200, 201);
+  border-radius: 20px;
+  padding-bottom: 10%;
+  margin-bottom: 2;
+  box-shadow: 10px 10px 5px rgb(126, 138, 143);
+}
+
+.header-img {
+  height: 210px;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.button {
+  background-color: rgb(130, 237, 234);
+
+  border-radius: 10px;
+
+  position: absolute;
+
+  right: 0px;
+
+  margin-top: 2%;
+
+  margin-right: 4%;
+
+  top: "0px";
+}
+
+.footer {
+  height: 100px;
+  width: 100%;
+  border: 7px solid rgb(247, 249, 249);
+  box-shadow: inset;
+  border-bottom-left-radius: 2px;
+  background-color: rgb(192, 200, 201);
+  border-radius: 20px;
+  padding-bottom: 10%;
+  margin-bottom: 2;
+  box-shadow: 10px 10px 5px rgb(126, 138, 143);
+}
+
+.footer-img {
+  height: 100px;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.fbutton {
+  background-color: rgb(130, 237, 234);
+
+  border-radius: 10px;
+
+  position: absolute;
+
+  right: 0px;
+
+  margin-top: 2%;
+
+  margin-right: 4%;
+
+  top: "0px";
+}
+
+.section {
+  margin-top: 2%;
+
+  margin-bottom: 2%;
+
+  height: auto;
+
+  width: 100%;
+
+  border: 7px solid rgb(247, 249, 249);
+
+  box-shadow: inset;
+
+  border-bottom-left-radius: 2px;
+
+  background-color: rgb(255, 255, 255);
+
+  border-radius: 20px;
+
+  padding-bottom: 10%;
+
+  margin-bottom: 2;
+
+  box-shadow: 10px 10px 5px rgb(126, 138, 143);
+}
+
+.sec1 {
+  text-align: center;
+
+  color: rgb(19, 19, 142);
+
+  text-size-adjust: large;
+}
+
+.Questions {
+  align-content: center;
+
+  padding-left: 30%;
+}
+
+.select {
+  margin-left: 10%;
+
+  padding-left: 5%;
+
+  color: blue;
+}
+/** Webinar Registration Css End **/
