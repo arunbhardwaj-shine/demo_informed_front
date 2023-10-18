@@ -1948,7 +1948,6 @@ const PharmaMarketing = () => {
                           activeModule === "survey" ||
                           activeModule === "informed" ||
                           activeModule === "engine" ||
-                          activeModule === "automail" ||
                           activeModule === "rating"
                         ? "stat docintel active"
                         : "stat docintel"
@@ -1969,7 +1968,7 @@ const PharmaMarketing = () => {
                         ? "stat informed visible"
                         : activeModule === "consent" ||
                           activeModule === "consent" || 
-                          activeModule === "ai" ||  activeModule === "webinar" ||
+                          activeModule === "ai" ||  activeModule === "webinar" || activeModule === "automail" ||
                           activeModule === "spc"
                         ? "stat informed active"
                         : "stat informed"
@@ -2815,7 +2814,7 @@ const PharmaMarketing = () => {
                                   activeModule === "survey" ||
                                   activeModule === "informed" ||
                                   activeModule === "engine" ||
-                                  activeModule === "automail" ||
+                                 
                                   activeModule === "rating"
                                 ? "stat docintel active"
                                 : "stat docintel"
@@ -2846,7 +2845,7 @@ const PharmaMarketing = () => {
                                 ? "stat informed visible"
                                 : activeModule === "consent" ||
                                   activeModule === "consent" ||
-                                  activeModule === "ai" || activeModule === "webinar" ||
+                                  activeModule === "ai" || activeModule === "webinar" ||  activeModule === "automail" ||
                                   activeModule === "spc"
                                 ? "stat informed active"
                                 : "stat informed"
@@ -3082,12 +3081,12 @@ const PharmaMarketing = () => {
                   </div>
 
                   {/* <-------- MOBILE VIEW --------->*/}
-                  <img
+                  {/* <img
                   className="close"
                   src={path_image + "module-close-button.svg"}
                   alt=""
                   onClick={handleBigCircleClose}
-                  />
+                  /> */}
                 <div className="mobile-slider">
                 <div className="mobile-slider-inset">
                  {showBigCircleData && !registerPage && (
