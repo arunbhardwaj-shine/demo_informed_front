@@ -7171,6 +7171,12 @@ svg.pencil_icon {
   justify-content: flex-end;
 }
 
+.login-confirm #download-qr .modal-body p.error-msg {
+  color: #D61975;
+  font-size: 14px;
+  text-align: right;
+}
+
 .login-confirm #download-qr .modal-body .form-group p.error-msg {
   font-size: 12px;
   margin-top: 5px;
@@ -16923,7 +16929,7 @@ img.change-password-image {
 @media only screen and (max-width:1300px) {
   .landing-banner {
     .landing-block {
-      padding: 110px 0 80px;
+      padding: 95px 0 80px;
     }
 
     .landing-heading {
@@ -17051,6 +17057,135 @@ img.change-password-image {
   }
 }
 
+@media only screen and (min-width:1200px) and (max-width:1399px) {
+  .circular-ring .circle-inner3 .circle-half-bigger svg {
+    width: 82%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:first-child {
+    top: -9px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(2) {
+    top: 11%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(3) {
+    top: 19%;
+    left: 95%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(11) {
+    left: 2%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
+    left: 13%;
+  }
+
+  .landing-banner.pharma .circular-ring .circle.circle-inner1 {
+    background-size: calc(100% - 50px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 {
+    width: calc(100% - 80px);
+    height: calc(100% - 80px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 {
+    width: calc(100% - 270px);
+    height: calc(100% - 270px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 {
+    width: calc(100% - 400px);
+    height: calc(100% - 400px);
+  }
+
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 33%;
+  }
+
+  .pharma .circular-ring .center-logo .icon img {
+    width: 60px;
+  }
+
+  .landing-banner.pharma .circular-height {
+    padding: 70px 0 0;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child {
+    top: -1.4%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(6) {
+    top: 69%;
+    left: 6%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(5) {
+    top: 83.4%;
+    left: 18%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(5) {
+    top: 68%;
+    left: 91%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(4) {
+    top: 95.4%;
+    left: 42%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(3) {
+    top: 36%;
+    left: 96%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(2) {
+    top: 11%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child {
+    top: -4%;
+    left: 32%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) {
+    top: 43%;
+    left: 99%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) img {
+    width: 35px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) {
+    top: 36%;
+    left: -7%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) img {
+    width: 35px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) {
+    top: 69%;
+    left: 81%;
+  }
+}
+
+@media only screen and (min-width:1360px) and (max-width:1439px) {
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 34%;
+  }
+}
+
 @media (max-width:$layout-breakpoint-large) {
   .landing-banner {
     .landing-heading {
@@ -17073,6 +17208,7 @@ img.change-password-image {
   .mobile-slider {
     display: block;
   }
+
   .mobile-slider-inset {
     display: block;
     border-radius: 357px;
@@ -17082,62 +17218,73 @@ img.change-password-image {
     border-radius: 50%;
     max-width: 360px;
     height: 360px;
-}
-.consent-content .works-started .mobile-slider-inset .module-discribe .key-features h5 {
-  margin: 10px auto 18px;
-  text-align: center;
-}
-.mobile-slider-inset .slick-list {
-  padding: 0 0px !important;
-  margin: 0 -60px;
-}
-.mobile-slider-inset .slick-list  .slick-track{margin:0 50px;}
-.mobile-slider-inset .slick-list  .module-discribe {
-  padding: 0 40px;
-}
-.mobile-slider-inset img.module-img {
-  max-width: 24px;
-  margin: 0 auto;
-}
-.module-discribe div h6 {
-  font-size: 12px;
-  line-height: 16px;
-  color: #00003C;
-  margin-top: 12px;
-}
-.module-bigger-size.show.small .module-diagram.circle.pharma_market {
-  width: 100%;
-  height: auto;
-  --radius: 0;
-  gap: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.module-bigger-size.show.small .module-diagram.circle.pharma_market .stat.active {
-  display: flex;
-}
-.consent-content .works-started .mobile-slider-inset  .module-discribe h4 {
-  margin: 5px auto 2px;
-  font-size: 14px;
-}
-.consent-content .works-started .mobile-slider-inset  .module-discribe img.module-content-view {
-  max-height: 80px;
-}
- .consent-content .works-started .mobile-slider-inset .module-discribe p {
-  font-size: 12px;
-  line-height: 16px;
-  margin:0 0 10px
-}
-.mobile-slider-inset .slick-slider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-  // .module-discribe {
-  //   display: none
-  // }
+  }
+
+  .consent-content .works-started .mobile-slider-inset .module-discribe .key-features h5 {
+    margin: 10px auto 18px;
+    text-align: center;
+  }
+
+  .mobile-slider-inset .slick-list {
+    padding: 0 0px !important;
+    margin: 0 -60px;
+  }
+
+  .mobile-slider-inset .slick-list .slick-track {
+    margin: 0 50px;
+  }
+
+  .mobile-slider-inset .slick-list .module-discribe {
+    padding: 0 40px;
+  }
+
+  .mobile-slider-inset img.module-img {
+    max-width: 24px;
+    margin: 0 auto;
+  }
+
+  .module-discribe div h6 {
+    font-size: 12px;
+    line-height: 16px;
+    color: #00003C;
+    margin-top: 12px;
+  }
+
+  .module-bigger-size.show.small .module-diagram.circle.pharma_market {
+    width: 100%;
+    height: auto;
+    --radius: 0;
+    gap: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .module-bigger-size.show.small .module-diagram.circle.pharma_market .stat.active {
+    display: flex;
+  }
+
+  .consent-content .works-started .mobile-slider-inset .module-discribe h4 {
+    margin: 5px auto 2px;
+    font-size: 14px;
+  }
+
+  .consent-content .works-started .mobile-slider-inset .module-discribe img.module-content-view {
+    max-height: 80px;
+  }
+
+  .consent-content .works-started .mobile-slider-inset .module-discribe p {
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0 0 10px
+  }
+
+  .mobile-slider-inset .slick-slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
 
   .cookie-popup {
     .cookie-popup-inset {
@@ -18315,12 +18462,14 @@ img.change-password-image {
     flex-direction: column;
     height: auto;
   }
+
   .consent-content .works-started .modules-diagram .module-bigger-size.small {
     box-shadow: none;
     border-radius: 0;
     width: 100%;
     padding: 40px 30px;
-}
+  }
+
   .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div {
     width: 100%;
     max-width: 295px;
@@ -18450,47 +18599,63 @@ img.change-password-image {
     z-index: 1;
   }
 
-  .consent-content .works-started .modules-diagram .module-bigger-size.small .module-discribe .big-circle-data, .consent-content .works-started .modules-diagram .module-bigger-size.small .module-discribe .fotter-btns{display:none!important} 
-.modules-diagram .pharma_market.circle .stat.active:after, .modules-diagram .pharma_market.circle .stat.active:before {
- display:none
-}
-.modules-diagram .module-bigger-size.small .module-diagram.circle.pharma_market .stat{display:none}
+  .consent-content .works-started .modules-diagram .module-bigger-size.small .module-discribe .big-circle-data,
+  .consent-content .works-started .modules-diagram .module-bigger-size.small .module-discribe .fotter-btns {
+    display: none !important
+  }
 
-.mobile-slider .slick-dots li {
-  height: 10px;
-  width: 14px;
+  .modules-diagram .pharma_market.circle .stat.active:after,
+  .modules-diagram .pharma_market.circle .stat.active:before {
+    display: none
+  }
+
+  .modules-diagram .module-bigger-size.small .module-diagram.circle.pharma_market .stat {
+    display: none
+  }
+
+  .mobile-slider .slick-dots li {
+    height: 10px;
+    width: 14px;
+  }
+
+  .mobile-slider .slick-dots {
+    bottom: -32px;
+  }
+
+  .mobile-slider .slick-dots li button:before {
+    font-size: 0;
+    opacity: 1;
+    background: rgba(151, 182, 207, 0.49);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .mobile-slider .slick-dots li.slick-active button:before {
+    opacity: 1;
+    background: #004A89;
+  }
+
+  .module-bigger-size.small.show .module-diagram.circle.pharma_market {
+    width: 100%;
+    height: auto;
+    --radius: 0;
+    gap: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: -465px;
+    top: auto;
+    transform: translate(0%, 0%);
+    left: 0;
+    width: calc(100% + 110px);
+    margin-left: -55px;
+  }
+
+  .modules-diagram .module-bigger-size.small .module-diagram.circle.pharma_market .stat.active {
+    filter: none
+  }
 }
-.mobile-slider .slick-dots{
-  bottom: -32px;
-}
-.mobile-slider .slick-dots li button:before {
-  font-size: 0;
-  opacity: 1;
-  background: rgba(151, 182, 207, 0.49);
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-.mobile-slider .slick-dots li.slick-active button:before {
-  opacity: 1;
-  background: #004A89;
-}
-.module-bigger-size.small.show .module-diagram.circle.pharma_market {
-  width: 100%;
-  height: auto;
-  --radius: 0;
-  gap: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  bottom: -465px;
-  top: auto;
-  transform: translate(0%, 0%);
-  left: 0;
-  width: calc(100% + 110px);
-  margin-left: -55px;
-}
-.modules-diagram .module-bigger-size.small .module-diagram.circle.pharma_market .stat.active{filter:none}
-}
+
 /**Landing page Responsive End**/

@@ -2806,7 +2806,7 @@ const PharmaMarketing = () => {
                               {bigCircleModuleData?.paragraph}
                             </p>
                           </div>
-                          <div><h6>Swipe for Key Features >></h6></div>
+                          <div><h6>Swipe for Key Features &gt;&gt;</h6></div>
                         </div>
                       </div>
 
