@@ -1031,9 +1031,9 @@ const PharmaRd = () => {
 
   const handleBigCircleClose = (moduleName, index) => {
     setAddClass(false);
-     setAddDivClass(false)
     setFormFeilds(false);
-    setAddSmallClass(false);
+     setAddDivClass(false)
+    setAddSmallClass(false)
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
       setModuleData({
@@ -1046,6 +1046,23 @@ const PharmaRd = () => {
     }
     setTimeout(() => {
       setReadStatus(false);
+      setRegisterError(false);
+      setSelectedCountry([]);
+    setRegisterFormInputs({
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      country: "",
+      consent1: {
+        label: "Email me only about modules I’ve looked at",
+        checked: false,
+      },
+      consent2: {
+        label: "Keep me informed about other news from inforMed.pro",
+        checked: false,
+      },
+    })
     }, 200);
     setSelectedModules([]);
   };
