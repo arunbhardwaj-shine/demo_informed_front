@@ -171,31 +171,33 @@ const PharmaMarketing = () => {
       logo: "rtr-image.svg",
       title: <span style={{ color: "#5A6BB5" }}>Read-Through-Rate</span>,
       image: "rtr-content-list.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/rtr.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/rtr.pptx",
       description:
         "Our proprietary Read-Through-Rate metric lets you determine the level of HCP engagement. Utilise this data to send reminders, recommendations, or equip your representatives so they can have more informed conversations based on the specific interests and engagement patterns of healthcare professionals.",
       para: "",
       features: [
         {
           keyFeature: "First captures each HCP’s consent",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Track HCPs’ reading on- and offline, on a browser or in app",
-          subKeyFeatures: []
+          keyFeature:
+            "Track HCPs’ reading on- and offline, on a browser or in app",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Track every engagement down to the second - spent on individual pages",
-          subKeyFeatures: []
+          keyFeature:
+            "Track every engagement down to the second - spent on individual pages",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Data integrate in CRM timeline",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Collects key data for personalising AI predictions",
-          subKeyFeatures: []
-        }
+          subKeyFeatures: [],
+        },
       ],
     },
 
@@ -205,25 +207,26 @@ const PharmaMarketing = () => {
       logo: "rating-icon.svg",
       title: <span style={{ color: "#2B9BC8" }}>Rating Tool</span>,
       image: "rating-tool-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/rating.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/rating.pptx",
       description:
         "Introducing our revolutionary Rating Tool to assess clinical value across your content and events. Gather crucial insights the moment HCPs engage with you. Learn their collective thoughts, focus on exceptional content enabling you to drive a new level of engagement.",
       features: [
         {
           keyFeature: "Let HCPs rate your content",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Commission better content based on HCP opinions",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "HCPs can easily rate content whenever they engage via browser or in-app",
-          subKeyFeatures: []
+          keyFeature:
+            "HCPs can easily rate content whenever they engage via browser or in-app",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Build better data sets to feed your AI",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -236,23 +239,26 @@ const PharmaMarketing = () => {
       image: "spc-engine-min.png",
       description: `Reclaim your time and end the worry about correct SPCs on older content. The SPC engine automatically attaches the correct country and product SPC to each piece of content, keeping your library up-to-date and easy to navigate. Simple to set up and update. This ensures HCPs always have access to the latest SPC information.`,
       para: "No more worry about compliance and superseded SPCs",
-      ppt:"../../../componentAssets/images/pharmaPpt/spc.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/spc.pptx",
       features: [
         {
-          keyFeature: "Automatically matches the correct SPC with the HCP’s country",
-          subKeyFeatures: []
+          keyFeature:
+            "Automatically matches the correct SPC with the HCP’s country",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Continuously updated, giving you peace of mind for every account",
-          subKeyFeatures: []
+          keyFeature:
+            "Continuously updated, giving you peace of mind for every account",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Feel secure that every HCP has the latest SPC for all their content, old or new",
-          subKeyFeatures: []
+          keyFeature:
+            "Feel secure that every HCP has the latest SPC for all their content, old or new",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Takes only 5 minutes to update an SPC",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -263,34 +269,31 @@ const PharmaMarketing = () => {
       logo: "auto-email-icon.svg",
       title: <span style={{ color: "#00D4C0" }}>Automail</span>,
       image: "automail-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/automail.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/automail.pptx",
       description:
         "Automate personalised email reminders and AI-recommended content for HCPs, who haven't been reached within your KPI timeframe. Streamline time-consuming tasks associated with standard HCP interactions to save you time and effort, ultimately enhancing HCP engagement",
       para: "Designed exclusively for the life sciences sector, our comprehensive feature set makes this email tool the ultimate choice for enhancing relationships with HCPs",
       features: [
         {
           keyFeature: "Two levels of AutoMail offerings ",
-          subKeyFeatures: [
-            "Essential",
-            "Predictive"
-          ]
+          subKeyFeatures: ["Essential", "Predictive"],
         },
         {
           keyFeature: "Automated post-registration emails, reminders, etc",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Predictive personalised automated emails",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Increased engagement with pre-approved content",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Customisable AutoMail settings",
-          subKeyFeatures: []
-        }
+          subKeyFeatures: [],
+        },
       ],
     },
 
@@ -300,30 +303,34 @@ const PharmaMarketing = () => {
       logo: "artificial-intelligence-icon.svg",
       title: <span style={{ color: "#00C1BF" }}>AI Prediction Tool</span>,
       image: "ai-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/ai.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/ai.pptx",
       description:
         "Our AI leverages your HCP engagement data to formulate personalised predictions for each HCP. This process improves as your interactions with HCPs deepen. Enhanced content recommendations foster stronger relationships and trust, culminating in measurable success through the synergy of intelligence and foresight",
       para: "",
       features: [
         {
-          keyFeature: "Use approved consent to create individually tailored predictions for each HCP",
-          subKeyFeatures: []
+          keyFeature:
+            "Use approved consent to create individually tailored predictions for each HCP",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Improve HCP engagement by providing relevant content you can be sure they’ll love",
-          subKeyFeatures: []
+          keyFeature:
+            "Improve HCP engagement by providing relevant content you can be sure they’ll love",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Delivered in a way you know they will receive",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Knowledge is power - The more you know, the more insightful you can be for every HCP",
-          subKeyFeatures: []
+          keyFeature:
+            "Knowledge is power - The more you know, the more insightful you can be for every HCP",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Customise how you use your collected data to best serve you",
-          subKeyFeatures: []
+          keyFeature:
+            "Customise how you use your collected data to best serve you",
+          subKeyFeatures: [],
         },
       ],
     },
@@ -334,26 +341,28 @@ const PharmaMarketing = () => {
       logo: "legal-document-icon.svg",
       title: <span style={{ color: "#00A4BF" }}>Consent</span>,
       image: "consent-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/consent.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/consent.pptx",
       description:
         "Build better relationships with consent - so you can analyse engagement data to give you precise predictions about HCPs' interests. Our method is in use on every continent and can be modified to any specific requirement. This integration of consent, usage and AI results in tailored content for your HCPs",
       para: "",
       features: [
         {
           keyFeature: "Consent is at the core and powers every module",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Provides a personalised experience for each HCP",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "HCPs can provide or withdraw consent directly through their Docintel account",
-          subKeyFeatures: []
+          keyFeature:
+            "HCPs can provide or withdraw consent directly through their Docintel account",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Simplicity, transparency and trust supports enduring relationships ",
-          subKeyFeatures: []
+          keyFeature:
+            "Simplicity, transparency and trust supports enduring relationships ",
+          subKeyFeatures: [],
         },
       ],
     },
@@ -364,31 +373,32 @@ const PharmaMarketing = () => {
       logo: "email-small-icon.svg",
       title: <span style={{ color: "#0084BE" }}>Email Engine</span>,
       image: "email-engine-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/email.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/email.pptx",
       description:
         "Personal emails are powerful, they feel like a direct outreach from a trusted source. Our email engine, tailored for the life sciences sector, seamlessly integrates with other modules' data to easily reach an individual or a segment of HCPs. You can even let it monitor a group and automatically email individual follow ups or apply AI-assisted recommendations for new content. Saves you time and effort, and simple to use",
       para: "",
       features: [
         {
           keyFeature: "Easy to use - built with life science industry partners",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Dynamic SmartLists save you from Excel-hel",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Track if HCPs read what you send",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Content & email engagement synced in our CRM",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "AutoMail add-on for AI-automation and content recommendations",
-          subKeyFeatures: []
-        }, 
+          keyFeature:
+            "AutoMail add-on for AI-automation and content recommendations",
+          subKeyFeatures: [],
+        },
       ],
     },
 
@@ -398,34 +408,34 @@ const PharmaMarketing = () => {
       logo: "docintel-small-icon.svg",
       title: <span style={{ color: "#0066BE" }}>Docintel.app</span>,
       image: "docintel-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/docintel.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/docintel.pptx",
       description:
         "Beyond the elegant and user-friendly interfaces lies perhaps the most sophisticated and versatile technology accessible to pharmaceutical marketers. Tailorable consent mechanisms, usage tracking that fuels AI, multimedia content choices and interactivity are all designed to enhance the digital rapport between you and HCPs",
       para: "",
       features: [
         {
           keyFeature: "HCPs read on & offline, in any browser or in the app",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Secure instant HCP consent",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "RTR tracks every second spent on individual pages",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Stay consistent with your visual identity",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Push content or give HCPs a code new content in app",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Personalised AI predictive content for your HCPs",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -436,34 +446,37 @@ const PharmaMarketing = () => {
       logo: "informedgo-icon.svg",
       title: <span style={{ color: "#045FAE" }}>inforMedGo</span>,
       image: "informedgo-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/informed.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/informed.pptx",
       description:
         "Streamline rep engagement and consent collection from HCPs. Providing your reps with the entire support materials library on their devices ensures ready resources for personalised conversations. Sharing and securing consent on-the-spot improves compliance and follow-up procedures.",
       para: "",
       features: [
         {
           keyFeature: "Easy to use - become a pro in under 15 minutes",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Give reps control over your entire content collection",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Gather on-the-spot consent - allowing you to send new and engaging content to your HCPs",
-          subKeyFeatures: []
+          keyFeature:
+            "Gather on-the-spot consent - allowing you to send new and engaging content to your HCPs",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Filter content shown by country, product, promotional or marketing",
-          subKeyFeatures: []
+          keyFeature:
+            "Filter content shown by country, product, promotional or marketing",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Send materials via the app, by sales team member, directly to the HCP",
-          subKeyFeatures: []
+          keyFeature:
+            "Send materials via the app, by sales team member, directly to the HCP",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Works seamlessly with SPC engine to ensure compliance",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -474,37 +487,32 @@ const PharmaMarketing = () => {
       logo: "polling-icon.svg",
       title: <span style={{ color: "#3D48AB" }}>Q & Poll</span>,
       image: "poll-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/q&poll.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/q&poll.pptx",
       description:
         "Enhance HCP engagement at events. Add polls to presentations for personalised speaker-audience interaction. Immediate Q&A involvement empowers each HCP. Integrating votes and questions into CRM timelines aids post-event personalisation.",
       para: "",
-      features: [
-        "",
-        "",
-        "",
-        "",
-        "",
-      ],
+      features: ["", "", "", "", ""],
       features: [
         {
           keyFeature: "Real-time interaction and queries",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Screen questions before they reach the panel",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Get to know your HCPs better (by knowing what’s got them thinking)",
-          subKeyFeatures: []
+          keyFeature:
+            "Get to know your HCPs better (by knowing what’s got them thinking)",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Instantaneous HCP engagement with no interruptions",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Automatically integrate Q&Poll data and download easily",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -515,26 +523,28 @@ const PharmaMarketing = () => {
       logo: "survey-icon.svg",
       title: <span style={{ color: "#5058AA" }}>Survey Engine</span>,
       image: "survey-engine-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/survey.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/survey.pptx",
       description:
         "Reveal valuable HCP insights with custom surveys.Create your questions, target specific segments and instantly gain deeper understanding about each HCP by seeing their answers. The survey engine syncs with the CRM data and the email module enables easy resend to non-openers - integrate with AutoMail for efficiency.",
       para: "",
       features: [
         {
           keyFeature: "Gain invaluable real-time feedback from your HCPs",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Customise your survey - let your brand shine through at every point",
-          subKeyFeatures: []
+          keyFeature:
+            "Customise your survey - let your brand shine through at every point",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Integrate into your pages - creating a seamless experience",
-          subKeyFeatures: []
+          keyFeature:
+            "Integrate into your pages - creating a seamless experience",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Build better data for your AI",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -545,30 +555,33 @@ const PharmaMarketing = () => {
       logo: "web-portal-icon.svg",
       title: <span style={{ color: "#6E52A2" }}>Web Portal</span>,
       image: "web-portal-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/web.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/web.pptx",
       description:
         "A website that adapts to the individual HCP. Combine modules and AI to personalise recommended content, surveys, videos, news, and events to each HCP - based on their location and prior engagements. Simultaneously tracking their activity to learn and improve the user experience.",
       para: "",
       features: [
         {
           keyFeature: "Provides a unified customer experience",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Merge all your modules in one place for an evolved personal experience",
-          subKeyFeatures: []
+          keyFeature:
+            "Merge all your modules in one place for an evolved personal experience",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "On demand, anytime - for when the HCP wants to know more",
-          subKeyFeatures: []
+          keyFeature:
+            "On demand, anytime - for when the HCP wants to know more",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Ability for HCPs to take what they want offline using their personal Docintel app account",
-          subKeyFeatures: []
+          keyFeature:
+            "Ability for HCPs to take what they want offline using their personal Docintel app account",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Maintain your visual and brand identity",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -579,34 +592,37 @@ const PharmaMarketing = () => {
       logo: "webinar-small-icon.svg",
       title: <span style={{ color: "#8A4E9C" }}>Webinar Portal</span>,
       image: "webinar-portal-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/webinar.pptx",
+      ppt: "../../../componentAssets/images/pharmaPpt/webinar.pptx",
       description:
         "Transform your webinars into events with creative freedom and engagement tools that resonate and make HCPs feel appreciated and involved. Convert recordings into invaluable content that can be distributed in user-friendly formats, which stimulate post-event engagement and build stronger HCP relationships",
       para: "",
       features: [
         {
           keyFeature: "Online webinar platform HCPs love to use",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Register and capture HCPs’ consent ",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Automated calendar reminders help HCPs arrive on time",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Automated personalised emails, with single-click-login, ensure easy access for HCPs",
-          subKeyFeatures: []
+          keyFeature:
+            "Automated personalised emails, with single-click-login, ensure easy access for HCPs",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Take your interaction to the next level by allowing HCPs to ask real-time questions",
-          subKeyFeatures: []
+          keyFeature:
+            "Take your interaction to the next level by allowing HCPs to ask real-time questions",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Learn who stayed and engaged to improve your data for AI Predictions",
-          subKeyFeatures: []
+          keyFeature:
+            "Learn who stayed and engaged to improve your data for AI Predictions",
+          subKeyFeatures: [],
         },
       ],
     },
@@ -934,7 +950,7 @@ const PharmaMarketing = () => {
     heading: "",
     imagePath: "",
     detail: "",
-    ppt:"",
+    ppt: "",
     paragraph: "",
     highlights: [],
   });
@@ -972,7 +988,7 @@ const PharmaMarketing = () => {
       active: moduleName === activeModule ? !prevState.active : true,
       logoIconPath: bigCircleData?.logo,
       heading: bigCircleData?.title,
-      ppt:bigCircleData?.ppt,
+      ppt: bigCircleData?.ppt,
       imagePath: bigCircleData?.image,
       detail: bigCircleData?.description,
       paragraph: bigCircleData?.para,
@@ -983,8 +999,8 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
-    setAddSmallClass(true)
-    setAddDivClass(false)
+    setAddSmallClass(true);
+    setAddDivClass(false);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs);
     if (Object.keys(err)?.length) {
@@ -1080,7 +1096,7 @@ const PharmaMarketing = () => {
         active: moduleName === activeModule ? !prevState.active : true,
         logoIconPath: bigCircleData?.logo,
         heading: bigCircleData?.title,
-        ppt:bigCircleData?.ppt,
+        ppt: bigCircleData?.ppt,
         imagePath: bigCircleData?.image,
         detail: bigCircleData?.description,
         paragraph: bigCircleData?.para,
@@ -1123,8 +1139,8 @@ const PharmaMarketing = () => {
 
   const handleRequestClick = () => {
     setAddClass(true);
-    setAddDivClass(true)
-    setAddSmallClass(false)
+    setAddDivClass(true);
+    setAddSmallClass(false);
     const stats = document.querySelectorAll(".stat");
     stats?.forEach((stat) => {
       if (stat.classList.contains("visible")) {
@@ -1152,20 +1168,20 @@ const PharmaMarketing = () => {
   };
 
   const handleSubmitClick = async () => {
-    setAddDivClass(true)
-    setAddHideClass(true)
-    setAddSmallClass(true)
+    setAddDivClass(true);
+    setAddHideClass(true);
+    setAddSmallClass(true);
     loader("show");
     try {
       // const res = await postData(ENDPOINT.REGISTER, {
-        let data = {
+      let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         email: moduleFormInputs?.secondaryEmail?.trim(),
         phone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-        }
+      };
       // });
       let obj = {};
       loader("hide");
@@ -1225,13 +1241,12 @@ const PharmaMarketing = () => {
       setReadStatus(false);
     }, 200);
   };
-  
 
   useEffect(() => {
     if (submitData) {
       setTimeout(() => {
-        setAddHideClass(false)
-        setAddDivClass(false)
+        setAddHideClass(false);
+        setAddDivClass(false);
         setSelectedModules([]);
         setSubmitData(false);
         setShowBigCircleData(true);
@@ -1251,7 +1266,7 @@ const PharmaMarketing = () => {
 
   const handleRead = () => {
     setReadStatus(true);
-    setAddDivClass(true)
+    setAddDivClass(true);
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1305,16 +1320,16 @@ const PharmaMarketing = () => {
     fade: true,
     speed: 2000,
     responsive: [
-        {
-          breakpoint: 558,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            dots: true,
-            arrows: true
-          }
-        }
-      ]
+      {
+        breakpoint: 558,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: true,
+          arrows: true,
+        },
+      },
+    ],
   };
 
   const sliderSettings = {
@@ -1328,7 +1343,10 @@ const PharmaMarketing = () => {
 
   return (
     <>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
       <LandingHeader />
 
       <div className="landing-banner pharma">
@@ -1341,7 +1359,8 @@ const PharmaMarketing = () => {
               <div className="landing-sub-heading">
                 <h4>
                   Connecting content & consent with intelligent predictions.
-                  <br /><br />
+                  <br />
+                  <br />
                   Ensuring the right materials reach the right person, at the
                   right time
                 </h4>
@@ -1541,7 +1560,9 @@ const PharmaMarketing = () => {
                   </div>
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
-                      <span className="add-shadow"><img src={path_image + "logo-shape1.png"} alt="" /></span>
+                      <span className="add-shadow">
+                        <img src={path_image + "logo-shape1.png"} alt="" />
+                      </span>
                       <h3>Content</h3>
                       <h5>
                         Create a library of all your content and easily
@@ -1589,7 +1610,9 @@ const PharmaMarketing = () => {
                 <div className="slider-in-view slide2">
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
-                      <span className="add-shadow"><img src={path_image + "logo-shape2.png"} alt="" /></span>
+                      <span className="add-shadow">
+                        <img src={path_image + "logo-shape2.png"} alt="" />
+                      </span>
                       <h3>Consent</h3>
                       <h5>
                         We’ve proven time and time again that HCPs give their
@@ -1643,7 +1666,9 @@ const PharmaMarketing = () => {
                   </div>
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
-                      <span className="add-shadow"><img src={path_image + "logo-shape3.png"} alt="" /></span>
+                      <span className="add-shadow">
+                        <img src={path_image + "logo-shape3.png"} alt="" />
+                      </span>
                       <h3>Delivery</h3>
                       <h5>
                         Make{" "}
@@ -1753,13 +1778,16 @@ const PharmaMarketing = () => {
         </div>
       </div>
       <div className="consent-content">
-         <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
+        <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
         <Container>
           <Row>
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                  Consent & content data is at the foundation of all our modules. This allows you to connect the data you collect in unprecedented ways, whether it's for automating tasks, reporting, analytics, or predictions, always with consent.
+                  Consent & content data is at the foundation of all our
+                  modules. This allows you to connect the data you collect in
+                  unprecedented ways, whether it's for automating tasks,
+                  reporting, analytics, or predictions, always with consent.
                 </h5>
               </div>
               <div className="consent-details">
@@ -1801,7 +1829,9 @@ const PharmaMarketing = () => {
                     className={
                       activeModule === "read"
                         ? "stat read visible"
-                        : activeModule === "docintel" || activeModule === "ai" || activeModule === "webinar" 
+                        : activeModule === "docintel" ||
+                          activeModule === "ai" ||
+                          activeModule === "webinar"
                         ? "stat read active"
                         : "stat read"
                     }
@@ -1856,7 +1886,10 @@ const PharmaMarketing = () => {
                       activeModule === "automail"
                         ? "stat automail visible"
                         : activeModule === "engine" ||
-                          activeModule === "ai" || activeModule === "webinar" || activeModule === "qa" || activeModule === "informed" ||
+                          activeModule === "ai" ||
+                          activeModule === "webinar" ||
+                          activeModule === "qa" ||
+                          activeModule === "informed" ||
                           activeModule === "spc"
                         ? "stat automail active"
                         : "stat automail"
@@ -1903,7 +1936,9 @@ const PharmaMarketing = () => {
                         : activeModule === "webinar" ||
                           activeModule === "web" ||
                           activeModule === "informed" ||
-                          activeModule === "docintel" || activeModule === "read" || activeModule === "automail" ||
+                          activeModule === "docintel" ||
+                          activeModule === "read" ||
+                          activeModule === "automail" ||
                           activeModule === "ai"
                         ? "stat consent active"
                         : " stat consent"
@@ -1968,8 +2003,10 @@ const PharmaMarketing = () => {
                       activeModule === "informed"
                         ? "stat informed visible"
                         : activeModule === "consent" ||
-                          activeModule === "consent" || 
-                          activeModule === "ai" ||  activeModule === "webinar" || activeModule === "automail" ||
+                          activeModule === "consent" ||
+                          activeModule === "ai" ||
+                          activeModule === "webinar" ||
+                          activeModule === "automail" ||
                           activeModule === "spc"
                         ? "stat informed active"
                         : "stat informed"
@@ -2046,7 +2083,9 @@ const PharmaMarketing = () => {
                     className={
                       activeModule === "webinar"
                         ? "stat webinar visible"
-                        : activeModule === "qa" || activeModule === "web" || activeModule === "ai" 
+                        : activeModule === "qa" ||
+                          activeModule === "web" ||
+                          activeModule === "ai"
                         ? "stat webinar active"
                         : "stat webinar"
                     }
@@ -2084,7 +2123,9 @@ const PharmaMarketing = () => {
                 </div>
 
                 <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""} ${addHideClass ? "hide" : ""} ${addSmallClass ? "small" : ""}`}
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
+                    addHideClass ? "hide" : ""
+                  } ${addSmallClass ? "small" : ""}`}
                 >
                   {!showBigCircleData && !submitData && (
                     <img
@@ -2360,12 +2401,12 @@ const PharmaMarketing = () => {
                                   </svg>
                                 </span>
                                 {registerError?.email ? (
-                                <div className="contact-validation">
-                                  {registerError?.email}
-                                </div>
-                              ) : (
-                                ""
-                              )}
+                                  <div className="contact-validation">
+                                    {registerError?.email}
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
                               </div>
                               {/* {registerError?.email ? (
                                 <div className="contact-validation">
@@ -2388,10 +2429,12 @@ const PharmaMarketing = () => {
                                   // checked={registerFormInputs.consent1}
                                   // onChange={handleRegisterFormChange}
 
-                                  type="checkbox" id="consent1"
+                                  type="checkbox"
+                                  id="consent1"
                                   // label={registerFormInputs.consent1.label}
                                   label="Email me only about modules I’ve looked at"
-                                  name="consent1" for="#consent2"  
+                                  name="consent1"
+                                  for="#consent2"
                                   checked={
                                     registerFormInputs?.consent1?.checked
                                   }
@@ -2404,10 +2447,12 @@ const PharmaMarketing = () => {
                                   // checked={registerFormInputs.consent2}
                                   // onChange={handleRegisterFormChange}
 
-                                  type="checkbox" id="consent2"
+                                  type="checkbox"
+                                  id="consent2"
                                   // label={registerFormInputs.consent2.label}
                                   label="Keep me informed about other news from inforMed.pro"
-                                  name="consent2"  for="#consent2" 
+                                  name="consent2"
+                                  for="#consent2"
                                   checked={
                                     registerFormInputs?.consent2?.checked
                                   }
@@ -2439,58 +2484,67 @@ const PharmaMarketing = () => {
                     >
                       {showBigCircleData && !registerPage && (
                         <>
-                        <div className="big-circle-data">
-                          <div>
-                            <img
-                              className="module-img"
-                              src={
-                                path_image +
-                                "" +
-                                bigCircleModuleData?.logoIconPath
-                              }
-                            />
-                            <h4>{bigCircleModuleData?.heading}</h4>
-                            
+                          <div className="big-circle-data">
+                            <div>
+                              <img
+                                className="module-img"
+                                src={
+                                  path_image +
+                                  "" +
+                                  bigCircleModuleData?.logoIconPath
+                                }
+                              />
+                              <h4>{bigCircleModuleData?.heading}</h4>
+                            </div>
                           </div>
-                        </div>
-                        <div className="big-circle-data bigger">
-                          <div className="module-text-space">
-                            <img
-                              className="module-content-view"
-                              src={
-                                path_image + "" + bigCircleModuleData?.imagePath
-                              }
-                            />
-                            <p>{bigCircleModuleData?.detail}</p>
-                            <p className="semibold">
-                              {bigCircleModuleData?.paragraph}
-                            </p>
+                          <div className="big-circle-data bigger">
+                            <div className="module-text-space">
+                              <img
+                                className="module-content-view"
+                                src={
+                                  path_image +
+                                  "" +
+                                  bigCircleModuleData?.imagePath
+                                }
+                              />
+                              <p>{bigCircleModuleData?.detail}</p>
+                              <p className="semibold">
+                                {bigCircleModuleData?.paragraph}
+                              </p>
 
-                            <div className="key-features">
-                              <h5> Key Features</h5>
-                              <ul>
-                                {/* {bigCircleModuleData?.highlights?.map(
+                              <div className="key-features">
+                                <h5> Key Features</h5>
+                                <ul>
+                                  {/* {bigCircleModuleData?.highlights?.map(
                                   (feature, index) => (
                                     <li key={index}>{feature}</li>
                                   )
                                 )} */}
 
-                                {bigCircleModuleData?.highlights?.map((feature, index) => (
-                                <li key={index}>
-                                  {feature?.keyFeature}
-                                  {feature?.subKeyFeatures && feature?.subKeyFeatures.length > 0 && (
-                                    <ul>
-                                      {feature?.subKeyFeatures?.map((subFeature, subIndex) => (
-                                        <li key={subIndex}>{subFeature}</li>
-                                      ))}
-                                    </ul>
+                                  {bigCircleModuleData?.highlights?.map(
+                                    (feature, index) => (
+                                      <li key={index}>
+                                        {feature?.keyFeature}
+                                        {feature?.subKeyFeatures &&
+                                          feature?.subKeyFeatures.length >
+                                            0 && (
+                                            <ul>
+                                              {feature?.subKeyFeatures?.map(
+                                                (subFeature, subIndex) => (
+                                                  <li key={subIndex}>
+                                                    {subFeature}
+                                                  </li>
+                                                )
+                                              )}
+                                            </ul>
+                                          )}
+                                      </li>
+                                    )
                                   )}
-                                </li>
-                                ))}
-                              </ul>
+                                </ul>
+                              </div>
                             </div>
                           </div>
-                        </div>
                         </>
                       )}
 
@@ -2663,7 +2717,10 @@ const PharmaMarketing = () => {
                               activeModule === "automail"
                                 ? "stat automail visible"
                                 : activeModule === "engine" ||
-                                  activeModule === "ai" || activeModule === "webinar" || activeModule === "qa" || activeModule === "informed" ||
+                                  activeModule === "ai" ||
+                                  activeModule === "webinar" ||
+                                  activeModule === "qa" ||
+                                  activeModule === "informed" ||
                                   activeModule === "spc"
                                 ? "stat automail active"
                                 : "stat automail"
@@ -2726,9 +2783,12 @@ const PharmaMarketing = () => {
                               selectedModules.includes("consent") ||
                               activeModule === "consent"
                                 ? "stat consent visible"
-                                :  activeModule === "web" ||
+                                : activeModule === "web" ||
                                   activeModule === "informed" ||
-                                  activeModule === "docintel" || activeModule === "read" || activeModule === "webinar" || activeModule === "automail" ||
+                                  activeModule === "docintel" ||
+                                  activeModule === "read" ||
+                                  activeModule === "webinar" ||
+                                  activeModule === "automail" ||
                                   activeModule === "ai"
                                 ? "stat consent active"
                                 : " stat consent"
@@ -2815,7 +2875,6 @@ const PharmaMarketing = () => {
                                   activeModule === "survey" ||
                                   activeModule === "informed" ||
                                   activeModule === "engine" ||
-                                 
                                   activeModule === "rating"
                                 ? "stat docintel active"
                                 : "stat docintel"
@@ -2846,7 +2905,9 @@ const PharmaMarketing = () => {
                                 ? "stat informed visible"
                                 : activeModule === "consent" ||
                                   activeModule === "consent" ||
-                                  activeModule === "ai" || activeModule === "webinar" ||  activeModule === "automail" ||
+                                  activeModule === "ai" ||
+                                  activeModule === "webinar" ||
+                                  activeModule === "automail" ||
                                   activeModule === "spc"
                                 ? "stat informed active"
                                 : "stat informed"
@@ -2875,7 +2936,7 @@ const PharmaMarketing = () => {
                               selectedModules.includes("qa") ||
                               activeModule === "qa"
                                 ? "stat qa visible"
-                                :  activeModule === "survey"
+                                : activeModule === "survey"
                                 ? "stat qa active"
                                 : "stat qa"
                             }
@@ -2928,7 +2989,8 @@ const PharmaMarketing = () => {
                                 ? "stat web visible"
                                 : activeModule === "webinar" ||
                                   activeModule === "docintel" ||
-                                  activeModule === "consent" || activeModule === "qa" ||
+                                  activeModule === "consent" ||
+                                  activeModule === "qa" ||
                                   activeModule === "rating"
                                 ? "stat web active"
                                 : "stat web"
@@ -2957,7 +3019,8 @@ const PharmaMarketing = () => {
                               selectedModules.includes("webinar") ||
                               activeModule === "webinar"
                                 ? "stat webinar visible"
-                                : activeModule === "qa" || activeModule === "ai" ||
+                                : activeModule === "qa" ||
+                                  activeModule === "ai" ||
                                   activeModule === "web"
                                 ? "stat webinar active"
                                 : "stat webinar"
@@ -2986,7 +3049,8 @@ const PharmaMarketing = () => {
                               selectedModules.includes("read") ||
                               activeModule === "read"
                                 ? "stat read visible"
-                                : activeModule === "docintel" || activeModule === "webinar" ||
+                                : activeModule === "docintel" ||
+                                  activeModule === "webinar" ||
                                   activeModule === "ai"
                                 ? "stat read active"
                                 : "stat read"
@@ -3046,11 +3110,9 @@ const PharmaMarketing = () => {
                             <img src={path_image + "downlaod-ppt.svg"} alt="" />
                           </Link> */}
 
-                         
                           <a href={bigCircleModuleData?.ppt} download>
-                          <img src={path_image + "downlaod-ppt.svg"} alt="" />
-                        </a>
-
+                            <img src={path_image + "downlaod-ppt.svg"} alt="" />
+                          </a>
                         </div>
                       )}
 
@@ -3127,67 +3189,76 @@ const PharmaMarketing = () => {
                             />
                           </div>
 
-                          <div>
-                            <p>{bigCircleModuleData?.detail}</p>
-                            <p className="semibold">
-                              {bigCircleModuleData?.paragraph}
-                            </p>
-                          </div>
-                          <div><h6>Swipe for Key Features &gt;&gt;</h6></div>
-                        </div>
-                      </div>
-
-                      <div
-                        className={`module-discribe ${
-                          addClass ? "request" : ""
-                        }`}
-                      >
-                        <div
-                          className={`${
-                            bigCircleModuleData?.active === true
-                              ? "active d-flex justify-content-between flex-column"
-                              : "d-flex justify-content-between flex-column"
-                          }`}
-                        >
-                          <div className="key-features">
-                            <h5>Key Features</h5>
-                            <ul>
-                            {bigCircleModuleData?.highlights?.map((feature, index) => (
-                                <li key={index}>
-                                  {feature?.keyFeature}
-                                  {feature?.subKeyFeatures && feature?.subKeyFeatures.length > 0 && (
-                                    <ul>
-                                      {feature?.subKeyFeatures?.map((subFeature, subIndex) => (
-                                        <li key={subIndex}>{subFeature}</li>
-                                      ))}
-                                    </ul>
-                                  )}
-                                </li>
-                                ))}
-                            </ul>
-                            
-                              <div className="d-flex align-items-center justify-content-center footer_bts">
-                                <Button
-                                  className="btn-filled"
-                                  onClick={handleRequestClick}
-                                >
-                                  Request
-                                </Button>
-                                <Link to="/" className="">
-                                  <img
-                                    src={path_image + "downlaod-ppt.svg"}
-                                    alt=""
-                                  />
-                                </Link>
+                              <div>
+                                <p>{bigCircleModuleData?.detail}</p>
+                                <p className="semibold">
+                                  {bigCircleModuleData?.paragraph}
+                                </p>
                               </div>
+                              <div>
+                                <h6>Swipe for Key Features &gt;&gt;</h6>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </Slider>
-                  
-                  )}
-                 </div>
-                 </div>
+
+                          <div
+                            className={`module-discribe ${
+                              addClass ? "request" : ""
+                            }`}
+                          >
+                            <div
+                              className={`${
+                                bigCircleModuleData?.active === true
+                                  ? "active d-flex justify-content-between flex-column"
+                                  : "d-flex justify-content-between flex-column"
+                              }`}
+                            >
+                              <div className="key-features">
+                                <h5>Key Features</h5>
+                                <ul>
+                                  {bigCircleModuleData?.highlights?.map(
+                                    (feature, index) => (
+                                      <li key={index}>
+                                        {feature?.keyFeature}
+                                        {feature?.subKeyFeatures &&
+                                          feature?.subKeyFeatures.length >
+                                            0 && (
+                                            <ul>
+                                              {feature?.subKeyFeatures?.map(
+                                                (subFeature, subIndex) => (
+                                                  <li key={subIndex}>
+                                                    {subFeature}
+                                                  </li>
+                                                )
+                                              )}
+                                            </ul>
+                                          )}
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+
+                                <div className="d-flex align-items-center justify-content-center footer_bts">
+                                  <Button
+                                    className="btn-filled"
+                                    onClick={handleRequestClick}
+                                  >
+                                    Request
+                                  </Button>
+                                  <a href={bigCircleModuleData?.ppt} download>
+                                    <img
+                                      src={path_image + "downlaod-ppt.svg"}
+                                      alt=""
+                                    />
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Slider>
+                      )}
+                    </div>
+                  </div>
                   <div class="shape shape-right"></div>
                 </div>
               </div>
@@ -3195,7 +3266,7 @@ const PharmaMarketing = () => {
           </Row>
         </Container>
       </div>
-     
+
       <div className="contact-us pharma">
         <Container>
           <Row>
