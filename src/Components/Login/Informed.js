@@ -33,6 +33,7 @@ const Informed = () => {
   const [forceRender, setForceRender] = useState(false);
   const handleClose = (type) => {
     if (type == "forgot") {
+      setErrorMsg("");
       setShow(false);
     } else {
       setPrivacyshow(false);
@@ -161,14 +162,14 @@ const Informed = () => {
   };
 
   const clearLocalStorageExcept = () => {
-    const keysToKeep = ['uname', 'pass', 'acceptedCookies']; 
+    const keysToKeep = ["uname", "pass", "acceptedCookies"];
     for (let i = localStorage.length - 1; i >= 0; i--) {
       const key = localStorage.key(i);
       if (!keysToKeep.includes(key)) {
-      localStorage.removeItem(key);
+        localStorage.removeItem(key);
       }
     }
-  }
+  };
 
   return (
     <>

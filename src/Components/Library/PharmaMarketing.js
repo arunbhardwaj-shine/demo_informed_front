@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Router, Route, browserHistory } from 'react-router';
 import {
   Button,
   Col,
@@ -3297,4 +3298,4 @@ const PharmaMarketing = () => {
   );
 };
 
-export default PharmaMarketing;
+export default  React.memo(PharmaMarketing);
