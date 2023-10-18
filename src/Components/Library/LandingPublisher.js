@@ -130,7 +130,7 @@ const PharmaRd = () => {
 
     {
       id: 10,
-      style: "11",
+      style: "10",
       active: false,
       icon: "survey-icon.svg",
       title: "Survey Engine",
@@ -2728,10 +2728,6 @@ const PharmaRd = () => {
 
                           <div
                             className="stat blank"
-                            style={{ "--i": "15" }}
-                          ></div>
-                          <div
-                            className="stat blank"
                             style={{ "--i": "16" }}
                           ></div>
                           <div
@@ -2745,6 +2741,10 @@ const PharmaRd = () => {
                           <div
                             className="stat blank"
                             style={{ "--i": "19" }}
+                          ></div>
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "20" }}
                           ></div>
                         </div>
                       )}
