@@ -2235,6 +2235,12 @@ const PharmaRd = () => {
 
 
                    {/* <-------- MOBILE VIEW --------->*/}
+                   <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
                    <div className="mobile-slider">
                 <div className="mobile-slider-inset">
                  {showBigCircleData && !registerPage && (
@@ -2307,8 +2313,8 @@ const PharmaRd = () => {
                                 </li>
                                 ))}
                             </ul>
-                            {showBigCircleData && !registerPage && (
-                              <div className="d-flex align-items-center justify-content-center fotter-btns">
+                            
+                              <div className="d-flex align-items-center justify-content-center">
                                 <Button
                                   className="btn-filled"
                                   onClick={handleRequestClick}
@@ -2322,16 +2328,11 @@ const PharmaRd = () => {
                                   />
                                 </Link>
                               </div>
-                            )}
+                           
 
-                             {!submitData && (
-                    <img
-                      className="close"
-                      src={path_image + "module-close-button.svg"}
-                      alt=""
-                      onClick={handleBigCircleClose}
-                    />
-                  )}
+                             
+                   
+                
                           </div>
                         </div>
                       </div>
