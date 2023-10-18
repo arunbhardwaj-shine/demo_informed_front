@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row, Table, Button } from "react-bootstrap";
 import { loader } from "../../../../../loader";
 import CommonAddEventModel from "./CommonAddEventModel";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
@@ -7,9 +7,12 @@ import { popup_alert } from "../../../../../popup_alert";
 import { getData, deleteData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import moment from "moment";
+import { Spinner } from "react-activity";
+import { useParams } from "react-router-dom";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
+  let params = useParams();
   const [isData, setIsData] = useState();
   const [apiData, setApiData] = useState();
   const [apiStatus, setApiStatus] = useState(true);
@@ -20,14 +23,18 @@ const NewEventCreate = () => {
   const [search, setSearch] = useState("");
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [page, setPage] = useState(1);
+  const [pageAll, setPageAll] = useState(false);
   const [isEditData, setIsEditData] = useState();
   const [isActive, setIsActive] = useState("");
   const [sortDirection, setSortDirection] = useState(0);
+  const [totalEvents, setTotalEvents] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isDataLength, setIsDataLength] = useState(0);
 
   useEffect(() => {
     setApiStatus(false);
     getWebinarFilterData();
-    getDataFromApi(page, search);
+    getDataFromApi(page);
   }, []);
   const getWebinarFilterData = async () => {
     try {
@@ -41,12 +48,33 @@ const NewEventCreate = () => {
       loader("hide");
     }
   };
-  const getDataFromApi = async (page, search) => {
+  const getDataFromApi = async (page, limit = 5) => {
     try {
       loader("show");
-      const response = await getData(ENDPOINT.WEBINAR_GET_EVENT_LISTING);
-      setIsData(response?.data?.data);
-      setApiData(response?.data?.data);
+      setIsLoaded(false);
+
+      const response = await getData(
+        `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?page=${page}&limit=${limit}`
+      );
+      setIsData(response?.data?.data?.data);
+      setApiData(response?.data?.data?.data);
+
+      setTotalEvents(response?.data?.data?.totalPage);
+      if (
+        page == 1 &&
+        response?.data?.data?.totalPage > response?.data?.data?.data?.length
+      ) {
+        setIsDataLength(response?.data?.data?.data?.length);
+        setIsLoaded(true);
+      } else if (
+        totalEvents >
+        isDataLength + response?.data?.data?.data?.length
+      ) {
+        let newDataLength = isDataLength + response?.data?.data?.data?.length;
+        setIsDataLength(newDataLength);
+        setIsLoaded(true);
+      }
+
       setApiStatus(true);
     } catch (err) {
       console.log("--err", err);
@@ -54,6 +82,13 @@ const NewEventCreate = () => {
     } finally {
       loader("hide");
     }
+  };
+  const loadMoreClicked = () => {
+    setPageAll(true);
+    let sp = page + 1;
+    setPage(sp);
+    getDataFromApi(sp);
+    setPageAll(false);
   };
 
   const searchChange = (e) => {
@@ -299,6 +334,28 @@ const NewEventCreate = () => {
                 )}
               </div>
             </div>
+            <div className="load_more">
+              {isLoaded == true ? (
+                <Button
+                  className="btn btn-primary btn-filled"
+                  // onClick={loadMoreClicked}
+                >
+                  Load More
+                </Button>
+              ) : null}
+            </div>
+            {pageAll == true ? (
+              <div
+                className="load_more"
+                style={{
+                  margin: "0 auto",
+                  justifyContent: "center",
+                  display: "flex",
+                }}
+              >
+                <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+              </div>
+            ) : null}
           </Row>
         </div>
       </Col>
