@@ -13,8 +13,8 @@ import { useParams } from "react-router-dom";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
   let params = useParams();
-  const [isData, setIsData] = useState();
-  const [apiData, setApiData] = useState();
+  const [isData, setIsData] = useState([]);
+  const [apiData, setApiData] = useState([]);
   const [apiStatus, setApiStatus] = useState(true);
   const [webinarDetail, setWebinarDetail] = useState({});
   const [editEvent, setEditEvent] = useState(false);
@@ -48,31 +48,40 @@ const NewEventCreate = () => {
       loader("hide");
     }
   };
-  const getDataFromApi = async (page, limit = 5) => {
+  const getDataFromApi = async (page, load = 0, limit = 2) => {
     try {
       loader("show");
       setIsLoaded(false);
+      if (load) {
+        setPageAll(true);
+      }
 
       const response = await getData(
         `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?page=${page}&limit=${limit}`
       );
-      setIsData(response?.data?.data?.data);
-      setApiData(response?.data?.data?.data);
 
-      setTotalEvents(response?.data?.data?.totalPage);
-      if (
-        page == 1 &&
-        response?.data?.data?.totalPage > response?.data?.data?.data?.length
-      ) {
-        setIsDataLength(response?.data?.data?.data?.length);
-        setIsLoaded(true);
-      } else if (
-        totalEvents >
-        isDataLength + response?.data?.data?.data?.length
-      ) {
-        let newDataLength = isDataLength + response?.data?.data?.data?.length;
-        setIsDataLength(newDataLength);
-        setIsLoaded(true);
+      if (page == 1) {
+        // setIsDataLength(response?.data?.data?.data?.length);
+        setTotalEvents(response?.data?.data?.totalPage);
+        setIsData(response?.data?.data?.data);
+        setApiData(response?.data?.data?.data);
+        if (
+          response?.data?.data?.totalPage > response?.data?.data?.data?.length
+        ) {
+          setIsLoaded(true);
+        } else {
+          setIsLoaded(false);
+        }
+      } else {
+        let newDataLength = isData?.length + response?.data?.data?.data?.length;
+        // setIsDataLength(newDataLength);
+        setIsData([...isData, ...response?.data?.data?.data]);
+        setApiData([...apiData, ...response?.data?.data?.data]);
+        if (totalEvents > newDataLength) {
+          setIsLoaded(true);
+        } else {
+          setIsLoaded(false);
+        }
       }
 
       setApiStatus(true);
@@ -80,21 +89,27 @@ const NewEventCreate = () => {
       console.log("--err", err);
       setApiStatus(true);
     } finally {
+      setPageAll(false);
       loader("hide");
     }
   };
   const loadMoreClicked = () => {
-    setPageAll(true);
+    loader("show");
     let sp = page + 1;
     setPage(sp);
-    getDataFromApi(sp);
-    setPageAll(false);
+    getDataFromApi(sp, 1);
+    loader("hide");
   };
 
   const searchChange = (e) => {
     setSearch(e?.target?.value?.trim());
     if (e?.target?.value === "") {
       setIsData(apiData);
+      if (totalEvents > isDataLength) {
+        setIsLoaded(true);
+      } else {
+        setIsLoaded(false);
+      }
     }
   };
   const submitSearchHandler = (event) => {
@@ -105,6 +120,7 @@ const NewEventCreate = () => {
     );
 
     setIsData(filteredData);
+    setIsLoaded(false);
     setApiStatus(true);
   };
   const handleAddEventClick = (e, item) => {
@@ -118,9 +134,13 @@ const NewEventCreate = () => {
   };
 
   const handleAddModalSubmit = (e) => {
-    getDataFromApi();
+    loader("show")
+    setIsData([]);
+    setApiData([]);
+    getDataFromApi(1);
     setEventId("");
     setEditEvent(false);
+    loader("hide")
   };
 
   const handleConfirmModalFun = async (id) => {
@@ -338,7 +358,7 @@ const NewEventCreate = () => {
               {isLoaded == true ? (
                 <Button
                   className="btn btn-primary btn-filled"
-                  // onClick={loadMoreClicked}
+                  onClick={loadMoreClicked}
                 >
                   Load More
                 </Button>
