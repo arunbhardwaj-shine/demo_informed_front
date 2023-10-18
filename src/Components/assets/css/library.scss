@@ -14127,6 +14127,7 @@ img.change-password-image {
           display: flex;
           align-items: center;
           justify-content: center;
+          transition: opacity 400ms ease 0s, visibility 800ms ease 0s !important;
 
           // &[data-index="1"] {
           //   background: url(../../../../public/componentAssets/images/slide2-bg.jpg) no-repeat;
@@ -15393,7 +15394,7 @@ img.change-password-image {
   flex-direction: column;
   // transform: translate(70%, 0) scale(0.3);
   opacity: 0;
-  transition: transform 0.5s ease;
+  transition: transform 0.35s ease;
   z-index: -1;
   transition-timing-function: cubic-bezier(1, 1, 1, 1);
   --d: calc(var(--i) / var(--total));
@@ -17154,6 +17155,12 @@ img.change-password-image {
 @media only screen and (min-width:1360px) and (max-width:1439px) {
   .landing-banner.pharma .circular-ring .center-logo {
     top: 34%;
+  }
+}
+
+@media only screen and (min-width:1400px) and (max-width:1439px) {
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 43%;
   }
 }
 
