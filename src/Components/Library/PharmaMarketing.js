@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Router, Route, browserHistory } from 'react-router';
 import {
   Button,
   Col,
@@ -1214,6 +1215,23 @@ const PharmaMarketing = () => {
     }
     setTimeout(() => {
       setReadStatus(false);
+      setRegisterError(false);
+      setSelectedCountry([]);
+    setRegisterFormInputs({
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      country: "",
+      consent1: {
+        label: "Email me only about modules I’ve looked at",
+        checked: false,
+      },
+      consent2: {
+        label: "Keep me informed about other news from inforMed.pro",
+        checked: false,
+      },
+    })
     }, 200);
     setSelectedModules([]);
   };
@@ -3280,4 +3298,4 @@ const PharmaMarketing = () => {
   );
 };
 
-export default PharmaMarketing;
+export default  React.memo(PharmaMarketing);
