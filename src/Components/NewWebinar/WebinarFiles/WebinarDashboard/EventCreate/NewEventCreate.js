@@ -45,12 +45,6 @@ const NewEventCreate = () => {
     try {
       loader("show");
       const response = await getData(ENDPOINT.WEBINAR_GET_EVENT_LISTING);
-
-      // const date = moment(
-      //   new Date(response?.data?.data?.[0].dateStart),
-      //   "MM/DD/YYYY"
-      // ).format("MM/DD/YYYY");
-
       setIsData(response?.data?.data);
       setApiData(response?.data?.data);
       setApiStatus(true);

@@ -3,9 +3,7 @@ const EventModelValidation = (data) => {
   if (!data?.title) {
     error.title = "Please enter title";
   }
-  if (!data?.type) {
-    error.type = "Please select bu";
-  }
+  
   if (!data?.timezone) {
     error.timezone = "Please select time zone";
   }

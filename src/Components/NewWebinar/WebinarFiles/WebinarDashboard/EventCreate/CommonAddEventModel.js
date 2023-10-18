@@ -22,30 +22,30 @@ const CommonAddEventModel = ({
   const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [timeHours, setTimeHours] = useState([
-    { label: "00 (00AM)", value: "00" },
-    { label: "01 (01AM)", value: "01" },
-    { label: "02 (02AM)", value: "02" },
-    { label: "03 (03AM)", value: "03" },
-    { label: "04 (04AM)", value: "04" },
-    { label: "05 (05AM)", value: "05" },
-    { label: "06 (06AM)", value: "06" },
-    { label: "07 (07AM)", value: "07" },
-    { label: "08 (08AM)", value: "08" },
-    { label: "09 (09AM)", value: "09" },
-    { label: "10 (10AM)", value: "10" },
-    { label: "11 (11AM)", value: "11" },
-    { label: "12 (12PM)", value: "12" },
-    { label: "13 (13PM)", value: "13" },
-    { label: "14 (14PM)", value: "14" },
-    { label: "15 (15PM)", value: "15" },
-    { label: "16 (16PM)", value: "16" },
-    { label: "17 (17PM)", value: "17" },
-    { label: "18 (18PM)", value: "18" },
-    { label: "19 (19PM)", value: "19" },
-    { label: "20 (20PM)", value: "20" },
-    { label: "21 (21PM)", value: "21" },
-    { label: "22 (22PM)", value: "22" },
-    { label: "23 (23PM)", value: "23" },
+    { label: "00 ", value: "00" },
+    { label: "01 ", value: "01" },
+    { label: "02 ", value: "02" },
+    { label: "03 ", value: "03" },
+    { label: "04 ", value: "04" },
+    { label: "05 ", value: "05" },
+    { label: "06 ", value: "06" },
+    { label: "07 ", value: "07" },
+    { label: "08 ", value: "08" },
+    { label: "09 ", value: "09" },
+    { label: "10 ", value: "10" },
+    { label: "11 ", value: "11" },
+    { label: "12 ", value: "12" },
+    { label: "13 ", value: "13" },
+    { label: "14 ", value: "14" },
+    { label: "15 ", value: "15" },
+    { label: "16 ", value: "16" },
+    { label: "17 ", value: "17" },
+    { label: "18 ", value: "18" },
+    { label: "19 ", value: "19" },
+    { label: "20 ", value: "20" },
+    { label: "21 ", value: "21" },
+    { label: "22 ", value: "22" },
+    { label: "23 ", value: "23" },
   ]);
   const [timeMinutes, setTimeMinutes] = useState([
     { label: "00 ", value: "00" },
@@ -61,6 +61,16 @@ const CommonAddEventModel = ({
     { label: "50 ", value: "50" },
     { label: "55 ", value: "55" },
   ]);
+
+  const [error, setError] = useState({});
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [countryTimezone, setCountryTimezone] = useState([]);
+  const [clientStreamOptions, setClientStreamOptions] = useState([
+    { label: "Yes", value: "1" },
+    { label: "No", value: "0" },
+  ]);
+  const [timezoneOptions, setTimezoneOptions] = useState([]);
+  const [ibuOptions, setIBUOptions] = useState([]);
   const [eventInputs, setEventInputs] = useState({
     dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     title: "",
@@ -76,25 +86,15 @@ const CommonAddEventModel = ({
     event_code: "",
     description: "",
   });
-  const [error, setError] = useState({});
-
-  const [countryTimezone, setCountryTimezone] = useState([]);
-
-  const [clientStreamOptions, setClientStreamOptions] = useState([
-    { label: "Yes", value: "1" },
-    { label: "No", value: "0" },
-  ]);
-  const [timezoneOptions, setTimezoneOptions] = useState([]);
-  const [buOptions, setBUOptions] = useState([]);
   useEffect(() => {
     setCountryTimezone(webinarDetail?.countryTimezone);
-    setBUOptions(webinarDetail?.ibu);
+    setIBUOptions(webinarDetail?.ibu);
     setTimezoneOptions(webinarDetail?.timezoneName);
-    if (data) {
+    if (data?.id) {
       setEventInputs({
         ...data,
         title: data?.title,
-        type: data?.type,
+        type: data?.type ? data?.type : "",
         timezone: data?.timezone,
         country_timezone: data?.country_timezone,
         is_client_stream: data?.is_client_stream == 1 ? "Yes" : "No",
@@ -108,6 +108,24 @@ const CommonAddEventModel = ({
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
         description: data?.description ? data?.description : "",
+      });
+    } else {
+      setEventInputs({
+        dateStart: new Date(
+          moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+        ),
+        title: "",
+        type: "",
+        timezone: "",
+        country_timezone: "",
+        is_client_stream: "",
+        client_stream_url: "",
+        dateStartHour: "",
+        dateStartMin: "",
+        dateEndHour: "",
+        dateEndMin: "",
+        event_code: "",
+        description: "",
       });
     }
   }, [show]);
@@ -139,7 +157,7 @@ const CommonAddEventModel = ({
         loader("show");
         let dataObj = {
           title: eventInputs?.title,
-          type: eventInputs?.type,
+          type: eventInputs?.type ? eventInputs?.type : "",
           timezone: eventInputs?.timezone,
           countryTimezone: eventInputs?.country_timezone,
           isClientStream: eventInputs?.is_client_stream == "Yes" ? 1 : 0,
@@ -193,7 +211,7 @@ const CommonAddEventModel = ({
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {data?.length ? "Edit Event" : "Add New Event"}
+              {data?.id ? "Edit Event" : "Add New Event"}
             </h5>
             <button
               type="button"
@@ -246,12 +264,10 @@ const CommonAddEventModel = ({
                           </div>
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-                              <label htmlFor="">
-                                BU <span> *</span>
-                              </label>
+                              <label htmlFor="">IBU</label>
 
                               <Select
-                                options={buOptions}
+                                options={ibuOptions}
                                 className={
                                   error?.type
                                     ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
@@ -259,13 +275,13 @@ const CommonAddEventModel = ({
                                 }
                                 onChange={(e) => handleChange(e?.value, "type")}
                                 value={
-                                  buOptions
-                                    ? buOptions.findIndex(
+                                  ibuOptions
+                                    ? ibuOptions.findIndex(
                                         (item) =>
                                           item?.value == eventInputs?.type
                                       ) != -1
-                                      ? buOptions[
-                                          buOptions.findIndex(
+                                      ? ibuOptions[
+                                          ibuOptions.findIndex(
                                             (item) =>
                                               item?.value == eventInputs?.type
                                           )
@@ -464,6 +480,7 @@ const CommonAddEventModel = ({
                                 onChange={(date) =>
                                   handleChange(date, "dateStart")
                                 }
+                                minDate={currentDate}
                                 dateFormat="dd/MM/yyyy"
                               />
                               {error?.dateStart ? (
@@ -639,7 +656,7 @@ const CommonAddEventModel = ({
                           <div className="col-12 col-md-6">
                             <div className="form-group">
                               <label htmlFor="">Event Description</label>
-                              <input
+                              <textarea
                                 type="text"
                                 name="description"
                                 placeholder="Event Description"
