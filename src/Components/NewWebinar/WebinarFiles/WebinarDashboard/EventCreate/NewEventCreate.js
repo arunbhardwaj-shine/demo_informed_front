@@ -48,7 +48,7 @@ const NewEventCreate = () => {
       loader("hide");
     }
   };
-  const getDataFromApi = async (page, load = 0, limit = 2) => {
+  const getDataFromApi = async (page, load = 0) => {
     try {
       loader("show");
       setIsLoaded(false);
@@ -57,11 +57,10 @@ const NewEventCreate = () => {
       }
 
       const response = await getData(
-        `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?page=${page}&limit=${limit}`
+        `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?page=${page}`
       );
 
       if (page == 1) {
-        // setIsDataLength(response?.data?.data?.data?.length);
         setTotalEvents(response?.data?.data?.totalPage);
         setIsData(response?.data?.data?.data);
         setApiData(response?.data?.data?.data);
@@ -74,7 +73,7 @@ const NewEventCreate = () => {
         }
       } else {
         let newDataLength = isData?.length + response?.data?.data?.data?.length;
-        // setIsDataLength(newDataLength);
+
         setIsData([...isData, ...response?.data?.data?.data]);
         setApiData([...apiData, ...response?.data?.data?.data]);
         if (totalEvents > newDataLength) {
@@ -105,7 +104,7 @@ const NewEventCreate = () => {
     setSearch(e?.target?.value?.trim());
     if (e?.target?.value === "") {
       setIsData(apiData);
-      if (totalEvents > isDataLength) {
+      if (totalEvents > apiData?.length) {
         setIsLoaded(true);
       } else {
         setIsLoaded(false);
@@ -134,13 +133,12 @@ const NewEventCreate = () => {
   };
 
   const handleAddModalSubmit = (e) => {
-    loader("show")
-    setIsData([]);
-    setApiData([]);
+    loader("show");
     getDataFromApi(1);
     setEventId("");
     setEditEvent(false);
-    loader("hide")
+    handleCommonEventModalClose();
+    loader("hide");
   };
 
   const handleConfirmModalFun = async (id) => {
@@ -150,7 +148,7 @@ const NewEventCreate = () => {
       loader("show");
       await deleteData(ENDPOINT.WEBINAR_DELETE_EVENT, id);
 
-      getDataFromApi();
+      getDataFromApi(1);
       setEventId("");
       loader("hide");
       popup_alert({

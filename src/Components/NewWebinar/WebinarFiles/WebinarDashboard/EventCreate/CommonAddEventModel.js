@@ -139,12 +139,21 @@ const CommonAddEventModel = ({
     onClose(false);
   };
   const handleChange = (e, isSelectedName) => {
-    setEventInputs({
-      ...eventInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-        ? e
-        : e?.target?.value,
-    });
+    if (e?.target?.name == "event_code") {
+      setEventInputs({
+        ...eventInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e
+          : e?.target?.value?.trim(),
+      });
+    } else {
+      setEventInputs({
+        ...eventInputs,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e
+          : e?.target?.value,
+      });
+    }
   };
   const saveClicked = async (e) => {
     try {
@@ -182,7 +191,7 @@ const CommonAddEventModel = ({
           const res = await postData(ENDPOINT.WEBINAR_ADD_NEW_EVENT, dataObj);
         }
 
-        onClose(false);
+        // onClose(false);
         setEventInputs({
           dateStart: new Date(
             moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
