@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Col, Container, Form, FormGroup, FormLabel, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  FormLabel,
+  Row,
+} from "react-bootstrap";
 import Select from "react-select";
 import Header from "../CommonComponent/HeaderComponent/Header";
 import { Link } from "react-router-dom";
@@ -23,7 +31,7 @@ const PharmaRd = () => {
   const [submitData, setSubmitData] = useState(false);
   const [modulesSelect, setModulesSelect] = useState(true);
   const [selectedModules, setSelectedModules] = useState([]);
-  const [registerPage, setRegisterPage] = useState(true)
+  const [registerPage, setRegisterPage] = useState(true);
   const [intialModuleData, setIntialModuleData] = useState(null);
   const [payloadData, setPayloadData] = useState({});
   const [registerError, setRegisterError] = useState(false);
@@ -70,8 +78,7 @@ const PharmaRd = () => {
       active: false,
       icon: "legal-document-icon.svg",
       title: "Consent",
-      description:
-        "Help clients get the consent they require. ",
+      description: "Help clients get the consent they require. ",
     },
     {
       id: 5,
@@ -138,26 +145,27 @@ const PharmaRd = () => {
       logo: "rtr-image.svg",
       title: <span style={{ color: "#5A6BB5" }}>Read-Through-Rate</span>,
       image: "rtr-content-list.png",
-      ppt:"../../../componentAssets/images/publisherPpt/rtr.pptx",
+      ppt: "../../../componentAssets/images/publisherPpt/rtr.pptx",
       description:
         "Leverage our proprietary Read-Through-Rate metric to gauge the level of engagement. Show your clients which pages are read so they can encourage HCPs to engage more and gain more usage",
       para: "Knowledge is power - how will you help your clients?",
       features: [
         {
           keyFeature: "First captures each HCP’s consent",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Track every engagement down to each second spend on individual pages",
-          subKeyFeatures: []
+          keyFeature:
+            "Track every engagement down to each second spend on individual pages",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Track HCPs reading on & offline, in browser or in app",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "True engagement data",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -168,21 +176,21 @@ const PharmaRd = () => {
       logo: "rating-icon.svg",
       title: <span style={{ color: "#2B9BC8" }}>Rating Tool</span>,
       image: "rating-tool-min.png",
-      ppt:"../../../componentAssets/images/publisherPpt/rating.pptx",
+      ppt: "../../../componentAssets/images/publisherPpt/rating.pptx",
       description:
         "Introducing our revolutionary Rating Tool, assessing clinical value across your content. Gather insights as HCPs engage, guiding clients to prioritize value over quantity.",
       features: [
         {
           keyFeature: "Let HCPs rate your content",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "HCPs rate whenever they engage via browser or in-app",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Prove ROI",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -193,22 +201,22 @@ const PharmaRd = () => {
       logo: "auto-email-icon.svg",
       title: <span style={{ color: "#00D4C0" }}>Automail</span>,
       image: "automail-min.png",
-      ppt:"../../../componentAssets/images/publisherPpt/automail.pptx",
+      ppt: "../../../componentAssets/images/publisherPpt/automail.pptx",
       description:
         "We keep track of all your licensed content with confirmation emails and the limits you’ve agreed with your clients, You receive alerts prior to reaching limits, whether they are expiration or quantity-based",
       para: "",
       features: [
         {
           keyFeature: "Automated confirmation email",
-          subKeyFeatures: ["Nearing expiration", "Nearing quantity limit"]
+          subKeyFeatures: ["Nearing expiration", "Nearing quantity limit"],
         },
         {
           keyFeature: "Alert to both sales & production",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Customisable AutoMail settings",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -219,30 +227,31 @@ const PharmaRd = () => {
       logo: "legal-document-icon.svg",
       title: <span style={{ color: "#00A4BF" }}>Consent</span>,
       image: "consent-min.png",
-      ppt:"../../../componentAssets/images/publisherPpt/consent.pptx",
+      ppt: "../../../componentAssets/images/publisherPpt/consent.pptx",
       description:
         "Clients often realize their consent needs only after receiving the eprint. Our platform enables you and them to modify consent forms and language online anytime.",
       para: "",
       features: [
         {
           keyFeature: "Three standard consent forms makes it easy",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Any language possible",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature:"Change online at any time",
-          subKeyFeatures: []
+          keyFeature: "Change online at any time",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Personalised experienced for the HCPs",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "HCPs can withdraw consent through their Docintel account",
-          subKeyFeatures: []
+          keyFeature:
+            "HCPs can withdraw consent through their Docintel account",
+          subKeyFeatures: [],
         },
       ],
     },
@@ -253,30 +262,30 @@ const PharmaRd = () => {
       logo: "email-small-icon.svg",
       title: <span style={{ color: "#0084BE" }}>Email Engine</span>,
       image: "email-engine-min.png",
-      ppt:"../../../componentAssets/images/publisherPpt/email.pptx",
+      ppt: "../../../componentAssets/images/publisherPpt/email.pptx",
       description:
         "Our email platform caters to the life science industry, designed for sending bulk emails with automated follow-ups tailored to each HCP's actions. It's commonly employed to invite HCPs to events or content launches using purchased lists, subject to email limits.",
       para: "",
       features: [
         {
           keyFeature: "Easy to use - built for the industry",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Dynamic SmartLists save you from excel-hell",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Track if HCP reads what you send",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Email & content engagement stored in CRM",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Add-on AutoMail for AI-automation",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -287,32 +296,28 @@ const PharmaRd = () => {
       logo: "docintel-small-icon.svg",
       title: <span style={{ color: "#0066BE" }}>Docintel.app</span>,
       image: "docintel-min.png",
-      ppt:"../../../componentAssets/images/publisherPpt/docintel.pptx",
+      ppt: "../../../componentAssets/images/publisherPpt/docintel.pptx",
       description:
         "Beyond our elegant and user-friendly interfaces lies perhaps the most sophisticated and versatile technology accessible to publishers. Letting HCPs read on any device means flexibility for your clients and freedom to drive usage.",
       para: "Tailorable consent mechanisms, usage tracking, live analytics, multimedia content choices, and interactivity are all designed to enhance your client offer.",
-      features: [
-        "",
-        "",
-        "",
-        ""
-      ],
+      features: ["", "", "", ""],
       features: [
         {
           keyFeature: "Secure and track limits agreed with client",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Multimedia options to satisfy any clients wish",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "HCPs read on & offline, in any browser or in the app",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Track every engagement down to each second spend on individual pages",
-          subKeyFeatures: []
+          keyFeature:
+            "Track every engagement down to each second spend on individual pages",
+          subKeyFeatures: [],
         },
       ],
     },
@@ -323,22 +328,23 @@ const PharmaRd = () => {
       logo: "informedgo-icon.svg",
       title: <span style={{ color: "#045FAE" }}>inforMedGo</span>,
       image: "informedgo-min.png",
-      ppt:"../../../componentAssets/images/publisherPpt/informed.pptx",
+      ppt: "../../../componentAssets/images/publisherPpt/informed.pptx",
       description:
         "Maximize the success of pharma content distribution by including a complimentary InforMedGO app for Apple, Android, and Windows devices with every eprint. This enables reps to carry your eprints on any device, facilitating immediate distribution to HCPs.",
       para: "The key to success lies in actively distributing valuable content.",
       features: [
         {
-          keyFeature: "Easy to use - download free app and enter code for instant activation",
-          subKeyFeatures: []
+          keyFeature:
+            "Easy to use - download free app and enter code for instant activation",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Give Reps control over your entire content collection",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Gather on-the-spot consent",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -349,30 +355,31 @@ const PharmaRd = () => {
       logo: "web-portal-icon.svg",
       title: <span style={{ color: "#6E52A2" }}>Web Portal</span>,
       image: "web-portal-min.png",
-      ppt:"../../../componentAssets/images/publisherPpt/web.pptx",
+      ppt: "../../../componentAssets/images/publisherPpt/web.pptx",
       description:
         "Offering complete creative freedom to build custom libraries of your content and add options for your clients that enhance the HCP experience. Implement secure consent mechanisms and comprehensive interaction tracking to gauge ROI and refine your offerings.",
       para: "",
       features: [
         {
           keyFeature: "Enhancing content pages",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "On demand for when the HCP want to know more",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Let HCPs take what they want offline in their personal Docintel app account",
-          subKeyFeatures: []
+          keyFeature:
+            "Let HCPs take what they want offline in their personal Docintel app account",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Combining Local and Global users for promotion",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Customise to clients visual identity",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -383,38 +390,40 @@ const PharmaRd = () => {
       logo: "webinar-small-icon.svg",
       title: <span style={{ color: "#8A4E9C" }}>Webinar Portal</span>,
       image: "webinar-portal-min.png",
-      ppt:"../../../componentAssets/images/publisherPpt/webinar.pptx",
+      ppt: "../../../componentAssets/images/publisherPpt/webinar.pptx",
       description:
         "Transform your clients webinars with creative freedom and engagement tools that resonates and make HCPs feel valued and active participants. Convert the recordings into valuable content that can be distributed in a user-friendly format, fostering post-event engagement and stronger relationships with HCPs",
       para: "",
       features: [
         {
           keyFeature: "Online Webinar Platform every HCP will find easy to use",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Registration & Consent to suit any regulation",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Automated Calendar Reminders helping the HCPs be on time",
-          subKeyFeatures: []
+          keyFeature:
+            "Automated Calendar Reminders helping the HCPs be on time",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Automated personalised emails with single-click-login ensure easy access for each HCP",
-          subKeyFeatures: []
+          keyFeature:
+            "Automated personalised emails with single-click-login ensure easy access for each HCP",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Take the interaction to the next level & allow",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "HCPs to ask real-time questions",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Learn who stayed and engaged to prove",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -425,26 +434,28 @@ const PharmaRd = () => {
       logo: "survey-icon.svg",
       title: <span style={{ color: "#5058AA" }}>Survey Engine</span>,
       image: "survey-engine-min.png",
-      ppt:"../../../componentAssets/images/publisherPpt/survey.pptx",
+      ppt: "../../../componentAssets/images/publisherPpt/survey.pptx",
       description:
         "Reveal valuable HCP insights with custom surveys.Create your questions, target specific segments and instantly gain deeper understanding about each HCP by seeing their answers. The survey engine syncs with the CRM data and the email module enables easy resend to non-openers - integrate with AutoMail for efficiency.",
       para: "",
       features: [
         {
           keyFeature: "Gain invaluable real-time feedback from your HCPs",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Customise your survey - let your brand shine through at every point",
-          subKeyFeatures: []
+          keyFeature:
+            "Customise your survey - let your brand shine through at every point",
+          subKeyFeatures: [],
         },
         {
-          keyFeature: "Integrate into your pages - creating a seamless experience",
-          subKeyFeatures: []
+          keyFeature:
+            "Integrate into your pages - creating a seamless experience",
+          subKeyFeatures: [],
         },
         {
           keyFeature: "Build better data for your AI",
-          subKeyFeatures: []
+          subKeyFeatures: [],
         },
       ],
     },
@@ -742,8 +753,14 @@ const PharmaRd = () => {
     phone: "",
     company: "",
     country: "",
-    consent1: { label: "Email me only about modules I’ve looked at", checked: false },
-    consent2: { label: "Keep me informed about other news from inforMed.pro", checked: false },
+    consent1: {
+      label: "Email me only about modules I’ve looked at",
+      checked: false,
+    },
+    consent2: {
+      label: "Keep me informed about other news from inforMed.pro",
+      checked: false,
+    },
   });
 
   const [moduleFormInputs, setModuleFormInputs] = useState({
@@ -766,14 +783,14 @@ const PharmaRd = () => {
     heading: "",
     imagePath: "",
     detail: "",
-    ppt:"",
+    ppt: "",
     paragraph: "",
     highlights: [],
   });
 
   const handleClick = (moduleName, index) => {
-    setModulesSelect(true)
-    setSubmitData(false)
+    setModulesSelect(true);
+    setSubmitData(false);
     const smallCircleData = modules[index];
     const bigCircleData = bigCircleModules[index];
     if (moduleName !== activeModule) {
@@ -789,7 +806,10 @@ const PharmaRd = () => {
     setTimeout(() => {
       setModuleData((prevState) => ({
         active: moduleName === activeModule ? !prevState.active : true,
-        style: moduleName === activeModule ? prevState.style : smallCircleData?.style,
+        style:
+          moduleName === activeModule
+            ? prevState.style
+            : smallCircleData?.style,
         imagePath: smallCircleData?.icon,
         heading: smallCircleData?.title,
         paragraph: smallCircleData?.description,
@@ -801,20 +821,20 @@ const PharmaRd = () => {
       active: moduleName === activeModule ? !prevState.active : true,
       logoIconPath: bigCircleData?.logo,
       heading: bigCircleData?.title,
-      ppt:bigCircleData?.ppt,
+      ppt: bigCircleData?.ppt,
       imagePath: bigCircleData?.image,
       detail: bigCircleData?.description,
       paragraph: bigCircleData?.para,
       highlights: bigCircleData?.features,
     }));
     setShowBigCircleData(true);
-    setRegisterPage(true)
+    setRegisterPage(true);
   };
 
   const handleReadClick = async (event) => {
-    setAddDivClass(false)
-    setAddSmallClass(true)
-    event.preventDefault(); 
+    setAddDivClass(false);
+    setAddSmallClass(true);
+    event.preventDefault();
     const err = HomeValidation(registerFormInputs);
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
@@ -831,24 +851,28 @@ const PharmaRd = () => {
       setRegisterError(err);
       return;
     } else {
-      loader("show"); 
+      loader("show");
       try {
-        let consent= "";
-        let consentType= ""
-        if (registerFormInputs?.consent1 === 'on' && registerFormInputs?.consent2 === 'on') {
+        let consent = "";
+        let consentType = "";
+        if (
+          registerFormInputs?.consent1 === "on" &&
+          registerFormInputs?.consent2 === "on"
+        ) {
           consent = "Full Consent";
-        }
-        else if(registerFormInputs?.consent1 === 'on' || registerFormInputs?.consent2 === 'on') {
+        } else if (
+          registerFormInputs?.consent1 === "on" ||
+          registerFormInputs?.consent2 === "on"
+        ) {
           consent = "Limited Consent";
-          consentType = registerFormInputs?.consent1 === 'on'
-            ? "Email me only about modules I’ve looked at"
-            : "Keep me informed about other news from inforMed.pro";
-        } 
-        else {
+          consentType =
+            registerFormInputs?.consent1 === "on"
+              ? "Email me only about modules I’ve looked at"
+              : "Keep me informed about other news from inforMed.pro";
+        } else {
           consent = "No Consent";
         }
-        let data =
-        {
+        let data = {
           name: registerFormInputs?.name?.trim(),
           email: registerFormInputs?.email?.trim(),
           phone: registerFormInputs?.phone?.trim(),
@@ -856,11 +880,11 @@ const PharmaRd = () => {
           country: registerFormInputs?.country?.trim(),
           consent: consent,
           consent_type: consentType,
-          type:'register'
-        }
+          type: "register",
+        };
 
-        setPayloadData(data)
-        const res = await postData(ENDPOINT.REGISTER,data );
+        setPayloadData(data);
+        const res = await postData(ENDPOINT.REGISTER, data);
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -870,7 +894,7 @@ const PharmaRd = () => {
       } catch (err) {
         console.log(err);
         loader("hide");
-      } 
+      }
     }
   };
 
@@ -897,119 +921,118 @@ const PharmaRd = () => {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
-    const bigCircleData = bigCircleModules[index];   
+    const bigCircleData = bigCircleModules[index];
     setShowBigCircleData(true);
-  
-    if (showBigCircleData) {  
-      setAddClass(false);  
-      setBigModuleData((prevState) => ({ 
-  active: moduleName === activeModule ? !prevState.active : true,  
-        logoIconPath: bigCircleData?.logo,    
+
+    if (showBigCircleData) {
+      setAddClass(false);
+      setBigModuleData((prevState) => ({
+        active: moduleName === activeModule ? !prevState.active : true,
+        logoIconPath: bigCircleData?.logo,
         heading: bigCircleData?.title,
-        ppt:bigCircleData?.ppt,   
-        imagePath: bigCircleData?.image, 
-        detail: bigCircleData?.description, 
-        paragraph: bigCircleData?.para, 
-        highlights: bigCircleData?.features, 
+        ppt: bigCircleData?.ppt,
+        imagePath: bigCircleData?.image,
+        detail: bigCircleData?.description,
+        paragraph: bigCircleData?.para,
+        highlights: bigCircleData?.features,
       }));
       setActiveModule(moduleName === activeModule ? null : moduleName);
-    } else { 
+    } else {
       setShowBigCircleData(false);
-      setActiveModule(moduleName === activeModule ? null : moduleName);  
-      const visibleModules = document.querySelectorAll('.stat.visible'); 
-      const visibleModuleNames = Array.from(visibleModules).map(module => { 
-        const classNames = module.className.split(' '); 
+      setActiveModule(moduleName === activeModule ? null : moduleName);
+      const visibleModules = document.querySelectorAll(".stat.visible");
+      const visibleModuleNames = Array.from(visibleModules).map((module) => {
+        const classNames = module.className.split(" ");
         return classNames[classNames.length - 2];
-      }); 
-      setSelectedModules(prevState => { 
-        const isPreviouslySelected = prevState.includes(moduleName);  
+      });
+      setSelectedModules((prevState) => {
+        const isPreviouslySelected = prevState.includes(moduleName);
         const updatedModules = isPreviouslySelected
-            ? prevState.filter(item => item !== moduleName) 
-          : [...prevState, moduleName]; 
-        const stats = document.querySelectorAll('.stat'); 
-        stats.forEach(stat => { 
-          if (stat.classList.contains(moduleName)) { 
-            stat.classList.toggle('visible'); 
-            stat.classList.toggle('active'); 
+          ? prevState.filter((item) => item !== moduleName)
+          : [...prevState, moduleName];
+        const stats = document.querySelectorAll(".stat");
+        stats.forEach((stat) => {
+          if (stat.classList.contains(moduleName)) {
+            stat.classList.toggle("visible");
+            stat.classList.toggle("active");
           }
-        }); 
+        });
         return updatedModules;
       });
-   }
- 
-  }
+    }
+  };
 
   useEffect(() => {
-    const stats = document.querySelectorAll('.stat');
-    stats?.forEach(stat => {
-      if (stat.classList.contains('visible')) {
-        stat.classList.add('visible');
+    const stats = document.querySelectorAll(".stat");
+    stats?.forEach((stat) => {
+      if (stat.classList.contains("visible")) {
+        stat.classList.add("visible");
       }
     });
   }, [selectedModules]);
 
   const handleRequestClick = () => {
     setAddClass(true);
-    setAddSmallClass(false)
-    setAddDivClass(true)  
-    const stats = document.querySelectorAll('.stat');  
-    stats?.forEach(stat => {  
-      if (stat.classList.contains('visible')) { 
-        stat.classList.add('visible');
+    setAddSmallClass(false);
+    setAddDivClass(true);
+    const stats = document.querySelectorAll(".stat");
+    stats?.forEach((stat) => {
+      if (stat.classList.contains("visible")) {
+        stat.classList.add("visible");
       }
     });
 
     setShowBigCircleData(false);
-    setModulesSelect(true); 
-    setTimeout(() => { 
-      const visibleModules = document.querySelectorAll('.stat.visible'); 
-      const visibleModuleNames = Array.from(visibleModules).map(module => {
-        const classNames = module.className.split(' ');
+    setModulesSelect(true);
+    setTimeout(() => {
+      const visibleModules = document.querySelectorAll(".stat.visible");
+      const visibleModuleNames = Array.from(visibleModules).map((module) => {
+        const classNames = module.className.split(" ");
         return classNames[classNames.length - 2];
       });
-      setSelectedModules(prevState => (
-        [...new Set([...visibleModuleNames, ...prevState])]
-      ));
+      setSelectedModules((prevState) => [
+        ...new Set([...visibleModuleNames, ...prevState]),
+      ]);
     }, 500);
-    setIntialModuleData({bigCircleModuleData, activeModule});
-  }
+    setIntialModuleData({ bigCircleModuleData, activeModule });
+  };
 
   const handleFormClick = () => {
     setFormFeilds(true);
   };
 
   const handleSubmitClick = async () => {
-    setAddDivClass(true)
-    setAddHideClass(true)
-    setAddSmallClass(true)
+    setAddDivClass(true);
+    setAddHideClass(true);
+    setAddSmallClass(true);
     loader("show");
-      try {
-        const res = await postData(ENDPOINT.REGISTER, {
-          ...payloadData,
-          message: moduleFormInputs?.message?.trim(),
-          email: moduleFormInputs?.secondaryEmail?.trim(),
-          phone: moduleFormInputs?.secondaryPhone?.trim(),
-          modules: selectedModules,
-          type:'modules'
-        });
-        let obj = {};
-        loader("hide");
-        setModuleFormInputs(obj);
-      } catch (err) {
-        console.log(err);
-        loader("hide");
-      }
-        setSubmitData(true);
-        setAddClass(false);
-        setShowBigCircleData(false);
-        setModulesSelect(false);
-        setFormFeilds(false);
+    try {
+      const res = await postData(ENDPOINT.REGISTER, {
+        ...payloadData,
+        message: moduleFormInputs?.message?.trim(),
+        email: moduleFormInputs?.secondaryEmail?.trim(),
+        phone: moduleFormInputs?.secondaryPhone?.trim(),
+        modules: selectedModules,
+        type: "modules",
+      });
+      let obj = {};
+      loader("hide");
+      setModuleFormInputs(obj);
+    } catch (err) {
+      console.log(err);
+      loader("hide");
     }
+    setSubmitData(true);
+    setAddClass(false);
+    setShowBigCircleData(false);
+    setModulesSelect(false);
+    setFormFeilds(false);
+  };
 
   const handleBigCircleClose = (moduleName, index) => {
     setAddClass(false);
     setFormFeilds(false);
-    setAddSmallClass(false)
+    setAddSmallClass(false);
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
       setModuleData({
@@ -1021,56 +1044,56 @@ const PharmaRd = () => {
       setActiveModule(moduleName === activeModule ? null : moduleName);
     }
     setTimeout(() => {
-    setReadStatus(false);
+      setReadStatus(false);
     }, 200);
-    setSelectedModules([])
-  }
+    setSelectedModules([]);
+  };
 
   const handleBigClose = (moduleName, index) => {
     setAddClass(false);
-    setFormFeilds(false)
-    setSelectedModules([])
+    setFormFeilds(false);
+    setSelectedModules([]);
     setSubmitData(false);
     setShowBigCircleData(false);
     setModulesSelect(false);
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
       setTimeout(() => {
-      setModuleData({
-        active: false,
-        imagePath: smallCircleData?.icon,
-        heading: smallCircleData?.title,
-        paragraph: smallCircleData?.description,
-      });
-      setActiveModule(null);
-    }, 1000); 
+        setModuleData({
+          active: false,
+          imagePath: smallCircleData?.icon,
+          heading: smallCircleData?.title,
+          paragraph: smallCircleData?.description,
+        });
+        setActiveModule(null);
+      }, 1000);
     }
     setTimeout(() => {
       setReadStatus(false);
-      }, 200); 
-  }
- 
+    }, 200);
+  };
+
   useEffect(() => {
     if (submitData) {
       setTimeout(() => {
-        setAddDivClass(false)
-        setAddHideClass(false)
+        setAddDivClass(false);
+        setAddHideClass(false);
         setSelectedModules([]);
         setSubmitData(false);
         setShowBigCircleData(true);
         setModulesSelect(true);
         setActiveModule(intialModuleData?.activeModule);
-      }, 1000); 
+      }, 1000);
     }
   }, [submitData]);
 
   const handleRead = () => {
-    setReadStatus(true)
-    setAddDivClass(true)
-  }
+    setReadStatus(true);
+    setAddDivClass(true);
+  };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
- 
+
   const [show, setShow] = useState(false);
   const [readStatus, setReadStatus] = useState(false);
   const handleClose = () => setShow(false);
@@ -1120,16 +1143,16 @@ const PharmaRd = () => {
     fade: true,
     speed: 2000,
     responsive: [
-        {
-          breakpoint: 558,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            dots: true,
-            arrows: true
-          }
-        }
-      ]
+      {
+        breakpoint: 558,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: true,
+          arrows: true,
+        },
+      },
+    ],
   };
 
   const sliderSettings = {
@@ -1142,8 +1165,11 @@ const PharmaRd = () => {
   };
   return (
     <>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      <LandingHeader/>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
+      <LandingHeader />
 
       <div className="landing-banner pharma publish">
         <Container>
@@ -1280,19 +1306,28 @@ const PharmaRd = () => {
               </div>
             </div>
           </Row>
-           <Row>
-                <Col md={6} className='d-flex justify-content-center align-items-center'>
-                    <div className='how-work-text'>
-                        <h3>Say yes to more of your clients requests</h3>
-                        <h5>With a decade of eprints in our system we’ve seen it all and solved more. With a universe of included tools you can help your clients achieve success. Allow us to demonstrate why our service continues to garnered enthusiastic praise from clients.</h5>
-                    </div>
-                </Col>
-                <Col md={5} className="build_with d-flex justify-content-end">
-                    <div className='how-work-img'>
-                        <img src={path_image + "publisher-more.png"} alt=""/>
-                    </div>
-                </Col>
-            </Row>
+          <Row>
+            <Col
+              md={6}
+              className="d-flex justify-content-center align-items-center"
+            >
+              <div className="how-work-text">
+                <h3>Say yes to more of your clients requests</h3>
+                <h5>
+                  With a decade of eprints in our system we’ve seen it all and
+                  solved more. With a universe of included tools you can help
+                  your clients achieve success. Allow us to demonstrate why our
+                  service continues to garnered enthusiastic praise from
+                  clients.
+                </h5>
+              </div>
+            </Col>
+            <Col md={5} className="build_with d-flex justify-content-end">
+              <div className="how-work-img">
+                <img src={path_image + "publisher-more.png"} alt="" />
+              </div>
+            </Col>
+          </Row>
         </Container>
       </div>
       <div className="pharma-slide">
@@ -1344,7 +1379,9 @@ const PharmaRd = () => {
                   </div>
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
-                      <span className="add-shadow"><img src={path_image + "logo-shape1.png"} alt="" /></span>
+                      <span className="add-shadow">
+                        <img src={path_image + "logo-shape1.png"} alt="" />
+                      </span>
                       <h3>Content</h3>
                       <h5>
                         Create a library of all your content and easily
@@ -1392,12 +1429,15 @@ const PharmaRd = () => {
                 <div className="slider-in-view slide2">
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
-                      <span className="add-shadow"><img src={path_image + "logo-shape2.png"} alt="" /></span>
+                      <span className="add-shadow">
+                        <img src={path_image + "logo-shape2.png"} alt="" />
+                      </span>
                       <h3>Consent</h3>
                       <h5>
-                        Effortlessly customize consent to match your clients and preferences. 
-                        The correct consent empowers your client to gather unparalleled data,
-                         providing insights into HCP'c reading habita and boosting their engagement success.
+                        Effortlessly customize consent to match your clients and
+                        preferences. The correct consent empowers your client to
+                        gather unparalleled data, providing insights into HCP'c
+                        reading habita and boosting their engagement success.
                       </h5>
                     </div>
                   </div>
@@ -1445,11 +1485,15 @@ const PharmaRd = () => {
                   </div>
                   <div className="slide-right-sided">
                     <div className="slide-right-content">
-                      <span className="add-shadow"><img src={path_image + "logo-shape3.png"} alt="" /></span>
+                      <span className="add-shadow">
+                        <img src={path_image + "logo-shape3.png"} alt="" />
+                      </span>
                       <h3>Delivery</h3>
                       <h5>
-                       ePrints success hinges on clients distributing content to HCPs . We provide free distribution tools
-                        and analytics dashboard to track effective channels-all included with every ePrint.
+                        ePrints success hinges on clients distributing content
+                        to HCPs . We provide free distribution tools and
+                        analytics dashboard to track effective channels-all
+                        included with every ePrint.
                       </h5>
                     </div>
                   </div>
@@ -1493,9 +1537,16 @@ const PharmaRd = () => {
                     <div className="slide-right-content">
                       <h3>Service</h3>
                       <h5>
-                       Saying Yes to clients and delievering quickly is a lot mor enjoylable. We have automated
-                      the majority of he eprints process, and for the remmaning  5% of unique customisation requests, we can turn them around in just one day.
-                     <h5> Our commitement is to keep your clients happy and staisfied. </h5>
+                        Saying Yes to clients and delievering quickly is a lot
+                        mor enjoylable. We have automated the majority of he
+                        eprints process, and for the remmaning 5% of unique
+                        customisation requests, we can turn them around in just
+                        one day.
+                        <h5>
+                          {" "}
+                          Our commitement is to keep your clients happy and
+                          staisfied.{" "}
+                        </h5>
                       </h5>
                     </div>
                   </div>
@@ -1542,7 +1593,7 @@ const PharmaRd = () => {
         </div>
       </div>
       <div className="consent-content">
-      <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
+        <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
         <Container>
           <Row>
             <div className="consent-content-inner">
@@ -1594,7 +1645,9 @@ const PharmaRd = () => {
                     className={
                       activeModule === "read"
                         ? "stat read visible"
-                        : activeModule === "docintel" || activeModule === "ai" || activeModule === "webinar" 
+                        : activeModule === "docintel" ||
+                          activeModule === "ai" ||
+                          activeModule === "webinar"
                         ? "stat read active"
                         : "stat read"
                     }
@@ -1630,7 +1683,9 @@ const PharmaRd = () => {
                     className={
                       activeModule === "automail"
                         ? "stat automail visible"
-                        : activeModule === "engine" || activeModule === "webinar" ||  activeModule === "informed" ||
+                        : activeModule === "engine" ||
+                          activeModule === "webinar" ||
+                          activeModule === "informed" ||
                           activeModule === "ai" ||
                           activeModule === "spc"
                         ? "stat automail active"
@@ -1653,7 +1708,9 @@ const PharmaRd = () => {
                         : activeModule === "webinar" ||
                           activeModule === "web" ||
                           activeModule === "informed" ||
-                          activeModule === "docintel" || activeModule === "read" || activeModule === "automail" ||
+                          activeModule === "docintel" ||
+                          activeModule === "read" ||
+                          activeModule === "automail" ||
                           activeModule === "ai"
                         ? "stat consent active"
                         : " stat consent"
@@ -1718,7 +1775,9 @@ const PharmaRd = () => {
                       activeModule === "informed"
                         ? "stat informed visible"
                         : activeModule === "consent" ||
-                          activeModule === "ai" || activeModule === "webinar" || activeModule === "automail" ||
+                          activeModule === "ai" ||
+                          activeModule === "webinar" ||
+                          activeModule === "automail" ||
                           activeModule === "spc"
                         ? "stat informed active"
                         : "stat informed"
@@ -1797,34 +1856,53 @@ const PharmaRd = () => {
                   <div
                     className={`mudule-article-overview ${
                       moduleData?.active === true ? "active" : ""
-                    }`} style={{ "--i": moduleData?.style }}
+                    }`}
+                    style={{ "--i": moduleData?.style }}
                   >
-                    
                     <div className="module-space">
-                      <img src={path_image + "" + moduleData?.imagePath} alt="" />
+                      <img
+                        src={path_image + "" + moduleData?.imagePath}
+                        alt=""
+                      />
                       <h4>{moduleData?.heading}</h4>
                     </div>
                     <p>{moduleData?.paragraph}</p>
-                    <Button onClick={handleRead}>
-                      Read more
-                    </Button>
+                    <Button onClick={handleRead}>Read more</Button>
                   </div>
                 </div>
                 <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""} ${addHideClass ? "hide" : ""} ${addSmallClass ? "small" : ""}`}
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
+                    addHideClass ? "hide" : ""
+                  } ${addSmallClass ? "small" : ""}`}
                 >
-                  {!showBigCircleData && !submitData &&(
-                  <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
+                  {!showBigCircleData && !submitData && (
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
                   )}
                   <div class="shape shape-left"></div>
 
-                  {registerPage && ( 
+                  {registerPage && (
                     <div>
-                    <img className="close" src={path_image+'module-close-button.svg'} alt="" onClick={handleBigCircleClose}/>
-                   <div className="module-register">
-                                <h4>Registration</h4>
-                                <p>Register to access additional module details. Your information and activity remain confidential per GDPR, but we may occasionally notify you about new features or functions. Please confirm by ticking below if that's acceptable.</p>
-                                <Form>
+                      <img
+                        className="close"
+                        src={path_image + "module-close-button.svg"}
+                        alt=""
+                        onClick={handleBigCircleClose}
+                      />
+                      <div className="module-register">
+                        <h4>Registration</h4>
+                        <p>
+                          Register to access additional module details. Your
+                          information and activity remain confidential per GDPR,
+                          but we may occasionally notify you about new features
+                          or functions. Please confirm by ticking below if
+                          that's acceptable.
+                        </p>
+                        <Form>
                           <Row>
                             <Col md="6">
                               <div className="form-group">
@@ -2071,14 +2149,13 @@ const PharmaRd = () => {
                                   </svg>
                                 </span>
                                 {registerError?.email ? (
-                                <div className="contact-validation">
-                                  {registerError?.email}
-                                </div>
-                              ) : (
-                                ""
-                              )}
+                                  <div className="contact-validation">
+                                    {registerError?.email}
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
                               </div>
-                              
                             </Col>
 
                             <Col md="12">
@@ -2093,11 +2170,15 @@ const PharmaRd = () => {
                                   // checked={registerFormInputs.consent1}
                                   // onChange={handleRegisterFormChange}
 
-                                  type="checkbox" id="consent1"
+                                  type="checkbox"
+                                  id="consent1"
                                   // label={registerFormInputs.consent1.label}
                                   label="Email me only about modules I’ve looked at"
-                                  name="consent1"  for="#consent2"                              
-                                  checked={registerFormInputs?.consent1?.checked}                               
+                                  name="consent1"
+                                  for="#consent2"
+                                  checked={
+                                    registerFormInputs?.consent1?.checked
+                                  }
                                   onChange={handleRegisterFormChange}
                                 />
                                 <Form.Check
@@ -2107,11 +2188,15 @@ const PharmaRd = () => {
                                   // checked={registerFormInputs.consent2}
                                   // onChange={handleRegisterFormChange}
 
-                                  type="checkbox" id="consent2"
-                                  // label={registerFormInputs.consent2.label}  
-                                  label="Keep me informed about other news from inforMed.pro"                            
-                                  name="consent2"  for="#consent2"                             
-                                  checked={registerFormInputs?.consent2?.checked}                               
+                                  type="checkbox"
+                                  id="consent2"
+                                  // label={registerFormInputs.consent2.label}
+                                  label="Keep me informed about other news from inforMed.pro"
+                                  name="consent2"
+                                  for="#consent2"
+                                  checked={
+                                    registerFormInputs?.consent2?.checked
+                                  }
                                   onChange={handleRegisterFormChange}
                                 />
                               </div>
@@ -2124,10 +2209,12 @@ const PharmaRd = () => {
                             </Button>
                           </Row>
                         </Form>
-                            </div> 
-                            </div>
-                            )} 
-                  <div className={`module-discribe ${addClass ? 'request' : ''}`}>
+                      </div>
+                    </div>
+                  )}
+                  <div
+                    className={`module-discribe ${addClass ? "request" : ""}`}
+                  >
                     <div
                       className={`${
                         bigCircleModuleData?.active === true
@@ -2135,61 +2222,75 @@ const PharmaRd = () => {
                           : "d-flex justify-content-between flex-column"
                       }`}
                     >
-                      {showBigCircleData && !registerPage &&(
+                      {showBigCircleData && !registerPage && (
                         <>
-                      <div className="big-circle-data">
-                        <div>
-                          <img
-                            className="module-img"
-                            src={
-                              path_image + "" + bigCircleModuleData?.logoIconPath
-                            }
-                          />
-                          <h4>{bigCircleModuleData?.heading}</h4>
-                        </div>
-                      </div>
-                      <div className="big-circle-data bigger">
-                        <div className="module-text-space">
-                        <img
-                          className="module-content-view"
-                          src={path_image + "" + bigCircleModuleData?.imagePath}
-                        />
-                        <p>{bigCircleModuleData?.detail}</p>
-                        <p className="semibold">
-                          {bigCircleModuleData?.paragraph}
-                        </p>
-                        
-                        <div className="key-features">
-                          <h5> Key Features</h5>
-                          <ul>
-                            {/* {bigCircleModuleData?.highlights?.map(
+                          <div className="big-circle-data">
+                            <div>
+                              <img
+                                className="module-img"
+                                src={
+                                  path_image +
+                                  "" +
+                                  bigCircleModuleData?.logoIconPath
+                                }
+                              />
+                              <h4>{bigCircleModuleData?.heading}</h4>
+                            </div>
+                          </div>
+                          <div className="big-circle-data bigger">
+                            <div className="module-text-space">
+                              <img
+                                className="module-content-view"
+                                src={
+                                  path_image +
+                                  "" +
+                                  bigCircleModuleData?.imagePath
+                                }
+                              />
+                              <p>{bigCircleModuleData?.detail}</p>
+                              <p className="semibold">
+                                {bigCircleModuleData?.paragraph}
+                              </p>
+
+                              <div className="key-features">
+                                <h5> Key Features</h5>
+                                <ul>
+                                  {/* {bigCircleModuleData?.highlights?.map(
                               (feature, index) => (
                                 <li key={index}>{feature}</li>
                               )
                             )} */}
 
-                            {bigCircleModuleData?.highlights?.map((feature, index) => (
-                                <li key={index}>
-                                  {feature?.keyFeature}
-                                  {feature?.subKeyFeatures && feature?.subKeyFeatures.length > 0 && (
-                                    <ul>
-                                      {feature?.subKeyFeatures?.map((subFeature, subIndex) => (
-                                        <li key={subIndex}>{subFeature}</li>
-                                      ))}
-                                    </ul>
+                                  {bigCircleModuleData?.highlights?.map(
+                                    (feature, index) => (
+                                      <li key={index}>
+                                        {feature?.keyFeature}
+                                        {feature?.subKeyFeatures &&
+                                          feature?.subKeyFeatures.length >
+                                            0 && (
+                                            <ul>
+                                              {feature?.subKeyFeatures?.map(
+                                                (subFeature, subIndex) => (
+                                                  <li key={subIndex}>
+                                                    {subFeature}
+                                                  </li>
+                                                )
+                                              )}
+                                            </ul>
+                                          )}
+                                      </li>
+                                    )
                                   )}
-                                </li>
-                                ))}
-                          </ul>
-                        </div>
-                      </div>
-                      </div>
-                      </>
-                       )}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )}
 
-                     {!showBigCircleData && !submitData &&(
-                      <div className="request-content">
-                       <Form>
+                      {!showBigCircleData && !submitData && (
+                        <div className="request-content">
+                          <Form>
                             <h4>Module Request</h4>
                             <p>
                               Please tell us what you would like to know more
@@ -2199,15 +2300,15 @@ const PharmaRd = () => {
                               <Col md="12">
                                 <div className="form-group">
                                   <textarea
-                                  placeholder="Type Your Message.."
-                                  name="message"
-                                  value={
-                                    moduleFormInputs?.message
-                                      ? moduleFormInputs?.message
-                                      : ""
-                                  }
-                                  onChange={handleModuleFormChange}
-                                ></textarea>
+                                    placeholder="Type Your Message.."
+                                    name="message"
+                                    value={
+                                      moduleFormInputs?.message
+                                        ? moduleFormInputs?.message
+                                        : ""
+                                    }
+                                    onChange={handleModuleFormChange}
+                                  ></textarea>
                                 </div>
                                 {!formFeilds && (
                                   <div className="form-group click-link">
@@ -2291,243 +2392,287 @@ const PharmaRd = () => {
                               )}
                             </Row>
                           </Form>
-                      <p>Please select the modules you're interested in:</p>
-                    </div>
-                       )}
-                    {modulesSelect && !registerPage &&(
-                    <div
-                      className="module-diagram circle pharma_market publisher"
-                      style={{ "--total": "20" }}
-                    >
-                      <div
-                        className={
-                          selectedModules.includes('rating') || activeModule === "rating" 
-                            ? "stat rating visible"
-                            : activeModule === "web" ||  activeModule === "docintel"
-                              ? "stat rating active"
-                              : "stat rating"
-                        }
-                        onClick={() => handleBigCircleClick("rating", 1)}
-                        style={{ "--i": "1" }}
-                      >
-                        <img src={path_image + "rating-icon.svg"} alt="" />
-                        <span>Rating Tool</span>
-                        {activeModule === "rating"  && (
-                          <div className="article-close">
-                          <img
-                            src={path_image + "close-button.svg"}
-                            alt=""
-                            onClick={handleBigCircleClose}
-                          />
+                          <p>Please select the modules you're interested in:</p>
                         </div>
-                        )}
-                      
-                      </div>
-
-                      <div
-                        className={
-                          selectedModules?.includes('automail') || activeModule === "automail"
-                            ? "stat automail visible"
-                            :  activeModule === "engine" || activeModule === "ai" || activeModule === "spc" || activeModule === "webinar" || activeModule === "informed"
-                            ? "stat automail active"
-                            : "stat automail"
-                        }
-                        onClick={() => handleBigCircleClick("automail", 2)}
-                        style={{ "--i": "2" }}
-                      >
-                        <img src={path_image + "auto-email-icon.svg"} alt="" />
-                        <span>Automail</span>
-                        {activeModule === "automail" && (
-                            <div className="article-close">
-                            <img
-                              src={path_image + "close-button.svg"}
-                              alt=""
-                              onClick={handleBigCircleClose}
-                            />
+                      )}
+                      {modulesSelect && !registerPage && (
+                        <div
+                          className="module-diagram circle pharma_market publisher"
+                          style={{ "--total": "20" }}
+                        >
+                          <div
+                            className={
+                              selectedModules.includes("rating") ||
+                              activeModule === "rating"
+                                ? "stat rating visible"
+                                : activeModule === "web" ||
+                                  activeModule === "docintel"
+                                ? "stat rating active"
+                                : "stat rating"
+                            }
+                            onClick={() => handleBigCircleClick("rating", 1)}
+                            style={{ "--i": "1" }}
+                          >
+                            <img src={path_image + "rating-icon.svg"} alt="" />
+                            <span>Rating Tool</span>
+                            {activeModule === "rating" && (
+                              <div className="article-close">
+                                <img
+                                  src={path_image + "close-button.svg"}
+                                  alt=""
+                                  onClick={handleBigCircleClose}
+                                />
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
 
-                      <div
-                        className={
-                          selectedModules.includes("consent") || activeModule === "consent"
-                            ? "stat consent visible"
-                            :  activeModule === "webinar" ||
-                              activeModule === "web" ||
-                              activeModule === "informed" ||
-                              activeModule === "docintel" || activeModule === "read" || activeModule === "automail" ||
-                              activeModule === "ai"
-                            ? "stat consent active"
-                            : " stat consent"
-                        }
-                        onClick={() => handleBigCircleClick("consent", 3)}
-                        style={{ "--i": "3" }}
-                      >
-                        <img
-                          src={path_image + "legal-document-icon.svg"}
-                          alt=""
-                        />
-                        <span>Consent</span>
-                        {activeModule === "consent" && (
-                          <div className="article-close">
-                          <img
-                            src={path_image + "close-button.svg"}
-                            alt=""
-                            onClick={handleBigCircleClose}
-                          />
-                        </div>
-                        )}
-                      </div>
-
-                      <div
-                        className={
-                          selectedModules.includes("engine") || activeModule === "engine"
-                            ? "stat engine visible"
-                            :   activeModule === "survey" ||
-                              activeModule === "spc" ||
+                          <div
+                            className={
+                              selectedModules?.includes("automail") ||
                               activeModule === "automail"
-                            ? "stat engine active"
-                            : "stat engine"
-                        }
-                        onClick={() => handleBigCircleClick("engine", 4)}
-                        style={{ "--i": "4" }}
-                      >
-                        <img src={path_image + "email-small-icon.svg"} alt="" />
-                        <span>Email Engine</span>
-                        {activeModule === "engine" && (
-                           <div className="article-close">
-                           <img
-                             src={path_image + "close-button.svg"}
-                             alt=""
-                             onClick={handleBigCircleClose}
-                           />
-                         </div>
-                        )}
-                      </div>
+                                ? "stat automail visible"
+                                : activeModule === "engine" ||
+                                  activeModule === "ai" ||
+                                  activeModule === "spc" ||
+                                  activeModule === "webinar" ||
+                                  activeModule === "informed"
+                                ? "stat automail active"
+                                : "stat automail"
+                            }
+                            onClick={() => handleBigCircleClick("automail", 2)}
+                            style={{ "--i": "2" }}
+                          >
+                            <img
+                              src={path_image + "auto-email-icon.svg"}
+                              alt=""
+                            />
+                            <span>Automail</span>
+                            {activeModule === "automail" && (
+                              <div className="article-close">
+                                <img
+                                  src={path_image + "close-button.svg"}
+                                  alt=""
+                                  onClick={handleBigCircleClose}
+                                />
+                              </div>
+                            )}
+                          </div>
 
-                      <div className="stat blank" style={{ "--i": "5" }}></div>
-                      <div className="stat blank" style={{ "--i": "6" }}></div>
-                      <div className="stat blank" style={{ "--i": "7" }}></div>
-                      <div className="stat blank" style={{ "--i": "8" }}></div>
-                      <div className="stat blank" style={{ "--i": "9" }}></div>
+                          <div
+                            className={
+                              selectedModules.includes("consent") ||
+                              activeModule === "consent"
+                                ? "stat consent visible"
+                                : activeModule === "webinar" ||
+                                  activeModule === "web" ||
+                                  activeModule === "informed" ||
+                                  activeModule === "docintel" ||
+                                  activeModule === "read" ||
+                                  activeModule === "automail" ||
+                                  activeModule === "ai"
+                                ? "stat consent active"
+                                : " stat consent"
+                            }
+                            onClick={() => handleBigCircleClick("consent", 3)}
+                            style={{ "--i": "3" }}
+                          >
+                            <img
+                              src={path_image + "legal-document-icon.svg"}
+                              alt=""
+                            />
+                            <span>Consent</span>
+                            {activeModule === "consent" && (
+                              <div className="article-close">
+                                <img
+                                  src={path_image + "close-button.svg"}
+                                  alt=""
+                                  onClick={handleBigCircleClose}
+                                />
+                              </div>
+                            )}
+                          </div>
 
-                      <div
-                        className={
-                          selectedModules.includes("docintel") || activeModule === "docintel"
-                            ? "stat docintel visible"
-                            :  activeModule === "read" ||
-                              activeModule === "spc" ||
-                              activeModule === "web" ||
-                              activeModule === "consent" ||
-                              activeModule === "survey" ||
-                              activeModule === "informed" ||
-                              activeModule === "engine" ||
-                              activeModule === "rating"
-                            ? "stat docintel active"
-                            : "stat docintel"
-                        }
-                        onClick={() => handleBigCircleClick("docintel", 5)}
-                        style={{ "--i": "10" }}
-                      >
-                        <img
-                          src={path_image + "docintel-small-icon.svg"}
-                          alt=""
-                        />
-                        <span>Docintel.app</span>
-                        {activeModule === "docintel" && (
-                           <div className="article-close">
-                           <img
-                             src={path_image + "close-button.svg"}
-                             alt=""
-                             onClick={handleBigCircleClose}
-                           />
-                         </div>
-                        )}
-                      </div>
+                          <div
+                            className={
+                              selectedModules.includes("engine") ||
+                              activeModule === "engine"
+                                ? "stat engine visible"
+                                : activeModule === "survey" ||
+                                  activeModule === "spc" ||
+                                  activeModule === "automail"
+                                ? "stat engine active"
+                                : "stat engine"
+                            }
+                            onClick={() => handleBigCircleClick("engine", 4)}
+                            style={{ "--i": "4" }}
+                          >
+                            <img
+                              src={path_image + "email-small-icon.svg"}
+                              alt=""
+                            />
+                            <span>Email Engine</span>
+                            {activeModule === "engine" && (
+                              <div className="article-close">
+                                <img
+                                  src={path_image + "close-button.svg"}
+                                  alt=""
+                                  onClick={handleBigCircleClose}
+                                />
+                              </div>
+                            )}
+                          </div>
 
-                      <div
-                        className={
-                          selectedModules.includes("informed") || activeModule === "informed"
-                            ? "stat informed visible"
-                            :  activeModule === "consent" ||
-                              activeModule === "consent" || activeModule === "webinar" || activeModule === "automail" ||
-                              activeModule === "ai" ||
-                              activeModule === "spc"
-                            ? "stat informed active"
-                            : "stat informed"
-                        }
-                        onClick={() => handleBigCircleClick("informed", 6)}
-                        style={{ "--i": "11" }}
-                      >
-                        <img src={path_image + "informedgo-icon.svg"} alt="" />
-                        <span>inforMedGo</span>
-                        {activeModule === "informed" && (
-                          <div className="article-close">
-                          <img
-                            src={path_image + "close-button.svg"}
-                            alt=""
-                            onClick={handleBigCircleClose}
-                          />
-                        </div>
-                        )}
-                      </div>
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "5" }}
+                          ></div>
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "6" }}
+                          ></div>
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "7" }}
+                          ></div>
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "8" }}
+                          ></div>
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "9" }}
+                          ></div>
 
-                      <div
-                        className={
-                          selectedModules.includes("web") ||  activeModule === "web" 
-                            ? "stat web visible"
-                            :activeModule === "webinar" ||
-                              activeModule === "docintel" ||
-                              activeModule === "consent" ||
-                              activeModule === "ai" ||
-                              activeModule === "rating"
-                            ? "stat web active"
-                            : "stat web"
-                        }
-                        onClick={() => handleBigCircleClick("web", 7)}
-                        style={{ "--i": "12" }}
-                      >
-                        <img src={path_image + "web-portal-icon.svg"} alt="" />
-                        <span>Web Portal</span>
-                        {activeModule === "web" && (
-                           <div className="article-close">
-                           <img
-                             src={path_image + "close-button.svg"}
-                             alt=""
-                             onClick={handleBigCircleClose}
-                           />
-                         </div>
-                        )}
-                      </div>
+                          <div
+                            className={
+                              selectedModules.includes("docintel") ||
+                              activeModule === "docintel"
+                                ? "stat docintel visible"
+                                : activeModule === "read" ||
+                                  activeModule === "spc" ||
+                                  activeModule === "web" ||
+                                  activeModule === "consent" ||
+                                  activeModule === "survey" ||
+                                  activeModule === "informed" ||
+                                  activeModule === "engine" ||
+                                  activeModule === "rating"
+                                ? "stat docintel active"
+                                : "stat docintel"
+                            }
+                            onClick={() => handleBigCircleClick("docintel", 5)}
+                            style={{ "--i": "10" }}
+                          >
+                            <img
+                              src={path_image + "docintel-small-icon.svg"}
+                              alt=""
+                            />
+                            <span>Docintel.app</span>
+                            {activeModule === "docintel" && (
+                              <div className="article-close">
+                                <img
+                                  src={path_image + "close-button.svg"}
+                                  alt=""
+                                  onClick={handleBigCircleClose}
+                                />
+                              </div>
+                            )}
+                          </div>
 
-                      <div
-                        className={
-                          selectedModules.includes("webinar") || activeModule === "webinar" 
-                            ? "stat webinar visible"
-                            : activeModule === "qa" || activeModule === "web"
-                            ? "stat webinar active"
-                            : "stat webinar"
-                        }
-                        onClick={() => handleBigCircleClick("webinar", 8)}
-                        style={{ "--i": "13" }}
-                      >
-                        <img
-                          src={path_image + "webinar-small-icon.svg"}
-                          alt=""
-                        />
-                        <span>Webinar Portal</span>
-                        {activeModule === "webinar"  && (
-                           <div className="article-close">
-                           <img
-                             src={path_image + "close-button.svg"}
-                             alt=""
-                             onClick={handleBigCircleClose}
-                           />
-                         </div>
-                        )}
-                      </div>
+                          <div
+                            className={
+                              selectedModules.includes("informed") ||
+                              activeModule === "informed"
+                                ? "stat informed visible"
+                                : activeModule === "consent" ||
+                                  activeModule === "consent" ||
+                                  activeModule === "webinar" ||
+                                  activeModule === "automail" ||
+                                  activeModule === "ai" ||
+                                  activeModule === "spc"
+                                ? "stat informed active"
+                                : "stat informed"
+                            }
+                            onClick={() => handleBigCircleClick("informed", 6)}
+                            style={{ "--i": "11" }}
+                          >
+                            <img
+                              src={path_image + "informedgo-icon.svg"}
+                              alt=""
+                            />
+                            <span>inforMedGo</span>
+                            {activeModule === "informed" && (
+                              <div className="article-close">
+                                <img
+                                  src={path_image + "close-button.svg"}
+                                  alt=""
+                                  onClick={handleBigCircleClose}
+                                />
+                              </div>
+                            )}
+                          </div>
 
-                      <div
+                          <div
+                            className={
+                              selectedModules.includes("web") ||
+                              activeModule === "web"
+                                ? "stat web visible"
+                                : activeModule === "webinar" ||
+                                  activeModule === "docintel" ||
+                                  activeModule === "consent" ||
+                                  activeModule === "ai" ||
+                                  activeModule === "rating"
+                                ? "stat web active"
+                                : "stat web"
+                            }
+                            onClick={() => handleBigCircleClick("web", 7)}
+                            style={{ "--i": "12" }}
+                          >
+                            <img
+                              src={path_image + "web-portal-icon.svg"}
+                              alt=""
+                            />
+                            <span>Web Portal</span>
+                            {activeModule === "web" && (
+                              <div className="article-close">
+                                <img
+                                  src={path_image + "close-button.svg"}
+                                  alt=""
+                                  onClick={handleBigCircleClose}
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          <div
+                            className={
+                              selectedModules.includes("webinar") ||
+                              activeModule === "webinar"
+                                ? "stat webinar visible"
+                                : activeModule === "qa" ||
+                                  activeModule === "web"
+                                ? "stat webinar active"
+                                : "stat webinar"
+                            }
+                            onClick={() => handleBigCircleClick("webinar", 8)}
+                            style={{ "--i": "13" }}
+                          >
+                            <img
+                              src={path_image + "webinar-small-icon.svg"}
+                              alt=""
+                            />
+                            <span>Webinar Portal</span>
+                            {activeModule === "webinar" && (
+                              <div className="article-close">
+                                <img
+                                  src={path_image + "close-button.svg"}
+                                  alt=""
+                                  onClick={handleBigCircleClose}
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          <div
                             className={
                               selectedModules.includes("survey") ||
                               activeModule === "survey"
@@ -2553,175 +2698,213 @@ const PharmaRd = () => {
                             )}
                           </div>
 
-                      <div
-                        className={
-                          selectedModules.includes("read") || activeModule === "read"
-                            ? "stat read visible"
-                            :  activeModule === "docintel" || activeModule === "webinar" ||
-                              activeModule === "ai"
-                            ? "stat read active"
-                            : "stat read"
-                        }
-                        style={{ "--i": "15" }}
-                        onClick={() => handleBigCircleClick("read", 0)}
-                      >
-                        <img src={path_image + "RTR-icon.svg"} alt="" />
-                        <span>Read-Through -Rate</span>
-                        {activeModule === "read" && (
-                          <div className="article-close">
-                          <img
-                            src={path_image + "close-button.svg"}
-                            alt=""
-                            onClick={handleBigCircleClose}
-                          />
+                          <div
+                            className={
+                              selectedModules.includes("read") ||
+                              activeModule === "read"
+                                ? "stat read visible"
+                                : activeModule === "docintel" ||
+                                  activeModule === "webinar" ||
+                                  activeModule === "ai"
+                                ? "stat read active"
+                                : "stat read"
+                            }
+                            style={{ "--i": "15" }}
+                            onClick={() => handleBigCircleClick("read", 0)}
+                          >
+                            <img src={path_image + "RTR-icon.svg"} alt="" />
+                            <span>Read-Through -Rate</span>
+                            {activeModule === "read" && (
+                              <div className="article-close">
+                                <img
+                                  src={path_image + "close-button.svg"}
+                                  alt=""
+                                  onClick={handleBigCircleClose}
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "15" }}
+                          ></div>
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "16" }}
+                          ></div>
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "17" }}
+                          ></div>
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "18" }}
+                          ></div>
+                          <div
+                            className="stat blank"
+                            style={{ "--i": "19" }}
+                          ></div>
                         </div>
-                        )}
-                      </div>
+                      )}
+                      {showBigCircleData && !registerPage && (
+                        <div className="d-flex align-items-center justify-content-center fotter-btns">
+                          <Button
+                            className="btn-filled"
+                            onClick={handleRequestClick}
+                          >
+                            Request
+                          </Button>
 
-                      <div className="stat blank" style={{ "--i": "15" }}></div>
-                      <div className="stat blank" style={{ "--i": "16" }}></div>
-                      <div className="stat blank" style={{ "--i": "17" }}></div>
-                      <div className="stat blank" style={{ "--i": "18" }}></div>
-                      <div className="stat blank" style={{ "--i": "19" }}></div>
-                    </div>
-                     )}
-                    {showBigCircleData && !registerPage && (
-                      <div className="d-flex align-items-center justify-content-center fotter-btns">
-                        <Button className="btn-filled" onClick={handleRequestClick}>Request</Button>
-
-                        {/* <Link to="/" className="">
+                          {/* <Link to="/" className="">
                           <img src={path_image + "downlaod-ppt.svg"} alt="" />
                         </Link> */}
 
-                        <a href={bigCircleModuleData?.ppt} download>
-                          <img src={path_image + "downlaod-ppt.svg"} alt="" />
-                        </a>
+                          <a href={bigCircleModuleData?.ppt} download>
+                            <img src={path_image + "downlaod-ppt.svg"} alt="" />
+                          </a>
+                        </div>
+                      )}
 
-                      </div>
-                       )}
-
-                  {!showBigCircleData && !submitData &&(
-                      <div className="d-flex align-items-center justify-content-center fotter-btns">
-                        <Button className="btn-filled" onClick={handleSubmitClick} >Submit</Button>
-                      </div>
-                       )}
+                      {!showBigCircleData && !submitData && (
+                        <div className="d-flex align-items-center justify-content-center fotter-btns">
+                          <Button
+                            className="btn-filled"
+                            onClick={handleSubmitClick}
+                          >
+                            Submit
+                          </Button>
+                        </div>
+                      )}
                     </div>
 
-                    {submitData &&(
-                    <div className='submit-section'>
-                       <img src={path_image + "thanks-img.svg"} alt="" />
-                      <h3>Thank You!</h3>
-                      <p>We appreciate your interset and will respond very quickly.</p>
-                      <Button className="btn-filled" onClick={handleBigClose}>Close</Button>
-                    </div>
-                     )}
+                    {submitData && (
+                      <div className="submit-section">
+                        <img src={path_image + "thanks-img.svg"} alt="" />
+                        <h3>Thank You!</h3>
+                        <p>
+                          We appreciate your interset and will respond very
+                          quickly.
+                        </p>
+                        <Button className="btn-filled" onClick={handleBigClose}>
+                          Close
+                        </Button>
+                      </div>
+                    )}
                   </div>
 
-
-                   {/* <-------- MOBILE VIEW --------->*/}
-                   {/* <img
+                  {/* <-------- MOBILE VIEW --------->*/}
+                  {/* <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
                       alt=""
                       onClick={handleBigCircleClose}
                     /> */}
-                   <div className="mobile-slider">
-                <div className="mobile-slider-inset">
-                 {showBigCircleData && !registerPage && (
-                    
-                    <Slider
-                      {...sliderSettings}
-                    >
-                      <div
-                        className={`module-discribe ${
-                          addClass ? "request" : ""
-                        }`}
-                      >
-                        <div
-                          className={`${
-                            bigCircleModuleData?.active === true
-                              ? "active d-flex justify-content-between flex-column"
-                              : "d-flex justify-content-between flex-column"
-                          }`}
-                        >
-                          <div>
-                            <img
-                              className="module-img"
-                              src={
-                                path_image + bigCircleModuleData?.logoIconPath
-                              }
-                            />
-                            <h4>{bigCircleModuleData?.heading}</h4>
-                            <img
-                              className="module-content-view"
-                              src={path_image + bigCircleModuleData?.imagePath}
-                            />
-                          </div>
-
-                          <div>
-                            <p>{bigCircleModuleData?.detail}</p>
-                            <p className="semibold">
-                              {bigCircleModuleData?.paragraph}
-                            </p>
-                          </div>
-                          <div><h6>Swipe for Key Features &gt;&gt;</h6></div>
-                        </div>
-                      </div>
-
-                      <div
-                        className={`module-discribe ${
-                          addClass ? "request" : ""
-                        }`}
-                      >
-                        <div
-                          className={`${
-                            bigCircleModuleData?.active === true
-                              ? "active d-flex justify-content-between flex-column"
-                              : "d-flex justify-content-between flex-column"
-                          }`}
-                        >
-                          <div className="key-features">
-                            <h5>Key Features</h5>
-                            <ul>
-                            {bigCircleModuleData?.highlights?.map((feature, index) => (
-                                <li key={index}>
-                                  {feature?.keyFeature}
-                                  {feature?.subKeyFeatures && feature?.subKeyFeatures.length > 0 && (
-                                    <ul>
-                                      {feature?.subKeyFeatures?.map((subFeature, subIndex) => (
-                                        <li key={subIndex}>{subFeature}</li>
-                                      ))}
-                                    </ul>
-                                  )}
-                                </li>
-                                ))}
-                            </ul>
-                            
-                              <div className="d-flex align-items-center justify-content-center footer_bts">
-                                <Button
-                                  className="btn-filled"
-                                  onClick={handleRequestClick}
-                                >
-                                  Request
-                                </Button>
-                                <Link to="/" className="">
-                                  <img
-                                    src={path_image + "downlaod-ppt.svg"}
-                                    alt=""
-                                  />
-                                </Link>
+                  <div className="mobile-slider">
+                    <div className="mobile-slider-inset">
+                      {showBigCircleData && !registerPage && (
+                        <Slider {...sliderSettings}>
+                          <div
+                            className={`module-discribe ${
+                              addClass ? "request" : ""
+                            }`}
+                          >
+                            <div
+                              className={`${
+                                bigCircleModuleData?.active === true
+                                  ? "active d-flex justify-content-between flex-column"
+                                  : "d-flex justify-content-between flex-column"
+                              }`}
+                            >
+                              <div>
+                                <img
+                                  className="module-img"
+                                  src={
+                                    path_image +
+                                    bigCircleModuleData?.logoIconPath
+                                  }
+                                />
+                                <h4>{bigCircleModuleData?.heading}</h4>
+                                <img
+                                  className="module-content-view"
+                                  src={
+                                    path_image + bigCircleModuleData?.imagePath
+                                  }
+                                />
                               </div>
+
+                              <div>
+                                <p>{bigCircleModuleData?.detail}</p>
+                                <p className="semibold">
+                                  {bigCircleModuleData?.paragraph}
+                                </p>
+                              </div>
+                              <div>
+                                <h6>Swipe for Key Features &gt;&gt;</h6>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </Slider>
-                  
-                  )}
-                 </div>
-                 </div>
+
+                          <div
+                            className={`module-discribe ${
+                              addClass ? "request" : ""
+                            }`}
+                          >
+                            <div
+                              className={`${
+                                bigCircleModuleData?.active === true
+                                  ? "active d-flex justify-content-between flex-column"
+                                  : "d-flex justify-content-between flex-column"
+                              }`}
+                            >
+                              <div className="key-features">
+                                <h5>Key Features</h5>
+                                <ul>
+                                  {bigCircleModuleData?.highlights?.map(
+                                    (feature, index) => (
+                                      <li key={index}>
+                                        {feature?.keyFeature}
+                                        {feature?.subKeyFeatures &&
+                                          feature?.subKeyFeatures.length >
+                                            0 && (
+                                            <ul>
+                                              {feature?.subKeyFeatures?.map(
+                                                (subFeature, subIndex) => (
+                                                  <li key={subIndex}>
+                                                    {subFeature}
+                                                  </li>
+                                                )
+                                              )}
+                                            </ul>
+                                          )}
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+
+                                <div className="d-flex align-items-center justify-content-center footer_bts">
+                                  <Button
+                                    className="btn-filled"
+                                    onClick={handleRequestClick}
+                                  >
+                                    Request
+                                  </Button>
+                                  <a href={bigCircleModuleData?.ppt} download>
+                                    <img
+                                      src={path_image + "downlaod-ppt.svg"}
+                                      alt=""
+                                    />
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Slider>
+                      )}
+                    </div>
+                  </div>
                   <div class="shape shape-right"></div>
                 </div>
-             
               </div>
             </div>
           </Row>
@@ -2731,12 +2914,12 @@ const PharmaRd = () => {
       <div className="contact-us pharma publish">
         <Container>
           <Row>
-            <LandingContact/>
+            <LandingContact />
           </Row>
         </Container>
       </div>
 
-      <LandingFooter/>
+      <LandingFooter />
     </>
   );
 };
