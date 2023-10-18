@@ -425,7 +425,7 @@ const PharmaRd = () => {
       logo: "survey-icon.svg",
       title: <span style={{ color: "#5058AA" }}>Survey Engine</span>,
       image: "survey-engine-min.png",
-      ppt:"../../../componentAssets/images/pharmaPpt/survey.pptx",
+      ppt:"../../../componentAssets/images/publisherPpt/survey.pptx",
       description:
         "Reveal valuable HCP insights with custom surveys.Create your questions, target specific segments and instantly gain deeper understanding about each HCP by seeing their answers. The survey engine syncs with the CRM data and the email module enables easy resend to non-openers - integrate with AutoMail for efficiency.",
       para: "",
