@@ -619,7 +619,7 @@ h6 {
 }
 
 .informed .nav-item.dropdown .dropdown-menu .go-btn {
-  background-color: #0066be;
+  /* background-color: #0066be; */
   color: #fff;
   width: 100%;
   text-align: center;
