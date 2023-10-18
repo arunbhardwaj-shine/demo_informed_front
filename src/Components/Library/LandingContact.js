@@ -420,12 +420,11 @@ const LandingContact = () => {
                     </svg>
                   </span>
                   {conatctError?.name ? (
-                    <div className="contact-validation">{conatctError?.name}</div>
-                  ) : (
-                    ""
-                  )}
+                      <div className="contact-validation">{conatctError?.name}</div>
+                    ) : (
+                      ""
+                    )}
                 </div>
-                
               </Col>
               <Col md="6">
                 <div className="form-group">
@@ -465,12 +464,11 @@ const LandingContact = () => {
                     </svg>
                   </span>
                   {conatctError?.email ? (
-                    <div className="contact-validation">{conatctError?.email}</div>
-                  ) : (
-                    ""
-                  )}
+                      <div className="contact-validation">{conatctError?.email}</div>
+                    ) : (
+                      ""
+                    )}
                 </div>
-                
               </Col>
               <Col md="6">
                 <div 
@@ -520,12 +518,11 @@ const LandingContact = () => {
                     </svg>
                   </span>
                   {conatctError?.country ? (
-                    <div className="contact-validation">{conatctError?.country}</div>
-                  ) : (
-                    ""
-                  )}
+                      <div className="contact-validation">{conatctError?.country}</div>
+                    ) : (
+                      ""
+                    )}
                 </div>
-                
               </Col>
               <Col md="6">
                 <div className="form-group">
@@ -575,12 +572,11 @@ const LandingContact = () => {
                     </svg>
                   </span>
                   {conatctError?.company ? (
-                    <div className="contact-validation">{conatctError?.company}</div>
-                  ) : (
-                    ""
-                  )}
+                      <div className="contact-validation">{conatctError?.company}</div>
+                    ) : (
+                      ""
+                    )}
                 </div>
-                
               </Col>
               <Col md="6">
                 <div className="form-group">
@@ -618,12 +614,11 @@ const LandingContact = () => {
                     </svg>
                   </span>
                   {conatctError?.phone ? (
-                    <div className="contact-validation">{conatctError?.phone}</div>
-                  ) : (
-                    ""
-                  )}
+                      <div className="contact-validation">{conatctError?.phone}</div>
+                    ) : (
+                      ""
+                    )}
                 </div>
-                
               </Col>
               <Col md="12">
                 <div className="form-group">

@@ -10,6 +10,16 @@ const instanceAxios = axios.create({
   },
 });
 
+const clearLocalStorageExcept = () => {
+	const keysToKeep = ['uname', 'pass', 'acceptedCookies']; 
+	for (let i = localStorage.length - 1; i >= 0; i--) {
+	  const key = localStorage.key(i);
+	  if (!keysToKeep.includes(key)) {
+		localStorage.removeItem(key);
+	  }
+	}
+}
+
 instanceAxios.interceptors.request.use(
   (req) => {
     return req;
@@ -31,7 +41,8 @@ instanceAxios.interceptors.response.use(
         }
         break;
       case 401:
-        localStorage.clear();
+        // localStorage.clear();
+        clearLocalStorageExcept();
         window.location.href = "/";
         break;
       case 500:

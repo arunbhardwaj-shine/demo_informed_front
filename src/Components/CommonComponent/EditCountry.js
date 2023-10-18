@@ -35,7 +35,7 @@ const EditCountry = (props) => {
     { value: "Bermuda", label: "Bermuda" },
     { value: "Bhutan", label: "Bhutan" },
     { value: "Bolivia", label: "Bolivia" },
-    { value: "B&H", label: "Bosnia and Herzegovina" },
+    { value: "Bosnia and Herzegovina", label: "Bosnia and Herzegovina" },
     { value: "Botswana", label: "Botswana" },
     { value: "Bouvet Island", label: "Bouvet Island" },
     { value: "Brazil", label: "Brazil" },
