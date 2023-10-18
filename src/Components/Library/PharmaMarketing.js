@@ -1050,7 +1050,7 @@ const PharmaMarketing = () => {
           type: "register",
         };
         setPayloadData(data);
-        // const res = await postData(ENDPOINT.REGISTER,data );
+        const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1173,16 +1173,16 @@ const PharmaMarketing = () => {
     setAddSmallClass(true);
     loader("show");
     try {
-      // const res = await postData(ENDPOINT.REGISTER, {
-      let data = {
+      const res = await postData(ENDPOINT.REGISTER, {
+      // let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         email: moduleFormInputs?.secondaryEmail?.trim(),
         phone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      };
-      // });
+      // };
+      });
       let obj = {};
       loader("hide");
       setModuleFormInputs(obj);
