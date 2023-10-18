@@ -28,8 +28,8 @@ const CountryRegistration = () => {
 
   // let startMonth = new Date("March 2022");
   let endMonth = new Date();
-  let startMonth = new Date();  
-  startMonth.setMonth(startMonth.getMonth() - 12);  
+  let startMonth = new Date();
+  startMonth.setMonth(startMonth.getMonth() - 12);
   let months = [{ value: "All", label: "All" }];
 
   while (startMonth <= endMonth) {
@@ -45,7 +45,6 @@ const CountryRegistration = () => {
   months.reverse();
   const [monthYear, setMonthYear] = useState(months[0]?.value);
 
-
   const MemoizedMap = ({ data, options }) => {
     return (
       <HighchartsReact
@@ -60,10 +59,14 @@ const CountryRegistration = () => {
   const mapOptions = useMemo(() => {
     let zoomCoordinates;
     const userId = localStorage.getItem("user_id");
-    if (userId === "qDgwPdToP05Kgzc g2VjIQ==" || userId === "wW0geGtDPvig5gF 6KbJrg==" || userId === "UbCJcnLM9fe HsRMgX8c1A==") {
+    if (
+      userId === "qDgwPdToP05Kgzc g2VjIQ==" ||
+      userId === "wW0geGtDPvig5gF 6KbJrg==" ||
+      userId === "UbCJcnLM9fe HsRMgX8c1A=="
+    ) {
       zoomCoordinates = { lat: 19.41944, lon: -99.14556 };
     } else {
-      zoomCoordinates = { lat: 7.857940, lon: 24.115716 };
+      zoomCoordinates = { lat: 7.85794, lon: 24.115716 };
     }
 
     return {
@@ -71,7 +74,7 @@ const CountryRegistration = () => {
         type: "map",
         proj4,
         height: "60%",
-        plotBackgroundColor: '#aad3df',      
+        plotBackgroundColor: "#aad3df",
         events: {
           load: function () {
             const lat = zoomCoordinates.lat;
@@ -127,7 +130,8 @@ const CountryRegistration = () => {
           keys: ["code", "value"],
           tooltip: {
             headerFormat: "",
-            pointFormat: '<span style="font-weight: bold">Total Registration : {point.totalIndex}</span>',
+            pointFormat:
+              '<span style="font-weight: bold">Total Registration : {point.totalIndex}</span>',
           },
           showInLegend: false,
           marker: {
@@ -159,7 +163,6 @@ const CountryRegistration = () => {
     };
   }, [newData]);
 
-
   // country list
   const [countryList, SetCountryList] = useState({
     chart: {
@@ -187,6 +190,7 @@ const CountryRegistration = () => {
       layout: "horizontal",
       x: 0,
       y: 0,
+      reversed: true,
     },
     // plotOptions: {
     //   bar: {
@@ -261,8 +265,8 @@ const CountryRegistration = () => {
         month,
       });
       const apiData = response.data;
-      const countryData = apiData.data.coordination.map(
-        (coordObject, index) => {
+      const countryData = apiData.data.coordination
+        .map((coordObject, index) => {
           const [lat, lon] = Object.values(coordObject)[0].split("~");
           const formattedIndex =
             apiData.data.critical_care[index] +
@@ -285,35 +289,52 @@ const CountryRegistration = () => {
             countryLat: apiData.data.lat,
             countryLon: apiData.data.long,
           };
-        }
-      ).filter(Boolean);
-      setIsLoaded(true)
+        })
+        .filter(Boolean);
+      setIsLoaded(true);
       setMonthYear(true);
       setNewData(countryData);
 
       let newSeries = [
         {
-          name: `Critical Care`,
-          data: apiData.data?.critical_care,
-          color: Highcharts?.getOptions()?.colors[2],
+          name: `Immunotherapy (${apiData?.data?.immunotherapy?.reduce(
+            (acc, val) => acc + val,
+            0
+          )})`,
+          data: apiData.data?.immunotherapy,
+          color: Highcharts?.getOptions()?.colors[0],
         },
         {
-          name: `Haematology`,
+          name: `Haematology (${apiData?.data?.haematology?.reduce(
+            (acc, val) => acc + val,
+            0
+          )})`,
           data: apiData.data?.haematology,
           color: Highcharts?.getOptions()?.colors[1],
         },
         {
-          name: `Immunotherapy`,
-          data: apiData.data?.immunotherapy,
-          color: Highcharts?.getOptions()?.colors[0],
+          name: `Critical Care (${apiData?.data?.critical_care?.reduce(
+            (acc, val) => acc + val,
+            0
+          )})`,
+          data: apiData.data?.critical_care,
+          color: Highcharts?.getOptions()?.colors[2],
         },
       ];
 
       const userIdLine = localStorage.getItem("user_id");
-      if (userIdLine === "UbCJcnLM9fe HsRMgX8c1A==" || userIdLine === "wW0geGtDPvig5gF 6KbJrg==" || userIdLine === "z2TunmZQf3QwCsICFTLGGQ==" || userIdLine === "qDgwPdToP05Kgzc g2VjIQ==") {
+      if (
+        userIdLine === "UbCJcnLM9fe HsRMgX8c1A==" ||
+        userIdLine === "wW0geGtDPvig5gF 6KbJrg==" ||
+        userIdLine === "z2TunmZQf3QwCsICFTLGGQ==" ||
+        userIdLine === "qDgwPdToP05Kgzc g2VjIQ=="
+      ) {
         newSeries = [
           {
-            name: `Haematology`,
+            name: `Haematology (${apiData?.data?.haematology?.reduce(
+              (acc, val) => acc + val,
+              0
+            )})`,
             data: apiData.data?.haematology,
             color: Highcharts?.getOptions()?.colors[1],
           },
@@ -363,15 +384,22 @@ const CountryRegistration = () => {
       ];
 
       const userIdTble = localStorage.getItem("user_id");
-      if (userIdTble === "UbCJcnLM9fe HsRMgX8c1A==" || userIdTble === "wW0geGtDPvig5gF 6KbJrg==" || userIdTble === "z2TunmZQf3QwCsICFTLGGQ==" || userIdTble === "qDgwPdToP05Kgzc g2VjIQ==") {
+      if (
+        userIdTble === "UbCJcnLM9fe HsRMgX8c1A==" ||
+        userIdTble === "wW0geGtDPvig5gF 6KbJrg==" ||
+        userIdTble === "z2TunmZQf3QwCsICFTLGGQ==" ||
+        userIdTble === "qDgwPdToP05Kgzc g2VjIQ=="
+      ) {
         tableDatas = [
           {
-            name: `Haematology (${haematology.reduce((acc, val) => acc + val, 0)})`,
+            name: `Haematology (${haematology.reduce(
+              (acc, val) => acc + val,
+              0
+            )})`,
             data: haematology,
           },
         ];
       }
-
 
       const newTable = {
         ...tableData,
@@ -412,7 +440,7 @@ const CountryRegistration = () => {
   const selectMonthYear = (e) => {
     window.scrollTo(0, 0);
     const { value } = e;
-    const [month, year] = value.split(' ') || [];
+    const [month, year] = value.split(" ") || [];
     optionMonth.current = month;
     optionYear.current = year;
     setMonthYear(true);
@@ -477,7 +505,7 @@ const CountryRegistration = () => {
                 )}
               </div>
               {countryList.series.some((series) => series.data.length > 0) &&
-                newData.length > 0 ? (
+              newData.length > 0 ? (
                 <div>
                   <div className="high_charts">
                     <HighchartsReact

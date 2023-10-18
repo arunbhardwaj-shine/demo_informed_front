@@ -30,7 +30,6 @@ const ViewTable = (props) => {
   //let validator = new SimpleReactValidator();
   const [instituions, setInstituions] = useState([]);
 
-
   const [editable, setEditable] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -95,9 +94,9 @@ const ViewTable = (props) => {
       setListName(props.smartListName);
     }
   }, []);
-  useEffect(()=>{
+  useEffect(() => {
     setEditList(props.data);
-  },[props.data?.length])
+  }, [props.data?.length]);
 
   useEffect(() => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -131,7 +130,7 @@ const ViewTable = (props) => {
             let arrSiteIrt;
             let irt_user_type;
             let arrIrtUserType = [];
-                   let institutions;
+            let institutions;
             let arrinstitutions = [];
 
             let arr = [];
@@ -146,7 +145,7 @@ const ViewTable = (props) => {
               site_postcode = res.data.response.data.site_post_code;
               site_city = res.data.response.data.site_city;
               irt_user_type = res?.data?.response?.data?.irt_inverstigator_type;
-              institutions  = res?.data?.response?.data?.institution_type;
+              institutions = res?.data?.response?.data?.institution_type;
 
               arrUserType = [];
               arrSubRole = [];
@@ -251,19 +250,18 @@ const ViewTable = (props) => {
                   value: item,
                 });
               });
-         Object.entries(institutions)?.map(([item, index]) => {
+              Object.entries(institutions)?.map(([item, index]) => {
                 arrinstitutions.push({
                   label: item,
                   value: item,
                 });
               });
-
             }
 
             setCountryall(arr);
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
               setIrtRole(arrIrtUserType);
-               setInstituions(arrinstitutions);
+              setInstituions(arrinstitutions);
               setUserTypeAll(arrUserType);
               setSubUserTypeAll(arrSubRole);
               // setSiteNumberAll(arrSiteNumber);
@@ -328,8 +326,12 @@ const ViewTable = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-      userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+      userType:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? irtRole?.[0]?.value
+          : "",
+      userTypeIndex:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? 0 : "",
       subUserType: "",
       siteNumber: "",
       subUserTypeIndex: "",
@@ -344,8 +346,14 @@ const ViewTable = (props) => {
       siteStreetIndex: "",
       siteName: "",
       siteNameIndex: "",
-      siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
-      siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
+      siteIrt:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
+          : "",
+      siteIrtIndex:
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
+          : "",
       // siteIrtAll
       // role: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
       // optIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?"yes":""
@@ -390,10 +398,22 @@ const ViewTable = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-        userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
-        siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
-        siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
+        userType:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        userTypeIndex:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? 0
+            : "",
+        siteIrt:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
+            : "",
+        siteIrtIndex:
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
+            : "",
         siteDetails: [
           {
             siteNumber: "",
@@ -401,8 +421,6 @@ const ViewTable = (props) => {
             siteStreet: "",
             sitePostCode: "",
             siteCity: "",
-
-
           },
         ],
       },
@@ -618,8 +636,19 @@ const ViewTable = (props) => {
 
   const addMoreHcp = (e) => {
     e.preventDefault();
+    console.log(hpc);
     const status = hpc.map((data) => {
-      if (data.email == "" || data.institute == "" || typeof(data.institute) == "undefined") {
+      if (
+        (data.firstname == "" ||
+          data.lastname == "" ||
+          data.country == "" ||
+          data.email == "" ||
+          data.institute == "" ||
+          typeof data.institute == "undefined") &&
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      ) {
+        return "false";
+      } else if (data.email == "") {
         return "false";
       } else {
         return "true";
@@ -636,8 +665,14 @@ const ViewTable = (props) => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-          userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+          userType:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? irtRole?.[0]?.value
+              : "",
+          userTypeIndex:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? 0
+              : "",
           subUserType: "",
           subUserTypeIndex: "",
           blindType: "",
@@ -652,8 +687,14 @@ const ViewTable = (props) => {
           siteStreetIndex: "",
           sitePostCodeIndex: "",
           siteCityIndex: "",
-          siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
-          siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.findIndex(item =>item?.value == "Yes"):"",
+          siteIrt:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
+              : "",
+          siteIrtIndex:
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+              ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
+              : "",
         },
       ]);
     } else {
@@ -1147,8 +1188,8 @@ const ViewTable = (props) => {
       list[i].siteNameIndex = "";
       list[i].siteName = "";
       list[i].siteNumber = "";
-      list[i].userType = value=="Yes"?irtRole[0]:"Other";  
-      list[i].roleIndex =value=="Yes"?0 :4;  
+      list[i].userType = value == "Yes" ? irtRole[0] : "Other";
+      list[i].roleIndex = value == "Yes" ? 0 : 4;
       setHpc(list);
     }
     let arr = [];
@@ -1270,18 +1311,18 @@ const ViewTable = (props) => {
       setHpc(list);
     } else {
       const value = e.value;
-      
+
       const list = [...hpc];
-      if(value == "Study site"){
+      if (value == "Study site") {
         list[i].siteIrtIndex = 0;
         list[i].siteIrt = "Yes";
         list[i].userType = irtRole[0]?.value;
-        list[i].roleIndex =0;   
-      }else{
+        list[i].roleIndex = 0;
+      } else {
         list[i].siteIrtIndex = 1;
         list[i].siteIrt = "No";
-        list[i].userType = "Other";  
-        list[i].roleIndex =4;  
+        list[i].userType = "Other";
+        list[i].roleIndex = 4;
       }
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -1294,7 +1335,7 @@ const ViewTable = (props) => {
       let index = instituions.findIndex((x) => x.value === value);
       list[i].instituteIndex = index;
 
-      if(value != "Study site"){
+      if (value != "Study site") {
         let arr = [];
         setSiteNumberAll(arr);
         setSiteNameAll(arr);
@@ -1408,16 +1449,31 @@ const ViewTable = (props) => {
         user_id: localStorage.getItem("user_id"),
         smart_list_id: getlistid,
       };
-   
 
       const status = body.data.map((data) => {
-        if (data.email == "") {
+        if (
+          data.first_name == "" &&
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ) {
+          return "Please enter the First name";
+        } else if (
+          data.last_name == "" &&
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ) {
+          return "Please enter the Last name";
+        } else if (data.email == "") {
           // setValidationError({ newHcpEmail: "Please enter the email atleast" });
           return "Please enter the email atleast";
-        }
-        else if(data.institution_type == "" && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg=="){
-          
+        } else if (
+          data.institution_type == "" &&
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ) {
           return "Please select Institution";
+        } else if (
+          data.country == "" &&
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        ) {
+          return "Please select country";
         } else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
@@ -1426,7 +1482,8 @@ const ViewTable = (props) => {
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
             let prev_obj = editList.find((x) => x.email === useremail);
-            if (typeof prev_obj != "undefined") {
+            let prev_obj_new = newData.find((x) => x.email === useremail);
+            if (typeof prev_obj != "undefined" || prev_obj_new != "undefined") {
               // setValidationError({
               //   newHcpEmail: "User with same email already added in list.",
               // });
@@ -1475,7 +1532,7 @@ const ViewTable = (props) => {
             loader("hide");
           });
       } else {
-        const filteredArray = status.filter(value => value !== 'true');
+        const filteredArray = status.filter((value) => value !== "true");
 
         toast.warning(filteredArray?.[0]);
       }
@@ -1761,8 +1818,8 @@ const ViewTable = (props) => {
                     </>
                   ) : (
                     <>
-                    <th scope="col">Business unit</th>
-                    <th scope="col">Contact type</th>
+                      <th scope="col">Business unit</th>
+                      <th scope="col">Contact type</th>
                     </>
                   )}
 
@@ -1842,13 +1899,13 @@ const ViewTable = (props) => {
                     </td>
                     <td>
                       {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ? item?.irt
-                                    ? "Yes"
-                                    : "No"
-                                  :item.ibu
-                                  ? item.ibu
-                                  : "N/A"}
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? item?.irt
+                          ? "Yes"
+                          : "No"
+                        : item.ibu
+                        ? item.ibu
+                        : "N/A"}
                     </td>
                     <td>
                       {localStorage.getItem("user_id") ==
@@ -1959,15 +2016,15 @@ const ViewTable = (props) => {
                       )}
                     </td>
                     <td id="field_business_unit">
-                    {/*item.ibu*/}
-                    {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg=="
-                                ? item?.irt
-                                  ? "Yes"
-                                  : "No"
-                                :item.ibu
-                                ? item.ibu
-                                : "N/A"}
+                      {/*item.ibu*/}
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? item?.irt
+                          ? "Yes"
+                          : "No"
+                        : item.ibu
+                        ? item.ibu
+                        : "N/A"}
                     </td>
                     <td id="field_interest">
                       {localStorage.getItem("user_id") ==
@@ -2125,11 +2182,28 @@ const ViewTable = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    userType:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?irtRole?.[0]?.value:"",
-                    userTypeIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?0:"",
+                    userType:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? irtRole?.[0]?.value
+                        : "",
+                    userTypeIndex:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? 0
+                        : "",
                     countryIndex: "",
-                    siteIrt:localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.find(item =>item?.value == "Yes")?.value:"",
-                    siteIrtIndex: localStorage.getItem("user_id") =="56Ek4feL/1A8mZgIKQWEqg=="?siteIrtAll?.indexOf(item =>item?.value == "Yes"):"",
+                    siteIrt:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? siteIrtAll?.find((item) => item?.value == "Yes")
+                            ?.value
+                        : "",
+                    siteIrtIndex:
+                      localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
+                        : "",
                   },
                 ]);
                 setActiveManual("active");
@@ -2146,7 +2220,6 @@ const ViewTable = (props) => {
             <div className="hcp-add-box">
               <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + activeManual}>
-
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
@@ -2156,7 +2229,13 @@ const ViewTable = (props) => {
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">First name</label>
+                                  <label htmlFor="">
+                                    First name{" "}
+                                    {localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                      <span>*</span>
+                                    )}{" "}
+                                  </label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2169,7 +2248,13 @@ const ViewTable = (props) => {
                               </div>
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Last name</label>
+                                  <label htmlFor="">
+                                    Last name{" "}
+                                    {localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                      <span>*</span>
+                                    )}
+                                  </label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -2312,49 +2397,43 @@ const ViewTable = (props) => {
                               {localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
-                                
                                   <hr />
                                   <div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label for="">Institution <span>*</span></label>
-                                        <Select
-                                          options={instituions}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onInstitutionChange(event, i)
-                                          }
-                                          value={
-                                            instituions[
-                                              hpc[i].instituteIndex
-                                            ]
-                                          }
-                                          placeholder={
-                                            typeof instituions[
-                                              hpc[i].instituteIndex
-                                            ] === "undefined"
-                                              ? "Select Institutions"
-                                              : instituions[
-                                                  hpc[i].instituteIndex
-                                                ]
-                                          }
-                                        />
-                                      </div>
+                                    <div className="form-group">
+                                      <label for="">
+                                        Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={instituions}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        onChange={(event) =>
+                                          onInstitutionChange(event, i)
+                                        }
+                                        value={
+                                          instituions[hpc[i].instituteIndex]
+                                        }
+                                        placeholder={
+                                          typeof instituions[
+                                            hpc[i].instituteIndex
+                                          ] === "undefined"
+                                            ? "Select Institutions"
+                                            : instituions[hpc[i].instituteIndex]
+                                        }
+                                      />
                                     </div>
+                                  </div>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">IRT mandatory training</label>
+                                      <label for="">
+                                        IRT mandatory training
+                                      </label>
                                       <Select
                                         options={siteIrtAll}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         onChange={(event) =>
-                                          onSiteIrtChange(
-                                            event,
-                                            i
-                                          )
+                                          onSiteIrtChange(event, i)
                                         }
-                                        value={
-                                          siteIrtAll[hpc[i].siteIrtIndex]
-                                        }
+                                        value={siteIrtAll[hpc[i].siteIrtIndex]}
                                         placeholder={
                                           typeof siteIrtAll[
                                             hpc[i].siteIrtIndex
@@ -2376,9 +2455,7 @@ const ViewTable = (props) => {
                                           onChange={(event) =>
                                             onUserTypeChange(event, i)
                                           }
-                                          value={
-                                            irtRole[hpc[i].roleIndex]
-                                          }
+                                          value={irtRole[hpc[i].roleIndex]}
                                           placeholder={"Select Role"}
                                           isClearable
                                           // filterOption={createFilter(filterConfig)}
@@ -2391,9 +2468,7 @@ const ViewTable = (props) => {
                                           onChange={(event) =>
                                             onUserTypeChange(event, i)
                                           }
-                                          value={
-                                            userTypeAll[hpc[i].roleIndex]
-                                          }
+                                          value={userTypeAll[hpc[i].roleIndex]}
                                           isClearable
                                           placeholder={"Select Role"}
                                           // filterOption={createFilter(filterConfig)}
@@ -2407,8 +2482,7 @@ const ViewTable = (props) => {
                                     </div>
                                   </div>
 
-                                  {
-                                    /*<div className="col-12 col-md-6">
+                                  {/*<div className="col-12 col-md-6">
                                       <div className="form-group">
                                         <label for="">Blind Type</label>
                                         <Select
@@ -2432,9 +2506,7 @@ const ViewTable = (props) => {
                                           // filterOption={createFilter(filterConfig)}
                                         />
                                       </div>
-                                    </div>*/
-                                  }
-
+                                    </div>*/}
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -2467,7 +2539,13 @@ const ViewTable = (props) => {
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Country</label>
+                                      <label for="">
+                                        Country{" "}
+                                        {localStorage.getItem("user_id") ==
+                                          "56Ek4feL/1A8mZgIKQWEqg==" && (
+                                          <span>*</span>
+                                        )}
+                                      </label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
                                         <Select

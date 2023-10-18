@@ -27,7 +27,7 @@ export const HomeValidation = (data) => {
   }
   if (data.hasOwnProperty("country")) {
     if (!data?.country) {
-      error.country = "Please enter country";
+      error.country = "Please select country";
     }
   }
 
