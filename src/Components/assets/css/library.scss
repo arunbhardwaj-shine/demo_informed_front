@@ -17974,6 +17974,7 @@ img.change-password-image {
           order: 3;
           flex: 0 0 50%;
           padding-top: 17px;
+          padding-left: 0;
 
           &:first-child {
             order: 2;
@@ -17992,6 +17993,11 @@ img.change-password-image {
           li {
             font-size: 13px;
             line-height: 25px;
+            padding-left: 37px;
+
+            &::after {
+              left: 15px;
+            }
           }
         }
 
@@ -18094,6 +18100,7 @@ img.change-password-image {
           font-size: 12px;
           line-height: 19px;
           padding: 0 10px;
+          text-align: center;
         }
       }
     }
