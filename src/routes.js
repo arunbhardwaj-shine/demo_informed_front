@@ -159,6 +159,8 @@ import Feedback from "./Components/R&D/Feedback";
 import MainLanding from "./Components/Library/MainLanding";
 import PharmaMarketing from "./Components/Library/PharmaMarketing";
 import LandingPublisher from "./Components/Library/LandingPublisher";
+import SurveyBuilder from "./Components/Webinar/Survey/SurveyBuilder";
+import PollListing from "./Components/Webinar/Survey/PollListing";
 let platform = 0;
 let show = 0;
 
@@ -495,6 +497,14 @@ const Routing = () => {
         <Route
           path="/new-webinar"
           element={<LoginLayout component={DefaultWebinar} />}
+        />
+        <Route
+          path="/add-poll"
+          element={<LoginLayout component={SurveyBuilder} />}
+        /> 
+        <Route
+          path="/poll-listing"
+          element={<LoginLayout component={PollListing} />}
         />
         <Route
           path="/contact-form"
