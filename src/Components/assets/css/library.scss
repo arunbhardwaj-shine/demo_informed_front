@@ -6,6 +6,16 @@
 @import url("https://fonts.googleapis.com/css?family=Muli");
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
 
+html {
+  --scroll-behavior: smooth !important;
+  scroll-behavior: smooth !important;
+}
+
+body,
+html {
+  overflow-x: hidden;
+}
+
 .library-content-box-layuot {
   margin-top: 20px;
   gap: 0% 5%;
@@ -12624,13 +12634,13 @@ img.change-password-image {
   }
 }
 
-.modal-backdrop.show {
-  background: rgba(0, 0, 36, 0.65);
-  backdrop-filter: blur(10px);
-  --bs-backdrop-zindex: 1050;
-  --bs-backdrop-bg: #000;
-  --bs-backdrop-opacity: 1;
-}
+// .modal-backdrop.show {
+//   background: rgba(0, 0, 36, 0.65);
+//   backdrop-filter: blur(10px);
+//   --bs-backdrop-zindex: 1050;
+//   --bs-backdrop-bg: #000;
+//   --bs-backdrop-opacity: 1;
+// }
 
 
 /**New Landign Page**/
@@ -12659,12 +12669,19 @@ img.change-password-image {
   }
 }
 
+// .scroll-added-new {
+//   padding-top: 90vh;
+//   min-height: 90vh;
+// }
+
 .landing-banner {
   background: #68d1e8 url(../../../../public/componentAssets/images/banner-bg-shade.svg) no-repeat;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
-  position: sticky;
-  top: 0;
+  // position: sticky;
+  // top: 0;
   background-size: cover;
+  // position: fixed;
+  // width: 100%;
 
   &.pharma {
     background: $primary-color url(../../../../public/componentAssets/images/pharma-marketing-bg.png) no-repeat;
@@ -13118,10 +13135,10 @@ img.change-password-image {
 
 
       .icon-block {
-        img {
-          animation-duration: 13s;
-          -webkit-animation-duration: 13s;
-        }
+        // img {
+        //   animation-duration: 13s;
+        //   -webkit-animation-duration: 13s;
+        // }
       }
     }
   }

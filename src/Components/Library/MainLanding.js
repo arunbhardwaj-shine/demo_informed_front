@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import { Router, Route, browserHistory } from 'react-router';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LandingHeader from './LandingHeader';
@@ -75,7 +76,7 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
             </Row>
         </Container>
     </div>
-
+    <div className='scroll-added-new'></div>
     <div className='how-work main-sec'>
         <Container>
             <Row>
@@ -122,9 +123,9 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                     <div className='works-started-links'>
                         <h3>Tell us what you work with?</h3>
                         <div className='started-links d-flex justify-content-evenly'>
-                            {/* <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link> */}
-                            {/* <Link to="/pharma-marketing" className='pharma-marketing'>Pharma Marketing</Link> */}
-                            {/* <Link to="/landing-publisher" className='publisher-gradient'>Publishers</Link> */}
+                            {/* <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link> 
+                            <Link to="/pharma-marketing" className='pharma-marketing'>Pharma Marketing</Link>
+                           <Link to="/landing-publisher" className='publisher-gradient'>Publishers</Link> */}
                             <a href='/pharma-marketing' className='pharma-marketing'>Pharma Marketing</a>
                             <a href='/landing-publisher' className='publisher-gradient'>Publishers</a>
                         </div>
@@ -148,4 +149,4 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   )
 }
 
-export default MainLanding
+export default React.memo(MainLanding)
