@@ -22,11 +22,17 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                             <div class="icon-block big">
                                 <img src={path_image + "docintel-icon.svg"} alt="" />
                             </div>
-                            <div class="icon-block medium">
+                            {/* <div class="icon-block medium">
                                 &nbsp;
-                            </div>
-                            <div class="icon-block small">
+                            </div> */}
+                            {/* <div class="icon-block small">
                                 &nbsp;
+                            </div> */}
+                             <div class="icon-block">
+                                    <img src={path_image + "library-icon-circle.svg"} alt="" />
+                                </div>
+                                <div class="icon-block">
+                                 <img src={path_image + "world-icon.svg"} alt="" />
                             </div>
                         </div>
                         <div class="circle circle-inner1">

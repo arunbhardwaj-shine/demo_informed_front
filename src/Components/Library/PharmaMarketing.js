@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef,useLayoutEffect } from "react";
 import { Router, Route, browserHistory } from 'react-router';
 import {
   Button,
@@ -45,6 +45,9 @@ const PharmaMarketing = () => {
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
+
+  const ref = useRef(null);
+  const [height, setHeight] = useState(0);
 
   const modules = [
     {
@@ -1003,17 +1006,21 @@ const PharmaMarketing = () => {
     setAddSmallClass(true);
     setAddDivClass(false);
     event.preventDefault();
-    const err = HomeValidation(registerFormInputs);
+    const err = HomeValidation(registerFormInputs,1);
+    console.log(err,"error");
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
         nameRef?.current?.focus();
       } else if (Object?.keys(err)[0] == "email") {
         emailRef?.current?.focus();
-      } else if (Object.keys(err)[0] == "comapny") {
-        companyRef.current.focus();
-      } else if (Object.keys(err)[0] == "phone") {
-        phoneRef.current.focus();
-      } else if (Object.keys(err)[0] == "country") {
+      } 
+      // else if (Object.keys(err)[0] == "comapny") {
+      //   companyRef.current.focus();
+      // } 
+      // else if (Object.keys(err)[0] == "phone") {
+      //   phoneRef.current.focus();
+      // }
+       else if (Object.keys(err)[0] == "country") {
         countryRef.current.focus();
       }
       setRegisterError(err);
@@ -1050,6 +1057,8 @@ const PharmaMarketing = () => {
           consent_type: consentType,
           type: "register",
         };
+
+        console.log(data,'data')
         setPayloadData(data);
         const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
@@ -1359,6 +1368,12 @@ const PharmaMarketing = () => {
     centerMode: true,
   };
 
+useLayoutEffect(() => {
+  setHeight(ref.current.offsetHeight);
+}, []);
+console.log(height,'====>height')
+
+
   return (
     <>
       <meta
@@ -1367,7 +1382,7 @@ const PharmaMarketing = () => {
       />
       <LandingHeader />
 
-      <div className="landing-banner pharma">
+      <div className="landing-banner pharma" ref={ref}>
         <Container>
           <Row>
             <div className="landing-block">
@@ -2285,13 +2300,13 @@ const PharmaMarketing = () => {
                                   type="number"
                                   placeholder="Phone"
                                   name="phone"
-                                  // className="form-control"
-                                  ref={phoneRef}
-                                  className={
-                                    !registerError?.phone
-                                      ? "form-control"
-                                      : "form-control error"
-                                  }
+                                  className="form-control"
+                                  // ref={phoneRef}
+                                  // className={
+                                  //   !registerError?.phone
+                                  //     ? "form-control"
+                                  //     : "form-control error"
+                                  // }
                                   value={
                                     registerFormInputs?.phone
                                       ? registerFormInputs?.phone
@@ -2314,13 +2329,13 @@ const PharmaMarketing = () => {
                                     />
                                   </svg>
                                 </span>
-                                {registerError?.phone ? (
+                                {/* {registerError?.phone ? (
                                   <div className="contact-validation">
                                     {registerError?.phone}
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                               </div>
                             </Col>
 
@@ -2330,13 +2345,13 @@ const PharmaMarketing = () => {
                                   type="text"
                                   placeholder="Company"
                                   name="company"
-                                  // className="form-control"
-                                  ref={companyRef}
-                                  className={
-                                    !registerError?.company
-                                      ? "form-control"
-                                      : "form-control error"
-                                  }
+                                  className="form-control"
+                                  // ref={companyRef}
+                                  // className={
+                                  //   !registerError?.company
+                                  //     ? "form-control"
+                                  //     : "form-control error"
+                                  // }
                                   value={
                                     registerFormInputs?.company
                                       ? registerFormInputs?.company
@@ -2371,13 +2386,13 @@ const PharmaMarketing = () => {
                                     />
                                   </svg>
                                 </span>
-                                {registerError?.company ? (
+                                {/* {registerError?.company ? (
                                   <div className="contact-validation">
                                     {registerError?.company}
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                               </div>
                             </Col>
 
