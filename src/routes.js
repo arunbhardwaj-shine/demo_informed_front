@@ -150,14 +150,15 @@ import CommanPage from "./Components/Firbase/CommanPage";
 import QuestionTrigger from "./Components/Firbase/QuestionTrigger";
 import PollQuestion from "./Components/Firbase/PollQuestion";
 import LicenseLinkToPdf from "./Components/License/CreateChange/LicenseLinkToPdf";
+import MainLanding from "./Components/Library/MainLanding";
+import PharmaMarketing from "./Components/Library/PharmaMarketing";
+import PharmaRnd from "./Components/Library/PharmaRnd";
+import LandingPublisher from "./Components/Library/LandingPublisher";
 import MarketingAddReader from "./Components/Readers/AddReader/MarketingAddReader";
 import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditReader";
 import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
 import PageNotFound from "./Components/CommonComponent/PageNotFound";
 import Feedback from "./Components/R&D/Feedback";
-import MainLanding from "./Components/Library/MainLanding";
-import PharmaMarketing from "./Components/Library/PharmaMarketing";
-import LandingPublisher from "./Components/Library/LandingPublisher";
 let platform = 0;
 let show = 0;
 
@@ -214,6 +215,22 @@ const Routing = () => {
         <Route
           path="/publisher-page"
           element={<DefaultLayout component={PublisherPage} />}
+        />
+        <Route
+          path="/main-landing"
+          element={<DefaultLayout component={MainLanding} />}
+        />
+        <Route
+          path="/landing-publisher"
+          element={<DefaultLayout component={LandingPublisher} />}
+        />
+        <Route
+          path="/pharma-marketing"
+          element={<DefaultLayout component={PharmaMarketing} />}
+        />
+        <Route
+          path="/pharma-rd"
+          element={<DefaultLayout component={PharmaRnd} />}
         />
         <Route
           path="/webinar"

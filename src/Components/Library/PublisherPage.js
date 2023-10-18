@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Container,
   Nav,
@@ -16,8 +16,11 @@ import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+import Slider from "react-slick";
 
 const PublisherPage = () => {
+  const sliderRef = useRef();
+  const parentRef = useRef('');
   const navigate = useNavigate();
   const playerRef = useRef(null);
   const [show, setShow] = useState(false);
@@ -62,7 +65,8 @@ const PublisherPage = () => {
           password: userInputs?.password,
         });
 
-        localStorage.clear();
+        // localStorage.clear();
+        clearLocalStorageExcept();
         localStorage.setItem("user_id", res?.data?.data?.userToken);
         localStorage.setItem("group_id", res?.data?.data?.groupId);
         localStorage.setItem("webinar_flag", res?.data?.data?.webinar_flag);
@@ -77,7 +81,45 @@ const PublisherPage = () => {
       }
     }
   };
+  useEffect(() => {
+        if (!parentRef.current) {
+            return;
+        }
 
+        parentRef.current.addEventListener("wheel", e => { 
+            handleScroll(e)
+        });
+    }, [parentRef]);
+        const handleScroll = e => {
+        let sliderLength = sliderRef.current.props.children.length;
+
+        var element = document.getElementsByClassName('slick-active')[0];
+        var activeSlide = element.getAttribute('data-index'); 
+       
+      if (
+             (e.deltaY < 0 && activeSlide == 0) ||
+             (e.deltaY > 0 && activeSlide == sliderLength - 1)
+        ) {
+            return;
+        }
+
+        e.preventDefault();
+
+        if (e.deltaY < 0) {
+            let a= sliderRef.current.slickPrev();
+        } else {
+            let a= sliderRef.current.slickNext();
+        }
+    };
+      const settings = ({
+        infinite: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        dots: false,
+        arrows: false,
+        centerMode: true,
+        centerPadding: '10%',
+    });
   const handleShow = (type) => {
     if (type == "forgot") {
       setShow(true);
@@ -162,6 +204,16 @@ const PublisherPage = () => {
       }
     }
   };
+
+  const clearLocalStorageExcept = () => {
+    const keysToKeep = ['uname', 'pass', 'acceptedCookies']; 
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (!keysToKeep.includes(key)) {
+      localStorage.removeItem(key);
+      }
+    }
+  }
 
   return (
     <>
@@ -884,6 +936,12 @@ const PublisherPage = () => {
             </Row>
           </Container>
         </section>
+
+
+
+
+
+
         <footer>
           <p>
             Copyright 2023
