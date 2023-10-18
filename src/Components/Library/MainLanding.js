@@ -76,7 +76,6 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
             </Row>
         </Container>
     </div>
-    <div className='scroll-added-new'></div>
     <div className='how-work main-sec'>
         <Container>
             <Row>

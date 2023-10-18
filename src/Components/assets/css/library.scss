@@ -12646,7 +12646,7 @@ img.change-password-image {
 /**New Landign Page**/
 .header-landing {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   top: 34px;
 }
@@ -13514,12 +13514,12 @@ img.change-password-image {
 }
 
 .how-work {
-  // border-radius: 20px 20px;
+  border-radius: 20px 20px;
   background: $white;
   // box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
   margin-top: -30px;
   position: relative;
-  z-index: 2;
+  z-index: 3;
   padding: 135px 0 10px;
 
   &.main-sec {
@@ -13746,7 +13746,7 @@ img.change-password-image {
   position: relative;
   background-position: center;
   background-size: cover;
-  z-index: 1;
+  z-index: 2;
 
   &.pharma {
     background: $primary-color url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
@@ -14088,8 +14088,8 @@ img.change-password-image {
     overflow: hidden;
     background: linear-gradient(180deg, #CDE8FF 0%, #FFF 100%);
     position: relative;
-    z-index: 1;
-    padding-top: 20px;
+    z-index: 2;
+    padding-top: 0px;
     margin-top: -20px;
 
     .add-space {
@@ -14679,12 +14679,12 @@ img.change-password-image {
 .consent-content {
   padding: 126px 0 226px;
   background: $white;
-  // border-radius: 20px;
+  border-radius: 20px;
   background: $white;
   // box-shadow: 0px 0px 40px 0px rgba(0, 102, 190, 0.16);
   margin: -15px 0 0;
   position: relative;
-  z-index: 1;
+  z-index: 3;
 
   .consent-content-inner {
     max-width: 1044px;
