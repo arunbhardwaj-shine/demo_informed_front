@@ -12,7 +12,6 @@ import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-import LandingSliderSection from "./LandingSliderSection";
 
 const PharmaRd = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -1037,6 +1036,63 @@ const PharmaRd = () => {
   const [readStatus, setReadStatus] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const sliderRef = useRef();
+  const parentRef = useRef("");
+  useEffect(() => {
+    if (!parentRef.current) {
+      return;
+    }
+
+    parentRef.current.addEventListener("wheel", (e) => {
+      handleScroll(e);
+    });
+  }, [parentRef]);
+  const handleScroll = (e) => {
+    let sliderLength = sliderRef.current.props.children.length;
+
+    var element = document.getElementsByClassName("slick-active")[0];
+    var activeSlide = element.getAttribute("data-index");
+
+    if (
+      (e.deltaY < 0 && activeSlide == 0) ||
+      (e.deltaY > 0 && activeSlide == sliderLength - 1)
+    ) {
+      return;
+    }
+
+    e.preventDefault();
+
+    if (e.deltaY < 0) {
+      let a = sliderRef.current.slickPrev();
+    } else {
+      let a = sliderRef.current.slickNext();
+    }
+  };
+
+  const settings = {
+    infinite: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    arrows: false,
+    centerMode: true,
+    centerPadding: "0%",
+    fade: true,
+    speed: 2000,
+    responsive: [
+        {
+          breakpoint: 558,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: true,
+            arrows: true
+          }
+        }
+      ]
+  };
+
   const sliderSettings = {
     infinite: false,
     slidesToShow: 1,
@@ -1200,7 +1256,252 @@ const PharmaRd = () => {
             </Row>
         </Container>
       </div>
-      <LandingSliderSection/>
+      <div className="pharma-slide">
+        <div className="pharma-slider">
+          <div className="slider" ref={parentRef}>
+            <div className="add-space top"></div>
+            <Slider {...settings} ref={sliderRef}>
+              <div className="slider-in">
+                <div className="slider-in-views">
+                  <img src={path_image + "informed-logo-slide.svg"} alt="" />
+                  <div className="slider-bg-icons">
+                    <img
+                      src={path_image + "ellipse-bg1.png"}
+                      alt=""
+                      className="slide-ellipse1"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg2.png"}
+                      alt=""
+                      className="slide-ellipse2"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg3.png"}
+                      alt=""
+                      className="slide-ellipse3"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg4.png"}
+                      alt=""
+                      className="slide-ellipse4"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg5.png"}
+                      alt=""
+                      className="slide-ellipse5"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg6.png"}
+                      alt=""
+                      className="slide-ellipse6"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="slider-in">
+                <div className="slider-in-view slide1">
+                  <div className="slide-left-sided d-flex align-items-start">
+                    <img src={path_image + "arrow-slide1.png"} alt="" />
+                  </div>
+                  <div className="slide-right-sided">
+                    <div className="slide-right-content">
+                      <span className="add-shadow"><img src={path_image + "logo-shape1.png"} alt="" /></span>
+                      <h3>Content</h3>
+                      <h5>
+                        Create a library of all your content and easily
+                        distribute it. We collect deep data, tracking what HCPs
+                        have opened, what pages they’ve read and how much time
+                        they’ve spent on them.
+                      </h5>
+                    </div>
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img
+                      src={path_image + "ellipse-bg1.png"}
+                      alt=""
+                      className="slide-ellipse1"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg2.png"}
+                      alt=""
+                      className="slide-ellipse2"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg3.png"}
+                      alt=""
+                      className="slide-ellipse3"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg4.png"}
+                      alt=""
+                      className="slide-ellipse4"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg5.png"}
+                      alt=""
+                      className="slide-ellipse5"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg6.png"}
+                      alt=""
+                      className="slide-ellipse6"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="slider-in">
+                <div className="slider-in-view slide2">
+                  <div className="slide-right-sided">
+                    <div className="slide-right-content">
+                      <span className="add-shadow"><img src={path_image + "logo-shape2.png"} alt="" /></span>
+                      <h3>Consent</h3>
+                      <h5>
+                        Effortlessly customize consent to match your clients and preferences. 
+                        The correct consent empowers your client to gather unparalleled data,
+                         providing insights into HCP'c reading habita and boosting their engagement success.
+                      </h5>
+                    </div>
+                  </div>
+                  <div className="slide-left-sided">
+                    <img src={path_image + "arrow-slide2.png"} alt="" />
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img
+                      src={path_image + "ellipse-bg1.png"}
+                      alt=""
+                      className="slide-ellipse1"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg2.png"}
+                      alt=""
+                      className="slide-ellipse2"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg3.png"}
+                      alt=""
+                      className="slide-ellipse3"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg4.png"}
+                      alt=""
+                      className="slide-ellipse4"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg5.png"}
+                      alt=""
+                      className="slide-ellipse5"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg6.png"}
+                      alt=""
+                      className="slide-ellipse6"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="slider-in">
+                <div className="slider-in-view slide3">
+                  <div className="slide-left-sided">
+                    <img src={path_image + "arrow-slide2.png"} alt="" />
+                  </div>
+                  <div className="slide-right-sided">
+                    <div className="slide-right-content">
+                      <span className="add-shadow"><img src={path_image + "logo-shape3.png"} alt="" /></span>
+                      <h3>Delivery</h3>
+                      <h5>
+                       ePrints success hinges on clients distributing content to HCPs . We provide free distribution tools
+                        and analytics dashboard to track effective channels-all included with every ePrint.
+                      </h5>
+                    </div>
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img
+                      src={path_image + "ellipse-bg1.png"}
+                      alt=""
+                      className="slide-ellipse1"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg2.png"}
+                      alt=""
+                      className="slide-ellipse2"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg3.png"}
+                      alt=""
+                      className="slide-ellipse3"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg4.png"}
+                      alt=""
+                      className="slide-ellipse4"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg5.png"}
+                      alt=""
+                      className="slide-ellipse5"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg6.png"}
+                      alt=""
+                      className="slide-ellipse6"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="slider-in">
+                <div className="slider-in-view slide4">
+                  <div className="slide-right-sided">
+                    <div className="slide-right-content">
+                      <h3>Service</h3>
+                      <h5>
+                       Saying Yes to clients and delievering quickly is a lot mor enjoylable. We have automated
+                      the majority of he eprints process, and for the remmaning  5% of unique customisation requests, we can turn them around in just one day.
+                     <h5> Our commitement is to keep your clients happy and staisfied. </h5>
+                      </h5>
+                    </div>
+                  </div>
+                  <div className="slide-left-sided">
+                    <img src={path_image + "informed-logo-slide.svg"} alt="" />
+                  </div>
+                  <div className="slider-bg-icons">
+                    <img
+                      src={path_image + "ellipse-bg1.png"}
+                      alt=""
+                      className="slide-ellipse1"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg2.png"}
+                      alt=""
+                      className="slide-ellipse2"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg3.png"}
+                      alt=""
+                      className="slide-ellipse3"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg4.png"}
+                      alt=""
+                      className="slide-ellipse4"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg5.png"}
+                      alt=""
+                      className="slide-ellipse5"
+                    />
+                    <img
+                      src={path_image + "ellipse-bg6.png"}
+                      alt=""
+                      className="slide-ellipse6"
+                    />
+                  </div>
+                </div>
+              </div>
+            </Slider>
+            <div className="add-space bottom"></div>
+          </div>
+        </div>
+      </div>
       <div className="consent-content">
       <div className={`overlay ${addDivClass ? "show" : ""}`}></div>
         <Container>
@@ -2281,7 +2582,7 @@ const PharmaRd = () => {
                               {bigCircleModuleData?.paragraph}
                             </p>
                           </div>
-                          <div><h6>Swipe for Key Features >></h6></div>
+                          <div><h6>Swipe for Key Features &gt;&gt;</h6></div>
                         </div>
                       </div>
 
