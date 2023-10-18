@@ -2281,7 +2281,7 @@ const PharmaRd = () => {
                               {bigCircleModuleData?.paragraph}
                             </p>
                           </div>
-                          <div><h6>Swipe for Key Features >></h6></div>
+                          <div><h6>Swipe for Key Features &gt;&gt;</h6></div>
                         </div>
                       </div>
 
@@ -2314,7 +2314,7 @@ const PharmaRd = () => {
                                 ))}
                             </ul>
                             
-                              <div className="d-flex align-items-center justify-content-center">
+                              <div className="d-flex align-items-center justify-content-center footer_bts">
                                 <Button
                                   className="btn-filled"
                                   onClick={handleRequestClick}

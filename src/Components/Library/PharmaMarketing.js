@@ -2845,7 +2845,7 @@ const PharmaMarketing = () => {
                                 ))}
                             </ul>
                             
-                              <div className="d-flex align-items-center justify-content-center ">
+                              <div className="d-flex align-items-center justify-content-center footer_bts">
                                 <Button
                                   className="btn-filled"
                                   onClick={handleRequestClick}
