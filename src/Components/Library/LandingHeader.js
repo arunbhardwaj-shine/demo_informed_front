@@ -90,6 +90,7 @@ const LandingHeader = () => {
     const handleLogin = async (event) => {
          
         event.preventDefault();
+        setLoginerrors('');
         if (username === "" && password === "") {
             setShowUserNameError("Please enter a valid username");
             setShowPasswordError("Please enter a valid password");
