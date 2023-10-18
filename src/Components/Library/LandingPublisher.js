@@ -1008,6 +1008,7 @@ const PharmaRd = () => {
 
   const handleBigCircleClose = (moduleName, index) => {
     setAddClass(false);
+     setAddDivClass(false)
     setFormFeilds(false);
     setAddSmallClass(false)
     const smallCircleData = modules[index];
@@ -2626,6 +2627,12 @@ const PharmaRd = () => {
                       onClick={handleBigCircleClose}
                     /> */}
                    <div className="mobile-slider">
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
                 <div className="mobile-slider-inset">
                  {showBigCircleData && !registerPage && (
                     
