@@ -1,0 +1,121 @@
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { postData } from "../axios/apiHelper";
+import { ENDPOINT } from "../axios/apiConfig";
+import { loader } from "../loader";
+
+
+const SessionModel = ({ show, onClose, data ,eventId}) => {
+  const [user, setUser] = useState({
+    speakerName: "",
+    poll_question_id: "",
+    poll_answer_id: "",
+    guest_id: "",
+    user_answer: "",
+  });
+  const [error, setError] = useState({});
+
+  const handleChange = (value, type, e) => {
+    if (type == "CHECKBOX") {
+      let newAr = [];
+      if (user?.poll_answer_id && user?.poll_answer_id?.includes(value)) {
+        newAr = user?.poll_answer_id?.filter((item) => item != value);
+      } else {
+        newAr = user?.poll_answer_id?.length ? user?.poll_answer_id : [];
+        newAr.push(value);
+      }
+      setUser({
+        ...user,
+        speakerName: data?.[0]?.speakerName,
+        poll_question_id: data?.[0]?.questionId,
+        poll_answer_id: newAr,
+        guest_id: Cookies.get("events"),
+      });
+    } else if (type == "MULTIPLE") {
+      setUser({
+        ...user,
+        speakerName: data?.[0]?.speakerName,
+        poll_question_id: data?.[0]?.questionId,
+        poll_answer_id: value,
+        guest_id: Cookies.get("events"),
+      });
+    } else {
+      setUser({ ...user, user_answer: e.target.value });
+    }
+  };
+  const handleSubmit = async () => {
+    try {
+      if(typeof user?.poll_answer_id == "number" && !user?.poll_answer_id){
+        setError({ msg: "Please select above options" });
+        return
+      }else if(typeof user?.poll_answer_id == "object" && !user?.poll_answer_id?.length){
+        setError({ msg: "Please select above options" });
+        return;
+      }else if(!user?.poll_answer_id){
+        setError({ msg: "Please select above options" });
+        return
+      }
+       else {
+        setError({});
+      }
+
+       loader("show")
+       await postData(ENDPOINT.ADD_EVENT_DATA, {
+          speakerName: user?.speakerName,
+          eventId:eventId?.id,
+          poll_question_id: user?.poll_question_id,
+          poll_answer_id: user?.poll_answer_id.toString(),
+          user_answer: user?.user_answer,
+          guest_id: user?.guest_id,
+        })
+
+      const eventQuestion = Cookies.get("eventQuestion");
+      if (!eventQuestion?.includes(user?.poll_question_id)) {
+        let newAr = eventQuestion?.length ? JSON.parse(eventQuestion) : [];
+        newAr.push(user?.poll_question_id);
+        const expirationDate = new Date();
+        expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+        Cookies.set("eventQuestion", JSON.stringify(newAr), { expires:expirationDate });
+      }
+      setUser({})
+      onClose(false);
+      loader("hide")
+
+    } catch (err) {
+      loader("hide")
+      console.log("-err", err);
+    }
+  };
+  return (
+    <Modal
+      id="pollModel"
+      show={show}
+      // onHide={onClose}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header >
+        <Modal.Title id="contained-modal-title-vcenter">
+          <img
+            src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
+            alt=""
+          />
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        
+        
+      </Modal.Body>
+      <Modal.Footer>
+        {error?.msg ? <p className="error">{error.msg}</p> : ""}
+        <Button onClick={handleSubmit}>Submit</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
+export default React.memo(SessionModel);
