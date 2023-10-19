@@ -1031,6 +1031,7 @@ const PharmaRd = () => {
     setShowBigCircleData(false);
     setModulesSelect(false);
     setFormFeilds(false);
+    setModuleFormInputs(false)
   };
 
   const handleBigCircleClose = (moduleName, index) => {
