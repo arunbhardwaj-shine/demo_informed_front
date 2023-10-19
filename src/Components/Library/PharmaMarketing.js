@@ -1007,7 +1007,6 @@ const PharmaMarketing = () => {
     setAddDivClass(false);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs,1);
-    console.log(err,"error");
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
         nameRef?.current?.focus();
@@ -1187,8 +1186,8 @@ const PharmaMarketing = () => {
       // let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
-        email: moduleFormInputs?.secondaryEmail?.trim(),
-        phone: moduleFormInputs?.secondaryPhone?.trim(),
+        secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
+        secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
       // };
@@ -1205,6 +1204,7 @@ const PharmaMarketing = () => {
     setShowBigCircleData(false);
     setModulesSelect(false);
     setFormFeilds(false);
+    setModuleFormInputs(false)
   };
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1371,7 +1371,7 @@ const PharmaMarketing = () => {
 useLayoutEffect(() => {
   setHeight(ref.current.offsetHeight);
 }, []);
-console.log(height,'====>height')
+// console.log(height,'====>height')
 
 
   return (
