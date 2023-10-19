@@ -13850,6 +13850,16 @@ img.change-password-image {
           }
         }
 
+        .success_msg {
+          color: #00ab98;
+          font-size: 14px;
+        }
+
+        .error_msg {
+          color: #FF7CBC;
+          font-size: 14px;
+        }
+
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
         input:-webkit-autofill:focus,
