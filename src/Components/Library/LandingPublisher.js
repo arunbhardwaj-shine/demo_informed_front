@@ -836,17 +836,20 @@ const PharmaRd = () => {
     setAddDivClass(false);
     setAddSmallClass(true);
     event.preventDefault();
-    const err = HomeValidation(registerFormInputs);
+    const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
         nameRef?.current?.focus();
       } else if (Object?.keys(err)[0] == "email") {
         emailRef?.current?.focus();
-      } else if (Object.keys(err)[0] == "comapny") {
-        companyRef.current.focus();
-      } else if (Object.keys(err)[0] == "phone") {
-        phoneRef.current.focus();
-      } else if (Object.keys(err)[0] == "country") {
+      } 
+      // else if (Object.keys(err)[0] == "comapny") {
+      //   companyRef.current.focus();
+      // }
+      //  else if (Object.keys(err)[0] == "phone") {
+      //   phoneRef.current.focus();
+      // }
+       else if (Object.keys(err)[0] == "country") {
         countryRef.current.focus();
       }
       setRegisterError(err);
@@ -1011,8 +1014,8 @@ const PharmaRd = () => {
       const res = await postData(ENDPOINT.REGISTER, {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
-        email: moduleFormInputs?.secondaryEmail?.trim(),
-        phone: moduleFormInputs?.secondaryPhone?.trim(),
+        secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
+        secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
       });
@@ -1028,6 +1031,7 @@ const PharmaRd = () => {
     setShowBigCircleData(false);
     setModulesSelect(false);
     setFormFeilds(false);
+    setModuleFormInputs(false)
   };
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -2034,13 +2038,13 @@ const PharmaRd = () => {
                                   type="number"
                                   placeholder="Phone"
                                   name="phone"
-                                  // className="form-control"
-                                  ref={phoneRef}
-                                  className={
-                                    !registerError?.phone
-                                      ? "form-control"
-                                      : "form-control error"
-                                  }
+                                  className="form-control"
+                                  // ref={phoneRef}
+                                  // className={
+                                  //   !registerError?.phone
+                                  //     ? "form-control"
+                                  //     : "form-control error"
+                                  // }
                                   value={
                                     registerFormInputs?.phone
                                       ? registerFormInputs?.phone
@@ -2063,13 +2067,13 @@ const PharmaRd = () => {
                                     />
                                   </svg>
                                 </span>
-                                {registerError?.phone ? (
+                                {/* {registerError?.phone ? (
                                   <div className="contact-validation">
                                     {registerError?.phone}
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                               </div>
                             </Col>
 
@@ -2079,13 +2083,13 @@ const PharmaRd = () => {
                                   type="text"
                                   placeholder="Company"
                                   name="company"
-                                  // className="form-control"
-                                  ref={companyRef}
-                                  className={
-                                    !registerError?.company
-                                      ? "form-control"
-                                      : "form-control error"
-                                  }
+                                  className="form-control"
+                                  // ref={companyRef}
+                                  // className={
+                                  //   !registerError?.company
+                                  //     ? "form-control"
+                                  //     : "form-control error"
+                                  // }
                                   value={
                                     registerFormInputs?.company
                                       ? registerFormInputs?.company
@@ -2120,13 +2124,13 @@ const PharmaRd = () => {
                                     />
                                   </svg>
                                 </span>
-                                {registerError?.company ? (
+                                {/* {registerError?.company ? (
                                   <div className="contact-validation">
                                     {registerError?.company}
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                               </div>
                             </Col>
 
