@@ -38,6 +38,7 @@ const PharmaRd = () => {
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [addSmallClass, setAddSmallClass] = useState(false);
+  const [publisherRegistered, setPublisherRegistered] = useState(localStorage.getItem('publisherRegistered'));
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -833,6 +834,8 @@ const PharmaRd = () => {
   };
 
   const handleReadClick = async (event) => {
+    localStorage.setItem('publisherRegistered', 'true');
+    setPublisherRegistered(true);
     setAddDivClass(false);
     setAddSmallClass(true);
     event.preventDefault();
@@ -888,6 +891,8 @@ const PharmaRd = () => {
         };
 
         setPayloadData(data);
+        const dataPublisherString = JSON.stringify(data);
+        localStorage.setItem('payloadPublisherData', dataPublisherString);
         const res = await postData(ENDPOINT.REGISTER, data);
         let obj = {};
         loader("hide");
@@ -1011,6 +1016,8 @@ const PharmaRd = () => {
     setAddSmallClass(true);
     loader("show");
     try {
+      const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
+      const payloadData = JSON.parse(payloadDataPharmaString);
       const res = await postData(ENDPOINT.REGISTER, {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
@@ -1908,7 +1915,7 @@ const PharmaRd = () => {
                   )}
                   <div class="shape shape-left"></div>
 
-                  {registerPage && (
+                  {registerPage && !publisherRegistered && (
                     <div>
                       <img
                         className="close"
@@ -2245,7 +2252,7 @@ const PharmaRd = () => {
                           : "d-flex justify-content-between flex-column"
                       }`}
                     >
-                      {showBigCircleData && !registerPage && (
+                      {showBigCircleData && publisherRegistered && (
                         <>
                           <div className="big-circle-data">
                             <div>
@@ -2418,7 +2425,7 @@ const PharmaRd = () => {
                           <p>Please select the modules you're interested in:</p>
                         </div>
                       )}
-                      {modulesSelect && !registerPage && (
+                      {modulesSelect && publisherRegistered && (
                         <div
                           className="module-diagram circle pharma_market publisher"
                           style={{ "--total": "20" }}
@@ -2770,7 +2777,7 @@ const PharmaRd = () => {
                           ></div>
                         </div>
                       )}
-                      {showBigCircleData && !registerPage && (
+                      {showBigCircleData && publisherRegistered && (
                         <div className="d-flex align-items-center justify-content-center fotter-btns">
                           <Button
                             className="btn-filled"
