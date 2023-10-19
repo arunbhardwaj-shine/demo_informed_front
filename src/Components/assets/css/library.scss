@@ -16435,7 +16435,7 @@ img.change-password-image {
 @media only screen and (max-width:1500px) {
   .landing-banner {
     .landing-block {
-      padding: 80px 0 110px;
+      padding: 120px 0 110px;
     }
   }
 
@@ -16906,15 +16906,183 @@ img.change-password-image {
   }
 }
 
+
+
+@media only screen and (min-width:1200px) and (max-width:1500px) {
+  .circular-ring {
+    .circle {
+      animation: circle-rotate 20s linear infinite;
+      -webkit-animation: circle-rotate 20s linear infinite;
+
+      &.circle-inner1 {
+        .icon-block {
+          img {
+            animation: img-rotate 20s linear infinite;
+            -webkit-animation: img-rotate 20s linear infinite;
+          }
+        }
+      }
+
+      &.circle-inner3 {
+        .icon-block {
+          img {
+            animation: img-rotate 20s linear infinite;
+            -webkit-animation: img-rotate 20s linear infinite;
+          }
+        }
+      }
+    }
+  }
+
+  .landing-banner.pharma .circular-height {
+    height: 485px;
+  }
+
+  .circular-ring .circle-inner3 .circle-half-bigger svg {
+    width: 82%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:first-child {
+    top: -9px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(2) {
+    top: 11%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(3) {
+    top: 19%;
+    left: 95%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(11) {
+    left: 2%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
+    left: 13%;
+  }
+
+  .landing-banner.pharma .circular-ring .circle.circle-inner1 {
+    background-size: calc(100% - 50px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 {
+    width: calc(100% - 80px);
+    height: calc(100% - 80px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 {
+    width: calc(100% - 270px);
+    height: calc(100% - 270px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 {
+    width: calc(100% - 400px);
+    height: calc(100% - 400px);
+  }
+
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 35%;
+  }
+
+  .pharma .circular-ring .center-logo .icon img {
+    width: 60px;
+  }
+
+  .landing-banner.pharma .circular-height {
+    padding: 70px 0 0;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child {
+    top: -1.4%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(6) {
+    top: 69%;
+    left: 6%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(5) {
+    top: 83.4%;
+    left: 18%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(5) {
+    top: 68%;
+    left: 91%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(4) {
+    top: 95.4%;
+    left: 42%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(3) {
+    top: 36%;
+    left: 96%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(2) {
+    top: 11%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child {
+    top: -4%;
+    left: 32%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) {
+    top: 43%;
+    left: 99%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) img {
+    width: 35px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) {
+    top: 36%;
+    left: -7%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) img {
+    width: 35px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) {
+    top: 69%;
+    left: 81%;
+  }
+}
+
+@media only screen and (min-width:1360px) and (max-width:1439px) {
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 34%;
+  }
+
+  .landing-banner .landing-block {
+    padding: 70px 0 110px;
+  }
+}
+
 @media only screen and (max-width:1300px) {
   .landing-banner {
     .landing-block {
-      padding: 95px 0 80px;
+      padding: 65px 0 80px;
     }
 
     .landing-heading {
       margin: 38px 0 14px;
     }
+  }
+
+  .landing-banner.pharma .circular-height {
+    padding: 45px 0 0;
   }
 
   .how-work {
@@ -17037,141 +17205,6 @@ img.change-password-image {
   }
 }
 
-@media only screen and (min-width:1200px) and (max-width:1399px) {
-  .circular-ring .circle-inner3 .circle-half-bigger svg {
-    width: 82%;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:first-child {
-    top: -9px;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:nth-child(2) {
-    top: 11%;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:nth-child(3) {
-    top: 19%;
-    left: 95%;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:nth-child(11) {
-    left: 2%;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
-    left: 13%;
-  }
-
-  .landing-banner.pharma .circular-ring .circle.circle-inner1 {
-    background-size: calc(100% - 50px);
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 {
-    width: calc(100% - 80px);
-    height: calc(100% - 80px);
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 {
-    width: calc(100% - 270px);
-    height: calc(100% - 270px);
-  }
-
-  .pharma .circular-ring .circle.circle-inner3 {
-    width: calc(100% - 400px);
-    height: calc(100% - 400px);
-  }
-
-  .landing-banner.pharma .circular-ring .center-logo {
-    top: 33%;
-  }
-
-  .pharma .circular-ring .center-logo .icon img {
-    width: 60px;
-  }
-
-  .landing-banner.pharma .circular-height {
-    padding: 70px 0 0;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child {
-    top: -1.4%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(6) {
-    top: 69%;
-    left: 6%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(5) {
-    top: 83.4%;
-    left: 18%;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:nth-child(5) {
-    top: 68%;
-    left: 91%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(4) {
-    top: 95.4%;
-    left: 42%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(3) {
-    top: 36%;
-    left: 96%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(2) {
-    top: 11%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child {
-    top: -4%;
-    left: 32%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) {
-    top: 43%;
-    left: 99%;
-    width: 60px;
-    height: 60px;
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) img {
-    width: 35px;
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) {
-    top: 36%;
-    left: -7%;
-    width: 60px;
-    height: 60px;
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) img {
-    width: 35px;
-  }
-
-  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) {
-    top: 69%;
-    left: 81%;
-  }
-}
-
-@media only screen and (min-width:1360px) and (max-width:1439px) {
-  .landing-banner.pharma .circular-ring .center-logo {
-    top: 34%;
-  }
-}
-
-@media only screen and (min-width:1400px) and (max-width:1439px) {
-  .landing-banner.pharma .circular-ring .center-logo {
-    top: 43%;
-  }
-}
-
 @media (max-width:$layout-breakpoint-large) {
   .landing-banner {
     .landing-heading {
@@ -17187,6 +17220,12 @@ img.change-password-image {
         line-height: 30px;
       }
     }
+  }
+}
+
+@media only screen and (min-width:1400px) and (max-width:1439px) {
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 43%;
   }
 }
 
