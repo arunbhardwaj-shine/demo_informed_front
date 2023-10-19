@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Router, Route, browserHistory } from 'react-router';
 import {
   Button,
   Col,
@@ -835,17 +836,20 @@ const PharmaRd = () => {
     setAddDivClass(false);
     setAddSmallClass(true);
     event.preventDefault();
-    const err = HomeValidation(registerFormInputs);
+    const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
         nameRef?.current?.focus();
       } else if (Object?.keys(err)[0] == "email") {
         emailRef?.current?.focus();
-      } else if (Object.keys(err)[0] == "comapny") {
-        companyRef.current.focus();
-      } else if (Object.keys(err)[0] == "phone") {
-        phoneRef.current.focus();
-      } else if (Object.keys(err)[0] == "country") {
+      } 
+      // else if (Object.keys(err)[0] == "comapny") {
+      //   companyRef.current.focus();
+      // }
+      //  else if (Object.keys(err)[0] == "phone") {
+      //   phoneRef.current.focus();
+      // }
+       else if (Object.keys(err)[0] == "country") {
         countryRef.current.focus();
       }
       setRegisterError(err);
@@ -1031,9 +1035,9 @@ const PharmaRd = () => {
 
   const handleBigCircleClose = (moduleName, index) => {
     setAddClass(false);
-     setAddDivClass(false)
     setFormFeilds(false);
-    setAddSmallClass(false);
+     setAddDivClass(false)
+    setAddSmallClass(false)
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
       setModuleData({
@@ -1046,6 +1050,23 @@ const PharmaRd = () => {
     }
     setTimeout(() => {
       setReadStatus(false);
+      setRegisterError(false);
+      setSelectedCountry([]);
+    setRegisterFormInputs({
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      country: "",
+      consent1: {
+        label: "Email me only about modules I’ve looked at",
+        checked: false,
+      },
+      consent2: {
+        label: "Keep me informed about other news from inforMed.pro",
+        checked: false,
+      },
+    })
     }, 200);
     setSelectedModules([]);
   };
@@ -2016,13 +2037,13 @@ const PharmaRd = () => {
                                   type="number"
                                   placeholder="Phone"
                                   name="phone"
-                                  // className="form-control"
-                                  ref={phoneRef}
-                                  className={
-                                    !registerError?.phone
-                                      ? "form-control"
-                                      : "form-control error"
-                                  }
+                                  className="form-control"
+                                  // ref={phoneRef}
+                                  // className={
+                                  //   !registerError?.phone
+                                  //     ? "form-control"
+                                  //     : "form-control error"
+                                  // }
                                   value={
                                     registerFormInputs?.phone
                                       ? registerFormInputs?.phone
@@ -2045,13 +2066,13 @@ const PharmaRd = () => {
                                     />
                                   </svg>
                                 </span>
-                                {registerError?.phone ? (
+                                {/* {registerError?.phone ? (
                                   <div className="contact-validation">
                                     {registerError?.phone}
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                               </div>
                             </Col>
 
@@ -2061,13 +2082,13 @@ const PharmaRd = () => {
                                   type="text"
                                   placeholder="Company"
                                   name="company"
-                                  // className="form-control"
-                                  ref={companyRef}
-                                  className={
-                                    !registerError?.company
-                                      ? "form-control"
-                                      : "form-control error"
-                                  }
+                                  className="form-control"
+                                  // ref={companyRef}
+                                  // className={
+                                  //   !registerError?.company
+                                  //     ? "form-control"
+                                  //     : "form-control error"
+                                  // }
                                   value={
                                     registerFormInputs?.company
                                       ? registerFormInputs?.company
@@ -2102,13 +2123,13 @@ const PharmaRd = () => {
                                     />
                                   </svg>
                                 </span>
-                                {registerError?.company ? (
+                                {/* {registerError?.company ? (
                                   <div className="contact-validation">
                                     {registerError?.company}
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                               </div>
                             </Col>
 
@@ -2931,4 +2952,4 @@ const PharmaRd = () => {
   );
 };
 
-export default PharmaRd;
+export default  React.memo(PharmaRd);
