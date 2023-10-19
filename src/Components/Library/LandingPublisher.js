@@ -1014,8 +1014,8 @@ const PharmaRd = () => {
       const res = await postData(ENDPOINT.REGISTER, {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
-        email: moduleFormInputs?.secondaryEmail?.trim(),
-        phone: moduleFormInputs?.secondaryPhone?.trim(),
+        secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
+        secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
       });
