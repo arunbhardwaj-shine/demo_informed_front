@@ -369,7 +369,7 @@ const LandingContact = () => {
        
       } catch (err) {
         console.log(err);
-        setErrorMsg("Something went wrong.");
+        setErrorMsg("Something went wrong. Please try again later.");
         setSuccessMsg("");
         loader("hide");
       }
