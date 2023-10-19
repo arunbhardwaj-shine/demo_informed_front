@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
 
 // import Question from "./AddQuestion";
@@ -9,6 +9,7 @@ const WebinarRegistration = () => {
   const [foot, setfoot] = useState();
   const [showModal, setModal] = useState(false);
   const [formData, setFormData] = useState([]);
+  const [formInputs, setFormInputs] = useState();
   useEffect(() => {}, []);
   const handleFileSelect = (e, flag) => {
     const fileInput = document.createElement("input");
@@ -35,6 +36,61 @@ const WebinarRegistration = () => {
     let updateFormData = [...formData];
     updateFormData.push(form);
     setFormData(updateFormData);
+  };
+
+  const handleChange = (e, index, item, data) => {
+    console.log(
+      "e name-->",
+      e?.target?.name,
+      " --e value--->",
+      e?.target?.value,
+      " --index-->",
+      index,
+      "--checked-->",
+      e?.target?.checked
+    );
+
+    if (data?.inputType == "radio" || data?.inputType == "checkbox") {
+      let newObj = formInputs;
+      if (!newObj[data?.label]) {
+        newObj[data?.label] = [];
+      }
+      if (e?.target?.checked == true) {
+        if (data?.inputType == "radio") {
+          newObj[data?.label] = [];
+          newObj[data?.label].push(item);
+        } else {
+          newObj[data?.label].push(item);
+        }
+        // setFormInputs(newObj);
+      } else if (e?.target?.checked == false) {
+        const index = newObj[data?.label]?.indexOf(item);
+        if (index > -1) {
+          newObj[data?.label]?.splice(index, 1);
+          if (newObj[data?.label]?.length == 0) {
+            delete newObj[data?.label];
+          }
+        }
+        // setFormInputs(newObj);
+      }
+      setFormInputs(newObj);
+    } else {
+      setFormInputs({ ...formInputs, [e?.target?.name]: e?.target?.value });
+    }
+
+    // if (formInputs[index]?.[e?.target?.name]) {
+    //   let updateInputs = [...formInputs];
+    //   updateInputs[index]?.[e?.target?.name] = e?.target?.value;
+    //   setFormInputs(updateInputs);
+    // } else {
+    //   let updateInputs = [];
+    //   updateInputs[index][e?.target?.name] = e?.target?.value;
+    //   setFormInputs(updateInputs);
+    // }
+  };
+  const saveClicked = (e) => {
+    e.preventDefault();
+    console.log("form inputs-->", formInputs);
   };
 
   return (
@@ -70,50 +126,77 @@ const WebinarRegistration = () => {
                   <button onClick={() => setModal(true)}>AddQuestion</button>
 
                   {/* {showmodel && <Question />} */}
-                  {formData && formData?.length > 0
-                    ? formData?.map((data, index) => (
+                  {formData && formData?.length > 0 ? (
+                    <form onSubmit={saveClicked}>
+                      {formData?.map((data, index) => (
                         <div key={index}>
-                          <form>
-                            <div className="add_hcp_boxes">
-                              <div className="form_action">
-                                <div className="row">
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label htmlFor="">{data?.label}</label>
-                                      {data?.option?.length > 0 ? (
-                                        data?.inputType === "radio" ? (
-                                          data?.option?.map((item, index) => (
-                                            <div key={index}>
-                                              <input type="radio" />
-                                              <label htmlFor="">
-                                                {item}
-                                              </label>
-                                            </div>
-                                          ))
-                                        ) : data?.inputType == "checkbox" ? (
-                                          data?.option?.map((item, index) => (
-                                            <div key={index}>
-                                              <input type="checkbox" />
-                                              <label htmlFor="">{item}</label>
-                                            </div>
-                                          ))
-                                        ) : (
-                                          <input
-                                            className="form-control"
-                                            type={data?.inputType}
-                                            placeholder={data?.placeholder}
-                                          />
-                                        )
-                                      ) : null}
-                                    </div>
+                          {/* <form onSubmit={saveClicked}> */}
+                          <div className="add_hcp_boxes">
+                            <div className="form_action">
+                              <div className="row">
+                                <div className="col-12 col-md-6">
+                                  <div className="form-group">
+                                    <label htmlFor="">{data?.label}</label>
+                                    {data?.option?.length > 0 ? (
+                                      data?.inputType === "radio" ? (
+                                        data?.option?.map((item, index) => (
+                                          <div key={index}>
+                                            <input
+                                              type="radio"
+                                              name={data?.label}
+                                              // checked={}
+                                              onChange={(e) =>
+                                                handleChange(
+                                                  e,
+                                                  index,
+                                                  item,
+                                                  data
+                                                )
+                                              }
+                                            />
+                                            <label htmlFor="">{item}</label>
+                                          </div>
+                                        ))
+                                      ) : data?.inputType == "checkbox" ? (
+                                        data?.option?.map((item, index) => (
+                                          <div key={index}>
+                                            <input
+                                              type="checkbox"
+                                              name={data?.label}
+                                              onChange={(e) =>
+                                                handleChange(
+                                                  e,
+                                                  index,
+                                                  item,
+                                                  data
+                                                )
+                                              }
+                                            />
+                                            <label htmlFor="">{item}</label>
+                                          </div>
+                                        ))
+                                      ) : null
+                                    ) : (
+                                      <input
+                                        name={data?.label}
+                                        className="form-control"
+                                        type={data?.inputType}
+                                        placeholder={data?.placeholder}
+                                        onChange={(e) => handleChange(e, index)}
+                                      />
+                                    )}
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </form>
+                          </div>
+
+                          {/* </form> */}
                         </div>
-                      ))
-                    : null}
+                      ))}
+                      <Button type="submit">Save</Button>
+                    </form>
+                  ) : null}
                 </div>
               </section>
 
@@ -135,6 +218,7 @@ const WebinarRegistration = () => {
         show={showModal}
         onClose={handleAddQuestionModalClose}
         handleSave={handleModalSave}
+        formLabel={formData}
       />
     </>
   );
