@@ -21,15 +21,15 @@ const CommonAddQuestionModal = ({ show, onClose,handleSave }) => {
     onClose(false);
   };
   const handleChange=(e,isSelectedName,index)=>{
-    console.log("e--->",e)
+   
 if(isSelectedName=="optionValue"){
-console.log("in if")
+
 let updateOption=[...formData?.option]
 updateOption[index]=e?.target?.value
 setFormData({...formData,option:updateOption})
 
 }else{
-  console.log("in else")
+  
   setFormData({...formData,
     [isSelectedName?isSelectedName:e?.target?.name]:isSelectedName?e:e?.target?.value
   })
@@ -44,6 +44,10 @@ setFormData({...formData,option:updateOption})
     console.log("formData-->",formData)
     
     handleSave(formData)
+   setFormData( {label:"",
+    inputType:"",
+    placeholder:"",
+    option:[]})
     handleClose()
   }
   const AddOptions=(e)=>{
