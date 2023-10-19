@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Row, Col, Button, Form } from "react-bootstrap";
+import { Row, Col, Button, Form, FormGroup } from "react-bootstrap";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
 import CommonModel from "../../../Model/CommonModel";
@@ -17,7 +17,9 @@ import "react-phone-number-input/style.css";
 const MarketingAddReader = () => {
   const nameRef = useRef(null);
   const emailRef = useRef(null);
+  const primaryPhoneRef = useRef(null);
   const countryRef = useRef(null);
+  const postcodeRef = useRef(null);
   const contactTotalRef = useRef(null);
   const alternativeEmailRef = useRef(null);
   const alternativePhoneRef = useRef(null);
@@ -47,6 +49,7 @@ const MarketingAddReader = () => {
   });
   const [commonHeader, setCommonHeader] = useState("");
   const [commonFooter, setCommonFooter] = useState("");
+  const [showTaskExtra, setShowTaskExtra] = useState(false);
   const [userInputs, setUserInputs] = useState({
     jobTitle: "",
     title: { value: "" },
@@ -147,7 +150,9 @@ const MarketingAddReader = () => {
   };
 
   const handleChange = (e, isSelectedName, key) => {
-   console.log(e.target.name,"-->",e.target.value)
+    if (isSelectedName == "task") {
+      setShowTaskExtra(true);
+    }
     if (isSelectedName == "address") {
       if (e?.target?.name == "street1") {
         setUserInputs({
@@ -174,19 +179,13 @@ const MarketingAddReader = () => {
         if (cleanedValue?.length <= 12) {
           setUserInputs({
             ...userInputs,
-            [e.target.name]:cleanedValue,
+            address: { ...userInputs?.address, postcode: cleanedValue },
           });
-          setError(null);
-        }      
-        else {
-  
-          setError({ postcode: "Number must be 10 digits or less" });
-        }
 
-        // setUserInputs({
-        //   ...userInputs,
-        //   address: { ...userInputs?.address, postcode: e?.target?.value },
-        // });
+          setError(null);
+        } else {
+          setError({ postcode: "Postcode maximum of 12 Character long" });
+        }
       }
     } else if (key == "typeContact") {
       const typeContactArray = [...(userInputs?.typeContact || [])];
@@ -716,7 +715,7 @@ const MarketingAddReader = () => {
                   )}
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
-                  <Form.Label htmlFor="">Primary phone </Form.Label>                            
+                  <Form.Label htmlFor="">Primary phone </Form.Label>
 
                   <PhoneInput
                     international
@@ -741,13 +740,14 @@ const MarketingAddReader = () => {
                         : "form-control"
                     }
                     name="primary_phone"
-                    maxlength = "10"
                     placeholder="Phone number"
                     value={userInputs?.primary_phone}
                     onChange={(e) => handleChange(e)}
                   />
                   {error?.primary_phone ? (
-                    <div className="login-validation">{error?.primary_phone}</div>
+                    <div className="login-validation">
+                      {error?.primary_phone}
+                    </div>
                   ) : (
                     ""
                   )}
@@ -764,8 +764,16 @@ const MarketingAddReader = () => {
                     ref={alternativePhoneRef}
                     name="alternativePhone"
                     placeholder="Alternative phone"
+                    value={userInputs?.alternativePhone}
                     onChange={(e) => handleChange(e)}
                   />
+                  {error?.alternativePhone ? (
+                    <div className="login-validation">
+                      {error?.alternativePhone}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">LinkedIn</Form.Label>
@@ -1111,14 +1119,21 @@ const MarketingAddReader = () => {
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Post code</Form.Label>
                   <input
-                    type="tel"
+                    type="text"
                     placeholder="Enter post code"
-                    className="form-control"
+                    className={
+                      error?.postcode ? "form-control error" : "form-control"
+                    }
                     name="postcode"
-                    value={userInputs?.postcode}
-                    maxLength={6}
+                    ref={postcodeRef}
+                    value={userInputs?.address?.postcode}
                     onChange={(e) => handleChange(e, "address")}
                   />
+                  {error?.postcode ? (
+                    <div className="login-validation">{error?.postcode}</div>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">Country</Form.Label>
@@ -1144,7 +1159,7 @@ const MarketingAddReader = () => {
                     }
                   />
                 </Form.Group>
-                <Form.Group className="form-group margin-added">
+                {/* <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Log activity</Form.Label>
                   <Select
                     options={logActivityOptions}
@@ -1165,7 +1180,7 @@ const MarketingAddReader = () => {
                       Add New Log Activity +
                     </Button>
                   </div>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className="form-group margin-added">
                   <Form.Label htmlFor="">Task</Form.Label>
                   <Select
@@ -1268,6 +1283,23 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
               </div>
+              <div className="col-12 col-md-5 d-flex justify-content-end right-change">
+                <div className="form-group justify-content-end align-items-start">
+                  <label htmlFor="">Log activity </label>
+
+                  <textarea
+                    name="logActivity"
+                    value={userInputs?.logActivity}
+                    className="form-control"
+                    id="formControlTextarea"
+                    onChange={(e) =>
+                      handleChange(e?.target?.value, "logActivity")
+                    }
+                    rows="5"
+                    placeholder="Please type your notes here..."
+                  ></textarea>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1307,9 +1339,7 @@ const MarketingAddReader = () => {
                 </Form.Group>
 
                 <div className="form-group">
-                  <label htmlFor="">
-                    Contact total<span>*</span>
-                  </label>
+                  <label htmlFor="">Contact total</label>
                   <input
                     type="tel"
                     name="contactTotal"
@@ -1321,6 +1351,7 @@ const MarketingAddReader = () => {
                         ? "form-control error"
                         : "form-control"
                     }
+                    value={userInputs?.contactTotal}
                     placeholder="Enter contact total"
                     onChange={(e) => handleChange(e)}
                   />
@@ -1482,11 +1513,31 @@ const MarketingAddReader = () => {
       </>
     );
   };
+
+  const formatDate = (newDate) => {
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, "0");
+    const day = String(newDate.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
+
+  function isValidDateFormat(dateString) {
+    const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
+    return regex.test(dateString);
+  }
+
+  function convertDate(dateString) {
+    const formattedDate = moment(dateString, "DD MMMM YYYY").format(
+      "YYYY-MM-DD"
+    );
+    return formattedDate;
+  }
   const nextButtonClicked = (e) => {
     e.preventDefault();
 
     const result = AddReaderValidation(userInputs, groupId);
-    console.log("error", result);
+
     if (Object.keys(result)?.length) {
       if (Object.keys(result)[0] == "firstName") {
         nameRef.current.focus();
@@ -1500,6 +1551,8 @@ const MarketingAddReader = () => {
         alternativePhoneRef.current.focus();
       } else if (Object.keys(result)[0] == "country") {
         countryRef.current.focus();
+      } else if (Object.keys(result)[0] == "postcode") {
+        postcodeRef.current.focus();
       } else if (Object.keys(result)[0] == "contactTotal") {
         contactTotalRef.current.focus();
       }
@@ -1509,6 +1562,18 @@ const MarketingAddReader = () => {
     } else {
       try {
         loader("show");
+        let nextContactDate = "";
+        if (isValidDateFormat(userInputs?.nextContact)) {
+          nextContactDate = convertDate(userInputs?.nextContact);
+        } else {
+          nextContactDate = formatDate(userInputs?.nextContact);
+        }
+        let quoteValidDate = "";
+        if (isValidDateFormat(userInputs?.quoteValid)) {
+          quoteValidDate = convertDate(userInputs?.quoteValid);
+        } else {
+          quoteValidDate = formatDate(userInputs?.quoteValid);
+        }
         let data = {
           jobTitle: userInputs?.jobTitle,
           title: userInputs?.title?.value,
@@ -1562,8 +1627,7 @@ const MarketingAddReader = () => {
             ? userInputs?.weightedValue
             : "",
           quote_sent: userInputs?.quoteSent,
-
-          quote_valid: userInputs?.quoteValid,
+          quote_valid: quoteValidDate,
         };
         loader("hide");
         navigate("/reader-review", {
@@ -1603,7 +1667,7 @@ const MarketingAddReader = () => {
                   <div className="header-btn">
                     <Link
                       className="btn btn-primary btn-bordered move-draft"
-                      to="/library-create"
+                      to="/readers-view"
                     >
                       Cancel
                     </Link>
