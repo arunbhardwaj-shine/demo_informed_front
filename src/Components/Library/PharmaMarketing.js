@@ -40,6 +40,7 @@ const PharmaMarketing = () => {
   const [payloadData, setPayloadData] = useState({});
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
+  const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1003,6 +1004,8 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
+    localStorage.setItem('pharmaRegistered', 'true');
+    setPharmaRegistered(true);
     setAddSmallClass(true);
     setAddDivClass(false);
     event.preventDefault();
@@ -1059,6 +1062,8 @@ const PharmaMarketing = () => {
 
         console.log(data,'data')
         setPayloadData(data);
+        const dataPharmaString = JSON.stringify(data);
+        localStorage.setItem('payloadPharmaData', dataPharmaString);
         const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
@@ -1182,6 +1187,8 @@ const PharmaMarketing = () => {
     setAddSmallClass(true);
     loader("show");
     try {
+      const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
+      const payloadData = JSON.parse(payloadDataPharmaString);
       const res = await postData(ENDPOINT.REGISTER, {
       // let data = {
         ...payloadData,
@@ -2170,7 +2177,7 @@ useLayoutEffect(() => {
                   )}
                   <div class="shape shape-left"></div>
 
-                  {registerPage && (
+                  {registerPage && !pharmaRegistered &&(
                     <div>
                       <img
                         className="close"
@@ -2515,7 +2522,7 @@ useLayoutEffect(() => {
                           : "d-flex justify-content-between flex-column"
                       }`}
                     >
-                      {showBigCircleData && !registerPage && (
+                      {showBigCircleData  && pharmaRegistered &&(
                         <>
                           <div className="big-circle-data">
                             <div>
@@ -2688,7 +2695,7 @@ useLayoutEffect(() => {
                           <p>Please select the modules you're interested in:</p>
                         </div>
                       )}
-                      {modulesSelect && !registerPage && (
+                      {modulesSelect  && pharmaRegistered && (
                         <div
                           className="module-diagram circle pharma_market"
                           style={{ "--total": "24" }}
@@ -3130,7 +3137,7 @@ useLayoutEffect(() => {
                           ></div>
                         </div>
                       )}
-                      {showBigCircleData && !registerPage && (
+                      {showBigCircleData  && pharmaRegistered && (
                         <div className="d-flex align-items-center justify-content-center fotter-btns">
                           <Button
                             className="btn-filled"

@@ -13851,8 +13851,14 @@ img.change-password-image {
         }
 
         .success_msg {
-          color: #00ab98;
-          font-size: 14px;
+          color: #fff;
+          font-size: 13px;
+          background: #0db163;
+          border-radius: 5px;
+          padding: 5px;
+          text-align: center;
+          border: 1px solid #0ba55d;
+          margin-top: 10px;
         }
 
         .error_msg {
@@ -16635,6 +16641,14 @@ img.change-password-image {
 
   }
 
+  .pharma-slider {
+    .slider {
+      .add-space {
+        height: 90px;
+      }
+    }
+  }
+
   .modules-diagram .pharma_market.circle .stat.docintel.active:after {
     width: 85px;
     left: 80px;
@@ -16779,6 +16793,14 @@ img.change-password-image {
 }
 
 @media (max-width: $layout-breakpoint-extraLarge) {
+  .pharma-slider {
+    .slider {
+      .add-space {
+        height: 70px;
+      }
+    }
+  }
+
   .login {
     .btn-white {
       min-width: 100px;
@@ -16920,30 +16942,29 @@ img.change-password-image {
   .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse1 {
     transform: translate(100px, 420px);
   }
-
-  .pharma-slider .slider .add-space {
-    height: 100px;
-  }
 }
 
 
 
-@media only screen and (min-width:1200px) and (max-width:1500px) {
+@media only screen and (min-width:1000px) and (max-width:1500px) {
   .circular-ring {
     .circle {
-      animation: circle-rotate 20s linear infinite;
-      -webkit-animation: circle-rotate 20s linear infinite;
+      animation: circle-rotate 26s linear infinite;
+      -webkit-animation: circle-rotate 26s linear infinite;
 
       &.circle-inner1 {
         .icon-block {
           img {
-            animation: img-rotate 20s linear infinite;
-            -webkit-animation: img-rotate 20s linear infinite;
+            animation: img-rotate 26s linear infinite;
+            -webkit-animation: img-rotate 26s linear infinite;
           }
         }
       }
 
       &.circle-inner3 {
+        animation: circle-rotate 20s linear infinite;
+        -webkit-animation: circle-rotate 20s linear infinite;
+
         .icon-block {
           img {
             animation: img-rotate 20s linear infinite;
@@ -17080,6 +17101,12 @@ img.change-password-image {
   }
 }
 
+@media only screen and (min-width:1400px) and (max-width:1439px) {
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 43%;
+  }
+}
+
 @media only screen and (min-width:1360px) and (max-width:1439px) {
   .landing-banner.pharma .circular-ring .center-logo {
     top: 34%;
@@ -17106,7 +17133,12 @@ img.change-password-image {
   }
 
   .landing-banner.pharma .circular-height {
-    padding: 45px 0 0;
+    height: 455px;
+    padding: 65px 0 0;
+  }
+
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 33%;
   }
 
   .how-work {
@@ -17245,11 +17277,354 @@ img.change-password-image {
       }
     }
   }
+
+  .how-work {
+    .future-expand {
+      margin: 80px auto 80px;
+    }
+
+    .how-work-text {
+      h3 {
+        font-size: 24px;
+      }
+
+      h5 {
+        font-size: 18px;
+        line-height: 24px;
+      }
+    }
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view {
+    padding: 0 15px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide2 .slide-right-sided {
+    margin-left: 7%;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide4 .slide-left-sided img {
+    max-width: 240px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse6 {
+    transform: translate(-350px, 19px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slide-left-sided {
+    transform: translate(26%, 110px) rotate(125deg);
+  }
+
+  .future-expand {
+    .future-expand-content {
+      h4 {
+        font-size: 20px;
+      }
+    }
+  }
 }
 
-@media only screen and (min-width:1400px) and (max-width:1439px) {
+
+@media only screen and (max-width:1200px) {
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) {
+    top: 38%;
+    left: -5%;
+  }
+
+  .landing-banner .landing-block {
+    padding: 125px 0 80px;
+  }
+
+  .consent-content .consent-content-inner .consent-details .consent-img {
+    display: none;
+  }
+
+  .consent-content .consent-content-inner .consent-details ul {
+    flex: 0 0 50%;
+  }
+}
+
+@media only screen and (min-width:768px) and (max-width:$layout-breakpoint-medium) {
+  .landing-banner.pharma .circular-ring {
+    width: 600px;
+    height: 600px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) {
+    top: 37%;
+  }
+
+  .how-work .future-expand {
+    margin: 60px auto 60px;
+  }
+
+  .future-expand .future-expand-content h4 {
+    font-size: 18px;
+  }
+
+  .landing-banner .landing-block {
+    padding: 125px 0 20px;
+  }
+
+  .landing-banner .landing-heading {
+    margin: 20px 0 6px;
+  }
+
+  .landing-banner .landing-block.main-outer {
+    padding-top: 115px;
+  }
+
+  .circular-ring .circle-inner3 .circle-half-bigger svg {
+    width: 82%;
+  }
+
+  .landing-banner.pharma .circular-height {
+    height: 390px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:first-child {
+    top: -1%;
+  }
+
+  .pharma .circular-ring .icon-block.icon43 {
+    width: 23px;
+    height: 23px;
+  }
+
+  .pharma .circular-ring .icon-block.icon72 {
+    width: 42px;
+    height: 42px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
+    top: 11%;
+  }
+
+  .pharma .circular-ring .icon-block.icon60 {
+    width: 50px;
+    height: 50px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(11) {
+    top: 25%;
+    left: 0%;
+  }
+
+  .pharma .circular-ring .icon-block.icon56 {
+    width: 40px;
+    height: 40px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(3) img {
+    width: 24px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(11) img {
+    width: 28px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(6) {
+    top: 85%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(9) img,
+  .pharma .circular-ring .big-circle .icon-block:nth-child(7) img {
+    width: 22px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:first-child img {
+    width: 26px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(5) {
+    top: 68%;
+    left: 91%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child {
+    top: 4.6%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child img {
+    width: 25px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(2) {
+    top: 18%;
+    left: 70%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(3) {
+    top: 37%;
+    left: 91%;
+    width: 40px;
+    height: 40px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(3) img {
+    width: 24px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(4) img {
+    width: 22px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(4) {
+    top: 89.4%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(5) {
+    top: 76.4%;
+    left: 18%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(6) img {
+    width: 25px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(6) {
+    top: 52%;
+    left: 5%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 {
+    width: calc(100% - 60px);
+    height: calc(100% - 60px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 {
+    width: calc(100% - 280px);
+    height: calc(100% - 280px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 {
+    width: calc(100% - 410px);
+    height: calc(100% - 410px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child img {
+    width: 30px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child {
+    top: -7%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(2) {
+    top: 5%;
+    left: 66%;
+    width: 20px;
+    height: 20px;
+  }
+
+  .pharma .circular-ring .icon-block.icon85 {
+    width: 45px;
+    height: 45px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) img,
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) img {
+    width: 28px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(5) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:first-child {
+    top: 21%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) {
+    top: 86%;
+    left: 63%;
+    width: 38px;
+    height: 38px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) img {
+    width: 24px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(3) {
+    top: 68%;
+    left: 12%;
+  }
+
   .landing-banner.pharma .circular-ring .center-logo {
-    top: 43%;
+    top: 44%;
+  }
+
+  .pharma .circular-ring .center-logo .icon img {
+    width: 50px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slide-left-sided {
+    transform: translate(6%, 180px) rotate(125deg);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-right-sided {
+    width: 55%;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-left-sided {
+    width: 45%;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views .slider-bg-icons img.slide-ellipse4,
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slider-bg-icons img.slide-ellipse4 {
+    transform: translate(150px, 165px);
+    width: 30px;
+    height: 30px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views .slider-bg-icons img.slide-ellipse5,
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(-123px, 362px);
+    width: 30px;
+    height: 30px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views .slider-bg-icons img.slide-ellipse6,
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slider-bg-icons img.slide-ellipse6 {
+    max-width: 55px;
+    transform: translate(-285px, 400px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(-40px, -77px);
+    bottom: 0;
+    top: auto;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slider-bg-icons img.slide-ellipse4 {
+    transform: translate(-15px, 151px);
+    right: 0;
+    left: auto;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(-215px, 270px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slide-left-sided {
+    transform: translate(16%, 210px) rotate(125deg);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slider-bg-icons img.slide-ellipse6 {
+    transform: translate(44px, 29px);
+    left: 0;
+    right: auto;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse4 {
+    transform: translate(18px, -39px);
+    bottom: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(-260px, 15px);
   }
 }
 
@@ -18475,11 +18850,6 @@ img.change-password-image {
 
   .pharma-slider .slider .slick-dots {
     bottom: 10px;
-    // transform: rotate(90deg);
-    // left: -160px;
-    // top: 50%;
-    // left: -46.2%;
-    // height: 33px;
   }
 
   .landing-banner.pharma .landing-block {
