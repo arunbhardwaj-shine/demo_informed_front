@@ -303,6 +303,8 @@ const LandingContact = () => {
 
   });
 
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [conatctError, setContactError] = useState(false);
   const [forceRender, setForceRender] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
@@ -327,6 +329,8 @@ const LandingContact = () => {
   // send contact infromation
   const sendContactInformation = async (event) => {
     event.preventDefault();
+    setErrorMsg("");
+    setSuccessMsg("");
     const err = HomeValidation(contactFormInputs);
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
@@ -356,6 +360,8 @@ const LandingContact = () => {
         });
         let obj = {};
         loader("hide");
+        setErrorMsg("");
+        setSuccessMsg("Your request has been successfully submitted. Our team will get back to you as soon as possible.");
         setContactFormInputs(obj);
         setSelectedCountry([]);
         setContactError(false);
@@ -363,6 +369,8 @@ const LandingContact = () => {
        
       } catch (err) {
         console.log(err);
+        setErrorMsg("Something went wrong.");
+        setSuccessMsg("");
         loader("hide");
       }
     }
@@ -633,6 +641,17 @@ const LandingContact = () => {
                           }
                           onChange={handleContactFormChange}
                         ></textarea>
+                    {successMsg ? (
+                      <div className="success_msg">{successMsg}</div>
+                    ) : (
+                      ""
+                    )}
+
+                    {errorMsg ? (
+                      <div className="error_msg">{errorMsg}</div>
+                    ) : (
+                      ""
+                    )}    
                 </div>
               </Col>
               <Button className="btn-filled"  onClick={sendContactInformation}>Send</Button>
