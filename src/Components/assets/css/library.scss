@@ -1603,6 +1603,7 @@ ul.tab-mail-list.data span.total-left small {
   line-height: 16px;
   color: $light-gray;
   margin-left: 3px;
+  cursor: pointer;
 }
 
 .login-confirm form .form-check .form-check-input:checked[type="checkbox"],
@@ -12846,8 +12847,11 @@ img.change-password-image {
           transform: rotate(-45deg);
         }
       }
-      img{animation: Rotate-reverse 20s linear infinite;
-        -webkit-animation: Rotate-reverse 20s linear infinite;}
+
+      img {
+        animation: Rotate-reverse 20s linear infinite;
+        -webkit-animation: Rotate-reverse 20s linear infinite;
+      }
 
       &.medium {
         width: 25px;
@@ -12901,7 +12905,10 @@ img.change-password-image {
       -webkit-transform: translate(50%, -50%);
       width: 34px;
       height: 34px;
-      img{width:20px;}
+
+      img {
+        width: 20px;
+      }
     }
 
     &:nth-child(3) {
@@ -12911,7 +12918,10 @@ img.change-password-image {
       -webkit-transform: translate(-50%, 50%);
       width: 34px;
       height: 34px;
-      img{width:18px;}
+
+      img {
+        width: 18px;
+      }
     }
 
     &:nth-child(4) {
@@ -13838,6 +13848,16 @@ img.change-password-image {
               }
             }
           }
+        }
+
+        .success_msg {
+          color: #00ab98;
+          font-size: 14px;
+        }
+
+        .error_msg {
+          color: #FF7CBC;
+          font-size: 14px;
         }
 
         input:-webkit-autofill,
@@ -17066,7 +17086,7 @@ img.change-password-image {
   }
 
   .landing-banner .landing-block {
-    padding: 70px 0 110px;
+    padding: 100px 0 110px;
   }
 }
 
@@ -17074,6 +17094,10 @@ img.change-password-image {
   .landing-banner {
     .landing-block {
       padding: 65px 0 80px;
+
+      &.main-outer {
+        padding-top: 95px
+      }
     }
 
     .landing-heading {
@@ -17493,22 +17517,24 @@ img.change-password-image {
 
       .landing-heading {
         margin: 84px 0 30px;
-        padding-left:15px;
-        padding-right:15px;
+        padding-left: 15px;
+        padding-right: 15px;
 
         h1 {
           text-shadow: none
         }
       }
-      .landing-sub-heading{padding-left:15px;
-        padding-right:15px;}
+
+      .landing-sub-heading {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
 
       .circular-height {
         height: 250px;
-        padding: 30px 0 0;
+        padding: 50px 0 0;
         margin: 80px auto 0;
         max-width: 100%;
-        overflow: initial;
       }
 
       .circular-ring {
@@ -17735,7 +17761,7 @@ img.change-password-image {
         }
 
         .center-logo {
-          top: 40%;
+          top: 39%;
 
           .icon {
             width: 40px;

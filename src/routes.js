@@ -187,12 +187,12 @@ if (
   platform = 0;
   show = 0;
 } else {
-  require("./Components/assets/css/style.css");
-  require("./Components/assets/css/responsive.css");
-  require("./Components/assets/css/custom.css");
-  require("./Components/assets/css/library.scss");
-  require("./Components/assets/fonts/fonts.css");
-  require("./Components/assets/css/video.css");
+  require("./Components/assets/css/style.css?v=1.0");
+  require("./Components/assets/css/responsive.css?v=1.0");
+  require("./Components/assets/css/custom.css?v=1.0");
+  require("./Components/assets/css/library.scss?v=1.0");
+  require("./Components/assets/fonts/fonts.css?v=1.0");
+  require("./Components/assets/css/video.css?v=1.0");
 }
 
 const Layout = () => {
@@ -209,10 +209,10 @@ const Routing = () => {
     <Router>
       <Routes>
         //DefaultLayout for Login pages
-        <Route path="/" element={<DefaultLayout component={Informed} />} />
+        <Route path="/" element={<DefaultLayout component={MainLanding} />} />
         <Route
           path="/informed"
-          element={<DefaultLayout component={Informed} />}
+          element={<DefaultLayout component={MainLanding} />}
         />
         <Route
           path="/publisher-page"
