@@ -8130,129 +8130,116 @@ html {
 }
 
 /** Not founf End**/
-
-/** Webinar Registration Css start **/
-.outer {
-  padding-left: 3%;
-
-  padding-right: 3%;
+.session-modal #pollModel .modal-body {
+  padding: 20px 30px;
+  display: flex;
+  flex-wrap: wrap;
 }
-
-.header {
-  height: 210px;
+.session-modal #pollModel h4 {
+  font-weight: 500;
+  color: #204e9e;
+  font-size: 18px;
+  display: block;
   width: 100%;
-  border: 7px solid rgb(247, 249, 249);
-  box-shadow: inset;
-  border-bottom-left-radius: 2px;
-  background-color: rgb(192, 200, 201);
-  border-radius: 20px;
-  padding-bottom: 10%;
-  margin-bottom: 2;
-  box-shadow: 10px 10px 5px rgb(126, 138, 143);
+  margin: 0 0 20px;
 }
 
-.header-img {
-  height: 210px;
+.session-modal #pollModel .form-group {
   width: 100%;
-  border-radius: 20px;
+  margin: 0 0 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.button {
-  background-color: rgb(130, 237, 234);
+.session-modal #pollModel .form-group label {
+  font-weight: 500;
+  color: #204e9e;
+  font-size: 14px;
+  flex: 1 1;
+  padding: 0 15px 0 0;
+}
+.session-modal #pollModel .form-group .checkmark {
+  top: -2px;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #e8f5f3;
+  right: 0;
+  margin: 0 auto;
+  border: 1px solid #00b39a;
+  display: inline-block;
+  min-width: 25px;
+}
+.custom-answer-area {
+  border: 1px solid #00b39a;
+}
 
-  border-radius: 10px;
-
+.session-modal #pollModel .form-group .check-values input {
   position: absolute;
-
-  right: 0px;
-
-  margin-top: 2%;
-
-  margin-right: 4%;
-
-  top: "0px";
+  opacity: 0;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
 }
-
-.footer {
-  height: 100px;
+.session-modal #pollModel textarea {
   width: 100%;
-  border: 7px solid rgb(247, 249, 249);
-  box-shadow: inset;
-  border-bottom-left-radius: 2px;
-  background-color: rgb(192, 200, 201);
-  border-radius: 20px;
-  padding-bottom: 10%;
-  margin-bottom: 2;
-  box-shadow: 10px 10px 5px rgb(126, 138, 143);
+  resize: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
 }
-
-.footer-img {
-  height: 100px;
-  width: 100%;
-  border-radius: 20px;
+.session-modal #pollModel .form-group .check-values:hover input ~ .checkmark {
+  background-color: #8ed8cd;
 }
-
-.fbutton {
-  background-color: rgb(130, 237, 234);
-
-  border-radius: 10px;
-
+.session-modal #pollModel .check-values {
+  position: relative;
+  min-width: 35px;
+}
+.session-modal #pollModel {
+  max-width: 880px;
+}
+.session-modal #pollModel .check-group {
+  display: flex;
+  gap: 0 15px;
+  min-width: 241px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.session-modal #pollModel .check-group span {
+  font-size: 10px;
+  color: #00b39a;
+  font-weight: 300;
+  min-width: 23px;
+}
+.session-modal #pollModel .form-group .check-values input:checked ~ .checkmark {
+  background-color: #00b39a;
+}
+.session-modal #pollModel .form-group .check-values .checkmark:after {
+  left: 8px;
+  top: 3px;
+  width: 8px;
+  height: 14px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.session-modal #pollModel .form-group .check-values .checkmark:after {
+  content: "";
   position: absolute;
-
-  right: 0px;
-
-  margin-top: 2%;
-
-  margin-right: 4%;
-
-  top: "0px";
+  display: none;
 }
-
-.section {
-  margin-top: 2%;
-
-  margin-bottom: 2%;
-
-  height: auto;
-
+.session-modal
+  #pollModel
+  .form-group
+  .check-values
+  input:checked
+  ~ .checkmark:after {
+  display: block;
+}
+.session-modal #pollModel .popup-content {
   width: 100%;
-
-  border: 7px solid rgb(247, 249, 249);
-
-  box-shadow: inset;
-
-  border-bottom-left-radius: 2px;
-
-  background-color: rgb(255, 255, 255);
-
-  border-radius: 20px;
-
-  padding-bottom: 10%;
-
-  margin-bottom: 2;
-
-  box-shadow: 10px 10px 5px rgb(126, 138, 143);
+  max-height: 66vh;
+  overflow-y: auto;
 }
-
-.sec1 {
-  text-align: center;
-
-  color: rgb(19, 19, 142);
-
-  text-size-adjust: large;
-}
-
-.Questions {
-  align-content: center;
-
-  padding-left: 30%;
-}
-
-.select {
-  margin-left: 10%;
-
-  padding-left: 5%;
-
-  color: blue;
-}
-/** Webinar Registration Css End **/
