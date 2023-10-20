@@ -107,6 +107,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
       // onHide={onClose}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
+      className="session-modal"
       centered
     >
       <Modal.Header>
@@ -118,95 +119,99 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {user?.map((item, index) => (
-          <>
-            <h4>{item?.parentQuestion}</h4>
-            {item?.groupId == 0 && item?.canCustomAnswer == 1 ? (
-              <textarea
-                className="custom-answer-area"
-                onChange={(e) =>
-                  handleChange(item?.parentId, e.target.value, "input")
-                }
-                name="w3review"
-                rows="4"
-                cols="50"
-              />
-            ) : (
-              ""
-            )}
+        <div className="popup-content">
+          {user?.map((item, index) => (
+            <>
+              <h4>{item?.parentQuestion}</h4>
+              {item?.groupId == 0 && item?.canCustomAnswer == 1 ? (
+                <textarea
+                  className="custom-answer-area"
+                  onChange={(e) =>
+                    handleChange(item?.parentId, e.target.value, "input")
+                  }
+                  name="w3review"
+                  rows="4"
+                  cols="50"
+                />
+              ) : (
+                ""
+              )}
 
-            {item?.childData?.map((value, index) => {
-              return (
-                <>
-                  {value?.answerData?.length > 0 &&
-                  (index == 0 ||
-                    item?.childData?.[index]?.answerData?.[0].answer !=
-                      item?.childData?.[index - 1]?.answerData?.[0]?.answer) ? (
-                    <div className="form-group head">
-                      <label></label>
+              {item?.childData?.map((value, index) => {
+                return (
+                  <>
+                    {value?.answerData?.length > 0 &&
+                    (index == 0 ||
+                      item?.childData?.[index]?.answerData?.[0].answer !=
+                        item?.childData?.[index - 1]?.answerData?.[0]
+                          ?.answer) ? (
+                      <div className="form-group head">
+                        <label></label>
+                        <div className="check-group">
+                          {value?.answerData?.map((item, index) => {
+                            return (
+                              <>
+                                <span>{item?.answer}</span>
+                              </>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : null}
+
+                    <div className="form-group">
+                      <label>{value?.question}</label>
                       <div className="check-group">
-                        {value?.answerData?.map((item, index) => {
-                          return (
-                            <>
-                              <span>{item?.answer}</span>
-                            </>
-                          );
-                        })}
+                        {value?.answerData?.length ? (
+                          value?.answerData?.map((childValue) => {
+                            return (
+                              <>
+                                {value?.groupId == 0 &&
+                                value?.canCustomAnswer == 1 ? (
+                                  <textarea
+                                    className="custom-answer-area"
+                                    name="w3review"
+                                    rows="4"
+                                    cols="50"
+                                  />
+                                ) : (
+                                  <div className="check-values">
+                                    <input
+                                      type="radio"
+                                      onChange={(e) =>
+                                        handleChange(value?.id, childValue.id)
+                                      }
+                                      name={value?.question}
+                                      value={childValue?.answer}
+                                    />
+                                    <span class="checkmark"></span>
+                                  </div>
+                                )}
+                              </>
+                            );
+                          })
+                        ) : value?.groupId == 0 &&
+                          value?.canCustomAnswer == 1 ? (
+                          <textarea
+                            className="custom-answer-area"
+                            onChange={(e) =>
+                              handleChange(value?.id, e.target.value, "input")
+                            }
+                            name="w3review"
+                            rows="4"
+                            cols="50"
+                          />
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
-                  ) : null}
-
-                  <div className="form-group">
-                    <label>{value?.question}</label>
-                    <div className="check-group">
-                      {value?.answerData?.length ? (
-                        value?.answerData?.map((childValue) => {
-                          return (
-                            <>
-                              {value?.groupId == 0 &&
-                              value?.canCustomAnswer == 1 ? (
-                                <textarea
-                                  className="custom-answer-area"
-                                  name="w3review"
-                                  rows="4"
-                                  cols="50"
-                                />
-                              ) : (
-                                <div className="check-values">
-                                  <input
-                                    type="radio"
-                                    onChange={(e) =>
-                                      handleChange(value?.id, childValue.id)
-                                    }
-                                    name={value?.question}
-                                    value={childValue?.answer}
-                                  />
-                                  <span class="checkmark"></span>
-                                </div>
-                              )}
-                            </>
-                          );
-                        })
-                      ) : value?.groupId == 0 && value?.canCustomAnswer == 1 ? (
-                        <textarea
-                          className="custom-answer-area"
-                          onChange={(e) =>
-                            handleChange(value?.id, e.target.value, "input")
-                          }
-                          name="w3review"
-                          rows="4"
-                          cols="50"
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  </div>
-                </>
-              );
-            })}
-          </>
-        ))}
+                  </>
+                );
+              })}
+            </>
+          ))}
+        </div>
       </Modal.Body>
       <Modal.Footer>
         {error?.msg ? <p className="error">{error.msg}</p> : ""}
