@@ -1004,6 +1004,7 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
+    document.body.classList.remove('body');
     localStorage.setItem('pharmaRegistered', 'true');
     setPharmaRegistered(true);
     setAddSmallClass(true);
@@ -1064,7 +1065,7 @@ const PharmaMarketing = () => {
         setPayloadData(data);
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        const res = await postData(ENDPOINT.REGISTER,data );
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1152,6 +1153,7 @@ const PharmaMarketing = () => {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
+    document.body.classList.add('body');
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1189,16 +1191,16 @@ const PharmaMarketing = () => {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
-      // let data = {
+      // const res = await postData(ENDPOINT.REGISTER, {
+      let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      // };
-      });
+      };
+      // });
       let obj = {};
       loader("hide");
       setModuleFormInputs(obj);
@@ -1215,6 +1217,7 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
+    document.body.classList.remove('body');
     setAddClass(false);
     setFormFeilds(false);
      setAddDivClass(false)
@@ -1253,6 +1256,8 @@ const PharmaMarketing = () => {
   };
 
   const handleBigClose = (moduleName, index) => {
+    document.body.classList.remove('body');
+    setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
     setSelectedModules([]);
@@ -1269,7 +1274,7 @@ const PharmaMarketing = () => {
           paragraph: smallCircleData?.description,
         });
         setActiveModule(null);
-      }, 1000);
+      }, 2000);
     }
     setTimeout(() => {
       setReadStatus(false);
@@ -1286,7 +1291,8 @@ const PharmaMarketing = () => {
         setShowBigCircleData(true);
         setModulesSelect(true);
         setActiveModule(intialModuleData?.activeModule);
-      }, 1000);
+        document.body.classList.remove('body');
+      }, 2000);
     }
   }, [submitData]);
 
@@ -1300,7 +1306,15 @@ const PharmaMarketing = () => {
 
   const handleRead = () => {
     setReadStatus(true);
-    setAddDivClass(true);
+    if(pharmaRegistered){
+      setAddDivClass(false);
+      setAddSmallClass(true);
+    }
+    else{
+      setAddDivClass(true);
+      setAddSmallClass(false);
+      document.body.classList.add('body');
+    }
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1851,7 +1865,7 @@ useLayoutEffect(() => {
             <div className="works-started">
               <div className="works-started-links pharm-page">
                 <h3>Modules </h3>
-                <h5>
+                <h5 className="desk-content">
                   Click on a module to explore its capabilities and discover how
                   it can benefit you. Learn about its connections with other
                   modules and how they collectively help your clients succeed.
@@ -1859,6 +1873,8 @@ useLayoutEffect(() => {
                   pharmaceutical industry and are now integral parts of our
                   comprehensive offerings aimed at enhancing your workflow.
                 </h5>
+                <h5 className="mobile-content"><strong>Modules built together with and for pharma.</strong> 
+<strong> Click a module</strong> to see others it relates to. Register to find out how they can help you build better relationships with each HCP.</h5>
               </div>
               <div className="modules-diagram">
                 <div
@@ -2177,7 +2193,7 @@ useLayoutEffect(() => {
                   )}
                   <div class="shape shape-left"></div>
 
-                  {registerPage && !pharmaRegistered &&(
+                  {registerPage && !pharmaRegistered && (
                     <div>
                       <img
                         className="close"
@@ -3198,7 +3214,7 @@ useLayoutEffect(() => {
                   onClick={handleBigCircleClose}
                   />
                 <div className="mobile-slider-inset">
-                 {showBigCircleData && !registerPage && (
+                 {showBigCircleData  && pharmaRegistered && (
                     
                     <Slider
                       {...sliderSettings}
