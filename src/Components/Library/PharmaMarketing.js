@@ -1274,7 +1274,7 @@ const PharmaMarketing = () => {
           paragraph: smallCircleData?.description,
         });
         setActiveModule(null);
-      }, 1000);
+      }, 2000);
     }
     setTimeout(() => {
       setReadStatus(false);
