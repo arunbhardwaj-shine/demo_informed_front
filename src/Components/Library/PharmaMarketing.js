@@ -1064,7 +1064,7 @@ const PharmaMarketing = () => {
         setPayloadData(data);
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        const res = await postData(ENDPOINT.REGISTER,data );
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1189,16 +1189,16 @@ const PharmaMarketing = () => {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
-      // let data = {
+      // const res = await postData(ENDPOINT.REGISTER, {
+      let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      // };
-      });
+      };
+      // });
       let obj = {};
       loader("hide");
       setModuleFormInputs(obj);
@@ -1252,6 +1252,43 @@ const PharmaMarketing = () => {
     setSelectedModules([]);
   };
 
+  const handleBigMobileCircleClose = (moduleName, index) => {
+    setAddClass(false);
+    setFormFeilds(false);
+    setAddDivClass(false)
+    const smallCircleData = modules[index];
+    if (moduleName !== activeModule) {
+      setModuleData({
+        active: false,
+        imagePath: smallCircleData?.icon,
+        heading: smallCircleData?.title,
+        paragraph: smallCircleData?.description,
+      });
+      setActiveModule(moduleName === activeModule ? null : moduleName);
+    }
+    setTimeout(() => {
+      setReadStatus(false);
+      setRegisterError(false);
+      setSelectedCountry([]);
+    setRegisterFormInputs({
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      country: "",
+      consent1: {
+        label: "Email me only about modules I’ve looked at",
+        checked: false,
+      },
+      consent2: {
+        label: "Keep me informed about other news from inforMed.pro",
+        checked: false,
+      },
+    })
+    }, 200);
+    setSelectedModules([]);
+  }
+
   const handleBigClose = (moduleName, index) => {
     setAddClass(false);
     setFormFeilds(false);
@@ -1276,19 +1313,19 @@ const PharmaMarketing = () => {
     }, 200);
   };
 
-  useEffect(() => {
-    if (submitData) {
-      setTimeout(() => {
-        setAddHideClass(false);
-        setAddDivClass(false);
-        setSelectedModules([]);
-        setSubmitData(false);
-        setShowBigCircleData(true);
-        setModulesSelect(true);
-        setActiveModule(intialModuleData?.activeModule);
-      }, 1000);
-    }
-  }, [submitData]);
+  // useEffect(() => {
+  //   if (submitData) {
+  //     setTimeout(() => {
+  //       setAddHideClass(false);
+  //       setAddDivClass(false);
+  //       setSelectedModules([]);
+  //       setSubmitData(false);
+  //       setShowBigCircleData(true);
+  //       setModulesSelect(true);
+  //       setActiveModule(intialModuleData?.activeModule);
+  //     }, 1000);
+  //   }
+  // }, [submitData]);
 
   // const handleCloseClick = () => {
   //   setSelectedModules([]);
@@ -1300,7 +1337,8 @@ const PharmaMarketing = () => {
 
   const handleRead = () => {
     setReadStatus(true);
-    setAddDivClass(true);
+    setAddDivClass(false);
+    setAddSmallClass(true);
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -3195,10 +3233,10 @@ useLayoutEffect(() => {
                   className="close"
                   src={path_image + "module-close-button.svg"}
                   alt=""
-                  onClick={handleBigCircleClose}
+                  onClick={handleBigMobileCircleClose}
                   />
                 <div className="mobile-slider-inset">
-                 {showBigCircleData && !registerPage && (
+                 {showBigCircleData  && pharmaRegistered && (
                     
                     <Slider
                       {...sliderSettings}
