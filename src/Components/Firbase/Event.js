@@ -35,6 +35,7 @@ const Event = () =>{
 
     const [apiData,setApiData] = useState([])
     const [answerPop,setAnswerPopup] = useState(false)
+    const [totalReaders,setTotalReaders] = useState(0)
 
     useEffect(()=>{
         EventDataFun()
@@ -229,6 +230,7 @@ const Event = () =>{
                           companyId:value?.question_id
                       })
                       setApiData(result?.data?.data)
+                      setTotalReaders(result?.data?.totalReader)
                       setAnswerPopup(true)
                       setShow(false)
                       setData(0)
@@ -380,6 +382,7 @@ const Event = () =>{
 <DisplayAnswer
 show={answerPop}
 data={apiData}
+readerCount={totalReaders}
  onClose={()=>setAnswerPopup(false)}
 />}
 </div>
