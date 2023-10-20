@@ -1004,7 +1004,8 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
-    document.body.classList.remove('body');
+    var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.remove('scrollerClass');
     localStorage.setItem('pharmaRegistered', 'true');
     setPharmaRegistered(true);
     setAddSmallClass(true);
@@ -1153,7 +1154,8 @@ const PharmaMarketing = () => {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
-    document.body.classList.add('body');
+    var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.add('scrollerClass');
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1217,7 +1219,8 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-    document.body.classList.remove('body');
+    var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.remove('scrollerClass');
     setAddClass(false);
     setFormFeilds(false);
      setAddDivClass(false)
@@ -1256,7 +1259,8 @@ const PharmaMarketing = () => {
   };
 
   const handleBigClose = (moduleName, index) => {
-    document.body.classList.remove('body');
+    var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.remove('scrollerClass');
     setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
@@ -1265,7 +1269,7 @@ const PharmaMarketing = () => {
     setShowBigCircleData(false);
     setModulesSelect(false);
     const smallCircleData = modules[index];
-    if (moduleName !== activeModule) {
+    // if (moduleName !== activeModule) {
       setTimeout(() => {
         setModuleData({
           active: false,
@@ -1273,9 +1277,11 @@ const PharmaMarketing = () => {
           heading: smallCircleData?.title,
           paragraph: smallCircleData?.description,
         });
-        setActiveModule(null);
+        setActiveModule(moduleName === activeModule ? null : moduleName);
       }, 2000);
-    }
+      setIntialModuleData({})
+      
+    // }
     setTimeout(() => {
       setReadStatus(false);
     }, 200);
@@ -1291,7 +1297,8 @@ const PharmaMarketing = () => {
         setShowBigCircleData(true);
         setModulesSelect(true);
         setActiveModule(intialModuleData?.activeModule);
-        document.body.classList.remove('body');
+        var root = document.getElementsByTagName( 'html' )[0];
+        root.classList.remove('scrollerClass');
       }, 2000);
     }
   }, [submitData]);
@@ -1313,7 +1320,8 @@ const PharmaMarketing = () => {
     else{
       setAddDivClass(true);
       setAddSmallClass(false);
-      document.body.classList.add('body');
+      var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.add('scrollerClass');
     }
   };
 
