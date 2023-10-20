@@ -728,6 +728,15 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   bottom: -15px;
 }
 
+.dlt_btn_event {
+  right: -10px;
+  bottom: -15px;
+}
+
+.dlt_btn_event img {
+  width: 20px;
+}
+
 .dlt_btn button {
   background: var(--light-blue);
   border: 0;
@@ -8022,10 +8031,10 @@ section.search-hcp.smart-list-view .header-btn-left {
 } */
 
 /**Not Found**/
-body,
+/* body,
 html {
   height: 100%;
-}
+} */
 
 .page_not_found {
   align-items: center;

@@ -6,6 +6,16 @@
 @import url("https://fonts.googleapis.com/css?family=Muli");
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
 
+html {
+  --scroll-behavior: smooth !important;
+  scroll-behavior: smooth !important;
+}
+
+body,
+html {
+  overflow-x: hidden;
+}
+
 .library-content-box-layuot {
   margin-top: 20px;
   gap: 0% 5%;
@@ -1593,6 +1603,7 @@ ul.tab-mail-list.data span.total-left small {
   line-height: 16px;
   color: $light-gray;
   margin-left: 3px;
+  cursor: pointer;
 }
 
 .login-confirm form .form-check .form-check-input:checked[type="checkbox"],
@@ -12624,19 +12635,19 @@ img.change-password-image {
   }
 }
 
-.modal-backdrop.show {
-  background: rgba(0, 0, 36, 0.65);
-  backdrop-filter: blur(10px);
-  --bs-backdrop-zindex: 1050;
-  --bs-backdrop-bg: #000;
-  --bs-backdrop-opacity: 1;
-}
+// .modal-backdrop.show {
+//   background: rgba(0, 0, 36, 0.65);
+//   backdrop-filter: blur(10px);
+//   --bs-backdrop-zindex: 1050;
+//   --bs-backdrop-bg: #000;
+//   --bs-backdrop-opacity: 1;
+// }
 
 
 /**New Landign Page**/
 .header-landing {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   top: 34px;
 }
@@ -12659,12 +12670,19 @@ img.change-password-image {
   }
 }
 
+// .scroll-added-new {
+//   padding-top: 90vh;
+//   min-height: 90vh;
+// }
+
 .landing-banner {
   background: #68d1e8 url(../../../../public/componentAssets/images/banner-bg-shade.svg) no-repeat;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
-  position: sticky;
-  top: 0;
+  // position: sticky;
+  // top: 0;
   background-size: cover;
+  // position: fixed;
+  // width: 100%;
 
   &.pharma {
     background: $primary-color url(../../../../public/componentAssets/images/pharma-marketing-bg.png) no-repeat;
@@ -12813,8 +12831,8 @@ img.change-password-image {
     -webkit-justify-content: center;
     // animation: Rotate 26s linear infinite;
     // -webkit-animation: Rotate 26s linear infinite;
-    animation: Rotate 26s linear infinite;
-    -webkit-animation: Rotate 26s linear infinite;
+    animation: Rotate 20s linear infinite;
+    -webkit-animation: Rotate 20s linear infinite;
 
     .icon-block {
       &.big {
@@ -12828,6 +12846,11 @@ img.change-password-image {
           -webkit-animation: img-rotate 26s linear infinite;
           transform: rotate(-45deg);
         }
+      }
+
+      img {
+        animation: Rotate-reverse 20s linear infinite;
+        -webkit-animation: Rotate-reverse 20s linear infinite;
       }
 
       &.medium {
@@ -12880,6 +12903,12 @@ img.change-password-image {
       right: 7%;
       transform: translate(50%, -50%);
       -webkit-transform: translate(50%, -50%);
+      width: 34px;
+      height: 34px;
+
+      img {
+        width: 20px;
+      }
     }
 
     &:nth-child(3) {
@@ -12887,6 +12916,12 @@ img.change-password-image {
       left: 30%;
       transform: translate(-50%, 50%);
       -webkit-transform: translate(-50%, 50%);
+      width: 34px;
+      height: 34px;
+
+      img {
+        width: 18px;
+      }
     }
 
     &:nth-child(4) {
@@ -13118,10 +13153,10 @@ img.change-password-image {
 
 
       .icon-block {
-        img {
-          animation-duration: 13s;
-          -webkit-animation-duration: 13s;
-        }
+        // img {
+        //   animation-duration: 13s;
+        //   -webkit-animation-duration: 13s;
+        // }
       }
     }
   }
@@ -13497,12 +13532,12 @@ img.change-password-image {
 }
 
 .how-work {
-  // border-radius: 20px 20px;
+  border-radius: 20px 20px;
   background: $white;
   // box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
   margin-top: -30px;
   position: relative;
-  z-index: 2;
+  z-index: 3;
   padding: 135px 0 10px;
 
   &.main-sec {
@@ -13729,7 +13764,7 @@ img.change-password-image {
   position: relative;
   background-position: center;
   background-size: cover;
-  z-index: 1;
+  z-index: 2;
 
   &.pharma {
     background: $primary-color url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
@@ -13813,6 +13848,22 @@ img.change-password-image {
               }
             }
           }
+        }
+
+        .success_msg {
+          color: #fff;
+          font-size: 13px;
+          background: #0db163;
+          border-radius: 5px;
+          padding: 5px;
+          text-align: center;
+          border: 1px solid #0ba55d;
+          margin-top: 10px;
+        }
+
+        .error_msg {
+          color: #FF7CBC;
+          font-size: 14px;
         }
 
         input:-webkit-autofill,
@@ -14032,7 +14083,7 @@ img.change-password-image {
   border-radius: 20px 20px 0 0;
   margin: -15px 0 0;
   position: relative;
-  z-index: 2;
+  z-index: 3;
   padding: 40px 0;
 
   .footer-inset {
@@ -14071,8 +14122,8 @@ img.change-password-image {
     overflow: hidden;
     background: linear-gradient(180deg, #CDE8FF 0%, #FFF 100%);
     position: relative;
-    z-index: 1;
-    padding-top: 20px;
+    z-index: 2;
+    padding-top: 0px;
     margin-top: -20px;
 
     .add-space {
@@ -14110,6 +14161,7 @@ img.change-password-image {
           display: flex;
           align-items: center;
           justify-content: center;
+          transition: opacity 400ms ease 0s, visibility 800ms ease 0s !important;
 
           // &[data-index="1"] {
           //   background: url(../../../../public/componentAssets/images/slide2-bg.jpg) no-repeat;
@@ -14662,12 +14714,12 @@ img.change-password-image {
 .consent-content {
   padding: 126px 0 226px;
   background: $white;
-  // border-radius: 20px;
+  border-radius: 20px;
   background: $white;
   // box-shadow: 0px 0px 40px 0px rgba(0, 102, 190, 0.16);
   margin: -15px 0 0;
   position: relative;
-  z-index: 1;
+  z-index: 3;
 
   .consent-content-inner {
     max-width: 1044px;
@@ -15376,7 +15428,7 @@ img.change-password-image {
   flex-direction: column;
   // transform: translate(70%, 0) scale(0.3);
   opacity: 0;
-  transition: transform 0.5s ease;
+  transition: transform 0.35s ease;
   z-index: -1;
   transition-timing-function: cubic-bezier(1, 1, 1, 1);
   --d: calc(var(--i) / var(--total));
@@ -15667,6 +15719,7 @@ img.change-password-image {
       resize: none;
       height: 91px;
       margin: 20px 0 10px;
+      color: #97B6CF;
     }
 
     input {
@@ -16166,6 +16219,10 @@ img.change-password-image {
   }
 }
 
+.mobile-content {
+  display: none;
+}
+
 /**New Landign Page End**/
 
 
@@ -16409,7 +16466,7 @@ img.change-password-image {
 @media only screen and (max-width:1500px) {
   .landing-banner {
     .landing-block {
-      padding: 80px 0 110px;
+      padding: 120px 0 110px;
     }
   }
 
@@ -16589,6 +16646,14 @@ img.change-password-image {
 
   }
 
+  .pharma-slider {
+    .slider {
+      .add-space {
+        height: 90px;
+      }
+    }
+  }
+
   .modules-diagram .pharma_market.circle .stat.docintel.active:after {
     width: 85px;
     left: 80px;
@@ -16733,6 +16798,14 @@ img.change-password-image {
 }
 
 @media (max-width: $layout-breakpoint-extraLarge) {
+  .pharma-slider {
+    .slider {
+      .add-space {
+        height: 70px;
+      }
+    }
+  }
+
   .login {
     .btn-white {
       min-width: 100px;
@@ -16874,21 +16947,203 @@ img.change-password-image {
   .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse1 {
     transform: translate(100px, 420px);
   }
+}
 
-  .pharma-slider .slider .add-space {
-    height: 100px;
+
+
+@media only screen and (min-width:1000px) and (max-width:1500px) {
+  .circular-ring {
+    .circle {
+      animation: circle-rotate 26s linear infinite;
+      -webkit-animation: circle-rotate 26s linear infinite;
+
+      &.circle-inner1 {
+        .icon-block {
+          img {
+            animation: img-rotate 26s linear infinite;
+            -webkit-animation: img-rotate 26s linear infinite;
+          }
+        }
+      }
+
+      &.circle-inner3 {
+        animation: circle-rotate 20s linear infinite;
+        -webkit-animation: circle-rotate 20s linear infinite;
+
+        .icon-block {
+          img {
+            animation: img-rotate 20s linear infinite;
+            -webkit-animation: img-rotate 20s linear infinite;
+          }
+        }
+      }
+    }
+  }
+
+  .landing-banner.pharma .circular-height {
+    height: 485px;
+  }
+
+  .circular-ring .circle-inner3 .circle-half-bigger svg {
+    width: 82%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:first-child {
+    top: -9px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(2) {
+    top: 11%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(3) {
+    top: 19%;
+    left: 95%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(11) {
+    left: 2%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
+    left: 13%;
+  }
+
+  .landing-banner.pharma .circular-ring .circle.circle-inner1 {
+    background-size: calc(100% - 50px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 {
+    width: calc(100% - 80px);
+    height: calc(100% - 80px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 {
+    width: calc(100% - 270px);
+    height: calc(100% - 270px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 {
+    width: calc(100% - 400px);
+    height: calc(100% - 400px);
+  }
+
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 35%;
+  }
+
+  .pharma .circular-ring .center-logo .icon img {
+    width: 60px;
+  }
+
+  .landing-banner.pharma .circular-height {
+    padding: 70px 0 0;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child {
+    top: -1.4%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(6) {
+    top: 69%;
+    left: 6%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(5) {
+    top: 83.4%;
+    left: 18%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(5) {
+    top: 68%;
+    left: 91%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(4) {
+    top: 95.4%;
+    left: 42%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(3) {
+    top: 36%;
+    left: 96%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(2) {
+    top: 11%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child {
+    top: -4%;
+    left: 32%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) {
+    top: 43%;
+    left: 99%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) img {
+    width: 35px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) {
+    top: 36%;
+    left: -7%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) img {
+    width: 35px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) {
+    top: 69%;
+    left: 81%;
+  }
+}
+
+@media only screen and (min-width:1400px) and (max-width:1439px) {
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 43%;
+  }
+}
+
+@media only screen and (min-width:1360px) and (max-width:1439px) {
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 34%;
+  }
+
+  .landing-banner .landing-block {
+    padding: 100px 0 110px;
   }
 }
 
 @media only screen and (max-width:1300px) {
   .landing-banner {
     .landing-block {
-      padding: 95px 0 80px;
+      padding: 65px 0 80px;
+
+      &.main-outer {
+        padding-top: 95px
+      }
     }
 
     .landing-heading {
       margin: 38px 0 14px;
     }
+  }
+
+  .landing-banner.pharma .circular-height {
+    height: 455px;
+    padding: 65px 0 0;
+  }
+
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 33%;
   }
 
   .how-work {
@@ -17011,135 +17266,6 @@ img.change-password-image {
   }
 }
 
-@media only screen and (min-width:1200px) and (max-width:1399px) {
-  .circular-ring .circle-inner3 .circle-half-bigger svg {
-    width: 82%;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:first-child {
-    top: -9px;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:nth-child(2) {
-    top: 11%;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:nth-child(3) {
-    top: 19%;
-    left: 95%;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:nth-child(11) {
-    left: 2%;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
-    left: 13%;
-  }
-
-  .landing-banner.pharma .circular-ring .circle.circle-inner1 {
-    background-size: calc(100% - 50px);
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 {
-    width: calc(100% - 80px);
-    height: calc(100% - 80px);
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 {
-    width: calc(100% - 270px);
-    height: calc(100% - 270px);
-  }
-
-  .pharma .circular-ring .circle.circle-inner3 {
-    width: calc(100% - 400px);
-    height: calc(100% - 400px);
-  }
-
-  .landing-banner.pharma .circular-ring .center-logo {
-    top: 33%;
-  }
-
-  .pharma .circular-ring .center-logo .icon img {
-    width: 60px;
-  }
-
-  .landing-banner.pharma .circular-height {
-    padding: 70px 0 0;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child {
-    top: -1.4%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(6) {
-    top: 69%;
-    left: 6%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(5) {
-    top: 83.4%;
-    left: 18%;
-  }
-
-  .pharma .circular-ring .big-circle .icon-block:nth-child(5) {
-    top: 68%;
-    left: 91%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(4) {
-    top: 95.4%;
-    left: 42%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(3) {
-    top: 36%;
-    left: 96%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(2) {
-    top: 11%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child {
-    top: -4%;
-    left: 32%;
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) {
-    top: 43%;
-    left: 99%;
-    width: 60px;
-    height: 60px;
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) img {
-    width: 35px;
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) {
-    top: 36%;
-    left: -7%;
-    width: 60px;
-    height: 60px;
-  }
-
-  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) img {
-    width: 35px;
-  }
-
-  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) {
-    top: 69%;
-    left: 81%;
-  }
-}
-
-@media only screen and (min-width:1360px) and (max-width:1439px) {
-  .landing-banner.pharma .circular-ring .center-logo {
-    top: 34%;
-  }
-}
-
 @media (max-width:$layout-breakpoint-large) {
   .landing-banner {
     .landing-heading {
@@ -17156,11 +17282,380 @@ img.change-password-image {
       }
     }
   }
+
+  .how-work {
+    .future-expand {
+      margin: 80px auto 80px;
+    }
+
+    .how-work-text {
+      h3 {
+        font-size: 24px;
+      }
+
+      h5 {
+        font-size: 18px;
+        line-height: 24px;
+      }
+    }
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view {
+    padding: 0 15px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide2 .slide-right-sided {
+    margin-left: 7%;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view.slide4 .slide-left-sided img {
+    max-width: 240px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse6 {
+    transform: translate(-350px, 19px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slide-left-sided {
+    transform: translate(26%, 110px) rotate(125deg);
+  }
+
+  .future-expand {
+    .future-expand-content {
+      h4 {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width:1200px) {
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) {
+    top: 38%;
+    left: -5%;
+  }
+
+  .landing-banner .landing-block {
+    padding: 125px 0 80px;
+  }
+
+  .consent-content .consent-content-inner .consent-details .consent-img {
+    display: none;
+  }
+
+  .consent-content .consent-content-inner .consent-details ul {
+    flex: 0 0 50%;
+  }
+}
+
+@media only screen and (min-width:768px) and (max-width:$layout-breakpoint-medium) {
+  .landing-banner.pharma .circular-ring {
+    width: 600px;
+    height: 600px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) {
+    top: 37%;
+  }
+
+  .how-work .future-expand {
+    margin: 60px auto 60px;
+  }
+
+  .future-expand .future-expand-content h4 {
+    font-size: 18px;
+  }
+
+  .landing-banner .landing-block {
+    padding: 125px 0 20px;
+  }
+
+  .landing-banner .landing-heading {
+    margin: 20px 0 6px;
+  }
+
+  .landing-banner .landing-block.main-outer {
+    padding-top: 115px;
+  }
+
+  .circular-ring .circle-inner3 .circle-half-bigger svg {
+    width: 82%;
+  }
+
+  .landing-banner.pharma .circular-height {
+    height: 390px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:first-child {
+    top: -1%;
+  }
+
+  .pharma .circular-ring .icon-block.icon43 {
+    width: 23px;
+    height: 23px;
+  }
+
+  .pharma .circular-ring .icon-block.icon72 {
+    width: 42px;
+    height: 42px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
+    top: 11%;
+  }
+
+  .pharma .circular-ring .icon-block.icon60 {
+    width: 50px;
+    height: 50px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(11) {
+    top: 25%;
+    left: 0%;
+  }
+
+  .pharma .circular-ring .icon-block.icon56 {
+    width: 40px;
+    height: 40px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(3) img {
+    width: 24px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(11) img {
+    width: 28px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(6) {
+    top: 85%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(9) img,
+  .pharma .circular-ring .big-circle .icon-block:nth-child(7) img {
+    width: 22px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:first-child img {
+    width: 26px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(5) {
+    top: 68%;
+    left: 91%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child {
+    top: 4.6%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child img {
+    width: 25px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(2) {
+    top: 18%;
+    left: 70%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(3) {
+    top: 37%;
+    left: 91%;
+    width: 40px;
+    height: 40px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(3) img {
+    width: 24px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(4) img {
+    width: 22px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(4) {
+    top: 89.4%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(5) {
+    top: 76.4%;
+    left: 18%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(6) img {
+    width: 25px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(6) {
+    top: 52%;
+    left: 5%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 {
+    width: calc(100% - 60px);
+    height: calc(100% - 60px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 {
+    width: calc(100% - 280px);
+    height: calc(100% - 280px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 {
+    width: calc(100% - 410px);
+    height: calc(100% - 410px);
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child img {
+    width: 30px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child {
+    top: -7%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(2) {
+    top: 5%;
+    left: 66%;
+    width: 20px;
+    height: 20px;
+  }
+
+  .pharma .circular-ring .icon-block.icon85 {
+    width: 45px;
+    height: 45px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(3) img,
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) img {
+    width: 28px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(5) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:first-child {
+    top: 21%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) {
+    top: 86%;
+    left: 63%;
+    width: 38px;
+    height: 38px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) img {
+    width: 24px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(3) {
+    top: 68%;
+    left: 12%;
+  }
+
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 44%;
+  }
+
+  .pharma .circular-ring .center-logo .icon img {
+    width: 50px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slide-left-sided {
+    transform: translate(6%, 180px) rotate(125deg);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-right-sided {
+    width: 55%;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-left-sided {
+    width: 45%;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views .slider-bg-icons img.slide-ellipse4,
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slider-bg-icons img.slide-ellipse4 {
+    transform: translate(150px, 165px);
+    width: 30px;
+    height: 30px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views .slider-bg-icons img.slide-ellipse5,
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(-123px, 362px);
+    width: 30px;
+    height: 30px;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views .slider-bg-icons img.slide-ellipse6,
+  .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slider-bg-icons img.slide-ellipse6 {
+    max-width: 55px;
+    transform: translate(-285px, 400px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(-40px, -77px);
+    bottom: 0;
+    top: auto;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slider-bg-icons img.slide-ellipse4 {
+    transform: translate(-15px, 151px);
+    right: 0;
+    left: auto;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(-215px, 270px);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slide-left-sided {
+    transform: translate(16%, 210px) rotate(125deg);
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slider-bg-icons img.slide-ellipse6 {
+    transform: translate(44px, 29px);
+    left: 0;
+    right: auto;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse4 {
+    transform: translate(18px, -39px);
+    bottom: 0;
+  }
+
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse5 {
+    transform: translate(-260px, 15px);
+  }
 }
 
 @media (max-width:$layout-breakpoint-small) {
+  .consent-content .consent-content-inner .consent-details .consent-img {
+    display: block;
+  }
+
+  .mobile-content {
+    display: block;
+  }
+
+  .desk-content {
+    display: none;
+  }
+
   .mobile-slider {
     display: block;
+  }
+
+  .consent-content .works-started .module-discribe img.module-content-view {
+    max-width: 300px;
+  }
+
+  .landing-banner.pharma+.how-work {
+    padding: 50px 0 40px;
   }
 
   .mobile-slider-inset {
@@ -17170,8 +17665,8 @@ img.change-password-image {
     box-shadow: 0px 3px 19px 0px rgba(0, 102, 190, 0.26);
     width: 100%;
     border-radius: 50%;
-    max-width: 360px;
-    height: 360px;
+    max-width: 370px;
+    height: 370px;
   }
 
   .consent-content .works-started .mobile-slider-inset .module-discribe .key-features h5 {
@@ -17252,7 +17747,8 @@ img.change-password-image {
   }
 
   .consent-content .works-started .mobile-slider-inset .module-discribe img.module-content-view {
-    max-height: 80px;
+    max-height: 78px;
+    margin-bottom: 9px;
   }
 
   .consent-content .works-started .mobile-slider-inset .module-discribe p {
@@ -17304,6 +17800,9 @@ img.change-password-image {
 
   .header-landing {
     padding-right: 10px;
+    backdrop-filter: blur(10px);
+    padding: 20px 1px 20px 0;
+    top: 0;
 
     .logo {
       img {
@@ -17419,17 +17918,24 @@ img.change-password-image {
 
       .landing-heading {
         margin: 84px 0 30px;
+        padding-left: 15px;
+        padding-right: 15px;
 
         h1 {
           text-shadow: none
         }
       }
 
+      .landing-sub-heading {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
       .circular-height {
         height: 250px;
-        padding: 30px 0 0;
-        margin: 80px -15px 0;
-        max-width: 375px;
+        padding: 50px 0 0;
+        margin: 80px auto 0;
+        max-width: 100%;
       }
 
       .circular-ring {
@@ -17656,7 +18162,7 @@ img.change-password-image {
         }
 
         .center-logo {
-          top: 40%;
+          top: 39%;
 
           .icon {
             width: 40px;
@@ -17996,6 +18502,14 @@ img.change-password-image {
             }
           }
 
+          &:last-child {
+            li {
+              &::after {
+                background: #0066BE;
+              }
+            }
+          }
+
           li {
             font-size: 13px;
             line-height: 25px;
@@ -18214,7 +18728,7 @@ img.change-password-image {
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-left-sided img {
     width: 100%;
-    transform: translateX(94px);
+    transform: translateX(145px);
   }
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse4 {
@@ -18370,11 +18884,6 @@ img.change-password-image {
 
   .pharma-slider .slider .slick-dots {
     bottom: 10px;
-    // transform: rotate(90deg);
-    // left: -160px;
-    // top: 50%;
-    // left: -46.2%;
-    // height: 33px;
   }
 
   .landing-banner.pharma .landing-block {
@@ -18384,6 +18893,8 @@ img.change-password-image {
     justify-content: space-around;
     display: flex;
     flex-direction: column;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .pharma-slider .slider .slick-dots button {
@@ -18448,16 +18959,22 @@ img.change-password-image {
     display: flex;
     align-items: center;
     justify-content: center;
-    // flex-direction: column;
+    transition: none;
     height: auto;
+  }
+
+  .modules-diagram .module-bigger-size {
+    transition: none;
   }
 
   .consent-content .works-started .modules-diagram .module-bigger-size.small {
     box-shadow: none;
     border-radius: 0;
     width: 100%;
-    padding: 40px 30px;
+    padding: 40px 15px;
     flex-direction: column;
+    // top: 50%;
+    // transform: translateY(-50%);
   }
 
   .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div {
@@ -18641,8 +19158,7 @@ img.change-password-image {
     align-items: center;
     justify-content: center;
     position: absolute;
-    bottom: -465px;
-    top: auto;
+    top: 420px;
     transform: translate(0%, 0%);
     left: 0;
     width: calc(100% + 110px);
@@ -18651,6 +19167,24 @@ img.change-password-image {
 
   .modules-diagram .module-bigger-size.small .module-diagram.circle.pharma_market .stat.active {
     filter: none
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small {
+    background: transparent;
+    backdrop-filter: blur(0);
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small .module-discribe {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small .submit-section {
+    margin: 0 auto;
+  }
+
+  .request-content form textarea {
+    margin: 6px 0 10px;
   }
 }
 
