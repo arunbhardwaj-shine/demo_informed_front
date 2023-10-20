@@ -20,7 +20,7 @@ body {
 }
 
 .sidebar a.active {
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   color: white;
 }
 
@@ -41,8 +41,12 @@ div.content {
     height: auto;
     position: relative;
   }
-  .sidebar a {float: left;}
-  div.content {margin-left: 0;}
+  .sidebar a {
+    float: left;
+  }
+  div.content {
+    margin-left: 0;
+  }
 }
 
 @media screen and (max-width: 400px) {
@@ -52,36 +56,109 @@ div.content {
   }
 }
 
-
 /* CUSTOM CSS START BY VARUN */
 
-.step1, .step2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 3px dashed #E5E5E5;
-    margin: 0 auto;
-    margin: 20px;
-    height: auto;
-    padding: 25px 25px;
-    cursor: pointer;
+.step1,
+.step2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px dashed #e5e5e5;
+  margin: 0 auto;
+  margin: 20px;
+  height: auto;
+  padding: 25px 25px;
+  cursor: pointer;
 }
 
-.btn-cancel, .btn-nxt{
+.btn-cancel,
+.btn-nxt {
   float: left;
   width: auto;
 }
 
 #box_border {
-  border: 3px dashed #E5E5E5;
+  border: 3px dashed #e5e5e5;
 }
-ul.toppings-list {float: left;width: auto;max-height: 150px;overflow-y: auto;list-style: none;border: 2px solid;border-radius: 4px;}
-.toppings-list .left-section {padding: 5px;}
+ul.toppings-list {
+  float: left;
+  width: auto;
+  max-height: 150px;
+  overflow-y: auto;
+  list-style: none;
+  border: 2px solid;
+  border-radius: 4px;
+}
+.toppings-list .left-section {
+  padding: 5px;
+}
 .toppings-list .left-section input {
-    margin: 5px 10px;
+  margin: 5px 10px;
 }
-.rm_border{
+.rm_border {
   border: none !important;
 }
 
-img.custom_img.active {border: 2px solid green;}
+img.custom_img.active {
+  border: 2px solid green;
+}
+
+/** Registration webinar popup**/
+.webinar-registration
+  #add_hcp
+  .modal-body
+  .hcp-add-box
+  .hcp-add-form.tab-content {
+  width: 100%;
+  overflow: initial;
+}
+
+.modal.webinar-registration
+  .modal-body
+  .hcp-add-box
+  .tab-content
+  .add_hcp_boxes {
+  padding-right: 0;
+  width: 100%;
+}
+
+.webinar-registration
+  .modal-body
+  .hcp-add-box
+  .hcp-add-form.tab-content
+  #add_hcp_form {
+  width: 100%;
+}
+.modal.webinar-registration form#add_hcp_form .add_hcp_boxes {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 0;
+  width: 100%;
+}
+.webinar-registration
+  #add_hcp
+  .modal-body
+  .hcp-add-form
+  form
+  .add_hcp_boxes
+  .form_action {
+  margin: 0;
+  max-width: 100%;
+}
+button.btn.add-option {
+  min-width: 180px;
+  margin: 10px auto 0;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+.webinar-registration #add_hcp .modal-body .hcp-add-box {
+  overflow-y: auto;
+}
+.webinar-registration #add_hcp .modal-footer {
+  gap: 0 16px;
+  padding-top: 10px;
+}
+.webinar-registration.modal .modal-header {
+  padding: 11px 11px;
+}

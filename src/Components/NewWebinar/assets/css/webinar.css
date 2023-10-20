@@ -500,12 +500,8 @@ button.btn.websetting-button {
   margin-top: 15px;
 }
 
-
-
-
-
 /** Responsive **/
-@media only screen and (max-width:1715px) {
+@media only screen and (max-width: 1715px) {
   .doc-content-main-box .nav-tabs .nav-item button {
     padding: 9px 8px;
   }
@@ -546,12 +542,17 @@ button.btn.websetting-button {
     flex: 1;
   }
 
-  .readerlist .doc-content-main-box ul.tab-mail-list li .select-dropdown-wrapper .select {
+  .readerlist
+    .doc-content-main-box
+    ul.tab-mail-list
+    li
+    .select-dropdown-wrapper
+    .select {
     min-width: 100%;
   }
 }
 
-@media only screen and (max-width:1550px) {
+@media only screen and (max-width: 1550px) {
   .create-reader .form-control {
     padding: 9px 20px;
     height: 40px;

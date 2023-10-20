@@ -5,6 +5,7 @@ import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 import { postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
+import axios from "axios";
 
 const LandingContact = () => {
   const [country, setCountry] = useState([
@@ -303,6 +304,8 @@ const LandingContact = () => {
 
   });
 
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [conatctError, setContactError] = useState(false);
   const [forceRender, setForceRender] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
@@ -311,6 +314,7 @@ const LandingContact = () => {
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   const handleContactFormChange = (e, isSelectedName) => {
     setContactFormInputs({
@@ -327,6 +331,8 @@ const LandingContact = () => {
   // send contact infromation
   const sendContactInformation = async (event) => {
     event.preventDefault();
+    setErrorMsg("");
+    setSuccessMsg("");
     const err = HomeValidation(contactFormInputs);
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
@@ -346,23 +352,37 @@ const LandingContact = () => {
     } else {
       loader("show");
       try {
-        const res = await postData(ENDPOINT.INFORMED_USER_FORM, {
+        let body = {
           name: contactFormInputs?.name?.trim(),
           email: contactFormInputs?.email?.trim(),
           phone: contactFormInputs?.phone?.trim(),
           company: contactFormInputs?.company?.trim(),
           country: contactFormInputs?.country?.trim(),
           message: contactFormInputs?.message?.trim(),
+        };
+
+        axios.post(ENDPOINT.INFORMED_USER_FORM, body)
+        .then((res) => {
+          let obj = {};
+          loader("hide");
+          setErrorMsg("");
+          setSuccessMsg("Your request has been successfully submitted. Our team will get back to you as soon as possible.");
+          setContactFormInputs(obj);
+          setSelectedCountry([]);
+          setContactError(false);
+          setForceRender(!forceRender);
+        
+        })
+        .catch((err) => {
+          console.log(err);
+          setErrorMsg("Something went wrong. Please try again later.");
+          setSuccessMsg("");
+          loader("hide");
         });
-        let obj = {};
-        loader("hide");
-        setContactFormInputs(obj);
-        setSelectedCountry([]);
-        setContactError(false);
-        setForceRender(!forceRender);
-       
       } catch (err) {
         console.log(err);
+        setErrorMsg("Something went wrong. Please try again later.");
+        setSuccessMsg("");
         loader("hide");
       }
     }
@@ -419,12 +439,12 @@ const LandingContact = () => {
                       />
                     </svg>
                   </span>
+                  {conatctError?.name ? (
+                      <div className="contact-validation">{conatctError?.name}</div>
+                    ) : (
+                      ""
+                    )}
                 </div>
-                {conatctError?.name ? (
-                    <div className="contact-validation">{conatctError?.name}</div>
-                  ) : (
-                    ""
-                  )}
               </Col>
               <Col md="6">
                 <div className="form-group">
@@ -463,12 +483,12 @@ const LandingContact = () => {
                       />
                     </svg>
                   </span>
+                  {conatctError?.email ? (
+                      <div className="contact-validation">{conatctError?.email}</div>
+                    ) : (
+                      ""
+                    )}
                 </div>
-                {conatctError?.email ? (
-                    <div className="contact-validation">{conatctError?.email}</div>
-                  ) : (
-                    ""
-                  )}
               </Col>
               <Col md="6">
                 <div 
@@ -517,12 +537,12 @@ const LandingContact = () => {
                       </defs>
                     </svg>
                   </span>
+                  {conatctError?.country ? (
+                      <div className="contact-validation">{conatctError?.country}</div>
+                    ) : (
+                      ""
+                    )}
                 </div>
-                {conatctError?.country ? (
-                    <div className="contact-validation">{conatctError?.country}</div>
-                  ) : (
-                    ""
-                  )}
               </Col>
               <Col md="6">
                 <div className="form-group">
@@ -571,12 +591,12 @@ const LandingContact = () => {
                       />
                     </svg>
                   </span>
+                  {conatctError?.company ? (
+                      <div className="contact-validation">{conatctError?.company}</div>
+                    ) : (
+                      ""
+                    )}
                 </div>
-                {conatctError?.company ? (
-                    <div className="contact-validation">{conatctError?.company}</div>
-                  ) : (
-                    ""
-                  )}
               </Col>
               <Col md="6">
                 <div className="form-group">
@@ -613,12 +633,12 @@ const LandingContact = () => {
                       />
                     </svg>
                   </span>
+                  {conatctError?.phone ? (
+                      <div className="contact-validation">{conatctError?.phone}</div>
+                    ) : (
+                      ""
+                    )}
                 </div>
-                {conatctError?.phone ? (
-                    <div className="contact-validation">{conatctError?.phone}</div>
-                  ) : (
-                    ""
-                  )}
               </Col>
               <Col md="12">
                 <div className="form-group">
@@ -633,6 +653,17 @@ const LandingContact = () => {
                           }
                           onChange={handleContactFormChange}
                         ></textarea>
+                    {successMsg ? (
+                      <div className="success_msg">{successMsg}</div>
+                    ) : (
+                      ""
+                    )}
+
+                    {errorMsg ? (
+                      <div className="error_msg">{errorMsg}</div>
+                    ) : (
+                      ""
+                    )}    
                 </div>
               </Col>
               <Button className="btn-filled"  onClick={sendContactInformation}>Send</Button>

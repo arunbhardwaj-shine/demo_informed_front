@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import { Router, Route, browserHistory } from 'react-router';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LandingHeader from './LandingHeader';
@@ -9,41 +10,35 @@ const MainLanding = () => {
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   return (
     <>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <LandingHeader/>
 
     <div className='landing-banner'>
         <Container>
             <Row>
-                <div className='landing-block'>
+                <div className='landing-block main-outer'>
                     <div className='circular-ring'>
                         <div class="big-circle">
                             <div class="icon-block big">
                                 <img src={path_image + "docintel-icon.svg"} alt="" />
                             </div>
-                            <div class="icon-block medium">
+                            {/* <div class="icon-block medium">
                                 &nbsp;
-                            </div>
-                            <div class="icon-block small">
+                            </div> */}
+                            {/* <div class="icon-block small">
                                 &nbsp;
+                            </div> */}
+                             <div class="icon-block">
+                                    <img src={path_image + "library-icon-circle.svg"} alt="" />
+                                </div>
+                                <div class="icon-block">
+                                 <img src={path_image + "world-icon.svg"} alt="" />
                             </div>
                         </div>
                         <div class="circle circle-inner1">
-                            <div className='circle-half-bigger'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="253" height="149" viewBox="0 0 253 149" fill="none">
-                                    <path d="M0.407552 45.1106C0.407552 46.5834 1.60146 47.7773 3.07422 47.7773C4.54698 47.7773 5.74089 46.5834 5.74089 45.1106C5.74089 43.6379 4.54698 42.444 3.07422 42.444C1.60146 42.444 0.407552 43.6379 0.407552 45.1106ZM209.448 45.1106L209.807 44.7625L209.448 45.1106ZM247.408 145.414C247.408 146.887 248.601 148.081 250.074 148.081C251.547 148.081 252.741 146.887 252.741 145.414C252.741 143.941 251.547 142.747 250.074 142.747C248.601 142.747 247.408 143.941 247.408 145.414ZM3.43317 45.4587C29.4773 18.6011 65.9227 1.91406 106.261 1.91406V0.914062C65.6409 0.914062 28.9398 17.7189 2.71527 44.7625L3.43317 45.4587ZM106.261 1.91406C146.6 1.91406 183.045 18.6011 209.089 45.4587L209.807 44.7625C183.583 17.7189 146.881 0.914062 106.261 0.914062V1.91406ZM209.089 45.4587C234.147 71.2991 249.574 106.552 249.574 145.414H250.574C250.574 106.282 235.039 70.7821 209.807 44.7625L209.089 45.4587Z" fill="#356D9C"/>
-                                </svg>
-                                <div class="icon-block">
+                             <div class="icon-block">
                                     <img src={path_image + "statistics-icon.svg"} alt="" />
                                 </div>
-                            </div>
-                            
-                            <div className='circle-half-small'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="46" height="106" viewBox="0 0 46 106" fill="none">
-                                    <path d="M40.5169 103.164C40.5169 104.637 41.7108 105.831 43.1836 105.831C44.6564 105.831 45.8503 104.637 45.8503 103.164C45.8503 101.691 44.6564 100.497 43.1836 100.497C41.7108 100.497 40.5169 101.691 40.5169 103.164ZM0.516927 3.16406C0.516927 4.63682 1.71083 5.83073 3.18359 5.83073C4.65635 5.83073 5.85026 4.63682 5.85026 3.16406C5.85026 1.6913 4.65635 0.497396 3.18359 0.497396C1.71083 0.497396 0.516927 1.6913 0.516927 3.16406ZM43.5447 102.818C18.8738 77.0567 3.68359 41.9101 3.68359 3.16406H2.68359C2.68359 42.1761 17.9791 77.5683 42.8225 103.51L43.5447 102.818Z" fill="#356D9C"/>
-                                </svg>
-                            </div>
-                            
-                        
                         </div>
                         <div class="circle circle-inner2">
                             <div class="icon-block">
@@ -81,13 +76,13 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                     <div className='landing-heading'>
                         <h1>Predictive Relationship Builder!</h1>
                     </div>
-                    <div className='landing-sub-heading'><h4>Connecting content & consent with intelligent predictions Allowing the right materials, to reach the right person, at the right time</h4></div>
+                    <div className='landing-sub-heading'><h4>Connecting content & consent with intelligent predictions<br/><br/>
+                    Allowing the right materials, to reach the right person, at the right time</h4></div>
                 </div>
             </Row>
         </Container>
     </div>
-
-    <div className='how-work'>
+    <div className='how-work main-sec'>
         <Container>
             <Row>
                 <Col md={5}>
@@ -105,26 +100,44 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
             <Row>
                 <div className='future-expand'>
                     <div className='future-expand-content'>
-                        <span className='shade-left'>&nbsp;</span>
                         <h4>The future doesn’t have to mean leaving your comfort zone, we’re here to expand it! </h4>
+                    </div>
+                    <div className='future-expand-content-shape'>
+                        <span className='shade-left'>&nbsp;</span>
                         <span className='shade-right'>&nbsp;</span>
                     </div>
-                    <h5>With no disruptions, it is easily integrated whether you use our entire universe of tools or decide to onboard just one our planet, just know it won’t disturb your solar system. Think of us as a help in hand in the system you’ve already created.</h5>
+                    {/* <h5>With no disruptions, it is easily integrated whether you use our entire universe of tools or decide to onboard just one our planet, just know it won’t disturb your solar system. Think of us as a help in hand in the system you’ve already created.</h5> */}
                 </div>
+            </Row>
+            <Row className='margin-gap'>
+                <Col md={6} className='d-flex justify-content-center align-items-center'>
+                    <div className='how-work-text'>
+                        <h3>Built with and for the life sciences</h3>
+                        <h5>Every module has faced HCPs, regulations and compliance. Our collaborative onboarding process is designed to enhance your current workflow.</h5>
+                    </div>
+                </Col>
+                <Col md={5} className="build_with d-flex justify-content-end">
+                    <div className='how-work-img'>
+                        <img src={path_image + "build-with.png"} alt=""/>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
                 <div className='works-started'>
                     <h3>Let’s get started</h3>
                     <div className='works-started-links'>
                         <h3>Tell us what you work with?</h3>
                         <div className='started-links d-flex justify-content-evenly'>
-                            {/* <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link> */}
-                            {/* <Link to="/pharma-marketing" className='pharma-marketing'>Pharma Marketing</Link> */}
-                            {/* <Link to="/landing-publisher" className='publisher-gradient'>Publishers</Link> */}
+                            {/* <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link> 
+                            <Link to="/pharma-marketing" className='pharma-marketing'>Pharma Marketing</Link>
+                           <Link to="/landing-publisher" className='publisher-gradient'>Publishers</Link> */}
                             <a href='/pharma-marketing' className='pharma-marketing'>Pharma Marketing</a>
                             <a href='/landing-publisher' className='publisher-gradient'>Publishers</a>
                         </div>
                     </div>
                 </div>
             </Row>
+            
         </Container>
     </div>
 
@@ -141,4 +154,4 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   )
 }
 
-export default MainLanding
+export default React.memo(MainLanding)

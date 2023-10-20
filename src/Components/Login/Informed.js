@@ -33,6 +33,7 @@ const Informed = () => {
   const [forceRender, setForceRender] = useState(false);
   const handleClose = (type) => {
     if (type == "forgot") {
+      setErrorMsg("");
       setShow(false);
     } else {
       setPrivacyshow(false);
@@ -72,7 +73,8 @@ const Informed = () => {
           password: password,
         });
 
-        localStorage.clear();
+        // localStorage.clear();
+        clearLocalStorageExcept();
         localStorage.setItem("user_id", res?.data?.data?.userToken);
         localStorage.setItem("group_id", res?.data?.data?.groupId);
         localStorage.setItem("webinar_flag", res?.data?.data?.webinar_flag);
@@ -155,6 +157,16 @@ const Informed = () => {
       } catch (err) {
         console.log(err);
         loader("hide");
+      }
+    }
+  };
+
+  const clearLocalStorageExcept = () => {
+    const keysToKeep = ["uname", "pass", "acceptedCookies"];
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (!keysToKeep.includes(key)) {
+        localStorage.removeItem(key);
       }
     }
   };
