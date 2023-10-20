@@ -20,7 +20,7 @@ let  colors= [
   "#32a1d1",
 ] 
 
-function DisplayAnswer({ show, data, onClose }) {
+function DisplayAnswer({ show, data, onClose, readerCount }) {
 
   const [userCount,setUserCount] = useState(0) 
 
@@ -139,7 +139,7 @@ const chartOptions = {
         <Modal.Body>
           <p>{data?.question}</p>
           <HighchartsReact highcharts={Highcharts} options={chartOptions} />
-          <h5>Total Answer:{userCount}</h5>
+          <h5>Total Answer:{readerCount}</h5>
         </Modal.Body>
       
       </Modal>
