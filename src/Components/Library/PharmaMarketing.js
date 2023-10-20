@@ -1897,7 +1897,7 @@ useLayoutEffect(() => {
             <div className="works-started">
               <div className="works-started-links pharm-page">
                 <h3>Modules </h3>
-                <h5>
+                <h5 className="desk-content">
                   Click on a module to explore its capabilities and discover how
                   it can benefit you. Learn about its connections with other
                   modules and how they collectively help your clients succeed.
@@ -1905,6 +1905,8 @@ useLayoutEffect(() => {
                   pharmaceutical industry and are now integral parts of our
                   comprehensive offerings aimed at enhancing your workflow.
                 </h5>
+                <h5 className="mobile-content"><strong>Modules built together with and for pharma.</strong> 
+<strong> Click a module</strong> to see others it relates to. Register to find out how they can help you build better relationships with each HCP.</h5>
               </div>
               <div className="modules-diagram">
                 <div
