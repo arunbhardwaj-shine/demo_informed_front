@@ -23,8 +23,19 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
   };
   const handleChange = (e, isSelectedName, index) => {
     if (isSelectedName == "optionValue") {
-      let updateOption = [...formData?.option];
-      updateOption[index] = e?.target?.value;
+      // let updateOption = [...formData?.option];
+      // updateOption[index] = e?.target?.value;
+      // setFormData({ ...formData, option: updateOption });
+      //--------
+      // let updateOption = { ...formData, option: [...formData?.option] };
+      // console.log("new form data--->", updateOption?.option[index]);
+      // console.log("index--->", index);
+      //  updateOption?.option?.[index]?.optionLabel=e?.target?.value
+      //------
+      let updateOption = formData?.option;
+
+      console.log("update option-->", updateOption?.[index]?.optionLabel);
+      updateOption[index].optionLabel = e?.target?.value;
       setFormData({ ...formData, option: updateOption });
     } else {
       setFormData({
@@ -41,7 +52,11 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
   const saveClicked = (e) => {
     e.preventDefault();
     console.log("form Data-->>", formData);
-    if (formLabel?.find((item, index) => item.label == formData.label)) {
+    if (formData?.label == "") {
+      toast.error("Please enter label");
+      return;
+    }
+    if (formLabel?.find((item, index) => item?.label == formData?.label)) {
       toast.error("label already exist");
       return;
     }
@@ -54,7 +69,6 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
     e.preventDefault();
     let optionObj = {
       optionLabel: "",
-      optionInput: "",
     };
 
     setFormData({ ...formData, option: [...formData?.option, optionObj] });

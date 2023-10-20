@@ -47,7 +47,9 @@ const WebinarRegistration = () => {
       " --index-->",
       index,
       "--checked-->",
-      e?.target?.checked
+      e?.target?.checked,
+      "---data--->",
+      data
     );
 
     if (data?.inputType == "radio" || data?.inputType == "checkbox") {
@@ -58,13 +60,13 @@ const WebinarRegistration = () => {
       if (e?.target?.checked == true) {
         if (data?.inputType == "radio") {
           newObj[data?.label] = [];
-          newObj[data?.label].push(item);
+          newObj[data?.label].push(item?.label);
         } else {
-          newObj[data?.label].push(item);
+          newObj[data?.label].push(item?.label);
         }
         // setFormInputs(newObj);
       } else if (e?.target?.checked == false) {
-        const index = newObj[data?.label]?.indexOf(item);
+        const index = newObj[data?.label]?.indexOf(item?.label);
         if (index > -1) {
           newObj[data?.label]?.splice(index, 1);
           if (newObj[data?.label]?.length == 0) {
@@ -154,7 +156,9 @@ const WebinarRegistration = () => {
                                                 )
                                               }
                                             />
-                                            <label htmlFor="">{item}</label>
+                                            <label htmlFor="">
+                                              {item?.optionLabel}
+                                            </label>
                                           </div>
                                         ))
                                       ) : data?.inputType == "checkbox" ? (
@@ -172,7 +176,9 @@ const WebinarRegistration = () => {
                                                 )
                                               }
                                             />
-                                            <label htmlFor="">{item}</label>
+                                            <label htmlFor="">
+                                              {item?.optionLabel}
+                                            </label>
                                           </div>
                                         ))
                                       ) : null
