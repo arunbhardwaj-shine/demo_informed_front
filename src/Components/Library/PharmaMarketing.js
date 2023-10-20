@@ -1004,6 +1004,7 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
+    document.body.classList.remove('body');
     localStorage.setItem('pharmaRegistered', 'true');
     setPharmaRegistered(true);
     setAddSmallClass(true);
@@ -1152,6 +1153,7 @@ const PharmaMarketing = () => {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
+    document.body.classList.add('body');
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1215,6 +1217,7 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
+    document.body.classList.remove('body');
     setAddClass(false);
     setFormFeilds(false);
      setAddDivClass(false)
@@ -1252,44 +1255,8 @@ const PharmaMarketing = () => {
     setSelectedModules([]);
   };
 
-  const handleBigMobileCircleClose = (moduleName, index) => {
-    setAddClass(false);
-    setFormFeilds(false);
-    setAddDivClass(false)
-    const smallCircleData = modules[index];
-    if (moduleName !== activeModule) {
-      setModuleData({
-        active: false,
-        imagePath: smallCircleData?.icon,
-        heading: smallCircleData?.title,
-        paragraph: smallCircleData?.description,
-      });
-      setActiveModule(moduleName === activeModule ? null : moduleName);
-    }
-    setTimeout(() => {
-      setReadStatus(false);
-      setRegisterError(false);
-      setSelectedCountry([]);
-    setRegisterFormInputs({
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      country: "",
-      consent1: {
-        label: "Email me only about modules I’ve looked at",
-        checked: false,
-      },
-      consent2: {
-        label: "Keep me informed about other news from inforMed.pro",
-        checked: false,
-      },
-    })
-    }, 200);
-    setSelectedModules([]);
-  }
-
   const handleBigClose = (moduleName, index) => {
+    document.body.classList.remove('body');
     setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
@@ -1314,19 +1281,20 @@ const PharmaMarketing = () => {
     }, 200);
   };
 
-  // useEffect(() => {
-  //   if (submitData) {
-  //     setTimeout(() => {
-  //       setAddHideClass(false);
-  //       setAddDivClass(false);
-  //       setSelectedModules([]);
-  //       setSubmitData(false);
-  //       setShowBigCircleData(true);
-  //       setModulesSelect(true);
-  //       setActiveModule(intialModuleData?.activeModule);
-  //     }, 1000);
-  //   }
-  // }, [submitData]);
+  useEffect(() => {
+    if (submitData) {
+      setTimeout(() => {
+        setAddHideClass(false);
+        setAddDivClass(false);
+        setSelectedModules([]);
+        setSubmitData(false);
+        setShowBigCircleData(true);
+        setModulesSelect(true);
+        setActiveModule(intialModuleData?.activeModule);
+        document.body.classList.remove('body');
+      }, 2000);
+    }
+  }, [submitData]);
 
   // const handleCloseClick = () => {
   //   setSelectedModules([]);
@@ -1345,8 +1313,8 @@ const PharmaMarketing = () => {
     else{
       setAddDivClass(true);
       setAddSmallClass(false);
+      document.body.classList.add('body');
     }
-    
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -2223,7 +2191,7 @@ useLayoutEffect(() => {
                   )}
                   <div class="shape shape-left"></div>
 
-                  {registerPage && !pharmaRegistered &&(
+                  {registerPage && !pharmaRegistered && (
                     <div>
                       <img
                         className="close"
@@ -3241,7 +3209,7 @@ useLayoutEffect(() => {
                   className="close"
                   src={path_image + "module-close-button.svg"}
                   alt=""
-                  onClick={handleBigMobileCircleClose}
+                  onClick={handleBigCircleClose}
                   />
                 <div className="mobile-slider-inset">
                  {showBigCircleData  && pharmaRegistered && (
