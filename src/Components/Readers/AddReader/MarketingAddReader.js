@@ -715,7 +715,7 @@ const MarketingAddReader = () => {
                   )}
                 </Form.Group>
                 <Form.Group className="form-group primary_phone">
-                  <Form.Label htmlFor="">Primary phone </Form.Label>                            
+                  <Form.Label htmlFor="">Primary phone </Form.Label>
 
                   <PhoneInput
                     international

@@ -147,6 +147,8 @@ const LandingHeader = () => {
     // for send email forgetpassword
     const onSendEmail = async (event) => {
         event.preventDefault();
+        setErrorMsg('');
+        setSuccessMsg('');
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         if (email.trim() === "") {
           setErrorMsg("Please enter your email.");
@@ -208,7 +210,7 @@ const LandingHeader = () => {
           <span className="loader-view"> </span>
         </div>
       </div>
-      <div className="header-landing" sticky="top">
+      <div className="header-landing">
         <Container>
           <Row>
             <div className="d-flex justify-content-between align-items-center">
@@ -227,8 +229,7 @@ const LandingHeader = () => {
           </Row>
         </Container>
       </div>
-
-      <Modal show={show}  className='login-confirm' id="download-qr" aria-labelledby="contained-modal-title-vcenter"
+      <Modal  show={show}  className='login-confirm' id="download-qr" aria-labelledby="contained-modal-title-vcenter"
       centered>
         <Modal.Header >
           <Modal.Title>Login</Modal.Title>

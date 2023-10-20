@@ -1,4 +1,4 @@
-export const HomeValidation = (data) => {
+export const HomeValidation = (data, status= 0) => {
   let error = {};
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
   const phoneRegex =
@@ -14,7 +14,7 @@ export const HomeValidation = (data) => {
       error.email = "Please enter the valid email address";
     }
   }
-  if (!data?.phone) {
+  if (!data?.phone && status == 0) {
     error.phone = "Please enter the phone number";
   } else if (data?.phone) {
     if (!phoneRegex.test(data?.phone)) {
@@ -22,7 +22,7 @@ export const HomeValidation = (data) => {
     }
   }
 
-  if (!data?.company) {
+  if (!data?.company && status == 0) {
     error.company = "Please enter company name";
   }
   if (data.hasOwnProperty("country")) {

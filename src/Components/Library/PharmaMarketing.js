@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef,useLayoutEffect } from "react";
+import { Router, Route, browserHistory } from 'react-router';
 import {
   Button,
   Col,
@@ -39,11 +40,15 @@ const PharmaMarketing = () => {
   const [payloadData, setPayloadData] = useState({});
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
+  const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
+
+  const ref = useRef(null);
+  const [height, setHeight] = useState(0);
 
   const modules = [
     {
@@ -999,20 +1004,26 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
+    document.body.classList.remove('body');
+    localStorage.setItem('pharmaRegistered', 'true');
+    setPharmaRegistered(true);
     setAddSmallClass(true);
     setAddDivClass(false);
     event.preventDefault();
-    const err = HomeValidation(registerFormInputs);
+    const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
         nameRef?.current?.focus();
       } else if (Object?.keys(err)[0] == "email") {
         emailRef?.current?.focus();
-      } else if (Object.keys(err)[0] == "comapny") {
-        companyRef.current.focus();
-      } else if (Object.keys(err)[0] == "phone") {
-        phoneRef.current.focus();
-      } else if (Object.keys(err)[0] == "country") {
+      } 
+      // else if (Object.keys(err)[0] == "comapny") {
+      //   companyRef.current.focus();
+      // } 
+      // else if (Object.keys(err)[0] == "phone") {
+      //   phoneRef.current.focus();
+      // }
+       else if (Object.keys(err)[0] == "country") {
         countryRef.current.focus();
       }
       setRegisterError(err);
@@ -1049,8 +1060,12 @@ const PharmaMarketing = () => {
           consent_type: consentType,
           type: "register",
         };
+
+        console.log(data,'data')
         setPayloadData(data);
-        const res = await postData(ENDPOINT.REGISTER,data );
+        const dataPharmaString = JSON.stringify(data);
+        localStorage.setItem('payloadPharmaData', dataPharmaString);
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1138,6 +1153,7 @@ const PharmaMarketing = () => {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
+    document.body.classList.add('body');
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1173,16 +1189,18 @@ const PharmaMarketing = () => {
     setAddSmallClass(true);
     loader("show");
     try {
-      const res = await postData(ENDPOINT.REGISTER, {
-      // let data = {
+      const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
+      const payloadData = JSON.parse(payloadDataPharmaString);
+      // const res = await postData(ENDPOINT.REGISTER, {
+      let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
-        email: moduleFormInputs?.secondaryEmail?.trim(),
-        phone: moduleFormInputs?.secondaryPhone?.trim(),
+        secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
+        secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      // };
-      });
+      };
+      // });
       let obj = {};
       loader("hide");
       setModuleFormInputs(obj);
@@ -1195,9 +1213,11 @@ const PharmaMarketing = () => {
     setShowBigCircleData(false);
     setModulesSelect(false);
     setFormFeilds(false);
+    setModuleFormInputs(false)
   };
 
   const handleBigCircleClose = (moduleName, index) => {
+    document.body.classList.remove('body');
     setAddClass(false);
     setFormFeilds(false);
      setAddDivClass(false)
@@ -1214,11 +1234,30 @@ const PharmaMarketing = () => {
     }
     setTimeout(() => {
       setReadStatus(false);
+      setRegisterError(false);
+      setSelectedCountry([]);
+    setRegisterFormInputs({
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      country: "",
+      consent1: {
+        label: "Email me only about modules I’ve looked at",
+        checked: false,
+      },
+      consent2: {
+        label: "Keep me informed about other news from inforMed.pro",
+        checked: false,
+      },
+    })
     }, 200);
     setSelectedModules([]);
   };
 
   const handleBigClose = (moduleName, index) => {
+    document.body.classList.remove('body');
+    setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
     setSelectedModules([]);
@@ -1235,7 +1274,7 @@ const PharmaMarketing = () => {
           paragraph: smallCircleData?.description,
         });
         setActiveModule(null);
-      }, 1000);
+      }, 2000);
     }
     setTimeout(() => {
       setReadStatus(false);
@@ -1252,7 +1291,8 @@ const PharmaMarketing = () => {
         setShowBigCircleData(true);
         setModulesSelect(true);
         setActiveModule(intialModuleData?.activeModule);
-      }, 1000);
+        document.body.classList.remove('body');
+      }, 2000);
     }
   }, [submitData]);
 
@@ -1266,7 +1306,15 @@ const PharmaMarketing = () => {
 
   const handleRead = () => {
     setReadStatus(true);
-    setAddDivClass(true);
+    if(pharmaRegistered){
+      setAddDivClass(false);
+      setAddSmallClass(true);
+    }
+    else{
+      setAddDivClass(true);
+      setAddSmallClass(false);
+      document.body.classList.add('body');
+    }
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1341,6 +1389,12 @@ const PharmaMarketing = () => {
     centerMode: true,
   };
 
+useLayoutEffect(() => {
+  setHeight(ref.current.offsetHeight);
+}, []);
+// console.log(height,'====>height')
+
+
   return (
     <>
       <meta
@@ -1349,7 +1403,7 @@ const PharmaMarketing = () => {
       />
       <LandingHeader />
 
-      <div className="landing-banner pharma">
+      <div className="landing-banner pharma" ref={ref}>
         <Container>
           <Row>
             <div className="landing-block">
@@ -1811,7 +1865,7 @@ const PharmaMarketing = () => {
             <div className="works-started">
               <div className="works-started-links pharm-page">
                 <h3>Modules </h3>
-                <h5>
+                <h5 className="desk-content">
                   Click on a module to explore its capabilities and discover how
                   it can benefit you. Learn about its connections with other
                   modules and how they collectively help your clients succeed.
@@ -1819,6 +1873,8 @@ const PharmaMarketing = () => {
                   pharmaceutical industry and are now integral parts of our
                   comprehensive offerings aimed at enhancing your workflow.
                 </h5>
+                <h5 className="mobile-content"><strong>Modules built together with and for pharma.</strong> 
+<strong> Click a module</strong> to see others it relates to. Register to find out how they can help you build better relationships with each HCP.</h5>
               </div>
               <div className="modules-diagram">
                 <div
@@ -2137,7 +2193,7 @@ const PharmaMarketing = () => {
                   )}
                   <div class="shape shape-left"></div>
 
-                  {registerPage && (
+                  {registerPage && !pharmaRegistered && (
                     <div>
                       <img
                         className="close"
@@ -2267,13 +2323,13 @@ const PharmaMarketing = () => {
                                   type="number"
                                   placeholder="Phone"
                                   name="phone"
-                                  // className="form-control"
-                                  ref={phoneRef}
-                                  className={
-                                    !registerError?.phone
-                                      ? "form-control"
-                                      : "form-control error"
-                                  }
+                                  className="form-control"
+                                  // ref={phoneRef}
+                                  // className={
+                                  //   !registerError?.phone
+                                  //     ? "form-control"
+                                  //     : "form-control error"
+                                  // }
                                   value={
                                     registerFormInputs?.phone
                                       ? registerFormInputs?.phone
@@ -2296,13 +2352,13 @@ const PharmaMarketing = () => {
                                     />
                                   </svg>
                                 </span>
-                                {registerError?.phone ? (
+                                {/* {registerError?.phone ? (
                                   <div className="contact-validation">
                                     {registerError?.phone}
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                               </div>
                             </Col>
 
@@ -2312,13 +2368,13 @@ const PharmaMarketing = () => {
                                   type="text"
                                   placeholder="Company"
                                   name="company"
-                                  // className="form-control"
-                                  ref={companyRef}
-                                  className={
-                                    !registerError?.company
-                                      ? "form-control"
-                                      : "form-control error"
-                                  }
+                                  className="form-control"
+                                  // ref={companyRef}
+                                  // className={
+                                  //   !registerError?.company
+                                  //     ? "form-control"
+                                  //     : "form-control error"
+                                  // }
                                   value={
                                     registerFormInputs?.company
                                       ? registerFormInputs?.company
@@ -2353,13 +2409,13 @@ const PharmaMarketing = () => {
                                     />
                                   </svg>
                                 </span>
-                                {registerError?.company ? (
+                                {/* {registerError?.company ? (
                                   <div className="contact-validation">
                                     {registerError?.company}
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
                               </div>
                             </Col>
 
@@ -2482,7 +2538,7 @@ const PharmaMarketing = () => {
                           : "d-flex justify-content-between flex-column"
                       }`}
                     >
-                      {showBigCircleData && !registerPage && (
+                      {showBigCircleData  && pharmaRegistered &&(
                         <>
                           <div className="big-circle-data">
                             <div>
@@ -2655,7 +2711,7 @@ const PharmaMarketing = () => {
                           <p>Please select the modules you're interested in:</p>
                         </div>
                       )}
-                      {modulesSelect && !registerPage && (
+                      {modulesSelect  && pharmaRegistered && (
                         <div
                           className="module-diagram circle pharma_market"
                           style={{ "--total": "24" }}
@@ -3097,7 +3153,7 @@ const PharmaMarketing = () => {
                           ></div>
                         </div>
                       )}
-                      {showBigCircleData && !registerPage && (
+                      {showBigCircleData  && pharmaRegistered && (
                         <div className="d-flex align-items-center justify-content-center fotter-btns">
                           <Button
                             className="btn-filled"
@@ -3158,7 +3214,7 @@ const PharmaMarketing = () => {
                   onClick={handleBigCircleClose}
                   />
                 <div className="mobile-slider-inset">
-                 {showBigCircleData && !registerPage && (
+                 {showBigCircleData  && pharmaRegistered && (
                     
                     <Slider
                       {...sliderSettings}
@@ -3280,4 +3336,4 @@ const PharmaMarketing = () => {
   );
 };
 
-export default PharmaMarketing;
+export default  React.memo(PharmaMarketing);

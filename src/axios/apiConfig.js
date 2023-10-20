@@ -135,5 +135,14 @@ export const ENDPOINT = {
   FEEDBACKIMPORT: `/analytics/download-feedback-excel`,
   QUESTIONUPDATE: `/analytics/update_question_reply`,
   REGISTER:"/auth/register_module",
+  ADD_QUESTION:"/webinar/add-question",
+  EDIT_QUESTION:"/webinar/update-question",
+  EVENT_LIST:"/webinar/get-event-list",
+  WEBINAR_DETAIL: "/webinar/webinar-details",
+  WEBINAR_ADD_NEW_EVENT: "/webinar/add-new-event",
+  WEBINAR_GET_EVENT_LISTING: "/webinar/get-event-list",
+  WEBINAR_UPDATE_EVENT: "/webinar/update-event",
+  WEBINAR_DELETE_EVENT: "/webinar/delete-event",
+  REGISTER:"/auth/register_module",
   FORGET:"/auth/forget-password"
 };
