@@ -161,6 +161,8 @@ import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingRe
 import PageNotFound from "./Components/CommonComponent/PageNotFound";
 import Feedback from "./Components/R&D/Feedback";
 import WebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/WebinarRegistration";
+import SurveyBuilder from "./Components/Webinar/Survey/SurveyBuilder";
+import QuestionListing from "./Components/Webinar/Survey/QuestionListing";
 let platform = 0;
 let show = 0;
 
@@ -513,6 +515,14 @@ const Routing = () => {
         <Route
           path="/new-webinar"
           element={<LoginLayout component={DefaultWebinar} />}
+        />
+        <Route
+          path="/add-poll"
+          element={<LoginLayout component={SurveyBuilder} />}
+        /> 
+        <Route
+          path="/question-listing"
+          element={<LoginLayout component={QuestionListing} />}
         />
         <Route
           path="/contact-form"
