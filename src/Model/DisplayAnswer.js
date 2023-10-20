@@ -3,16 +3,32 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+let  colors= [
+  "#FFBE2C",
+  "#F58289",
+  "#d1d132",
+  "#D61975",
+  "#0066BE",
+  "#00003C",
+  "#b490f5",
+  "#91817e",
+  "#2b6570",
+  "#9C9CA2",
+  "#7cb0dd",
+  "#4f4566",
+  "#00D4C0",
+  "#32a1d1",
+] 
+
 function DisplayAnswer({ show, data, onClose }) {
 
   const [userCount,setUserCount] = useState(0) 
-console.log(data,"data");
- 
 
-const seriesData = data.map((question) => ({
+const seriesData = data.map((question,index) => ({
   name: question.name,
   y: question.y,
   drilldown: question.drilldown,
+  color:colors[index],
   // color: question.y === 2 ? "#00FF00" : "#FF0000", 
 }));
 const drilldownData = data
