@@ -1290,6 +1290,7 @@ const PharmaMarketing = () => {
   }
 
   const handleBigClose = (moduleName, index) => {
+    setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
     setSelectedModules([]);
