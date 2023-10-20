@@ -17633,6 +17633,14 @@ img.change-password-image {
     display: block;
   }
 
+  .consent-content .works-started .module-discribe img.module-content-view {
+    max-width: 300px;
+  }
+
+  .landing-banner.pharma+.how-work {
+    padding: 50px 0 40px;
+  }
+
   .mobile-slider-inset {
     display: block;
     border-radius: 357px;
@@ -17640,8 +17648,8 @@ img.change-password-image {
     box-shadow: 0px 3px 19px 0px rgba(0, 102, 190, 0.26);
     width: 100%;
     border-radius: 50%;
-    max-width: 360px;
-    height: 360px;
+    max-width: 370px;
+    height: 370px;
   }
 
   .consent-content .works-started .mobile-slider-inset .module-discribe .key-features h5 {
@@ -18694,7 +18702,7 @@ img.change-password-image {
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-left-sided img {
     width: 100%;
-    transform: translateX(94px);
+    transform: translateX(145px);
   }
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide1 .slider-bg-icons img.slide-ellipse4 {
@@ -19128,6 +19136,20 @@ img.change-password-image {
 
   .modules-diagram .module-bigger-size.small .module-diagram.circle.pharma_market .stat.active {
     filter: none
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small {
+    background: transparent;
+    backdrop-filter: blur(0);
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small .module-discribe {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small .submit-section {
+    margin: 0 auto;
   }
 }
 
