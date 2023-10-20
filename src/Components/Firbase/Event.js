@@ -273,83 +273,83 @@ const Event = () =>{
        </div>
  <meta name="viewport" content="width=device-width, initial-scale=1" />
  <div className="octa_events">
-      <div class="container">
+      <div className="container">
 
-<div class="question-block">
-    <div class="header-logo">
+<div className="question-block">
+    <div className="header-logo">
        
         <div><img src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png" /></div>
        
     </div>
-    <div class="question-block-form">
+    <div className="question-block-form">
 
-        <div class="log-inner">
-        <div class="head-sec">
-         <h2 class="top-title">Escribe tu pregunta aqui!</h2>
-                <div class="under-spotlight"><img src="https://webinar.docintel.app/Event/chat/image/octa-academy-register.png" alt="Logo" /></div>
-            <div class="head_desc">
+        <div className="log-inner">
+        <div className="head-sec">
+         <h2 className="top-title">Escribe tu pregunta aqui!</h2>
+                <div className="under-spotlight"><img src="https://webinar.docintel.app/Event/chat/image/octa-academy-register.png" alt="Logo" /></div>
+            <div className="head_desc">
            </div>
             </div>
 
         </div>
         <form onSubmit={handleSubmit} >
-            <input type="hidden" class="form-control" id="guest_id" name="guest_id" value="lji3sjpsdc21tux2st" />
+            <input type="hidden" className="form-control" id="guest_id" name="guest_id" value="lji3sjpsdc21tux2st" />
                                     
-            <div class="row">
-                <div class="col-md-12">
-                    <label for="fname" class="form-label">Nombre <i><small>(Opcional)</small></i></label>
-                    <input type="text" id="name" onChange={handleChange} class="form-control" placeholder='Escriba su nombre' name="name" />
-                    <input type="hidden" class="form-control" value = "Pregunta enviada con éxito" name="succ_message" />
-                    <input type="hidden" class="form-control" value = "Por favor ingrese el mensaje" name="err_message" />
-                    <input type="hidden" class="form-control" value = "index.php?evnt=octa-academy-2023" name="page" />
+            <div className="row">
+                <div className="col-md-12">
+                    <label htmlFor="fname" className="form-label">Nombre <i><small>(Opcional)</small></i></label>
+                    <input type="text" id="name" onChange={handleChange} className="form-control" placeholder='Escriba su nombre' name="name" />
+                    <input type="hidden" className="form-control" value = "Pregunta enviada con éxito" name="succ_message" />
+                    <input type="hidden" className="form-control" value = "Por favor ingrese el mensaje" name="err_message" />
+                    <input type="hidden" className="form-control" value = "index.php?evnt=octa-academy-2023" name="page" />
                   </div>
-                     <div class="col-md-12">
-                    <label for="question" class="form-label">Tu pregunta<sup>*</sup></label>
-                     <textarea name="question" id="question" onChange={handleChange} class="form-control" placeholder="Escriba su pregunta"  cols="40" rows="4"></textarea>
+                     <div className="col-md-12">
+                    <label htmlFor="question" className="form-label">Tu pregunta<sup>*</sup></label>
+                     <textarea name="question" id="question" onChange={handleChange} className="form-control" placeholder="Escriba su pregunta"  cols="40" rows="4"></textarea>
                      {error?.question?<span className="event-validation">{error?.question}</span>:""}
 
                       </div>
 
-                <div class="col-md-12">
-                    <input type="submit" class="btn btn-success" value="ENVIAR" />
+                <div className="col-md-12">
+                    <input type="submit" className="btn btn-success" value="ENVIAR" />
                 </div>
             </div>
         </form> 
-        <div class="copy-right-bottom-text">
+        <div className="copy-right-bottom-text">
             <p>Fecha de preparación: el julio 2023</p>
         </div>
     </div>
 </div>
 </div>
-<div class="modal fade" id="pollModel" role="dialog" >
-<div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-        <div class="modal-header">
-            <img src="../webinar-assets/images/octa-logo.svg" class="modal-title" width="210" />
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+<div className="modal fade" id="pollModel" role="dialog" >
+<div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+        <div className="modal-header">
+            <img src="../webinar-assets/images/octa-logo.svg" className="modal-title" width="210" />
+            <button type="button" className="close" data-dismiss="modal">&times;</button>
         </div>
-        <div class="modal-body" id='poll-content'>
+        <div className="modal-body" id='poll-content'>
         </div>
-        <div class="modal-footer">
-            {/* <!--<button type="button" id="submitPollAnswer" class="submit_btn btn-primary" >Submit</button>--> */}
-            <button type="submit" name="cpd_tab" id="submitPollAnswerGuest"  class="submit_btn btn-primary" title="Submit">Submit</button>
-            {/* <!-- <button type="button" class="btn btn-default"  onclick="closePollPopup()">Close</button>--> */}
+        <div className="modal-footer">
+            {/* <!--<button type="button" id="submitPollAnswer" className="submit_btn btn-primary" >Submit</button>--> */}
+            <button type="submit" name="cpd_tab" id="submitPollAnswerGuest"  className="submit_btn btn-primary" title="Submit">Submit</button>
+            {/* <!-- <button type="button" className="btn btn-default"  onclick="closePollPopup()">Close</button>--> */}
         </div>
     </div>
 </div>
 </div> 
 
-<div class="modal fade" id="pollAnswerModel" role="dialog" >
-<div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-        <div class="modal-header">
-            <img src="../webinar-assets/images/octa-logo.svg" class="modal-title" width="210" />
-            <button type="button" class="close" onclick="closeAnswerModel()">&times;</button>
+<div className="modal fade" id="pollAnswerModel" role="dialog" >
+<div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+        <div className="modal-header">
+            <img src="../webinar-assets/images/octa-logo.svg" className="modal-title" width="210" />
+            <button type="button" className="close" onclick="closeAnswerModel()">&times;</button>
         </div>
-        <div class="modal-body" id='poll-answer-content'>
-            <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <div class="detail-box form_box">
+        <div className="modal-body" id='poll-answer-content'>
+            <div className="row">
+                <div className="col-md-12 col-sm-12">
+                    <div className="detail-box form_box">
                         <p id="questionText"></p>  
                         <div id="container1"></div>
                         <p id="totalCountText"></p>  
@@ -366,19 +366,22 @@ const Event = () =>{
  data={apiData}
  eventId={eventId}
 /> */}
+{
+    show &&
+    <SessionModel 
+    show={show}
+    onClose={setShow}
+    data={apiData}
+    eventData={value}
+    />
+}
 
-<SessionModel 
- show={show}
- onClose={setShow}
-  data={apiData}
-  eventData={value}
- />
-
+{answerPop && 
 <DisplayAnswer
 show={answerPop}
 data={apiData}
  onClose={()=>setAnswerPopup(false)}
-/>
+/>}
 </div>
         </>
     )
