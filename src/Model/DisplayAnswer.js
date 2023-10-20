@@ -15,7 +15,7 @@ const seriesData = data.map((question) => ({
   drilldown: question.drilldown,
   color: question.y === 2 ? "#00FF00" : "#FF0000", 
 }));
-const drilldownData = sampleData
+const drilldownData = data
   .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
   .map(question => ({
     id: question.drilldown,
