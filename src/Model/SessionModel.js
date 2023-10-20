@@ -13,11 +13,13 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
   const [userSpeaker, setSpeaker] = useState({});
 
   const [error, setError] = useState({});
+  const [userRequired, setUserRequired] = useState({});
 
   const initiFun = () => {
     try {
       setUser(data?.questionListing);
       setUserValid(data?.totalQuestion);
+      setUserRequired(data?.totalQuestion);
       setSpeaker(data?.speakerData);
     } catch (err) {
       console.log("-err", err);
@@ -27,7 +29,11 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
   const handleChange = (questionId, data, type = "") => {
     try {
       if (type) {
-        setUserValid({ ...userValid, [questionId]: data });
+        setUserValid({
+          ...userValid,
+          [questionId]: data ? data : userRequired[questionId],
+        });
+
         return;
       }
       setUserValid({ ...userValid, [questionId]: data });
@@ -39,6 +45,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
   const handleSubmit = async () => {
     try {
       const errorValue = Object.values(userValid);
+
       if (errorValue?.includes(0)) {
         setError({ msg: "Please select above options" });
         return;
@@ -73,6 +80,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
         }
       });
       loader("show");
+
       await postData(ENDPOINT.ADD_EVENT_DATA, {
         eventData: newAr,
         eventId: eventData?.event_id,
@@ -160,7 +168,10 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                     ) : null}
 
                     <div className="form-group">
-                      <label>{value?.question}</label>
+                      <label
+                        dangerouslySetInnerHTML={{ __html: value?.question }}
+                      />
+
                       <div className="check-group">
                         {value?.answerData?.length ? (
                           value?.answerData?.map((childValue) => {
