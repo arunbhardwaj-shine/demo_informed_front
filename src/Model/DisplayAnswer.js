@@ -4,110 +4,111 @@ import Modal from "react-bootstrap/Modal";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 function DisplayAnswer({ show, data, onClose }) {
-  const [highchartData, setHighChartData] = useState({});
+
   const [userCount,setUserCount] = useState(0) 
-  useEffect(() => {
-    let line_v = [],line_h=[],totalAnswer=0,graphData=[];
-    data?.answers?.forEach((value, index)=>{
-      line_v.push(value.answer);
-      line_h.push(value.count_answer);
-      totalAnswer = totalAnswer + value.count_answer;
-      const foundObj = {
-        y: value.count_answer,
-        name: value.answer,
-        color: value.color_code,
-      };
-      graphData.push(foundObj);
-    });
-    const chart  = {
-      chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false,
-          type: 'pie',
-          // width: 400,
-          height:300
 
-      },
-      exporting: {
-        enabled: false // Disable the export menu
-      },
-      title: {
-        text: '' // Set an empty string to hide the title
-      },
-      legend: {
-        labelFormatter:function(){
-          return this.name + ': ' + this.y;
-        }
-      },
-      accessibility: {
-          point: {
-              valueSuffix: '%'
-          }
-      },
-      
-      plotOptions: {
-          pie: {
-              size:"80%",
-              allowPointSelect: true,
-              cursor: 'pointer',
-              dataLabels: {
-                  enabled: false,
-                  format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-              },
-              
-              showInLegend: true,
-          },
-      },
-      series: [{
-          name: 'Brands',
-          colorByPoint: true,
-          data:graphData
-      }]
-      
-   }
+ 
 
-    // const chart = {
-    //   chart: {
-    //     type: "column",
-    //   },
-    //   yAxis: {
-    //     min: 0,
-    //     tickInterval: 1,
-    //   },
-    //   xAxis: {
-    //     categories: line_v,
-    //   },
-    //   title: {
-    //     text: "",
-    //   },
-    //   plotOptions: {
-    //     series: {
-    //       pointWidth: 20,
-    //     },
-    //   },
-    //   column: {
-    //     colorByPoint: true,
-    //   },
-    //   exporting: {
-    //     enabled: false,
-    //   },
+const seriesData = data.map((question) => ({
+  name: question.name,
+  y: question.y,
+  drilldown: question.drilldown,
+  color: question.y === 2 ? "#00FF00" : "#FF0000", 
+}));
+const drilldownData = sampleData
+  .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
+  .map(question => ({
+    id: question.drilldown,
+    data: question.drillDownData.map(answer => [answer.name, answer.total]),
+    colors: question.drillDownData.map(answer => answer.color)
+  }));
+;
 
-    //   series: [
-    //     {
-    //       data: graphData,
-    //       showInLegend: false,
-    //     },
-    //   ],
-    // };
-    setUserCount(totalAnswer)
-    setHighChartData(chart);
-  }, [data]);
+// console.log(drilldownData);
+const chartOptions = {
+  chart: {
+    type: "pie",
+  },
+  title: {
+    text: "User Answers",
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: "pointer",
+      dataLabels: {
+        enabled: true,
+        format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+      },
+      showInLegend: false,
+    },
+  },
+  series: [
+    {
+      name: "Questions",
+      colorByPoint: true,
+      data: seriesData,
+    },
+  ],
+  drilldown: {
+    series: drilldownData,
+  },
+};
+
+
+// const [highchartData, setHighChartData] = useState(chartOptions);
+// useEffect(() => {
+//   const seriesData = sampleData.data.map((question) => ({
+//     name: question.name,
+//     y: question.y,
+//     drilldown: question.drilldown,
+//     color: question.y === 2 ? "#00FF00" : "#FF0000", // Define colors based on your logic
+//   }));
+//   const drilldownData = sampleData.data.map((question) => ({
+//     id: question.drilldown,
+//     data: question.drillDownData.map((answer) => [answer.name, answer.total]),
+//   }));
+//   console.log(seriesData);
+
+//   const chartOptions = {
+//     chart: {
+//       type: "pie",
+//     },
+//     title: {
+//       text: "Your Chart Title",
+//     },
+//     plotOptions: {
+//       pie: {
+//         allowPointSelect: true,
+//         cursor: "pointer",
+//         dataLabels: {
+//           enabled: true,
+//           format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+//         },
+//         showInLegend: true,
+//       },
+//     },
+//     series: [
+//       {
+//         name: "Questions",
+//         colorByPoint: true,
+//         data: seriesData,
+//       },
+//     ],
+//     drilldown: {
+//       series: drilldownData,
+//     },
+//   };
+
+ 
+//   setHighChartData(chartOptions);
+// }, [sampleData]);
+//  console.log(highchartData);
 
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
-
+console.log(chartOptions);
   return (
     <>
       <Modal show={show} backdrop="static"      onHide={onClose}
@@ -122,7 +123,7 @@ function DisplayAnswer({ show, data, onClose }) {
       </Modal.Header>
         <Modal.Body>
           <p>{data?.question}</p>
-          <HighchartsReact highcharts={Highcharts} options={highchartData} />
+          <HighchartsReact highcharts={Highcharts} options={chartOptions} />
           <h5>Total Answer:{userCount}</h5>
         </Modal.Body>
       
