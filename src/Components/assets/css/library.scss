@@ -15719,6 +15719,7 @@ img.change-password-image {
       resize: none;
       height: 91px;
       margin: 20px 0 10px;
+      color: #97B6CF;
     }
 
     input {
@@ -18933,15 +18934,19 @@ img.change-password-image {
     display: flex;
     align-items: center;
     justify-content: center;
-    // flex-direction: column;
+    transition: none;
     height: auto;
+  }
+
+  .modules-diagram .module-bigger-size {
+    transition: none;
   }
 
   .consent-content .works-started .modules-diagram .module-bigger-size.small {
     box-shadow: none;
     border-radius: 0;
     width: 100%;
-    padding: 40px 30px;
+    padding: 40px 15px;
     flex-direction: column;
   }
 
@@ -19150,6 +19155,10 @@ img.change-password-image {
 
   .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small .submit-section {
     margin: 0 auto;
+  }
+
+  .request-content form textarea {
+    margin: 6px 0 10px;
   }
 }
 
