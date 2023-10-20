@@ -6,14 +6,14 @@ import HighchartsReact from "highcharts-react-official";
 function DisplayAnswer({ show, data, onClose }) {
 
   const [userCount,setUserCount] = useState(0) 
-
+console.log(data,"data");
  
 
 const seriesData = data.map((question) => ({
   name: question.name,
   y: question.y,
   drilldown: question.drilldown,
-  color: question.y === 2 ? "#00FF00" : "#FF0000", 
+  // color: question.y === 2 ? "#00FF00" : "#FF0000", 
 }));
 const drilldownData = data
   .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
@@ -108,7 +108,6 @@ const chartOptions = {
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
-console.log(chartOptions);
   return (
     <>
       <Modal show={show} backdrop="static"      onHide={onClose}
