@@ -1337,8 +1337,15 @@ const PharmaMarketing = () => {
 
   const handleRead = () => {
     setReadStatus(true);
-    setAddDivClass(false);
-    setAddSmallClass(true);
+    if(pharmaRegistered){
+      setAddDivClass(false);
+      setAddSmallClass(true);
+    }
+    else{
+      setAddDivClass(true);
+      setAddSmallClass(false);
+    }
+    
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
