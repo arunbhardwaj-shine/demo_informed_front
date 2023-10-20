@@ -15719,6 +15719,7 @@ img.change-password-image {
       resize: none;
       height: 91px;
       margin: 20px 0 10px;
+      color: #97B6CF;
     }
 
     input {
@@ -16216,6 +16217,10 @@ img.change-password-image {
   to {
     -webkit-transform: rotate(-405deg);
   }
+}
+
+.mobile-content {
+  display: none;
 }
 
 /**New Landign Page End**/
@@ -17629,6 +17634,18 @@ img.change-password-image {
 }
 
 @media (max-width:$layout-breakpoint-small) {
+  .consent-content .consent-content-inner .consent-details .consent-img {
+    display: block;
+  }
+
+  .mobile-content {
+    display: block;
+  }
+
+  .desk-content {
+    display: none;
+  }
+
   .mobile-slider {
     display: block;
   }
@@ -17730,7 +17747,8 @@ img.change-password-image {
   }
 
   .consent-content .works-started .mobile-slider-inset .module-discribe img.module-content-view {
-    max-height: 80px;
+    max-height: 78px;
+    margin-bottom: 9px;
   }
 
   .consent-content .works-started .mobile-slider-inset .module-discribe p {
@@ -17783,7 +17801,7 @@ img.change-password-image {
   .header-landing {
     padding-right: 10px;
     backdrop-filter: blur(10px);
-    padding: 20px 17px 20px 0;
+    padding: 20px 1px 20px 0;
     top: 0;
 
     .logo {
@@ -18484,6 +18502,14 @@ img.change-password-image {
             }
           }
 
+          &:last-child {
+            li {
+              &::after {
+                background: #0066BE;
+              }
+            }
+          }
+
           li {
             font-size: 13px;
             line-height: 25px;
@@ -18933,16 +18959,22 @@ img.change-password-image {
     display: flex;
     align-items: center;
     justify-content: center;
-    // flex-direction: column;
+    transition: none;
     height: auto;
+  }
+
+  .modules-diagram .module-bigger-size {
+    transition: none;
   }
 
   .consent-content .works-started .modules-diagram .module-bigger-size.small {
     box-shadow: none;
     border-radius: 0;
     width: 100%;
-    padding: 40px 30px;
+    padding: 40px 15px;
     flex-direction: column;
+    // top: 50%;
+    // transform: translateY(-50%);
   }
 
   .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div {
@@ -19126,8 +19158,7 @@ img.change-password-image {
     align-items: center;
     justify-content: center;
     position: absolute;
-    bottom: -465px;
-    top: auto;
+    top: 420px;
     transform: translate(0%, 0%);
     left: 0;
     width: calc(100% + 110px);
@@ -19150,6 +19181,10 @@ img.change-password-image {
 
   .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small .submit-section {
     margin: 0 auto;
+  }
+
+  .request-content form textarea {
+    margin: 6px 0 10px;
   }
 }
 
