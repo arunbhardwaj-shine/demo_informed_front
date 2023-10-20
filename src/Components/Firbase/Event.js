@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import EventModel from "../../Model/EventModel";
+import SessionModel from "../../Model/SessionModel";
 import Cookies from 'js-cookie';
 import DisplayAnswer from "../../Model/DisplayAnswer";
 import "./custom.css"
@@ -30,6 +31,8 @@ const Event = () =>{
     const [value,setValue] = useState({})
 
     const [show,setShow] = useState(false)
+    const [sessionShow,setSessionShow] = useState(false)
+
     const [apiData,setApiData] = useState([])
     const [answerPop,setAnswerPopup] = useState(false)
 
@@ -111,6 +114,9 @@ const Event = () =>{
              if(answerPop){
                 setAnswerPopup(false)
              }
+             if(sessionShow){
+                setSessionShow(false)
+             }
          
              if(Object.keys(value)?.length){
                   setValue({})
@@ -125,6 +131,9 @@ const Event = () =>{
              }
              if(answerPop){
                 setAnswerPopup(false)
+             }
+             if(sessionShow){
+                setSessionShow(false)
              }
              if(Object.keys(value)?.length){
                 setValue({})
@@ -153,7 +162,19 @@ const Event = () =>{
                 setValue(newData)
                 setData(newData?.triggered)
              }
-        }else{
+        }else if(newData?.triggered == 3){
+            if(Object.keys(value)?.length){
+                if((newData?.question_id != value?.question_id && newData?.event_id != value?.event_id) || newData?.triggered != value?.triggered ){
+                    setValue(newData)
+                    setData(newData?.triggered)
+                }
+             }else {
+                setValue(newData)
+                setData(newData?.triggered)
+             }
+        }
+        
+        else{
             if(show){
                 setShow(false)
              }
@@ -162,6 +183,7 @@ const Event = () =>{
              }
              setValue({})
              setData(0)
+             setSessionShow(false)
         }
        
       }else{
@@ -173,20 +195,32 @@ const Event = () =>{
         if(answerPop){
             setAnswerPopup(false)
          }
+         setSessionShow(false)
+
       }
     })
     const handleEvent = async() =>{
         try{
             if(data == 1){
                   if(Object.keys(value)?.length){
-                    const result = await postData(ENDPOINT.WEBINAR_QUESTION,{
-                          eventId:value?.event_id,
-                          companyId:value?.question_id
-                      })
-                      setApiData(result?.data?.data)
-                      setShow(true)
-                      setAnswerPopup(false)
-                      setData(0)
+                    const result =  await postData(ENDPOINT.SESSION_LIST,{
+                        id: value?.question_id
+                    })
+                  setApiData(result?.data?.data)
+                  setAnswerPopup(false)
+                   setShow(true)
+                //   setSessionShow(true)
+                  setData(0)
+
+                    // const result = await postData(ENDPOINT.WEBINAR_QUESTION,{
+                    //       eventId:value?.event_id,
+                    //       companyId:value?.question_id
+                    //   })
+                    //   setApiData(result?.data?.data)
+                    //   setShow(true)
+                    //   setAnswerPopup(false)
+                    //   setData(0)
+                    //   setSessionShow(false)
       
                   }
             }else if(data == 2){
@@ -198,7 +232,17 @@ const Event = () =>{
                       setAnswerPopup(true)
                       setShow(false)
                       setData(0)
-            }
+                      setSessionShow(false)
+            }else if(data == 3){
+                const result =  await postData(ENDPOINT.SESSION_LIST,{
+                        id: value?.question_id
+                    })
+                  setApiData(result?.data?.data)
+                  setAnswerPopup(false)
+                  setShow(false)
+                  setSessionShow(true)
+                  setData(0)
+        }
            
        
         }catch(err){
@@ -255,12 +299,10 @@ const Event = () =>{
                 <div class="col-md-12">
                     <label for="fname" class="form-label">Nombre <i><small>(Opcional)</small></i></label>
                     <input type="text" id="name" onChange={handleChange} class="form-control" placeholder='Escriba su nombre' name="name" />
-                    {/* <input type="hidden" class="form-control" value = "387" name="eventId" />
-                    <input type="hidden" class="form-control" value = "2147494217" name="companyId" /> */}
                     <input type="hidden" class="form-control" value = "Pregunta enviada con éxito" name="succ_message" />
                     <input type="hidden" class="form-control" value = "Por favor ingrese el mensaje" name="err_message" />
                     <input type="hidden" class="form-control" value = "index.php?evnt=octa-academy-2023" name="page" />
-                </div>
+                  </div>
                      <div class="col-md-12">
                     <label for="question" class="form-label">Tu pregunta<sup>*</sup></label>
                      <textarea name="question" id="question" onChange={handleChange} class="form-control" placeholder="Escriba su pregunta"  cols="40" rows="4"></textarea>
@@ -318,18 +360,24 @@ const Event = () =>{
     </div>
 </div>
 </div>  
-<EventModel 
+{/* <EventModel 
  show={show}
  onClose={setShow}
  data={apiData}
  eventId={eventId}
-/>
+/> */}
+
+<SessionModel 
+ show={show}
+ onClose={setShow}
+  data={apiData}
+  eventData={value}
+ />
 
 <DisplayAnswer
 show={answerPop}
 data={apiData}
  onClose={()=>setAnswerPopup(false)}
-
 />
 </div>
         </>

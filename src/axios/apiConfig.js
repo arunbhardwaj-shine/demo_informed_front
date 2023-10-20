@@ -99,6 +99,7 @@ export const ENDPOINT = {
   WEBINAR_QUESTION: `/auth/questions`,
   POLL_ANSWER: `/auth/poll-answer`,
   EVENT_ID: `/auth/event-data`,
+  SESSION_LIST: `/auth/session-listing`,
 
   SITEREGISTER: "/site-registration",
   SITEREGISTERSORT: "/site-registration-sort",

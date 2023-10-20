@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Cookies from "js-cookie";
@@ -8,79 +8,90 @@ import { ENDPOINT } from "../axios/apiConfig";
 import { loader } from "../loader";
 
 
-const SessionModel = ({ show, onClose, data ,eventId}) => {
-  const [user, setUser] = useState({
-    speakerName: "",
-    poll_question_id: "",
-    poll_answer_id: "",
-    guest_id: "",
-    user_answer: "",
-  });
+const SessionModel = ({ show, onClose, data ,eventData}) => {
+  const [user, setUser] = useState([]);
+  const [userValid, setUserValid] = useState({});
+  const [userSpeaker, setSpeaker] = useState({});
+
   const [error, setError] = useState({});
 
-  const handleChange = (value, type, e) => {
-    if (type == "CHECKBOX") {
-      let newAr = [];
-      if (user?.poll_answer_id && user?.poll_answer_id?.includes(value)) {
-        newAr = user?.poll_answer_id?.filter((item) => item != value);
-      } else {
-        newAr = user?.poll_answer_id?.length ? user?.poll_answer_id : [];
-        newAr.push(value);
-      }
-      setUser({
-        ...user,
-        speakerName: data?.[0]?.speakerName,
-        poll_question_id: data?.[0]?.questionId,
-        poll_answer_id: newAr,
-        guest_id: Cookies.get("events"),
-      });
-    } else if (type == "MULTIPLE") {
-      setUser({
-        ...user,
-        speakerName: data?.[0]?.speakerName,
-        poll_question_id: data?.[0]?.questionId,
-        poll_answer_id: value,
-        guest_id: Cookies.get("events"),
-      });
-    } else {
-      setUser({ ...user, user_answer: e.target.value });
+  const initiFun = () =>{
+    try{
+        setUser(data?.questionListing)
+        setUserValid(data?.totalQuestion)
+        setSpeaker(data?.speakerData)
+    }catch(err){
+        console.log("-err",err)
     }
+  }
+ 
+  const handleChange = (questionId,data,type="") => {
+    try{
+      if(type){
+        setUserValid({...userValid,[questionId]:data})
+        return
+      }
+      setUserValid({...userValid,[questionId]:data})
+      
+    }catch(err){
+      console.log("-err",err)
+    }
+    
   };
+  
   const handleSubmit = async () => {
     try {
-      if(typeof user?.poll_answer_id == "number" && !user?.poll_answer_id){
-        setError({ msg: "Please select above options" });
-        return
-      }else if(typeof user?.poll_answer_id == "object" && !user?.poll_answer_id?.length){
-        setError({ msg: "Please select above options" });
-        return;
-      }else if(!user?.poll_answer_id){
-        setError({ msg: "Please select above options" });
-        return
-      }
-       else {
-        setError({});
-      }
 
-       loader("show")
-       await postData(ENDPOINT.ADD_EVENT_DATA, {
-          speakerName: user?.speakerName,
-          eventId:eventId?.id,
-          poll_question_id: user?.poll_question_id,
-          poll_answer_id: user?.poll_answer_id.toString(),
-          user_answer: user?.user_answer,
-          guest_id: user?.guest_id,
+      const errorValue = Object.values(userValid)
+       if(errorValue?.includes(0)){
+        setError({ msg: "Please select above options" });
+        return
+       }
+       let newAr =[]
+       const keys = Object.keys(userValid)
+        keys.forEach(item =>{
+          let obj = {
+                     }
+          // user_answer:typeof userValid[item] != "number"?userValid[item]:"",
+          if(typeof userValid[item] != "number" && userValid[item]){
+            obj = {
+              speakerName:userSpeaker[item],
+              poll_question_id:item,
+              poll_answer_id:typeof userValid[item] == "number"?userValid[item]:"",
+              user_answer : userValid[item],
+              guest_id: Cookies.get("events")
+            }
+          }
+
+          if(typeof userValid[item] == "number" && userValid[item]){
+            obj = {
+              speakerName:userSpeaker[item],
+              poll_question_id:item,
+              poll_answer_id:typeof userValid[item] == "number"?userValid[item]:"",
+              guest_id: Cookies.get("events")
+            }
+
+          }
+          if(Object.keys(obj)?.length){
+            newAr.push(obj)
+          }
+          
         })
-
-      const eventQuestion = Cookies.get("eventQuestion");
-      if (!eventQuestion?.includes(user?.poll_question_id)) {
+        loader("show")
+       await postData(ENDPOINT.ADD_EVENT_DATA, {
+         eventData :newAr,
+         eventId:eventData?.event_id,
+         poll_question_id:eventData?.question_id
+       })
+       const eventQuestion = Cookies.get("eventQuestion");
+      if (!eventQuestion?.includes(eventData?.question_id)) {
         let newAr = eventQuestion?.length ? JSON.parse(eventQuestion) : [];
-        newAr.push(user?.poll_question_id);
+        newAr.push(eventData?.question_id);
         const expirationDate = new Date();
         expirationDate.setFullYear(expirationDate.getFullYear() + 1);
         Cookies.set("eventQuestion", JSON.stringify(newAr), { expires:expirationDate });
       }
-      setUser({})
+      setError({});
       onClose(false);
       loader("hide")
 
@@ -89,6 +100,10 @@ const SessionModel = ({ show, onClose, data ,eventId}) => {
       console.log("-err", err);
     }
   };
+  useEffect(()=>{
+    initiFun()
+    setError({})
+  },[show])
   return (
     <Modal
       id="pollModel"
@@ -107,6 +122,65 @@ const SessionModel = ({ show, onClose, data ,eventId}) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {
+            user?.map(item =>(
+                <>
+                
+                  <h4>{item?.parentQuestion}</h4>
+                  {
+                      item?.groupId ==0 && item?.canCustomAnswer == 1?
+                      <textarea className="custom-answer-area" onChange={(e)=>handleChange(item?.parentId,e.target.value,"input")}  name="w3review" rows="4" cols="50" />: ""
+                  }
+                  {
+
+                    item?.childData?.map((value,index) =>{
+                      return (
+                        <>
+                        {
+                          value?.answerData?.length?<div className="form-group head">
+                          <label></label>
+                          <div className="check-group">
+                            <span>Excellent</span>
+                            <span>Good</span>
+                            <span>Satisfactory</span>
+                            <span>Fair</span>
+                            <span>Poor</span>
+                          </div>
+                        </div>:null
+                        }
+                          
+                            <div className="form-group">
+                              <label>{value?.question}</label>
+                              <div className="check-group">
+                              {value?.answerData?.length?value?.answerData?.map(childValue =>{
+                                return (
+                                  <>
+                                  {
+                                    value?.groupId ==0 && value?.canCustomAnswer == 1?
+                                      <textarea className="custom-answer-area" name="w3review" rows="4" cols="50" />: <div className="check-values">
+                                      <input type ="radio" onChange={(e)=>handleChange(value?.id,childValue.id,)} name={value?.question} value={childValue?.answer} />
+                                        <span class="checkmark"></span>
+                                      </div>
+                                     }
+                                      </>
+                                      )
+                                    }):(
+                                        value?.groupId ==0 && value?.canCustomAnswer == 1?
+                                      <textarea className="custom-answer-area" onChange={(e)=>handleChange(value?.id,e.target.value,"input")} name="w3review" rows="4" cols="50" />: ""
+                                       
+                                    )}
+
+                                    </div>
+                                </div>
+                                </>
+                          )
+                        
+                      })
+                  }
+                
+                </>
+            ))
+        }
         
         
       </Modal.Body>
@@ -118,4 +192,7 @@ const SessionModel = ({ show, onClose, data ,eventId}) => {
   );
 };
 
-export default React.memo(SessionModel);
+
+
+
+export default SessionModel
