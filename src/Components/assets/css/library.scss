@@ -19137,6 +19137,20 @@ img.change-password-image {
   .modules-diagram .module-bigger-size.small .module-diagram.circle.pharma_market .stat.active {
     filter: none
   }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small {
+    background: transparent;
+    backdrop-filter: blur(0);
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small .module-discribe {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small .submit-section {
+    margin: 0 auto;
+  }
 }
 
 /**Landing page Responsive End**/
