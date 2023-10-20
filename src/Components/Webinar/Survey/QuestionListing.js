@@ -19,13 +19,14 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import Question from "./Question";
 import { loader } from "../../../loader";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-export default function PollListing() {
+export default function QuestionListing() {
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
-  const [apiStatus, setApiStatus] = useState(true);
+  const [apiStatus, setApiStatus] = useState(false);
   const [resetDataId, setResetDataId] = useState();
 
   const [popupMessage, setPopupMessage] = useState({
@@ -37,6 +38,7 @@ export default function PollListing() {
   const [selectedItem, setSelectedItem] = useState("");
   const [method, setMethod] = useState("");
   const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
   const [questions, setQuestions] = useState([
     {
       key: 0,
@@ -46,6 +48,10 @@ export default function PollListing() {
         speakerName: "",
         answerOption: [{ answer: "", color: "#000000" }],
         answerType: "",
+        includeComment: {
+          showComment: true,
+          placeHolder: "",
+        },
       },
       questionDataErrors: {
         questionError: "",
@@ -63,14 +69,21 @@ export default function PollListing() {
     try {
       loader("show");
 
-      const response = await getData(ENDPOINT.EVENT_LIST);
-      setDropDownData(response.data.data);
-      let selectedData = response.data.data[0] ? response.data.data[0] : "";
-      setSelectedItem(selectedData?.id);
+      const response = await getData(`${ENDPOINT.EVENT_LIST}?type=${page}`);
+      let dropDownDataTemp = response.data.data.map((item) => ({
+        value: item.id,
+        label: item.event_code,
+      }));
+      setDropDownData(dropDownDataTemp);
+      let selectedData = dropDownDataTemp.length
+        ? dropDownDataTemp[0]
+        : { value: "", label: "" };
+      setSelectedItem(selectedData);
       if (selectedData) {
-        let apiData = await getListingData(selectedData.id);
+        let apiData = await getListingData(selectedData.value);
         setData(apiData.data.data);
       }
+      setApiStatus(true);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -92,17 +105,18 @@ export default function PollListing() {
   };
 
   const handleSelectChange = async (event) => {
+    console.log(event);
+    console.log(selectedItem, "selectedItem");
     loader("show");
-    setApiStatus(false)
-    setData(()=>{
-      let data=[]
-      return data
-    })
-    let apiData = await getListingData(event.target.value);
+    setApiStatus(() => false);
+    setData(() => {
+      let data = [];
+      return data;
+    });
+    let apiData = await getListingData(event.value);
     setData(apiData.data.data);
-    setSelectedItem(event.target.value);
-    setApiStatus(true)
-
+    setSelectedItem(event);
+    setApiStatus(true);
   };
 
   const handleEditClick = (item) => {
@@ -140,6 +154,10 @@ export default function PollListing() {
           speakerName: "",
           answerOption: [{ answer: "", color: "#000000" }],
           answerType: "",
+          includeComment: {
+            showComment: true,
+            placeHolder: "Enter you place Holder",
+          },
         },
         questionDataErrors: {
           questionError: "",
@@ -155,10 +173,9 @@ export default function PollListing() {
 
   const handleDeleteClick = async (itemId) => {
     try {
-      // console.log(itemId);
       loader("show");
       let res = await deleteData(`/webinar/delete-question`, itemId);
-      let apiData = await getListingData(selectedItem);
+      let apiData = await getListingData(selectedItem.value);
       setData(apiData.data.data);
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -167,7 +184,6 @@ export default function PollListing() {
     }
   };
   const handleCloseUploadMenu = () => {
-    setShowUploadMenu(()=> false);
     setQuestions([
       {
         key: 0,
@@ -177,6 +193,10 @@ export default function PollListing() {
           speakerName: "",
           answerOption: [{ answer: "", color: "" }],
           answerType: "",
+          includeComment: {
+            showComment: false,
+            placeHolder: "",
+          },
         },
         questionDataErrors: {
           questionError: "",
@@ -207,6 +227,10 @@ export default function PollListing() {
           speakerName: "",
           answerOption: [{ answer: "", color: "#00000" }],
           answerType: "",
+          includeComment: {
+            showComment: false,
+            placeHolder: "",
+          },
         },
         questionDataErrors: {
           questionError: "",
@@ -223,6 +247,20 @@ export default function PollListing() {
     updatedQuestions[key].questionData.question = e.target.value;
     setQuestions(updatedQuestions);
   };
+  const handleShowCommentChange = (e, key) => {
+    const { name, checked, value } = e.target;
+    const updatedQuestions = [...questions];
+
+    const questionData = updatedQuestions[key].questionData;
+    const includeComment = questionData.includeComment || {};
+
+    includeComment.placeHolder = !checked ? "" : includeComment.placeHolder;
+    includeComment[name] = name === "showComment" ? checked : value;
+
+    questionData.includeComment = includeComment;
+    setQuestions(updatedQuestions);
+  };
+
   const handleSpeakerNameChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.speakerName = e.target.value;
@@ -231,10 +269,13 @@ export default function PollListing() {
 
   const handleTypeChange = (e, key) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[key].questionData.answerType = e.target.value;
-    if (method != "edit" || (method == "edit" && e.target.value == "input")) {
+    updatedQuestions[key].questionData.answerType = e;
+    if (method != "edit" || (method == "edit" && e == "input")) {
       updatedQuestions[key].questionData.answerOption = [
         { answer: "", color: "#000000" },
+      ];
+      updatedQuestions[key].questionData.includeComment = [
+        { showComment: "", placeHolder: "" },
       ];
       updatedQuestions[key].questionDataErrors.answerOptionError = [
         { answerError: "", colorError: "" },
@@ -369,44 +410,40 @@ export default function PollListing() {
 
   const handleSubmit = async () => {
     const isValid = validateQuestions();
-  
+
     if (!isValid) {
       return;
     }
-  
+
     loader("show");
-  
-    const surveyData = questions.map((questionObj) => questionObj.questionData);
+
+    const surveyData = questions.map(({ questionData }) => questionData);
     setSurveyData(surveyData);
-  
+
     try {
+      let response;
+      const payLoadData = {
+        data: surveyData,
+      };
+
       if (method === "add") {
-        const payLoadData = {
-          eventId: selectedItem,
-          data: surveyData,
-        };
-  
-        let response = await postData(ENDPOINT.ADD_QUESTION, payLoadData);
+        payLoadData.eventId = selectedItem.value;
+        response = await postData(ENDPOINT.ADD_QUESTION, payLoadData);
       } else if (method === "edit") {
-        const payLoadData = {
-          data: surveyData,
-        };
-  
-        let response = await updateConsent(
-          `${ENDPOINT.EDIT_QUESTION}/${surveyData[0]?.id}`,
+        const id = surveyData[0]?.id;
+        response = await updateConsent(
+          `${ENDPOINT.EDIT_QUESTION}/${id}`,
           payLoadData
         );
       }
     } catch (error) {
       console.error("An error occurred:", error);
     } finally {
-      handleCloseUploadMenu();
-      let apiData = await getListingData(selectedItem);
-      setData(apiData?.data?.data);
+      setShowUploadMenu(false);
+      const apiData = await getListingData(selectedItem.value);
+      setData(apiData.data.data);
     }
   };
-  
-
 
   const onEventChange = (e, key) => {
     setEventid(e.target.value);
@@ -415,18 +452,21 @@ export default function PollListing() {
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
   };
+  const loadMoreClicked = () => {
+    let sp = page + 1;
+    setPage(sp);
+    getApiData();
+  };
   return (
     <Col className="col right-sidebar">
       <div className="custom-container">
-         <div className="row">
-
-          <Container>
-            <h1>Poll Listing</h1>
-            {/* <Link
-              className="btn btn-primary btn-bordered back-btn"
-              to="/add-poll"
-              state={{ eventId: selectedItem }}
-            > */}
+        <div className="row">
+          <div class="d-flex justify-content-between align-items-center">
+            <div className="top-header reader_list">
+              <div className="page-title">
+                <h4>Total Questions | </h4>
+              </div>
+            </div>
             <Button
               className="align-right"
               variant="primary"
@@ -436,173 +476,170 @@ export default function PollListing() {
               }}
             >
               Add New Question
-            </Button>{" "}
-            {/* </Link> */}
-            <div className="col-12 col-md-6">
-                                  <div className="form-group">
-              <Form.Select
-                value={selectedItem?.event_code}
+            </Button>
+          </div>
+
+          <div className="col-12 col-md-6">
+            <div className="form-group ">
+              <label htmlFor="">Select Event</label>
+              <Select
+                options={dropDownData}
+                placeholder="Select Event"
+                name="province"
                 className="dropdown-basic-button split-button-dropup"
-
+                isClearable
                 onChange={handleSelectChange}
-              >
-                {dropDownData.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.event_code}
-                  </option>
-                ))}
-              </Form.Select>
-              </div>
-              </div>
-            {data.length == 0 && apiStatus ? (
-             <table >
-             <tbody>
-               <tr>
-                 <td colSpan="3"><h4>
-                   No Data Found</h4>
-                 </td>
-               </tr>
-             </tbody>
-           </table>
-            ) :  apiStatus && (
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Question</th>
-                    <th>Answer Type</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((item, index) => (
-                    <tr key={item.id}>
-                      <td>{index + 1}</td>
-                      <td>{item.question}</td>
-                      <td>{item.answerType}</td>
-                      <td>
-                        <Button
-                          variant="primary"
-                          onClick={() => handleEditClick(item)}
-                        >
-                          Edit
-                        </Button>{" "}
-                        <Button
-                          variant="danger"
-                          onClick={() => {
-                            setPopupMessage({
-                              message1:
-                                "You are about to remove this question.",
-                              message2: "Are you sure you want to do this?",
-                              footerButton: "Yes please!",
-                            });
-                            setConfirmationPopup(true);
-                            setResetDataId(item.id);
-                          }}
-                        >
-                          Delete
-                        </Button>
-                      </td>
+                value={selectedItem}
+              />
+            </div>
+          </div>
+
+          {data.length == 0 && apiStatus ? (
+            <table>
+              <tbody>
+                <tr>
+                  <td colSpan="3">
+                    <h4>No Data Found</h4>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          ) : (
+            apiStatus && (
+              <div className="webinar-question-results">
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Question</th>
+                      <th>Answer Type</th>
+                      <th>Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-            )}
-          </Container>
-         </div >
-
+                  </thead>
+                  <tbody>
+                    {data.map((item, index) => (
+                      <tr key={item.id}>
+                        <td>{index + 1}</td>
+                        <td>{item.question}</td>
+                        <td>{item.answerType}</td>
+                        <td>
+                          <Button
+                            variant="primary"
+                            onClick={() => handleEditClick(item)}
+                          >
+                            Edit
+                          </Button>{" "}
+                          <Button
+                            variant="danger"
+                            onClick={() => {
+                              setPopupMessage({
+                                message1:
+                                  "You are about to remove this question.",
+                                message2: "Are you sure you want to do this?",
+                                footerButton: "Yes please!",
+                              });
+                              setConfirmationPopup(true);
+                              setResetDataId(item.id);
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            )
+          )}
+          {/* <div className="load_more">
+              {isLoaded == true ? (
+                <Button
+                  className="btn btn-primary btn-filled"
+                  onClick={loadMoreClicked}
+                >
+                  Load More
+                </Button>
+              ) : null}
+            </div> */}
+        </div>
       </div>
-       <div className="row">
-
-        <Modal show={showUploadMenu} onHide={handleCloseUploadMenu}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              {method == "add" ? "Add New Question" : "Update Question"}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {" "}
-            <div className="card">
-              <div className="card-body">
-                <>
-                  <Col>
-                     <div className="row">
-
-                      {/* <Col md={3}>
-    <Form.Group>
-      <Form.Control as="select" value={eventId} onChange={onEventChange}>
-        <option value="">Select Event</option>
-        <option value="255">255</option>
-        <option value="522">522</option>
-        <option value="111">111</option>
-      </Form.Control>
-      <p className="text-danger">{eventError}</p>
-    </Form.Group>
-  </Col> */}
-                     </div >
-
-                     <div className="row">
-
-                      <div>
-                        <div>
-                          {questions.map((questionObj, index) => (
-                            <div key={questionObj.key}>
-                              <Container>
-                                {/* <h6>Question no {index + 1}</h6> */}
-                                <Question
-                                  questionData={questionObj.questionData}
-                                  questionDataErrors={
-                                    questionObj.questionDataErrors
-                                  }
-                                  onQuestionChange={(e) =>
-                                    handleQuestionChange(e, index)
-                                  }
-                                  onHandleSpeakerNameChange={(e) =>
-                                    handleSpeakerNameChange(e, index)
-                                  }
-                                  onChoiceChange={(e, choiceIndex) =>
-                                    handleChoiceChange(e, index, choiceIndex)
-                                  }
-                                  onChoiceColorChange={(e, choiceIndex) =>
-                                    handleChoiceColorChange(
-                                      e,
-                                      index,
-                                      choiceIndex
-                                    )
-                                  }
-                                  onTypeChange={(e) =>
-                                    handleTypeChange(e, index)
-                                  }
-                                  onAddChoice={() => handleAddChoice(index)}
-                                  onDelete={() => handleDelete(index)}
-                                  onDeleteChoice={(choiceIndex) =>
-                                    handleDeleteChoice(index, choiceIndex)
-                                  }
-                                />
-                              </Container>
-                            </div>
-                          ))}
-                        </div>
-                        {/* <Button variant="primary" onClick={handleAddQuestion}>
+      <div className="modal">
+        <Modal
+          id="add_hcp"
+          show={showUploadMenu}
+          onHide={() => setShowUploadMenu(false)}
+          backdrop="static"
+          keyboard={false}
+          onExited={handleCloseUploadMenu}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <div
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                {method === "add" ? "Add New Question" : "Update Question"}
+              </h5>
+            </div>
+            <div className="modal-body">
+              <div className="hcp-add-box">
+                <div className="hcp-add-form tab-content" id="upload-confirm">
+                  {questions.map((questionObj, index) => (
+                    <div key={questionObj.key}>
+                      <Question
+                        questionData={questionObj.questionData}
+                        questionDataErrors={questionObj.questionDataErrors}
+                        onQuestionChange={(e) => handleQuestionChange(e, index)}
+                        onHandleShowCommentChange={(e) =>
+                          handleShowCommentChange(e, index)
+                        }
+                        onHandleSpeakerNameChange={(e) =>
+                          handleSpeakerNameChange(e, index)
+                        }
+                        onChoiceChange={(e, choiceIndex) =>
+                          handleChoiceChange(e, index, choiceIndex)
+                        }
+                        onChoiceColorChange={(e, choiceIndex) =>
+                          handleChoiceColorChange(e, index, choiceIndex)
+                        }
+                        onTypeChange={(e) => handleTypeChange(e, index)}
+                        onAddChoice={() => handleAddChoice(index)}
+                        onDelete={() => handleDelete(index)}
+                        onDeleteChoice={(choiceIndex) =>
+                          handleDeleteChoice(index, choiceIndex)
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+                {/* <Button variant="primary" onClick={handleAddQuestion}>
                             Add Question
                           </Button> */}
-                      </div>
-                     </div >
-
-                  </Col>
-                </>
               </div>
             </div>
-          </Modal.Body>
-          <Modal.Footer>
-            {" "}
-            <Button variant="success" onClick={handleSubmit}>
-              Save
-            </Button>
-            <Button variant="danger" onClick={handleCloseUploadMenu}>
-              Cancel
-            </Button>
-          </Modal.Footer>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-primary save btn-filled"
+                onClick={handleSubmit}
+              >
+                Save
+              </button>
+              <Button
+                type="button"
+                className="btn btn-danger save btn-filled"
+                onClick={() => setShowUploadMenu(false)}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
         </Modal>
         <CommonConfirmModel
           show={confirmationpopup}
@@ -612,8 +649,7 @@ export default function PollListing() {
           path_image={path_image}
           resetDataId={resetDataId}
         />
-       </div >
-
+      </div>
     </Col>
   );
 }

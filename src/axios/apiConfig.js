@@ -136,5 +136,5 @@ export const ENDPOINT = {
   REGISTER:"/auth/register_module",
   ADD_QUESTION:"/webinar/add-question",
   EDIT_QUESTION:"/webinar/update-question",
-  EVENT_LIST:"/webinar/get-event-list?type=1"
+  EVENT_LIST:"/webinar/get-event-list"
 };
