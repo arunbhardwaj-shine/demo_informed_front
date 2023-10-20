@@ -138,27 +138,20 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
             {item?.childData?.map((value, index) => {
               return (
                 <>
-                  {value?.answerData?.length ? (
+                  {value?.answerData?.length > 0 &&
+                  (index == 0 ||
+                    item?.childData?.[index]?.answerData?.[0].answer !=
+                      item?.childData?.[index - 1]?.answerData?.[0]?.answer) ? (
                     <div className="form-group head">
                       <label></label>
                       <div className="check-group">
-                        {/* <span>Excellent</span>
-                        <span>Good</span>
-                        <span>Satisfactory</span>
-                        <span>Fair</span>
-                        <span>Poor</span> */}
-
-                        {index == 0 ||
-                        item?.childData?.[index]?.answerData?.[0].answer !=
-                          item?.childData?.[index - 1]?.answerData?.[0]?.answer
-                          ? value?.answerData?.map((item, index) => {
-                              return (
-                                <>
-                                  <span>{item?.answer}</span>
-                                </>
-                              );
-                            })
-                          : ""}
+                        {value?.answerData?.map((item, index) => {
+                          return (
+                            <>
+                              <span>{item?.answer}</span>
+                            </>
+                          );
+                        })}
                       </div>
                     </div>
                   ) : null}
