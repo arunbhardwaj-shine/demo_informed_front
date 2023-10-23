@@ -41,7 +41,6 @@ const PharmaMarketing = () => {
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
-  // const [showMessage, setShowMessage] = useState(true);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1362,11 +1361,10 @@ const PharmaMarketing = () => {
     centerMode: true,
   };
 
-useLayoutEffect(() => {
-  setHeight(ref.current.offsetHeight);
-}, []);
+  useLayoutEffect(() => {
+    setHeight(ref.current.offsetHeight);
+  }, []);
 // console.log(height,'====>height')
-
 
   return (
     <>
@@ -1385,11 +1383,11 @@ useLayoutEffect(() => {
               </div>
               <div className="landing-sub-heading">
                 <h4>
-                  Connecting content & consent with intelligent predictions.
+                  Connecting content and consent with intelligent predictions.
                   <br />
                   <br />
-                  Ensuring the right materials reach the right person, at the
-                  right time
+                 The right materials reaching the right person at the
+                right time
                 </h4>
               </div>
               <div className="circular-height">
@@ -1494,9 +1492,8 @@ useLayoutEffect(() => {
               <div className="how-work-text">
                 <h3>How does it work? </h3>
                 <h5>
-                  We host all your content whilst using intelligence to create
-                  personalised recommendations for each HCP ( Healthcare
-                  Professional ) with their consent.{" "}
+                  We host all your content and use intelligence to create
+                  personalised recommendations for each HCP with their consent.{" "}
                 </h5>
               </div>
             </Col>
@@ -1811,17 +1808,14 @@ useLayoutEffect(() => {
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                  Consent & content data is at the foundation of all our
-                  modules. This allows you to connect the data you collect in
-                  unprecedented ways, whether it's for automating tasks,
-                  reporting, analytics, or predictions, always with consent.
+                <strong>Content with consent</strong> underpins all our modules. So you can connect the data you collect in unprecedented ways - whether it's for automating tasks, reporting, analytics, or predictions - and always with consent.
                 </h5>
               </div>
               <div className="consent-details">
                 <ul>
                   <li>For Clinicians</li>
                   <li>Gathers consent</li>
-                  <li>Read in any browser</li>
+                  <li>Read online in any browser</li>
                   <li>Read offline in the app</li>
                 </ul>
                 <div className="consent-img">
@@ -1830,24 +1824,24 @@ useLayoutEffect(() => {
                 <ul>
                   <li>For Life science</li>
                   <li>Host content</li>
-                  <li>Handles consent</li>
-                  <li>Predicts the future</li>
+                  <li>Manage consent</li>
+                  <li>Predict the future</li>
                 </ul>
               </div>
             </div>
             <div className="works-started">
               <div className="works-started-links pharm-page">
                 <h3>Modules </h3>
-                <h5 className="desk-content">
+                {/* <h5 className="desk-content">
                   Click on a module to explore its capabilities and discover how
                   it can benefit you. Learn about its connections with other
                   modules and how they collectively help your clients succeed.
                   These modules have been collaboratively developed with the
                   pharmaceutical industry and are now integral parts of our
                   comprehensive offerings aimed at enhancing your workflow.
-                </h5>
-                <h5 className="mobile-content"><strong>Modules built together with and for pharma.</strong> 
-<strong> Click a module</strong> to see others it relates to. Register to find out how they can help you build better relationships with each HCP.</h5>
+                </h5> */}
+                <h5 className=""><strong>Modules built together with and for pharma.</strong></h5>
+                <h5><strong> Click a module</strong> to see others it relates to. Register to find out how they can help you build better relationships with each HCP.</h5>
               </div>
               <div className="modules-diagram">
                 <div
