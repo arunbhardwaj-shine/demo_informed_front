@@ -117,6 +117,7 @@ import GetDetails from "./Components/Distributes/GetDetails";
 import StatsWebinar from "./Components/NewWebinar/WebinarFiles/StatsWebinar";
 import AutoMail from "./Components/NewWebinar/WebinarFiles/AutoMail";
 import EventCreate from "./Components/NewWebinar/WebinarFiles/EventCreate";
+import NewEventCreate from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/EventCreate/NewEventCreate";
 import SettingWebinar from "./Components/NewWebinar/WebinarFiles/SettingWebinar";
 import LibraryCreateUser from "./Components/Library/CreateChange/LibraryCreateUser";
 import AddLinkToPdf from "./Components/Library/CreateChange/AddLinkToPdf";
@@ -159,6 +160,9 @@ import MarketingEditReader from "./Components/Readers/ReaderEdit/MarketingEditRe
 import MarketingReaderReview from "./Components/Readers/ReaderReview/MarketingReaderReview";
 import PageNotFound from "./Components/CommonComponent/PageNotFound";
 import Feedback from "./Components/R&D/Feedback";
+import WebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/WebinarRegistration";
+import SurveyBuilder from "./Components/Webinar/Survey/SurveyBuilder";
+import QuestionListing from "./Components/Webinar/Survey/QuestionListing";
 let platform = 0;
 let show = 0;
 
@@ -380,53 +384,40 @@ const Routing = () => {
               )
             }
         /> */}
-
-<Route
-            path="/readers-view"
-            element={
-              <LoginLayout component={ReadersLayout} />
-            }
+        <Route
+          path="/readers-view"
+          element={<LoginLayout component={ReadersLayout} />}
         />
-     
-          <Route
-            path="/reader-edit"
-            element={<LoginLayout component={ReaderLayout} />}
-          />
-        
-     
-          <Route
-            path="/reader-add"
-            element={<LoginLayout component={ReaderAdd} />}
-          />
-     
-
-          <Route
-            path="/reader-review"
-            element={<LoginLayout component={ReaderReview} />}
-          />
-        
-       
+        <Route
+          path="/reader-edit"
+          element={<LoginLayout component={ReaderLayout} />}
+        />
+        <Route
+          path="/reader-add"
+          element={<LoginLayout component={ReaderAdd} />}
+        />
+        <Route
+          path="/reader-review"
+          element={<LoginLayout component={ReaderReview} />}
+        />
         <Route
           path="/readers-list"
           element={<LoginLayout component={ReadersListAdd} />}
         />
         <Route
-            path="/timeline-detail"
-            element={
-              localStorage.getItem('user_id') == '90VIqoM675WT4/peSRnbSQ==' ? (
-                <LoginLayout component={MarketingTimeLineDetail} />
-              ) : (
-                <LoginLayout component={TimelineDetail} />
-              )
-            }
+          path="/timeline-detail"
+          element={
+            localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
+              <LoginLayout component={MarketingTimeLineDetail} />
+            ) : (
+              <LoginLayout component={TimelineDetail} />
+            )
+          }
         />
-        {
-          /*<Route
+        {/*<Route
           path="/timeline-detail"
           element={<LoginLayout component={TimelineDetail} />}
-        /> */
-        }
-        
+        /> */}
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
@@ -526,6 +517,14 @@ const Routing = () => {
           element={<LoginLayout component={DefaultWebinar} />}
         />
         <Route
+          path="/add-poll"
+          element={<LoginLayout component={SurveyBuilder} />}
+        /> 
+        <Route
+          path="/question-listing"
+          element={<LoginLayout component={QuestionListing} />}
+        />
+        <Route
           path="/contact-form"
           element={<LoginLayout component={ContactForm} />}
         />
@@ -544,6 +543,14 @@ const Routing = () => {
         <Route
           path="/event-create"
           element={<LoginLayout component={EventCreate} />}
+        />
+        <Route
+          path="/new-event-create"
+          element={<LoginLayout component={NewEventCreate} />}
+        />
+        <Route
+          path="/webinar-registration"
+          element={<LoginLayout component={WebinarRegistration} />}
         />
         <Route
           path="/setting-webinar"
@@ -690,12 +697,18 @@ const Routing = () => {
           element={<LoginLayout component={EditLicense} />}
         />
         <Route path="*" element={<PageNotFound />} />
-
-        <Route path="/main-landing" element={<DefaultLayout component={MainLanding} />}/>
-
-        <Route path="/landing-publisher" element={<DefaultLayout component={LandingPublisher} />} />
-
-        <Route path="/pharma-marketing" element={<DefaultLayout component={PharmaMarketing} />}/>
+        <Route
+          path="/main-landing"
+          element={<DefaultLayout component={MainLanding} />}
+        />
+        <Route
+          path="/landing-publisher"
+          element={<DefaultLayout component={LandingPublisher} />}
+        />
+        <Route
+          path="/pharma-marketing"
+          element={<DefaultLayout component={PharmaMarketing} />}
+        />
       </Routes>
     </Router>
   );
