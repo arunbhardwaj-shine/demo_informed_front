@@ -8138,10 +8138,10 @@ html {
 .session-modal #pollModel h4 {
   font-weight: 500;
   color: #204e9e;
-  font-size: 18px;
+  font-size: 16px;
   display: block;
   width: 100%;
-  margin: 0 0 20px;
+  margin: 0 0 10px;
 }
 
 .session-modal #pollModel .form-group {

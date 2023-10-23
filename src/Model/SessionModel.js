@@ -130,8 +130,16 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
         <div className="popup-content">
           {user?.map((item, index) => (
             <>
+              {
+                item?.groupId == 0 && item?.canCustomAnswer == 1 ?
+                <p className="event_sub_heading">Please consider the overall meeting when answering the following questions</p>
+                :
+                <p className="event_sub_heading">Thank you for attending the Factor VIII Relevance Academy. We would be very grateful if you would complete and return this evaluation form. Your feedback will help us in our efforts to provide high-quality scientific meetings in the future.</p>
+              }
               <h4>{item?.parentQuestion}</h4>
+              
               {item?.groupId == 0 && item?.canCustomAnswer == 1 ? (
+                <>
                 <textarea
                   className="custom-answer-area"
                   onChange={(e) =>
@@ -141,6 +149,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                   rows="4"
                   cols="50"
                 />
+                </>
               ) : (
                 ""
               )}

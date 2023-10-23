@@ -317,6 +317,13 @@ tr.poll_graph .highcharts-container {
     text-align: center;
     margin: 0 auto 30px;
 }
+#pollModel .modal-body .event_sub_heading, #pollModel1 .modal-body .event_sub_heading {
+    color: #64b8b0;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 16px;
+    line-height: 1.2;
+}
 @media only screen and (max-width:767px) {
 
     #pollModel,
