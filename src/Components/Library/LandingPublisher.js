@@ -39,7 +39,6 @@ const PharmaRd = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [addSmallClass, setAddSmallClass] = useState(false);
   const [publisherRegistered, setPublisherRegistered] = useState(localStorage.getItem('publisherRegistered'));
-  const [showMessage, setShowMessage] = useState(false);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1042,18 +1041,6 @@ const PharmaRd = () => {
     setModulesSelect(false);
     setFormFeilds(false);
     setModuleFormInputs(false)
-
-    setShowMessage(true);
-    setTimeout(() => {
-      setShowMessage(false);
-      setAddHideClass(false);
-        setAddDivClass(false);
-        setSelectedModules([]);
-        setSubmitData(false);
-        setShowBigCircleData(true);
-        setModulesSelect(true);
-        setActiveModule(intialModuleData?.activeModule);
-    }, 3000);
   };
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1098,44 +1085,17 @@ const PharmaRd = () => {
     // }, 2000);
   };
 
-  const handleBigClose = (moduleName, index) => {
+  const handleBigClose = () => {
     setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
     setSelectedModules([]);
     setSubmitData(false);
-    setShowBigCircleData(false);
-    setModulesSelect(false);
-    const smallCircleData = modules[index];
-    if (moduleName !== activeModule) {
-      setTimeout(() => {
-        setModuleData({
-          active: false,
-          imagePath: smallCircleData?.icon,
-          heading: smallCircleData?.title,
-          paragraph: smallCircleData?.description,
-        });
-        setActiveModule(null);
-      }, 2000);
-    }
-    setTimeout(() => {
-      setReadStatus(false);
-    }, 200);
+    setAddHideClass(false);
+    setShowBigCircleData(true);
+    setModulesSelect(true);
+    setActiveModule(intialModuleData?.activeModule);
   };
-
-  // useEffect(() => {
-  //   if (submitData) {
-  //     setTimeout(() => {
-  //       setAddDivClass(false);
-  //       setAddHideClass(false);
-  //       setSelectedModules([]);
-  //       setSubmitData(false);
-  //       setShowBigCircleData(true);
-  //       setModulesSelect(true);
-  //       setActiveModule(intialModuleData?.activeModule);
-  //     }, 1000);
-  //   }
-  // }, [submitData]);
 
   const handleRead = () => {
     setReadStatus(true);
@@ -2835,7 +2795,7 @@ const PharmaRd = () => {
                       )}
                     </div>
 
-                    {submitData && showMessage && (
+                    {submitData && (
                       <div className="submit-section">
                         <img src={path_image + "thanks-img.svg"} alt="" />
                         <h3>Thank You!</h3>

@@ -41,7 +41,7 @@ const PharmaMarketing = () => {
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
-  const [showMessage, setShowMessage] = useState(false);
+  // const [showMessage, setShowMessage] = useState(true);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1216,20 +1216,6 @@ const PharmaMarketing = () => {
     setModulesSelect(false);
     setFormFeilds(false);
     setModuleFormInputs(false)
-
-    setShowMessage(true);
-    setTimeout(() => {
-      setShowMessage(false);
-      setAddHideClass(false);
-        setAddDivClass(false);
-        setSelectedModules([]);
-        setSubmitData(false);
-        setShowBigCircleData(true);
-        setModulesSelect(true);
-        setActiveModule(intialModuleData?.activeModule);
-        var root = document.getElementsByTagName( 'html' )[0];
-        root.classList.remove('scrollerClass');
-    }, 3000);
   };
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1276,7 +1262,7 @@ const PharmaMarketing = () => {
   // }, 2000);
   };
 
-  const handleBigClose = (moduleName, index) => {
+  const handleBigClose = () => {
     var root = document.getElementsByTagName( 'html' )[0];
     root.classList.remove('scrollerClass');
     setAddDivClass(false);
@@ -1284,48 +1270,11 @@ const PharmaMarketing = () => {
     setFormFeilds(false);
     setSelectedModules([]);
     setSubmitData(false);
-    setShowBigCircleData(false);
-    setModulesSelect(false);
-    const smallCircleData = modules[index];
-    if (moduleName !== activeModule) {
-      setTimeout(() => {
-        setModuleData({
-          active: false,
-          imagePath: smallCircleData?.icon,
-          heading: smallCircleData?.title,
-          paragraph: smallCircleData?.description,
-        });
-        setActiveModule(null);
-      }, 2000);
-    }
-    setTimeout(() => {
-      setReadStatus(false);
-    }, 200);
+    setAddHideClass(false);
+    setShowBigCircleData(true);
+    setModulesSelect(true);
+    setActiveModule(intialModuleData?.activeModule);
   };
-
-  // useEffect(() => {
-  //   if (submitData) {
-  //     setTimeout(() => {
-  //       setAddHideClass(false);
-  //       setAddDivClass(false);
-  //       setSelectedModules([]);
-  //       setSubmitData(false);
-  //       setShowBigCircleData(true);
-  //       setModulesSelect(true);
-  //       setActiveModule(intialModuleData?.activeModule);
-  //       var root = document.getElementsByTagName( 'html' )[0];
-  //       root.classList.remove('scrollerClass');
-  //     }, 2000);
-  //   }
-  // }, [submitData]);
-
-  // const handleCloseClick = () => {
-  //   setSelectedModules([]);
-  //   setSubmitData(false);
-  //   setShowBigCircleData(true);
-  //   setModulesSelect(true);
-  //   setActiveModule(intialModuleData?.activeModule);
-  // }
 
   const handleRead = () => {
     setReadStatus(true);
@@ -3208,7 +3157,7 @@ useLayoutEffect(() => {
                       )}
                     </div>
 
-                    {submitData && showMessage &&(
+                    {submitData &&(
                       <div className="submit-section">
                         <img src={path_image + "thanks-img.svg"} alt="" />
                         <h3>Thank you!</h3>
