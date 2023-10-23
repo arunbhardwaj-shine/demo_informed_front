@@ -66,7 +66,6 @@ const WebinarRegistration = () => {
         } else {
           newObj[data?.label].push(item?.optionLabel);
         }
-        // setFormInputs(newObj);
       } else if (e?.target?.checked == false) {
         const index = newObj[data?.label]?.indexOf(item?.optionLabel);
         if (index > -1) {
@@ -75,26 +74,28 @@ const WebinarRegistration = () => {
             delete newObj[data?.label];
           }
         }
-        // setFormInputs(newObj);
       }
       setFormInputs(newObj);
     } else {
       setFormInputs({ ...formInputs, [e?.target?.name]: e?.target?.value });
     }
-
-    // if (formInputs[index]?.[e?.target?.name]) {
-    //   let updateInputs = [...formInputs];
-    //   updateInputs[index]?.[e?.target?.name] = e?.target?.value;
-    //   setFormInputs(updateInputs);
-    // } else {
-    //   let updateInputs = [];
-    //   updateInputs[index][e?.target?.name] = e?.target?.value;
-    //   setFormInputs(updateInputs);
-    // }
   };
   const saveClicked = (e) => {
     e.preventDefault();
-    console.log("form inputs-->", formInputs);
+    Object.keys(formInputs).forEach((item, index) => {
+      console.log("item-->", item);
+      formData.includes(item);
+    });
+    let index = formData.forEach((item, index) => {
+      if (Object.keys(formInputs)?.includes(item?.label)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    console.log("index---->", index);
+    console.log("form data-->", formData);
+    setFormInputs({});
   };
 
   return (
