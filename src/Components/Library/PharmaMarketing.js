@@ -40,12 +40,12 @@ const PharmaMarketing = () => {
   const [payloadData, setPayloadData] = useState({});
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
+  const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
-
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
 
@@ -1003,6 +1003,10 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
+    var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.remove('scrollerClass');
+    localStorage.setItem('pharmaRegistered', 'true');
+    setPharmaRegistered(true);
     setAddSmallClass(true);
     setAddDivClass(false);
     event.preventDefault();
@@ -1059,7 +1063,9 @@ const PharmaMarketing = () => {
 
         console.log(data,'data')
         setPayloadData(data);
-        const res = await postData(ENDPOINT.REGISTER,data );
+        const dataPharmaString = JSON.stringify(data);
+        localStorage.setItem('payloadPharmaData', dataPharmaString);
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1147,6 +1153,8 @@ const PharmaMarketing = () => {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
+    var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.add('scrollerClass');
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1182,16 +1190,18 @@ const PharmaMarketing = () => {
     setAddSmallClass(true);
     loader("show");
     try {
-      const res = await postData(ENDPOINT.REGISTER, {
-      // let data = {
+      const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
+      const payloadData = JSON.parse(payloadDataPharmaString);
+      // const res = await postData(ENDPOINT.REGISTER, {
+      let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      // };
-      });
+      };
+      // });
       let obj = {};
       loader("hide");
       setModuleFormInputs(obj);
@@ -1208,6 +1218,8 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
+    var root = document.getElementsByTagName( 'html' )[0];
+    root.classList.remove('scrollerClass');
     setAddClass(false);
     setFormFeilds(false);
      setAddDivClass(false)
@@ -1243,57 +1255,38 @@ const PharmaMarketing = () => {
     })
     }, 200);
     setSelectedModules([]);
+ 
+  //   setTimeout(() => {
+  //   setActiveModule(null);
+  // }, 2000);
   };
 
-  const handleBigClose = (moduleName, index) => {
+  const handleBigClose = () => {
+    var root = document.getElementsByTagName( 'html' )[0];
+    root.classList.remove('scrollerClass');
+    setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
     setSelectedModules([]);
     setSubmitData(false);
-    setShowBigCircleData(false);
-    setModulesSelect(false);
-    const smallCircleData = modules[index];
-    if (moduleName !== activeModule) {
-      setTimeout(() => {
-        setModuleData({
-          active: false,
-          imagePath: smallCircleData?.icon,
-          heading: smallCircleData?.title,
-          paragraph: smallCircleData?.description,
-        });
-        setActiveModule(null);
-      }, 1000);
-    }
-    setTimeout(() => {
-      setReadStatus(false);
-    }, 200);
+    setAddHideClass(false);
+    setShowBigCircleData(true);
+    setModulesSelect(true);
+    setActiveModule(intialModuleData?.activeModule);
   };
-
-  useEffect(() => {
-    if (submitData) {
-      setTimeout(() => {
-        setAddHideClass(false);
-        setAddDivClass(false);
-        setSelectedModules([]);
-        setSubmitData(false);
-        setShowBigCircleData(true);
-        setModulesSelect(true);
-        setActiveModule(intialModuleData?.activeModule);
-      }, 1000);
-    }
-  }, [submitData]);
-
-  // const handleCloseClick = () => {
-  //   setSelectedModules([]);
-  //   setSubmitData(false);
-  //   setShowBigCircleData(true);
-  //   setModulesSelect(true);
-  //   setActiveModule(intialModuleData?.activeModule);
-  // }
 
   const handleRead = () => {
     setReadStatus(true);
-    setAddDivClass(true);
+    if(pharmaRegistered){
+      setAddDivClass(false);
+      setAddSmallClass(true);
+    }
+    else{
+      setAddDivClass(true);
+      setAddSmallClass(false);
+      var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.add('scrollerClass');
+    }
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1368,11 +1361,10 @@ const PharmaMarketing = () => {
     centerMode: true,
   };
 
-useLayoutEffect(() => {
-  setHeight(ref.current.offsetHeight);
-}, []);
+  useLayoutEffect(() => {
+    setHeight(ref.current.offsetHeight);
+  }, []);
 // console.log(height,'====>height')
-
 
   return (
     <>
@@ -1391,11 +1383,11 @@ useLayoutEffect(() => {
               </div>
               <div className="landing-sub-heading">
                 <h4>
-                  Connecting content & consent with intelligent predictions.
+                  Connecting content and consent with intelligent predictions.
                   <br />
                   <br />
-                  Ensuring the right materials reach the right person, at the
-                  right time
+                 The right materials reaching the right person at the
+                right time
                 </h4>
               </div>
               <div className="circular-height">
@@ -1500,9 +1492,8 @@ useLayoutEffect(() => {
               <div className="how-work-text">
                 <h3>How does it work? </h3>
                 <h5>
-                  We host all your content whilst using intelligence to create
-                  personalised recommendations for each HCP ( Healthcare
-                  Professional ) with their consent.{" "}
+                  We host all your content and use intelligence to create
+                  personalised recommendations for each HCP with their consent.{" "}
                 </h5>
               </div>
             </Col>
@@ -1817,17 +1808,14 @@ useLayoutEffect(() => {
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                  Consent & content data is at the foundation of all our
-                  modules. This allows you to connect the data you collect in
-                  unprecedented ways, whether it's for automating tasks,
-                  reporting, analytics, or predictions, always with consent.
+                <strong>Content with consent</strong> underpins all our modules. So you can connect the data you collect in unprecedented ways - whether it's for automating tasks, reporting, analytics, or predictions - and always with consent.
                 </h5>
               </div>
               <div className="consent-details">
                 <ul>
                   <li>For Clinicians</li>
                   <li>Gathers consent</li>
-                  <li>Read in any browser</li>
+                  <li>Read online in any browser</li>
                   <li>Read offline in the app</li>
                 </ul>
                 <div className="consent-img">
@@ -1836,22 +1824,24 @@ useLayoutEffect(() => {
                 <ul>
                   <li>For Life science</li>
                   <li>Host content</li>
-                  <li>Handles consent</li>
-                  <li>Predicts the future</li>
+                  <li>Manage consent</li>
+                  <li>Predict the future</li>
                 </ul>
               </div>
             </div>
             <div className="works-started">
               <div className="works-started-links pharm-page">
                 <h3>Modules </h3>
-                <h5>
+                {/* <h5 className="desk-content">
                   Click on a module to explore its capabilities and discover how
                   it can benefit you. Learn about its connections with other
                   modules and how they collectively help your clients succeed.
                   These modules have been collaboratively developed with the
                   pharmaceutical industry and are now integral parts of our
                   comprehensive offerings aimed at enhancing your workflow.
-                </h5>
+                </h5> */}
+                <h5 className=""><strong>Modules built together with and for pharma.</strong></h5>
+                <h5><strong> Click a module</strong> to see others it relates to. Register to find out how they can help you build better relationships with each HCP.</h5>
               </div>
               <div className="modules-diagram">
                 <div
@@ -2170,7 +2160,7 @@ useLayoutEffect(() => {
                   )}
                   <div class="shape shape-left"></div>
 
-                  {registerPage && (
+                  {registerPage && !pharmaRegistered && (
                     <div>
                       <img
                         className="close"
@@ -2515,7 +2505,7 @@ useLayoutEffect(() => {
                           : "d-flex justify-content-between flex-column"
                       }`}
                     >
-                      {showBigCircleData && !registerPage && (
+                      {showBigCircleData  && pharmaRegistered &&(
                         <>
                           <div className="big-circle-data">
                             <div>
@@ -2688,7 +2678,7 @@ useLayoutEffect(() => {
                           <p>Please select the modules you're interested in:</p>
                         </div>
                       )}
-                      {modulesSelect && !registerPage && (
+                      {modulesSelect  && pharmaRegistered && (
                         <div
                           className="module-diagram circle pharma_market"
                           style={{ "--total": "24" }}
@@ -3130,7 +3120,7 @@ useLayoutEffect(() => {
                           ></div>
                         </div>
                       )}
-                      {showBigCircleData && !registerPage && (
+                      {showBigCircleData  && pharmaRegistered && (
                         <div className="d-flex align-items-center justify-content-center fotter-btns">
                           <Button
                             className="btn-filled"
@@ -3161,7 +3151,7 @@ useLayoutEffect(() => {
                       )}
                     </div>
 
-                    {submitData && (
+                    {submitData &&(
                       <div className="submit-section">
                         <img src={path_image + "thanks-img.svg"} alt="" />
                         <h3>Thank you!</h3>
@@ -3191,7 +3181,7 @@ useLayoutEffect(() => {
                   onClick={handleBigCircleClose}
                   />
                 <div className="mobile-slider-inset">
-                 {showBigCircleData && !registerPage && (
+                 {showBigCircleData  && pharmaRegistered && (
                     
                     <Slider
                       {...sliderSettings}
