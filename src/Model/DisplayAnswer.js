@@ -35,6 +35,7 @@ const drilldownData = data
   .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
   .map(question => ({
     id: question.drilldown,
+    name: question.name,
     data: question.drillDownData.map(answer => [answer.name, answer.total]),
     colors: question.drillDownData.map(answer => answer.color)
   }));
