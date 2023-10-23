@@ -9,7 +9,7 @@ const WebinarRegistration = () => {
   const [foot, setfoot] = useState();
   const [showModal, setModal] = useState(false);
   const [formData, setFormData] = useState([]);
-  const [formInputs, setFormInputs] = useState();
+  const [formInputs, setFormInputs] = useState({});
   useEffect(() => {}, []);
   const handleFileSelect = (e, flag) => {
     const fileInput = document.createElement("input");
@@ -48,6 +48,8 @@ const WebinarRegistration = () => {
       index,
       "--checked-->",
       e?.target?.checked,
+      "item--->",
+      item,
       "---data--->",
       data
     );
@@ -60,13 +62,13 @@ const WebinarRegistration = () => {
       if (e?.target?.checked == true) {
         if (data?.inputType == "radio") {
           newObj[data?.label] = [];
-          newObj[data?.label].push(item?.label);
+          newObj[data?.label].push(item?.optionLabel);
         } else {
-          newObj[data?.label].push(item?.label);
+          newObj[data?.label].push(item?.optionLabel);
         }
         // setFormInputs(newObj);
       } else if (e?.target?.checked == false) {
-        const index = newObj[data?.label]?.indexOf(item?.label);
+        const index = newObj[data?.label]?.indexOf(item?.optionLabel);
         if (index > -1) {
           newObj[data?.label]?.splice(index, 1);
           if (newObj[data?.label]?.length == 0) {
