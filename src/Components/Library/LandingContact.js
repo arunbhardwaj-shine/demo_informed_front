@@ -394,12 +394,9 @@ const LandingContact = () => {
       <div className="contact-inset">
         <h3>Contact Us</h3>
         <h5>
-          We’re always happy to talk to you and answer any questions you have.
-          You might have a question about something not covered on the page,
-          something about compliance or other requests. <br />
-          Please let us know what it is and who you are so we can get back to
-          you right away.
+          We'd love to talk to you. Let's us know what questions you have.
         </h5>
+        <h5> We're here to help, leave your details below and we'll get back to you straight away.</h5>
         <div class="form-sec">
           <Form>
             <Row>
