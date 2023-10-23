@@ -359,32 +359,36 @@ const PollQuestion = () => {
         // console.log(drilldownData);
         const chartOptions = {
           chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: "pie",
+              plotBackgroundColor: null,
+              plotBorderWidth: null,
+              plotShadow: false,
+              type: 'pie'
           },
           title: {
             text: "User Answers",
           },
           tooltip: {
-              pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+              formatter: function() {
+                return this.point.name +' : <b>'+ this.point.y + '</b>';
+            },
           },
           accessibility: {
               point: {
                   valueSuffix: '%'
               }
           },
+          legend: {
+              labelFormat: '{name} ({percentage:.2f}%) ',
+          },
           plotOptions: {
-            pie: {
-              allowPointSelect: true,
-              cursor: "pointer",
-              dataLabels: {
-                enabled: false,
-                format: "<b>{point.name}</b>: {point.percentage:.1f} %",
-              },
-              showInLegend: true,
-            },
+              pie: {
+                  allowPointSelect: true,
+                  cursor: 'pointer',
+                  dataLabels: {
+                      enabled: false
+                  },
+                  showInLegend: true
+              }
           },
           series: [
             {
