@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
+import { toast } from "react-toastify";
 
 // import Question from "./AddQuestion";
 
@@ -82,19 +83,13 @@ const WebinarRegistration = () => {
   };
   const saveClicked = (e) => {
     e.preventDefault();
-    Object.keys(formInputs).forEach((item, index) => {
-      console.log("item-->", item);
-      formData.includes(item);
+
+    let allPresent = formData.every((item, index) => {
+      return Object.keys(formInputs)?.includes(item?.label);
     });
-    let index = formData.forEach((item, index) => {
-      if (Object.keys(formInputs)?.includes(item?.label)) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    console.log("index---->", index);
-    console.log("form data-->", formData);
+    if (!allPresent) {
+      toast.error("Please fill all the inputs");
+    }
     setFormInputs({});
   };
 
