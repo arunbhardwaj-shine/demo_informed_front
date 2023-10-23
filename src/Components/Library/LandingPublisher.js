@@ -817,7 +817,7 @@ const PharmaRd = () => {
         paragraph: smallCircleData?.description,
       }));
       setActiveModule(moduleName === activeModule ? null : moduleName);
-    }, 700);
+    }, 500);
 
     setBigModuleData((prevState) => ({
       active: moduleName === activeModule ? !prevState.active : true,
@@ -893,7 +893,7 @@ const PharmaRd = () => {
         setPayloadData(data);
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
-        const res = await postData(ENDPOINT.REGISTER, data);
+        // const res = await postData(ENDPOINT.REGISTER, data);
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1018,14 +1018,16 @@ const PharmaRd = () => {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
+      // const res = await postData(ENDPOINT.REGISTER, {
+        let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      });
+        }
+      // });
       let obj = {};
       loader("hide");
       setModuleFormInputs(obj);
@@ -1077,49 +1079,34 @@ const PharmaRd = () => {
     })
     }, 200);
     setSelectedModules([]);
+
+    // setTimeout(() => {
+    //   setActiveModule(null);
+    // }, 2000);
   };
 
-  const handleBigClose = (moduleName, index) => {
+  const handleBigClose = () => {
+    setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
     setSelectedModules([]);
     setSubmitData(false);
-    setShowBigCircleData(false);
-    setModulesSelect(false);
-    const smallCircleData = modules[index];
-    if (moduleName !== activeModule) {
-      setTimeout(() => {
-        setModuleData({
-          active: false,
-          imagePath: smallCircleData?.icon,
-          heading: smallCircleData?.title,
-          paragraph: smallCircleData?.description,
-        });
-        setActiveModule(null);
-      }, 1000);
-    }
-    setTimeout(() => {
-      setReadStatus(false);
-    }, 200);
+    setAddHideClass(false);
+    setShowBigCircleData(true);
+    setModulesSelect(true);
+    setActiveModule(intialModuleData?.activeModule);
   };
-
-  useEffect(() => {
-    if (submitData) {
-      setTimeout(() => {
-        setAddDivClass(false);
-        setAddHideClass(false);
-        setSelectedModules([]);
-        setSubmitData(false);
-        setShowBigCircleData(true);
-        setModulesSelect(true);
-        setActiveModule(intialModuleData?.activeModule);
-      }, 1000);
-    }
-  }, [submitData]);
 
   const handleRead = () => {
     setReadStatus(true);
-    setAddDivClass(true);
+    if(publisherRegistered){
+      setAddDivClass(false);
+      setAddSmallClass(true);
+    }
+    else{
+      setAddDivClass(true);
+      setAddSmallClass(false);
+    }
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -2838,7 +2825,7 @@ const PharmaRd = () => {
                       onClick={handleBigCircleClose}
                     />
                 <div className="mobile-slider-inset">
-                 {showBigCircleData && !registerPage && (
+                 {showBigCircleData  && publisherRegistered &&  (
                     
                     <Slider
                       {...sliderSettings}

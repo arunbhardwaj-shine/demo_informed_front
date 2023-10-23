@@ -41,12 +41,12 @@ const PharmaMarketing = () => {
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
+  // const [showMessage, setShowMessage] = useState(true);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
-
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
 
@@ -1004,7 +1004,8 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
-    document.body.classList.remove('body');
+    var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.remove('scrollerClass');
     localStorage.setItem('pharmaRegistered', 'true');
     setPharmaRegistered(true);
     setAddSmallClass(true);
@@ -1153,7 +1154,8 @@ const PharmaMarketing = () => {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
-    document.body.classList.add('body');
+    var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.add('scrollerClass');
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1217,7 +1219,8 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-    document.body.classList.remove('body');
+    var root = document.getElementsByTagName( 'html' )[0];
+    root.classList.remove('scrollerClass');
     setAddClass(false);
     setFormFeilds(false);
      setAddDivClass(false)
@@ -1253,56 +1256,25 @@ const PharmaMarketing = () => {
     })
     }, 200);
     setSelectedModules([]);
+ 
+  //   setTimeout(() => {
+  //   setActiveModule(null);
+  // }, 2000);
   };
 
-  const handleBigClose = (moduleName, index) => {
-    document.body.classList.remove('body');
+  const handleBigClose = () => {
+    var root = document.getElementsByTagName( 'html' )[0];
+    root.classList.remove('scrollerClass');
     setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
     setSelectedModules([]);
     setSubmitData(false);
-    setShowBigCircleData(false);
-    setModulesSelect(false);
-    const smallCircleData = modules[index];
-    if (moduleName !== activeModule) {
-      setTimeout(() => {
-        setModuleData({
-          active: false,
-          imagePath: smallCircleData?.icon,
-          heading: smallCircleData?.title,
-          paragraph: smallCircleData?.description,
-        });
-        setActiveModule(null);
-      }, 2000);
-    }
-    setTimeout(() => {
-      setReadStatus(false);
-    }, 200);
+    setAddHideClass(false);
+    setShowBigCircleData(true);
+    setModulesSelect(true);
+    setActiveModule(intialModuleData?.activeModule);
   };
-
-  useEffect(() => {
-    if (submitData) {
-      setTimeout(() => {
-        setAddHideClass(false);
-        setAddDivClass(false);
-        setSelectedModules([]);
-        setSubmitData(false);
-        setShowBigCircleData(true);
-        setModulesSelect(true);
-        setActiveModule(intialModuleData?.activeModule);
-        document.body.classList.remove('body');
-      }, 2000);
-    }
-  }, [submitData]);
-
-  // const handleCloseClick = () => {
-  //   setSelectedModules([]);
-  //   setSubmitData(false);
-  //   setShowBigCircleData(true);
-  //   setModulesSelect(true);
-  //   setActiveModule(intialModuleData?.activeModule);
-  // }
 
   const handleRead = () => {
     setReadStatus(true);
@@ -1313,7 +1285,8 @@ const PharmaMarketing = () => {
     else{
       setAddDivClass(true);
       setAddSmallClass(false);
-      document.body.classList.add('body');
+      var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.add('scrollerClass');
     }
   };
 
@@ -3184,7 +3157,7 @@ useLayoutEffect(() => {
                       )}
                     </div>
 
-                    {submitData && (
+                    {submitData &&(
                       <div className="submit-section">
                         <img src={path_image + "thanks-img.svg"} alt="" />
                         <h3>Thank you!</h3>
