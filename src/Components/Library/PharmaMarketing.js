@@ -41,12 +41,13 @@ const PharmaMarketing = () => {
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
+  const [showMessage, setShowMessage] = useState(false);
+  const [intialSelectedModule, setIntialSelectedModule] = useState(null);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
-
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
 
@@ -1216,11 +1217,25 @@ const PharmaMarketing = () => {
     setModulesSelect(false);
     setFormFeilds(false);
     setModuleFormInputs(false)
+
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+      setAddHideClass(false);
+        setAddDivClass(false);
+        setSelectedModules([]);
+        setSubmitData(false);
+        setShowBigCircleData(true);
+        setModulesSelect(true);
+        setActiveModule(intialModuleData?.activeModule);
+        var root = document.getElementsByTagName( 'html' )[0];
+        root.classList.remove('scrollerClass');
+    }, 3000);
   };
 
   const handleBigCircleClose = (moduleName, index) => {
     var root = document.getElementsByTagName( 'html' )[0];
-      root.classList.remove('scrollerClass');
+    root.classList.remove('scrollerClass');
     setAddClass(false);
     setFormFeilds(false);
      setAddDivClass(false)
@@ -1234,6 +1249,7 @@ const PharmaMarketing = () => {
         paragraph: smallCircleData?.description,
       });
       setActiveModule(moduleName === activeModule ? null : moduleName);
+      setIntialSelectedModule({ activeModule });
     }
     setTimeout(() => {
       setReadStatus(false);
@@ -1256,11 +1272,16 @@ const PharmaMarketing = () => {
     })
     }, 200);
     setSelectedModules([]);
+
+    setTimeout(() => {
+    setActiveModule(intialSelectedModule);
+  }, 2000);
+
   };
 
   const handleBigClose = (moduleName, index) => {
     var root = document.getElementsByTagName( 'html' )[0];
-      root.classList.remove('scrollerClass');
+    root.classList.remove('scrollerClass');
     setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
@@ -1269,7 +1290,7 @@ const PharmaMarketing = () => {
     setShowBigCircleData(false);
     setModulesSelect(false);
     const smallCircleData = modules[index];
-    // if (moduleName !== activeModule) {
+    if (moduleName !== activeModule) {
       setTimeout(() => {
         setModuleData({
           active: false,
@@ -1277,31 +1298,29 @@ const PharmaMarketing = () => {
           heading: smallCircleData?.title,
           paragraph: smallCircleData?.description,
         });
-        setActiveModule(moduleName === activeModule ? null : moduleName);
+        setActiveModule(null);
       }, 2000);
-      setIntialModuleData({})
-      
-    // }
+    }
     setTimeout(() => {
       setReadStatus(false);
     }, 200);
   };
 
-  useEffect(() => {
-    if (submitData) {
-      setTimeout(() => {
-        setAddHideClass(false);
-        setAddDivClass(false);
-        setSelectedModules([]);
-        setSubmitData(false);
-        setShowBigCircleData(true);
-        setModulesSelect(true);
-        setActiveModule(intialModuleData?.activeModule);
-        var root = document.getElementsByTagName( 'html' )[0];
-        root.classList.remove('scrollerClass');
-      }, 2000);
-    }
-  }, [submitData]);
+  // useEffect(() => {
+  //   if (submitData) {
+  //     setTimeout(() => {
+  //       setAddHideClass(false);
+  //       setAddDivClass(false);
+  //       setSelectedModules([]);
+  //       setSubmitData(false);
+  //       setShowBigCircleData(true);
+  //       setModulesSelect(true);
+  //       setActiveModule(intialModuleData?.activeModule);
+  //       var root = document.getElementsByTagName( 'html' )[0];
+  //       root.classList.remove('scrollerClass');
+  //     }, 2000);
+  //   }
+  // }, [submitData]);
 
   // const handleCloseClick = () => {
   //   setSelectedModules([]);
@@ -3192,7 +3211,7 @@ useLayoutEffect(() => {
                       )}
                     </div>
 
-                    {submitData && (
+                    {submitData && showMessage &&(
                       <div className="submit-section">
                         <img src={path_image + "thanks-img.svg"} alt="" />
                         <h3>Thank you!</h3>
@@ -3200,7 +3219,7 @@ useLayoutEffect(() => {
                           We appreciate your interest and will respond very
                           quickly.
                         </p>
-                        <Button className="btn-filled" onClick={handleBigClose}>
+                        <Button className="btn-filled" onClick={handleBigCircleClose}>
                           Close
                         </Button>
                       </div>

@@ -39,6 +39,8 @@ const PharmaRd = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [addSmallClass, setAddSmallClass] = useState(false);
   const [publisherRegistered, setPublisherRegistered] = useState(localStorage.getItem('publisherRegistered'));
+  const [showMessage, setShowMessage] = useState(false);
+  const [intialSelectedModule, setIntialSelectedModule] = useState(null);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -893,7 +895,7 @@ const PharmaRd = () => {
         setPayloadData(data);
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
-        const res = await postData(ENDPOINT.REGISTER, data);
+        // const res = await postData(ENDPOINT.REGISTER, data);
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1018,14 +1020,16 @@ const PharmaRd = () => {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
+      // const res = await postData(ENDPOINT.REGISTER, {
+        let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      });
+        }
+      // });
       let obj = {};
       loader("hide");
       setModuleFormInputs(obj);
@@ -1039,6 +1043,18 @@ const PharmaRd = () => {
     setModulesSelect(false);
     setFormFeilds(false);
     setModuleFormInputs(false)
+
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+      setAddHideClass(false);
+        setAddDivClass(false);
+        setSelectedModules([]);
+        setSubmitData(false);
+        setShowBigCircleData(true);
+        setModulesSelect(true);
+        setActiveModule(intialModuleData?.activeModule);
+    }, 3000);
   };
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1055,6 +1071,7 @@ const PharmaRd = () => {
         paragraph: smallCircleData?.description,
       });
       setActiveModule(moduleName === activeModule ? null : moduleName);
+      setIntialSelectedModule({ activeModule });
     }
     setTimeout(() => {
       setReadStatus(false);
@@ -1077,6 +1094,10 @@ const PharmaRd = () => {
     })
     }, 200);
     setSelectedModules([]);
+
+    setTimeout(() => {
+      setActiveModule(intialSelectedModule);
+    }, 2000);
   };
 
   const handleBigClose = (moduleName, index) => {
@@ -1103,19 +1124,19 @@ const PharmaRd = () => {
     }, 200);
   };
 
-  useEffect(() => {
-    if (submitData) {
-      setTimeout(() => {
-        setAddDivClass(false);
-        setAddHideClass(false);
-        setSelectedModules([]);
-        setSubmitData(false);
-        setShowBigCircleData(true);
-        setModulesSelect(true);
-        setActiveModule(intialModuleData?.activeModule);
-      }, 1000);
-    }
-  }, [submitData]);
+  // useEffect(() => {
+  //   if (submitData) {
+  //     setTimeout(() => {
+  //       setAddDivClass(false);
+  //       setAddHideClass(false);
+  //       setSelectedModules([]);
+  //       setSubmitData(false);
+  //       setShowBigCircleData(true);
+  //       setModulesSelect(true);
+  //       setActiveModule(intialModuleData?.activeModule);
+  //     }, 1000);
+  //   }
+  // }, [submitData]);
 
   const handleRead = () => {
     setReadStatus(true);
@@ -2808,7 +2829,7 @@ const PharmaRd = () => {
                       )}
                     </div>
 
-                    {submitData && (
+                    {submitData && showMessage && (
                       <div className="submit-section">
                         <img src={path_image + "thanks-img.svg"} alt="" />
                         <h3>Thank You!</h3>
@@ -2816,7 +2837,7 @@ const PharmaRd = () => {
                           We appreciate your interset and will respond very
                           quickly.
                         </p>
-                        <Button className="btn-filled" onClick={handleBigClose}>
+                        <Button className="btn-filled" onClick={handleBigCircleClose}>
                           Close
                         </Button>
                       </div>
