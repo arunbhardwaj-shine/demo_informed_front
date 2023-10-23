@@ -818,7 +818,7 @@ const PharmaRd = () => {
         paragraph: smallCircleData?.description,
       }));
       setActiveModule(moduleName === activeModule ? null : moduleName);
-    }, 700);
+    }, 500);
 
     setBigModuleData((prevState) => ({
       active: moduleName === activeModule ? !prevState.active : true,
@@ -1093,12 +1093,13 @@ const PharmaRd = () => {
     }, 200);
     setSelectedModules([]);
 
-    setTimeout(() => {
-      setActiveModule(null);
-    }, 2000);
+    // setTimeout(() => {
+    //   setActiveModule(null);
+    // }, 2000);
   };
 
   const handleBigClose = (moduleName, index) => {
+    setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
     setSelectedModules([]);
@@ -1115,7 +1116,7 @@ const PharmaRd = () => {
           paragraph: smallCircleData?.description,
         });
         setActiveModule(null);
-      }, 1000);
+      }, 2000);
     }
     setTimeout(() => {
       setReadStatus(false);
@@ -1138,7 +1139,14 @@ const PharmaRd = () => {
 
   const handleRead = () => {
     setReadStatus(true);
-    setAddDivClass(true);
+    if(publisherRegistered){
+      setAddDivClass(false);
+      setAddSmallClass(true);
+    }
+    else{
+      setAddDivClass(true);
+      setAddSmallClass(false);
+    }
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -2835,7 +2843,7 @@ const PharmaRd = () => {
                           We appreciate your interset and will respond very
                           quickly.
                         </p>
-                        <Button className="btn-filled" onClick={handleBigCircleClose}>
+                        <Button className="btn-filled" onClick={handleBigClose}>
                           Close
                         </Button>
                       </div>
@@ -2857,7 +2865,7 @@ const PharmaRd = () => {
                       onClick={handleBigCircleClose}
                     />
                 <div className="mobile-slider-inset">
-                 {showBigCircleData && !registerPage && (
+                 {showBigCircleData  && publisherRegistered &&  (
                     
                     <Slider
                       {...sliderSettings}

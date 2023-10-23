@@ -1271,9 +1271,9 @@ const PharmaMarketing = () => {
     }, 200);
     setSelectedModules([]);
  
-    setTimeout(() => {
-    setActiveModule(null);
-  }, 2000);
+  //   setTimeout(() => {
+  //   setActiveModule(null);
+  // }, 2000);
   };
 
   const handleBigClose = (moduleName, index) => {
@@ -3216,7 +3216,7 @@ useLayoutEffect(() => {
                           We appreciate your interest and will respond very
                           quickly.
                         </p>
-                        <Button className="btn-filled" onClick={handleBigCircleClose}>
+                        <Button className="btn-filled" onClick={handleBigClose}>
                           Close
                         </Button>
                       </div>
