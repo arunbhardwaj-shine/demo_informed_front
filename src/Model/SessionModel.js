@@ -47,7 +47,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
       const errorValue = Object.values(userValid);
 
       if (errorValue?.includes(0)) {
-        setError({ msg: "Please select above options" });
+        setError({ msg: "This field is required" });
         return;
       }
       let newAr = [];
@@ -149,6 +149,11 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                   rows="4"
                   cols="50"
                 />
+                {
+                  userValid?.[item?.parentId] === 0 ?
+                  error?.msg ? <span className="error">{error.msg}</span> : ""
+                  : null
+                }
                 </>
               ) : (
                 ""
@@ -180,6 +185,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                       <label
                         dangerouslySetInnerHTML={{ __html: value?.question }}
                       />
+                      
 
                       <div className="check-group">
                         {value?.answerData?.length ? (
@@ -204,7 +210,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                                       name={value?.question}
                                       value={childValue?.answer}
                                     />
-                                    <span class="checkmark"></span>
+                                    <span className="checkmark"></span>
                                   </div>
                                 )}
                               </>
@@ -224,7 +230,13 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                         ) : (
                           ""
                         )}
+                        
                       </div>
+                      {
+                        userValid?.[value?.id] === 0 ?
+                        error?.msg ? <span className="error">{error.msg}</span> : ""
+                        : null
+                      }
                     </div>
                   </>
                 );
@@ -234,7 +246,6 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        {error?.msg ? <p className="error">{error.msg}</p> : ""}
         <Button onClick={handleSubmit}>Submit</Button>
       </Modal.Footer>
     </Modal>

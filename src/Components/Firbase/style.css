@@ -294,7 +294,7 @@ body {
 }
 
 #pollModel .error {
-    color: #f00;
+    color: crimson;
     font-size: 14px;
 }
 tr.poll_graph{display:none}
