@@ -42,7 +42,6 @@ const PharmaMarketing = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
   const [showMessage, setShowMessage] = useState(false);
-  const [intialSelectedModule, setIntialSelectedModule] = useState(null);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1249,7 +1248,6 @@ const PharmaMarketing = () => {
         paragraph: smallCircleData?.description,
       });
       setActiveModule(moduleName === activeModule ? null : moduleName);
-      setIntialSelectedModule({ activeModule });
     }
     setTimeout(() => {
       setReadStatus(false);
@@ -1272,11 +1270,10 @@ const PharmaMarketing = () => {
     })
     }, 200);
     setSelectedModules([]);
-
+ 
     setTimeout(() => {
-    setActiveModule(intialSelectedModule);
+    setActiveModule(null);
   }, 2000);
-
   };
 
   const handleBigClose = (moduleName, index) => {

@@ -40,7 +40,6 @@ const PharmaRd = () => {
   const [addSmallClass, setAddSmallClass] = useState(false);
   const [publisherRegistered, setPublisherRegistered] = useState(localStorage.getItem('publisherRegistered'));
   const [showMessage, setShowMessage] = useState(false);
-  const [intialSelectedModule, setIntialSelectedModule] = useState(null);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1071,7 +1070,6 @@ const PharmaRd = () => {
         paragraph: smallCircleData?.description,
       });
       setActiveModule(moduleName === activeModule ? null : moduleName);
-      setIntialSelectedModule({ activeModule });
     }
     setTimeout(() => {
       setReadStatus(false);
@@ -1096,7 +1094,7 @@ const PharmaRd = () => {
     setSelectedModules([]);
 
     setTimeout(() => {
-      setActiveModule(intialSelectedModule);
+      setActiveModule(null);
     }, 2000);
   };
 
