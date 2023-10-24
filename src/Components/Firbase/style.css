@@ -324,6 +324,34 @@ tr.poll_graph .highcharts-container {
     margin-bottom: 16px;
     line-height: 1.2;
 }
+.webinar-question-results h6.total_count {
+    margin-bottom: 8px;
+}
+
+.webinar-question-results button.answermodel {
+    margin-bottom: 25px;
+    color: #ffffff;
+    background: #0066be;
+    border-color: inherit;
+    font-size: 15px;
+    padding: 7px 19px;
+}
+.webinar-question-results button.answermodel:hover {
+    background: #004a89;
+}
+#showComments td p {
+    text-align: center;
+    color: #004A89;
+    font-weight: 600;
+    font-size: 24px;
+    padding: 30px 0;
+}
+
+#showComments td[colspan="3"] {
+    background: #ffffff;
+    --bs-table-accent-bg: #ffffff;
+    --bs-table-bg-type: #ffffff;
+}
 @media only screen and (max-width:767px) {
 
     #pollModel,
