@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Container, Row,Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -37,8 +37,17 @@ const LandingFooter = () => {
       const handleCookieAccept = () => {
         localStorage.setItem('acceptedCookies', 'true');
         setAcceptedCookies(true);
-        setAddClass(false)
+        setAddClass(false);
       };
+
+
+      useEffect(() => {
+        if(localStorage.getItem('acceptedCookies') === 'true'){
+            setAddClass(false);
+          } else {
+            setAddClass(true);
+          }
+      }, []);
 
   return (
     <>
