@@ -44,6 +44,7 @@ const PharmaRd = () => {
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
+  const [addSelectClass,setAddSelectClass] = useState(false)
 
   const modules = [
     {
@@ -920,6 +921,7 @@ const colourStyles = {
   };
 
   const handleRegisterFormChange = (e, isSelectedName) => {
+    setAddSelectClass(false);
     setRegisterFormInputs({
       ...registerFormInputs,
       [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -1192,6 +1194,10 @@ const colourStyles = {
     dots: true,
     centerMode: true,
   };
+
+  const handleSelectionClick = () => {
+    setAddSelectClass(true);
+  }
   return (
     <>
       <meta
@@ -1985,10 +1991,9 @@ const colourStyles = {
                                   placeholder="Select country"
                                   styles={colourStyles}
                                   // className="dropdown-basic-button split-button-dropup"
-                                  className={
-                                    !registerError?.country
-                                      ? "dropdown-basic-button split-button-dropup"
-                                      : "dropdown-basic-button split-button-dropup error"
+                                  className={`${!registerError?.country
+                                    ? "dropdown-basic-button split-button-dropup"
+                                    : "dropdown-basic-button split-button-dropup error"} ${addSelectClass ? "show" : ""}`
                                   }
                                   isClearable
                                   onChange={(e) => {
@@ -2000,6 +2005,7 @@ const colourStyles = {
                                   }}
                                   value={selectedCountry}
                                   ref={countryRef}
+                                  onMenuOpen={handleSelectionClick}
                                 />
                                 <span>
                                   <svg
