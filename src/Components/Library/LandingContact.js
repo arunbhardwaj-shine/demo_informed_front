@@ -293,7 +293,19 @@ const LandingContact = () => {
     { value: "Zambia", label: "Zambia" },
     { value: "Zimbabwe", label: "Zimbabwe" },
   ]);
-
+const colourStyles = {
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    // const color = chroma(data.color);
+    console.log({ data, isDisabled, isFocused, isSelected });
+    return {
+      ...styles,
+      backgroundColor: isFocused ? "#ffffff" : null,
+      color: isFocused ? "#0066BE" : "#97B6CF",
+      backgroundColor: isSelected ? "#ffffff" : null,
+       color: isSelected ? "#0066BE!important" : "#97B6CF",
+    };
+  }
+};
   const [contactFormInputs, setContactFormInputs] = useState({
     name: "",
     email: "",
@@ -493,6 +505,7 @@ const LandingContact = () => {
                 >
                   <Select
                     options={country}
+                    styles={colourStyles}
                     placeholder="Select country"
                     // className="dropdown-basic-button split-button-dropup"
                     className={

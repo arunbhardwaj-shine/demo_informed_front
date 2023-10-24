@@ -893,7 +893,7 @@ const PharmaRd = () => {
         setPayloadData(data);
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
-        // const res = await postData(ENDPOINT.REGISTER, data);
+        const res = await postData(ENDPOINT.REGISTER, data);
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1018,16 +1018,16 @@ const PharmaRd = () => {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      // const res = await postData(ENDPOINT.REGISTER, {
-        let data = {
+      const res = await postData(ENDPOINT.REGISTER, {
+        // let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-        }
-      // });
+        // }
+      });
       let obj = {};
       loader("hide");
       setModuleFormInputs(obj);
