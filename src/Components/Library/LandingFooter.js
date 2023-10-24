@@ -56,12 +56,11 @@ const LandingFooter = () => {
             <Row>
                 <div className='footer-inset'>
                     <div className='footer-logo'>
-                        <img src={path_image +"footer-logo.svg"} alt="" />
+                        <Link to="/">
+                        <img src={path_image +"footer-logo.svg"} alt="" /></Link>
                     </div>
                     <div className='copyright'>
-                        <p>Copyright MedArkive Ltd 2023. Read our 
-                        <Link onClick={(e) => handleShow("privacy")}>Privacy Policy</Link> and 
-                        <Link onClick={(e) => handleTermShow("term")}>Terms of Use</Link>
+                        <p>Copyright MedArkive Ltd 2023. Read our <Link onClick={(e) => handleShow("privacy")}> Privacy Policy</Link> and <Link onClick={(e) => handleTermShow("term")}> Terms of Use</Link>
                         </p>
                     </div>
 
