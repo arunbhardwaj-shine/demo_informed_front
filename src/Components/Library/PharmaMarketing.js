@@ -41,6 +41,7 @@ const PharmaMarketing = () => {
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
+  const [addSelectClass,setAddSelectClass] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1080,6 +1081,7 @@ const PharmaMarketing = () => {
   };
 
   const handleRegisterFormChange = (e, isSelectedName) => {
+    setAddSelectClass(false);
     setRegisterFormInputs({
       ...registerFormInputs,
       [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -1365,6 +1367,10 @@ const PharmaMarketing = () => {
     setHeight(ref.current.offsetHeight);
   }, []);
 // console.log(height,'====>height')
+
+const handleSelectionClick = () => {
+  setAddSelectClass(true);
+}
 
   return (
     <>
@@ -2230,10 +2236,9 @@ const PharmaMarketing = () => {
                                   options={country}
                                   placeholder="Select country"
                                   // className="dropdown-basic-button split-button-dropup"
-                                  className={
-                                    !registerError?.country
-                                      ? "dropdown-basic-button split-button-dropup"
-                                      : "dropdown-basic-button split-button-dropup error"
+                                  className={`${!registerError?.country
+                                    ? "dropdown-basic-button split-button-dropup"
+                                    : "dropdown-basic-button split-button-dropup error"} ${addSelectClass ? "show" : ""}`
                                   }
                                   isClearable
                                   onChange={(e) => {
@@ -2245,6 +2250,7 @@ const PharmaMarketing = () => {
                                   }}
                                   value={selectedCountry}
                                   ref={countryRef}
+                                  onMenuOpen={handleSelectionClick}
                                 />
                                 <span>
                                   <svg
