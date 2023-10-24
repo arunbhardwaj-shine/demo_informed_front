@@ -12559,6 +12559,7 @@ img.change-password-image {
   bottom: 0;
   width: 100%;
   padding: 16px;
+  z-index: 1;
 
   .cookie-popup-btns {
     flex: 1 1;
@@ -14184,6 +14185,18 @@ img.change-password-image {
         text-decoration: underline;
         color: rgba(0, 74, 137, 0.4);
       }
+    }
+  }
+
+  .overlay {
+    &.show {
+      background: rgba(0, 0, 36, 0.65);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      height: 100%;
+      left: 0;
+      right: 0;
     }
   }
 }
