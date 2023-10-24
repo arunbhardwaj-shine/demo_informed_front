@@ -9,6 +9,7 @@ const LandingFooter = () => {
     const [cookieshow, setCookieshow] = useState(false);
     const [cookieSection, setCookieSection] = useState(true)
     const [acceptedCookies, setAcceptedCookies] = useState(localStorage.getItem('acceptedCookies'));
+    const [addClass,setAddClass] = useState(true)
 
     const handleClose = () => {
           setPrivacyshow(false);
@@ -26,15 +27,17 @@ const LandingFooter = () => {
         setTermshow(false);
     };
       const handleCookieShow = () => {
-          setCookieshow(true);
+          setCookieshow(true); 
       };
       const handleCookieSection = () => {
         setCookieSection(false)
+        setAddClass(false)
       }
 
       const handleCookieAccept = () => {
         localStorage.setItem('acceptedCookies', 'true');
         setAcceptedCookies(true);
+        setAddClass(false)
       };
 
   return (
@@ -727,6 +730,7 @@ const LandingFooter = () => {
             </Container>
         </div>
         )}
+        <div className={`overlay ${addClass ? "show" : ""}`}></div>
         
         <Modal className="cookies-popup" show={cookieshow} onHide={(e) => handleCookieClose("cookie")}>
             <div className='cookies-popup-inset'>
