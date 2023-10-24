@@ -13952,7 +13952,10 @@ img.change-password-image {
             height: 190px;
             max-height: 200px;
             color: rgba(255, 255, 255, 0.50);
-            background-color: #2fa3c6;
+            // background-color: #2fa3c6;
+            background-color: rgba(255, 255, 255, 0.16);
+            -webkit-backdrop-filter: blur(150px);
+            backdrop-filter: blur(150px);
             box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
 
             >div {
@@ -16331,8 +16334,13 @@ img.change-password-image {
   display: none;
 }
 
-.split-button-dropup.show+span svg path {
+.modules-diagram .split-button-dropup.show+span svg path {
   fill: #0066b3;
+  fill-opacity: 1;
+}
+
+.contact-us .contact-inset .split-button-dropup.show+span svg path {
+  fill: #ffffff;
   fill-opacity: 1;
 }
 
@@ -17401,6 +17409,10 @@ img.change-password-image {
   .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse6 {
     transform: translate(-64px, 56px);
   }
+
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 36.5%;
+  }
 }
 
 @media only screen and (min-width:1200px) and (max-width:$layout-breakpoint-extraLarge) {
@@ -17487,6 +17499,12 @@ img.change-password-image {
 
   .landing-banner.pharma .circular-ring .center-logo {
     top: 38%;
+  }
+}
+
+@media only screen and (min-width:1200px) and (max-width:1300px) {
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 36.5%;
   }
 }
 
