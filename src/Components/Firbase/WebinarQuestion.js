@@ -10,6 +10,22 @@ import { loader } from "../../loader";
 import { useLocation } from 'react-router-dom';
 
 import 'react-tabs/style/react-tabs.css';
+let  colors= [
+  "#FFBE2C",
+  "#F58289",
+  "#d1d132",
+  "#D61975",
+  "#0066BE",
+  "#00003C",
+  "#b490f5",
+  "#91817e",
+  "#2b6570",
+  "#9C9CA2",
+  "#7cb0dd",
+  "#4f4566",
+  "#00D4C0",
+  "#32a1d1",
+] 
 const WebinarQuestion = () => {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
@@ -41,7 +57,7 @@ useEffect(()=>{
 },[])
   const initiFun = async () => {
     try {
-      const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
+      const result = await postData(ENDPOINT.WEBINAR_All_QUESTION_LISTING, {
         companyId: eventId?.companyId,
         eventId: eventId?.id,
       });
@@ -51,13 +67,26 @@ useEffect(()=>{
         let graphData = [],
           line_v = [],
           line_h = [];
+          const seriesData = value?.pollAnswers?.map((question,index) => ({
+            name: question.name,
+            y: question.y,
+            drilldown: question.drilldown,
+            color:colors[index],
+          }));
+          const drilldownData = value?.pollAnswers?.filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
+          .map(question => ({
+            id: question.drilldown,
+            name: question.name,
+            data: question.drillDownData.map(answer => [answer.name, answer.total]),
+            colors: question.drillDownData.map(answer => answer.color)
+          }));
           value?.pollAnswers.forEach((item,i) => {
-          line_v.push(item?.answer);
+          line_v.push(item?.name);
           line_h.push(item?.count_answer);
           const foundObj = {
-            y: item?.count_answer,
-            name: item?.answer,
-            color: item.color_code,
+            y: item?.y,
+            name: item?.name,
+            color: colors[i],
           };
           graphData.push(foundObj);
         });
@@ -66,6 +95,7 @@ useEffect(()=>{
           highchartData: {
             chart: {
               type: "column",
+              height:'500',
             },
             yAxis: {
               min: 0,
@@ -98,21 +128,23 @@ useEffect(()=>{
           },
           pieChartData:{
             chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie',
-                height:500
+              plotBackgroundColor: null,
+              plotBorderWidth: null,
+              plotShadow: false,
+              type: 'pie',
+              height:'500',
             },
             exporting: {
               enabled: false // Disable the export menu
             },
             title: {
-                text: 'Answers in percentage',
+                text: 'User Answers in percentage',
                 align: 'center'
             },
             tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+              formatter: function() {
+                return this.point.name +' : <b>'+ this.point.y + '</b>';
+              },
             },
             accessibility: {
                 point: {
@@ -120,29 +152,28 @@ useEffect(()=>{
                 }
             },
             legend: {
-              verticalAlign: "bottom",
-              labelFormatter:function(){
-                return this.name + ': ' + this.y;
-              }
+              labelFormat: '{name} ({percentage:.2f}%) ',
             },
             plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                    },
-                    showInLegend: true,
-                }
+              pie: {
+                  allowPointSelect: true,
+                  cursor: 'pointer',
+                  dataLabels: {
+                      enabled: false
+                  },
+                  showInLegend: true
+              }
             },
             series: [{
-                name: 'Brands',
+                name: 'Questions',
                 colorByPoint: true,
-                data:graphData
-            }]
+                data:seriesData,
+            }],
+            drilldown: {
+              series: drilldownData,
+            },
          },
-          answer:value?.pollAnswers?.length
+          answer:value?.totalUser
         });
       });
       setData(newData)
