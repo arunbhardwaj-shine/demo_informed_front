@@ -40,21 +40,6 @@ const WebinarRegistration = () => {
   };
 
   const handleChange = (e, index, item, data) => {
-    console.log(
-      "e name-->",
-      e?.target?.name,
-      " --e value--->",
-      e?.target?.value,
-      " --index-->",
-      index,
-      "--checked-->",
-      e?.target?.checked,
-      "item--->",
-      item,
-      "---data--->",
-      data
-    );
-
     if (data?.inputType == "radio" || data?.inputType == "checkbox") {
       let newObj = formInputs;
       if (!newObj[data?.label]) {
@@ -89,8 +74,14 @@ const WebinarRegistration = () => {
     });
     if (!allPresent) {
       toast.error("Please fill all the inputs");
+    } else {
+      const formElement = document.getElementById("registration-form");
+      const formHTML = formElement.outerHTML;
+      console.log("HTML form content-->", formHTML);
+      console.log("form inputs-->", formInputs);
+      setFormInputs({});
+      setFormData([]);
     }
-    setFormInputs({});
   };
 
   return (
@@ -112,95 +103,96 @@ const WebinarRegistration = () => {
 
               <section className="section">
                 <div className="sec1">
-                  <h1>
-                    To register please select and fill in all your details
-                    below.
-                  </h1>
+                  <div className="add_hcp_boxes">
+                    <button onClick={() => setModal(true)}>AddQuestion</button>
+                    <div className="form_action">
+                      <div className="row">
+                        <form id="registration-form" onSubmit={saveClicked}>
+                          <h2>
+                            To register please select and fill in all your
+                            details below.
+                          </h2>
 
-                  <h2>This meeting is for healthcare professionals only.</h2>
+                          <h3>
+                            This meeting is for healthcare professionals only.
+                          </h3>
 
-                  <hr></hr>
-                </div>
+                          <hr></hr>
 
-                <div>
-                  <button onClick={() => setModal(true)}>AddQuestion</button>
-
-                  {/* {showmodel && <Question />} */}
-                  {formData && formData?.length > 0 ? (
-                    <form onSubmit={saveClicked}>
-                      {formData?.map((data, index) => (
-                        <div key={index}>
-                          {/* <form onSubmit={saveClicked}> */}
-                          <div className="add_hcp_boxes">
-                            <div className="form_action">
-                              <div className="row">
-                                <div className="col-12 col-md-6">
-                                  <div className="form-group">
-                                    <label htmlFor="">{data?.label}</label>
-                                    {data?.option?.length > 0 ? (
-                                      data?.inputType === "radio" ? (
-                                        data?.option?.map((item, index) => (
-                                          <div key={index}>
-                                            <input
-                                              type="radio"
-                                              name={data?.label}
-                                              // checked={}
-                                              onChange={(e) =>
-                                                handleChange(
-                                                  e,
-                                                  index,
-                                                  item,
-                                                  data
-                                                )
-                                              }
-                                            />
-                                            <label htmlFor="">
-                                              {item?.optionLabel}
-                                            </label>
-                                          </div>
-                                        ))
-                                      ) : data?.inputType == "checkbox" ? (
-                                        data?.option?.map((item, index) => (
-                                          <div key={index}>
-                                            <input
-                                              type="checkbox"
-                                              name={data?.label}
-                                              onChange={(e) =>
-                                                handleChange(
-                                                  e,
-                                                  index,
-                                                  item,
-                                                  data
-                                                )
-                                              }
-                                            />
-                                            <label htmlFor="">
-                                              {item?.optionLabel}
-                                            </label>
-                                          </div>
-                                        ))
-                                      ) : null
-                                    ) : (
-                                      <input
-                                        name={data?.label}
-                                        className="form-control"
-                                        type={data?.inputType}
-                                        placeholder={data?.placeholder}
-                                        onChange={(e) => handleChange(e, index)}
-                                      />
-                                    )}
+                          <div className="center-align-form">
+                            {formData && formData?.length > 0 ? (
+                              <div>
+                                {formData?.map((data, index) => (
+                                  <div key={index} className="centered-input">
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label htmlFor="">{data?.label}</label>
+                                        {data?.option?.length > 0 ? (
+                                          data?.inputType === "radio" ? (
+                                            data?.option?.map((item, index) => (
+                                              <div key={index}>
+                                                <input
+                                                  type="radio"
+                                                  name={data?.label}
+                                                  // checked={}
+                                                  onChange={(e) =>
+                                                    handleChange(
+                                                      e,
+                                                      index,
+                                                      item,
+                                                      data
+                                                    )
+                                                  }
+                                                />
+                                                <label htmlFor="">
+                                                  {item?.optionLabel}
+                                                </label>
+                                              </div>
+                                            ))
+                                          ) : data?.inputType == "checkbox" ? (
+                                            data?.option?.map((item, index) => (
+                                              <div key={index}>
+                                                <input
+                                                  type="checkbox"
+                                                  name={data?.label}
+                                                  onChange={(e) =>
+                                                    handleChange(
+                                                      e,
+                                                      index,
+                                                      item,
+                                                      data
+                                                    )
+                                                  }
+                                                />
+                                                <label htmlFor="">
+                                                  {item?.optionLabel}
+                                                </label>
+                                              </div>
+                                            ))
+                                          ) : null
+                                        ) : (
+                                          <input
+                                            name={data?.label}
+                                            className="form-control"
+                                            type={data?.inputType}
+                                            placeholder={data?.placeholder}
+                                            onChange={(e) =>
+                                              handleChange(e, index)
+                                            }
+                                          />
+                                        )}
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
+                                ))}
+                                <Button type="submit">Save</Button>
                               </div>
-                            </div>
+                            ) : null}
                           </div>
-
-                          {/* </form> */}
-                        </div>
-                      ))}
-                      <Button type="submit">Save</Button>
-                    </form>
-                  ) : null}
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </section>
 
