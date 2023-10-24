@@ -61,7 +61,7 @@ const Event = () =>{
         try{
             e.preventDefault();
             if(!user.question){
-              setError({"question": "Please enter your question"})
+              setError({"question": "Please enter your suggestion"})
               return
             }else{
                 setError({})  
