@@ -1531,9 +1531,19 @@ ul.tab-mail-list.data span.total-left small {
   }
 }
 
+.login-confirm {
+  background: rgba(0, 0, 36, 0.20);
+  backdrop-filter: blur(10px);
+}
+
+.login-confirm #download-qr .modal-body .form-group input:-webkit-autofill {
+  -webkit-text-fill-color: #004A89 !important;
+}
+
 .login-confirm #download-qr .modal-body .form-group .form-control {
   max-width: 367px;
   padding: 8px 52px;
+  color: #004A89 !important;
 
   &:focus {
     box-shadow: 0px 0px 7px 0px rgba(0, 102, 190, 0.4);
@@ -1554,6 +1564,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .login-confirm .modal-title.h4 {
   color: $dark-blue;
+  font-weight: 600;
 }
 
 .login-confirm #download-qr .modal-body .form-group {
@@ -12314,6 +12325,7 @@ img.change-password-image {
     margin: 0 0 15px;
     color: $dark-blue;
     font-weight: 500;
+    font-size: 16px;
   }
 
   .highcharts-container {
@@ -12321,8 +12333,8 @@ img.change-password-image {
   }
 
   h6 {
-    margin: 0 0 30px;
-    font-size: 18px;
+    margin: 0 0 25px;
+    font-size: 16px;
     font-weight: 700;
   }
 
@@ -12548,6 +12560,7 @@ img.change-password-image {
   bottom: 0;
   width: 100%;
   padding: 16px;
+  z-index: 1;
 
   .cookie-popup-btns {
     flex: 1 1;
@@ -12575,49 +12588,66 @@ img.change-password-image {
       color: #70899E;
       line-height: 22px;
       font-weight: 400;
+
+      a {
+        color: #0066BE;
+      }
     }
   }
 }
 
 .cookies-popup {
+  background: rgba(0, 0, 36, 0.20);
+  backdrop-filter: blur(10px);
 
-  .cookies-popup-inset {
-    background: rgba(255, 255, 255, 0.19);
-    box-shadow: 0px 0px 16px rgb(0 102 190 / 10%);
-    border-radius: 15px;
-    z-index: 9;
-    padding: 15px;
+  .modal-dialog {
+    max-width: 695px;
 
-    .used-cookies-table {
-      height: calc(100% - 63px);
-      overflow-y: auto;
+    .cookies-popup-inset {
+      background: rgba(255, 255, 255, 0.19);
+      box-shadow: 0px 0px 16px rgb(0 102 190 / 10%);
+      border-radius: 15px;
+      z-index: 9;
+      padding: 15px;
 
-      table {
-        thead {
-          position: sticky;
-          top: 0;
-          background: #fff;
+      .modal-header {
+        padding: 10px 11px 20px;
 
-          th {
-            min-width: 150px;
-            color: #00a993;
-            font-weight: 600;
+        .modal-title {
+          color: #004A89;
+        }
+      }
+
+      .used-cookies-table {
+        height: calc(100% - 63px);
+        overflow-y: auto;
+
+        table {
+          thead {
+            position: sticky;
+            top: 0;
+            background: #fff;
+
+            th {
+              min-width: 230px;
+              color: #8A4E9C;
+              font-weight: 600;
+              font-size: 15px;
+              padding: 0 10px 20px 0;
+            }
+          }
+
+          td {
+            vertical-align: top;
             font-size: 15px;
+            color: #70899E;
             padding: 0 10px 20px 0;
           }
         }
-
-        td {
-          vertical-align: top;
-          font-size: 15px;
-          color: #9e9da3;
-          padding: 0 10px 20px 0;
-        }
       }
-    }
 
 
-    .modal-dialog {
+
       .modal-content {
         background: #FFFFFF;
         box-shadow: 0px 0px 19px rgb(0 0 0 / 7%);
@@ -12646,7 +12676,7 @@ img.change-password-image {
 
 /**New Landign Page**/
 .header-landing {
-  position: fixed;
+  position: absolute;
   z-index: 2;
   width: 100%;
   top: 34px;
@@ -12773,7 +12803,7 @@ img.change-password-image {
       text-shadow: 0px 0px 11px rgba(0, 102, 190, 0.44);
       font-family: Roboto;
       font-size: 56px;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 119.187%;
       text-transform: capitalize;
     }
@@ -12787,7 +12817,7 @@ img.change-password-image {
     h4 {
       color: $white;
       text-align: center;
-      font-weight: 400;
+      font-weight: 300;
       line-height: 40px;
       text-transform: none;
 
@@ -12842,8 +12872,8 @@ img.change-password-image {
 
         img {
           width: 28px;
-          animation: img-rotate 26s linear infinite;
-          -webkit-animation: img-rotate 26s linear infinite;
+          animation: img-rotate 20s linear infinite;
+          -webkit-animation: img-rotate 20s linear infinite;
           transform: rotate(-45deg);
         }
       }
@@ -13071,6 +13101,7 @@ img.change-password-image {
   .circle.circle-inner4 .icon-block {
     width: 13px;
     height: 13px;
+    box-shadow: 0 0 14px rgba(0, 74, 137, .39);
   }
 
   .center-logo .icon {
@@ -13512,7 +13543,7 @@ img.change-password-image {
     }
 
     .center-logo {
-      top: 35%;
+      top: 34.5%;
 
       .icon {
         width: 80px;
@@ -13701,7 +13732,7 @@ img.change-password-image {
         border-radius: 81px;
         background: linear-gradient(90deg, $primary-color -7.89%, #00d4c0 100%);
         box-shadow: 0px 2px 4px 0px rgba(0, 74, 137, 0.5);
-        font-weight: 500;
+        font-weight: 400;
         line-height: 39px;
         font-size: 20px;
         color: $white;
@@ -13749,6 +13780,7 @@ img.change-password-image {
           border-radius: 37px;
           outline: 10px solid #e7f0f9;
           outline-offset: 0px;
+          z-index: -1;
         }
       }
     }
@@ -13756,7 +13788,7 @@ img.change-password-image {
 }
 
 .contact-us {
-  background: #68d1e8 url(../../../../public/componentAssets/images/contact-bg.svg) no-repeat;
+  background: #68d1e8 url(../../../../public/componentAssets/images/contact-bg.png) no-repeat;
   background-size: cover;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
   margin: -15px 0 0;
@@ -13770,6 +13802,12 @@ img.change-password-image {
     background: $primary-color url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
     background-size: cover;
+
+    .contact-inset {
+      .form-sec {
+        border: 1px dashed #46BCFF;
+      }
+    }
   }
 
   &.rd {
@@ -13782,6 +13820,12 @@ img.change-password-image {
     background: $secondary-green url(../../../../public/componentAssets/images/publisher-contact.png) no-repeat;
     background-size: cover;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
+
+    .contact-inset {
+      .form-sec {
+        border: 1px dashed #35E9E9;
+      }
+    }
   }
 
   .contact-inset {
@@ -13792,7 +13836,7 @@ img.change-password-image {
       text-align: center;
       color: $white;
       font-size: 32px;
-      font-weight: 700;
+      font-weight: 600;
       margin: 0 0 24px;
     }
 
@@ -13851,14 +13895,8 @@ img.change-password-image {
         }
 
         .success_msg {
-          color: #fff;
-          font-size: 13px;
-          background: #0db163;
-          border-radius: 5px;
-          padding: 5px;
-          text-align: center;
-          border: 1px solid #0ba55d;
-          margin-top: 10px;
+          color: #46f4ff;
+          font-size: 14px;
         }
 
         .error_msg {
@@ -13896,6 +13934,8 @@ img.change-password-image {
             font-size: 14px;
             font-weight: 400;
             color: $white;
+            background-image: url(../../../../public/componentAssets/images/dropdown-arrow-contact.svg);
+            background-repeat: no-repeat;
           }
 
           >div {
@@ -13911,7 +13951,28 @@ img.change-password-image {
 
           >div:nth-child(4) {
             @include split-btn-dropdown;
-            padding: 5px 0px;
+            padding: 5px 5px 5px 0;
+            height: 190px;
+            max-height: 200px;
+            color: rgba(255, 255, 255, 0.50);
+            // background-color: #2fa3c6;
+            background-color: rgba(255, 255, 255, 0.16);
+            -webkit-backdrop-filter: blur(150px);
+            backdrop-filter: blur(150px);
+            box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+
+            >div {
+              div {
+                color: rgba(255, 255, 255, 0.50);
+                font-size: 14px;
+                padding: 8px 10px;
+
+                &:hover {
+                  background-color: rgba(255, 255, 255, 0.8);
+                  color: #0066be;
+                }
+              }
+            }
           }
         }
 
@@ -13971,6 +14032,21 @@ img.change-password-image {
       }
     }
   }
+}
+
+.contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-thumb {
+  background: #0066BE;
+  border: 2px solid #7eabcd;
+  height: 60px;
+  padding: 2px;
+}
+
+.contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar {
+  width: 7px;
 }
 
 .rd {
@@ -14112,6 +14188,18 @@ img.change-password-image {
       }
     }
   }
+
+  .overlay {
+    &.show {
+      background: rgba(0, 0, 36, 0.65);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      height: 100%;
+      left: 0;
+      right: 0;
+    }
+  }
 }
 
 /**pharma page**/
@@ -14245,8 +14333,7 @@ img.change-password-image {
                 position: absolute;
                 right: 0;
                 max-width: 85px;
-                opacity: 1;
-                /* bottom: 220px; */
+                opacity: 0.5;
                 transform: translate(-435px, 270px);
                 transition: 1.2s ease transform;
               }
@@ -15179,7 +15266,7 @@ img.change-password-image {
           input.form-control {
             border-radius: 30px;
             border: 0;
-            color: $light-gray;
+            color: $dark-blue;
             font-size: 14px;
             font-weight: 400;
             padding: 9px 10px 9px 48px;
@@ -15189,6 +15276,7 @@ img.change-password-image {
                 svg {
                   path {
                     fill-opacity: 1;
+                    fill: #0066BE;
                   }
                 }
               }
@@ -15249,10 +15337,48 @@ img.change-password-image {
       font-size: 14px;
     }
 
+    .module-register form .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
+      color: #97B6CF;
+    }
+
+    .module-register .split-button-dropup>div:nth-child(4) {
+      @include split-btn-dropdown;
+      padding: 5px 5px;
+      height: 190px;
+      max-height: 200px;
+      color: #97B6CF;
+      background-color: #ffffff;
+      box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+    }
+
     .module-register .split-button-dropup>div:nth-child(4)>div div {
       text-align: left;
+      color: #97B6CF;
+      font-size: 14px;
+      padding: 8px 10px;
     }
   }
+}
+
+.module-register .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-thumb {
+  background: #97B6CF;
+  border: 2px solid #eff4f8;
+}
+
+.module-register .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-track {
+  background: #eff4f8;
+}
+
+.module-register .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar {
+  width: 9px;
+}
+
+.module-register form .form-group input:-webkit-autofill {
+  -webkit-text-fill-color: $dark-blue !important;
+}
+
+.module-register form .split-button-dropup div:nth-child(3)>div div {
+  color: $dark-blue;
 }
 
 @keyframes fadeInbigger {
@@ -15468,7 +15594,7 @@ img.change-password-image {
   }
 
   h4 {
-    font-weight: 600;
+    font-weight: 500;
     color: $white;
   }
 
@@ -15636,7 +15762,14 @@ img.change-password-image {
   --r-amount: 0;
   --r: 0;
   --transform: 0;
+
 }
+
+.module-discribe.request .module-diagram.circle .stat,
+.module-discribe.request .module-diagram.circle .stat.active {
+  filter: drop-shadow(0px 1px 8px rgba(0, 102, 190, 0.24))
+}
+
 
 .module-discribe.request .module-diagram.circle {
   transition-delay: 0.1s;
@@ -15740,6 +15873,7 @@ img.change-password-image {
   font-size: 14px;
   font-weight: 400;
   width: 100%;
+  color: $dark-blue;
 }
 
 .module-discribe.request .module-diagram.circle .stat.blank {
@@ -15793,6 +15927,7 @@ img.change-password-image {
 
 .request-content form .form-group .form-control:focus+span svg path {
   fill-opacity: 1;
+  fill: #0066BE;
 }
 
 .request-content form textarea::-webkit-input-placeholder {
@@ -16221,6 +16356,16 @@ img.change-password-image {
 
 .mobile-content {
   display: none;
+}
+
+.modules-diagram .split-button-dropup.show+span svg path {
+  fill: #0066b3;
+  fill-opacity: 1;
+}
+
+.contact-us .contact-inset .split-button-dropup.show+span svg path {
+  fill: #ffffff;
+  fill-opacity: 1;
 }
 
 /**New Landign Page End**/
@@ -16710,6 +16855,8 @@ img.change-password-image {
     font-size: 13px;
   }
 
+
+
   .modules-diagram .module-bigger-size .module-register .split-button-dropup>div:nth-child(3) {
     padding: 3px 32px 3px 15px;
     line-height: 15px;
@@ -16905,6 +17052,26 @@ img.change-password-image {
   .circular-ring {
     width: 320px;
     height: 320px;
+  }
+
+  .mudule-article-overview {
+    max-width: 336px;
+    height: 336px;
+  }
+
+  .landing-banner.pharma .circular-ring {
+    width: 700px;
+    height: 700px;
+  }
+
+  .modules-diagram .circle {
+    --radius: 219px;
+  }
+
+
+
+  .modules-diagram .module-logo img {
+    max-width: 382px;
   }
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views img {
@@ -17133,18 +17300,20 @@ img.change-password-image {
     }
 
     .landing-heading {
-      margin: 38px 0 14px;
+      margin: 58px 0 14px;
     }
   }
 
-  .landing-banner.pharma .circular-height {
-    height: 455px;
-    padding: 65px 0 0;
-  }
 
   .landing-banner.pharma .circular-ring .center-logo {
     top: 33%;
   }
+
+  .landing-banner.pharma .circular-height {
+    height: 425px;
+    padding: 65px 0 0;
+  }
+
 
   .how-work {
     .future-expand {
@@ -17263,6 +17432,103 @@ img.change-password-image {
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse6 {
     transform: translate(-64px, 56px);
+  }
+
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 36.5%;
+  }
+}
+
+@media only screen and (min-width:1200px) and (max-width:$layout-breakpoint-extraLarge) {
+  .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
+    left: 12%;
+  }
+
+  .landing-banner.pharma .circular-height {
+    height: 415px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(11) {
+    left: 1%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:first-child {
+    top: -11px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(3) {
+    left: 96%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(6) {
+    top: 86%;
+    left: 81%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(7) {
+    top: 93%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(9) {
+    top: 63%;
+    left: -2%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(10) {
+    top: 45%;
+    left: -3%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(2) {
+    top: 12%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(5) {
+    top: 84.4%;
+    left: 20%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child {
+    top: -5%;
+    left: 32%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(2) {
+    top: 8%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(5) {
+    top: 84%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:first-child {
+    top: 20%;
+    left: 89%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) {
+    top: 70%;
+    left: 76%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(3) {
+    top: 66%;
+    left: 7%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(4) {
+    top: 26%;
+    left: 8%;
+  }
+
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 38%;
+  }
+}
+
+@media only screen and (min-width:1200px) and (max-width:1300px) {
+  .landing-banner.pharma .circular-ring .center-logo {
+    top: 36.5%;
   }
 }
 
@@ -17638,6 +17904,11 @@ img.change-password-image {
     display: block;
   }
 
+  .how-work .build_with.justify-content-end {
+    justify-content: center !important;
+    margin-top: 30px;
+  }
+
   .mobile-content {
     display: block;
   }
@@ -17799,9 +18070,8 @@ img.change-password-image {
   }
 
   .header-landing {
-    padding-right: 10px;
-    backdrop-filter: blur(10px);
-    padding: 20px 1px 20px 0;
+    // backdrop-filter: blur(10px);
+    padding: 20px 0px 20px 0;
     top: 0;
 
     .logo {
@@ -18218,10 +18488,11 @@ img.change-password-image {
 
     .how-work-img {
       margin: 0 0 28px;
+      text-align: center;
 
       img {
         max-width: 287px;
-        padding-left: 15px;
+        padding-left: 0px;
       }
     }
 
@@ -18320,12 +18591,14 @@ img.change-password-image {
     .works-started {
       &>h3 {
         font-size: 24px;
-        margin: 0 0 65px;
+        margin: 0 0 25px;
       }
 
       .works-started-links {
-        padding: 20px 0 0;
-        background: transparent;
+        padding: 60px 0 0;
+        /* background: transparent; */
+        background-size: 150%;
+        background-position: center top;
 
         h3 {
           font-size: 24px;
@@ -18361,6 +18634,16 @@ img.change-password-image {
     padding: 55px 0 57px;
     background-size: cover;
     background-position: center;
+
+    &.pharma {
+      background: url(../../../../public/componentAssets/images/pharma-contact-bg1.png) no-repeat;
+      background-size: cover;
+    }
+
+    &.publish {
+      background: url(../../../../public/componentAssets/images/publisher-contact-bg.png) no-repeat;
+      background-size: cover;
+    }
 
     .contact-inset {
       h3 {
@@ -18404,6 +18687,7 @@ img.change-password-image {
 
         &.bottom {
           height: 125px;
+          margin-top: -20px;
         }
       }
 
@@ -18430,7 +18714,7 @@ img.change-password-image {
 
                 img {
                   &.slide-ellipse2 {
-                    transform: translate(-60px, 100%);
+                    transform: translate(-60px, 75%);
                     bottom: 0;
                   }
                 }
@@ -18497,7 +18781,7 @@ img.change-password-image {
               padding-left: 0;
 
               &::after {
-                right: 8px;
+                right: 12px;
               }
             }
           }
@@ -18513,10 +18797,10 @@ img.change-password-image {
           li {
             font-size: 13px;
             line-height: 25px;
-            padding-left: 37px;
+            padding-left: 30px;
 
             &::after {
-              left: 15px;
+              left: 12px;
             }
           }
         }
@@ -18828,7 +19112,7 @@ img.change-password-image {
   }
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slide-left-sided {
-    transform: translate(0%, 0px) rotate(125deg);
+    transform: translate(-1%, -60px) rotate(125deg);
   }
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide3 .slider-bg-icons img.slide-ellipse4 {
@@ -18883,7 +19167,7 @@ img.change-password-image {
   }
 
   .pharma-slider .slider .slick-dots {
-    bottom: 10px;
+    bottom: 28px;
   }
 
   .landing-banner.pharma .landing-block {
@@ -18897,8 +19181,11 @@ img.change-password-image {
     padding-right: 0;
   }
 
+  .pharma-slider .slider .slick-dots li {
+    margin: 0 2px;
+  }
+
   .pharma-slider .slider .slick-dots button {
-    border: 2px solid #0066be;
     border-radius: 50%;
     background: #fff;
     width: 16px;
@@ -18914,13 +19201,15 @@ img.change-password-image {
     line-height: 0;
     content: "";
     background: #0066be;
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     top: 4px;
     left: -4px;
     right: 0;
     margin: 0 auto;
+    box-shadow: 1px 1px 5px #dfdfdf;
+    border: 1px solid #f6fbff;
   }
 
   .pharma-slider .slick-dots li.slick-active button:before {
@@ -19100,7 +19389,7 @@ img.change-password-image {
   }
 
   .overlay.show {
-    background: rgba(0, 0, 36, 0.65);
+    background: rgba(0, 0, 36, 0.20);
     backdrop-filter: blur(4px);
     position: fixed;
     top: 0;
@@ -19185,6 +19474,62 @@ img.change-password-image {
 
   .request-content form textarea {
     margin: 6px 0 10px;
+  }
+
+  .cookies-popup {
+    padding: 0 16px;
+
+    .modal-dialog {
+      .modal-content {
+        box-shadow: none;
+
+        .cookies-popup-inset {
+          box-shadow: none;
+          padding: 0;
+
+          .modal-header {
+            padding-top: 5px;
+
+            .modal-title {
+              font-size: 24px;
+              font-weight: 700;
+            }
+          }
+
+          .modal-body {
+            padding: 0;
+
+            table {
+              thead {
+                th {
+                  min-width: 130px;
+                  font-size: 16px;
+
+                  &:first-child {
+                    width: 130px;
+                  }
+
+                  &:last-child {
+                    padding-right: 0px;
+                  }
+                }
+              }
+
+              tbody {
+                td {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+  .pharma-slider .slider .slick-list {
+    min-height: 600px;
   }
 
   // .scrollerClass,

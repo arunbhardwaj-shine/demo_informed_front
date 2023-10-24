@@ -215,10 +215,12 @@ const LandingHeader = () => {
           <Row>
             <div className="d-flex justify-content-between align-items-center">
               <div className="logo">
+                <Link to="/">
                 <img
                   src={path_image + "informed_logo.svg"}
                   alt="Informed.pro"
                 />
+                </Link>
               </div>
               <div className="login">
                 <Button className="btn-white" onClick={handleShow}>

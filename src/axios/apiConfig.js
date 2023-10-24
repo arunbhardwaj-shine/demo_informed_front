@@ -99,12 +99,14 @@ export const ENDPOINT = {
   WEBINAR_QUESTION: `/auth/questions`,
   POLL_ANSWER: `/auth/poll-answer`,
   EVENT_ID: `/auth/event-data`,
+  SESSION_LIST: `/auth/session-listing`,
 
   SITEREGISTER: "/site-registration",
   SITEREGISTERSORT: "/site-registration-sort",
 
   IRT_COUNT_GRAPH: "/find-irt-count",
   WEBINAR_QUESTION_LISTING: "/auth/webinar-question",
+  WEBINAR_All_QUESTION_LISTING: "/auth/webinar-all-question",
   // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
   RD_SITE_ENGAGEMENT:
     "https://webinar.docintel.app/lmn/api/analytics/rd_site_engagement",

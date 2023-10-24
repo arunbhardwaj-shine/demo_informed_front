@@ -74,10 +74,10 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                         </div>
                     </div>
                     <div className='landing-heading'>
-                        <h1>Predictive Relationship Builder!</h1>
+                        <h1>Predictive Relationship Builder</h1>
                     </div>
-                    <div className='landing-sub-heading'><h4>Connecting content & consent with intelligent predictions<br/><br/>
-                    Allowing the right materials, to reach the right person, at the right time</h4></div>
+                    <div className='landing-sub-heading'><h4>Connecting content and consent with intelligent predictions<br/><br/>
+                    The right materials reaching the right person at the right time.</h4></div>
                 </div>
             </Row>
         </Container>
@@ -93,7 +93,7 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 <Col md={{ span: 6, offset: 1 }} className='d-flex justify-content-center align-items-center'>
                     <div className='how-work-text'>
                         <h3>How does it work? </h3>
-                        <h5>We host all your content whilst using intelligence to create personalised recommendations for each HCP ( Healthcare Professional ) with their consent. </h5>
+                        <h5>We host all your content and use intelligence to create personalised recommendations for each HCP with their consent. </h5>
                     </div>
                 </Col>
             </Row>
