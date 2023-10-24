@@ -321,6 +321,7 @@ const colourStyles = {
   const [conatctError, setContactError] = useState(false);
   const [forceRender, setForceRender] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
+  const [addClass, setAddClass] = useState(false);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -329,6 +330,7 @@ const colourStyles = {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   const handleContactFormChange = (e, isSelectedName) => {
+    setAddClass(false);
     setContactFormInputs({
       ...contactFormInputs,
       [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -338,7 +340,9 @@ const colourStyles = {
         : e?.target?.value, 
     });
   };
-
+  const handleSelectionClick = () => {
+    setAddClass(true);
+  }
 
   // send contact infromation
   const sendContactInformation = async (event) => {
@@ -508,10 +512,9 @@ const colourStyles = {
                     styles={colourStyles}
                     placeholder="Select country"
                     // className="dropdown-basic-button split-button-dropup"
-                    className={
-                      !conatctError?.country
-                        ? "dropdown-basic-button split-button-dropup"
-                        : "dropdown-basic-button split-button-dropup error"
+                    className={`${!conatctError?.country
+                      ? "dropdown-basic-button split-button-dropup"
+                      : "dropdown-basic-button split-button-dropup error"} ${addClass ? "show" : ""}`
                     }
                     isClearable
                     onChange={(e) => {
@@ -520,6 +523,7 @@ const colourStyles = {
                     }}
                     value={selectedCountry}
                     ref={countryRef}
+                    onMenuOpen={handleSelectionClick}
                   />
                   <span>
                     <svg
