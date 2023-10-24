@@ -1397,7 +1397,7 @@ const handleSelectionClick = () => {
           <Row>
             <div className="landing-block">
               <div className="landing-heading">
-                <h1>Predictive Relationship Builder!</h1>
+                <h1>Predictive Relationship Builder</h1>
               </div>
               <div className="landing-sub-heading">
                 <h4>

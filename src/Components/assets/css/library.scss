@@ -1532,7 +1532,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .login-confirm {
-  background: rgba(0, 0, 36, 0.65);
+  background: rgba(0, 0, 36, 0.20);
   backdrop-filter: blur(10px);
 }
 
@@ -12595,7 +12595,7 @@ img.change-password-image {
 }
 
 .cookies-popup {
-  background: rgba(0, 0, 36, 0.65);
+  background: rgba(0, 0, 36, 0.20);
   backdrop-filter: blur(10px);
 
   .modal-dialog {
@@ -13099,6 +13099,7 @@ img.change-password-image {
   .circle.circle-inner4 .icon-block {
     width: 13px;
     height: 13px;
+    box-shadow: 0 0 14px rgba(0, 74, 137, .39);
   }
 
   .center-logo .icon {
@@ -13785,7 +13786,7 @@ img.change-password-image {
 }
 
 .contact-us {
-  background: #68d1e8 url(../../../../public/componentAssets/images/contact-bg.svg) no-repeat;
+  background: #68d1e8 url(../../../../public/componentAssets/images/contact-bg.png) no-repeat;
   background-size: cover;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
   margin: -15px 0 0;
@@ -13963,6 +13964,11 @@ img.change-password-image {
                 color: rgba(255, 255, 255, 0.50);
                 font-size: 14px;
                 padding: 8px 10px;
+
+                &:hover {
+                  background-color: rgba(255, 255, 255, 0.8);
+                  color: #0066be;
+                }
               }
             }
           }
@@ -14028,8 +14034,9 @@ img.change-password-image {
 
 .contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-thumb {
   background: #0066BE;
-  border: 2px solid #72c1d8;
+  border: 2px solid #7eabcd;
   height: 60px;
+  padding: 2px;
 }
 
 .contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-track {
@@ -14037,7 +14044,7 @@ img.change-password-image {
 }
 
 .contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar {
-  width: 9px;
+  width: 7px;
 }
 
 .rd {
@@ -15744,9 +15751,11 @@ img.change-password-image {
 
 }
 
-.module-discribe.request .module-diagram.circle .stat {
+.module-discribe.request .module-diagram.circle .stat,
+.module-discribe.request .module-diagram.circle .stat.active {
   filter: drop-shadow(0px 1px 8px rgba(0, 102, 190, 0.24))
 }
+
 
 .module-discribe.request .module-diagram.circle {
   transition-delay: 0.1s;
@@ -17881,6 +17890,11 @@ img.change-password-image {
     display: block;
   }
 
+  .how-work .build_with.justify-content-end {
+    justify-content: center !important;
+    margin-top: 30px;
+  }
+
   .mobile-content {
     display: block;
   }
@@ -19361,7 +19375,7 @@ img.change-password-image {
   }
 
   .overlay.show {
-    background: rgba(0, 0, 36, 0.65);
+    background: rgba(0, 0, 36, 0.20);
     backdrop-filter: blur(4px);
     position: fixed;
     top: 0;
