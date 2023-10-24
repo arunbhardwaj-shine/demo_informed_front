@@ -288,7 +288,7 @@ const Event = () =>{
 
         <div className="log-inner">
         <div className="head-sec">
-         <h2 className="top-title">Write your question here!</h2>
+         <h2 className="top-title">Suggestions</h2>
                 {/* <div className="under-spotlight"><img src="https://webinar.docintel.app/Event/chat/image/octa-academy-register.png" alt="Logo" /></div> */}
             <div className="head_desc">
            </div>
@@ -307,14 +307,14 @@ const Event = () =>{
                     <input type="hidden" className="form-control" value = "index.php?evnt=octa-academy-2023" name="page" />
                   </div>
                      <div className="col-md-12">
-                    <label htmlFor="question" className="form-label">Your question<sup>*</sup></label>
-                     <textarea name="question" id="question" onChange={handleChange} className="form-control" placeholder="Write your question"  cols="40" rows="4" value={user?.question}></textarea>
+                    <label htmlFor="question" className="form-label">We appreciate any suggestion you have.<sup>*</sup></label>
+                     <textarea name="question" id="question" onChange={handleChange} className="form-control" placeholder="Write your suggestion here"  cols="40" rows="4" value={user?.question}></textarea>
                      {error?.question?<span className="event-validation">{error?.question}</span>:""}
 
                       </div>
 
                 <div className="col-md-12">
-                    <input type="submit" className="btn btn-success" value="SEND" />
+                    <input type="submit" className="btn btn-success" value="Submit" />
                 </div>
             </div>
         </form> 
