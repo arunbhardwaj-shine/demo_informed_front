@@ -8,6 +8,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import {db} from "../../config/firebaseConfig"
 import { loader } from "../../loader";
 import { useLocation } from 'react-router-dom';
+import Modal from "react-bootstrap/Modal";
 
 import 'react-tabs/style/react-tabs.css';
 let  colors= [
@@ -28,12 +29,15 @@ let  colors= [
 ] 
 const WebinarQuestion = () => {
   const [data, setData] = useState([]);
+  const [alldata, setAllData] = useState([]);
   const [count, setCount] = useState(0);
   const [eventId,setEvent] = useState({
     id:0,
     companyId:0
   })
   const location = useLocation();
+  const [commentPop,setCommentPopup] = useState(false)
+  const [comments,setComments] = useState([])
   const queryParams = new URLSearchParams(location.search);   
   const [countValue, setCountvalue] = useState(0);
   const q = query(collection(db, "chat"),where("event_id","==",eventId?.id),orderBy("date","desc"),limit(1))
@@ -173,10 +177,12 @@ useEffect(()=>{
               series: drilldownData,
             },
          },
-          answer:value?.totalUser
+          answer:value?.totalUser,
+          questionId:value?.questionId,
         });
       });
       setData(newData)
+      setAllData(result?.data?.data);
     } catch (err) {
       console.log("-err", err);
     }
@@ -204,7 +210,25 @@ useEffect(() => {
         initiFun();
     }
   }, [countValue]);
- 
+
+  const displayPopup = (question_id, e) => {
+    e.preventDefault();
+    let index = alldata.findIndex(obj => obj.questionId === question_id);
+    setCommentPopup(true);
+    if (index !== -1) {
+      let allComments = alldata?.[index]?.userComments;
+      let comments = allComments?.map(obj => obj.comments);
+      setComments(comments);
+      console.log(`Element found at index ${index}`);
+    } else {
+      console.log('Element not found');
+    }
+  }
+  
+  const onClose = () => {
+    setCommentPopup(false);
+  }
+
   return (
     <>
           <div className="webinar-questions">
@@ -216,7 +240,15 @@ useEffect(() => {
                     <p>{index+1}. {item?.question}</p>
                     {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.highchartData} />: <h6>This question hasn't been answered yet.</h6>}
                     {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.pieChartData} />: <h6>This question hasn't been answered yet.</h6>}
-                    {item?.answer? <h6>Total user: {item?.answer} </h6>:null}
+                    {item?.answer? 
+                      <>
+                      <h6 className="total_count">Total user: {item?.answer} </h6>
+                      <button type="button" className="btn btn-info answermodel" onClick={(e) => displayPopup(item?.questionId, e)}>Answers</button>
+                      </>
+                      :
+                      null
+                    }
+                    
                     </>
                     )
               })}
@@ -224,6 +256,47 @@ useEffect(() => {
               </div>
             </Container>
           </div>
+
+          <Modal show={commentPop} backdrop="static" onHide={onClose} keyboard={false} id="showComments">
+            <Modal.Header closeButton>
+              <Modal.Title id="contained-modal-title-vcenter">
+                <img
+                  src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
+                  alt=""
+                />
+              </Modal.Title>
+            </Modal.Header>
+              <Modal.Body>
+                  <table className="table table-striped">
+                        <thead>
+                          <tr>
+                          <th>User Name</th>
+                          <th>Answer</th>
+                          <th>Explanation</th>
+                          </tr>
+                        </thead>
+                        <tbody>										 
+                        {
+                          comments?.length > 0 ?
+                          comments?.map((item,index)=>{
+                          return(
+                            <>
+                            <tr>
+                              <td>N/A</td>
+                              <td></td>
+                              <td>{item}</td>
+                            </tr>
+                            </>
+                          ) 
+                          })
+                          : <tr><td colSpan={3}><p>No Data Found</p></td></tr>
+                        }
+                        </tbody>
+                  </table>
+                
+              </Modal.Body>
+            
+          </Modal>
           </>
   );
 };
