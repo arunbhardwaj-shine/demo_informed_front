@@ -223,7 +223,7 @@ useEffect(() => {
                   return (
                     <>
                     <p>{index+1}. {item?.question}</p>
-                    {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.highchartData} />: <h6>This question hasn't been answered yet.</h6>}
+                    {/* {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.highchartData} />: <h6>This question hasn't been answered yet.</h6>} */}
                     {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.pieChartData} />: <h6>This question hasn't been answered yet.</h6>}
                     {item?.answer? 
                       <>
