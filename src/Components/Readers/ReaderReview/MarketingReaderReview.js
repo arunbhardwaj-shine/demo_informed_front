@@ -36,6 +36,12 @@ const MarketingReaderReview = () => {
       loader("hide");
     }
   };
+
+  const editUser = () => {
+    navigate("/reader-edit", {
+      state,
+    });
+  };
   useEffect(() => {}, []);
 
   return (
@@ -65,6 +71,13 @@ const MarketingReaderReview = () => {
                   >
                     Close
                   </Link>
+                  <Button
+                    className="btn btn-primary btn-filled next send_btn"
+                    onClick={editUser}
+                  >
+                    {/* {state?.flag ? "Save " : "Create "} */}
+                    Edit
+                  </Button>
                   <Button
                     className="btn btn-primary btn-filled next send_btn"
                     onClick={createUser}
