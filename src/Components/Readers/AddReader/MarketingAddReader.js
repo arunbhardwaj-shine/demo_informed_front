@@ -274,7 +274,7 @@ const MarketingAddReader = () => {
       }
     } else if (e?.target?.name == "primary_phone") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
-      if (cleanedValue?.length <= 12) {
+      if (cleanedValue?.length <= 20) {
         setUserInputs({
           ...userInputs,
 
@@ -283,12 +283,12 @@ const MarketingAddReader = () => {
         setError(null);
       } else {
         setError({
-          primary_phone: "Number must be in between 10 to 12 digits",
+          primary_phone: "Number must be in between 10 to 20 digits",
         });
       }
     } else if (e?.target?.name == "alternativePhone") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
-      if (cleanedValue?.length <= 12) {
+      if (cleanedValue?.length <= 20) {
         setUserInputs({
           ...userInputs,
           [e?.target?.name]: cleanedValue,
@@ -296,7 +296,7 @@ const MarketingAddReader = () => {
         setError(null);
       } else {
         setError({
-          alternativePhone: "Number must be in between 10 to 12 digits",
+          alternativePhone: "Number must be in between 10 to 20 digits",
         });
       }
     } else if (e?.target?.name == "contactTotal") {
