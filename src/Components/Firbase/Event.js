@@ -15,6 +15,7 @@ import { v4 as uuid } from 'uuid';
 
 import axios from "axios"
 import {db} from "../../config/firebaseConfig"
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const Event = () =>{
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);   
@@ -289,9 +290,9 @@ const Event = () =>{
         <div className="log-inner">
         <div className="head-sec">
          <h2 className="top-title">Suggestions</h2>
-                {/* <div className="under-spotlight"><img src="https://webinar.docintel.app/Event/chat/image/octa-academy-register.png" alt="Logo" /></div> */}
-            <div className="head_desc">
-           </div>
+                <div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div> 
+            {/* <div className="head_desc">
+           </div> */}
             </div>
 
         </div>

@@ -41,21 +41,20 @@ body {
 .question-block .head-sec {
   text-align: left;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 0px 0px 0px 30px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 30px;
   background: #dbecea;
   border-bottom: 7px solid #9dd2cd;
   min-height: 170px;
   position: relative;
-  flex-direction: column;
 }
 
 .question-block .head-sec h2.top-title {
   font-weight: 700;
   font-size: 30px;
-  margin-bottom: 15px;
-  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-top: 0px;
   color: #000;
 }
 
@@ -88,12 +87,12 @@ body {
   margin-bottom: 30px;
 }
 
-.question-block .under-spotlight {
+/* .question-block .under-spotlight {
   margin-bottom: 20px;
   position: absolute;
   right: 0;
   top: 0;
-}
+} */
 
 .question-block-form .form-control:focus {
   /* box-shadow: none;
