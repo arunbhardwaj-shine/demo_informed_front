@@ -10,6 +10,7 @@ const CommanPage = () =>{
   const navigation = useNavigate();
   const [index,setIndex] = useState(0)
   const[queryData,setQueryData] = useState("")
+  const[showHeader,setShowHeader] = useState(true)
   const [constData,setConstData] = useState([
     "/Webinar/question-list","/Webinar/poll-question","/Webinar/webinar-question"
   ])
@@ -18,8 +19,11 @@ const CommanPage = () =>{
 
     useEffect(()=>{
       const data =  constData.indexOf(location.pathname)
-      console.log("-data",searchParams.get('evnt'))
+      console.log("-data",searchParams.get('evnt'),searchParams.get('frame'))
       setQueryData(searchParams.get('evnt'))
+      const showhead = searchParams.get('frame');
+      let update = showhead?false:true;
+      setShowHeader(update);
       if(data >-1){
          setIndex(data)
       }
@@ -37,40 +41,44 @@ const CommanPage = () =>{
           <span className="loader-view"> </span>
         </div>
       </div>
-      <header
-      className="sticky webinar-quest">
-       <Container>
-          <nav className="navbar navbar-expand-sm navbar-light">
-              <div className="d-flex justify-content-between align-items-center" style={{width:"100%"}}>
-              <Col md={6} lg={6}>
-                <Tabs selectedIndex={index}>
-                  <TabList className="nav nav-fill">
-                    <Tab eventKey="webinar" className="nav-item nav-link" onClick={()=>{
-                       handleChange("/Webinar/question-list")
-                      navigation(`/Webinar/question-list?evnt=${queryData}`)
-                     }}>Webinar</Tab>
-                    <Tab eventKey="poll-question" className="nav-item nav-link" onClick={()=>{
-                       handleChange("/Webinar/poll-question")
-                      navigation(`/Webinar/poll-question?evnt=${queryData}`)
-                     }}>Poll Question </Tab>
-                    <Tab eventKey="all-answers" className="nav-item nav-link" onClick={()=>{
-                      handleChange("/Webinar/webinar-question")
-                      navigation(`/Webinar/webinar-question?evnt=${queryData}`)
-                    
-                      }}>All Answer</Tab>
-                  </TabList>
-                </Tabs>
-              </Col>
-              <Col md={6} lg={6}>
-                <div className="right-sec d-flex justify-content-end align-items-center">
-                  <h6><span>Webinar</span>Speaker Zone</h6>
-                  <img src={"/componentAssets/images/" + "informed_icon.png"} alt="icon"/>
+      {
+        showHeader ? 
+        <header
+        className="sticky webinar-quest">
+        <Container>
+            <nav className="navbar navbar-expand-sm navbar-light">
+                <div className="d-flex justify-content-between align-items-center" style={{width:"100%"}}>
+                <Col md={6} lg={6}>
+                  <Tabs selectedIndex={index}>
+                    <TabList className="nav nav-fill">
+                      <Tab eventKey="webinar" className="nav-item nav-link" onClick={()=>{
+                        handleChange("/Webinar/question-list")
+                        navigation(`/Webinar/question-list?evnt=${queryData}`)
+                      }}>Webinar</Tab>
+                      <Tab eventKey="poll-question" className="nav-item nav-link" onClick={()=>{
+                        handleChange("/Webinar/poll-question")
+                        navigation(`/Webinar/poll-question?evnt=${queryData}`)
+                      }}>Poll Question </Tab>
+                      <Tab eventKey="all-answers" className="nav-item nav-link" onClick={()=>{
+                        handleChange("/Webinar/webinar-question")
+                        navigation(`/Webinar/webinar-question?evnt=${queryData}`)
+                      
+                        }}>All Answer</Tab>
+                    </TabList>
+                  </Tabs>
+                </Col>
+                <Col md={6} lg={6}>
+                  <div className="right-sec d-flex justify-content-end align-items-center">
+                    <h6><span>Webinar</span>Speaker Zone</h6>
+                    <img src={"/componentAssets/images/" + "informed_icon.png"} alt="icon"/>
+                  </div>
+                </Col>
                 </div>
-              </Col>
-              </div>
-          </nav>
-        </Container>
-    </header>
+            </nav>
+          </Container>
+        </header>
+        : null
+      }
        </>
     )
 }
