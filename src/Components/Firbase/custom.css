@@ -55,7 +55,7 @@ body {
   font-size: 30px;
   margin-bottom: 0px;
   margin-top: 0px;
-  color: #000;
+  color: #233c7a;
 }
 
 .question-block-form .form-control {
@@ -133,6 +133,8 @@ body {
 
 .question-block .copy-right-bottom-text p {
   margin-bottom: 3px;
+  color: #233c7a;
+  font-weight: 500;
 }
 
 .question-block .copy-right-bottom-text {
@@ -152,8 +154,9 @@ body {
 }
 
 .question-block .form-label {
-  color: #64b8b0;
+  color: #233c7a;
   margin-bottom: 3px !important;
+  font-weight: 500;
 }
 
 .question-block .log-inner {
