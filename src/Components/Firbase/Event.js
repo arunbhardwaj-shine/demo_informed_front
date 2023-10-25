@@ -62,7 +62,7 @@ const Event = () =>{
         try{
             e.preventDefault();
             if(!user.question){
-              setError({"question": "Please enter your suggestion"})
+              setError({"question": "Please enter your question"})
               return
             }else{
                 setError({})  
@@ -73,7 +73,7 @@ const Event = () =>{
             let body = {
                 "company_id" : eventId?.companyId,
                 "event_id"   : eventId?.id,
-                "user_id"    :  events,
+                "user_id"    :  2147533104,
                 "question"   : user?.question,
                 "portal"     : "web",
                 "name": user?.name
@@ -282,16 +282,19 @@ const Event = () =>{
 <div className="question-block">
     <div className="header-logo">
        
-        <div><img src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png" /></div>
+        <div>
+            {/* <img src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png" /> */}
+            <img src={path_image+'FVIII_logo.png'} alt="Logo" />
+        </div>
        
     </div>
     <div className="question-block-form">
 
         <div className="log-inner">
         <div className="head-sec">
-         <h2 className="top-title">Suggestions</h2>
-                <div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div> 
-            {/* <div className="head_desc">
+         <h2 className="top-title">Write your question here!</h2>
+                {/*<div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div> 
+             <div className="head_desc">
            </div> */}
             </div>
 
@@ -308,14 +311,14 @@ const Event = () =>{
                     <input type="hidden" className="form-control" value = "index.php?evnt=octa-academy-2023" name="page" />
                   </div>
                      <div className="col-md-12">
-                    <label htmlFor="question" className="form-label">We appreciate any suggestion you have.<sup>*</sup></label>
-                     <textarea name="question" id="question" onChange={handleChange} className="form-control" placeholder="Write your suggestion here"  cols="40" rows="4" value={user?.question}></textarea>
+                    <label htmlFor="question" className="form-label">Your question<sup>*</sup></label>
+                     <textarea name="question" id="question" onChange={handleChange} className="form-control" placeholder="Write your question"  cols="40" rows="4" value={user?.question}></textarea>
                      {error?.question?<span className="event-validation">{error?.question}</span>:""}
 
                       </div>
 
                 <div className="col-md-12">
-                    <input type="submit" className="btn btn-success" value="Submit" />
+                    <input type="submit" className="btn btn-success" value="SEND" />
                 </div>
             </div>
         </form> 
