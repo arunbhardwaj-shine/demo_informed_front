@@ -12869,12 +12869,12 @@ img.change-password-image {
         width: 46px;
         height: 46px;
         top: 16%;
+        transform: rotate(45deg);
 
         img {
           width: 28px;
           animation: img-rotate 20s linear infinite;
           -webkit-animation: img-rotate 20s linear infinite;
-          transform: rotate(-45deg);
         }
       }
 
@@ -13798,6 +13798,25 @@ img.change-password-image {
   background-size: cover;
   z-index: 2;
 
+  &.publish {
+    .contact-inset {
+      form {
+        .form-group {
+          .form-control {
+            &.error {
+              border: 1px solid #C80061;
+            }
+          }
+
+          .contact-validation {
+            color: #C80061;
+            text-shadow: 0px 0px 3px #FFF;
+          }
+        }
+      }
+    }
+  }
+
   &.pharma {
     background: $primary-color url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
@@ -14008,10 +14027,10 @@ img.change-password-image {
         }
 
         .contact-validation {
-          color: #C80061;
+          color: #FF7CBC;
           font-size: 10px;
           text-align: right;
-          text-shadow: 0px 0px 2px #FFF;
+          // text-shadow: 0px 0px 2px #FFF;
           margin-top: 4px;
         }
       }
@@ -14898,6 +14917,62 @@ img.change-password-image {
   }
 }
 
+// @keyframes bounce {
+//   0% {
+//     transform: var(--transform) scale(0.8);
+//   }
+
+//   100% {
+//     transform: var(--transform) scale(1.2);
+//   }
+// }
+
+@keyframes bounce {
+
+  0%,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 1;
+    -webkit-transform: var(--transform) scale3d(1, 1, 1);
+    transform: var(--transform) scale3d(1, 1, 1);
+  }
+
+  20% {
+    -webkit-transform: var(--transform) scale3d(1.1, 1.1, 1.1);
+    transform: var(--transform) scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    -webkit-transform: var(--transform) scale3d(0.9, 0.9, 0.9);
+    transform: var(--transform) scale3d(0.9, 0.9, 0.9);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: var(--transform) scale3d(1.03, 1.03, 1.03);
+    transform: var(--transform) scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    -webkit-transform: var(--transform) scale3d(0.97, 0.97, 0.97);
+    transform: var(--transform) scale3d(0.97, 0.97, 0.97);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: var(--transform) scaleX(1);
+    transform: var(--transform) scaleX(1);
+  }
+}
+
 /**module**/
 
 .modules-diagram {
@@ -14957,6 +15032,15 @@ img.change-password-image {
 
       transform: var(--transform);
       transition: transform 1.5s ease-in-out;
+      // -webkit-animation: bounce 2s ease infinite;
+      // animation: bounce 2s ease infinite;
+      // -webkit-animation-duration: 0.75s;
+      // animation-duration: 0.75s;
+      // -webkit-animation-duration: calc(1 * 0.75);
+      // animation-duration: calc(1 * 0.75);
+      // -webkit-animation-name: bounce;
+      // animation-name: bounce;
+      animation: bounce 2s ease;
 
       //transition-delay: calc(0.1s * var(--i));
       &.active {
@@ -14971,11 +15055,14 @@ img.change-password-image {
         }
       }
 
+
       .publish .stat {
         --r-offset: -0.37turn;
       }
 
       &.docintel {
+        animation-delay: 3s;
+
         &.active {
           background: $primary-color;
           outline: 2px dashed $primary-color;
@@ -14992,6 +15079,7 @@ img.change-password-image {
       }
 
       &.qa {
+
         &.active {
           background: #3d48ab;
           outline: 2px dashed #3d48ab;
@@ -15008,6 +15096,7 @@ img.change-password-image {
       }
 
       &.read {
+
         &.active {
           background: #5a6bb5;
           outline: 2px dashed #5a6bb5;
@@ -15024,6 +15113,7 @@ img.change-password-image {
       }
 
       &.ai {
+
         &.active {
           background: #00c1bf;
           outline: 2px dashed #00c1bf;
@@ -15040,6 +15130,8 @@ img.change-password-image {
       }
 
       &.informed {
+
+
         &.active {
           background: #045fae;
           outline: 2px dashed #045fae;
@@ -15056,6 +15148,8 @@ img.change-password-image {
       }
 
       &.web {
+
+
         &.active {
           background: #6e52a2;
           outline: 2px dashed #6e52a2;
@@ -15072,6 +15166,8 @@ img.change-password-image {
       }
 
       &.consent {
+
+
         &.active {
           background: #00a4bf;
           outline: 2px dashed #00a4bf;
@@ -15088,6 +15184,8 @@ img.change-password-image {
       }
 
       &.webinar {
+
+
         &.active {
           background: $voilet;
           outline: 2px dashed $voilet;
@@ -15104,6 +15202,8 @@ img.change-password-image {
       }
 
       &.automail {
+
+
         &.active {
           background: #00d4c0;
           outline: 2px dashed #00d4c0;
@@ -15120,6 +15220,8 @@ img.change-password-image {
       }
 
       &.rating {
+
+
         &.active {
           background: #2b9bc8;
           outline: 2px dashed #2b9bc8;
@@ -15136,6 +15238,8 @@ img.change-password-image {
       }
 
       &.survey {
+
+
         &.active {
           background: #5058aa;
           outline: 2px dashed #5058aa;
@@ -15152,6 +15256,8 @@ img.change-password-image {
       }
 
       &.spc {
+
+
         &.active {
           background: #19bbb9;
           outline: 2px dashed #19bbb9;
@@ -15168,6 +15274,8 @@ img.change-password-image {
       }
 
       &.engine {
+
+
         &.active {
           background: #0084be;
           outline: 2px dashed #0084be;
@@ -15356,6 +15464,11 @@ img.change-password-image {
       color: #97B6CF;
       font-size: 14px;
       padding: 8px 10px;
+
+      &:hover {
+        background-color: $primary-color;
+        color: $white;
+      }
     }
   }
 }
@@ -15363,6 +15476,7 @@ img.change-password-image {
 .module-register .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-thumb {
   background: #97B6CF;
   border: 2px solid #eff4f8;
+  height: 40px;
 }
 
 .module-register .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-track {
@@ -15370,7 +15484,7 @@ img.change-password-image {
 }
 
 .module-register .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar {
-  width: 9px;
+  width: 8px;
 }
 
 .module-register form .form-group input:-webkit-autofill {
@@ -16982,7 +17096,7 @@ img.change-password-image {
     padding: 50px 0 85px;
 
     .future-expand {
-      margin: 50px auto 60px;
+      margin: 80px auto 70px;
     }
 
     .works-started {
@@ -17113,6 +17227,10 @@ img.change-password-image {
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse1 {
     transform: translate(100px, 420px);
+  }
+
+  .modules-diagram .module-bigger-size .module-register .split-button-dropup>div:nth-child(4) div {
+    padding-right: 5px;
   }
 }
 
@@ -17277,6 +17395,21 @@ img.change-password-image {
   .landing-banner.pharma .circular-ring .center-logo {
     top: 43%;
   }
+
+  .contact-us {
+    background-size: cover;
+    background-position: center;
+
+    &.pharma {
+      background-size: cover;
+      background-position: center;
+    }
+
+    &.publish {
+      background-size: cover;
+      background-position: center;
+    }
+  }
 }
 
 @media only screen and (min-width:1360px) and (max-width:1439px) {
@@ -17317,7 +17450,7 @@ img.change-password-image {
 
   .how-work {
     .future-expand {
-      margin: 50px auto 30px;
+      margin: 80px auto 70px;
     }
   }
 
@@ -17453,34 +17586,123 @@ img.change-password-image {
   }
 
   .pharma .circular-ring .big-circle .icon-block:first-child {
-    top: -11px;
+    top: -4px;
+    height: 40px;
+    width: 40px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:first-child img {
+    width: 26px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(2) {
+    top: 10%;
+    width: 30px;
+    height: 30px;
+  }
+
+  .pharma .circular-ring .icon-block.icon72 {
+    height: 52px;
+    width: 52px;
   }
 
   .pharma .circular-ring .big-circle .icon-block:nth-child(3) {
-    left: 96%;
+    left: 94%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(3) img {
+    width: 28px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(4) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .pharma .circular-ring .icon-block.icon60 {
+    height: 40px;
+    width: 40px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(5) {
+    left: 93%;
+    top: 68%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(5) img {
+    width: 25px;
   }
 
   .pharma .circular-ring .big-circle .icon-block:nth-child(6) {
     top: 86%;
-    left: 81%;
+    left: 82%;
+    height: 20px;
+    width: 20px;
   }
 
   .pharma .circular-ring .big-circle .icon-block:nth-child(7) {
     top: 93%;
   }
 
+  .pharma .circular-ring .big-circle .icon-block:nth-child(7) img {
+    width: 29px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(8) {
+    width: 30px;
+    height: 30px;
+  }
+
   .pharma .circular-ring .big-circle .icon-block:nth-child(9) {
     top: 63%;
-    left: -2%;
+    left: -1%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(9) img {
+    width: 28px;
   }
 
   .pharma .circular-ring .big-circle .icon-block:nth-child(10) {
+    left: -1.5%;
     top: 45%;
-    left: -3%;
+    width: 20px;
+    height: 20px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(11) {
+    left: 3%;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(11) img {
+    width: 25px;
+  }
+
+  .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
+    left: 13%;
+    width: 20px;
+    height: 20px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child {
+    top: 0%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:first-child img {
+    width: 34px;
   }
 
   .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(2) {
-    top: 12%;
+    top: 11%;
+    height: 25px;
+    width: 25px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(3) img {
+    width: 26px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(4) img {
+    width: 30px;
   }
 
   .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(5) {
@@ -17488,17 +17710,33 @@ img.change-password-image {
     left: 20%;
   }
 
+  .pharma .circular-ring .circle.circle-inner1 .icon-block:nth-child(6) img {
+    width: 24px;
+  }
+
   .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child {
-    top: -5%;
+    top: -3%;
     left: 32%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:first-child img {
+    width: 26px;
   }
 
   .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(2) {
     top: 8%;
+    width: 30px;
+    height: 30px;
+  }
+
+  .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(4) img {
+    width: 24px;
   }
 
   .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(5) {
     top: 84%;
+    width: 30px;
+    height: 30px;
   }
 
   .pharma .circular-ring .circle.circle-inner3 .icon-block:first-child {
@@ -17507,8 +17745,12 @@ img.change-password-image {
   }
 
   .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) {
-    top: 70%;
-    left: 76%;
+    left: 81%;
+    top: 73%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(2) img {
+    width: 23px;
   }
 
   .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(3) {
@@ -17517,8 +17759,12 @@ img.change-password-image {
   }
 
   .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(4) {
-    top: 26%;
     left: 8%;
+    top: 24%;
+  }
+
+  .pharma .circular-ring .circle.circle-inner3 .icon-block:nth-child(4) img {
+    width: 24px;
   }
 
   .landing-banner.pharma .circular-ring .center-logo {
@@ -18213,6 +18459,8 @@ img.change-password-image {
         height: 375px;
 
         .icon-block {
+          box-shadow: 0px 0px 8px rgba(0, 74, 137, 0.39);
+
           &.icon43 {
             width: 16px;
             height: 16px;
@@ -19010,6 +19258,10 @@ img.change-password-image {
     max-width: 180px;
   }
 
+  .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide2 .slide-left-sided {
+    transform: translate(0%, -30px) rotate(360deg);
+  }
+
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-left-sided img {
     width: 100%;
     transform: translateX(145px);
@@ -19532,10 +19784,9 @@ img.change-password-image {
     min-height: 600px;
   }
 
-  // .scrollerClass,
-  // .scrollerClass body {
-  //   overflow: hidden;
-  // }
+  .col-reverse {
+    flex-direction: column-reverse;
+  }
 }
 
 /**Landing page Responsive End**/

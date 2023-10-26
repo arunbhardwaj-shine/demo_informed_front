@@ -1341,7 +1341,7 @@ const colourStyles = {
               </div>
             </div>
           </Row>
-          <Row>
+          <Row className="col-reverse">
             <Col
               md={6}
               className="d-flex justify-content-center align-items-center"
