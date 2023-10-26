@@ -1310,7 +1310,7 @@ const SelectSmartListUsers = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {removedReaders.map((rr, i) => {
+                      {removedReaders?.map((rr, i) => {
                         return (
                           <>
                             <tr className="hcps-deleted">
@@ -1442,7 +1442,7 @@ const SelectSmartListUsers = (props) => {
                       <tr className="seprator-add">
                         <td colSpan="13"></td>
                       </tr>
-                      {readersNewlyAdded.map((readers, i) => {
+                      {readersNewlyAdded?.map((readers, i) => {
                         return (
                           <>
                             <tr
@@ -1577,7 +1577,7 @@ const SelectSmartListUsers = (props) => {
                           </>
                         );
                       })}
-                      {readers.map((readers, i) => {
+                      {readers?.map((readers, i) => {
                         return (
                           <>
                             <tr

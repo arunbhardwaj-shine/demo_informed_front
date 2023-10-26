@@ -15,6 +15,7 @@ import { v4 as uuid } from 'uuid';
 
 import axios from "axios"
 import {db} from "../../config/firebaseConfig"
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const Event = () =>{
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);   
@@ -72,7 +73,7 @@ const Event = () =>{
             let body = {
                 "company_id" : eventId?.companyId,
                 "event_id"   : eventId?.id,
-                "user_id"    :  events,
+                "user_id"    :  2147533104,
                 "question"   : user?.question,
                 "portal"     : "web",
                 "name": user?.name
@@ -281,7 +282,10 @@ const Event = () =>{
 <div className="question-block">
     <div className="header-logo">
        
-        <div><img src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png" /></div>
+        <div>
+            {/* <img src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png" /> */}
+            <img src={path_image+'FVIII_logo.png'} alt="Logo" />
+        </div>
        
     </div>
     <div className="question-block-form">
@@ -289,9 +293,9 @@ const Event = () =>{
         <div className="log-inner">
         <div className="head-sec">
          <h2 className="top-title">Write your question here!</h2>
-                {/* <div className="under-spotlight"><img src="https://webinar.docintel.app/Event/chat/image/octa-academy-register.png" alt="Logo" /></div> */}
-            <div className="head_desc">
-           </div>
+                {/*<div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div> 
+             <div className="head_desc">
+           </div> */}
             </div>
 
         </div>
