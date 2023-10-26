@@ -34,10 +34,10 @@ const WebinarQuestion = () => {
              eventCode :queryParams.get("evnt")
         })
         setEvent(result.data.data)
-        loader("hide")
+        // loader("hide")
 
     }catch(err){
-        loader("hide")
+        // loader("hide")
         console.log("-err",err)
     }
 }
@@ -46,6 +46,8 @@ useEffect(()=>{
 },[])
   const initiFun = async () => {
     try {
+
+      loader("show")
       const result = await postData(ENDPOINT.WEBINAR_All_QUESTION_LISTING, {
         companyId: eventId?.companyId,
         eventId: eventId?.id,
@@ -166,9 +168,11 @@ useEffect(()=>{
           questionId:value?.questionId,
         });
       });
+      loader("hide")
       setData(newData)
       setAllData(result?.data?.data);
     } catch (err) {
+      loader("hide")
       console.log("-err", err);
     }
   };
@@ -223,7 +227,7 @@ useEffect(() => {
                   return (
                     <>
                     <p>{index+1}. {item?.question}</p>
-                    {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.highchartData} />: <h6>This question hasn't been answered yet.</h6>}
+                    {/* {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.highchartData} />: <h6>This question hasn't been answered yet.</h6>} */}
                     {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.pieChartData} />: <h6>This question hasn't been answered yet.</h6>}
                     {item?.answer? 
                       <>
