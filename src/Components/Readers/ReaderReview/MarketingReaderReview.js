@@ -53,7 +53,7 @@ const MarketingReaderReview = () => {
               <Col md="1">
                 <div className="header-btn-left"></div>
               </Col>
-              <Col md="9">
+              <Col md="8">
                 <ul className="tabnav-link">
                   <li className="">
                     <a href="">{state?.flag ? "Edit " : "Create "} CRM</a>
@@ -63,7 +63,7 @@ const MarketingReaderReview = () => {
                   </li>
                 </ul>
               </Col>
-              <Col md="2">
+              <Col md="3">
                 <div className="header-btn">
                   <Link
                     className="btn btn-primary btn-bordered move-draft"
