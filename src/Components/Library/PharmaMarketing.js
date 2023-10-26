@@ -42,6 +42,8 @@ const PharmaMarketing = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
   const [addSelectClass,setAddSelectClass] = useState(false)
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1016,10 +1018,10 @@ const colourStyles = {
   };
 
   const handleReadClick = async (event) => {
-    var root = document.getElementsByTagName( 'html' )[0];
-      root.classList.remove('scrollerClass');
+    // var root = document.getElementsByTagName( 'html' )[0];
+    //   root.classList.remove('scrollerClass');
     localStorage.setItem('pharmaRegistered', 'true');
-    setPharmaRegistered(true);
+    // setPharmaRegistered(true);
     setAddSmallClass(true);
     setAddDivClass(false);
     event.preventDefault();
@@ -1076,6 +1078,7 @@ const colourStyles = {
 
         console.log(data,'data')
         setPayloadData(data);
+        setPharmaRegistered(true);
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
         const res = await postData(ENDPOINT.REGISTER,data );
@@ -1202,22 +1205,35 @@ const colourStyles = {
     setAddDivClass(true);
     setAddHideClass(true);
     setAddSmallClass(true);
-    loader("show");
+    const email = moduleFormInputs?.secondaryEmail?.trim();
+    const phone = moduleFormInputs?.secondaryPhone?.trim();
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const phoneRegex = /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+    if (email && !emailRegex.test(email)) {
+        setEmailError('Please enter a valid email address');
+      } else if(phone && !phoneRegex.test(phone)){
+        setPhoneError('Please enter a phone number');
+      }
+      else {
+      loader("show");
+    // loader("show");
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
-      // let data = {
+      // const res = await postData(ENDPOINT.REGISTER, {
+      let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      // }
-      });
+      }
+      // });
       let obj = {};
       loader("hide");
+      setEmailError(null);
+      setPhoneError(null)
       setModuleFormInputs(obj);
     } catch (err) {
       console.log(err);
@@ -1229,6 +1245,7 @@ const colourStyles = {
     setModulesSelect(false);
     setFormFeilds(false);
     setModuleFormInputs(false)
+  }
   };
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1269,6 +1286,9 @@ const colourStyles = {
     })
     }, 200);
     setSelectedModules([]);
+    setModuleFormInputs(false)
+    setEmailError('')
+    setPhoneError('')
  
   //   setTimeout(() => {
   //   setActiveModule(null);
@@ -1287,6 +1307,8 @@ const colourStyles = {
     setShowBigCircleData(true);
     setModulesSelect(true);
     setActiveModule(intialModuleData?.activeModule);
+    setEmailError('')
+    setPhoneError('')
   };
 
   const handleRead = () => {
@@ -2628,7 +2650,7 @@ const handleSelectionClick = () => {
                                 <div className="form-feilds d-flex">
                                   <Col md="6">
                                     <div className="form-group">
-                                      <input
+                                      {/* <input
                                         type="email"
                                         placeholder="Email"
                                         name="secondaryEmail"
@@ -2639,7 +2661,16 @@ const handleSelectionClick = () => {
                                             : ""
                                         }
                                         onChange={handleModuleFormChange}
-                                      />
+                                      /> */}
+                                      <input
+                                      type="email"
+                                      placeholder="Email"
+                                      name="secondaryEmail"
+                                      className="form-control"
+                                      value={moduleFormInputs?.secondaryEmail ? moduleFormInputs?.secondaryEmail : ""}
+                                      onChange={handleModuleFormChange}
+                                    />
+                                    <p style={{ color: 'red' }}>{emailError}</p>
                                       <span>
                                         <svg
                                           width="20"
@@ -2673,6 +2704,7 @@ const handleSelectionClick = () => {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
+                                      <p style={{ color: 'red' }}>{phoneError}</p>
                                       <span>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"

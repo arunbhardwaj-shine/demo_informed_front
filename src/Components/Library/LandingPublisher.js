@@ -39,6 +39,8 @@ const PharmaRd = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [addSmallClass, setAddSmallClass] = useState(false);
   const [publisherRegistered, setPublisherRegistered] = useState(localStorage.getItem('publisherRegistered'));
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -848,7 +850,7 @@ const colourStyles = {
 
   const handleReadClick = async (event) => {
     localStorage.setItem('publisherRegistered', 'true');
-    setPublisherRegistered(true);
+    // setPublisherRegistered(true);
     setAddDivClass(false);
     setAddSmallClass(true);
     event.preventDefault();
@@ -904,6 +906,7 @@ const colourStyles = {
         };
 
         setPayloadData(data);
+        setPublisherRegistered(true);
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
         const res = await postData(ENDPOINT.REGISTER, data);
@@ -1028,7 +1031,18 @@ const colourStyles = {
     setAddDivClass(true);
     setAddHideClass(true);
     setAddSmallClass(true);
-    loader("show");
+    const email = moduleFormInputs?.secondaryEmail?.trim();
+    const phone = moduleFormInputs?.secondaryPhone?.trim();
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const phoneRegex = /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+    if (email && !emailRegex.test(email)) {
+        setEmailError('Please enter a valid email address');
+      } else if(phone && !phoneRegex.test(phone)){
+        setPhoneError('Please enter a phone number');
+      }
+      else {
+      loader("show");
+    // loader("show");
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
       const payloadData = JSON.parse(payloadDataPharmaString);
@@ -1044,6 +1058,8 @@ const colourStyles = {
       });
       let obj = {};
       loader("hide");
+      setEmailError(null);
+      setPhoneError(null)
       setModuleFormInputs(obj);
     } catch (err) {
       console.log(err);
@@ -1055,6 +1071,7 @@ const colourStyles = {
     setModulesSelect(false);
     setFormFeilds(false);
     setModuleFormInputs(false)
+  }
   };
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1093,6 +1110,8 @@ const colourStyles = {
     })
     }, 200);
     setSelectedModules([]);
+    setEmailError('')
+    setPhoneError('')
 
     // setTimeout(() => {
     //   setActiveModule(null);
@@ -1109,6 +1128,8 @@ const colourStyles = {
     setShowBigCircleData(true);
     setModulesSelect(true);
     setActiveModule(intialModuleData?.activeModule);
+    setEmailError('')
+    setPhoneError('')
   };
 
   const handleRead = () => {
@@ -1341,7 +1362,7 @@ const colourStyles = {
               </div>
             </div>
           </Row>
-          <Row>
+          <Row className="col-reverse">
             <Col
               md={6}
               className="d-flex justify-content-center align-items-center"

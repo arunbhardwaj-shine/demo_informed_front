@@ -387,6 +387,10 @@ const colourStyles = {
           setSelectedCountry([]);
           setContactError(false);
           setForceRender(!forceRender);
+
+          setTimeout(() => {
+            setSuccessMsg("");
+          }, 10000);
         
         })
         .catch((err) => {
