@@ -38,33 +38,35 @@ export const AddReaderValidation = (data, groupId, flag) => {
   }
   if (localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==") {
     if (data?.primary_phone) {
-      if (
-        Object.keys(data?.primary_phone)?.length > 20 ||
-        Object.keys(data?.primary_phone)?.length < 10
-      ) {
-        error.primary_phone = "Number must be in between 10 to 20 digits";
-      } else if (!data?.countryCode) {
+      // if (
+      //   Object.keys(data?.primary_phone)?.length > 20 ||
+      //   Object.keys(data?.primary_phone)?.length < 10
+      // ) {
+      //   error.primary_phone = "Number must be in between 10 to 20 digits";
+      // } else
+       if (!data?.countryCode) {
         error.primary_phone = "Please select country code";
-      }
+       }
     }
     if (data?.countryCode) {
       if (!data?.primary_phone) {
         error.primary_phone = "Please enter phone number";
-      } else if (
-        data?.primary_phone &&
-        (Object.keys(data?.primary_phone)?.length > 20 ||
-          Object.keys(data?.primary_phone)?.length < 10)
-      ) {
-        error.primary_phone = "Number must be in between 10 to 20 digits";
       }
+      //  else if (
+      //   data?.primary_phone &&
+      //   (Object.keys(data?.primary_phone)?.length > 20 ||
+      //     Object.keys(data?.primary_phone)?.length < 10)
+      // ) {
+      //   error.primary_phone = "Number must be in between 10 to 20 digits";
+      // }
     }
-    if (
-      data?.alternativePhone &&
-      (Object.keys(data?.alternativePhone)?.length > 20 ||
-        Object.keys(data?.alternativePhone)?.length < 10)
-    ) {
-      error.alternativePhone = "Number must be in between 10 to 20 digits";
-    }
+    // if (
+    //   data?.alternativePhone &&
+    //   (Object.keys(data?.alternativePhone)?.length > 20 ||
+    //     Object.keys(data?.alternativePhone)?.length < 10)
+    // ) {
+    //   error.alternativePhone = "Number must be in between 10 to 20 digits";
+    // }
 
     if (!data?.country?.value) {
       error.country = "Please select country";
