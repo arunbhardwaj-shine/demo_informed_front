@@ -11,15 +11,26 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
     { label: "Checkbox", value: "checkbox" },
     { label: "Radio", value: "radio" },
   ]);
+  const [requiredOption, setRequiredOption] = useState([
+    { label: "Yes", value: "yes" },
+    { label: "No", value: "no" },
+  ]);
   const [formData, setFormData] = useState({
     label: "",
     inputType: "",
     placeholder: "",
+    required: "",
     option: [],
   });
   useEffect(() => {}, [show]);
   const handleClose = () => {
-    setFormData({ label: "", inputType: "", placeholder: "", option: [] });
+    setFormData({
+      label: "",
+      inputType: "",
+      placeholder: "",
+      option: [],
+      required: "",
+    });
     onClose(false);
   };
   const handleChange = (e, isSelectedName, index) => {
@@ -33,6 +44,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
         label: "",
         option: [],
         placeholder: "",
+        required: "",
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e
           : e?.target?.value,
@@ -150,6 +162,20 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                                 className="form-control"
                                 value={formData?.label}
                                 onChange={(e) => handleChange(e)}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group bottom">
+                              <label htmlFor="">Required</label>
+                              <Select
+                                options={requiredOption}
+                                name="required"
+                                placeholder="Select required type"
+                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                onChange={(e) =>
+                                  handleChange(e?.value, "required")
+                                }
                               />
                             </div>
                           </div>

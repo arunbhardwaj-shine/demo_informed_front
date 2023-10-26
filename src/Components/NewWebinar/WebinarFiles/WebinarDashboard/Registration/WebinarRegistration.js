@@ -69,19 +69,26 @@ const WebinarRegistration = () => {
   const saveClicked = (e) => {
     e.preventDefault();
 
-    let allPresent = formData.every((item, index) => {
-      return Object.keys(formInputs)?.includes(item?.label);
-    });
-    if (!allPresent) {
-      toast.error("Please fill all the inputs");
-    } else {
-      const formElement = document.getElementById("registration-form");
-      const formHTML = formElement.outerHTML;
-      console.log("HTML form content-->", formHTML);
-      console.log("form inputs-->", formInputs);
-      setFormInputs({});
-      setFormData([]);
-    }
+    // let allPresent = formData.every((item, index) => {
+    //   return Object.keys(formInputs)?.includes(item?.label);
+    // });
+    // if (!allPresent) {
+    //   toast.error("Please fill all the inputs");
+    // } else {
+    //   const formElement = document.getElementById("registration-form");
+    //   const formHTML = formElement.outerHTML;
+    //   console.log("HTML form content-->", formHTML);
+    //   console.log("form inputs-->", formInputs);
+    //   setFormInputs({});
+    //   setFormData([]);
+    // }
+
+    const formElement = document.getElementById("registration-form");
+    const formHTML = formElement.outerHTML;
+    console.log("HTML form content-->", formHTML);
+    console.log("form inputs-->", formInputs);
+    setFormInputs({});
+    setFormData([]);
   };
 
   return (
@@ -134,6 +141,11 @@ const WebinarRegistration = () => {
                                                 <input
                                                   type="radio"
                                                   name={data?.label}
+                                                  required={
+                                                    data?.required == "yes"
+                                                      ? true
+                                                      : false
+                                                  }
                                                   // checked={}
                                                   onChange={(e) =>
                                                     handleChange(
@@ -155,6 +167,11 @@ const WebinarRegistration = () => {
                                                 <input
                                                   type="checkbox"
                                                   name={data?.label}
+                                                  required={
+                                                    data?.required == "yes"
+                                                      ? true
+                                                      : false
+                                                  }
                                                   onChange={(e) =>
                                                     handleChange(
                                                       e,
@@ -175,6 +192,11 @@ const WebinarRegistration = () => {
                                             name={data?.label}
                                             className="form-control"
                                             type={data?.inputType}
+                                            required={
+                                              data?.required == "yes"
+                                                ? true
+                                                : false
+                                            }
                                             placeholder={data?.placeholder}
                                             onChange={(e) =>
                                               handleChange(e, index)
