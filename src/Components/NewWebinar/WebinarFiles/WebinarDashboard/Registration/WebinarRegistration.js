@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 // import Question from "./AddQuestion";
 
@@ -11,7 +12,9 @@ const WebinarRegistration = () => {
   const [showModal, setModal] = useState(false);
   const [formData, setFormData] = useState([]);
   const [formInputs, setFormInputs] = useState({});
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("form Data--->", formData);
+  }, []);
   const handleFileSelect = (e, flag) => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
@@ -93,6 +96,7 @@ const WebinarRegistration = () => {
 
   return (
     <>
+      {console.log("form Data--->", formData)}
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
@@ -186,6 +190,18 @@ const WebinarRegistration = () => {
                                                 </label>
                                               </div>
                                             ))
+                                          ) : data?.inputType == "selection" ? (
+                                            <div key={index}>
+                                              <select>
+                                                {data?.option?.map((item) => (
+                                                  <option
+                                                    value={item?.optionLabel}
+                                                  >
+                                                    {item?.optionLabel}
+                                                  </option>
+                                                ))}
+                                              </select>
+                                            </div>
                                           ) : null
                                         ) : (
                                           <input
@@ -218,7 +234,7 @@ const WebinarRegistration = () => {
                 </div>
               </section>
 
-              <footer className="footer">
+              {/* <footer className="footer">
                 <button
                   className="fbutton"
                   onClick={(e) => handleFileSelect(e, "footer")}
@@ -227,7 +243,7 @@ const WebinarRegistration = () => {
                 </button>
 
                 <img className="footer-img" src={foot} />
-              </footer>
+              </footer> */}
             </div>
           </Row>
         </div>

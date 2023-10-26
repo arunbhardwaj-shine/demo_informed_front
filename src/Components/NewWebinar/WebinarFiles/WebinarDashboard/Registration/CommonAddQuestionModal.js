@@ -8,6 +8,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
   const [inputOptions, setInputOption] = useState([
     { label: "Text", value: "text" },
     { label: "Email", value: "email" },
+    { label: "Selection", value: "selection" },
     { label: "Checkbox", value: "checkbox" },
     { label: "Radio", value: "radio" },
   ]);
@@ -237,7 +238,8 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                               )
                             : ""}
                           {formData?.inputType == "radio" ||
-                          formData?.inputType == "checkbox" ? (
+                          formData?.inputType == "checkbox" ||
+                          formData?.inputType == "selection" ? (
                             <div className="add-more-option">
                               <Button
                                 className="add-option"
