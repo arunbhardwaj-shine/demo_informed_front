@@ -1339,54 +1339,49 @@ const colourStyles = {
     }
   };
 
-
-function toggleRandomClass(module) {
-  const classes = module.className.split(' ');
-  const randomIndex = Math.floor(Math.random() * classes.length);
-  classes.splice(randomIndex, 1);
-  module.className = classes.join(' ');
-}
-
-function addRandomClass(module, className) {
-  module.classList.add(className);
-}
-
-function removeRandomClass(module, className) {
-  module.classList.remove(className);
-}
-
-
 function getRandomModule() {
   const modules = document.querySelectorAll('.stat');
   const randomIndex = Math.floor(Math.random() * modules.length);
   return modules[randomIndex];
 }
-
+ 
+function addRandomClass(module, className) {
+  module?.classList?.add(className);
+}
+ 
+function removeRandomClass(module, className) {
+  module?.classList?.remove(className);
+}
+ 
 let previousModule = null;
-
+let interval;
+ 
 function randomToggle() {
-  const randomModule = getRandomModule();
-  const randomAction = Math.random() < 0.5 ? 'add' : 'remove';
-  const randomClassName = 'random-class'; 
-
   if (previousModule) {
-    removeRandomClass(previousModule, randomClassName);
+    removeRandomClass(previousModule, 'random-class');
   }
-
-  if (randomAction === 'add') {
-    addRandomClass(randomModule, randomClassName);
-  } 
-  // else {
-  //   removeRandomClass(randomModule, randomClassName);
-  // }
-
+ 
+  const randomModule = getRandomModule();
+  addRandomClass(randomModule, 'random-class');
   previousModule = randomModule;
+ 
   setTimeout(() => {
-    removeRandomClass(randomModule, randomClassName);
+    removeRandomClass(randomModule, 'random-class');
+    previousModule = null;
   }, 5000);
 }
+ 
+function startToggle() {
+  randomToggle(); 
+  interval = setInterval(randomToggle, 5000); 
+}
+ 
+function stopToggle() {
+  clearInterval(interval);
+}
+ 
+startToggle();
 
-setInterval(randomToggle, 5000);
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
