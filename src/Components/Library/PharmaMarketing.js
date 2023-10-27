@@ -1450,7 +1450,7 @@ function randomToggle() {
   previousModule = randomModule;
   setTimeout(() => {
     removeRandomClass(randomModule, randomClassName);
-  }, 4000);
+  }, 5000);
 }
 
 setInterval(randomToggle, 8000);
