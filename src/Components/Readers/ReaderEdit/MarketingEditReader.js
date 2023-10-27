@@ -26,12 +26,13 @@ const MarketingEditReader = () => {
     message2: "",
     footerButton: "",
   });
-  const [logs, setLogs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const { state } = useLocation();
+  // console.log(state);
   const [id, setId] = useState(
     state?.id ? state?.id : state?.data?.user_id ? state?.data?.user_id : ""
-  );
+    );
+    const [logs, setLogs] = useState(state?.data?.log_Data ||[]);
   const [typeOfContact, setTypeOfContact] = useState([]);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
