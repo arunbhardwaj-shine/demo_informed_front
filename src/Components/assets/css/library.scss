@@ -15032,17 +15032,20 @@ img.change-password-image {
 
       transform: var(--transform);
       transition: transform 1.5s ease-in-out;
-      // -webkit-animation: bounce 2s ease infinite;
-      // animation: bounce 2s ease infinite;
-      // -webkit-animation-duration: 0.75s;
-      // animation-duration: 0.75s;
-      // -webkit-animation-duration: calc(1 * 0.75);
-      // animation-duration: calc(1 * 0.75);
-      // -webkit-animation-name: bounce;
-      // animation-name: bounce;
-      animation: bounce 2s ease;
 
-      //transition-delay: calc(0.1s * var(--i));
+      &.random-class {
+        // -webkit-animation: bounce 2s ease infinite;
+        // animation: bounce 2s ease infinite;
+        // -webkit-animation-duration: 0.75s;
+        // animation-duration: 0.75s;
+        // -webkit-animation-duration: calc(1 * 0.75);
+        // animation-duration: calc(1 * 0.75);
+        // -webkit-animation-name: bounce;
+        // animation-name: bounce;
+        animation: bounce 2s ease infinite;
+        filter: drop-shadow(0px 1px 18px rgba(0, 102, 190, 0.64))
+      }
+
       &.active {
         outline-offset: 4px;
 
@@ -15061,7 +15064,6 @@ img.change-password-image {
       }
 
       &.docintel {
-        animation-delay: 3s;
 
         &.active {
           background: $primary-color;
@@ -15130,8 +15132,6 @@ img.change-password-image {
       }
 
       &.informed {
-
-
         &.active {
           background: #045fae;
           outline: 2px dashed #045fae;
@@ -15148,8 +15148,6 @@ img.change-password-image {
       }
 
       &.web {
-
-
         &.active {
           background: #6e52a2;
           outline: 2px dashed #6e52a2;
@@ -15184,8 +15182,6 @@ img.change-password-image {
       }
 
       &.webinar {
-
-
         &.active {
           background: $voilet;
           outline: 2px dashed $voilet;
@@ -15202,8 +15198,6 @@ img.change-password-image {
       }
 
       &.automail {
-
-
         &.active {
           background: #00d4c0;
           outline: 2px dashed #00d4c0;
@@ -15220,8 +15214,6 @@ img.change-password-image {
       }
 
       &.rating {
-
-
         &.active {
           background: #2b9bc8;
           outline: 2px dashed #2b9bc8;
@@ -15238,8 +15230,6 @@ img.change-password-image {
       }
 
       &.survey {
-
-
         &.active {
           background: #5058aa;
           outline: 2px dashed #5058aa;
@@ -15256,8 +15246,6 @@ img.change-password-image {
       }
 
       &.spc {
-
-
         &.active {
           background: #19bbb9;
           outline: 2px dashed #19bbb9;
@@ -15274,8 +15262,6 @@ img.change-password-image {
       }
 
       &.engine {
-
-
         &.active {
           background: #0084be;
           outline: 2px dashed #0084be;
