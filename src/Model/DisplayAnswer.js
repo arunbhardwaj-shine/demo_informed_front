@@ -3,22 +3,24 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-function DisplayAnswer({ show, data, onClose }) {
+let  colors= ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"] 
+
+function DisplayAnswer({ show, data, onClose, readerCount }) {
 
   const [userCount,setUserCount] = useState(0) 
-console.log(data,"data");
- 
 
-const seriesData = data.map((question) => ({
+const seriesData = data.map((question,index) => ({
   name: question.name,
   y: question.y,
   drilldown: question.drilldown,
+  color:colors[index],
   // color: question.y === 2 ? "#00FF00" : "#FF0000", 
 }));
 const drilldownData = data
   .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
   .map(question => ({
     id: question.drilldown,
+    name: question.name,
     data: question.drillDownData.map(answer => [answer.name, answer.total]),
     colors: question.drillDownData.map(answer => answer.color)
   }));
@@ -27,22 +29,37 @@ const drilldownData = data
 // console.log(drilldownData);
 const chartOptions = {
   chart: {
-    type: "pie",
+    plotBackgroundColor: null,
+    plotBorderWidth: null,
+    plotShadow: false,
+    type: 'pie'
   },
   title: {
     text: "User Answers",
   },
-  plotOptions: {
-    pie: {
-      allowPointSelect: true,
-      cursor: "pointer",
-      dataLabels: {
-        enabled: true,
-        format: "<b>{point.name}</b>: {point.percentage:.1f} %",
-      },
-      showInLegend: false,
-    },
+  tooltip: {
+    formatter: function() {
+      return this.point.name +' : <b>'+ this.point.y + '</b>';
   },
+},
+accessibility: {
+    point: {
+        valueSuffix: '%'
+    }
+},
+legend: {
+    labelFormat: '{name} ({percentage:.2f}%) ',
+},
+plotOptions: {
+    pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+            enabled: false
+        },
+        showInLegend: true
+    }
+},
   series: [
     {
       name: "Questions",
@@ -123,7 +140,7 @@ const chartOptions = {
         <Modal.Body>
           <p>{data?.question}</p>
           <HighchartsReact highcharts={Highcharts} options={chartOptions} />
-          <h5>Total Answer:{userCount}</h5>
+          <h5>Total Answer:{readerCount}</h5>
         </Modal.Body>
       
       </Modal>

@@ -39,11 +39,14 @@ const PharmaRd = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [addSmallClass, setAddSmallClass] = useState(false);
   const [publisherRegistered, setPublisherRegistered] = useState(localStorage.getItem('publisherRegistered'));
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
+  const [addSelectClass,setAddSelectClass] = useState(false)
 
   const modules = [
     {
@@ -748,7 +751,19 @@ const PharmaRd = () => {
     { value: "Zambia", label: "Zambia" },
     { value: "Zimbabwe", label: "Zimbabwe" },
   ]);
-
+const colourStyles = {
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    // const color = chroma(data.color);
+    console.log({ data, isDisabled, isFocused, isSelected });
+    return {
+      ...styles,
+      backgroundColor: isFocused ? "#0066BE" : null,
+      color: isFocused ? "#ffffff" : "#97B6CF",
+      backgroundColor: isSelected ? "#0066BE" : null,
+       color: isSelected ? "#ffffff!important" : "#97B6CF",
+    };
+  }
+};
   const [registerFormInputs, setRegisterFormInputs] = useState({
     name: "",
     email: "",
@@ -817,7 +832,7 @@ const PharmaRd = () => {
         paragraph: smallCircleData?.description,
       }));
       setActiveModule(moduleName === activeModule ? null : moduleName);
-    }, 700);
+    }, 500);
 
     setBigModuleData((prevState) => ({
       active: moduleName === activeModule ? !prevState.active : true,
@@ -834,10 +849,10 @@ const PharmaRd = () => {
   };
 
   const handleReadClick = async (event) => {
-    localStorage.setItem('publisherRegistered', 'true');
-    setPublisherRegistered(true);
-    setAddDivClass(false);
-    setAddSmallClass(true);
+    // localStorage.setItem('publisherRegistered', 'true');
+    // setPublisherRegistered(true);
+    // setAddDivClass(false);
+    // setAddSmallClass(true);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
@@ -891,6 +906,10 @@ const PharmaRd = () => {
         };
 
         setPayloadData(data);
+        localStorage.setItem('publisherRegistered', 'true');
+        setPublisherRegistered(true);
+        setAddDivClass(false);
+        setAddSmallClass(true);
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
         const res = await postData(ENDPOINT.REGISTER, data);
@@ -908,6 +927,7 @@ const PharmaRd = () => {
   };
 
   const handleRegisterFormChange = (e, isSelectedName) => {
+    setAddSelectClass(false);
     setRegisterFormInputs({
       ...registerFormInputs,
       [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -1014,20 +1034,35 @@ const PharmaRd = () => {
     setAddDivClass(true);
     setAddHideClass(true);
     setAddSmallClass(true);
-    loader("show");
+    const email = moduleFormInputs?.secondaryEmail?.trim();
+    const phone = moduleFormInputs?.secondaryPhone?.trim();
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const phoneRegex = /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+    if (email && !emailRegex.test(email)) {
+        setEmailError('Please enter a valid email address');
+      } else if(phone && !phoneRegex.test(phone)){
+        setPhoneError('Please enter a phone number');
+      }
+      else {
+      loader("show");
+    // loader("show");
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
       const payloadData = JSON.parse(payloadDataPharmaString);
       const res = await postData(ENDPOINT.REGISTER, {
+        // let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
+        // }
       });
       let obj = {};
       loader("hide");
+      setEmailError(null);
+      setPhoneError(null)
       setModuleFormInputs(obj);
     } catch (err) {
       console.log(err);
@@ -1039,6 +1074,7 @@ const PharmaRd = () => {
     setModulesSelect(false);
     setFormFeilds(false);
     setModuleFormInputs(false)
+  }
   };
 
   const handleBigCircleClose = (moduleName, index) => {
@@ -1077,49 +1113,38 @@ const PharmaRd = () => {
     })
     }, 200);
     setSelectedModules([]);
+    setEmailError('')
+    setPhoneError('')
+
+    // setTimeout(() => {
+    //   setActiveModule(null);
+    // }, 2000);
   };
 
-  const handleBigClose = (moduleName, index) => {
+  const handleBigClose = () => {
+    setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
     setSelectedModules([]);
     setSubmitData(false);
-    setShowBigCircleData(false);
-    setModulesSelect(false);
-    const smallCircleData = modules[index];
-    if (moduleName !== activeModule) {
-      setTimeout(() => {
-        setModuleData({
-          active: false,
-          imagePath: smallCircleData?.icon,
-          heading: smallCircleData?.title,
-          paragraph: smallCircleData?.description,
-        });
-        setActiveModule(null);
-      }, 1000);
-    }
-    setTimeout(() => {
-      setReadStatus(false);
-    }, 200);
+    setAddHideClass(false);
+    setShowBigCircleData(true);
+    setModulesSelect(true);
+    setActiveModule(intialModuleData?.activeModule);
+    setEmailError('')
+    setPhoneError('')
   };
-
-  useEffect(() => {
-    if (submitData) {
-      setTimeout(() => {
-        setAddDivClass(false);
-        setAddHideClass(false);
-        setSelectedModules([]);
-        setSubmitData(false);
-        setShowBigCircleData(true);
-        setModulesSelect(true);
-        setActiveModule(intialModuleData?.activeModule);
-      }, 1000);
-    }
-  }, [submitData]);
 
   const handleRead = () => {
     setReadStatus(true);
-    setAddDivClass(true);
+    if(publisherRegistered){
+      setAddDivClass(false);
+      setAddSmallClass(true);
+    }
+    else{
+      setAddDivClass(true);
+      setAddSmallClass(false);
+    }
   };
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1193,6 +1218,10 @@ const PharmaRd = () => {
     dots: true,
     centerMode: true,
   };
+
+  const handleSelectionClick = () => {
+    setAddSelectClass(true);
+  }
   return (
     <>
       <meta
@@ -1336,7 +1365,7 @@ const PharmaRd = () => {
               </div>
             </div>
           </Row>
-          <Row>
+          <Row className="col-reverse">
             <Col
               md={6}
               className="d-flex justify-content-center align-items-center"
@@ -1984,11 +2013,11 @@ const PharmaRd = () => {
                                 <Select
                                   options={country}
                                   placeholder="Select country"
+                                  styles={colourStyles}
                                   // className="dropdown-basic-button split-button-dropup"
-                                  className={
-                                    !registerError?.country
-                                      ? "dropdown-basic-button split-button-dropup"
-                                      : "dropdown-basic-button split-button-dropup error"
+                                  className={`${!registerError?.country
+                                    ? "dropdown-basic-button split-button-dropup"
+                                    : "dropdown-basic-button split-button-dropup error"} ${addSelectClass ? "show" : ""}`
                                   }
                                   isClearable
                                   onChange={(e) => {
@@ -2000,6 +2029,7 @@ const PharmaRd = () => {
                                   }}
                                   value={selectedCountry}
                                   ref={countryRef}
+                                  onMenuOpen={handleSelectionClick}
                                 />
                                 <span>
                                   <svg
@@ -2381,7 +2411,7 @@ const PharmaRd = () => {
                                             clip-rule="evenodd"
                                             d="M19.5428 4.05714L10.2285 9.6C10.1598 9.63751 10.0829 9.65717 10.0047 9.65717C9.92644 9.65717 9.84948 9.63751 9.78084 9.6L0.457031 4.05714C0.685807 3.73138 0.989475 3.46532 1.34249 3.28136C1.6955 3.09739 2.08753 3.0009 2.4856 3H17.5142C17.9122 3.0009 18.3043 3.09739 18.6573 3.28136C19.0103 3.46532 19.314 3.73138 19.5428 4.05714ZM10.7048 10.392L19.9333 4.90625C19.9775 5.09675 19.9999 5.29165 20 5.4872V14.8015C20 15.4607 19.7381 16.093 19.2719 16.5592C18.8058 17.0253 18.1735 17.2872 17.5143 17.2872H2.48571C1.82646 17.2872 1.19421 17.0253 0.728049 16.5592C0.261887 16.093 0 15.4607 0 14.8015V5.4872C0.000141946 5.29165 0.0225076 5.09675 0.0666666 4.90625L9.30476 10.392C9.5179 10.5139 9.7592 10.5781 10.0048 10.5781C10.2503 10.5781 10.4916 10.5139 10.7048 10.392Z"
                                             fill="#97B6CF"
-                                            fill-opacity="0.56"
+                                            fill-opacity="1"
                                           />
                                         </svg>
                                       </span>
@@ -2412,7 +2442,7 @@ const PharmaRd = () => {
                                           <path
                                             d="M19.5763 15.4867C19.3052 15.1839 18.4716 14.4293 17.8747 13.9796C17.2888 13.5191 16.329 12.8961 15.9552 12.7031C15.3446 12.3855 14.4247 12.4211 13.8532 12.805C13.3836 13.1319 12.9486 13.506 12.5552 13.9214L12.5466 13.9304C12.3317 14.1575 12.0432 14.3008 11.7324 14.3347C11.4217 14.3687 11.109 14.2912 10.8501 14.116C9.87673 13.4522 8.96826 12.698 8.13683 11.8632C7.30211 11.0318 6.54785 10.1233 5.88409 9.14996C5.70887 8.89109 5.63134 8.57839 5.66533 8.26764C5.69931 7.95691 5.84261 7.66835 6.06964 7.45348L6.07862 7.44488C6.49412 7.05147 6.86821 6.61651 7.19503 6.14684C7.57901 5.57535 7.61456 4.65543 7.29698 4.04488C7.10401 3.67145 6.48097 2.71285 6.02042 2.12535C5.57042 1.52848 4.81612 0.694883 4.51339 0.423789C4.01925 -0.0215235 3.18448 -0.137539 2.60206 0.179648C2.11284 0.457493 1.65453 0.786556 1.23487 1.16129L1.19073 1.20035C-1.38427 3.41559 0.311045 9.59879 5.35987 14.6379C10.4017 19.6875 16.5833 21.3839 18.7985 18.8089L18.8376 18.7648C19.2125 18.3452 19.5415 17.8869 19.8192 17.3976C20.1376 16.8156 20.0216 15.9808 19.5763 15.4867Z"
                                             fill="#97B6CF"
-                                            fill-opacity="0.56"
+                                            fill-opacity="1"
                                           />
                                         </svg>
                                       </span>
@@ -2838,7 +2868,7 @@ const PharmaRd = () => {
                       onClick={handleBigCircleClose}
                     />
                 <div className="mobile-slider-inset">
-                 {showBigCircleData && !registerPage && (
+                 {showBigCircleData  && publisherRegistered &&  (
                     
                     <Slider
                       {...sliderSettings}

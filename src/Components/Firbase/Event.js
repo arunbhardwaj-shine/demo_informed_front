@@ -15,6 +15,7 @@ import { v4 as uuid } from 'uuid';
 
 import axios from "axios"
 import {db} from "../../config/firebaseConfig"
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const Event = () =>{
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);   
@@ -35,6 +36,7 @@ const Event = () =>{
 
     const [apiData,setApiData] = useState([])
     const [answerPop,setAnswerPopup] = useState(false)
+    const [totalReaders,setTotalReaders] = useState(0)
 
     useEffect(()=>{
         EventDataFun()
@@ -71,7 +73,7 @@ const Event = () =>{
             let body = {
                 "company_id" : eventId?.companyId,
                 "event_id"   : eventId?.id,
-                "user_id"    :  events,
+                "user_id"    :  2147533104,
                 "question"   : user?.question,
                 "portal"     : "web",
                 "name": user?.name
@@ -86,6 +88,7 @@ const Event = () =>{
                if(Object.keys(value)?.length){
                   setValue({})
                }
+               setUser({'question':'','name':''})
              loader("hide")
         }catch(err){
             loader("hide")
@@ -229,6 +232,7 @@ const Event = () =>{
                           companyId:value?.question_id
                       })
                       setApiData(result?.data?.data)
+                      setTotalReaders(result?.data?.totalReader)
                       setAnswerPopup(true)
                       setShow(false)
                       setData(0)
@@ -278,17 +282,20 @@ const Event = () =>{
 <div className="question-block">
     <div className="header-logo">
        
-        <div><img src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png" /></div>
+        <div>
+            {/* <img src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png" /> */}
+            <img src={path_image+'FVIII_logo.png'} alt="Logo" />
+        </div>
        
     </div>
     <div className="question-block-form">
 
         <div className="log-inner">
         <div className="head-sec">
-         <h2 className="top-title">Escribe tu pregunta aqui!</h2>
-                <div className="under-spotlight"><img src="https://webinar.docintel.app/Event/chat/image/octa-academy-register.png" alt="Logo" /></div>
-            <div className="head_desc">
-           </div>
+         <h2 className="top-title">Write your question here!</h2>
+                {/*<div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div> 
+             <div className="head_desc">
+           </div> */}
             </div>
 
         </div>
@@ -297,26 +304,26 @@ const Event = () =>{
                                     
             <div className="row">
                 <div className="col-md-12">
-                    <label htmlFor="fname" className="form-label">Nombre <i><small>(Opcional)</small></i></label>
-                    <input type="text" id="name" onChange={handleChange} className="form-control" placeholder='Escriba su nombre' name="name" />
-                    <input type="hidden" className="form-control" value = "Pregunta enviada con éxito" name="succ_message" />
-                    <input type="hidden" className="form-control" value = "Por favor ingrese el mensaje" name="err_message" />
+                    <label htmlFor="fname" className="form-label">Name <i><small>(Optional)</small></i></label>
+                    <input type="text" id="name" onChange={handleChange} className="form-control" placeholder='Write your name' name="name" value={user?.name} />
+                    <input type="hidden" className="form-control" value = "Question submitted successfully" name="succ_message" />
+                    <input type="hidden" className="form-control" value = "Please enter message" name="err_message" />
                     <input type="hidden" className="form-control" value = "index.php?evnt=octa-academy-2023" name="page" />
                   </div>
                      <div className="col-md-12">
-                    <label htmlFor="question" className="form-label">Tu pregunta<sup>*</sup></label>
-                     <textarea name="question" id="question" onChange={handleChange} className="form-control" placeholder="Escriba su pregunta"  cols="40" rows="4"></textarea>
+                    <label htmlFor="question" className="form-label">Your question<sup>*</sup></label>
+                     <textarea name="question" id="question" onChange={handleChange} className="form-control" placeholder="Write your question"  cols="40" rows="4" value={user?.question}></textarea>
                      {error?.question?<span className="event-validation">{error?.question}</span>:""}
 
                       </div>
 
                 <div className="col-md-12">
-                    <input type="submit" className="btn btn-success" value="ENVIAR" />
+                    <input type="submit" className="btn btn-success" value="SEND" />
                 </div>
             </div>
         </form> 
         <div className="copy-right-bottom-text">
-            <p>Fecha de preparación: el julio 2023</p>
+            <p>Preparation date: 7-8 December 2023</p>
         </div>
     </div>
 </div>
@@ -380,6 +387,7 @@ const Event = () =>{
 <DisplayAnswer
 show={answerPop}
 data={apiData}
+readerCount={totalReaders}
  onClose={()=>setAnswerPopup(false)}
 />}
 </div>

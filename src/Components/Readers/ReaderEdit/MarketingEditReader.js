@@ -14,10 +14,25 @@ import ReactFlagsSelect from "react-flags-select";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { parsePhoneNumber } from "react-phone-number-input";
+import CommmonConfirmModel from "../../../Model/CommonConfirmModel";
+
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const MarketingEditReader = () => {
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [resetDataId, setResetDataId] = useState();
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
+  const [currentIndex, setCurrentIndex] = useState(-1);
   const { state } = useLocation();
-  const [id, setId] = useState(state?.id ? state?.id : "");
+  // console.log(state);
+  const [id, setId] = useState(
+    state?.id ? state?.id : state?.data?.user_id ? state?.data?.user_id : ""
+    );
+    const [logs, setLogs] = useState(state?.data?.log_Data ||[]);
   const [typeOfContact, setTypeOfContact] = useState([]);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -96,294 +111,6 @@ const MarketingEditReader = () => {
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
 
-  // const country = [
-  //   "US",
-
-  //   "BS",
-
-  //   "BB",
-
-  //   "AI",
-
-  //   "AG",
-
-  //   "VG",
-
-  //   "KY",
-
-  //   "BM",
-
-  //   "GD",
-
-  //   "TC",
-
-  //   "MS",
-
-  //   "MP",
-
-  //   "GU",
-
-  //   "AS",
-
-  //   "LC",
-
-  //   "DM",
-
-  //   "DO",
-
-  //   "TT",
-
-  //   "KN",
-
-  //   "JM",
-
-  //   "EG",
-
-  //   "ZA",
-
-  //   "SS",
-
-  //   "MA",
-
-  //   "DZ",
-
-  //   "TN",
-
-  //   "LY",
-
-  //   "GY",
-
-  //   "GR",
-
-  //   "NL",
-
-  //   "BE",
-
-  //   "FR",
-
-  //   "ES",
-
-  //   "GI",
-
-  //   "PT",
-
-  //   "LU",
-
-  //   "IE",
-
-  //   "IS",
-
-  //   "AL",
-
-  //   "MT",
-
-  //   "CY",
-
-  //   "FI",
-
-  //   "BG",
-
-  //   "LT",
-
-  //   "LV",
-
-  //   "EE",
-
-  //   "MD",
-
-  //   "AM",
-
-  //   "BY",
-
-  //   "AD",
-
-  //   "MC",
-
-  //   "SM",
-
-  //   "VA",
-
-  //   "UA",
-
-  //   "RS",
-
-  //   "ME",
-
-  //   "XK",
-
-  //   "HR",
-
-  //   "SI",
-
-  //   "BA",
-
-  //   "MK",
-
-  //   "CZ",
-
-  //   "SK",
-
-  //   "LI",
-
-  //   "FK",
-
-  //   "BZ",
-
-  //   "GT",
-
-  //   "SV",
-
-  //   "HN",
-
-  //   "NI",
-
-  //   "CR",
-
-  //   "PA",
-
-  //   "PM",
-
-  //   "HT",
-
-  //   "GP",
-
-  //   "BO",
-
-  //   "GY",
-
-  //   "EC",
-
-  //   "GF",
-
-  //   "PY",
-
-  //   "MQ",
-
-  //   "SR",
-
-  //   "UY",
-
-  //   "CW",
-
-  //   "MY",
-
-  //   "AU",
-
-  //   "ID",
-
-  //   "PH",
-
-  //   "NZ",
-
-  //   "SG",
-
-  //   "TH",
-
-  //   "TL",
-
-  //   "NF",
-
-  //   "BN",
-
-  //   "NR",
-
-  //   "PG",
-
-  //   "TO",
-
-  //   "SB",
-
-  //   "VU",
-
-  //   "FJ",
-
-  //   "PW",
-
-  //   "WF",
-
-  //   "CK",
-
-  //   "NU",
-
-  //   "WS",
-
-  //   "KI",
-
-  //   "NC",
-
-  //   "TV",
-
-  //   "PF",
-
-  //   "TK",
-
-  //   "FM",
-
-  //   "MH",
-
-  //   "RU",
-
-  //   "KP",
-
-  //   "HK",
-
-  //   "MO",
-
-  //   "KH",
-
-  //   "LA",
-
-  //   "BD",
-
-  //   "TW",
-
-  //   "MV",
-
-  //   "LB",
-
-  //   "JO",
-
-  //   "SY",
-
-  //   "IQ",
-
-  //   "KW",
-
-  //   "SA",
-
-  //   "YE",
-
-  //   "OM",
-
-  //   "PS",
-
-  //   "AE",
-
-  //   "IL",
-
-  //   "BH",
-
-  //   "QA",
-
-  //   "BT",
-
-  //   "MN",
-
-  //   "NP",
-
-  //   "TJ",
-
-  //   "TM",
-
-  //   "AZ",
-
-  //   "GE",
-
-  //   "KG",
-
-  //   "UZ",
-  // ];
-
   const [userDetail, setUserDetail] = useState({
     title: [],
     prospect: [],
@@ -396,9 +123,27 @@ const MarketingEditReader = () => {
     task: [],
     pipeline: [],
   });
-
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+  const handleDeleteClick = async (index) => {
+    try {
+      const updateLogs = [...logs];
+      updateLogs.splice(index, 1);
+      setLogs(updateLogs);
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    } finally {
+      setConfirmationPopup(false);
+    }
+  };
   useEffect(() => {
     initalFun();
+    if (state?.id) {
+      getUserDetail();
+    } else {
+      getPreviewUserDetail();
+    }
   }, []);
 
   useEffect(() => {}, [userInputs]);
@@ -433,6 +178,16 @@ const MarketingEditReader = () => {
 
       setCountryAll(country);
 
+      loader("hide");
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
+  const getUserDetail = async () => {
+    try {
+      loader("show");
       const usersData = await getData(
         `${ENDPOINT.GET_MARKETING_USER_DROP}/${id}`
       );
@@ -443,11 +198,12 @@ const MarketingEditReader = () => {
       if (data?.log_activity) {
         if (data?.log_activity != "") {
           let jsonString = data?.log_activity;
-          const jsonObject = JSON.parse(jsonString);
-          note = jsonObject?.value;
-          const dateTime = new Date(jsonObject?.date);
-          let lasttime = formatDate(dateTime);
-          setlastnoteTime(lasttime);
+          let logs = JSON.parse(jsonString);
+          setLogs(Array.isArray(logs)?logs:logs instanceof Object?[logs]:[])
+          // note = jsonObject?.value;
+          // const dateTime = new Date(jsonObject?.date);
+          // let lasttime = formatDate(dateTime);
+          // setlastnoteTime(lasttime);
         }
       }
 
@@ -499,6 +255,54 @@ const MarketingEditReader = () => {
     } finally {
       loader("hide");
     }
+  };
+
+  const getPreviewUserDetail = () => {
+   
+    let phoneNumber = state?.data?.primary_phone.split("-informed-");
+    setUserInputs({
+      ...userInputs,
+      jobTitle: state?.data?.jobTitle,
+      title: { value: state?.data?.title },
+      firstName: state?.data?.firstName,
+      middleName: state?.data?.middleName,
+      lastName: state?.data?.lastName,
+      email: state?.data?.email,
+      alternativeEmail: state?.data?.alternativeEmail,
+      countryCode: phoneNumber[0],
+      primary_phone: phoneNumber[1],
+      alternativePhone: state?.data?.alternativePhone,
+      linkedIn: state?.data?.linkedIn,
+      prospect: { value: state?.data?.prospect },
+      ownership: { value: state?.data?.contact_ownership },
+      main: state?.data?.type_of_contact.includes("Main"),
+      decisionMaker: state?.data?.type_of_contact.includes("Decision-maker"),
+      influencer: state?.data?.type_of_contact.includes("Influencer"),
+      introducer: state?.data?.type_of_contact.includes("Introducer"),
+      customerType: { value: state?.data?.customerType },
+      companyName: { value: state?.data?.company_name },
+      country: { value: state?.data?.country },
+      companyWebsite: state?.data?.company_website,
+      companyProduct: { value: state?.data?.company_product },
+      therapyArea: { value: state?.data?.company_therapy_area },
+      local: { value: state?.data?.local },
+      nextContact: state?.data?.next_contact,
+      address: state?.data?.address,
+      logActivity: state?.data?.log_activity,
+      task: state?.data?.task,
+      opportunityTitle: state?.data?.opportunity_title,
+      ourProduct: state?.data?.our_product,
+      pipeline: { value: state?.data?.pipeline },
+      opportunityValue: state?.data?.opportunity_value,
+      probability: { value: state?.data?.probability },
+      weighted_value: state?.data?.weighted_value,
+      contactTotal: state?.data?.contact_total,
+      quoteSent: state?.data?.quote_sent,
+      quoteValid: state?.data?.quote_valid,
+      typeContact: state?.data?.type_of_contact
+        ? state?.data?.type_of_contact
+        : [],
+    });
   };
   const handleKeyDown = (e, isSelectedName) => {
     if (isSelectedName == "countryCode") {
@@ -608,31 +412,31 @@ const MarketingEditReader = () => {
       });
     } else if (e?.target?.name == "primary_phone") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
-      if (cleanedValue?.length <= 12) {
+      // if (cleanedValue?.length <= 20) {
         setUserInputs({
           ...userInputs,
 
           [e?.target?.name]: cleanedValue,
         });
         setError(null);
-      } else {
-        setError({
-          primary_phone: "Number must be in between 10 to 12 digits",
-        });
-      }
+      // } else {
+      //   setError({
+      //     primary_phone: "Number must be in between 10 to 20 digits",
+      //   });
+      // }
     } else if (e?.target?.name == "alternativePhone") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
-      if (cleanedValue?.length <= 12) {
+      // if (cleanedValue?.length <= 20) {
         setUserInputs({
           ...userInputs,
           [e?.target?.name]: cleanedValue,
         });
         setError(null);
-      } else {
-        setError({
-          alternativePhone: "Number must be in between 10 to 12 digits",
-        });
-      }
+      // } else {
+      //   setError({
+      //     alternativePhone: "Number must be in between 10 to 20 digits",
+      //   });
+      // }
     } else if (e?.target?.name == "contactTotal") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue > 500 || cleanedValue < 0) {
@@ -932,6 +736,21 @@ const MarketingEditReader = () => {
     } finally {
       loader("hide");
     }
+  };
+  const handleDeleteLogs = (index) => {
+    const updateLogs = [...logs];
+    updateLogs.splice(index, 1);
+    setLogs(updateLogs);
+  };
+  const handleEditLogs = (index) => {
+    setCurrentIndex(index)
+    const updateLogs = [...logs];
+    let userD = { ...userInputs };
+    userD.logActivity = updateLogs[index].value;
+    // updateLogs.splice(index, 1);
+
+    setUserInputs(userD);
+    // setLogs(updateLogs);
   };
   const Main = () => {
     return (
@@ -1709,7 +1528,38 @@ const MarketingEditReader = () => {
                     rows="5"
                     placeholder="Please type your notes here..."
                   ></textarea>
-                  <span>
+  <button
+                    className="btn-bordered btn-voilet btn btn-primary"
+                    onClick={(e) => {
+                      if (userInputs?.logActivity) {
+                        let newData = [...logs];
+                        let userD = { ...userInputs };
+                        userD.logActivity = "";
+                        if(currentIndex ==-1 ){
+
+                          newData.push({
+                            value: userInputs?.logActivity,
+                            date: new Date().toLocaleDateString(),
+                          })
+                        }
+                        else{
+                       
+                          newData[currentIndex]={
+                            value: userInputs?.logActivity,
+                            date: new Date().toLocaleDateString(),
+                          }
+                        }
+                        setLogs(newData);
+                        setUserInputs(userD);
+                      }
+                      setCurrentIndex(-1)
+
+                    }}
+                  >
+                    {currentIndex ==-1?
+                    "Add Log":"Update Log"}
+                  </button>
+                  {/* <span>
                     {typeof lastnoteTime !== "undefined" &&
                       lastnoteTime != "" && (
                         <span>
@@ -1719,7 +1569,56 @@ const MarketingEditReader = () => {
                           </>
                         </span>
                       )}
-                  </span>
+                  </span> */}
+                </div>
+                <div className="new-change">
+                  {logs?.map((log, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        border: "1px solid black",
+                        padding: "10px",
+                        marginBottom: "8px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span>{log?.value}</span> <span>{log?.date}</span>{" "}
+                      <div className="add_product">
+                        <button
+                             style={{
+                              backgroundColor: "#FF5733", 
+                              color: "white",
+                            
+                              padding: "10px 20px",
+                              marginRight: "5px",
+                              cursor: "pointer", 
+                            }}
+                            onClick={() => {
+                              setPopupMessage({
+                                message1:
+                                  "You are about to remove this Log.",
+                                message2: "Are you sure you want to do this?",
+                                footerButton: "Yes please!",
+                              });
+                              setConfirmationPopup(true);
+                              setResetDataId(index);
+                            }} 
+                        >
+                         <img src="componentAssets/images/delete.svg" alt="Delete Row"/>
+                        </button>
+                        <button
+                        style={{ padding: "10px 20px",
+                        marginRight: "5px",
+                        cursor: "pointer"}}
+                         
+                          onClick={() => handleEditLogs(index)}
+                        >
+<img src="componentAssets/images/edit-icon1.svg" alt="Content msg Library"/>                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -1959,7 +1858,6 @@ const MarketingEditReader = () => {
     e.preventDefault();
 
     const result = AddReaderValidation(userInputs);
-
     if (Object?.keys(result)?.length) {
       if (Object?.keys(result)[0] == "firstName") {
         nameRef?.current?.focus();
@@ -2073,13 +1971,15 @@ const MarketingEditReader = () => {
           quote_sent: userInputs?.quoteSent,
           quote_valid: quoteValidDate,
           user_id: id,
+          log_Data: logs,
+
         };
         loader("hide");
 
         navigate("/reader-review", {
           state: {
             data: data,
-            flag: 1,
+            flag: state?.id || state?.data?.user_id ? 1 : 0,
           },
         });
       } catch (err) {
@@ -2143,6 +2043,14 @@ const MarketingEditReader = () => {
         handleChange={handleModelFun}
         handleSubmit={handleSubmitModelFun}
       />
+      <CommmonConfirmModel
+          show={confirmationpopup}
+          onClose={hideConfirmationModal}
+          fun={handleDeleteClick}
+          popupMessage={popupMessage}
+          path_image={path_image}
+          resetDataId={resetDataId}
+        />
     </>
   );
 };

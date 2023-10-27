@@ -8138,10 +8138,10 @@ html {
 .session-modal #pollModel h4 {
   font-weight: 500;
   color: #204e9e;
-  font-size: 18px;
+  font-size: 16px;
   display: block;
   width: 100%;
-  margin: 0 0 20px;
+  margin: 0 0 10px;
 }
 
 .session-modal #pollModel .form-group {
@@ -8149,8 +8149,14 @@ html {
   margin: 0 0 10px;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
-
+.session-modal #pollModel .form-group span.error {
+  flex: 0 0 100%;
+  text-align: left;
+  font-size: 12px;
+  margin-top: -10px;
+}
 .session-modal #pollModel .form-group label {
   font-weight: 500;
   color: #204e9e;

@@ -13,11 +13,13 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
   const [userSpeaker, setSpeaker] = useState({});
 
   const [error, setError] = useState({});
+  const [userRequired, setUserRequired] = useState({});
 
   const initiFun = () => {
     try {
       setUser(data?.questionListing);
       setUserValid(data?.totalQuestion);
+      setUserRequired(data?.totalQuestion);
       setSpeaker(data?.speakerData);
     } catch (err) {
       console.log("-err", err);
@@ -27,7 +29,11 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
   const handleChange = (questionId, data, type = "") => {
     try {
       if (type) {
-        setUserValid({ ...userValid, [questionId]: data });
+        setUserValid({
+          ...userValid,
+          [questionId]: data ? data : userRequired[questionId],
+        });
+
         return;
       }
       setUserValid({ ...userValid, [questionId]: data });
@@ -39,8 +45,9 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
   const handleSubmit = async () => {
     try {
       const errorValue = Object.values(userValid);
+
       if (errorValue?.includes(0)) {
-        setError({ msg: "Please select above options" });
+        setError({ msg: "This field is required" });
         return;
       }
       let newAr = [];
@@ -73,6 +80,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
         }
       });
       loader("show");
+
       await postData(ENDPOINT.ADD_EVENT_DATA, {
         eventData: newAr,
         eventId: eventData?.event_id,
@@ -122,8 +130,16 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
         <div className="popup-content">
           {user?.map((item, index) => (
             <>
+              {
+                item?.groupId == 0 && item?.canCustomAnswer == 1 ?
+                <p className="event_sub_heading">Please consider the overall meeting when answering the following questions</p>
+                :
+                <p className="event_sub_heading">Thank you for attending the Factor VIII Relevance Academy. We would be very grateful if you would complete and return this evaluation form. Your feedback will help us in our efforts to provide high-quality scientific meetings in the future.</p>
+              }
               <h4>{item?.parentQuestion}</h4>
+              
               {item?.groupId == 0 && item?.canCustomAnswer == 1 ? (
+                <>
                 <textarea
                   className="custom-answer-area"
                   onChange={(e) =>
@@ -133,6 +149,12 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                   rows="4"
                   cols="50"
                 />
+                {
+                  userValid?.[item?.parentId] === 0 ?
+                  error?.msg ? <span className="error">{error.msg}</span> : ""
+                  : null
+                }
+                </>
               ) : (
                 ""
               )}
@@ -160,7 +182,11 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                     ) : null}
 
                     <div className="form-group">
-                      <label>{value?.question}</label>
+                      <label
+                        dangerouslySetInnerHTML={{ __html: value?.question }}
+                      />
+                      
+
                       <div className="check-group">
                         {value?.answerData?.length ? (
                           value?.answerData?.map((childValue) => {
@@ -184,7 +210,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                                       name={value?.question}
                                       value={childValue?.answer}
                                     />
-                                    <span class="checkmark"></span>
+                                    <span className="checkmark"></span>
                                   </div>
                                 )}
                               </>
@@ -204,7 +230,13 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                         ) : (
                           ""
                         )}
+                        
                       </div>
+                      {
+                        userValid?.[value?.id] === 0 ?
+                        error?.msg ? <span className="error">{error.msg}</span> : ""
+                        : null
+                      }
                     </div>
                   </>
                 );
@@ -214,7 +246,6 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        {error?.msg ? <p className="error">{error.msg}</p> : ""}
         <Button onClick={handleSubmit}>Submit</Button>
       </Modal.Footer>
     </Modal>

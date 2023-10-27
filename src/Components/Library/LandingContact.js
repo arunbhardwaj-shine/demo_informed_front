@@ -293,7 +293,19 @@ const LandingContact = () => {
     { value: "Zambia", label: "Zambia" },
     { value: "Zimbabwe", label: "Zimbabwe" },
   ]);
-
+const colourStyles = {
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    // const color = chroma(data.color);
+    console.log({ data, isDisabled, isFocused, isSelected });
+    return {
+      ...styles,
+      backgroundColor: isFocused ? "#ffffff" : null,
+      color: isFocused ? "#0066BE" : "#97B6CF",
+      backgroundColor: isSelected ? "#ffffff" : null,
+       color: isSelected ? "#0066BE!important" : "#97B6CF",
+    };
+  }
+};
   const [contactFormInputs, setContactFormInputs] = useState({
     name: "",
     email: "",
@@ -309,6 +321,7 @@ const LandingContact = () => {
   const [conatctError, setContactError] = useState(false);
   const [forceRender, setForceRender] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
+  const [addClass, setAddClass] = useState(false);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -317,6 +330,7 @@ const LandingContact = () => {
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   const handleContactFormChange = (e, isSelectedName) => {
+    setAddClass(false);
     setContactFormInputs({
       ...contactFormInputs,
       [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -326,7 +340,9 @@ const LandingContact = () => {
         : e?.target?.value, 
     });
   };
-
+  const handleSelectionClick = () => {
+    setAddClass(true);
+  }
 
   // send contact infromation
   const sendContactInformation = async (event) => {
@@ -371,6 +387,10 @@ const LandingContact = () => {
           setSelectedCountry([]);
           setContactError(false);
           setForceRender(!forceRender);
+
+          setTimeout(() => {
+            setSuccessMsg("");
+          }, 10000);
         
         })
         .catch((err) => {
@@ -394,12 +414,9 @@ const LandingContact = () => {
       <div className="contact-inset">
         <h3>Contact Us</h3>
         <h5>
-          We’re always happy to talk to you and answer any questions you have.
-          You might have a question about something not covered on the page,
-          something about compliance or other requests. <br />
-          Please let us know what it is and who you are so we can get back to
-          you right away.
+          We'd love to talk to you. Let's us know what questions you have.
         </h5>
+        <h5> We're here to help, leave your details below and we'll get back to you straight away.</h5>
         <div class="form-sec">
           <Form>
             <Row>
@@ -496,12 +513,12 @@ const LandingContact = () => {
                 >
                   <Select
                     options={country}
+                    styles={colourStyles}
                     placeholder="Select country"
                     // className="dropdown-basic-button split-button-dropup"
-                    className={
-                      !conatctError?.country
-                        ? "dropdown-basic-button split-button-dropup"
-                        : "dropdown-basic-button split-button-dropup error"
+                    className={`${!conatctError?.country
+                      ? "dropdown-basic-button split-button-dropup"
+                      : "dropdown-basic-button split-button-dropup error"} ${addClass ? "show" : ""}`
                     }
                     isClearable
                     onChange={(e) => {
@@ -510,6 +527,7 @@ const LandingContact = () => {
                     }}
                     value={selectedCountry}
                     ref={countryRef}
+                    onMenuOpen={handleSelectionClick}
                   />
                   <span>
                     <svg
