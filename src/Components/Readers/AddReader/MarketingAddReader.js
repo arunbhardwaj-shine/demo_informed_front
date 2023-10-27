@@ -13,8 +13,16 @@ import { toast } from "react-toastify";
 import ReactFlagsSelect from "react-flags-select";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const MarketingAddReader = () => {
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [resetDataId, setResetDataId] = useState();
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const primaryPhoneRef = useRef(null);
@@ -50,6 +58,8 @@ const MarketingAddReader = () => {
   const [commonHeader, setCommonHeader] = useState("");
   const [commonFooter, setCommonFooter] = useState("");
   const [showTaskExtra, setShowTaskExtra] = useState(false);
+  const [logs, setLogs] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(-1);
   const [userInputs, setUserInputs] = useState({
     jobTitle: "",
     title: { value: "" },
@@ -101,7 +111,20 @@ const MarketingAddReader = () => {
     task: [],
     pipeline: [],
   });
-
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+  const handleDeleteClick = async (index) => {
+    try {
+      const updateLogs = [...logs];
+      updateLogs.splice(index, 1);
+      setLogs(updateLogs);
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    } finally {
+      setConfirmationPopup(false);
+    }
+  };
   useEffect(() => {
     initalFun();
   }, []);
@@ -576,6 +599,19 @@ const MarketingAddReader = () => {
     } finally {
       loader("hide");
     }
+  };
+  // const handleDeleteLogs = (index) => {
+  
+  // };
+  const handleEditLogs = (index) => {
+    setCurrentIndex(index)
+    const updateLogs = [...logs];
+    let userD = { ...userInputs };
+    userD.logActivity = updateLogs[index].value;
+    // updateLogs.splice(index, 1);
+
+    setUserInputs(userD);
+    // setLogs(updateLogs);
   };
   const Main = () => {
     return (
@@ -1283,9 +1319,9 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
               </div>
-              <div className="col-12 col-md-5 d-flex justify-content-end right-change">
-                <div className="form-group justify-content-end align-items-start">
-                  <label htmlFor="">Log activity </label>
+              <div className="col-12 col-md-5 right-change">
+                <div className="form-group new-change">
+                  <label htmlFor="formControlTextarea">Log activity</label>
 
                   <textarea
                     name="logActivity"
@@ -1298,6 +1334,88 @@ const MarketingAddReader = () => {
                     rows="5"
                     placeholder="Please type your notes here..."
                   ></textarea>
+
+                  <button
+                    className="btn-bordered btn-voilet btn btn-primary"
+                    onClick={(e) => {
+                      
+                      if (userInputs?.logActivity) {
+                        let newData = [...logs];
+                        let userD = { ...userInputs };
+                        userD.logActivity = "";
+                        if(currentIndex ==-1 ){
+
+                          newData.push({
+                            value: userInputs?.logActivity,
+                            date: new Date().toLocaleDateString(),
+                          })
+                        }
+                        else{
+                       
+                          newData[currentIndex]={
+                            value: userInputs?.logActivity,
+                            date: new Date().toLocaleDateString(),
+                          }
+                        }
+                        setLogs(newData);
+                        setUserInputs(userD);
+                      }
+                      setCurrentIndex(-1)
+
+                    }}
+                  >
+                    {currentIndex ==-1?
+                    "Add Log":"Update Log"}
+                  </button>
+                </div>
+
+                <div className="new-change">
+                  {logs?.map((log, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        border: "1px solid black",
+                        padding: "10px",
+                        marginBottom: "8px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span>{log?.value}</span> <span>{log?.date}</span>{" "}
+                      <div className="add_product">
+                        <button
+                             style={{
+                              backgroundColor: "#FF5733", 
+                              color: "white",
+                            
+                              padding: "10px 20px",
+                              marginRight: "5px",
+                              cursor: "pointer", 
+                            }}
+                            onClick={() => {
+                              setPopupMessage({
+                                message1:
+                                  "You are about to remove this Log.",
+                                message2: "Are you sure you want to do this?",
+                                footerButton: "Yes please!",
+                              });
+                              setConfirmationPopup(true);
+                              setResetDataId(index);
+                            }}                        >
+                         <img src="componentAssets/images/delete.svg" alt="Delete Row"/>
+                        </button>
+                        <button
+                        style={{ padding: "10px 20px",
+                        marginRight: "5px",
+                        cursor: "pointer"}}
+                         
+                          onClick={() => handleEditLogs(index)}
+                        >
+<img src="componentAssets/images/edit-icon1.svg" alt="Content msg Library"/>                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -1611,6 +1729,7 @@ const MarketingAddReader = () => {
           // address: `${userInputs?.street1}-${userInputs?.street2}-${userInputs?.city}-${userInputs?.postcode}-${userInputs?.addressCountry?.value}`,
           address: userInputs?.address,
           log_activity: userInputs?.logActivity,
+          log_Data: logs,
           task: {
             task: userInputs?.task?.task,
             taskCheckClicked: userInputs?.task?.taskCheckClicked,
@@ -1696,6 +1815,14 @@ const MarketingAddReader = () => {
         handleChange={handleModelFun}
         handleSubmit={handleSubmitModelFun}
       />
+        <CommonConfirmModel
+          show={confirmationpopup}
+          onClose={hideConfirmationModal}
+          fun={handleDeleteClick}
+          popupMessage={popupMessage}
+          path_image={path_image}
+          resetDataId={resetDataId}
+        />
     </>
   );
 };

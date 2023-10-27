@@ -14,8 +14,20 @@ import ReactFlagsSelect from "react-flags-select";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { parsePhoneNumber } from "react-phone-number-input";
+import CommmonConfirmModel from "../../../Model/CommonConfirmModel";
+
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const MarketingEditReader = () => {
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [resetDataId, setResetDataId] = useState();
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
+  const [logs, setLogs] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(-1);
   const { state } = useLocation();
   const [id, setId] = useState(state?.id ? state?.id : "");
   const [typeOfContact, setTypeOfContact] = useState([]);
@@ -396,7 +408,20 @@ const MarketingEditReader = () => {
     task: [],
     pipeline: [],
   });
-
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+  const handleDeleteClick = async (index) => {
+    try {
+      const updateLogs = [...logs];
+      updateLogs.splice(index, 1);
+      setLogs(updateLogs);
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    } finally {
+      setConfirmationPopup(false);
+    }
+  };
   useEffect(() => {
     initalFun();
   }, []);
@@ -443,11 +468,12 @@ const MarketingEditReader = () => {
       if (data?.log_activity) {
         if (data?.log_activity != "") {
           let jsonString = data?.log_activity;
-          const jsonObject = JSON.parse(jsonString);
-          note = jsonObject?.value;
-          const dateTime = new Date(jsonObject?.date);
-          let lasttime = formatDate(dateTime);
-          setlastnoteTime(lasttime);
+          let logs = JSON.parse(jsonString);
+          setLogs(Array.isArray(logs)?logs:logs instanceof Object?[logs]:[])
+          // note = jsonObject?.value;
+          // const dateTime = new Date(jsonObject?.date);
+          // let lasttime = formatDate(dateTime);
+          // setlastnoteTime(lasttime);
         }
       }
 
@@ -932,6 +958,21 @@ const MarketingEditReader = () => {
     } finally {
       loader("hide");
     }
+  };
+  const handleDeleteLogs = (index) => {
+    const updateLogs = [...logs];
+    updateLogs.splice(index, 1);
+    setLogs(updateLogs);
+  };
+  const handleEditLogs = (index) => {
+    setCurrentIndex(index)
+    const updateLogs = [...logs];
+    let userD = { ...userInputs };
+    userD.logActivity = updateLogs[index].value;
+    // updateLogs.splice(index, 1);
+
+    setUserInputs(userD);
+    // setLogs(updateLogs);
   };
   const Main = () => {
     return (
@@ -1709,7 +1750,38 @@ const MarketingEditReader = () => {
                     rows="5"
                     placeholder="Please type your notes here..."
                   ></textarea>
-                  <span>
+  <button
+                    className="btn-bordered btn-voilet btn btn-primary"
+                    onClick={(e) => {
+                      if (userInputs?.logActivity) {
+                        let newData = [...logs];
+                        let userD = { ...userInputs };
+                        userD.logActivity = "";
+                        if(currentIndex ==-1 ){
+
+                          newData.push({
+                            value: userInputs?.logActivity,
+                            date: new Date().toLocaleDateString(),
+                          })
+                        }
+                        else{
+                       
+                          newData[currentIndex]={
+                            value: userInputs?.logActivity,
+                            date: new Date().toLocaleDateString(),
+                          }
+                        }
+                        setLogs(newData);
+                        setUserInputs(userD);
+                      }
+                      setCurrentIndex(-1)
+
+                    }}
+                  >
+                    {currentIndex ==-1?
+                    "Add Log":"Update Log"}
+                  </button>
+                  {/* <span>
                     {typeof lastnoteTime !== "undefined" &&
                       lastnoteTime != "" && (
                         <span>
@@ -1719,7 +1791,56 @@ const MarketingEditReader = () => {
                           </>
                         </span>
                       )}
-                  </span>
+                  </span> */}
+                </div>
+                <div className="new-change">
+                  {logs?.map((log, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        border: "1px solid black",
+                        padding: "10px",
+                        marginBottom: "8px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span>{log?.value}</span> <span>{log?.date}</span>{" "}
+                      <div className="add_product">
+                        <button
+                             style={{
+                              backgroundColor: "#FF5733", 
+                              color: "white",
+                            
+                              padding: "10px 20px",
+                              marginRight: "5px",
+                              cursor: "pointer", 
+                            }}
+                            onClick={() => {
+                              setPopupMessage({
+                                message1:
+                                  "You are about to remove this Log.",
+                                message2: "Are you sure you want to do this?",
+                                footerButton: "Yes please!",
+                              });
+                              setConfirmationPopup(true);
+                              setResetDataId(index);
+                            }} 
+                        >
+                         <img src="componentAssets/images/delete.svg" alt="Delete Row"/>
+                        </button>
+                        <button
+                        style={{ padding: "10px 20px",
+                        marginRight: "5px",
+                        cursor: "pointer"}}
+                         
+                          onClick={() => handleEditLogs(index)}
+                        >
+<img src="componentAssets/images/edit-icon1.svg" alt="Content msg Library"/>                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -2073,6 +2194,8 @@ const MarketingEditReader = () => {
           quote_sent: userInputs?.quoteSent,
           quote_valid: quoteValidDate,
           user_id: id,
+          log_Data: logs,
+
         };
         loader("hide");
 
@@ -2143,6 +2266,14 @@ const MarketingEditReader = () => {
         handleChange={handleModelFun}
         handleSubmit={handleSubmitModelFun}
       />
+      <CommmonConfirmModel
+          show={confirmationpopup}
+          onClose={hideConfirmationModal}
+          fun={handleDeleteClick}
+          popupMessage={popupMessage}
+          path_image={path_image}
+          resetDataId={resetDataId}
+        />
     </>
   );
 };
