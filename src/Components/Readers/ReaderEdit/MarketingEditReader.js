@@ -634,31 +634,31 @@ const MarketingEditReader = () => {
       });
     } else if (e?.target?.name == "primary_phone") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
-      if (cleanedValue?.length <= 12) {
+      // if (cleanedValue?.length <= 20) {
         setUserInputs({
           ...userInputs,
 
           [e?.target?.name]: cleanedValue,
         });
         setError(null);
-      } else {
-        setError({
-          primary_phone: "Number must be in between 10 to 12 digits",
-        });
-      }
+      // } else {
+      //   setError({
+      //     primary_phone: "Number must be in between 10 to 20 digits",
+      //   });
+      // }
     } else if (e?.target?.name == "alternativePhone") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
-      if (cleanedValue?.length <= 12) {
+      // if (cleanedValue?.length <= 20) {
         setUserInputs({
           ...userInputs,
           [e?.target?.name]: cleanedValue,
         });
         setError(null);
-      } else {
-        setError({
-          alternativePhone: "Number must be in between 10 to 12 digits",
-        });
-      }
+      // } else {
+      //   setError({
+      //     alternativePhone: "Number must be in between 10 to 20 digits",
+      //   });
+      // }
     } else if (e?.target?.name == "contactTotal") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue > 500 || cleanedValue < 0) {
@@ -2080,7 +2080,6 @@ const MarketingEditReader = () => {
     e.preventDefault();
 
     const result = AddReaderValidation(userInputs);
-
     if (Object?.keys(result)?.length) {
       if (Object?.keys(result)[0] == "firstName") {
         nameRef?.current?.focus();
