@@ -849,10 +849,10 @@ const colourStyles = {
   };
 
   const handleReadClick = async (event) => {
-    localStorage.setItem('publisherRegistered', 'true');
+    // localStorage.setItem('publisherRegistered', 'true');
     // setPublisherRegistered(true);
-    setAddDivClass(false);
-    setAddSmallClass(true);
+    // setAddDivClass(false);
+    // setAddSmallClass(true);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
@@ -906,7 +906,10 @@ const colourStyles = {
         };
 
         setPayloadData(data);
+        localStorage.setItem('publisherRegistered', 'true');
         setPublisherRegistered(true);
+        setAddDivClass(false);
+        setAddSmallClass(true);
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
         const res = await postData(ENDPOINT.REGISTER, data);

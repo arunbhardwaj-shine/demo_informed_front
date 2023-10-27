@@ -44,6 +44,7 @@ const PharmaMarketing = () => {
   const [addSelectClass,setAddSelectClass] = useState(false)
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [register, setRegister] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1020,10 +1021,10 @@ const colourStyles = {
   const handleReadClick = async (event) => {
     // var root = document.getElementsByTagName( 'html' )[0];
     //   root.classList.remove('scrollerClass');
-    localStorage.setItem('pharmaRegistered', 'true');
+    // localStorage.setItem('pharmaRegistered', 'true');
     // setPharmaRegistered(true);
-    setAddSmallClass(true);
-    setAddDivClass(false);
+    // setAddSmallClass(true);
+    // setAddDivClass(false);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
@@ -1078,7 +1079,10 @@ const colourStyles = {
 
         console.log(data,'data')
         setPayloadData(data);
+        localStorage.setItem('pharmaRegistered', 'true');
         setPharmaRegistered(true);
+        setAddSmallClass(true);
+        setAddDivClass(false);
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
         const res = await postData(ENDPOINT.REGISTER,data );
@@ -1252,6 +1256,7 @@ const colourStyles = {
     var root = document.getElementsByTagName( 'html' )[0];
     root.classList.remove('scrollerClass');
     setAddClass(false);
+    setRegister(false)
     setFormFeilds(false);
      setAddDivClass(false)
     setAddSmallClass(false)
@@ -1319,6 +1324,7 @@ const colourStyles = {
     }
     else{
       setAddDivClass(true);
+      setRegister(true)
       setAddSmallClass(false);
       var root = document.getElementsByTagName( 'html' )[0];
       root.classList.add('scrollerClass');
@@ -2233,8 +2239,21 @@ const handleSelectionClick = () => {
                     <Button onClick={handleRead}>Read more</Button>
                   </div>
                 </div>
+                {register && (
+                <img
+                        className="close"
+                        src={path_image + "module-close-button.svg"}
+                        alt=""
+                        onClick={handleBigCircleClose}
+                      />
+                )}
 
-                {!showBigCircleData && !submitData && (
+                <div
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
+                    addHideClass ? "hide" : ""
+                  } ${addSmallClass ? "small" : ""}`}
+                >
+                  {!showBigCircleData && !submitData && (
                     <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
@@ -2242,30 +2261,16 @@ const handleSelectionClick = () => {
                       onClick={handleBigCircleClose}
                     />
                   )}
-
-                <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
-                    addHideClass ? "hide" : ""
-                  } ${addSmallClass ? "small" : ""}`}
-                >
-                  {/* {!showBigCircleData && !submitData && (
-                    <img
-                      className="close"
-                      src={path_image + "module-close-button.svg"}
-                      alt=""
-                      onClick={handleBigCircleClose}
-                    />
-                  )} */}
                   <div class="shape shape-left"></div>
 
                   {registerPage && !pharmaRegistered && (
                     <div>
-                      <img
+                      {/* <img
                         className="close"
                         src={path_image + "module-close-button.svg"}
                         alt=""
                         onClick={handleBigCircleClose}
-                      />
+                      /> */}
                       <div className="module-register">
                         <h4>Registration</h4>
                         <p>
