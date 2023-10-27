@@ -1210,9 +1210,9 @@ const colourStyles = {
   };
 
   const handleSubmitClick = async () => {
-    setAddDivClass(true);
-    setAddHideClass(true);
-    setAddSmallClass(true);
+    // setAddDivClass(true);
+    // setAddHideClass(true);
+    // setAddSmallClass(true);
     const email = moduleFormInputs?.secondaryEmail?.trim();
     const phone = moduleFormInputs?.secondaryPhone?.trim();
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -1242,6 +1242,9 @@ const colourStyles = {
       loader("hide");
       setEmailError(null);
       setPhoneError(null)
+      setAddHideClass(true);
+      setAddDivClass(true);
+      setAddSmallClass(true);
       setModuleFormInputs(obj);
     } catch (err) {
       console.log(err);
@@ -2747,7 +2750,8 @@ const handleSelectionClick = () => {
                                       value={moduleFormInputs?.secondaryEmail ? moduleFormInputs?.secondaryEmail : ""}
                                       onChange={handleModuleFormChange}
                                     />
-                                    <p style={{ color: 'red' }}>{emailError}</p>
+                                    {emailError && (<p style={{ color: 'red' }}>{emailError}</p>)}
+                                    {/* <p style={{ color: 'red' }}>{emailError}</p> */}
                                       <span>
                                         <svg
                                           width="20"
@@ -2781,7 +2785,8 @@ const handleSelectionClick = () => {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
-                                      <p style={{ color: 'red' }}>{phoneError}</p>
+                                     {phoneError && (<p style={{ color: 'red' }}>{phoneError}</p>) }
+                                      {/* <p style={{ color: 'red' }}>{phoneError}</p> */}
                                       <span>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
