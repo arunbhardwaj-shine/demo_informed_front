@@ -1339,6 +1339,11 @@ const colourStyles = {
     }
   };
 
+// function getRandomModule() {
+//   const modules = document.querySelectorAll('.circle.bouncing .stat');
+//   const randomIndex = Math.floor(Math.random() * modules.length);
+//   return modules[randomIndex];
+// }
 function getRandomModule() {
   const modules = document.querySelectorAll('.circle.bouncing .stat');
   const randomIndex = Math.floor(Math.random() * modules.length);
@@ -1356,24 +1361,46 @@ function removeRandomClass(module, className) {
 let previousModule = null;
 let interval;
 
+let inProgress = false;
+ 
 function randomToggle() {
-  if (previousModule) {
-    removeRandomClass(previousModule, 'random-class');
+  if (!inProgress) {
+    inProgress = true;
+ 
+    if (previousModule) {
+      removeRandomClass(previousModule, 'random-class');
+    }
+ 
+    const randomModule = getRandomModule();
+    addRandomClass(randomModule, 'random-class');
+    previousModule = randomModule;
+ 
+    setTimeout(() => {
+      removeRandomClass(randomModule, 'random-class');
+      previousModule = null;
+      inProgress = false;
+    }, 3000);
   }
- 
-  const randomModule = getRandomModule();
-  addRandomClass(randomModule, 'random-class');
-  previousModule = randomModule;
- 
-  setTimeout(() => {
-    removeRandomClass(randomModule, 'random-class');
-    previousModule = null;
-  }, 5000);
 }
+
+// function randomToggle() {
+//   if (previousModule) {
+//     removeRandomClass(previousModule, 'random-class');
+//   }
+ 
+//   const randomModule = getRandomModule();
+//   addRandomClass(randomModule, 'random-class');
+//   previousModule = randomModule;
+ 
+//   setTimeout(() => {
+//     removeRandomClass(randomModule, 'random-class');
+//     previousModule = null;
+//   }, 3000);
+// }
  
 function startToggle() {
   randomToggle(); 
-  interval = setInterval(randomToggle, 5000); 
+  interval = setInterval(randomToggle, 6000); 
 }
  
 function stopToggle() {
@@ -2265,24 +2292,24 @@ const handleSelectionClick = () => {
                     addHideClass ? "hide" : ""
                   } ${addSmallClass ? "small" : ""}`}
                 >
-                  {/* {!showBigCircleData && !submitData && (
+                  {!showBigCircleData && !submitData && (
                     <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
                       alt=""
                       onClick={handleBigCircleClose}
                     />
-                  )} */}
+                  )}
                   <div class="shape shape-left"></div>
 
                   {registerPage && !pharmaRegistered && (
                     <div>
-                      {/* <img
+                      <img
                         className="close"
                         src={path_image + "module-close-button.svg"}
                         alt=""
                         onClick={handleBigCircleClose}
-                      /> */}
+                      />
                       <div className="module-register">
                         <h4>Registration</h4>
                         <p>
