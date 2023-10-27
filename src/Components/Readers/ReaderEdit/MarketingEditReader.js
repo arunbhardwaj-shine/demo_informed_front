@@ -26,10 +26,13 @@ const MarketingEditReader = () => {
     message2: "",
     footerButton: "",
   });
-  const [logs, setLogs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const { state } = useLocation();
-  const [id, setId] = useState(state?.id ? state?.id : "");
+  // console.log(state);
+  const [id, setId] = useState(
+    state?.id ? state?.id : state?.data?.user_id ? state?.data?.user_id : ""
+    );
+    const [logs, setLogs] = useState(state?.data?.log_Data ||[]);
   const [typeOfContact, setTypeOfContact] = useState([]);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -108,294 +111,6 @@ const MarketingEditReader = () => {
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
 
-  // const country = [
-  //   "US",
-
-  //   "BS",
-
-  //   "BB",
-
-  //   "AI",
-
-  //   "AG",
-
-  //   "VG",
-
-  //   "KY",
-
-  //   "BM",
-
-  //   "GD",
-
-  //   "TC",
-
-  //   "MS",
-
-  //   "MP",
-
-  //   "GU",
-
-  //   "AS",
-
-  //   "LC",
-
-  //   "DM",
-
-  //   "DO",
-
-  //   "TT",
-
-  //   "KN",
-
-  //   "JM",
-
-  //   "EG",
-
-  //   "ZA",
-
-  //   "SS",
-
-  //   "MA",
-
-  //   "DZ",
-
-  //   "TN",
-
-  //   "LY",
-
-  //   "GY",
-
-  //   "GR",
-
-  //   "NL",
-
-  //   "BE",
-
-  //   "FR",
-
-  //   "ES",
-
-  //   "GI",
-
-  //   "PT",
-
-  //   "LU",
-
-  //   "IE",
-
-  //   "IS",
-
-  //   "AL",
-
-  //   "MT",
-
-  //   "CY",
-
-  //   "FI",
-
-  //   "BG",
-
-  //   "LT",
-
-  //   "LV",
-
-  //   "EE",
-
-  //   "MD",
-
-  //   "AM",
-
-  //   "BY",
-
-  //   "AD",
-
-  //   "MC",
-
-  //   "SM",
-
-  //   "VA",
-
-  //   "UA",
-
-  //   "RS",
-
-  //   "ME",
-
-  //   "XK",
-
-  //   "HR",
-
-  //   "SI",
-
-  //   "BA",
-
-  //   "MK",
-
-  //   "CZ",
-
-  //   "SK",
-
-  //   "LI",
-
-  //   "FK",
-
-  //   "BZ",
-
-  //   "GT",
-
-  //   "SV",
-
-  //   "HN",
-
-  //   "NI",
-
-  //   "CR",
-
-  //   "PA",
-
-  //   "PM",
-
-  //   "HT",
-
-  //   "GP",
-
-  //   "BO",
-
-  //   "GY",
-
-  //   "EC",
-
-  //   "GF",
-
-  //   "PY",
-
-  //   "MQ",
-
-  //   "SR",
-
-  //   "UY",
-
-  //   "CW",
-
-  //   "MY",
-
-  //   "AU",
-
-  //   "ID",
-
-  //   "PH",
-
-  //   "NZ",
-
-  //   "SG",
-
-  //   "TH",
-
-  //   "TL",
-
-  //   "NF",
-
-  //   "BN",
-
-  //   "NR",
-
-  //   "PG",
-
-  //   "TO",
-
-  //   "SB",
-
-  //   "VU",
-
-  //   "FJ",
-
-  //   "PW",
-
-  //   "WF",
-
-  //   "CK",
-
-  //   "NU",
-
-  //   "WS",
-
-  //   "KI",
-
-  //   "NC",
-
-  //   "TV",
-
-  //   "PF",
-
-  //   "TK",
-
-  //   "FM",
-
-  //   "MH",
-
-  //   "RU",
-
-  //   "KP",
-
-  //   "HK",
-
-  //   "MO",
-
-  //   "KH",
-
-  //   "LA",
-
-  //   "BD",
-
-  //   "TW",
-
-  //   "MV",
-
-  //   "LB",
-
-  //   "JO",
-
-  //   "SY",
-
-  //   "IQ",
-
-  //   "KW",
-
-  //   "SA",
-
-  //   "YE",
-
-  //   "OM",
-
-  //   "PS",
-
-  //   "AE",
-
-  //   "IL",
-
-  //   "BH",
-
-  //   "QA",
-
-  //   "BT",
-
-  //   "MN",
-
-  //   "NP",
-
-  //   "TJ",
-
-  //   "TM",
-
-  //   "AZ",
-
-  //   "GE",
-
-  //   "KG",
-
-  //   "UZ",
-  // ];
-
   const [userDetail, setUserDetail] = useState({
     title: [],
     prospect: [],
@@ -424,6 +139,11 @@ const MarketingEditReader = () => {
   };
   useEffect(() => {
     initalFun();
+    if (state?.id) {
+      getUserDetail();
+    } else {
+      getPreviewUserDetail();
+    }
   }, []);
 
   useEffect(() => {}, [userInputs]);
@@ -458,6 +178,16 @@ const MarketingEditReader = () => {
 
       setCountryAll(country);
 
+      loader("hide");
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
+  const getUserDetail = async () => {
+    try {
+      loader("show");
       const usersData = await getData(
         `${ENDPOINT.GET_MARKETING_USER_DROP}/${id}`
       );
@@ -525,6 +255,54 @@ const MarketingEditReader = () => {
     } finally {
       loader("hide");
     }
+  };
+
+  const getPreviewUserDetail = () => {
+   
+    let phoneNumber = state?.data?.primary_phone.split("-informed-");
+    setUserInputs({
+      ...userInputs,
+      jobTitle: state?.data?.jobTitle,
+      title: { value: state?.data?.title },
+      firstName: state?.data?.firstName,
+      middleName: state?.data?.middleName,
+      lastName: state?.data?.lastName,
+      email: state?.data?.email,
+      alternativeEmail: state?.data?.alternativeEmail,
+      countryCode: phoneNumber[0],
+      primary_phone: phoneNumber[1],
+      alternativePhone: state?.data?.alternativePhone,
+      linkedIn: state?.data?.linkedIn,
+      prospect: { value: state?.data?.prospect },
+      ownership: { value: state?.data?.contact_ownership },
+      main: state?.data?.type_of_contact.includes("Main"),
+      decisionMaker: state?.data?.type_of_contact.includes("Decision-maker"),
+      influencer: state?.data?.type_of_contact.includes("Influencer"),
+      introducer: state?.data?.type_of_contact.includes("Introducer"),
+      customerType: { value: state?.data?.customerType },
+      companyName: { value: state?.data?.company_name },
+      country: { value: state?.data?.country },
+      companyWebsite: state?.data?.company_website,
+      companyProduct: { value: state?.data?.company_product },
+      therapyArea: { value: state?.data?.company_therapy_area },
+      local: { value: state?.data?.local },
+      nextContact: state?.data?.next_contact,
+      address: state?.data?.address,
+      logActivity: state?.data?.log_activity,
+      task: state?.data?.task,
+      opportunityTitle: state?.data?.opportunity_title,
+      ourProduct: state?.data?.our_product,
+      pipeline: { value: state?.data?.pipeline },
+      opportunityValue: state?.data?.opportunity_value,
+      probability: { value: state?.data?.probability },
+      weighted_value: state?.data?.weighted_value,
+      contactTotal: state?.data?.contact_total,
+      quoteSent: state?.data?.quote_sent,
+      quoteValid: state?.data?.quote_valid,
+      typeContact: state?.data?.type_of_contact
+        ? state?.data?.type_of_contact
+        : [],
+    });
   };
   const handleKeyDown = (e, isSelectedName) => {
     if (isSelectedName == "countryCode") {
@@ -634,31 +412,31 @@ const MarketingEditReader = () => {
       });
     } else if (e?.target?.name == "primary_phone") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
-      if (cleanedValue?.length <= 12) {
+      // if (cleanedValue?.length <= 20) {
         setUserInputs({
           ...userInputs,
 
           [e?.target?.name]: cleanedValue,
         });
         setError(null);
-      } else {
-        setError({
-          primary_phone: "Number must be in between 10 to 12 digits",
-        });
-      }
+      // } else {
+      //   setError({
+      //     primary_phone: "Number must be in between 10 to 20 digits",
+      //   });
+      // }
     } else if (e?.target?.name == "alternativePhone") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
-      if (cleanedValue?.length <= 12) {
+      // if (cleanedValue?.length <= 20) {
         setUserInputs({
           ...userInputs,
           [e?.target?.name]: cleanedValue,
         });
         setError(null);
-      } else {
-        setError({
-          alternativePhone: "Number must be in between 10 to 12 digits",
-        });
-      }
+      // } else {
+      //   setError({
+      //     alternativePhone: "Number must be in between 10 to 20 digits",
+      //   });
+      // }
     } else if (e?.target?.name == "contactTotal") {
       const cleanedValue = e?.target?.value?.replace(/\D/g, "");
       if (cleanedValue > 500 || cleanedValue < 0) {
@@ -2064,7 +1842,6 @@ const MarketingEditReader = () => {
     e.preventDefault();
 
     const result = AddReaderValidation(userInputs);
-
     if (Object?.keys(result)?.length) {
       if (Object?.keys(result)[0] == "firstName") {
         nameRef?.current?.focus();
@@ -2186,7 +1963,7 @@ const MarketingEditReader = () => {
         navigate("/reader-review", {
           state: {
             data: data,
-            flag: 1,
+            flag: state?.id || state?.data?.user_id ? 1 : 0,
           },
         });
       } catch (err) {

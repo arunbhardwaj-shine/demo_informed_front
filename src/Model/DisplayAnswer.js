@@ -3,22 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-let  colors= [
-  "#FFBE2C",
-  "#F58289",
-  "#d1d132",
-  "#D61975",
-  "#0066BE",
-  "#00003C",
-  "#b490f5",
-  "#91817e",
-  "#2b6570",
-  "#9C9CA2",
-  "#7cb0dd",
-  "#4f4566",
-  "#00D4C0",
-  "#32a1d1",
-] 
+let  colors= ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"] 
 
 function DisplayAnswer({ show, data, onClose, readerCount }) {
 

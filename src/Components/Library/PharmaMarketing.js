@@ -42,6 +42,10 @@ const PharmaMarketing = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
   const [addSelectClass,setAddSelectClass] = useState(false)
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [register, setRegister] = useState(false)
+  const[moduleRequest, setModuleRequest] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1016,12 +1020,12 @@ const colourStyles = {
   };
 
   const handleReadClick = async (event) => {
-    var root = document.getElementsByTagName( 'html' )[0];
-      root.classList.remove('scrollerClass');
-    localStorage.setItem('pharmaRegistered', 'true');
-    setPharmaRegistered(true);
-    setAddSmallClass(true);
-    setAddDivClass(false);
+    // var root = document.getElementsByTagName( 'html' )[0];
+    //   root.classList.remove('scrollerClass');
+    // localStorage.setItem('pharmaRegistered', 'true');
+    // setPharmaRegistered(true);
+    // setAddSmallClass(true);
+    // setAddDivClass(false);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
@@ -1076,9 +1080,15 @@ const colourStyles = {
 
         console.log(data,'data')
         setPayloadData(data);
+        localStorage.setItem('pharmaRegistered', 'true');
+        setPharmaRegistered(true);
+        setAddSmallClass(true);
+        setAddDivClass(false);
+        var root = document.getElementsByTagName( 'html' )[0];
+        root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        const res = await postData(ENDPOINT.REGISTER,data );
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1169,6 +1179,7 @@ const colourStyles = {
   const handleRequestClick = () => {
     var root = document.getElementsByTagName( 'html' )[0];
       root.classList.add('scrollerClass');
+      setModuleRequest(true)
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1202,22 +1213,35 @@ const colourStyles = {
     setAddDivClass(true);
     setAddHideClass(true);
     setAddSmallClass(true);
-    loader("show");
+    const email = moduleFormInputs?.secondaryEmail?.trim();
+    const phone = moduleFormInputs?.secondaryPhone?.trim();
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const phoneRegex = /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+    if (email && !emailRegex.test(email)) {
+        setEmailError('Please enter a valid email address');
+      } else if(phone && !phoneRegex.test(phone)){
+        setPhoneError('Please enter a phone number');
+      }
+      else {
+      loader("show");
+    // loader("show");
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
-      // let data = {
+      // const res = await postData(ENDPOINT.REGISTER, {
+      let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      // }
-      });
+      }
+      // });
       let obj = {};
       loader("hide");
+      setEmailError(null);
+      setPhoneError(null)
       setModuleFormInputs(obj);
     } catch (err) {
       console.log(err);
@@ -1229,12 +1253,15 @@ const colourStyles = {
     setModulesSelect(false);
     setFormFeilds(false);
     setModuleFormInputs(false)
+  }
   };
 
   const handleBigCircleClose = (moduleName, index) => {
     var root = document.getElementsByTagName( 'html' )[0];
     root.classList.remove('scrollerClass');
     setAddClass(false);
+    setRegister(false)
+    setModuleRequest(false)
     setFormFeilds(false);
      setAddDivClass(false)
     setAddSmallClass(false)
@@ -1269,6 +1296,9 @@ const colourStyles = {
     })
     }, 200);
     setSelectedModules([]);
+    setModuleFormInputs(false)
+    setEmailError('')
+    setPhoneError('')
  
   //   setTimeout(() => {
   //   setActiveModule(null);
@@ -1287,6 +1317,8 @@ const colourStyles = {
     setShowBigCircleData(true);
     setModulesSelect(true);
     setActiveModule(intialModuleData?.activeModule);
+    setEmailError('')
+    setPhoneError('')
   };
 
   const handleRead = () => {
@@ -1297,11 +1329,61 @@ const colourStyles = {
     }
     else{
       setAddDivClass(true);
+      setRegister(true)
       setAddSmallClass(false);
       var root = document.getElementsByTagName( 'html' )[0];
       root.classList.add('scrollerClass');
     }
   };
+
+
+function toggleRandomClass(module) {
+  const classes = module.className.split(' ');
+  const randomIndex = Math.floor(Math.random() * classes.length);
+  classes.splice(randomIndex, 1);
+  module.className = classes.join(' ');
+}
+
+function addRandomClass(module, className) {
+  module.classList.add(className);
+}
+
+function removeRandomClass(module, className) {
+  module.classList.remove(className);
+}
+
+
+function getRandomModule() {
+  const modules = document.querySelectorAll('.stat');
+  const randomIndex = Math.floor(Math.random() * modules.length);
+  return modules[randomIndex];
+}
+
+let previousModule = null;
+
+function randomToggle() {
+  const randomModule = getRandomModule();
+  const randomAction = Math.random() < 0.5 ? 'add' : 'remove';
+  const randomClassName = 'random-class'; 
+
+  if (previousModule) {
+    removeRandomClass(previousModule, randomClassName);
+  }
+
+  if (randomAction === 'add') {
+    addRandomClass(randomModule, randomClassName);
+  } 
+  // else {
+  //   removeRandomClass(randomModule, randomClassName);
+  // }
+
+  previousModule = randomModule;
+  setTimeout(() => {
+    removeRandomClass(randomModule, randomClassName);
+  }, 5000);
+}
+
+setInterval(randomToggle, 5000);
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
@@ -2162,13 +2244,16 @@ const handleSelectionClick = () => {
                     <Button onClick={handleRead}>Read more</Button>
                   </div>
                 </div>
+                {register && (
+                <img
+                        className="close"
+                        src={path_image + "module-close-button.svg"}
+                        alt=""
+                        onClick={handleBigCircleClose}
+                      />
+                )}
 
-                <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
-                    addHideClass ? "hide" : ""
-                  } ${addSmallClass ? "small" : ""}`}
-                >
-                  {!showBigCircleData && !submitData && (
+                {!showBigCircleData && !submitData && moduleRequest && (
                     <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
@@ -2176,16 +2261,30 @@ const handleSelectionClick = () => {
                       onClick={handleBigCircleClose}
                     />
                   )}
+
+                <div
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
+                    addHideClass ? "hide" : ""
+                  } ${addSmallClass ? "small" : ""}`}
+                >
+                  {/* {!showBigCircleData && !submitData && (
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
+                  )} */}
                   <div class="shape shape-left"></div>
 
                   {registerPage && !pharmaRegistered && (
                     <div>
-                      <img
+                      {/* <img
                         className="close"
                         src={path_image + "module-close-button.svg"}
                         alt=""
                         onClick={handleBigCircleClose}
-                      />
+                      /> */}
                       <div className="module-register">
                         <h4>Registration</h4>
                         <p>
@@ -2628,7 +2727,7 @@ const handleSelectionClick = () => {
                                 <div className="form-feilds d-flex">
                                   <Col md="6">
                                     <div className="form-group">
-                                      <input
+                                      {/* <input
                                         type="email"
                                         placeholder="Email"
                                         name="secondaryEmail"
@@ -2639,7 +2738,16 @@ const handleSelectionClick = () => {
                                             : ""
                                         }
                                         onChange={handleModuleFormChange}
-                                      />
+                                      /> */}
+                                      <input
+                                      type="email"
+                                      placeholder="Email"
+                                      name="secondaryEmail"
+                                      className="form-control"
+                                      value={moduleFormInputs?.secondaryEmail ? moduleFormInputs?.secondaryEmail : ""}
+                                      onChange={handleModuleFormChange}
+                                    />
+                                    <p style={{ color: 'red' }}>{emailError}</p>
                                       <span>
                                         <svg
                                           width="20"
@@ -2673,6 +2781,7 @@ const handleSelectionClick = () => {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
+                                      <p style={{ color: 'red' }}>{phoneError}</p>
                                       <span>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
