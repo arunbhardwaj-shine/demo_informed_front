@@ -19011,7 +19011,7 @@ img.change-password-image {
             flex: 0 0 50%;
 
             li {
-              padding-right: 30px;
+              padding-right: 25px;
               padding-left: 0;
 
               &::after {
@@ -19029,9 +19029,9 @@ img.change-password-image {
           }
 
           li {
-            font-size: 13px;
+            font-size: 12px;
             line-height: 25px;
-            padding-left: 30px;
+            padding-left: 25px;
 
             &::after {
               left: 12px;
@@ -19627,7 +19627,7 @@ img.change-password-image {
   }
 
   .overlay.show {
-    background: rgba(0, 0, 36, 0.20);
+    background: rgba(0, 0, 36, 0.65);
     backdrop-filter: blur(4px);
     position: fixed;
     top: 0;
@@ -19785,20 +19785,28 @@ img.change-password-image {
 
   .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show {
     width: 150%;
-    height: 100%;
-    /* background: transparent; */
-    /* box-shadow: none; */
-    -webkit-backdrop-filter: none;
-    /* backdrop-filter: none; */
+    height: calc(100% - 40px);
     padding: 10px;
     top: 0;
     position: fixed;
     padding: 40px 10px;
-    /* transform: translateY(-50%); */
-    /* max-height: 70%; */
     overflow-y: auto;
     overflow-x: hidden;
     border-radius: 780px;
+    margin: 20px 0;
+  }
+
+  .modules-diagram {
+    position: relative;
+  }
+
+  .modules-diagram img.close {
+    position: fixed;
+    top: 27px;
+    right: 22px;
+    z-index: 3;
+    filter: brightness(0) invert(1);
+    width: 18px;
   }
 
   // .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show:after {
@@ -19817,6 +19825,13 @@ img.change-password-image {
     padding: 25px 0;
     position: absolute;
     top: 0;
+  }
+
+  .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show.small .shape.shape-left+div {
+    top: 50%;
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
   }
 }
 
