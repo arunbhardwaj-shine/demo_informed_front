@@ -1241,6 +1241,54 @@ const colourStyles = {
   const handleSelectionClick = () => {
     setAddSelectClass(true);
   }
+  // function toggleRandomClass(module) {
+  //   const classes = module.className.split(' ');
+  //   const randomIndex = Math.floor(Math.random() * classes.length);
+  //   classes.splice(randomIndex, 1);
+  //   module.className = classes.join(' ');
+  // }
+  
+  // function addRandomClass(module, className) {
+  //   module.classList.add(className);
+  // }
+  
+  // function removeRandomClass(module, className) {
+  //   module.classList.remove(className);
+  // }
+  
+  
+  // function getRandomModule() {
+  //   const modules = document.querySelectorAll('.stat');
+  //   const randomIndex = Math.floor(Math.random() * modules.length);
+  //   return modules[randomIndex];
+  // }
+  
+  // let previousModule = null;
+  
+  // function randomToggle() {
+  //   const randomModule = getRandomModule();
+  //   const randomAction = Math.random() < 0.5 ? 'add' : 'remove';
+  //   const randomClassName = 'random-class'; 
+  
+  //   if (previousModule) {
+  //     removeRandomClass(previousModule, randomClassName);
+  //   }
+  
+  //   if (randomAction === 'add') {
+  //     addRandomClass(randomModule, randomClassName);
+  //   } 
+  //   // else {
+  //   //   removeRandomClass(randomModule, randomClassName);
+  //   // }
+  
+  //   previousModule = randomModule;
+  //   setTimeout(() => {
+  //     removeRandomClass(randomModule, randomClassName);
+  //   }, 5000);
+  // }
+  
+  // setInterval(randomToggle, 5000);
+
   function toggleRandomClass(module) {
     const classes = module.className.split(' ');
     const randomIndex = Math.floor(Math.random() * classes.length);
@@ -1258,7 +1306,7 @@ const colourStyles = {
   
   
   function getRandomModule() {
-    const modules = document.querySelectorAll('.stat');
+    const modules = document.querySelectorAll('.circle.bouncing .stat');
     const randomIndex = Math.floor(Math.random() * modules.length);
     return modules[randomIndex];
   }
@@ -1763,7 +1811,7 @@ const colourStyles = {
               </div>
               <div className="modules-diagram publish">
                 <div
-                  className={`circle ${readStatus ? "bigger" : ""}`}
+                  className={`circle bouncing ${readStatus ? "bigger" : ""}`}
                   style={{ "--total": "10" }}
                 >
                   <div
