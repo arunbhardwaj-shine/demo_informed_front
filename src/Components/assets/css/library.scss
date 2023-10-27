@@ -15032,17 +15032,20 @@ img.change-password-image {
 
       transform: var(--transform);
       transition: transform 1.5s ease-in-out;
-      // -webkit-animation: bounce 2s ease infinite;
-      // animation: bounce 2s ease infinite;
-      // -webkit-animation-duration: 0.75s;
-      // animation-duration: 0.75s;
-      // -webkit-animation-duration: calc(1 * 0.75);
-      // animation-duration: calc(1 * 0.75);
-      // -webkit-animation-name: bounce;
-      // animation-name: bounce;
-      animation: bounce 2s ease;
 
-      //transition-delay: calc(0.1s * var(--i));
+      &.random-class {
+        // -webkit-animation: bounce 2s ease infinite;
+        // animation: bounce 2s ease infinite;
+        // -webkit-animation-duration: 0.75s;
+        // animation-duration: 0.75s;
+        // -webkit-animation-duration: calc(1 * 0.75);
+        // animation-duration: calc(1 * 0.75);
+        // -webkit-animation-name: bounce;
+        // animation-name: bounce;
+        animation: bounce 2s ease infinite;
+        filter: drop-shadow(0px 1px 18px rgba(0, 102, 190, 0.64))
+      }
+
       &.active {
         outline-offset: 4px;
 
@@ -15061,7 +15064,6 @@ img.change-password-image {
       }
 
       &.docintel {
-        animation-delay: 3s;
 
         &.active {
           background: $primary-color;
@@ -15130,8 +15132,6 @@ img.change-password-image {
       }
 
       &.informed {
-
-
         &.active {
           background: #045fae;
           outline: 2px dashed #045fae;
@@ -15148,8 +15148,6 @@ img.change-password-image {
       }
 
       &.web {
-
-
         &.active {
           background: #6e52a2;
           outline: 2px dashed #6e52a2;
@@ -15184,8 +15182,6 @@ img.change-password-image {
       }
 
       &.webinar {
-
-
         &.active {
           background: $voilet;
           outline: 2px dashed $voilet;
@@ -15202,8 +15198,6 @@ img.change-password-image {
       }
 
       &.automail {
-
-
         &.active {
           background: #00d4c0;
           outline: 2px dashed #00d4c0;
@@ -15220,8 +15214,6 @@ img.change-password-image {
       }
 
       &.rating {
-
-
         &.active {
           background: #2b9bc8;
           outline: 2px dashed #2b9bc8;
@@ -15238,8 +15230,6 @@ img.change-password-image {
       }
 
       &.survey {
-
-
         &.active {
           background: #5058aa;
           outline: 2px dashed #5058aa;
@@ -15256,8 +15246,6 @@ img.change-password-image {
       }
 
       &.spc {
-
-
         &.active {
           background: #19bbb9;
           outline: 2px dashed #19bbb9;
@@ -15274,8 +15262,6 @@ img.change-password-image {
       }
 
       &.engine {
-
-
         &.active {
           background: #0084be;
           outline: 2px dashed #0084be;
@@ -19025,7 +19011,7 @@ img.change-password-image {
             flex: 0 0 50%;
 
             li {
-              padding-right: 30px;
+              padding-right: 25px;
               padding-left: 0;
 
               &::after {
@@ -19043,9 +19029,9 @@ img.change-password-image {
           }
 
           li {
-            font-size: 13px;
+            font-size: 12px;
             line-height: 25px;
-            padding-left: 30px;
+            padding-left: 25px;
 
             &::after {
               left: 12px;
@@ -19516,6 +19502,8 @@ img.change-password-image {
     flex-direction: column;
     // top: 50%;
     // transform: translateY(-50%);
+    background: transparent;
+    backdrop-filter: none;
   }
 
   .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div {
@@ -19566,7 +19554,7 @@ img.change-password-image {
 
   .modules-diagram .module-bigger-size.small img.close {
     filter: none;
-    right: 40px;
+    right: 15px;
     top: 55px;
   }
 
@@ -19641,7 +19629,7 @@ img.change-password-image {
   }
 
   .overlay.show {
-    background: rgba(0, 0, 36, 0.20);
+    background: rgba(0, 0, 36, 0.65);
     backdrop-filter: blur(4px);
     position: fixed;
     top: 0;
@@ -19786,6 +19774,66 @@ img.change-password-image {
 
   .col-reverse {
     flex-direction: column-reverse;
+  }
+
+  .consent-content .consent-content-inner .consent-details ul li:after {
+    top: 13px;
+  }
+
+  .scrollerClass,
+  .scrollerClass body {
+    overflow: hidden;
+  }
+
+  .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show {
+    width: 150%;
+    height: calc(100% - 40px);
+    padding: 10px;
+    top: 0;
+    position: fixed;
+    padding: 40px 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 780px;
+    margin: 20px 0;
+  }
+
+  .modules-diagram {
+    position: relative;
+  }
+
+  .modules-diagram img.close {
+    position: fixed;
+    top: 27px;
+    right: 22px;
+    z-index: 3;
+    filter: brightness(0) invert(1);
+    width: 18px;
+  }
+
+  // .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show:after {
+  //   position: absolute;
+  //   content: "";
+  //   border-radius: 700px;
+  //   background: rgb(255, 255, 255);
+  //   box-shadow: 0px 3px 19px 0px rgba(0, 102, 190, 0.26);
+  //   -webkit-backdrop-filter: blur(40px);
+  //   backdrop-filter: blur(40px);
+  //   width: 150vw;
+  //   height: 100%;
+  //   z-index: -1;
+  // }
+  .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div {
+    padding: 25px 0;
+    position: absolute;
+    top: 0;
+  }
+
+  .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show.small .shape.shape-left+div {
+    top: 50%;
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
   }
 }
 

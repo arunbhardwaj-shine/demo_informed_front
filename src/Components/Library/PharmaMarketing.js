@@ -44,6 +44,8 @@ const PharmaMarketing = () => {
   const [addSelectClass,setAddSelectClass] = useState(false)
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [register, setRegister] = useState(false)
+  const[moduleRequest, setModuleRequest] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1020,10 +1022,10 @@ const colourStyles = {
   const handleReadClick = async (event) => {
     // var root = document.getElementsByTagName( 'html' )[0];
     //   root.classList.remove('scrollerClass');
-    localStorage.setItem('pharmaRegistered', 'true');
+    // localStorage.setItem('pharmaRegistered', 'true');
     // setPharmaRegistered(true);
-    setAddSmallClass(true);
-    setAddDivClass(false);
+    // setAddSmallClass(true);
+    // setAddDivClass(false);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
@@ -1078,10 +1080,15 @@ const colourStyles = {
 
         console.log(data,'data')
         setPayloadData(data);
+        localStorage.setItem('pharmaRegistered', 'true');
         setPharmaRegistered(true);
+        setAddSmallClass(true);
+        setAddDivClass(false);
+        var root = document.getElementsByTagName( 'html' )[0];
+        root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        const res = await postData(ENDPOINT.REGISTER,data );
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1172,6 +1179,7 @@ const colourStyles = {
   const handleRequestClick = () => {
     var root = document.getElementsByTagName( 'html' )[0];
       root.classList.add('scrollerClass');
+      setModuleRequest(true)
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1202,9 +1210,9 @@ const colourStyles = {
   };
 
   const handleSubmitClick = async () => {
-    setAddDivClass(true);
-    setAddHideClass(true);
-    setAddSmallClass(true);
+    // setAddDivClass(true);
+    // setAddHideClass(true);
+    // setAddSmallClass(true);
     const email = moduleFormInputs?.secondaryEmail?.trim();
     const phone = moduleFormInputs?.secondaryPhone?.trim();
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -1234,6 +1242,9 @@ const colourStyles = {
       loader("hide");
       setEmailError(null);
       setPhoneError(null)
+      setAddHideClass(true);
+      setAddDivClass(true);
+      setAddSmallClass(true);
       setModuleFormInputs(obj);
     } catch (err) {
       console.log(err);
@@ -1252,6 +1263,8 @@ const colourStyles = {
     var root = document.getElementsByTagName( 'html' )[0];
     root.classList.remove('scrollerClass');
     setAddClass(false);
+    setRegister(false)
+    setModuleRequest(false)
     setFormFeilds(false);
      setAddDivClass(false)
     setAddSmallClass(false)
@@ -1319,11 +1332,56 @@ const colourStyles = {
     }
     else{
       setAddDivClass(true);
+      setRegister(true)
       setAddSmallClass(false);
       var root = document.getElementsByTagName( 'html' )[0];
       root.classList.add('scrollerClass');
     }
   };
+
+function getRandomModule() {
+  const modules = document.querySelectorAll('.stat');
+  const randomIndex = Math.floor(Math.random() * modules.length);
+  return modules[randomIndex];
+}
+ 
+function addRandomClass(module, className) {
+  module?.classList?.add(className);
+}
+ 
+function removeRandomClass(module, className) {
+  module?.classList?.remove(className);
+}
+ 
+let previousModule = null;
+let interval;
+ 
+function randomToggle() {
+  if (previousModule) {
+    removeRandomClass(previousModule, 'random-class');
+  }
+ 
+  const randomModule = getRandomModule();
+  addRandomClass(randomModule, 'random-class');
+  previousModule = randomModule;
+ 
+  setTimeout(() => {
+    removeRandomClass(randomModule, 'random-class');
+    previousModule = null;
+  }, 5000);
+}
+ 
+function startToggle() {
+  randomToggle(); 
+  interval = setInterval(randomToggle, 5000); 
+}
+ 
+function stopToggle() {
+  clearInterval(interval);
+}
+ 
+startToggle();
+
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
@@ -2184,13 +2242,16 @@ const handleSelectionClick = () => {
                     <Button onClick={handleRead}>Read more</Button>
                   </div>
                 </div>
+                {register && (
+                <img
+                        className="close"
+                        src={path_image + "module-close-button.svg"}
+                        alt=""
+                        onClick={handleBigCircleClose}
+                      />
+                )}
 
-                <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
-                    addHideClass ? "hide" : ""
-                  } ${addSmallClass ? "small" : ""}`}
-                >
-                  {!showBigCircleData && !submitData && (
+                {!showBigCircleData && !submitData && moduleRequest && (
                     <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
@@ -2198,16 +2259,30 @@ const handleSelectionClick = () => {
                       onClick={handleBigCircleClose}
                     />
                   )}
+
+                <div
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
+                    addHideClass ? "hide" : ""
+                  } ${addSmallClass ? "small" : ""}`}
+                >
+                  {/* {!showBigCircleData && !submitData && (
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
+                  )} */}
                   <div class="shape shape-left"></div>
 
                   {registerPage && !pharmaRegistered && (
                     <div>
-                      <img
+                      {/* <img
                         className="close"
                         src={path_image + "module-close-button.svg"}
                         alt=""
                         onClick={handleBigCircleClose}
-                      />
+                      /> */}
                       <div className="module-register">
                         <h4>Registration</h4>
                         <p>
@@ -2670,7 +2745,8 @@ const handleSelectionClick = () => {
                                       value={moduleFormInputs?.secondaryEmail ? moduleFormInputs?.secondaryEmail : ""}
                                       onChange={handleModuleFormChange}
                                     />
-                                    <p style={{ color: 'red' }}>{emailError}</p>
+                                    {emailError && (<p style={{ color: 'red' }}>{emailError}</p>)}
+                                    {/* <p style={{ color: 'red' }}>{emailError}</p> */}
                                       <span>
                                         <svg
                                           width="20"
@@ -2704,7 +2780,8 @@ const handleSelectionClick = () => {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
-                                      <p style={{ color: 'red' }}>{phoneError}</p>
+                                     {phoneError && (<p style={{ color: 'red' }}>{phoneError}</p>) }
+                                      {/* <p style={{ color: 'red' }}>{phoneError}</p> */}
                                       <span>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"

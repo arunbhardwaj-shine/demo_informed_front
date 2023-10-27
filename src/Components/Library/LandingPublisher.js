@@ -41,6 +41,8 @@ const PharmaRd = () => {
   const [publisherRegistered, setPublisherRegistered] = useState(localStorage.getItem('publisherRegistered'));
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [register, setRegister] = useState(false)
+  const[moduleRequest, setModuleRequest] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -849,10 +851,10 @@ const colourStyles = {
   };
 
   const handleReadClick = async (event) => {
-    localStorage.setItem('publisherRegistered', 'true');
+    // localStorage.setItem('publisherRegistered', 'true');
     // setPublisherRegistered(true);
-    setAddDivClass(false);
-    setAddSmallClass(true);
+    // setAddDivClass(false);
+    // setAddSmallClass(true);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
@@ -906,7 +908,12 @@ const colourStyles = {
         };
 
         setPayloadData(data);
+        localStorage.setItem('publisherRegistered', 'true');
         setPublisherRegistered(true);
+        setAddDivClass(false);
+        setAddSmallClass(true);
+        var root = document.getElementsByTagName( 'html' )[0];
+        root.classList.remove('scrollerClass');
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
         const res = await postData(ENDPOINT.REGISTER, data);
@@ -998,7 +1005,10 @@ const colourStyles = {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
+    var root = document.getElementsByTagName( 'html' )[0];
+    root.classList.add('scrollerClass');
     setAddClass(true);
+    setModuleRequest(true)
     setAddSmallClass(false);
     setAddDivClass(true);
     const stats = document.querySelectorAll(".stat");
@@ -1028,9 +1038,9 @@ const colourStyles = {
   };
 
   const handleSubmitClick = async () => {
-    setAddDivClass(true);
-    setAddHideClass(true);
-    setAddSmallClass(true);
+    // setAddDivClass(true);
+    // setAddHideClass(true);
+    // setAddSmallClass(true);
     const email = moduleFormInputs?.secondaryEmail?.trim();
     const phone = moduleFormInputs?.secondaryPhone?.trim();
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -1061,6 +1071,9 @@ const colourStyles = {
       setEmailError(null);
       setPhoneError(null)
       setModuleFormInputs(obj);
+      setAddDivClass(true);
+      setAddHideClass(true);
+      setAddSmallClass(true);
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -1075,7 +1088,11 @@ const colourStyles = {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
+    var root = document.getElementsByTagName( 'html' )[0];
+    root.classList.remove('scrollerClass');
     setAddClass(false);
+    setRegister(false)
+    setModuleRequest(false)
     setFormFeilds(false);
      setAddDivClass(false)
     setAddSmallClass(false)
@@ -1119,6 +1136,8 @@ const colourStyles = {
   };
 
   const handleBigClose = () => {
+    var root = document.getElementsByTagName( 'html' )[0];
+    root.classList.remove('scrollerClass');
     setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
@@ -1140,7 +1159,10 @@ const colourStyles = {
     }
     else{
       setAddDivClass(true);
+      setRegister(true)
       setAddSmallClass(false);
+      var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.add('scrollerClass');
     }
   };
 
@@ -1219,6 +1241,53 @@ const colourStyles = {
   const handleSelectionClick = () => {
     setAddSelectClass(true);
   }
+  function toggleRandomClass(module) {
+    const classes = module.className.split(' ');
+    const randomIndex = Math.floor(Math.random() * classes.length);
+    classes.splice(randomIndex, 1);
+    module.className = classes.join(' ');
+  }
+  
+  function addRandomClass(module, className) {
+    module.classList.add(className);
+  }
+  
+  function removeRandomClass(module, className) {
+    module.classList.remove(className);
+  }
+  
+  
+  function getRandomModule() {
+    const modules = document.querySelectorAll('.stat');
+    const randomIndex = Math.floor(Math.random() * modules.length);
+    return modules[randomIndex];
+  }
+  
+  let previousModule = null;
+  
+  function randomToggle() {
+    const randomModule = getRandomModule();
+    const randomAction = Math.random() < 0.5 ? 'add' : 'remove';
+    const randomClassName = 'random-class'; 
+  
+    if (previousModule) {
+      removeRandomClass(previousModule, randomClassName);
+    }
+  
+    if (randomAction === 'add') {
+      addRandomClass(randomModule, randomClassName);
+    } 
+    // else {
+    //   removeRandomClass(randomModule, randomClassName);
+    // }
+  
+    previousModule = randomModule;
+    setTimeout(() => {
+      removeRandomClass(randomModule, randomClassName);
+    }, 5000);
+  }
+  
+  setInterval(randomToggle, 5000);
   return (
     <>
       <meta
@@ -1926,6 +1995,14 @@ const colourStyles = {
                     <Button onClick={handleRead}>Read more</Button>
                   </div>
                 </div>
+                {register && (
+                <img
+                        className="close"
+                        src={path_image + "module-close-button.svg"}
+                        alt=""
+                        onClick={handleBigCircleClose}
+                      />
+                )}
                 <div
                   className={`module-bigger-size ${readStatus ? "show" : ""} ${
                     addHideClass ? "hide" : ""
@@ -1939,16 +2016,24 @@ const colourStyles = {
                       onClick={handleBigCircleClose}
                     />
                   )}
+                  {!showBigCircleData && !submitData && moduleRequest && (
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
+                  )}
                   <div class="shape shape-left"></div>
 
                   {registerPage && !publisherRegistered && (
                     <div>
-                      <img
+                      {/* <img
                         className="close"
                         src={path_image + "module-close-button.svg"}
                         alt=""
                         onClick={handleBigCircleClose}
-                      />
+                      /> */}
                       <div className="module-register">
                         <h4>Registration</h4>
                         <p>
@@ -2395,6 +2480,7 @@ const colourStyles = {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
+                                       {emailError && (<p style={{ color: 'red' }}>{emailError}</p>)}
                                       <span>
                                         <svg
                                           width="20"
@@ -2428,6 +2514,7 @@ const colourStyles = {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
+                                     {phoneError && (<p style={{ color: 'red' }}>{phoneError}</p>) }
                                       <span>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
