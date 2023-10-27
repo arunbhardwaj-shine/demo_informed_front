@@ -1083,9 +1083,11 @@ const colourStyles = {
         setPharmaRegistered(true);
         setAddSmallClass(true);
         setAddDivClass(false);
+        var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        const res = await postData(ENDPOINT.REGISTER,data );
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
