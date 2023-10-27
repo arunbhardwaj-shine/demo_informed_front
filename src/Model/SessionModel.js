@@ -28,6 +28,12 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
 
   const handleChange = (questionId, data, type = "") => {
     try {
+      
+      if(typeof data === 'string'){
+        if(data?.trim() == ''){
+          data = 0;
+        }
+      }
       if (type) {
         setUserValid({
           ...userValid,

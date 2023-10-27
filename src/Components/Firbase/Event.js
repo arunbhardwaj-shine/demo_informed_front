@@ -61,7 +61,7 @@ const Event = () =>{
     const handleSubmit = async(e) =>{
         try{
             e.preventDefault();
-            if(!user.question){
+            if(!user.question.trim()){
               setError({"question": "Please enter your question"})
               return
             }else{
