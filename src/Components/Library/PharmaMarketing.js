@@ -45,6 +45,7 @@ const PharmaMarketing = () => {
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [register, setRegister] = useState(false)
+  const[moduleRequest, setModuleRequest] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -1084,7 +1085,7 @@ const colourStyles = {
         setAddSmallClass(true);
         setAddDivClass(false);
         var root = document.getElementsByTagName( 'html' )[0];
-      root.classList.remove('scrollerClass');
+        root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
         // const res = await postData(ENDPOINT.REGISTER,data );
@@ -1178,6 +1179,7 @@ const colourStyles = {
   const handleRequestClick = () => {
     var root = document.getElementsByTagName( 'html' )[0];
       root.classList.add('scrollerClass');
+      setModuleRequest(true)
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1259,6 +1261,7 @@ const colourStyles = {
     root.classList.remove('scrollerClass');
     setAddClass(false);
     setRegister(false)
+    setModuleRequest(false)
     setFormFeilds(false);
      setAddDivClass(false)
     setAddSmallClass(false)
@@ -2250,12 +2253,7 @@ const handleSelectionClick = () => {
                       />
                 )}
 
-                <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
-                    addHideClass ? "hide" : ""
-                  } ${addSmallClass ? "small" : ""}`}
-                >
-                  {!showBigCircleData && !submitData && (
+                {!showBigCircleData && !submitData && moduleRequest && (
                     <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
@@ -2263,6 +2261,20 @@ const handleSelectionClick = () => {
                       onClick={handleBigCircleClose}
                     />
                   )}
+
+                <div
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
+                    addHideClass ? "hide" : ""
+                  } ${addSmallClass ? "small" : ""}`}
+                >
+                  {/* {!showBigCircleData && !submitData && (
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
+                  )} */}
                   <div class="shape shape-left"></div>
 
                   {registerPage && !pharmaRegistered && (
