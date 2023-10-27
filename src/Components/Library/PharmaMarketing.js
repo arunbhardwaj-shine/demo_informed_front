@@ -1340,7 +1340,7 @@ const colourStyles = {
   };
 
 function getRandomModule() {
-  const modules = document.querySelectorAll('.stat');
+  const modules = document.querySelectorAll('.circle.bouncing .stat');
   const randomIndex = Math.floor(Math.random() * modules.length);
   return modules[randomIndex];
 }
@@ -1355,7 +1355,7 @@ function removeRandomClass(module, className) {
  
 let previousModule = null;
 let interval;
- 
+
 function randomToggle() {
   if (previousModule) {
     removeRandomClass(previousModule, 'random-class');
@@ -1943,7 +1943,7 @@ const handleSelectionClick = () => {
               </div>
               <div className="modules-diagram">
                 <div
-                  className={`circle ${readStatus ? "bigger" : ""}`}
+                  className={`circle bouncing ${readStatus ? "bigger" : ""}`}
                   style={{ "--total": "13" }}
                 >
                   <div
