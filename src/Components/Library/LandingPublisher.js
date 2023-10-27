@@ -2028,12 +2028,12 @@ const colourStyles = {
 
                   {registerPage && !publisherRegistered && (
                     <div>
-                      {/* <img
+                      <img
                         className="close"
                         src={path_image + "module-close-button.svg"}
                         alt=""
                         onClick={handleBigCircleClose}
-                      /> */}
+                      />
                       <div className="module-register">
                         <h4>Registration</h4>
                         <p>
