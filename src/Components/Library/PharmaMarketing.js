@@ -1369,10 +1369,10 @@ function randomToggle() {
   previousModule = randomModule;
   setTimeout(() => {
     removeRandomClass(randomModule, randomClassName);
-  }, 1000);
+  }, 5000);
 }
 
-setInterval(randomToggle, 2000);
+setInterval(randomToggle, 5000);
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
