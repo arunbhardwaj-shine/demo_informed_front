@@ -1325,6 +1325,55 @@ const colourStyles = {
     }
   };
 
+
+function toggleRandomClass(module) {
+  const classes = module.className.split(' ');
+  const randomIndex = Math.floor(Math.random() * classes.length);
+  classes.splice(randomIndex, 1);
+  module.className = classes.join(' ');
+}
+
+function addRandomClass(module, className) {
+  module.classList.add(className);
+}
+
+function removeRandomClass(module, className) {
+  module.classList.remove(className);
+}
+
+
+function getRandomModule() {
+  const modules = document.querySelectorAll('.stat');
+  const randomIndex = Math.floor(Math.random() * modules.length);
+  return modules[randomIndex];
+}
+
+let previousModule = null;
+
+function randomToggle() {
+  const randomModule = getRandomModule();
+  const randomAction = Math.random() < 0.5 ? 'add' : 'remove';
+  const randomClassName = 'random-class'; 
+
+  if (previousModule) {
+    removeRandomClass(previousModule, randomClassName);
+  }
+
+  if (randomAction === 'add') {
+    addRandomClass(randomModule, randomClassName);
+  } 
+  // else {
+  //   removeRandomClass(randomModule, randomClassName);
+  // }
+
+  previousModule = randomModule;
+  setTimeout(() => {
+    removeRandomClass(randomModule, randomClassName);
+  }, 1000);
+}
+
+setInterval(randomToggle, 2000);
+
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
   const [readStatus, setReadStatus] = useState(false);
@@ -2185,12 +2234,7 @@ const handleSelectionClick = () => {
                   </div>
                 </div>
 
-                <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
-                    addHideClass ? "hide" : ""
-                  } ${addSmallClass ? "small" : ""}`}
-                >
-                  {!showBigCircleData && !submitData && (
+                {!showBigCircleData && !submitData && (
                     <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
@@ -2198,6 +2242,20 @@ const handleSelectionClick = () => {
                       onClick={handleBigCircleClose}
                     />
                   )}
+
+                <div
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
+                    addHideClass ? "hide" : ""
+                  } ${addSmallClass ? "small" : ""}`}
+                >
+                  {/* {!showBigCircleData && !submitData && (
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
+                  )} */}
                   <div class="shape shape-left"></div>
 
                   {registerPage && !pharmaRegistered && (
