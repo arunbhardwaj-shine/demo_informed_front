@@ -2577,6 +2577,62 @@ form#add_hcp_form .row:not(:first-child) {
   padding-right: 51px;
 }
 
+.update_quest.modal form#add_hcp_form .add_hcp_boxes {
+  padding-right: 0;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action {
+  max-width: 100%;
+}
+
+.update_quest .split-button-dropup {
+  flex: 1 1;
+}
+
+.update_quest button.dl_btn {
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  padding: 10px;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .form-group.text-end button {
+  margin-left: auto;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .form-group input[type=checkbox] {
+  border: 1px solid #97B6CF;
+  width: 16px;
+  height: 16px;
+  padding: 1px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  display: inline-block;
+  flex: 0 0 16px;
+  margin: 0 16px 0 0;
+}
+
+.update_quest #add_hcp .modal-footer {
+  gap: 10px;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .form-group label {
+  flex: 0 0 130px;
+  font-size: 17px;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .form-group input:checked[type=checkbox] {
+  background-color: #39cabc;
+  border-color: #39cabc;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+  box-shadow: none;
+  width: auto;
+}
+
 .modal form#add_hcp_form .add_hcp_boxes:last-child .form_action {
   margin: 0;
 }
@@ -2627,6 +2683,11 @@ form#add_hcp_form .row:not(:first-child) {
   width: 100%;
   color: var(--light-gray);
   font-weight: 300;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .form-group .form-control[type="color"] {
+  padding: 12px 10px;
+  min-height: 45px;
 }
 
 #add_hcp .modal-body .hcp-add-form form .form-group .form-control:focus,
@@ -5642,6 +5703,15 @@ input:-webkit-autofill {
 .modal .bottom .split-button-dropup.edit-country-dropdown>div:nth-child(4) {
   top: 45px;
   bottom: auto;
+}
+
+.modal.update_quest .bottom-open .split-button-dropup>div:nth-child(4) {
+  top: auto;
+  bottom: 45px;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action {
+  padding: 37px 16px 20px 18px;
 }
 
 .modal .split-button-dropup.edit-country-dropdown>div:nth-child(4) {

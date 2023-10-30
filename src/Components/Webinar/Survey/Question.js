@@ -81,7 +81,7 @@ function Question(props) {
 
             <div className="col-12 col-md-6">
               {" "}
-              <div className="form-group">
+              <div className="form-group bottom-open">
                 <label htmlFor="">
                   {" "}
                   Input Type <span>*</span>{" "}
@@ -111,7 +111,7 @@ function Question(props) {
                 <label htmlFor=""> {/* Answers <span >*</span>{" "} */}</label>
                 {answerOption.map((choice, index) => (
                   <>
-                    <div className="col-6 col-md-5" key={index}>
+                    <div className="col-6 col-md-6" key={index}>
                       <div className="form-group">
                         <label htmlFor="">
                           {" "}
@@ -131,9 +131,9 @@ function Question(props) {
                         </div>
                       </div>
                     </div>
-                    <div className="col-4 col-md-5">
+                    <div className="col-5 col-md-5">
                       <div className="form-group">
-                        <label htmlFor=""> Color </label>
+                        <label htmlFor="">Color</label>
 
                         <Form.Control
                           type="color"
@@ -152,7 +152,7 @@ function Question(props) {
                       </div>
                     </div>
 
-                    <div className="col-2 col-md-2">
+                    <div className="col-1 col-md-1">
                       {confirmOptionDelete[index] ? (
                         <>
                           <p>Are You Sure ?</p>
@@ -182,12 +182,10 @@ function Question(props) {
                         </>
                       ) : (
                         answerOption?.length > 1 && (
-                          <div className="col-12 col-md-6" md={12}>
+                          <div md={1} col={1}>
                             <div className="form-group">
                               <Button
-                           style={{width:"50px"}}
-
-                                // variant="danger"
+                              className="dl_btn"
                                 onClick={() =>
                                   setConfirmOptionDelete({
                                     ...confirmOptionDelete,
@@ -235,17 +233,17 @@ function Question(props) {
                     </div>
                   </>
                 ))}
-                <div className="col-12 col-md-6" md={12}>
-                  <div className="form-group">
+                <div md={12}>
+                  <div className="form-group text-end">
                     <Button variant="primary" onClick={onAddChoice}>
                       Add Choice
                     </Button>
                   </div>
                 </div>
 
-                <div className="col-12 col-md-12">
+                <div className="col-12 col-md-6">
                   <div className="form-group">
-                    <label htmlFor=""> Include Comment </label>
+                    <label htmlFor="">Include Comment</label>
                     <input
                       type="checkbox"
                       name="showComment"
