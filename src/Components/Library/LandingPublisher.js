@@ -1056,16 +1056,16 @@ const colourStyles = {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
-        // let data = {
+      // const res = await postData(ENDPOINT.REGISTER, {
+        let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-        // }
-      });
+        }
+      // });
       let obj = {};
       loader("hide");
       setEmailError(null);
