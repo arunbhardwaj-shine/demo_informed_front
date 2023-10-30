@@ -42,6 +42,10 @@ const PharmaMarketing = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
   const [addSelectClass,setAddSelectClass] = useState(false)
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [register, setRegister] = useState(false)
+  const[moduleRequest, setModuleRequest] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -49,6 +53,7 @@ const PharmaMarketing = () => {
   const countryRef = useRef(null);
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
+  const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
 
   const modules = [
     {
@@ -1016,12 +1021,12 @@ const colourStyles = {
   };
 
   const handleReadClick = async (event) => {
-    var root = document.getElementsByTagName( 'html' )[0];
-      root.classList.remove('scrollerClass');
-    localStorage.setItem('pharmaRegistered', 'true');
-    setPharmaRegistered(true);
-    setAddSmallClass(true);
-    setAddDivClass(false);
+    // var root = document.getElementsByTagName( 'html' )[0];
+    //   root.classList.remove('scrollerClass');
+    // localStorage.setItem('pharmaRegistered', 'true');
+    // setPharmaRegistered(true);
+    // setAddSmallClass(true);
+    // setAddDivClass(false);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
@@ -1076,6 +1081,12 @@ const colourStyles = {
 
         console.log(data,'data')
         setPayloadData(data);
+        localStorage.setItem('pharmaRegistered', 'true');
+        setPharmaRegistered(true);
+        setAddSmallClass(true);
+        setAddDivClass(false);
+        var root = document.getElementsByTagName( 'html' )[0];
+        root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
         const res = await postData(ENDPOINT.REGISTER,data );
@@ -1169,6 +1180,7 @@ const colourStyles = {
   const handleRequestClick = () => {
     var root = document.getElementsByTagName( 'html' )[0];
       root.classList.add('scrollerClass');
+      setModuleRequest(true)
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1199,10 +1211,21 @@ const colourStyles = {
   };
 
   const handleSubmitClick = async () => {
-    setAddDivClass(true);
-    setAddHideClass(true);
-    setAddSmallClass(true);
-    loader("show");
+    // setAddDivClass(true);
+    // setAddHideClass(true);
+    // setAddSmallClass(true);
+    const email = moduleFormInputs?.secondaryEmail?.trim();
+    const phone = moduleFormInputs?.secondaryPhone?.trim();
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    const phoneRegex = /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+    if (email && !emailRegex.test(email)) {
+        setEmailError('Please enter a valid email address');
+      } else if(phone && !phoneRegex.test(phone)){
+        setPhoneError('Please enter a valid phone number');
+      }
+      else {
+      loader("show");
+    // loader("show");
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
       const payloadData = JSON.parse(payloadDataPharmaString);
@@ -1218,6 +1241,11 @@ const colourStyles = {
       });
       let obj = {};
       loader("hide");
+      setEmailError(null);
+      setPhoneError(null)
+      setAddHideClass(true);
+      setAddDivClass(true);
+      setAddSmallClass(true);
       setModuleFormInputs(obj);
     } catch (err) {
       console.log(err);
@@ -1229,12 +1257,15 @@ const colourStyles = {
     setModulesSelect(false);
     setFormFeilds(false);
     setModuleFormInputs(false)
+  }
   };
 
   const handleBigCircleClose = (moduleName, index) => {
     var root = document.getElementsByTagName( 'html' )[0];
     root.classList.remove('scrollerClass');
     setAddClass(false);
+    setRegister(false)
+    setModuleRequest(false)
     setFormFeilds(false);
      setAddDivClass(false)
     setAddSmallClass(false)
@@ -1269,6 +1300,9 @@ const colourStyles = {
     })
     }, 200);
     setSelectedModules([]);
+    setModuleFormInputs(false)
+    setEmailError('')
+    setPhoneError('')
  
   //   setTimeout(() => {
   //   setActiveModule(null);
@@ -1287,6 +1321,8 @@ const colourStyles = {
     setShowBigCircleData(true);
     setModulesSelect(true);
     setActiveModule(intialModuleData?.activeModule);
+    setEmailError('')
+    setPhoneError('')
   };
 
   const handleRead = () => {
@@ -1297,11 +1333,26 @@ const colourStyles = {
     }
     else{
       setAddDivClass(true);
+      setRegister(true)
       setAddSmallClass(false);
       var root = document.getElementsByTagName( 'html' )[0];
       root.classList.add('scrollerClass');
     }
   };
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
+    document.getElementById(`module-${prevModuleIndex}`)?.classList?.remove("random-class");
+
+    document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
+
+    setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
+  }, 4500); 
+
+  return () => clearInterval(interval);
+}, [currentModuleIndex]);
+
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
@@ -1863,10 +1914,10 @@ const handleSelectionClick = () => {
               </div>
               <div className="modules-diagram">
                 <div
-                  className={`circle ${readStatus ? "bigger" : ""}`}
+                  className={`circle bouncing ${readStatus ? "bigger" : ""}`}
                   style={{ "--total": "13" }}
                 >
-                  <div
+                  <div id="module-0"
                     className={
                       activeModule === "read"
                         ? "stat read visible"
@@ -1886,7 +1937,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-4"
                     className={
                       activeModule === "rating"
                         ? "stat rating visible"
@@ -1904,7 +1955,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-10"
                     className={
                       activeModule === "spc"
                         ? "stat spc visible"
@@ -1922,7 +1973,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-12"
                     className={
                       activeModule === "automail"
                         ? "stat automail visible"
@@ -1945,7 +1996,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-1"
                     className={
                       activeModule === "ai"
                         ? "stat ai visible"
@@ -1970,7 +2021,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-6"
                     className={
                       activeModule === "consent"
                         ? "stat consent visible"
@@ -1994,7 +2045,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-8"
                     className={
                       activeModule === "engine"
                         ? "stat engine visible"
@@ -2014,7 +2065,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-2"
                     className={
                       activeModule === "docintel"
                         ? "stat docintel visible"
@@ -2039,7 +2090,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-7"
                     className={
                       activeModule === "informed"
                         ? "stat informed visible"
@@ -2062,7 +2113,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-3"
                     className={
                       activeModule === "qa"
                         ? "stat qa visible"
@@ -2080,7 +2131,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-5"
                     className={
                       activeModule === "survey"
                         ? "stat survey visible"
@@ -2098,7 +2149,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-9"
                     className={
                       activeModule === "web"
                         ? "stat web visible"
@@ -2120,7 +2171,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-11"
                     className={
                       activeModule === "webinar"
                         ? "stat webinar visible"
@@ -2162,6 +2213,23 @@ const handleSelectionClick = () => {
                     <Button onClick={handleRead}>Read more</Button>
                   </div>
                 </div>
+                {register && (
+                <img
+                        className="close"
+                        src={path_image + "module-close-button.svg"}
+                        alt=""
+                        onClick={handleBigCircleClose}
+                      />
+                )}
+
+                {!showBigCircleData && !submitData && moduleRequest && (
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
+                  )}
 
                 <div
                   className={`module-bigger-size ${readStatus ? "show" : ""} ${
@@ -2628,7 +2696,7 @@ const handleSelectionClick = () => {
                                 <div className="form-feilds d-flex">
                                   <Col md="6">
                                     <div className="form-group">
-                                      <input
+                                      {/* <input
                                         type="email"
                                         placeholder="Email"
                                         name="secondaryEmail"
@@ -2639,7 +2707,17 @@ const handleSelectionClick = () => {
                                             : ""
                                         }
                                         onChange={handleModuleFormChange}
-                                      />
+                                      /> */}
+                                      <input
+                                      type="email"
+                                      placeholder="Email"
+                                      name="secondaryEmail"
+                                      className="form-control"
+                                      value={moduleFormInputs?.secondaryEmail ? moduleFormInputs?.secondaryEmail : ""}
+                                      onChange={handleModuleFormChange}
+                                    />
+                                    {emailError && (<p style={{ color: 'red' }}>{emailError}</p>)}
+                                    {/* <p style={{ color: 'red' }}>{emailError}</p> */}
                                       <span>
                                         <svg
                                           width="20"
@@ -2673,6 +2751,8 @@ const handleSelectionClick = () => {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
+                                     {phoneError && (<p style={{ color: 'red' }}>{phoneError}</p>) }
+                                      {/* <p style={{ color: 'red' }}>{phoneError}</p> */}
                                       <span>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
