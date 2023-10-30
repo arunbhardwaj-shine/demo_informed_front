@@ -1283,7 +1283,10 @@ ul.tab-mail-list.data span.total-left small {
   color: #aa7d17;
   background: #fac755 !important;
 }
-
+.tab-mail-list.data .progress .progress-bar.bg-pin_usage {
+  color: #cfcfff;
+  background: #00003C !important;
+}
 .tab-mail-list.data .progress .progress-bar.bg-success {
   color: #05766b;
   background: $green !important;
