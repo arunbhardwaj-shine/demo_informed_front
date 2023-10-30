@@ -1344,70 +1344,116 @@ const colourStyles = {
 //   const randomIndex = Math.floor(Math.random() * modules.length);
 //   return modules[randomIndex];
 // }
+
+// function addRandomClass(module, className) {
+//   module?.classList?.add(className);
+// }
+ 
+// function removeRandomClass(module, className) {
+//   module?.classList?.remove(className);
+// }
+ 
+// let previousModule = null;
+// let interval;
+
+// let inProgress = false;
+ 
+// function randomToggle() {
+//   if (!inProgress) {
+//     inProgress = true;
+ 
+//     if (previousModule) {
+//       removeRandomClass(previousModule, 'random-class');
+//     }
+ 
+//     const randomModule = getRandomModule();
+//     console.log(randomModule,'===>randomModule')
+//     addRandomClass(randomModule, 'random-class');
+//     previousModule = randomModule;
+  
+//     setTimeout(() => {
+//       removeRandomClass(randomModule, 'random-class');
+//       previousModule = null;
+//       inProgress = false;
+//     }, 3000);
+//   }
+// }
+
+// // function randomToggle() {
+// //   if (previousModule) {
+// //     removeRandomClass(previousModule, 'random-class');
+// //   }
+ 
+// //   const randomModule = getRandomModule();
+// //   addRandomClass(randomModule, 'random-class');
+// //   previousModule = randomModule;
+ 
+// //   setTimeout(() => {
+// //     removeRandomClass(randomModule, 'random-class');
+// //     previousModule = null;
+// //   }, 3000);
+// // }
+ 
+// function startToggle() {
+//   randomToggle(); 
+//   interval = setInterval(randomToggle, 6000); 
+// }
+ 
+// function stopToggle() {
+//   clearInterval(interval);
+// }
+ 
+// startToggle();
+
+
+
+function toggleRandomClass(module) {
+  const classes = module.className.split(' ');
+  const randomIndex = Math.floor(Math.random() * classes.length);
+  classes.splice(randomIndex, 1);
+  module.className = classes.join(' ');
+}
+
+function addRandomClass(module, className) {
+  module.classList.add(className);
+}
+
+function removeRandomClass(module, className) {
+  module.classList.remove(className);
+}
+
+
 function getRandomModule() {
   const modules = document.querySelectorAll('.circle.bouncing .stat');
   const randomIndex = Math.floor(Math.random() * modules.length);
   return modules[randomIndex];
 }
- 
-function addRandomClass(module, className) {
-  module?.classList?.add(className);
-}
- 
-function removeRandomClass(module, className) {
-  module?.classList?.remove(className);
-}
- 
+
 let previousModule = null;
-let interval;
 
-let inProgress = false;
- 
 function randomToggle() {
-  if (!inProgress) {
-    inProgress = true;
- 
-    if (previousModule) {
-      removeRandomClass(previousModule, 'random-class');
-    }
- 
-    const randomModule = getRandomModule();
-    addRandomClass(randomModule, 'random-class');
-    previousModule = randomModule;
- 
-    setTimeout(() => {
-      removeRandomClass(randomModule, 'random-class');
-      previousModule = null;
-      inProgress = false;
-    }, 3000);
+  const randomModule = getRandomModule();
+  const randomAction = Math.random() < 0.5 ? 'add' : 'remove';
+  const randomClassName = 'random-class'; 
+
+  if (previousModule) {
+    removeRandomClass(previousModule, randomClassName);
   }
+
+  if (randomAction === 'add') {
+    addRandomClass(randomModule, randomClassName);
+  } 
+  // else {
+  //   removeRandomClass(randomModule, randomClassName);
+  // }
+
+  previousModule = randomModule;
+  setTimeout(() => {
+    removeRandomClass(randomModule, randomClassName);
+  }, 5000);
 }
 
-// function randomToggle() {
-//   if (previousModule) {
-//     removeRandomClass(previousModule, 'random-class');
-//   }
- 
-//   const randomModule = getRandomModule();
-//   addRandomClass(randomModule, 'random-class');
-//   previousModule = randomModule;
- 
-//   setTimeout(() => {
-//     removeRandomClass(randomModule, 'random-class');
-//     previousModule = null;
-//   }, 3000);
-// }
- 
-function startToggle() {
-  randomToggle(); 
-  interval = setInterval(randomToggle, 6000); 
-}
- 
-function stopToggle() {
-  clearInterval(interval);
-}
- 
-startToggle();
+setInterval(randomToggle, 8000);
 
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
