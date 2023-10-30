@@ -41,12 +41,15 @@ const PharmaRd = () => {
   const [publisherRegistered, setPublisherRegistered] = useState(localStorage.getItem('publisherRegistered'));
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [register, setRegister] = useState(false)
+  const[moduleRequest, setModuleRequest] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
   const [addSelectClass,setAddSelectClass] = useState(false)
+  const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
 
   const modules = [
     {
@@ -849,10 +852,10 @@ const colourStyles = {
   };
 
   const handleReadClick = async (event) => {
-    localStorage.setItem('publisherRegistered', 'true');
+    // localStorage.setItem('publisherRegistered', 'true');
     // setPublisherRegistered(true);
-    setAddDivClass(false);
-    setAddSmallClass(true);
+    // setAddDivClass(false);
+    // setAddSmallClass(true);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs,1);
     if (Object.keys(err)?.length) {
@@ -906,7 +909,12 @@ const colourStyles = {
         };
 
         setPayloadData(data);
+        localStorage.setItem('publisherRegistered', 'true');
         setPublisherRegistered(true);
+        setAddDivClass(false);
+        setAddSmallClass(true);
+        var root = document.getElementsByTagName( 'html' )[0];
+        root.classList.remove('scrollerClass');
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
         const res = await postData(ENDPOINT.REGISTER, data);
@@ -998,7 +1006,10 @@ const colourStyles = {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
+    var root = document.getElementsByTagName( 'html' )[0];
+    root.classList.add('scrollerClass');
     setAddClass(true);
+    setModuleRequest(true)
     setAddSmallClass(false);
     setAddDivClass(true);
     const stats = document.querySelectorAll(".stat");
@@ -1028,9 +1039,9 @@ const colourStyles = {
   };
 
   const handleSubmitClick = async () => {
-    setAddDivClass(true);
-    setAddHideClass(true);
-    setAddSmallClass(true);
+    // setAddDivClass(true);
+    // setAddHideClass(true);
+    // setAddSmallClass(true);
     const email = moduleFormInputs?.secondaryEmail?.trim();
     const phone = moduleFormInputs?.secondaryPhone?.trim();
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -1061,6 +1072,9 @@ const colourStyles = {
       setEmailError(null);
       setPhoneError(null)
       setModuleFormInputs(obj);
+      setAddDivClass(true);
+      setAddHideClass(true);
+      setAddSmallClass(true);
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -1075,9 +1089,13 @@ const colourStyles = {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
+    var root = document.getElementsByTagName( 'html' )[0];
+    root.classList.remove('scrollerClass');
     setAddClass(false);
+    setRegister(false)
+    setModuleRequest(false)
     setFormFeilds(false);
-     setAddDivClass(false)
+    setAddDivClass(false)
     setAddSmallClass(false)
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
@@ -1119,6 +1137,8 @@ const colourStyles = {
   };
 
   const handleBigClose = () => {
+    var root = document.getElementsByTagName( 'html' )[0];
+    root.classList.remove('scrollerClass');
     setAddDivClass(false);
     setAddClass(false);
     setFormFeilds(false);
@@ -1140,7 +1160,10 @@ const colourStyles = {
     }
     else{
       setAddDivClass(true);
+      setRegister(true)
       setAddSmallClass(false);
+      var root = document.getElementsByTagName( 'html' )[0];
+      root.classList.add('scrollerClass');
     }
   };
 
@@ -1219,6 +1242,20 @@ const colourStyles = {
   const handleSelectionClick = () => {
     setAddSelectClass(true);
   }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
+      document.getElementById(`module-${prevModuleIndex}`)?.classList?.remove("random-class");
+  
+      document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
+  
+      setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
+    }, 4500); 
+  
+    return () => clearInterval(interval);
+  }, [currentModuleIndex]);
+
   return (
     <>
       <meta
@@ -1694,10 +1731,10 @@ const colourStyles = {
               </div>
               <div className="modules-diagram publish">
                 <div
-                  className={`circle ${readStatus ? "bigger" : ""}`}
+                  className={`circle bouncing ${readStatus ? "bigger" : ""}`}
                   style={{ "--total": "10" }}
                 >
-                  <div
+                  <div id="module-0"
                     className={
                       activeModule === "read"
                         ? "stat read visible"
@@ -1717,7 +1754,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-4"
                     className={
                       activeModule === "rating"
                         ? "stat rating visible"
@@ -1735,7 +1772,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-7"
                     className={
                       activeModule === "automail"
                         ? "stat automail visible"
@@ -1757,7 +1794,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-3"
                     className={
                       activeModule === "consent"
                         ? "stat consent visible"
@@ -1781,7 +1818,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-1"
                     className={
                       activeModule === "engine"
                         ? "stat engine visible"
@@ -1801,7 +1838,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-9"
                     className={
                       activeModule === "docintel"
                         ? "stat docintel visible"
@@ -1826,7 +1863,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-2"
                     className={
                       activeModule === "informed"
                         ? "stat informed visible"
@@ -1848,7 +1885,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-6"
                     className={
                       activeModule === "web"
                         ? "stat web visible"
@@ -1870,7 +1907,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-8"
                     className={
                       activeModule === "webinar"
                         ? "stat webinar visible"
@@ -1888,7 +1925,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-5"
                     className={
                       activeModule === "survey"
                         ? "stat survey visible"
@@ -1926,12 +1963,28 @@ const colourStyles = {
                     <Button onClick={handleRead}>Read more</Button>
                   </div>
                 </div>
+                {register && (
+                <img
+                        className="close"
+                        src={path_image + "module-close-button.svg"}
+                        alt=""
+                        onClick={handleBigCircleClose}
+                      />
+                )}
                 <div
                   className={`module-bigger-size ${readStatus ? "show" : ""} ${
                     addHideClass ? "hide" : ""
                   } ${addSmallClass ? "small" : ""}`}
                 >
                   {!showBigCircleData && !submitData && (
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
+                  )}
+                  {!showBigCircleData && !submitData && moduleRequest && (
                     <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
@@ -2395,6 +2448,7 @@ const colourStyles = {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
+                                       {emailError && (<p style={{ color: 'red' }}>{emailError}</p>)}
                                       <span>
                                         <svg
                                           width="20"
@@ -2428,6 +2482,7 @@ const colourStyles = {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
+                                     {phoneError && (<p style={{ color: 'red' }}>{phoneError}</p>) }
                                       <span>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
