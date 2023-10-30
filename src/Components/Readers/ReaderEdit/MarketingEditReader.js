@@ -1843,7 +1843,11 @@ const MarketingEditReader = () => {
   }
   const nextButtonClicked = (e) => {
     e.preventDefault();
-
+    if(currentIndex !=-1){
+      toast.error("Please save the log activity first!")
+      return
+    }
+      
     const result = AddReaderValidation(userInputs);
     if (Object?.keys(result)?.length) {
       if (Object?.keys(result)[0] == "firstName") {

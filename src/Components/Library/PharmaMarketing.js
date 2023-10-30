@@ -1339,6 +1339,73 @@ const colourStyles = {
     }
   };
 
+// function getRandomModule() {
+//   const modules = document.querySelectorAll('.circle.bouncing .stat');
+//   const randomIndex = Math.floor(Math.random() * modules.length);
+//   return modules[randomIndex];
+// }
+
+// function addRandomClass(module, className) {
+//   module?.classList?.add(className);
+// }
+ 
+// function removeRandomClass(module, className) {
+//   module?.classList?.remove(className);
+// }
+ 
+// let previousModule = null;
+// let interval;
+
+// let inProgress = false;
+ 
+// function randomToggle() {
+//   if (!inProgress) {
+//     inProgress = true;
+ 
+//     if (previousModule) {
+//       removeRandomClass(previousModule, 'random-class');
+//     }
+ 
+//     const randomModule = getRandomModule();
+//     console.log(randomModule,'===>randomModule')
+//     addRandomClass(randomModule, 'random-class');
+//     previousModule = randomModule;
+  
+//     setTimeout(() => {
+//       removeRandomClass(randomModule, 'random-class');
+//       previousModule = null;
+//       inProgress = false;
+//     }, 3000);
+//   }
+// }
+
+// // function randomToggle() {
+// //   if (previousModule) {
+// //     removeRandomClass(previousModule, 'random-class');
+// //   }
+ 
+// //   const randomModule = getRandomModule();
+// //   addRandomClass(randomModule, 'random-class');
+// //   previousModule = randomModule;
+ 
+// //   setTimeout(() => {
+// //     removeRandomClass(randomModule, 'random-class');
+// //     previousModule = null;
+// //   }, 3000);
+// // }
+ 
+// function startToggle() {
+//   randomToggle(); 
+//   interval = setInterval(randomToggle, 6000); 
+// }
+ 
+// function stopToggle() {
+//   clearInterval(interval);
+// }
+ 
+// startToggle();
+
+
 
 function toggleRandomClass(module) {
   const classes = module.className.split(' ');
@@ -1357,7 +1424,7 @@ function removeRandomClass(module, className) {
 
 
 function getRandomModule() {
-  const modules = document.querySelectorAll('.stat');
+  const modules = document.querySelectorAll('.circle.bouncing .stat');
   const randomIndex = Math.floor(Math.random() * modules.length);
   return modules[randomIndex];
 }
@@ -1386,7 +1453,8 @@ function randomToggle() {
   }, 5000);
 }
 
-setInterval(randomToggle, 5000);
+setInterval(randomToggle, 8000);
+
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
@@ -1948,7 +2016,7 @@ const handleSelectionClick = () => {
               </div>
               <div className="modules-diagram">
                 <div
-                  className={`circle ${readStatus ? "bigger" : ""}`}
+                  className={`circle bouncing ${readStatus ? "bigger" : ""}`}
                   style={{ "--total": "13" }}
                 >
                   <div
@@ -2270,24 +2338,24 @@ const handleSelectionClick = () => {
                     addHideClass ? "hide" : ""
                   } ${addSmallClass ? "small" : ""}`}
                 >
-                  {/* {!showBigCircleData && !submitData && (
+                  {!showBigCircleData && !submitData && (
                     <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
                       alt=""
                       onClick={handleBigCircleClose}
                     />
-                  )} */}
+                  )}
                   <div class="shape shape-left"></div>
 
                   {registerPage && !pharmaRegistered && (
                     <div>
-                      {/* <img
+                      <img
                         className="close"
                         src={path_image + "module-close-button.svg"}
                         alt=""
                         onClick={handleBigCircleClose}
-                      /> */}
+                      />
                       <div className="module-register">
                         <h4>Registration</h4>
                         <p>
