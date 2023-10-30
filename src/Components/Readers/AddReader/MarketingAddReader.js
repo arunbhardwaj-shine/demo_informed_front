@@ -1640,7 +1640,10 @@ const MarketingAddReader = () => {
   }
   const nextButtonClicked = (e) => {
     e.preventDefault();
-
+if(currentIndex !=-1){
+  toast.error("Please save the log activity first!")
+  return
+}
     const result = AddReaderValidation(userInputs, groupId);
 
     if (Object.keys(result)?.length) {
