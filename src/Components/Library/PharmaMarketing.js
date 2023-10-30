@@ -1089,7 +1089,7 @@ const colourStyles = {
         root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        // const res = await postData(ENDPOINT.REGISTER,data );
+        const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1229,16 +1229,16 @@ const colourStyles = {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      // const res = await postData(ENDPOINT.REGISTER, {
-      let data = {
+      const res = await postData(ENDPOINT.REGISTER, {
+      // let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      }
-      // });
+      // }
+      });
       let obj = {};
       loader("hide");
       setEmailError(null);
