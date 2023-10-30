@@ -1464,7 +1464,7 @@ useEffect(() => {
     document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
 
     setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
-  }, 5000); 
+  }, 4500); 
 
   return () => clearInterval(interval);
 }, [currentModuleIndex]);
