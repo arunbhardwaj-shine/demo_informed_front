@@ -1724,16 +1724,16 @@ const colourStyles = {
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                  Docintel & inforMed.pro is 2 parts of a unified system. Create
+                  Docintel & inforMed.pro are 2 parts of a unified system. Create
                   and set limits in inforMed.pro and let your clients use the
-                  free tools for distribution. Doctors engage with content using
+                  free tools for distribution. HCPs engage with content using
                   Docintel on any device of their choice. Usage and limits are
                   monitored making life and reporting easier for you.
                 </h5>
               </div>
               <div className="consent-details pharma-view">
                 <ul>
-                  <li>For Clinicians</li>
+                  <li>For HCPs</li>
                   <li>Gathers consent</li>
                   <li>Read in any browser</li>
                   <li>Read offline in the app</li>
