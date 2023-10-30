@@ -684,8 +684,13 @@ const BarComponent = ({ data }) => {
       name: `Readers`,
       data: data.data.reader,
       color: "#f9bc04",
-    },
+    },    
   ];
+  
+  if(data?.data?.pinOpenings){
+    var newObject = { name: 'Article Usage', data: data?.data?.pinOpenings, color: "#00003C"};
+    newSeries.push(newObject);
+  }
 
   return (
     <>
