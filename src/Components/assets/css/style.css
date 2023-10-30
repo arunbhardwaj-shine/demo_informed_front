@@ -8037,7 +8037,7 @@ html {
   }
 
   .session-modal #pollModel .modal-body {
-    padding: 20px 15px;
+    padding: 20px 5px 20px 15px;
   }
 
   .session-modal #pollModel h4 {
@@ -8049,6 +8049,20 @@ html {
   }
 
   .session-modal #pollModel .popup-content {
-    padding-right: 8px;
+    padding-right: 4px;
+  }
+
+  .session-modal ::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 20px;
+  }
+
+  .session-modal ::-webkit-scrollbar-thumb {
+    width: 5px;
+    border: 1px solid #dce6ef;
+  }
+
+  .session-modal #pollModel .form-group {
+    justify-content: space-evenly;
   }
 }
