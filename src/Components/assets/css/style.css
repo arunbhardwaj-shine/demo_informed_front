@@ -8022,8 +8022,8 @@ html {
     font-size: 14px;
   }
 
-  .session-modal #pollModel h4 img {
-    max-width: 215px;
+  .session-modal #pollModel .modal-title.h4 img {
+    max-width: 170px;
   }
 
   .session-modal #pollModel .check-group {
