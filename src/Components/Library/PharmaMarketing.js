@@ -1089,7 +1089,7 @@ const colourStyles = {
         root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        const res = await postData(ENDPOINT.REGISTER,data );
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1229,16 +1229,16 @@ const colourStyles = {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
-      // let data = {
+      // const res = await postData(ENDPOINT.REGISTER, {
+      let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      // }
-      });
+      }
+      // });
       let obj = {};
       loader("hide");
       setEmailError(null);
@@ -1343,13 +1343,37 @@ const colourStyles = {
 useEffect(() => {
   const interval = setInterval(() => {
     const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
-    document.getElementById(`module-${prevModuleIndex}`)?.classList?.remove("random-class");
+    const currentModule = document.getElementById(`module-${currentModuleIndex}`);
+    const prevModule = document.getElementById(`module-${prevModuleIndex}`);
 
-    document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
+    const hasVisibleClass = Array.from({ length: 13 }, (_, i) => i)
+      .some(index => document.getElementById(`module-${index}`)?.classList?.contains("visible"));
+ 
+    if (hasVisibleClass) {
+      console.log(hasVisibleClass,'hasVisibleClass')
+      currentModule?.classList.remove("random-class");
+      prevModule?.classList.remove("random-class");
+      clearInterval(interval);
+      return;
+    }
+ 
+    // const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
+    // const currentModule = document.getElementById(`module-${currentModuleIndex}`);
+    // const prevModule = document.getElementById(`module-${prevModuleIndex}`);
 
+   
+    if (prevModule) {
+      prevModule?.classList.remove("random-class");
+    }
+ 
+    if (currentModule) {
+      currentModule?.classList.add("random-class");
+    }
+
+ 
     setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
-  }, 4500); 
-
+  }, 4500);
+ 
   return () => clearInterval(interval);
 }, [currentModuleIndex]);
 
