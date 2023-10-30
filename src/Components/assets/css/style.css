@@ -8022,6 +8022,10 @@ html {
     font-size: 14px;
   }
 
+  .session-modal #pollModel h4 img {
+    max-width: 215px;
+  }
+
   .session-modal #pollModel .check-group {
     padding: 0 10px 0 0;
   }
@@ -8034,6 +8038,10 @@ html {
     flex: 0 0 100%;
     font-size: 12px;
     margin: 0 0 6px;
+  }
+
+  .session-modal #pollModel .modal-header {
+    background: #dbecea;
   }
 
   .session-modal #pollModel .modal-body {
