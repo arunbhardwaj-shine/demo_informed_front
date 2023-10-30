@@ -1,0 +1,285 @@
+import React, { useEffect, useState } from "react";
+import { Button, Modal } from "react-bootstrap";
+import Select from "react-select";
+import { toast } from "react-toastify";
+import RegistrationValidation from "./AddQuestionValidation";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
+  const [inputOptions, setInputOption] = useState([
+    { label: "Text", value: "text" },
+    { label: "Email", value: "email" },
+    { label: "Selection", value: "selection" },
+    { label: "Checkbox", value: "checkbox" },
+    { label: "Radio", value: "radio" },
+  ]);
+  const [requiredOption, setRequiredOption] = useState([
+    { label: "Yes", value: "yes" },
+    { label: "No", value: "no" },
+  ]);
+  const [formData, setFormData] = useState({
+    label: "",
+    inputType: "",
+    placeholder: "",
+    required: "",
+    option: [],
+  });
+  useEffect(() => {}, [show]);
+  const handleClose = () => {
+    setFormData({
+      label: "",
+      inputType: "",
+      placeholder: "",
+      option: [],
+      required: "",
+    });
+    onClose(false);
+  };
+  const handleChange = (e, isSelectedName, index) => {
+    if (isSelectedName == "optionValue") {
+      let updateOption = formData?.option;
+      updateOption[index].optionLabel = e?.target?.value;
+      setFormData({ ...formData, option: updateOption });
+    } else if (isSelectedName == "inputType") {
+      setFormData({
+        ...formData,
+        label: "",
+        option: [],
+        placeholder: "",
+        required: "",
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e
+          : e?.target?.value,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e
+          : e?.target?.value,
+      });
+    }
+  };
+
+  const saveClicked = (e) => {
+    e.preventDefault();
+    const error = RegistrationValidation(formData, formLabel);
+
+    if (Object.keys(error)?.length) {
+      toast.error(error[Object.keys(error)[0]]);
+      return;
+    } else {
+      handleSave(formData);
+      handleClose();
+    }
+  };
+  const AddOptions = (e) => {
+    e.preventDefault();
+    let optionObj = {
+      optionLabel: "",
+    };
+
+    if (formData?.option?.length) {
+      let index = formData?.option?.findIndex(
+        (data, index) => data?.optionLabel == ""
+      );
+      if (index > -1) {
+        toast.error(`Please fill the option ${index + 1}`);
+        return;
+      } else {
+        setFormData({ ...formData, option: [...formData?.option, optionObj] });
+      }
+    } else {
+      setFormData({ ...formData, option: [...formData?.option, optionObj] });
+    }
+  };
+  const deleteOption = (e, index) => {
+    e.preventDefault();
+    let updatedFormData = formData?.option;
+    updatedFormData?.splice(index, 1);
+
+    setFormData({ ...formData, option: updatedFormData });
+  };
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        id="add_hcp"
+        className="webinar-registration"
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="modal-header">
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add
+            </h5>
+            <button
+              type="button"
+              onClick={handleClose}
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+          <div
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <div className="hcp-add-box">
+              <div className="hcp-add-form tab-content" id="upload-confirm">
+                <form id="add_hcp_form" className={"tab-pane" + "active"}>
+                  <>
+                    <div className="add_hcp_boxes">
+                      <div className="form_action">
+                        <div className="row">
+                          <div className="col-12 col-md-6">
+                            <div className="form-group bottom">
+                              <label htmlFor="">Input type</label>
+                              <Select
+                                options={inputOptions}
+                                name="inputType"
+                                placeholder="Enter input type"
+                                // className="dropdown-basic-button split-button-dropup edit-country-dropdown bottom"
+                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                onChange={(e) =>
+                                  handleChange(e?.value, "inputType")
+                                }
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="">Add Label</label>
+                              <input
+                                type="text"
+                                name="label"
+                                placeholder="Enter label"
+                                className="form-control"
+                                value={formData?.label}
+                                onChange={(e) => handleChange(e)}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group bottom">
+                              <label htmlFor="">Required</label>
+                              <Select
+                                options={requiredOption}
+                                name="required"
+                                placeholder="Select required type"
+                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                onChange={(e) =>
+                                  handleChange(e?.value, "required")
+                                }
+                              />
+                            </div>
+                          </div>
+                          {formData?.inputType == "text" ||
+                          formData?.inputType == "email" ? (
+                            <div className="col-12 col-md-6">
+                              <div className="form-group">
+                                <label htmlFor="">Placeholder</label>
+                                <input
+                                  type="text"
+                                  name="placeholder"
+                                  placeholder="Enter placeholder"
+                                  className="form-control"
+                                  value={formData?.placeholder}
+                                  onChange={(e) => handleChange(e)}
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+
+                          {Object.keys(formData?.option)?.length
+                            ? Object.keys(formData?.option)?.map(
+                                (item, index) => (
+                                  <div className="col-12 col-md-6" key={index}>
+                                    <div className="form-group">
+                                      <label htmlFor="">{`Option ${
+                                        index + 1
+                                      }`}</label>
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Enter option"
+                                        value={
+                                          formData?.option[item]?.optionLabel
+                                        }
+                                        onChange={(e) =>
+                                          handleChange(e, "optionValue", index)
+                                        }
+                                      />
+
+                                      <button
+                                        className="dlt_btn_event btn-voilet"
+                                        onClick={(e) => {
+                                          // setConfirmationPopup(true);
+                                          deleteOption(e, index);
+                                        }}
+                                      >
+                                        <img
+                                          title="Delete"
+                                          src={path_image + "delete-icon.svg"}
+                                          alt="Delete Row"
+                                        />
+                                      </button>
+                                    </div>
+                                  </div>
+                                )
+                              )
+                            : ""}
+                          {formData?.inputType == "radio" ||
+                          formData?.inputType == "checkbox" ||
+                          formData?.inputType == "selection" ? (
+                            <div className="add-more-option">
+                              <Button
+                                className="add-option"
+                                onClick={(e) => AddOptions(e)}
+                              >
+                                Add options
+                              </Button>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                </form>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            type="button"
+            className="btn btn-primary save btn-filled"
+            onClick={(e) => {
+              saveClicked(e);
+            }}
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary save btn-bordered"
+            onClick={handleClose}
+          >
+            Close
+          </button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+export default CommonAddQuestionModal;

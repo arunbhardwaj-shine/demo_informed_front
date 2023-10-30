@@ -58,7 +58,14 @@ const Header = () => {
   };
 
   const logout = () => {
-    localStorage.clear();
+    // localStorage.clear();
+    const keysToKeep = ['uname', 'pass', 'acceptedCookies']; 
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (!keysToKeep.includes(key)) {
+        localStorage.removeItem(key);
+      }
+    }
     navigate("/");
   };
 
@@ -228,6 +235,7 @@ const Header = () => {
                     window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
                     window.location.pathname == "/LEX-210-analytics" ||
+                    window.location.pathname == "/feedback" ||
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
                       : "nav-item"
@@ -412,8 +420,7 @@ const Header = () => {
                       window.open(
                         "https://support.informed.pro/authenticate?token=" +
                           localStorage.getItem("decrypted_token"),
-                        "_blank"
-                      )
+                        "_blank")
                     }
                   >
                     Raise a ticket

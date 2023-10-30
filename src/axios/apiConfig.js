@@ -99,12 +99,14 @@ export const ENDPOINT = {
   WEBINAR_QUESTION: `/auth/questions`,
   POLL_ANSWER: `/auth/poll-answer`,
   EVENT_ID: `/auth/event-data`,
+  SESSION_LIST: `/auth/session-listing`,
 
   SITEREGISTER: "/site-registration",
   SITEREGISTERSORT: "/site-registration-sort",
 
   IRT_COUNT_GRAPH: "/find-irt-count",
   WEBINAR_QUESTION_LISTING: "/auth/webinar-question",
+  WEBINAR_All_QUESTION_LISTING: "/auth/webinar-all-question",
   // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
   RD_SITE_ENGAGEMENT:
     "https://webinar.docintel.app/lmn/api/analytics/rd_site_engagement",
@@ -126,6 +128,22 @@ export const ENDPOINT = {
   READER_MARKETING_USER_DROP: `/reader/user-marketing-detail`,
   GET_MARKETING_USER_DROP: `/reader/get-marketing-reader`,
   CREATE_MARKETING_READER: `/reader/create-marketing-reader`,
-  UPDATETIMELINEMARKETINGDETAILS: `/reader/update-timeline-reader`
+  UPDATETIMELINEMARKETINGDETAILS: `/reader/update-timeline-reader`,
+  FEEDBACKLISTING: "https://api.docintel.app/api/v2/feedback-listing",
+  COMMENTLISTING: "/analytics/rd-messages",
+  FEEDBACKUPDATE: "https://api.docintel.app/api/v2/feedback-reply",
+  FEEDBACKLISTINGMESSAGE: `/analytics/feedback-messages`,
+  FEEDBACKIMPORT: `/analytics/download-feedback-excel`,
+  QUESTIONUPDATE: `/analytics/update_question_reply`,
+  REGISTER:"/auth/register_module",
+  ADD_QUESTION:"/webinar/add-question",
+  EDIT_QUESTION:"/webinar/update-question",
+  EVENT_LIST:"/webinar/get-event-list",
+  WEBINAR_DETAIL: "/webinar/webinar-details",
+  WEBINAR_ADD_NEW_EVENT: "/webinar/add-new-event",
+  WEBINAR_GET_EVENT_LISTING: "/webinar/get-event-list",
+  WEBINAR_UPDATE_EVENT: "/webinar/update-event",
+  WEBINAR_DELETE_EVENT: "/webinar/delete-event",
+  REGISTER:"/auth/register_module",
+  FORGET:"/auth/forget-password"
 };
-

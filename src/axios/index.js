@@ -10,6 +10,16 @@ const requestHelper = axios.create({
   },
 });
 
+const clearLocalStorageExcept = () => {
+	const keysToKeep = ['uname', 'pass', 'acceptedCookies']; 
+	for (let i = localStorage.length - 1; i >= 0; i--) {
+	  const key = localStorage.key(i);
+	  if (!keysToKeep.includes(key)) {
+		localStorage.removeItem(key);
+	  }
+	}
+}
+
 requestHelper.interceptors.request.use(
   (req) => {
     req.timeout = 600000;
@@ -36,7 +46,8 @@ requestHelper.interceptors.response.use(
         }
         break;
       case 401:
-        localStorage.clear();
+        // localStorage.clear();
+        clearLocalStorageExcept();
         window.location.href = "/";
         break;
       case 500:

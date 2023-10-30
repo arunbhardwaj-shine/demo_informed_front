@@ -7,12 +7,7 @@ export const AddReaderValidation = (data, groupId, flag) => {
   if (!data?.firstName) {
     error.firstName = "First name required";
   }
-  if (!data?.email || regemail?.test(data?.email) === false) {
-    error.email = "Email required with email pattern";
-  }
-  if (data.country == "") {
-    error.country = "Please select country";
-  }
+ 
   // if (groupId == 2 || (groupId == 3 && flag == 0)) {
   //   if (!data?.primary_phone?.toString()) {
   //     error.primary_phone = "Phone number required with country code";
@@ -22,42 +17,56 @@ export const AddReaderValidation = (data, groupId, flag) => {
   //   }
   // }
   if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (!data?.lastName) {
+      error.lastName = "Last name required";
+    }
+    
+  }
+  if (!data?.email || regemail?.test(data?.email) === false) {
+    error.email = "Email required with email pattern";
+  }
+  if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
     if (!data?.institution) {
       error.institution = "Please select institution";
     }
+  }
+  if (data?.country == "") {
+    error.country = "Please select country";
   }
   if (!data?.country) {
     error.country = "Please select country";
   }
   if (localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==") {
     if (data?.primary_phone) {
-      if (
-        Object.keys(data?.primary_phone)?.length > 12 ||
-        Object.keys(data?.primary_phone)?.length < 10
-      ) {
-        error.primary_phone = "Number must be in between 10 to 12 digits";
-      } else if (!data?.countryCode?.value) {
+      // if (
+      //   Object.keys(data?.primary_phone)?.length > 20 ||
+      //   Object.keys(data?.primary_phone)?.length < 10
+      // ) {
+      //   error.primary_phone = "Number must be in between 10 to 20 digits";
+      // } else
+       if (!data?.countryCode) {
         error.primary_phone = "Please select country code";
-      }
+       }
     }
-    if (data?.countryCode?.value) {
+    if (data?.countryCode) {
       if (!data?.primary_phone) {
         error.primary_phone = "Please enter phone number";
-      } else if (
-        data?.primary_phone &&
-        (Object.keys(data?.primary_phone)?.length > 12 ||
-          Object.keys(data?.primary_phone)?.length < 10)
-      ) {
-        error.primary_phone = "Number must be in between 10 to 12 digits";
       }
+      //  else if (
+      //   data?.primary_phone &&
+      //   (Object.keys(data?.primary_phone)?.length > 20 ||
+      //     Object.keys(data?.primary_phone)?.length < 10)
+      // ) {
+      //   error.primary_phone = "Number must be in between 10 to 20 digits";
+      // }
     }
-    if (
-      data?.alternativePhone &&
-      (Object.keys(data?.alternativePhone)?.length > 12 ||
-        Object.keys(data?.alternativePhone)?.length < 10)
-    ) {
-      error.alternativePhone = "Number must be in between 10 to 12 digits";
-    }
+    // if (
+    //   data?.alternativePhone &&
+    //   (Object.keys(data?.alternativePhone)?.length > 20 ||
+    //     Object.keys(data?.alternativePhone)?.length < 10)
+    // ) {
+    //   error.alternativePhone = "Number must be in between 10 to 20 digits";
+    // }
 
     if (!data?.country?.value) {
       error.country = "Please select country";
