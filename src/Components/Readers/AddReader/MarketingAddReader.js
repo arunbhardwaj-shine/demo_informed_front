@@ -1360,6 +1360,9 @@ const MarketingAddReader = () => {
                         setLogs(newData);
                         setUserInputs(userD);
                       }
+                      else if(currentIndex ==-1){
+                        toast.error("Please Enter Log Activity!")
+                      }
                       setCurrentIndex(-1)
 
                     }}
