@@ -1525,7 +1525,7 @@ const LicenseEditListing = () => {
                                                         el.pdfId == data?.id
                                                     )
                                                   ]?.pinReaders
-                                                  ? "danger"
+                                                  ? "pin_usage"
                                                   : "default"
                                                 : "default"
                                             }
@@ -1565,7 +1565,7 @@ const LicenseEditListing = () => {
                                       </li>)
                                        : null
                                     }
-                                    
+
                                     <li>
                                       <h6 className="tab-content-title">
                                         Registered readers

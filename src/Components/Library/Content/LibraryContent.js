@@ -1842,7 +1842,7 @@ const LibraryContent = (props) => {
                                                         el.pdfId == data?.id
                                                     )
                                                   ]?.pinReaders
-                                                  ? "danger"
+                                                  ? "pin_usage"
                                                   : "default"
                                                 : "default"
                                             }
