@@ -14055,7 +14055,7 @@ img.change-password-image {
 
 .contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-thumb {
   background: #0066BE;
-  border: 2px solid #7eabcd;
+  border: 2px solid #77c3da;
   height: 60px;
   padding: 2px;
 }
@@ -14066,6 +14066,14 @@ img.change-password-image {
 
 .contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar {
   width: 7px;
+}
+
+.pharma .contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-thumb {
+  border: 2px solid #7faed2;
+}
+
+.publish .contact-inset .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-thumb {
+  border: 2px solid #86cedc;
 }
 
 .rd {
@@ -19005,7 +19013,7 @@ img.change-password-image {
               padding-left: 0;
 
               &::after {
-                right: 12px;
+                right: 10px;
               }
             }
           }
@@ -19024,7 +19032,7 @@ img.change-password-image {
             padding-left: 25px;
 
             &::after {
-              left: 12px;
+              left: 10px;
             }
           }
         }
@@ -19085,7 +19093,6 @@ img.change-password-image {
             }
           }
         }
-
       }
     }
 
