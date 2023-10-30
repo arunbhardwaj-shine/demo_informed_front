@@ -49,6 +49,7 @@ const PharmaRd = () => {
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
   const [addSelectClass,setAddSelectClass] = useState(false)
+  const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
 
   const modules = [
     {
@@ -1094,7 +1095,7 @@ const colourStyles = {
     setRegister(false)
     setModuleRequest(false)
     setFormFeilds(false);
-     setAddDivClass(false)
+    setAddDivClass(false)
     setAddSmallClass(false)
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
@@ -1241,101 +1242,20 @@ const colourStyles = {
   const handleSelectionClick = () => {
     setAddSelectClass(true);
   }
-  // function toggleRandomClass(module) {
-  //   const classes = module.className.split(' ');
-  //   const randomIndex = Math.floor(Math.random() * classes.length);
-  //   classes.splice(randomIndex, 1);
-  //   module.className = classes.join(' ');
-  // }
-  
-  // function addRandomClass(module, className) {
-  //   module.classList.add(className);
-  // }
-  
-  // function removeRandomClass(module, className) {
-  //   module.classList.remove(className);
-  // }
-  
-  
-  // function getRandomModule() {
-  //   const modules = document.querySelectorAll('.stat');
-  //   const randomIndex = Math.floor(Math.random() * modules.length);
-  //   return modules[randomIndex];
-  // }
-  
-  // let previousModule = null;
-  
-  // function randomToggle() {
-  //   const randomModule = getRandomModule();
-  //   const randomAction = Math.random() < 0.5 ? 'add' : 'remove';
-  //   const randomClassName = 'random-class'; 
-  
-  //   if (previousModule) {
-  //     removeRandomClass(previousModule, randomClassName);
-  //   }
-  
-  //   if (randomAction === 'add') {
-  //     addRandomClass(randomModule, randomClassName);
-  //   } 
-  //   // else {
-  //   //   removeRandomClass(randomModule, randomClassName);
-  //   // }
-  
-  //   previousModule = randomModule;
-  //   setTimeout(() => {
-  //     removeRandomClass(randomModule, randomClassName);
-  //   }, 5000);
-  // }
-  
-  // setInterval(randomToggle, 5000);
 
-  function toggleRandomClass(module) {
-    const classes = module.className.split(' ');
-    const randomIndex = Math.floor(Math.random() * classes.length);
-    classes.splice(randomIndex, 1);
-    module.className = classes.join(' ');
-  }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
+      document.getElementById(`module-${prevModuleIndex}`)?.classList?.remove("random-class");
   
-  function addRandomClass(module, className) {
-    module.classList.add(className);
-  }
+      document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
   
-  function removeRandomClass(module, className) {
-    module.classList.remove(className);
-  }
+      setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
+    }, 4500); 
   
-  
-  function getRandomModule() {
-    const modules = document.querySelectorAll('.circle.bouncing .stat');
-    const randomIndex = Math.floor(Math.random() * modules.length);
-    return modules[randomIndex];
-  }
-  
-  let previousModule = null;
-  
-  function randomToggle() {
-    const randomModule = getRandomModule();
-    const randomAction = Math.random() < 0.5 ? 'add' : 'remove';
-    const randomClassName = 'random-class'; 
-  
-    if (previousModule) {
-      removeRandomClass(previousModule, randomClassName);
-    }
-  
-    if (randomAction === 'add') {
-      addRandomClass(randomModule, randomClassName);
-    } 
-    // else {
-    //   removeRandomClass(randomModule, randomClassName);
-    // }
-  
-    previousModule = randomModule;
-    setTimeout(() => {
-      removeRandomClass(randomModule, randomClassName);
-    }, 5000);
-  }
-  
-  setInterval(randomToggle, 5000);
+    return () => clearInterval(interval);
+  }, [currentModuleIndex]);
+
   return (
     <>
       <meta
@@ -1772,16 +1692,16 @@ const colourStyles = {
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                  Docintel & inforMed.pro is 2 parts of a unified system. Create
+                  Docintel & inforMed.pro are 2 parts of a unified system. Create
                   and set limits in inforMed.pro and let your clients use the
-                  free tools for distribution. Doctors engage with content using
+                  free tools for distribution. HCPs engage with content using
                   Docintel on any device of their choice. Usage and limits are
                   monitored making life and reporting easier for you.
                 </h5>
               </div>
               <div className="consent-details pharma-view">
                 <ul>
-                  <li>For Clinicians</li>
+                  <li>For HCPs</li>
                   <li>Gathers consent</li>
                   <li>Read in any browser</li>
                   <li>Read offline in the app</li>
@@ -1814,7 +1734,7 @@ const colourStyles = {
                   className={`circle bouncing ${readStatus ? "bigger" : ""}`}
                   style={{ "--total": "10" }}
                 >
-                  <div
+                  <div id="module-0"
                     className={
                       activeModule === "read"
                         ? "stat read visible"
@@ -1834,7 +1754,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-4"
                     className={
                       activeModule === "rating"
                         ? "stat rating visible"
@@ -1852,7 +1772,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-7"
                     className={
                       activeModule === "automail"
                         ? "stat automail visible"
@@ -1874,7 +1794,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-3"
                     className={
                       activeModule === "consent"
                         ? "stat consent visible"
@@ -1898,7 +1818,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-1"
                     className={
                       activeModule === "engine"
                         ? "stat engine visible"
@@ -1918,7 +1838,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-9"
                     className={
                       activeModule === "docintel"
                         ? "stat docintel visible"
@@ -1943,7 +1863,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-2"
                     className={
                       activeModule === "informed"
                         ? "stat informed visible"
@@ -1965,7 +1885,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-6"
                     className={
                       activeModule === "web"
                         ? "stat web visible"
@@ -1987,7 +1907,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-8"
                     className={
                       activeModule === "webinar"
                         ? "stat webinar visible"
@@ -2005,7 +1925,7 @@ const colourStyles = {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-5"
                     className={
                       activeModule === "survey"
                         ? "stat survey visible"

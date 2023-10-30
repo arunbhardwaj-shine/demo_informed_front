@@ -1292,7 +1292,10 @@ ul.tab-mail-list.data span.total-left small {
   color: #aa7d17;
   background: #fac755 !important;
 }
-
+.tab-mail-list.data .progress .progress-bar.bg-pin_usage {
+  color: #cfcfff;
+  background: #00003C !important;
+}
 .tab-mail-list.data .progress .progress-bar.bg-success {
   color: #05766b;
   background: $green !important;
@@ -14978,39 +14981,72 @@ img.change-password-image {
 // }
 
 @keyframes bounce {
+  // 0% {
+  //   -webkit-transform: var(--transform) scale(1);
+  //   transform: var(--transform) scale(1);
+  // }
 
-  0%,
-  20%,
-  40%,
-  60%,
-  80%,
+  // 25% {
+  //   -webkit-transform: var(--transform) scale(0.9);
+  //   transform: var(--transform) scale(0.9);
+  // }
+
+  // 50% {
+  //   -webkit-transform: var(--transform) scale(1.1);
+  //   transform: var(--transform) scale(1.1);
+  // }
+
+  0% {
+    -webkit-transform: var(--transform) scale(1.1);
+    transform: var(--transform) scale(1.1);
+  }
+
+  33% {
+    -webkit-transform: var(--transform) scale(0.9);
+    transform: var(--transform) scale(0.9);
+
+  }
+
+  66% {
+    -webkit-transform: var(--transform) scale(1.1);
+    transform: var(--transform) scale(1.1);
+  }
+
   100% {
-    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-transform: var(--transform) scale(1);
+    transform: var(--transform) scale(1);
   }
 
-  20% {
-    opacity: 1;
-    -webkit-transform: var(--transform) scale3d(1, 1, 1);
-    transform: var(--transform) scale3d(1, 1, 1);
-  }
+  // 0% {
+  //   opacity: 1;
+  //   -webkit-transform: var(--transform) scale3d(1, 1, 1);
+  //   transform: var(--transform) scale3d(1, 1, 1);
+  // }
 
-  40% {
-    -webkit-transform: var(--transform) scale3d(1.1, 1.1, 1.1);
-    transform: var(--transform) scale3d(1.1, 1.1, 1.1);
-  }
+  // 20% {
+  //   -webkit-transform: var(--transform) scale3d(1.1, 1.1, 1.1);
+  //   transform: var(--transform) scale3d(1.1, 1.1, 1.1);
+  // }
 
-  60% {
-    -webkit-transform: var(--transform) scale3d(1, 1, 1);
-    transform: var(--transform) scale3d(1, 1, 1);
-  }
+  // 40% {
+  //   -webkit-transform: var(--transform) scale3d(1, 1, 1);
+  //   transform: var(--transform) scale3d(1, 1, 1);
+  // }
 
-  80% {
-    opacity: 1;
-    -webkit-transform: var(--transform) scale3d(1.1, 1.1, 1.1);
-    transform: var(--transform) scale3d(1.1, 1.1, 1.1);
-  }
+  // 60% {
+  //   -webkit-transform: var(--transform) scale3d(1.1, 1.1, 1.1);
+  //   transform: var(--transform) scale3d(1.1, 1.1, 1.1);
+  // }
 
+  // 80% {
+  //   -webkit-transform: var(--transform) scale3d(1, 1, 1);
+  //   transform: var(--transform) scale3d(1, 1, 1);
+  // }
+
+  // 100% {
+  //   -webkit-transform: var(--transform) scale3d(1.1, 1.1, 1.1);
+  //   transform: var(--transform) scale3d(1.1, 1.1, 1.1);
+  // }
 }
 
 /**module**/
@@ -15082,7 +15118,7 @@ img.change-password-image {
         // animation-duration: calc(1 * 0.75);
         // -webkit-animation-name: bounce;
         // animation-name: bounce;
-        animation: bounce 2s ease infinite;
+        animation: bounce 1.5s alternate infinite ease-in;
         filter: drop-shadow(0px 1px 18px rgba(0, 102, 190, 0.64))
       }
 
@@ -15654,15 +15690,6 @@ img.change-password-image {
 .request .circle .active.webinar span {
   color: $voilet;
 }
-
-// .modules-diagram .module-logo {
-//   position: absolute;
-//   z-index: 1;
-// }
-
-// .modules-diagram .module-logo img {
-//   max-width: 398px;
-// }
 
 .modules-diagram {
   margin: 290px auto 56px;
@@ -17603,6 +17630,11 @@ img.change-password-image {
     left: 12%;
   }
 
+  .contact-us.pharma,
+  .contact-us.publish {
+    background-position: center;
+  }
+
   .landing-banner.pharma .circular-height {
     height: 415px;
   }
@@ -18586,7 +18618,7 @@ img.change-password-image {
               &:nth-child(4) {
                 width: 32px;
                 height: 32px;
-                top: 98%;
+                top: 100%;
                 left: 52%;
 
                 img {
@@ -18595,7 +18627,7 @@ img.change-password-image {
               }
 
               &:nth-child(5) {
-                top: 85.4%;
+                top: 87.4%;
                 left: 17%;
                 width: 18px;
                 height: 18px;
@@ -19547,7 +19579,7 @@ img.change-password-image {
 
   .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div {
     width: 100%;
-    max-width: 295px;
+    max-width: 330px;
   }
 
   .consent-content .works-started .modules-diagram .module-bigger-size .module-register {
@@ -19825,7 +19857,7 @@ img.change-password-image {
   }
 
   .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show {
-    width: 150%;
+    width: 170%;
     height: calc(100% - 40px);
     padding: 10px;
     top: 0;
@@ -19845,27 +19877,16 @@ img.change-password-image {
     position: fixed;
     top: 27px;
     right: 22px;
-    z-index: 3;
+    z-index: 6;
     filter: brightness(0) invert(1);
     width: 18px;
   }
 
-  // .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show:after {
-  //   position: absolute;
-  //   content: "";
-  //   border-radius: 700px;
-  //   background: rgb(255, 255, 255);
-  //   box-shadow: 0px 3px 19px 0px rgba(0, 102, 190, 0.26);
-  //   -webkit-backdrop-filter: blur(40px);
-  //   backdrop-filter: blur(40px);
-  //   width: 150vw;
-  //   height: 100%;
-  //   z-index: -1;
-  // }
   .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div {
     padding: 25px 0;
     position: absolute;
     top: 0;
+    margin-left: 10px;
   }
 
   .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div.request {
@@ -19881,6 +19902,10 @@ img.change-password-image {
     -moz-transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
+  }
+
+  .how-work .works-started .works-started-links .started-links a {
+    line-height: 29px;
   }
 }
 

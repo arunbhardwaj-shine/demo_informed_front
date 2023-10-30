@@ -67,12 +67,14 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
       : 1000;
 
   if (selectedData) {
-    const arr = ["Openings", "Unique Readers"];
+    const arr = ["Openings", "Unique Readers","Article Usage"];
+    const colorarray = ["#57cabd", "#f4c64b","#00003C"];
     var categories_data = Object.keys(selectedData?.graph?.openig);
     var series_data = Object.entries(selectedData?.graph)?.map(
       ([name, values], index) => ({
         name: arr[index],
         data: Object.values(values),
+        color: colorarray[index],
       })
     );
   }
@@ -197,6 +199,17 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               }`}
               pdf_id={data?.id}
             />
+
+            {
+              data?.lastRomanNumber == 2 || data?.lastRomanNumber == 3 ? 
+              <ContentAnalyticsComponentActivityGauge
+                value={selectedData?.pinReaders}
+                color="#00003C"
+                limit={agreed_limit}
+                label=" Article Usage"
+                pdf_id={data?.id}
+              /> : null
+            }
 
             <ContentAnalyticsComponentActivityGauge
               value={selectedData?.registerReader}
