@@ -19826,6 +19826,14 @@ img.change-password-image {
     top: 0;
   }
 
+  .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div.request {
+    top: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
   .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show.small .shape.shape-left+div {
     top: 50%;
     -moz-transform: translateY(-50%);
