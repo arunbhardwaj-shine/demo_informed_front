@@ -24,8 +24,19 @@ const WebinarRegistration = () => {
       console.log(file);
       if (flag == "header") {
         setFile(URL.createObjectURL(file));
+      const imgElement = document.querySelector(".header-img");
+       imgElement.style.height = "250px"; 
+       imgElement.style.width = "1363px"; 
+       imgElement.style.background = "#d7e9e8";
+       imgElement.style.border = "4px solid #FFFFFF";
+       imgElement.style.boxShadow = "0px 8px 24px rgba(0, 0, 0, 0)";
+       imgElement.style.borderRadius = "32px"
       }
       if (flag == "footer") {
+        const imgElement = document.querySelector(".footer-img");
+        imgElement.style.height = "250px"; 
+        imgElement.style.width = "1363px";  
+        imgElement.style.borderRadius = "30px"
         setfoot(URL.createObjectURL(file));
       }
     });
@@ -88,7 +99,7 @@ const WebinarRegistration = () => {
 
     const formElement = document.getElementById("registration-form");
     const formHTML = formElement.outerHTML;
-    console.log("HTML form content-->", formHTML);
+    // console.log("HTML form content-->", formHTML);
     console.log("form inputs-->", formInputs);
     setFormInputs({});
     setFormData([]);
@@ -102,17 +113,28 @@ const WebinarRegistration = () => {
           <Row>
             <div className="outer">
               <header className="header">
-                <button
+                <Button
                   className="button"
                   onClick={(e) => handleFileSelect(e, "header")}
                 >
-                  upload
-                </button>
+                  Upload Header
+                </Button>
 
-                <img className="header-img" src={file} />
+                <Button style={{marginLeft:'20px'}}
+                  className="fbutton"
+                  onClick={(e) => handleFileSelect(e, "footer")}
+                >
+                  Upload Footer
+                </Button>
+
+                <Button style={{marginLeft:'20px'}} onClick={() => setModal(true)}>Add Feilds</Button>
+
+
+
+                {/* <img className="header-img" src={file} /> */}
               </header>
 
-              <section className="section">
+              {/* <section className="section">
                 <div className="sec1">
                   <div className="add_hcp_boxes">
                     <button onClick={() => setModal(true)}>AddQuestion</button>
@@ -232,18 +254,143 @@ const WebinarRegistration = () => {
                     </div>
                   </div>
                 </div>
+              </section> */}
+
+              <div style={{marginTop:'35px',marginBottom:'50px'}} className="header"> <img className="header-img" src={file} /></div>
+
+              <section className="webinarRegistrationBody">
+                <div className="sec1">
+                  <div className="add_hcp_boxes">
+                    {/* <button onClick={() => setModal(true)}>AddQuestion</button> */}
+                    <div className="form_action">
+                      <div className="row">
+                        <form id="registration-form" onSubmit={saveClicked}>
+                          <h3 style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+                            To register please select and fill in all your
+                            details below.
+                          </h3>
+
+                          <h4 style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+                            This meeting is for healthcare professionals only.
+                          </h4>
+
+                          <hr></hr>
+
+                          <div className="center-align-form">
+                            {formData && formData?.length > 0 ? (
+                              <div>
+                                {formData?.map((data, index) => (
+                                  <div key={index} className="centered-input">
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label htmlFor="">{data?.label}</label>
+                                        {data?.option?.length > 0 ? (
+                                          data?.inputType === "radio" ? (
+                                            data?.option?.map((item, index) => (
+                                              <div key={index}>
+                                                <input style={{marginBottom:'25px',  marginTop:'10px'}}
+                                                  type="radio"
+                                                  name={data?.label}
+                                                  required={
+                                                    data?.required == "yes"
+                                                      ? true
+                                                      : false
+                                                  }
+                                                  // checked={}
+                                                  onChange={(e) =>
+                                                    handleChange(
+                                                      e,
+                                                      index,
+                                                      item,
+                                                      data
+                                                    )
+                                                  }
+                                                />
+                                                <label htmlFor="">
+                                                  {item?.optionLabel}
+                                                </label>
+                                              </div>
+                                            ))
+                                          ) : data?.inputType == "checkbox" ? (
+                                            data?.option?.map((item, index) => (
+                                              <div key={index}>
+                                                <input style={{marginBottom:'25px', marginTop:'10px'}}
+                                                  type="checkbox"
+                                                  name={data?.label}
+                                                  required={
+                                                    data?.required == "yes"
+                                                      ? true
+                                                      : false
+                                                  }
+                                                  onChange={(e) =>
+                                                    handleChange(
+                                                      e,
+                                                      index,
+                                                      item,
+                                                      data
+                                                    )
+                                                  }
+                                                />
+                                                <label htmlFor="">
+                                                  {item?.optionLabel}
+                                                </label>
+                                              </div>
+                                            ))
+                                          ) : data?.inputType == "selection" ? (
+                                            <div key={index}>
+                                              <select style={{marginBottom:'25px',  marginTop:'10px'}}>
+                                                {data?.option?.map((item) => (
+                                                  <option
+                                                    value={item?.optionLabel}
+                                                  >
+                                                    {item?.optionLabel}
+                                                  </option>
+                                                ))}
+                                              </select>
+                                            </div>
+                                          ) : null
+                                        ) : (
+                                          <input style={{marginBottom:'25px', marginTop:'10px'}}
+                                            name={data?.label}
+                                            className="form-control"
+                                            type={data?.inputType}
+                                            required={
+                                              data?.required == "yes"
+                                                ? true
+                                                : false
+                                            }
+                                            placeholder={data?.placeholder}
+                                            onChange={(e) =>
+                                              handleChange(e, index)
+                                            }
+                                          />
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                                <Button type="submit">Save</Button>
+                              </div>
+                            ) : null}
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </section>
 
-              {/* <footer className="footer">
-                <button
+              <div >
+                {/* <button
                   className="fbutton"
                   onClick={(e) => handleFileSelect(e, "footer")}
                 >
                   upload
-                </button>
+                </button> */}
 
-                <img className="footer-img" src={foot} />
-              </footer> */}
+                {/* <img className="footer-img" src={foot} /> */}
+              </div>
+              <div style={{marginTop:'35px',marginBottom:'50px'}}>  <img className="footer-img" src={foot} /></div>
             </div>
           </Row>
         </div>
