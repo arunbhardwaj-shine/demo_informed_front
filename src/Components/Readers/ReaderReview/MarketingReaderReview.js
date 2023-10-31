@@ -298,7 +298,7 @@ const MarketingReaderReview = () => {
                         </td>
                       </tr>
 
-                      <tr>
+                      {/* <tr>
                         <th>Log activity</th>
                         <td>
                           {readerData?.log_activity
@@ -332,7 +332,7 @@ const MarketingReaderReview = () => {
                             ""
                           )}
                         </td>
-                      </tr>
+                      </tr> */}
                     </table>
                   </div>
                   <div className="crm-review-detail">
