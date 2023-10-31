@@ -1,18 +1,29 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import Select from "react-select";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
 let dropdownData = {
-  input: "User Input",
+  INPUT: "User Input",
   RADIO: "Single Choice",
   CHECKBOX: "Multiple Choice",
 };
 function Question(props) {
   const [dropDownOptions, setDropDownOptions] = useState([
-    { label: "User Input", value: "input" },
+    { label: "User Input", value: "INPUT" },
     { label: "Single Choice", value: "RADIO" },
     { label: "Multiple Choice", value: "CHECKBOX" },
   ]);
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [resetDataId, setResetDataId] = useState();
 
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
   const {
     questionData,
     onQuestionChange,
@@ -24,10 +35,11 @@ function Question(props) {
     onDeleteChoice,
     onHandleSpeakerNameChange,
     questionDataErrors,
-    onHandleShowCommentChange,
+    onHandleIsRequiredChange,
+    
   } = props;
 
-  const { question, answerOption, answerType, speakerName, includeComment } =
+  const { question, answerOption, answerType, speakerName,isRequired } =
     questionData;
   const [selectedItem, setSelectedItem] = useState(
     answerType ? { value: answerType, label: dropdownData[answerType] } : ""
@@ -36,8 +48,21 @@ function Question(props) {
   const handleDelete = () => {
     onDelete();
   };
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+  const handleDeleteClick = async (index) => {
+    try {
+      onDeleteChoice(index);
 
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    } finally {
+      setConfirmationPopup(false);
+    }
+  };
   return (
+    <>
     <form id="add_hcp_form" className={"tab-pane"}>
       <div className="add_hcp_boxes">
         <div className="form_action">
@@ -81,7 +106,7 @@ function Question(props) {
 
             <div className="col-12 col-md-6">
               {" "}
-              <div className="form-group">
+              <div className="form-group bottom-open">
                 <label htmlFor="">
                   {" "}
                   Input Type <span>*</span>{" "}
@@ -106,12 +131,32 @@ function Question(props) {
                 </div>
               </div>
             </div>
+            <div className="col-12 col-md-6">
+              {" "}
+              <div className="form-group ">
+                <label htmlFor="">
+                  {" "}
+                  Is Required 
+                </label>
+
+                <input
+                      type="checkbox"
+                      name="isRequired"
+                      checked={isRequired}
+                      onClick={onHandleIsRequiredChange}
+                    />
+
+               
+              </div>
+            </div>
+         
+          
             {(answerType === "RADIO" || answerType === "CHECKBOX") && (
               <>
                 <label htmlFor=""> {/* Answers <span >*</span>{" "} */}</label>
                 {answerOption.map((choice, index) => (
                   <>
-                    <div className="col-6 col-md-5" key={index}>
+                    <div className="col-6 col-md-6" key={index}>
                       <div className="form-group">
                         <label htmlFor="">
                           {" "}
@@ -131,9 +176,9 @@ function Question(props) {
                         </div>
                       </div>
                     </div>
-                    <div className="col-4 col-md-5">
+                    <div className="col-5 col-md-5">
                       <div className="form-group">
-                        <label htmlFor=""> Color </label>
+                        <label htmlFor="">Color</label>
 
                         <Form.Control
                           type="color"
@@ -152,47 +197,24 @@ function Question(props) {
                       </div>
                     </div>
 
-                    <div className="col-2 col-md-2">
-                      {confirmOptionDelete[index] ? (
-                        <>
-                          <p>Are You Sure ?</p>
-                          <Button
-                            variant="danger"
-                            onClick={() => {
-                              setConfirmOptionDelete({
-                                ...confirmOptionDelete,
-                                [index]: false,
-                              });
-                              onDeleteChoice(index);
-                            }}
-                          >
-                            Yes
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            onClick={() =>
-                              setConfirmOptionDelete({
-                                ...confirmOptionDelete,
-                                [index]: false,
-                              })
-                            }
-                          >
-                            Cancel
-                          </Button>
-                        </>
-                      ) : (
-                        answerOption?.length > 1 && (
-                          <div className="col-12 col-md-6" md={12}>
+                    <div className="col-1 col-md-1">
+                     {
+                       answerOption?.length > 1 && (
+                          <div md={1} col={1}>
                             <div className="form-group">
                               <Button
-                           style={{width:"50px"}}
-
-                                // variant="danger"
-                                onClick={() =>
-                                  setConfirmOptionDelete({
-                                    ...confirmOptionDelete,
-                                    [index]: true,
-                                  })
+                              className="dl_btn"
+                                onClick={() =>{
+                                  setPopupMessage({
+                                    message1:
+                                      "You are about to remove this option.",
+                                    message2: "Are you sure you want to do this?",
+                                    footerButton: "Yes please!",
+                                  });
+                                  setConfirmationPopup(true);
+                                  setResetDataId(index);
+                                }
+                               
                                 }
                               >
                                 <svg
@@ -231,49 +253,34 @@ function Question(props) {
                             </div>
                           </div>
                         )
-                      )}
+                     }
                     </div>
                   </>
                 ))}
-                <div className="col-12 col-md-6" md={12}>
-                  <div className="form-group">
+                <div md={12}>
+                  <div className="form-group text-end">
                     <Button variant="primary" onClick={onAddChoice}>
                       Add Choice
                     </Button>
                   </div>
                 </div>
-
-                <div className="col-12 col-md-12">
-                  <div className="form-group">
-                    <label htmlFor=""> Include Comment </label>
-                    <input
-                      type="checkbox"
-                      name="showComment"
-                      checked={includeComment?.showComment}
-                      onClick={onHandleShowCommentChange}
-                    />
-                  </div>
-                </div>
-                {includeComment?.showComment && (
-                  <div className="col-12 col-md-6">
-                    <div className="form-group">
-                      <label htmlFor=""> Placeholder</label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter Placeholder "
-                        name="placeHolder"
-                        value={includeComment?.placeHolder}
-                        onChange={onHandleShowCommentChange}
-                      />
-                    </div>
-                  </div>
-                )}
+ 
+               
               </>
             )}
           </div>
         </div>
       </div>
     </form>
+      <CommonConfirmModel
+      show={confirmationpopup}
+      onClose={hideConfirmationModal}
+      fun={handleDeleteClick}
+      popupMessage={popupMessage}
+      path_image={path_image}
+      resetDataId={resetDataId}
+    />
+    </>
   );
 }
 

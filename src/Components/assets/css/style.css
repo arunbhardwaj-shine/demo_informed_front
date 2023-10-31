@@ -2577,6 +2577,62 @@ form#add_hcp_form .row:not(:first-child) {
   padding-right: 51px;
 }
 
+.update_quest.modal form#add_hcp_form .add_hcp_boxes {
+  padding-right: 0;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action {
+  max-width: 100%;
+}
+
+.update_quest .split-button-dropup {
+  flex: 1 1;
+}
+
+.update_quest button.dl_btn {
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  padding: 10px;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .form-group.text-end button {
+  margin-left: auto;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .form-group input[type=checkbox] {
+  border: 1px solid #97B6CF;
+  width: 16px;
+  height: 16px;
+  padding: 1px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  display: inline-block;
+  flex: 0 0 16px;
+  margin: 0 16px 0 0;
+}
+
+.update_quest #add_hcp .modal-footer {
+  gap: 10px;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .form-group label {
+  flex: 0 0 130px;
+  font-size: 17px;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .form-group input:checked[type=checkbox] {
+  background-color: #39cabc;
+  border-color: #39cabc;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+  box-shadow: none;
+  width: auto;
+}
+
 .modal form#add_hcp_form .add_hcp_boxes:last-child .form_action {
   margin: 0;
 }
@@ -2627,6 +2683,11 @@ form#add_hcp_form .row:not(:first-child) {
   width: 100%;
   color: var(--light-gray);
   font-weight: 300;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .form-group .form-control[type="color"] {
+  padding: 12px 10px;
+  min-height: 45px;
 }
 
 #add_hcp .modal-body .hcp-add-form form .form-group .form-control:focus,
@@ -5644,6 +5705,15 @@ input:-webkit-autofill {
   bottom: auto;
 }
 
+.modal.update_quest .bottom-open .split-button-dropup>div:nth-child(4) {
+  top: auto;
+  bottom: 45px;
+}
+
+.update_quest #add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action {
+  padding: 37px 16px 20px 18px;
+}
+
 .modal .split-button-dropup.edit-country-dropdown>div:nth-child(4) {
   bottom: 45px;
   top: auto;
@@ -7759,6 +7829,75 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 .create-change-content .right-change .form-group.new-change {
   flex-wrap: wrap;
+}
+
+.create-change-content .right-change .form-group.new-change.activity-added .activity-btn {
+  flex: 0 0 100%;
+  text-align: right;
+  margin: 10px 0 0;
+}
+
+.create-change-content .right-change .log-activity-box {
+  border-radius: 13px;
+  background: #FFF;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+  display: flex;
+  padding: 10px 15px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0 11px;
+  width: 100%;
+}
+
+.create-change-content .right-change .log-activity-box span {
+  color: #004A89;
+  font-size: 16px;
+}
+
+.create-change-content .right-change .log-activity-box .add_product button {
+  background: var(--white);
+  border-radius: 30px;
+  box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+}
+
+.create-change-content .right-change .log-activity-box .add_product button:hover {
+  background: var(--light-blue);
+}
+
+.create-change-content .right-change .log-activity-box .add_product button:hover svg path {
+  fill: var(--white);
+}
+
+.create-change-content .right-change .log-activity-box .add_product {
+  display: flex;
+  gap: 0 10px;
+}
+
+.create-change-content .right-change .log-activity-box .add_product button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.create-change-content .right-change .activity-added+.new-change {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 13px 0;
+}
+
+.create-change-content .right-change .log-activity-box span:first-child {
+  margin-left: 0;
+  margin-right: auto;
+  flex: 0 0 260px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .create-change-content .right-change .form-group.new-change span {

@@ -2,41 +2,54 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Select from "react-select";
 import { toast } from "react-toastify";
-
+import RegistrationValidation from "./AddQuestionValidation";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
   const [inputOptions, setInputOption] = useState([
     { label: "Text", value: "text" },
     { label: "Email", value: "email" },
+    { label: "Selection", value: "selection" },
     { label: "Checkbox", value: "checkbox" },
     { label: "Radio", value: "radio" },
+  ]);
+  const [requiredOption, setRequiredOption] = useState([
+    { label: "Yes", value: "yes" },
+    { label: "No", value: "no" },
   ]);
   const [formData, setFormData] = useState({
     label: "",
     inputType: "",
     placeholder: "",
+    required: "",
     option: [],
   });
   useEffect(() => {}, [show]);
   const handleClose = () => {
-    setFormData({ label: "", inputType: "", placeholder: "", option: [] });
+    setFormData({
+      label: "",
+      inputType: "",
+      placeholder: "",
+      option: [],
+      required: "",
+    });
     onClose(false);
   };
   const handleChange = (e, isSelectedName, index) => {
     if (isSelectedName == "optionValue") {
-      // let updateOption = [...formData?.option];
-      // updateOption[index] = e?.target?.value;
-      // setFormData({ ...formData, option: updateOption });
-      //--------
-      // let updateOption = { ...formData, option: [...formData?.option] };
-      // console.log("new form data--->", updateOption?.option[index]);
-      // console.log("index--->", index);
-      //  updateOption?.option?.[index]?.optionLabel=e?.target?.value
-      //------
       let updateOption = formData?.option;
-
-      console.log("update option-->", updateOption?.[index]?.optionLabel);
       updateOption[index].optionLabel = e?.target?.value;
       setFormData({ ...formData, option: updateOption });
+    } else if (isSelectedName == "inputType") {
+      setFormData({
+        ...formData,
+        label: "",
+        option: [],
+        placeholder: "",
+        required: "",
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e
+          : e?.target?.value,
+      });
     } else {
       setFormData({
         ...formData,
@@ -45,25 +58,19 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
           : e?.target?.value,
       });
     }
-
-    // }
   };
 
   const saveClicked = (e) => {
     e.preventDefault();
-    console.log("form Data-->>", formData);
-    if (formData?.label == "") {
-      toast.error("Please enter label");
-      return;
-    }
-    if (formLabel?.find((item, index) => item?.label == formData?.label)) {
-      toast.error("label already exist");
-      return;
-    }
+    const error = RegistrationValidation(formData, formLabel);
 
-    handleSave(formData);
-
-    handleClose();
+    if (Object.keys(error)?.length) {
+      toast.error(error[Object.keys(error)[0]]);
+      return;
+    } else {
+      handleSave(formData);
+      handleClose();
+    }
   };
   const AddOptions = (e) => {
     e.preventDefault();
@@ -71,7 +78,26 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
       optionLabel: "",
     };
 
-    setFormData({ ...formData, option: [...formData?.option, optionObj] });
+    if (formData?.option?.length) {
+      let index = formData?.option?.findIndex(
+        (data, index) => data?.optionLabel == ""
+      );
+      if (index > -1) {
+        toast.error(`Please fill the option ${index + 1}`);
+        return;
+      } else {
+        setFormData({ ...formData, option: [...formData?.option, optionObj] });
+      }
+    } else {
+      setFormData({ ...formData, option: [...formData?.option, optionObj] });
+    }
+  };
+  const deleteOption = (e, index) => {
+    e.preventDefault();
+    let updatedFormData = formData?.option;
+    updatedFormData?.splice(index, 1);
+
+    setFormData({ ...formData, option: updatedFormData });
   };
   return (
     <>
@@ -113,19 +139,6 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                       <div className="form_action">
                         <div className="row">
                           <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="">Add Label</label>
-                              <input
-                                type="text"
-                                name="label"
-                                placeholder="Enter label"
-                                className="form-control"
-                                onChange={(e) => handleChange(e)}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="col-12 col-md-6">
                             <div className="form-group bottom">
                               <label htmlFor="">Input type</label>
                               <Select
@@ -140,6 +153,33 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                               />
                             </div>
                           </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="">Add Label</label>
+                              <input
+                                type="text"
+                                name="label"
+                                placeholder="Enter label"
+                                className="form-control"
+                                value={formData?.label}
+                                onChange={(e) => handleChange(e)}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="form-group bottom">
+                              <label htmlFor="">Required</label>
+                              <Select
+                                options={requiredOption}
+                                name="required"
+                                placeholder="Select required type"
+                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                onChange={(e) =>
+                                  handleChange(e?.value, "required")
+                                }
+                              />
+                            </div>
+                          </div>
                           {formData?.inputType == "text" ||
                           formData?.inputType == "email" ? (
                             <div className="col-12 col-md-6">
@@ -150,6 +190,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                                   name="placeholder"
                                   placeholder="Enter placeholder"
                                   className="form-control"
+                                  value={formData?.placeholder}
                                   onChange={(e) => handleChange(e)}
                                 />
                               </div>
@@ -170,17 +211,35 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                                         className="form-control"
                                         type="text"
                                         placeholder="Enter option"
+                                        value={
+                                          formData?.option[item]?.optionLabel
+                                        }
                                         onChange={(e) =>
                                           handleChange(e, "optionValue", index)
                                         }
                                       />
+
+                                      <button
+                                        className="dlt_btn_event btn-voilet"
+                                        onClick={(e) => {
+                                          // setConfirmationPopup(true);
+                                          deleteOption(e, index);
+                                        }}
+                                      >
+                                        <img
+                                          title="Delete"
+                                          src={path_image + "delete-icon.svg"}
+                                          alt="Delete Row"
+                                        />
+                                      </button>
                                     </div>
                                   </div>
                                 )
                               )
                             : ""}
                           {formData?.inputType == "radio" ||
-                          formData?.inputType == "checkbox" ? (
+                          formData?.inputType == "checkbox" ||
+                          formData?.inputType == "selection" ? (
                             <div className="add-more-option">
                               <Button
                                 className="add-option"

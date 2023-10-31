@@ -1385,22 +1385,7 @@ const SelectSmartListUsers = (props) => {
                                   </span>
                                 </td>
                               ) : null}
-                              {/* <td>NA</td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td>
-                          <td>
-                            <span>NA</span>
-                          </td> */}
+
                               <td className="add-new-hcp" colSpan="12">
                                 <img
                                   src={path_image + "add-row.png"}
@@ -1412,33 +1397,7 @@ const SelectSmartListUsers = (props) => {
                           </>
                         );
                       })}
-                      {/* <tr className="hcps-added">
-                    <td>Jacob Flindt</td>
-                    <td>User@docintel.app</td>
-                    <td>No</td>
-                    <td>United Kingdom</td>
-                    <td>CIS</td>
-                    <td>Haematology</td>
-                    <td>Tech</td>
-                    <td>
-                      <span>Yes</span>
-                    </td>
-                    <td>
-                      <span>43</span>
-                    </td>
-                    <td>
-                      <span>30</span>
-                    </td>
-                    <td>
-                      <span>28</span>
-                    </td>
-                    <td>
-                      <span>Nov 18</span>
-                    </td>
-                    <td className="delete_row" colspan="12">
-                      <img src="assets/images/delete.svg" alt="Delete Row" />
-                    </td>
-                  </tr>*/}
+
                       <tr className="seprator-add">
                         <td colSpan="13"></td>
                       </tr>
@@ -1488,7 +1447,9 @@ const SelectSmartListUsers = (props) => {
                                     profile_user={readers.profile_user_id}
                                   ></EditCountry>
                                 ) : (
-                                  <span>{readers.country}</span>
+                                  <span>
+                                    {readers.country ? readers.country : "N/A"}
+                                  </span>
                                 )}
                               </td>
                               <td>

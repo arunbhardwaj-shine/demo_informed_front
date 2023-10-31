@@ -14,10 +14,25 @@ import ReactFlagsSelect from "react-flags-select";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { parsePhoneNumber } from "react-phone-number-input";
+import CommmonConfirmModel from "../../../Model/CommonConfirmModel";
+
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const MarketingEditReader = () => {
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [resetDataId, setResetDataId] = useState();
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
+  const [currentIndex, setCurrentIndex] = useState(-1);
   const { state } = useLocation();
-  const [id, setId] = useState(state?.id ? state?.id : "");
+  // console.log(state);
+  const [id, setId] = useState(
+    state?.id ? state?.id : state?.data?.user_id ? state?.data?.user_id : ""
+    );
+    const [logs, setLogs] = useState(state?.data?.log_Data ||[]);
   const [typeOfContact, setTypeOfContact] = useState([]);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -96,294 +111,6 @@ const MarketingEditReader = () => {
     quoteValid: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
   });
 
-  // const country = [
-  //   "US",
-
-  //   "BS",
-
-  //   "BB",
-
-  //   "AI",
-
-  //   "AG",
-
-  //   "VG",
-
-  //   "KY",
-
-  //   "BM",
-
-  //   "GD",
-
-  //   "TC",
-
-  //   "MS",
-
-  //   "MP",
-
-  //   "GU",
-
-  //   "AS",
-
-  //   "LC",
-
-  //   "DM",
-
-  //   "DO",
-
-  //   "TT",
-
-  //   "KN",
-
-  //   "JM",
-
-  //   "EG",
-
-  //   "ZA",
-
-  //   "SS",
-
-  //   "MA",
-
-  //   "DZ",
-
-  //   "TN",
-
-  //   "LY",
-
-  //   "GY",
-
-  //   "GR",
-
-  //   "NL",
-
-  //   "BE",
-
-  //   "FR",
-
-  //   "ES",
-
-  //   "GI",
-
-  //   "PT",
-
-  //   "LU",
-
-  //   "IE",
-
-  //   "IS",
-
-  //   "AL",
-
-  //   "MT",
-
-  //   "CY",
-
-  //   "FI",
-
-  //   "BG",
-
-  //   "LT",
-
-  //   "LV",
-
-  //   "EE",
-
-  //   "MD",
-
-  //   "AM",
-
-  //   "BY",
-
-  //   "AD",
-
-  //   "MC",
-
-  //   "SM",
-
-  //   "VA",
-
-  //   "UA",
-
-  //   "RS",
-
-  //   "ME",
-
-  //   "XK",
-
-  //   "HR",
-
-  //   "SI",
-
-  //   "BA",
-
-  //   "MK",
-
-  //   "CZ",
-
-  //   "SK",
-
-  //   "LI",
-
-  //   "FK",
-
-  //   "BZ",
-
-  //   "GT",
-
-  //   "SV",
-
-  //   "HN",
-
-  //   "NI",
-
-  //   "CR",
-
-  //   "PA",
-
-  //   "PM",
-
-  //   "HT",
-
-  //   "GP",
-
-  //   "BO",
-
-  //   "GY",
-
-  //   "EC",
-
-  //   "GF",
-
-  //   "PY",
-
-  //   "MQ",
-
-  //   "SR",
-
-  //   "UY",
-
-  //   "CW",
-
-  //   "MY",
-
-  //   "AU",
-
-  //   "ID",
-
-  //   "PH",
-
-  //   "NZ",
-
-  //   "SG",
-
-  //   "TH",
-
-  //   "TL",
-
-  //   "NF",
-
-  //   "BN",
-
-  //   "NR",
-
-  //   "PG",
-
-  //   "TO",
-
-  //   "SB",
-
-  //   "VU",
-
-  //   "FJ",
-
-  //   "PW",
-
-  //   "WF",
-
-  //   "CK",
-
-  //   "NU",
-
-  //   "WS",
-
-  //   "KI",
-
-  //   "NC",
-
-  //   "TV",
-
-  //   "PF",
-
-  //   "TK",
-
-  //   "FM",
-
-  //   "MH",
-
-  //   "RU",
-
-  //   "KP",
-
-  //   "HK",
-
-  //   "MO",
-
-  //   "KH",
-
-  //   "LA",
-
-  //   "BD",
-
-  //   "TW",
-
-  //   "MV",
-
-  //   "LB",
-
-  //   "JO",
-
-  //   "SY",
-
-  //   "IQ",
-
-  //   "KW",
-
-  //   "SA",
-
-  //   "YE",
-
-  //   "OM",
-
-  //   "PS",
-
-  //   "AE",
-
-  //   "IL",
-
-  //   "BH",
-
-  //   "QA",
-
-  //   "BT",
-
-  //   "MN",
-
-  //   "NP",
-
-  //   "TJ",
-
-  //   "TM",
-
-  //   "AZ",
-
-  //   "GE",
-
-  //   "KG",
-
-  //   "UZ",
-  // ];
-
   const [userDetail, setUserDetail] = useState({
     title: [],
     prospect: [],
@@ -396,9 +123,27 @@ const MarketingEditReader = () => {
     task: [],
     pipeline: [],
   });
-
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+  const handleDeleteClick = async (index) => {
+    try {
+      const updateLogs = [...logs];
+      updateLogs.splice(index, 1);
+      setLogs(updateLogs);
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    } finally {
+      setConfirmationPopup(false);
+    }
+  };
   useEffect(() => {
     initalFun();
+    if (state?.id) {
+      getUserDetail();
+    } else {
+      getPreviewUserDetail();
+    }
   }, []);
 
   useEffect(() => {}, [userInputs]);
@@ -433,6 +178,16 @@ const MarketingEditReader = () => {
 
       setCountryAll(country);
 
+      loader("hide");
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
+  const getUserDetail = async () => {
+    try {
+      loader("show");
       const usersData = await getData(
         `${ENDPOINT.GET_MARKETING_USER_DROP}/${id}`
       );
@@ -443,11 +198,12 @@ const MarketingEditReader = () => {
       if (data?.log_activity) {
         if (data?.log_activity != "") {
           let jsonString = data?.log_activity;
-          const jsonObject = JSON.parse(jsonString);
-          note = jsonObject?.value;
-          const dateTime = new Date(jsonObject?.date);
-          let lasttime = formatDate(dateTime);
-          setlastnoteTime(lasttime);
+          let logs = JSON.parse(jsonString);
+          setLogs(Array.isArray(logs)?logs:logs instanceof Object?[logs]:[])
+          // note = jsonObject?.value;
+          // const dateTime = new Date(jsonObject?.date);
+          // let lasttime = formatDate(dateTime);
+          // setlastnoteTime(lasttime);
         }
       }
 
@@ -499,6 +255,54 @@ const MarketingEditReader = () => {
     } finally {
       loader("hide");
     }
+  };
+
+  const getPreviewUserDetail = () => {
+   
+    let phoneNumber = state?.data?.primary_phone.split("-informed-");
+    setUserInputs({
+      ...userInputs,
+      jobTitle: state?.data?.jobTitle,
+      title: { value: state?.data?.title },
+      firstName: state?.data?.firstName,
+      middleName: state?.data?.middleName,
+      lastName: state?.data?.lastName,
+      email: state?.data?.email,
+      alternativeEmail: state?.data?.alternativeEmail,
+      countryCode: phoneNumber[0],
+      primary_phone: phoneNumber[1],
+      alternativePhone: state?.data?.alternativePhone,
+      linkedIn: state?.data?.linkedIn,
+      prospect: { value: state?.data?.prospect },
+      ownership: { value: state?.data?.contact_ownership },
+      main: state?.data?.type_of_contact.includes("Main"),
+      decisionMaker: state?.data?.type_of_contact.includes("Decision-maker"),
+      influencer: state?.data?.type_of_contact.includes("Influencer"),
+      introducer: state?.data?.type_of_contact.includes("Introducer"),
+      customerType: { value: state?.data?.customerType },
+      companyName: { value: state?.data?.company_name },
+      country: { value: state?.data?.country },
+      companyWebsite: state?.data?.company_website,
+      companyProduct: { value: state?.data?.company_product },
+      therapyArea: { value: state?.data?.company_therapy_area },
+      local: { value: state?.data?.local },
+      nextContact: state?.data?.next_contact,
+      address: state?.data?.address,
+      logActivity: state?.data?.log_activity,
+      task: state?.data?.task,
+      opportunityTitle: state?.data?.opportunity_title,
+      ourProduct: state?.data?.our_product,
+      pipeline: { value: state?.data?.pipeline },
+      opportunityValue: state?.data?.opportunity_value,
+      probability: { value: state?.data?.probability },
+      weighted_value: state?.data?.weighted_value,
+      contactTotal: state?.data?.contact_total,
+      quoteSent: state?.data?.quote_sent,
+      quoteValid: state?.data?.quote_valid,
+      typeContact: state?.data?.type_of_contact
+        ? state?.data?.type_of_contact
+        : [],
+    });
   };
   const handleKeyDown = (e, isSelectedName) => {
     if (isSelectedName == "countryCode") {
@@ -932,6 +736,21 @@ const MarketingEditReader = () => {
     } finally {
       loader("hide");
     }
+  };
+  const handleDeleteLogs = (index) => {
+    const updateLogs = [...logs];
+    updateLogs.splice(index, 1);
+    setLogs(updateLogs);
+  };
+  const handleEditLogs = (index) => {
+    setCurrentIndex(index)
+    const updateLogs = [...logs];
+    let userD = { ...userInputs };
+    userD.logActivity = updateLogs[index].value;
+    // updateLogs.splice(index, 1);
+
+    setUserInputs(userD);
+    // setLogs(updateLogs);
   };
   const Main = () => {
     return (
@@ -1693,8 +1512,8 @@ const MarketingEditReader = () => {
                   />
                 </Form.Group>
               </div>
-              <div className="col-12 col-md-5 right-change">
-                <div className="form-group justify-content-end align-items-start new-change">
+              <div className="col-12 col-md-5 right-change marketing-log">
+                <div className="form-group justify-content-end align-items-start new-change activity-added">
                   <label htmlFor="">Log activity </label>
 
                   <textarea
@@ -1709,7 +1528,43 @@ const MarketingEditReader = () => {
                     rows="5"
                     placeholder="Please type your notes here..."
                   ></textarea>
-                  <span>
+                  <div className="activity-btn">
+                  <button
+                    className="btn-bordered btn-voilet btn btn-primary"
+                    onClick={(e) => {
+                      if (userInputs?.logActivity) {
+                        let newData = [...logs];
+                        let userD = { ...userInputs };
+                        userD.logActivity = "";
+                        if(currentIndex ==-1 ){
+
+                          newData.push({
+                            value: userInputs?.logActivity,
+                            date: new Date().toLocaleDateString(),
+                          })
+                        }
+                        else{
+                       
+                          newData[currentIndex]={
+                            value: userInputs?.logActivity,
+                            date: new Date().toLocaleDateString(),
+                          }
+                        }
+                        setLogs(newData);
+                        setUserInputs(userD);
+                      }
+                      else if(currentIndex ==-1){
+                        toast.error("Please Enter Log Activity!")
+                      }
+                      setCurrentIndex(-1)
+
+                    }}
+                  >
+                    {currentIndex ==-1?
+                    "Add Log":"Update Log"}
+                  </button>
+                  </div>
+                  {/* <span>
                     {typeof lastnoteTime !== "undefined" &&
                       lastnoteTime != "" && (
                         <span>
@@ -1719,7 +1574,38 @@ const MarketingEditReader = () => {
                           </>
                         </span>
                       )}
-                  </span>
+                  </span> */}
+                </div>
+                <div className="new-change">
+                  {logs?.map((log, index) => (
+                    <div className="log-activity-box"
+                      key={index}
+                    >
+                      <span>{log?.value}</span> <span>{log?.date}</span>{" "}
+                      <div className="add_product">
+                        <button
+                            onClick={() => {
+                              setPopupMessage({
+                                message1:
+                                  "You are about to remove this Log.",
+                                message2: "Are you sure you want to do this?",
+                                footerButton: "Yes please!",
+                              });
+                              setConfirmationPopup(true);
+                              setResetDataId(index);
+                            }} 
+                        >
+                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.84 22.25H8.15989C7.3915 22.2389 6.65562 21.9381 6.09941 21.4079C5.5432 20.8776 5.20765 20.157 5.15985 19.39L4.24984 5.55C4.24518 5.44966 4.26045 5.34938 4.29478 5.25498C4.32911 5.16057 4.38181 5.07391 4.44985 5C4.51993 4.9234 4.60479 4.86177 4.69931 4.81881C4.79382 4.77584 4.89606 4.75244 4.99985 4.75H19C19.1029 4.74977 19.2046 4.7707 19.2991 4.81148C19.3935 4.85226 19.4785 4.91202 19.5488 4.98704C19.6192 5.06207 19.6733 5.15077 19.7079 5.24761C19.7426 5.34446 19.7569 5.44739 19.75 5.55L18.88 19.39C18.8317 20.1638 18.4905 20.8902 17.9258 21.4214C17.3611 21.9527 16.6153 22.249 15.84 22.25ZM5.83986 6.25L6.60987 19.3C6.63531 19.6935 6.80978 20.0625 7.09775 20.3319C7.38573 20.6013 7.76555 20.7508 8.15989 20.75H15.84C16.2336 20.7485 16.6121 20.5982 16.8996 20.3292C17.1871 20.0603 17.3622 19.6927 17.39 19.3L18.2 6.3L5.83986 6.25Z" fill="#0066BE"></path><path d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z" fill="#0066BE"></path><path d="M15 6.25009H9C8.80189 6.2475 8.61263 6.16765 8.47253 6.02755C8.33244 5.88745 8.25259 5.69819 8.25 5.50007V3.70004C8.26268 3.18685 8.47219 2.69818 8.83518 2.33519C9.19816 1.9722 9.68682 1.76268 10.2 1.75H13.8C14.3217 1.76305 14.8177 1.97951 15.182 2.35319C15.5463 2.72686 15.7502 3.22815 15.75 3.75004V5.50007C15.7474 5.69819 15.6676 5.88745 15.5275 6.02755C15.3874 6.16765 15.1981 6.2475 15 6.25009ZM9.75 4.75006H14.25V3.75004C14.25 3.63069 14.2026 3.51623 14.1182 3.43184C14.0338 3.34744 13.9193 3.30003 13.8 3.30003H10.2C10.0807 3.30003 9.96619 3.34744 9.8818 3.43184C9.79741 3.51623 9.75 3.63069 9.75 3.75004V4.75006Z" fill="#0066BE"></path><path d="M15 18.25C14.8019 18.2474 14.6126 18.1676 14.4725 18.0275C14.3324 17.8874 14.2526 17.6981 14.25 17.5V9.5C14.25 9.30109 14.329 9.11032 14.4697 8.96967C14.6103 8.82902 14.8011 8.75 15 8.75C15.1989 8.75 15.3897 8.82902 15.5303 8.96967C15.671 9.11032 15.75 9.30109 15.75 9.5V17.5C15.7474 17.6981 15.6676 17.8874 15.5275 18.0275C15.3874 18.1676 15.1981 18.2474 15 18.25Z" fill="#0066BE"></path><path d="M9 18.25C8.80189 18.2474 8.61263 18.1676 8.47253 18.0275C8.33244 17.8874 8.25259 17.6981 8.25 17.5V9.5C8.25 9.30109 8.32902 9.11032 8.46967 8.96967C8.61032 8.82902 8.80109 8.75 9 8.75C9.19891 8.75 9.38968 8.82902 9.53033 8.96967C9.67098 9.11032 9.75 9.30109 9.75 9.5V17.5C9.74741 17.6981 9.66756 17.8874 9.52747 18.0275C9.38737 18.1676 9.19811 18.2474 9 18.25Z" fill="#0066BE"></path><path d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z" fill="#0066BE"></path></svg>
+                        </button>
+                        <button onClick={() => handleEditLogs(index)}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="33" viewBox="0 0 28 33" fill="none">
+<path d="M1.20158 32.2259C0.833603 32.3652 0.45356 32.0519 0.520092 31.6641L1.64674 25.0972C1.66147 25.0114 1.69834 24.9309 1.75373 24.8637L19.2673 3.61808L25.1553 8.47176L7.6417 29.7174C7.58631 29.7846 7.51434 29.8361 7.4329 29.867L1.20158 32.2259Z" fill="#0066BE"/>
+<path d="M25.9642 7.49043L27.1584 6.0418C28.2829 4.6777 28.0979 2.65662 26.7467 1.54275L25.7654 0.733802C24.4141 -0.380056 22.3949 -0.175965 21.2704 1.18813L20.0762 2.63675L25.9642 7.49043Z" fill="#0066BE"/>
+</svg>                
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -1957,7 +1843,11 @@ const MarketingEditReader = () => {
   }
   const nextButtonClicked = (e) => {
     e.preventDefault();
-
+    if(currentIndex !=-1){
+      toast.error("Please save the log activity first!")
+      return
+    }
+      
     const result = AddReaderValidation(userInputs);
     if (Object?.keys(result)?.length) {
       if (Object?.keys(result)[0] == "firstName") {
@@ -2072,13 +1962,15 @@ const MarketingEditReader = () => {
           quote_sent: userInputs?.quoteSent,
           quote_valid: quoteValidDate,
           user_id: id,
+          log_Data: logs,
+
         };
         loader("hide");
 
         navigate("/reader-review", {
           state: {
             data: data,
-            flag: 1,
+            flag: state?.id || state?.data?.user_id ? 1 : 0,
           },
         });
       } catch (err) {
@@ -2142,6 +2034,14 @@ const MarketingEditReader = () => {
         handleChange={handleModelFun}
         handleSubmit={handleSubmitModelFun}
       />
+      <CommmonConfirmModel
+          show={confirmationpopup}
+          onClose={hideConfirmationModal}
+          fun={handleDeleteClick}
+          popupMessage={popupMessage}
+          path_image={path_image}
+          resetDataId={resetDataId}
+        />
     </>
   );
 };
