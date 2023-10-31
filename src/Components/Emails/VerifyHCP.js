@@ -1227,9 +1227,11 @@ const VerifyHCP = (props) => {
                             <>
                               <tr>
                                 <td>{users?.name}</td>
-                                <td>{users?.email}</td>
-                                <td>{users?.bounce}</td>
-                                <td>{users?.country}</td>
+                                <td>{users?.email ? users?.email : "N/A"}</td>
+                                <td>{users?.bounce ? users?.bounce : "N/A"}</td>
+                                <td>
+                                  {users?.country ? users?.country : "N/A"}
+                                </td>
                                 <td>
                                   {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
@@ -1251,19 +1253,37 @@ const VerifyHCP = (props) => {
                                     : "N/A"}
                                 </td>
                                 <td>
-                                  <span>{users?.consent}</span>
+                                  <span>
+                                    {users?.consent ? users?.consent : "N/A"}
+                                  </span>
                                 </td>
                                 <td>
-                                  <span>{users?.email_received}</span>
+                                  <span>
+                                    {users?.email_received
+                                      ? users?.email_received
+                                      : "N/A"}
+                                  </span>
                                 </td>
                                 <td>
-                                  <span>{users?.email_opening}</span>
+                                  <span>
+                                    {users?.email_opening
+                                      ? users?.email_opening
+                                      : "N/A"}
+                                  </span>
                                 </td>
                                 <td>
-                                  <span>{users?.registration}</span>
+                                  <span>
+                                    {users?.registration
+                                      ? users?.registration
+                                      : "N/A"}
+                                  </span>
                                 </td>
                                 <td>
-                                  <span>{users?.last_email}</span>
+                                  <span>
+                                    {users?.last_email
+                                      ? users?.last_email
+                                      : "N/A"}
+                                  </span>
                                 </td>
                                 <td className="add-new-hcp">
                                   <img

@@ -1385,7 +1385,6 @@ const Table = (props, ref) => {
         } else if (data.country == "") {
           return "Please select country";
         } else if (data.email != "") {
-        
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -1663,7 +1662,6 @@ const Table = (props, ref) => {
   // };
 
   const sortSelectedUsers = () => {
-    
     let normalArr = [];
     normalArr = editList;
     if (sorting === 0) {
@@ -1945,8 +1943,10 @@ const Table = (props, ref) => {
                             type="email"
                             onChange={(event) => setEmail(event?.target?.value)}
                           />
-                        ) : (
+                        ) : item?.email ? (
                           item?.email
+                        ) : (
+                          "N/A"
                         )}
                       </td>
                       <input
@@ -1954,7 +1954,7 @@ const Table = (props, ref) => {
                         id={`field_index` + item?.profile_user_id}
                         value={index}
                       />
-                      <td>{item?.bounce}</td>
+                      <td>{item?.bounce ? item?.bounce : "N/A"}</td>
                       <td>
                         {editable ? (
                           <EditCountry
@@ -1962,7 +1962,7 @@ const Table = (props, ref) => {
                             profile_user={item?.profile_user_id}
                           ></EditCountry>
                         ) : (
-                          <span>{item?.country}</span>
+                          <span>{item?.country ? item?.country : "N/A"}</span>
                         )}
                       </td>
                       <td>
@@ -1988,33 +1988,45 @@ const Table = (props, ref) => {
                             profile_user={item?.profile_user_id}
                           ></EditContactType>
                         ) : (
-                          <span>{item?.contact_type}</span>
+                          <span>
+                            {item?.contact_type ? item?.contact_type : "N/A"}
+                          </span>
                         )}
                       </td>
 
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item?.consent}</span>{" "}
+                          <span>{item?.consent ? item?.consent : "N/A"}</span>{" "}
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item?.email_received}</span>
+                          <span>
+                            {item?.email_received
+                              ? item?.email_received
+                              : "N/A"}
+                          </span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item?.email_opening}</span>
+                          <span>
+                            {item?.email_opening ? item?.email_opening : "N/A"}
+                          </span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item?.registration}</span>
+                          <span>
+                            {item?.registration ? item?.registration : "N/A"}
+                          </span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item?.last_email}</span>
+                          <span>
+                            {item?.last_email ? item?.last_email : "N/A"}
+                          </span>
                         </td>
                       ) : null}
 
@@ -2063,7 +2075,7 @@ const Table = (props, ref) => {
                       </td>
 
                       <td id={`field_email` + item?.profile_user_id}>
-                        {item?.email}
+                        {item?.email ? item?.email : "N/A"}
                       </td>
                       <input
                         type="hidden"
@@ -2071,7 +2083,7 @@ const Table = (props, ref) => {
                         value={index}
                       />
                       <td id={`field_bounced` + item?.profile_user_id}>
-                        {item?.bounce}
+                        {item?.bounce ? item?.bounce : "N/A"}
                       </td>
                       <td>
                         {editable ? (
@@ -2080,7 +2092,7 @@ const Table = (props, ref) => {
                             profile_user={item?.profile_user_id}
                           ></EditCountry>
                         ) : (
-                          <span>{item?.country}</span>
+                          <span>{item?.country ? item?.country : "N/A"}</span>
                         )}
                       </td>
                       {/*showLessInfo == false ? (
@@ -2108,33 +2120,45 @@ const Table = (props, ref) => {
                             profile_user={item?.profile_user_id}
                           ></EditContactType>
                         ) : (
-                          <span>{item?.contact_type}</span>
+                          <span>
+                            {item?.contact_type ? item?.contact_type : "N/A"}
+                          </span>
                         )}
                       </td>
 
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item?.consent}</span>{" "}
+                          <span>{item?.consent ? item?.consent : "N/A"}</span>{" "}
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item?.email_received}</span>
+                          <span>
+                            {item?.email_received
+                              ? item?.email_received
+                              : "N/A"}
+                          </span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item?.email_opening}</span>
+                          <span>
+                            {item?.email_opening ? item?.email_opening : "N/A"}
+                          </span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item?.registration}</span>
+                          <span>
+                            {item?.registration ? item?.registration : "N/A"}
+                          </span>
                         </td>
                       ) : null}
                       {showLessInfo == false ? (
                         <td>
-                          <span>{item?.last_email}</span>
+                          <span>
+                            {item?.last_email ? item?.last_email : "N/A"}
+                          </span>
                         </td>
                       ) : null}
 
