@@ -310,8 +310,8 @@ p#totalCountText {
   }
 
   .question-block .head-sec {
-    padding: 0px 20px 0px 20px;
-    min-height: 105px;
+    padding: 12px 20px 0px 20px;
+    min-height: 95px;
   }
 
   .question-block .head-sec .head_desc {
@@ -320,5 +320,32 @@ p#totalCountText {
 
   #pollModel #poll-content {
     padding: 30px 20px;
+  }
+
+  .session-modal #pollModel {
+    max-width: 94%;
+  }
+
+  #pollModel .modal-body .event_sub_heading,
+  #pollModel1 .modal-body .event_sub_heading {
+    font-size: 15px;
+  }
+
+  .session-modal #pollModel .form-group label {
+    flex: 0 0 100%;
+    font-size: 12px;
+    margin: 0 0 6px;
+  }
+
+  .session-modal #pollModel .modal-body {
+    padding: 20px 15px;
+  }
+
+  .session-modal #pollModel h4 {
+    font-size: 14px;
+  }
+
+  .session-modal #pollModel .check-group {
+    padding: 0 10px 0 0;
   }
 }

@@ -1238,7 +1238,7 @@ const colourStyles = {
         modules: selectedModules,
         type: "modules",
       // }
-      });
+       });
       let obj = {};
       loader("hide");
       setEmailError(null);
@@ -1343,13 +1343,37 @@ const colourStyles = {
 useEffect(() => {
   const interval = setInterval(() => {
     const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
-    document.getElementById(`module-${prevModuleIndex}`)?.classList?.remove("random-class");
+    const currentModule = document.getElementById(`module-${currentModuleIndex}`);
+    const prevModule = document.getElementById(`module-${prevModuleIndex}`);
 
-    document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
+    const hasVisibleClass = Array.from({ length: 13 }, (_, i) => i)
+      .some(index => document.getElementById(`module-${index}`)?.classList?.contains("visible"));
+ 
+    if (hasVisibleClass) {
+      console.log(hasVisibleClass,'hasVisibleClass')
+      currentModule?.classList.remove("random-class");
+      prevModule?.classList.remove("random-class");
+      clearInterval(interval);
+      return;
+    }
+ 
+    // const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
+    // const currentModule = document.getElementById(`module-${currentModuleIndex}`);
+    // const prevModule = document.getElementById(`module-${prevModuleIndex}`);
 
+   
+    if (prevModule) {
+      prevModule?.classList.remove("random-class");
+    }
+ 
+    if (currentModule) {
+      currentModule?.classList.add("random-class");
+    }
+
+ 
     setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
-  }, 4500); 
-
+  }, 4500);
+ 
   return () => clearInterval(interval);
 }, [currentModuleIndex]);
 
@@ -1562,7 +1586,7 @@ const handleSelectionClick = () => {
                 <h3>How does it work? </h3>
                 <h5>
                   We host all your content and use intelligence to create
-                  personalised recommendations for each HCP with their consent.{" "}
+                  personalised recommendations for each HCP (Healthcare Professional) with their consent.{" "}
                 </h5>
               </div>
             </Col>
@@ -1572,7 +1596,7 @@ const handleSelectionClick = () => {
               <div className="future-expand-content">
                 <h4>
                   The future doesn’t have to mean leaving your comfort zone,
-                  we’re here to expand it!{" "}
+                  we’re here to expand it{" "}
                 </h4>
               </div>
               <div className="future-expand-content-shape">
@@ -1589,7 +1613,7 @@ const handleSelectionClick = () => {
               <div className="how-work-text">
                 <h3>Built with and for the life sciences</h3>
                 <h5>
-                  Every module has faced HCPs, regulations and compliance. Our
+                  Every module is in use and has regulatory and compliance approval. Our
                   collaborative onboarding process is designed to enhance your
                   current workflow.
                 </h5>
@@ -1882,7 +1906,7 @@ const handleSelectionClick = () => {
               </div>
               <div className="consent-details">
                 <ul>
-                  <li>For Clinicians</li>
+                  <li>For HCPs</li>
                   <li>Gathers consent</li>
                   <li>Read online in any browser</li>
                   <li>Read offline in the app</li>
@@ -1891,7 +1915,7 @@ const handleSelectionClick = () => {
                   <img src={path_image + "doc-info.png"} alt="" />
                 </div>
                 <ul>
-                  <li>For Life science</li>
+                  <li>For life science</li>
                   <li>Host content</li>
                   <li>Manage consent</li>
                   <li>Predict the future</li>

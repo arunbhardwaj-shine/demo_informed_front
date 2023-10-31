@@ -1167,6 +1167,38 @@ const colourStyles = {
     }
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const prevModuleIndex = currentModuleIndex === 0 ? 9 : currentModuleIndex - 1;
+      const currentModule = document.getElementById(`module-${currentModuleIndex}`);
+      const prevModule = document.getElementById(`module-${prevModuleIndex}`);
+  
+      const hasVisibleClass = Array.from({ length: 10 }, (_, i) => i)
+        .some(index => document.getElementById(`module-${index}`)?.classList?.contains("visible"));
+   
+      if (hasVisibleClass) {
+        console.log(hasVisibleClass,'hasVisibleClass')
+        currentModule?.classList.remove("random-class");
+        prevModule?.classList.remove("random-class");
+        clearInterval(interval);
+        return;
+      }
+     
+      if (prevModule) {
+        prevModule?.classList.remove("random-class");
+      }
+   
+      if (currentModule) {
+        currentModule?.classList.add("random-class");
+      }
+  
+   
+      setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
+    }, 4500);
+   
+    return () => clearInterval(interval);
+  }, [currentModuleIndex]);
+
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const [show, setShow] = useState(false);
@@ -1243,18 +1275,18 @@ const colourStyles = {
     setAddSelectClass(true);
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
-      document.getElementById(`module-${prevModuleIndex}`)?.classList?.remove("random-class");
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
+  //     document.getElementById(`module-${prevModuleIndex}`)?.classList?.remove("random-class");
   
-      document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
+  //     document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
   
-      setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
-    }, 4500); 
+  //     setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
+  //   }, 4500); 
   
-    return () => clearInterval(interval);
-  }, [currentModuleIndex]);
+  //   return () => clearInterval(interval);
+  // }, [currentModuleIndex]);
 
   return (
     <>
@@ -1692,16 +1724,16 @@ const colourStyles = {
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                  Docintel & inforMed.pro is 2 parts of a unified system. Create
+                  Docintel & inforMed.pro are 2 parts of a unified system. Create
                   and set limits in inforMed.pro and let your clients use the
-                  free tools for distribution. Doctors engage with content using
+                  free tools for distribution. HCPs engage with content using
                   Docintel on any device of their choice. Usage and limits are
                   monitored making life and reporting easier for you.
                 </h5>
               </div>
               <div className="consent-details pharma-view">
                 <ul>
-                  <li>For Clinicians</li>
+                  <li>For HCPs</li>
                   <li>Gathers consent</li>
                   <li>Read in any browser</li>
                   <li>Read offline in the app</li>
