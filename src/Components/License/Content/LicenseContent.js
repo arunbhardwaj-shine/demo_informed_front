@@ -1660,6 +1660,73 @@ const LicenseContent = (props) => {
                                         ) : null}
                                       </span>
                                     </li>
+                                    {
+                                      data?.lastRomanNumber == 2 || data?.lastRomanNumber == 3  ?
+                                      (<li>
+                                        <h6 className="tab-content-title">
+                                          Article Usage
+                                          <LinkWithTooltip tooltip="Number of usage on the content.">
+                                            <img
+                                              src={
+                                                path_image +
+                                                "info_circle_icon.svg"
+                                              }
+                                              alt="refresh-btn"
+                                            />
+                                          </LinkWithTooltip>
+                                        </h6>
+                                        <div className="data-progress">
+                                          <ProgressBar
+                                            variant={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.pinReaders
+                                                  ? "pin_usage"
+                                                  : "default"
+                                                : "default"
+                                            }
+                                            now={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? (opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.pinReaders /
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit) *
+                                                  100
+                                                : "100"
+                                            }
+                                            label={
+                                              opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ].pinReaders
+                                                : "Loading"
+                                            }
+                                          />
+                                        </div>
+                                      </li>)
+                                       : null
+                                    }
                                     {data?.linkType != "Online" ? (
                                       <li>
                                         <h6 className="tab-content-title">

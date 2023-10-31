@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import Select from "react-select";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
 let dropdownData = {
   input: "User Input",
   RADIO: "Single Choice",
@@ -12,7 +15,15 @@ function Question(props) {
     { label: "Single Choice", value: "RADIO" },
     { label: "Multiple Choice", value: "CHECKBOX" },
   ]);
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [resetDataId, setResetDataId] = useState();
 
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
   const {
     questionData,
     onQuestionChange,
@@ -36,8 +47,21 @@ function Question(props) {
   const handleDelete = () => {
     onDelete();
   };
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+  const handleDeleteClick = async (index) => {
+    try {
+      onDeleteChoice(index);
 
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    } finally {
+      setConfirmationPopup(false);
+    }
+  };
   return (
+    <>
     <form id="add_hcp_form" className={"tab-pane"}>
       <div className="add_hcp_boxes">
         <div className="form_action">
@@ -153,44 +177,23 @@ function Question(props) {
                     </div>
 
                     <div className="col-1 col-md-1">
-                      {confirmOptionDelete[index] ? (
-                        <>
-                          <p>Are You Sure ?</p>
-                          <Button
-                            variant="danger"
-                            onClick={() => {
-                              setConfirmOptionDelete({
-                                ...confirmOptionDelete,
-                                [index]: false,
-                              });
-                              onDeleteChoice(index);
-                            }}
-                          >
-                            Yes
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            onClick={() =>
-                              setConfirmOptionDelete({
-                                ...confirmOptionDelete,
-                                [index]: false,
-                              })
-                            }
-                          >
-                            Cancel
-                          </Button>
-                        </>
-                      ) : (
-                        answerOption?.length > 1 && (
+                     {
+                       answerOption?.length > 1 && (
                           <div md={1} col={1}>
                             <div className="form-group">
                               <Button
                               className="dl_btn"
-                                onClick={() =>
-                                  setConfirmOptionDelete({
-                                    ...confirmOptionDelete,
-                                    [index]: true,
-                                  })
+                                onClick={() =>{
+                                  setPopupMessage({
+                                    message1:
+                                      "You are about to remove this option.",
+                                    message2: "Are you sure you want to do this?",
+                                    footerButton: "Yes please!",
+                                  });
+                                  setConfirmationPopup(true);
+                                  setResetDataId(index);
+                                }
+                               
                                 }
                               >
                                 <svg
@@ -229,7 +232,7 @@ function Question(props) {
                             </div>
                           </div>
                         )
-                      )}
+                     }
                     </div>
                   </>
                 ))}
@@ -272,6 +275,15 @@ function Question(props) {
         </div>
       </div>
     </form>
+      <CommonConfirmModel
+      show={confirmationpopup}
+      onClose={hideConfirmationModal}
+      fun={handleDeleteClick}
+      popupMessage={popupMessage}
+      path_image={path_image}
+      resetDataId={resetDataId}
+    />
+    </>
   );
 }
 

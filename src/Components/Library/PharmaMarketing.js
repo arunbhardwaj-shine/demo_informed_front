@@ -53,6 +53,7 @@ const PharmaMarketing = () => {
   const countryRef = useRef(null);
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
+  const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
 
   const modules = [
     {
@@ -1088,7 +1089,7 @@ const colourStyles = {
         root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        // const res = await postData(ENDPOINT.REGISTER,data );
+        const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1220,7 +1221,7 @@ const colourStyles = {
     if (email && !emailRegex.test(email)) {
         setEmailError('Please enter a valid email address');
       } else if(phone && !phoneRegex.test(phone)){
-        setPhoneError('Please enter a phone number');
+        setPhoneError('Please enter a valid phone number');
       }
       else {
       loader("show");
@@ -1228,16 +1229,16 @@ const colourStyles = {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      // const res = await postData(ENDPOINT.REGISTER, {
-      let data = {
+      const res = await postData(ENDPOINT.REGISTER, {
+      // let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         type: "modules",
-      }
-      // });
+      // }
+      });
       let obj = {};
       loader("hide");
       setEmailError(null);
@@ -1339,121 +1340,18 @@ const colourStyles = {
     }
   };
 
-// function getRandomModule() {
-//   const modules = document.querySelectorAll('.circle.bouncing .stat');
-//   const randomIndex = Math.floor(Math.random() * modules.length);
-//   return modules[randomIndex];
-// }
+useEffect(() => {
+  const interval = setInterval(() => {
+    const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
+    document.getElementById(`module-${prevModuleIndex}`)?.classList?.remove("random-class");
 
-// function addRandomClass(module, className) {
-//   module?.classList?.add(className);
-// }
- 
-// function removeRandomClass(module, className) {
-//   module?.classList?.remove(className);
-// }
- 
-// let previousModule = null;
-// let interval;
+    document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
 
-// let inProgress = false;
- 
-// function randomToggle() {
-//   if (!inProgress) {
-//     inProgress = true;
- 
-//     if (previousModule) {
-//       removeRandomClass(previousModule, 'random-class');
-//     }
- 
-//     const randomModule = getRandomModule();
-//     console.log(randomModule,'===>randomModule')
-//     addRandomClass(randomModule, 'random-class');
-//     previousModule = randomModule;
-  
-//     setTimeout(() => {
-//       removeRandomClass(randomModule, 'random-class');
-//       previousModule = null;
-//       inProgress = false;
-//     }, 3000);
-//   }
-// }
+    setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
+  }, 4500); 
 
-// // function randomToggle() {
-// //   if (previousModule) {
-// //     removeRandomClass(previousModule, 'random-class');
-// //   }
- 
-// //   const randomModule = getRandomModule();
-// //   addRandomClass(randomModule, 'random-class');
-// //   previousModule = randomModule;
- 
-// //   setTimeout(() => {
-// //     removeRandomClass(randomModule, 'random-class');
-// //     previousModule = null;
-// //   }, 3000);
-// // }
- 
-// function startToggle() {
-//   randomToggle(); 
-//   interval = setInterval(randomToggle, 6000); 
-// }
- 
-// function stopToggle() {
-//   clearInterval(interval);
-// }
- 
-// startToggle();
-
-
-
-function toggleRandomClass(module) {
-  const classes = module.className.split(' ');
-  const randomIndex = Math.floor(Math.random() * classes.length);
-  classes.splice(randomIndex, 1);
-  module.className = classes.join(' ');
-}
-
-function addRandomClass(module, className) {
-  module.classList.add(className);
-}
-
-function removeRandomClass(module, className) {
-  module.classList.remove(className);
-}
-
-
-function getRandomModule() {
-  const modules = document.querySelectorAll('.circle.bouncing .stat');
-  const randomIndex = Math.floor(Math.random() * modules.length);
-  return modules[randomIndex];
-}
-
-let previousModule = null;
-
-function randomToggle() {
-  const randomModule = getRandomModule();
-  const randomAction = Math.random() < 0.5 ? 'add' : 'remove';
-  const randomClassName = 'random-class'; 
-
-  if (previousModule) {
-    removeRandomClass(previousModule, randomClassName);
-  }
-
-  if (randomAction === 'add') {
-    addRandomClass(randomModule, randomClassName);
-  } 
-  // else {
-  //   removeRandomClass(randomModule, randomClassName);
-  // }
-
-  previousModule = randomModule;
-  setTimeout(() => {
-    removeRandomClass(randomModule, randomClassName);
-  }, 5000);
-}
-
-setInterval(randomToggle, 8000);
+  return () => clearInterval(interval);
+}, [currentModuleIndex]);
 
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1664,7 +1562,7 @@ const handleSelectionClick = () => {
                 <h3>How does it work? </h3>
                 <h5>
                   We host all your content and use intelligence to create
-                  personalised recommendations for each HCP with their consent.{" "}
+                  personalised recommendations for each HCP (Healthcare Professional) with their consent.{" "}
                 </h5>
               </div>
             </Col>
@@ -1674,7 +1572,7 @@ const handleSelectionClick = () => {
               <div className="future-expand-content">
                 <h4>
                   The future doesn’t have to mean leaving your comfort zone,
-                  we’re here to expand it!{" "}
+                  we’re here to expand it{" "}
                 </h4>
               </div>
               <div className="future-expand-content-shape">
@@ -1691,7 +1589,7 @@ const handleSelectionClick = () => {
               <div className="how-work-text">
                 <h3>Built with and for the life sciences</h3>
                 <h5>
-                  Every module has faced HCPs, regulations and compliance. Our
+                  Every module is in use and has regulatory and compliance approval. Our
                   collaborative onboarding process is designed to enhance your
                   current workflow.
                 </h5>
@@ -1984,7 +1882,7 @@ const handleSelectionClick = () => {
               </div>
               <div className="consent-details">
                 <ul>
-                  <li>For Clinicians</li>
+                  <li>For HCPs</li>
                   <li>Gathers consent</li>
                   <li>Read online in any browser</li>
                   <li>Read offline in the app</li>
@@ -1993,7 +1891,7 @@ const handleSelectionClick = () => {
                   <img src={path_image + "doc-info.png"} alt="" />
                 </div>
                 <ul>
-                  <li>For Life science</li>
+                  <li>For life science</li>
                   <li>Host content</li>
                   <li>Manage consent</li>
                   <li>Predict the future</li>
@@ -2019,7 +1917,7 @@ const handleSelectionClick = () => {
                   className={`circle bouncing ${readStatus ? "bigger" : ""}`}
                   style={{ "--total": "13" }}
                 >
-                  <div
+                  <div id="module-0"
                     className={
                       activeModule === "read"
                         ? "stat read visible"
@@ -2039,7 +1937,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-4"
                     className={
                       activeModule === "rating"
                         ? "stat rating visible"
@@ -2057,7 +1955,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-10"
                     className={
                       activeModule === "spc"
                         ? "stat spc visible"
@@ -2075,7 +1973,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-12"
                     className={
                       activeModule === "automail"
                         ? "stat automail visible"
@@ -2098,7 +1996,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-1"
                     className={
                       activeModule === "ai"
                         ? "stat ai visible"
@@ -2123,7 +2021,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-6"
                     className={
                       activeModule === "consent"
                         ? "stat consent visible"
@@ -2147,7 +2045,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-8"
                     className={
                       activeModule === "engine"
                         ? "stat engine visible"
@@ -2167,7 +2065,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-2"
                     className={
                       activeModule === "docintel"
                         ? "stat docintel visible"
@@ -2192,7 +2090,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-7"
                     className={
                       activeModule === "informed"
                         ? "stat informed visible"
@@ -2215,7 +2113,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-3"
                     className={
                       activeModule === "qa"
                         ? "stat qa visible"
@@ -2233,7 +2131,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-5"
                     className={
                       activeModule === "survey"
                         ? "stat survey visible"
@@ -2251,7 +2149,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-9"
                     className={
                       activeModule === "web"
                         ? "stat web visible"
@@ -2273,7 +2171,7 @@ const handleSelectionClick = () => {
                     </div>
                   </div>
 
-                  <div
+                  <div id="module-11"
                     className={
                       activeModule === "webinar"
                         ? "stat webinar visible"
