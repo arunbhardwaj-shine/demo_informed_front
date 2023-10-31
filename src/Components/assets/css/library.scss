@@ -551,7 +551,7 @@
     background: transparent;
     padding: 7px 0px;
     width: 100%;
-    margin: 0;
+    margin: 0 0 40px;
 
     form {
       &.product-unit {
@@ -10576,7 +10576,388 @@ img.change-password-image {
 
 /***Print css end***/
 
+/***Webinar polls***/
+.poll-question {
+  padding: 0;
+  position: relative;
 
+  .poll-question-selection {
+    display: flex;
+    flex-direction: row-reverse;
+    position: absolute;
+    transform: rotate(-90deg) scaleX(1);
+    transform-origin: bottom left;
+    left: 52px;
+    bottom: 0;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 540px;
+
+    .question-number {
+      span {
+        font-size: 48px;
+        color: #EEE;
+        font-weight: 700;
+        line-height: 45px;
+      }
+    }
+
+    .question-action {
+      gap: 16px;
+      display: flex;
+
+      button {
+        min-width: 48px;
+        padding: 6px 11px;
+        height: 48px;
+
+        &.dl_btn {
+          -moz-transform: rotate(90deg);
+          -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+        }
+
+        &.save {
+          min-width: 100px;
+        }
+
+        &:hover {
+          svg {
+            path {
+              fill: $white;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .poll-question-option {
+    margin-left: 60px;
+    padding: 24px 40px;
+    border: 1px dashed $primary-color;
+    border-radius: 15px;
+  }
+
+  .poll-question-create {
+    label {
+      &.h5 {
+        font-size: 22px;
+        line-height: 25px;
+        color: $dark-blue;
+        width: 100%;
+        margin: 0 0 15px;
+      }
+    }
+
+    textarea {
+      padding: 8px 25px;
+      font-size: 16px;
+      line-height: 20px;
+      box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+      border-radius: 30px;
+      resize: none;
+      border: 0;
+    }
+
+    .form-check-inline {
+      min-width: 255px;
+      border-radius: 50px;
+      border: 1px solid rgb(112 137 158 / 36%);
+      padding: 16px 24px;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: space-between;
+
+      label {
+        font-size: 16px;
+        line-height: 19px;
+        color: #70899E;
+      }
+
+      .form-check-input[type=radio] {
+        margin: 0;
+        border: 1px solid #97B6CF;
+        width: 16px;
+        height: 16px;
+        padding: 1px;
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+        appearance: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        display: inline-block;
+        flex: 0 0 16px;
+
+        &:checked {
+          background-color: $secondary-green;
+          border-color: $secondary-green;
+          background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+        }
+      }
+    }
+
+    .answer-option {
+      margin-top: 47px;
+      padding-top: 26px;
+      position: relative;
+
+      &:before {
+        position: absolute;
+        content: "";
+        border-top: 1px dashed #0066BE;
+        top: 0;
+        width: calc(100% + 80px);
+        left: -40px;
+      }
+
+      .options {
+        padding: 0 12px;
+
+        .row {
+          align-items: center;
+
+          .form-label {
+            flex: 0 0 128px;
+            max-width: 128px;
+            color: $dark-blue;
+            margin: 0;
+            font-size: 18px;
+            padding: 0;
+          }
+
+          .form-control {
+            flex: 1 1;
+            background: #ffffff;
+            border-radius: 30px;
+            border: 0;
+            padding: 12px 27px;
+            width: 100%;
+            color: #0066BE;
+            margin-right: 24px;
+          }
+
+          .option-action {
+            width: 100%;
+            max-width: 205px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0 16px;
+
+            button {
+              border-radius: 30px;
+              box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
+              border: 0;
+              padding: 6px;
+              width: 48px;
+              min-width: 48px;
+              height: 48px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            .color-pick {
+              border-radius: 30px;
+              background: #EEE;
+              width: 100%;
+              padding: 6px 12px;
+              height: 48px;
+              display: flex;
+              align-items: center;
+
+              input[type="color"] {
+                width: 68px;
+                border-radius: 30px;
+                margin-left: 14px;
+                -webkit-appearance: none;
+                cursor: pointer;
+
+                &::-webkit-color-swatch {
+                  border: none;
+                  border-radius: 30px;
+                  padding: 0;
+                }
+
+                &::-webkit-color-swatch-wrapper {
+                  border: none;
+                  border-radius: 30px;
+                  padding: 0;
+                }
+              }
+
+              img {
+                max-width: 24px;
+              }
+            }
+          }
+        }
+      }
+
+      .add-choice {
+        background: transparent;
+        border: 0;
+        color: #004A89;
+        padding: 0;
+        font-size: 14px;
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        margin-right: 225px;
+
+        img {
+          margin-left: 6px;
+        }
+      }
+
+    }
+
+    .switch6 {
+      max-width: 100px;
+      background: rgba(0, 102, 190, 0.2);
+      border-radius: 26px;
+      padding: 6px;
+      width: 100px;
+
+      .switch6-light {
+        height: 36px;
+        background-color: transparent;
+
+        input {
+          //   position: absolute;
+          //   opacity: 0;
+          //   z-index: 5;
+
+          //   :checked+span span:first-child {
+          //     color: var(--blue);
+          //   }
+
+          //   :checked+span span:last-child {
+          //     color: #89b2d5;
+          //   }
+
+          :checked~a.btn {
+            right: 50%;
+          }
+
+
+        }
+
+        a {
+          &.btn {
+            top: 0px;
+            width: 36px;
+            height: 36px;
+            right: 58%;
+          }
+        }
+
+        input:checked~a.btn {
+          right: 0%;
+        }
+
+        span {
+          left: 0;
+
+          span {
+            margin-left: 3px;
+            width: 30px;
+
+            &:last-child {
+              margin-left: 56px;
+            }
+
+            img {
+              max-width: 23px;
+            }
+          }
+        }
+      }
+    }
+
+    .speaker-detail {
+      width: 100%;
+      justify-content: space-between;
+      position: relative;
+      padding: 24px 0 0;
+
+      &:before {
+        position: absolute;
+        content: "";
+        border-top: 1px solid #0066BE;
+        top: 0;
+        width: calc(100% + 80px);
+        left: -40px;
+      }
+
+
+      .speaker-name {
+        width: 55%;
+        position: relative;
+
+        &:before {
+          position: absolute;
+          content: "";
+          border-right: 1px solid #0066BE;
+          right: 0px;
+          top: -24px;
+          height: calc(100% + 48px);
+        }
+
+        &>div {
+          display: flex;
+          align-items: center;
+
+          label {
+            flex: 0 0 128px;
+            padding-right: 6px;
+            margin: 0;
+            color: #004A89;
+            margin: 0;
+            font-size: 18px;
+          }
+
+          input {
+            flex: 1 1;
+            margin-right: 51px;
+            box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+            background: #ffffff;
+            border-radius: 30px;
+            border: 0;
+            padding: 12px 27px;
+            width: 100%;
+            color: #0066BE;
+          }
+        }
+      }
+
+      .display-result {
+        width: 45%;
+
+        &>div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          label {
+            margin: 0;
+            padding-right: 6px;
+            margin: 0;
+            color: #004A89;
+            margin: 0;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/***Webinar polls end***/
 
 
 /**R&D Analytics**/
@@ -10953,7 +11334,6 @@ img.change-password-image {
 
       .rd-midbox-export {
         position: absolute;
-        // bottom:50px;
         right: 15px;
 
         img {
@@ -11315,12 +11695,6 @@ img.change-password-image {
               background: #f8f8f8;
               padding: 3px;
               text-align: center;
-              // img {
-              //   max-width: 50px;
-              //   width: 100%;
-              //   filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.24));
-              //   border-radius: 4px;
-              // }
             }
 
             .article-detail-view {
@@ -11342,10 +11716,6 @@ img.change-password-image {
                 color: rgba(0, 74, 137, 0.55);
 
                 span {
-                  // font-weight: 600;
-                  // font-size: 13px;
-                  // line-height: 15px;
-                  // color: $voilet;
                   font-weight: 500;
                   font-size: 14px;
                   line-height: 15px;
@@ -11590,12 +11960,6 @@ img.change-password-image {
   border: 2px solid #dce6ef;
 }
 
-// .rd-full-explain .rd-training-block .engagement-sec {
-//     margin: 0;
-// }
-// .rd-full-explain .rd-training-block .accordion .accordion-item {
-//     margin: 0 0 5px;
-// }
 .rd-full-explain .rd-training-block .accordion .accordion-item.accordion-read {
   margin: 0 0 30px;
 }
@@ -11718,11 +12082,6 @@ img.change-password-image {
   &:hover {
     background: $primary-color;
     color: $white;
-    // svg {
-    //   path {
-    //     fill: $white;
-    //   }
-    // }
   }
 }
 
@@ -11850,15 +12209,6 @@ img.change-password-image {
   .rd-full-explain .rd-training-block .site_complete table.table thead th:nth-child(2) {
     width: 202px;
   }
-
-  // .rd-full-explain
-  //   .rd-training-block
-  //   .site_complete
-  //   table.table
-  //   thead
-  //   th:nth-child(3) {
-  //   width: 207px;
-  // }
 }
 
 @media only screen and (max-width: 1500px) {
@@ -11886,14 +12236,6 @@ img.change-password-image {
     width: 165px;
   }
 
-  // .rd-full-explain
-  //   .rd-training-block
-  //   .site_complete
-  //   table.table
-  //   thead
-  //   th:nth-child(3) {
-  //   width: 150px;
-  // }
   .rd-full-explain .rd-training-block .rd-training-block-right button svg {
     width: 18px;
   }
@@ -11977,22 +12319,6 @@ img.change-password-image {
     width: 413px;
   }
 
-  // .rd-full-explain
-  //   .rd-training-block
-  //   .site_complete
-  //   table.table
-  //   thead
-  //   th:nth-child(2) {
-  //   width: 128px;
-  // }
-  // .rd-full-explain
-  //   .rd-training-block
-  //   .site_complete
-  //   table.table
-  //   thead
-  //   th:nth-child(3) {
-  //   width: 140px;
-  // }
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .lex-article .lex-article-box .lex-detail p {
     font-size: 12px;
   }
@@ -12052,14 +12378,6 @@ img.change-password-image {
     width: 150px;
   }
 
-  // .rd-full-explain
-  //   .rd-training-block
-  //   .site_complete
-  //   table.table
-  //   thead
-  //   th:nth-child(3) {
-  //   width: 125px;
-  // }
   .contents-block-right .used-device-detail img {
     max-width: 250px;
   }
@@ -16395,7 +16713,7 @@ img.change-password-image {
   display: none;
 }
 
-.webinarRegistrationBody{
+.webinarRegistrationBody {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0.55%, rgba(255, 255, 255, 0) 100%);
   box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.08);
   border-radius: 32px;
