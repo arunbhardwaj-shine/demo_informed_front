@@ -1667,15 +1667,13 @@ const MarketingTimeLineDetail = (props) => {
                                         </div>
                                         <h6>Logs</h6>
                                       </div>
-                                      <div className="timeline-time-view">
+                                      {/* <div className="timeline-time-view">
                                         <div className="timeline-time">
-                                          {/* {details?.time} */}
                                         </div>
                                         |
                                         <div className="timeline-timezone">
-                                          {/* {details?.timezone} */}
                                         </div>
-                                      </div>
+                                      </div> */}
                                     </div>
 
                                     <div className="timeline-article-device">
@@ -1694,116 +1692,7 @@ const MarketingTimeLineDetail = (props) => {
                                         </tbody>
                                       </Table>
                                     </div>
-                                    {/* details.file_type && details.file_type == "ebook"? "": */}
-                                    {details?.pdfTimeTracks == "No" ? (
-                                      ""
-                                    ) : (
-                                      <div
-                                        className={
-                                          isActive && details.id == activeIndex
-                                            ? "timeline-article-detail-full active"
-                                            : "timeline-article-detail-full"
-                                        }
-                                        onClick={(e) => {
-                                          handleClick(
-                                            details.id,
-                                            details.pdf_id,
-                                            details.Created,
-                                            details
-                                          );
-                                        }}
-                                      >
-                                        <div className="timeline-article-details-overall">
-                                          <div className="data-main-box tab-panel">
-                                            {/* <div className="timeline-article-details-boxes"> */}
-                                            {typeof ebookData !== "undefined" &&
-                                            ebookData.length > 0 ? (
-                                              <>
-                                                {ebookData.map(
-                                                  (data, index) => {
-                                                    return (
-                                                      <div className="timeline-article-details-boxes d-flex">
-                                                        {data?.chapter ? (
-                                                          <h3>
-                                                            Chapter name:{" "}
-                                                            {data?.chapter}
-                                                          </h3>
-                                                        ) : (
-                                                          ""
-                                                        )}
-                                                        {data?.data?.length
-                                                          ? data?.data.map(
-                                                              (item) => {
-                                                                return (
-                                                                  <div
-                                                                    className={`media media-${item?.flag}`}
-                                                                  >
-                                                                    <div className="media-left">
-                                                                      {item?.image ? (
-                                                                        <img
-                                                                          src={
-                                                                            item?.image
-                                                                          }
-                                                                        />
-                                                                      ) : (
-                                                                        <p>
-                                                                          Page:{" "}
-                                                                          {
-                                                                            item?.page
-                                                                          }
-                                                                        </p>
-                                                                      )}
-                                                                    </div>
-                                                                    <div className="media-right">
-                                                                      <p>
-                                                                        <span>
-                                                                          Time
-                                                                          Needed:{" "}
-                                                                          {
-                                                                            item?.minimum
-                                                                          }{" "}
-                                                                          seconds
-                                                                        </span>{" "}
-                                                                        <span>
-                                                                          Time
-                                                                          Spent:{" "}
-                                                                          {
-                                                                            item?.timeSpend
-                                                                          }{" "}
-                                                                          seconds
-                                                                        </span>
-                                                                      </p>
-                                                                      <div className="content-type">
-                                                                        {
-                                                                          item?.readContent
-                                                                        }
-                                                                      </div>
-                                                                    </div>
-                                                                  </div>
-                                                                );
-                                                              }
-                                                            )
-                                                          : ""}
-                                                      </div>
-                                                    );
-                                                    //  return (
-                                                    //    <>
-
-                                                    //    </>
-                                                    //  );
-                                                  }
-                                                )}
-                                              </>
-                                            ) : (
-                                              <div className="no_found">
-                                                <p>No Data Found</p>
-                                              </div>
-                                            )}
-                                            {/* </div> */}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    )}
+                                  
                                   </div>
                                 </div>
                               </>
