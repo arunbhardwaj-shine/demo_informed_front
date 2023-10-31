@@ -93,14 +93,14 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 <Col md={{ span: 6, offset: 1 }} className='d-flex justify-content-center align-items-center'>
                     <div className='how-work-text'>
                         <h3>How does it work? </h3>
-                        <h5>We host all your content and use intelligence to create personalised recommendations for each HCP with their consent. </h5>
+                        <h5>We host all your content and use intelligence to create personalised recommendations for each HCP (Healthcare Professional) with their consent. </h5>
                     </div>
                 </Col>
             </Row>
             <Row>
                 <div className='future-expand'>
                     <div className='future-expand-content'>
-                        <h4>The future doesn’t have to mean leaving your comfort zone, we’re here to expand it! </h4>
+                        <h4>The future doesn’t have to mean leaving your comfort zone, we’re here to expand it</h4>
                     </div>
                     <div className='future-expand-content-shape'>
                         <span className='shade-left'>&nbsp;</span>
@@ -113,7 +113,7 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 <Col md={6} className='d-flex justify-content-center align-items-center'>
                     <div className='how-work-text'>
                         <h3>Built with and for the life sciences</h3>
-                        <h5>Every module has faced HCPs, regulations and compliance. Our collaborative onboarding process is designed to enhance your current workflow.</h5>
+                        <h5>Every module is in use and has regulatory and compliance approval. Our collaborative onboarding process is designed to enhance your current workflow.</h5>
                     </div>
                 </Col>
                 <Col md={5} className="build_with d-flex justify-content-end">
@@ -126,7 +126,7 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 <div className='works-started'>
                     <h3>Let’s get started</h3>
                     <div className='works-started-links'>
-                        <h3>Tell us what you work with?</h3>
+                        <h3>Tell us where you work?</h3>
                         <div className='started-links d-flex justify-content-evenly'>
                             {/* <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link> 
                             <Link to="/pharma-marketing" className='pharma-marketing'>Pharma Marketing</Link>
