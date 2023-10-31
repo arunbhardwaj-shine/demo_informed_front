@@ -7894,7 +7894,10 @@ section.search-hcp.smart-list-view .header-btn-left {
 .create-change-content .right-change .log-activity-box span:first-child {
   margin-left: 0;
   margin-right: auto;
-  flex: 0 0 230px;
+  flex: 0 0 260px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .create-change-content .right-change .form-group.new-change span {
