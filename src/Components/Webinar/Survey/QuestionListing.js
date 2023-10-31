@@ -48,10 +48,8 @@ export default function QuestionListing() {
         speakerName: "",
         answerOption: [{ answer: "", color: "#000000" }],
         answerType: "",
-        includeComment: {
-          showComment: true,
-          placeHolder: "",
-        },
+        isRequired:0,
+    
       },
       questionDataErrors: {
         questionError: "",
@@ -154,10 +152,9 @@ export default function QuestionListing() {
           speakerName: "",
           answerOption: [{ answer: "", color: "#000000" }],
           answerType: "",
-          includeComment: {
-            showComment: true,
-            placeHolder: "Enter you place Holder",
-          },
+        isRequired:0,
+
+       
         },
         questionDataErrors: {
           questionError: "",
@@ -193,10 +190,9 @@ export default function QuestionListing() {
           speakerName: "",
           answerOption: [{ answer: "", color: "" }],
           answerType: "",
-          includeComment: {
-            showComment: false,
-            placeHolder: "",
-          },
+        isRequired:0,
+
+         
         },
         questionDataErrors: {
           questionError: "",
@@ -227,10 +223,9 @@ export default function QuestionListing() {
           speakerName: "",
           answerOption: [{ answer: "", color: "#00000" }],
           answerType: "",
-          includeComment: {
-            showComment: false,
-            placeHolder: "",
-          },
+        isRequired:0,
+
+    
         },
         questionDataErrors: {
           questionError: "",
@@ -243,21 +238,20 @@ export default function QuestionListing() {
   };
 
   const handleQuestionChange = (e, key) => {
+  
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.question = e.target.value;
     setQuestions(updatedQuestions);
   };
-  const handleShowCommentChange = (e, key) => {
+  const handleIsRequiredChange = (e, key) => {
+    
     const { name, checked, value } = e.target;
     const updatedQuestions = [...questions];
 
     const questionData = updatedQuestions[key].questionData;
-    const includeComment = questionData.includeComment || {};
-
-    includeComment.placeHolder = !checked ? "" : includeComment.placeHolder;
-    includeComment[name] = name === "showComment" ? checked : value;
-
-    questionData.includeComment = includeComment;
+        
+        questionData.isRequired=checked
+ 
     setQuestions(updatedQuestions);
   };
 
@@ -270,12 +264,18 @@ export default function QuestionListing() {
   const handleTypeChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.answerType = e;
-    if (method != "edit" || (method == "edit" && e == "input")) {
+    if(  e == "INPUT"){
+      updatedQuestions[key].questionData.answerOption = [
+       
+      ];
+    
+      updatedQuestions[key].questionDataErrors.answerOptionError = [
+        { answerError: "", colorError: "" },
+      ];
+    }
+   else  {
       updatedQuestions[key].questionData.answerOption = [
         { answer: "", color: "#000000" },
-      ];
-      updatedQuestions[key].questionData.includeComment = [
-        { showComment: "", placeHolder: "" },
       ];
       updatedQuestions[key].questionDataErrors.answerOptionError = [
         { answerError: "", colorError: "" },
@@ -374,7 +374,7 @@ export default function QuestionListing() {
       questionObj.questionData.answerOption.forEach((choice, choiceIndex) => {
         if (
           choice.answer.trim() === "" &&
-          questionObj?.questionData?.answerType != "input"
+          questionObj?.questionData?.answerType != "INPUT"
         ) {
           questionObj.questionDataErrors.answerOptionError[
             choiceIndex
@@ -388,7 +388,7 @@ export default function QuestionListing() {
 
         if (
           choice?.color?.trim() === "" &&
-          questionObj.questionData.answerType != "input"
+          questionObj.questionData.answerType != "INPUT"
         ) {
           questionObj.questionDataErrors.answerOptionError[
             choiceIndex
@@ -602,8 +602,8 @@ export default function QuestionListing() {
                         questionData={questionObj.questionData}
                         questionDataErrors={questionObj.questionDataErrors}
                         onQuestionChange={(e) => handleQuestionChange(e, index)}
-                        onHandleShowCommentChange={(e) =>
-                          handleShowCommentChange(e, index)
+                        onHandleIsRequiredChange={(e) =>
+                          handleIsRequiredChange(e, index)
                         }
                         onHandleSpeakerNameChange={(e) =>
                           handleSpeakerNameChange(e, index)
