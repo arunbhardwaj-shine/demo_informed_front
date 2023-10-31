@@ -6,16 +6,6 @@
 @import url("https://fonts.googleapis.com/css?family=Muli");
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
 
-html {
-  --scroll-behavior: smooth !important;
-  scroll-behavior: smooth !important;
-}
-
-body,
-html {
-  overflow-x: hidden;
-}
-
 .library-content-box-layuot {
   margin-top: 20px;
   gap: 0% 5%;
@@ -1283,10 +1273,12 @@ ul.tab-mail-list.data span.total-left small {
   color: #aa7d17;
   background: #fac755 !important;
 }
+
 .tab-mail-list.data .progress .progress-bar.bg-pin_usage {
   color: #cfcfff;
   background: #00003C !important;
 }
+
 .tab-mail-list.data .progress .progress-bar.bg-success {
   color: #05766b;
   background: $green !important;
@@ -8740,6 +8732,9 @@ svg.pencil_icon {
 }
 
 @media only screen and (max-width: 1450px) {
+  .custom-change .top-sticky {
+    top: 80px;
+  }
 
   .analytic-charts .form_action,
   .tabs_content_load ul.nav-tabs {
@@ -9196,9 +9191,6 @@ svg.pencil_icon {
     padding: 18px 30px 20px;
   }
 
-  // .doc-content-main-box ul.tab-mail-list li {
-  //   margin: 0 0 7px;
-  // }
   .doc-content-main-box ul.tab-mail-list li:last-child {
     margin-bottom: 0;
   }
