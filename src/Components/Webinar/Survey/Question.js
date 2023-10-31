@@ -5,13 +5,13 @@ import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 let dropdownData = {
-  input: "User Input",
+  INPUT: "User Input",
   RADIO: "Single Choice",
   CHECKBOX: "Multiple Choice",
 };
 function Question(props) {
   const [dropDownOptions, setDropDownOptions] = useState([
-    { label: "User Input", value: "input" },
+    { label: "User Input", value: "INPUT" },
     { label: "Single Choice", value: "RADIO" },
     { label: "Multiple Choice", value: "CHECKBOX" },
   ]);
@@ -35,10 +35,11 @@ function Question(props) {
     onDeleteChoice,
     onHandleSpeakerNameChange,
     questionDataErrors,
-    onHandleShowCommentChange,
+    onHandleIsRequiredChange,
+    
   } = props;
 
-  const { question, answerOption, answerType, speakerName, includeComment } =
+  const { question, answerOption, answerType, speakerName,isRequired } =
     questionData;
   const [selectedItem, setSelectedItem] = useState(
     answerType ? { value: answerType, label: dropdownData[answerType] } : ""
@@ -130,6 +131,26 @@ function Question(props) {
                 </div>
               </div>
             </div>
+            <div className="col-12 col-md-6">
+              {" "}
+              <div className="form-group ">
+                <label htmlFor="">
+                  {" "}
+                  Is Required 
+                </label>
+
+                <input
+                      type="checkbox"
+                      name="isRequired"
+                      checked={isRequired}
+                      onClick={onHandleIsRequiredChange}
+                    />
+
+               
+              </div>
+            </div>
+         
+          
             {(answerType === "RADIO" || answerType === "CHECKBOX") && (
               <>
                 <label htmlFor=""> {/* Answers <span >*</span>{" "} */}</label>
@@ -243,32 +264,8 @@ function Question(props) {
                     </Button>
                   </div>
                 </div>
-
-                <div className="col-12 col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="">Include Comment</label>
-                    <input
-                      type="checkbox"
-                      name="showComment"
-                      checked={includeComment?.showComment}
-                      onClick={onHandleShowCommentChange}
-                    />
-                  </div>
-                </div>
-                {includeComment?.showComment && (
-                  <div className="col-12 col-md-6">
-                    <div className="form-group">
-                      <label htmlFor=""> Placeholder</label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter Placeholder "
-                        name="placeHolder"
-                        value={includeComment?.placeHolder}
-                        onChange={onHandleShowCommentChange}
-                      />
-                    </div>
-                  </div>
-                )}
+ 
+               
               </>
             )}
           </div>

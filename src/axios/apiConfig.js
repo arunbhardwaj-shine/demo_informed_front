@@ -61,7 +61,7 @@ export const ENDPOINT = {
 
   DELIVERYTRENDS: "analytics/trend",
   //CAMPAINGSTAT: "analytics/campaign-stats",
-  CAMPAINGSTAT: "analytics/delivery-campaign-stats",
+  CAMPAINGSTAT: "analytics/delivery-campaign-stats", 
 
   MAPLOCATION: `analytics/map-location`,
   SUBLINK_MAPLOCATION: `library/Sublink-country`,
