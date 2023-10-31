@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Form } from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
 import Select from "react-select";
@@ -24,19 +24,19 @@ const WebinarRegistration = () => {
       console.log(file);
       if (flag == "header") {
         setFile(URL.createObjectURL(file));
-      const imgElement = document.querySelector(".header-img");
-       imgElement.style.height = "250px"; 
-       imgElement.style.width = "1363px"; 
-       imgElement.style.background = "#d7e9e8";
-       imgElement.style.border = "4px solid #FFFFFF";
-       imgElement.style.boxShadow = "0px 8px 24px rgba(0, 0, 0, 0)";
-       imgElement.style.borderRadius = "32px"
+        const imgElement = document.querySelector(".header-img");
+        imgElement.style.height = "250px";
+        imgElement.style.width = "1363px";
+        imgElement.style.background = "#d7e9e8";
+        imgElement.style.border = "4px solid #FFFFFF";
+        imgElement.style.boxShadow = "0px 8px 24px rgba(0, 0, 0, 0)";
+        imgElement.style.borderRadius = "32px";
       }
       if (flag == "footer") {
         const imgElement = document.querySelector(".footer-img");
-        imgElement.style.height = "250px"; 
-        imgElement.style.width = "1363px";  
-        imgElement.style.borderRadius = "30px"
+        imgElement.style.height = "250px";
+        imgElement.style.width = "1363px";
+        imgElement.style.borderRadius = "30px";
         setfoot(URL.createObjectURL(file));
       }
     });
@@ -106,301 +106,374 @@ const WebinarRegistration = () => {
   };
 
   return (
+    // <>
+    //   {console.log("form Data--->", formData)}
+    //   <Col className="right-sidebar">
+    //     <div className="custom-container">
+    //       <Row>
+    //         <div className="outer">
+    //           <header className="header">
+    //             <Button
+    //               className="button"
+    //               onClick={(e) => handleFileSelect(e, "header")}
+    //             >
+    //               Upload Header
+    //             </Button>
+
+    //             <Button style={{marginLeft:'20px'}}
+    //               className="fbutton"
+    //               onClick={(e) => handleFileSelect(e, "footer")}
+    //             >
+    //               Upload Footer
+    //             </Button>
+
+    //             <Button style={{marginLeft:'20px'}} onClick={() => setModal(true)}>Add Feilds</Button>
+
+    //             {/* <img className="header-img" src={file} /> */}
+    //           </header>
+
+    //           {/* <section className="section">
+    //             <div className="sec1">
+    //               <div className="add_hcp_boxes">
+    //                 <button onClick={() => setModal(true)}>AddQuestion</button>
+    //                 <div className="form_action">
+    //                   <div className="row">
+    //                     <form id="registration-form" onSubmit={saveClicked}>
+    //                       <h2>
+    //                         To register please select and fill in all your
+    //                         details below.
+    //                       </h2>
+
+    //                       <h3>
+    //                         This meeting is for healthcare professionals only.
+    //                       </h3>
+
+    //                       <hr></hr>
+
+    //                       <div className="center-align-form">
+    //                         {formData && formData?.length > 0 ? (
+    //                           <div>
+    //                             {formData?.map((data, index) => (
+    //                               <div key={index} className="centered-input">
+    //                                 <div className="col-12 col-md-6">
+    //                                   <div className="form-group">
+    //                                     <label htmlFor="">{data?.label}</label>
+    //                                     {data?.option?.length > 0 ? (
+    //                                       data?.inputType === "radio" ? (
+    //                                         data?.option?.map((item, index) => (
+    //                                           <div key={index}>
+    //                                             <input
+    //                                               type="radio"
+    //                                               name={data?.label}
+    //                                               required={
+    //                                                 data?.required == "yes"
+    //                                                   ? true
+    //                                                   : false
+    //                                               }
+    //                                               // checked={}
+    //                                               onChange={(e) =>
+    //                                                 handleChange(
+    //                                                   e,
+    //                                                   index,
+    //                                                   item,
+    //                                                   data
+    //                                                 )
+    //                                               }
+    //                                             />
+    //                                             <label htmlFor="">
+    //                                               {item?.optionLabel}
+    //                                             </label>
+    //                                           </div>
+    //                                         ))
+    //                                       ) : data?.inputType == "checkbox" ? (
+    //                                         data?.option?.map((item, index) => (
+    //                                           <div key={index}>
+    //                                             <input
+    //                                               type="checkbox"
+    //                                               name={data?.label}
+    //                                               required={
+    //                                                 data?.required == "yes"
+    //                                                   ? true
+    //                                                   : false
+    //                                               }
+    //                                               onChange={(e) =>
+    //                                                 handleChange(
+    //                                                   e,
+    //                                                   index,
+    //                                                   item,
+    //                                                   data
+    //                                                 )
+    //                                               }
+    //                                             />
+    //                                             <label htmlFor="">
+    //                                               {item?.optionLabel}
+    //                                             </label>
+    //                                           </div>
+    //                                         ))
+    //                                       ) : data?.inputType == "selection" ? (
+    //                                         <div key={index}>
+    //                                           <select>
+    //                                             {data?.option?.map((item) => (
+    //                                               <option
+    //                                                 value={item?.optionLabel}
+    //                                               >
+    //                                                 {item?.optionLabel}
+    //                                               </option>
+    //                                             ))}
+    //                                           </select>
+    //                                         </div>
+    //                                       ) : null
+    //                                     ) : (
+    //                                       <input
+    //                                         name={data?.label}
+    //                                         className="form-control"
+    //                                         type={data?.inputType}
+    //                                         required={
+    //                                           data?.required == "yes"
+    //                                             ? true
+    //                                             : false
+    //                                         }
+    //                                         placeholder={data?.placeholder}
+    //                                         onChange={(e) =>
+    //                                           handleChange(e, index)
+    //                                         }
+    //                                       />
+    //                                     )}
+    //                                   </div>
+    //                                 </div>
+    //                               </div>
+    //                             ))}
+    //                             <Button type="submit">Save</Button>
+    //                           </div>
+    //                         ) : null}
+    //                       </div>
+    //                     </form>
+    //                   </div>
+    //                 </div>
+    //               </div>
+    //             </div>
+    //           </section> */}
+
+    //           <div style={{marginTop:'35px',marginBottom:'50px'}} className="header"> <img className="header-img" src={file} /></div>
+
+    //           <section className="webinarRegistrationBody">
+    //             <div className="sec1">
+    //               <div className="add_hcp_boxes">
+    //                 {/* <button onClick={() => setModal(true)}>AddQuestion</button> */}
+    //                 <div className="form_action">
+    //                   <div className="row">
+    //                     <form id="registration-form" onSubmit={saveClicked}>
+    //                       <h3 style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+    //                         To register please select and fill in all your
+    //                         details below.
+    //                       </h3>
+
+    //                       <h4 style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+    //                         This meeting is for healthcare professionals only.
+    //                       </h4>
+
+    //                       <hr></hr>
+
+    //                       <div className="center-align-form">
+    //                         {formData && formData?.length > 0 ? (
+    //                           <div>
+    //                             {formData?.map((data, index) => (
+    //                               <div key={index} className="centered-input">
+    //                                 <div className="col-12 col-md-6">
+    //                                   <div className="form-group">
+    //                                     <label htmlFor="">{data?.label}</label>
+    //                                     {data?.option?.length > 0 ? (
+    //                                       data?.inputType === "radio" ? (
+    //                                         data?.option?.map((item, index) => (
+    //                                           <div key={index}>
+    //                                             <input style={{marginBottom:'25px',  marginTop:'10px'}}
+    //                                               type="radio"
+    //                                               name={data?.label}
+    //                                               required={
+    //                                                 data?.required == "yes"
+    //                                                   ? true
+    //                                                   : false
+    //                                               }
+    //                                               // checked={}
+    //                                               onChange={(e) =>
+    //                                                 handleChange(
+    //                                                   e,
+    //                                                   index,
+    //                                                   item,
+    //                                                   data
+    //                                                 )
+    //                                               }
+    //                                             />
+    //                                             <label htmlFor="">
+    //                                               {item?.optionLabel}
+    //                                             </label>
+    //                                           </div>
+    //                                         ))
+    //                                       ) : data?.inputType == "checkbox" ? (
+    //                                         data?.option?.map((item, index) => (
+    //                                           <div key={index}>
+    //                                             <input style={{marginBottom:'25px', marginTop:'10px'}}
+    //                                               type="checkbox"
+    //                                               name={data?.label}
+    //                                               required={
+    //                                                 data?.required == "yes"
+    //                                                   ? true
+    //                                                   : false
+    //                                               }
+    //                                               onChange={(e) =>
+    //                                                 handleChange(
+    //                                                   e,
+    //                                                   index,
+    //                                                   item,
+    //                                                   data
+    //                                                 )
+    //                                               }
+    //                                             />
+    //                                             <label htmlFor="">
+    //                                               {item?.optionLabel}
+    //                                             </label>
+    //                                           </div>
+    //                                         ))
+    //                                       ) : data?.inputType == "selection" ? (
+    //                                         <div key={index}>
+    //                                           <select style={{marginBottom:'25px',  marginTop:'10px'}}>
+    //                                             {data?.option?.map((item) => (
+    //                                               <option
+    //                                                 value={item?.optionLabel}
+    //                                               >
+    //                                                 {item?.optionLabel}
+    //                                               </option>
+    //                                             ))}
+    //                                           </select>
+    //                                         </div>
+    //                                       ) : null
+    //                                     ) : (
+    //                                       <input style={{marginBottom:'25px', marginTop:'10px'}}
+    //                                         name={data?.label}
+    //                                         className="form-control"
+    //                                         type={data?.inputType}
+    //                                         required={
+    //                                           data?.required == "yes"
+    //                                             ? true
+    //                                             : false
+    //                                         }
+    //                                         placeholder={data?.placeholder}
+    //                                         onChange={(e) =>
+    //                                           handleChange(e, index)
+    //                                         }
+    //                                       />
+    //                                     )}
+    //                                   </div>
+    //                                 </div>
+    //                               </div>
+    //                             ))}
+    //                             <Button type="submit">Save</Button>
+    //                           </div>
+    //                         ) : null}
+    //                       </div>
+    //                     </form>
+    //                   </div>
+    //                 </div>
+    //               </div>
+    //             </div>
+    //           </section>
+
+    //           <div >
+    //             {/* <button
+    //               className="fbutton"
+    //               onClick={(e) => handleFileSelect(e, "footer")}
+    //             >
+    //               upload
+    //             </button> */}
+
+    //             {/* <img className="footer-img" src={foot} /> */}
+    //           </div>
+    //           <div style={{marginTop:'35px',marginBottom:'50px'}}>  <img className="footer-img" src={foot} /></div>
+    //         </div>
+    //       </Row>
+    //     </div>
+    //   </Col>
+    //   <CommonAddQuestionModal
+    //     show={showModal}
+    //     onClose={handleAddQuestionModalClose}
+    //     handleSave={handleModalSave}
+    //     formLabel={formData}
+    //   />
+    // </>
     <>
-      {console.log("form Data--->", formData)}
       <Col className="right-sidebar">
-        <div className="custom-container">
-          <Row>
-            <div className="outer">
-              <header className="header">
-                <Button
-                  className="button"
-                  onClick={(e) => handleFileSelect(e, "header")}
-                >
-                  Upload Header
-                </Button>
+        <div className="register-page">
+          <h3>Registration Page</h3>
+          <div className="row">
+            <div className="left-section col-sm-3 col-md-6 col-lg-8">
 
-                <Button style={{marginLeft:'20px'}}
-                  className="fbutton"
-                  onClick={(e) => handleFileSelect(e, "footer")}
-                >
-                  Upload Footer
-                </Button>
-
-                <Button style={{marginLeft:'20px'}} onClick={() => setModal(true)}>Add Feilds</Button>
-
-
-
-                {/* <img className="header-img" src={file} /> */}
-              </header>
-
-              {/* <section className="section">
-                <div className="sec1">
-                  <div className="add_hcp_boxes">
-                    <button onClick={() => setModal(true)}>AddQuestion</button>
-                    <div className="form_action">
-                      <div className="row">
-                        <form id="registration-form" onSubmit={saveClicked}>
-                          <h2>
-                            To register please select and fill in all your
-                            details below.
-                          </h2>
-
-                          <h3>
-                            This meeting is for healthcare professionals only.
-                          </h3>
-
-                          <hr></hr>
-
-                          <div className="center-align-form">
-                            {formData && formData?.length > 0 ? (
-                              <div>
-                                {formData?.map((data, index) => (
-                                  <div key={index} className="centered-input">
-                                    <div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label htmlFor="">{data?.label}</label>
-                                        {data?.option?.length > 0 ? (
-                                          data?.inputType === "radio" ? (
-                                            data?.option?.map((item, index) => (
-                                              <div key={index}>
-                                                <input
-                                                  type="radio"
-                                                  name={data?.label}
-                                                  required={
-                                                    data?.required == "yes"
-                                                      ? true
-                                                      : false
-                                                  }
-                                                  // checked={}
-                                                  onChange={(e) =>
-                                                    handleChange(
-                                                      e,
-                                                      index,
-                                                      item,
-                                                      data
-                                                    )
-                                                  }
-                                                />
-                                                <label htmlFor="">
-                                                  {item?.optionLabel}
-                                                </label>
-                                              </div>
-                                            ))
-                                          ) : data?.inputType == "checkbox" ? (
-                                            data?.option?.map((item, index) => (
-                                              <div key={index}>
-                                                <input
-                                                  type="checkbox"
-                                                  name={data?.label}
-                                                  required={
-                                                    data?.required == "yes"
-                                                      ? true
-                                                      : false
-                                                  }
-                                                  onChange={(e) =>
-                                                    handleChange(
-                                                      e,
-                                                      index,
-                                                      item,
-                                                      data
-                                                    )
-                                                  }
-                                                />
-                                                <label htmlFor="">
-                                                  {item?.optionLabel}
-                                                </label>
-                                              </div>
-                                            ))
-                                          ) : data?.inputType == "selection" ? (
-                                            <div key={index}>
-                                              <select>
-                                                {data?.option?.map((item) => (
-                                                  <option
-                                                    value={item?.optionLabel}
-                                                  >
-                                                    {item?.optionLabel}
-                                                  </option>
-                                                ))}
-                                              </select>
-                                            </div>
-                                          ) : null
-                                        ) : (
-                                          <input
-                                            name={data?.label}
-                                            className="form-control"
-                                            type={data?.inputType}
-                                            required={
-                                              data?.required == "yes"
-                                                ? true
-                                                : false
-                                            }
-                                            placeholder={data?.placeholder}
-                                            onChange={(e) =>
-                                              handleChange(e, index)
-                                            }
-                                          />
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                                <Button type="submit">Save</Button>
-                              </div>
-                            ) : null}
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+              <div className="text-section">
+                <div className="row">
+                  <div className="col-lg-3 registration-heading">
+                    <h5>Registration Page Title</h5>
+                  </div>
+                  <div className="col-lg-6 registration-text">
+                    <input type="text" value="" />
                   </div>
                 </div>
-              </section> */}
 
-              <div style={{marginTop:'35px',marginBottom:'50px'}} className="header"> <img className="header-img" src={file} /></div>
-
-              <section className="webinarRegistrationBody">
-                <div className="sec1">
-                  <div className="add_hcp_boxes">
-                    {/* <button onClick={() => setModal(true)}>AddQuestion</button> */}
-                    <div className="form_action">
-                      <div className="row">
-                        <form id="registration-form" onSubmit={saveClicked}>
-                          <h3 style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-                            To register please select and fill in all your
-                            details below.
-                          </h3>
-
-                          <h4 style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-                            This meeting is for healthcare professionals only.
-                          </h4>
-
-                          <hr></hr>
-
-                          <div className="center-align-form">
-                            {formData && formData?.length > 0 ? (
-                              <div>
-                                {formData?.map((data, index) => (
-                                  <div key={index} className="centered-input">
-                                    <div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label htmlFor="">{data?.label}</label>
-                                        {data?.option?.length > 0 ? (
-                                          data?.inputType === "radio" ? (
-                                            data?.option?.map((item, index) => (
-                                              <div key={index}>
-                                                <input style={{marginBottom:'25px',  marginTop:'10px'}}
-                                                  type="radio"
-                                                  name={data?.label}
-                                                  required={
-                                                    data?.required == "yes"
-                                                      ? true
-                                                      : false
-                                                  }
-                                                  // checked={}
-                                                  onChange={(e) =>
-                                                    handleChange(
-                                                      e,
-                                                      index,
-                                                      item,
-                                                      data
-                                                    )
-                                                  }
-                                                />
-                                                <label htmlFor="">
-                                                  {item?.optionLabel}
-                                                </label>
-                                              </div>
-                                            ))
-                                          ) : data?.inputType == "checkbox" ? (
-                                            data?.option?.map((item, index) => (
-                                              <div key={index}>
-                                                <input style={{marginBottom:'25px', marginTop:'10px'}}
-                                                  type="checkbox"
-                                                  name={data?.label}
-                                                  required={
-                                                    data?.required == "yes"
-                                                      ? true
-                                                      : false
-                                                  }
-                                                  onChange={(e) =>
-                                                    handleChange(
-                                                      e,
-                                                      index,
-                                                      item,
-                                                      data
-                                                    )
-                                                  }
-                                                />
-                                                <label htmlFor="">
-                                                  {item?.optionLabel}
-                                                </label>
-                                              </div>
-                                            ))
-                                          ) : data?.inputType == "selection" ? (
-                                            <div key={index}>
-                                              <select style={{marginBottom:'25px',  marginTop:'10px'}}>
-                                                {data?.option?.map((item) => (
-                                                  <option
-                                                    value={item?.optionLabel}
-                                                  >
-                                                    {item?.optionLabel}
-                                                  </option>
-                                                ))}
-                                              </select>
-                                            </div>
-                                          ) : null
-                                        ) : (
-                                          <input style={{marginBottom:'25px', marginTop:'10px'}}
-                                            name={data?.label}
-                                            className="form-control"
-                                            type={data?.inputType}
-                                            required={
-                                              data?.required == "yes"
-                                                ? true
-                                                : false
-                                            }
-                                            placeholder={data?.placeholder}
-                                            onChange={(e) =>
-                                              handleChange(e, index)
-                                            }
-                                          />
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                                <Button type="submit">Save</Button>
-                              </div>
-                            ) : null}
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+                <div className="row">
+                  <div className="col-lg-3 registration-bodyHeading">
+                    <h5>Body Text</h5>
+                  </div>
+                  <div className="col-lg-6 registration-bodyText">
+                    <textarea cols="50" rows="4" value="" />
                   </div>
                 </div>
-              </section>
 
-              <div >
-                {/* <button
-                  className="fbutton"
-                  onClick={(e) => handleFileSelect(e, "footer")}
-                >
-                  upload
-                </button> */}
+                <div className="feilds-section">
+                <Form.Check className="name-checkbox"
+                  inline
+                  label="Name"
+                  name="group1"
+                  type="radio"
+                  />
 
-                {/* <img className="footer-img" src={foot} /> */}
+            <Form.Check className="name-checkbox"
+                  inline
+                  label="Email"
+                  name="group1"
+                  type="radio"
+                  />
+
+<Form.Check className="name-checkbox"
+                  inline
+                  label="Profession"
+                  name="group1"
+                  type="radio"
+                  />
+
+<Form.Check className="name-checkbox"
+                  inline
+                  label="Country"
+                  name="group1"
+                  type="radio"
+                  />
+
+<Form.Check className="name-checkbox"
+                  inline
+                  label="State"
+                  name="group1"
+                  type="radio"
+                  />
+
+                  <span>Add Feilds</span>
+                </div>
               </div>
-              <div style={{marginTop:'35px',marginBottom:'50px'}}>  <img className="footer-img" src={foot} /></div>
             </div>
-          </Row>
+            <div className="right-section col-sm-9 col-md-6 col-lg-4">
+              <div className="header-section">header</div>
+
+              <div className="footer-section">footer</div>
+            </div>
+          </div>
         </div>
       </Col>
-      <CommonAddQuestionModal
-        show={showModal}
-        onClose={handleAddQuestionModalClose}
-        handleSave={handleModalSave}
-        formLabel={formData}
-      />
     </>
   );
 };

@@ -16395,15 +16395,76 @@ img.change-password-image {
   display: none;
 }
 
-.webinarRegistrationBody{
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0.55%, rgba(255, 255, 255, 0) 100%);
-  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.08);
-  border-radius: 32px;
-  padding: 18px 30px;
-  width: 100%;
-  border: 4px solid #fff;
+// Registration Style
+
+.left-section{
+  height: 650px;
+  border-style: dashed;
+  border-color: grey;
+  border-radius: 12px;
+}
+.header-section{
+	width:100%;
+	float:left;
+	height:315px;
+  border-style: dashed;
+  border-color: grey;
+  border-radius: 12px;
+ 
+}
+.footer-section{
+	width:100%;
+	float:left;
+	height:315px;
+  border-style: dashed;
+  border-color: grey;
+  border-radius: 12px;
+  margin-top: 20px;
 }
 
+.text-section{
+  padding-top: 25px;
+  padding-left: 40px;
+}
+
+.registration-text input {
+  background: #d6d6d6;
+  width: 455px;
+  height: 35px;
+  border-radius: 17px;
+  padding-left: 12px;
+}
+
+.registration-heading{
+  margin-top: 6px;
+}
+
+.registration-bodyHeading{
+  margin-top: 90px;
+}
+
+.registration-bodyText textarea{
+  margin-top: 50px;
+  background: #d6d6d6;
+  border-radius: 17px;
+  width: 455px;
+  padding-left: 12px;
+}
+
+.feilds-section{
+  border-style: dashed;
+  border-color: grey;
+  border-radius: 12px;
+  width: 78%;
+  height: 356px;
+  margin-top: 28px;
+  padding-left: 38px;
+  padding-top: 50px;
+}
+
+.name-checkbox{
+  border: 2px solid black
+}
 
 /**MOdule End**/
 
