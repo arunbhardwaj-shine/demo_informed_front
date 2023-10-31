@@ -466,12 +466,11 @@ export default function QuestionListing() {
             <div className="create-change-content question-listing">
               <div className="top-header reader_list">
                 <div className="page-title">
-                  <h4>Total Questions </h4>
+                  <h4>Polls</h4>
                 </div>
               </div>
               
-                <form class="product-unit d-flex justify-content-between align-items-center">
-            
+                <form class="product-unit d-flex justify-content-between align-items-center">           
                 <div className="form-group">
                   <label htmlFor="">Select Event</label>
                   <Select
