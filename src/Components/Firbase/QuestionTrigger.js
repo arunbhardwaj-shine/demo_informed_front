@@ -115,7 +115,7 @@ const QuestionTrigger = () =>{
                                         return (
                     <div className="reader_list" key={index}>
                         <div className="detail-box">  
-                            <p className="user_name">Name: {item?.name ? item?.name : "Anonymous"}</p>
+                            <p className="user_name">Name: {item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
                             <div className="user-question">
                                 <p>{item?.question}</p>
                             </div>
@@ -150,7 +150,7 @@ const QuestionTrigger = () =>{
                     return (
                         <div className="reader_list" key={index}>
                             <div className="detail-box">  
-                                <p className="user_name">Name: {item?.name ? item?.name : "Anonymous"}</p>
+                                <p className="user_name">Name: {item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
                                 <div className="user-question">
                                     <p>{item?.question}</p>
                                 </div>
@@ -182,7 +182,7 @@ const QuestionTrigger = () =>{
                     return (
                         <div className="reader_list"  key={index}>
                             <div className="detail-box">  
-                                <p className="user_name">Name: {item?.name ? item?.name : "Anonymous"}</p>
+                                <p className="user_name">Name: {item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
                                 <div className="user-question">
                                 <p>{item?.question}</p>
                                 </div>
