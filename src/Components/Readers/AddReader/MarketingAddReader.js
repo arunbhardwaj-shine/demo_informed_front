@@ -1319,7 +1319,7 @@ const MarketingAddReader = () => {
                   />
                 </Form.Group>
               </div>
-              <div className="col-12 col-md-5 right-change">
+              <div className="col-12 col-md-5 right-change marketing-log">
                 <div className="form-group justify-content-end align-items-start new-change activity-added">
                   <label htmlFor="formControlTextarea">Log activity</label>
 
