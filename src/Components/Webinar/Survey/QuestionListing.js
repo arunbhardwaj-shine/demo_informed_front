@@ -483,7 +483,7 @@ export default function QuestionListing() {
                     value={selectedItem}
                   />
                 </div>
-                <Button
+                {/* <Button
                   className="align-right btn-bordered btn-voilet"
                   onClick={() => {
                     setShowUploadMenu(true);
@@ -491,8 +491,47 @@ export default function QuestionListing() {
                   }}
                 >
                   Add New Question +
-                </Button>
+                </Button> */}
               </form>
+
+              <div className="poll-question">
+                <div className="poll-question-selection">
+
+                </div>
+                <div className="poll-question-option">
+                  <div className="poll-question-create">
+                      <Form>
+                          <Form.Group className="mb-3">
+                            <Form.Label>Enter your question:</Form.Label>
+                             <Form.Control as="textarea" rows={3} />
+                          </Form.Group>
+                          <Form.Group className="mb-3">
+                            <Form.Label>Select the type of your answer:</Form.Label>
+                             <div className="mb-3">
+                              <Form.Check
+                                inline
+                                label="Yes OR No"
+                                name="group1"
+                                type="radio"
+                              />
+                              <Form.Check
+                                inline
+                                label="Multiple choices"
+                                name="group1"
+                                type="radio"
+                              />
+                              <Form.Check
+                                inline
+                                label="Free Text"
+                                name="group1"
+                                type="radio"
+                              />
+                            </div>
+                          </Form.Group>
+                      </Form>
+                  </div>
+                </div>
+              </div>
           </div>
           </div>
           </div>
