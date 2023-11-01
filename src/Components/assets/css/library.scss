@@ -17624,15 +17624,11 @@ img.change-password-image {
 }
 
 .registration-bodyHeading {
-  margin-top: 90px;
+  margin-top: 65px;
 }
 
 .registration-bodyText textarea {
-  margin-top: 50px;
-  background: #d6d6d6;
-  border-radius: 17px;
-  width: 455px;
-  padding-left: 12px;
+  margin-top: 25px;
 }
 
 .feilds-section {
@@ -17649,8 +17645,23 @@ img.change-password-image {
   margin-bottom: 20px;
 }
 
-.name-checkbox {
-  border: 2px solid black;
+.webinar-checkbox {
+  border: 2px solid gray;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  padding-left: 45px;
+  padding-right: 65px;
+  border-radius: 30px;
+  margin-bottom: 12px;
+}
+
+.webinar-event{
+  margin-bottom: 25px;
+ }
+
+.webinar-select{
+  margin-bottom: 25px;
+  margin-top: 12px
 }
 
 .header-img-section{
