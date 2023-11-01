@@ -7,9 +7,13 @@ import { loader } from "../../../../../loader";
 import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
+import { useParams, useLocation } from "react-router-dom";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditWebinarRegistration = () => {
+  let params = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
@@ -25,7 +29,7 @@ const EditWebinarRegistration = () => {
   const [eventData, setEventData] = useState({
     event_id: "",
     company_id: "",
-    label: "testing7",
+    label: queryParams.get("evnt"),
   });
   const [showChangeHeader, setShowChangeHeader] = useState(false);
   const [showChangeFooter, setShowChangeFooter] = useState(false);
@@ -33,6 +37,7 @@ const EditWebinarRegistration = () => {
   useEffect(() => {
     // getEventData();
     getWebinarData();
+    console.log("queryParams--->", queryParams.get("evnt"));
   }, []);
   const getEventData = async () => {
     try {
@@ -54,7 +59,7 @@ const EditWebinarRegistration = () => {
     try {
       loader("show");
       const response = await getData(
-        `${ENDPOINT.GET_REGISTRATION_FORM}/${eventData?.label}`
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${queryParams.get("evnt")}`
       );
       const hadData = response?.data?.data;
 
