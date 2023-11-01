@@ -2171,9 +2171,11 @@ form.product-unit button {
   border-color: $secondary-green;
   background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
 }
+
 .marketing-log {
   padding-left: 43px;
 }
+
 .create-change-content .form-group textarea.form-control {
   min-height: 223px;
   resize: none;
@@ -12319,7 +12321,7 @@ img.change-password-image {
             right: 0;
             position: absolute;
             height: 20px;
-            top: 3px;
+            top: 0px;
           }
         }
       }
@@ -12372,7 +12374,7 @@ img.change-password-image {
         td {
           vertical-align: middle;
           padding: 12px 8px;
-          color: #97B6CF;
+          color: #000000;
 
           button {
             font-size: 14px;
@@ -16401,7 +16403,7 @@ img.change-password-image {
   display: none;
 }
 
-.webinarRegistrationBody{
+.webinarRegistrationBody {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0.55%, rgba(255, 255, 255, 0) 100%);
   box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.08);
   border-radius: 32px;
@@ -17644,6 +17646,10 @@ img.change-password-image {
 @media only screen and (min-width:1200px) and (max-width:$layout-breakpoint-extraLarge) {
   .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
     left: 12%;
+  }
+
+  .how-work .how-work-text {
+    max-width: 465px;
   }
 
   .contact-us.pharma,
