@@ -1194,7 +1194,7 @@ const colourStyles = {
   
    
       setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
-    }, 4500);
+    }, 4700);
    
     return () => clearInterval(interval);
   }, [currentModuleIndex]);
@@ -1422,7 +1422,7 @@ const colourStyles = {
               <div className="future-expand-content">
                 <h4>
                   The future doesn't have to mean leaving your comfort zone,
-                  we're here to expand it!{" "}
+                  we're here to expand it{" "}
                 </h4>
               </div>
               <div className="future-expand-content-shape">

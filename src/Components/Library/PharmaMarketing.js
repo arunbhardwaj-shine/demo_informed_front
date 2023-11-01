@@ -1372,7 +1372,7 @@ useEffect(() => {
 
  
     setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
-  }, 4500);
+  }, 4700);
  
   return () => clearInterval(interval);
 }, [currentModuleIndex]);
