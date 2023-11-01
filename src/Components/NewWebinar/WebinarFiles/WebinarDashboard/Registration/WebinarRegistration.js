@@ -6,6 +6,7 @@ import Select from "react-select";
 import { loader } from "../../../../../loader";
 import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
+import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 
 // import Question from "./AddQuestion";
 
@@ -71,7 +72,7 @@ const WebinarRegistration = () => {
 
       try {
         const uploadedImageUrl = await uploadImageToServer(file);
-        console.log(uploadedImageUrl, "==>imageUrl");
+
         setFormData({ ...formData, [isSelectedName]: uploadedImageUrl });
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -121,8 +122,6 @@ const WebinarRegistration = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
-    console.log(e);
-    console.log("e-->", e?.target?.name, "-->value--->", e?.target?.value);
     if (isSelectedName) {
       let updateFormBody = formData?.body;
 
@@ -136,10 +135,10 @@ const WebinarRegistration = () => {
           toast.error("Label already exist");
           return;
         }
-        if (isSelectedName == "Name" || isSelectedName == "Email") {
+        if (isSelectedName == "name" || isSelectedName == "email") {
           let newObj = {
             label: isSelectedName,
-            inputType: isSelectedName == "Email" ? "email" : "text",
+            inputType: isSelectedName == "email" ? "email" : "text",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
             required: "",
@@ -179,28 +178,35 @@ const WebinarRegistration = () => {
     e.preventDefault();
 
     try {
-      loader("show");
-      let data = {
-        eventId: eventData?.event_id,
-        companyId: eventData?.company_id,
-        content: JSON.stringify(formData),
-      };
-      console.log("data--->", data);
-      const response = await postData(
-        ENDPOINT.CREATE_WEBINAR_REGISTRATION,
-        data
-      );
-      console.log("res--->", response);
-      setFormData({
-        pageTitle: "",
-        bodyText: "",
-        headerImageUrl: "",
-        body: [],
-        footerImageUrl: "",
-      });
-      setEventData({ event_id: "", company_id: "" });
-      setFile("");
-      setFoot("");
+      const error = WebinarRegistrationValidation(formData, eventData);
+
+      if (Object.keys(error)?.length) {
+        toast.error(error[Object.keys(error)[0]]);
+        return;
+      } else {
+        loader("show");
+        let data = {
+          eventId: eventData?.event_id,
+          companyId: eventData?.company_id,
+          content: JSON.stringify(formData),
+        };
+
+        const response = await postData(
+          ENDPOINT.CREATE_WEBINAR_REGISTRATION,
+          data
+        );
+
+        setFormData({
+          pageTitle: "",
+          bodyText: "",
+          headerImageUrl: "",
+          body: [],
+          footerImageUrl: "",
+        });
+        setEventData({ event_id: "", company_id: "" });
+        setFile("");
+        setFoot("");
+      }
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -246,7 +252,7 @@ const WebinarRegistration = () => {
                 </div>
                 <div className="row">
                   <div className="col-lg-3 ">
-                  <label htmlFor="">Registration Page Title</label>
+                    <label htmlFor="">Registration Page Title</label>
                     {/* <h5>Registration Page Title</h5> */}
                   </div>
                   <div className="col-lg-6 registration-text">
@@ -282,80 +288,80 @@ const WebinarRegistration = () => {
                     className="webinar-checkbox"
                     inline
                     label="Name"
-                    name="Name"
+                    name="name"
                     type="checkbox"
                     checked={
                       formData?.body?.findIndex(
-                        (item, index) => item?.label == "Name"
+                        (item, index) => item?.label?.toLowerCase() == "name"
                       ) != -1
                         ? true
                         : false
                     }
-                    onChange={(e) => handleChange(e, "Name")}
+                    onChange={(e) => handleChange(e, "name")}
                   />
 
                   <Form.Check
                     className="webinar-checkbox"
                     inline
                     label="Email"
-                    name="Email"
+                    name="email"
                     type="checkbox"
                     checked={
                       formData?.body?.findIndex(
-                        (item, index) => item?.label == "Email"
+                        (item, index) => item?.label?.toLowerCase() == "email"
                       ) != -1
                         ? true
                         : false
                     }
-                    onChange={(e) => handleChange(e, "Email")}
+                    onChange={(e) => handleChange(e, "email")}
                   />
 
                   <Form.Check
                     className="webinar-checkbox"
                     inline
                     label="Profession"
-                    name="Profession"
+                    name="profession"
                     type="checkbox"
                     checked={
                       formData?.body?.findIndex(
-                        (item, index) => item?.label == "Profession"
+                        (item, index) => item?.label?.toLowerCase() == "profession"
                       ) != -1
                         ? true
                         : false
                     }
-                    onChange={(e) => handleChange(e, "Profession")}
+                    onChange={(e) => handleChange(e, "profession")}
                   />
 
                   <Form.Check
                     className="webinar-checkbox"
                     inline
                     label="Country"
-                    name="Country"
+                    name="country"
                     type="checkbox"
                     checked={
                       formData?.body?.findIndex(
-                        (item, index) => item?.label == "Country"
+                        (item, index) => item?.label?.toLowerCase() == "country"
                       ) != -1
                         ? true
                         : false
                     }
-                    onChange={(e) => handleChange(e, "Country")}
+                    onChange={(e) => handleChange(e, "country")}
                   />
 
                   <Form.Check
                     className="webinar-checkbox"
                     inline
                     label="State"
-                    name="State"
+                    name="state"
                     type="checkbox"
                     checked={
                       formData?.body?.findIndex(
-                        (item, index) => item?.label == "State"
+                        (item, index) => item?.label?.toLowerCase == "state"
                       ) != -1
                         ? true
                         : false
                     }
-                    onChange={(e) => handleChange(e, "State")}
+                    onChange={(e) => handleChange(e, "state")}
                   />
 
                   <span>
@@ -407,7 +413,7 @@ const WebinarRegistration = () => {
                                           <div className="col-12 col-md-6">
                                             <div className="form-group">
                                               <label htmlFor="">
-                                                {data?.label}
+                                                {data?.label?data?.label?.charAt(0).toUpperCase()+data?.label?.slice(1)?.toLowerCase():""}
                                               </label>
                                               {
                                                 // data?.option?.length > 0 ? (
@@ -482,9 +488,7 @@ const WebinarRegistration = () => {
                                                 ) : data?.inputType ==
                                                   "selection" ? (
                                                   <div key={index}>
-                                                    <Select
-                                                      className="dropdown-basic-button split-button-dropup webinar-select"
-                                                    >
+                                                    <Select className="dropdown-basic-button split-button-dropup webinar-select">
                                                       {data?.option?.map(
                                                         (item) => (
                                                           <option
