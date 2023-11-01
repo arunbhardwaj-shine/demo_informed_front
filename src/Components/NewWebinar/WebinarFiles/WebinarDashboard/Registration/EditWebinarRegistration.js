@@ -426,6 +426,22 @@ const EditWebinarRegistration = () => {
                                                       ?.toLowerCase()
                                                   : ""}
                                               </label>
+                                               <button
+                                                className="dlt_btn_event btn-voilet"
+                                                onClick={(e) => {
+                                                  // setConfirmationPopup(true);
+                                                  //   deleteOption(e, index);
+                                                }}
+                                              >
+                                                <img
+                                                  title="Delete"
+                                                  src={
+                                                    path_image +
+                                                    "delete-icon.svg"
+                                                  }
+                                                  alt="Delete Row"
+                                                />
+                                              </button>
                                               {
                                                 // data?.option?.length > 0 ? (
                                                 data?.inputType === "radio" ? (
@@ -511,22 +527,6 @@ const EditWebinarRegistration = () => {
                                                   />
                                                 )
                                               }
-                                              <button
-                                                className="dlt_btn_event btn-voilet"
-                                                onClick={(e) => {
-                                                  // setConfirmationPopup(true);
-                                                  //   deleteOption(e, index);
-                                                }}
-                                              >
-                                                <img
-                                                  title="Delete"
-                                                  src={
-                                                    path_image +
-                                                    "delete-icon.svg"
-                                                  }
-                                                  alt="Delete Row"
-                                                />
-                                              </button>
                                             </div>
                                           </div>
                                         </div>
