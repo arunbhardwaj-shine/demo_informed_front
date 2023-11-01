@@ -90,11 +90,19 @@ function Question(props) {
             <Button className="add-question btn-bordered" onClick={onHandleAddQuestion}>
               Add Question +
             </Button>
-            <Button
-              className="dl_btn btn-bordered"
+             <Button className="btn-bordered question-next" title="Next Question">
+              <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
+                <path
+                  d="M9.27853 7.15662L2.56206 0.442137C1.97595 -0.143796 1.02569 -0.143796 0.43958 0.442137C-0.146527 1.02807 -0.146527 1.97806 0.43958 2.56399L8.21954 10.3416C8.80565 10.9276 9.75591 10.9276 10.342 10.3416C10.3643 10.3194 10.3858 10.2965 10.4064 10.2732L18.1204 2.56155C18.7065 1.97556 18.7065 1.02548 18.1204 0.439493C17.5342 -0.146497 16.5838 -0.146498 15.9977 0.439493L9.27853 7.15662Z"
+                  fill="#0066BE"
+                />
+              </svg>
+            </Button>
+           <Button
+              className="dl_btn btn-bordered" title="Delete"
               // onClick={() => {
-              //     setPopupMessage({
-              //       message1:
+                //     setPopupMessage({
+                  //       message1:
               //         "You are about to remove this question.",
               //       message2: "Are you sure you want to do this?",
               //       footerButton: "Yes please!",
@@ -150,6 +158,9 @@ function Question(props) {
                 />
               </svg>
             </Button>
+            
+           
+            <Button className="save btn-bordered" onClick={onHandleSubmit}>Save</Button>
           </div>
         </div>
         <div className="poll-question-option">
