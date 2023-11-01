@@ -8,9 +8,7 @@ import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 
-// import Question from "./AddQuestion";
-
-const WebinarRegistration = () => {
+const EditWebinarRegistration = () => {
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
@@ -24,7 +22,6 @@ const WebinarRegistration = () => {
     footerImageUrl: "",
   });
   const [eventData, setEventData] = useState({ event_id: "", company_id: "" });
-  const [formInputs, setFormInputs] = useState({});
   const [showChangeHeader, setShowChangeHeader] = useState(false);
   const [showChangeFooter, setShowChangeFooter] = useState(false);
 
@@ -613,4 +610,4 @@ const WebinarRegistration = () => {
   );
 };
 
-export default WebinarRegistration;
+export default EditWebinarRegistration;
