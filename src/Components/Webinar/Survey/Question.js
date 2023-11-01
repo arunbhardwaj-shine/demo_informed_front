@@ -38,9 +38,11 @@ function Question(props) {
     questionDataErrors,
     onHandleIsRequiredChange,
     onHandleDisplayResultChange,
+    onHandleSubmit
   } = props;
   const checkBoxOptions = [
-    { id: "RADIO", label: "Yes OR No" },
+    { id: "YesNO", label: "Yes OR No" },
+    { id: "RADIO", label: "Single Choice" },
     { id: "MULTIPLE", label: "Multiple choices" },
     { id: "INPUT", label: "Free Text" },
   ];
@@ -80,7 +82,7 @@ function Question(props) {
             <span>Q{index + 1}</span>
           </div>
           <div className="question-action">
-            <Button className="save btn-bordered">Save</Button>
+            <Button className="save btn-bordered" onClick={onHandleSubmit}>Save</Button>
             <Button className="add-question btn-bordered">
               Add Question +
             </Button>
@@ -128,15 +130,21 @@ function Question(props) {
               </svg>
             </Button>
             <Button className="btn-bordered question-next">
-                        <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
-                        <path d="M9.27853 7.15662L2.56206 0.442137C1.97595 -0.143796 1.02569 -0.143796 0.43958 0.442137C-0.146527 1.02807 -0.146527 1.97806 0.43958 2.56399L8.21954 10.3416C8.80565 10.9276 9.75591 10.9276 10.342 10.3416C10.3643 10.3194 10.3858 10.2965 10.4064 10.2732L18.1204 2.56155C18.7065 1.97556 18.7065 1.02548 18.1204 0.439493C17.5342 -0.146497 16.5838 -0.146498 15.9977 0.439493L9.27853 7.15662Z" fill="#0066BE"/>
-                        </svg>
-                      </Button>
-                      <Button className="btn-bordered question-prev">
-                        <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
-                        <path d="M9.27902 3.61976L2.56094 10.3378C1.97509 10.9236 1.02524 10.9236 0.439388 10.3378C-0.146462 9.75196 -0.146463 8.80211 0.439387 8.21626L8.21496 0.440724C8.41288 0.242814 8.65233 0.111762 8.90525 0.0475674C9.4024 -0.0805243 9.95244 0.0500824 10.3417 0.439387L18.1173 8.21496C18.7031 8.80081 18.7031 9.75066 18.1173 10.3365C17.5314 10.9224 16.5816 10.9224 15.9957 10.3365L9.27902 3.61976Z" fill="#0066BE"/>
-                        </svg>
-                      </Button>
+              <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
+                <path
+                  d="M9.27853 7.15662L2.56206 0.442137C1.97595 -0.143796 1.02569 -0.143796 0.43958 0.442137C-0.146527 1.02807 -0.146527 1.97806 0.43958 2.56399L8.21954 10.3416C8.80565 10.9276 9.75591 10.9276 10.342 10.3416C10.3643 10.3194 10.3858 10.2965 10.4064 10.2732L18.1204 2.56155C18.7065 1.97556 18.7065 1.02548 18.1204 0.439493C17.5342 -0.146497 16.5838 -0.146498 15.9977 0.439493L9.27853 7.15662Z"
+                  fill="#0066BE"
+                />
+              </svg>
+            </Button>
+            <Button className="btn-bordered question-prev">
+              <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
+                <path
+                  d="M9.27902 3.61976L2.56094 10.3378C1.97509 10.9236 1.02524 10.9236 0.439388 10.3378C-0.146462 9.75196 -0.146463 8.80211 0.439387 8.21626L8.21496 0.440724C8.41288 0.242814 8.65233 0.111762 8.90525 0.0475674C9.4024 -0.0805243 9.95244 0.0500824 10.3417 0.439387L18.1173 8.21496C18.7031 8.80081 18.7031 9.75066 18.1173 10.3365C17.5314 10.9224 16.5816 10.9224 15.9957 10.3365L9.27902 3.61976Z"
+                  fill="#0066BE"
+                />
+              </svg>
+            </Button>
           </div>
         </div>
         <div className="poll-question-option">
@@ -167,23 +175,32 @@ function Question(props) {
                     checked={answerType === option.id}
                     onChange={(e) => onTypeChange(e, option.id)}
                   />
-                ))}
+                ))} 
+                
+                {(answerType === "RADIO" || answerType === "MULTIPLE" || answerType === "YESNO") && (
                 <div className="answer-option">
                   <div className="options">
-                    {/* {data.map((item, index) => ( */}
-                    <Form.Group as={Row} className="mb-3">
-                      <Form.Label>Choice 1</Form.Label>
-                      <Form.Control type="text" />
+                    {answerOption.map((choice, index) => (<><Form.Group as={Row} className="mb-3">
+                      <Form.Label>Choice {index+1}</Form.Label>
+                      <Form.Control type="text"    value={choice.answer}
+                          onChange={(e) => onChoiceChange(e, index)} />
                       <div className="option-action">
-                        <Button
+                      {
+                       answerOption?.length > 1 && (
+                         <Button
                           className="dl_btn"
-                          // onClick={() => {
-                          //     setPopupMessage({
-                          //       message1:
-                          //         "You are about to remove this question.",
-                          //       message2: "Are you sure you want to do this?",
-                          //       footerButton: "Yes please!",
-                          //     }); setConfirmationPopup(true); setResetDataId(item.id);}}
+                          onClick={() =>{
+                            setPopupMessage({
+                              message1:
+                                "You are about to remove this option.",
+                              message2: "Are you sure you want to do this?",
+                              footerButton: "Yes please!",
+                            });
+                            setConfirmationPopup(true);
+                            setResetDataId(index);
+                          }
+                         
+                          }
                         >
                           <svg
                             width="24"
@@ -217,20 +234,22 @@ function Question(props) {
                               fill="#ffffff"
                             ></path>
                           </svg>
-                        </Button>
+                        </Button>)}
                         <div className="color-pick">
                           <img src={path_image + "color-picker.svg"} alt="" />
-                          <input type="color" title="Choose your color" />
+                          <input type="color" title="Choose your color"   onChange={(e) => onChoiceColorChange(e, index)}         defaultValue={choice.color} />
                         </div>
                       </div>
-                    </Form.Group>
-                    {/* ))} */}
+                    </Form.Group></>))}
+                    
+                  
                   </div>
-                  <Button className="add-choice">
+                  <Button className="add-choice"  onClick={onAddChoice}>
                     Add Choice{" "}
                     <img src={path_image + "add-choice.svg"} alt="" />
                   </Button>
                 </div>
+                )}
               </Form.Group>
               <div className="speaker-detail d-flex align-items-center">
                 <div className="speaker-name">
@@ -248,7 +267,10 @@ function Question(props) {
                     <Form.Label>Display the result in :</Form.Label>
                     <div className="switch6">
                       <label className="switch6-light">
-                        <input type="checkbox"  onChange={onHandleDisplayResultChange}/>
+                        <input
+                          type="checkbox"
+                          onChange={onHandleDisplayResultChange}
+                        />
                         <span>
                           <span>
                             <img src={path_image + "bar-graph-img.png"} />
@@ -267,6 +289,14 @@ function Question(props) {
           </div>
         </div>
       </div>
+      <CommonConfirmModel
+      show={confirmationpopup}
+      onClose={hideConfirmationModal}
+      fun={handleDeleteClick}
+      popupMessage={popupMessage}
+      path_image={path_image}
+      resetDataId={resetDataId}
+    />
     </>
   );
 }

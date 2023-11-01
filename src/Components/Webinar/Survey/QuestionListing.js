@@ -58,24 +58,7 @@ export default function QuestionListing() {
         answerTypeError: "",
       },
     },
-    {
-      key: 1,
-
-      questionData: {
-        question: "Whats Your Name buddy ?",
-        speakerName: "",
-        answerOption: [{ answer: "", color: "#000000" }],
-        answerType: "MULTIPLE",
-        isRequired: 0,
-        graph_type: "pie",
-      },
-      questionDataErrors: {
-        questionError: "",
-        speakerNameError: "",
-        answerOptionError: [{ answerError: "", colorError: "#000000" }],
-        answerTypeError: "",
-      },
-    },
+  
   ]);
   useEffect(() => {
     getApiData();
@@ -165,13 +148,91 @@ export default function QuestionListing() {
   const handleDisplayResultChange = (e, key) => {
     const updatedQuestions = [...questions];
     if (e.target.checked) {
-      updatedQuestions[key].questionData.speakerName = "pie";
+      updatedQuestions[key].questionData.graphType = "pie";
     } else {
-      updatedQuestions[key].questionData.speakerName = "bar";
+      updatedQuestions[key].questionData.graphType = "bar";
     }
 
     setQuestions(updatedQuestions);
     console.log(questions);
+  };
+  const handleAddChoice = (key) => {
+    // const isValid = validateQuestions();
+
+    // if (!isValid) {
+    //   return;
+    // }
+
+    const updatedQuestions = [...questions];
+    updatedQuestions[key].questionData.answerOption.push({
+      answer: "",
+      color: "#000000",
+    });
+    updatedQuestions[key].questionDataErrors.answerOptionError.push({
+      answerError: "",
+      colorError: "",
+    });
+
+    setQuestions(updatedQuestions);
+  };
+  const handleChoiceChange = (e, questionKey, choiceIndex) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionKey].questionData.answerOption[
+      choiceIndex
+    ].answer = e.target.value;
+
+    setQuestions(updatedQuestions);
+  };
+  const handleChoiceColorChange = (e, questionKey, choiceIndex) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionKey].questionData.answerOption[choiceIndex].color =
+      e.target.value;
+
+    setQuestions(updatedQuestions);
+  };
+  const handleDeleteChoice = (questionKey, choiceIndex) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionKey].questionData.answerOption.splice(
+      choiceIndex,
+      1
+    );
+    setQuestions(updatedQuestions);
+  };
+  const handleSubmit = async () => {
+    // const isValid = validateQuestions();
+
+    // if (!isValid) {
+    //   return;
+    // }
+
+    // loader("show");
+
+    const surveyData = questions.map(({ questionData }) => questionData);
+    // setSurveyData(surveyData);
+
+    try {
+      let response;
+      const payLoadData = {
+        data: surveyData,
+      };
+console.log(payLoadData);
+      // if (method === "add") {
+      //   payLoadData.eventId = selectedItem.value;
+      //   response = await postData(ENDPOINT.ADD_QUESTION, payLoadData);
+      // } else if (method === "edit") {
+      //   const id = surveyData[0]?.id;
+      //   response = await updateConsent(
+      //     `${ENDPOINT.EDIT_QUESTION}/${id}`,
+      //     payLoadData
+      //   );
+      // }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    } finally {
+      setShowUploadMenu(false);
+      const apiData = await getListingData(selectedItem.value);
+      setData(apiData.data.data);
+    }
   };
   return (
     <Col className="col right-sidebar">
@@ -226,21 +287,22 @@ export default function QuestionListing() {
                 onHandleSpeakerNameChange={(e) =>
                   handleSpeakerNameChange(e, index)
                 }
-                // onChoiceChange={(e, choiceIndex) =>
-                //   handleChoiceChange(e, index, choiceIndex)
-                // }
-                // onChoiceColorChange={(e, choiceIndex) =>
-                //   handleChoiceColorChange(e, index, choiceIndex)
-                // }
+                onChoiceChange={(e, choiceIndex) =>
+                  handleChoiceChange(e, index, choiceIndex)
+                }
+                onChoiceColorChange={(e, choiceIndex) =>
+                  handleChoiceColorChange(e, index, choiceIndex)
+                }
                 onTypeChange={(e) => handleTypeChange(e, index)}
                 onHandleDisplayResultChange={(e) =>
                   handleDisplayResultChange(e, index)
                 }
-                // onAddChoice={() => handleAddChoice(index)}
+                onAddChoice={() => handleAddChoice(index)}
                 // onDelete={() => handleDelete(index)}
-                // onDeleteChoice={(choiceIndex) =>
-                //   handleDeleteChoice(index, choiceIndex)
-                // }
+                onDeleteChoice={(choiceIndex) =>
+                  handleDeleteChoice(index, choiceIndex)
+                }
+                onHandleSubmit={handleSubmit}
               />
             </div>
           ))}
