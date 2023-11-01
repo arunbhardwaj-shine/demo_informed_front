@@ -23,7 +23,6 @@ import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 export default function QuestionListing() {
-  
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
@@ -407,29 +406,63 @@ export default function QuestionListing() {
   };
   const handleDelete = (key) => {
     setPopupMessage({
-            message1:
-              "You are about to remove this question.",
-            message2: "Are you sure you want to do this?",
-            footerButton: "Yes please!",
-          }); setConfirmationPopup(true); setResetDataId(key)
-  }; 
-   const finalHandleDelete = (key) => {
-    console.log(key, "key");
+      message1: "You are about to remove this question.",
+      message2: "Are you sure you want to do this?",
+      footerButton: "Yes please!",
+    });
+    setConfirmationPopup(true);
+    setResetDataId(key);
+  };
+  const finalHandleDelete = (key) => {
     const updatedQuestions = [...questions];
-    updatedQuestions.splice(key, 1);
-    if (key < questions.length - 1) {
-      setSelectedQuestion(updatedQuestions[key]);
-      // setIndex(key)
+    if (questions.length === 1) {
+      updatedQuestions[0] = {
+        questionData: {
+          question: "",
+          speakerName: "",
+          answerOption: [{ answer: "", color: "#000000" }],
+          answerType: "MULTIPLE",
+          isRequired: 0,
+          graphType: "bar",
+        },
+        questionDataErrors: {
+          questionError: "",
+          speakerNameError: "",
+          answerOptionError: [{ answerError: "", colorError: "#000000" }],
+          answerTypeError: "",
+        },
+      };
+      setIndex(0);
+      setSelectedQuestion(updatedQuestions[0]);
+    } else {
+      if (key >= 0 && key < questions.length) {
+        updatedQuestions.splice(key, 1);
+  
+        if (key === index) {
+          // Handle the case where the deleted question is the currently selected one
+          if (key === questions.length - 1) {
+            // If the deleted question was the last one, select the previous question
+            setSelectedQuestion(updatedQuestions[key - 1]);
+          } else {
+            setSelectedQuestion(updatedQuestions[key]);
+          }
+        } else if (key < index) {
+          setIndex(index - 1);
+        }
+  
+        setQuestions(updatedQuestions);
+      }
     }
-    setQuestions(updatedQuestions);
+  
     setConfirmationPopup(false);
   };
+  
   const handleIncrementChange = (key) => {
-    const isValid = validateQuestions();
+    // const isValid = validateQuestions();
 
-    if (!isValid) {
-      return;
-    }
+    // if (!isValid) {
+    //   return;
+    // }
 
     let newIndex = index;
 
@@ -448,32 +481,32 @@ export default function QuestionListing() {
   };
   return (
     <>
-    <Col className="col right-sidebar">
-      <div className="custom-container">
-        <div className="row">
-          <div className="form_action sticky-view">
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="create-change-content question-listing">
-                <div className="top-header reader_list">
-                  <div className="page-title">
-                    <h4>Polls</h4>
+      <Col className="col right-sidebar">
+        <div className="custom-container">
+          <div className="row">
+            <div className="form_action sticky-view">
+              <div className="d-flex justify-content-between align-items-center">
+                <div className="create-change-content question-listing">
+                  <div className="top-header reader_list">
+                    <div className="page-title">
+                      <h4>Polls</h4>
+                    </div>
                   </div>
-                </div>
 
-                <form className="product-unit d-flex justify-content-between align-items-center">
-                  <div className="form-group">
-                    <label htmlFor="">Select Event</label>
-                    <Select
-                      options={dropDownData}
-                      placeholder="Select Event"
-                      name="province"
-                      className="dropdown-basic-button split-button-dropup"
-                      isClearable
-                      onChange={handleSelectChange}
-                      value={selectedItem}
-                    />
-                  </div>
-                  {/* <Button
+                  <form className="product-unit d-flex justify-content-between align-items-center">
+                    <div className="form-group">
+                      <label htmlFor="">Select Event</label>
+                      <Select
+                        options={dropDownData}
+                        placeholder="Select Event"
+                        name="province"
+                        className="dropdown-basic-button split-button-dropup"
+                        isClearable
+                        onChange={handleSelectChange}
+                        value={selectedItem}
+                      />
+                    </div>
+                    {/* <Button
                   className="align-right btn-bordered btn-voilet"
                   onClick={() => {
                     setShowUploadMenu(true);
@@ -482,49 +515,49 @@ export default function QuestionListing() {
                 >
                   Add New Question +
                 </Button> */}
-                </form>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div>
-            <Question
-              index={index}
-              questionData={selectedQuestion.questionData}
-              questionDataErrors={selectedQuestion.questionDataErrors}
-              onQuestionChange={(e) => handleQuestionChange(e, index)}
-              // onHandleIsRequiredChange={(e) =>
-              //   handleIsRequiredChange(e, index)
-              // }
-              onHandleSpeakerNameChange={(e) =>
-                handleSpeakerNameChange(e, index)
-              }
-              onChoiceChange={(e, choiceIndex) =>
-                handleChoiceChange(e, index, choiceIndex)
-              }
-              onChoiceColorChange={(e, choiceIndex) =>
-                handleChoiceColorChange(e, index, choiceIndex)
-              }
-              onTypeChange={(e) => handleTypeChange(e, index)}
-              onHandleDisplayResultChange={(e) =>
-                handleDisplayResultChange(e, index)
-              }
-              onAddChoice={() => handleAddChoice(index)}
-              onDelete={() => handleDelete(index)}
-              onDeleteChoice={(choiceIndex) =>
-                handleDeleteChoice(index, choiceIndex)
-              }
-              onHandleSubmit={handleSubmit}
-              onHandleAddQuestion={handleAddQuestion}
-              onHandleDelete={handleDelete}
-              onHandleIncrementChange={handleIncrementChange}
-              lastQuestionIndex={questions.length}
-            />
+            <div>
+              <Question
+                index={index}
+                questionData={selectedQuestion.questionData}
+                questionDataErrors={selectedQuestion.questionDataErrors}
+                onQuestionChange={(e) => handleQuestionChange(e, index)}
+                // onHandleIsRequiredChange={(e) =>
+                //   handleIsRequiredChange(e, index)
+                // }
+                onHandleSpeakerNameChange={(e) =>
+                  handleSpeakerNameChange(e, index)
+                }
+                onChoiceChange={(e, choiceIndex) =>
+                  handleChoiceChange(e, index, choiceIndex)
+                }
+                onChoiceColorChange={(e, choiceIndex) =>
+                  handleChoiceColorChange(e, index, choiceIndex)
+                }
+                onTypeChange={(e) => handleTypeChange(e, index)}
+                onHandleDisplayResultChange={(e) =>
+                  handleDisplayResultChange(e, index)
+                }
+                onAddChoice={() => handleAddChoice(index)}
+                onDelete={() => handleDelete(index)}
+                onDeleteChoice={(choiceIndex) =>
+                  handleDeleteChoice(index, choiceIndex)
+                }
+                onHandleSubmit={handleSubmit}
+                onHandleAddQuestion={handleAddQuestion}
+                onHandleDelete={handleDelete}
+                onHandleIncrementChange={handleIncrementChange}
+                lastQuestionIndex={questions.length}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </Col>
-    <CommonConfirmModel
+      </Col>
+      <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}
         fun={finalHandleDelete}
