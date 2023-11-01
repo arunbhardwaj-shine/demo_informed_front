@@ -7,6 +7,7 @@ import { loader } from "../../../../../loader";
 import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditWebinarRegistration = () => {
   const [file, setFile] = useState();
@@ -21,12 +22,17 @@ const EditWebinarRegistration = () => {
     body: [],
     footerImageUrl: "",
   });
-  const [eventData, setEventData] = useState({ event_id: "", company_id: "" });
+  const [eventData, setEventData] = useState({
+    event_id: "",
+    company_id: "",
+    label: "testing7",
+  });
   const [showChangeHeader, setShowChangeHeader] = useState(false);
   const [showChangeFooter, setShowChangeFooter] = useState(false);
 
   useEffect(() => {
-    getEventData();
+    // getEventData();
+    getWebinarData();
   }, []);
   const getEventData = async () => {
     try {
@@ -44,6 +50,28 @@ const EditWebinarRegistration = () => {
       loader("hide");
     }
   };
+  const getWebinarData = async () => {
+    try {
+      loader("show");
+      const response = await getData(
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${eventData?.label}`
+      );
+      const hadData = response?.data?.data;
+
+      setEventData({
+        ...eventData,
+        event_id: hadData?.event_id,
+        company_id: hadData?.company_id,
+      });
+      const newFormData = JSON.parse(hadData?.content);
+      setFormData(newFormData);
+      //   console.log("hadData--->", hadData);
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
   const handleFileSelect = (e, isSelectedName) => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
@@ -54,16 +82,10 @@ const EditWebinarRegistration = () => {
       if (isSelectedName === "headerImageUrl") {
         setFile(URL.createObjectURL(file));
         const imgElement = document.querySelector(".header-img");
-        // imgElement.style.height = "310px";
-        // imgElement.style.width = "100%";
-        // imgElement.style.borderRadius = "32px";
       }
 
       if (isSelectedName === "footerImageUrl") {
         const imgElement = document.querySelector(".footer-img");
-        // imgElement.style.height = "310px";
-        // imgElement.style.width = "100%";
-        // imgElement.style.borderRadius = "32px";
         setFoot(URL.createObjectURL(file));
       }
 
@@ -224,26 +246,12 @@ const EditWebinarRegistration = () => {
                     <label htmlFor="">Select Event</label>
                     {/* <h5>Select Event</h5> */}
                   </div>
-                  <div className="col-lg-6 ">
-                    <Select
-                      options={dropDownData}
+                  <div className="col-lg-6 registration-text ">
+                    <input
                       placeholder="Select Event"
                       name="company_id"
-                      className="dropdown-basic-button split-button-dropup webinar-select"
-                      isClearable
-                      onChange={(e) => handleChange(e, "company_id")}
-                      value={
-                        dropDownData?.findIndex(
-                          (item, index) => item?.value == eventData?.event_id
-                        ) != -1
-                          ? dropDownData[
-                              dropDownData?.findIndex(
-                                (item, index) =>
-                                  item?.value == eventData?.event_id
-                              )
-                            ]
-                          : ""
-                      }
+                      className="form-control"
+                      value={eventData?.label}
                     />
                   </div>
                 </div>
@@ -399,8 +407,6 @@ const EditWebinarRegistration = () => {
                                     {/* {formData?.bodyText} */}
                                   </h4>
 
-                                  <hr></hr>
-
                                   <div className="center-align-form">
                                     <div>
                                       {formData?.body?.map((data, index) => (
@@ -434,13 +440,6 @@ const EditWebinarRegistration = () => {
                                                           }}
                                                           type="radio"
                                                           name={data?.label}
-                                                          // required={
-                                                          //   data?.required ==
-                                                          //   "yes"
-                                                          //     ? true
-                                                          //     : false
-                                                          // }
-                                                          // checked={}
                                                         />
                                                         <label htmlFor="">
                                                           {item?.optionLabel}
@@ -461,12 +460,6 @@ const EditWebinarRegistration = () => {
                                                           }}
                                                           type="checkbox"
                                                           name={data?.label}
-                                                          // required={
-                                                          //   data?.required ==
-                                                          //   "yes"
-                                                          //     ? true
-                                                          //     : false
-                                                          // }
                                                         />
                                                         <label htmlFor="">
                                                           {item?.optionLabel}
@@ -518,6 +511,22 @@ const EditWebinarRegistration = () => {
                                                   />
                                                 )
                                               }
+                                              <button
+                                                className="dlt_btn_event btn-voilet"
+                                                onClick={(e) => {
+                                                  // setConfirmationPopup(true);
+                                                  //   deleteOption(e, index);
+                                                }}
+                                              >
+                                                <img
+                                                  title="Delete"
+                                                  src={
+                                                    path_image +
+                                                    "delete-icon.svg"
+                                                  }
+                                                  alt="Delete Row"
+                                                />
+                                              </button>
                                             </div>
                                           </div>
                                         </div>

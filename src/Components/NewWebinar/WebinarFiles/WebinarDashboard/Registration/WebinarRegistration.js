@@ -401,9 +401,6 @@ const WebinarRegistration = () => {
                                   >
                                     {/* {formData?.bodyText} */}
                                   </h4>
-
-                                  <hr></hr>
-
                                   <div className="center-align-form">
                                     <div>
                                       {formData?.body?.map((data, index) => (

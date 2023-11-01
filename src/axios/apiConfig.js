@@ -147,4 +147,5 @@ export const ENDPOINT = {
   REGISTER: "/auth/register_module",
   FORGET: "/auth/forget-password",
   CREATE_WEBINAR_REGISTRATION: "/webinar/create_registration",
+  GET_REGISTRATION_FORM: "/webinar/getRegistrationFormByEventId",
 };
