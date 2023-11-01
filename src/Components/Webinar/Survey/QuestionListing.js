@@ -41,11 +41,11 @@ export default function QuestionListing() {
   const [page, setPage] = useState(1);
   const [questions, setQuestions] = useState([
     {
-      key: 0,
+ 
 
       questionData: {
         question: "Whats Your Name ?",
-        speakerName: "",
+        speakerName: "Aamir",
         answerOption: [{ answer: "", color: "#000000" }],
         answerType: "MULTIPLE",
         isRequired: 0,
@@ -57,9 +57,49 @@ export default function QuestionListing() {
         answerOptionError: [{ answerError: "", colorError: "#000000" }],
         answerTypeError: "",
       },
+    }
+  ,
+  {
+ 
+
+    questionData: {
+      question: "Whats going on ?",
+      speakerName: "Admin",
+      answerOption: [{ answer: "", color: "#000000" }],
+      answerType: "RADIO",
+      isRequired: 0,
+      graphType: "pie",
     },
-  
+    questionDataErrors: {
+      questionError: "",
+      speakerNameError: "",
+      answerOptionError: [{ answerError: "", colorError: "#000000" }],
+      answerTypeError: "",
+    },
+  },
+  {
+ 
+
+    questionData: {
+      question: "Where are you from ?",
+      speakerName: "Saleem",
+      answerOption: [{ answer: "Yes", colorError: "#000000" }, {answer: "No", colorError: "#000000" }],
+      answerType: "YesNo",
+      isRequired: 0,
+      graphType: "bar",
+    },
+    questionDataErrors: {
+      questionError: "",
+      speakerNameError: "",
+      answerOptionError: [{ answerError: "", colorError: "#000000" }, {answerError: "", colorError: "#000000" }],
+      answerTypeError: "",
+    },
+  }
   ]);
+  const [index, setIndex] = useState(0);
+
+  const [selectedQuestion, setSelectedQuestion] = useState(questions[index] );
+
   useEffect(() => {
     getApiData();
   }, []);
@@ -90,8 +130,6 @@ export default function QuestionListing() {
     }
   };
   const handleSelectChange = async (event) => {
-    console.log(event);
-    console.log(selectedItem, "selectedItem");
     loader("show");
     setApiStatus(() => false);
     setData(() => {
@@ -123,6 +161,34 @@ export default function QuestionListing() {
   const handleTypeChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.answerType = e.target.id;
+
+    if(e.target.id=="YesNo"){
+      updatedQuestions[key].questionData.answerOption=[{
+        answer: "Yes",
+        color: "#000000",
+      },
+      {
+        answer: "No",
+        color: "#000000",
+      }];
+      updatedQuestions[key].questionDataErrors.answerOptionError.push({
+        answerError: "",
+        colorError: "",
+      },
+      {
+        answerError: "",
+        colorError: "",
+      });
+    }
+    else{
+      updatedQuestions[key].questionData.answerOption = [
+            { answer: "", color: "#000000" },
+          ];
+      updatedQuestions[key].questionDataErrors.answerOptionError.push({
+        answerError: "",
+        colorError: "",
+      });
+    }
     // if (e == "INPUT") {
     //   updatedQuestions[key].questionData.answerOption = [];
 
@@ -143,7 +209,6 @@ export default function QuestionListing() {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.speakerName = e.target.value;
     setQuestions(updatedQuestions);
-    console.log(questions);
   };
   const handleDisplayResultChange = (e, key) => {
     const updatedQuestions = [...questions];
@@ -154,7 +219,6 @@ export default function QuestionListing() {
     }
 
     setQuestions(updatedQuestions);
-    console.log(questions);
   };
   const handleAddChoice = (key) => {
     // const isValid = validateQuestions();
@@ -164,14 +228,17 @@ export default function QuestionListing() {
     // }
 
     const updatedQuestions = [...questions];
-    updatedQuestions[key].questionData.answerOption.push({
-      answer: "",
-      color: "#000000",
-    });
-    updatedQuestions[key].questionDataErrors.answerOptionError.push({
-      answerError: "",
-      colorError: "",
-    });
+    if(updatedQuestions[key].answerType !="YesNo"){
+      updatedQuestions[key].questionData.answerOption.push({
+        answer: "",
+        color: "#000000",
+      });
+      updatedQuestions[key].questionDataErrors.answerOptionError.push({
+        answerError: "",
+        colorError: "",
+      });
+
+    }
 
     setQuestions(updatedQuestions);
   };
@@ -215,7 +282,8 @@ export default function QuestionListing() {
       const payLoadData = {
         data: surveyData,
       };
-console.log(payLoadData);
+      console.log(payLoadData);
+
       // if (method === "add") {
       //   payLoadData.eventId = selectedItem.value;
       //   response = await postData(ENDPOINT.ADD_QUESTION, payLoadData);
@@ -229,11 +297,62 @@ console.log(payLoadData);
     } catch (error) {
       console.error("An error occurred:", error);
     } finally {
-      setShowUploadMenu(false);
-      const apiData = await getListingData(selectedItem.value);
-      setData(apiData.data.data);
+      // setShowUploadMenu(false);
+      // const apiData = await getListingData(selectedItem.value);
+      // setData(apiData.data.data);
     }
   };
+  const handleAddQuestion = () => {
+    // const isValid = validateQuestions();
+
+    // if (!isValid) {
+    //   return;
+    // }
+    const key = questions.length;
+    setQuestions((prevQuestions) => [
+      ...prevQuestions,
+      {
+        key: 0,
+  
+        questionData: {
+          question: "Whats Your Name ?",
+          speakerName: "",
+          answerOption: [{ answer: "", color: "#000000" }],
+          answerType: "MULTIPLE",
+          isRequired: 0,
+          graphType: "bar",
+        },
+        questionDataErrors: {
+          questionError: "",
+          speakerNameError: "",
+          answerOptionError: [{ answerError: "", colorError: "#000000" }],
+          answerTypeError: "",
+        },
+      },
+   
+    ]);
+  };
+  const handleDelete = (key) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions.splice(key, 1);
+    setQuestions(updatedQuestions);
+  };
+  const handleIncrementChange = (key) => {
+    let newIndex = index;
+
+    if (key === "prev" && newIndex > 0) {
+      newIndex = newIndex - 1;
+    } else if (key === "next" && newIndex < questions.length - 1) {
+      newIndex = newIndex + 1;
+    }
+
+   
+      setSelectedQuestion(questions[newIndex]);
+   
+    
+    setIndex(newIndex);
+  };
+  
   return (
     <Col className="col right-sidebar">
       <div className="custom-container">
@@ -274,12 +393,12 @@ console.log(payLoadData);
             </div>
           </div>
 
-          {questions.map((questionObj, index) => (
-            <div key={questionObj.key}>
+          
+            <div>
               <Question
                 index={index}
-                questionData={questionObj.questionData}
-                questionDataErrors={questionObj.questionDataErrors}
+                questionData={selectedQuestion.questionData}
+                questionDataErrors={selectedQuestion.questionDataErrors}
                 onQuestionChange={(e) => handleQuestionChange(e, index)}
                 // onHandleIsRequiredChange={(e) =>
                 //   handleIsRequiredChange(e, index)
@@ -303,9 +422,13 @@ console.log(payLoadData);
                   handleDeleteChoice(index, choiceIndex)
                 }
                 onHandleSubmit={handleSubmit}
+                onHandleAddQuestion={handleAddQuestion}
+                onHandleDelete={handleDelete}
+                onHandleIncrementChange={handleIncrementChange}
+                lastQuestionIndex={questions.length}
               />
             </div>
-          ))}
+          
         </div>
       </div>
     </Col>

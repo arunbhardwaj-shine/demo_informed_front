@@ -38,10 +38,14 @@ function Question(props) {
     questionDataErrors,
     onHandleIsRequiredChange,
     onHandleDisplayResultChange,
-    onHandleSubmit
+    onHandleSubmit,
+    onHandleAddQuestion,
+    onHandleDelete,
+    onHandleIncrementChange,
+    lastQuestionIndex
   } = props;
   const checkBoxOptions = [
-    { id: "YesNO", label: "Yes OR No" },
+    { id: "YesNo", label: "Yes OR No" },
     { id: "RADIO", label: "Single Choice" },
     { id: "MULTIPLE", label: "Multiple choices" },
     { id: "INPUT", label: "Free Text" },
@@ -83,7 +87,7 @@ function Question(props) {
           </div>
           <div className="question-action">
             <Button className="save btn-bordered" onClick={onHandleSubmit}>Save</Button>
-            <Button className="add-question btn-bordered">
+            <Button className="add-question btn-bordered" onClick={onHandleAddQuestion}>
               Add Question +
             </Button>
             <Button
@@ -95,6 +99,7 @@ function Question(props) {
               //       message2: "Are you sure you want to do this?",
               //       footerButton: "Yes please!",
               //     }); setConfirmationPopup(true); setResetDataId(item.id);}}
+              onClick={handleDelete}
             >
               <svg
                 width="24"
@@ -129,15 +134,15 @@ function Question(props) {
                 ></path>
               </svg>
             </Button>
-            <Button className="btn-bordered question-next">
-              <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
+            <Button className={`btn-bordered question-next ${index ==lastQuestionIndex-1?"disabled":""}`}    onClick={()=>onHandleIncrementChange("next")}>
+              <svg width="19" height="11" viewBox="0 0 19 11" fill="none" >
                 <path
                   d="M9.27853 7.15662L2.56206 0.442137C1.97595 -0.143796 1.02569 -0.143796 0.43958 0.442137C-0.146527 1.02807 -0.146527 1.97806 0.43958 2.56399L8.21954 10.3416C8.80565 10.9276 9.75591 10.9276 10.342 10.3416C10.3643 10.3194 10.3858 10.2965 10.4064 10.2732L18.1204 2.56155C18.7065 1.97556 18.7065 1.02548 18.1204 0.439493C17.5342 -0.146497 16.5838 -0.146498 15.9977 0.439493L9.27853 7.15662Z"
                   fill="#0066BE"
                 />
               </svg>
             </Button>
-            <Button className="btn-bordered question-prev">
+            <Button className={`btn-bordered question-prev ${index ==0?"disabled":""} `} disabled ={index==0?true:false} onClick={()=>onHandleIncrementChange("prev")}>
               <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
                 <path
                   d="M9.27902 3.61976L2.56094 10.3378C1.97509 10.9236 1.02524 10.9236 0.439388 10.3378C-0.146462 9.75196 -0.146463 8.80211 0.439387 8.21626L8.21496 0.440724C8.41288 0.242814 8.65233 0.111762 8.90525 0.0475674C9.4024 -0.0805243 9.95244 0.0500824 10.3417 0.439387L18.1173 8.21496C18.7031 8.80081 18.7031 9.75066 18.1173 10.3365C17.5314 10.9224 16.5816 10.9224 15.9957 10.3365L9.27902 3.61976Z"
@@ -177,7 +182,7 @@ function Question(props) {
                   />
                 ))} 
                 
-                {(answerType === "RADIO" || answerType === "MULTIPLE" || answerType === "YESNO") && (
+                {(answerType === "RADIO" || answerType === "MULTIPLE" || answerType === "YesNo") && (
                 <div className="answer-option">
                   <div className="options">
                     {answerOption.map((choice, index) => (<><Form.Group as={Row} className="mb-3">
@@ -186,7 +191,7 @@ function Question(props) {
                           onChange={(e) => onChoiceChange(e, index)} />
                       <div className="option-action">
                       {
-                       answerOption?.length > 1 && (
+                       (answerOption?.length > 1 && answerType != "YesNo") &&  (
                          <Button
                           className="dl_btn"
                           onClick={() =>{
@@ -244,10 +249,15 @@ function Question(props) {
                     
                   
                   </div>
-                  <Button className="add-choice"  onClick={onAddChoice}>
+                  {
+                    answerType != "YesNo" && (
+                      <Button className="add-choice"  onClick={onAddChoice}>
                     Add Choice{" "}
                     <img src={path_image + "add-choice.svg"} alt="" />
                   </Button>
+                    )
+                  }
+                  
                 </div>
                 )}
               </Form.Group>
@@ -269,6 +279,7 @@ function Question(props) {
                       <label className="switch6-light">
                         <input
                           type="checkbox"
+                          checked={graphType=="pie"?true:false}
                           onChange={onHandleDisplayResultChange}
                         />
                         <span>
