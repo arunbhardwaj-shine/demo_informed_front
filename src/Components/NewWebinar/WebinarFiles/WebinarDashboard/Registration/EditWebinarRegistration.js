@@ -65,7 +65,9 @@ const EditWebinarRegistration = () => {
       });
       const newFormData = JSON.parse(hadData?.content);
       setFormData(newFormData);
-      //   console.log("hadData--->", hadData);
+      console.log("newFormData--->", newFormData);
+      setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
+      setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -423,32 +425,42 @@ const EditWebinarRegistration = () => {
                                           <div className="col-12 col-md-6">
                                             <div className="form-group">
                                               <div className="row">
-                                                <div className="col-sm-3 col-md-6 col-lg-8"> <label htmlFor="">
-                                                {data?.label
-                                                  ? data?.label
-                                                      ?.charAt(0)
-                                                      .toUpperCase() +
-                                                    data?.label
-                                                      ?.slice(1)
-                                                      ?.toLowerCase()
-                                                  : ""}
-                                              </label></div>
-                                                <div className=" col-sm-9 col-md-6 col-lg-4">  <button
-                                                className="dlt_btn_event btn-voilet register-feild-delete"
-                                                onClick={(e) => {
-                                                  // setConfirmationPopup(true);
-                                                  deleteField(e, data, index);
-                                                }}
-                                              >
-                                                <img
-                                                  title="Delete"
-                                                  src={
-                                                    path_image +
-                                                    "delete-icon.svg"
-                                                  }
-                                                  alt="Delete Row"
-                                                />
-                                              </button></div>
+                                                <div className="col-sm-3 col-md-6 col-lg-8">
+                                                  {" "}
+                                                  <label htmlFor="">
+                                                    {data?.label
+                                                      ? data?.label
+                                                          ?.charAt(0)
+                                                          .toUpperCase() +
+                                                        data?.label
+                                                          ?.slice(1)
+                                                          ?.toLowerCase()
+                                                      : ""}
+                                                  </label>
+                                                </div>
+                                                <div className=" col-sm-9 col-md-6 col-lg-4">
+                                                  {" "}
+                                                  <button
+                                                    className="dlt_btn_event btn-voilet register-feild-delete"
+                                                    onClick={(e) => {
+                                                      // setConfirmationPopup(true);
+                                                      deleteField(
+                                                        e,
+                                                        data,
+                                                        index
+                                                      );
+                                                    }}
+                                                  >
+                                                    <img
+                                                      title="Delete"
+                                                      src={
+                                                        path_image +
+                                                        "delete-icon.svg"
+                                                      }
+                                                      alt="Delete Row"
+                                                    />
+                                                  </button>
+                                                </div>
                                               </div>
                                               {/* <label htmlFor="">
                                                 {data?.label
@@ -460,7 +472,7 @@ const EditWebinarRegistration = () => {
                                                       ?.toLowerCase()
                                                   : ""}
                                               </label> */}
-                                               {/* <button
+                                              {/* <button
                                                 className="dlt_btn_event btn-voilet register-feild-delete"
                                                 onClick={(e) => {
                                                   // setConfirmationPopup(true);
