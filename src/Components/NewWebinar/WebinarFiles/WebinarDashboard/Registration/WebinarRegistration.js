@@ -218,13 +218,16 @@ const WebinarRegistration = () => {
             <div className="left-section col-sm-3 col-md-6 col-lg-8">
               <div className="text-section">
                 <div className="row">
-                  <div className="form-group">
+                  <div className="form-group col-lg-3 webinar-select">
                     <label htmlFor="">Select Event</label>
+                    {/* <h5>Select Event</h5> */}
+                  </div>
+                  <div className="col-lg-6 ">
                     <Select
                       options={dropDownData}
                       placeholder="Select Event"
                       name="company_id"
-                      className="dropdown-basic-button split-button-dropup"
+                      className="dropdown-basic-button split-button-dropup webinar-select"
                       isClearable
                       onChange={(e) => handleChange(e, "company_id")}
                       value={
@@ -241,22 +244,27 @@ const WebinarRegistration = () => {
                       }
                     />
                   </div>
-                  <div className="col-lg-3 registration-heading">
-                    <h5>Registration Page Title</h5>
+                </div>
+                <div className="row">
+                  <div className="col-lg-3 ">
+                  <label htmlFor="">Registration Page Title</label>
+                    {/* <h5>Registration Page Title</h5> */}
                   </div>
-                  <div className="col-lg-6 registration-text">
+                  <div className="col-lg-6">
                     <input
                       type="text"
                       name="pageTitle"
                       value={formData?.pageTitle}
                       onChange={handleChange}
+                      className="form-control"
                     />
                   </div>
                 </div>
 
                 <div className="row">
                   <div className="col-lg-3 registration-bodyHeading">
-                    <h5>Body Text</h5>
+                    {/* <h5>Body Text</h5> */}
+                    <label htmlFor="">Body Text</label>
                   </div>
                   <div className="col-lg-6 registration-bodyText">
                     <textarea
@@ -265,13 +273,14 @@ const WebinarRegistration = () => {
                       name="bodyText"
                       value={formData?.bodyText}
                       onChange={handleChange}
+                      className="form-control"
                     />
                   </div>
                 </div>
 
                 <div className="feilds-section">
                   <Form.Check
-                    className="name-checkbox"
+                    className="webinar-checkbox"
                     inline
                     label="Name"
                     name="Name"
@@ -287,7 +296,7 @@ const WebinarRegistration = () => {
                   />
 
                   <Form.Check
-                    className="name-checkbox"
+                    className="webinar-checkbox"
                     inline
                     label="Email"
                     name="Email"
@@ -303,7 +312,7 @@ const WebinarRegistration = () => {
                   />
 
                   <Form.Check
-                    className="name-checkbox"
+                    className="webinar-checkbox"
                     inline
                     label="Profession"
                     name="Profession"
@@ -319,7 +328,7 @@ const WebinarRegistration = () => {
                   />
 
                   <Form.Check
-                    className="name-checkbox"
+                    className="webinar-checkbox"
                     inline
                     label="Country"
                     name="Country"
@@ -335,7 +344,7 @@ const WebinarRegistration = () => {
                   />
 
                   <Form.Check
-                    className="name-checkbox"
+                    className="webinar-checkbox"
                     inline
                     label="State"
                     name="State"
@@ -410,7 +419,7 @@ const WebinarRegistration = () => {
                                                         <input
                                                           style={{
                                                             marginBottom:
-                                                              "25px",
+                                                              "15px",
                                                             marginTop: "10px",
                                                           }}
                                                           type="radio"
@@ -474,11 +483,8 @@ const WebinarRegistration = () => {
                                                 ) : data?.inputType ==
                                                   "selection" ? (
                                                   <div key={index}>
-                                                    <select
-                                                      style={{
-                                                        marginBottom: "25px",
-                                                        marginTop: "10px",
-                                                      }}
+                                                    <Select
+                                                      className="dropdown-basic-button split-button-dropup webinar-select"
                                                     >
                                                       {data?.option?.map(
                                                         (item) => (
@@ -491,7 +497,7 @@ const WebinarRegistration = () => {
                                                           </option>
                                                         )
                                                       )}
-                                                    </select>
+                                                    </Select>
                                                   </div>
                                                 ) : (
                                                   // ) : null
