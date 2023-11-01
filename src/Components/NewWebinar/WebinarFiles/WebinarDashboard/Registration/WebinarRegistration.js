@@ -174,6 +174,12 @@ const WebinarRegistration = () => {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
   };
+  const deleteField = (e, data, index) => {
+    e.preventDefault();
+    let updatedFormBody = formData?.body;
+    updatedFormBody?.splice(index, 1);
+    setFormData({ ...formData, body: updatedFormBody });
+  };
   const saveClicked = async (e) => {
     e.preventDefault();
 
@@ -420,6 +426,22 @@ const WebinarRegistration = () => {
                                                       ?.toLowerCase()
                                                   : ""}
                                               </label>
+                                              <button
+                                                className="dlt_btn_event btn-voilet"
+                                                onClick={(e) => {
+                                                  // setConfirmationPopup(true);
+                                                  deleteField(e, data, index);
+                                                }}
+                                              >
+                                                <img
+                                                  title="Delete"
+                                                  src={
+                                                    path_image +
+                                                    "delete-icon.svg"
+                                                  }
+                                                  alt="Delete Row"
+                                                />
+                                              </button>
                                               {
                                                 // data?.option?.length > 0 ? (
                                                 data?.inputType === "radio" ? (

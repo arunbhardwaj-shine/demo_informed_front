@@ -193,6 +193,12 @@ const EditWebinarRegistration = () => {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
   };
+  const deleteField = (e, data, index) => {
+    e.preventDefault();
+    let updatedFormBody = formData?.body;
+    updatedFormBody?.splice(index, 1);
+    setFormData({ ...formData, body: updatedFormBody });
+  };
   const saveClicked = async (e) => {
     e.preventDefault();
 
@@ -426,11 +432,11 @@ const EditWebinarRegistration = () => {
                                                       ?.toLowerCase()
                                                   : ""}
                                               </label>
-                                               <button
+                                              <button
                                                 className="dlt_btn_event btn-voilet"
                                                 onClick={(e) => {
                                                   // setConfirmationPopup(true);
-                                                  //   deleteOption(e, index);
+                                                  deleteField(e, data, index);
                                                 }}
                                               >
                                                 <img
