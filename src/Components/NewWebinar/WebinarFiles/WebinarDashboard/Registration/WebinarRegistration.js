@@ -123,7 +123,6 @@ const WebinarRegistration = () => {
   const handleChange = (e, isSelectedName) => {
     console.log(e);
     console.log("e-->", e?.target?.name, "-->value--->", e?.target?.value);
-
     if (isSelectedName) {
       let updateFormBody = formData?.body;
 
@@ -213,7 +212,7 @@ const WebinarRegistration = () => {
     <>
       <Col className="right-sidebar">
         <div className="register-page">
-          <h3>Registration Page</h3>
+          <h3 style={{marginBottom:'20px'}}>Registration Page</h3>
           <div className="row">
             <div className="left-section col-sm-3 col-md-6 col-lg-8">
               <div className="text-section">
@@ -250,7 +249,7 @@ const WebinarRegistration = () => {
                   <label htmlFor="">Registration Page Title</label>
                     {/* <h5>Registration Page Title</h5> */}
                   </div>
-                  <div className="col-lg-6">
+                  <div className="col-lg-6 registration-text">
                     <input
                       type="text"
                       name="pageTitle"
@@ -505,6 +504,9 @@ const WebinarRegistration = () => {
                                                     style={{
                                                       marginBottom: "25px",
                                                       marginTop: "10px",
+                                                      borderRadius:'27px',
+                                                      padding:'11px',
+                                                      paddingLeft: '20px',
                                                     }}
                                                     name={data?.label}
                                                     className="form-control"
