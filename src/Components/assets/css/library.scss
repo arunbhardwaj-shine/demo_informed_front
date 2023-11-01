@@ -551,7 +551,7 @@
     background: transparent;
     padding: 7px 0px;
     width: 100%;
-    margin: 0 0 40px;
+    margin: 0;
 
     form {
       &.product-unit {
@@ -2171,9 +2171,11 @@ form.product-unit button {
   border-color: $secondary-green;
   background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
 }
+
 .marketing-log {
   padding-left: 43px;
 }
+
 .create-change-content .form-group textarea.form-control {
   min-height: 223px;
   resize: none;
@@ -5421,9 +5423,9 @@ header.-top-24~div .custom-change .page-top-nav.sticky {
   position: sticky;
   top: 84px;
   padding-left: 10px;
-  margin-left: -10px;
+  margin-left: 0px;
   background: #fbfcfd;
-  z-index: 4;
+  z-index: 6;
   transition: 0.3s linear;
 }
 
@@ -10620,6 +10622,13 @@ img.change-password-image {
           transform: rotate(90deg);
         }
 
+        &.question-next,
+        &.question-prev {
+          -moz-transform: rotate(90deg);
+          -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+        }
+
         &.save {
           min-width: 100px;
         }
@@ -10636,10 +10645,10 @@ img.change-password-image {
   }
 
   .poll-question-option {
-    margin-left: 60px;
     padding: 24px 40px;
     border: 1px dashed $primary-color;
     border-radius: 15px;
+    margin: 40px 0 0 60px;
   }
 
   .poll-question-create {
@@ -10666,7 +10675,7 @@ img.change-password-image {
     .form-check-inline {
       min-width: 255px;
       border-radius: 50px;
-      border: 1px solid rgb(112 137 158 / 36%);
+      box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
       padding: 16px 24px;
       display: inline-flex;
       flex-direction: row-reverse;
@@ -10777,6 +10786,7 @@ img.change-password-image {
                 border-radius: 30px;
                 margin-left: 14px;
                 -webkit-appearance: none;
+                appearance: none;
                 cursor: pointer;
 
                 &::-webkit-color-swatch {
@@ -13548,12 +13558,12 @@ img.change-password-image {
 
 
 
-      .icon-block {
-        // img {
-        //   animation-duration: 13s;
-        //   -webkit-animation-duration: 13s;
-        // }
-      }
+      // .icon-block {
+      //   // img {
+      //   //   animation-duration: 13s;
+      //   //   -webkit-animation-duration: 13s;
+      //   // }
+      // }
     }
   }
 }
