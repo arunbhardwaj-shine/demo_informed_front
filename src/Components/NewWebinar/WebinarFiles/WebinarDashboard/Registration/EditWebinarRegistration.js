@@ -416,7 +416,8 @@ const EditWebinarRegistration = () => {
                                         >
                                           <div className="col-12 col-md-6">
                                             <div className="form-group">
-                                              <label htmlFor="">
+                                              <div className="row">
+                                                <div className="col-sm-3 col-md-6 col-lg-8"> <label htmlFor="">
                                                 {data?.label
                                                   ? data?.label
                                                       ?.charAt(0)
@@ -425,9 +426,9 @@ const EditWebinarRegistration = () => {
                                                       ?.slice(1)
                                                       ?.toLowerCase()
                                                   : ""}
-                                              </label>
-                                               <button
-                                                className="dlt_btn_event btn-voilet"
+                                              </label></div>
+                                                <div className=" col-sm-9 col-md-6 col-lg-4">  <button
+                                                className="dlt_btn_event btn-voilet register-feild-delete"
                                                 onClick={(e) => {
                                                   // setConfirmationPopup(true);
                                                   //   deleteOption(e, index);
@@ -441,7 +442,34 @@ const EditWebinarRegistration = () => {
                                                   }
                                                   alt="Delete Row"
                                                 />
-                                              </button>
+                                              </button></div>
+                                              </div>
+                                              {/* <label htmlFor="">
+                                                {data?.label
+                                                  ? data?.label
+                                                      ?.charAt(0)
+                                                      .toUpperCase() +
+                                                    data?.label
+                                                      ?.slice(1)
+                                                      ?.toLowerCase()
+                                                  : ""}
+                                              </label> */}
+                                               {/* <button
+                                                className="dlt_btn_event btn-voilet register-feild-delete"
+                                                onClick={(e) => {
+                                                  // setConfirmationPopup(true);
+                                                  //   deleteOption(e, index);
+                                                }}
+                                              >
+                                                <img
+                                                  title="Delete"
+                                                  src={
+                                                    path_image +
+                                                    "delete-icon.svg"
+                                                  }
+                                                  alt="Delete Row"
+                                                />
+                                              </button> */}
                                               {
                                                 // data?.option?.length > 0 ? (
                                                 data?.inputType === "radio" ? (
