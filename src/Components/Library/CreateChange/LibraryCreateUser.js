@@ -1263,8 +1263,8 @@ const LibraryCreateUser = () => {
                     <li className="active active-main">
                       <a href="">Create Your Content</a>
                     </li>
-                    {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && userInputs?.allowVideo ? (
+                    {localStorage.getItem("user_id") ==
+                      "rjiGlqA9DXJVH7bDDTX0Lg==" && userInputs?.allowVideo ? (
                       <li className="">
                         <a href="">[Embedding Video]</a>
                       </li>
@@ -2058,8 +2058,8 @@ const LibraryCreateUser = () => {
                   (["ebook", "pdf", "pdfSpc"].includes(
                     userInputs.docintelFormat
                   ) &&
-                    localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==") ? (
+                    localStorage.getItem("user_id") ==
+                      "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>
