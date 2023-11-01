@@ -163,6 +163,7 @@ import Feedback from "./Components/R&D/Feedback";
 import WebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/WebinarRegistration";
 import SurveyBuilder from "./Components/Webinar/Survey/SurveyBuilder";
 import QuestionListing from "./Components/Webinar/Survey/QuestionListing";
+import AutoLogout from "./Components/Login/AutoLogout";
 let platform = 0;
 let show = 0;
 
@@ -708,6 +709,10 @@ const Routing = () => {
         <Route
           path="/pharma-marketing"
           element={<DefaultLayout component={PharmaMarketing} />}
+        />
+        <Route
+          path="/autologout"
+          element={<LoginLayout component={AutoLogout} />}
         />
       </Routes>
     </Router>

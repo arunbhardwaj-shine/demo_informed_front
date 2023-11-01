@@ -2027,9 +2027,7 @@ const LibraryCreateUser = () => {
                     userInputs.docintelFormat?.includes("ebook")) ||
                   (["ebook", "pdf", "pdfSpc"].includes(
                     userInputs.docintelFormat
-                  ) &&
-                    localStorage.getItem("user_id") ==
-                      "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
+                  ) ) ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>
