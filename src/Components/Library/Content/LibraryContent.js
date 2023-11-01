@@ -1879,6 +1879,40 @@ const LibraryContent = (props) => {
                                             }
                                           />
                                         </div>
+                                        <span className="total-left">
+                                            {opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.limit == 1000
+                                                ? null
+                                                : opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) => el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit -
+                                                  opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) => el.pdfId == data?.id
+                                                    )
+                                                  ]?.pinReaders
+                                              : null}
+
+                                            {opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1 ? (
+                                              opening_details[
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                )
+                                              ]?.limit != 1000 ? (
+                                                <small>Left</small>
+                                              ) : null
+                                            ) : null}
+                                          </span>
                                       </li>)
                                        : null
                                     }

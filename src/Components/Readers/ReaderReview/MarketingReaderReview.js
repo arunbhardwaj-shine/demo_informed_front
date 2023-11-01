@@ -36,6 +36,12 @@ const MarketingReaderReview = () => {
       loader("hide");
     }
   };
+
+  const editUser = () => {
+    navigate("/reader-edit", {
+      state,
+    });
+  };
   useEffect(() => {}, []);
 
   return (
@@ -47,7 +53,7 @@ const MarketingReaderReview = () => {
               <Col md="1">
                 <div className="header-btn-left"></div>
               </Col>
-              <Col md="9">
+              <Col md="8">
                 <ul className="tabnav-link">
                   <li className="">
                     <a href="">{state?.flag ? "Edit " : "Create "} CRM</a>
@@ -57,7 +63,7 @@ const MarketingReaderReview = () => {
                   </li>
                 </ul>
               </Col>
-              <Col md="2">
+              <Col md="3">
                 <div className="header-btn">
                   <Link
                     className="btn btn-primary btn-bordered move-draft"
@@ -65,6 +71,13 @@ const MarketingReaderReview = () => {
                   >
                     Close
                   </Link>
+                  <Button
+                    className="btn btn-primary btn-filled next send_btn"
+                    onClick={editUser}
+                  >
+                    {/* {state?.flag ? "Save " : "Create "} */}
+                    Edit
+                  </Button>
                   <Button
                     className="btn btn-primary btn-filled next send_btn"
                     onClick={createUser}
@@ -285,7 +298,7 @@ const MarketingReaderReview = () => {
                         </td>
                       </tr>
 
-                      <tr>
+                      {/* <tr>
                         <th>Log activity</th>
                         <td>
                           {readerData?.log_activity
@@ -319,7 +332,7 @@ const MarketingReaderReview = () => {
                             ""
                           )}
                         </td>
-                      </tr>
+                      </tr> */}
                     </table>
                   </div>
                   <div className="crm-review-detail">
