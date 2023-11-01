@@ -190,25 +190,38 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               limit={agreed_limit}
               pdf_id={data?.id}
             />
-            <ContentAnalyticsComponentActivityGauge
-              value={selectedData?.uniqueReader}
-              color="#f4c64b"
-              limit={agreed_limit}
-              label={`Unique Reader (total) Agreed Limit | ${
-                data?.limit == 0 ? "Unlimited" : data?.limit
-              }`}
-              pdf_id={data?.id}
-            />
+            
 
             {
               data?.lastRomanNumber == 2 || data?.lastRomanNumber == 3 ? 
-              <ContentAnalyticsComponentActivityGauge
-                value={selectedData?.pinReaders}
-                color="#00003C"
-                limit={agreed_limit}
-                label=" Article Usage"
-                pdf_id={data?.id}
-              /> : null
+              <>
+                <ContentAnalyticsComponentActivityGauge
+                  value={selectedData?.uniqueReader}
+                  color="#f4c64b"
+                  limit={agreed_limit}
+                  label={`Unique Reader (total)`}
+                  pdf_id={data?.id}
+                />
+                <ContentAnalyticsComponentActivityGauge
+                  value={selectedData?.pinReaders}
+                  color="#00003C"
+                  limit={agreed_limit}
+                  label={`Article Usage (total) Agreed Limit | ${
+                    data?.limit == 0 ? "Unlimited" : data?.limit
+                  }`}
+                  pdf_id={data?.id}
+                />
+              </>
+               : 
+                <ContentAnalyticsComponentActivityGauge
+                  value={selectedData?.uniqueReader}
+                  color="#f4c64b"
+                  limit={agreed_limit}
+                  label={`Unique Reader (total) Agreed Limit | ${
+                    data?.limit == 0 ? "Unlimited" : data?.limit
+                  }`}
+                  pdf_id={data?.id}
+                />
             }
 
             <ContentAnalyticsComponentActivityGauge
