@@ -7,6 +7,7 @@ import { loader } from "../../../../../loader";
 import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 // import Question from "./AddQuestion";
 
