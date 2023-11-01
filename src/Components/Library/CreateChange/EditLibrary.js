@@ -2372,8 +2372,8 @@ const EditLibrary = () => {
                     (["ebook", "pdf", "pdfSpc"].includes(
                       userInputs.docintelFormat
                     ) &&
-                      localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==") ? (
+                      localStorage.getItem("user_id") ==
+                        "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Include video</label>
