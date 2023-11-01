@@ -218,7 +218,7 @@ const WebinarRegistration = () => {
             <div className="left-section col-sm-3 col-md-6 col-lg-8">
               <div className="text-section">
                 <div className="row">
-                  <div className="form-group col-lg-3">
+                  <div className="form-group col-lg-3 webinar-select">
                     <label htmlFor="">Select Event</label>
                     {/* <h5>Select Event</h5> */}
                   </div>
@@ -227,7 +227,7 @@ const WebinarRegistration = () => {
                       options={dropDownData}
                       placeholder="Select Event"
                       name="company_id"
-                      className="dropdown-basic-button split-button-dropup"
+                      className="dropdown-basic-button split-button-dropup webinar-select"
                       isClearable
                       onChange={(e) => handleChange(e, "company_id")}
                       value={
