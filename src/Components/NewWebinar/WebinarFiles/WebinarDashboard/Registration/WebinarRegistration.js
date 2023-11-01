@@ -3,6 +3,7 @@ import { Col, Row, Button, Form } from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
 import Select from "react-select";
+import { loader } from "../../../../../loader";
 
 // import Question from "./AddQuestion";
 
@@ -12,37 +13,103 @@ const WebinarRegistration = () => {
   const [showModal, setModal] = useState(false);
   const [formData, setFormData] = useState([]);
   const [formInputs, setFormInputs] = useState({});
+  const [showChangeHeader, setShowChangeHeader] = useState(false);
+  const [showChangeFooter, setShowChangeFooter] = useState(false);
+
   useEffect(() => {
     console.log("form Data--->", formData);
   }, []);
-  const handleFileSelect = (e, flag) => {
+
+  // const handleFileSelect = (e, flag) => {
+  //   const fileInput = document.createElement("input");
+  //   fileInput.type = "file";
+  //   fileInput.style.display = "none";
+  //   fileInput.addEventListener("change", (e) => {
+  //     const file = e.target.files[0];
+  //     console.log(file);
+  //     if (flag == "header") {
+  //       setFile(URL.createObjectURL(file));
+  //       const imgElement = document.querySelector(".header-img");
+  //       imgElement.style.height = "310px";
+  //       imgElement.style.width = "100%";
+  //       imgElement.style.borderRadius = "32px";
+  //     }
+  //     if (flag == "footer") {
+  //       const imgElement = document.querySelector(".footer-img");
+  //       imgElement.style.height = "310px";
+  //       imgElement.style.width = "100%";
+  //       imgElement.style.borderRadius = "32px";
+  //       setfoot(URL.createObjectURL(file));
+  //     }
+  //   });
+  //   fileInput.click();
+  // };
+
+  const handleFileSelect = async (e, flag) => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.style.display = "none";
-    fileInput.addEventListener("change", (e) => {
+
+    fileInput.addEventListener("change", async (e) => {
       const file = e.target.files[0];
       console.log(file);
-      if (flag == "header") {
+
+      if (flag === "header") {
         setFile(URL.createObjectURL(file));
         const imgElement = document.querySelector(".header-img");
-        imgElement.style.height = "250px";
-        imgElement.style.width = "1363px";
-        imgElement.style.background = "#d7e9e8";
-        imgElement.style.border = "4px solid #FFFFFF";
-        imgElement.style.boxShadow = "0px 8px 24px rgba(0, 0, 0, 0)";
+        imgElement.style.height = "310px";
+        imgElement.style.width = "100%";
         imgElement.style.borderRadius = "32px";
       }
-      if (flag == "footer") {
+
+      if (flag === "footer") {
         const imgElement = document.querySelector(".footer-img");
-        imgElement.style.height = "250px";
-        imgElement.style.width = "1363px";
-        imgElement.style.borderRadius = "30px";
+        imgElement.style.height = "310px";
+        imgElement.style.width = "100%";
+        imgElement.style.borderRadius = "32px";
         setfoot(URL.createObjectURL(file));
+      }
+
+      try {
+        const uploadedImageUrl = await uploadImageToServer(file);
+        console.log(uploadedImageUrl, "==>imageUrl");
+      } catch (error) {
+        console.error("Error uploading image:", error);
       }
     });
 
     fileInput.click();
   };
+
+  const uploadImageToServer = async (file) => {
+    try {
+      loader("show");
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = await fetch(
+        "https://onesource.informed.pro/api/upload-image",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const uploadedData = await response.json();
+        return uploadedData.imageUrl;
+      } else {
+        console.error("Image upload failed");
+        return null;
+      }
+    } catch (error) {
+      console.error("Image upload error:", error);
+      return null;
+    } finally {
+      loader("hide");
+    }
+  };
+
   const handleAddQuestionModalClose = () => {
     setModal(false);
   };
@@ -406,7 +473,6 @@ const WebinarRegistration = () => {
           <h3>Registration Page</h3>
           <div className="row">
             <div className="left-section col-sm-3 col-md-6 col-lg-8">
-
               <div className="text-section">
                 <div className="row">
                   <div className="col-lg-3 registration-heading">
@@ -427,39 +493,44 @@ const WebinarRegistration = () => {
                 </div>
 
                 <div className="feilds-section">
-                <Form.Check className="name-checkbox"
-                  inline
-                  label="Name"
-                  name="group1"
-                  type="radio"
+                  <Form.Check
+                    className="name-checkbox"
+                    inline
+                    label="Name"
+                    name="group1"
+                    type="radio"
                   />
 
-            <Form.Check className="name-checkbox"
-                  inline
-                  label="Email"
-                  name="group1"
-                  type="radio"
+                  <Form.Check
+                    className="name-checkbox"
+                    inline
+                    label="Email"
+                    name="group1"
+                    type="radio"
                   />
 
-<Form.Check className="name-checkbox"
-                  inline
-                  label="Profession"
-                  name="group1"
-                  type="radio"
+                  <Form.Check
+                    className="name-checkbox"
+                    inline
+                    label="Profession"
+                    name="group1"
+                    type="radio"
                   />
 
-<Form.Check className="name-checkbox"
-                  inline
-                  label="Country"
-                  name="group1"
-                  type="radio"
+                  <Form.Check
+                    className="name-checkbox"
+                    inline
+                    label="Country"
+                    name="group1"
+                    type="radio"
                   />
 
-<Form.Check className="name-checkbox"
-                  inline
-                  label="State"
-                  name="group1"
-                  type="radio"
+                  <Form.Check
+                    className="name-checkbox"
+                    inline
+                    label="State"
+                    name="group1"
+                    type="radio"
                   />
 
                   <span>Add Feilds</span>
@@ -467,9 +538,71 @@ const WebinarRegistration = () => {
               </div>
             </div>
             <div className="right-section col-sm-9 col-md-6 col-lg-4">
-              <div className="header-section">header</div>
+              {/* <div className="header-section">
+                {!file && (<h4 className="header-img-section" id="uploadButton" onClick={(e) => handleFileSelect(e, "header")}>Upload header</h4>)}
+                <img className="header-img" src={file} />
+                <h4 className="hover" onClick={(e) => handleFileSelect(e, "header")}>Change Header</h4>
+              </div> */}
 
-              <div className="footer-section">footer</div>
+              <div
+                className="header-section"
+                onMouseOver={() => setShowChangeHeader(true)}
+                onMouseOut={() => setShowChangeHeader(false)}
+              >
+                {!file && (
+                  <h4
+                    className="header-img-section"
+                    id="uploadButton"
+                    onClick={(e) => handleFileSelect(e, "header")}
+                  >
+                    Upload header
+                  </h4>
+                )}
+                <img className="header-img" src={file} />
+                <div className="header-text">
+                  {" "}
+                  {showChangeHeader && file && (
+                    <h4
+                      className="header-hover"
+                      onClick={(e) => handleFileSelect(e, "header")}
+                    >
+                      Change Header
+                    </h4>
+                  )}
+                </div>
+              </div>
+
+              <div
+                className="footer-section"
+                onMouseOver={() => setShowChangeFooter(true)}
+                onMouseOut={() => setShowChangeFooter(false)}
+              >
+                {!foot && (
+                  <h4
+                    className="footer-img-section"
+                    onClick={(e) => handleFileSelect(e, "footer")}
+                  >
+                    Upload footer
+                  </h4>
+                )}
+                <img className="footer-img" src={foot} />
+                <div className="footer-text">
+                  {" "}
+                  {showChangeFooter && foot && (
+                    <h4
+                      className="footer-hover"
+                      onClick={(e) => handleFileSelect(e, "footer")}
+                    >
+                      Change Footer
+                    </h4>
+                  )}
+                </div>
+              </div>
+
+              {/* <div className="footer-section">
+              {!foot && (<h4 className="footer-img-section"  onClick={(e) => handleFileSelect(e, "footer")}>Upload footer</h4>)}
+              <img className="footer-img" src={foot} />
+              </div> */}
             </div>
           </div>
         </div>
