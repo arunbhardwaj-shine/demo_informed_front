@@ -477,13 +477,43 @@ const LibraryCreateUser = () => {
               }
             }
           } else {
-            navigate("/set-popup", {
-              state: {
-                pdfId: res?.data?.data?.pdfId,
-                fileType: userInputs?.docintelFormat,
-                isEdit: 0,
-              },
-            });
+            if (
+              userInputs?.docintelFormat == "video" ||
+              userInputs?.docintelFormat == "Video"
+            ) {
+              navigate("/set-popup", {
+                state: {
+                  pdfId: res?.data?.data?.pdfId,
+                  fileType: userInputs?.docintelFormat,
+                  isEdit: 0,
+                },
+              });
+            } else {
+              if (userInputs?.allowVideo) {
+                navigate("/library-add-link", {
+                  state: {
+                    pdfId: res?.data?.data?.pdfId,
+                    isEdit: 0,
+                    allowVideo: userInputs?.allowVideo,
+                  },
+                });
+              } else {
+                navigate("/set-popup", {
+                  state: {
+                    pdfId: res?.data?.data?.pdfId,
+                    fileType: userInputs?.docintelFormat,
+                    isEdit: 0,
+                  },
+                });
+              }
+            }
+            // navigate("/set-popup", {
+            //   state: {
+            //     pdfId: res?.data?.data?.pdfId,
+            //     fileType: userInputs?.docintelFormat,
+            //     isEdit: 0,
+            //   },
+            // });
           }
         }
       } catch (err) {
@@ -1233,8 +1263,8 @@ const LibraryCreateUser = () => {
                     <li className="active active-main">
                       <a href="">Create Your Content</a>
                     </li>
-                    {localStorage.getItem("user_id") ==
-                      "rjiGlqA9DXJVH7bDDTX0Lg==" && userInputs?.allowVideo ? (
+                    {localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==" && userInputs?.allowVideo ? (
                       <li className="">
                         <a href="">[Embedding Video]</a>
                       </li>
@@ -2027,7 +2057,9 @@ const LibraryCreateUser = () => {
                     userInputs.docintelFormat?.includes("ebook")) ||
                   (["ebook", "pdf", "pdfSpc"].includes(
                     userInputs.docintelFormat
-                  ) ) ? (
+                  ) &&
+                    localStorage.getItem("user_id") !=
+                      "56Ek4feL/1A8mZgIKQWEqg==") ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>
