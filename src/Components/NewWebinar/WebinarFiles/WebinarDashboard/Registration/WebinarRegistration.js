@@ -56,16 +56,16 @@ const WebinarRegistration = () => {
       if (isSelectedName === "headerImageUrl") {
         setFile(URL.createObjectURL(file));
         const imgElement = document.querySelector(".header-img");
-        imgElement.style.height = "310px";
-        imgElement.style.width = "100%";
-        imgElement.style.borderRadius = "32px";
+        // imgElement.style.height = "310px";
+        // imgElement.style.width = "100%";
+        // imgElement.style.borderRadius = "32px";
       }
 
       if (isSelectedName === "footerImageUrl") {
         const imgElement = document.querySelector(".footer-img");
-        imgElement.style.height = "310px";
-        imgElement.style.width = "100%";
-        imgElement.style.borderRadius = "32px";
+        // imgElement.style.height = "310px";
+        // imgElement.style.width = "100%";
+        // imgElement.style.borderRadius = "32px";
         setFoot(URL.createObjectURL(file));
       }
 
@@ -200,8 +200,8 @@ const WebinarRegistration = () => {
         footerImageUrl: "",
       });
       setEventData({ event_id: "", company_id: "" });
-      setFile();
-      setFoot();
+      setFile("");
+      setFoot("");
     } catch (err) {
       console.log("--err", err);
     } finally {
