@@ -4,14 +4,14 @@ import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import { loader } from "../../../../../loader";
-import { getData } from "../../../../../axios/apiHelper";
+import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 
 // import Question from "./AddQuestion";
 
 const WebinarRegistration = () => {
   const [file, setFile] = useState();
-  const [foot, setfoot] = useState();
+  const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
   const [page, setPage] = useState(1);
   const [dropDownData, setDropDownData] = useState([]);
@@ -22,6 +22,7 @@ const WebinarRegistration = () => {
     body: [],
     footerImageUrl: "",
   });
+  const [eventData, setEventData] = useState({ event_id: "", company_id: "" });
   const [formInputs, setFormInputs] = useState({});
   const [showChangeHeader, setShowChangeHeader] = useState(false);
   const [showChangeFooter, setShowChangeFooter] = useState(false);
@@ -33,9 +34,10 @@ const WebinarRegistration = () => {
     try {
       loader("show");
       const response = await getData(`${ENDPOINT.EVENT_LIST}?type=${page}`);
-      let dropDownDataTemp = response.data.data.map((item) => ({
-        value: item.id,
-        label: item.event_code,
+      let dropDownDataTemp = response?.data?.data?.map((item) => ({
+        value: item?.id,
+        label: item?.event_code,
+        company_id: item?.company_id,
       }));
       setDropDownData(dropDownDataTemp);
     } catch (err) {
@@ -44,16 +46,14 @@ const WebinarRegistration = () => {
       loader("hide");
     }
   };
-  const handleFileSelect = (e, flag) => {
+  const handleFileSelect = (e, isSelectedName) => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.style.display = "none";
 
     fileInput.addEventListener("change", async (e) => {
       const file = e.target.files[0];
-      console.log(file);
-
-      if (flag === "header") {
+      if (isSelectedName === "headerImageUrl") {
         setFile(URL.createObjectURL(file));
         const imgElement = document.querySelector(".header-img");
         imgElement.style.height = "310px";
@@ -61,17 +61,18 @@ const WebinarRegistration = () => {
         imgElement.style.borderRadius = "32px";
       }
 
-      if (flag === "footer") {
+      if (isSelectedName === "footerImageUrl") {
         const imgElement = document.querySelector(".footer-img");
         imgElement.style.height = "310px";
         imgElement.style.width = "100%";
         imgElement.style.borderRadius = "32px";
-        setfoot(URL.createObjectURL(file));
+        setFoot(URL.createObjectURL(file));
       }
 
       try {
         const uploadedImageUrl = await uploadImageToServer(file);
         console.log(uploadedImageUrl, "==>imageUrl");
+        setFormData({ ...formData, [isSelectedName]: uploadedImageUrl });
       } catch (error) {
         console.error("Error uploading image:", error);
       }
@@ -119,34 +120,8 @@ const WebinarRegistration = () => {
     setFormData({ ...formData, body: updateFormBody });
   };
 
-  // const handleChange = (e, index, item, data) => {
-  //   if (data?.inputType == "radio" || data?.inputType == "checkbox") {
-  //     let newObj = formInputs;
-  //     if (!newObj[data?.label]) {
-  //       newObj[data?.label] = [];
-  //     }
-  //     if (e?.target?.checked == true) {
-  //       if (data?.inputType == "radio") {
-  //         newObj[data?.label] = [];
-  //         newObj[data?.label].push(item?.optionLabel);
-  //       } else {
-  //         newObj[data?.label].push(item?.optionLabel);
-  //       }
-  //     } else if (e?.target?.checked == false) {
-  //       const index = newObj[data?.label]?.indexOf(item?.optionLabel);
-  //       if (index > -1) {
-  //         newObj[data?.label]?.splice(index, 1);
-  //         if (newObj[data?.label]?.length == 0) {
-  //           delete newObj[data?.label];
-  //         }
-  //       }
-  //     }
-  //     setFormInputs(newObj);
-  //   } else {
-  //     setFormInputs({ ...formInputs, [e?.target?.name]: e?.target?.value });
-  //   }
-  // };
   const handleChange = (e, isSelectedName) => {
+    console.log(e);
     console.log("e-->", e?.target?.name, "-->value--->", e?.target?.value);
 
     if (isSelectedName) {
@@ -181,33 +156,57 @@ const WebinarRegistration = () => {
           };
           updateFormBody?.push(newObj);
         }
-      }
-      if (e?.target?.checked == false) {
+        setFormData({ ...formData, body: updateFormBody });
+      } else if (e?.target?.checked == false) {
         let index = updateFormBody?.findIndex(
           (item, index) => item?.label == isSelectedName
         );
         if (index > -1) {
           updateFormBody?.splice(index, 1);
         }
+        setFormData({ ...formData, body: updateFormBody });
+      } else if (isSelectedName == "company_id") {
+        setEventData({
+          ...eventData,
+          company_id: e?.company_id,
+          event_id: e?.value,
+        });
       }
-      setFormData({ ...formData, body: updateFormBody });
     } else {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
   };
-  const saveClicked = (e) => {
+  const saveClicked = async (e) => {
     e.preventDefault();
 
-    console.log("form Data-->", formData);
     try {
-    } catch (err) {}
-    setFormData({
-      pageTitle: "",
-      bodyText: "",
-      headerImageUrl: "",
-      body: [],
-      footerImageUrl: "",
-    });
+      loader("show");
+      let data = {
+        eventId: eventData?.event_id,
+        companyId: eventData?.company_id,
+        content: JSON.stringify(formData),
+      };
+      console.log("data--->", data);
+      const response = await postData(
+        ENDPOINT.CREATE_WEBINAR_REGISTRATION,
+        data
+      );
+      console.log("res--->", response);
+      setFormData({
+        pageTitle: "",
+        bodyText: "",
+        headerImageUrl: "",
+        body: [],
+        footerImageUrl: "",
+      });
+      setEventData({ event_id: "", company_id: "" });
+      setFile();
+      setFoot();
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
   };
 
   return (
@@ -224,11 +223,22 @@ const WebinarRegistration = () => {
                     <Select
                       options={dropDownData}
                       placeholder="Select Event"
-                      name="province"
+                      name="company_id"
                       className="dropdown-basic-button split-button-dropup"
                       isClearable
-                      // onChange={handleSelectChange}
-                      // value={selectedItem}
+                      onChange={(e) => handleChange(e, "company_id")}
+                      value={
+                        dropDownData?.findIndex(
+                          (item, index) => item?.value == eventData?.event_id
+                        ) != -1
+                          ? dropDownData[
+                              dropDownData?.findIndex(
+                                (item, index) =>
+                                  item?.value == eventData?.event_id
+                              )
+                            ]
+                          : ""
+                      }
                     />
                   </div>
                   <div className="col-lg-3 registration-heading">
@@ -364,7 +374,7 @@ const WebinarRegistration = () => {
                                       justifyContent: "center",
                                     }}
                                   >
-                                    {formData?.pageTitle}
+                                    {/* {formData?.pageTitle} */}
                                   </h3>
 
                                   <h4
@@ -374,7 +384,7 @@ const WebinarRegistration = () => {
                                       justifyContent: "center",
                                     }}
                                   >
-                                    {formData?.bodyText}
+                                    {/* {formData?.bodyText} */}
                                   </h4>
 
                                   <hr></hr>
@@ -526,12 +536,6 @@ const WebinarRegistration = () => {
               </div>
             </div>
             <div className="right-section col-sm-9 col-md-6 col-lg-4">
-              {/* <div className="header-section">
-                {!file && (<h4 className="header-img-section" id="uploadButton" onClick={(e) => handleFileSelect(e, "header")}>Upload header</h4>)}
-                <img className="header-img" src={file} />
-                <h4 className="hover" onClick={(e) => handleFileSelect(e, "header")}>Change Header</h4>
-              </div> */}
-
               <div
                 className="header-section"
                 onMouseOver={() => setShowChangeHeader(true)}
@@ -541,7 +545,7 @@ const WebinarRegistration = () => {
                   <h4
                     className="header-img-section"
                     id="uploadButton"
-                    onClick={(e) => handleFileSelect(e, "header")}
+                    onClick={(e) => handleFileSelect(e, "headerImageUrl")}
                   >
                     Upload header
                   </h4>
@@ -552,7 +556,7 @@ const WebinarRegistration = () => {
                   {showChangeHeader && file && (
                     <h4
                       className="header-hover"
-                      onClick={(e) => handleFileSelect(e, "header")}
+                      onClick={(e) => handleFileSelect(e, "headerImageUrl")}
                     >
                       Change Header
                     </h4>
@@ -568,7 +572,7 @@ const WebinarRegistration = () => {
                 {!foot && (
                   <h4
                     className="footer-img-section"
-                    onClick={(e) => handleFileSelect(e, "footer")}
+                    onClick={(e) => handleFileSelect(e, "footerImageUrl")}
                   >
                     Upload footer
                   </h4>
@@ -579,7 +583,7 @@ const WebinarRegistration = () => {
                   {showChangeFooter && foot && (
                     <h4
                       className="footer-hover"
-                      onClick={(e) => handleFileSelect(e, "footer")}
+                      onClick={(e) => handleFileSelect(e, "footerImageUrl")}
                     >
                       Change Footer
                     </h4>

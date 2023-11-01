@@ -61,7 +61,7 @@ export const ENDPOINT = {
 
   DELIVERYTRENDS: "analytics/trend",
   //CAMPAINGSTAT: "analytics/campaign-stats",
-  CAMPAINGSTAT: "analytics/delivery-campaign-stats", 
+  CAMPAINGSTAT: "analytics/delivery-campaign-stats",
 
   MAPLOCATION: `analytics/map-location`,
   SUBLINK_MAPLOCATION: `library/Sublink-country`,
@@ -135,15 +135,16 @@ export const ENDPOINT = {
   FEEDBACKLISTINGMESSAGE: `/analytics/feedback-messages`,
   FEEDBACKIMPORT: `/analytics/download-feedback-excel`,
   QUESTIONUPDATE: `/analytics/update_question_reply`,
-  REGISTER:"/auth/register_module",
-  ADD_QUESTION:"/webinar/add-question",
-  EDIT_QUESTION:"/webinar/update-question",
-  EVENT_LIST:"/webinar/get-event-list",
+  REGISTER: "/auth/register_module",
+  ADD_QUESTION: "/webinar/add-question",
+  EDIT_QUESTION: "/webinar/update-question",
+  EVENT_LIST: "/webinar/get-event-list",
   WEBINAR_DETAIL: "/webinar/webinar-details",
   WEBINAR_ADD_NEW_EVENT: "/webinar/add-new-event",
   WEBINAR_GET_EVENT_LISTING: "/webinar/get-event-list",
   WEBINAR_UPDATE_EVENT: "/webinar/update-event",
   WEBINAR_DELETE_EVENT: "/webinar/delete-event",
-  REGISTER:"/auth/register_module",
-  FORGET:"/auth/forget-password"
+  REGISTER: "/auth/register_module",
+  FORGET: "/auth/forget-password",
+  CREATE_WEBINAR_REGISTRATION: "/webinar/create_registration",
 };
