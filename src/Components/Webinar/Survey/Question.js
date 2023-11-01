@@ -180,6 +180,10 @@ function Question(props) {
                   value={question}
                   onChange={(e) => onQuestionChange(e)}
                 />
+                  <div class="login-validation">
+                  {" "}
+                  {questionDataErrors?.questionError}
+                </div>
               </Form.Group>
               <Form.Group className="mb-4">
                 <Form.Label className="h5">
@@ -213,6 +217,12 @@ function Question(props) {
                               value={choice.answer}
                               onChange={(e) => onChoiceChange(e, index)}
                             />
+                             <div class="login-validation">
+                          {
+                            questionDataErrors?.answerOptionError[index]
+                              ?.answerError
+                          }
+                        </div>
                             <div className="option-action">
                               {answerOption?.length > 1 &&
                                 answerType != "YesNo" && (
