@@ -180,7 +180,7 @@ function Question(props) {
                   value={question}
                   onChange={(e) => onQuestionChange(e)}
                 />
-                  <div class="login-validation">
+                  <div className="login-validation">
                   {" "}
                   {questionDataErrors?.questionError}
                 </div>
@@ -189,15 +189,15 @@ function Question(props) {
                 <Form.Label className="h5">
                   Select the type of your answer:
                 </Form.Label>
-                {checkBoxOptions.map((option) => (
+                {checkBoxOptions.map((option,key) => (
                   <Form.Check
-                    key={option.id}
+                    key={key}
                     id={option.id}
                     inline
                     label={option.label}
                     name="answerType"
                     type="radio"
-                    for={`option-${option.id}`}
+                    htmlFor={`option-${option.id}`}
                     checked={answerType === option.id}
                     onChange={(e) => onTypeChange(e, option.id)}
                   />
@@ -207,9 +207,10 @@ function Question(props) {
                   answerType === "MULTIPLE" ||
                   answerType === "YesNo") && (
                   <div className="answer-option">
-                    <div className="options">
+                    
                       {answerOption.map((choice, index) => (
                         <>
+                        <div className="options" key={index}>
                           <Form.Group as={Row} className="mb-3">
                             <Form.Label>Choice {index + 1}</Form.Label>
                             <Form.Control
@@ -217,7 +218,7 @@ function Question(props) {
                               value={choice.answer}
                               onChange={(e) => onChoiceChange(e, index)}
                             />
-                             <div class="login-validation">
+                             <div className="login-validation">
                           {
                             questionDataErrors?.answerOptionError[index]
                               ?.answerError
@@ -290,9 +291,10 @@ function Question(props) {
                               </div>
                             </div>
                           </Form.Group>
+                          </div>
                         </>
                       ))}
-                    </div>
+                  
                     {answerType != "YesNo" && (
                       <Button className="add-choice" onClick={onAddChoice}>
                         Add Choice{" "}
@@ -312,7 +314,7 @@ function Question(props) {
                       onChange={onHandleSpeakerNameChange}
                     />
                   </Form.Group>
-                  <div class="login-validation">
+                  <div className="login-validation">
                   {" "}
                   {questionDataErrors?.speakerNameError}
                 </div>

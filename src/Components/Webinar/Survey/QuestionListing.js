@@ -23,6 +23,7 @@ import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 export default function QuestionListing() {
+  
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
@@ -41,8 +42,6 @@ export default function QuestionListing() {
   const [page, setPage] = useState(1);
   const [questions, setQuestions] = useState([
     {
- 
-
       questionData: {
         question: "Whats Your Name ?",
         speakerName: "Aamir",
@@ -57,48 +56,49 @@ export default function QuestionListing() {
         answerOptionError: [{ answerError: "", colorError: "#000000" }],
         answerTypeError: "",
       },
-    }
-  ,
-  {
- 
-
-    questionData: {
-      question: "Whats going on ?",
-      speakerName: "Admin",
-      answerOption: [{ answer: "", color: "#000000" }],
-      answerType: "RADIO",
-      isRequired: 0,
-      graphType: "pie",
     },
-    questionDataErrors: {
-      questionError: "",
-      speakerNameError: "",
-      answerOptionError: [{ answerError: "", colorError: "#000000" }],
-      answerTypeError: "",
+    {
+      questionData: {
+        question: "Whats going on ?",
+        speakerName: "Admin",
+        answerOption: [{ answer: "", color: "#000000" }],
+        answerType: "RADIO",
+        isRequired: 0,
+        graphType: "pie",
+      },
+      questionDataErrors: {
+        questionError: "",
+        speakerNameError: "",
+        answerOptionError: [{ answerError: "", colorError: "#000000" }],
+        answerTypeError: "",
+      },
     },
-  },
-  {
- 
-
-    questionData: {
-      question: "Where are you from ?",
-      speakerName: "Saleem",
-      answerOption: [{ answer: "Yes", colorError: "#000000" }, {answer: "No", colorError: "#000000" }],
-      answerType: "YesNo",
-      isRequired: 0,
-      graphType: "bar",
+    {
+      questionData: {
+        question: "Where are you from ?",
+        speakerName: "Saleem",
+        answerOption: [
+          { answer: "Yes", colorError: "#000000" },
+          { answer: "No", colorError: "#000000" },
+        ],
+        answerType: "YesNo",
+        isRequired: 0,
+        graphType: "bar",
+      },
+      questionDataErrors: {
+        questionError: "",
+        speakerNameError: "",
+        answerOptionError: [
+          { answerError: "", colorError: "#000000" },
+          { answerError: "", colorError: "#000000" },
+        ],
+        answerTypeError: "",
+      },
     },
-    questionDataErrors: {
-      questionError: "",
-      speakerNameError: "",
-      answerOptionError: [{ answerError: "", colorError: "#000000" }, {answerError: "", colorError: "#000000" }],
-      answerTypeError: "",
-    },
-  }
   ]);
   const [index, setIndex] = useState(0);
 
-  const [selectedQuestion, setSelectedQuestion] = useState(questions[index] );
+  const [selectedQuestion, setSelectedQuestion] = useState(questions[index]);
 
   useEffect(() => {
     getApiData();
@@ -162,28 +162,31 @@ export default function QuestionListing() {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.answerType = e.target.id;
 
-    if(e.target.id=="YesNo"){
-      updatedQuestions[key].questionData.answerOption=[{
-        answer: "Yes",
-        color: "#000000",
-      },
-      {
-        answer: "No",
-        color: "#000000",
-      }];
-      updatedQuestions[key].questionDataErrors.answerOptionError.push({
-        answerError: "",
-        colorError: "",
-      },
-      {
-        answerError: "",
-        colorError: "",
-      });
-    }
-    else{
+    if (e.target.id == "YesNo") {
       updatedQuestions[key].questionData.answerOption = [
-            { answer: "", color: "#000000" },
-          ];
+        {
+          answer: "Yes",
+          color: "#000000",
+        },
+        {
+          answer: "No",
+          color: "#000000",
+        },
+      ];
+      updatedQuestions[key].questionDataErrors.answerOptionError.push(
+        {
+          answerError: "",
+          colorError: "",
+        },
+        {
+          answerError: "",
+          colorError: "",
+        }
+      );
+    } else {
+      updatedQuestions[key].questionData.answerOption = [
+        { answer: "", color: "#000000" },
+      ];
       updatedQuestions[key].questionDataErrors.answerOptionError.push({
         answerError: "",
         colorError: "",
@@ -228,7 +231,7 @@ export default function QuestionListing() {
     }
 
     const updatedQuestions = [...questions];
-    if(updatedQuestions[key].answerType !="YesNo"){
+    if (updatedQuestions[key].answerType != "YesNo") {
       updatedQuestions[key].questionData.answerOption.push({
         answer: "",
         color: "#000000",
@@ -237,7 +240,6 @@ export default function QuestionListing() {
         answerError: "",
         colorError: "",
       });
-
     }
 
     setQuestions(updatedQuestions);
@@ -306,71 +308,71 @@ export default function QuestionListing() {
     let isValid = true;
     // const updatedQuestions = [...questions];
     // console.log(updatedQuestions);
-    let questionObj={...selectedQuestion}
-      const question = questionObj.questionData.question;
-      const speakerName = questionObj.questionData.speakerName;
-      const answerType = questionObj.questionData.answerType;
-      // if (eventId.trim() === "") {
-      //   setEventError( "Please Select Event");
-      //   isValid = false;
-      // } else {
-      //   setEventError( "");
+    let questionObj = { ...selectedQuestion };
+    const question = questionObj.questionData.question;
+    const speakerName = questionObj.questionData.speakerName;
+    const answerType = questionObj.questionData.answerType;
+    // if (eventId.trim() === "") {
+    //   setEventError( "Please Select Event");
+    //   isValid = false;
+    // } else {
+    //   setEventError( "");
 
-      // }
+    // }
 
-      if (question.trim() === "") {
-        questionObj.questionDataErrors.questionError = "Question is required.";
+    if (question.trim() === "") {
+      questionObj.questionDataErrors.questionError = "Question is required.";
+      isValid = false;
+    } else {
+      questionObj.questionDataErrors.questionError = "";
+    }
+    if (speakerName.trim() === "") {
+      questionObj.questionDataErrors.speakerNameError =
+        "Speaker Name is required.";
+      isValid = false;
+    } else {
+      questionObj.questionDataErrors.speakerNameError = "";
+    }
+    if (answerType.trim() === "") {
+      questionObj.questionDataErrors.answerTypeError =
+        "Please Select Answer Type";
+      isValid = false;
+    } else {
+      questionObj.questionDataErrors.answerTypeError = "";
+    }
+    questionObj.questionData.answerOption.forEach((choice, choiceIndex) => {
+      if (
+        choice.answer.trim() === "" &&
+        questionObj?.questionData?.answerType != "INPUT"
+      ) {
+        questionObj.questionDataErrors.answerOptionError[
+          choiceIndex
+        ].answerError = "Answer is required.";
         isValid = false;
       } else {
-        questionObj.questionDataErrors.questionError = "";
+        questionObj.questionDataErrors.answerOptionError[
+          choiceIndex
+        ].answerError = "";
       }
-      if (speakerName.trim() === "") {
-        questionObj.questionDataErrors.speakerNameError =
-          "Speaker Name is required.";
+
+      if (
+        choice?.color?.trim() === "" &&
+        questionObj.questionData.answerType != "INPUT"
+      ) {
+        questionObj.questionDataErrors.answerOptionError[
+          choiceIndex
+        ].colorError = "Color is required.";
         isValid = false;
       } else {
-        questionObj.questionDataErrors.speakerNameError = "";
+        questionObj.questionDataErrors.answerOptionError[
+          choiceIndex
+        ].colorError = "";
       }
-      if (answerType.trim() === "") {
-        questionObj.questionDataErrors.answerTypeError =
-          "Please Select Answer Type";
-        isValid = false;
-      } else {
-        questionObj.questionDataErrors.answerTypeError = "";
-      }
-      questionObj.questionData.answerOption.forEach((choice, choiceIndex) => {
-        if (
-          choice.answer.trim() === "" &&
-          questionObj?.questionData?.answerType != "INPUT"
-        ) {
-          questionObj.questionDataErrors.answerOptionError[
-            choiceIndex
-          ].answerError = "Answer is required.";
-          isValid = false;
-        } else {
-          questionObj.questionDataErrors.answerOptionError[
-            choiceIndex
-          ].answerError = "";
-        }
+    });
 
-        if (
-          choice?.color?.trim() === "" &&
-          questionObj.questionData.answerType != "INPUT"
-        ) {
-          questionObj.questionDataErrors.answerOptionError[
-            choiceIndex
-          ].colorError = "Color is required.";
-          isValid = false;
-        } else {
-          questionObj.questionDataErrors.answerOptionError[
-            choiceIndex
-          ].colorError = "";
-        }
-      });
+    // updatedQuestions = questionObj;
 
-      // updatedQuestions = questionObj;
-    
-console.log(questionObj);
+    console.log(questionObj);
     setSelectedQuestion(questionObj);
     return isValid;
   };
@@ -381,7 +383,7 @@ console.log(questionObj);
       return;
     }
     const key = questions.length;
-    let newQuestion=    {
+    let newQuestion = {
       key: 0,
 
       questionData: {
@@ -399,17 +401,28 @@ console.log(questionObj);
         answerTypeError: "",
       },
     };
-setIndex(questions?.length)
-    setQuestions((prevQuestions) => [
-      ...prevQuestions,
-   newQuestion
-    ]);
-    setSelectedQuestion(newQuestion)
+    setIndex(questions?.length);
+    setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
+    setSelectedQuestion(newQuestion);
   };
   const handleDelete = (key) => {
+    setPopupMessage({
+            message1:
+              "You are about to remove this question.",
+            message2: "Are you sure you want to do this?",
+            footerButton: "Yes please!",
+          }); setConfirmationPopup(true); setResetDataId(key)
+  }; 
+   const finalHandleDelete = (key) => {
+    console.log(key, "key");
     const updatedQuestions = [...questions];
     updatedQuestions.splice(key, 1);
+    if (key < questions.length - 1) {
+      setSelectedQuestion(updatedQuestions[key]);
+      // setIndex(key)
+    }
     setQuestions(updatedQuestions);
+    setConfirmationPopup(false);
   };
   const handleIncrementChange = (key) => {
     const isValid = validateQuestions();
@@ -426,19 +439,20 @@ setIndex(questions?.length)
       newIndex = newIndex + 1;
     }
 
-   
-      setSelectedQuestion(questions[newIndex]);
-   
-    
+    setSelectedQuestion(questions[newIndex]);
+
     setIndex(newIndex);
   };
-  
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
   return (
+    <>
     <Col className="col right-sidebar">
       <div className="custom-container">
         <div className="row">
           <div className="form_action sticky-view">
-            <div class="d-flex justify-content-between align-items-center">
+            <div className="d-flex justify-content-between align-items-center">
               <div className="create-change-content question-listing">
                 <div className="top-header reader_list">
                   <div className="page-title">
@@ -446,7 +460,7 @@ setIndex(questions?.length)
                   </div>
                 </div>
 
-                <form class="product-unit d-flex justify-content-between align-items-center">
+                <form className="product-unit d-flex justify-content-between align-items-center">
                   <div className="form-group">
                     <label htmlFor="">Select Event</label>
                     <Select
@@ -473,44 +487,51 @@ setIndex(questions?.length)
             </div>
           </div>
 
-          
-            <div>
-              <Question
-                index={index}
-                questionData={selectedQuestion.questionData}
-                questionDataErrors={selectedQuestion.questionDataErrors}
-                onQuestionChange={(e) => handleQuestionChange(e, index)}
-                // onHandleIsRequiredChange={(e) =>
-                //   handleIsRequiredChange(e, index)
-                // }
-                onHandleSpeakerNameChange={(e) =>
-                  handleSpeakerNameChange(e, index)
-                }
-                onChoiceChange={(e, choiceIndex) =>
-                  handleChoiceChange(e, index, choiceIndex)
-                }
-                onChoiceColorChange={(e, choiceIndex) =>
-                  handleChoiceColorChange(e, index, choiceIndex)
-                }
-                onTypeChange={(e) => handleTypeChange(e, index)}
-                onHandleDisplayResultChange={(e) =>
-                  handleDisplayResultChange(e, index)
-                }
-                onAddChoice={() => handleAddChoice(index)}
-                onDelete={() => handleDelete(index)}
-                onDeleteChoice={(choiceIndex) =>
-                  handleDeleteChoice(index, choiceIndex)
-                }
-                onHandleSubmit={handleSubmit}
-                onHandleAddQuestion={handleAddQuestion}
-                onHandleDelete={handleDelete}
-                onHandleIncrementChange={handleIncrementChange}
-                lastQuestionIndex={questions.length}
-              />
-            </div>
-          
+          <div>
+            <Question
+              index={index}
+              questionData={selectedQuestion.questionData}
+              questionDataErrors={selectedQuestion.questionDataErrors}
+              onQuestionChange={(e) => handleQuestionChange(e, index)}
+              // onHandleIsRequiredChange={(e) =>
+              //   handleIsRequiredChange(e, index)
+              // }
+              onHandleSpeakerNameChange={(e) =>
+                handleSpeakerNameChange(e, index)
+              }
+              onChoiceChange={(e, choiceIndex) =>
+                handleChoiceChange(e, index, choiceIndex)
+              }
+              onChoiceColorChange={(e, choiceIndex) =>
+                handleChoiceColorChange(e, index, choiceIndex)
+              }
+              onTypeChange={(e) => handleTypeChange(e, index)}
+              onHandleDisplayResultChange={(e) =>
+                handleDisplayResultChange(e, index)
+              }
+              onAddChoice={() => handleAddChoice(index)}
+              onDelete={() => handleDelete(index)}
+              onDeleteChoice={(choiceIndex) =>
+                handleDeleteChoice(index, choiceIndex)
+              }
+              onHandleSubmit={handleSubmit}
+              onHandleAddQuestion={handleAddQuestion}
+              onHandleDelete={handleDelete}
+              onHandleIncrementChange={handleIncrementChange}
+              lastQuestionIndex={questions.length}
+            />
+          </div>
         </div>
       </div>
     </Col>
+    <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={hideConfirmationModal}
+        fun={finalHandleDelete}
+        popupMessage={popupMessage}
+        path_image={path_image}
+        resetDataId={resetDataId}
+      />
+    </>
   );
 }
