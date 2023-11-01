@@ -17960,12 +17960,28 @@ img.change-password-image {
     font-size: 18px;
   }
 
+  .landing-banner {
+    padding-bottom: 60px;
+
+    &.pharma {
+      padding-bottom: 0px;
+    }
+  }
+
   .landing-banner .landing-block {
     padding: 125px 0 20px;
   }
 
-  .landing-banner .landing-heading {
-    margin: 20px 0 6px;
+  .landing-banner {
+    &.pharma {
+      .landing-heading {
+        margin: 20px 0 6px;
+      }
+    }
+
+    .landing-heading {
+      margin: 40px 0 6px;
+    }
   }
 
   .landing-banner .landing-block.main-outer {
