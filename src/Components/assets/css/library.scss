@@ -10587,18 +10587,22 @@ img.change-password-image {
 
   .poll-question-selection {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     position: absolute;
-    transform: rotate(-90deg) scaleX(1);
-    transform-origin: bottom left;
+    transform: rotate(90deg) scaleX(1);
+    transform-origin: top left;
     left: 52px;
-    bottom: 0;
+    top: 0;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     max-width: 540px;
 
     .question-number {
+      -moz-transform: rotate(-180deg);
+      -webkit-transform: rotate(-180deg);
+      transform: rotate(-180deg);
+
       span {
         font-size: 48px;
         color: #EEE;
@@ -10617,16 +10621,23 @@ img.change-password-image {
         height: 48px;
 
         &.dl_btn {
-          -moz-transform: rotate(90deg);
-          -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
+          -moz-transform: rotate(-90deg);
+          -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
         }
 
         &.question-next,
         &.question-prev {
-          -moz-transform: rotate(90deg);
-          -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
+          -moz-transform: rotate(-90deg);
+          -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+        }
+
+        &.add-question,
+        &.save {
+          -moz-transform: rotate(-180deg);
+          -webkit-transform: rotate(-180deg);
+          transform: rotate(-180deg);
         }
 
         &.save {
@@ -10649,6 +10660,7 @@ img.change-password-image {
     border: 1px dashed $primary-color;
     border-radius: 15px;
     margin: 40px 0 0 60px;
+    min-height: 532px;
   }
 
   .poll-question-create {
@@ -10756,8 +10768,9 @@ img.change-password-image {
             max-width: 205px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-end;
             gap: 0 16px;
+            padding: 0;
 
             button {
               border-radius: 30px;
@@ -10780,6 +10793,7 @@ img.change-password-image {
               height: 48px;
               display: flex;
               align-items: center;
+              max-width: 130px;
 
               input[type="color"] {
                 width: 68px;
@@ -10911,14 +10925,14 @@ img.change-password-image {
         width: 55%;
         position: relative;
 
-        &:before {
-          position: absolute;
-          content: "";
-          border-right: 1px solid #0066BE;
-          right: 0px;
-          top: -24px;
-          height: calc(100% + 48px);
-        }
+        // &:before {
+        //   position: absolute;
+        //   content: "";
+        //   border-right: 1px solid #0066BE;
+        //   right: 0px;
+        //   top: -24px;
+        //   height: calc(100% + 48px);
+        // }
 
         &>div {
           display: flex;
