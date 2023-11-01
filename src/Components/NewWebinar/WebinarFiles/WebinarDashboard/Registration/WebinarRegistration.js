@@ -135,10 +135,10 @@ const WebinarRegistration = () => {
           toast.error("Label already exist");
           return;
         }
-        if (isSelectedName == "Name" || isSelectedName == "Email") {
+        if (isSelectedName == "name" || isSelectedName == "email") {
           let newObj = {
             label: isSelectedName,
-            inputType: isSelectedName == "Email" ? "email" : "text",
+            inputType: isSelectedName == "email" ? "email" : "text",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
             required: "",
@@ -190,7 +190,7 @@ const WebinarRegistration = () => {
           companyId: eventData?.company_id,
           content: JSON.stringify(formData),
         };
-     
+
         const response = await postData(
           ENDPOINT.CREATE_WEBINAR_REGISTRATION,
           data
@@ -288,80 +288,80 @@ const WebinarRegistration = () => {
                     className="webinar-checkbox"
                     inline
                     label="Name"
-                    name="Name"
+                    name="name"
                     type="checkbox"
                     checked={
                       formData?.body?.findIndex(
-                        (item, index) => item?.label == "Name"
+                        (item, index) => item?.label?.toLowerCase() == "name"
                       ) != -1
                         ? true
                         : false
                     }
-                    onChange={(e) => handleChange(e, "Name")}
+                    onChange={(e) => handleChange(e, "name")}
                   />
 
                   <Form.Check
                     className="webinar-checkbox"
                     inline
                     label="Email"
-                    name="Email"
+                    name="email"
                     type="checkbox"
                     checked={
                       formData?.body?.findIndex(
-                        (item, index) => item?.label == "Email"
+                        (item, index) => item?.label?.toLowerCase() == "email"
                       ) != -1
                         ? true
                         : false
                     }
-                    onChange={(e) => handleChange(e, "Email")}
+                    onChange={(e) => handleChange(e, "email")}
                   />
 
                   <Form.Check
                     className="webinar-checkbox"
                     inline
                     label="Profession"
-                    name="Profession"
+                    name="profession"
                     type="checkbox"
                     checked={
                       formData?.body?.findIndex(
-                        (item, index) => item?.label == "Profession"
+                        (item, index) => item?.label?.toLowerCase() == "profession"
                       ) != -1
                         ? true
                         : false
                     }
-                    onChange={(e) => handleChange(e, "Profession")}
+                    onChange={(e) => handleChange(e, "profession")}
                   />
 
                   <Form.Check
                     className="webinar-checkbox"
                     inline
                     label="Country"
-                    name="Country"
+                    name="country"
                     type="checkbox"
                     checked={
                       formData?.body?.findIndex(
-                        (item, index) => item?.label == "Country"
+                        (item, index) => item?.label?.toLowerCase() == "country"
                       ) != -1
                         ? true
                         : false
                     }
-                    onChange={(e) => handleChange(e, "Country")}
+                    onChange={(e) => handleChange(e, "country")}
                   />
 
                   <Form.Check
                     className="webinar-checkbox"
                     inline
                     label="State"
-                    name="State"
+                    name="state"
                     type="checkbox"
                     checked={
                       formData?.body?.findIndex(
-                        (item, index) => item?.label == "State"
+                        (item, index) => item?.label?.toLowerCase == "state"
                       ) != -1
                         ? true
                         : false
                     }
-                    onChange={(e) => handleChange(e, "State")}
+                    onChange={(e) => handleChange(e, "state")}
                   />
 
                   <span>
@@ -413,7 +413,7 @@ const WebinarRegistration = () => {
                                           <div className="col-12 col-md-6">
                                             <div className="form-group">
                                               <label htmlFor="">
-                                                {data?.label}
+                                                {data?.label?data?.label?.charAt(0).toUpperCase()+data?.label?.slice(1)?.toLowerCase():""}
                                               </label>
                                               {
                                                 // data?.option?.length > 0 ? (
