@@ -221,6 +221,24 @@ const WebinarRegistration = () => {
     } finally {
       loader("hide");
     }
+    console.log(formData,'==>save data')
+  };
+
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData('text/plain', index);
+  };
+ 
+  const handleDrop = (e, newIndex) => {
+    e.preventDefault();
+    const draggedIndex = e.dataTransfer.getData('text/plain');
+    const updatedBody = [...formData.body];
+    const [draggedField] = updatedBody.splice(draggedIndex, 1);
+    updatedBody.splice(newIndex, 0, draggedField);
+    setFormData({ ...formData, body: updatedBody });
+  };
+ 
+  const handleDragOver = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -421,6 +439,10 @@ const WebinarRegistration = () => {
                                         <div
                                           key={index}
                                           className="centered-input"
+                                          draggable
+                                          onDragStart={(e) => handleDragStart(e, index)}
+                                          onDrop={(e) => handleDrop(e, index)}
+                                          onDragOver={handleDragOver}
                                         >
                                           <div className="col-12 col-md-6">
                                             <div className="form-group">
