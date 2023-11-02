@@ -113,7 +113,7 @@ function Question(props) {
         <div className="poll-question-option">
           <div className="poll-question-create">
             <Form>
-              <Form.Group className="mb-4">
+              <Form.Group className="mb-4 name_added">
                 <Form.Label className="h5">Enter your question:</Form.Label>
                 <Form.Control
                   as="textarea"
@@ -159,12 +159,7 @@ function Question(props) {
                               value={choice.answer}
                               onChange={(e) => onChoiceChange(e, index)}
                             />
-                             <div className="login-validation">
-                          {
-                            questionDataErrors?.answerOptionError[index]
-                              ?.answerError
-                          }
-                        </div>
+                            
                             <div className="option-action">
                               {answerOption?.length > 1 &&
                                 answerType != "YesNo" && (
@@ -233,6 +228,12 @@ function Question(props) {
                             </div>
                           </Form.Group>
                           </div>
+                           <div className="login-validation">
+                          {
+                            questionDataErrors?.answerOptionError[index]
+                              ?.answerError
+                          }
+                        </div>
                         </>
                       ))}
                   
