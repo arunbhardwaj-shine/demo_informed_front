@@ -28,6 +28,7 @@ const WebinarRegistration = () => {
   const [formInputs, setFormInputs] = useState({});
   const [showChangeHeader, setShowChangeHeader] = useState(false);
   const [showChangeFooter, setShowChangeFooter] = useState(false);
+  const [error, setError] = useState({});
 
   useEffect(() => {
     getEventData();
@@ -189,6 +190,7 @@ const WebinarRegistration = () => {
 
       if (Object.keys(error)?.length) {
         toast.error(error[Object.keys(error)[0]]);
+        setError(error);
         return;
       } else {
         loader("show");
@@ -232,7 +234,6 @@ const WebinarRegistration = () => {
                 <div className="row">
                   <div className="form-group col-lg-3 webinar-select">
                     <label htmlFor="">Select Event</label>
-                    {/* <h5>Select Event</h5> */}
                   </div>
                   <div className="col-lg-6 ">
                     <Select
@@ -260,7 +261,6 @@ const WebinarRegistration = () => {
                 <div className="row">
                   <div className="col-lg-3 ">
                     <label htmlFor="">Registration Page Title</label>
-                    {/* <h5>Registration Page Title</h5> */}
                   </div>
                   <div className="col-lg-6 registration-text">
                     <input
@@ -268,8 +268,15 @@ const WebinarRegistration = () => {
                       name="pageTitle"
                       value={formData?.pageTitle}
                       onChange={handleChange}
-                      className="form-control"
+                      className={
+                        error?.pageTitle ? "form-control error" : "form-control"
+                      }
                     />
+                    {error?.pageTitle ? (
+                      <div className="login-validation">{error?.pageTitle}</div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
 
@@ -418,138 +425,99 @@ const WebinarRegistration = () => {
                                           <div className="col-12 col-md-6">
                                             <div className="form-group">
                                               <div className="row">
-                                              <div className="col-sm-3 col-md-6 col-lg-8">
-                                                <label htmlFor="">
-                                                {data?.label
-                                                  ? data?.label
-                                                      ?.charAt(0)
-                                                      .toUpperCase() +
-                                                    data?.label
-                                                      ?.slice(1)
-                                                      ?.toLowerCase()
-                                                  : ""}
-                                              </label>
+                                                <div className="col-sm-3 col-md-6 col-lg-8">
+                                                  <label htmlFor="">
+                                                    {data?.label
+                                                      ? data?.label
+                                                          ?.charAt(0)
+                                                          .toUpperCase() +
+                                                        data?.label
+                                                          ?.slice(1)
+                                                          ?.toLowerCase()
+                                                      : ""}
+                                                  </label>
+                                                </div>
+                                                <div className="col-sm-9 col-md-6 col-lg-4">
+                                                  <button
+                                                    className="dlt_btn_event btn-voilet register-feild-delete"
+                                                    onClick={(e) => {
+                                                      // setConfirmationPopup(true);
+                                                      deleteField(
+                                                        e,
+                                                        data,
+                                                        index
+                                                      );
+                                                    }}
+                                                  >
+                                                    <img
+                                                      title="Delete"
+                                                      src={
+                                                        path_image +
+                                                        "delete-icon.svg"
+                                                      }
+                                                      alt="Delete Row"
+                                                    />
+                                                  </button>
+                                                </div>
                                               </div>
-                                              <div className="col-sm-9 col-md-6 col-lg-4">
-                                                <button
-                                                className="dlt_btn_event btn-voilet register-feild-delete"
-                                                onClick={(e) => {
-                                                  // setConfirmationPopup(true);
-                                                  deleteField(e, data, index);
-                                                }}
-                                              >
-                                                <img
-                                                  title="Delete"
-                                                  src={
-                                                    path_image +
-                                                    "delete-icon.svg"
-                                                  }
-                                                  alt="Delete Row"
-                                                />
-                                              </button>
-                                              </div>
-                                              </div>
-                                             
-                                              {/* <label htmlFor="">
-                                                {data?.label
-                                                  ? data?.label
-                                                      ?.charAt(0)
-                                                      .toUpperCase() +
-                                                    data?.label
-                                                      ?.slice(1)
-                                                      ?.toLowerCase()
-                                                  : ""}
-                                              </label> */}
-                                              {/* <button
-                                                className="dlt_btn_event btn-voilet"
-                                                onClick={(e) => {
-                                                  // setConfirmationPopup(true);
-                                                  deleteField(e, data, index);
-                                                }}
-                                              >
-                                                <img
-                                                  title="Delete"
-                                                  src={
-                                                    path_image +
-                                                    "delete-icon.svg"
-                                                  }
-                                                  alt="Delete Row"
-                                                />
-                                              </button> */}
-                                              {
-                                                // data?.option?.length > 0 ? (
-                                                data?.inputType === "radio" ? (
-                                                  data?.option?.map(
-                                                    (item, index) => (
-                                                      <div key={index}>
-                                                        <input
-                                                          style={{
-                                                            marginBottom:
-                                                              "15px",
-                                                            marginTop: "10px",
-                                                          }}
-                                                          type="radio"
-                                                          name={data?.label}
-                                                          // required={
-                                                          //   data?.required ==
-                                                          //   "yes"
-                                                          //     ? true
-                                                          //     : false
-                                                          // }
-                                                          // checked={}
-                                                        />
-                                                        <label htmlFor="">
-                                                          {item?.optionLabel}
-                                                        </label>
-                                                      </div>
-                                                    )
+
+                                              {data?.inputType === "radio" ? (
+                                                data?.option?.map(
+                                                  (item, index) => (
+                                                    <div key={index}>
+                                                      <input
+                                                        style={{
+                                                          marginBottom: "15px",
+                                                          marginTop: "10px",
+                                                        }}
+                                                        type={data?.inputType}
+                                                        name={data?.label}
+                                                      />
+                                                      <label htmlFor="">
+                                                        {item?.optionLabel}
+                                                      </label>
+                                                    </div>
                                                   )
-                                                ) : data?.inputType ==
-                                                  "checkbox" ? (
-                                                  data?.option?.map(
-                                                    (item, index) => (
-                                                      <div key={index}>
-                                                        <input
-                                                          style={{
-                                                            marginBottom:
-                                                              "25px",
-                                                            marginTop: "10px",
-                                                          }}
-                                                          type="checkbox"
-                                                          name={data?.label}
-                                                          // required={
-                                                          //   data?.required ==
-                                                          //   "yes"
-                                                          //     ? true
-                                                          //     : false
-                                                          // }
-                                                        />
-                                                        <label htmlFor="">
-                                                          {item?.optionLabel}
-                                                        </label>
-                                                      </div>
-                                                    )
+                                                )
+                                              ) : data?.inputType ==
+                                                "checkbox" ? (
+                                                data?.option?.map(
+                                                  (item, index) => (
+                                                    <div key={index}>
+                                                      <input
+                                                        style={{
+                                                          marginBottom: "25px",
+                                                          marginTop: "10px",
+                                                        }}
+                                                        type={data?.inputType}
+                                                        name={data?.label}
+                                                      />
+                                                      <label htmlFor="">
+                                                        {item?.optionLabel}
+                                                      </label>
+                                                    </div>
                                                   )
-                                                ) : data?.inputType ==
-                                                  "selection" ? (
-                                                  <div key={index}>
-                                                    <Select className="dropdown-basic-button split-button-dropup webinar-select">
-                                                      {data?.option?.map(
-                                                        (item) => (
-                                                          <option
-                                                            value={
-                                                              item?.optionLabel
-                                                            }
-                                                          >
-                                                            {item?.optionLabel}
-                                                          </option>
-                                                        )
-                                                      )}
-                                                    </Select>
-                                                  </div>
-                                                ) : (
-                                                  // ) : null
-                                                  <input
+                                                )
+                                              ) : data?.inputType ==
+                                                "selection" ? (
+                                                <div key={index}>
+                                                  <Select
+                                                    className="dropdown-basic-button split-button-dropup webinar-select"
+                                                    options={data?.option?.map(
+                                                      (item) => ({
+                                                        label:
+                                                          item?.optionLabel,
+                                                        value:
+                                                          item?.optionLabel,
+                                                      })
+                                                    )}
+                                                    placeholder="Plese select the value"
+                                                  />
+                                                </div>
+                                              ) : data?.inputType ==
+                                                "textarea" ? (
+                                                <div key={index}>
+                                                  <textarea
                                                     style={{
                                                       marginBottom: "25px",
                                                       marginTop: "10px",
@@ -557,23 +525,31 @@ const WebinarRegistration = () => {
                                                       padding: "11px",
                                                       paddingLeft: "20px",
                                                     }}
-                                                    name={data?.label?.toLowerCase()}
                                                     className="form-control"
+                                                    name={data?.label?.toLowerCase()}
                                                     type={data?.inputType}
-                                                    // required={
-                                                    //   data?.required == "yes"
-                                                    //     ? true
-                                                    //     : false
-                                                    // }
                                                     placeholder={
                                                       data?.placeholder
                                                     }
-                                                    onChange={(e) =>
-                                                      handleChange(e, index)
-                                                    }
                                                   />
-                                                )
-                                              }
+                                                </div>
+                                              ) : (
+                                                <input
+                                                  style={{
+                                                    marginBottom: "25px",
+                                                    marginTop: "10px",
+                                                    borderRadius: "27px",
+                                                    padding: "11px",
+                                                    paddingLeft: "20px",
+                                                  }}
+                                                  name={data?.label?.toLowerCase()}
+                                                  className="form-control"
+                                                  type={data?.inputType}
+                                                  placeholder={
+                                                    data?.placeholder
+                                                  }
+                                                />
+                                              )}
                                             </div>
                                           </div>
                                         </div>

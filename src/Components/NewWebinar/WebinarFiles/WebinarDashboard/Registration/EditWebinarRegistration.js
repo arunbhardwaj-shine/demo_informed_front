@@ -467,32 +467,7 @@ const EditWebinarRegistration = () => {
                                                   </button>
                                                 </div>
                                               </div>
-                                              {/* <label htmlFor="">
-                                                {data?.label
-                                                  ? data?.label
-                                                      ?.charAt(0)
-                                                      .toUpperCase() +
-                                                    data?.label
-                                                      ?.slice(1)
-                                                      ?.toLowerCase()
-                                                  : ""}
-                                              </label> */}
-                                              {/* <button
-                                                className="dlt_btn_event btn-voilet register-feild-delete"
-                                                onClick={(e) => {
-                                                  // setConfirmationPopup(true);
-                                                  //   deleteOption(e, index);
-                                                }}
-                                              >
-                                                <img
-                                                  title="Delete"
-                                                  src={
-                                                    path_image +
-                                                    "delete-icon.svg"
-                                                  }
-                                                  alt="Delete Row"
-                                                />
-                                              </button> */}
+
                                               {
                                                 // data?.option?.length > 0 ? (
                                                 data?.inputType === "radio" ? (
@@ -537,19 +512,17 @@ const EditWebinarRegistration = () => {
                                                 ) : data?.inputType ==
                                                   "selection" ? (
                                                   <div key={index}>
-                                                    <Select className="dropdown-basic-button split-button-dropup webinar-select">
-                                                      {data?.option?.map(
-                                                        (item) => (
-                                                          <option
-                                                            value={
-                                                              item?.optionLabel
-                                                            }
-                                                          >
-                                                            {item?.optionLabel}
-                                                          </option>
-                                                        )
+                                                    <Select
+                                                      className="dropdown-basic-button split-button-dropup webinar-select"
+                                                      options={data?.option?.map(
+                                                        (item, index) => ({
+                                                          label:
+                                                            item?.optionLabel,
+                                                          value:
+                                                            item?.optionLabel,
+                                                        })
                                                       )}
-                                                    </Select>
+                                                    />
                                                   </div>
                                                 ) : (
                                                   // ) : null

@@ -8,6 +8,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
   const [inputOptions, setInputOption] = useState([
     { label: "Text", value: "text" },
     { label: "Email", value: "email" },
+    { label: "Textarea", value: "textarea" },
     { label: "Selection", value: "selection" },
     { label: "Checkbox", value: "checkbox" },
     { label: "Radio", value: "radio" },
