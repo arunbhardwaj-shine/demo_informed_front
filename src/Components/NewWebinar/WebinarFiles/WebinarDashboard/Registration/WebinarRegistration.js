@@ -246,51 +246,48 @@ const WebinarRegistration = () => {
     <>
       <Col className="right-sidebar">
         <div className="custom-container">
-        <div className="row">
-          <div className="top-header reader_list">
-            <div className="page-title">
-              <h4>Registration Page</h4>
+          <div className="row">
+            <div className="top-header reader_list">
+              <div className="page-title">
+                <h4>Registration Page</h4>
+              </div>
+            </div>
+            <div className="register-page create-change-content">
+              <Row>
+                <Col md={8} sm={7}>
+                  <div className="register-page-left">
+                    <Form>
+                      <div className="form-group d-flex align-items-center">
+                        <FormLabel>Select Event</FormLabel>
+                        <Select
+                          options={dropDownData}
+                          placeholder="Select Event"
+                          name="company_id"
+                          className="dropdown-basic-button split-button-dropup webinar-select"
+                          isClearable
+                          onChange={(e) => handleChange(e, "company_id")}
+                          value={
+                            dropDownData?.findIndex(
+                              (item, index) =>
+                                item?.value == eventData?.event_id
+                            ) != -1
+                              ? dropDownData[
+                                  dropDownData?.findIndex(
+                                    (item, index) =>
+                                      item?.value == eventData?.event_id
+                                  )
+                                ]
+                              : ""
+                          }
+                        />
+                      </div>
+                    </Form>
+                  </div>
+                </Col>
+                <Col md={4} sm={5}></Col>
+              </Row>
             </div>
           </div>
-          <div className="register-page create-change-content">
-            <Row>
-              <Col md={8} sm={7}>
-                <div className="register-page-left">
-                <Form>
-                  <div className="form-group d-flex align-items-center">
-                    <FormLabel>
-                      Select Event
-                    </FormLabel>
-                    <Select
-                      options={dropDownData}
-                      placeholder="Select Event"
-                      name="company_id"
-                      className="dropdown-basic-button split-button-dropup webinar-select"
-                      isClearable
-                      onChange={(e) => handleChange(e, "company_id")}
-                      value={
-                        dropDownData?.findIndex(
-                          (item, index) => item?.value == eventData?.event_id
-                        ) != -1
-                          ? dropDownData[
-                              dropDownData?.findIndex(
-                                (item, index) =>
-                                  item?.value == eventData?.event_id
-                              )
-                            ]
-                          : ""
-                      }
-                    />
-                  </div>
-                </Form>
-                </div>
-              </Col>
-              <Col md={4} sm={5}>
-                
-              </Col>
-            </Row>
-          </div>
-        </div>
         </div>
         <div className="register-page">
           <div className="row">
@@ -338,7 +335,9 @@ const WebinarRegistration = () => {
                       }
                     />
                     {error?.pageTitle ? (
-                      <div className="validation" style={{color:'#d61975'}}>{error?.pageTitle}</div>
+                      <div className="validation" style={{ color: "#d61975" }}>
+                        {error?.pageTitle}
+                      </div>
                     ) : (
                       ""
                     )}

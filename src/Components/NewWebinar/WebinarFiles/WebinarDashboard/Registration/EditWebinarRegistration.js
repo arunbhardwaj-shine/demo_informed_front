@@ -13,6 +13,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const EditWebinarRegistration = () => {
   let params = useParams();
   const location = useLocation();
+  const event_code = location.state.event_code;
   const queryParams = new URLSearchParams(location.search);
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
@@ -29,7 +30,7 @@ const EditWebinarRegistration = () => {
   const [eventData, setEventData] = useState({
     event_id: "",
     company_id: "",
-    label: queryParams.get("evnt"),
+    label: queryParams.get("event"),
   });
   const [showChangeHeader, setShowChangeHeader] = useState(false);
   const [showChangeFooter, setShowChangeFooter] = useState(false);
@@ -37,7 +38,7 @@ const EditWebinarRegistration = () => {
   useEffect(() => {
     // getEventData();
     getWebinarData();
-    console.log("queryParams--->", queryParams.get("evnt"));
+    console.log("queryParams--->", queryParams.get("event"));
   }, []);
   const getEventData = async () => {
     try {
@@ -59,7 +60,7 @@ const EditWebinarRegistration = () => {
     try {
       loader("show");
       const response = await getData(
-        `${ENDPOINT.GET_REGISTRATION_FORM}/${queryParams.get("evnt")}`
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
       const hadData = response?.data?.data;
 
