@@ -35,6 +35,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
       required: "",
     });
     onClose(false);
+    setError();
   };
   const handleChange = (e, isSelectedName, index) => {
     if (isSelectedName == "optionValue") {
@@ -73,6 +74,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
     } else {
       handleSave(formData);
       handleClose();
+      setError();
     }
   };
   const AddOptions = (e) => {

@@ -29,6 +29,7 @@ const WebinarRegistration = () => {
   const [showChangeHeader, setShowChangeHeader] = useState(false);
   const [showChangeFooter, setShowChangeFooter] = useState(false);
   const [error, setError] = useState({});
+  const [inputValues, setInputValues] = useState({});
 
   useEffect(() => {
     getEventData();
@@ -277,10 +278,10 @@ const WebinarRegistration = () => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-lg-3 ">
+                  <div className="col-lg-3">
                     <label htmlFor="">Registration Page Title</label>
                   </div>
-                  <div className="col-lg-6 registration-text">
+                  <div className="col-lg-6 registration-text form-group ">
                     <input
                       type="text"
                       name="pageTitle"
@@ -291,7 +292,7 @@ const WebinarRegistration = () => {
                       }
                     />
                     {error?.pageTitle ? (
-                      <div className="login-validation">{error?.pageTitle}</div>
+                      <div className="validation" style={{color:'#d61975'}}>{error?.pageTitle}</div>
                     ) : (
                       ""
                     )}
