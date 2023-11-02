@@ -2905,6 +2905,16 @@ form.product-unit button {
   left: 155px !important;
 }
 
+.create-change-content.register-page .form-group {
+  flex-wrap: wrap;
+}
+
+.create-change-content.register-page .login-validation {
+  position: static;
+  padding-left: 205px;
+  flex: 0 0 100%;
+}
+
 .create-change-content .chapter-title .login-validation-upload {
   left: 0 !important;
 }
