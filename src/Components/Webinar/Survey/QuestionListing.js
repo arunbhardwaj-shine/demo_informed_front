@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Col,
   Container,
@@ -50,6 +50,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     ],
   };
 export default function QuestionListing() {
+
+  const slickRef=useRef("")
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
@@ -122,9 +124,9 @@ export default function QuestionListing() {
       },
     },
   ]);
-  const [index, setIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const [selectedQuestion, setSelectedQuestion] = useState(questions[index]);
+  const [selectedQuestion, setSelectedQuestion] = useState(questions[currentIndex]);
 
   useEffect(() => {
     getApiData();
@@ -250,7 +252,7 @@ export default function QuestionListing() {
     setQuestions(updatedQuestions);
   };
   const handleAddChoice = (key) => {
-    const isValid = validateQuestions();
+    const isValid = validateQuestions(key);
 
     if (!isValid) {
       return;
@@ -294,6 +296,8 @@ export default function QuestionListing() {
     setQuestions(updatedQuestions);
   };
   const handleSubmit = async () => {
+    // console.log(questions);
+    return;
     const isValid = validateQuestions();
 
     if (!isValid) {
@@ -330,11 +334,11 @@ export default function QuestionListing() {
       // setData(apiData.data.data);
     }
   };
-  const validateQuestions = () => {
+  const validateQuestions = (index) => {
     let isValid = true;
-    // const updatedQuestions = [...questions];
-    // console.log(updatedQuestions);
-    let questionObj = { ...selectedQuestion };
+    const updatedQuestions = [...questions];
+    let questionObj = updatedQuestions[index];
+    console.log(questionObj);
     const question = questionObj.questionData.question;
     const speakerName = questionObj.questionData.speakerName;
     const answerType = questionObj.questionData.answerType;
@@ -397,13 +401,14 @@ export default function QuestionListing() {
     });
 
     // updatedQuestions = questionObj;
-
-    console.log(questionObj);
+    updatedQuestions[index]=questionObj;
+    // console.log(questionObj);
+    setQuestions(updatedQuestions)
     setSelectedQuestion(questionObj);
     return isValid;
   };
   const handleAddQuestion = () => {
-    const isValid = validateQuestions();
+    const isValid = validateQuestions(currentIndex);
 
     if (!isValid) {
       return;
@@ -427,8 +432,9 @@ export default function QuestionListing() {
         answerTypeError: "",
       },
     };
-    setIndex(questions?.length);
+    setCurrentIndex(questions?.length);
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
+    slickRef.current.slickGoTo(questions?.length);
     setSelectedQuestion(newQuestion);
   };
   const handleDelete = (key) => {
@@ -459,13 +465,13 @@ export default function QuestionListing() {
           answerTypeError: "",
         },
       };
-      setIndex(0);
+      setCurrentIndex(0);
       setSelectedQuestion(updatedQuestions[0]);
     } else {
       if (key >= 0 && key < questions.length) {
         updatedQuestions.splice(key, 1);
   
-        if (key === index) {
+        if (key === currentIndex) {
           // Handle the case where the deleted question is the currently selected one
           if (key === questions.length - 1) {
             // If the deleted question was the last one, select the previous question
@@ -473,8 +479,8 @@ export default function QuestionListing() {
           } else {
             setSelectedQuestion(updatedQuestions[key]);
           }
-        } else if (key < index) {
-          setIndex(index - 1);
+        } else if (key < currentIndex) {
+          setCurrentIndex(currentIndex - 1);
         }
   
         setQuestions(updatedQuestions);
@@ -491,7 +497,7 @@ export default function QuestionListing() {
     //   return;
     // }
 
-    let newIndex = index;
+    let newIndex = currentIndex;
 
     if (key === "prev" && newIndex > 0) {
       newIndex = newIndex - 1;
@@ -501,10 +507,13 @@ export default function QuestionListing() {
 
     setSelectedQuestion(questions[newIndex]);
 
-    setIndex(newIndex);
+    setCurrentIndex(newIndex);
   };
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
+  };
+  const handleAfterChange = (current) => {
+    setCurrentIndex(current)
   };
   return (
     <>
@@ -551,15 +560,13 @@ export default function QuestionListing() {
                 <div className="poll-question">
         <div className="poll-question-selection">
           <div className="question-number">
-            <span>Q{index + 1}</span>
+            <span>Q{currentIndex + 1}</span>
           </div>
           <div className="question-action">
             <Button
-              className={`btn-bordered question-prev ${
-                index == 0 ? "disabled" : ""
-              } `}
-              disabled={index == 0 ? true : false}
-              // onClick={() => onHandleIncrementChange("prev")}
+              className={`btn-bordered question-prev `}
+              // disabled={index == 0 ? true : false}
+              onClick={()=>slickRef.current.slickPrev ()}
             >
               <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
                 <path
@@ -572,7 +579,10 @@ export default function QuestionListing() {
               className={`btn-bordered question-next`
               
             }
-              // onClick={() => onHandleIncrementChange("next")}
+              onClick={()=>{
+                slickRef.current.slickNext()
+                // console.log(slickRef.current);
+              }}
             >
               <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
                 <path
@@ -583,13 +593,13 @@ export default function QuestionListing() {
             </Button>
             <Button
               className="dl_btn btn-bordered"
-              // onClick={() => {
-              //     setPopupMessage({
-              //       message1:
-              //         "You are about to remove this question.",
-              //       message2: "Are you sure you want to do this?",
-              //       footerButton: "Yes please!",
-              //     }); setConfirmationPopup(true); setResetDataId(item.id);}}
+              onClick={() => {
+                  setPopupMessage({
+                    message1:
+                      "You are about to remove this question.",
+                    message2: "Are you sure you want to do this?",
+                    footerButton: "Yes please!",
+                  }); setConfirmationPopup(true); setResetDataId(currentIndex);}}
               // onClick={handleDelete}
             >
               <svg
@@ -627,23 +637,25 @@ export default function QuestionListing() {
             </Button>
             <Button
               className="add-question btn-bordered"
-              // onClick={onHandleAddQuestion}
+              onClick={handleAddQuestion}
             >
               Add Question +
             </Button>
 
             <Button className="save btn-bordered" 
-            // onClick={onHandleSubmit}
+            onClick={handleSubmit}
             >
               Save
             </Button>
           </div>
         </div>
-              <Slider {...settings}>
+              <Slider {...settings} ref={slickRef} afterChange={handleAfterChange} >
+              {questions.map((questionObj, index) => (
+
               <Question
                 index={index}
-                questionData={selectedQuestion.questionData}
-                questionDataErrors={selectedQuestion.questionDataErrors}
+                questionData={questionObj.questionData}
+                questionDataErrors={questionObj.questionDataErrors}
                 onQuestionChange={(e) => handleQuestionChange(e, index)}
                 // onHandleIsRequiredChange={(e) =>
                 //   handleIsRequiredChange(e, index)
@@ -667,75 +679,13 @@ export default function QuestionListing() {
                   handleDeleteChoice(index, choiceIndex)
                 }
                 onHandleSubmit={handleSubmit}
-                onHandleAddQuestion={handleAddQuestion}
+                onHandleAddQuestion={()=>handleAddQuestion(index)}
                 onHandleDelete={handleDelete}
                 onHandleIncrementChange={handleIncrementChange}
                 lastQuestionIndex={questions.length}
               />
-               <Question
-                index={index}
-                questionData={selectedQuestion.questionData}
-                questionDataErrors={selectedQuestion.questionDataErrors}
-                onQuestionChange={(e) => handleQuestionChange(e, index)}
-                // onHandleIsRequiredChange={(e) =>
-                //   handleIsRequiredChange(e, index)
-                // }
-                onHandleSpeakerNameChange={(e) =>
-                  handleSpeakerNameChange(e, index)
-                }
-                onChoiceChange={(e, choiceIndex) =>
-                  handleChoiceChange(e, index, choiceIndex)
-                }
-                onChoiceColorChange={(e, choiceIndex) =>
-                  handleChoiceColorChange(e, index, choiceIndex)
-                }
-                onTypeChange={(e) => handleTypeChange(e, index)}
-                onHandleDisplayResultChange={(e) =>
-                  handleDisplayResultChange(e, index)
-                }
-                onAddChoice={() => handleAddChoice(index)}
-                onDelete={() => handleDelete(index)}
-                onDeleteChoice={(choiceIndex) =>
-                  handleDeleteChoice(index, choiceIndex)
-                }
-                onHandleSubmit={handleSubmit}
-                onHandleAddQuestion={handleAddQuestion}
-                onHandleDelete={handleDelete}
-                onHandleIncrementChange={handleIncrementChange}
-                lastQuestionIndex={questions.length}
-              />
-               <Question
-                index={index}
-                questionData={selectedQuestion.questionData}
-                questionDataErrors={selectedQuestion.questionDataErrors}
-                onQuestionChange={(e) => handleQuestionChange(e, index)}
-                // onHandleIsRequiredChange={(e) =>
-                //   handleIsRequiredChange(e, index)
-                // }
-                onHandleSpeakerNameChange={(e) =>
-                  handleSpeakerNameChange(e, index)
-                }
-                onChoiceChange={(e, choiceIndex) =>
-                  handleChoiceChange(e, index, choiceIndex)
-                }
-                onChoiceColorChange={(e, choiceIndex) =>
-                  handleChoiceColorChange(e, index, choiceIndex)
-                }
-                onTypeChange={(e) => handleTypeChange(e, index)}
-                onHandleDisplayResultChange={(e) =>
-                  handleDisplayResultChange(e, index)
-                }
-                onAddChoice={() => handleAddChoice(index)}
-                onDelete={() => handleDelete(index)}
-                onDeleteChoice={(choiceIndex) =>
-                  handleDeleteChoice(index, choiceIndex)
-                }
-                onHandleSubmit={handleSubmit}
-                onHandleAddQuestion={handleAddQuestion}
-                onHandleDelete={handleDelete}
-                onHandleIncrementChange={handleIncrementChange}
-                lastQuestionIndex={questions.length}
-              />
+              ))}
+             
             </Slider>
             </div>
             </div>
