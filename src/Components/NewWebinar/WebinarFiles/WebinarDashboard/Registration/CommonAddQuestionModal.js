@@ -35,6 +35,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
       required: "",
     });
     onClose(false);
+    setError();
   };
   const handleChange = (e, isSelectedName, index) => {
     if (isSelectedName == "optionValue") {
@@ -73,6 +74,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
     } else {
       handleSave(formData);
       handleClose();
+      setError();
     }
   };
   const AddOptions = (e) => {
@@ -85,8 +87,14 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
       let index = formData?.option?.findIndex(
         (data, index) => data?.optionLabel == ""
       );
+      const lastTwoItems = formData?.option?.slice(-2);
+      const [item1, item2] = lastTwoItems;
+      const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
       if (index > -1) {
         toast.error(`Please fill the option ${index + 1}`);
+        return;
+      } else if (item1?.optionLabel === item2?.optionLabel) {
+        toast.error("Option can't be same");
         return;
       } else {
         setFormData({ ...formData, option: [...formData?.option, optionObj] });

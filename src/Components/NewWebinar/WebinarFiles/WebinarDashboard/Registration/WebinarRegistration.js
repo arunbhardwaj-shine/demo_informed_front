@@ -7,6 +7,7 @@ import { loader } from "../../../../../loader";
 import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
+import CountryList from "./CountryList";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 // import Question from "./AddQuestion";
@@ -29,6 +30,7 @@ const WebinarRegistration = () => {
   const [showChangeHeader, setShowChangeHeader] = useState(false);
   const [showChangeFooter, setShowChangeFooter] = useState(false);
   const [error, setError] = useState({});
+  const [countryList, setCountryList] = useState(CountryList);
 
   useEffect(() => {
     getEventData();
@@ -221,22 +223,21 @@ const WebinarRegistration = () => {
     } finally {
       loader("hide");
     }
-    console.log(formData,'==>save data')
   };
 
   const handleDragStart = (e, index) => {
-    e.dataTransfer.setData('text/plain', index);
+    e.dataTransfer.setData("text/plain", index);
   };
- 
+
   const handleDrop = (e, newIndex) => {
     e.preventDefault();
-    const draggedIndex = e.dataTransfer.getData('text/plain');
+    const draggedIndex = e.dataTransfer.getData("text/plain");
     const updatedBody = [...formData.body];
     const [draggedField] = updatedBody.splice(draggedIndex, 1);
     updatedBody.splice(newIndex, 0, draggedField);
     setFormData({ ...formData, body: updatedBody });
   };
- 
+
   const handleDragOver = (e) => {
     e.preventDefault();
   };
@@ -633,10 +634,10 @@ const WebinarRegistration = () => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-lg-3 ">
+                  <div className="col-lg-3">
                     <label htmlFor="">Registration Page Title</label>
                   </div>
-                  <div className="col-lg-6 registration-text">
+                  <div className="col-lg-6 registration-text form-group ">
                     <input
                       type="text"
                       name="pageTitle"
@@ -647,7 +648,7 @@ const WebinarRegistration = () => {
                       }
                     />
                     {error?.pageTitle ? (
-                      <div className="login-validation">{error?.pageTitle}</div>
+                      <div className="validation" style={{color:'#d61975'}}>{error?.pageTitle}</div>
                     ) : (
                       ""
                     )}
