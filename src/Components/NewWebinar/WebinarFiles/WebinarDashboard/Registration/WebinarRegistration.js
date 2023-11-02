@@ -186,7 +186,7 @@ const WebinarRegistration = () => {
   };
   const saveClicked = async (e) => {
     e.preventDefault();
-
+    console.log("--err");
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
 
@@ -256,7 +256,7 @@ const WebinarRegistration = () => {
             <Row>
               <Col md={8} sm={7}>
                 <div className="register-page-left">
-                <Form>
+                <Form onSubmit={saveClicked}>
                   <div className="form-group d-flex align-items-center">
                     <FormLabel>
                       Select Event
@@ -410,7 +410,8 @@ const WebinarRegistration = () => {
                           <div className="add_hcp_boxes">
                             <div className="form_action">
                               <div className="row">
-                                <form id="registration-form" onSubmit={saveClicked}>
+                                <div id="registration-form">
+
                                   {formData && Object.keys(formData)?.length ? (
                                     <div>
                                       <div className="center-align-form">
@@ -530,7 +531,7 @@ const WebinarRegistration = () => {
                                       </div>
                                     </div>
                                   ) : null}
-                                </form>
+                                </div>
                               </div>
                             </div>
                           </div>
