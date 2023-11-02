@@ -9,10 +9,12 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import moment from "moment";
 import { Spinner } from "react-activity";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
   let params = useParams();
+  let navigate=useNavigate();
   const [isData, setIsData] = useState([]);
   const [apiData, setApiData] = useState([]);
   const [apiStatus, setApiStatus] = useState(true);
@@ -130,6 +132,14 @@ const NewEventCreate = () => {
       setIsEditData("");
     }
     setEditEvent(true);
+  };
+
+  const webinarRegistrationForm = (e, item) => {
+    console.log("e-->", e, "--->", item);
+
+    navigate("/edit-webinar-registration", {
+      state: { event_code: item?.event_code },
+    });
   };
 
   const handleAddModalSubmit = (e) => {
@@ -323,9 +333,22 @@ const NewEventCreate = () => {
                                 />
                               </button>
                               <button
+                                className="btn-edit btn-voilet"
+                                onClick={(e) => {
+                                  webinarRegistrationForm(e, item);
+                                }}
+                              >
+                                <img
+                                  title="Webinar"
+                                  src={path_image + "search.svg"}
+                                  alt="Webinar"
+                                />
+                              </button>
+                              <button
                                 className="dlt_btn_event btn-voilet"
-                                onClick={() => {
+                                onClick={(e) => {
                                   setConfirmationPopup(true);
+
                                   setEventId(item?.id);
                                 }}
                               >
