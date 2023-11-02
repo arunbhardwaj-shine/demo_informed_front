@@ -6,7 +6,7 @@ import Select from "react-select";
 import { loader } from "../../../../../loader";
 import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 import CountryList from "./CountryList";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -19,8 +19,6 @@ const WebinarRegistration = () => {
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
-  const [page, setPage] = useState(1);
-  const [dropDownData, setDropDownData] = useState([]);
   const [formData, setFormData] = useState({
     pageTitle: "",
     bodyText: "",
@@ -35,18 +33,26 @@ const WebinarRegistration = () => {
   const [countryList, setCountryList] = useState(CountryList);
 
   useEffect(() => {
-    getEventData();
+    getWebinarData();
   }, []);
-  const getEventData = async () => {
+
+  const getWebinarData = async () => {
     try {
       loader("show");
-      const response = await getData(`${ENDPOINT.EVENT_LIST}?type=${page}`);
-      let dropDownDataTemp = response?.data?.data?.map((item) => ({
-        value: item?.id,
-        label: item?.event_code,
-        company_id: item?.company_id,
-      }));
-      setDropDownData(dropDownDataTemp);
+      const response = await getData(
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
+      );
+      const hadData = response?.data?.data;
+
+      setEventData({
+        ...eventData,
+        event_id: hadData?.event_id,
+        company_id: hadData?.company_id,
+      });
+      const newFormData = JSON.parse(hadData?.content);
+      setFormData(newFormData);
+      setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
+      setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -63,16 +69,10 @@ const WebinarRegistration = () => {
       if (isSelectedName === "headerImageUrl") {
         setFile(URL.createObjectURL(file));
         const imgElement = document.querySelector(".header-img");
-        // imgElement.style.height = "310px";
-        // imgElement.style.width = "100%";
-        // imgElement.style.borderRadius = "32px";
       }
 
       if (isSelectedName === "footerImageUrl") {
         const imgElement = document.querySelector(".footer-img");
-        // imgElement.style.height = "310px";
-        // imgElement.style.width = "100%";
-        // imgElement.style.borderRadius = "32px";
         setFoot(URL.createObjectURL(file));
       }
 
@@ -260,7 +260,7 @@ const WebinarRegistration = () => {
                   <div className="register-page-left">
                     <Form onSubmit={saveClicked}>
                       <div className="form-group d-flex align-items-center">
-                        <FormLabel>Select Event</FormLabel>
+                        {/* <FormLabel>Select Event</FormLabel>
                         <Select
                           options={dropDownData}
                           placeholder="Select Event"
@@ -281,7 +281,7 @@ const WebinarRegistration = () => {
                                 ]
                               : ""
                           }
-                        />
+                        /> */}
                       </div>
                       <div className="form-group d-flex align-items-center">
                         <FormLabel>Registration Page Title</FormLabel>
@@ -387,7 +387,7 @@ const WebinarRegistration = () => {
                             onChange={(e) => handleChange(e, "country")}
                           />
 
-                          <Form.Check
+                          {/* <Form.Check
                             className="webinar-checkbox"
                             inline
                             label="State"
@@ -402,7 +402,7 @@ const WebinarRegistration = () => {
                                 : false
                             }
                             onChange={(e) => handleChange(e, "state")}
-                          />
+                          /> */}
                           <span
                             className="add-choice"
                             onClick={() => setModal(true)}
