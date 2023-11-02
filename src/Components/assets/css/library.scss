@@ -553,9 +553,35 @@
     width: 100%;
     margin: 0;
 
+    .register-page-left {
+      padding-right: 30px;
+    }
+
     .form-group {
       label {
         margin: 0;
+        flex: 0 0 200px;
+      }
+
+      .form-control {
+        max-width: 100%;
+        flex: 1 1;
+      }
+
+      textarea {
+        &.form-control {
+          min-height: 139px;
+        }
+      }
+
+      .dropdown-basic-button {
+        flex: 1 1;
+        max-width: 100%;
+
+        &>div:nth-child(3) {
+          max-width: 100%;
+          background-position: 98% center;
+        }
       }
     }
   }
@@ -16386,13 +16412,8 @@ img.change-password-image {
 
 .header-section {
   width: 100%;
-  float: left;
-  height: 315px;
-  border: 2px solid black;
-  border-color: grey;
+  border: 1px solid $primary-color;
   border-radius: 12px;
-  position: relative;
-  display: block;
   cursor: pointer;
   overflow: hidden;
 }
@@ -16400,14 +16421,7 @@ img.change-password-image {
 .header-hover {
   opacity: 0;
   font-size: 24px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: 'black';
   width: 100%;
-  height: 315px;
-  text-align: center;
-  padding: 134px;
 }
 
 .header-section .header-text:hover {
@@ -16419,6 +16433,12 @@ img.change-password-image {
   opacity: 1;
   transition-delay: 0s;
   transition-duration: 0.4s;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  text-align: center;
+  top: 40%;
+  transform: translateY(-50%);
 }
 
 .header-section .header-text:hover .header-hover {
@@ -16431,11 +16451,9 @@ img.change-password-image {
   position: absolute;
   top: 0;
   left: 0;
-  color: 'black';
   width: 100%;
   height: 315px;
   text-align: center;
-  padding: 134px;
 }
 
 .footer-section .footer-text:hover {
@@ -16447,6 +16465,12 @@ img.change-password-image {
   opacity: 1;
   transition-delay: 0s;
   transition-duration: 0.4s;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  text-align: center;
+  top: 40%;
+  transform: translateY(-50%);
 }
 
 .footer-section .footer-text:hover .footer-hover {
@@ -16455,14 +16479,8 @@ img.change-password-image {
 
 .footer-section {
   width: 100%;
-  float: left;
-  height: 315px;
-  border: 2px solid black;
-  border-color: grey;
+  border: 1px solid $primary-color;
   border-radius: 12px;
-  margin-top: 20px;
-  position: relative;
-  display: block;
   cursor: pointer;
   overflow: hidden;
 }
@@ -16493,27 +16511,219 @@ img.change-password-image {
 }
 
 .feilds-section {
-  border-style: dashed;
-  border-color: grey;
+  border: 1px dashed $primary-color;
   border-radius: 12px;
-  width: 78%;
-  // height: 356px;
-  height: 100%;
-  margin-top: 28px;
-  padding-left: 38px;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  margin-bottom: 20px;
+  width: 100%;
+  padding: 24px;
+  margin: 20px 0 0;
+
+  h5 {
+    flex: 0 0 100%;
+    font-size: 22px;
+    line-height: 25px;
+    color: #004A89;
+    width: 100%;
+    margin: 0 0 10px;
+  }
+
+  .select-collected {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 2%;
+    padding: 0 0 40px;
+    margin-bottom: 30px;
+    position: relative;
+
+    &:after {
+      border-bottom: 1px solid $primary-color;
+      content: "";
+      bottom: 0;
+      width: calc(100% + 48px);
+      left: -24px;
+      right: 0;
+      position: absolute;
+    }
+  }
+
+  .add-choice {
+    background: transparent;
+    border: 0;
+    color: #004A89;
+    padding: 0;
+    font-size: 16px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    cursor: pointer;
+
+    img {
+      margin-left: 8px;
+    }
+  }
 }
 
 .webinar-checkbox {
-  border: 2px solid gray;
-  padding-top: 9px;
-  padding-bottom: 9px;
-  padding-left: 45px;
-  padding-right: 65px;
-  border-radius: 30px;
-  margin-bottom: 12px;
+  border-radius: 50px;
+  box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+  padding: 14px 24px;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  width: 31.3%;
+  margin: 0 0;
+
+  .form-check-input {
+    margin: 0;
+    border: 1px solid #97B6CF;
+    width: 16px;
+    height: 16px;
+    padding: 1px;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    display: inline-block;
+    flex: 0 0 16px;
+
+    &:checked {
+      background-color: #39cabc;
+      border-color: #39cabc;
+      background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+    }
+  }
+
+  label {
+    font-size: 16px;
+    line-height: 19px;
+    color: #70899E;
+  }
+}
+
+section.webinarRegistrationBody {
+  flex: 0 0 100%;
+
+  #registration-form {
+    .form-group {
+      margin: 10px 0;
+
+      label {
+        flex: 0 0 120px;
+        padding: 0 5px 0 0;
+      }
+
+      .slt-opt {
+        flex: 1 1;
+      }
+
+      input[type="radio"],
+      input[type="checkbox"] {
+        margin: 0 10px 0 0;
+        border: 1px solid #97B6CF;
+        width: 16px;
+        height: 16px;
+        padding: 1px;
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+        appearance: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        display: inline-block;
+        position: relative;
+        top: 3px;
+
+        &:checked {
+          background-color: #39cabc;
+          border-color: #39cabc;
+          background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+        }
+      }
+
+
+      .form-control {
+        margin-bottom: 0;
+      }
+
+      .dlt_btn_event {
+        border-radius: 30px;
+        box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.15);
+        border: 0;
+        padding: 6px;
+        width: 48px;
+        min-width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 0 0 15px;
+
+        svg {
+          width: 27px;
+          height: 27px;
+        }
+      }
+    }
+
+    .save {
+      margin: 10px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+  }
+}
+
+.registration-right {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px 0;
+  justify-content: space-between;
+  padding-top: 30px;
+
+  .header-section {
+    height: calc(50% - 15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+
+    img {
+      &.header-img {
+        max-height: 250px;
+      }
+    }
+
+    h4 {
+      color: $dark-blue;
+    }
+  }
+
+  .footer-section {
+    height: calc(50% - 15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+
+    img {
+      &.footer-img {
+        max-height: 250px;
+      }
+    }
+
+    h4 {
+      color: $dark-blue;
+    }
+  }
 }
 
 .webinar-event {
@@ -16523,14 +16733,6 @@ img.change-password-image {
 .webinar-select {
   margin-bottom: 25px;
   margin-top: 12px
-}
-
-.header-img-section {
-  padding: 134px;
-}
-
-.footer-img-section {
-  padding: 134px;
 }
 
 .register-feild-delete {
