@@ -11028,6 +11028,13 @@ img.change-password-image {
             color: $primary-color;
           }
         }
+
+        .login-validation {
+          position: relative;
+          top: 10px;
+          display: block;
+          margin-left: 130px;
+        }
       }
 
       .display-result {

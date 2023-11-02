@@ -25,6 +25,33 @@ import { toast, ToastContainer } from "react-toastify";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const settings = {
+    infinite: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    arrows: false,
+    centerMode: true,
+    centerPadding: "0%",
+    speed: 1500,
+    vertical: true,
+    verticalScrolling: true,
+    swipe: false,
+    touchMove: false,
+    responsive: [
+      {
+        breakpoint: 558,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: true,
+          arrows: true,
+        },
+      },
+    ],
+  };
+export default function QuestionListing() {
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const settings = {
