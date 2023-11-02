@@ -7,6 +7,7 @@ import { loader } from "../../../../../loader";
 import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
+import CountryList from "./CountryList";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 // import Question from "./AddQuestion";
@@ -29,6 +30,7 @@ const WebinarRegistration = () => {
   const [showChangeHeader, setShowChangeHeader] = useState(false);
   const [showChangeFooter, setShowChangeFooter] = useState(false);
   const [error, setError] = useState({});
+  const [countryList, setCountryList] = useState(CountryList);
 
   useEffect(() => {
     getEventData();
@@ -221,22 +223,21 @@ const WebinarRegistration = () => {
     } finally {
       loader("hide");
     }
-    console.log(formData,'==>save data')
   };
 
   const handleDragStart = (e, index) => {
-    e.dataTransfer.setData('text/plain', index);
+    e.dataTransfer.setData("text/plain", index);
   };
- 
+
   const handleDrop = (e, newIndex) => {
     e.preventDefault();
-    const draggedIndex = e.dataTransfer.getData('text/plain');
+    const draggedIndex = e.dataTransfer.getData("text/plain");
     const updatedBody = [...formData.body];
     const [draggedField] = updatedBody.splice(draggedIndex, 1);
     updatedBody.splice(newIndex, 0, draggedField);
     setFormData({ ...formData, body: updatedBody });
   };
- 
+
   const handleDragOver = (e) => {
     e.preventDefault();
   };
@@ -381,7 +382,7 @@ const WebinarRegistration = () => {
                     onChange={(e) => handleChange(e, "country")}
                   />
 
-                  <Form.Check
+                  {/* <Form.Check
                     className="webinar-checkbox"
                     inline
                     label="State"
@@ -395,7 +396,7 @@ const WebinarRegistration = () => {
                         : false
                     }
                     onChange={(e) => handleChange(e, "state")}
-                  />
+                  /> */}
 
                   <span>
                     <Button
@@ -440,7 +441,9 @@ const WebinarRegistration = () => {
                                           key={index}
                                           className="centered-input"
                                           draggable
-                                          onDragStart={(e) => handleDragStart(e, index)}
+                                          onDragStart={(e) =>
+                                            handleDragStart(e, index)
+                                          }
                                           onDrop={(e) => handleDrop(e, index)}
                                           onDragOver={handleDragOver}
                                         >
@@ -525,14 +528,18 @@ const WebinarRegistration = () => {
                                                 <div key={index}>
                                                   <Select
                                                     className="dropdown-basic-button split-button-dropup webinar-select"
-                                                    options={data?.option?.map(
-                                                      (item) => ({
-                                                        label:
-                                                          item?.optionLabel,
-                                                        value:
-                                                          item?.optionLabel,
-                                                      })
-                                                    )}
+                                                    options={
+                                                      data?.label == "country"
+                                                        ? countryList
+                                                        : data?.option?.map(
+                                                            (item) => ({
+                                                              label:
+                                                                item?.optionLabel,
+                                                              value:
+                                                                item?.optionLabel,
+                                                            })
+                                                          )
+                                                    }
                                                     placeholder="Plese select the value"
                                                   />
                                                 </div>
