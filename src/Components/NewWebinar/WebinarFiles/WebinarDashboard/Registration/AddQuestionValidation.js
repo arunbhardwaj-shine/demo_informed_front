@@ -4,7 +4,9 @@ const AddQuestionValidation = (formData, formLabel) => {
     error.inputType = "Please select the input type";
   }
   if (
-    (formData?.inputType == "checkbox" || formData?.inputType == "radio") &&
+    (formData?.inputType == "checkbox" ||
+      formData?.inputType == "radio" ||
+      formData?.inputType == "selection") &&
     !formData?.option?.length
   ) {
     error.option = "Please add options";
@@ -25,6 +27,7 @@ const AddQuestionValidation = (formData, formLabel) => {
     );
     if (index > -1) {
       error.option = "Options can't be empty";
+      error.index = index;
     }
   }
   return error;

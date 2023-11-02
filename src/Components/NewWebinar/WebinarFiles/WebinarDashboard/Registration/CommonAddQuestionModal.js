@@ -24,6 +24,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
     required: "",
     option: [],
   });
+  const [error, setError] = useState({});
   useEffect(() => {}, [show]);
   const handleClose = () => {
     setFormData({
@@ -67,6 +68,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
 
     if (Object.keys(error)?.length) {
       toast.error(error[Object.keys(error)[0]]);
+      setError(error);
       return;
     } else {
       handleSave(formData);
@@ -114,7 +116,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add
+              Add Fields
             </h5>
             <button
               type="button"
@@ -146,12 +148,22 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                                 options={inputOptions}
                                 name="inputType"
                                 placeholder="Enter input type"
-                                // className="dropdown-basic-button split-button-dropup edit-country-dropdown bottom"
-                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                className={
+                                  error?.inputType
+                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                }
                                 onChange={(e) =>
                                   handleChange(e?.value, "inputType")
                                 }
                               />
+                              {error?.inputType ? (
+                                <div className="login-validation">
+                                  {error?.inputType}
+                                </div>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
                           <div className="col-12 col-md-6">
@@ -161,10 +173,21 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                                 type="text"
                                 name="label"
                                 placeholder="Enter label"
-                                className="form-control"
+                                className={
+                                  error?.label
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
                                 value={formData?.label}
                                 onChange={(e) => handleChange(e)}
                               />
+                              {error?.label ? (
+                                <div className="login-validation">
+                                  {error?.label}
+                                </div>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
                           <div className="col-12 col-md-6">
@@ -209,7 +232,11 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                                         index + 1
                                       }`}</label>
                                       <input
-                                        className="form-control"
+                                        className={
+                                          error?.option && error?.index == index
+                                            ? "form-control error"
+                                            : "form-control"
+                                        }
                                         type="text"
                                         placeholder="Enter option"
                                         value={
@@ -219,11 +246,18 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                                           handleChange(e, "optionValue", index)
                                         }
                                       />
+                                      {error?.option &&
+                                      error?.index == index ? (
+                                        <div className="login-validation">
+                                          {error?.option}
+                                        </div>
+                                      ) : (
+                                        ""
+                                      )}
 
                                       <button
                                         className="dlt_btn_event btn-voilet"
                                         onClick={(e) => {
-                                          // setConfirmationPopup(true);
                                           deleteOption(e, index);
                                         }}
                                       >
