@@ -10585,6 +10585,54 @@ img.change-password-image {
   padding: 0 0 30px;
   position: relative;
 
+  // .slick-slider {
+  //   .slick-prev {
+  //     top: 98px;
+  //     position: absolute;
+  //     width: 48px;
+  //     height: 48px;
+  //     border-radius: 50%;
+  //     border: 1px solid var(--light-blue);
+  //     left: 4px;
+  //     z-index: 4;
+  //     display: flex !important;
+  //     align-items: center;
+  //     justify-content: center;
+  //     transform: rotate(0deg) translate(0px, 0px);
+
+  //     &:before {
+  //       content: '';
+  //       background: url(../../../../public/componentAssets/images/back-page-icon.svg) no-repeat;
+  //       background-size: 100%;
+  //       width: 19px;
+  //       height: 11px;
+  //     }
+  //   }
+
+  //   .slick-next {
+  //     top: 162px;
+  //     left: 0;
+  //     width: 48px;
+  //     height: 48px;
+  //     border-radius: 50%;
+  //     left: 4px;
+  //     border: 1px solid var(--light-blue);
+  //     z-index: 4;
+  //     display: flex !important;
+  //     align-items: center;
+  //     justify-content: center;
+  //     transform: rotate(0deg) translate(0px, 0px);
+
+  //     &:before {
+  //       content: '';
+  //       background: url(../../../../public/componentAssets/images/next-page-icon.svg) no-repeat;
+  //       background-size: 100%;
+  //       width: 19px;
+  //       height: 11px;
+  //     }
+  //   }
+  // }
+
   .poll-question-selection {
     display: flex;
     flex-direction: row;
@@ -10597,6 +10645,7 @@ img.change-password-image {
     align-items: center;
     width: 100%;
     max-width: 540px;
+    z-index: 2;
 
     .question-number {
       -moz-transform: rotate(-180deg);
@@ -10631,6 +10680,8 @@ img.change-password-image {
           -moz-transform: rotate(-90deg);
           -webkit-transform: rotate(-90deg);
           transform: rotate(-90deg);
+          // opacity: 0;
+          // visibility: hidden;
         }
 
         &.add-question,
@@ -10659,11 +10710,21 @@ img.change-password-image {
     padding: 24px 40px;
     border: 1px dashed $primary-color;
     border-radius: 15px;
-    margin: 40px 0 0 60px;
-    min-height: 532px;
+    margin: 0px 0 0 60px;
+    min-height: 545px;
+    height: 100%;
+    overflow-y: auto;
+    max-height: 545px;
   }
 
   .poll-question-create {
+    .name_added {
+      .login-validation {
+        position: relative;
+        top: 10px;
+      }
+    }
+
     label {
       &.h5 {
         font-size: 22px;
@@ -10735,6 +10796,11 @@ img.change-password-image {
         top: 0;
         width: calc(100% + 80px);
         left: -40px;
+      }
+
+      .login-validation {
+        position: static;
+        margin-left: 128px;
       }
 
       .options {
@@ -10893,11 +10959,11 @@ img.change-password-image {
           left: 0;
 
           span {
-            margin-left: 5px;
+            margin-left: 9px;
             width: 30px;
 
             &:last-child {
-              margin-left: 56px;
+              margin-left: 61px;
             }
 
             img {
@@ -10985,6 +11051,14 @@ img.change-password-image {
     }
   }
 }
+
+// .slick-vertical {
+//   .slick-track {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 8px 0px;
+//   }
+// }
 
 /***Webinar polls end***/
 
