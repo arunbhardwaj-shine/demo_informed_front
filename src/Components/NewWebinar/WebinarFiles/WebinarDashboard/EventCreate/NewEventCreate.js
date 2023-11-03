@@ -137,7 +137,7 @@ const NewEventCreate = () => {
   const webinarRegistrationForm = (e, item) => {
     console.log("e-->", e, "--->", item);
 
-    navigate("/edit-webinar-registration", {
+    navigate("/webinar-registration", {
       state: { event_code: item?.event_code },
     });
   };
