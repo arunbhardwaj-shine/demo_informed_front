@@ -1532,7 +1532,7 @@ const MarketingEditReader = () => {
                     rows="5"
                     placeholder="Please type your notes here..."
                   ></textarea>
-                  <div className="activity-btn">
+                  <div className="activity-btn d-flex align-items-center justify-content-end">
                   <DatePicker
                       selected={
                         userInputs?.logActivityDate
@@ -1624,12 +1624,16 @@ const MarketingEditReader = () => {
 <path d="M25.9642 7.49043L27.1584 6.0418C28.2829 4.6777 28.0979 2.65662 26.7467 1.54275L25.7654 0.733802C24.4141 -0.380056 22.3949 -0.175965 21.2704 1.18813L20.0762 2.63675L25.9642 7.49043Z" fill="#0066BE"/>
 </svg>                
                         </button>
-                        <span class="pawword_img" onClick={() => {
+                        <button class="pawword_img" onClick={() => {
                           setCommanLogShow(true)
                           setCommanLogData(logs[index].value)
                         }}>
-                          <img src={path_image + "show_p.svg"} alt="" />
-                        </span>
+                          <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 0.0390625C6.17915 0.0390625 2.71497 2.12577 0.15681 5.52435C-0.0522702 5.80312 -0.0522702 6.18849 0.15681 6.46726C2.71497 9.86995 6.17915 11.9608 10 11.9608C13.8208 11.9608 17.285 9.87405 19.8432 6.47546C20.0523 6.19669 20.0523 5.81132 19.8432 5.53255C17.285 2.12987 13.8208 0.0390625 10 0.0390625ZM10.2747 10.1979C7.73701 10.3578 5.6462 8.267 5.80609 5.72933C5.93728 3.63853 7.63452 1.93719 9.72943 1.806C12.2671 1.64611 14.3579 3.73692 14.198 6.27458C14.0627 8.36539 12.3655 10.0626 10.2747 10.1979Z" fill="#0066be" fill-opacity="1"/>
+<path d="M10.1474 8.25874C8.78226 8.34483 7.65486 7.21744 7.74095 5.85226C7.81065 4.72486 8.72486 3.81065 9.85226 3.74095C11.2174 3.65486 12.3448 4.78226 12.2587 6.14743C12.189 7.27483 11.2748 8.18905 10.1474 8.25874Z" fill="#0066be" fill-opacity="1"/>
+</svg>
+
+                        </button>
                       </div>
                     </div>
                   ))}
