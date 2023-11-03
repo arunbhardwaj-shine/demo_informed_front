@@ -552,7 +552,7 @@ const Routing = () => {
           element={<LoginLayout component={EventCreate} />}
         />
         <Route
-          path="/new-event-create"
+          path="/event-listing"
           element={<LoginLayout component={NewEventCreate} />}
         />
         <Route
