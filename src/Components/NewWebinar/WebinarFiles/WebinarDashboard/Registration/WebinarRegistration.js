@@ -328,7 +328,7 @@ const WebinarRegistration = () => {
     } finally {
       loader('hide');
     }
-    navigate("/event-create");
+    navigate("/event-listing");
   };
 
   const handleDragStart = (e, index) => {
