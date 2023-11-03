@@ -140,6 +140,13 @@ const NewEventCreate = () => {
     navigate("/webinar-registration", {
       state: { event_code: item?.event_code },
     });
+  }; 
+  const webinarPollingForm = (e, item) => {
+    console.log("e-->", e, "--->", item);
+
+    navigate("/poll-listing", {
+      state: { event_id: item?.id },
+    });
   };
 
   const handleAddModalSubmit = (e) => {
@@ -335,6 +342,18 @@ const NewEventCreate = () => {
                                 <img
                                   title="Webinar"
                                   src={path_image + "webinar-icon.svg"}
+                                  alt="Webinar"
+                                />
+                              </button> 
+                               <button
+                                className="btn-webinar"
+                                onClick={(e) => {
+                                  webinarPollingForm(e, item);
+                                }}
+                              >
+                                <img
+                                  title="Webinar"
+                                  src={path_image + "polling-icon.svg"}
                                   alt="Webinar"
                                 />
                               </button>

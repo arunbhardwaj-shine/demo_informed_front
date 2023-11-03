@@ -25,6 +25,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useLocation } from "react-router-dom";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const settings = {
@@ -52,7 +53,12 @@ const settings = {
     },
   ],
 };
-export default function QuestionListing() {
+export default function PollListing() {
+  const location = useLocation();
+  const event_code = location?.state?.event_id
+  ? location?.state?.event_id
+  : "";
+  // console.log(location,event_code,"event_code");
   const slickRef = useRef("");
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -71,6 +77,7 @@ export default function QuestionListing() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [questions, setQuestions] = useState([]);
+  const [originalQuestions, setOriginalQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [selectedQuestion, setSelectedQuestion] = useState(
@@ -84,23 +91,18 @@ export default function QuestionListing() {
   const getApiData = async () => {
     try {
       loader("show");
-
-      const response = await getData(`${ENDPOINT.EVENT_LIST}?type=${page}`);
-      let dropDownDataTemp = response.data.data.map((item) => ({
-        value: item.id,
-        label: item.event_code,
-      }));
-      setDropDownData(dropDownDataTemp);
-      let selectedData = dropDownDataTemp.length
-        ? dropDownDataTemp[0]
-        : { value: "", label: "" };
-      setSelectedItem(selectedData);
-      if (selectedData) {
-        let apiData = await getListingData(selectedData.value);
-        setQuestions(apiData);
-        slickRef.current.slickGoTo(0);
-        setCurrentIndex(0);
-      }
+  
+      let apiData = await getListingData(event_code);
+      
+      // Create a deep copy of apiData
+      const deepCopyApiData = JSON.parse(JSON.stringify(apiData));
+  
+      setQuestions(apiData);
+      setOriginalQuestions(deepCopyApiData);
+      
+      slickRef.current.slickGoTo(0);
+      setCurrentIndex(0);
+      
       setApiStatus(true);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -108,6 +110,7 @@ export default function QuestionListing() {
       loader("hide");
     }
   };
+  
   const handleSelectChange = async (event) => {
     loader("show");
     setApiStatus(() => false);
@@ -115,7 +118,7 @@ export default function QuestionListing() {
       let data = [];
       return data;
     });
-    let apiData = await getListingData(event.value);
+    let apiData = await getListingData(event_code);
     setQuestions(apiData);
     slickRef.current.slickGoTo(0);
     setCurrentIndex(0);
@@ -146,29 +149,31 @@ export default function QuestionListing() {
           },
         };
       });
-      console.log(data);
+      // console.log(data);
       // setQuestions(data)
-      loader("hide");
-      return data?.length
-        ? data
-        : [
-            {
-              questionData: {
-                question: "",
-                speakerName: "",
-                answerOption: [{ answer: "", color: "#000000" }],
-                answerType: "MULTIPLE",
+      data=data?.length
+      ? data
+      : [
+          {
+            questionData: {
+              question: "",
+              speakerName: "",
+              answerOption: [{ answer: "", color: "#000000" }],
+              answerType: "MULTIPLE",
 
-                graphType: "bar",
-              },
-              questionDataErrors: {
-                questionError: "",
-                speakerNameError: "",
-                answerOptionError: [{ answerError: "", colorError: "#000000" }],
-                answerTypeError: "",
-              },
+              graphType: "bar",
             },
-          ];
+            questionDataErrors: {
+              questionError: "",
+              speakerNameError: "",
+              answerOptionError: [{ answerError: "", colorError: "#000000" }],
+              answerTypeError: "",
+            },
+          },
+        ];
+      loader("hide");
+      setOriginalQuestions(data)
+      return data
     } catch (error) {
       loader("hide");
       console.error("Error fetching data:", error);
@@ -182,10 +187,22 @@ export default function QuestionListing() {
   };
   const handleTypeChange = (e, key) => {
     const updatedQuestions = [...questions];
+    
     updatedQuestions[key].questionData.answerType = e.target.id;
+ 
 
     if (e.target.id == "YesNo") {
-      updatedQuestions[key].questionData.answerOption = [
+      if(originalQuestions[key].questionData.answerOption?.length && originalQuestions[key]?.questionData.answerType==e.target.id){
+        updatedQuestions[key].questionData.answerOption =  originalQuestions[key].questionData.answerOption
+        updatedQuestions[key].questionDataErrors.answerOptionError=originalQuestions[key].questionData.answerOption.map((data) => {
+          return {
+            answerError: "",
+            colorError: "",
+          };
+        })
+      }
+     else{
+    updatedQuestions[key].questionData.answerOption = [
         {
           answer: "Yes",
           color: "#000000",
@@ -205,15 +222,30 @@ export default function QuestionListing() {
           colorError: "",
         }
       );
-    } else {
-      updatedQuestions[key].questionData.answerOption = [
-        { answer: "", color: "#000000" },
-      ];
-      updatedQuestions[key].questionDataErrors.answerOptionError.push({
-        answerError: "",
-        colorError: "",
-      });
+    } }else {
+
+      if(originalQuestions[key].questionData.answerOption?.length && originalQuestions[key]?.questionData.answerType==e.target.id){
+        updatedQuestions[key].questionData.answerOption =  originalQuestions[key].questionData.answerOption
+        updatedQuestions[key].questionDataErrors.answerOptionError=originalQuestions[key].questionData.answerOption.map((data) => {
+          return {
+            answerError: "",
+            colorError: "",
+          };
+        })
+      }
+      else{
+        updatedQuestions[key].questionData.answerOption = [
+          { answer: "", color: "#000000" },
+        ];
+        updatedQuestions[key].questionDataErrors.answerOptionError.push({
+          answerError: "",
+          colorError: "",
+        });
+      }
+     
     }
+
+    console.log(originalQuestions);
     // if (e == "INPUT") {
     //   updatedQuestions[key].questionData.answerOption = [];
 
@@ -309,7 +341,7 @@ export default function QuestionListing() {
         data: [surveyData],
       };
       if (!surveyData?.id) {
-        payLoadData.eventId = selectedItem.value;
+        payLoadData.eventId = event_code
         response = await postData(ENDPOINT.ADD_QUESTION, payLoadData);
         loader("hide");
         toast.success("Question Inserted Successfully", {
@@ -344,7 +376,7 @@ export default function QuestionListing() {
       console.error("An error occurred:", error);
     } finally {
       setShowUploadMenu(false);
-      const apiData = await getListingData(selectedItem.value);
+      const apiData = await getListingData(event_code);
       // slickRef.current.slickGoTo(0);
       // setCurrentIndex(0);
       loader("hide");
@@ -474,7 +506,7 @@ export default function QuestionListing() {
           `/webinar/delete-question`,
           deletedQuestionId
         );
-        let apiData = await getListingData(selectedItem.value);
+        let apiData = await getListingData(event_code);
         setQuestions(apiData);
       }
 
@@ -560,7 +592,7 @@ export default function QuestionListing() {
                   </div>
 
                   <form className="product-unit d-flex justify-content-between align-items-center">
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <label htmlFor="">Select Event</label>
                       <Select
                         options={dropDownData}
@@ -571,7 +603,7 @@ export default function QuestionListing() {
                         onChange={handleSelectChange}
                         value={selectedItem}
                       />
-                    </div>
+                    </div> */}
                     {/* <Button
                   className="align-right btn-bordered btn-voilet"
                   onClick={() => {
@@ -591,7 +623,7 @@ export default function QuestionListing() {
                 {apiStatus && (
                   <div className="poll-question-selection">
                     <div className="question-number">
-                      <span>Q{currentIndex + 1}</span>
+                      <span>Q{currentIndex + 1} / {questions.length} </span>
                     </div>
                     <div className="question-action">
                       <Button
