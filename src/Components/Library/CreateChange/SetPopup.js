@@ -868,7 +868,7 @@ const SetPopup = (props) => {
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/react_informed.css",
+                            "https://docintel.app/react_informed.css?v=1.0",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
                           init_instance_callback: (editor)=>addTracking(editor),
