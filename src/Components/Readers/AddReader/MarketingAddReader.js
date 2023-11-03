@@ -1461,7 +1461,7 @@ const MarketingAddReader = () => {
                             />
                           </svg>{" "}
                         </button>
-                        <span clasName="pawword_img" onClick={() => {
+                        <button className="pawword_img" onClick={() => {
                           setCommanLogShow(true)
                           setCommanLogData(logs[index].value)
                         }}>
