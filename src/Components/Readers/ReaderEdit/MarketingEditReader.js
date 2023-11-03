@@ -15,7 +15,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { parsePhoneNumber } from "react-phone-number-input";
 import CommmonConfirmModel from "../../../Model/CommonConfirmModel";
-
+import MessageModelLog from "../../../Model/MessageModelLog";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const MarketingEditReader = () => {
@@ -61,6 +61,8 @@ const MarketingEditReader = () => {
   const [countryAll, setCountryAll] = useState([]);
 
   const [commanShow, setCommanShow] = useState(false);
+  const [commanLogShow, setCommanLogShow] = useState(false);
+  const [commanLogData, setCommanLogData] = useState(false);
   const [data, setData] = useState([]);
   const [newProduct, setNewProduct] = useState({
     label: "",
@@ -95,6 +97,7 @@ const MarketingEditReader = () => {
     local: { value: "" },
     address: [],
     logActivity: "",
+    logActivityDate: new Date(),
     task: { value: "" },
     nextContact: new Date(
       moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
@@ -747,6 +750,7 @@ const MarketingEditReader = () => {
     const updateLogs = [...logs];
     let userD = { ...userInputs };
     userD.logActivity = updateLogs[index].value;
+    userD.logActivityDate = new Date(updateLogs[index].date);
     // updateLogs.splice(index, 1);
 
     setUserInputs(userD);
@@ -1529,6 +1533,26 @@ const MarketingEditReader = () => {
                     placeholder="Please type your notes here..."
                   ></textarea>
                   <div className="activity-btn">
+                  <DatePicker
+                      selected={
+                        userInputs?.logActivityDate
+                          ? userInputs?.logActivityDate
+                          : new Date(
+                              moment(new Date(), "MM/DD/YYYY").format(
+                                "MM/DD/YYYY"
+                              )
+                            )
+                      }
+                      name="logActivityDate"
+                      onChange={(date) => handleChange(date, "logActivityDate")}
+                      dateFormat="dd/MM/yyyy"
+                      className="form-control"
+                      // minDate={currentDate}
+                      // onKeyDown={handleKeyDown}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
+                    />
                   <button
                     className="btn-bordered btn-voilet btn btn-primary"
                     onClick={(e) => {
@@ -1536,28 +1560,25 @@ const MarketingEditReader = () => {
                         let newData = [...logs];
                         let userD = { ...userInputs };
                         userD.logActivity = "";
-                        if(currentIndex ==-1 ){
+                        userD.logActivityDate = new Date();
 
+                        if (currentIndex == -1) {
                           newData.push({
                             value: userInputs?.logActivity,
-                            date: new Date().toLocaleDateString(),
-                          })
-                        }
-                        else{
-                       
-                          newData[currentIndex]={
+                            date: userInputs?.logActivityDate.toLocaleDateString(),
+                          });
+                        } else {
+                          newData[currentIndex] = {
                             value: userInputs?.logActivity,
-                            date: new Date().toLocaleDateString(),
-                          }
+                            date: userInputs?.logActivityDate.toLocaleDateString(),
+                          };
                         }
                         setLogs(newData);
                         setUserInputs(userD);
+                      } else if (currentIndex == -1) {
+                        toast.error("Please Enter Log Activity!");
                       }
-                      else if(currentIndex ==-1){
-                        toast.error("Please Enter Log Activity!")
-                      }
-                      setCurrentIndex(-1)
-
+                      setCurrentIndex(-1);
                     }}
                   >
                     {currentIndex ==-1?
@@ -1603,6 +1624,12 @@ const MarketingEditReader = () => {
 <path d="M25.9642 7.49043L27.1584 6.0418C28.2829 4.6777 28.0979 2.65662 26.7467 1.54275L25.7654 0.733802C24.4141 -0.380056 22.3949 -0.175965 21.2704 1.18813L20.0762 2.63675L25.9642 7.49043Z" fill="#0066BE"/>
 </svg>                
                         </button>
+                        <span class="pawword_img" onClick={() => {
+                          setCommanLogShow(true)
+                          setCommanLogData(logs[index].value)
+                        }}>
+                          <img src={path_image + "show_p.svg"} alt="" />
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -2025,6 +2052,14 @@ const MarketingEditReader = () => {
           </Row>
         </div>
       </Col>
+      <MessageModelLog
+        show={commanLogShow}
+        onClose={()=>{setCommanLogShow(false)}}
+        heading={""}
+        data={commanLogData}
+        footerButton={"Close"}
+        handleSubmit={()=>{setCommanLogShow(false)}}
+      />
       <CommonModel
         show={commanShow}
         onClose={setCommanShow}
