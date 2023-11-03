@@ -1340,7 +1340,7 @@ const MarketingAddReader = () => {
                     placeholder="Please type your notes here..."
                   ></textarea>
 
-                  <div className="activity-btn">
+                  <div className="activity-btn d-flex align-items-center justify-content-end">
                     <DatePicker
                       selected={
                         userInputs?.logActivityDate
