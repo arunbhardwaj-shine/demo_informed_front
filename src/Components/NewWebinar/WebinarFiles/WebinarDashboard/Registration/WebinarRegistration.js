@@ -536,7 +536,7 @@ const WebinarRegistration = () => {
                                                         data?.option?.map(
                                                           (item, index) => (
                                                             <div
-                                                              className="slt-opt"
+                                                              className="check"
                                                               key={index}
                                                             >
                                                               <input
@@ -558,7 +558,7 @@ const WebinarRegistration = () => {
                                                         data?.option?.map(
                                                           (item, index) => (
                                                             <div
-                                                              className="slt-opt"
+                                                              className="check"
                                                               key={index}
                                                             >
                                                               <input
@@ -666,12 +666,6 @@ const WebinarRegistration = () => {
                                                   </div>
                                                 )
                                               )}
-                                              <Button
-                                                type="submit"
-                                                className="save"
-                                              >
-                                                Save
-                                              </Button>
                                             </div>
                                           </div>
                                         </div>
@@ -683,6 +677,7 @@ const WebinarRegistration = () => {
                             </div>
                         </section>
                         </div>
+                        <Button type="submit" className="save">Save</Button>
                   </Form>
                 </div>
               </Col>

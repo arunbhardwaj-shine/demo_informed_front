@@ -216,7 +216,7 @@ const NewEventCreate = () => {
                   <h2>Create Event</h2>
                 </div>
                 <div className="top-right-action">
-                  <div className="search-bar">
+                  <div className="search-bar" style={{marginRight:"10px"}}>
                     <form
                       className="d-flex"
                       onSubmit={(e) => submitSearchHandler(e)}
@@ -247,19 +247,20 @@ const NewEventCreate = () => {
                   </div>
                   <div className="header-btn">
                     <button
-                      className="btn btn-primary btn-filled"
+                      className="btn btn-primary btn-bordered btn-voilet"
                       onClick={(e) => handleAddEventClick(e)}
                     >
-                      Add Event
+                      Add Event +
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="high_charts">
-              <div className="highcharts-data-table event-create">
+            <section className="search-hcp smart-list-view">
+            <div className="result-hcp-table">
+              <div className="event-create selected-hcp-list">
                 {isData != "undefined" && isData?.length > 0 ? (
-                  <Table>
+                  <Table id="table-to-xls">
                     <thead className="sticky-header">
                       <tr>
                         <th>
@@ -304,24 +305,17 @@ const NewEventCreate = () => {
                         return (
                           <tr>
                             <td>
-                              <tr>
-                                <td>
                                   {moment(
                                     new Date(item?.dateStart),
                                     "MM/DD/YYYY"
-                                  ).format("MM/DD/YYYY")}
-                                </td>
-                                <td>
-                                  {`${item?.dateStartHour}:${
+                                  ).format("MM/DD/YYYY")} | {`${item?.dateStartHour}:${
                                     item?.dateStartMin
                                   } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
-                                </td>
-                              </tr>
                             </td>
                             <td>{item?.title}</td>
-                            <td>
+                            <td className="action_btn">
                               <button
-                                className="btn-edit btn-voilet"
+                                className="btn-edit"
                                 onClick={(e) => {
                                   handleAddEventClick(e, item);
                                 }}
@@ -333,19 +327,19 @@ const NewEventCreate = () => {
                                 />
                               </button>
                               <button
-                                className="btn-edit btn-voilet"
+                                className="btn-webinar"
                                 onClick={(e) => {
                                   webinarRegistrationForm(e, item);
                                 }}
                               >
                                 <img
                                   title="Webinar"
-                                  src={path_image + "search.svg"}
+                                  src={path_image + "webinar-icon.svg"}
                                   alt="Webinar"
                                 />
                               </button>
                               <button
-                                className="dlt_btn_event btn-voilet"
+                                className="dlt_btn_event"
                                 onClick={(e) => {
                                   setConfirmationPopup(true);
 
@@ -385,18 +379,19 @@ const NewEventCreate = () => {
                 </Button>
               ) : null}
             </div>
-            {pageAll == true ? (
-              <div
-                className="load_more"
-                style={{
-                  margin: "0 auto",
-                  justifyContent: "center",
-                  display: "flex",
-                }}
-              >
-                <Spinner color="#53aff4" size={32} speed={1} animating={true} />
-              </div>
-            ) : null}
+              {pageAll == true ? (
+                <div
+                  className="load_more"
+                  style={{
+                    margin: "0 auto",
+                    justifyContent: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                </div>
+              ) : null}
+            </section>
           </Row>
         </div>
       </Col>
