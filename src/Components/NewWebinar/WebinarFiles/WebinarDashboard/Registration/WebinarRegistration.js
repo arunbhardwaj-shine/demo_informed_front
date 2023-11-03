@@ -9,6 +9,7 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 import CountryList from "./CountryList";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 // import Question from "./AddQuestion";
 
@@ -31,6 +32,7 @@ const WebinarRegistration = () => {
   const [showChangeFooter, setShowChangeFooter] = useState(false);
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     getEventData();
@@ -51,67 +53,118 @@ const WebinarRegistration = () => {
       loader("hide");
     }
   };
+
+
   const handleFileSelect = (e, isSelectedName) => {
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.style.display = "none";
-
-    fileInput.addEventListener("change", async (e) => {
+    const fileInput = document.createElement('input');
+    const validExtensions = ['png', 'jpeg'];
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    fileInput.accept = '.png, .jpeg';
+    fileInput.addEventListener('change', async (e) => {
       const file = e.target.files[0];
-      if (isSelectedName === "headerImageUrl") {
-        setFile(URL.createObjectURL(file));
-        const imgElement = document.querySelector(".header-img");
-        // imgElement.style.height = "310px";
-        // imgElement.style.width = "100%";
-        // imgElement.style.borderRadius = "32px";
-      }
+      
+      if (file) {
+        const extension = file.name.split('.').pop().toLowerCase();
 
-      if (isSelectedName === "footerImageUrl") {
-        const imgElement = document.querySelector(".footer-img");
-        // imgElement.style.height = "310px";
-        // imgElement.style.width = "100%";
-        // imgElement.style.borderRadius = "32px";
+      if (!validExtensions.includes(extension)) {
+        setErrorMsg(`Invalid file extension for ${isSelectedName}. Please select a .png or .jpeg file.`);
+      } else {
+        setErrorMsg('');
+      }
+        if (isSelectedName === 'headerImageUrl') {
+          setFile(URL.createObjectURL(file));
+          const imgElement = document.querySelector('.header-img');
+        }
+
+        if (isSelectedName === 'footerImageUrl') {
+          const imgElement = document.querySelector('.footer-img');
         setFoot(URL.createObjectURL(file));
-      }
+        }
 
-      try {
-        const uploadedImageUrl = await uploadImageToServer(file);
-
-        setFormData({ ...formData, [isSelectedName]: uploadedImageUrl });
-      } catch (error) {
-        console.error("Error uploading image:", error);
+        try {
+          const uploadedImageUrl = await uploadImageToServer(file);
+          setFormData({ ...formData, [isSelectedName]: uploadedImageUrl });
+        } catch (error) {
+          console.error('Error uploading image:', error);
+        }
+     
       }
     });
-
-    fileInput.click();
+  fileInput.click();
   };
+
+  // const handleFileSelect = (e, isSelectedName) => {
+  //   const fileInput = document.createElement('input');
+  //   const validExtensions = ['png', 'jpeg'];
+  //   fileInput.type = 'file';
+  //   fileInput.style.display = 'none';
+  //   fileInput.accept = '.png, .jpeg';
+  //   fileInput.addEventListener('change', async (e) => {
+  //     const file = e.target.files[0];
+     
+  //     if (file) {
+  //       const extension = file.name.split('.').pop().toLowerCase();
+  //       if (isSelectedName === 'headerImageUrl') {
+  //         setFile(URL.createObjectURL(file));
+  //         const imgElement = document.querySelector('.header-img');
+  //         // imgElement.style.height = "310px";
+  //         // imgElement.style.width = "100%";
+  //         // imgElement.style.borderRadius = "32px";
+  //       }
+  //       if (isSelectedName === 'footerImageUrl') {
+  //         const imgElement = document.querySelector('.footer-img');
+  //         // imgElement.style.height = "310px";
+  //         // imgElement.style.width = "100%";
+  //         // imgElement.style.borderRadius = "32px";
+  //         setFoot(URL.createObjectURL(file));
+  //       }
+  //       if (!validExtensions.includes(extension)) {
+  //         setErrorMsg(`Invalid file extension. Please select a .png or .jpeg file.`);
+  //       } else {
+  //         setErrorMsg('');
+  //       try {
+  //         const uploadedImageUrl = await uploadImageToServer(file);
+  //         setFormData({ ...formData, [isSelectedName]: uploadedImageUrl });
+  //       } catch (error) {
+  //         console.error('Error uploading image:', error);
+  //       }
+  //     }
+  //     }
+  //   });
+  // fileInput.click();
+  // };
 
   const uploadImageToServer = async (file) => {
     try {
-      loader("show");
+      const validExtensions = ['png', 'jpeg'];
+      const extension = file.name.split('.').pop().toLowerCase();
+      if (!validExtensions.includes(extension)) {
+        throw new Error('Invalid file extension. Please select a .png or .jpeg file.');
+      }
+   
+      loader('show');
       const formData = new FormData();
-      formData.append("image", file);
-
+      formData.append('image', file);
       const response = await fetch(
-        "https://onesource.informed.pro/api/upload-image",
+      'https://onesource.informed.pro/api/upload-image',
         {
-          method: "POST",
+          method: 'POST',
           body: formData,
         }
       );
-
       if (response.ok) {
         const uploadedData = await response.json();
         return uploadedData.imageUrl;
       } else {
-        console.error("Image upload failed");
+        console.error('Image upload failed');
         return null;
       }
     } catch (error) {
-      console.error("Image upload error:", error);
+      console.error('Image upload error:', error);
       return null;
     } finally {
-      loader("hide");
+      loader('hide');
     }
   };
 
@@ -178,50 +231,91 @@ const WebinarRegistration = () => {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
   };
+
   const deleteField = (e, data, index) => {
     e.preventDefault();
     let updatedFormBody = formData?.body;
     updatedFormBody?.splice(index, 1);
     setFormData({ ...formData, body: updatedFormBody });
   };
+
+  // const saveClicked = async (e) => {
+  //   e.preventDefault();
+  //   console.log("--err");
+  //   try {
+  //     const error = WebinarRegistrationValidation(formData, eventData);
+
+  //     if (Object.keys(error)?.length) {
+  //       toast.error(error[Object.keys(error)[0]]);
+  //       setError(error);
+  //       return;
+  //     } else {
+  //       loader("show");
+  //       let data = {
+  //         eventId: eventData?.event_id,
+  //         companyId: eventData?.company_id,
+  //         content: JSON.stringify(formData),
+  //       };
+
+  //       const response = await postData(
+  //         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
+  //         data
+  //       );
+
+  //       setFormData({
+  //         pageTitle: "",
+  //         bodyText: "",
+  //         headerImageUrl: "",
+  //         body: [],
+  //         footerImageUrl: "",
+  //       });
+  //       setEventData({ event_id: "", company_id: "" });
+  //       setFile("");
+  //       setFoot("");
+  //     }
+  //   } catch (err) {
+  //     console.log("--err", err);
+  //   } finally {
+  //     loader("hide");
+  //   }
+  // };
+
   const saveClicked = async (e) => {
+    console.log(formData,'dgdfh')
     e.preventDefault();
-    console.log("--err");
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
-
       if (Object.keys(error)?.length) {
         toast.error(error[Object.keys(error)[0]]);
         setError(error);
         return;
-      } else {
-        loader("show");
-        let data = {
-          eventId: eventData?.event_id,
-          companyId: eventData?.company_id,
-          content: JSON.stringify(formData),
-        };
-
-        const response = await postData(
-          ENDPOINT.CREATE_WEBINAR_REGISTRATION,
-          data
-        );
-
-        setFormData({
-          pageTitle: "",
-          bodyText: "",
-          headerImageUrl: "",
-          body: [],
-          footerImageUrl: "",
-        });
-        setEventData({ event_id: "", company_id: "" });
-        setFile("");
-        setFoot("");
       }
+      if (errorMsg) {
+        toast.error(errorMsg);
+        return;
+      }
+   
+      loader('show');
+      let data = {
+        eventId: eventData?.event_id,
+        companyId: eventData?.company_id,
+        content: JSON.stringify(formData),
+      };
+      const response = await postData(ENDPOINT.CREATE_WEBINAR_REGISTRATION, data);
+      setFormData({
+        pageTitle: "",
+        bodyText: "",
+        headerImageUrl: "",
+        body: [],
+        footerImageUrl: "",
+      });
+      setEventData({ event_id: "", company_id: "" });
+      setFile("");
+      setFoot("");
     } catch (err) {
-      console.log("--err", err);
+      console.error("--err", err);
     } finally {
-      loader("hide");
+      loader('hide');
     }
   };
 
@@ -240,6 +334,13 @@ const WebinarRegistration = () => {
 
   const handleDragOver = (e) => {
     e.preventDefault();
+  };
+
+  const handleDeleteHeaderImage = () => {
+    setFile(""); 
+  };
+  const handleDeleteFooterImage = () => {
+    setFoot("");
   };
 
   return (
@@ -545,55 +646,84 @@ const WebinarRegistration = () => {
                 <div className="registration-right">
                 <div
                 className="header-section"
-                onMouseOver={() => setShowChangeHeader(true)}
-                onMouseOut={() => setShowChangeHeader(false)}
+                onClick={(e) => handleFileSelect(e, "headerImageUrl")}
               >
                 {!file && (
                   <h4
                     className="header-img-section"
                     id="uploadButton"
-                    onClick={(e) => handleFileSelect(e, "headerImageUrl")}
                   >
                     Upload header
                   </h4>
                 )}
                 <img className="header-img" src={file} />
                 <div className="header-text">
-                  {" "}
-                  {showChangeHeader && file && (
-                    <h4
-                      className="header-hover"
-                      onClick={(e) => handleFileSelect(e, "headerImageUrl")}
-                    >
-                      Change Header
-                    </h4>
+
+                {file && (
+                    <button className="btn btn-outline-primary" title="Edit user">
+                      <img src={path + "edit-button.svg"} alt="Edit" onClick={(e) => {
+                        e.stopPropagation(); 
+                        handleFileSelect(e, "headerImageUrl");
+                      }} />
+                    </button>
                   )}
+
+                  {file && (
+                     <button
+                     className="dlt_btn_event btn-voilet"
+                     onClick={(e) => {
+                      e.stopPropagation(); 
+                      handleDeleteHeaderImage(e, "headerImageUrl");
+                    }}
+                   >
+                     <img
+                       title="Delete"
+                       src={path_image + "delete-icon.svg"}
+                       alt="Delete Row"
+                     />
+                   </button>
+                  )}
+                 
                 </div>
+              
+                
               </div>
 
               <div
                 className="footer-section"
-                onMouseOver={() => setShowChangeFooter(true)}
-                onMouseOut={() => setShowChangeFooter(false)}
+                onClick={(e) => handleFileSelect(e, "footerImageUrl")}
               >
                 {!foot && (
                   <h4
                     className="footer-img-section"
-                    onClick={(e) => handleFileSelect(e, "footerImageUrl")}
                   >
                     Upload footer
                   </h4>
                 )}
                 <img className="footer-img" src={foot} />
                 <div className="footer-text">
-                  {" "}
-                  {showChangeFooter && foot && (
-                    <h4
-                      className="footer-hover"
-                      onClick={(e) => handleFileSelect(e, "footerImageUrl")}
-                    >
-                      Change Footer
-                    </h4>
+                {foot && (
+                    <button className="btn btn-outline-primary" title="Edit user">
+                      <img src={path + "edit-button.svg"} alt="Edit" onClick={(e) => {
+                        e.stopPropagation(); 
+                        handleFileSelect(e, "footerImageUrl");
+                      }} />
+                    </button>
+                  )}
+                   {foot && (
+                     <button
+                     className="dlt_btn_event btn-voilet"
+                     onClick={(e) => {
+                      e.stopPropagation(); 
+                      handleDeleteFooterImage(e, "footerImageUrl");
+                    }}
+                   >
+                     <img
+                       title="Delete"
+                       src={path_image + "delete-icon.svg"}
+                       alt="Delete Row"
+                     />
+                   </button>
                   )}
                 </div>
               </div>
