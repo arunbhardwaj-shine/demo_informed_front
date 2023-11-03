@@ -80,8 +80,14 @@ const WebinarRegistration = () => {
         const extension = file.name.split('.').pop().toLowerCase();
 
       if (!validExtensions.includes(extension)) {
-        setErrorMsg(`Invalid file extension for ${isSelectedName}. Please select a .png or .jpeg file.`);
-      } else {
+        if (isSelectedName === 'headerImageUrl') {
+          setErrorMsg(`Invalid file extension of header. Please select a .png or .jpeg file.`);
+        }
+        else if (isSelectedName === 'footerImageUrl') {
+          setErrorMsg(`Invalid file extension of footer. Please select a .png or .jpeg file.`);
+        }
+      }
+      else {
         setErrorMsg('');
       }
         if (isSelectedName === 'headerImageUrl') {
@@ -91,7 +97,7 @@ const WebinarRegistration = () => {
 
         if (isSelectedName === 'footerImageUrl') {
           const imgElement = document.querySelector('.footer-img');
-        setFoot(URL.createObjectURL(file));
+          setFoot(URL.createObjectURL(file));
         }
 
         try {
@@ -100,7 +106,6 @@ const WebinarRegistration = () => {
         } catch (error) {
           console.error('Error uploading image:', error);
         }
-     
       }
     });
   fileInput.click();
@@ -120,15 +125,9 @@ const WebinarRegistration = () => {
   //       if (isSelectedName === 'headerImageUrl') {
   //         setFile(URL.createObjectURL(file));
   //         const imgElement = document.querySelector('.header-img');
-  //         // imgElement.style.height = "310px";
-  //         // imgElement.style.width = "100%";
-  //         // imgElement.style.borderRadius = "32px";
   //       }
   //       if (isSelectedName === 'footerImageUrl') {
   //         const imgElement = document.querySelector('.footer-img');
-  //         // imgElement.style.height = "310px";
-  //         // imgElement.style.width = "100%";
-  //         // imgElement.style.borderRadius = "32px";
   //         setFoot(URL.createObjectURL(file));
   //       }
   //       if (!validExtensions.includes(extension)) {
@@ -185,9 +184,6 @@ const WebinarRegistration = () => {
   };
 
   const handleModalSave = (form) => {
-    // const labels = formData.body.map(item => item?.required);
-    // console.log(labels,'labels')
-    // console.log(formData?.body,'==>save111')
     let updateFormBody = formData?.body;
     updateFormBody.push(form);
     setFormData({ ...formData, body: updateFormBody });
@@ -296,7 +292,7 @@ const WebinarRegistration = () => {
   // };
 
   const saveClicked = async (e) => {
-    console.log(formData,'dgdfh')
+    console.log(formData,'savedData')
     e.preventDefault();
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
@@ -355,6 +351,7 @@ const WebinarRegistration = () => {
   const handleDeleteHeaderImage = () => {
     setFile(""); 
   };
+
   const handleDeleteFooterImage = () => {
     setFoot("");
   };
@@ -537,6 +534,7 @@ const WebinarRegistration = () => {
                                                               ?.slice(1)
                                                               ?.toLowerCase()
                                                           : ""}
+                                                           {data?.required === 'yes' && <span>*</span>}
                                                       </label>
 
                                                       {data?.inputType ===
@@ -624,7 +622,7 @@ const WebinarRegistration = () => {
                                                         </div>
                                                       ) : (
                                                         <input
-                                                          name={data?.label?.toLowerCase()}
+                                                          name={data?.label}
                                                           className="form-control"
                                                           type={data?.inputType}
                                                           placeholder={
