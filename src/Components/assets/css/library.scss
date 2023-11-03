@@ -547,6 +547,45 @@
   padding: 24px 72px;
   margin: 0 0 40px;
 
+  &.register-page {
+    background: transparent;
+    padding: 7px 0px;
+    width: 100%;
+    margin: 0;
+
+    .register-page-left {
+      padding-right: 30px;
+    }
+
+    .form-group {
+      label {
+        margin: 0;
+        flex: 0 0 200px;
+      }
+
+      .form-control {
+        max-width: 100%;
+        flex: 1 1;
+      }
+
+      textarea {
+        &.form-control {
+          min-height: 139px;
+        }
+      }
+
+      .dropdown-basic-button {
+        flex: 1 1;
+        max-width: 100%;
+
+        &>div:nth-child(3) {
+          max-width: 100%;
+          background-position: 98% center;
+        }
+      }
+    }
+  }
+
   &.question-listing {
     background: transparent;
     padding: 7px 0px;
@@ -1546,18 +1585,18 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .login-confirm {
-  background: rgba(0, 0, 36, 0.20);
+  background: rgba(0, 0, 36, 0.2);
   backdrop-filter: blur(10px);
 }
 
 .login-confirm #download-qr .modal-body .form-group input:-webkit-autofill {
-  -webkit-text-fill-color: #004A89 !important;
+  -webkit-text-fill-color: #004a89 !important;
 }
 
 .login-confirm #download-qr .modal-body .form-group .form-control {
   max-width: 367px;
   padding: 8px 52px;
-  color: #004A89 !important;
+  color: #004a89 !important;
 
   &:focus {
     box-shadow: 0px 0px 7px 0px rgba(0, 102, 190, 0.4);
@@ -2868,6 +2907,16 @@ form.product-unit button {
   right: auto;
   top: 100%;
   left: 155px !important;
+}
+
+.create-change-content.register-page .form-group {
+  flex-wrap: wrap;
+}
+
+.create-change-content.register-page .login-validation {
+  position: static;
+  padding-left: 205px;
+  flex: 0 0 100%;
 }
 
 .create-change-content .chapter-title .login-validation-upload {
@@ -7189,7 +7238,6 @@ svg.pencil_icon {
   box-shadow: 0px 0px 4px 0px #d61975;
 }
 
-
 .header-forgot .modal-content button.btn {
   margin: 30px auto 0;
   display: block;
@@ -7212,7 +7260,7 @@ svg.pencil_icon {
 }
 
 .login-confirm #download-qr .modal-body p.error-msg {
-  color: #D61975;
+  color: #d61975;
   font-size: 14px;
   text-align: right;
 }
@@ -7220,7 +7268,7 @@ svg.pencil_icon {
 .login-confirm #download-qr .modal-body .form-group p.error-msg {
   font-size: 12px;
   margin-top: 5px;
-  color: #D61975;
+  color: #d61975;
   position: absolute;
   bottom: -23px;
 }
@@ -8209,8 +8257,6 @@ svg.pencil_icon {
 }
 
 /**Publisher page End**/
-
-
 
 /**Library Responsive**/
 
@@ -12679,7 +12725,6 @@ img.change-password-image {
   }
 }
 
-
 /*Responsive for R&D Analytics End*/
 
 /**Speaker Zone Page**/
@@ -13051,7 +13096,7 @@ img.change-password-image {
 
     h5 {
       font-size: 20px;
-      color: #004A89;
+      color: #004a89;
       font-weight: 600;
       line-height: 25px;
       margin: 0 0 10px;
@@ -13059,7 +13104,7 @@ img.change-password-image {
 
     p {
       font-size: 15px;
-      color: #70899E;
+      color: #70899e;
       line-height: 22px;
       font-weight: 400;
 
@@ -13071,7 +13116,7 @@ img.change-password-image {
 }
 
 .cookies-popup {
-  background: rgba(0, 0, 36, 0.20);
+  background: rgba(0, 0, 36, 0.2);
   backdrop-filter: blur(10px);
 
   .modal-dialog {
@@ -13088,7 +13133,7 @@ img.change-password-image {
         padding: 10px 11px 20px;
 
         .modal-title {
-          color: #004A89;
+          color: #004a89;
         }
       }
 
@@ -13104,7 +13149,7 @@ img.change-password-image {
 
             th {
               min-width: 230px;
-              color: #8A4E9C;
+              color: #8a4e9c;
               font-weight: 600;
               font-size: 15px;
               padding: 0 10px 20px 0;
@@ -13114,13 +13159,11 @@ img.change-password-image {
           td {
             vertical-align: top;
             font-size: 15px;
-            color: #70899E;
+            color: #70899e;
             padding: 0 10px 20px 0;
           }
         }
       }
-
-
 
       .modal-content {
         background: $white;
@@ -13146,7 +13189,6 @@ img.change-password-image {
 //   --bs-backdrop-bg: #000;
 //   --bs-backdrop-opacity: 1;
 // }
-
 
 /**New Landign Page**/
 .header-landing {
@@ -13206,7 +13248,7 @@ img.change-password-image {
       .big-circle {
         .icon-block {
           &.gradient {
-            background: linear-gradient(216deg, #00D4C0 14.8%, #004A89 120.1%);
+            background: linear-gradient(216deg, #00d4c0 14.8%, #004a89 120.1%);
           }
         }
       }
@@ -13220,21 +13262,23 @@ img.change-password-image {
         &.circle-inner2 {
           .icon-block {
             &:nth-child(2) {
-              background: linear-gradient(216deg, #00D4C0 14.8%, #004A89 120.1%);
+              background: linear-gradient(216deg,
+                  #00d4c0 14.8%,
+                  #004a89 120.1%);
             }
 
             &:nth-child(5) {
-              background: linear-gradient(216deg, #00D4C0 14.8%, #004A89 120.1%);
+              background: linear-gradient(216deg,
+                  #00d4c0 14.8%,
+                  #004a89 120.1%);
             }
           }
         }
 
         &.circle-inner3 {
-          border: 1px solid #00647A;
+          border: 1px solid #00647a;
         }
       }
-
-
     }
   }
 
@@ -13575,7 +13619,7 @@ img.change-password-image {
   .circle.circle-inner4 .icon-block {
     width: 13px;
     height: 13px;
-    box-shadow: 0 0 14px rgba(0, 74, 137, .39);
+    box-shadow: 0 0 14px rgba(0, 74, 137, 0.39);
   }
 
   .center-logo .icon {
@@ -13654,21 +13698,11 @@ img.change-password-image {
           }
         }
       }
-
-
-
-      // .icon-block {
-      //   // img {
-      //   //   animation-duration: 13s;
-      //   //   -webkit-animation-duration: 13s;
-      //   // }
-      // }
     }
   }
 }
 
 .pharma {
-
   &.rd {
     .circular-ring {
       .big-circle {
@@ -13719,9 +13753,6 @@ img.change-password-image {
       }
     }
   }
-
-
-
 
   .circular-ring {
     .icon-block {
@@ -14278,12 +14309,12 @@ img.change-password-image {
         .form-group {
           .form-control {
             &.error {
-              border: 1px solid #C80061;
+              border: 1px solid #c80061;
             }
           }
 
           .contact-validation {
-            color: #C80061;
+            color: #c80061;
             text-shadow: 0px 0px 3px $white;
           }
         }
@@ -14298,7 +14329,7 @@ img.change-password-image {
 
     .contact-inset {
       .form-sec {
-        border: 1px dashed #46BCFF;
+        border: 1px dashed #46bcff;
       }
     }
   }
@@ -14316,7 +14347,7 @@ img.change-password-image {
 
     .contact-inset {
       .form-sec {
-        border: 1px dashed #35E9E9;
+        border: 1px dashed #35e9e9;
       }
     }
   }
@@ -14393,7 +14424,7 @@ img.change-password-image {
         }
 
         .error_msg {
-          color: #FF7CBC;
+          color: #ff7cbc;
           font-size: 14px;
         }
 
@@ -14413,7 +14444,7 @@ img.change-password-image {
           &.error {
             >div:nth-child(3) {
               border: 1px solid #d61975;
-              box-shadow: 0px 0px 6px 0px #FF9FCE;
+              box-shadow: 0px 0px 6px 0px #ff9fce;
             }
           }
 
@@ -14447,16 +14478,16 @@ img.change-password-image {
             padding: 5px 5px 5px 0;
             height: 190px;
             max-height: 200px;
-            color: rgba(255, 255, 255, 0.50);
+            color: rgba(255, 255, 255, 0.5);
             // background-color: #2fa3c6;
             background-color: rgba(255, 255, 255, 0.16);
             -webkit-backdrop-filter: blur(150px);
             backdrop-filter: blur(150px);
-            box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+            box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
 
             >div {
               div {
-                color: rgba(255, 255, 255, 0.50);
+                color: rgba(255, 255, 255, 0.5);
                 font-size: 14px;
                 padding: 8px 10px;
 
@@ -14501,7 +14532,7 @@ img.change-password-image {
         }
 
         .contact-validation {
-          color: #FF7CBC;
+          color: #ff7cbc;
           font-size: 10px;
           text-align: right;
           // text-shadow: 0px 0px 2px $white;
@@ -14709,7 +14740,7 @@ img.change-password-image {
   .slider {
     width: 100%;
     overflow: hidden;
-    background: linear-gradient(180deg, #CDE8FF 0%, $white 100%);
+    background: linear-gradient(180deg, #cde8ff 0%, $white 100%);
     position: relative;
     z-index: 2;
     padding-top: 0px;
@@ -14777,8 +14808,6 @@ img.change-password-image {
             height: 100%;
             min-height: 570px;
           }
-
-
 
           .slider-in-views {
             display: flex;
@@ -15067,7 +15096,6 @@ img.change-password-image {
                     width: 62px;
                   }
                 }
-
 
                 h3 {
                   margin: 18px 0;
@@ -15430,57 +15458,12 @@ img.change-password-image {
     transform: var(--transform) scale(1);
   }
 
-  // 25% {
-  //   -webkit-transform: var(--transform) scale(0.9);
-  //   transform: var(--transform) scale(0.9);
-
-  // }
 
   100% {
     -webkit-transform: var(--transform) scale(1.1);
     transform: var(--transform) scale(1.1);
   }
 
-  // 75% {
-  //   -webkit-transform: var(--transform) scale(1.1);
-  //   transform: var(--transform) scale(1.1);
-  // }
-
-  // 100% {
-  //   -webkit-transform: var(--transform) scale(1);
-  //   transform: var(--transform) scale(1);
-  // }
-
-  // 0% {
-  //   opacity: 1;
-  //   -webkit-transform: var(--transform) scale3d(1, 1, 1);
-  //   transform: var(--transform) scale3d(1, 1, 1);
-  // }
-
-  // 20% {
-  //   -webkit-transform: var(--transform) scale3d(1.1, 1.1, 1.1);
-  //   transform: var(--transform) scale3d(1.1, 1.1, 1.1);
-  // }
-
-  // 40% {
-  //   -webkit-transform: var(--transform) scale3d(1, 1, 1);
-  //   transform: var(--transform) scale3d(1, 1, 1);
-  // }
-
-  // 60% {
-  //   -webkit-transform: var(--transform) scale3d(1.1, 1.1, 1.1);
-  //   transform: var(--transform) scale3d(1.1, 1.1, 1.1);
-  // }
-
-  // 80% {
-  //   -webkit-transform: var(--transform) scale3d(1, 1, 1);
-  //   transform: var(--transform) scale3d(1, 1, 1);
-  // }
-
-  // 100% {
-  //   -webkit-transform: var(--transform) scale3d(1.1, 1.1, 1.1);
-  //   transform: var(--transform) scale3d(1.1, 1.1, 1.1);
-  // }
 }
 
 /**module**/
@@ -15567,13 +15550,11 @@ img.change-password-image {
         }
       }
 
-
       .publish .stat {
         --r-offset: -0.37turn;
       }
 
       &.docintel {
-
         &.active {
           background: $primary-color;
           outline: 2px dashed $primary-color;
@@ -15590,7 +15571,6 @@ img.change-password-image {
       }
 
       &.qa {
-
         &.active {
           background: #3d48ab;
           outline: 2px dashed #3d48ab;
@@ -15607,7 +15587,6 @@ img.change-password-image {
       }
 
       &.read {
-
         &.active {
           background: #5a6bb5;
           outline: 2px dashed #5a6bb5;
@@ -15624,7 +15603,6 @@ img.change-password-image {
       }
 
       &.ai {
-
         &.active {
           background: #00c1bf;
           outline: 2px dashed #00c1bf;
@@ -15673,8 +15651,6 @@ img.change-password-image {
       }
 
       &.consent {
-
-
         &.active {
           background: #00a4bf;
           outline: 2px dashed #00a4bf;
@@ -15894,7 +15870,7 @@ img.change-password-image {
 
           .contact-validation {
             font-size: 12px;
-            color: #D61975;
+            color: #d61975;
             text-align: right;
             position: absolute;
             margin-left: auto;
@@ -15940,8 +15916,8 @@ img.change-password-image {
       font-size: 14px;
     }
 
-    .module-register form .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
-      color: #97B6CF;
+    .module-register form .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"] {
+      color: #97b6cf;
     }
 
     .module-register .split-button-dropup>div:nth-child(4) {
@@ -15949,14 +15925,14 @@ img.change-password-image {
       padding: 5px 5px;
       height: 190px;
       max-height: 200px;
-      color: #97B6CF;
+      color: #97b6cf;
       background-color: $white;
-      box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+      box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
     }
 
     .module-register .split-button-dropup>div:nth-child(4)>div div {
       text-align: left;
-      color: #97B6CF;
+      color: #97b6cf;
       font-size: 14px;
       padding: 8px 10px;
 
@@ -15969,7 +15945,7 @@ img.change-password-image {
 }
 
 .module-register .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-thumb {
-  background: #97B6CF;
+  background: #97b6cf;
   border: 2px solid #eff4f8;
   height: 40px;
 }
@@ -16362,14 +16338,12 @@ img.change-password-image {
   --r-amount: 0;
   --r: 0;
   --transform: 0;
-
 }
 
 .module-discribe.request .module-diagram.circle .stat,
 .module-discribe.request .module-diagram.circle .stat.active {
-  filter: drop-shadow(0px 1px 8px rgba(0, 102, 190, 0.24))
+  filter: drop-shadow(0px 1px 8px rgba(0, 102, 190, 0.24));
 }
-
 
 .module-discribe.request .module-diagram.circle {
   transition-delay: 0.1s;
@@ -16452,7 +16426,7 @@ img.change-password-image {
       resize: none;
       height: 91px;
       margin: 20px 0 10px;
-      color: #97B6CF;
+      color: #97b6cf;
     }
 
     input {
@@ -16837,6 +16811,334 @@ img.change-password-image {
   border: 4px solid $white;
 }
 
+.header-section {
+  width: 100%;
+  border: 1px solid $primary-color;
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.header-hover {
+  opacity: 0;
+  font-size: 24px;
+  width: 100%;
+}
+
+.header-section .header-text:hover {
+  opacity: 1;
+}
+
+.header-section .header-text .header-hover {
+  height: 0;
+  opacity: 1;
+  transition-delay: 0s;
+  transition-duration: 0.4s;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  text-align: center;
+  top: 40%;
+  transform: translateY(-50%);
+}
+
+.header-section .header-text:hover .header-hover {
+  opacity: 1;
+}
+
+.footer-hover {
+  opacity: 0;
+  font-size: 24px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 315px;
+  text-align: center;
+}
+
+.footer-section .footer-text:hover {
+  opacity: 1;
+}
+
+.footer-section .footer-text .footer-hover {
+  height: 0;
+  opacity: 1;
+  transition-delay: 0s;
+  transition-duration: 0.4s;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  text-align: center;
+  top: 40%;
+  transform: translateY(-50%);
+}
+
+.footer-section .footer-text:hover .footer-hover {
+  opacity: 1;
+}
+
+.footer-section {
+  width: 100%;
+  border: 1px solid $primary-color;
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.text-section {
+  padding-top: 25px;
+  padding-left: 40px;
+}
+
+.registration-text input {
+  border-radius: 42px;
+  padding: 11px;
+  padding-left: 22px;
+}
+
+.registration-heading {
+  margin-top: 6px;
+}
+
+.registration-bodyHeading {
+  margin-top: 65px;
+}
+
+.registration-bodyText textarea {
+  margin-top: 25px;
+  border-radius: 14px;
+  padding-left: 22px;
+}
+
+.feilds-section {
+  border: 1px dashed $primary-color;
+  border-radius: 12px;
+  width: 100%;
+  padding: 24px;
+  margin: 20px 0 0;
+
+  h5 {
+    flex: 0 0 100%;
+    font-size: 22px;
+    line-height: 25px;
+    color: #004A89;
+    width: 100%;
+    margin: 0 0 10px;
+  }
+
+  .select-collected {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 2%;
+    padding: 0 0 40px;
+    margin-bottom: 30px;
+    position: relative;
+
+    &:after {
+      border-bottom: 1px solid $primary-color;
+      content: "";
+      bottom: 0;
+      width: calc(100% + 48px);
+      left: -24px;
+      right: 0;
+      position: absolute;
+    }
+  }
+
+  .add-choice {
+    background: transparent;
+    border: 0;
+    color: #004A89;
+    padding: 0;
+    font-size: 16px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    cursor: pointer;
+
+    img {
+      margin-left: 8px;
+    }
+  }
+}
+
+.webinar-checkbox {
+  border-radius: 50px;
+  box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+  padding: 14px 24px;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  width: 31.3%;
+  margin: 0 0;
+
+  .form-check-input {
+    margin: 0;
+    border: 1px solid #97B6CF;
+    width: 16px;
+    height: 16px;
+    padding: 1px;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    display: inline-block;
+    flex: 0 0 16px;
+
+    &:checked {
+      background-color: #39cabc;
+      border-color: #39cabc;
+      background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+    }
+  }
+
+  label {
+    font-size: 16px;
+    line-height: 19px;
+    color: #70899E;
+  }
+}
+
+section.webinarRegistrationBody {
+  flex: 0 0 100%;
+
+  #registration-form {
+    .form-group {
+      margin: 10px 0;
+
+      label {
+        flex: 0 0 120px;
+        padding: 0 5px 0 0;
+      }
+
+      .slt-opt {
+        flex: 1 1;
+      }
+
+      input[type="radio"],
+      input[type="checkbox"] {
+        margin: 0 10px 0 0;
+        border: 1px solid #97B6CF;
+        width: 16px;
+        height: 16px;
+        padding: 1px;
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+        appearance: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        display: inline-block;
+        position: relative;
+        top: 3px;
+
+        &:checked {
+          background-color: #39cabc;
+          border-color: #39cabc;
+          background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+        }
+      }
+
+
+      .form-control {
+        margin-bottom: 0;
+      }
+
+      .dlt_btn_event {
+        border-radius: 30px;
+        box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.15);
+        border: 0;
+        padding: 6px;
+        width: 48px;
+        min-width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 0 0 15px;
+
+        svg {
+          width: 27px;
+          height: 27px;
+        }
+      }
+    }
+
+    .save {
+      margin: 10px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+  }
+}
+
+.registration-right {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px 0;
+  justify-content: space-between;
+  padding-top: 30px;
+
+  .header-section {
+    height: calc(50% - 15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+
+    img {
+      &.header-img {
+        max-height: 250px;
+      }
+    }
+
+    h4 {
+      color: $dark-blue;
+    }
+  }
+
+  .footer-section {
+    height: calc(50% - 15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+
+    img {
+      &.footer-img {
+        max-height: 250px;
+      }
+    }
+
+    h4 {
+      color: $dark-blue;
+    }
+  }
+}
+
+.webinar-event {
+  margin-bottom: 25px;
+}
+
+.webinar-select {
+  margin-bottom: 25px;
+  margin-top: 12px
+}
+
+.register-feild-delete {
+  margin-left: 50px
+}
 
 /**MOdule End**/
 
@@ -16980,9 +17282,8 @@ img.change-password-image {
 
 /**New Landign Page End**/
 
-
 /**Landing page Responsive Start**/
-@media only screen and (max-width:1650px) {
+@media only screen and (max-width: 1650px) {
   .landing-banner {
     .landing-block {
       padding: 80px 0 140px;
@@ -17114,7 +17415,6 @@ img.change-password-image {
         }
       }
     }
-
   }
 
   .request-content form {
@@ -17218,7 +17518,7 @@ img.change-password-image {
   }
 }
 
-@media only screen and (max-width:1500px) {
+@media only screen and (max-width: 1500px) {
   .landing-banner {
     .landing-block {
       padding: 120px 0 110px;
@@ -17398,7 +17698,6 @@ img.change-password-image {
         }
       }
     }
-
   }
 
   .pharma-slider {
@@ -17446,7 +17745,6 @@ img.change-password-image {
         height: 24px;
       }
     }
-
   }
 
   .how-work {
@@ -17459,13 +17757,11 @@ img.change-password-image {
     }
   }
 
-  .modules-diagram .module-bigger-size .module-register .split-button-dropup div:nth-child(3)>div div[class*=-placeholder],
+  .modules-diagram .module-bigger-size .module-register .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"],
   .modules-diagram .module-bigger-size .module-register .split-button-dropup div:nth-child(3)>div div {
     padding-left: 12px;
     font-size: 13px;
   }
-
-
 
   .modules-diagram .module-bigger-size .module-register .split-button-dropup>div:nth-child(3) {
     padding: 3px 32px 3px 15px;
@@ -17600,7 +17896,6 @@ img.change-password-image {
         font-size: 18px;
       }
 
-
       .works-started-links {
         padding: 50px 0 0;
 
@@ -17678,8 +17973,6 @@ img.change-password-image {
     --radius: 219px;
   }
 
-
-
   .modules-diagram .module-logo img {
     max-width: 382px;
   }
@@ -17730,9 +18023,7 @@ img.change-password-image {
   }
 }
 
-
-
-@media only screen and (min-width:1000px) and (max-width:1500px) {
+@media only screen and (min-width: 1000px) and (max-width: 1500px) {
   .circular-ring {
     .circle {
       animation: circle-rotate 26s linear infinite;
@@ -17887,7 +18178,7 @@ img.change-password-image {
   }
 }
 
-@media only screen and (min-width:1400px) and (max-width:1439px) {
+@media only screen and (min-width: 1400px) and (max-width: 1439px) {
   .landing-banner.pharma .circular-ring .center-logo {
     top: 43%;
   }
@@ -17908,7 +18199,7 @@ img.change-password-image {
   }
 }
 
-@media only screen and (min-width:1360px) and (max-width:1439px) {
+@media only screen and (min-width: 1360px) and (max-width: 1439px) {
   .landing-banner.pharma .circular-ring .center-logo {
     top: 34%;
   }
@@ -17918,13 +18209,13 @@ img.change-password-image {
   }
 }
 
-@media only screen and (max-width:1300px) {
+@media only screen and (max-width: 1300px) {
   .landing-banner {
     .landing-block {
       padding: 65px 0 80px;
 
       &.main-outer {
-        padding-top: 95px
+        padding-top: 95px;
       }
     }
 
@@ -17932,7 +18223,6 @@ img.change-password-image {
       margin: 58px 0 14px;
     }
   }
-
 
   .landing-banner.pharma .circular-ring .center-logo {
     top: 33%;
@@ -17942,7 +18232,6 @@ img.change-password-image {
     height: 425px;
     padding: 65px 0 0;
   }
-
 
   .how-work {
     .future-expand {
@@ -18068,7 +18357,7 @@ img.change-password-image {
   }
 }
 
-@media only screen and (min-width:1200px) and (max-width:$layout-breakpoint-extraLarge) {
+@media only screen and (min-width: 1200px) and (max-width: $layout-breakpoint-extraLarge) {
   .pharma .circular-ring .big-circle .icon-block:nth-child(12) {
     left: 12%;
   }
@@ -18277,13 +18566,13 @@ img.change-password-image {
   }
 }
 
-@media only screen and (min-width:1200px) and (max-width:1300px) {
+@media only screen and (min-width: 1200px) and (max-width: 1300px) {
   .landing-banner.pharma .circular-ring .center-logo {
     top: 36.5%;
   }
 }
 
-@media (max-width:$layout-breakpoint-large) {
+@media (max-width: $layout-breakpoint-large) {
   .landing-banner {
     .landing-heading {
       margin: 28px 0 14px;
@@ -18346,8 +18635,7 @@ img.change-password-image {
   }
 }
 
-
-@media only screen and (max-width:1200px) {
+@media only screen and (max-width: 1200px) {
   .pharma .circular-ring .circle.circle-inner2 .icon-block:nth-child(6) {
     top: 38%;
     left: -5%;
@@ -18366,7 +18654,7 @@ img.change-password-image {
   }
 }
 
-@media only screen and (min-width:768px) and (max-width:$layout-breakpoint-medium) {
+@media only screen and (min-width: 768px) and (max-width: $layout-breakpoint-medium) {
   .landing-banner.pharma .circular-ring {
     width: 600px;
     height: 600px;
@@ -18666,7 +18954,7 @@ img.change-password-image {
   }
 }
 
-@media (max-width:$layout-breakpoint-small) {
+@media (max-width: $layout-breakpoint-small) {
   .consent-content .consent-content-inner .consent-details .consent-img {
     display: block;
   }
@@ -18716,8 +19004,6 @@ img.change-password-image {
     padding: 0 0px !important;
     margin: 0 -60px;
   }
-
-
 
   .mobile-slider-inset .slick-list .slick-track {
     margin: 0 50px;
@@ -18792,7 +19078,7 @@ img.change-password-image {
   .consent-content .works-started .mobile-slider-inset .module-discribe p {
     font-size: 12px;
     line-height: 16px;
-    margin: 0 0 10px
+    margin: 0 0 10px;
   }
 
   .mobile-slider-inset .slick-slider {
@@ -18959,7 +19245,7 @@ img.change-password-image {
         padding-right: 15px;
 
         h1 {
-          text-shadow: none
+          text-shadow: none;
         }
       }
 
@@ -19104,8 +19390,6 @@ img.change-password-image {
                   width: 18px;
                 }
               }
-
-
             }
           }
 
@@ -19252,7 +19536,6 @@ img.change-password-image {
 
     &.main-sec {
       padding: 65px 0 165px;
-
     }
 
     .how-work-img {
@@ -19264,7 +19547,6 @@ img.change-password-image {
         padding-left: 0px;
       }
     }
-
 
     .how-work-text {
       max-width: 100%;
@@ -19580,7 +19862,7 @@ img.change-password-image {
           text-align: center;
 
           img {
-            max-width: 295px
+            max-width: 295px;
           }
         }
       }
@@ -19632,7 +19914,6 @@ img.change-password-image {
         }
       }
     }
-
   }
 
   .modules-diagram {
@@ -19653,8 +19934,6 @@ img.change-password-image {
         max-width: 242px;
       }
     }
-
-
   }
 
   .footer {
@@ -19732,7 +20011,7 @@ img.change-password-image {
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-views .slider-bg-icons img.slide-ellipse6,
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slider-bg-icons img.slide-ellipse6 {
-    display: none
+    display: none;
   }
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view {
@@ -19753,7 +20032,7 @@ img.change-password-image {
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-right-sided .slide-right-content h5 {
     font-size: 15px;
     line-height: 22px;
-    color: #004A89;
+    color: #004a89;
   }
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-right-sided .slide-right-content h3 {
@@ -20066,7 +20345,7 @@ img.change-password-image {
     height: 39px;
   }
 
-  .modules-diagram .module-bigger-size .module-register .split-button-dropup div:nth-child(3)>div div[class*=-placeholder],
+  .modules-diagram .module-bigger-size .module-register .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"],
   .modules-diagram .module-bigger-size .module-register .split-button-dropup div:nth-child(3)>div div {
     font-size: 14px;
   }
@@ -20123,7 +20402,7 @@ img.change-password-image {
     width: 343px;
     height: 343px;
     background: $white;
-    box-shadow: 0px 0px 24px 0px rgba(0, 0, 60, 0.50);
+    box-shadow: 0px 0px 24px 0px rgba(0, 0, 60, 0.5);
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -20154,7 +20433,7 @@ img.change-password-image {
   }
 
   .header-forgot .modal-title.h4 {
-    color: #004A89;
+    color: #004a89;
     font-size: 20px;
   }
 
@@ -20177,16 +20456,16 @@ img.change-password-image {
 
   .consent-content .works-started .modules-diagram .module-bigger-size.small .module-discribe .big-circle-data,
   .consent-content .works-started .modules-diagram .module-bigger-size.small .module-discribe .fotter-btns {
-    display: none !important
+    display: none !important;
   }
 
   .modules-diagram .pharma_market.circle .stat.active:after,
   .modules-diagram .pharma_market.circle .stat.active:before {
-    display: none
+    display: none;
   }
 
   .modules-diagram .module-bigger-size.small .module-diagram.circle.pharma_market .stat {
-    display: none
+    display: none;
   }
 
   .mobile-slider .slick-dots li {
@@ -20209,7 +20488,7 @@ img.change-password-image {
 
   .mobile-slider .slick-dots li.slick-active button:before {
     opacity: 1;
-    background: #004A89;
+    background: #004a89;
   }
 
   .module-bigger-size.small.show .module-diagram.circle.pharma_market {
@@ -20229,7 +20508,7 @@ img.change-password-image {
   }
 
   .modules-diagram .module-bigger-size.small .module-diagram.circle.pharma_market .stat.active {
-    filter: none
+    filter: none;
   }
 
   .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small {
@@ -20298,7 +20577,6 @@ img.change-password-image {
           }
         }
       }
-
     }
   }
 

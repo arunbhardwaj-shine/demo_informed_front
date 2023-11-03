@@ -1,405 +1,919 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Form, FormGroup, FormLabel } from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
 import Select from "react-select";
-
-// import Question from "./AddQuestion";
+import { loader } from "../../../../../loader";
+import { getData, postData } from "../../../../../axios/apiHelper";
+import { ENDPOINT } from "../../../../../axios/apiConfig";
+import { useLocation } from "react-router-dom";
+import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
+import CountryList from "./CountryList";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const WebinarRegistration = () => {
+  const location = useLocation();
+  const event_code = location?.state?.event_code
+    ? location?.state?.event_code
+    : "";
   const [file, setFile] = useState();
-  const [foot, setfoot] = useState();
+  const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
-  const [formData, setFormData] = useState([]);
-  const [formInputs, setFormInputs] = useState({});
+  const [formData, setFormData] = useState({
+    pageTitle: "",
+    bodyText: "",
+    headerImageUrl: "",
+    body: [],
+    footerImageUrl: "",
+  });
+  const [eventData, setEventData] = useState({ event_id: "", company_id: "" });
+  const [showChangeHeader, setShowChangeHeader] = useState(false);
+  const [showChangeFooter, setShowChangeFooter] = useState(false);
+  const [error, setError] = useState({});
+  const [countryList, setCountryList] = useState(CountryList);
+  const [errorMsg, setErrorMsg] = useState('');
+
   useEffect(() => {
-    console.log("form Data--->", formData);
+    getWebinarData();
   }, []);
-  const handleFileSelect = (e, flag) => {
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.style.display = "none";
-    fileInput.addEventListener("change", (e) => {
+
+  const getWebinarData = async () => {
+    try {
+      loader("show");
+      const response = await getData(
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
+      );
+      const hadData = response?.data?.data;
+
+      setEventData({
+        ...eventData,
+        event_id: hadData?.event_id,
+        company_id: hadData?.company_id,
+      });
+      const newFormData = JSON.parse(hadData?.content);
+      setFormData(newFormData);
+      setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
+      setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
+
+
+  const handleFileSelect = (e, isSelectedName) => {
+    const fileInput = document.createElement('input');
+    const validExtensions = ['png', 'jpeg'];
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    fileInput.accept = '.png, .jpeg';
+    fileInput.addEventListener('change', async (e) => {
       const file = e.target.files[0];
-      console.log(file);
-      if (flag == "header") {
-        setFile(URL.createObjectURL(file));
-      const imgElement = document.querySelector(".header-img");
-       imgElement.style.height = "250px"; 
-       imgElement.style.width = "1363px"; 
-       imgElement.style.background = "#d7e9e8";
-       imgElement.style.border = "4px solid #FFFFFF";
-       imgElement.style.boxShadow = "0px 8px 24px rgba(0, 0, 0, 0)";
-       imgElement.style.borderRadius = "32px"
+      
+      if (file) {
+        const extension = file.name.split('.').pop().toLowerCase();
+
+      if (!validExtensions.includes(extension)) {
+        setErrorMsg(`Invalid file extension for ${isSelectedName}. Please select a .png or .jpeg file.`);
+      } else {
+        setErrorMsg('');
       }
-      if (flag == "footer") {
-        const imgElement = document.querySelector(".footer-img");
-        imgElement.style.height = "250px"; 
-        imgElement.style.width = "1363px";  
-        imgElement.style.borderRadius = "30px"
-        setfoot(URL.createObjectURL(file));
+        if (isSelectedName === 'headerImageUrl') {
+          setFile(URL.createObjectURL(file));
+          const imgElement = document.querySelector('.header-img');
+        }
+
+        if (isSelectedName === 'footerImageUrl') {
+          const imgElement = document.querySelector('.footer-img');
+        setFoot(URL.createObjectURL(file));
+        }
+
+        try {
+          const uploadedImageUrl = await uploadImageToServer(file);
+          setFormData({ ...formData, [isSelectedName]: uploadedImageUrl });
+        } catch (error) {
+          console.error('Error uploading image:', error);
+        }
+     
       }
     });
-
-    fileInput.click();
+  fileInput.click();
   };
+
+  // const handleFileSelect = (e, isSelectedName) => {
+  //   const fileInput = document.createElement('input');
+  //   const validExtensions = ['png', 'jpeg'];
+  //   fileInput.type = 'file';
+  //   fileInput.style.display = 'none';
+  //   fileInput.accept = '.png, .jpeg';
+  //   fileInput.addEventListener('change', async (e) => {
+  //     const file = e.target.files[0];
+     
+  //     if (file) {
+  //       const extension = file.name.split('.').pop().toLowerCase();
+  //       if (isSelectedName === 'headerImageUrl') {
+  //         setFile(URL.createObjectURL(file));
+  //         const imgElement = document.querySelector('.header-img');
+  //         // imgElement.style.height = "310px";
+  //         // imgElement.style.width = "100%";
+  //         // imgElement.style.borderRadius = "32px";
+  //       }
+  //       if (isSelectedName === 'footerImageUrl') {
+  //         const imgElement = document.querySelector('.footer-img');
+  //         // imgElement.style.height = "310px";
+  //         // imgElement.style.width = "100%";
+  //         // imgElement.style.borderRadius = "32px";
+  //         setFoot(URL.createObjectURL(file));
+  //       }
+  //       if (!validExtensions.includes(extension)) {
+  //         setErrorMsg(`Invalid file extension. Please select a .png or .jpeg file.`);
+  //       } else {
+  //         setErrorMsg('');
+  //       try {
+  //         const uploadedImageUrl = await uploadImageToServer(file);
+  //         setFormData({ ...formData, [isSelectedName]: uploadedImageUrl });
+  //       } catch (error) {
+  //         console.error('Error uploading image:', error);
+  //       }
+  //     }
+  //     }
+  //   });
+  // fileInput.click();
+  // };
+
+  const uploadImageToServer = async (file) => {
+    try {
+      const validExtensions = ['png', 'jpeg'];
+      const extension = file.name.split('.').pop().toLowerCase();
+      if (!validExtensions.includes(extension)) {
+        throw new Error('Invalid file extension. Please select a .png or .jpeg file.');
+      }
+   
+      loader('show');
+      const formData = new FormData();
+      formData.append('image', file);
+      const response = await fetch(
+      'https://onesource.informed.pro/api/upload-image',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+      if (response.ok) {
+        const uploadedData = await response.json();
+        return uploadedData.imageUrl;
+      } else {
+        console.error('Image upload failed');
+        return null;
+      }
+    } catch (error) {
+      console.error('Image upload error:', error);
+      return null;
+    } finally {
+      loader('hide');
+    }
+  };
+
   const handleAddQuestionModalClose = () => {
     setModal(false);
   };
 
   const handleModalSave = (form) => {
-    let updateFormData = [...formData];
-    updateFormData.push(form);
-    setFormData(updateFormData);
+    let updateFormBody = formData?.body;
+    updateFormBody.push(form);
+    setFormData({ ...formData, body: updateFormBody });
   };
 
-  const handleChange = (e, index, item, data) => {
-    if (data?.inputType == "radio" || data?.inputType == "checkbox") {
-      let newObj = formInputs;
-      if (!newObj[data?.label]) {
-        newObj[data?.label] = [];
-      }
+  const handleChange = (e, isSelectedName) => {
+    if (isSelectedName) {
+      let updateFormBody = formData?.body;
+
       if (e?.target?.checked == true) {
-        if (data?.inputType == "radio") {
-          newObj[data?.label] = [];
-          newObj[data?.label].push(item?.optionLabel);
+        if (
+          formData?.body?.find(
+            (item, index) =>
+              item?.label?.toLowerCase() == isSelectedName?.toLowerCase()
+          )
+        ) {
+          toast.error("Label already exist");
+          return;
+        }
+        if (isSelectedName == "name" || isSelectedName == "email") {
+          let newObj = {
+            label: isSelectedName,
+            inputType: isSelectedName == "email" ? "email" : "text",
+            placeholder: `Please enter ${isSelectedName}`,
+            option: [],
+            required: "",
+          };
+          updateFormBody?.push(newObj);
         } else {
-          newObj[data?.label].push(item?.optionLabel);
+          let newObj = {
+            label: isSelectedName,
+            inputType: "selection",
+            placeholder: "",
+            option: [],
+            required: "",
+          };
+          updateFormBody?.push(newObj);
         }
+        setFormData({ ...formData, body: updateFormBody });
       } else if (e?.target?.checked == false) {
-        const index = newObj[data?.label]?.indexOf(item?.optionLabel);
+        let index = updateFormBody?.findIndex(
+          (item, index) => item?.label == isSelectedName
+        );
         if (index > -1) {
-          newObj[data?.label]?.splice(index, 1);
-          if (newObj[data?.label]?.length == 0) {
-            delete newObj[data?.label];
-          }
+          updateFormBody?.splice(index, 1);
         }
+        setFormData({ ...formData, body: updateFormBody });
+      } else if (isSelectedName == "company_id") {
+        setEventData({
+          ...eventData,
+          company_id: e?.company_id,
+          event_id: e?.value,
+        });
       }
-      setFormInputs(newObj);
     } else {
-      setFormInputs({ ...formInputs, [e?.target?.name]: e?.target?.value });
+      setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
   };
-  const saveClicked = (e) => {
+
+  const deleteField = (e, data, index) => {
     e.preventDefault();
+    let updatedFormBody = formData?.body;
+    updatedFormBody?.splice(index, 1);
+    setFormData({ ...formData, body: updatedFormBody });
+  };
 
-    // let allPresent = formData.every((item, index) => {
-    //   return Object.keys(formInputs)?.includes(item?.label);
-    // });
-    // if (!allPresent) {
-    //   toast.error("Please fill all the inputs");
-    // } else {
-    //   const formElement = document.getElementById("registration-form");
-    //   const formHTML = formElement.outerHTML;
-    //   console.log("HTML form content-->", formHTML);
-    //   console.log("form inputs-->", formInputs);
-    //   setFormInputs({});
-    //   setFormData([]);
-    // }
+  // const saveClicked = async (e) => {
+  //   e.preventDefault();
+  //   console.log("--err");
+  //   try {
+  //     const error = WebinarRegistrationValidation(formData, eventData);
 
-    const formElement = document.getElementById("registration-form");
-    const formHTML = formElement.outerHTML;
-    // console.log("HTML form content-->", formHTML);
-    console.log("form inputs-->", formInputs);
-    setFormInputs({});
-    setFormData([]);
+  //     if (Object.keys(error)?.length) {
+  //       toast.error(error[Object.keys(error)[0]]);
+  //       setError(error);
+  //       return;
+  //     } else {
+  //       loader("show");
+  //       let data = {
+  //         eventId: eventData?.event_id,
+  //         companyId: eventData?.company_id,
+  //         content: JSON.stringify(formData),
+  //       };
+
+  //       const response = await postData(
+  //         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
+  //         data
+  //       );
+
+  //       setFormData({
+  //         pageTitle: "",
+  //         bodyText: "",
+  //         headerImageUrl: "",
+  //         body: [],
+  //         footerImageUrl: "",
+  //       });
+  //       setEventData({ event_id: "", company_id: "" });
+  //       setFile("");
+  //       setFoot("");
+  //     }
+  //   } catch (err) {
+  //     console.log("--err", err);
+  //   } finally {
+  //     loader("hide");
+  //   }
+  // };
+
+  const saveClicked = async (e) => {
+    console.log(formData,'dgdfh')
+    e.preventDefault();
+    try {
+      const error = WebinarRegistrationValidation(formData, eventData);
+      if (Object.keys(error)?.length) {
+        toast.error(error[Object.keys(error)[0]]);
+        setError(error);
+        return;
+      }
+      if (errorMsg) {
+        toast.error(errorMsg);
+        return;
+      }
+   
+      loader('show');
+      let data = {
+        eventId: eventData?.event_id,
+        companyId: eventData?.company_id,
+        content: JSON.stringify(formData),
+      };
+      const response = await postData(ENDPOINT.CREATE_WEBINAR_REGISTRATION, data);
+      setFormData({
+        pageTitle: "",
+        bodyText: "",
+        headerImageUrl: "",
+        body: [],
+        footerImageUrl: "",
+      });
+      setEventData({ event_id: "", company_id: "" });
+      setFile("");
+      setFoot("");
+    } catch (err) {
+      console.error("--err", err);
+    } finally {
+      loader('hide');
+    }
+  };
+
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData("text/plain", index);
+  };
+
+  const handleDrop = (e, newIndex) => {
+    e.preventDefault();
+    const draggedIndex = e.dataTransfer.getData("text/plain");
+    const updatedBody = [...formData.body];
+    const [draggedField] = updatedBody.splice(draggedIndex, 1);
+    updatedBody.splice(newIndex, 0, draggedField);
+    setFormData({ ...formData, body: updatedBody });
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDeleteHeaderImage = () => {
+    setFile(""); 
+  };
+  const handleDeleteFooterImage = () => {
+    setFoot("");
   };
 
   return (
     <>
-      {console.log("form Data--->", formData)}
       <Col className="right-sidebar">
         <div className="custom-container">
-          <Row>
-            <div className="outer">
-              <header className="header">
-                <Button
-                  className="button"
-                  onClick={(e) => handleFileSelect(e, "header")}
-                >
-                  Upload Header
-                </Button>
-
-                <Button style={{marginLeft:'20px'}}
-                  className="fbutton"
-                  onClick={(e) => handleFileSelect(e, "footer")}
-                >
-                  Upload Footer
-                </Button>
-
-                <Button style={{marginLeft:'20px'}} onClick={() => setModal(true)}>Add Feilds</Button>
-
-
-
-                {/* <img className="header-img" src={file} /> */}
-              </header>
-
-              {/* <section className="section">
-                <div className="sec1">
-                  <div className="add_hcp_boxes">
-                    <button onClick={() => setModal(true)}>AddQuestion</button>
-                    <div className="form_action">
-                      <div className="row">
-                        <form id="registration-form" onSubmit={saveClicked}>
-                          <h2>
-                            To register please select and fill in all your
-                            details below.
-                          </h2>
-
-                          <h3>
-                            This meeting is for healthcare professionals only.
-                          </h3>
-
-                          <hr></hr>
-
-                          <div className="center-align-form">
-                            {formData && formData?.length > 0 ? (
-                              <div>
-                                {formData?.map((data, index) => (
-                                  <div key={index} className="centered-input">
-                                    <div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label htmlFor="">{data?.label}</label>
-                                        {data?.option?.length > 0 ? (
-                                          data?.inputType === "radio" ? (
-                                            data?.option?.map((item, index) => (
-                                              <div key={index}>
-                                                <input
-                                                  type="radio"
-                                                  name={data?.label}
-                                                  required={
-                                                    data?.required == "yes"
-                                                      ? true
-                                                      : false
-                                                  }
-                                                  // checked={}
-                                                  onChange={(e) =>
-                                                    handleChange(
-                                                      e,
-                                                      index,
-                                                      item,
-                                                      data
-                                                    )
-                                                  }
-                                                />
-                                                <label htmlFor="">
-                                                  {item?.optionLabel}
-                                                </label>
-                                              </div>
-                                            ))
-                                          ) : data?.inputType == "checkbox" ? (
-                                            data?.option?.map((item, index) => (
-                                              <div key={index}>
-                                                <input
-                                                  type="checkbox"
-                                                  name={data?.label}
-                                                  required={
-                                                    data?.required == "yes"
-                                                      ? true
-                                                      : false
-                                                  }
-                                                  onChange={(e) =>
-                                                    handleChange(
-                                                      e,
-                                                      index,
-                                                      item,
-                                                      data
-                                                    )
-                                                  }
-                                                />
-                                                <label htmlFor="">
-                                                  {item?.optionLabel}
-                                                </label>
-                                              </div>
-                                            ))
-                                          ) : data?.inputType == "selection" ? (
-                                            <div key={index}>
-                                              <select>
-                                                {data?.option?.map((item) => (
-                                                  <option
-                                                    value={item?.optionLabel}
-                                                  >
-                                                    {item?.optionLabel}
-                                                  </option>
-                                                ))}
-                                              </select>
-                                            </div>
-                                          ) : null
-                                        ) : (
-                                          <input
-                                            name={data?.label}
-                                            className="form-control"
-                                            type={data?.inputType}
-                                            required={
-                                              data?.required == "yes"
-                                                ? true
-                                                : false
-                                            }
-                                            placeholder={data?.placeholder}
-                                            onChange={(e) =>
-                                              handleChange(e, index)
-                                            }
-                                          />
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                                <Button type="submit">Save</Button>
-                              </div>
-                            ) : null}
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section> */}
-
-              <div style={{marginTop:'35px',marginBottom:'50px'}} className="header"> <img className="header-img" src={file} /></div>
-
-              <section className="webinarRegistrationBody">
-                <div className="sec1">
-                  <div className="add_hcp_boxes">
-                    {/* <button onClick={() => setModal(true)}>AddQuestion</button> */}
-                    <div className="form_action">
-                      <div className="row">
-                        <form id="registration-form" onSubmit={saveClicked}>
-                          <h3 style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-                            To register please select and fill in all your
-                            details below.
-                          </h3>
-
-                          <h4 style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-                            This meeting is for healthcare professionals only.
-                          </h4>
-
-                          <hr></hr>
-
-                          <div className="center-align-form">
-                            {formData && formData?.length > 0 ? (
-                              <div>
-                                {formData?.map((data, index) => (
-                                  <div key={index} className="centered-input">
-                                    <div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label htmlFor="">{data?.label}</label>
-                                        {data?.option?.length > 0 ? (
-                                          data?.inputType === "radio" ? (
-                                            data?.option?.map((item, index) => (
-                                              <div key={index}>
-                                                <input style={{marginBottom:'25px',  marginTop:'10px'}}
-                                                  type="radio"
-                                                  name={data?.label}
-                                                  required={
-                                                    data?.required == "yes"
-                                                      ? true
-                                                      : false
-                                                  }
-                                                  // checked={}
-                                                  onChange={(e) =>
-                                                    handleChange(
-                                                      e,
-                                                      index,
-                                                      item,
-                                                      data
-                                                    )
-                                                  }
-                                                />
-                                                <label htmlFor="">
-                                                  {item?.optionLabel}
-                                                </label>
-                                              </div>
-                                            ))
-                                          ) : data?.inputType == "checkbox" ? (
-                                            data?.option?.map((item, index) => (
-                                              <div key={index}>
-                                                <input style={{marginBottom:'25px', marginTop:'10px'}}
-                                                  type="checkbox"
-                                                  name={data?.label}
-                                                  required={
-                                                    data?.required == "yes"
-                                                      ? true
-                                                      : false
-                                                  }
-                                                  onChange={(e) =>
-                                                    handleChange(
-                                                      e,
-                                                      index,
-                                                      item,
-                                                      data
-                                                    )
-                                                  }
-                                                />
-                                                <label htmlFor="">
-                                                  {item?.optionLabel}
-                                                </label>
-                                              </div>
-                                            ))
-                                          ) : data?.inputType == "selection" ? (
-                                            <div key={index}>
-                                              <select style={{marginBottom:'25px',  marginTop:'10px'}}>
-                                                {data?.option?.map((item) => (
-                                                  <option
-                                                    value={item?.optionLabel}
-                                                  >
-                                                    {item?.optionLabel}
-                                                  </option>
-                                                ))}
-                                              </select>
-                                            </div>
-                                          ) : null
-                                        ) : (
-                                          <input style={{marginBottom:'25px', marginTop:'10px'}}
-                                            name={data?.label}
-                                            className="form-control"
-                                            type={data?.inputType}
-                                            required={
-                                              data?.required == "yes"
-                                                ? true
-                                                : false
-                                            }
-                                            placeholder={data?.placeholder}
-                                            onChange={(e) =>
-                                              handleChange(e, index)
-                                            }
-                                          />
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                                <Button type="submit">Save</Button>
-                              </div>
-                            ) : null}
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              <div >
-                {/* <button
-                  className="fbutton"
-                  onClick={(e) => handleFileSelect(e, "footer")}
-                >
-                  upload
-                </button> */}
-
-                {/* <img className="footer-img" src={foot} /> */}
+          <div className="row">
+            <div className="top-header reader_list">
+              <div className="page-title">
+                <h2>Registration Page</h2>
               </div>
-              <div style={{marginTop:'35px',marginBottom:'50px'}}>  <img className="footer-img" src={foot} /></div>
             </div>
-          </Row>
+            <div className="register-page create-change-content">
+              <Row>
+                <Col md={8} sm={7}>
+                  <div className="register-page-left">
+                    <Form onSubmit={saveClicked}>
+                        <div className="form-group d-flex align-items-center">
+                          <FormLabel>Registration Page Title</FormLabel>
+                          <input
+                            type="text"
+                            name="pageTitle"
+                            value={formData?.pageTitle}
+                            onChange={handleChange}
+                            className={
+                              error?.pageTitle
+                                ? "form-control error"
+                                : "form-control"
+                            }
+                          />
+                          {error?.pageTitle ? (
+                            <div className="login-validation">
+                              {error?.pageTitle}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                        <div className="form-group d-flex align-items-center">
+                          <FormLabel>Body Text</FormLabel>
+                          <textarea
+                            cols="40"
+                            rows="3"
+                            name="bodyText"
+                            value={formData?.bodyText}
+                            onChange={handleChange}
+                            className="form-control"
+                            placeholder="what will be the placeholder?"
+                          />
+                        </div>
+                        <div className="feilds-section">
+                          <h5>What data should be collected?</h5>
+                          <div className="select-collected">
+                            <Form.Check
+                              className="webinar-checkbox"
+                              inline
+                              label="Name"
+                              name="name"
+                              type="checkbox"
+                              checked={
+                                formData?.body?.findIndex(
+                                  (item, index) =>
+                                    item?.label?.toLowerCase() == "name"
+                                ) != -1
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => handleChange(e, "name")}
+                            />
+
+                            <Form.Check
+                              className="webinar-checkbox"
+                              inline
+                              label="Email"
+                              name="email"
+                              type="checkbox"
+                              checked={
+                                formData?.body?.findIndex(
+                                  (item, index) =>
+                                    item?.label?.toLowerCase() == "email"
+                                ) != -1
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => handleChange(e, "email")}
+                            />
+
+                            <Form.Check
+                              className="webinar-checkbox"
+                              inline
+                              label="Profession"
+                              name="profession"
+                              type="checkbox"
+                              checked={
+                                formData?.body?.findIndex(
+                                  (item, index) =>
+                                    item?.label?.toLowerCase() == "profession"
+                                ) != -1
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => handleChange(e, "profession")}
+                            />
+
+                            <Form.Check
+                              className="webinar-checkbox"
+                              inline
+                              label="Country"
+                              name="country"
+                              type="checkbox"
+                              checked={
+                                formData?.body?.findIndex(
+                                  (item, index) =>
+                                    item?.label?.toLowerCase() == "country"
+                                ) != -1
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => handleChange(e, "country")}
+                            />
+
+                            {/* <Form.Check
+                              className="webinar-checkbox"
+                              inline
+                              label="State"
+                              name="state"
+                              type="checkbox"
+                              checked={
+                                formData?.body?.findIndex(
+                                  (item, index) =>
+                                    item?.label?.toLowerCase() == "state"
+                                ) != -1
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => handleChange(e, "state")}
+                            /> */}
+                            <span
+                              className="add-choice"
+                              onClick={() => setModal(true)}
+                            >
+                              Add data field
+                              <img src={path_image + "add-choice.svg"} alt="" />
+                            </span>
+                          </div>
+                          <section className="webinarRegistrationBody">
+                            <div className="sec1">
+                              <div className="add_hcp_boxes">
+                                <div className="form_action">
+                                  <div className="row">
+                                    <div id="registration-form">
+                                      {formData &&
+                                      Object.keys(formData)?.length ? (
+                                        <div>
+                                          <div className="center-align-form">
+                                            <div>
+                                              {formData?.body?.map(
+                                                (data, index) => (
+                                                  <div
+                                                    key={index}
+                                                    className="centered-input"
+                                                    draggable
+                                                    onDragStart={(e) =>
+                                                      handleDragStart(e, index)
+                                                    }
+                                                    onDrop={(e) =>
+                                                      handleDrop(e, index)
+                                                    }
+                                                    onDragOver={handleDragOver}
+                                                  >
+                                                    <div className="form-group">
+                                                      <label htmlFor="">
+                                                        {data?.label
+                                                          ? data?.label
+                                                              ?.charAt(0)
+                                                              .toUpperCase() +
+                                                            data?.label
+                                                              ?.slice(1)
+                                                              ?.toLowerCase()
+                                                          : ""}
+                                                      </label>
+
+                                                      {data?.inputType ===
+                                                      "radio" ? (
+                                                        data?.option?.map(
+                                                          (item, index) => (
+                                                            <div
+                                                              className="slt-opt"
+                                                              key={index}
+                                                            >
+                                                              <input
+                                                                type={
+                                                                  data?.inputType
+                                                                }
+                                                                name={data?.label}
+                                                              />
+                                                              <label htmlFor="">
+                                                                {
+                                                                  item?.optionLabel
+                                                                }
+                                                              </label>
+                                                            </div>
+                                                          )
+                                                        )
+                                                      ) : data?.inputType ==
+                                                        "checkbox" ? (
+                                                        data?.option?.map(
+                                                          (item, index) => (
+                                                            <div
+                                                              className="slt-opt"
+                                                              key={index}
+                                                            >
+                                                              <input
+                                                                type={
+                                                                  data?.inputType
+                                                                }
+                                                                name={data?.label}
+                                                              />
+                                                              <label htmlFor="">
+                                                                {
+                                                                  item?.optionLabel
+                                                                }
+                                                              </label>
+                                                            </div>
+                                                          )
+                                                        )
+                                                      ) : data?.inputType ==
+                                                        "selection" ? (
+                                                        <div
+                                                          className="slt-opt"
+                                                          key={index}
+                                                        >
+                                                          <Select
+                                                            className="dropdown-basic-button split-button-dropup webinar-select"
+                                                            options={
+                                                              data?.label ==
+                                                              "country"
+                                                                ? countryList
+                                                                : data?.option?.map(
+                                                                    (item) => ({
+                                                                      label:
+                                                                        item?.optionLabel,
+                                                                      value:
+                                                                        item?.optionLabel,
+                                                                    })
+                                                                  )
+                                                            }
+                                                            placeholder="Plese select the value"
+                                                          />
+                                                        </div>
+                                                      ) : data?.inputType ==
+                                                        "textarea" ? (
+                                                        <div
+                                                          className="slt-opt"
+                                                          key={index}
+                                                        >
+                                                          <textarea
+                                                            className="form-control"
+                                                            name={data?.label?.toLowerCase()}
+                                                            type={data?.inputType}
+                                                            placeholder={
+                                                              data?.placeholder
+                                                            }
+                                                          />
+                                                        </div>
+                                                      ) : (
+                                                        <input
+                                                          name={data?.label?.toLowerCase()}
+                                                          className="form-control"
+                                                          type={data?.inputType}
+                                                          placeholder={
+                                                            data?.placeholder
+                                                          }
+                                                        />
+                                                      )}
+                                                      <button
+                                                        className="dlt_btn_event btn-filled"
+                                                        onClick={(e) => {
+                                                          // setConfirmationPopup(true);
+                                                          deleteField(
+                                                            e,
+                                                            data,
+                                                            index
+                                                          );
+                                                        }}
+                                                      >
+                                                        <svg
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                          width="40"
+                                                          height="40"
+                                                          viewBox="0 0 40 40"
+                                                          fill="none"
+                                                        >
+                                                          <path
+                                                            d="M24.8608 31.7609C25.1362 32.0343 25.5082 32.1901 25.8977 32.1951C26.2871 32.1901 26.6592 32.0343 26.9346 31.7609C27.21 31.4876 27.367 31.1183 27.3721 30.7317V15.122C27.3721 14.7338 27.2167 14.3616 26.9402 14.0872C26.6637 13.8127 26.2887 13.6585 25.8977 13.6585C25.5067 13.6585 25.1316 13.8127 24.8551 14.0872C24.5786 14.3616 24.4233 14.7338 24.4233 15.122V30.7317C24.4284 31.1183 24.5854 31.4876 24.8608 31.7609Z"
+                                                            fill="#ffffff"
+                                                          />
+                                                          <path
+                                                            d="M14.1027 32.1951C13.7133 32.1901 13.3412 32.0343 13.0658 31.7609C12.7904 31.4876 12.6334 31.1183 12.6283 30.7317V15.122C12.6283 14.7338 12.7837 14.3616 13.0602 14.0872C13.3367 13.8127 13.7117 13.6585 14.1027 13.6585C14.4937 13.6585 14.8687 13.8127 15.1452 14.0872C15.4217 14.3616 15.5771 14.7338 15.5771 15.122V30.7317C15.572 31.1183 15.415 31.4876 15.1396 31.7609C14.8642 32.0343 14.4921 32.1901 14.1027 32.1951Z"
+                                                            fill="#ffffff"
+                                                          />
+                                                          <path
+                                                            d="M18.9633 31.7609C19.2387 32.0343 19.6107 32.1901 20.0002 32.1951C20.3896 32.1901 20.7617 32.0343 21.0371 31.7609C21.3125 31.4876 21.4695 31.1183 21.4746 30.7317V15.122C21.4746 14.7338 21.3192 14.3616 21.0427 14.0872C20.7662 13.8127 20.3912 13.6585 20.0002 13.6585C19.6092 13.6585 19.2341 13.8127 18.9577 14.0872C18.6812 14.3616 18.5258 14.7338 18.5258 15.122V30.7317C18.5309 31.1183 18.6879 31.4876 18.9633 31.7609Z"
+                                                            fill="#ffffff"
+                                                          />
+                                                          <path
+                                                            fill-rule="evenodd"
+                                                            clip-rule="evenodd"
+                                                            d="M27.3721 3.90252V5.85366H37.6923C38.0833 5.85366 38.4583 6.00784 38.7348 6.28228C39.0113 6.55673 39.1667 6.92895 39.1667 7.31707C39.1667 7.70519 39.0113 8.07742 38.7348 8.35186C38.4583 8.62631 38.0833 8.78049 37.6923 8.78049H35.1489L33.5251 34.4195C33.4302 35.9294 32.7595 37.3467 31.6494 38.3833C30.5393 39.4199 29.0731 39.998 27.5489 40H12.4512C10.9407 39.9783 9.49405 39.3915 8.40063 38.3569C7.30721 37.3222 6.64757 35.916 6.55362 34.4195L4.85518 8.78049H2.3077C1.91668 8.78049 1.54167 8.62631 1.26517 8.35186C0.988677 8.07742 0.833344 7.70519 0.833344 7.31707C0.833344 6.92895 0.988677 6.55673 1.26517 6.28228C1.54167 6.00784 1.91668 5.85366 2.3077 5.85366H12.6283V3.80495C12.6532 2.80361 13.0651 1.85011 13.7787 1.14183C14.4922 0.433555 15.4529 0.0247359 16.4617 0H23.5387C24.5643 0.0254581 25.5393 0.447827 26.2555 1.17695C26.9717 1.90607 27.3724 2.88419 27.3721 3.90252ZM24.4233 3.90252V5.85366H15.5771V3.90252C15.5771 3.66964 15.6703 3.4463 15.8362 3.28163C16.0021 3.11696 16.2271 3.02445 16.4617 3.02445H23.5387C23.7733 3.02445 23.9983 3.11696 24.1642 3.28163C24.3301 3.4463 24.4233 3.66964 24.4233 3.90252ZM9.40411 34.2439L7.8904 8.78049L32.1883 8.87805L30.596 34.2439C30.5414 35.0101 30.1971 35.7274 29.632 36.2522C29.0668 36.7769 28.3228 37.0702 27.5489 37.0732H12.4512C11.676 37.0748 10.9293 36.7831 10.3632 36.2574C9.7971 35.7318 9.45412 35.0117 9.40411 34.2439Z"
+                                                            fill="#ffffff"
+                                                          />
+                                                        </svg>
+                                                      </button>
+                                                    </div>
+                                                  </div>
+                                                )
+                                              )}
+                                              <Button
+                                                type="submit"
+                                                className="save"
+                                              >
+                                                Save
+                                              </Button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </section>
+                        </div>
+                  </Form>
+                </div>
+              </Col>
+              <Col md={4} sm={5}>
+                <div className="registration-right">
+                <div
+                className="header-section"
+                onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+              >
+                {!file && (
+                  <h4
+                    className="header-img-section"
+                    id="uploadButton"
+                  >
+                    Upload header
+                  </h4>
+                )}
+                <img className="header-img" src={file} />
+                <div className="header-text">
+
+                {file && (
+                    <button className="btn btn-outline-primary" title="Edit user">
+                      <img src={path + "edit-button.svg"} alt="Edit" onClick={(e) => {
+                        e.stopPropagation(); 
+                        handleFileSelect(e, "headerImageUrl");
+                      }} />
+                    </button>
+                  )}
+
+                  {file && (
+                     <button
+                     className="dlt_btn_event btn-voilet"
+                     onClick={(e) => {
+                      e.stopPropagation(); 
+                      handleDeleteHeaderImage(e, "headerImageUrl");
+                    }}
+                   >
+                     <img
+                       title="Delete"
+                       src={path_image + "delete-icon.svg"}
+                       alt="Delete Row"
+                     />
+                   </button>
+                  )}
+                 
+                </div>
+              
+                
+              </div>
+
+              <div
+                className="footer-section"
+                onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+              >
+                {!foot && (
+                  <h4
+                    className="footer-img-section"
+                  >
+                    Upload footer
+                  </h4>
+                )}
+                <img className="footer-img" src={foot} />
+                <div className="footer-text">
+                {foot && (
+                    <button className="btn btn-outline-primary" title="Edit user">
+                      <img src={path + "edit-button.svg"} alt="Edit" onClick={(e) => {
+                        e.stopPropagation(); 
+                        handleFileSelect(e, "footerImageUrl");
+                      }} />
+                    </button>
+                  )}
+                   {foot && (
+                     <button
+                     className="dlt_btn_event btn-voilet"
+                     onClick={(e) => {
+                      e.stopPropagation(); 
+                      handleDeleteFooterImage(e, "footerImageUrl");
+                    }}
+                   >
+                     <img
+                       title="Delete"
+                       src={path_image + "delete-icon.svg"}
+                       alt="Delete Row"
+                     />
+                   </button>
+                  )}
+                </div>
+              </div>
+              </div>
+              </Col>
+            </Row>
+          </div>
+        </div>
+        {/* <div className="register-page">
+          <div className="row">
+            <div className="left-section col-sm-3 col-md-6 col-lg-8">
+              <div className="text-section">
+                <div className="row">
+                  <div className="form-group col-lg-3 webinar-select">
+                    <label htmlFor="">Select Event</label>
+                  </div>
+                  <div className="col-lg-6 ">
+                    <Select
+                      options={dropDownData}
+                      placeholder="Select Event"
+                      name="company_id"
+                      className="dropdown-basic-button split-button-dropup webinar-select"
+                      isClearable
+                      onChange={(e) => handleChange(e, "company_id")}
+                      value={
+                        dropDownData?.findIndex(
+                          (item, index) => item?.value == eventData?.event_id
+                        ) != -1
+                          ? dropDownData[
+                              dropDownData?.findIndex(
+                                (item, index) =>
+                                  item?.value == eventData?.event_id
+                              )
+                            ]
+                          : ""
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-3">
+                    <label htmlFor="">Registration Page Title</label>
+                  </div>
+                  <div className="col-lg-6 registration-text form-group ">
+                    <input
+                      type="text"
+                      name="pageTitle"
+                      value={formData?.pageTitle}
+                      onChange={handleChange}
+                      className={
+                        error?.pageTitle ? "form-control error" : "form-control"
+                      }
+                    />
+                    {error?.pageTitle ? (
+                      <div className="validation" style={{color:'#d61975'}}>{error?.pageTitle}</div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-lg-3 registration-bodyHeading">
+                   
+                    <label htmlFor="">Body Text</label>
+                  </div>
+                  <div className="col-lg-6 registration-bodyText">
+                    <textarea
+                      cols="50"
+                      rows="4"
+                      name="bodyText"
+                      value={formData?.bodyText}
+                      onChange={handleChange}
+                      className="form-control"
+                    />
+                  </div>
+                </div>
+
+                
+              </div>
+            </div>
+            <div className="right-section col-sm-9 col-md-6 col-lg-4">
+              <div
+                className="header-section"
+                onMouseOver={() => setShowChangeHeader(true)}
+                onMouseOut={() => setShowChangeHeader(false)}
+              >
+                {!file && (
+                  <h4
+                    className="header-img-section"
+                    id="uploadButton"
+                    onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+                  >
+                    Upload header
+                  </h4>
+                )}
+                <img className="header-img" src={file} />
+                <div className="header-text">
+                  {" "}
+                  {showChangeHeader && file && (
+                    <h4
+                      className="header-hover"
+                      onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+                    >
+                      Change Header
+                    </h4>
+                  )}
+                </div>
+              </div>
+
+              <div
+                className="footer-section"
+                onMouseOver={() => setShowChangeFooter(true)}
+                onMouseOut={() => setShowChangeFooter(false)}
+              >
+                {!foot && (
+                  <h4
+                    className="footer-img-section"
+                    onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                  >
+                    Upload footer
+                  </h4>
+                )}
+                <img className="footer-img" src={foot} />
+                <div className="footer-text">
+                  {" "}
+                  {showChangeFooter && foot && (
+                    <h4
+                      className="footer-hover"
+                      onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                    >
+                      Change Footer
+                    </h4>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> */}
         </div>
       </Col>
       <CommonAddQuestionModal
         show={showModal}
         onClose={handleAddQuestionModalClose}
         handleSave={handleModalSave}
-        formLabel={formData}
+        formLabel={formData?.body}
       />
     </>
   );

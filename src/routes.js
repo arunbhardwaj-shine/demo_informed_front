@@ -164,6 +164,7 @@ import WebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDas
 import SurveyBuilder from "./Components/Webinar/Survey/SurveyBuilder";
 import QuestionListing from "./Components/Webinar/Survey/QuestionListing";
 import AutoLogout from "./Components/Login/AutoLogout";
+import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
 let platform = 0;
 let show = 0;
 
@@ -520,7 +521,7 @@ const Routing = () => {
         <Route
           path="/add-poll"
           element={<LoginLayout component={SurveyBuilder} />}
-        /> 
+        />
         <Route
           path="/question-listing"
           element={<LoginLayout component={QuestionListing} />}
@@ -552,6 +553,10 @@ const Routing = () => {
         <Route
           path="/webinar-registration"
           element={<LoginLayout component={WebinarRegistration} />}
+        />
+        <Route
+          path="/edit-webinar-registration"
+          element={<LoginLayout component={EditWebinarRegistration} />}
         />
         <Route
           path="/setting-webinar"

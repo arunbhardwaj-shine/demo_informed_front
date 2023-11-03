@@ -2665,6 +2665,22 @@ form#add_hcp_form .row:not(:first-child) {
   margin: 12px 0;
 }
 
+#add_hcp .modal-body .hcp-add-form form .form-group .dlt_btn_event {
+  margin-left: 10px;
+  box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
+  border: 0;
+  padding: 6px;
+  background: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+}
+
+#add_hcp .modal-body .hcp-add-form form .form-group .dlt_btn_event:hover {
+  background: var(--light-blue);
+}
+
 #add_hcp .modal-body .hcp-add-form form .form-group label {
   flex: 0 0 114px;
   font-size: 18px;
