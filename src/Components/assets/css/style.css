@@ -4826,6 +4826,10 @@ h2 {
   padding: 22px 11px;
 }
 
+.view-modal .modal-body {
+  min-height: 80px;
+}
+
 #upload-confirm .modal-body .modal-buttons .light,
 #create_list_popup .modal-body .modal-buttons .light {
   min-width: 106px;
@@ -7837,6 +7841,22 @@ section.search-hcp.smart-list-view .header-btn-left {
   margin: 10px 0 0;
 }
 
+.create-change-content .right-change .form-group.new-change.activity-added .activity-btn .react-datepicker-wrapper {
+  max-width: 250px;
+  margin-right: 23px;
+}
+
+.create-change-content .right-change .form-group.new-change.activity-added .activity-btn span.react-datepicker__navigation-icon {
+  color: transparent;
+  flex: 0 0;
+}
+
+.create-change-content .right-change .form-group.new-change.activity-added .activity-btn .react-datepicker-wrapper input {
+  padding: 8px 27px;
+  margin: 0;
+  background-position: 92% center;
+}
+
 .create-change-content .right-change .log-activity-box {
   border-radius: 13px;
   background: #FFF;
@@ -7894,7 +7914,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .create-change-content .right-change .log-activity-box span:first-child {
   margin-left: 0;
   margin-right: auto;
-  flex: 0 0 260px;
+  flex: 1 1;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
