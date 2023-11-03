@@ -172,7 +172,9 @@ export default function PollListing() {
           },
         ];
       loader("hide");
-      setOriginalQuestions(data)
+      const deepCopyApiData = JSON.parse(JSON.stringify(data));
+
+      setOriginalQuestions(deepCopyApiData)
       return data
     } catch (error) {
       loader("hide");
