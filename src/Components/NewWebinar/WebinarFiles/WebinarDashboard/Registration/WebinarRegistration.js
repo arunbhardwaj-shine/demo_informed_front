@@ -9,10 +9,14 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { useLocation } from "react-router-dom";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 import CountryList from "./CountryList";
+import { useNavigate } from "react-router-dom";
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
+
 const WebinarRegistration = () => {
+  let navigate= useNavigate();
   const location = useLocation();
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
@@ -181,6 +185,9 @@ const WebinarRegistration = () => {
   };
 
   const handleModalSave = (form) => {
+    // const labels = formData.body.map(item => item?.required);
+    // console.log(labels,'labels')
+    // console.log(formData?.body,'==>save111')
     let updateFormBody = formData?.body;
     updateFormBody.push(form);
     setFormData({ ...formData, body: updateFormBody });
@@ -325,6 +332,7 @@ const WebinarRegistration = () => {
     } finally {
       loader('hide');
     }
+    navigate("/new-event-create");
   };
 
   const handleDragStart = (e, index) => {
@@ -367,7 +375,7 @@ const WebinarRegistration = () => {
                   <div className="register-page-left">
                     <Form onSubmit={saveClicked}>
                         <div className="form-group d-flex align-items-center">
-                          <FormLabel>Registration Page Title</FormLabel>
+                          <FormLabel>Registration Page Title <span>*</span></FormLabel>
                           <input
                             type="text"
                             name="pageTitle"
@@ -470,7 +478,7 @@ const WebinarRegistration = () => {
                               onChange={(e) => handleChange(e, "country")}
                             />
 
-                            {/* <Form.Check
+                            <Form.Check
                               className="webinar-checkbox"
                               inline
                               label="State"
@@ -485,7 +493,7 @@ const WebinarRegistration = () => {
                                   : false
                               }
                               onChange={(e) => handleChange(e, "state")}
-                            /> */}
+                            />
                             <span
                               className="add-choice"
                               onClick={() => setModal(true)}

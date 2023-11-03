@@ -64,11 +64,12 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
   };
 
   const saveClicked = (e) => {
+    console.log(formData,'==>save')
     e.preventDefault();
     const error = RegistrationValidation(formData, formLabel);
 
     if (Object.keys(error)?.length) {
-      toast.error(error[Object.keys(error)[0]]);
+      // toast.error(error[Object.keys(error)[0]]);
       setError(error);
       return;
     } else {
