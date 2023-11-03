@@ -17,7 +17,7 @@ const MessageModelLog = ({
       <>
         <Modal
           show={show}
-          className="send-confirm"
+          className="send-confirm view-modal"
           id="message_modal"
         >
           <Modal.Header>
@@ -44,7 +44,7 @@ const MessageModelLog = ({
                 footerButton !== ""
                 ?
                 <>
-                  {data != "" ? <h4 id="message_change">{data}</h4> : null}
+                  {data != "" ? <p id="message_change">{data}</p> : null}
                   {/* <button
                     type="button"
                     className="btn btn-primary save btn-filled"

@@ -8276,6 +8276,11 @@ svg.pencil_icon {
   color: $pink;
 }
 
+.view-modal #message_change {
+  color: $dark-blue;  
+  font-size: 16px;
+}
+
 /**Publisher page End**/
 
 /**Library Responsive**/
@@ -8357,6 +8362,10 @@ svg.pencil_icon {
 
   .create-change-content .form-group {
     min-height: 48px;
+  }
+
+  .create-change-content.reader_added .form-group .add_product button {
+    min-width: 165px;
   }
 }
 
@@ -8481,6 +8490,29 @@ svg.pencil_icon {
 @media only screen and (max-width: 1500px) {
   .selected-products-list.product_show .products_top_action {
     margin-top: 0px;
+  }
+
+  .create-change-content .right-change .form-group.new-change.activity-added .activity-btn {
+    width: 100%;
+  }
+
+  .create-change-content .right-change .form-group.new-change.activity-added .activity-btn .react-datepicker-wrapper {
+    max-width: 100%;
+  }
+
+  .create-change-content .right-change .form-group.new-change textarea#formControlTextarea {
+    flex: 1 1;
+    max-width: 100%;
+  }
+
+  .create-change-content .right-change .form-group.new-change {
+    flex-direction: column;
+    justify-content: flex-start !important;
+  }
+
+  .create-change-content .right-change .form-group.new-change label {
+    flex: 0 0 100%;
+    margin: 0 0 12px;
   }
 
   .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper.clone .footer-btn {
@@ -8881,6 +8913,23 @@ svg.pencil_icon {
   .timeline-time-view {
     font-size: 11px;
     line-height: 15px;
+  }
+
+  .create-change-content.reader_added .form-group .add_product button {
+    min-width: 130px;
+  }
+
+  .create-change-content .form-group .add_check fieldset {
+    margin-left: 4px;
+  }
+
+  .create-change-content .form-group fieldset label {
+    font-size: 15px;
+    padding: 0;
+  }
+
+  .marketing-log {
+    padding-left: 70px;
   }
 
   .dropdown.split-button-dropup .dropdown-menu .scroll_div {
