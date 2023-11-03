@@ -87,7 +87,7 @@ const MarketingAddReader = () => {
     local: { value: "" },
     address: { street1: "", street2: "", city: "", postcode: "", country: "" },
     logActivity: "",
-    logActivityDate: new Date(),
+    logActivityDate: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     task: { task: "", taskCheckClicked: false, taskDate: "" },
     nextContact: new Date(
       moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
@@ -1368,7 +1368,7 @@ const MarketingAddReader = () => {
                           let newData = [...logs];
                           let userD = { ...userInputs };
                           userD.logActivity = "";
-                          userD.logActivityDate = new Date();
+                          userD.logActivityDate =  new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY"));
 
                           if (currentIndex == -1) {
                             newData.push({
