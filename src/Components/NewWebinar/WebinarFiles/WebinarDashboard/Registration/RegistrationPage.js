@@ -3,7 +3,7 @@ import { Col, Row, Button } from "react-bootstrap";
 import Select from "react-select";
 import { useLocation } from "react-router-dom";
 import { loader } from "../../../../../loader";
-import { getData } from "../../../../../axios/apiHelper";
+import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import CountryList from "./CountryList";
 
@@ -28,7 +28,7 @@ const RegistrationPage = () => {
       let hadData = response?.data?.data;
       hadData = { ...hadData, content: JSON.parse(hadData?.content) };
       setFormData(hadData);
-      console.log(hadData?.content);
+      // console.log(hadData?.content);
       //   setEventData({
       //     ...eventData,
       //     event_id: hadData?.event_id,
@@ -40,11 +40,17 @@ const RegistrationPage = () => {
       console.log("-err", err);
     }
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isValid = ValidateFormData();
     // console.log(formErrors);
     if (isValid) {
+      loader("show");
+
+           let   response = await postData("https://webinar.docintel.app/flow/apis/register", formFieldData);
+           console.log(response);
+           loader("hide");
+
       console.log("Form is valid. Submitting data:", formFieldData);
     } else {
       console.log("Form has errors. Please correct them.");
@@ -52,22 +58,30 @@ const RegistrationPage = () => {
   };
 
   const ValidateFormData = () => {
+    console.log(formFieldData);
+    console.log(formErrors);
     const errors = {};
 
     formData?.content?.body?.forEach((form) => {
-      const fieldValue = formFieldData[form.label];
+      const  label = form.label.replace(/ /g,"_")
+
+      const fieldValue = formFieldData[label];
 
       if (form.required=='yes' && !fieldValue) {
-        errors[form.label] = `This field is required.`;
-        // errors[form.label] = `This ${form.label} is required.`;
+        errors[label] = `This field is required.`;
+        // errors[label] = `This ${label} is required.`;
       } else {
-        errors[form.label] = ``;
+        delete errors[label]
       }
 
       if (form.inputType === "email" && fieldValue) {
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         if (!emailRegex.test(fieldValue)) {
-          errors[form.label] = "Invalid email address.";
+          errors[label] = "Invalid email address.";
+        }
+        else{
+          delete errors[label]
+
         }
       }
     });
@@ -98,14 +112,16 @@ const RegistrationPage = () => {
                         <section className="factor-season">
                           <div className="container">
                             <div className="row">
-                              <div className="factor-season-inner">
+                            <div className="factor-season-inner" style={{
+  backgroundImage: `url("${formData?.content?.headerImageUrl}")`
+}}>
                                 <div className="row">
                                   <div className="col-sm-8 col-md-8">
                                     <div className="factor-season-left">
-                                      <img
+                                      {/* <img
                                         src={formData?.content?.headerImageUrl}
                                         alt="Header"
-                                      />
+                                      /> */}
                                       <div className="factor__logo">
                                         <img
                                           src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
@@ -186,12 +202,14 @@ const RegistrationPage = () => {
                       <footer>
                         <div className="container">
                           <div className="row">
-                            <div className="footer-inner">
+                            <div className="footer-inner" style={{
+  backgroundImage: `url("${formData?.content?.footerImageUrl}")`
+}}>
                               <div className="footer-left">
-                                <img
+                                {/* <img
                                   src={formData?.content?.footerImageUrl}
                                   alt="Footer"
-                                />
+                                /> */}
                                 <div className="footer-logo">
                                   <img
                                     src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"
@@ -270,138 +288,82 @@ export default RegistrationPage;
 
 const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
   const [countryList, setCountryList] = useState(CountryList);
-  console.log(form);
+  const  label = form.label.replace(/ /g,"_")
+
   const handleFieldChange = (value) => {
-    // Update the formFieldData state with the new value
     setFormFieldData((prevData) => ({
       ...prevData,
-      [form.label]: value,
+      [label]: value,
     }));
   };
 
-  if (form.label.toLowerCase() === "country") {
-    form.inputType = "selection-country";
+  const isRequired = form.required === 'yes';
+
+  let fieldInput = null;
+
+  if (form.inputType === "textarea") {
+    fieldInput = (
+      <textarea
+        className="form-control"
+        placeholder={form.placeholder}
+        cols="40"
+        rows="4"
+        onChange={(e) => handleFieldChange(e.target.value)}
+      ></textarea>
+    );
+  } else if (form.inputType === "selection" || form.inputType === "selection-country") {
+    const options = form.option?.map((op) => ({
+      label: op.optionLabel,
+      value: op.optionLabel,
+    }));
+
+    fieldInput = (
+      <Select
+        options={form.inputType === "selection-country" ? countryList : options}
+        className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+        isClearable
+        onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+      />
+    );
+  } else if (form.inputType === "checkbox" || form.inputType === "radio") {
+    fieldInput = (
+      <ul>
+        {form.option?.map((item, index) => (
+          <li key={index}>
+            <input
+              type={form.inputType}
+              id={label + index}
+              name={label}
+              className="organize_own_selection"
+              onChange={() => handleFieldChange(item.optionLabel)}
+            />
+            <label htmlFor={label + index}>{item.optionLabel}</label>
+            <span className="checkmark" />
+          </li>
+        ))}
+      </ul>
+    );
+  } else {
+    fieldInput = (
+      <input
+        type={form.inputType}
+        className="form-control"
+        id="usr"
+        placeholder={form.placeholder}
+        onChange={(e) => handleFieldChange(e.target.value)}
+      />
+    );
   }
 
-  switch (form.inputType) {
-    case "textarea":
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list">
-          <label>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </label>
-          <textarea
-            className="form-control"
-            placeholder={form.placeholder}
-            cols="40"
-            rows="4"
-            onChange={(e) => handleFieldChange(e.target.value)}
-          ></textarea>
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-    case "selection":
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-          <label>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </label>
-          <Select
-            options={form.option?.map((op) => ({
-              label: op.optionLabel,
-              value: op.optionLabel,
-            }))}
-            className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
-            isClearable
-            onChange={(selectedOption) => handleFieldChange(selectedOption)}
-          />
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-    case "selection-country":
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-          <label style={{ textTransform: "capitalize" }}>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </label>
-          <Select
-            options={countryList}
-            className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
-            isClearable
-            onChange={(selectedOption) =>
-              handleFieldChange(selectedOption.value)
-            }
-          />
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-    case "checkbox":
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-          <p>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </p>
-          {form.option?.map((item, index) => (
-            <li key={index}>
-              <input
-                type="checkbox"
-                id={form.label + index}
-                name={form.label}
-                className="organize_own_selection"
-                onChange={() => handleFieldChange(item.optionLabel)}
-              />
-              <label htmlFor={form.label + index}>{item.optionLabel}</label>
-              <span className="checkmark" />
-            </li>
-          ))}
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-    case "radio":
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-          <p>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </p>
-          <ul>
-            {form.option?.map((item, index) => (
-              <li key={index}>
-                <input
-                  type="radio"
-                  id={form.label + index}
-                  name={form.label}
-                  className="organize_own_selection"
-                  onChange={() => handleFieldChange(item.optionLabel)}
-                />
-                <label htmlFor={form.label + index}>{item.optionLabel}</label>
-                <span className="checkmark" />
-              </li>
-            ))}
-          </ul>
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-    default:
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-          <label>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </label>
-          <input
-            type={form.type}
-            className="form-control"
-            id="usr"
-            placeholder={form.placeholder}
-            onChange={(e) => handleFieldChange(e.target.value)}
-          />
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-  }
+  return (
+    <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+      <label>
+        {form.label}
+        {isRequired ? "*" : ""}
+      </label>
+      {fieldInput}
+      <div class="help-block">{formErrors[label]}</div>
+    </div>
+  );
 };
+
