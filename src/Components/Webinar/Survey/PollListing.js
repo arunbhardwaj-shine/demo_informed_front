@@ -297,7 +297,7 @@ export default function PollListing() {
     setQuestions(updatedQuestions);
   };
   const handleAddChoice = (key) => {
-    const isValid = validateQuestions(key);
+    const isValid = validateQuestions(key,"addChoice");
 
     if (!isValid) {
       return;
@@ -404,7 +404,7 @@ export default function PollListing() {
       setQuestions(apiData);
     }
   };
-  const validateQuestions = (index) => {
+  const validateQuestions = (index ,key) => {
     let isValid = true;
     const updatedQuestions = [...questions];
     let questionObj = updatedQuestions[index];
@@ -420,20 +420,20 @@ export default function PollListing() {
 
     // }
 
-    if (question.trim() === "") {
+    if (question.trim() === "" && key!="addChoice") {
       questionObj.questionDataErrors.questionError = "Question is required.";
       isValid = false;
     } else {
       questionObj.questionDataErrors.questionError = "";
     }
-    if (speakerName.trim() === "") {
+    if (speakerName.trim() === "" && key!="addChoice" ) {
       questionObj.questionDataErrors.speakerNameError =
         "Speaker Name is required.";
       isValid = false;
     } else {
       questionObj.questionDataErrors.speakerNameError = "";
     }
-    if (answerType.trim() === "") {
+    if (answerType.trim() === "" && key!="addChoice") {
       questionObj.questionDataErrors.answerTypeError =
         "Please Select Answer Type";
       isValid = false;
@@ -734,7 +734,7 @@ export default function PollListing() {
                       </svg>
                     </Button>
                     <Button
-                      className="add-question btn-bordered"
+                      className={`add-question btn-bordered ${questionFlag?"disabled":""}`}
                       onClick={handleAddQuestion}
                     >
                       Add Question +

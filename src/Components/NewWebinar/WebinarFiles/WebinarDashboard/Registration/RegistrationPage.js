@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Button } from "react-bootstrap";
-import CommonAddQuestionModal from "./CommonAddQuestionModal";
-import { toast } from "react-toastify";
 import Select from "react-select";
 import { useLocation } from "react-router-dom";
 import { loader } from "../../../../../loader";
 import { getData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
+import CountryList from "./CountryList";
+
 // import Question from "./AddQuestion";
 
 const RegistrationPage = () => {
   const location = useLocation();
   const event_code = new URLSearchParams(location.search).get("event");
   const [formData, setFormData] = useState();
+  const [formFieldData, setFormFieldData] = useState({});
+  const [formErrors, setFormErrors] = useState({}); // Create a state to store form validation errors
+
   useEffect(() => {
     EventDataFun();
   }, []);
@@ -37,10 +40,45 @@ const RegistrationPage = () => {
       console.log("-err", err);
     }
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const isValid = ValidateFormData();
+    // console.log(formErrors);
+    if (isValid) {
+      console.log("Form is valid. Submitting data:", formFieldData);
+    } else {
+      console.log("Form has errors. Please correct them.");
+    }
+  };
+
+  const ValidateFormData = () => {
+    const errors = {};
+
+    formData?.content?.body?.forEach((form) => {
+      const fieldValue = formFieldData[form.label];
+
+      if (form.required=='yes' && !fieldValue) {
+        errors[form.label] = `This field is required.`;
+        // errors[form.label] = `This ${form.label} is required.`;
+      } else {
+        errors[form.label] = ``;
+      }
+
+      if (form.inputType === "email" && fieldValue) {
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if (!emailRegex.test(fieldValue)) {
+          errors[form.label] = "Invalid email address.";
+        }
+      }
+    });
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
   return (
     <>
-      <Col className="right-sidebar">
-        <div className="custom-container">
+ 
+        
           <Row>
             <div className="outer">
               <section className="webinarRegistrationBody">
@@ -61,13 +99,13 @@ const RegistrationPage = () => {
                           <div className="container">
                             <div className="row">
                               <div className="factor-season-inner">
-                                <img
-                                  src={formData?.content?.headerImageUrl}
-                                  alt="No image"
-                                />
                                 <div className="row">
                                   <div className="col-sm-8 col-md-8">
                                     <div className="factor-season-left">
+                                      <img
+                                        src={formData?.content?.headerImageUrl}
+                                        alt="Header"
+                                      />
                                       <div className="factor__logo">
                                         <img
                                           src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
@@ -100,294 +138,30 @@ const RegistrationPage = () => {
                           <div className="container">
                             <div className="row">
                               <div className="consent-form-inner">
-                                <form id="registration_form">
+                                <form
+                                  id="registration_form"
+                                  onSubmit={handleSubmit}
+                                >
                                   <div className="row" id="form_upper">
                                     <div className="col-sm-12 col-md-12 center-sided">
                                       <h2>{formData?.content?.pageTitle}</h2>
                                       <h3> {formData?.content?.bodyText}</h3>
                                     </div>
-                                    {/*     <div class="col-sm-4 col-md-4 right-sided">
-       <a href="#">Change</a>
-      </div> */}
                                   </div>
                                   <div className="center-sided-inside">
                                     <div className="row">
                                       {formData?.content?.body?.map(
                                         (form, index) => (
-                                          <div
-                                            className="col-sm-12 col-md-12 consent-form-list"
+                                          <FormField
+                                            form={form}
                                             key={index}
-                                          >
-                                            <label>{form.label}</label>
-                                            <input
-                                              type={form.label}
-                                              className="form-control"
-                                              id="usr"
-                                              placeholder={form.placeholder}
-                                            />
-                                          </div>
+                                            formFieldData={formFieldData}
+                                            setFormFieldData={setFormFieldData}
+                                            formErrors={formErrors}
+                                          />
                                         )
                                       )}
-                                      {/* <div className="col-sm-12 col-md-12 consent-form-list">
-                                        <label>Name</label>
-                                        <input
-                                          type="text"
-                                          className="form-control"
-                                          id="usr"
-                                          placeholder="Type Your Name"
-                                        />
-                                      </div> */}
-                                      {/* <div className="col-sm-12 col-md-12 consent-form-list">
-                                        <label>Email</label>
-                                        <input
-                                          type="text"
-                                          className="form-control"
-                                          id="email"
-                                          placeholder="Type Your Email"
-                                          name="email"
-                                        />
-                                      </div>
-                                      <div className="col-sm-12 col-md-12 consent-form-list">
-                                        <label>Your Country</label>
-                                        <input
-                                          type="hidden"
-                                          name="country"
-                                          defaultValue="America"
-                                          id="hid_country"
-                                        />
-                                        <div className="btn-group state-dropdown custom-select-menu">
-                                          <label
-                                            className="dropdown-toggle dropdown-label"
-                                            data-language-label=""
-                                          >
-                                            <span className="text">
-                                              Select Your Country
-                                            </span>
-                                          </label>
-                                          <div
-                                            className="dropdown-menu custom-dropdown-menu state-menu"
-                                            id="select_state"
-                                            style={{ display: "none" }}
-                                          >
-                                            <div className="dropdown-menu-item">
-                                              <a
-                                                className="dropdown-item"
-                                                data-value="USA"
-                                              >
-                                                <span className="text">
-                                                  United States
-                                                </span>
-                                              </a>
-                                            </div>
-                                          </div>
-                                          <input
-                                            type="hidden"
-                                            data-rule-required="true"
-                                            name="state"
-                                            id="hidden_state"
-                                            defaultValue=""
-                                          />
-                                        </div>
-                                      </div>
-                                      <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-                                        <p>I will attend:</p>
-                                        <ul>
-                                          <li>
-                                            <input
-                                              type="radio"
-                                              id="test1"
-                                              name="radio_group"
-                                              className="radio_group"
-                                              defaultValue={1}
-                                            />
-                                            <label
-                                              className="form-check-label"
-                                              htmlFor="test1"
-                                            >
-                                              Both Factor VIII Relevance Academy
-                                              and EAHAD congress
-                                            </label>
-                                            <span className="checkmark" />
-                                          </li>
-                                          <li>
-                                            <input
-                                              type="radio"
-                                              id="test2"
-                                              name="radio_group"
-                                              className="radio_group"
-                                              defaultValue={2}
-                                            />
-                                            <label
-                                              className="form-check-label"
-                                              htmlFor="test2"
-                                            >
-                                              Factor VIII Relevance Academy only
-                                            </label>
-                                            <span className="checkmark" />
-                                          </li>
-                                        </ul>
-                                      </div>
-                                      <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-                                        <p>
-                                          I will join the Factor VIII Relevance
-                                          Academy dinner (5
-                                          <sup>th</sup> Feb) :
-                                        </p>
-                                        <ul>
-                                          <li>
-                                            <input
-                                              type="radio"
-                                              id="join_dinner1"
-                                              name="radio_group2"
-                                              className="radio_group"
-                                              defaultValue={1}
-                                            />
-                                            <label
-                                              className="form-check-label"
-                                              htmlFor="join_dinner1"
-                                            >
-                                              Yes
-                                            </label>
-                                            <span className="checkmark" />
-                                            <div className="form">
-                                              <div className="form-group">
-                                                <input
-                                                  className="form-control dietary"
-                                                  id="dietary"
-                                                  type="text"
-                                                  placeholder="In case you have any dietary restrictions or allergies please specify here"
-                                                  name="dietary"
-                                                  defaultValue=""
-                                                />
-                                              </div>
-                                            </div>
-                                          </li>
-                                          <li>
-                                            <input
-                                              type="radio"
-                                              id="join_dinner2"
-                                              name="radio_group2"
-                                              className="radio_group"
-                                              defaultValue={2}
-                                            />
-                                            <label
-                                              className="form-check-label"
-                                              htmlFor="join_dinner2"
-                                            >
-                                              No
-                                            </label>
-                                            <span className="checkmark" />
-                                          </li>
-                                        </ul>
-                                      </div>
-                                      <div className="col-sm-12 col-md-12 consent-form-list attend-sec additional-options">
-                                        <p>I would like to:</p>
-                                        <ul>
-                                          <li>
-                                            <input
-                                              type="radio"
-                                              id="organize-own"
-                                              name="organize_own"
-                                              className="organize_own_selection"
-                                              defaultValue={1}
-                                            />
-                                            <label htmlFor="organize-own">
-                                              Organize my own accomodation
-                                            </label>
-                                            <span className="checkmark" />
-                                          </li>
-                                          <li>
-                                            <input
-                                              type="radio"
-                                              id="travel-arrangement"
-                                              name="organize_own"
-                                              className="organize_own_selection"
-                                              defaultValue={2}
-                                            />
-                                            <label htmlFor="travel-arrangement">
-                                              Have my accommodation organized
-                                              for 1 night on the 4<sup>th</sup>{" "}
-                                              of Feb
-                                            </label>
-                                            <span className="checkmark" />
-                                          </li>
-                                          <li>
-                                            <input
-                                              type="radio"
-                                              id="travel-arranged"
-                                              name="organize_own"
-                                              className="organize_own_selection"
-                                              defaultValue={4}
-                                            />
-                                            <label htmlFor="travel-arranged">
-                                              Have my accommodation organized
-                                              for 1 night only on the 5
-                                              <sup>th</sup> of Feb
-                                            </label>
-                                            <span className="checkmark" />
-                                          </li>
-                                          <li>
-                                            <input
-                                              type="radio"
-                                              id="accommodation-arranged"
-                                              name="organize_own"
-                                              className="organize_own_selection"
-                                              defaultValue={3}
-                                            />
-                                            <label htmlFor="accommodation-arranged">
-                                              Have my accommodation organized
-                                              for 2 nights (4
-                                              <sup>th</sup> and 5<sup>th</sup>{" "}
-                                              Feb)
-                                            </label>
-                                            <span className="checkmark" />
-                                          </li>
-                                        </ul>
-                                      </div>
-                                      <div className="col-sm-12 col-md-12 consent-form-list attend-sec being_connected">
-                                        <p>I consent to:</p>
-                                        <ul>
-                                          <li className="mandatory_col">
-                                            <input
-                                              className="form-check-input"
-                                              type="checkbox"
-                                              name="being_connected"
-                                              id="being_connected"
-                                              defaultValue="Being contacted by FVIII Academy"
-                                            />
-                                            <label htmlFor="being_connected">
-                                              Being contacted by FVIII Academy
-                                              organizing team for the purpose of
-                                              this meeting<span>*</span>
-                                            </label>
-                                            <span className="checkmark" />
-                                          </li>
-                                          <li>
-                                            <input
-                                              className="form-check-input"
-                                              type="checkbox"
-                                              name="being_connected"
-                                              id="future_material"
-                                              defaultValue="Receive future materials from FVIII Academy"
-                                            />
-                                            <label htmlFor="future_material">
-                                              Receive future materials from the
-                                              FVIII Academy
-                                            </label>
-                                            <span className="checkmark" />
-                                          </li>
-                                        </ul>
-                                      </div> */}
-                                      {/* 	<div class="col-sm-12 col-md-12 consent-form-list">
-                <div class="form-check">
-          <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="optradio">Full consent
-              <span class="checkmark"></span>
-          </label>
-          <div class="change-form"><h6><a href="#">edit opt-in</a></h6></div>
-          
-        </div>
-      </div> */}
+
                                       <button
                                         type="submit"
                                         className="btn btn-primary"
@@ -413,11 +187,11 @@ const RegistrationPage = () => {
                         <div className="container">
                           <div className="row">
                             <div className="footer-inner">
-                              <img
-                                src={formData?.content?.footerImageUrl}
-                                alt="No image"
-                              />
                               <div className="footer-left">
+                                <img
+                                  src={formData?.content?.footerImageUrl}
+                                  alt="Footer"
+                                />
                                 <div className="footer-logo">
                                   <img
                                     src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"
@@ -487,10 +261,147 @@ const RegistrationPage = () => {
               {/* <div style={{marginTop:'35px',marginBottom:'50px'}}>  <img className="footer-img" src={foot} /></div> */}
             </div>
           </Row>
-        </div>
-      </Col>
+       
     </>
   );
 };
 
 export default RegistrationPage;
+
+const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
+  const [countryList, setCountryList] = useState(CountryList);
+  console.log(form);
+  const handleFieldChange = (value) => {
+    // Update the formFieldData state with the new value
+    setFormFieldData((prevData) => ({
+      ...prevData,
+      [form.label]: value,
+    }));
+  };
+
+  if (form.label.toLowerCase() === "country") {
+    form.inputType = "selection-country";
+  }
+
+  switch (form.inputType) {
+    case "textarea":
+      return (
+        <div className="col-sm-12 col-md-12 consent-form-list">
+          <label>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </label>
+          <textarea
+            className="form-control"
+            placeholder={form.placeholder}
+            cols="40"
+            rows="4"
+            onChange={(e) => handleFieldChange(e.target.value)}
+          ></textarea>
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
+      );
+    case "selection":
+      return (
+        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+          <label>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </label>
+          <Select
+            options={form.option?.map((op) => ({
+              label: op.optionLabel,
+              value: op.optionLabel,
+            }))}
+            className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+            isClearable
+            onChange={(selectedOption) => handleFieldChange(selectedOption)}
+          />
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
+      );
+    case "selection-country":
+      return (
+        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+          <label style={{ textTransform: "capitalize" }}>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </label>
+          <Select
+            options={countryList}
+            className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+            isClearable
+            onChange={(selectedOption) =>
+              handleFieldChange(selectedOption.value)
+            }
+          />
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
+      );
+    case "checkbox":
+      return (
+        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+          <p>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </p>
+          {form.option?.map((item, index) => (
+            <li key={index}>
+              <input
+                type="checkbox"
+                id={form.label + index}
+                name={form.label}
+                className="organize_own_selection"
+                onChange={() => handleFieldChange(item.optionLabel)}
+              />
+              <label htmlFor={form.label + index}>{item.optionLabel}</label>
+              <span className="checkmark" />
+            </li>
+          ))}
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
+      );
+    case "radio":
+      return (
+        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+          <p>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </p>
+          <ul>
+            {form.option?.map((item, index) => (
+              <li key={index}>
+                <input
+                  type="radio"
+                  id={form.label + index}
+                  name={form.label}
+                  className="organize_own_selection"
+                  onChange={() => handleFieldChange(item.optionLabel)}
+                />
+                <label htmlFor={form.label + index}>{item.optionLabel}</label>
+                <span className="checkmark" />
+              </li>
+            ))}
+          </ul>
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
+      );
+    default:
+      return (
+        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+          <label>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </label>
+          <input
+            type={form.type}
+            className="form-control"
+            id="usr"
+            placeholder={form.placeholder}
+            onChange={(e) => handleFieldChange(e.target.value)}
+          />
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
+      );
+  }
+};
