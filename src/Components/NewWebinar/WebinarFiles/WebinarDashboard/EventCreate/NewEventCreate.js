@@ -407,8 +407,8 @@ const NewEventCreate = () => {
                       </div>
                     </div>
                 </div>
+                
                 <div className="clear-search">
-                    
                     <button
                       className="btn btn-outline-primary"
                     >
