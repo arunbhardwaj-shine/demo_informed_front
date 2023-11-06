@@ -8277,7 +8277,7 @@ svg.pencil_icon {
 }
 
 .view-modal #message_change {
-  color: $dark-blue;  
+  color: $dark-blue;
   font-size: 16px;
 }
 
@@ -10768,7 +10768,7 @@ img.change-password-image {
       transform: rotate(-180deg);
 
       span {
-        font-size: 48px;
+        font-size: 42px;
         color: #EEE;
         font-weight: 700;
         line-height: 45px;
@@ -10776,7 +10776,7 @@ img.change-password-image {
     }
 
     .question-action {
-      gap: 16px;
+      gap: 12px;
       display: flex;
 
       button {
@@ -10822,17 +10822,22 @@ img.change-password-image {
   }
 
   .poll-question-option {
-    padding: 24px 40px;
+    padding: 0px 5px 0 0;
     border: 1px dashed $primary-color;
     border-radius: 15px;
     margin: 0px 0 0 60px;
-    min-height: 545px;
-    height: 100%;
-    overflow-y: auto;
-    max-height: 545px;
+
   }
 
   .poll-question-create {
+    padding: 24px 30px 24px 35px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 565px;
+    max-height: 565px;
+
+
     .name_added {
       .login-validation {
         position: relative;
