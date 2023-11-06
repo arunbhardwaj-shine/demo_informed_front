@@ -10822,7 +10822,7 @@ img.change-password-image {
   }
 
   .poll-question-option {
-    padding: 0px 5px 0 0;
+    padding: 4px 5px 4px 0;
     border: 1px dashed $primary-color;
     border-radius: 15px;
     margin: 0px 0 0 60px;
@@ -10830,7 +10830,7 @@ img.change-password-image {
   }
 
   .poll-question-create {
-    padding: 24px 30px 24px 35px;
+    padding: 20px 30px 20px 35px;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -16876,14 +16876,14 @@ img.change-password-image {
   display: none;
 }
 
-.webinarRegistrationBody {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0.55%, rgba(255, 255, 255, 0) 100%);
-  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.08);
-  border-radius: 32px;
-  padding: 18px 30px;
-  width: 100%;
-  border: 4px solid $white;
-}
+// .webinarRegistrationBody {
+//   background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0.55%, rgba(255, 255, 255, 0) 100%);
+//   box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.08);
+//   border-radius: 32px;
+//   padding: 18px 30px;
+//   width: 100%;
+//   border: 4px solid $white;
+// }
 
 .header-section {
   width: 100%;
@@ -17006,7 +17006,7 @@ img.change-password-image {
     flex-wrap: wrap;
     gap: 20px 2%;
     padding: 0 0 40px;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
     position: relative;
 
     &:after {
@@ -17078,12 +17078,77 @@ img.change-password-image {
   }
 }
 
-section.webinarRegistrationBody {
+.webinarRegistrationBody {
   flex: 0 0 100%;
 
-  #registration-form {
+  .reg-color-set {
+    gap: 0 15px;
+
     .form-group {
-      margin: 10px 0;
+      justify-content: space-between;
+      margin: 0;
+
+      &:first-child {
+        border-right: 1px dashed #0066be;
+        padding-right: 13px;
+      }
+
+      label {
+        flex: 0 0 auto;
+      }
+
+      .color-pick {
+        border-radius: 30px;
+        background: #EEE;
+        width: 100%;
+        padding: 4px 8px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        max-width: 130px;
+
+        input[type="color"] {
+          border-radius: 30px;
+          -webkit-appearance: none;
+          appearance: none;
+          width: 108px;
+          margin-left: -34px;
+          cursor: pointer;
+          padding-left: 40px;
+
+          &::-webkit-color-swatch {
+            border: none;
+            border-radius: 30px;
+            padding: 0;
+          }
+
+          &::-webkit-color-swatch-wrapper {
+            border: none;
+            border-radius: 30px;
+            padding: 0;
+          }
+        }
+
+        img {
+          max-width: 24px;
+          position: relative;
+          pointer-events: none
+        }
+      }
+    }
+  }
+
+  #registration-form {
+    .centered-input {
+      margin: 0 0 15px;
+
+      &:last-child {
+        margin: 0 0 20px;
+      }
+    }
+
+    .form-group {
+      margin: 0px 0 0;
 
       label {
         flex: 0 0 120px;
@@ -17092,6 +17157,10 @@ section.webinarRegistrationBody {
 
       .slt-opt {
         flex: 1 1;
+      }
+
+      .split-button-dropup {
+        margin: 0;
       }
 
       input[type="radio"],

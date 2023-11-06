@@ -328,7 +328,7 @@ const WebinarRegistration = () => {
     } finally {
       loader('hide');
     }
-    navigate("/new-event-create");
+    navigate("/event-listing");
   };
 
   const handleDragStart = (e, index) => {
@@ -499,16 +499,11 @@ const WebinarRegistration = () => {
                               <img src={path_image + "add-choice.svg"} alt="" />
                             </span>
                           </div>
-                          <section className="webinarRegistrationBody">
+                          <div className="webinarRegistrationBody">
                             <div className="sec1">
-                              <div className="add_hcp_boxes">
-                                <div className="form_action">
-                                  <div className="row">
                                     <div id="registration-form">
                                       {formData &&
                                       Object.keys(formData)?.length ? (
-                                        <div>
-                                          <div className="center-align-form">
                                             <div>
                                               {formData?.body?.map(
                                                 (data, index) => (
@@ -669,19 +664,45 @@ const WebinarRegistration = () => {
                                                         </svg>
                                                       </button>
                                                     </div>
+                                                    
                                                   </div>
                                                 )
                                               )}
                                             </div>
-                                          </div>
-                                        </div>
                                       ) : null}
                                     </div>
-                                  </div>
-                                </div>
-                              </div>
+                                    <div className="d-flex align-items-center reg-color-set">
+                                                    <div className="form-group">
+                                                      <label>Select label color</label>
+                                                      <div className="option-action">
+                                                        <div className="color-pick">
+                                                          <img
+                                                            src={path_image + "color-picker.svg"}
+                                                            alt=""
+                                                          />
+                                                          <input
+                                                            type="color"
+                                                            title="Choose your color"/>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <div className="form-group">
+                                                      <label>Select background color</label>
+                                                      <div className="option-action">
+                                                        <div className="color-pick">
+                                                          <img
+                                                            src={path_image + "color-picker.svg"}
+                                                            alt=""
+                                                          />
+                                                          <input
+                                                            type="color"
+                                                            title="Choose your color"/>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    </div>
                             </div>
-                        </section>
+                        </div>
                         </div>
                         <Button type="submit" className="save">Save</Button>
                   </Form>
