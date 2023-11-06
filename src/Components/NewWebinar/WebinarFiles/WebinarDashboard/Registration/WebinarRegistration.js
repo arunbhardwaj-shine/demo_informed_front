@@ -219,7 +219,7 @@ const WebinarRegistration = () => {
           let newObj = {
             label: isSelectedName,
             inputType: "selection",
-            placeholder: `Please enter ${isSelectedName}`,
+            placeholder: "",
             option: [],
             required: "",
           };
