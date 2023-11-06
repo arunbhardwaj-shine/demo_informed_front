@@ -322,6 +322,9 @@ const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
         options={form.inputType === "selection-country" ? countryList : options}
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
+        styles={{
+          textTransform:"capitalize"
+        }}
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
       />
     );
