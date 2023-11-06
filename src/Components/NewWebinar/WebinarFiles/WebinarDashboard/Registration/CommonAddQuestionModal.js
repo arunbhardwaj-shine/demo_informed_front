@@ -4,7 +4,13 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 import RegistrationValidation from "./AddQuestionValidation";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
+const CommonAddQuestionModal = ({
+  show,
+  onClose,
+  handleSave,
+  formLabel,
+  fieldData,
+}) => {
   const [inputOptions, setInputOption] = useState([
     { label: "Text", value: "text" },
     { label: "Email", value: "email" },
@@ -22,10 +28,16 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
     inputType: "",
     placeholder: "",
     required: "",
-    option: [],
+    option: "",
   });
   const [error, setError] = useState({});
-  useEffect(() => {}, [show]);
+  useEffect(() => {
+   
+    if (fieldData) {
+      let editFormData = fieldData;
+      setFormData(editFormData);
+    }
+  }, [show]);
   const handleClose = () => {
     setFormData({
       label: "",
@@ -64,9 +76,8 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
   };
 
   const saveClicked = (e) => {
-    console.log(formData,'==>save')
     e.preventDefault();
-    const error = RegistrationValidation(formData, formLabel);
+    const error = RegistrationValidation(formData, formLabel, fieldData);
 
     if (Object.keys(error)?.length) {
       // toast.error(error[Object.keys(error)[0]]);
@@ -125,7 +136,7 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add Fields
+              {fieldData ? "Edit Fields" : "Add Fields"}
             </h5>
             <button
               type="button"
@@ -161,6 +172,19 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                                   error?.inputType
                                     ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                     : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                }
+                                value={
+                                  inputOptions.findIndex(
+                                    (item, index) =>
+                                      item?.value == formData?.inputType
+                                  ) != -1
+                                    ? inputOptions[
+                                        inputOptions.findIndex(
+                                          (item, index) =>
+                                            item?.value == formData?.inputType
+                                        )
+                                      ]
+                                    : ""
                                 }
                                 onChange={(e) =>
                                   handleChange(e?.value, "inputType")
@@ -207,6 +231,19 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                                 name="required"
                                 placeholder="Select required type"
                                 className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                value={
+                                  requiredOption?.findIndex(
+                                    (item, index) =>
+                                      item?.value == formData?.required
+                                  ) != -1
+                                    ? requiredOption[
+                                        requiredOption?.findIndex(
+                                          (item, index) =>
+                                            item?.value == formData?.required
+                                        )
+                                      ]
+                                    : ""
+                                }
                                 onChange={(e) =>
                                   handleChange(e?.value, "required")
                                 }
@@ -214,7 +251,8 @@ const CommonAddQuestionModal = ({ show, onClose, handleSave, formLabel }) => {
                             </div>
                           </div>
                           {formData?.inputType == "text" ||
-                          formData?.inputType == "email" ? (
+                          formData?.inputType == "email" ||
+                          formData?.inputType == "textarea" ? (
                             <div className="col-12 col-md-6">
                               <div className="form-group">
                                 <label htmlFor="">Placeholder</label>
