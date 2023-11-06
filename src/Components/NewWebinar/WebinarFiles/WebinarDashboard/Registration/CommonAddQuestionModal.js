@@ -32,6 +32,7 @@ const CommonAddQuestionModal = ({
   });
   const [error, setError] = useState({});
   useEffect(() => {
+   
     if (fieldData) {
       let editFormData = fieldData;
       setFormData(editFormData);
@@ -75,9 +76,8 @@ const CommonAddQuestionModal = ({
   };
 
   const saveClicked = (e) => {
-    console.log(formData, "==>save");
     e.preventDefault();
-    const error = RegistrationValidation(formData, formLabel);
+    const error = RegistrationValidation(formData, formLabel, fieldData);
 
     if (Object.keys(error)?.length) {
       // toast.error(error[Object.keys(error)[0]]);
@@ -136,7 +136,7 @@ const CommonAddQuestionModal = ({
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add Fields
+              {fieldData ? "Edit Fields" : "Add Fields"}
             </h5>
             <button
               type="button"

@@ -36,7 +36,8 @@ const WebinarRegistration = () => {
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
   const [errorMsg, setErrorMsg] = useState("");
-  const [editFieldData, setEditFieldData] = useState();
+  const [index, setIndex] = useState();
+  const [fieldData, setFieldData] = useState();
 
   useEffect(() => {
     getWebinarData();
@@ -48,7 +49,7 @@ const WebinarRegistration = () => {
       const response = await getData(
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
-      const hadData = response?.data?.data ? response?.data?.data : "";
+      const hadData = response?.data?.data;
 
       setEventData({
         ...eventData,
@@ -57,6 +58,7 @@ const WebinarRegistration = () => {
       });
       const newFormData = JSON.parse(hadData?.content);
       setFormData(newFormData);
+
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
     } catch (err) {
@@ -183,13 +185,34 @@ const WebinarRegistration = () => {
   };
 
   const handleAddQuestionModalClose = () => {
+    setIndex();
+    setFieldData();
     setModal(false);
   };
 
   const handleModalSave = (form) => {
     let updateFormBody = formData?.body;
-    updateFormBody.push(form);
+    if (fieldData) {
+      updateFormBody[index] = form;
+    } else {
+      updateFormBody.push(form);
+    }
+
     setFormData({ ...formData, body: updateFormBody });
+  };
+
+  const editFieldData = (e, index) => {
+    e.preventDefault();
+    setIndex(index);
+    setFieldData(formData?.body[index]);
+    setModal(true);
+  };
+
+  const deleteField = (e, data, index) => {
+    e.preventDefault();
+    let updatedFormBody = formData?.body;
+    updatedFormBody?.splice(index, 1);
+    setFormData({ ...formData, body: updatedFormBody });
   };
 
   const handleChange = (e, isSelectedName) => {
@@ -215,7 +238,67 @@ const WebinarRegistration = () => {
             required: "",
           };
           updateFormBody?.push(newObj);
-        } else {
+        } else if (isSelectedName === "travel") {
+          if (e.target.checked) {
+            let newObj = {
+              label: "I would like to:",
+              inputType: "radio",
+              placeholder: "",
+              options: [
+                {
+                  optionLabel: "Organize my own travel",
+                  optionValue: "Organize my own travel",
+                },
+                {
+                  optionLabel:
+                    "Have my travel arranged by the meeting organizers",
+                  optionValue:
+                    "Have my travel arranged by the meeting organizers",
+                },
+              ],
+              required: "",
+            };
+            updateFormBody.push(newObj);
+          } else {
+            let index = updateFormBody.findIndex(
+              (item) => item.label === "I would like to"
+            );
+            if (index > -1) {
+              updateFormBody.splice(index, 1);
+            }
+          }
+        }
+
+        //   if (isSelectedName === "travel") {
+        //     let newObj = {
+        //         label: "I would like to",
+        //         inputType: "radio",
+        //         placeholder: "",
+        //         options: [
+        //             { optionLabel: "Organize my own travel", optionValue: " own travel" },
+        //             { optionLabel: "Have my travel arranged by the meeting organizers", optionValue: "meeting organizers" },
+        //         ],
+        //         required: "",
+        //     };
+        //     updateFormBody.push(newObj);
+        // } else if (isSelectedName === "secondOption") {
+        //     let newObj = {
+        //         label: "Second Option",
+        //         inputType: "text",
+        //         placeholder: "Type your label here",
+        //         required: "",
+        //     };
+        //     updateFormBody.push(newObj);
+
+        //     let newObj2 = {
+        //         label: "Another Input",
+        //         inputType: "text",
+        //         placeholder: "Type another label here",
+        //         required: "",
+        //     };
+        //     updateFormBody.push(newObj2);
+        // }
+        else {
           let newObj = {
             label: isSelectedName,
             inputType: "selection",
@@ -244,20 +327,7 @@ const WebinarRegistration = () => {
     } else {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
-  };
-
-  const editField = (e, index) => {
-    e.preventDefault();
-
-    setEditFieldData(formData?.body[index]);
-    setModal(true);
-  };
-
-  const deleteField = (e, data, index) => {
-    e.preventDefault();
-    let updatedFormBody = formData?.body;
-    updatedFormBody?.splice(index, 1);
-    setFormData({ ...formData, body: updatedFormBody });
+    console.log(formData, "==>formData");
   };
 
   // const saveClicked = async (e) => {
@@ -302,6 +372,7 @@ const WebinarRegistration = () => {
   // };
 
   const saveClicked = async (e) => {
+    console.log(formData, "savedData");
     e.preventDefault();
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
@@ -332,6 +403,7 @@ const WebinarRegistration = () => {
         body: [],
         footerImageUrl: "",
       });
+      console.log(formData, "===>formData");
       setEventData({ event_id: "", company_id: "" });
       setFile("");
       setFoot("");
@@ -505,6 +577,40 @@ const WebinarRegistration = () => {
                             }
                             onChange={(e) => handleChange(e, "state")}
                           />
+
+                          {/* <Form.Check
+                                      className="webinar-checkbox"
+                                      inline
+                                      label="I would like to:"
+                                      name="travel"
+                                      type="checkbox"
+                                      checked={
+                                        formData?.body?.findIndex(
+                                          (item) => item?.label?.toLowerCase() === "i would like to:"
+                                        ) !== -1
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={(e) => handleChange(e, "travel")}
+                                    /> */}
+
+                          <Form.Check
+                            className="webinar-checkbox"
+                            inline
+                            label="Second Option"
+                            name="secondOption"
+                            type="checkbox"
+                            checked={
+                              formData?.body?.findIndex(
+                                (item) =>
+                                  item?.label?.toLowerCase() === "second option"
+                              ) !== -1
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => handleChange(e, "secondOption")}
+                          />
+
                           <span
                             className="add-choice"
                             onClick={() => setModal(true)}
@@ -565,8 +671,15 @@ const WebinarRegistration = () => {
                                                                 data?.inputType
                                                               }
                                                               name={data?.label}
+                                                              value={
+                                                                item?.optionValue
+                                                              }
                                                             />
-                                                            <label htmlFor="">
+                                                            <label
+                                                              htmlFor={
+                                                                item?.optionValue
+                                                              }
+                                                            >
                                                               {
                                                                 item?.optionLabel
                                                               }
@@ -647,13 +760,9 @@ const WebinarRegistration = () => {
                                                     )}
                                                     <button
                                                       className="btn-edit"
-                                                      onClick={(e) => {
-                                                        editField(
-                                                          e,
-                                                          data,
-                                                          index
-                                                        );
-                                                      }}
+                                                      onClick={(e) =>
+                                                        editFieldData(e, index)
+                                                      }
                                                     >
                                                       <img
                                                         title="Edit"
@@ -954,7 +1063,7 @@ const WebinarRegistration = () => {
         onClose={handleAddQuestionModalClose}
         handleSave={handleModalSave}
         formLabel={formData?.body}
-        fieldData={editFieldData}
+        fieldData={fieldData}
       />
     </>
   );
