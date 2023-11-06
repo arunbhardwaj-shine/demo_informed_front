@@ -97,7 +97,7 @@ const MarketingEditReader = () => {
     local: { value: "" },
     address: [],
     logActivity: "",
-    logActivityDate: new Date(),
+    logActivityDate:  moment(new Date(), "MM/DD/YYYY").toDate(),
     task: { value: "" },
     nextContact: new Date(
       moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
@@ -750,7 +750,7 @@ const MarketingEditReader = () => {
     const updateLogs = [...logs];
     let userD = { ...userInputs };
     userD.logActivity = updateLogs[index].value;
-    userD.logActivityDate = new Date(updateLogs[index].date);
+    userD.logActivityDate =   moment(updateLogs[index].date, "MM/DD/YYYY").toDate()
     // updateLogs.splice(index, 1);
 
     setUserInputs(userD);
@@ -1560,7 +1560,7 @@ const MarketingEditReader = () => {
                         let newData = [...logs];
                         let userD = { ...userInputs };
                         userD.logActivity = "";
-                        userD.logActivityDate = new Date();
+                        userD.logActivityDate =  moment(new Date(), "MM/DD/YYYY").toDate();
 
                         if (currentIndex == -1) {
                           newData.push({
