@@ -295,7 +295,7 @@ const CommonAddEventModel = ({
                                 </div>
                                 </div>
                                 <div className="col-12 col-md-12">
-                                  <span class="add-choice">Add data field<img src={path_image+"add-choice.svg"} alt=""/></span>
+                                  <span class="add-choice">Add Speaker<img src={path_image+"add-choice.svg"} alt=""/></span>
                                 </div>
                             </div>
                           </div>
