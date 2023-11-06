@@ -190,6 +190,7 @@ const WebinarRegistration = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
+   
     if (isSelectedName) {
       let updateFormBody = formData?.body;
 
@@ -212,7 +213,63 @@ const WebinarRegistration = () => {
             required: "",
           };
           updateFormBody?.push(newObj);
-        } else {
+        } 
+        
+       else if (isSelectedName === "travel") {
+          if (e.target.checked) {
+            let newObj = {
+              label: "I would like to:",
+              inputType: "radio",
+              placeholder: "",
+              options: [
+                { optionLabel: "Organize my own travel", optionValue: "Organize my own travel" },
+                { optionLabel: "Have my travel arranged by the meeting organizers", optionValue: "Have my travel arranged by the meeting organizers" },
+              ],
+              required: "",
+            };
+            updateFormBody.push(newObj);
+          } else {
+            let index = updateFormBody.findIndex(
+              (item) => item.label === "I would like to"
+            );
+            if (index > -1) {
+              updateFormBody.splice(index, 1);
+            }
+          }
+        }
+
+
+      //   if (isSelectedName === "travel") {
+      //     let newObj = {
+      //         label: "I would like to",
+      //         inputType: "radio",
+      //         placeholder: "",
+      //         options: [
+      //             { optionLabel: "Organize my own travel", optionValue: " own travel" },
+      //             { optionLabel: "Have my travel arranged by the meeting organizers", optionValue: "meeting organizers" },
+      //         ],
+      //         required: "",
+      //     };
+      //     updateFormBody.push(newObj);
+      // } else if (isSelectedName === "secondOption") {
+      //     let newObj = {
+      //         label: "Second Option",
+      //         inputType: "text",
+      //         placeholder: "Type your label here",
+      //         required: "", 
+      //     };
+      //     updateFormBody.push(newObj);
+
+        
+      //     let newObj2 = {
+      //         label: "Another Input",
+      //         inputType: "text",
+      //         placeholder: "Type another label here",
+      //         required: "",
+      //     };
+      //     updateFormBody.push(newObj2);
+      // }
+        else {
           let newObj = {
             label: isSelectedName,
             inputType: "selection",
@@ -241,6 +298,7 @@ const WebinarRegistration = () => {
     } else {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
+    console.log(formData,'==>formData')
   };
 
   const deleteField = (e, data, index) => {
@@ -320,6 +378,7 @@ const WebinarRegistration = () => {
         body: [],
         footerImageUrl: "",
       });
+      console.log(formData,'===>formData')
       setEventData({ event_id: "", company_id: "" });
       setFile("");
       setFoot("");
@@ -491,6 +550,41 @@ const WebinarRegistration = () => {
                               }
                               onChange={(e) => handleChange(e, "state")}
                             />
+
+                              {/* <Form.Check
+                                      className="webinar-checkbox"
+                                      inline
+                                      label="I would like to:"
+                                      name="travel"
+                                      type="checkbox"
+                                      checked={
+                                        formData?.body?.findIndex(
+                                          (item) => item?.label?.toLowerCase() === "i would like to:"
+                                        ) !== -1
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={(e) => handleChange(e, "travel")}
+                                    /> */}
+
+
+                                <Form.Check
+                                    className="webinar-checkbox"
+                                    inline
+                                    label="Second Option"
+                                    name="secondOption" 
+                                    type="checkbox"
+                                    checked={
+                                        formData?.body?.findIndex(
+                                            (item) => item?.label?.toLowerCase() === "second option"
+                                        ) !== -1
+                                            ? true
+                                            : false
+                                    }
+                                    onChange={(e) => handleChange(e, "secondOption")}
+                                />
+
+
                             <span
                               className="add-choice"
                               onClick={() => setModal(true)}
@@ -539,7 +633,7 @@ const WebinarRegistration = () => {
 
                                                       {data?.inputType ===
                                                       "radio" ? (
-                                                        data?.option?.map(
+                                                        data?.options?.map(
                                                           (item, index) => (
                                                             <div
                                                               className="check"
@@ -550,8 +644,9 @@ const WebinarRegistration = () => {
                                                                   data?.inputType
                                                                 }
                                                                 name={data?.label}
+                                                                value={item?.optionValue}
                                                               />
-                                                              <label htmlFor="">
+                                                              <label htmlFor={item?.optionValue}>
                                                                 {
                                                                   item?.optionLabel
                                                                 }
