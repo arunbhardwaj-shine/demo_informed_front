@@ -112,17 +112,22 @@ const RegistrationPage = () => {
                                   </div>
                                   <div className="center-sided-inside">
                                     <div className="row">
-                                    {formData?.content?.body?.map((form, index) => (
-  <div className="col-sm-12 col-md-12 consent-form-list" key={index}>
-    <label>{form.label}</label>
-    <input
-      type={form.label}
-      className="form-control"
-      id="usr"
-      placeholder={form.placeholder}
-    />
-  </div>
-))}
+                                      {formData?.content?.body?.map(
+                                        (form, index) => (
+                                          <div
+                                            className="col-sm-12 col-md-12 consent-form-list"
+                                            key={index}
+                                          >
+                                            <label>{form.label}</label>
+                                            <input
+                                              type={form.label}
+                                              className="form-control"
+                                              id="usr"
+                                              placeholder={form.placeholder}
+                                            />
+                                          </div>
+                                        )
+                                      )}
                                       {/* <div className="col-sm-12 col-md-12 consent-form-list">
                                         <label>Name</label>
                                         <input

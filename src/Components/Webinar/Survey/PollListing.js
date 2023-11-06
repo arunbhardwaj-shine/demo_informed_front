@@ -25,7 +25,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const settings = {
@@ -54,10 +54,13 @@ const settings = {
   ],
 };
 export default function PollListing() {
+  let navigate= useNavigate();
+
   const location = useLocation();
   const event_code = location?.state?.event_id
   ? location?.state?.event_id
   : "";
+ 
   // console.log(location,event_code,"event_code");
   const slickRef = useRef("");
   const [showUploadMenu, setShowUploadMenu] = useState(false);
@@ -79,12 +82,26 @@ export default function PollListing() {
   const [questions, setQuestions] = useState([]);
   const [originalQuestions, setOriginalQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [questionFlag, setQuestionFlag] = useState(0);
 
   const [selectedQuestion, setSelectedQuestion] = useState(
     questions[currentIndex]
   );
 
   useEffect(() => {
+    if(!event_code){
+      toast.warning("Event Not Found", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      navigate("/event-listing");
+   
+    }
     getApiData();
   }, []);
 
@@ -194,7 +211,7 @@ export default function PollListing() {
  
 
     if (e.target.id == "YesNo") {
-      if(originalQuestions[key].questionData.answerOption?.length && originalQuestions[key]?.questionData.answerType==e.target.id){
+      if(originalQuestions[key] && originalQuestions[key].questionData.answerOption?.length && originalQuestions[key]?.questionData.answerType==e.target.id){
         updatedQuestions[key].questionData.answerOption =  originalQuestions[key].questionData.answerOption
         updatedQuestions[key].questionDataErrors.answerOptionError=originalQuestions[key].questionData.answerOption.map((data) => {
           return {
@@ -226,7 +243,7 @@ export default function PollListing() {
       );
     } }else {
 
-      if(originalQuestions[key].questionData.answerOption?.length && originalQuestions[key]?.questionData.answerType==e.target.id){
+      if( originalQuestions[key] &&  originalQuestions[key].questionData.answerOption?.length && originalQuestions[key]?.questionData.answerType==e.target.id){
         updatedQuestions[key].questionData.answerOption =  originalQuestions[key].questionData.answerOption
         updatedQuestions[key].questionDataErrors.answerOptionError=originalQuestions[key].questionData.answerOption.map((data) => {
           return {
@@ -465,6 +482,7 @@ export default function PollListing() {
     if (!isValid) {
       return;
     }
+    setQuestionFlag(true);
     const key = questions.length;
     let newQuestion = {
       questionData: {
@@ -486,6 +504,8 @@ export default function PollListing() {
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
     slickRef.current.slickGoTo(questions?.length);
     setSelectedQuestion(newQuestion);
+    setQuestionFlag(false);
+
   };
   const handleDelete = (key) => {
     setPopupMessage({
@@ -715,7 +735,7 @@ export default function PollListing() {
                         </svg>
                       </Button>
                       <Button
-                        className="add-question btn-bordered"
+                        className={`add-question btn-bordered ${questionFlag?"disabled":""}`}
                         onClick={handleAddQuestion}
                       >
                         Add Question +
