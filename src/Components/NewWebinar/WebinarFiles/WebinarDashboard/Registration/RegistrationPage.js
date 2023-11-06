@@ -322,9 +322,7 @@ const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
         options={form.inputType === "selection-country" ? countryList : options}
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
-        styles={{
-          textTransform:"capitalize"
-        }}
+        
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
       />
     );
@@ -340,7 +338,9 @@ const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
               className="organize_own_selection"
               onChange={() => handleFieldChange(item.optionLabel)}
             />
-            <label htmlFor={label + index}>{item.optionLabel}</label>
+            <label style={{
+          textTransform:"capitalize"
+        }} htmlFor={label + index}>{item.optionLabel}</label>
             <span className="checkmark" />
           </li>
         ))}
@@ -360,7 +360,9 @@ const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
 
   return (
     <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-      <label>
+      <label style={{
+          textTransform:"capitalize"
+        }}>
         {form.label}
         {isRequired ? "*" : ""}
       </label>
