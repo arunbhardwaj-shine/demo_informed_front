@@ -114,41 +114,6 @@ const WebinarRegistration = () => {
     fileInput.click();
   };
 
-  // const handleFileSelect = (e, isSelectedName) => {
-  //   const fileInput = document.createElement('input');
-  //   const validExtensions = ['png', 'jpeg'];
-  //   fileInput.type = 'file';
-  //   fileInput.style.display = 'none';
-  //   fileInput.accept = '.png, .jpeg';
-  //   fileInput.addEventListener('change', async (e) => {
-  //     const file = e.target.files[0];
-
-  //     if (file) {
-  //       const extension = file.name.split('.').pop().toLowerCase();
-  //       if (isSelectedName === 'headerImageUrl') {
-  //         setFile(URL.createObjectURL(file));
-  //         const imgElement = document.querySelector('.header-img');
-  //       }
-  //       if (isSelectedName === 'footerImageUrl') {
-  //         const imgElement = document.querySelector('.footer-img');
-  //         setFoot(URL.createObjectURL(file));
-  //       }
-  //       if (!validExtensions.includes(extension)) {
-  //         setErrorMsg(`Invalid file extension. Please select a .png or .jpeg file.`);
-  //       } else {
-  //         setErrorMsg('');
-  //       try {
-  //         const uploadedImageUrl = await uploadImageToServer(file);
-  //         setFormData({ ...formData, [isSelectedName]: uploadedImageUrl });
-  //       } catch (error) {
-  //         console.error('Error uploading image:', error);
-  //       }
-  //     }
-  //     }
-  //   });
-  // fileInput.click();
-  // };
-
   const uploadImageToServer = async (file) => {
     try {
       const validExtensions = ["png", "jpeg"];
@@ -238,71 +203,24 @@ const WebinarRegistration = () => {
             required: "",
           };
           updateFormBody?.push(newObj);
-        } else if (isSelectedName === "travel") {
-          if (e.target.checked) {
-            let newObj = {
-              label: "I would like to:",
-              inputType: "radio",
-              placeholder: "",
-              options: [
-                {
-                  optionLabel: "Organize my own travel",
-                  optionValue: "Organize my own travel",
-                },
-                {
-                  optionLabel:
-                    "Have my travel arranged by the meeting organizers",
-                  optionValue:
-                    "Have my travel arranged by the meeting organizers",
-                },
-              ],
-              required: "",
-            };
-            updateFormBody.push(newObj);
-          } else {
-            let index = updateFormBody.findIndex(
-              (item) => item.label === "I would like to"
-            );
-            if (index > -1) {
-              updateFormBody.splice(index, 1);
-            }
-          }
-        }
-
-        //   if (isSelectedName === "travel") {
-        //     let newObj = {
-        //         label: "I would like to",
-        //         inputType: "radio",
-        //         placeholder: "",
-        //         options: [
-        //             { optionLabel: "Organize my own travel", optionValue: " own travel" },
-        //             { optionLabel: "Have my travel arranged by the meeting organizers", optionValue: "meeting organizers" },
-        //         ],
-        //         required: "",
-        //     };
-        //     updateFormBody.push(newObj);
-        // } else if (isSelectedName === "secondOption") {
-        //     let newObj = {
-        //         label: "Second Option",
-        //         inputType: "text",
-        //         placeholder: "Type your label here",
-        //         required: "",
-        //     };
-        //     updateFormBody.push(newObj);
-
-        //     let newObj2 = {
-        //         label: "Another Input",
-        //         inputType: "text",
-        //         placeholder: "Type another label here",
-        //         required: "",
-        //     };
-        //     updateFormBody.push(newObj2);
-        // }
-        else {
+        } else if (isSelectedName == "travel accomodation") {
+          let newObj = {
+            label: isSelectedName,
+            inputType: "radio",
+            option: [
+              { optionLabel: "Organize my own travel" },
+              {
+                optionLabel:
+                  "Have my travel arranged by the meeting organizers",
+              },
+            ],
+          };
+          updateFormBody?.push(newObj);
+        } else {
           let newObj = {
             label: isSelectedName,
             inputType: "selection",
-            placeholder: "",
+            placeholder: `Please enter ${isSelectedName}`,
             option: [],
             required: "",
           };
@@ -372,7 +290,7 @@ const WebinarRegistration = () => {
   // };
 
   const saveClicked = async (e) => {
-    console.log(formData, "savedData");
+    console.log("form data--->",formData );
     e.preventDefault();
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
@@ -578,21 +496,25 @@ const WebinarRegistration = () => {
                             onChange={(e) => handleChange(e, "state")}
                           />
 
-                          {/* <Form.Check
-                                      className="webinar-checkbox"
-                                      inline
-                                      label="I would like to:"
-                                      name="travel"
-                                      type="checkbox"
-                                      checked={
-                                        formData?.body?.findIndex(
-                                          (item) => item?.label?.toLowerCase() === "i would like to:"
-                                        ) !== -1
-                                          ? true
-                                          : false
-                                      }
-                                      onChange={(e) => handleChange(e, "travel")}
-                                    /> */}
+                          <Form.Check
+                            className="webinar-checkbox"
+                            inline
+                            label="Travel accomodation"
+                            name="travel"
+                            type="checkbox"
+                            checked={
+                              formData?.body?.findIndex(
+                                (item) =>
+                                  item?.label?.toLowerCase() ==
+                                  "travel accomodation"
+                              ) !== -1
+                                ? true
+                                : false
+                            }
+                            onChange={(e) =>
+                              handleChange(e, "travel accomodation")
+                            }
+                          />
 
                           <Form.Check
                             className="webinar-checkbox"
@@ -772,8 +694,19 @@ const WebinarRegistration = () => {
                                                         editFieldData(e, index)
                                                       }
                                                     >
-                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z" fill="#ffffff"/>
+                                                      <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="20"
+                                                        height="20"
+                                                        viewBox="0 0 20 20"
+                                                        fill="none"
+                                                      >
+                                                        <path
+                                                          fill-rule="evenodd"
+                                                          clip-rule="evenodd"
+                                                          d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z"
+                                                          fill="#ffffff"
+                                                        />
                                                       </svg>
                                                     </button>
                                                     <button
