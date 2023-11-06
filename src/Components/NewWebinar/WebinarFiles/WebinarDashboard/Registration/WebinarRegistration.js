@@ -660,55 +660,63 @@ const WebinarRegistration = () => {
 
                                                     {data?.inputType ===
                                                     "radio" ? (
-                                                      data?.option?.map(
-                                                        (item, index) => (
-                                                          <div
-                                                            className="check"
-                                                            key={index}
-                                                          >
-                                                            <input
-                                                              type={
-                                                                data?.inputType
-                                                              }
-                                                              name={data?.label}
-                                                              value={
-                                                                item?.optionValue
-                                                              }
-                                                            />
-                                                            <label
-                                                              htmlFor={
-                                                                item?.optionValue
-                                                              }
+                                                      <div className="btn-container">
+                                                        {data?.option?.map(
+                                                          (item, index) => (
+                                                            <div
+                                                              className="check"
+                                                              key={index}
                                                             >
-                                                              {
-                                                                item?.optionLabel
-                                                              }
-                                                            </label>
-                                                          </div>
-                                                        )
-                                                      )
+                                                              <input
+                                                                type={
+                                                                  data?.inputType
+                                                                }
+                                                                name={
+                                                                  data?.label
+                                                                }
+                                                                value={
+                                                                  item?.optionValue
+                                                                }
+                                                              />
+                                                              <label
+                                                                htmlFor={
+                                                                  item?.optionValue
+                                                                }
+                                                              >
+                                                                {
+                                                                  item?.optionLabel
+                                                                }
+                                                              </label>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
                                                     ) : data?.inputType ==
                                                       "checkbox" ? (
-                                                      data?.option?.map(
-                                                        (item, index) => (
-                                                          <div
-                                                            className="check"
-                                                            key={index}
-                                                          >
-                                                            <input
-                                                              type={
-                                                                data?.inputType
-                                                              }
-                                                              name={data?.label}
-                                                            />
-                                                            <label htmlFor="">
-                                                              {
-                                                                item?.optionLabel
-                                                              }
-                                                            </label>
-                                                          </div>
-                                                        )
-                                                      )
+                                                      <div className="btn-container">
+                                                        {data?.option?.map(
+                                                          (item, index) => (
+                                                            <div
+                                                              className="check"
+                                                              key={index}
+                                                            >
+                                                              <input
+                                                                type={
+                                                                  data?.inputType
+                                                                }
+                                                                name={
+                                                                  data?.label
+                                                                }
+                                                              />
+                                                              <label htmlFor="">
+                                                                {
+                                                                  item?.optionLabel
+                                                                }
+                                                              </label>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
                                                     ) : data?.inputType ==
                                                       "selection" ? (
                                                       <div
