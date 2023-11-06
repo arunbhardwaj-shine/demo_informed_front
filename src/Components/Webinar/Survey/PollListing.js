@@ -398,6 +398,7 @@ export default function PollListing() {
       const apiData = await getListingData(event_code);
       // slickRef.current.slickGoTo(0);
       // setCurrentIndex(0);
+      setQuestionFlag(false)
       loader("hide");
 
       setQuestions(apiData);
@@ -504,7 +505,7 @@ export default function PollListing() {
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
     slickRef.current.slickGoTo(questions?.length);
     setSelectedQuestion(newQuestion);
-    setQuestionFlag(false);
+    // setQuestionFlag(false);
 
   };
   const handleDelete = (key) => {
