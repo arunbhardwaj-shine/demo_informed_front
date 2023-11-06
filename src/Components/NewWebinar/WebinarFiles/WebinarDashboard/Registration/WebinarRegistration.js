@@ -823,6 +823,36 @@ const WebinarRegistration = () => {
                                       </div>
                                     ) : null}
                                   </div>
+                                  <div className="d-flex align-items-center reg-color-set">
+                                                    <div className="form-group">
+                                                      <label>Select label color</label>
+                                                      <div className="option-action">
+                                                        <div className="color-pick">
+                                                          <img
+                                                            src={path_image + "color-picker.svg"}
+                                                            alt=""
+                                                          />
+                                                          <input
+                                                            type="color"
+                                                            title="Choose your color"/>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <div className="form-group">
+                                                      <label>Select background color</label>
+                                                      <div className="option-action">
+                                                        <div className="color-pick">
+                                                          <img
+                                                            src={path_image + "color-picker.svg"}
+                                                            alt=""
+                                                          />
+                                                          <input
+                                                            type="color"
+                                                            title="Choose your color"/>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    </div>
                                 </div>
                               </div>
                             </div>
