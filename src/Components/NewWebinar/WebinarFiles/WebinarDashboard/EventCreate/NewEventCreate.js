@@ -493,9 +493,9 @@ const NewEventCreate = () => {
                                 }}
                               >
                                 <img
-                                  title="Webinar"
+                                  title="Polls"
                                   src={path_image + "polling-icon.svg"}
-                                  alt="Webinar"
+                                  alt="Polls"
                                 />
                               </button>
                         </div>
