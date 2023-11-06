@@ -289,7 +289,9 @@ export default RegistrationPage;
 const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
   const [countryList, setCountryList] = useState(CountryList);
   const  label = form.label.replace(/ /g,"_")
-
+if(label=="country"){
+  form.inputType = "selection-country"
+}
   const handleFieldChange = (value) => {
     setFormFieldData((prevData) => ({
       ...prevData,
@@ -316,7 +318,7 @@ const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
       label: op.optionLabel,
       value: op.optionLabel,
     }));
-
+console.log(form.inputType,"countryListcountryList");
     fieldInput = (
       <Select
         options={form.inputType === "selection-country" ? countryList : options}
