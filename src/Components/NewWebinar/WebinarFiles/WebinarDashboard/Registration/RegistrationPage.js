@@ -13,6 +13,8 @@ const RegistrationPage = () => {
   const location = useLocation();
   const event_code = new URLSearchParams(location.search).get("event");
   const [formData, setFormData] = useState();
+  const [formFieldData, setFormFieldData] = useState({});
+  const [formErrors, setFormErrors] = useState({}); // Create a state to store form validation errors
 
   useEffect(() => {
     EventDataFun();
@@ -38,14 +40,45 @@ const RegistrationPage = () => {
       console.log("-err", err);
     }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
+    const isValid = ValidateFormData();
+    // console.log(formErrors);
+    if (isValid) {
+      console.log("Form is valid. Submitting data:", formFieldData);
+    } else {
+      console.log("Form has errors. Please correct them.");
+    }
+  };
+
+  const ValidateFormData = () => {
+    const errors = {};
+
+    formData?.content?.body?.forEach((form) => {
+      const fieldValue = formFieldData[form.label];
+
+      if (form.required=='yes' && !fieldValue) {
+        errors[form.label] = `This field is required.`;
+        // errors[form.label] = `This ${form.label} is required.`;
+      } else {
+        errors[form.label] = ``;
+      }
+
+      if (form.inputType === "email" && fieldValue) {
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if (!emailRegex.test(fieldValue)) {
+          errors[form.label] = "Invalid email address.";
+        }
+      }
+    });
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
   };
   return (
     <>
-      <Col className="right-sidebar">
-        <div className="custom-container">
+ 
+        
           <Row>
             <div className="outer">
               <section className="webinarRegistrationBody">
@@ -66,13 +99,13 @@ const RegistrationPage = () => {
                           <div className="container">
                             <div className="row">
                               <div className="factor-season-inner">
-                                <img
-                                  src={formData?.content?.headerImageUrl}
-                                  alt="No image"
-                                />
                                 <div className="row">
                                   <div className="col-sm-8 col-md-8">
                                     <div className="factor-season-left">
+                                      <img
+                                        src={formData?.content?.headerImageUrl}
+                                        alt="Header"
+                                      />
                                       <div className="factor__logo">
                                         <img
                                           src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
@@ -119,7 +152,13 @@ const RegistrationPage = () => {
                                     <div className="row">
                                       {formData?.content?.body?.map(
                                         (form, index) => (
-                                          <FormField form={form} key={index} />
+                                          <FormField
+                                            form={form}
+                                            key={index}
+                                            formFieldData={formFieldData}
+                                            setFormFieldData={setFormFieldData}
+                                            formErrors={formErrors}
+                                          />
                                         )
                                       )}
 
@@ -148,11 +187,11 @@ const RegistrationPage = () => {
                         <div className="container">
                           <div className="row">
                             <div className="footer-inner">
-                              <img
-                                src={formData?.content?.footerImageUrl}
-                                alt="No image"
-                              />
                               <div className="footer-left">
+                                <img
+                                  src={formData?.content?.footerImageUrl}
+                                  alt="Footer"
+                                />
                                 <div className="footer-logo">
                                   <img
                                     src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"
@@ -222,118 +261,147 @@ const RegistrationPage = () => {
               {/* <div style={{marginTop:'35px',marginBottom:'50px'}}>  <img className="footer-img" src={foot} /></div> */}
             </div>
           </Row>
-        </div>
-      </Col>
+       
     </>
   );
 };
 
 export default RegistrationPage;
 
-const FormField = ({ form }) => {
+const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
   const [countryList, setCountryList] = useState(CountryList);
-  if (form.label.toLowerCase() == "country") {
+  console.log(form);
+  const handleFieldChange = (value) => {
+    // Update the formFieldData state with the new value
+    setFormFieldData((prevData) => ({
+      ...prevData,
+      [form.label]: value,
+    }));
+  };
+
+  if (form.label.toLowerCase() === "country") {
     form.inputType = "selection-country";
   }
+
   switch (form.inputType) {
     case "textarea":
       return (
-        <>
-          <div className="col-sm-12 col-md-12 consent-form-list">
-            <label>{form.label}</label>
-            <textarea
-              className="form-control"
-              placeholder={form.placeholder}
-              cols="40"
-              rows="4"
-            ></textarea>
-          </div>
-        </>
+        <div className="col-sm-12 col-md-12 consent-form-list">
+          <label>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </label>
+          <textarea
+            className="form-control"
+            placeholder={form.placeholder}
+            cols="40"
+            rows="4"
+            onChange={(e) => handleFieldChange(e.target.value)}
+          ></textarea>
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
       );
     case "selection":
       return (
-        <>
-          <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-            <label>{form.label}</label>
-            <Select
-              options={form.option?.map((op) => ({
-                label: op.optionLabel,
-                value: op.optionLabel,
-              }))}
-              className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
-              isClearable
-            />
-          </div>
-        </>
+        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+          <label>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </label>
+          <Select
+            options={form.option?.map((op) => ({
+              label: op.optionLabel,
+              value: op.optionLabel,
+            }))}
+            className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+            isClearable
+            onChange={(selectedOption) => handleFieldChange(selectedOption)}
+          />
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
       );
     case "selection-country":
       return (
-        <>
-          <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-            <label>{form.label}</label>
-            <Select
-              options={countryList}
-              className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
-              isClearable
-            />
-          </div>
-        </>
+        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+          <label style={{ textTransform: "capitalize" }}>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </label>
+          <Select
+            options={countryList}
+            className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+            isClearable
+            onChange={(selectedOption) =>
+              handleFieldChange(selectedOption.value)
+            }
+          />
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
       );
     case "checkbox":
       return (
-        <>
-          <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-            <p>{form.label}</p>
-            {form.option?.map((item, index) => (
-              <li>
-                <input
-                  type={form.inputType}
-                  id={form.label + index}
-                  name={form.label}
-                  className="organize_own_selection"
-                />
-                <label htmlFor="organize-own">{item.optionLabel}</label>
-                <span className="checkmark" />
-              </li>
-            ))}
-          </div>
-        </>
+        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+          <p>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </p>
+          {form.option?.map((item, index) => (
+            <li key={index}>
+              <input
+                type="checkbox"
+                id={form.label + index}
+                name={form.label}
+                className="organize_own_selection"
+                onChange={() => handleFieldChange(item.optionLabel)}
+              />
+              <label htmlFor={form.label + index}>{item.optionLabel}</label>
+              <span className="checkmark" />
+            </li>
+          ))}
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
       );
     case "radio":
       return (
-        <>
-          <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-            <p>{form.label}</p>
-            <ul>
-              {form.option?.map((item, index) => (
-                <li>
-                  <input
-                    type={form.inputType}
-                    id={form.label + index}
-                    name={form.label}
-                    className="organize_own_selection"
-                  />
-                  <label htmlFor="organize-own">{item.optionLabel}</label>
-                  <span className="checkmark" />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </>
+        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+          <p>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </p>
+          <ul>
+            {form.option?.map((item, index) => (
+              <li key={index}>
+                <input
+                  type="radio"
+                  id={form.label + index}
+                  name={form.label}
+                  className="organize_own_selection"
+                  onChange={() => handleFieldChange(item.optionLabel)}
+                />
+                <label htmlFor={form.label + index}>{item.optionLabel}</label>
+                <span className="checkmark" />
+              </li>
+            ))}
+          </ul>
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
       );
     default:
       return (
-        <>
-          <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-            <label>{form.label}</label>
-            <input
-              type={form.type}
-              className="form-control"
-              id="usr"
-              placeholder={form.placeholder}
-            />
-          </div>
-        </>
+        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+          <label>
+            {form.label}
+            <span>{form.required=='yes' ? "*" : ""}</span>
+          </label>
+          <input
+            type={form.type}
+            className="form-control"
+            id="usr"
+            placeholder={form.placeholder}
+            onChange={(e) => handleFieldChange(e.target.value)}
+          />
+          <div class="help-block">{formErrors[form.label]}</div>
+        </div>
       );
   }
 };
