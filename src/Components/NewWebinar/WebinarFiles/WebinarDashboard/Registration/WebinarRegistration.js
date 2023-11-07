@@ -20,7 +20,6 @@ const WebinarRegistration = () => {
   const location = useLocation();
 
   let prevData = location?.state;
-  //  console.log(prevData);
 
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
@@ -196,6 +195,12 @@ const WebinarRegistration = () => {
     setModal(true);
   };
 
+  const addExtension = (e, index, optIndex) => {
+    e.preventDefault();
+    setIndex(index);
+    console.log(formData?.body[index]?.option?.[optIndex]?.extension);
+  };
+
   const deleteField = (e, data, index) => {
     e.preventDefault();
     let updatedFormBody = formData?.body;
@@ -204,10 +209,10 @@ const WebinarRegistration = () => {
   };
 
   const handleRadioClick = (e, itemLabel, index, optIndex) => {
-    console.log("label--->", itemLabel);
     let updateExtension =
       formData?.body?.[index]?.option?.[optIndex]?.extension;
-    console.log("ext--->", updateExtension);
+    console.log("e---->", updateExtension);
+
     setFormExtLabel(updateExtension);
   };
 
@@ -225,10 +230,10 @@ const WebinarRegistration = () => {
           toast.error("Label already exist");
           return;
         }
-        if (isSelectedName == "name" || isSelectedName == "email") {
+        if (isSelectedName == "userName" || isSelectedName == "userEmail") {
           let newObj = {
             label: isSelectedName,
-            inputType: isSelectedName == "email" ? "email" : "text",
+            inputType: isSelectedName == "userEmail" ? "email" : "text",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
 
@@ -250,15 +255,18 @@ const WebinarRegistration = () => {
                     label: "Airport of departure",
                     inputType: "text",
                     placeholder: "Airport of departure",
+                    name: "departure",
                   },
                   {
                     label: "Preferred departure date",
                     inputType: "datepicker",
                     placeholder: "dd-mm-yyyy",
+                    name: "air_departure_date",
                   },
                   {
                     label: "Preferred departure time",
                     inputType: "radio",
+                    name: "departure_time",
                     option: [
                       { optionLabel: "Morning" },
                       { optionLabel: "Afternoon" },
@@ -269,6 +277,7 @@ const WebinarRegistration = () => {
                     label: "Preferred return flight date",
                     inputType: "datepicker",
                     placeholder: "dd-mm-yyyy",
+                    name: "air_return_date",
                   },
                 ],
               },
@@ -307,7 +316,6 @@ const WebinarRegistration = () => {
     } else {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
-    console.log(formData, "==>formData");
   };
 
   const saveClicked = async (e) => {
@@ -464,7 +472,7 @@ const WebinarRegistration = () => {
                                 ? true
                                 : false
                             }
-                            onChange={(e) => handleChange(e, "name")}
+                            onChange={(e) => handleChange(e, "userName")}
                           />
 
                           <Form.Check
@@ -481,7 +489,7 @@ const WebinarRegistration = () => {
                                 ? true
                                 : false
                             }
-                            onChange={(e) => handleChange(e, "email")}
+                            onChange={(e) => handleChange(e, "userEmail")}
                           />
 
                           <Form.Check
@@ -656,9 +664,29 @@ const WebinarRegistration = () => {
                                                                   item?.optionLabel
                                                                 }
                                                               </label>
+                                                              <span
+                                                                className="add-choice"
+                                                                onClick={(e) =>
+                                                                  addExtension(
+                                                                    e,
+                                                                    index,
+                                                                    optIndex
+                                                                  )
+                                                                }
+                                                              >
+                                                                Add extension
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "add-choice.svg"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                              </span>
                                                             </div>
                                                           )
                                                         )}
+
                                                         {formExtLabel?.length &&
                                                         data?.label ==
                                                           "travel accomodation" ? (
@@ -687,7 +715,7 @@ const WebinarRegistration = () => {
                                                                         }
                                                                         className="form-control"
                                                                         name={
-                                                                          extItem?.label
+                                                                          extItem?.name
                                                                         }
                                                                       />
                                                                     </div>
@@ -719,7 +747,7 @@ const WebinarRegistration = () => {
                                                                                 extItem?.inputType
                                                                               }
                                                                               name={
-                                                                                extItem?.label
+                                                                                extItem?.name
                                                                               }
                                                                               value={
                                                                                 optItem?.optionValue
@@ -753,7 +781,7 @@ const WebinarRegistration = () => {
                                                                       </label>
                                                                       <DatePicker
                                                                         name={
-                                                                          extItem?.label
+                                                                          extItem?.name
                                                                         }
                                                                         dateFormat="dd/MM/yyyy"
                                                                         className="form-control"
@@ -1104,6 +1132,13 @@ const WebinarRegistration = () => {
         formLabel={formData?.body}
         fieldData={fieldData}
       />
+      {/* <CommonExtensionModal
+        show={showExtensionModal}
+        onClose={handleAddQuestionModalClose}
+        handleSave={handleModalSave}
+        formLabel={formData?.body}
+        extensionData={fieldData}
+      /> */}
     </>
   );
 };
