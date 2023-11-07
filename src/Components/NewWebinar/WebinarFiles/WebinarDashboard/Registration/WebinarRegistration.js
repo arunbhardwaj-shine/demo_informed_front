@@ -20,7 +20,6 @@ const WebinarRegistration = () => {
   const location = useLocation();
 
   let prevData = location?.state;
-  //  console.log(prevData);
 
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
@@ -196,6 +195,12 @@ const WebinarRegistration = () => {
     setModal(true);
   };
 
+  const addExtension = (e, index, optIndex) => {
+    e.preventDefault();
+    setIndex(index);
+    console.log(formData?.body[index]?.option?.[optIndex]?.extension);
+  };
+
   const deleteField = (e, data, index) => {
     e.preventDefault();
     let updatedFormBody = formData?.body;
@@ -204,10 +209,10 @@ const WebinarRegistration = () => {
   };
 
   const handleRadioClick = (e, itemLabel, index, optIndex) => {
-    console.log("label--->", itemLabel);
     let updateExtension =
       formData?.body?.[index]?.option?.[optIndex]?.extension;
-    console.log("ext--->", updateExtension);
+    console.log("e---->", updateExtension);
+
     setFormExtLabel(updateExtension);
   };
 
@@ -307,7 +312,6 @@ const WebinarRegistration = () => {
     } else {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
-    console.log(formData, "==>formData");
   };
 
   const saveClicked = async (e) => {
@@ -656,9 +660,29 @@ const WebinarRegistration = () => {
                                                                   item?.optionLabel
                                                                 }
                                                               </label>
+                                                              <span
+                                                                className="add-choice"
+                                                                onClick={(e) =>
+                                                                  addExtension(
+                                                                    e,
+                                                                    index,
+                                                                    optIndex
+                                                                  )
+                                                                }
+                                                              >
+                                                                Add extension
+                                                                <img
+                                                                  src={
+                                                                    path_image +
+                                                                    "add-choice.svg"
+                                                                  }
+                                                                  alt=""
+                                                                />
+                                                              </span>
                                                             </div>
                                                           )
                                                         )}
+
                                                         {formExtLabel?.length &&
                                                         data?.label ==
                                                           "travel accomodation" ? (
@@ -1104,6 +1128,13 @@ const WebinarRegistration = () => {
         formLabel={formData?.body}
         fieldData={fieldData}
       />
+      {/* <CommonExtensionModal
+        show={showExtensionModal}
+        onClose={handleAddQuestionModalClose}
+        handleSave={handleModalSave}
+        formLabel={formData?.body}
+        exteData={fieldData}
+      /> */}
     </>
   );
 };
