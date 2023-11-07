@@ -658,7 +658,7 @@ let prevObj={
                                                             </div>
                                                           )
                                                         )}
-                                                        {formExtLabel?.length ? (
+                                                        {formExtLabel?.length && data?.label == "travel accomodation" ? (
                                                           <div className="extension">
                                                             {formExtLabel?.map(
                                                               (
