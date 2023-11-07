@@ -693,7 +693,7 @@ const WebinarRegistration = () => {
                                                                     </div>
                                                                   ) : extItem?.inputType ==
                                                                     "radio" ? (
-                                                                    <div>
+                                                                    <div className="extOption">
                                                                       <label
                                                                         htmlFor={
                                                                           extItem?.label
@@ -708,13 +708,21 @@ const WebinarRegistration = () => {
                                                                           optItem,
                                                                           optItemIndex
                                                                         ) => (
-                                                                          <div>
+                                                                          <div
+                                                                            className="extOptionItem"
+                                                                            key={
+                                                                              optItemIndex
+                                                                            }
+                                                                          >
                                                                             <input
                                                                               type={
                                                                                 extItem?.inputType
                                                                               }
                                                                               name={
-                                                                                optItem?.optionLabel
+                                                                                extItem?.label
+                                                                              }
+                                                                              value={
+                                                                                optItem?.optionValue
                                                                               }
                                                                             />
                                                                             <label
@@ -725,7 +733,6 @@ const WebinarRegistration = () => {
                                                                               {
                                                                                 optItem?.optionLabel
                                                                               }
-                                                                             
                                                                             </label>
                                                                           </div>
                                                                         )
