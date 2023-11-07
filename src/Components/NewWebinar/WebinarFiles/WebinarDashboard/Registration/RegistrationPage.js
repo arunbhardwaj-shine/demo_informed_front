@@ -16,7 +16,7 @@ const RegistrationPage = () => {
 
   let prevData=useLocation();
 prevData=prevData?.state
-// console.log(prevData,"prevData");
+console.log(prevData,"prevData");
   const event_code = new URLSearchParams(location.search).get("event");
   const [formData, setFormData] = useState(prevData?prevData:{});
   const [formFieldData, setFormFieldData] = useState({});

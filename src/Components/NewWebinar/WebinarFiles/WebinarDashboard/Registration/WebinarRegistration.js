@@ -20,6 +20,7 @@ const WebinarRegistration = () => {
   const location = useLocation();
 
  let  prevData=location?.state
+//  console.log(prevData);
 
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
@@ -47,7 +48,7 @@ const WebinarRegistration = () => {
   const [formExtLabel, setFormExtLabel] = useState([]);
 
   useEffect(() => {
-    if(prevData){
+    if(prevData?.content){
       setEventData({
         ...eventData,
         event_id: prevData?.event_id,
