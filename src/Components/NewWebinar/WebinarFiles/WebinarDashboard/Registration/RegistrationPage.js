@@ -16,7 +16,7 @@ const RegistrationPage = () => {
 
   let prevData=useLocation();
 prevData=prevData?.state
-console.log(prevData,"prevData");
+// console.log(prevData,"prevData");
   const event_code = new URLSearchParams(location.search).get("event");
   const [formData, setFormData] = useState(prevData?prevData:{});
   const [formFieldData, setFormFieldData] = useState({});
@@ -24,7 +24,7 @@ console.log(prevData,"prevData");
   const [pageColors, setPageColors] = useState(prevData?{labelColor:prevData?.content?.labelColor,background:prevData?.content?.backgroundColor}:{labelColor:"#fff000",background:"#000"}); // Create a state to store form validation errors
 
   useEffect(() => {
-    if(!prevData){
+    if(!prevData?.content){
     EventDataFun();
     }
   }, []);
@@ -216,9 +216,9 @@ console.log(prevData,"prevData");
       <footer>
         <div className="container">
           <div className="row">
-            <div className="footer-inner" style={{
+            <div className="footer-inner" style={formData?.content?.footerImageUrl?{
               backgroundImage: `url("${formData?.content?.footerImageUrl}")`
-            }}>
+            }:{}}>
               <div className="footer-left">
                 <div className="footer-logo">
                   <img
@@ -323,6 +323,8 @@ if(label=="country"){
       <ul>
         {form.option?.map((item, index) => (
           <li key={index}>
+          {/* {console.log(item,"oppppp")} */}
+
             <input
               type={form.inputType}
               id={label + index}
