@@ -19,8 +19,8 @@ const WebinarRegistration = () => {
   let navigate = useNavigate();
   const location = useLocation();
 
- let  prevData=location?.state
-//  console.log(prevData);
+  let prevData = location?.state;
+  //  console.log(prevData);
 
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
@@ -48,22 +48,21 @@ const WebinarRegistration = () => {
   const [formExtLabel, setFormExtLabel] = useState([]);
 
   useEffect(() => {
-    if(prevData?.content){
+    if (prevData?.content) {
       setEventData({
         ...eventData,
         event_id: prevData?.event_id,
         company_id: prevData?.company_id,
       });
       const newFormData = prevData?.content;
-    
+
       setFormData(newFormData);
-    
+
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
-     }else{
-
-       getWebinarData();
-     }
+    } else {
+      getWebinarData();
+    }
   }, []);
 
   const getWebinarData = async () => {
@@ -260,7 +259,11 @@ const WebinarRegistration = () => {
                   {
                     label: "Preferred departure time",
                     inputType: "radio",
-                    option: ["Morning", "Afternoon", "Evening"],
+                    option: [
+                      { optionLabel: "Morning" },
+                      { optionLabel: "Afternoon" },
+                      { optionLabel: "Evening" },
+                    ],
                   },
                   {
                     label: "Preferred return flight date",
@@ -354,16 +357,14 @@ const WebinarRegistration = () => {
   };
 
   const handlePreview = (e, index) => {
-let prevObj={
-  eventId: eventData?.event_id,
-  companyId: eventData?.company_id,
-  content: formData,
-}
-  navigate("/event-registration",
-  { state: prevObj });
-
+    let prevObj = {
+      eventId: eventData?.event_id,
+      companyId: eventData?.company_id,
+      content: formData,
+    };
+    navigate("/event-registration", { state: prevObj });
   };
- const handleDragStart = (e, index) => {
+  const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);
   };
 
@@ -658,7 +659,9 @@ let prevObj={
                                                             </div>
                                                           )
                                                         )}
-                                                        {formExtLabel?.length && data?.label == "travel accomodation" ? (
+                                                        {formExtLabel?.length &&
+                                                        data?.label ==
+                                                          "travel accomodation" ? (
                                                           <div className="extension">
                                                             {formExtLabel?.map(
                                                               (
@@ -711,17 +714,18 @@ let prevObj={
                                                                                 extItem?.inputType
                                                                               }
                                                                               name={
-                                                                                optItem
+                                                                                optItem?.optionLabel
                                                                               }
                                                                             />
                                                                             <label
                                                                               htmlFor={
-                                                                                optItem
+                                                                                optItem?.optionLabel
                                                                               }
                                                                             >
                                                                               {
-                                                                                optItem
+                                                                                optItem?.optionLabel
                                                                               }
+                                                                             
                                                                             </label>
                                                                           </div>
                                                                         )
@@ -972,12 +976,16 @@ let prevObj={
                         </section>
                       </div>
                       <div className="d-flex justify-content-center">
-                      <Button type="button" className="save btn-bordered" onClick={handlePreview}>
-                        Preview
-                      </Button>  
-                      <Button type="submit" className="save">
-                        Save
-                      </Button>
+                        <Button
+                          type="button"
+                          className="save btn-bordered"
+                          onClick={handlePreview}
+                        >
+                          Preview
+                        </Button>
+                        <Button type="submit" className="save">
+                          Save
+                        </Button>
                       </div>
                     </Form>
                   </div>
