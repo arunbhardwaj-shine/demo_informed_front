@@ -119,14 +119,7 @@ console.log(prevData,"prevData");
   
             <div className="wrapper">
             {
-    prevData && <button
-    type="submit"
-    className="btn btn-primary"
-    id="submit_registration"
-    onClick={handleBackClicked}
-  >
-    Back
-  </button>
+    prevData && <Button type="submit" className="btn-filled btn-back" onClick={handleBackClicked}>Back</Button>
   }
               <section className="factor-season">
                 <div className="container">
