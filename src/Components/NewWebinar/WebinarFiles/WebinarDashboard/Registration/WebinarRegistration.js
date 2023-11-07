@@ -271,6 +271,9 @@ const WebinarRegistration = () => {
         if (index > -1) {
           updateFormBody?.splice(index, 1);
         }
+        if (isSelectedName == "travel accomodation") {
+          setFormExtLabel();
+        }
         setFormData({ ...formData, body: updateFormBody });
       } else if (isSelectedName == "company_id") {
         setEventData({
@@ -1034,9 +1037,7 @@ const WebinarRegistration = () => {
                       </div>
                     </div>
                     <div className="registration-preview">
-                            <div className="registration-form-view">
-
-                            </div>
+                      <div className="registration-form-view"></div>
                     </div>
                   </div>
                 </Col>
