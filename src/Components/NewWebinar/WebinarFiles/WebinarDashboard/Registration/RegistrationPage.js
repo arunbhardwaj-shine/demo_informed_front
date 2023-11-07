@@ -15,6 +15,7 @@ const RegistrationPage = () => {
   const [formData, setFormData] = useState();
   const [formFieldData, setFormFieldData] = useState({});
   const [formErrors, setFormErrors] = useState({}); // Create a state to store form validation errors
+  const [pageColors, setPageColors] = useState({labelColor:"#fff000",background:"#000"}); // Create a state to store form validation errors
 
   useEffect(() => {
     EventDataFun();
@@ -28,7 +29,8 @@ const RegistrationPage = () => {
       let hadData = response?.data?.data;
       hadData = { ...hadData, content: JSON.parse(hadData?.content) };
       setFormData(hadData);
-      // console.log(hadData?.content);
+      console.log(hadData?.content);
+      setPageColors({labelColor:hadData?.content?.labelColor,background:hadData?.content?.backgroundColor});
       //   setEventData({
       //     ...eventData,
       //     event_id: hadData?.event_id,
@@ -90,203 +92,167 @@ const RegistrationPage = () => {
     return Object.keys(errors).length === 0;
   };
   return (
-    <>
- 
-        
-          <Row>
-            <div className="outer">
-              <section className="webinarRegistrationBody">
-                <div className="sec1">
-                  <div className="add_hcp_boxes">
-                    <>
-                      <link
-                        rel="stylesheet"
-                        href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/style.css"
-                      />
-                      <link
-                        rel="stylesheet"
-                        href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/responsive.css"
-                      />
-
-                      <div className="wrapper">
-                        <section className="factor-season">
-                          <div className="container">
-                            <div className="row">
-                            <div className="factor-season-inner" style={{
-  backgroundImage: `url("${formData?.content?.headerImageUrl}")`
-}}>
-                                <div className="row">
-                                  <div className="col-sm-8 col-md-8">
-                                    <div className="factor-season-left">
-                                      {/* <img
-                                        src={formData?.content?.headerImageUrl}
-                                        alt="Header"
-                                      /> */}
-                                      <div className="factor__logo">
-                                        <img
-                                          src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
-                                          alt="Factor logo"
-                                        />
-                                      </div>
-                                      <h2>
-                                        5 February 2024
-                                        <br />
-                                        12:00-19:00
-                                        <br />
-                                        Frankfurt, Germany
-                                      </h2>
-                                    </div>
-                                  </div>
-                                  <div className="col-sm-4 col-md-4">
-                                    <div className="factor-season-right">
-                                      <h3>
-                                        Robert F. Sidonio Jr.
-                                        <br /> and Jan Astermark
-                                      </h3>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+    <div className="outer">
+      <section className="webinarRegistrationBody">
+        <div className="sec1">
+          <div className="add_hcp_boxes">
+            <link
+              rel="stylesheet"
+              href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/style.css"
+            />
+            <link
+              rel="stylesheet"
+              href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/responsive.css"
+            />
+  
+            <div className="wrapper">
+              <section className="factor-season">
+                <div className="container">
+                  <div className="factor-season-inner" style={{
+                    backgroundImage: `url("${formData?.content?.headerImageUrl}")`
+                  }}>
+                    <div className="row">
+                      <div className="col-sm-8 col-md-8">
+                        <div className="factor-season-left">
+                          <div className="factor__logo">
+                            <img
+                              src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
+                              alt="Factor logo"
+                            />
                           </div>
-                        </section>
-                        <section className="consent-form">
-                          <div className="container">
-                            <div className="row">
-                              <div className="consent-form-inner">
-                                <form
-                                  id="registration_form"
-                                  onSubmit={handleSubmit}
-                                >
-                                  <div className="row" id="form_upper">
-                                    <div className="col-sm-12 col-md-12 center-sided">
-                                      <h2>{formData?.content?.pageTitle}</h2>
-                                      <h3> {formData?.content?.bodyText}</h3>
-                                    </div>
-                                  </div>
-                                  <div className="center-sided-inside">
-                                    <div className="row">
-                                      {formData?.content?.body?.map(
-                                        (form, index) => (
-                                          <FormField
-                                            form={form}
-                                            key={index}
-                                            formFieldData={formFieldData}
-                                            setFormFieldData={setFormFieldData}
-                                            formErrors={formErrors}
-                                          />
-                                        )
-                                      )}
-
-                                      <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                        id="submit_registration"
-                                      >
-                                        Submit
-                                      </button>
-                                    </div>
-                                    <div className="footer-sec">
-                                      <span>
-                                        * this consent is mandatory in order to
-                                        register to the event.
-                                      </span>
-                                    </div>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </section>
-                      </div>
-                      <footer>
-                        <div className="container">
-                          <div className="row">
-                            <div className="footer-inner" style={{
-  backgroundImage: `url("${formData?.content?.footerImageUrl}")`
-}}>
-                              <div className="footer-left">
-                                {/* <img
-                                  src={formData?.content?.footerImageUrl}
-                                  alt="Footer"
-                                /> */}
-                                <div className="footer-logo">
-                                  <img
-                                    src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"
-                                    alt="footer-logo"
-                                  />
-                                </div>
-                              </div>
-                              <div className="footer-right"></div>
-                              <div className="footer-copyright">
-                                <span>© 2023 CP. All rights Reserved</span>
-                                <ul>
-                                  <li>
-                                    <a
-                                      target="_blank"
-                                      href="https://albert.docintel.app/privacy_policy/"
-                                    >
-                                      Privacy Policy
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      target="_blank"
-                                      href="https://albert.docintel.app/terms_of_use/"
-                                    >
-                                      Terms of Services
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </footer>
-                      <div className="modal fade" id="myModal">
-                        <div className="modal-dialog modal-dialog-centered">
-                          <div className="modal-content">
-                            {/* Modal Header */}
-                            <div className="modal-header">
-                              <button
-                                type="button"
-                                className="close"
-                                data-dismiss="modal"
-                              >
-                                ×
-                              </button>
-                            </div>
-                            {/* Modal body */}
-                            <div className="modal-body"></div>
-                          </div>
+                          <h2>
+                            5 February 2024
+                            <br />
+                            12:00-19:00
+                            <br />
+                            Frankfurt, Germany
+                          </h2>
                         </div>
                       </div>
-                    </>
+                      <div className="col-sm-4 col-md-4">
+                        <div className="factor-season-right">
+                          <h3>
+                            Robert F. Sidonio Jr.
+                            <br /> and Jan Astermark
+                          </h3>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </section>
+              <section className="consent-form">
+                <div className="container">
+                  <div className="consent-form-inner" style={{ background: `${pageColors?.background}` }}>
+                    <form
+                      id="registration_form"
+                      onSubmit={handleSubmit}
+                    >
+                      <div className="row" id="form_upper">
+                        <div className="col-sm-12 col-md-12 center-sided">
+                          <h2>{formData?.content?.pageTitle}</h2>
+                          <h3> {formData?.content?.bodyText}</h3>
+                        </div>
+                      </div>
+                      <div className="center-sided-inside">
+                      <div className="row">
+  {formData?.content?.body?.map((form, index) => (
+    <FormField
+      form={form}
+      key={index}
+      formFieldData={formFieldData}
+      setFormFieldData={setFormFieldData}
+      formErrors={formErrors}
+      pageColors={pageColors}
+    />
+  ))}
+  <button
+    type="submit"
+    className="btn btn-primary"
+    id="submit_registration"
+  >
+    Submit
+  </button>
+</div>
 
-              <div>
-                {/* <button
-                  className="fbutton"
-                  onClick={(e) => handleFileSelect(e, "footer")}
-                >
-                  upload
-                </button> */}
-
-                {/* <img className="footer-img" src={foot} /> */}
-              </div>
-              {/* <div style={{marginTop:'35px',marginBottom:'50px'}}>  <img className="footer-img" src={foot} /></div> */}
+                        <div className="footer-sec">
+                          <span>
+                            * This consent is mandatory in order to register for the event.
+                          </span>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </section>
             </div>
-          </Row>
-       
-    </>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div className="container">
+          <div className="row">
+            <div className="footer-inner" style={{
+              backgroundImage: `url("${formData?.content?.footerImageUrl}")`
+            }}>
+              <div className="footer-left">
+                <div className="footer-logo">
+                  <img
+                    src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"
+                    alt="footer-logo"
+                  />
+                </div>
+              </div>
+              <div className="footer-right"></div>
+              <div className="footer-copyright">
+                <span>© 2023 CP. All rights Reserved</span>
+                <ul>
+                  <li>
+                    <a
+                      target="_blank"
+                      href="https://albert.docintel.app/privacy_policy/"
+                    >
+                      Privacy Policy
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      target="_blank"
+                      href="https://albert.docintel.app/terms_of_use/"
+                    >
+                      Terms of Services
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <div className="modal fade" id="myModal">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
+  
 };
 
 export default RegistrationPage;
 
-const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
+const FormField = ({ form, formFieldData, setFormFieldData, formErrors,pageColors }) => {
   const [countryList, setCountryList] = useState(CountryList);
   const  label = form.label.replace(/ /g,"_")
 if(label=="country"){
@@ -318,7 +284,7 @@ if(label=="country"){
       label: op.optionLabel,
       value: op.optionLabel,
     }));
-console.log(form.inputType,"countryListcountryList");
+
     fieldInput = (
       <Select
         options={form.inputType === "selection-country" ? countryList : options}
@@ -341,7 +307,8 @@ console.log(form.inputType,"countryListcountryList");
               onChange={() => handleFieldChange(item.optionLabel)}
             />
             <label style={{
-          textTransform:"capitalize"
+          textTransform:"capitalize",
+          color:pageColors?.labelColor
         }} htmlFor={label + index}>{item.optionLabel}</label>
             <span className="checkmark" />
           </li>
@@ -363,7 +330,8 @@ console.log(form.inputType,"countryListcountryList");
   return (
     <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
       <label style={{
-          textTransform:"capitalize"
+          textTransform:"capitalize",
+          color:pageColors?.labelColor
         }}>
         {form.label}
         {isRequired ? "*" : ""}
