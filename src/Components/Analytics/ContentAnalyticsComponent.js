@@ -211,7 +211,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
                     data?.limit == 0 ? "Unlimited" : data?.limit
                   }`}
                   pdf_id={data?.id}
-                  tooltip="Number of opening counts for specific article."
+                  tooltip="Number of unique HCPs who have unique pin codes."
                 />
               </>
                : 
