@@ -338,7 +338,17 @@ const WebinarRegistration = () => {
     navigate("/event-listing");
   };
 
-  const handleDragStart = (e, index) => {
+  const handlePreview = (e, index) => {
+let prevObj={
+  eventId: eventData?.event_id,
+  companyId: eventData?.company_id,
+  content: formData,
+}
+  navigate("/event-registration",
+  { state: prevObj });
+
+  };
+ const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);
   };
 
@@ -821,6 +831,9 @@ const WebinarRegistration = () => {
                           </div>
                         </section>
                       </div>
+                      <Button type="button" className="save" onClick={handlePreview}>
+                        Preview
+                      </Button>  
                       <Button type="submit" className="save">
                         Save
                       </Button>
@@ -915,11 +928,11 @@ const WebinarRegistration = () => {
                         )}
                       </div>
                     </div>
-                    <div className="registration-preview">
+                    {/* <div className="registration-preview">
                             <div className="registration-form-view">
 
                             </div>
-                    </div>
+                    </div> */}
                   </div>
                 </Col>
               </Row>

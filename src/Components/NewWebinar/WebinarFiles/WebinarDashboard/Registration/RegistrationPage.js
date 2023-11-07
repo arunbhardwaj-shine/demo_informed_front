@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import Select from "react-select";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loader } from "../../../../../loader";
 import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
@@ -11,8 +11,11 @@ import CountryList from "./CountryList";
 
 const RegistrationPage = () => {
   const location = useLocation();
+  let params = useParams();
+  let prevData=useLocation();
+prevData=prevData?.state
   const event_code = new URLSearchParams(location.search).get("event");
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState(prevData?prevData:{});
   const [formFieldData, setFormFieldData] = useState({});
   const [formErrors, setFormErrors] = useState({}); // Create a state to store form validation errors
   const [pageColors, setPageColors] = useState({labelColor:"#fff000",background:"#000"}); // Create a state to store form validation errors
