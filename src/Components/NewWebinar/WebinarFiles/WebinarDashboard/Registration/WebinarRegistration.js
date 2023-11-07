@@ -11,6 +11,7 @@ import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 import CountryList from "./CountryList";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import CommonExtensionModal from "./CommonExtensionModal";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -27,6 +28,7 @@ const WebinarRegistration = () => {
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
+  const [showExtensionModal, setExtensionModal] = useState(false);
   const [formData, setFormData] = useState({
     pageTitle: "",
     bodyText: "",
@@ -43,6 +45,7 @@ const WebinarRegistration = () => {
   const [countryList, setCountryList] = useState(CountryList);
   const [errorMsg, setErrorMsg] = useState("");
   const [index, setIndex] = useState();
+  const [optIndex, setOptIndex] = useState();
   const [fieldData, setFieldData] = useState();
   const [formExtLabel, setFormExtLabel] = useState([]);
 
@@ -198,7 +201,26 @@ const WebinarRegistration = () => {
   const addExtension = (e, index, optIndex) => {
     e.preventDefault();
     setIndex(index);
-    console.log(formData?.body[index]?.option?.[optIndex]?.extension);
+    setOptIndex(optIndex);
+
+    setFieldData(formData?.body[index]?.option?.[optIndex]?.extension);
+    setExtensionModal(true);
+  };
+
+  const handleExtensionModalClose = () => {
+    setIndex();
+    setFieldData();
+    setOptIndex();
+    setExtensionModal(false);
+  };
+
+  const handleExtensionModalSave = (form) => {
+    console.log("extension1--->", form);
+    
+    let newExtension = formData?.body;
+    newExtension[index]?.option?.[optIndex]?.extension?.push(form);
+    console.log("extension2--->", newExtension);
+    // setFormData({ ...formData, body: newExtension });
   };
 
   const deleteField = (e, data, index) => {
@@ -660,25 +682,32 @@ const WebinarRegistration = () => {
                                                                   item?.optionLabel
                                                                 }
                                                               </label>
-                                                              <span
-                                                                className="add-choice"
-                                                                onClick={(e) =>
-                                                                  addExtension(
-                                                                    e,
-                                                                    index,
-                                                                    optIndex
-                                                                  )
-                                                                }
-                                                              >
-                                                                Add extension
-                                                                <img
-                                                                  src={
-                                                                    path_image +
-                                                                    "add-choice.svg"
+                                                              {data?.label ==
+                                                              "travel accomodation" ? (
+                                                                <span
+                                                                  className="add-choice"
+                                                                  onClick={(
+                                                                    e
+                                                                  ) =>
+                                                                    addExtension(
+                                                                      e,
+                                                                      index,
+                                                                      optIndex
+                                                                    )
                                                                   }
-                                                                  alt=""
-                                                                />
-                                                              </span>
+                                                                >
+                                                                  Add extension
+                                                                  <img
+                                                                    src={
+                                                                      path_image +
+                                                                      "add-choice.svg"
+                                                                    }
+                                                                    alt=""
+                                                                  />
+                                                                </span>
+                                                              ) : (
+                                                                ""
+                                                              )}
                                                             </div>
                                                           )
                                                         )}
@@ -1128,13 +1157,13 @@ const WebinarRegistration = () => {
         formLabel={formData?.body}
         fieldData={fieldData}
       />
-      {/* <CommonExtensionModal
+      <CommonExtensionModal
         show={showExtensionModal}
-        onClose={handleAddQuestionModalClose}
-        handleSave={handleModalSave}
+        onClose={handleExtensionModalClose}
+        handleSave={handleExtensionModalSave}
         formLabel={formData?.body}
-        exteData={fieldData}
-      /> */}
+        extensionData={fieldData}
+      />
     </>
   );
 };
