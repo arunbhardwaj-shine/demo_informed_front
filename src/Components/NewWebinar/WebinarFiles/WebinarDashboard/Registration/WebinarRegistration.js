@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 import CountryList from "./CountryList";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -40,6 +41,7 @@ const WebinarRegistration = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [index, setIndex] = useState();
   const [fieldData, setFieldData] = useState();
+  const [formExtLabel, setFormExtLabel] = useState([]);
 
   useEffect(() => {
     getWebinarData();
@@ -183,6 +185,14 @@ const WebinarRegistration = () => {
     setFormData({ ...formData, body: updatedFormBody });
   };
 
+  const handleRadioClick = (e, itemLabel, index, optIndex) => {
+    console.log("label--->", itemLabel);
+    let updateExtension =
+      formData?.body?.[index]?.option?.[optIndex]?.extension;
+    console.log("ext--->", updateExtension);
+    setFormExtLabel(updateExtension);
+  };
+
   const handleChange = (e, isSelectedName) => {
     if (isSelectedName) {
       let updateFormBody = formData?.body;
@@ -203,6 +213,7 @@ const WebinarRegistration = () => {
             inputType: isSelectedName == "email" ? "email" : "text",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
+
             required: "",
           };
           updateFormBody?.push(newObj);
@@ -211,10 +222,33 @@ const WebinarRegistration = () => {
             label: isSelectedName,
             inputType: "radio",
             option: [
-              { optionLabel: "Organize my own travel" },
+              { optionLabel: "Organize my own travel", extension: [] },
               {
                 optionLabel:
                   "Have my travel arranged by the meeting organizers",
+
+                extension: [
+                  {
+                    label: "Airport of departure",
+                    inputType: "text",
+                    placeholder: "Airport of departure",
+                  },
+                  {
+                    label: "Preferred departure date",
+                    inputType: "datepicker",
+                    placeholder: "dd-mm-yyyy",
+                  },
+                  {
+                    label: "Preferred departure time",
+                    inputType: "radio",
+                    option: ["Morning", "Afternoon", "Evening"],
+                  },
+                  {
+                    label: "Preferred return flight date",
+                    inputType: "datepicker",
+                    placeholder: "dd-mm-yyyy",
+                  },
+                ],
               },
             ],
           };
@@ -250,47 +284,6 @@ const WebinarRegistration = () => {
     }
     console.log(formData, "==>formData");
   };
-
-  // const saveClicked = async (e) => {
-  //   e.preventDefault();
-  //   console.log("--err");
-  //   try {
-  //     const error = WebinarRegistrationValidation(formData, eventData);
-
-  //     if (Object.keys(error)?.length) {
-  //       toast.error(error[Object.keys(error)[0]]);
-  //       setError(error);
-  //       return;
-  //     } else {
-  //       loader("show");
-  //       let data = {
-  //         eventId: eventData?.event_id,
-  //         companyId: eventData?.company_id,
-  //         content: JSON.stringify(formData),
-  //       };
-
-  //       const response = await postData(
-  //         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
-  //         data
-  //       );
-
-  //       setFormData({
-  //         pageTitle: "",
-  //         bodyText: "",
-  //         headerImageUrl: "",
-  //         body: [],
-  //         footerImageUrl: "",
-  //       });
-  //       setEventData({ event_id: "", company_id: "" });
-  //       setFile("");
-  //       setFoot("");
-  //     }
-  //   } catch (err) {
-  //     console.log("--err", err);
-  //   } finally {
-  //     loader("hide");
-  //   }
-  // };
 
   const saveClicked = async (e) => {
     console.log("form data--->", formData);
@@ -370,6 +363,7 @@ const WebinarRegistration = () => {
       setFormData({ ...formData, backgroundColor: e?.target?.value });
     }
   };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -596,10 +590,10 @@ const WebinarRegistration = () => {
                                                     "radio" ? (
                                                       <div className="btn-container">
                                                         {data?.option?.map(
-                                                          (item, index) => (
+                                                          (item, optIndex) => (
                                                             <div
                                                               className="check"
-                                                              key={index}
+                                                              key={optIndex}
                                                             >
                                                               <input
                                                                 type={
@@ -610,6 +604,14 @@ const WebinarRegistration = () => {
                                                                 }
                                                                 value={
                                                                   item?.optionValue
+                                                                }
+                                                                onChange={(e) =>
+                                                                  handleRadioClick(
+                                                                    e,
+                                                                    item.optionLabel,
+                                                                    index,
+                                                                    optIndex
+                                                                  )
                                                                 }
                                                               />
                                                               <label
@@ -623,6 +625,114 @@ const WebinarRegistration = () => {
                                                               </label>
                                                             </div>
                                                           )
+                                                        )}
+                                                        {formExtLabel?.length ? (
+                                                          <div className="extension">
+                                                            {formExtLabel?.map(
+                                                              (
+                                                                extItem,
+                                                                extIndex
+                                                              ) => (
+                                                                <div className="extItem">
+                                                                  {extItem?.inputType ==
+                                                                  "text" ? (
+                                                                    <div>
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+                                                                      <input
+                                                                        type={
+                                                                          extItem?.inputType
+                                                                        }
+                                                                        className="form-control"
+                                                                        name={
+                                                                          extItem?.label
+                                                                        }
+                                                                      />
+                                                                    </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "radio" ? (
+                                                                    <div>
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+                                                                      {extItem?.option?.map(
+                                                                        (
+                                                                          optItem,
+                                                                          optItemIndex
+                                                                        ) => (
+                                                                          <div>
+                                                                            <input
+                                                                              type={
+                                                                                extItem?.inputType
+                                                                              }
+                                                                              name={
+                                                                                optItem
+                                                                              }
+                                                                            />
+                                                                            <label
+                                                                              htmlFor={
+                                                                                optItem
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                optItem
+                                                                              }
+                                                                            </label>
+                                                                          </div>
+                                                                        )
+                                                                      )}
+                                                                    </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "datepicker" ? (
+                                                                    <div>
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {" "}
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+                                                                      <DatePicker
+                                                                        name={
+                                                                          extItem?.label
+                                                                        }
+                                                                        dateFormat="dd/MM/yyyy"
+                                                                        className="form-control"
+                                                                        placeholderText="Select task date"
+                                                                        // minDate={currentDate}
+
+                                                                        onKeyDown={(
+                                                                          e
+                                                                        ) => {
+                                                                          e.preventDefault();
+                                                                        }}
+                                                                      />
+                                                                    </div>
+                                                                  ) : (
+                                                                    ""
+                                                                  )}
+                                                                </div>
+                                                              )
+                                                            )}
+                                                          </div>
+                                                        ) : (
+                                                          ""
                                                         )}
                                                       </div>
                                                     ) : data?.inputType ==
@@ -785,7 +895,11 @@ const WebinarRegistration = () => {
                                             onChange={(e) =>
                                               onColorChange(e, "labelColor")
                                             }
-                                            value={formData?.labelColor?formData?.labelColor:""}
+                                            value={
+                                              formData?.labelColor
+                                                ? formData?.labelColor
+                                                : ""
+                                            }
                                           />
                                         </div>
                                       </div>
@@ -809,7 +923,11 @@ const WebinarRegistration = () => {
                                                 "backgroundColor"
                                               )
                                             }
-                                            value={formData?.backgroundColor?formData?.backgroundColor:""}
+                                            value={
+                                              formData?.backgroundColor
+                                                ? formData?.backgroundColor
+                                                : ""
+                                            }
                                           />
                                         </div>
                                       </div>
@@ -920,137 +1038,6 @@ const WebinarRegistration = () => {
               </Row>
             </div>
           </div>
-          {/* <div className="register-page">
-          <div className="row">
-            <div className="left-section col-sm-3 col-md-6 col-lg-8">
-              <div className="text-section">
-                <div className="row">
-                  <div className="form-group col-lg-3 webinar-select">
-                    <label htmlFor="">Select Event</label>
-                  </div>
-                  <div className="col-lg-6 ">
-                    <Select
-                      options={dropDownData}
-                      placeholder="Select Event"
-                      name="company_id"
-                      className="dropdown-basic-button split-button-dropup webinar-select"
-                      isClearable
-                      onChange={(e) => handleChange(e, "company_id")}
-                      value={
-                        dropDownData?.findIndex(
-                          (item, index) => item?.value == eventData?.event_id
-                        ) != -1
-                          ? dropDownData[
-                              dropDownData?.findIndex(
-                                (item, index) =>
-                                  item?.value == eventData?.event_id
-                              )
-                            ]
-                          : ""
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-3">
-                    <label htmlFor="">Registration Page Title</label>
-                  </div>
-                  <div className="col-lg-6 registration-text form-group ">
-                    <input
-                      type="text"
-                      name="pageTitle"
-                      value={formData?.pageTitle}
-                      onChange={handleChange}
-                      className={
-                        error?.pageTitle ? "form-control error" : "form-control"
-                      }
-                    />
-                    {error?.pageTitle ? (
-                      <div className="validation" style={{color:'#d61975'}}>{error?.pageTitle}</div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-lg-3 registration-bodyHeading">
-                   
-                    <label htmlFor="">Body Text</label>
-                  </div>
-                  <div className="col-lg-6 registration-bodyText">
-                    <textarea
-                      cols="50"
-                      rows="4"
-                      name="bodyText"
-                      value={formData?.bodyText}
-                      onChange={handleChange}
-                      className="form-control"
-                    />
-                  </div>
-                </div>
-
-                
-              </div>
-            </div>
-            <div className="right-section col-sm-9 col-md-6 col-lg-4">
-              <div
-                className="header-section"
-                onMouseOver={() => setShowChangeHeader(true)}
-                onMouseOut={() => setShowChangeHeader(false)}
-              >
-                {!file && (
-                  <h4
-                    className="header-img-section"
-                    id="uploadButton"
-                    onClick={(e) => handleFileSelect(e, "headerImageUrl")}
-                  >
-                    Upload header
-                  </h4>
-                )}
-                <img className="header-img" src={file} />
-                <div className="header-text">
-                  {" "}
-                  {showChangeHeader && file && (
-                    <h4
-                      className="header-hover"
-                      onClick={(e) => handleFileSelect(e, "headerImageUrl")}
-                    >
-                      Change Header
-                    </h4>
-                  )}
-                </div>
-              </div>
-
-              <div
-                className="footer-section"
-                onMouseOver={() => setShowChangeFooter(true)}
-                onMouseOut={() => setShowChangeFooter(false)}
-              >
-                {!foot && (
-                  <h4
-                    className="footer-img-section"
-                    onClick={(e) => handleFileSelect(e, "footerImageUrl")}
-                  >
-                    Upload footer
-                  </h4>
-                )}
-                <img className="footer-img" src={foot} />
-                <div className="footer-text">
-                  {" "}
-                  {showChangeFooter && foot && (
-                    <h4
-                      className="footer-hover"
-                      onClick={(e) => handleFileSelect(e, "footerImageUrl")}
-                    >
-                      Change Footer
-                    </h4>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
         </div>
       </Col>
       <CommonAddQuestionModal
