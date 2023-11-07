@@ -230,10 +230,10 @@ const WebinarRegistration = () => {
           toast.error("Label already exist");
           return;
         }
-        if (isSelectedName == "userName" || isSelectedName == "userEmail") {
+        if (isSelectedName == "name" || isSelectedName == "email") {
           let newObj = {
             label: isSelectedName,
-            inputType: isSelectedName == "userEmail" ? "email" : "text",
+            inputType: isSelectedName == "email" ? "email" : "text",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
 
@@ -255,18 +255,15 @@ const WebinarRegistration = () => {
                     label: "Airport of departure",
                     inputType: "text",
                     placeholder: "Airport of departure",
-                    name: "departure",
                   },
                   {
                     label: "Preferred departure date",
                     inputType: "datepicker",
                     placeholder: "dd-mm-yyyy",
-                    name: "air_departure_date",
                   },
                   {
                     label: "Preferred departure time",
                     inputType: "radio",
-                    name: "departure_time",
                     option: [
                       { optionLabel: "Morning" },
                       { optionLabel: "Afternoon" },
@@ -277,7 +274,6 @@ const WebinarRegistration = () => {
                     label: "Preferred return flight date",
                     inputType: "datepicker",
                     placeholder: "dd-mm-yyyy",
-                    name: "air_return_date",
                   },
                 ],
               },
@@ -472,7 +468,7 @@ const WebinarRegistration = () => {
                                 ? true
                                 : false
                             }
-                            onChange={(e) => handleChange(e, "userName")}
+                            onChange={(e) => handleChange(e, "name")}
                           />
 
                           <Form.Check
@@ -489,7 +485,7 @@ const WebinarRegistration = () => {
                                 ? true
                                 : false
                             }
-                            onChange={(e) => handleChange(e, "userEmail")}
+                            onChange={(e) => handleChange(e, "email")}
                           />
 
                           <Form.Check
@@ -715,7 +711,7 @@ const WebinarRegistration = () => {
                                                                         }
                                                                         className="form-control"
                                                                         name={
-                                                                          extItem?.name
+                                                                          extItem?.label
                                                                         }
                                                                       />
                                                                     </div>
@@ -747,7 +743,7 @@ const WebinarRegistration = () => {
                                                                                 extItem?.inputType
                                                                               }
                                                                               name={
-                                                                                extItem?.name
+                                                                                extItem?.label
                                                                               }
                                                                               value={
                                                                                 optItem?.optionValue
@@ -781,7 +777,7 @@ const WebinarRegistration = () => {
                                                                       </label>
                                                                       <DatePicker
                                                                         name={
-                                                                          extItem?.name
+                                                                          extItem?.label
                                                                         }
                                                                         dateFormat="dd/MM/yyyy"
                                                                         className="form-control"
@@ -1137,7 +1133,7 @@ const WebinarRegistration = () => {
         onClose={handleAddQuestionModalClose}
         handleSave={handleModalSave}
         formLabel={formData?.body}
-        extensionData={fieldData}
+        exteData={fieldData}
       /> */}
     </>
   );
