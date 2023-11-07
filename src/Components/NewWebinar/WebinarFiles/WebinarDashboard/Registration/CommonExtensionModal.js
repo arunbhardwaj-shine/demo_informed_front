@@ -29,7 +29,6 @@ const CommonExtensionModal = ({
   });
   const [error, setError] = useState({});
   useEffect(() => {
-   
     // if (extensionData) {
     //   let editFormData = extensionData;
     //   setFormData(editFormData);
@@ -81,7 +80,7 @@ const CommonExtensionModal = ({
   };
   const AddOptions = (e) => {
     e.preventDefault();
-   
+
     let optionObj = {
       optionLabel: "",
     };
@@ -100,10 +99,7 @@ const CommonExtensionModal = ({
         toast.error("Option can't be same");
         return;
       } else {
-        let newoption = formData?.option;
-        newoption?.push(optionObj);
-        // setFormData({ ...formData, option: [...formData?.option, optionObj] });
-        setFormData([...formData]);
+        setFormData({ ...formData, option: [...formData?.option, optionObj] });
       }
     } else {
       setFormData({ ...formData, option: [...formData?.option, optionObj] });
@@ -261,7 +257,7 @@ const CommonExtensionModal = ({
                           ) : (
                             ""
                           )}
-                        
+
                           {formData?.option?.length > 0
                             ? formData?.option?.map((item, index) => (
                                 <div className="col-12 col-md-6" key={index}>

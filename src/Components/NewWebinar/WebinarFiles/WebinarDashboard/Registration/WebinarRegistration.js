@@ -216,11 +216,11 @@ const WebinarRegistration = () => {
 
   const handleExtensionModalSave = (form) => {
     console.log("extension1--->", form);
-    
+
     let newExtension = formData?.body;
     newExtension[index]?.option?.[optIndex]?.extension?.push(form);
     console.log("extension2--->", newExtension);
-    // setFormData({ ...formData, body: newExtension });
+    setFormData({ ...formData, body: newExtension });
   };
 
   const deleteField = (e, data, index) => {
@@ -280,7 +280,7 @@ const WebinarRegistration = () => {
                   },
                   {
                     label: "Preferred departure date",
-                    inputType: "datepicker",
+                    inputType: "date",
                     placeholder: "dd-mm-yyyy",
                   },
                   {
@@ -294,7 +294,7 @@ const WebinarRegistration = () => {
                   },
                   {
                     label: "Preferred return flight date",
-                    inputType: "datepicker",
+                    inputType: "date",
                     placeholder: "dd-mm-yyyy",
                   },
                 ],
@@ -792,7 +792,7 @@ const WebinarRegistration = () => {
                                                                       )}
                                                                     </div>
                                                                   ) : extItem?.inputType ==
-                                                                    "datepicker" ? (
+                                                                    "date" ? (
                                                                     <div>
                                                                       <label
                                                                         htmlFor={
@@ -819,6 +819,53 @@ const WebinarRegistration = () => {
                                                                           e.preventDefault();
                                                                         }}
                                                                       />
+                                                                    </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "checkbox" ? (
+                                                                    <div className="extOption">
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+                                                                      {extItem?.option?.map(
+                                                                        (
+                                                                          optItem,
+                                                                          optItemIndex
+                                                                        ) => (
+                                                                          <div
+                                                                            className="extOptionItem"
+                                                                            key={
+                                                                              optItemIndex
+                                                                            }
+                                                                          >
+                                                                            <input
+                                                                              type={
+                                                                                extItem?.inputType
+                                                                              }
+                                                                              name={
+                                                                                extItem?.label
+                                                                              }
+                                                                              value={
+                                                                                optItem?.optionValue
+                                                                              }
+                                                                            />
+                                                                            <label
+                                                                              htmlFor={
+                                                                                optItem?.optionLabel
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                optItem?.optionLabel
+                                                                              }
+                                                                            </label>
+                                                                          </div>
+                                                                        )
+                                                                      )}
                                                                     </div>
                                                                   ) : (
                                                                     ""
