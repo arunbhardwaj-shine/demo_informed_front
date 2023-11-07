@@ -561,6 +561,8 @@
       label {
         margin: 0;
         flex: 0 0 200px;
+        align-self: flex-start;
+        padding: 16px 0 0;
       }
 
       .form-control {
@@ -17148,6 +17150,8 @@ img.change-password-image {
     .centered-input {
       margin: 0 0 15px;
 
+
+
       &:last-child {
         margin: 0 0 20px;
       }
@@ -17155,11 +17159,12 @@ img.change-password-image {
 
     .form-group {
       margin: 0px 0 0;
-      align-items: flex-start;
+      align-items: center;
 
-      label {
+      &>label {
+        padding: 17px 5px 0 0;
+        align-self: flex-start;
         flex: 0 0 120px;
-        padding: 15px 5px 0 0;
       }
 
       .slt-opt {
@@ -17174,6 +17179,10 @@ img.change-password-image {
         .check {
           flex: 0 0 auto;
           min-width: 25%;
+
+          // label {
+          //   padding: 10px 0 0;
+          // }
         }
       }
 
@@ -17216,17 +17225,17 @@ img.change-password-image {
         box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.15);
         border: 0;
         padding: 6px;
-        width: 48px;
-        min-width: 48px;
-        height: 48px;
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 0 0 15px;
 
         svg {
-          width: 24px;
-          height: 24px;
+          width: 20px;
+          height: 20px;
         }
       }
     }
