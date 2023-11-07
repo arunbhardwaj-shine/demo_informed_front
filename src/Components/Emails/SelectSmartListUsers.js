@@ -119,6 +119,7 @@ const SelectSmartListUsers = (props) => {
       list_id: props.getSelectedSmartListData?.id
         ? props.getSelectedSmartListData.id
         : props.getDraftData.campaign_data.smart_list_id,
+      show_specific: 1,  
     };
 
     if (props.getSelectedSmartListData?.id) {
@@ -1184,16 +1185,19 @@ const SelectSmartListUsers = (props) => {
                   <div className="selected-hcp-table-action">
                     {editable == false ? (
                       <>
-                        <a
-                          className="show-less-info"
-                          onClick={(e) => showMoreInfo(e)}
-                        >
-                          {showLessInfo == true ? (
-                            <p className="show_more">Show More information</p>
-                          ) : (
-                            <p className="show_less">Show less information</p>
-                          )}{" "}
-                        </a>
+                        {
+                          localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
+                          <a
+                            className="show-less-info"
+                            onClick={(e) => showMoreInfo(e)}
+                          >
+                            {showLessInfo == true ? (
+                              <p className="show_more">Show More information</p>
+                            ) : (
+                              <p className="show_less">Show less information</p>
+                            )}{" "}
+                          </a> : null
+                        }
                         <div className="hcp-new-user">
                           <button
                             className="btn btn-outline-primary"
@@ -1333,7 +1337,7 @@ const SelectSmartListUsers = (props) => {
                                   ? rr?.irt
                                     ? "Yes"
                                     : "No"
-                                  : rr.ibu
+                                  : rr.ibu && rr.ibu != 0
                                   ? rr.ibu
                                   : "N/A"}
                               </td>
@@ -1459,7 +1463,7 @@ const SelectSmartListUsers = (props) => {
                                   ? readers?.irt
                                     ? "Yes"
                                     : "No"
-                                  : readers.ibu
+                                  : readers.ibu && readers.ibu != 0
                                   ? readers.ibu
                                   : "N/A"}
                               </td>
@@ -1603,7 +1607,7 @@ const SelectSmartListUsers = (props) => {
                                   ? readers?.irt
                                     ? "Yes"
                                     : "No"
-                                  : readers.ibu
+                                  : readers.ibu && readers.ibu != 0
                                   ? readers.ibu
                                   : "N/A"}
                               </td>
