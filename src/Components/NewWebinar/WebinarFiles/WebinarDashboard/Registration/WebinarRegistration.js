@@ -971,12 +971,14 @@ let prevObj={
                           </div>
                         </section>
                       </div>
-                      <Button type="button" className="save" onClick={handlePreview}>
+                      <div className="d-flex justify-content-center">
+                      <Button type="button" className="save btn-bordered" onClick={handlePreview}>
                         Preview
                       </Button>  
                       <Button type="submit" className="save">
                         Save
                       </Button>
+                      </div>
                     </Form>
                   </div>
                 </Col>
