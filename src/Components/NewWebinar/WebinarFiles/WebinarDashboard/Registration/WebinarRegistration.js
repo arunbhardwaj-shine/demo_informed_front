@@ -18,6 +18,9 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const WebinarRegistration = () => {
   let navigate = useNavigate();
   const location = useLocation();
+
+ let  prevData=location?.state
+
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
     : "";
@@ -44,7 +47,22 @@ const WebinarRegistration = () => {
   const [formExtLabel, setFormExtLabel] = useState([]);
 
   useEffect(() => {
-    getWebinarData();
+    if(prevData){
+      setEventData({
+        ...eventData,
+        event_id: prevData?.event_id,
+        company_id: prevData?.company_id,
+      });
+      const newFormData = prevData?.content;
+    
+      setFormData(newFormData);
+    
+      setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
+      setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
+     }else{
+
+       getWebinarData();
+     }
   }, []);
 
   const getWebinarData = async () => {
@@ -61,7 +79,7 @@ const WebinarRegistration = () => {
         company_id: hadData?.company_id,
       });
       const newFormData = JSON.parse(hadData?.content);
-      console.log("form data--->", newFormData);
+
       setFormData(newFormData);
 
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");

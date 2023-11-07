@@ -12,16 +12,21 @@ import CountryList from "./CountryList";
 const RegistrationPage = () => {
   const location = useLocation();
   let params = useParams();
+  let navigate = useNavigate();
+
   let prevData=useLocation();
 prevData=prevData?.state
+// console.log(prevData,"prevData");
   const event_code = new URLSearchParams(location.search).get("event");
   const [formData, setFormData] = useState(prevData?prevData:{});
   const [formFieldData, setFormFieldData] = useState({});
   const [formErrors, setFormErrors] = useState({}); // Create a state to store form validation errors
-  const [pageColors, setPageColors] = useState({labelColor:"#fff000",background:"#000"}); // Create a state to store form validation errors
+  const [pageColors, setPageColors] = useState(prevData?{labelColor:prevData?.content?.labelColor,background:prevData?.content?.backgroundColor}:{labelColor:"#fff000",background:"#000"}); // Create a state to store form validation errors
 
   useEffect(() => {
+    if(!prevData){
     EventDataFun();
+    }
   }, []);
   const EventDataFun = async () => {
     try {
@@ -94,6 +99,10 @@ prevData=prevData?.state
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
+  const handleBackClicked=()=>{
+    navigate("/webinar-registration",
+    { state: prevData });
+  }
   return (
     <div className="outer">
       <section className="webinarRegistrationBody">
@@ -109,6 +118,16 @@ prevData=prevData?.state
             />
   
             <div className="wrapper">
+            {
+    prevData && <button
+    type="submit"
+    className="btn btn-primary"
+    id="submit_registration"
+    onClick={handleBackClicked}
+  >
+    Back
+  </button>
+  }
               <section className="factor-season">
                 <div className="container">
                   <div className="factor-season-inner" style={{
@@ -169,13 +188,15 @@ prevData=prevData?.state
       pageColors={pageColors}
     />
   ))}
-  <button
+  {
+    !prevData && <button
     type="submit"
     className="btn btn-primary"
     id="submit_registration"
   >
     Submit
   </button>
+  }
 </div>
 
                         <div className="footer-sec">
