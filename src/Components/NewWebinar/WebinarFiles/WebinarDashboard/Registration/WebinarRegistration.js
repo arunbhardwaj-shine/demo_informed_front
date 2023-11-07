@@ -867,6 +867,62 @@ const WebinarRegistration = () => {
                                                                         )
                                                                       )}
                                                                     </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "selection" ? (
+                                                                    <div>
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+                                                                      <Select
+                                                                        className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                        options={
+                                                                          extItem?.label ==
+                                                                          "country"
+                                                                            ? countryList
+                                                                            : extItem?.option?.map(
+                                                                                (
+                                                                                  item
+                                                                                ) => ({
+                                                                                  label:
+                                                                                    item?.optionLabel,
+                                                                                  value:
+                                                                                    item?.optionLabel,
+                                                                                })
+                                                                              )
+                                                                        }
+                                                                        placeholder="Plese select the value"
+                                                                      />
+                                                                    </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "textarea" ? (
+                                                                    <div>
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+
+                                                                      <textarea
+                                                                        className="form-control"
+                                                                        name={extItem?.label?.toLowerCase()}
+                                                                        type={
+                                                                          extItem?.inputType
+                                                                        }
+                                                                        placeholder={
+                                                                          extItem?.placeholder
+                                                                        }
+                                                                      />
+                                                                    </div>
                                                                   ) : (
                                                                     ""
                                                                   )}
