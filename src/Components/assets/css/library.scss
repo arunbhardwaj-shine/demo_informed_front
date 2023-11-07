@@ -17168,7 +17168,7 @@ img.change-password-image {
       &>label {
         padding: 17px 5px 0 0;
         align-self: flex-start;
-        flex: 0 0 120px;
+        flex: 0 0 190px;
       }
 
 
@@ -17181,14 +17181,37 @@ img.change-password-image {
         flex: 1 1;
         display: flex;
         flex-wrap: wrap;
+        margin-top: 16px;
 
         .check {
           flex: 0 0 auto;
-          min-width: 25%;
+          min-width: 100%;
+          margin: 0 0 4px;
 
           // label {
           //   padding: 10px 0 0;
           // }
+        }
+
+        .extension {
+          background: rgb(238 238 238 / 78%);
+          padding: 20px;
+          margin-top: 20px;
+          border-radius: 10px;
+          min-width: 550px;
+          margin-left: 25px;
+
+          label {
+            font-size: 15px;
+          }
+
+          .extItem {
+            margin: 0 0 11px;
+          }
+
+          .react-datepicker-wrapper {
+            max-width: 100%;
+          }
         }
       }
 
@@ -17259,9 +17282,13 @@ img.change-password-image {
   }
 }
 
+.webinarRegistrationBody button.btn-back {
+  margin: 0 0 0 20px;
+}
+
 .register-page-left {
   .save.btn {
-    margin: 14px auto 20px;
+    margin: 14px 10px 20px;
     display: flex;
     align-items: center;
     justify-content: center;
