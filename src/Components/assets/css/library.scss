@@ -17161,11 +17161,17 @@ img.change-password-image {
       margin: 0px 0 0;
       align-items: center;
 
+      label {
+        padding: 0px 5px 0 0;
+      }
+
       &>label {
         padding: 17px 5px 0 0;
         align-self: flex-start;
         flex: 0 0 120px;
       }
+
+
 
       .slt-opt {
         flex: 1 1;
@@ -17232,6 +17238,17 @@ img.change-password-image {
         align-items: center;
         justify-content: center;
         margin: 0 0 0 15px;
+        background: $white;
+
+        &:hover {
+          background: $primary-color;
+
+          svg {
+            path {
+              fill: $white
+            }
+          }
+        }
 
         svg {
           width: 20px;
@@ -17257,47 +17274,67 @@ img.change-password-image {
   display: flex;
   flex-direction: column;
   gap: 20px 0;
-  justify-content: space-between;
+  // justify-content: space-between;
   padding-top: 18px;
   padding-bottom: 74px;
 
   .header-section {
-    height: calc(50% - 15px);
+    // height: calc(50% - 15px);
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 10px 10px 50px;
     position: relative;
 
     img {
       &.header-img {
         max-height: 250px;
+        max-width: 100%;
+        min-height: 210px;
+        height: 100%;
+        object-fit: contain;
       }
     }
 
     h4 {
       color: $dark-blue;
+      padding-top: 30px;
     }
   }
 
+  .registration-preview {
+    width: 100%;
+    border: 1px solid #0066BE;
+    border-radius: 12px;
+    cursor: pointer;
+    overflow: hidden;
+    min-height: 350px;
+    padding: 10px;
+  }
+
   .footer-section {
-    height: calc(50% - 15px);
+    // height: calc(50% - 15px);
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 10px 10px 50px;
     position: relative;
 
     img {
       &.footer-img {
         max-height: 250px;
+        max-width: 100%;
+        min-height: 210px;
+        height: 100%;
+        object-fit: contain;
       }
     }
 
     h4 {
       color: $dark-blue;
+      padding-top: 30px;
     }
   }
 
@@ -17307,7 +17344,8 @@ img.change-password-image {
     bottom: 0;
     display: flex;
     gap: 0 15px;
-    background: rgb(0 102 190 / 5%);
+    // background: rgb(0 102 190 / 5%);
+    background: rgb(230 240 249);
     left: 0;
     right: 0;
     margin: 0 auto;
