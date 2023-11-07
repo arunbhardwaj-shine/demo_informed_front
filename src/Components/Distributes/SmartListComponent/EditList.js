@@ -16,6 +16,7 @@ const EditList = () => {
   const body = {
     user_id: localStorage.getItem("user_id"),
     list_id: queryParams.listId,
+    editType:1
   };
 
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
