@@ -21,7 +21,12 @@ const WebinarRegistration = () => {
   const [templateList, setTemplateList] = useState([
     {
       templateId:1,
-    
+      pageTitle: "To register please select and fill in all your details below.",
+      bodyText: "",
+      headerImageUrl: "",
+      footerImageUrl: "",
+      labelColor: "",
+      backgroundColor: "",
       "body": [
           {
               "label": "I will attend:",
@@ -136,7 +141,12 @@ const WebinarRegistration = () => {
   }
   , {
     templateId:2,
-  
+    pageTitle: "To register please fill in all your details below.",
+    bodyText: "",
+    headerImageUrl: "",
+    footerImageUrl: "",
+    labelColor: "",
+    backgroundColor: "",
     "body": [
         {
             "name": "country",
@@ -165,6 +175,12 @@ const WebinarRegistration = () => {
     ],
   
 }, {templateId:3,
+  pageTitle: "To register please select and fill in all your details below.",
+  bodyText: "This meeting is for healthcare professionals only.",
+  headerImageUrl: "",
+  footerImageUrl: "",
+  labelColor: "",
+  backgroundColor: "",
   body:[
     {
         "label": "name",
@@ -264,7 +280,7 @@ const WebinarRegistration = () => {
         "name": "i consent to:"
     }
 ]}]);
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
   const responsive = {
@@ -438,7 +454,6 @@ const WebinarRegistration = () => {
   };
 
   const handleModalSave = (form) => {
-    console.log("model save form-->", form);
     let updateFormBody = formData?.body;
     if (fieldData) {
       updateFormBody[index] = form;
@@ -457,7 +472,6 @@ const WebinarRegistration = () => {
   };
 
   const addExtension = (e, index, optIndex) => {
-    console.log("index--->", index, "--->optIndex", optIndex);
     e.preventDefault();
     setIndex(index);
     setOptIndex(optIndex);
@@ -474,11 +488,8 @@ const WebinarRegistration = () => {
   };
 
   const handleExtensionModalSave = (form) => {
-    console.log("extension1--->", form);
-
     let newExtension = formData?.body;
     newExtension[index]?.option?.[optIndex]?.extension?.push(form);
-    console.log("extension2--->", newExtension);
     setFormData({ ...formData, body: newExtension });
   };
 
@@ -492,8 +503,6 @@ const WebinarRegistration = () => {
   const handleRadioClick = (e, itemLabel, index, optIndex) => {
     let updateExtension =
       formData?.body?.[index]?.option?.[optIndex]?.extension;
-    console.log("e---->", updateExtension);
-
     setFormExtLabel(updateExtension);
   };
 
@@ -638,7 +647,7 @@ const WebinarRegistration = () => {
     console.log("form data--->", formData);
     setFormData(formData)
     e.preventDefault();
-    return;
+    // return;
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
       if (Object.keys(error)?.length) {
@@ -727,33 +736,9 @@ const WebinarRegistration = () => {
     
     console.log(template);
     setActiveIndex(template?.templateId)
-    let updatedBody=JSON.parse(JSON.stringify(template?.body))
-    setFormData({ ...formData, body: updatedBody });
+    let updatedBody=JSON.parse(JSON.stringify(template))
+    setFormData(updatedBody);
 
-    // setNewTemplateClicked(false);
-    // if (div) {
-    //   div.classList.remove("select_mm");
-    // }
-    // let tooltip = "";
-    // if (template?.popupNo == 1) {
-    //   tooltip = "will come when Pop up first time appears for the user";
-    // } else if (template?.popupNo == 2) {
-    //   tooltip = "will come when Pop up 1 is canceled";
-    // } else if (template?.popupNo == 3) {
-    //   tooltip = "will come when user cancel the 1st and 2nd Pop up";
-    // } else if (template?.popupNo == 4) {
-    //   tooltip = "will come when user submit the 1st or 2nd Pop up";
-    // } else {
-    //   tooltip = "no pop up is selected";
-    // }
-    // setTemplateToolTip(tooltip);
-    // setTemplateClicked(true);
-    // setTemplateName(template?.name);
-    // setNewTemplateName(template?.name);
-    // setTemplate(template?.source_code);
-    // setPopupNo(template?.popupNo);
-    // setChangeEditorCount(0);
-    // e.target.classList.toggle("select_mm");
   };
 
   return (
@@ -1055,14 +1040,9 @@ const WebinarRegistration = () => {
                                                                 value={
                                                                   item?.optionValue
                                                                 }
-                                                                // onChange={(e) =>
-                                                                //   handleRadioClick(
-                                                                //     e,
-                                                                //     item.optionLabel,
-                                                                //     index,
-                                                                //     optIndex
-                                                                //   )
-                                                                // }
+                                                                checked={
+                                                                  item?.checked
+                                                                }
                                                                 onChange={(e) =>
                                                                   handleExtensionChange(
                                                                     e,
@@ -1107,10 +1087,7 @@ const WebinarRegistration = () => {
                                                               ) : (
                                                                 ""
                                                               )}
-                                                              {console.log(
-                                                                "---Checked--->",
-                                                                item?.checked
-                                                              )}
+
                                                               {item?.extension
                                                                 ?.length > 0 &&
                                                               item?.checked ==
@@ -1124,7 +1101,7 @@ const WebinarRegistration = () => {
                                                                       <div className="extItem">
                                                                         {extItem?.inputType ==
                                                                         "text" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1141,6 +1118,185 @@ const WebinarRegistration = () => {
                                                                               className="form-control"
                                                                               name={
                                                                                 extItem?.label
+                                                                              }
+                                                                            />
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "radio" ? (
+                                                                          <div className="extOption">
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            {extItem?.option?.map(
+                                                                              (
+                                                                                optItem,
+                                                                                optItemIndex
+                                                                              ) => (
+                                                                                <div
+                                                                                  className="extOptionItem"
+                                                                                  key={
+                                                                                    optItemIndex
+                                                                                  }
+                                                                                >
+                                                                                  <input
+                                                                                    type={
+                                                                                      extItem?.inputType
+                                                                                    }
+                                                                                    name={
+                                                                                      extItem?.label
+                                                                                    }
+                                                                                    value={
+                                                                                      optItem?.optionValue
+                                                                                    }
+                                                                                  />
+                                                                                  <label
+                                                                                    htmlFor={
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  >
+                                                                                    {
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  </label>
+                                                                                </div>
+                                                                              )
+                                                                            )}
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "date" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {" "}
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            <DatePicker
+                                                                              name={
+                                                                                extItem?.label
+                                                                              }
+                                                                              dateFormat="dd/MM/yyyy"
+                                                                              className="form-control"
+                                                                              placeholderText="Select task date"
+                                                                              // minDate={currentDate}
+
+                                                                              onKeyDown={(
+                                                                                e
+                                                                              ) => {
+                                                                                e.preventDefault();
+                                                                              }}
+                                                                            />
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "checkbox" ? (
+                                                                          <div className="extOption">
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            {extItem?.option?.map(
+                                                                              (
+                                                                                optItem,
+                                                                                optItemIndex
+                                                                              ) => (
+                                                                                <div
+                                                                                  className="extOptionItem"
+                                                                                  key={
+                                                                                    optItemIndex
+                                                                                  }
+                                                                                >
+                                                                                  <input
+                                                                                    type={
+                                                                                      extItem?.inputType
+                                                                                    }
+                                                                                    name={
+                                                                                      extItem?.label
+                                                                                    }
+                                                                                    value={
+                                                                                      optItem?.optionValue
+                                                                                    }
+                                                                                  />
+                                                                                  <label
+                                                                                    htmlFor={
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  >
+                                                                                    {
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  </label>
+                                                                                </div>
+                                                                              )
+                                                                            )}
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "selection" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            <Select
+                                                                              className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                              options={
+                                                                                extItem?.label ==
+                                                                                "country"
+                                                                                  ? countryList
+                                                                                  : extItem?.option?.map(
+                                                                                      (
+                                                                                        item
+                                                                                      ) => ({
+                                                                                        label:
+                                                                                          item?.optionLabel,
+                                                                                        value:
+                                                                                          item?.optionLabel,
+                                                                                      })
+                                                                                    )
+                                                                              }
+                                                                              placeholder="Plese select the value"
+                                                                            />
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "textarea" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+
+                                                                            <textarea
+                                                                              className="form-control"
+                                                                              name={extItem?.label?.toLowerCase()}
+                                                                              type={
+                                                                                extItem?.inputType
+                                                                              }
+                                                                              placeholder={
+                                                                                extItem?.placeholder
                                                                               }
                                                                             />
                                                                           </div>
@@ -1396,6 +1552,7 @@ const WebinarRegistration = () => {
                                                                 name={
                                                                   data?.label
                                                                 }
+                                                                checked={item?.checked}
                                                                 onChange={(e) =>
                                                                   handleExtensionChange(
                                                                     e,
@@ -1467,6 +1624,185 @@ const WebinarRegistration = () => {
                                                                               className="form-control"
                                                                               name={
                                                                                 extItem?.label
+                                                                              }
+                                                                            />
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "radio" ? (
+                                                                          <div className="extOption">
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            {extItem?.option?.map(
+                                                                              (
+                                                                                optItem,
+                                                                                optItemIndex
+                                                                              ) => (
+                                                                                <div
+                                                                                  className="extOptionItem"
+                                                                                  key={
+                                                                                    optItemIndex
+                                                                                  }
+                                                                                >
+                                                                                  <input
+                                                                                    type={
+                                                                                      extItem?.inputType
+                                                                                    }
+                                                                                    name={
+                                                                                      extItem?.label
+                                                                                    }
+                                                                                    value={
+                                                                                      optItem?.optionValue
+                                                                                    }
+                                                                                  />
+                                                                                  <label
+                                                                                    htmlFor={
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  >
+                                                                                    {
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  </label>
+                                                                                </div>
+                                                                              )
+                                                                            )}
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "date" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {" "}
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            <DatePicker
+                                                                              name={
+                                                                                extItem?.label
+                                                                              }
+                                                                              dateFormat="dd/MM/yyyy"
+                                                                              className="form-control"
+                                                                              placeholderText="Select task date"
+                                                                              // minDate={currentDate}
+
+                                                                              onKeyDown={(
+                                                                                e
+                                                                              ) => {
+                                                                                e.preventDefault();
+                                                                              }}
+                                                                            />
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "checkbox" ? (
+                                                                          <div className="extOption">
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            {extItem?.option?.map(
+                                                                              (
+                                                                                optItem,
+                                                                                optItemIndex
+                                                                              ) => (
+                                                                                <div
+                                                                                  className="extOptionItem"
+                                                                                  key={
+                                                                                    optItemIndex
+                                                                                  }
+                                                                                >
+                                                                                  <input
+                                                                                    type={
+                                                                                      extItem?.inputType
+                                                                                    }
+                                                                                    name={
+                                                                                      extItem?.label
+                                                                                    }
+                                                                                    value={
+                                                                                      optItem?.optionValue
+                                                                                    }
+                                                                                  />
+                                                                                  <label
+                                                                                    htmlFor={
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  >
+                                                                                    {
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  </label>
+                                                                                </div>
+                                                                              )
+                                                                            )}
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "selection" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            <Select
+                                                                              className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                              options={
+                                                                                extItem?.label ==
+                                                                                "country"
+                                                                                  ? countryList
+                                                                                  : extItem?.option?.map(
+                                                                                      (
+                                                                                        item
+                                                                                      ) => ({
+                                                                                        label:
+                                                                                          item?.optionLabel,
+                                                                                        value:
+                                                                                          item?.optionLabel,
+                                                                                      })
+                                                                                    )
+                                                                              }
+                                                                              placeholder="Plese select the value"
+                                                                            />
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "textarea" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+
+                                                                            <textarea
+                                                                              className="form-control"
+                                                                              name={extItem?.label?.toLowerCase()}
+                                                                              type={
+                                                                                extItem?.inputType
+                                                                              }
+                                                                              placeholder={
+                                                                                extItem?.placeholder
                                                                               }
                                                                             />
                                                                           </div>
