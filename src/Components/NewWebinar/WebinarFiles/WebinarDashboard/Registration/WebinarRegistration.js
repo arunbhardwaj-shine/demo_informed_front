@@ -529,6 +529,18 @@ const WebinarRegistration = () => {
     setFormData({ ...formData, body: updatedFormBody });
   };
 
+  const deleteExtField = (e, data, index, optIndex, extIndex) => {
+    e.preventDefault();
+    let updatedFormBody = formData?.body;
+    console.log("--old ext--->", updatedFormBody);
+    updatedFormBody?.[index]?.option?.[optIndex]?.extension?.splice(
+      extIndex,
+      1
+    );
+    console.log("---->new ext--->", updatedFormBody);
+    setFormData({ ...formData, body: updatedFormBody });
+  };
+
   const handleChange = (e, isSelectedName) => {
     if (isSelectedName) {
       let updateFormBody = formData?.body;
@@ -1362,10 +1374,12 @@ const WebinarRegistration = () => {
                                                                             e
                                                                           ) => {
                                                                             // setConfirmationPopup(true);
-                                                                            deleteField(
+                                                                            deleteExtField(
                                                                               e,
                                                                               data,
-                                                                              index
+                                                                              index,
+                                                                              optIndex,
+                                                                              extIndex
                                                                             );
                                                                           }}
                                                                         >
@@ -1716,10 +1730,12 @@ const WebinarRegistration = () => {
                                                                             e
                                                                           ) => {
                                                                             // setConfirmationPopup(true);
-                                                                            deleteField(
+                                                                            deleteExtField(
                                                                               e,
                                                                               data,
-                                                                              index
+                                                                              index,
+                                                                              optIndex,
+                                                                              extIndex
                                                                             );
                                                                           }}
                                                                         >

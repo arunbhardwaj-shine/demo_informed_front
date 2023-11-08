@@ -30,7 +30,7 @@ const CommonExtensionModal = ({
   const [error, setError] = useState({});
   useEffect(() => {
     console.log("extensionData --->", extensionData);
-    if (extensionData) {
+    if (extensionData != "undefined" && extensionData) {
       let editFormData = extensionData;
       setFormData(editFormData);
     } else {
@@ -135,7 +135,9 @@ const CommonExtensionModal = ({
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {extensionData ? "Edit Extensions" : "Add Extensions"}
+              {extensionData != "undefined" && extensionData
+                ? "Edit Extensions"
+                : "Add Extensions"}
             </h5>
             <button
               type="button"
