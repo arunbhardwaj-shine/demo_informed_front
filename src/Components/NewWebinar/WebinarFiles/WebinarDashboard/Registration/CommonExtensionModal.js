@@ -4,47 +4,43 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 import RegistrationValidation from "./AddQuestionValidation";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const CommonAddQuestionModal = ({
+const CommonExtensionModal = ({
   show,
   onClose,
   handleSave,
   formLabel,
-  fieldData,
+  extensionData,
 }) => {
   const [inputOptions, setInputOption] = useState([
     { label: "Text", value: "text" },
-    { label: "Email", value: "email" },
+    { label: "Radio", value: "radio" },
+    { label: "Date", value: "date" },
     { label: "Textarea", value: "textarea" },
     { label: "Selection", value: "selection" },
     { label: "Checkbox", value: "checkbox" },
-    { label: "Radio", value: "radio" },
   ]);
-  const [requiredOption, setRequiredOption] = useState([
-    { label: "Yes", value: "yes" },
-    { label: "No", value: "no" },
-  ]);
+
   const [formData, setFormData] = useState({
     label: "",
+    name: "",
     inputType: "",
     placeholder: "",
-    required: "",
-    option: "",
+    option: [],
   });
   const [error, setError] = useState({});
   useEffect(() => {
-   
-    if (fieldData) {
-      let editFormData = fieldData;
-      setFormData(editFormData);
-    }
+    // if (extensionData) {
+    //   let editFormData = extensionData;
+    //   setFormData(editFormData);
+    // }
   }, [show]);
   const handleClose = () => {
     setFormData({
       label: "",
+      name: "",
       inputType: "",
       placeholder: "",
       option: [],
-      required: "",
     });
     onClose(false);
     setError();
@@ -60,7 +56,7 @@ const CommonAddQuestionModal = ({
         label: "",
         option: [],
         placeholder: "",
-        required: "",
+
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e
           : e?.target?.value,
@@ -77,21 +73,14 @@ const CommonAddQuestionModal = ({
 
   const saveClicked = (e) => {
     e.preventDefault();
-    const error = RegistrationValidation(formData, formLabel, fieldData);
 
-    if (Object.keys(error)?.length) {
-      // toast.error(error[Object.keys(error)[0]]);
-      setError(error);
-      return;
-    } else {
-      console.log({...formData,name:formData?.label});
-      handleSave({...formData,name:formData?.label?.toLowerCase()});
-      handleClose();
-      setError();
-    }
+    console.log("exten form data--->", formData);
+    handleSave(formData);
+    handleClose();
   };
   const AddOptions = (e) => {
     e.preventDefault();
+
     let optionObj = {
       optionLabel: "",
     };
@@ -137,7 +126,7 @@ const CommonAddQuestionModal = ({
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {fieldData ? "Edit Fields" : "Add Fields"}
+              {extensionData ? "Edit Extensions" : "Add Extensions"}
             </h5>
             <button
               type="button"
@@ -225,32 +214,30 @@ const CommonAddQuestionModal = ({
                             </div>
                           </div>
                           <div className="col-12 col-md-6">
-                            <div className="form-group bottom">
-                              <label htmlFor="">Required</label>
-                              <Select
-                                options={requiredOption}
-                                name="required"
-                                placeholder="Select required type"
-                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                value={
-                                  requiredOption?.findIndex(
-                                    (item, index) =>
-                                      item?.value == formData?.required
-                                  ) != -1
-                                    ? requiredOption[
-                                        requiredOption?.findIndex(
-                                          (item, index) =>
-                                            item?.value == formData?.required
-                                        )
-                                      ]
-                                    : ""
+                            <div className="form-group">
+                              <label htmlFor="">Field name</label>
+                              <input
+                                type="text"
+                                name="name"
+                                placeholder="Enter name"
+                                className={
+                                  error?.label
+                                    ? "form-control error"
+                                    : "form-control"
                                 }
-                                onChange={(e) =>
-                                  handleChange(e?.value, "required")
-                                }
+                                value={formData?.name}
+                                onChange={(e) => handleChange(e)}
                               />
+                              {error?.name ? (
+                                <div className="login-validation">
+                                  {error?.name}
+                                </div>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
+
                           {formData?.inputType == "text" ||
                           formData?.inputType == "email" ||
                           formData?.inputType == "textarea" ? (
@@ -271,54 +258,51 @@ const CommonAddQuestionModal = ({
                             ""
                           )}
 
-                          {Object.keys(formData?.option)?.length
-                            ? Object.keys(formData?.option)?.map(
-                                (item, index) => (
-                                  <div className="col-12 col-md-6" key={index}>
-                                    <div className="form-group">
-                                      <label htmlFor="">{`Option ${
-                                        index + 1
-                                      }`}</label>
-                                      <input
-                                        className={
-                                          error?.option && error?.index == index
-                                            ? "form-control error"
-                                            : "form-control"
-                                        }
-                                        type="text"
-                                        placeholder="Enter option"
-                                        value={
-                                          formData?.option[item]?.optionLabel
-                                        }
-                                        onChange={(e) =>
-                                          handleChange(e, "optionValue", index)
-                                        }
-                                      />
-                                      {error?.option &&
-                                      error?.index == index ? (
-                                        <div className="login-validation">
-                                          {error?.option}
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
+                          {formData?.option?.length > 0
+                            ? formData?.option?.map((item, index) => (
+                                <div className="col-12 col-md-6" key={index}>
+                                  <div className="form-group">
+                                    <label htmlFor="">{`Option ${
+                                      index + 1
+                                    }`}</label>
+                                    <input
+                                      className={
+                                        error?.option && error?.index == index
+                                          ? "form-control error"
+                                          : "form-control"
+                                      }
+                                      type="text"
+                                      placeholder="Enter option"
+                                      value={
+                                        formData?.option[item]?.optionLabel
+                                      }
+                                      onChange={(e) =>
+                                        handleChange(e, "optionValue", index)
+                                      }
+                                    />
+                                    {error?.option && error?.index == index ? (
+                                      <div className="login-validation">
+                                        {error?.option}
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
 
-                                      <button
-                                        className="dlt_btn_event btn-voilet"
-                                        onClick={(e) => {
-                                          deleteOption(e, index);
-                                        }}
-                                      >
-                                        <img
-                                          title="Delete"
-                                          src={path_image + "delete-icon.svg"}
-                                          alt="Delete Row"
-                                        />
-                                      </button>
-                                    </div>
+                                    <button
+                                      className="dlt_btn_event btn-voilet"
+                                      onClick={(e) => {
+                                        deleteOption(e, index);
+                                      }}
+                                    >
+                                      <img
+                                        title="Delete"
+                                        src={path_image + "delete-icon.svg"}
+                                        alt="Delete Row"
+                                      />
+                                    </button>
                                   </div>
-                                )
-                              )
+                                </div>
+                              ))
                             : ""}
                           {formData?.inputType == "radio" ||
                           formData?.inputType == "checkbox" ||
@@ -328,7 +312,7 @@ const CommonAddQuestionModal = ({
                                 className="add-option"
                                 onClick={(e) => AddOptions(e)}
                               >
-                                Add options
+                                Add extension
                               </Button>
                             </div>
                           ) : (
@@ -365,4 +349,4 @@ const CommonAddQuestionModal = ({
     </>
   );
 };
-export default CommonAddQuestionModal;
+export default CommonExtensionModal;

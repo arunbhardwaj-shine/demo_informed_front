@@ -11,16 +11,273 @@ import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 import CountryList from "./CountryList";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import CommonExtensionModal from "./CommonExtensionModal";
+import AliceCarousel from "react-alice-carousel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const WebinarRegistration = () => {
+  const [templateList, setTemplateList] = useState([
+    {
+      templateId:1,
+    
+      "body": [
+          {
+              "label": "I will attend:",
+              "inputType": "radio",
+              "placeholder": "",
+              "required": "yes",
+              "option": [
+                  {
+                      "optionLabel": "Both, International ITI School & MOTIVATE Investigators meeting"
+                  },
+                  {
+                      "optionLabel": "International ITI School"
+                  },
+                  {
+                      "optionLabel": "MOTIVATE Investigators meeting"
+                  }
+              ],
+              "name": "i will attend:"
+          },
+          {
+              "label": "travel accomodation",
+              "inputType": "radio",
+              "option": [
+                  {
+                      "optionLabel": "Organize my own travel",
+                      "extension": []
+                  },
+                  {
+                      "optionLabel": "Have my travel arranged by the meeting organizers",
+                      "extension": [
+                          {
+                              "name": "departure",
+                              "label": "Airport of departure",
+                              "inputType": "text",
+                              "placeholder": "Airport of departure"
+                          },
+                          {
+                              "name": "air_departure_date",
+                              "label": "Preferred departure date",
+                              "inputType": "datepicker",
+                              "placeholder": "dd-mm-yyyy"
+                          },
+                          {
+                              "name": "departure_time",
+                              "label": "Preferred departure time",
+                              "inputType": "radio",
+                              "option": [
+                                  {
+                                      "optionLabel": "Morning"
+                                  },
+                                  {
+                                      "optionLabel": "Afternoon"
+                                  },
+                                  {
+                                      "optionLabel": "Evening"
+                                  }
+                              ]
+                          },
+                          {
+                              "name": "air_return_date",
+                              "label": "Preferred return flight date",
+                              "inputType": "datepicker",
+                              "placeholder": "dd-mm-yyyy"
+                          }
+                      ]
+                  }
+              ],
+              "required": "yes",
+              "name": "travel accomodation"
+          },
+          {
+              "label": "I consent to:",
+              "inputType": "checkbox",
+              "placeholder": "",
+              "option": [
+                  {
+                      "optionLabel": "Be contacted by the MOTIVATE team for the purpose of this meeting*"
+                  },
+                  {
+                      "optionLabel": "Receive future materials from MOTIVATE"
+                  }
+              ],
+              "required": "yes",
+              "name": "i consent to:"
+          },
+          {
+              "name": "country",
+              "label": "Your Country",
+              "inputType": "selection",
+              "placeholder": "Please enter country",
+              "option": [],
+              "required": "Yes"
+          },
+          {
+              "label": "name",
+              "name": "userName",
+              "inputType": "text",
+              "placeholder": "Please enter name",
+              "option": [],
+              "required": ""
+          },
+          {
+              "label": "email",
+              "name": "userEmail",
+              "inputType": "email",
+              "placeholder": "Please enter email",
+              "option": [],
+              "required": "Yes"
+          }
+      ],
+   
+  }
+  , {
+    templateId:2,
+  
+    "body": [
+        {
+            "name": "country",
+            "label": "You Country",
+            "inputType": "selection",
+            "placeholder": "Please enter country",
+            "option": [],
+            "required": "Yes"
+        },
+        {
+            "label": "name",
+            "name": "userName",
+            "inputType": "text",
+            "placeholder": "Please enter name",
+            "option": [],
+            "required": "Yes"
+        },
+        {
+            "label": "email",
+            "name": "userEmail",
+            "inputType": "email",
+            "placeholder": "Please enter email",
+            "option": [],
+            "required": "Yes"
+        }
+    ],
+  
+}, {templateId:3,
+  body:[
+    {
+        "label": "name",
+        "name": "userName",
+        "inputType": "text",
+        "placeholder": "Please enter name",
+        "option": [],
+        "required": ""
+    },
+    {
+        "label": "email",
+        "name": "userEmail",
+        "inputType": "email",
+        "placeholder": "Please enter email",
+        "option": [],
+        "required": ""
+    },
+    {
+        "name": "country",
+        "label": "country",
+        "inputType": "selection",
+        "placeholder": "Please enter country",
+        "option": [],
+        "required": ""
+    },
+    {
+        "label": "I will attend:",
+        "inputType": "radio",
+        "placeholder": "",
+        "option": [
+            {
+                "optionLabel": "Both Factor VIII Relevance Academy and EAHAD congress"
+            },
+            {
+                "optionLabel": "Factor VIII Relevance Academy only"
+            }
+        ],
+        "required": "no",
+        "name": "i will attend:"
+    },
+    {
+        "label": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+        "inputType": "radio",
+        "placeholder": "",
+        "option": [
+            {
+                "optionLabel": "Yes",
+                "extension": [
+                  {
+                      "name": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+                      // "label": "Airport of departure",
+                      "inputType": "text",
+                      "placeholder": "In case you have any dietary restrictions or allergies please specify here"
+                  }]
+            },
+            {
+                "optionLabel": "No"
+            }
+        ],
+        "required": "no",
+        "name": "i will join the factor viii relevance academy dinner (5th feb) :"
+    },
+    {
+        "label": "I would like to:",
+        "inputType": "radio",
+        "placeholder": "",
+        "option": [
+            {
+                "optionLabel": "Organize my own accomodation"
+            },
+            {
+                "optionLabel": "Have my accommodation organized for 1 night on the 4th of Feb"
+            },
+            {
+                "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb"
+            },
+            {
+                "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb"
+            }
+        ],
+        "required": "no",
+        "name": "i would like to:"
+    },
+    {
+        "label": "I consent to:",
+        "inputType": "checkbox",
+        "placeholder": "",
+        "option": [
+            {
+                "optionLabel": "Being contacted by FVIII Academy organizing team for the purpose of this meeting*"
+            },
+            {
+                "optionLabel": "Receive future materials from the FVIII Academy"
+            }
+        ],
+        "required": "no",
+        "name": "i consent to:"
+    }
+]}]);
+  const [activeIndex, setActiveIndex] = useState(1);
+  const syncActiveIndex = ({ item }) => setActiveIndex(item);
+
+  const responsive = {
+    0: { items: 1 },
+    568: { items: 2 },
+    1024: { items: 5 },
+  };
+  const [templateId, setTemplateId] = useState();
+
   let navigate = useNavigate();
   const location = useLocation();
 
   let prevData = location?.state;
-  //  console.log(prevData);
 
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
@@ -28,6 +285,7 @@ const WebinarRegistration = () => {
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
+  const [showExtensionModal, setExtensionModal] = useState(false);
   const [formData, setFormData] = useState({
     pageTitle: "",
     bodyText: "",
@@ -44,6 +302,7 @@ const WebinarRegistration = () => {
   const [countryList, setCountryList] = useState(CountryList);
   const [errorMsg, setErrorMsg] = useState("");
   const [index, setIndex] = useState();
+  const [optIndex, setOptIndex] = useState();
   const [fieldData, setFieldData] = useState();
   const [formExtLabel, setFormExtLabel] = useState([]);
 
@@ -196,6 +455,31 @@ const WebinarRegistration = () => {
     setModal(true);
   };
 
+  const addExtension = (e, index, optIndex) => {
+    e.preventDefault();
+    setIndex(index);
+    setOptIndex(optIndex);
+
+    setFieldData(formData?.body[index]?.option?.[optIndex]?.extension);
+    setExtensionModal(true);
+  };
+
+  const handleExtensionModalClose = () => {
+    setIndex();
+    setFieldData();
+    setOptIndex();
+    setExtensionModal(false);
+  };
+
+  const handleExtensionModalSave = (form) => {
+    console.log("extension1--->", form);
+
+    let newExtension = formData?.body;
+    newExtension[index]?.option?.[optIndex]?.extension?.push(form);
+    console.log("extension2--->", newExtension);
+    setFormData({ ...formData, body: newExtension });
+  };
+
   const deleteField = (e, data, index) => {
     e.preventDefault();
     let updatedFormBody = formData?.body;
@@ -204,10 +488,10 @@ const WebinarRegistration = () => {
   };
 
   const handleRadioClick = (e, itemLabel, index, optIndex) => {
-    console.log("label--->", itemLabel);
     let updateExtension =
       formData?.body?.[index]?.option?.[optIndex]?.extension;
-    console.log("ext--->", updateExtension);
+    console.log("e---->", updateExtension);
+
     setFormExtLabel(updateExtension);
   };
 
@@ -228,6 +512,7 @@ const WebinarRegistration = () => {
         if (isSelectedName == "name" || isSelectedName == "email") {
           let newObj = {
             label: isSelectedName,
+            name: isSelectedName == "email" ? "userEmail" : "userName",
             inputType: isSelectedName == "email" ? "email" : "text",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
@@ -247,16 +532,19 @@ const WebinarRegistration = () => {
 
                 extension: [
                   {
+                    name: "departure",
                     label: "Airport of departure",
                     inputType: "text",
                     placeholder: "Airport of departure",
                   },
                   {
+                    name: "air_departure_date",
                     label: "Preferred departure date",
-                    inputType: "datepicker",
+                    inputType: "date",
                     placeholder: "dd-mm-yyyy",
                   },
                   {
+                    name: "departure_time",
                     label: "Preferred departure time",
                     inputType: "radio",
                     option: [
@@ -266,8 +554,9 @@ const WebinarRegistration = () => {
                     ],
                   },
                   {
+                    name: "air_return_date",
                     label: "Preferred return flight date",
-                    inputType: "datepicker",
+                    inputType: "date",
                     placeholder: "dd-mm-yyyy",
                   },
                 ],
@@ -275,8 +564,28 @@ const WebinarRegistration = () => {
             ],
           };
           updateFormBody?.push(newObj);
+        } else if (isSelectedName == "consent") {
+          let newObj = {
+            label: isSelectedName,
+            name: "consent",
+
+            inputType: "radio",
+            required: "yes",
+
+            option: [
+              {
+                optionLabel:
+                  "Being contacted by FVIII Academy organizing team for the purpose of this meeting*",
+              },
+              {
+                optionLabel: "Receive future materials from the FVIII Academy",
+              },
+            ],
+          };
+          updateFormBody?.push(newObj);
         } else {
           let newObj = {
+            name: isSelectedName,
             label: isSelectedName,
             inputType: "selection",
             placeholder: `Please enter ${isSelectedName}`,
@@ -287,9 +596,10 @@ const WebinarRegistration = () => {
         }
         setFormData({ ...formData, body: updateFormBody });
       } else if (e?.target?.checked == false) {
-        let index = updateFormBody?.findIndex(
-          (item, index) => item?.label == isSelectedName
-        );
+        let index = updateFormBody?.findIndex((item, index) => {
+          return item?.label?.toLowerCase() == isSelectedName;
+        });
+        // console.log(isSelectedName,updateFormBody);
         if (index > -1) {
           updateFormBody?.splice(index, 1);
         }
@@ -307,12 +617,13 @@ const WebinarRegistration = () => {
     } else {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
-    console.log(formData, "==>formData");
   };
 
   const saveClicked = async (e) => {
     console.log("form data--->", formData);
+    setFormData(formData)
     e.preventDefault();
+    return;
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
       if (Object.keys(error)?.length) {
@@ -397,6 +708,39 @@ const WebinarRegistration = () => {
     }
   };
 
+  const templateClicked = (template, e) => {
+    
+    console.log(template);
+    setActiveIndex(template?.templateId)
+    let updatedBody=JSON.parse(JSON.stringify(template?.body))
+    setFormData({ ...formData, body: updatedBody });
+
+    // setNewTemplateClicked(false);
+    // if (div) {
+    //   div.classList.remove("select_mm");
+    // }
+    // let tooltip = "";
+    // if (template?.popupNo == 1) {
+    //   tooltip = "will come when Pop up first time appears for the user";
+    // } else if (template?.popupNo == 2) {
+    //   tooltip = "will come when Pop up 1 is canceled";
+    // } else if (template?.popupNo == 3) {
+    //   tooltip = "will come when user cancel the 1st and 2nd Pop up";
+    // } else if (template?.popupNo == 4) {
+    //   tooltip = "will come when user submit the 1st or 2nd Pop up";
+    // } else {
+    //   tooltip = "no pop up is selected";
+    // }
+    // setTemplateToolTip(tooltip);
+    // setTemplateClicked(true);
+    // setTemplateName(template?.name);
+    // setNewTemplateName(template?.name);
+    // setTemplate(template?.source_code);
+    // setPopupNo(template?.popupNo);
+    // setChangeEditorCount(0);
+    // e.target.classList.toggle("select_mm");
+  };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -407,6 +751,47 @@ const WebinarRegistration = () => {
                 <h2>Registration Page</h2>
               </div>
             </div>
+            <section className="select-mail-template library-cosent">
+              <div className="custom-container">
+                <Row>
+                  <div className="page-title">
+                    <h4>Select Template</h4>
+                  </div>
+
+                  <AliceCarousel
+                    mouseTracking
+                    disableDotsControls
+                    activeIndex={activeIndex}
+                    responsive={responsive}
+                    onSlideChanged={syncActiveIndex}
+                  >
+                    {templateList.map((template, index) => {
+                      return (
+                        <>
+                          <div
+                            className="item"
+                            onClick={(e) => templateClicked(template, e)}
+                          >
+                            <img
+                              id={`"template_dyn" + template?.popupNo`}
+                              src={`${path_image}/template-${index + 1}.png`}
+                              alt=""
+                              className={
+                                typeof activeIndex !== "undefined" &&
+                                activeIndex == template?.templateId
+                                  ? "select_mm"
+                                  : ""
+                              }
+                            />
+                            {/* <p>{template?.name}</p> */}
+                          </div>
+                        </>
+                      );
+                    })}
+                  </AliceCarousel>
+                </Row>{" "}
+              </div>{" "}
+            </section>
             <div className="register-page create-change-content">
               <Row>
                 <Col md={8} sm={7}>
@@ -469,7 +854,7 @@ const WebinarRegistration = () => {
 
                           <Form.Check
                             className="webinar-checkbox"
-                            inline
+                            inlin
                             label="Email"
                             name="email"
                             type="checkbox"
@@ -572,6 +957,23 @@ const WebinarRegistration = () => {
                             onChange={(e) => handleChange(e, "secondOption")}
                           />
 
+                          <Form.Check
+                            className="webinar-checkbox"
+                            inline
+                            label="Consent"
+                            name="consent"
+                            type="checkbox"
+                            checked={
+                              formData?.body?.findIndex(
+                                (item, index) =>
+                                  item?.label?.toLowerCase() == "consent"
+                              ) != -1
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => handleChange(e, "consent")}
+                          />
+
                           <span
                             className="add-choice"
                             onClick={() => setModal(true)}
@@ -656,9 +1058,36 @@ const WebinarRegistration = () => {
                                                                   item?.optionLabel
                                                                 }
                                                               </label>
+                                                              {data?.label ==
+                                                              "travel accomodation" ? (
+                                                                <span
+                                                                  className="add-choice"
+                                                                  onClick={(
+                                                                    e
+                                                                  ) =>
+                                                                    addExtension(
+                                                                      e,
+                                                                      index,
+                                                                      optIndex
+                                                                    )
+                                                                  }
+                                                                >
+                                                                  Add extension
+                                                                  <img
+                                                                    src={
+                                                                      path_image +
+                                                                      "add-choice.svg"
+                                                                    }
+                                                                    alt=""
+                                                                  />
+                                                                </span>
+                                                              ) : (
+                                                                ""
+                                                              )}
                                                             </div>
                                                           )
                                                         )}
+
                                                         {formExtLabel?.length &&
                                                         data?.label ==
                                                           "travel accomodation" ? (
@@ -739,7 +1168,7 @@ const WebinarRegistration = () => {
                                                                       )}
                                                                     </div>
                                                                   ) : extItem?.inputType ==
-                                                                    "datepicker" ? (
+                                                                    "date" ? (
                                                                     <div>
                                                                       <label
                                                                         htmlFor={
@@ -765,6 +1194,109 @@ const WebinarRegistration = () => {
                                                                         ) => {
                                                                           e.preventDefault();
                                                                         }}
+                                                                      />
+                                                                    </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "checkbox" ? (
+                                                                    <div className="extOption">
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+                                                                      {extItem?.option?.map(
+                                                                        (
+                                                                          optItem,
+                                                                          optItemIndex
+                                                                        ) => (
+                                                                          <div
+                                                                            className="extOptionItem"
+                                                                            key={
+                                                                              optItemIndex
+                                                                            }
+                                                                          >
+                                                                            <input
+                                                                              type={
+                                                                                extItem?.inputType
+                                                                              }
+                                                                              name={
+                                                                                extItem?.label
+                                                                              }
+                                                                              value={
+                                                                                optItem?.optionValue
+                                                                              }
+                                                                            />
+                                                                            <label
+                                                                              htmlFor={
+                                                                                optItem?.optionLabel
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                optItem?.optionLabel
+                                                                              }
+                                                                            </label>
+                                                                          </div>
+                                                                        )
+                                                                      )}
+                                                                    </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "selection" ? (
+                                                                    <div>
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+                                                                      <Select
+                                                                        className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                        options={
+                                                                          extItem?.label ==
+                                                                          "country"
+                                                                            ? countryList
+                                                                            : extItem?.option?.map(
+                                                                                (
+                                                                                  item
+                                                                                ) => ({
+                                                                                  label:
+                                                                                    item?.optionLabel,
+                                                                                  value:
+                                                                                    item?.optionLabel,
+                                                                                })
+                                                                              )
+                                                                        }
+                                                                        placeholder="Plese select the value"
+                                                                      />
+                                                                    </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "textarea" ? (
+                                                                    <div>
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+
+                                                                      <textarea
+                                                                        className="form-control"
+                                                                        name={extItem?.label?.toLowerCase()}
+                                                                        type={
+                                                                          extItem?.inputType
+                                                                        }
+                                                                        placeholder={
+                                                                          extItem?.placeholder
+                                                                        }
                                                                       />
                                                                     </div>
                                                                   ) : (
@@ -1103,6 +1635,13 @@ const WebinarRegistration = () => {
         handleSave={handleModalSave}
         formLabel={formData?.body}
         fieldData={fieldData}
+      />
+      <CommonExtensionModal
+        show={showExtensionModal}
+        onClose={handleExtensionModalClose}
+        handleSave={handleExtensionModalSave}
+        formLabel={formData?.body}
+        extensionData={fieldData}
       />
     </>
   );

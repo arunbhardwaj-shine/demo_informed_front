@@ -8,6 +8,7 @@ import Accordion from "react-bootstrap/Accordion";
 import { loader } from "../../../loader";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { popup_alert } from "../../../popup_alert";
 
 const FilterSegment = (props) => {
   const tableCompRef = useRef();
@@ -1172,6 +1173,14 @@ const FilterSegment = (props) => {
           // console.log(res.data.status_code);
           if (res.data.status_code == 200) {
             setFilterData(res.data.response.data);
+            let total_count = res?.data?.response?.data?.length;
+            // console.log(res.data.response.data,"DATE")
+            popup_alert({
+              visible: "show",
+              message: total_count+" Users found.<br> Use create smart list to confirm the list.",
+              type: "success",
+              redirect: "",
+            });
           } else {
             setFilterData();
           }
