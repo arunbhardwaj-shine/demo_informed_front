@@ -438,6 +438,7 @@ const WebinarRegistration = () => {
   };
 
   const handleModalSave = (form) => {
+    console.log("model save form-->", form);
     let updateFormBody = formData?.body;
     if (fieldData) {
       updateFormBody[index] = form;
@@ -456,6 +457,7 @@ const WebinarRegistration = () => {
   };
 
   const addExtension = (e, index, optIndex) => {
+    console.log("index--->", index, "--->optIndex", optIndex);
     e.preventDefault();
     setIndex(index);
     setOptIndex(optIndex);
@@ -616,6 +618,19 @@ const WebinarRegistration = () => {
       }
     } else {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
+    }
+  };
+
+  const handleExtensionChange = (e, index, optIndex, type) => {
+    if (type == "radio") {
+      let newForm = formData?.body;
+      newForm[index]?.option?.forEach((item) => (item.checked = false));
+      newForm[index].option[optIndex].checked = e?.target?.checked;
+      setFormData({ ...formData, body: newForm });
+    } else if (type == "checkbox") {
+      let newForm = formData?.body;
+      newForm[index].option[optIndex].checked = e?.target?.checked;
+      setFormData({ ...formData, body: newForm });
     }
   };
 
@@ -1040,12 +1055,20 @@ const WebinarRegistration = () => {
                                                                 value={
                                                                   item?.optionValue
                                                                 }
+                                                                // onChange={(e) =>
+                                                                //   handleRadioClick(
+                                                                //     e,
+                                                                //     item.optionLabel,
+                                                                //     index,
+                                                                //     optIndex
+                                                                //   )
+                                                                // }
                                                                 onChange={(e) =>
-                                                                  handleRadioClick(
+                                                                  handleExtensionChange(
                                                                     e,
-                                                                    item.optionLabel,
                                                                     index,
-                                                                    optIndex
+                                                                    optIndex,
+                                                                    data?.inputType
                                                                   )
                                                                 }
                                                               />
@@ -1058,8 +1081,8 @@ const WebinarRegistration = () => {
                                                                   item?.optionLabel
                                                                 }
                                                               </label>
-                                                              {data?.label ==
-                                                              "travel accomodation" ? (
+                                                              {data?.extension ==
+                                                              true ? (
                                                                 <span
                                                                   className="add-choice"
                                                                   onClick={(
@@ -1084,11 +1107,58 @@ const WebinarRegistration = () => {
                                                               ) : (
                                                                 ""
                                                               )}
+                                                              {console.log(
+                                                                "---Checked--->",
+                                                                item?.checked
+                                                              )}
+                                                              {item?.extension
+                                                                ?.length > 0 &&
+                                                              item?.checked ==
+                                                                true ? (
+                                                                <div>
+                                                                  {item?.extension?.map(
+                                                                    (
+                                                                      extItem,
+                                                                      extIndex
+                                                                    ) => (
+                                                                      <div className="extItem">
+                                                                        {extItem?.inputType ==
+                                                                        "text" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            <input
+                                                                              type={
+                                                                                extItem?.inputType
+                                                                              }
+                                                                              className="form-control"
+                                                                              name={
+                                                                                extItem?.label
+                                                                              }
+                                                                            />
+                                                                          </div>
+                                                                        ) : (
+                                                                          ""
+                                                                        )}
+                                                                      </div>
+                                                                    )
+                                                                  )}
+                                                                </div>
+                                                              ) : (
+                                                                ""
+                                                              )}
                                                             </div>
                                                           )
                                                         )}
 
-                                                        {formExtLabel?.length &&
+                                                        {/* {formExtLabel?.length &&
                                                         data?.label ==
                                                           "travel accomodation" ? (
                                                           <div className="extension">
@@ -1308,16 +1378,16 @@ const WebinarRegistration = () => {
                                                           </div>
                                                         ) : (
                                                           ""
-                                                        )}
+                                                        )} */}
                                                       </div>
                                                     ) : data?.inputType ==
                                                       "checkbox" ? (
                                                       <div className="btn-container">
                                                         {data?.option?.map(
-                                                          (item, index) => (
+                                                          (item, optIndex) => (
                                                             <div
                                                               className="check"
-                                                              key={index}
+                                                              key={optIndex}
                                                             >
                                                               <input
                                                                 type={
@@ -1326,12 +1396,90 @@ const WebinarRegistration = () => {
                                                                 name={
                                                                   data?.label
                                                                 }
+                                                                onChange={(e) =>
+                                                                  handleExtensionChange(
+                                                                    e,
+                                                                    index,
+                                                                    optIndex,
+                                                                    data?.inputType
+                                                                  )
+                                                                }
                                                               />
                                                               <label htmlFor="">
                                                                 {
                                                                   item?.optionLabel
                                                                 }
                                                               </label>
+                                                              {data?.extension ==
+                                                              true ? (
+                                                                <span
+                                                                  className="add-choice"
+                                                                  onClick={(
+                                                                    e
+                                                                  ) =>
+                                                                    addExtension(
+                                                                      e,
+                                                                      index,
+                                                                      optIndex
+                                                                    )
+                                                                  }
+                                                                >
+                                                                  Add extension
+                                                                  <img
+                                                                    src={
+                                                                      path_image +
+                                                                      "add-choice.svg"
+                                                                    }
+                                                                    alt=""
+                                                                  />
+                                                                </span>
+                                                              ) : (
+                                                                ""
+                                                              )}
+
+                                                              {item?.extension
+                                                                ?.length > 0 &&
+                                                              item?.checked ==
+                                                                true ? (
+                                                                <div>
+                                                                  {item?.extension?.map(
+                                                                    (
+                                                                      extItem,
+                                                                      extIndex
+                                                                    ) => (
+                                                                      <div className="extItem">
+                                                                        {extItem?.inputType ==
+                                                                        "text" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            <input
+                                                                              type={
+                                                                                extItem?.inputType
+                                                                              }
+                                                                              className="form-control"
+                                                                              name={
+                                                                                extItem?.label
+                                                                              }
+                                                                            />
+                                                                          </div>
+                                                                        ) : (
+                                                                          ""
+                                                                        )}
+                                                                      </div>
+                                                                    )
+                                                                  )}
+                                                                </div>
+                                                              ) : (
+                                                                ""
+                                                              )}
                                                             </div>
                                                           )
                                                         )}
