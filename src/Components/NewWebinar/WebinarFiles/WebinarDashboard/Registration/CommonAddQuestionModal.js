@@ -84,7 +84,8 @@ const CommonAddQuestionModal = ({
       setError(error);
       return;
     } else {
-      handleSave(formData);
+      console.log({...formData,name:formData?.label});
+      handleSave({...formData,name:formData?.label?.toLowerCase()});
       handleClose();
       setError();
     }

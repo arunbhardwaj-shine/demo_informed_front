@@ -11,11 +11,268 @@ import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 import CountryList from "./CountryList";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import AliceCarousel from "react-alice-carousel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const WebinarRegistration = () => {
+  const [templateList, setTemplateList] = useState([
+    {
+      templateId:1,
+    
+      "body": [
+          {
+              "label": "I will attend:",
+              "inputType": "radio",
+              "placeholder": "",
+              "required": "yes",
+              "option": [
+                  {
+                      "optionLabel": "Both, International ITI School & MOTIVATE Investigators meeting"
+                  },
+                  {
+                      "optionLabel": "International ITI School"
+                  },
+                  {
+                      "optionLabel": "MOTIVATE Investigators meeting"
+                  }
+              ],
+              "name": "i will attend:"
+          },
+          {
+              "label": "travel accomodation",
+              "inputType": "radio",
+              "option": [
+                  {
+                      "optionLabel": "Organize my own travel",
+                      "extension": []
+                  },
+                  {
+                      "optionLabel": "Have my travel arranged by the meeting organizers",
+                      "extension": [
+                          {
+                              "name": "departure",
+                              "label": "Airport of departure",
+                              "inputType": "text",
+                              "placeholder": "Airport of departure"
+                          },
+                          {
+                              "name": "air_departure_date",
+                              "label": "Preferred departure date",
+                              "inputType": "datepicker",
+                              "placeholder": "dd-mm-yyyy"
+                          },
+                          {
+                              "name": "departure_time",
+                              "label": "Preferred departure time",
+                              "inputType": "radio",
+                              "option": [
+                                  {
+                                      "optionLabel": "Morning"
+                                  },
+                                  {
+                                      "optionLabel": "Afternoon"
+                                  },
+                                  {
+                                      "optionLabel": "Evening"
+                                  }
+                              ]
+                          },
+                          {
+                              "name": "air_return_date",
+                              "label": "Preferred return flight date",
+                              "inputType": "datepicker",
+                              "placeholder": "dd-mm-yyyy"
+                          }
+                      ]
+                  }
+              ],
+              "required": "yes",
+              "name": "travel accomodation"
+          },
+          {
+              "label": "I consent to:",
+              "inputType": "checkbox",
+              "placeholder": "",
+              "option": [
+                  {
+                      "optionLabel": "Be contacted by the MOTIVATE team for the purpose of this meeting*"
+                  },
+                  {
+                      "optionLabel": "Receive future materials from MOTIVATE"
+                  }
+              ],
+              "required": "yes",
+              "name": "i consent to:"
+          },
+          {
+              "name": "country",
+              "label": "Your Country",
+              "inputType": "selection",
+              "placeholder": "Please enter country",
+              "option": [],
+              "required": "Yes"
+          },
+          {
+              "label": "name",
+              "name": "userName",
+              "inputType": "text",
+              "placeholder": "Please enter name",
+              "option": [],
+              "required": ""
+          },
+          {
+              "label": "email",
+              "name": "userEmail",
+              "inputType": "email",
+              "placeholder": "Please enter email",
+              "option": [],
+              "required": "Yes"
+          }
+      ],
+   
+  }
+  , {
+    templateId:2,
+  
+    "body": [
+        {
+            "name": "country",
+            "label": "You Country",
+            "inputType": "selection",
+            "placeholder": "Please enter country",
+            "option": [],
+            "required": "Yes"
+        },
+        {
+            "label": "name",
+            "name": "userName",
+            "inputType": "text",
+            "placeholder": "Please enter name",
+            "option": [],
+            "required": "Yes"
+        },
+        {
+            "label": "email",
+            "name": "userEmail",
+            "inputType": "email",
+            "placeholder": "Please enter email",
+            "option": [],
+            "required": "Yes"
+        }
+    ],
+  
+}, {templateId:3,
+  body:[
+    {
+        "label": "name",
+        "name": "userName",
+        "inputType": "text",
+        "placeholder": "Please enter name",
+        "option": [],
+        "required": ""
+    },
+    {
+        "label": "email",
+        "name": "userEmail",
+        "inputType": "email",
+        "placeholder": "Please enter email",
+        "option": [],
+        "required": ""
+    },
+    {
+        "name": "country",
+        "label": "country",
+        "inputType": "selection",
+        "placeholder": "Please enter country",
+        "option": [],
+        "required": ""
+    },
+    {
+        "label": "I will attend:",
+        "inputType": "radio",
+        "placeholder": "",
+        "option": [
+            {
+                "optionLabel": "Both Factor VIII Relevance Academy and EAHAD congress"
+            },
+            {
+                "optionLabel": "Factor VIII Relevance Academy only"
+            }
+        ],
+        "required": "no",
+        "name": "i will attend:"
+    },
+    {
+        "label": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+        "inputType": "radio",
+        "placeholder": "",
+        "option": [
+            {
+                "optionLabel": "Yes",
+                "extension": [
+                  {
+                      "name": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+                      // "label": "Airport of departure",
+                      "inputType": "text",
+                      "placeholder": "In case you have any dietary restrictions or allergies please specify here"
+                  }]
+            },
+            {
+                "optionLabel": "No"
+            }
+        ],
+        "required": "no",
+        "name": "i will join the factor viii relevance academy dinner (5th feb) :"
+    },
+    {
+        "label": "I would like to:",
+        "inputType": "radio",
+        "placeholder": "",
+        "option": [
+            {
+                "optionLabel": "Organize my own accomodation"
+            },
+            {
+                "optionLabel": "Have my accommodation organized for 1 night on the 4th of Feb"
+            },
+            {
+                "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb"
+            },
+            {
+                "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb"
+            }
+        ],
+        "required": "no",
+        "name": "i would like to:"
+    },
+    {
+        "label": "I consent to:",
+        "inputType": "checkbox",
+        "placeholder": "",
+        "option": [
+            {
+                "optionLabel": "Being contacted by FVIII Academy organizing team for the purpose of this meeting*"
+            },
+            {
+                "optionLabel": "Receive future materials from the FVIII Academy"
+            }
+        ],
+        "required": "no",
+        "name": "i consent to:"
+    }
+]}]);
+  const [activeIndex, setActiveIndex] = useState(1);
+  const syncActiveIndex = ({ item }) => setActiveIndex(item);
+
+  const responsive = {
+    0: { items: 1 },
+    568: { items: 2 },
+    1024: { items: 5 },
+  };
+  const [templateId, setTemplateId] = useState();
+
   let navigate = useNavigate();
   const location = useLocation();
 
@@ -233,6 +490,7 @@ const WebinarRegistration = () => {
         if (isSelectedName == "name" || isSelectedName == "email") {
           let newObj = {
             label: isSelectedName,
+            name: isSelectedName == "email" ? "userEmail" : "userName",
             inputType: isSelectedName == "email" ? "email" : "text",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
@@ -252,16 +510,19 @@ const WebinarRegistration = () => {
 
                 extension: [
                   {
+                    name: "departure",
                     label: "Airport of departure",
                     inputType: "text",
                     placeholder: "Airport of departure",
                   },
                   {
+                    name: "air_departure_date",
                     label: "Preferred departure date",
                     inputType: "datepicker",
                     placeholder: "dd-mm-yyyy",
                   },
                   {
+                    name: "departure_time",
                     label: "Preferred departure time",
                     inputType: "radio",
                     option: [
@@ -271,6 +532,7 @@ const WebinarRegistration = () => {
                     ],
                   },
                   {
+                    name: "air_return_date",
                     label: "Preferred return flight date",
                     inputType: "datepicker",
                     placeholder: "dd-mm-yyyy",
@@ -280,8 +542,28 @@ const WebinarRegistration = () => {
             ],
           };
           updateFormBody?.push(newObj);
+        } else if (isSelectedName == "consent") {
+          let newObj = {
+            label: isSelectedName,
+            name: "consent",
+
+            inputType: "radio",
+            required: "yes",
+
+            option: [
+              {
+                optionLabel:
+                  "Being contacted by FVIII Academy organizing team for the purpose of this meeting*",
+              },
+              {
+                optionLabel: "Receive future materials from the FVIII Academy",
+              },
+            ],
+          };
+          updateFormBody?.push(newObj);
         } else {
           let newObj = {
+            name: isSelectedName,
             label: isSelectedName,
             inputType: "selection",
             placeholder: `Please enter ${isSelectedName}`,
@@ -292,9 +574,10 @@ const WebinarRegistration = () => {
         }
         setFormData({ ...formData, body: updateFormBody });
       } else if (e?.target?.checked == false) {
-        let index = updateFormBody?.findIndex(
-          (item, index) => item?.label == isSelectedName
-        );
+        let index = updateFormBody?.findIndex((item, index) => {
+          return item?.label?.toLowerCase() == isSelectedName;
+        });
+        // console.log(isSelectedName,updateFormBody);
         if (index > -1) {
           updateFormBody?.splice(index, 1);
         }
@@ -316,7 +599,9 @@ const WebinarRegistration = () => {
 
   const saveClicked = async (e) => {
     console.log("form data--->", formData);
+    setFormData(formData)
     e.preventDefault();
+    return;
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
       if (Object.keys(error)?.length) {
@@ -401,6 +686,39 @@ const WebinarRegistration = () => {
     }
   };
 
+  const templateClicked = (template, e) => {
+    
+    console.log(template);
+    setActiveIndex(template?.templateId)
+    let updatedBody=JSON.parse(JSON.stringify(template?.body))
+    setFormData({ ...formData, body: updatedBody });
+
+    // setNewTemplateClicked(false);
+    // if (div) {
+    //   div.classList.remove("select_mm");
+    // }
+    // let tooltip = "";
+    // if (template?.popupNo == 1) {
+    //   tooltip = "will come when Pop up first time appears for the user";
+    // } else if (template?.popupNo == 2) {
+    //   tooltip = "will come when Pop up 1 is canceled";
+    // } else if (template?.popupNo == 3) {
+    //   tooltip = "will come when user cancel the 1st and 2nd Pop up";
+    // } else if (template?.popupNo == 4) {
+    //   tooltip = "will come when user submit the 1st or 2nd Pop up";
+    // } else {
+    //   tooltip = "no pop up is selected";
+    // }
+    // setTemplateToolTip(tooltip);
+    // setTemplateClicked(true);
+    // setTemplateName(template?.name);
+    // setNewTemplateName(template?.name);
+    // setTemplate(template?.source_code);
+    // setPopupNo(template?.popupNo);
+    // setChangeEditorCount(0);
+    // e.target.classList.toggle("select_mm");
+  };
+
   return (
     <>
       <Col className="right-sidebar">
@@ -411,6 +729,47 @@ const WebinarRegistration = () => {
                 <h2>Registration Page</h2>
               </div>
             </div>
+            <section className="select-mail-template library-cosent">
+              <div className="custom-container">
+                <Row>
+                  <div className="page-title">
+                    <h4>Select Template</h4>
+                  </div>
+
+                  <AliceCarousel
+                    mouseTracking
+                    disableDotsControls
+                    activeIndex={activeIndex}
+                    responsive={responsive}
+                    onSlideChanged={syncActiveIndex}
+                  >
+                    {templateList.map((template, index) => {
+                      return (
+                        <>
+                          <div
+                            className="item"
+                            onClick={(e) => templateClicked(template, e)}
+                          >
+                            <img
+                              id={`"template_dyn" + template?.popupNo`}
+                              src={`${path_image}/template-${index + 1}.png`}
+                              alt=""
+                              className={
+                                typeof activeIndex !== "undefined" &&
+                                activeIndex == template?.templateId
+                                  ? "select_mm"
+                                  : ""
+                              }
+                            />
+                            {/* <p>{template?.name}</p> */}
+                          </div>
+                        </>
+                      );
+                    })}
+                  </AliceCarousel>
+                </Row>{" "}
+              </div>{" "}
+            </section>
             <div className="register-page create-change-content">
               <Row>
                 <Col md={8} sm={7}>
@@ -473,7 +832,7 @@ const WebinarRegistration = () => {
 
                           <Form.Check
                             className="webinar-checkbox"
-                            inline
+                            inlin
                             label="Email"
                             name="email"
                             type="checkbox"
@@ -574,6 +933,23 @@ const WebinarRegistration = () => {
                                 : false
                             }
                             onChange={(e) => handleChange(e, "secondOption")}
+                          />
+
+                          <Form.Check
+                            className="webinar-checkbox"
+                            inline
+                            label="Consent"
+                            name="consent"
+                            type="checkbox"
+                            checked={
+                              formData?.body?.findIndex(
+                                (item, index) =>
+                                  item?.label?.toLowerCase() == "consent"
+                              ) != -1
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => handleChange(e, "consent")}
                           />
 
                           <span
