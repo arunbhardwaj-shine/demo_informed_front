@@ -29,10 +29,10 @@ const CommonAddQuestionModal = ({
     placeholder: "",
     required: "",
     option: "",
+    extension: "",
   });
   const [error, setError] = useState({});
   useEffect(() => {
-   
     if (fieldData) {
       let editFormData = fieldData;
       setFormData(editFormData);
@@ -45,6 +45,7 @@ const CommonAddQuestionModal = ({
       placeholder: "",
       option: [],
       required: "",
+      extension: "",
     });
     onClose(false);
     setError();
@@ -61,8 +62,16 @@ const CommonAddQuestionModal = ({
         option: [],
         placeholder: "",
         required: "",
+        extension: "",
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e
+          : e?.target?.value,
+      });
+    } else if (isSelectedName == "extension") {
+      setFormData({
+        ...formData,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e?.target?.checked
           : e?.target?.value,
       });
     } else {
@@ -77,6 +86,7 @@ const CommonAddQuestionModal = ({
 
   const saveClicked = (e) => {
     e.preventDefault();
+
     const error = RegistrationValidation(formData, formLabel, fieldData);
 
     if (Object.keys(error)?.length) {
@@ -93,6 +103,8 @@ const CommonAddQuestionModal = ({
     e.preventDefault();
     let optionObj = {
       optionLabel: "",
+      extension: [],
+      checked: "",
     };
 
     if (formData?.option?.length) {
@@ -329,6 +341,20 @@ const CommonAddQuestionModal = ({
                               >
                                 Add options
                               </Button>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                          {formData?.inputType == "radio" ||
+                          formData?.inputType == "checkbox" ? (
+                            <div className="add-more-option">
+                              <label htmlFor=""> Extension</label>
+                              <input
+                                type="checkbox"
+                                name="extension"
+                                checked={formData?.extension}
+                                onChange={(e) => handleChange(e, "extension")}
+                              />
                             </div>
                           ) : (
                             ""
