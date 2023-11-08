@@ -7,7 +7,6 @@ import highchartsMore from "highcharts/highcharts-more";
 import solidGauge from "highcharts/modules/solid-gauge";
 highchartsMore(Highcharts);
 solidGauge(Highcharts);
-
 export default function ContentAnalyticsComponent({ data, sublinkData }) {
   const [selectedData, setSelectedData] = useState();
   useEffect(() => {
@@ -189,6 +188,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               color="#57cabd"
               limit={agreed_limit}
               pdf_id={data?.id}
+              tooltip="Number of opening counts for specific article."
             />
             
 
@@ -201,6 +201,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
                   limit={agreed_limit}
                   label={`Unique Reader (total)`}
                   pdf_id={data?.id}
+                  tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
                 />
                 <ContentAnalyticsComponentActivityGauge
                   value={selectedData?.pinReaders}
@@ -210,6 +211,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
                     data?.limit == 0 ? "Unlimited" : data?.limit
                   }`}
                   pdf_id={data?.id}
+                  tooltip="Number of opening counts for specific article."
                 />
               </>
                : 
@@ -221,6 +223,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
                     data?.limit == 0 ? "Unlimited" : data?.limit
                   }`}
                   pdf_id={data?.id}
+                  tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
                 />
             }
 
@@ -230,6 +233,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               limit={agreed_limit}
               label=" Registered Reader (total)"
               pdf_id={data?.id}
+              tooltip="Number of HCPs who have register for or activated the content."
             />
             <ContentAnalyticsComponentActivityGauge
               value={selectedData?.rtr}
@@ -237,6 +241,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               limit={agreed_limit}
               label="User With RTR"
               pdf_id={data?.id}
+              tooltip="Number of Unique Readers spend time on pdf."
             />
             <ContentAnalyticsComponentActivityGauge
               value={selectedData?.download}
@@ -244,6 +249,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               limit={agreed_limit}
               label="Downloads"
               pdf_id={data?.id}
+              tooltip="Number of times download the article."
             />
           </div>
         </Row>

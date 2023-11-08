@@ -54,13 +54,11 @@ const settings = {
   ],
 };
 export default function PollListing() {
-  let navigate= useNavigate();
+  let navigate = useNavigate();
 
   const location = useLocation();
-  const event_code = location?.state?.event_id
-  ? location?.state?.event_id
-  : "";
- 
+  const event_code = location?.state?.event_id ? location?.state?.event_id : "";
+
   // console.log(location,event_code,"event_code");
   const slickRef = useRef("");
   const [showUploadMenu, setShowUploadMenu] = useState(false);
@@ -89,7 +87,7 @@ export default function PollListing() {
   );
 
   useEffect(() => {
-    if(!event_code){
+    if (!event_code) {
       toast.warning("Event Not Found", {
         position: "top-right",
         autoClose: 5000,
@@ -100,7 +98,6 @@ export default function PollListing() {
         progress: undefined,
       });
       navigate("/event-listing");
-   
     }
     getApiData();
   }, []);
@@ -108,18 +105,18 @@ export default function PollListing() {
   const getApiData = async () => {
     try {
       loader("show");
-  
+
       let apiData = await getListingData(event_code);
-      
+
       // Create a deep copy of apiData
       const deepCopyApiData = JSON.parse(JSON.stringify(apiData));
-  
+
       setQuestions(apiData);
       setOriginalQuestions(deepCopyApiData);
-      
+
       slickRef.current.slickGoTo(0);
       setCurrentIndex(0);
-      
+
       setApiStatus(true);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -127,7 +124,7 @@ export default function PollListing() {
       loader("hide");
     }
   };
-  
+
   const handleSelectChange = async (event) => {
     loader("show");
     setApiStatus(() => false);
@@ -168,31 +165,31 @@ export default function PollListing() {
       });
       // console.log(data);
       // setQuestions(data)
-      data=data?.length
-      ? data
-      : [
-          {
-            questionData: {
-              question: "",
-              speakerName: "",
-              answerOption: [{ answer: "", color: "#000000" }],
-              answerType: "MULTIPLE",
+      data = data?.length
+        ? data
+        : [
+            {
+              questionData: {
+                question: "",
+                speakerName: "",
+                answerOption: [{ answer: "", color: "#000000" }],
+                answerType: "MULTIPLE",
 
-              graphType: "bar",
+                graphType: "bar",
+              },
+              questionDataErrors: {
+                questionError: "",
+                speakerNameError: "",
+                answerOptionError: [{ answerError: "", colorError: "#000000" }],
+                answerTypeError: "",
+              },
             },
-            questionDataErrors: {
-              questionError: "",
-              speakerNameError: "",
-              answerOptionError: [{ answerError: "", colorError: "#000000" }],
-              answerTypeError: "",
-            },
-          },
-        ];
+          ];
       loader("hide");
       const deepCopyApiData = JSON.parse(JSON.stringify(data));
 
-      setOriginalQuestions(deepCopyApiData)
-      return data
+      setOriginalQuestions(deepCopyApiData);
+      return data;
     } catch (error) {
       loader("hide");
       console.error("Error fetching data:", error);
@@ -206,53 +203,62 @@ export default function PollListing() {
   };
   const handleTypeChange = (e, key) => {
     const updatedQuestions = [...questions];
-    
+
     updatedQuestions[key].questionData.answerType = e.target.id;
- 
 
     if (e.target.id == "YesNo") {
-      if(originalQuestions[key] && originalQuestions[key].questionData.answerOption?.length && originalQuestions[key]?.questionData.answerType==e.target.id){
-        updatedQuestions[key].questionData.answerOption =  originalQuestions[key].questionData.answerOption
-        updatedQuestions[key].questionDataErrors.answerOptionError=originalQuestions[key].questionData.answerOption.map((data) => {
-          return {
+      if (
+        originalQuestions[key] &&
+        originalQuestions[key].questionData.answerOption?.length &&
+        originalQuestions[key]?.questionData.answerType == e.target.id
+      ) {
+        updatedQuestions[key].questionData.answerOption =
+          originalQuestions[key].questionData.answerOption;
+        updatedQuestions[key].questionDataErrors.answerOptionError =
+          originalQuestions[key].questionData.answerOption.map((data) => {
+            return {
+              answerError: "",
+              colorError: "",
+            };
+          });
+      } else {
+        updatedQuestions[key].questionData.answerOption = [
+          {
+            answer: "Yes",
+            color: "#000000",
+          },
+          {
+            answer: "No",
+            color: "#000000",
+          },
+        ];
+        updatedQuestions[key].questionDataErrors.answerOptionError.push(
+          {
             answerError: "",
             colorError: "",
-          };
-        })
-      }
-     else{
-    updatedQuestions[key].questionData.answerOption = [
-        {
-          answer: "Yes",
-          color: "#000000",
-        },
-        {
-          answer: "No",
-          color: "#000000",
-        },
-      ];
-      updatedQuestions[key].questionDataErrors.answerOptionError.push(
-        {
-          answerError: "",
-          colorError: "",
-        },
-        {
-          answerError: "",
-          colorError: "",
-        }
-      );
-    } }else {
-
-      if( originalQuestions[key] &&  originalQuestions[key].questionData.answerOption?.length && originalQuestions[key]?.questionData.answerType==e.target.id){
-        updatedQuestions[key].questionData.answerOption =  originalQuestions[key].questionData.answerOption
-        updatedQuestions[key].questionDataErrors.answerOptionError=originalQuestions[key].questionData.answerOption.map((data) => {
-          return {
+          },
+          {
             answerError: "",
             colorError: "",
-          };
-        })
+          }
+        );
       }
-      else{
+    } else {
+      if (
+        originalQuestions[key] &&
+        originalQuestions[key].questionData.answerOption?.length &&
+        originalQuestions[key]?.questionData.answerType == e.target.id
+      ) {
+        updatedQuestions[key].questionData.answerOption =
+          originalQuestions[key].questionData.answerOption;
+        updatedQuestions[key].questionDataErrors.answerOptionError =
+          originalQuestions[key].questionData.answerOption.map((data) => {
+            return {
+              answerError: "",
+              colorError: "",
+            };
+          });
+      } else {
         updatedQuestions[key].questionData.answerOption = [
           { answer: "", color: "#000000" },
         ];
@@ -261,7 +267,6 @@ export default function PollListing() {
           colorError: "",
         });
       }
-     
     }
 
     console.log(originalQuestions);
@@ -297,7 +302,7 @@ export default function PollListing() {
     setQuestions(updatedQuestions);
   };
   const handleAddChoice = (key) => {
-    const isValid = validateQuestions(key,"addChoice");
+    const isValid = validateQuestions(key, "addChoice");
 
     if (!isValid) {
       return;
@@ -360,7 +365,7 @@ export default function PollListing() {
         data: [surveyData],
       };
       if (!surveyData?.id) {
-        payLoadData.eventId = event_code
+        payLoadData.eventId = event_code;
         response = await postData(ENDPOINT.ADD_QUESTION, payLoadData);
         loader("hide");
         toast.success("Question Inserted Successfully", {
@@ -398,17 +403,20 @@ export default function PollListing() {
       const apiData = await getListingData(event_code);
       // slickRef.current.slickGoTo(0);
       // setCurrentIndex(0);
-      setQuestionFlag(false)
+      setQuestionFlag(false);
       loader("hide");
 
       setQuestions(apiData);
     }
   };
-  const validateQuestions = (index ,key) => {
+  const validateQuestions = (index, key) => {
     let isValid = true;
     const updatedQuestions = [...questions];
     let questionObj = updatedQuestions[index];
-    console.log(questionObj);
+if(!questionObj){
+ setCurrentIndex(currentIndex-1)
+ return
+}
     const question = questionObj.questionData.question;
     const speakerName = questionObj.questionData.speakerName;
     const answerType = questionObj.questionData.answerType;
@@ -420,20 +428,20 @@ export default function PollListing() {
 
     // }
 
-    if (question.trim() === "" && key!="addChoice") {
+    if (question.trim() === "" && key != "addChoice") {
       questionObj.questionDataErrors.questionError = "Question is required.";
       isValid = false;
     } else {
       questionObj.questionDataErrors.questionError = "";
     }
-    if (speakerName.trim() === "" && key!="addChoice" ) {
+    if (speakerName.trim() === "" && key != "addChoice") {
       questionObj.questionDataErrors.speakerNameError =
         "Speaker Name is required.";
       isValid = false;
     } else {
       questionObj.questionDataErrors.speakerNameError = "";
     }
-    if (answerType.trim() === "" && key!="addChoice") {
+    if (answerType.trim() === "" && key != "addChoice") {
       questionObj.questionDataErrors.answerTypeError =
         "Please Select Answer Type";
       isValid = false;
@@ -478,6 +486,7 @@ export default function PollListing() {
     return isValid;
   };
   const handleAddQuestion = () => {
+
     const isValid = validateQuestions(currentIndex);
 
     if (!isValid) {
@@ -506,7 +515,6 @@ export default function PollListing() {
     slickRef.current.slickGoTo(questions?.length);
     setSelectedQuestion(newQuestion);
     // setQuestionFlag(false);
-
   };
   const handleDelete = (key) => {
     setPopupMessage({
@@ -520,10 +528,11 @@ export default function PollListing() {
   const finalHandleDelete = async (key) => {
     try {
       loader("show");
-
+      if (key == questions?.length - 1) {
+        setQuestionFlag(false);
+      }
       const updatedQuestions = [...questions];
       let deletedQuestionId = updatedQuestions[key].questionData.id;
-      console.log(deletedQuestionId, "deletedQuestion");
       if (deletedQuestionId) {
         let res = await deleteData(
           `/webinar/delete-question`,
@@ -555,6 +564,10 @@ export default function PollListing() {
         setSelectedQuestion(updatedQuestions[0]);
       } else if (questions.length == 2) {
         setCurrentIndex(0);
+      }
+      else if(currentIndex>=questions?.length-1){
+        setCurrentIndex(currentIndex-1);
+
       }
 
       setQuestions(updatedQuestions);
@@ -644,7 +657,9 @@ export default function PollListing() {
               {apiStatus && (
                 <div className="poll-question-selection">
                   <div className="question-number">
-                    <span>Q{currentIndex + 1}/{questions.length}</span>
+                    <span>
+                      Q{currentIndex + 1}/{questions.length}
+                    </span>
                   </div>
                   <div className="question-action">
                     <Button
@@ -734,7 +749,9 @@ export default function PollListing() {
                       </svg>
                     </Button>
                     <Button
-                      className={`add-question btn-bordered ${questionFlag?"disabled":""}`}
+                      className={`add-question btn-bordered ${
+                        questionFlag ? "disabled" : ""
+                      }`}
                       onClick={handleAddQuestion}
                     >
                       Add Question +

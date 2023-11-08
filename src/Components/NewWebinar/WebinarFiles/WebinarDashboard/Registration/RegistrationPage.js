@@ -1,23 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import Select from "react-select";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loader } from "../../../../../loader";
-import { getData } from "../../../../../axios/apiHelper";
+import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import CountryList from "./CountryList";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 
 // import Question from "./AddQuestion";
 
 const RegistrationPage = () => {
   const location = useLocation();
+  let params = useParams();
+  let navigate = useNavigate();
+
+  let prevData = useLocation();
+  prevData = prevData?.state;
+  // console.log(prevData,"prevData");
   const event_code = new URLSearchParams(location.search).get("event");
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState(prevData ? prevData : {});
   const [formFieldData, setFormFieldData] = useState({});
   const [formErrors, setFormErrors] = useState({}); // Create a state to store form validation errors
+  const [pageColors, setPageColors] = useState(
+    prevData
+      ? {
+          labelColor: prevData?.content?.labelColor,
+          background: prevData?.content?.backgroundColor,
+        }
+      : { labelColor: "#fff000", background: "#000" }
+  ); // Create a state to store form validation errors
 
   useEffect(() => {
-    EventDataFun();
+    if (!prevData?.content) {
+      EventDataFun();
+    }
   }, []);
   const EventDataFun = async () => {
     try {
@@ -29,6 +47,10 @@ const RegistrationPage = () => {
       hadData = { ...hadData, content: JSON.parse(hadData?.content) };
       setFormData(hadData);
       console.log(hadData?.content);
+      setPageColors({
+        labelColor: hadData?.content?.labelColor,
+        background: hadData?.content?.backgroundColor,
+      });
       //   setEventData({
       //     ...eventData,
       //     event_id: hadData?.event_id,
@@ -40,11 +62,21 @@ const RegistrationPage = () => {
       console.log("-err", err);
     }
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formFieldData);
     const isValid = ValidateFormData();
-    // console.log(formErrors);
+    
     if (isValid) {
+      loader("show");
+
+      let response = await postData(
+        "https://webinar.docintel.app/flow/apis/register",
+        formFieldData
+      );
+      console.log(response);
+      loader("hide");
+
       console.log("Form is valid. Submitting data:", formFieldData);
     } else {
       console.log("Form has errors. Please correct them.");
@@ -52,22 +84,28 @@ const RegistrationPage = () => {
   };
 
   const ValidateFormData = () => {
+    // console.log(formFieldData);
+    // console.log(formErrors);
     const errors = {};
 
     formData?.content?.body?.forEach((form) => {
-      const fieldValue = formFieldData[form.label];
+      const label = form.label.replace(/ /g, "_");
 
-      if (form.required=='yes' && !fieldValue) {
-        errors[form.label] = `This field is required.`;
-        // errors[form.label] = `This ${form.label} is required.`;
+      const fieldValue = formFieldData[label];
+
+      if (form.required == "yes" && !fieldValue) {
+        errors[label] = `This field is required.`;
+        // errors[label] = `This ${label} is required.`;
       } else {
-        errors[form.label] = ``;
+        delete errors[label];
       }
 
       if (form.inputType === "email" && fieldValue) {
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         if (!emailRegex.test(fieldValue)) {
-          errors[form.label] = "Invalid email address.";
+          errors[label] = "Invalid email address.";
+        } else {
+          delete errors[label];
         }
       }
     });
@@ -75,333 +113,345 @@ const RegistrationPage = () => {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
+  const handleBackClicked = () => {
+    navigate("/webinar-registration", { state: prevData });
+  };
   return (
-    <>
- 
-        
-          <Row>
-            <div className="outer">
-              <section className="webinarRegistrationBody">
-                <div className="sec1">
-                  <div className="add_hcp_boxes">
-                    <>
-                      <link
-                        rel="stylesheet"
-                        href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/style.css"
-                      />
-                      <link
-                        rel="stylesheet"
-                        href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/responsive.css"
-                      />
+    <div className="outer">
+      <section className="webinarRegistrationBody">
+        <div className="sec1">
+          <div className="add_hcp_boxes">
+            <link
+              rel="stylesheet"
+              href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/style.css"
+            />
+            <link
+              rel="stylesheet"
+              href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/responsive.css"
+            />
 
-                      <div className="wrapper">
-                        <section className="factor-season">
-                          <div className="container">
-                            <div className="row">
-                              <div className="factor-season-inner">
-                                <div className="row">
-                                  <div className="col-sm-8 col-md-8">
-                                    <div className="factor-season-left">
-                                      <img
-                                        src={formData?.content?.headerImageUrl}
-                                        alt="Header"
-                                      />
-                                      <div className="factor__logo">
-                                        <img
-                                          src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
-                                          alt="Factor logo"
-                                        />
-                                      </div>
-                                      <h2>
-                                        5 February 2024
-                                        <br />
-                                        12:00-19:00
-                                        <br />
-                                        Frankfurt, Germany
-                                      </h2>
-                                    </div>
-                                  </div>
-                                  <div className="col-sm-4 col-md-4">
-                                    <div className="factor-season-right">
-                                      <h3>
-                                        Robert F. Sidonio Jr.
-                                        <br /> and Jan Astermark
-                                      </h3>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+            <div className="wrapper">
+              {prevData && (
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  id="submit_registration"
+                  onClick={handleBackClicked}
+                >
+                  Back
+                </button>
+              )}
+              <section className="factor-season">
+                <div className="container">
+                  <div
+                    className="factor-season-inner"
+                    style={{
+                      backgroundImage: `url("${formData?.content?.headerImageUrl}")`,
+                    }}
+                  >
+                    <div className="row">
+                      <div className="col-sm-8 col-md-8">
+                        <div className="factor-season-left">
+                          <div className="factor__logo">
+                            <img
+                              src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
+                              alt="Factor logo"
+                            />
                           </div>
-                        </section>
-                        <section className="consent-form">
-                          <div className="container">
-                            <div className="row">
-                              <div className="consent-form-inner">
-                                <form
-                                  id="registration_form"
-                                  onSubmit={handleSubmit}
-                                >
-                                  <div className="row" id="form_upper">
-                                    <div className="col-sm-12 col-md-12 center-sided">
-                                      <h2>{formData?.content?.pageTitle}</h2>
-                                      <h3> {formData?.content?.bodyText}</h3>
-                                    </div>
-                                  </div>
-                                  <div className="center-sided-inside">
-                                    <div className="row">
-                                      {formData?.content?.body?.map(
-                                        (form, index) => (
-                                          <FormField
-                                            form={form}
-                                            key={index}
-                                            formFieldData={formFieldData}
-                                            setFormFieldData={setFormFieldData}
-                                            formErrors={formErrors}
-                                          />
-                                        )
-                                      )}
-
-                                      <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                        id="submit_registration"
-                                      >
-                                        Submit
-                                      </button>
-                                    </div>
-                                    <div className="footer-sec">
-                                      <span>
-                                        * this consent is mandatory in order to
-                                        register to the event.
-                                      </span>
-                                    </div>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </section>
-                      </div>
-                      <footer>
-                        <div className="container">
-                          <div className="row">
-                            <div className="footer-inner">
-                              <div className="footer-left">
-                                <img
-                                  src={formData?.content?.footerImageUrl}
-                                  alt="Footer"
-                                />
-                                <div className="footer-logo">
-                                  <img
-                                    src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"
-                                    alt="footer-logo"
-                                  />
-                                </div>
-                              </div>
-                              <div className="footer-right"></div>
-                              <div className="footer-copyright">
-                                <span>© 2023 CP. All rights Reserved</span>
-                                <ul>
-                                  <li>
-                                    <a
-                                      target="_blank"
-                                      href="https://albert.docintel.app/privacy_policy/"
-                                    >
-                                      Privacy Policy
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      target="_blank"
-                                      href="https://albert.docintel.app/terms_of_use/"
-                                    >
-                                      Terms of Services
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </footer>
-                      <div className="modal fade" id="myModal">
-                        <div className="modal-dialog modal-dialog-centered">
-                          <div className="modal-content">
-                            {/* Modal Header */}
-                            <div className="modal-header">
-                              <button
-                                type="button"
-                                className="close"
-                                data-dismiss="modal"
-                              >
-                                ×
-                              </button>
-                            </div>
-                            {/* Modal body */}
-                            <div className="modal-body"></div>
-                          </div>
+                          <h2>
+                            5 February 2024
+                            <br />
+                            12:00-19:00
+                            <br />
+                            Frankfurt, Germany
+                          </h2>
                         </div>
                       </div>
-                    </>
+                      <div className="col-sm-4 col-md-4">
+                        <div className="factor-season-right">
+                          <h3>
+                            Robert F. Sidonio Jr.
+                            <br /> and Jan Astermark
+                          </h3>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </section>
+              <section className="consent-form">
+                <div className="container">
+                  <div
+                    className="consent-form-inner"
+                    style={{ background: `${pageColors?.background}` }}
+                  >
+                    <form id="registration_form" onSubmit={handleSubmit}>
+                      <div className="row" id="form_upper">
+                        <div className="col-sm-12 col-md-12 center-sided">
+                          <h2>{formData?.content?.pageTitle}</h2>
+                          <h3> {formData?.content?.bodyText}</h3>
+                        </div>
+                      </div>
+                      <div className="center-sided-inside">
+                        <div className="row">
+                          {formData?.content?.body?.map((form, index) => (
+                            <FormField
+                              form={form}
+                              key={index}
+                              formFieldData={formFieldData}
+                              setFormFieldData={setFormFieldData}
+                              formErrors={formErrors}
+                              pageColors={pageColors}
+                              level="root"
+                            />
+                          ))}
+                          {!prevData && (
+                            <button
+                              type="submit"
+                              className="btn btn-primary"
+                              id="submit_registration"
+                            >
+                              Submit
+                            </button>
+                          )}
+                        </div>
 
-              <div>
-                {/* <button
-                  className="fbutton"
-                  onClick={(e) => handleFileSelect(e, "footer")}
-                >
-                  upload
-                </button> */}
-
-                {/* <img className="footer-img" src={foot} /> */}
-              </div>
-              {/* <div style={{marginTop:'35px',marginBottom:'50px'}}>  <img className="footer-img" src={foot} /></div> */}
+                        <div className="footer-sec">
+                          <span>
+                            * This consent is mandatory in order to register for
+                            the event.
+                          </span>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </section>
             </div>
-          </Row>
-       
-    </>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <div className="container">
+          <div className="row">
+            <div
+              className="footer-inner"
+              style={
+                formData?.content?.footerImageUrl
+                  ? {
+                      backgroundImage: `url("${formData?.content?.footerImageUrl}")`,
+                    }
+                  : {}
+              }
+            >
+              <div className="footer-left">
+                <div className="footer-logo">
+                  <img
+                    src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"
+                    alt="footer-logo"
+                  />
+                </div>
+              </div>
+              <div className="footer-right"></div>
+              <div className="footer-copyright">
+                <span>© 2023 CP. All rights Reserved</span>
+                <ul>
+                  <li>
+                    <a
+                      target="_blank"
+                      href="https://albert.docintel.app/privacy_policy/"
+                    >
+                      Privacy Policy
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      target="_blank"
+                      href="https://albert.docintel.app/terms_of_use/"
+                    >
+                      Terms of Services
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <div className="modal fade" id="myModal">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button type="button" className="close" data-dismiss="modal">
+                ×
+              </button>
+            </div>
+            <div className="modal-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
 export default RegistrationPage;
 
-const FormField = ({ form, formFieldData, setFormFieldData, formErrors }) => {
+const FormField = ({
+  form,
+  formFieldData,
+  setFormFieldData,
+  formErrors,
+  pageColors,
+  level
+}) => {
   const [countryList, setCountryList] = useState(CountryList);
-  console.log(form);
+  const [extensionData, setExtensionData] = useState({});
   const handleFieldChange = (value) => {
-    // Update the formFieldData state with the new value
-    setFormFieldData((prevData) => ({
-      ...prevData,
-      [form.label]: value,
-    }));
-  };
+    const newData = { ...formFieldData };
 
-  if (form.label.toLowerCase() === "country") {
+    if (form.inputType === "datepicker") {
+      newData[label] = moment(value).format('YYYY-MM-DD')
+    } else {
+      newData[label] = value;
+    }
+
+    setFormFieldData(newData);
+  };
+  const label = form.label.replace(/ /g, "_");
+  if (label == "country") {
     form.inputType = "selection-country";
   }
+  
 
-  switch (form.inputType) {
-    case "textarea":
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list">
-          <label>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </label>
-          <textarea
-            className="form-control"
-            placeholder={form.placeholder}
-            cols="40"
-            rows="4"
-            onChange={(e) => handleFieldChange(e.target.value)}
-          ></textarea>
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-    case "selection":
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-          <label>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </label>
-          <Select
-            options={form.option?.map((op) => ({
-              label: op.optionLabel,
-              value: op.optionLabel,
-            }))}
-            className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
-            isClearable
-            onChange={(selectedOption) => handleFieldChange(selectedOption)}
-          />
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-    case "selection-country":
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-          <label style={{ textTransform: "capitalize" }}>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </label>
-          <Select
-            options={countryList}
-            className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
-            isClearable
-            onChange={(selectedOption) =>
-              handleFieldChange(selectedOption.value)
-            }
-          />
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-    case "checkbox":
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-          <p>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </p>
-          {form.option?.map((item, index) => (
-            <li key={index}>
-              <input
-                type="checkbox"
-                id={form.label + index}
-                name={form.label}
-                className="organize_own_selection"
-                onChange={() => handleFieldChange(item.optionLabel)}
-              />
-              <label htmlFor={form.label + index}>{item.optionLabel}</label>
-              <span className="checkmark" />
-            </li>
-          ))}
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-    case "radio":
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-          <p>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </p>
-          <ul>
-            {form.option?.map((item, index) => (
-              <li key={index}>
-                <input
-                  type="radio"
-                  id={form.label + index}
-                  name={form.label}
-                  className="organize_own_selection"
-                  onChange={() => handleFieldChange(item.optionLabel)}
-                />
-                <label htmlFor={form.label + index}>{item.optionLabel}</label>
-                <span className="checkmark" />
-              </li>
-            ))}
-          </ul>
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
-    default:
-      return (
-        <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-          <label>
-            {form.label}
-            <span>{form.required=='yes' ? "*" : ""}</span>
-          </label>
-          <input
-            type={form.type}
-            className="form-control"
-            id="usr"
-            placeholder={form.placeholder}
-            onChange={(e) => handleFieldChange(e.target.value)}
-          />
-          <div class="help-block">{formErrors[form.label]}</div>
-        </div>
-      );
+  const isRequired = form.required === "yes";
+
+  let fieldInput = null;
+
+  if (form.inputType === "textarea") {
+    fieldInput = (
+      <textarea
+        className="form-control"
+        placeholder={form.placeholder}
+        cols="40"
+        rows="4"
+        onChange={(e) => handleFieldChange(e.target.value)}
+      ></textarea>
+    );
+  } else if (
+    form.inputType === "selection" ||
+    form.inputType === "selection-country"
+  ) {
+    const options = form.option?.map((op) => ({
+      label: op.optionLabel,
+      value: op.optionLabel,
+    }));
+
+    fieldInput = (
+      <Select
+        options={form.inputType === "selection-country" ? countryList : options}
+        className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+        isClearable
+        onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+      />
+    );
   }
+  else if (
+    form.inputType === "datepicker" 
+   
+  ) {
+    fieldInput=(
+      <DatePicker
+        selected={
+          formFieldData[label]
+            ? new Date(formFieldData[label])
+            : null
+        }
+        name={form.label}
+        dateFormat="dd/MM/yyyy"
+        className="form-control"
+        placeholderText="Select task date"
+        onChange={(date) => handleFieldChange(date)}
+        onKeyDown={(e) => {
+          e.preventDefault();
+        }}
+      />
+ 
+    )
+  } else if (form.inputType === "checkbox" || form.inputType === "radio") {
+    fieldInput = (
+      <ul>
+        {form.option?.map((item, index) => (
+          <>
+          <li key={index}>
+            {/* {console.log(item,"oppppp")} */}
+
+            <input
+              type={form.inputType}
+              id={label + index}
+              name={label}
+              className="organize_own_selection"
+              onChange={() => {
+                handleFieldChange(item.optionLabel);
+                if (item.extension) {
+                  setExtensionData({
+                    [item.optionLabel]: item.extension,
+                  });
+                }
+              }}
+            />
+            <label
+              style={{
+                textTransform: "capitalize",
+                color: pageColors?.labelColor,
+              }}
+              htmlFor={label + index}
+            >
+              {item.optionLabel}
+            </label>
+            <span className="checkmark" />
+            
+          </li>
+          {extensionData[item.optionLabel]?.length>0 &&
+              extensionData[item.optionLabel]?.map((opt, i) => (
+                <FormField
+                              form={opt}
+                              key={i}
+                              formFieldData={formFieldData}
+                              setFormFieldData={setFormFieldData}
+                              formErrors={formErrors}
+                              pageColors={pageColors}
+                              level={form.label}
+                            />
+              ))}
+          </>
+        ))}
+      </ul>
+    );
+  } else {
+    fieldInput = (
+      <input
+        type={form.inputType}
+        className="form-control"
+        id="usr"
+        placeholder={form.placeholder}
+        onChange={(e) => handleFieldChange(e.target.value)}
+      />
+    );
+  }
+
+  return (
+    <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+      <label
+        style={{
+          textTransform: "capitalize",
+          color: pageColors?.labelColor,
+        }}
+      >
+        {form.label}
+        {isRequired ? "*" : ""}
+      </label>
+      {fieldInput}
+      <div class="help-block">{formErrors[label]}</div>
+    </div>
+  );
 };
