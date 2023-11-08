@@ -34,6 +34,13 @@ const NewEventCreate = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isDataLength, setIsDataLength] = useState(0);
   const [deletestatus, setDeleteStatus] = useState(false);
+  const [resetDataId, setResetDataId] = useState();
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
 
   useEffect(() => {
     setApiStatus(false);
@@ -160,28 +167,6 @@ const NewEventCreate = () => {
     loader("hide");
   };
 
-  const handleConfirmModalFun = async (id) => {
-    setConfirmationPopup(false);
-
-    try {
-      loader("show");
-      await deleteData(ENDPOINT.WEBINAR_DELETE_EVENT, id);
-
-      getDataFromApi(1);
-      setEventId("");
-      loader("hide");
-      popup_alert({
-        visible: "show",
-        message: "Your event has been deleted <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
-    } catch (err) {
-      console.log("--err", err);
-      loader("hide");
-    }
-  };
-
   const handleCommonEventModalClose = () => {
     setEventId("");
     setEditEvent(false);
@@ -224,20 +209,49 @@ const NewEventCreate = () => {
 
   const showConfirmationPopup = (stateMsg, e, id) => {
     if (stateMsg == "delete") {
-      // setResetDataId(id);
-      // setCommonConfirmModelFun(() => deleteUser);
-      // setPopupMessage({
-      //   message1:
-      //     "You are about to remove this content from any reader and every device forever.",
-      //   message2: "Are you sure you want to do this?",
-      //   footerButton: "Yes please!",
-      // });
-      // if (confirmationpopup) {
-      //   setConfirmationPopup(false);
-      // } else {
-      //   setConfirmationPopup(true);
-      // }
+      setResetDataId(id);
+      setCommonConfirmModelFun(() => deleteEvent);
+      setPopupMessage({
+        message1:
+          "You are about to remove this content from any reader and every device forever.",
+        message2: "Are you sure you want to do this?",
+        footerButton: "Yes please!",
+      });
+      if (confirmationpopup) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
+      }
     }
+  };
+
+  const deleteEvent = async (id) => {
+    loader("show");
+    try {
+      await deleteData(ENDPOINT.WEBINAR_DELETE_EVENT, id);
+      loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Event has been deleted <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
+
+        const updatedevent = isData.filter((item) => item.id !== id);
+        setIsData(updatedevent);
+
+        const eventList = apiData.filter((item) => item.id !== id);
+        setApiData(eventList);
+
+        loader("hide");
+    } catch (err) {
+      loader("hide");
+    }
+    hideConfirmationModal();
+  };
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
   };
 
   return (
@@ -741,8 +755,8 @@ const NewEventCreate = () => {
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={handleCommonConfirmModal}
-        fun={handleConfirmModalFun}
-        resetDataId={eventId}
+        fun={deleteEvent}
+        resetDataId={resetDataId}
         popupMessage={{
           message1: "You are about to remove this event forever.",
           message2: "Are you sure you want to do this?",
