@@ -181,7 +181,6 @@ const WebinarRegistration = () => {
   };
 
   const handleModalSave = (form) => {
-   
     let updateFormBody = formData?.body;
     if (fieldData) {
       updateFormBody[index] = form;
@@ -200,7 +199,6 @@ const WebinarRegistration = () => {
   };
 
   const addExtension = (e, index, optIndex) => {
-   
     e.preventDefault();
     setIndex(index);
     setOptIndex(optIndex);
@@ -673,6 +671,9 @@ const WebinarRegistration = () => {
                                                                 }
                                                                 value={
                                                                   item?.optionValue
+                                                                }
+                                                                checked={
+                                                                  item?.checked
                                                                 }
                                                                 onChange={(e) =>
                                                                   handleExtensionChange(
@@ -1183,6 +1184,7 @@ const WebinarRegistration = () => {
                                                                 name={
                                                                   data?.label
                                                                 }
+                                                                checked={item?.checked}
                                                                 onChange={(e) =>
                                                                   handleExtensionChange(
                                                                     e,
