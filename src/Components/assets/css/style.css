@@ -784,7 +784,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 }
 
 .event_listing .event-title {
-  font-size: 18px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 500;
   color: var(--light-blue);
@@ -794,6 +794,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
+  line-height: normal;
 }
 
 .event_listing .action_btn button {
