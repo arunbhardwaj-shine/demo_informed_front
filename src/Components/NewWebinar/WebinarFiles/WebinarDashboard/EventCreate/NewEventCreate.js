@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+const currentDate = moment.utc();
 const NewEventCreate = () => {
   let params = useParams();
   let navigate=useNavigate();
@@ -541,14 +542,22 @@ const NewEventCreate = () => {
                         </div>
                         <div className="event-title">{item?.title}</div>
                         <div className="event-details d-flex justify-content-between">
-                          <div className="time-left">5 Days Left</div>
+                          <div className="time-left">
+                            {
+                              moment.utc(item?.dateStart).diff(currentDate, 'days') > 0 ? 
+                              moment.utc(item?.dateStart).diff(currentDate, 'days') + " Days Left" :
+                              "Event Expire"
+                            }
+                          </div>
                           <div className="event-date">
-                             {moment(
+                          {/* {moment(
                                     new Date(item?.dateStart),
                                     "MM/DD/YYYY"
-                                  ).format("MM/DD/YYYY")} | {`${item?.dateStartHour}:${
-                                    item?.dateStartMin
-                                  } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
+                                  ).format("MM/DD/YYYY")} */}
+                          {moment.utc(item?.dateStart).format("MM/DD/YYYY")} | 
+                          {`${item?.dateStartHour}:${
+                            item?.dateStartMin
+                          } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
                           </div>
                         </div>
 
