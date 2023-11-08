@@ -29,10 +29,19 @@ const CommonExtensionModal = ({
   });
   const [error, setError] = useState({});
   useEffect(() => {
-    // if (extensionData) {
-    //   let editFormData = extensionData;
-    //   setFormData(editFormData);
-    // }
+    console.log("extensionData --->", extensionData);
+    if (extensionData) {
+      let editFormData = extensionData;
+      setFormData(editFormData);
+    } else {
+      setFormData({
+        label: "",
+        name: "",
+        inputType: "",
+        placeholder: "",
+        option: [],
+      });
+    }
   }, [show]);
   const handleClose = () => {
     setFormData({
@@ -126,7 +135,7 @@ const CommonExtensionModal = ({
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {extensionData ? "Edit Extensions" : "Add Extensions"}
+              {extensionData?.length > 0 ? "Edit Extensions" : "Add Extensions"}
             </h5>
             <button
               type="button"
