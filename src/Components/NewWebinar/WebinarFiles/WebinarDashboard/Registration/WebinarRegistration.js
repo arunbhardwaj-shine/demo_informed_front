@@ -11,6 +11,7 @@ import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 import CountryList from "./CountryList";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import CommonExtensionModal from "./CommonExtensionModal";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -19,8 +20,7 @@ const WebinarRegistration = () => {
   let navigate = useNavigate();
   const location = useLocation();
 
- let  prevData=location?.state
-//  console.log(prevData);
+  let prevData = location?.state;
 
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
@@ -28,6 +28,7 @@ const WebinarRegistration = () => {
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
+  const [showExtensionModal, setExtensionModal] = useState(false);
   const [formData, setFormData] = useState({
     pageTitle: "",
     bodyText: "",
@@ -44,26 +45,26 @@ const WebinarRegistration = () => {
   const [countryList, setCountryList] = useState(CountryList);
   const [errorMsg, setErrorMsg] = useState("");
   const [index, setIndex] = useState();
+  const [optIndex, setOptIndex] = useState();
   const [fieldData, setFieldData] = useState();
   const [formExtLabel, setFormExtLabel] = useState([]);
 
   useEffect(() => {
-    if(prevData?.content){
+    if (prevData?.content) {
       setEventData({
         ...eventData,
         event_id: prevData?.event_id,
         company_id: prevData?.company_id,
       });
       const newFormData = prevData?.content;
-    
+
       setFormData(newFormData);
-    
+
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
-     }else{
-
-       getWebinarData();
-     }
+    } else {
+      getWebinarData();
+    }
   }, []);
 
   const getWebinarData = async () => {
@@ -197,6 +198,31 @@ const WebinarRegistration = () => {
     setModal(true);
   };
 
+  const addExtension = (e, index, optIndex) => {
+    e.preventDefault();
+    setIndex(index);
+    setOptIndex(optIndex);
+
+    setFieldData(formData?.body[index]?.option?.[optIndex]?.extension);
+    setExtensionModal(true);
+  };
+
+  const handleExtensionModalClose = () => {
+    setIndex();
+    setFieldData();
+    setOptIndex();
+    setExtensionModal(false);
+  };
+
+  const handleExtensionModalSave = (form) => {
+    console.log("extension1--->", form);
+
+    let newExtension = formData?.body;
+    newExtension[index]?.option?.[optIndex]?.extension?.push(form);
+    console.log("extension2--->", newExtension);
+    setFormData({ ...formData, body: newExtension });
+  };
+
   const deleteField = (e, data, index) => {
     e.preventDefault();
     let updatedFormBody = formData?.body;
@@ -205,10 +231,10 @@ const WebinarRegistration = () => {
   };
 
   const handleRadioClick = (e, itemLabel, index, optIndex) => {
-    console.log("label--->", itemLabel);
     let updateExtension =
       formData?.body?.[index]?.option?.[optIndex]?.extension;
-    console.log("ext--->", updateExtension);
+    console.log("e---->", updateExtension);
+
     setFormExtLabel(updateExtension);
   };
 
@@ -254,17 +280,21 @@ const WebinarRegistration = () => {
                   },
                   {
                     label: "Preferred departure date",
-                    inputType: "datepicker",
+                    inputType: "date",
                     placeholder: "dd-mm-yyyy",
                   },
                   {
                     label: "Preferred departure time",
                     inputType: "radio",
-                    option: ["Morning", "Afternoon", "Evening"],
+                    option: [
+                      { optionLabel: "Morning" },
+                      { optionLabel: "Afternoon" },
+                      { optionLabel: "Evening" },
+                    ],
                   },
                   {
                     label: "Preferred return flight date",
-                    inputType: "datepicker",
+                    inputType: "date",
                     placeholder: "dd-mm-yyyy",
                   },
                 ],
@@ -304,7 +334,6 @@ const WebinarRegistration = () => {
     } else {
       setFormData({ ...formData, [e.target.name]: e?.target?.value });
     }
-    console.log(formData, "==>formData");
   };
 
   const saveClicked = async (e) => {
@@ -354,16 +383,14 @@ const WebinarRegistration = () => {
   };
 
   const handlePreview = (e, index) => {
-let prevObj={
-  eventId: eventData?.event_id,
-  companyId: eventData?.company_id,
-  content: formData,
-}
-  navigate("/event-registration",
-  { state: prevObj });
-
+    let prevObj = {
+      eventId: eventData?.event_id,
+      companyId: eventData?.company_id,
+      content: formData,
+    };
+    navigate("/event-registration", { state: prevObj });
   };
- const handleDragStart = (e, index) => {
+  const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);
   };
 
@@ -655,10 +682,39 @@ let prevObj={
                                                                   item?.optionLabel
                                                                 }
                                                               </label>
+                                                              {data?.label ==
+                                                              "travel accomodation" ? (
+                                                                <span
+                                                                  className="add-choice"
+                                                                  onClick={(
+                                                                    e
+                                                                  ) =>
+                                                                    addExtension(
+                                                                      e,
+                                                                      index,
+                                                                      optIndex
+                                                                    )
+                                                                  }
+                                                                >
+                                                                  Add extension
+                                                                  <img
+                                                                    src={
+                                                                      path_image +
+                                                                      "add-choice.svg"
+                                                                    }
+                                                                    alt=""
+                                                                  />
+                                                                </span>
+                                                              ) : (
+                                                                ""
+                                                              )}
                                                             </div>
                                                           )
                                                         )}
-                                                        {formExtLabel?.length && data?.label == "travel accomodation" ? (
+
+                                                        {formExtLabel?.length &&
+                                                        data?.label ==
+                                                          "travel accomodation" ? (
                                                           <div className="extension">
                                                             {formExtLabel?.map(
                                                               (
@@ -690,7 +746,7 @@ let prevObj={
                                                                     </div>
                                                                   ) : extItem?.inputType ==
                                                                     "radio" ? (
-                                                                    <div>
+                                                                    <div className="extOption">
                                                                       <label
                                                                         htmlFor={
                                                                           extItem?.label
@@ -705,22 +761,30 @@ let prevObj={
                                                                           optItem,
                                                                           optItemIndex
                                                                         ) => (
-                                                                          <div>
+                                                                          <div
+                                                                            className="extOptionItem"
+                                                                            key={
+                                                                              optItemIndex
+                                                                            }
+                                                                          >
                                                                             <input
                                                                               type={
                                                                                 extItem?.inputType
                                                                               }
                                                                               name={
-                                                                                optItem
+                                                                                extItem?.label
+                                                                              }
+                                                                              value={
+                                                                                optItem?.optionValue
                                                                               }
                                                                             />
                                                                             <label
                                                                               htmlFor={
-                                                                                optItem
+                                                                                optItem?.optionLabel
                                                                               }
                                                                             >
                                                                               {
-                                                                                optItem
+                                                                                optItem?.optionLabel
                                                                               }
                                                                             </label>
                                                                           </div>
@@ -728,7 +792,7 @@ let prevObj={
                                                                       )}
                                                                     </div>
                                                                   ) : extItem?.inputType ==
-                                                                    "datepicker" ? (
+                                                                    "date" ? (
                                                                     <div>
                                                                       <label
                                                                         htmlFor={
@@ -754,6 +818,109 @@ let prevObj={
                                                                         ) => {
                                                                           e.preventDefault();
                                                                         }}
+                                                                      />
+                                                                    </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "checkbox" ? (
+                                                                    <div className="extOption">
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+                                                                      {extItem?.option?.map(
+                                                                        (
+                                                                          optItem,
+                                                                          optItemIndex
+                                                                        ) => (
+                                                                          <div
+                                                                            className="extOptionItem"
+                                                                            key={
+                                                                              optItemIndex
+                                                                            }
+                                                                          >
+                                                                            <input
+                                                                              type={
+                                                                                extItem?.inputType
+                                                                              }
+                                                                              name={
+                                                                                extItem?.label
+                                                                              }
+                                                                              value={
+                                                                                optItem?.optionValue
+                                                                              }
+                                                                            />
+                                                                            <label
+                                                                              htmlFor={
+                                                                                optItem?.optionLabel
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                optItem?.optionLabel
+                                                                              }
+                                                                            </label>
+                                                                          </div>
+                                                                        )
+                                                                      )}
+                                                                    </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "selection" ? (
+                                                                    <div>
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+                                                                      <Select
+                                                                        className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                        options={
+                                                                          extItem?.label ==
+                                                                          "country"
+                                                                            ? countryList
+                                                                            : extItem?.option?.map(
+                                                                                (
+                                                                                  item
+                                                                                ) => ({
+                                                                                  label:
+                                                                                    item?.optionLabel,
+                                                                                  value:
+                                                                                    item?.optionLabel,
+                                                                                })
+                                                                              )
+                                                                        }
+                                                                        placeholder="Plese select the value"
+                                                                      />
+                                                                    </div>
+                                                                  ) : extItem?.inputType ==
+                                                                    "textarea" ? (
+                                                                    <div>
+                                                                      <label
+                                                                        htmlFor={
+                                                                          extItem?.label
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          extItem?.label
+                                                                        }
+                                                                      </label>
+
+                                                                      <textarea
+                                                                        className="form-control"
+                                                                        name={extItem?.label?.toLowerCase()}
+                                                                        type={
+                                                                          extItem?.inputType
+                                                                        }
+                                                                        placeholder={
+                                                                          extItem?.placeholder
+                                                                        }
                                                                       />
                                                                     </div>
                                                                   ) : (
@@ -972,12 +1139,16 @@ let prevObj={
                         </section>
                       </div>
                       <div className="d-flex justify-content-center">
-                      <Button type="button" className="save btn-bordered" onClick={handlePreview}>
-                        Preview
-                      </Button>  
-                      <Button type="submit" className="save">
-                        Save
-                      </Button>
+                        <Button
+                          type="button"
+                          className="save btn-bordered"
+                          onClick={handlePreview}
+                        >
+                          Preview
+                        </Button>
+                        <Button type="submit" className="save">
+                          Save
+                        </Button>
                       </div>
                     </Form>
                   </div>
@@ -1088,6 +1259,13 @@ let prevObj={
         handleSave={handleModalSave}
         formLabel={formData?.body}
         fieldData={fieldData}
+      />
+      <CommonExtensionModal
+        show={showExtensionModal}
+        onClose={handleExtensionModalClose}
+        handleSave={handleExtensionModalSave}
+        formLabel={formData?.body}
+        extensionData={fieldData}
       />
     </>
   );
