@@ -58,8 +58,6 @@ export default function PollListing() {
 
   const location = useLocation();
   const event_code = location?.state?.event_id ? location?.state?.event_id : "";
-
-  // console.log(location,event_code,"event_code");
   const slickRef = useRef("");
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -73,7 +71,7 @@ export default function PollListing() {
     footerButton: "",
   });
   const [dropDownData, setDropDownData] = useState([]);
-  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedItem, setSelectedItem] = useState({});
   const [method, setMethod] = useState("");
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -81,28 +79,31 @@ export default function PollListing() {
   const [originalQuestions, setOriginalQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [questionFlag, setQuestionFlag] = useState(0);
-
   const [selectedQuestion, setSelectedQuestion] = useState(
     questions[currentIndex]
   );
 
   useEffect(() => {
-    if (!event_code) {
-      toast.warning("Event Not Found", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      navigate("/event-listing");
-    }
-    getApiData();
+    // if (!event_code) {
+        getAllEvents();
+        //get all events listing
+
+      // toast.warning("Event Not Found", {
+      //   position: "top-right",
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // });
+      // navigate("/event-listing");
+    // }else{
+    //   getApiData(event_code);
+    // }
   }, []);
 
-  const getApiData = async () => {
+  const getApiData = async (event_code) => {
     try {
       loader("show");
 
@@ -125,6 +126,36 @@ export default function PollListing() {
     }
   };
 
+  const getAllEvents = async () => {
+    try{
+      loader("show");
+      const response = await getData(`${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`);
+      const allevents = response?.data?.data?.data;
+      if(allevents?.length > 0){
+          let dropDownDataTemp = allevents?.map((item) => ({
+            value: item?.id,
+            label: item?.title,
+          }));
+          setDropDownData(dropDownDataTemp);
+          let index = 0;
+          if (event_code != '') {
+             index = dropDownDataTemp.findIndex(obj => obj.value === event_code);
+          }
+          console.log(index,"Selected index");
+          let selectedData = dropDownDataTemp.length
+              ? dropDownDataTemp?.[index]
+              : { value: "", label: "" };
+            setSelectedItem(selectedData);
+            if (selectedData) {
+              getApiData(selectedData.value);
+            }
+      }
+    }catch(err){
+      loader("hide");
+      console.log(err);
+    }
+  }
+
   const handleSelectChange = async (event) => {
     loader("show");
     setApiStatus(() => false);
@@ -132,7 +163,7 @@ export default function PollListing() {
       let data = [];
       return data;
     });
-    let apiData = await getListingData(event_code);
+    let apiData = await getListingData(event.value);
     setQuestions(apiData);
     slickRef.current.slickGoTo(0);
     setCurrentIndex(0);
@@ -365,7 +396,7 @@ export default function PollListing() {
         data: [surveyData],
       };
       if (!surveyData?.id) {
-        payLoadData.eventId = event_code;
+        payLoadData.eventId = selectedItem?.value;
         response = await postData(ENDPOINT.ADD_QUESTION, payLoadData);
         loader("hide");
         toast.success("Question Inserted Successfully", {
@@ -400,7 +431,7 @@ export default function PollListing() {
       console.error("An error occurred:", error);
     } finally {
       setShowUploadMenu(false);
-      const apiData = await getListingData(event_code);
+      const apiData = await getListingData(selectedItem?.value);
       // slickRef.current.slickGoTo(0);
       // setCurrentIndex(0);
       setQuestionFlag(false);
@@ -538,7 +569,7 @@ if(!questionObj){
           `/webinar/delete-question`,
           deletedQuestionId
         );
-        let apiData = await getListingData(event_code);
+        let apiData = await getListingData(selectedItem?.value);
         setQuestions(apiData);
       }
 
@@ -628,7 +659,7 @@ if(!questionObj){
                   </div>
 
                   <form className="product-unit d-flex justify-content-between align-items-center">
-                    {/* <div className="form-group">
+                    <div className="form-group">
                       <label htmlFor="">Select Event</label>
                       <Select
                         options={dropDownData}
@@ -639,7 +670,7 @@ if(!questionObj){
                         onChange={handleSelectChange}
                         value={selectedItem}
                       />
-                    </div> */}
+                    </div>
                     {/* <Button
                   className="align-right btn-bordered btn-voilet"
                   onClick={() => {
