@@ -10708,6 +10708,13 @@ img.change-password-image {
   padding: 0 0 30px;
   position: relative;
 
+  .slick-slider {
+    .slick-track {
+  max-height: 1200px;
+  height: 100% !important;
+}
+  }
+
   // .slick-slider {
   //   .slick-prev {
   //     top: 98px;
@@ -17188,10 +17195,6 @@ img.change-password-image {
           flex: 0 0 auto;
           min-width: 100%;
           margin: 0 0 4px;
-
-          // label {
-          //   padding: 10px 0 0;
-          // }
         }
 
         .extension {
@@ -17281,6 +17284,13 @@ img.change-password-image {
       }
     }
   }
+}
+
+.consent-form .split-button-dropup>div:nth-child(3) {
+  max-width: 100%;
+  border-radius: 20px;
+  padding: 15px 18px;
+  background-position: 95% center;
 }
 
 .webinarRegistrationBody button.btn-back {

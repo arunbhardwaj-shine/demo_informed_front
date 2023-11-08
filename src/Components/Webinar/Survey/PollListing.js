@@ -35,7 +35,7 @@ const settings = {
   dots: false,
   arrows: false,
   centerMode: false,
-  centerPadding: "5%",
+  // centerPadding: "5%",
   speed: 1500,
   vertical: true,
   verticalScrolling: true,
