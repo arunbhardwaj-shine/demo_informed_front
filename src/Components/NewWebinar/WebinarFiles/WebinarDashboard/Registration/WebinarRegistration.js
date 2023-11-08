@@ -751,7 +751,7 @@ const WebinarRegistration = () => {
                 <h2>Registration Page</h2>
               </div>
             </div>
-            <section className="select-mail-template library-cosent">
+            <section className="select-mail-template library-consent">
               <div className="custom-container">
                 <Row>
                   <div className="page-title">
@@ -1076,7 +1076,7 @@ const WebinarRegistration = () => {
                                                                   <img
                                                                     src={
                                                                       path_image +
-                                                                      "add-choice.svg"
+                                                                      "add-choice-voilet.svg"
                                                                     }
                                                                     alt=""
                                                                   />

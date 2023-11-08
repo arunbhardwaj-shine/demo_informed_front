@@ -10710,9 +10710,9 @@ img.change-password-image {
 
   .slick-slider {
     .slick-track {
-  max-height: 1200px;
-  height: 100% !important;
-}
+      max-height: 1200px;
+      height: 100% !important;
+    }
   }
 
   // .slick-slider {
@@ -17171,6 +17171,7 @@ img.change-password-image {
 
       label {
         padding: 0px 5px 0 0;
+        flex: 1 1;
       }
 
       &>label {
@@ -17195,6 +17196,17 @@ img.change-password-image {
           flex: 0 0 auto;
           min-width: 100%;
           margin: 0 0 4px;
+          /* word-break: break-all; */
+          flex-wrap: wrap;
+          display: flex;
+          width: 100%;
+
+          .add-choice {
+            justify-content: flex-end;
+            align-self: flex-end;
+            font-size: 12px;
+            color: #8a4e9c;
+          }
         }
 
         .extension {
