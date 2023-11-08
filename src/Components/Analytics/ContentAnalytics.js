@@ -618,7 +618,7 @@ const ReadersPerPageLayout = ({ data }) => {
           <React.Fragment key={index}>
             <div className="analytics-detail-view-box">
               <div className="analytics-detil-image">
-                <div>{element?.page}</div>
+                <div>Page {element?.page}</div>
               </div>
               <div className="analytics-reader-detail">
                 <div className="analytics-reader-detail-box">

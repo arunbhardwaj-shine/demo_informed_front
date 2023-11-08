@@ -1482,12 +1482,14 @@ const TemplateBuilder = (props) => {
             setTemplateId(res.data.response.data.last_id);
             templateIdRef.current = res.data.response.data.last_id;
             setTemplateName(newTemplateNamee);
+            setTemplateClicked(false);
           } else {
             loader("hide");
             toast.warning("You can not save the empty template !");
           }
         })
         .catch((err) => {
+          console.log(err);
           loader("hide");
           toast.error("Something went wrong");
         });
@@ -2363,7 +2365,10 @@ const TemplateBuilder = (props) => {
                   ) : (
                     ""
                   )}
-                  {templateClickedd ? (
+                  {templateClickedd ? 
+                  (
+                    <>
+                    {console.log("First")}
                     <Editor
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
@@ -2483,9 +2488,13 @@ const TemplateBuilder = (props) => {
                         setTemplateSaving(content);
                       }}
                     />
+                    </>
                   ) : null}
 
-                  {templateType == 0 ? (
+                  {templateType == 0 && !templateClickedd ? 
+                  (
+                    <>
+                    {console.log("Second")}
                     <Editor
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
@@ -2605,9 +2614,13 @@ const TemplateBuilder = (props) => {
                         setNewTemplateContent(content);
                       }}
                     />
+                    </>
                   ) : null}
 
-                  {templateType == 1 ? (
+                  {templateType == 1 && !templateClickedd ? 
+                  (
+                    <>
+                    {console.log("Third")}
                     <Editor
                       apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                       onInit={(evt, editor) => (editorRef.current = editor)}
@@ -2727,6 +2740,7 @@ const TemplateBuilder = (props) => {
                         setNewTemplateContent(content);
                       }}
                     />
+                    </>
                   ) : null}
 
                   {/*
