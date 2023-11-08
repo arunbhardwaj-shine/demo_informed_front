@@ -3129,7 +3129,7 @@ const FilterSegment = (props) => {
               ) : null}
 
 
-              {updateflag > 0 ? (
+              {/*updateflag > 0 ? (
                 selectedBlindType?.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
@@ -3152,7 +3152,7 @@ const FilterSegment = (props) => {
                     </div>
                   </div>
                 ) : null
-              ) : null}
+                        ) : null*/}
 
               {updateflag > 0 ? (
                 typeof selectedcampaign === "object" &&

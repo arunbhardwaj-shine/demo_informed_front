@@ -6,15 +6,19 @@ import HighchartsReact from "highcharts-react-official";
 import highchartsMore from "highcharts/highcharts-more";
 import solidGauge from "highcharts/modules/solid-gauge";
 import { loader } from "../../loader";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 highchartsMore(Highcharts);
 solidGauge(Highcharts);
 
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 export default function ContentAnalyticsComponentActivityGauge({
   value,
   label,
   color,
   limit,
   pdf_id,
+  tooltip,
 }) {
   const options = {
     chart: {
@@ -119,9 +123,36 @@ export default function ContentAnalyticsComponentActivityGauge({
     }
   }
 
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href} style={{marginLeft: "5px"}}>{children}</a>
+      </OverlayTrigger>
+    );
+  }
+
   return (
     <Col>
-    <div className="highchart-lable">{label}</div>
+    <div className="highchart-lable">{label}
+    {
+      typeof tooltip != "undefined" && tooltip.length > 0 ?
+      <LinkWithTooltip tooltip={tooltip}>
+        <img
+          src={
+            path_image +
+            "info_circle_icon.svg"
+          }
+          alt="refresh-btn"
+        />
+      </LinkWithTooltip>
+      : null
+    }
+    </div>
       {
         label == "Downloads" && value > 0 ?
           <button

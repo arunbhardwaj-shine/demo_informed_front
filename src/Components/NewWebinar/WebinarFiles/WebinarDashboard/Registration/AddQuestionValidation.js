@@ -1,4 +1,4 @@
-const AddQuestionValidation = (formData, formLabel) => {
+const AddQuestionValidation = (formData, formLabel, fieldData) => {
   let error = {};
   if (!formData?.inputType) {
     error.inputType = "Please select the input type";
@@ -17,7 +17,8 @@ const AddQuestionValidation = (formData, formLabel) => {
     formLabel?.find(
       (item, index) =>
         item?.label?.toLowerCase() == formData?.label?.toLowerCase()
-    )
+    ) &&
+    !fieldData
   ) {
     error.label = "Label already exist";
   }

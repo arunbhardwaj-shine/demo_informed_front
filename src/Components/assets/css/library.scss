@@ -561,6 +561,8 @@
       label {
         margin: 0;
         flex: 0 0 200px;
+        align-self: flex-start;
+        padding: 16px 0 0;
       }
 
       .form-control {
@@ -8278,7 +8280,7 @@ svg.pencil_icon {
 }
 
 .view-modal #message_change {
-  color: $dark-blue;  
+  color: $dark-blue;
   font-size: 16px;
   overflow-y: auto;
   max-height: 75vh;
@@ -8286,6 +8288,7 @@ svg.pencil_icon {
   margin-top: 10px;
   word-break: break-word;
 }
+
 /**Publisher page End**/
 
 /**Library Responsive**/
@@ -10773,7 +10776,7 @@ img.change-password-image {
       transform: rotate(-180deg);
 
       span {
-        font-size: 48px;
+        font-size: 42px;
         color: #EEE;
         font-weight: 700;
         line-height: 45px;
@@ -10781,7 +10784,7 @@ img.change-password-image {
     }
 
     .question-action {
-      gap: 16px;
+      gap: 12px;
       display: flex;
 
       button {
@@ -10827,17 +10830,22 @@ img.change-password-image {
   }
 
   .poll-question-option {
-    padding: 24px 40px;
+    padding: 4px 5px 4px 0;
     border: 1px dashed $primary-color;
     border-radius: 15px;
     margin: 0px 0 0 60px;
-    min-height: 545px;
-    height: 100%;
-    overflow-y: auto;
-    max-height: 545px;
+
   }
 
   .poll-question-create {
+    padding: 20px 30px 20px 35px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 565px;
+    max-height: 565px;
+
+
     .name_added {
       .login-validation {
         position: relative;
@@ -10863,6 +10871,7 @@ img.change-password-image {
       border-radius: 30px;
       resize: none;
       border: 0;
+      color: $primary-color;
     }
 
     .form-check-inline {
@@ -13296,8 +13305,8 @@ img.change-password-image {
 // }
 
 .landing-banner {
-  background: #68d1e8 url(../../../../public/componentAssets/images/banner-bg-shade.svg) no-repeat;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
+  background: #68d1e8 url(../../../../public/componentAssets/images/banner-bg-shade.png) no-repeat;
   // position: sticky;
   // top: 0;
   background-size: cover;
@@ -16876,14 +16885,14 @@ img.change-password-image {
   display: none;
 }
 
-.webinarRegistrationBody {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0.55%, rgba(255, 255, 255, 0) 100%);
-  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.08);
-  border-radius: 32px;
-  padding: 18px 30px;
-  width: 100%;
-  border: 4px solid $white;
-}
+// .webinarRegistrationBody {
+//   background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0.55%, rgba(255, 255, 255, 0) 100%);
+//   box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.08);
+//   border-radius: 32px;
+//   padding: 18px 30px;
+//   width: 100%;
+//   border: 4px solid $white;
+// }
 
 .header-section {
   width: 100%;
@@ -17006,7 +17015,7 @@ img.change-password-image {
     flex-wrap: wrap;
     gap: 20px 2%;
     padding: 0 0 40px;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
     position: relative;
 
     &:after {
@@ -17078,20 +17087,137 @@ img.change-password-image {
   }
 }
 
-section.webinarRegistrationBody {
+.webinarRegistrationBody {
   flex: 0 0 100%;
 
-  #registration-form {
+  .reg-color-set {
+    gap: 0 15px;
+
     .form-group {
-      margin: 10px 0;
+      justify-content: space-between;
+      margin: 0;
+
+      &:first-child {
+        border-right: 1px dashed #0066be;
+        padding-right: 13px;
+      }
 
       label {
-        flex: 0 0 120px;
-        padding: 0 5px 0 0;
+        flex: 0 0 auto;
       }
+
+      .color-pick {
+        border-radius: 30px;
+        background: #EEE;
+        width: 100%;
+        padding: 4px 8px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        max-width: 130px;
+
+        input[type="color"] {
+          border-radius: 30px;
+          -webkit-appearance: none;
+          appearance: none;
+          width: 108px;
+          margin-left: -34px;
+          cursor: pointer;
+          padding-left: 40px;
+
+          &::-webkit-color-swatch {
+            border: none;
+            border-radius: 30px;
+            padding: 0;
+          }
+
+          &::-webkit-color-swatch-wrapper {
+            border: none;
+            border-radius: 30px;
+            padding: 0;
+          }
+        }
+
+        img {
+          max-width: 24px;
+          position: relative;
+          pointer-events: none
+        }
+      }
+    }
+  }
+
+  #registration-form {
+    .centered-input {
+      margin: 0 0 15px;
+
+
+
+      &:last-child {
+        margin: 0 0 20px;
+      }
+    }
+
+    .form-group {
+      margin: 0px 0 0;
+      align-items: center;
+
+      label {
+        padding: 0px 5px 0 0;
+      }
+
+      &>label {
+        padding: 17px 5px 0 0;
+        align-self: flex-start;
+        flex: 0 0 190px;
+      }
+
+
 
       .slt-opt {
         flex: 1 1;
+      }
+
+      .btn-container {
+        flex: 1 1;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 16px;
+
+        .check {
+          flex: 0 0 auto;
+          min-width: 100%;
+          margin: 0 0 4px;
+
+          // label {
+          //   padding: 10px 0 0;
+          // }
+        }
+
+        .extension {
+          background: rgb(238 238 238 / 78%);
+          padding: 20px;
+          margin-top: 20px;
+          border-radius: 10px;
+          min-width: 550px;
+          margin-left: 25px;
+
+          label {
+            font-size: 15px;
+          }
+
+          .extItem {
+            margin: 0 0 11px;
+          }
+
+          .react-datepicker-wrapper {
+            max-width: 100%;
+          }
+        }
+      }
+
+      .split-button-dropup {
+        margin: 0;
       }
 
       input[type="radio"],
@@ -17123,31 +17249,47 @@ section.webinarRegistrationBody {
         margin-bottom: 0;
       }
 
-      .dlt_btn_event {
+      .dlt_btn_event,
+      .btn-edit {
         border-radius: 30px;
         box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.15);
         border: 0;
         padding: 6px;
-        width: 48px;
-        min-width: 48px;
-        height: 48px;
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 0 0 15px;
+        background: $white;
+
+        &:hover {
+          background: $primary-color;
+
+          svg {
+            path {
+              fill: $white
+            }
+          }
+        }
 
         svg {
-          width: 24px;
-          height: 24px;
+          width: 20px;
+          height: 20px;
         }
       }
     }
   }
 }
 
+.webinarRegistrationBody button.btn-back {
+  margin: 0 0 0 20px;
+}
+
 .register-page-left {
   .save.btn {
-    margin: 14px auto 20px;
+    margin: 14px 10px 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17160,47 +17302,66 @@ section.webinarRegistrationBody {
   display: flex;
   flex-direction: column;
   gap: 20px 0;
-  justify-content: space-between;
+  // justify-content: space-between;
   padding-top: 18px;
   padding-bottom: 74px;
 
   .header-section {
-    height: calc(50% - 15px);
+    // height: calc(50% - 15px);
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 10px 10px 50px;
     position: relative;
 
     img {
       &.header-img {
         max-height: 250px;
+        max-width: 100%;
+        min-height: 210px;
+        height: 100%;
+        object-fit: contain;
       }
     }
 
     h4 {
       color: $dark-blue;
+      padding-top: 30px;
     }
   }
 
+  .registration-preview {
+    width: 100%;
+    border: 1px solid #0066BE;
+    border-radius: 12px;
+    cursor: pointer;
+    overflow: hidden;
+    min-height: 350px;
+    padding: 10px;
+  }
+
   .footer-section {
-    height: calc(50% - 15px);
+    // height: calc(50% - 15px);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 10px 10px 50px;
     position: relative;
 
     img {
       &.footer-img {
         max-height: 250px;
+        max-width: 100%;
+        min-height: 210px;
+        height: 100%;
+        object-fit: contain;
       }
     }
 
     h4 {
       color: $dark-blue;
+      padding-top: 30px;
     }
   }
 
@@ -17210,7 +17371,8 @@ section.webinarRegistrationBody {
     bottom: 0;
     display: flex;
     gap: 0 15px;
-    background: rgb(0 102 190 / 5%);
+    // background: rgb(0 102 190 / 5%);
+    background: rgb(230 240 249);
     left: 0;
     right: 0;
     margin: 0 auto;

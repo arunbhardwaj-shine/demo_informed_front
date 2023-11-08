@@ -220,7 +220,7 @@ const CommonAddEventModel = ({
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {data?.id ? "Edit Event" : "Add New Event"}
+              {data?.id ? "Edit Event" : "New Event"}
             </h5>
             <button
               type="button"
@@ -245,7 +245,7 @@ const CommonAddEventModel = ({
                     <div className="add_hcp_boxes">
                       <div className="form_action">
                         <div className="row">
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 Event Title <span> *</span>
@@ -271,7 +271,35 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12 speaker-name">
+                            <div className="row">
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">Speaker's Name</label>
+                                  <input
+                                type="text"
+                                name="title"
+                                placeholder=""
+                                className="form-control"/>
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">Speaker's Email</label>
+                                  <input
+                                    type="email"
+                                    name="email"
+                                    placeholder=""
+                                    className="form-control"
+                              />
+                                </div>
+                                </div>
+                                <div className="col-12 col-md-12">
+                                  <span class="add-choice">Add Speaker<img src={path_image+"add-choice.svg"} alt=""/></span>
+                                </div>
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">IBU</label>
 
@@ -308,7 +336,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 Timezone <span> *</span>
@@ -349,11 +377,11 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 {" "}
-                                Select Country Timezone <span> *</span>
+                                Select Timezone<span>*</span>
                               </label>
                               <Select
                                 options={countryTimezone}
@@ -391,7 +419,7 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 {" "}
@@ -432,7 +460,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
                           {eventInputs?.is_client_stream == "Yes" ? (
-                            <div className="col-12 col-md-6">
+                            <div className="col-12 col-md-12">
                               <div className="form-group">
                                 <label htmlFor="">
                                   Client Stream URL <span> *</span>
@@ -463,7 +491,7 @@ const CommonAddEventModel = ({
                           ) : (
                             ""
                           )}
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 Event Date <span> *</span>
@@ -500,7 +528,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group double-select">
                               <label htmlFor="">
                                 {" "}
@@ -537,7 +565,6 @@ const CommonAddEventModel = ({
                                   {error?.dateStartHour}
                                 </div>
                               ) : null}
-
                               <Select
                                 options={timeMinutes}
                                 className={
@@ -567,7 +594,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group double-select">
                               <label htmlFor="">
                                 {" "}
@@ -633,7 +660,7 @@ const CommonAddEventModel = ({
                               />
                             </div>
                           </div>
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 Event Code <span> *</span>
@@ -662,7 +689,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">Event Description</label>
                               <textarea
@@ -708,6 +735,14 @@ const CommonAddEventModel = ({
           </div>
         </Modal.Body>
         <div className="modal-footer">
+          
+          <button
+            type="button"
+            className="btn btn-primary save btn-bordered"
+            onClick={handleClose}
+          >
+            Close
+          </button>
           <button
             type="button"
             className="btn btn-primary save btn-filled"
@@ -716,13 +751,6 @@ const CommonAddEventModel = ({
             }}
           >
             Save
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            onClick={handleClose}
-          >
-            Close
           </button>
         </div>
       </Modal>

@@ -1761,433 +1761,446 @@ const Table = (props, ref) => {
             ) : (
               <h4>
                 Selected HCPs for the smart list |{" "}
-                <span> {editList?.length > 0 ? editList?.length : 0}</span>
+                <span> 
+                  {
+                    editList?.length > 0 ? editList?.length : 0
+                  }
+                </span>
               </h4>
             )}
 
-            <div className="selected-hcp-table-action">
-              {editable == false ? (
-                <>
-                  {" "}
-                  <a
-                    className="show-less-info"
-                    onClick={(e) => showMoreInfo(e)}
-                  >
-                    {showLessInfo == true ? (
-                      <p className="show_more">Show More information</p>
-                    ) : (
-                      <p className="show_less">Show less information</p>
-                    )}{" "}
-                  </a>
-                  <ReactHTMLTableToExcel
-                    id="test-table-xls-button"
-                    className="btn btn-outline-primary"
-                    table="table-to-xls"
-                    filename="tablexls"
-                    sheet="tablexls"
-                    buttonText="Download "
-                  />
-                  <div className="hcp-new-user">
-                    <button
-                      className="btn btn-outline-primary"
-                      title="Add new user"
-                      onClick={handleShow}
-                    >
-                      <img src={path + "new-user.svg"} alt="New User" />
-                    </button>
-                  </div>
-                  <div className="hcp-added">
-                    <button
-                      className="btn btn-outline-primary"
-                      title="Edit user"
-                      onClick={editButtonClicked}
-                    >
-                      <img src={path + "edit-button.svg"} alt="Edit" />
-                    </button>
-                  </div>
-                  <div className="hcp-sort">
-                    {sortingCount == 0 ? (
-                      <>
-                        <button
-                          className="btn btn-outline-primary"
-                          onClick={sortSelectedUsers}
-                        >
-                          Sort By{" "}
-                          <img src={path_image + "sort.svg"} alt="Shorting" />
-                        </button>
-                      </>
-                    ) : sorting == 0 ? (
-                      <>
-                        <button
-                          className="btn btn-outline-primary desc"
-                          onClick={sortSelectedUsers}
-                        >
-                          Sort By{" "}
-                          <img
-                            src={path_image + "sort-decending.svg"}
-                            alt="Shorting"
-                          />
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          className="btn btn-outline-primary asc"
-                          onClick={sortSelectedUsers}
-                        >
-                          Sort By{" "}
-                          <img
-                            src={path_image + "sort-assending.svg"}
-                            alt="Shorting"
-                          />
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </>
-              ) : null}
-
-              {saveOpen ? (
-                <>
-                  <button
-                    className="btn btn-primary btn-filled"
-                    onClick={closeClicked}
-                  >
-                    Close
-                  </button>
-                  <button
-                    className="btn btn-primary btn-bordered"
-                    onClick={saveEditClicked}
-                  >
-                    Save
-                  </button>
-                </>
-              ) : null}
-            </div>
-          </div>
-          <div className="selected-hcp-list">
-            <table className="table" id="table-to-xls">
-              <thead className="sticky-header">
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Bounced</th>
-                  <th scope="col">Country</th>
-                  {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                    <>
-                      <th scope="col">IRT mandatory training</th>
-                      <th scope="col">IRT role</th>
-                    </>
-                  ) : (
-                    <>
-                      <th scope="col">Business unit</th>
-                      <th scope="col">Contact type</th>
-                    </>
-                  )}
-
-                  {showLessInfo == false ? (
+            {
+              props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
+                <div className="selected-hcp-table-action">
+                  {editable == false ? (
                     <>
                       {" "}
-                      <th scope="col">Consent</th>
-                      <th scope="col">Email received</th>
-                      <th scope="col">Openings</th>
-                      <th scope="col">Registrations</th>
-                      <th scope="col">Last email</th>
-                      <th scope="col"></th>{" "}
+                      <a
+                        className="show-less-info"
+                        onClick={(e) => showMoreInfo(e)}
+                      >
+                        {showLessInfo == true ? (
+                          <p className="show_more">Show More information</p>
+                        ) : (
+                          <p className="show_less">Show less information</p>
+                        )}{" "}
+                      </a>
+                      <ReactHTMLTableToExcel
+                        id="test-table-xls-button"
+                        className="btn btn-outline-primary"
+                        table="table-to-xls"
+                        filename="tablexls"
+                        sheet="tablexls"
+                        buttonText="Download "
+                      />
+                      <div className="hcp-new-user">
+                        <button
+                          className="btn btn-outline-primary"
+                          title="Add new user"
+                          onClick={handleShow}
+                        >
+                          <img src={path + "new-user.svg"} alt="New User" />
+                        </button>
+                      </div>
+                      <div className="hcp-added">
+                        <button
+                          className="btn btn-outline-primary"
+                          title="Edit user"
+                          onClick={editButtonClicked}
+                        >
+                          <img src={path + "edit-button.svg"} alt="Edit" />
+                        </button>
+                      </div>
+                      <div className="hcp-sort">
+                        {sortingCount == 0 ? (
+                          <>
+                            <button
+                              className="btn btn-outline-primary"
+                              onClick={sortSelectedUsers}
+                            >
+                              Sort By{" "}
+                              <img src={path_image + "sort.svg"} alt="Shorting" />
+                            </button>
+                          </>
+                        ) : sorting == 0 ? (
+                          <>
+                            <button
+                              className="btn btn-outline-primary desc"
+                              onClick={sortSelectedUsers}
+                            >
+                              Sort By{" "}
+                              <img
+                                src={path_image + "sort-decending.svg"}
+                                alt="Shorting"
+                              />
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className="btn btn-outline-primary asc"
+                              onClick={sortSelectedUsers}
+                            >
+                              Sort By{" "}
+                              <img
+                                src={path_image + "sort-assending.svg"}
+                                alt="Shorting"
+                              />
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </>
                   ) : null}
-                </tr>
-              </thead>
-              <tbody>
-                {typeof getNewReaders !== "undefined" &&
-                  getNewReaders?.length > 0 &&
-                  getNewReaders?.map((item, index) => (
-                    <tr
-                      key={item}
-                      className="hcps-added"
-                      id={`row-selected` + index}
-                      onClick={(e) =>
-                        editing(
-                          item?.profile_id,
-                          item?.profile_user_id,
-                          item?.email,
-                          item?.jobTitle,
-                          item?.company,
-                          item?.country,
-                          item?.first_name + " " + item?.last_name,
-                          item?.contact_type
-                        )
-                      }
-                    >
-                      <td
-                        contenteditable={editable === 0 ? "false" : "true"}
-                        id={`field_name` + item?.profile_user_id}
+
+                  {saveOpen ? (
+                    <>
+                      <button
+                        className="btn btn-primary btn-filled"
+                        onClick={closeClicked}
                       >
-                        {inEditMode?.status &&
-                        inEditMode?.rowKey === item?.profile_id ? (
-                          <input
-                            value={name}
-                            onChange={(event) => setName(event?.target?.value)}
-                          />
-                        ) : (
-                          item?.first_name + " " + item?.last_name
-                        )}
-                      </td>
-                      <td>
-                        {" "}
-                        {inEditMode?.status &&
-                        inEditMode?.rowKey === item?.profile_id ? (
-                          <input
-                            value={email}
-                            type="email"
-                            onChange={(event) => setEmail(event?.target?.value)}
-                          />
-                        ) : item?.email ? (
-                          item?.email
-                        ) : (
-                          "N/A"
-                        )}
-                      </td>
-                      <input
-                        type="hidden"
-                        id={`field_index` + item?.profile_user_id}
-                        value={index}
-                      />
-                      <td>{item?.bounce ? item?.bounce : "N/A"}</td>
-                      <td>
-                        {editable ? (
-                          <EditCountry
-                            selected_country={item?.country}
-                            profile_user={item?.profile_user_id}
-                          ></EditCountry>
-                        ) : (
-                          <span>{item?.country ? item?.country : "N/A"}</span>
-                        )}
-                      </td>
-                      <td>
-                        {/*item.ibu*/}
-                        {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
-                          ? item?.irt
-                            ? "Yes"
-                            : "No"
-                          : item?.ibu
-                          ? item?.ibu
-                          : "N/A"}
-                      </td>
-                      <td>
-                        {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <span>
-                            {item?.user_type != 0 ? item?.user_type : "N/A"}
-                          </span>
-                        ) : editable ? (
-                          <EditContactType
-                            selected_ibu={item?.contact_type}
-                            profile_user={item?.profile_user_id}
-                          ></EditContactType>
-                        ) : (
-                          <span>
-                            {item?.contact_type ? item?.contact_type : "N/A"}
-                          </span>
-                        )}
-                      </td>
-
-                      {showLessInfo == false ? (
-                        <td>
-                          <span>{item?.consent ? item?.consent : "N/A"}</span>{" "}
-                        </td>
-                      ) : null}
-                      {showLessInfo == false ? (
-                        <td>
-                          <span>
-                            {item?.email_received
-                              ? item?.email_received
-                              : "N/A"}
-                          </span>
-                        </td>
-                      ) : null}
-                      {showLessInfo == false ? (
-                        <td>
-                          <span>
-                            {item?.email_opening ? item?.email_opening : "N/A"}
-                          </span>
-                        </td>
-                      ) : null}
-                      {showLessInfo == false ? (
-                        <td>
-                          <span>
-                            {item?.registration ? item?.registration : "N/A"}
-                          </span>
-                        </td>
-                      ) : null}
-                      {showLessInfo == false ? (
-                        <td>
-                          <span>
-                            {item?.last_email ? item?.last_email : "N/A"}
-                          </span>
-                        </td>
-                      ) : null}
-
-                      <td className="delete_row" colspan="12">
-                        <img
-                          src={path + "delete.svg"}
-                          alt="Delete Row"
-                          onClick={() =>
-                            deleteNewlyAdded(item?.profile_user_id)
-                          }
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                {typeof getNewReaders !== "undefined" &&
-                  getNewReaders?.length > 0 && (
-                    <tr className="seprator-add">
-                      <td colspan="13"></td>
-                    </tr>
-                  )}
-                {typeof editList !== "undefined" &&
-                  editList?.length > 0 &&
-                  editList?.map((item, index) => (
-                    <tr
-                      key={item}
-                      id={`row-selected` + index}
-                      onClick={(e) =>
-                        editing(
-                          //  e.currentTarget,
-                          item?.profile_id,
-                          item?.profile_user_id,
-                          item?.email,
-                          item?.jobTitle,
-                          item?.company,
-                          item?.country,
-                          item?.first_name + " " + item?.last_name,
-                          item?.contact_type
-                        )
-                      }
-                    >
-                      <td
-                        id={`field_name` + item?.profile_user_id}
-                        contenteditable={editable === 0 ? "false" : "true"}
+                        Close
+                      </button>
+                      <button
+                        className="btn btn-primary btn-bordered"
+                        onClick={saveEditClicked}
                       >
-                        <span>{item?.first_name + " " + item?.last_name}</span>
-                      </td>
-
-                      <td id={`field_email` + item?.profile_user_id}>
-                        {item?.email ? item?.email : "N/A"}
-                      </td>
-                      <input
-                        type="hidden"
-                        id={`field_index` + item?.profile_user_id}
-                        value={index}
-                      />
-                      <td id={`field_bounced` + item?.profile_user_id}>
-                        {item?.bounce ? item?.bounce : "N/A"}
-                      </td>
-                      <td>
-                        {editable ? (
-                          <EditCountry
-                            selected_country={item?.country}
-                            profile_user={item?.profile_user_id}
-                          ></EditCountry>
-                        ) : (
-                          <span>{item?.country ? item?.country : "N/A"}</span>
-                        )}
-                      </td>
-                      {/*showLessInfo == false ? (
-                        <td id="field_readers">NA</td>
-                      ) : null*/}
-                      <td id="field_business_unit">
-                        {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
-                          ? item?.irt
-                            ? "Yes"
-                            : "No"
-                          : item?.ibu
-                          ? item?.ibu
-                          : "N/A"}
-                      </td>
-                      <td id="field_interest">
-                        {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <span>
-                            {item?.user_type != 0 ? item?.user_type : "N/A"}
-                          </span>
-                        ) : editable ? (
-                          <EditContactType
-                            selected_ibu={item?.contact_type}
-                            profile_user={item?.profile_user_id}
-                          ></EditContactType>
-                        ) : (
-                          <span>
-                            {item?.contact_type ? item?.contact_type : "N/A"}
-                          </span>
-                        )}
-                      </td>
-
-                      {showLessInfo == false ? (
-                        <td>
-                          <span>{item?.consent ? item?.consent : "N/A"}</span>{" "}
-                        </td>
-                      ) : null}
-                      {showLessInfo == false ? (
-                        <td>
-                          <span>
-                            {item?.email_received
-                              ? item?.email_received
-                              : "N/A"}
-                          </span>
-                        </td>
-                      ) : null}
-                      {showLessInfo == false ? (
-                        <td>
-                          <span>
-                            {item?.email_opening ? item?.email_opening : "N/A"}
-                          </span>
-                        </td>
-                      ) : null}
-                      {showLessInfo == false ? (
-                        <td>
-                          <span>
-                            {item?.registration ? item?.registration : "N/A"}
-                          </span>
-                        </td>
-                      ) : null}
-                      {showLessInfo == false ? (
-                        <td>
-                          <span>
-                            {item?.last_email ? item?.last_email : "N/A"}
-                          </span>
-                        </td>
-                      ) : null}
-
-                      <td
-                        className="delete_row"
-                        colspan="12"
-                        onClick={() =>
-                          onDelete({
-                            id: item?.profile_id,
-                            currentName:
-                              item?.first_name + " " + item?.last_name,
-                            currentJobTitle: item?.jobTitle,
-                            currentCompany: item?.company,
-                            currentIndication: item?.indication,
-                            currentProduct: item?.product,
-                            currentCountry: item?.country,
-                            currentEmail: item?.email,
-                            profile_user_id: item?.profile_user_id,
-                          })
-                        }
-                      >
-                        <img src={path + "delete.svg"} alt="Delete Row" />
-                      </td>
-                    </tr>
-                  ))}
-                {validator3.message("email", email, "required|email")}
-              </tbody>
-            </table>
+                        Save
+                      </button>
+                    </>
+                  ) : null}
+                </div>
+              : null
+            }
           </div>
+
+          {
+            props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ? 
+              <div className="selected-hcp-list">
+                <table className="table" id="table-to-xls">
+                  <thead className="sticky-header">
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Bounced</th>
+                      <th scope="col">Country</th>
+                      {localStorage.getItem("user_id") ==
+                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        <>
+                          <th scope="col">IRT mandatory training</th>
+                          <th scope="col">IRT role</th>
+                        </>
+                      ) : (
+                        <>
+                          <th scope="col">Business unit</th>
+                          <th scope="col">Contact type</th>
+                        </>
+                      )}
+
+                      {showLessInfo == false ? (
+                        <>
+                          {" "}
+                          <th scope="col">Consent</th>
+                          <th scope="col">Email received</th>
+                          <th scope="col">Openings</th>
+                          <th scope="col">Registrations</th>
+                          <th scope="col">Last email</th>
+                          <th scope="col"></th>{" "}
+                        </>
+                      ) : null}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {typeof getNewReaders !== "undefined" &&
+                      getNewReaders?.length > 0 &&
+                      getNewReaders?.map((item, index) => (
+                        <tr
+                          key={item}
+                          className="hcps-added"
+                          id={`row-selected` + index}
+                          onClick={(e) =>
+                            editing(
+                              item?.profile_id,
+                              item?.profile_user_id,
+                              item?.email,
+                              item?.jobTitle,
+                              item?.company,
+                              item?.country,
+                              item?.first_name + " " + item?.last_name,
+                              item?.contact_type
+                            )
+                          }
+                        >
+                          <td
+                            contenteditable={editable === 0 ? "false" : "true"}
+                            id={`field_name` + item?.profile_user_id}
+                          >
+                            {inEditMode?.status &&
+                            inEditMode?.rowKey === item?.profile_id ? (
+                              <input
+                                value={name}
+                                onChange={(event) => setName(event?.target?.value)}
+                              />
+                            ) : (
+                              item?.first_name + " " + item?.last_name
+                            )}
+                          </td>
+                          <td>
+                            {" "}
+                            {inEditMode?.status &&
+                            inEditMode?.rowKey === item?.profile_id ? (
+                              <input
+                                value={email}
+                                type="email"
+                                onChange={(event) => setEmail(event?.target?.value)}
+                              />
+                            ) : item?.email ? (
+                              item?.email
+                            ) : (
+                              "N/A"
+                            )}
+                          </td>
+                          <input
+                            type="hidden"
+                            id={`field_index` + item?.profile_user_id}
+                            value={index}
+                          />
+                          <td>{item?.bounce ? item?.bounce : "N/A"}</td>
+                          <td>
+                            {editable ? (
+                              <EditCountry
+                                selected_country={item?.country}
+                                profile_user={item?.profile_user_id}
+                              ></EditCountry>
+                            ) : (
+                              <span>{item?.country ? item?.country : "N/A"}</span>
+                            )}
+                          </td>
+                          <td>
+                            {/*item.ibu*/}
+                            {localStorage.getItem("user_id") ==
+                            "56Ek4feL/1A8mZgIKQWEqg=="
+                              ? item?.irt
+                                ? "Yes"
+                                : "No"
+                              : item?.ibu
+                              ? item?.ibu
+                              : "N/A"}
+                          </td>
+                          <td>
+                            {localStorage.getItem("user_id") ==
+                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              <span>
+                                {item?.user_type != 0 ? item?.user_type : "N/A"}
+                              </span>
+                            ) : editable ? (
+                              <EditContactType
+                                selected_ibu={item?.contact_type}
+                                profile_user={item?.profile_user_id}
+                              ></EditContactType>
+                            ) : (
+                              <span>
+                                {item?.contact_type ? item?.contact_type : "N/A"}
+                              </span>
+                            )}
+                          </td>
+
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{item?.consent ? item?.consent : "N/A"}</span>{" "}
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>
+                                {item?.email_received
+                                  ? item?.email_received
+                                  : "N/A"}
+                              </span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>
+                                {item?.email_opening ? item?.email_opening : "N/A"}
+                              </span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>
+                                {item?.registration ? item?.registration : "N/A"}
+                              </span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>
+                                {item?.last_email ? item?.last_email : "N/A"}
+                              </span>
+                            </td>
+                          ) : null}
+
+                          <td className="delete_row" colspan="12">
+                            <img
+                              src={path + "delete.svg"}
+                              alt="Delete Row"
+                              onClick={() =>
+                                deleteNewlyAdded(item?.profile_user_id)
+                              }
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    {typeof getNewReaders !== "undefined" &&
+                      getNewReaders?.length > 0 && (
+                        <tr className="seprator-add">
+                          <td colspan="13"></td>
+                        </tr>
+                      )}
+                    {typeof editList !== "undefined" &&
+                      editList?.length > 0 &&
+                      editList?.map((item, index) => (
+                        <tr
+                          key={item}
+                          id={`row-selected` + index}
+                          onClick={(e) =>
+                            editing(
+                              //  e.currentTarget,
+                              item?.profile_id,
+                              item?.profile_user_id,
+                              item?.email,
+                              item?.jobTitle,
+                              item?.company,
+                              item?.country,
+                              item?.first_name + " " + item?.last_name,
+                              item?.contact_type
+                            )
+                          }
+                        >
+                          <td
+                            id={`field_name` + item?.profile_user_id}
+                            contenteditable={editable === 0 ? "false" : "true"}
+                          >
+                            <span>{item?.first_name + " " + item?.last_name}</span>
+                          </td>
+
+                          <td id={`field_email` + item?.profile_user_id}>
+                            {item?.email ? item?.email : "N/A"}
+                          </td>
+                          <input
+                            type="hidden"
+                            id={`field_index` + item?.profile_user_id}
+                            value={index}
+                          />
+                          <td id={`field_bounced` + item?.profile_user_id}>
+                            {item?.bounce ? item?.bounce : "N/A"}
+                          </td>
+                          <td>
+                            {editable ? (
+                              <EditCountry
+                                selected_country={item?.country}
+                                profile_user={item?.profile_user_id}
+                              ></EditCountry>
+                            ) : (
+                              <span>{item?.country ? item?.country : "N/A"}</span>
+                            )}
+                          </td>
+                          {/*showLessInfo == false ? (
+                            <td id="field_readers">NA</td>
+                          ) : null*/}
+                          <td id="field_business_unit">
+                            {localStorage.getItem("user_id") ==
+                            "56Ek4feL/1A8mZgIKQWEqg=="
+                              ? item?.irt
+                                ? "Yes"
+                                : "No"
+                              : item?.ibu
+                              ? item?.ibu
+                              : "N/A"}
+                          </td>
+                          <td id="field_interest">
+                            {localStorage.getItem("user_id") ==
+                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              <span>
+                                {item?.user_type != 0 ? item?.user_type : "N/A"}
+                              </span>
+                            ) : editable ? (
+                              <EditContactType
+                                selected_ibu={item?.contact_type}
+                                profile_user={item?.profile_user_id}
+                              ></EditContactType>
+                            ) : (
+                              <span>
+                                {item?.contact_type ? item?.contact_type : "N/A"}
+                              </span>
+                            )}
+                          </td>
+
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>{item?.consent ? item?.consent : "N/A"}</span>{" "}
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>
+                                {item?.email_received
+                                  ? item?.email_received
+                                  : "N/A"}
+                              </span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>
+                                {item?.email_opening ? item?.email_opening : "N/A"}
+                              </span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>
+                                {item?.registration ? item?.registration : "N/A"}
+                              </span>
+                            </td>
+                          ) : null}
+                          {showLessInfo == false ? (
+                            <td>
+                              <span>
+                                {item?.last_email ? item?.last_email : "N/A"}
+                              </span>
+                            </td>
+                          ) : null}
+
+                          <td
+                            className="delete_row"
+                            colspan="12"
+                            onClick={() =>
+                              onDelete({
+                                id: item?.profile_id,
+                                currentName:
+                                  item?.first_name + " " + item?.last_name,
+                                currentJobTitle: item?.jobTitle,
+                                currentCompany: item?.company,
+                                currentIndication: item?.indication,
+                                currentProduct: item?.product,
+                                currentCountry: item?.country,
+                                currentEmail: item?.email,
+                                profile_user_id: item?.profile_user_id,
+                              })
+                            }
+                          >
+                            <img src={path + "delete.svg"} alt="Delete Row" />
+                          </td>
+                        </tr>
+                      ))}
+                    {validator3.message("email", email, "required|email")}
+                  </tbody>
+                </table>
+              </div>
+            : null
+          }  
         </div>
       </section>
 

@@ -527,10 +527,12 @@ const Routing = () => {
           path="/poll-listing"
           element={<LoginLayout component={PollListing} />}
         />
-        <Route
+        {/* <Route
           path="/event-registration"
           element={<LoginLayout component={RegistrationPage} />}
-        />
+        /> */}
+                  <Route  path="/event-registration" element={<RegistrationPage />} />
+
         <Route
           path="/contact-form"
           element={<LoginLayout component={ContactForm} />}
