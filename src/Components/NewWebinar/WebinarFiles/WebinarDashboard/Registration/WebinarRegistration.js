@@ -331,6 +331,7 @@ const WebinarRegistration = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [index, setIndex] = useState();
   const [optIndex, setOptIndex] = useState();
+  const [extIndex, setExtIndex] = useState();
   const [fieldData, setFieldData] = useState();
   const [formExtLabel, setFormExtLabel] = useState([]);
   const [extFieldData, setExtFieldData] = useState({});
@@ -473,7 +474,6 @@ const WebinarRegistration = () => {
     } else {
       updateFormBody.push(form);
     }
-
     setFormData({ ...formData, body: updateFormBody });
   };
 
@@ -486,16 +486,9 @@ const WebinarRegistration = () => {
 
   const editExtendedFeildData = (e, index, optIndex, extIndex) => {
     e.preventDefault();
-    console.log("e-->", e);
-    console.log(
-      "index-->",
-      index,
-      "--optIndex--->",
-      optIndex,
-      "--extIndex-->",
-      extIndex
-    );
-    setIndex(extIndex);
+    setIndex(index);
+    setOptIndex(optIndex);
+    setExtIndex(extIndex);
 
     setExtFieldData(
       formData?.body[index]?.option[optIndex]?.extension[extIndex]
@@ -503,12 +496,11 @@ const WebinarRegistration = () => {
     setExtensionModal(true);
   };
 
-  const addExtension = (e, index, optIndex) => {
+  const addExtension = (e, index, optIndex, extIndex) => {
     e.preventDefault();
     setIndex(index);
     setOptIndex(optIndex);
-
-    setExtFieldData(formData?.body[index]?.option?.[optIndex]?.extension);
+    setExtIndex(extIndex);
     setExtensionModal(true);
   };
 
@@ -516,12 +508,17 @@ const WebinarRegistration = () => {
     setIndex();
     setExtFieldData();
     setOptIndex();
+    setExtIndex();
     setExtensionModal(false);
   };
 
   const handleExtensionModalSave = (form) => {
     let newExtension = formData?.body;
-    newExtension[index]?.option?.[optIndex]?.extension?.push(form);
+    if (extFieldData) {
+      newExtension[index].option[optIndex].extension[extIndex] = form;
+    } else {
+      newExtension[index]?.option?.[optIndex]?.extension?.push(form);
+    }
     setFormData({ ...formData, body: newExtension });
   };
 
