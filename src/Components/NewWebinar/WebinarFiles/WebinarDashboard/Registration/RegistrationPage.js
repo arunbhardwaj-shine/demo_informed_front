@@ -8,7 +8,28 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import CountryList from "./CountryList";
 import DatePicker from "react-datepicker";
 import moment from "moment";
+const userData = {
+  name: "userName",
+  email: "userEmail",
+  country: "country",
+  state: "state",
+  consent: "consent",
+  websiteFolder: "websiteFolder",
+  companyId: "companyId",
+  eventId: "eventId",
+  speaker: "speaker",
+  companyEmail: "companyEmail",
+  virtual_or_live: "virtual_or_live",
+  radio_group: 1,
+  radio_group2: 1,
+  organize_own: 4,
+  being_connected: "being_connected",
+ "Airport of departure": "departure",
+  "Preferred departure date": "air_departure_date",
+  "Preferred departure time": "departure_time",
+  "Preferred return flight date": "air_return_date",
 
+};
 // import Question from "./AddQuestion";
 
 const RegistrationPage = () => {
@@ -46,7 +67,7 @@ const RegistrationPage = () => {
       let hadData = response?.data?.data;
       hadData = { ...hadData, content: JSON.parse(hadData?.content) };
       setFormData(hadData);
-      console.log(hadData?.content);
+      // console.log(hadData?.content);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
         background: hadData?.content?.backgroundColor,
@@ -66,7 +87,7 @@ const RegistrationPage = () => {
     e.preventDefault();
     console.log(formFieldData);
     const isValid = ValidateFormData();
-    
+
     if (isValid) {
       loader("show");
 
@@ -89,9 +110,10 @@ const RegistrationPage = () => {
     const errors = {};
 
     formData?.content?.body?.forEach((form) => {
-      const label = form.label.replace(/ /g, "_");
+      const label = userData[form.label]?userData[form.label]:form.label.replace(/ /g, "_");
 
       const fieldValue = formFieldData[label];
+      // console.log(label,form);
 
       if (form.required == "yes" && !fieldValue) {
         errors[label] = `This field is required.`;
@@ -302,26 +324,28 @@ const FormField = ({
   setFormFieldData,
   formErrors,
   pageColors,
-  level
+  level,
 }) => {
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
+  const label = userData[form.label]?userData[form.label]:form.label.replace(/ /g, "_");
+console.log(label);
+
   const handleFieldChange = (value) => {
     const newData = { ...formFieldData };
 
     if (form.inputType === "datepicker") {
-      newData[label] = moment(value).format('YYYY-MM-DD')
+      newData[label] = moment(value).format("YYYY-MM-DD");
     } else {
       newData[label] = value;
     }
 
     setFormFieldData(newData);
   };
-  const label = form.label.replace(/ /g, "_");
+
   if (label == "country") {
     form.inputType = "selection-country";
   }
-  
 
   const isRequired = form.required === "yes";
 
@@ -354,18 +378,10 @@ const FormField = ({
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
       />
     );
-  }
-  else if (
-    form.inputType === "datepicker" 
-   
-  ) {
-    fieldInput=(
+  } else if (form.inputType === "datepicker") {
+    fieldInput = (
       <DatePicker
-        selected={
-          formFieldData[label]
-            ? new Date(formFieldData[label])
-            : null
-        }
+        selected={formFieldData[label] ? new Date(formFieldData[label]) : null}
         name={form.label}
         dateFormat="dd/MM/yyyy"
         className="form-control"
@@ -375,53 +391,51 @@ const FormField = ({
           e.preventDefault();
         }}
       />
- 
-    )
+    );
   } else if (form.inputType === "checkbox" || form.inputType === "radio") {
     fieldInput = (
       <ul>
         {form.option?.map((item, index) => (
           <>
-          <li key={index}>
-            {/* {console.log(item,"oppppp")} */}
+            <li key={index}>
+              {/* {console.log(item,"oppppp")} */}
 
-            <input
-              type={form.inputType}
-              id={label + index}
-              name={label}
-              className="organize_own_selection"
-              onChange={() => {
-                handleFieldChange(item.optionLabel);
-                if (item.extension) {
-                  setExtensionData({
-                    [item.optionLabel]: item.extension,
-                  });
-                }
-              }}
-            />
-            <label
-              style={{
-                textTransform: "capitalize",
-                color: pageColors?.labelColor,
-              }}
-              htmlFor={label + index}
-            >
-              {item.optionLabel}
-            </label>
-            <span className="checkmark" />
-            
-          </li>
-          {extensionData[item.optionLabel]?.length>0 &&
+              <input
+                type={form.inputType}
+                id={label + index}
+                name={label}
+                className="organize_own_selection"
+                onChange={() => {
+                  handleFieldChange(item.optionLabel);
+                  if (item.extension) {
+                    setExtensionData({
+                      [item.optionLabel]: item.extension,
+                    });
+                  }
+                }}
+              />
+              <label
+                style={{
+                  textTransform: "capitalize",
+                  color: pageColors?.labelColor,
+                }}
+                htmlFor={label + index}
+              >
+                {item.optionLabel}
+              </label>
+              <span className="checkmark" />
+            </li>
+            {extensionData[item.optionLabel]?.length > 0 &&
               extensionData[item.optionLabel]?.map((opt, i) => (
                 <FormField
-                              form={opt}
-                              key={i}
-                              formFieldData={formFieldData}
-                              setFormFieldData={setFormFieldData}
-                              formErrors={formErrors}
-                              pageColors={pageColors}
-                              level={form.label}
-                            />
+                  form={opt}
+                  key={i}
+                  formFieldData={formFieldData}
+                  setFormFieldData={setFormFieldData}
+                  formErrors={formErrors}
+                  pageColors={pageColors}
+                  level={form.label}
+                />
               ))}
           </>
         ))}
