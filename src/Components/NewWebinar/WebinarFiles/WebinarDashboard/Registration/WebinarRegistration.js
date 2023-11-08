@@ -1115,7 +1115,7 @@ const WebinarRegistration = () => {
                                                                 ?.length > 0 &&
                                                               item?.checked ==
                                                                 true ? (
-                                                                <div>
+                                                                <div className="extension">
                                                                   {item?.extension?.map(
                                                                     (
                                                                       extItem,
