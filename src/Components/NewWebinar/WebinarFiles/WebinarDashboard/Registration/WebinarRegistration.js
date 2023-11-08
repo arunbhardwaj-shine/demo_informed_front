@@ -737,7 +737,7 @@ const WebinarRegistration = () => {
     console.log(template);
     setActiveIndex(template?.templateId)
     let updatedBody=JSON.parse(JSON.stringify(template))
-    setFormData(updatedBody);
+    setFormData({...formData,updatedBody});
 
   };
 
