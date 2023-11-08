@@ -2027,7 +2027,7 @@ const EmailList = (props) => {
       {/*Modal start for send Draft Email*/}
       <div>
         <Modal
-          className="modal send-confirm"
+          className="modal send-confirm event_list"
           id="send-draft-mail"
           show={getDraftEmailSendStatus}
         >
