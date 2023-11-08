@@ -21,7 +21,12 @@ const WebinarRegistration = () => {
   const [templateList, setTemplateList] = useState([
     {
       templateId:1,
-    
+      pageTitle: "To register please select and fill in all your details below.",
+      bodyText: "",
+      headerImageUrl: "",
+      footerImageUrl: "",
+      labelColor: "",
+      backgroundColor: "",
       "body": [
           {
               "label": "I will attend:",
@@ -136,7 +141,12 @@ const WebinarRegistration = () => {
   }
   , {
     templateId:2,
-  
+    pageTitle: "To register please fill in all your details below.",
+    bodyText: "",
+    headerImageUrl: "",
+    footerImageUrl: "",
+    labelColor: "",
+    backgroundColor: "",
     "body": [
         {
             "name": "country",
@@ -165,6 +175,12 @@ const WebinarRegistration = () => {
     ],
   
 }, {templateId:3,
+  pageTitle: "To register please select and fill in all your details below.",
+  bodyText: "This meeting is for healthcare professionals only.",
+  headerImageUrl: "",
+  footerImageUrl: "",
+  labelColor: "",
+  backgroundColor: "",
   body:[
     {
         "label": "name",
@@ -264,7 +280,7 @@ const WebinarRegistration = () => {
         "name": "i consent to:"
     }
 ]}]);
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
   const responsive = {
@@ -638,7 +654,7 @@ const WebinarRegistration = () => {
     console.log("form data--->", formData);
     setFormData(formData)
     e.preventDefault();
-    return;
+    // return;
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
       if (Object.keys(error)?.length) {
@@ -727,33 +743,9 @@ const WebinarRegistration = () => {
     
     console.log(template);
     setActiveIndex(template?.templateId)
-    let updatedBody=JSON.parse(JSON.stringify(template?.body))
-    setFormData({ ...formData, body: updatedBody });
+    let updatedBody=JSON.parse(JSON.stringify(template))
+    setFormData(updatedBody);
 
-    // setNewTemplateClicked(false);
-    // if (div) {
-    //   div.classList.remove("select_mm");
-    // }
-    // let tooltip = "";
-    // if (template?.popupNo == 1) {
-    //   tooltip = "will come when Pop up first time appears for the user";
-    // } else if (template?.popupNo == 2) {
-    //   tooltip = "will come when Pop up 1 is canceled";
-    // } else if (template?.popupNo == 3) {
-    //   tooltip = "will come when user cancel the 1st and 2nd Pop up";
-    // } else if (template?.popupNo == 4) {
-    //   tooltip = "will come when user submit the 1st or 2nd Pop up";
-    // } else {
-    //   tooltip = "no pop up is selected";
-    // }
-    // setTemplateToolTip(tooltip);
-    // setTemplateClicked(true);
-    // setTemplateName(template?.name);
-    // setNewTemplateName(template?.name);
-    // setTemplate(template?.source_code);
-    // setPopupNo(template?.popupNo);
-    // setChangeEditorCount(0);
-    // e.target.classList.toggle("select_mm");
   };
 
   return (
