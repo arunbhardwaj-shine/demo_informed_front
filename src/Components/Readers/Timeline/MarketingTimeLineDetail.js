@@ -244,7 +244,7 @@ const MarketingTimeLineDetail = (props) => {
             : [];
           logs = logs.map((log) => ({
             ...log,
-            date: moment(log?.date).format("D MMM YYYY"),
+            date: moment(log?.date).format("DD MMM YYYY"),
           }));
           console.log(logs, "logs");
           setLogs(logs);
