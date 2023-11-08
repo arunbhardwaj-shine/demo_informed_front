@@ -10707,6 +10707,13 @@ img.change-password-image {
   padding: 0 0 30px;
   position: relative;
 
+  .slick-slider {
+    .slick-track {
+  max-height: 1200px;
+  height: 100% !important;
+}
+  }
+
   // .slick-slider {
   //   .slick-prev {
   //     top: 98px;
