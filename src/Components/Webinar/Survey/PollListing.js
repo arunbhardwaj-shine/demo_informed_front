@@ -196,6 +196,8 @@ export default function PollListing() {
       });
       // console.log(data);
       // setQuestions(data)
+      console.log(data,'');
+      setQuestionFlag(data?.length<=0?true:false)
       data = data?.length
         ? data
         : [
@@ -432,8 +434,8 @@ export default function PollListing() {
     } finally {
       setShowUploadMenu(false);
       const apiData = await getListingData(selectedItem?.value);
-      // slickRef.current.slickGoTo(0);
-      // setCurrentIndex(0);
+      slickRef.current.slickGoTo(0);
+      setCurrentIndex(0);
       setQuestionFlag(false);
       loader("hide");
 
@@ -445,7 +447,7 @@ export default function PollListing() {
     const updatedQuestions = [...questions];
     let questionObj = updatedQuestions[index];
 if(!questionObj){
- setCurrentIndex(currentIndex-1)
+ setCurrentIndex(Math.abs(currentIndex-1))
  return
 }
     const question = questionObj.questionData.question;
@@ -519,7 +521,7 @@ if(!questionObj){
   const handleAddQuestion = () => {
 
     const isValid = validateQuestions(currentIndex);
-
+console.log(currentIndex);
     if (!isValid) {
       return;
     }
@@ -541,7 +543,7 @@ if(!questionObj){
         answerTypeError: "",
       },
     };
-    setCurrentIndex(questions?.length);
+    setCurrentIndex(Math.abs(questions?.length));
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
     slickRef.current.slickGoTo(questions?.length);
     setSelectedQuestion(newQuestion);
@@ -592,12 +594,13 @@ if(!questionObj){
           },
         };
         setCurrentIndex(0);
+        setQuestionFlag(true)
         setSelectedQuestion(updatedQuestions[0]);
       } else if (questions.length == 2) {
         setCurrentIndex(0);
       }
       else if(currentIndex>=questions?.length-1){
-        setCurrentIndex(currentIndex-1);
+        setCurrentIndex(Math.abs(currentIndex-1));
 
       }
 
@@ -636,13 +639,13 @@ if(!questionObj){
 
     setSelectedQuestion(questions[newIndex]);
 
-    setCurrentIndex(newIndex);
+    setCurrentIndex(Math.abs(newIndex));
   };
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
   };
   const handleAfterChange = (current) => {
-    setCurrentIndex(current);
+    setCurrentIndex(Math.abs(current));
   };
   return (
     <>
