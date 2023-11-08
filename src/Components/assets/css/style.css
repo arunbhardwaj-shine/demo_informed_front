@@ -2661,6 +2661,7 @@ form#add_hcp_form .row:not(:first-child) {
 .modal.event_edit .add_hcp_boxes .form-group input,
 .modal.event_edit #add_hcp .modal-body .hcp-add-form form .form-group .form-control {
   max-width: 298px;
+  flex: 1 1;
 }
 
 .modal.event_edit #add_hcp .modal-body .hcp-add-form form .form-group.double-select .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
