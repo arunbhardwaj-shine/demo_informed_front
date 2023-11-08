@@ -223,19 +223,19 @@ const NewEventCreate = () => {
 
   const showConfirmationPopup = (stateMsg, e, id) => {
     if (stateMsg == "delete") {
-      setResetDataId(id);
-      setCommonConfirmModelFun(() => deleteUser);
-      setPopupMessage({
-        message1:
-          "You are about to remove this content from any reader and every device forever.",
-        message2: "Are you sure you want to do this?",
-        footerButton: "Yes please!",
-      });
-      if (confirmationpopup) {
-        setConfirmationPopup(false);
-      } else {
-        setConfirmationPopup(true);
-      }
+      // setResetDataId(id);
+      // setCommonConfirmModelFun(() => deleteUser);
+      // setPopupMessage({
+      //   message1:
+      //     "You are about to remove this content from any reader and every device forever.",
+      //   message2: "Are you sure you want to do this?",
+      //   footerButton: "Yes please!",
+      // });
+      // if (confirmationpopup) {
+      //   setConfirmationPopup(false);
+      // } else {
+      //   setConfirmationPopup(true);
+      // }
     }
   };
 
@@ -521,9 +521,9 @@ const NewEventCreate = () => {
                                 }}
                               >
                                 <img
-                                  title="Webinar"
+                                  title="Registration"
                                   src={path_image + "webinar-icon.svg"}
-                                  alt="Webinar"
+                                  alt="Registration"
                                 />
                               </button> 
                                <button
