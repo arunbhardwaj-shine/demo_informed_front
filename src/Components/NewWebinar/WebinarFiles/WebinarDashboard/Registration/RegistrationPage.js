@@ -5,6 +5,8 @@ import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import FormField from "./FormField";
 import TemplateThree from "./TemplateThree";
+import TemplateOne from "./TemplateOne";
+import TemplateTwo from "./TemplateTwo";
 
 const userData = {
   name: "userName",
@@ -136,59 +138,82 @@ const RegistrationPage = () => {
   const handleBackClicked = () => {
     navigate("/webinar-registration", { state: prevData });
   };
+const myContent=(
+<>
 
+  {prevData && (
+    <button
+      type="submit"
+      className="btn btn-primary"
+      id="submit_registration"
+      onClick={handleBackClicked}
+    >
+      Back
+    </button>
+  )}
+<section className="consent-form">
+
+<div className="container">
+
+<div className="consent-form-inner" style={{ background: `${pageColors?.background}` }}>
+<form id="registration_form" onSubmit={handleSubmit}>
+  <div className="row" id="form_upper">
+    <div className="col-sm-12 col-md-12 center-sided">
+      <h2>{formData?.content?.pageTitle}</h2>
+      <h3> {formData?.content?.bodyText}</h3>
+    </div>
+  </div>
+  <div className="center-sided-inside">
+    <div className="row">
+      {formData?.content?.body?.map((form, index) => (
+        <FormField
+          form={form}
+          key={index}
+          formFieldData={formFieldData}
+          setFormFieldData={setFormFieldData}
+          formErrors={formErrors}
+          pageColors={pageColors}
+          level="root"
+        />
+      ))}
+      {!prevData && (
+        <button type="submit" className="btn btn-primary" id="submit_registration">
+          Submit
+        </button>
+      )}
+    </div>
+    <div className="footer-sec">
+      <span>* This consent is mandatory in order to register for the event.</span>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+</section>
+</>
+)
   return (
-    <TemplateThree formData={formData}>
-       {prevData && (
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  id="submit_registration"
-                  onClick={handleBackClicked}
-                >
-                  Back
-                </button>
-              )}
-      <section className="consent-form">
-        
-        <div className="container">
-       
-          <div className="consent-form-inner" style={{ background: `${pageColors?.background}` }}>
-            <form id="registration_form" onSubmit={handleSubmit}>
-              <div className="row" id="form_upper">
-                <div className="col-sm-12 col-md-12 center-sided">
-                  <h2>{formData?.content?.pageTitle}</h2>
-                  <h3> {formData?.content?.bodyText}</h3>
-                </div>
-              </div>
-              <div className="center-sided-inside">
-                <div className="row">
-                  {formData?.content?.body?.map((form, index) => (
-                    <FormField
-                      form={form}
-                      key={index}
-                      formFieldData={formFieldData}
-                      setFormFieldData={setFormFieldData}
-                      formErrors={formErrors}
-                      pageColors={pageColors}
-                      level="root"
-                    />
-                  ))}
-                  {!prevData && (
-                    <button type="submit" className="btn btn-primary" id="submit_registration">
-                      Submit
-                    </button>
-                  )}
-                </div>
-                <div className="footer-sec">
-                  <span>* This consent is mandatory in order to register for the event.</span>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
-    </TemplateThree>
+    <>
+    <div class="loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
+    
+    {formData?.content?.templateId === 1 &&  <TemplateOne formData={formData}>
+     {myContent}
+    </TemplateOne>}  
+    
+    {formData?.content?.templateId === 2 &&  <TemplateTwo formData={formData}>
+     {myContent}
+    </TemplateTwo>}  
+    
+    {formData?.content?.templateId >=3  && formData?.content?.templateId <=0   &&  <TemplateThree formData={formData}>
+     {myContent}
+    </TemplateThree>}
+
+   
+    
+  
+    
+    </>
+   
   );
 };
 

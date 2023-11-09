@@ -1944,6 +1944,8 @@ Preview            </h5>
         </Modal.Header>
         <Modal.Body>
          <>
+         <p>You are previewing the  saved data .</p>
+
          <iframe
           src={`/event-registration?event=${event_code}`}
           width="100%"

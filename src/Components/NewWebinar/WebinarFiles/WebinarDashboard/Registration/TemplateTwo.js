@@ -52,7 +52,7 @@ export default function TemplateTwo({children,formdata}) {
           {children}
         </div>
       </div>
-      <iframe src="https://webinar.docintel.app/MOTIVATE-study/Regi/login.php?utmevent=ITI-school-motivate-meeting" height="1000px" width="100%" title="Iframe Example"></iframe>
+      {/* <iframe src="https://webinar.docintel.app/MOTIVATE-study/Regi/login.php?utmevent=ITI-school-motivate-meeting" height="1000px" width="100%" title="Iframe Example"></iframe> */}
     </div>
     <button
       type="button"
