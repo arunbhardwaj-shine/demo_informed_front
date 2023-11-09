@@ -532,7 +532,7 @@ const WebinarRegistration = () => {
   const deleteExtField = (e, data, index, optIndex, extIndex) => {
     e.preventDefault();
     let updatedFormBody = formData?.body;
-   
+
     updatedFormBody?.[index]?.option?.[optIndex]?.extension?.splice(
       extIndex,
       1
@@ -644,7 +644,7 @@ const WebinarRegistration = () => {
         let index = updateFormBody?.findIndex((item, index) => {
           return item?.label?.toLowerCase() == isSelectedName;
         });
-       
+
         if (index > -1) {
           updateFormBody?.splice(index, 1);
         }
@@ -664,18 +664,18 @@ const WebinarRegistration = () => {
     }
   };
 
-  const handleExtensionChange = (e, index, optIndex, type) => {
-    if (type == "radio") {
-      let newForm = formData?.body;
-      newForm[index]?.option?.forEach((item) => (item.checked = false));
-      newForm[index].option[optIndex].checked = e?.target?.checked;
-      setFormData({ ...formData, body: newForm });
-    } else if (type == "checkbox") {
-      let newForm = formData?.body;
-      newForm[index].option[optIndex].checked = e?.target?.checked;
-      setFormData({ ...formData, body: newForm });
-    }
-  };
+  // const handleExtensionChange = (e, index, optIndex, type) => {
+  //   if (type == "radio") {
+  //     let newForm = formData?.body;
+  //     newForm[index]?.option?.forEach((item) => (item.checked = false));
+  //     newForm[index].option[optIndex].checked = e?.target?.checked;
+  //     setFormData({ ...formData, body: newForm });
+  //   } else if (type == "checkbox") {
+  //     let newForm = formData?.body;
+  //     newForm[index].option[optIndex].checked = e?.target?.checked;
+  //     setFormData({ ...formData, body: newForm });
+  //   }
+  // };
 
   const saveClicked = async (e) => {
     setFormData(formData);
@@ -1072,14 +1072,14 @@ const WebinarRegistration = () => {
                                                                 checked={
                                                                   item?.checked
                                                                 }
-                                                                onChange={(e) =>
-                                                                  handleExtensionChange(
-                                                                    e,
-                                                                    index,
-                                                                    optIndex,
-                                                                    data?.inputType
-                                                                  )
-                                                                }
+                                                                // onChange={(e) =>
+                                                                //   handleExtensionChange(
+                                                                //     e,
+                                                                //     index,
+                                                                //     optIndex,
+                                                                //     data?.inputType
+                                                                //   )
+                                                                // }
                                                               />
                                                               <label
                                                                 htmlFor={
@@ -1117,10 +1117,12 @@ const WebinarRegistration = () => {
                                                                 ""
                                                               )}
 
-                                                              {item?.extension
+                                                              {/* {item?.extension
                                                                 ?.length > 0 &&
                                                               item?.checked ==
-                                                                true ? (
+                                                                true ?  */}
+                                                              {item?.extension
+                                                                ?.length > 0 ? (
                                                                 <div className="extension">
                                                                   {item?.extension?.map(
                                                                     (
@@ -1437,14 +1439,14 @@ const WebinarRegistration = () => {
                                                                 checked={
                                                                   item?.checked
                                                                 }
-                                                                onChange={(e) =>
-                                                                  handleExtensionChange(
-                                                                    e,
-                                                                    index,
-                                                                    optIndex,
-                                                                    data?.inputType
-                                                                  )
-                                                                }
+                                                                // onChange={(e) =>
+                                                                //   handleExtensionChange(
+                                                                //     e,
+                                                                //     index,
+                                                                //     optIndex,
+                                                                //     data?.inputType
+                                                                //   )
+                                                                // }
                                                               />
                                                               <label htmlFor="">
                                                                 {
@@ -1478,10 +1480,12 @@ const WebinarRegistration = () => {
                                                                 ""
                                                               )}
 
-                                                              {item?.extension
+                                                              {/* {item?.extension
                                                                 ?.length > 0 &&
                                                               item?.checked ==
-                                                                true ? (
+                                                                true ? */}
+                                                              {item?.extension
+                                                                ?.length > 0 ? (
                                                                 <div className="extension">
                                                                   {item?.extension?.map(
                                                                     (
