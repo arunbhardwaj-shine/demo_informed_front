@@ -4,8 +4,8 @@ export default function TemplateTwo({children,formdata}) {
   return (
     <>
   
-    <link rel="stylesheet" href="https://webinar.docintel.app/MOTIVATE-study/Regi/css/bootstrap.css" />
-    <link rel="stylesheet" href="https://webinar.docintel.app/MOTIVATE-study/Regi/css/style.css" />
+    {/* <link rel="stylesheet" href="https://webinar.docintel.app/MOTIVATE-study/Regi/css/bootstrap.css" />
+    <link rel="stylesheet" href="https://webinar.docintel.app/MOTIVATE-study/Regi/css/style.css" /> */}
   
     <div className="motivate_outer">
       <div className="motivate_inner">
@@ -49,9 +49,10 @@ export default function TemplateTwo({children,formdata}) {
             <h2>Nashville, Tennessee</h2>
             <p>These meetings are for healthcare professionals only.</p>
           </div>
-      {children}
+          {children}
         </div>
       </div>
+      <iframe src="https://webinar.docintel.app/MOTIVATE-study/Regi/login.php?utmevent=ITI-school-motivate-meeting" height="1000px" width="100%" title="Iframe Example"></iframe>
     </div>
     <button
       type="button"
@@ -85,9 +86,7 @@ export default function TemplateTwo({children,formdata}) {
           </div>
         </div>
       </div>
-    </div>
-            
-
+    </div>         
   </>
   
   )

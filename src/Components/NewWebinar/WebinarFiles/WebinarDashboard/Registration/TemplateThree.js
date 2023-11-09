@@ -6,10 +6,10 @@ const TemplateOne = ({ children ,formData}) => {
   return (
     <>
  
-  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  {/* <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/style.css" />
   <link rel="stylesheet" href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/responsive.css" />
-  <link rel="stylesheet" href="vhttps://webinar.docintel.app/FVIIIrelevance2024/register/assets/fonts/fonts.css" />
+  <link rel="stylesheet" href="vhttps://webinar.docintel.app/FVIIIrelevance2024/register/assets/fonts/fonts.css" /> */}
   <div className="wrapper">
     <section className="factor-season">
       <div className="container">
