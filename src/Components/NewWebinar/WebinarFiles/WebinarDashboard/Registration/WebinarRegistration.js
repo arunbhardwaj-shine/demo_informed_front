@@ -152,7 +152,7 @@ const WebinarRegistration = () => {
       body: [
         {
           name: "country",
-          label: "You Country",
+          label: "Your Country",
           inputType: "selection",
           placeholder: "Please enter country",
           option: [],
