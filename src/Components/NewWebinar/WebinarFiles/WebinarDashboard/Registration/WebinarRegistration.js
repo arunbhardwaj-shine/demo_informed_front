@@ -338,6 +338,58 @@ const WebinarRegistration = () => {
   const [fieldData, setFieldData] = useState();
   const [formExtLabel, setFormExtLabel] = useState([]);
   const [extFieldData, setExtFieldData] = useState();
+  const [stateOptions, setStateOptions] = useState([
+    { label: "Alabama", value: "Alabama" },
+    { label: "Alaska", value: "Alaska" },
+    { label: "Arizona", value: "Arizona" },
+    { label: "Arkansas", value: "Arkansas" },
+    { label: "California", value: "California" },
+    { label: "Colorado", value: "Colorado" },
+    { label: "Connecticut", value: "Connecticut" },
+    { label: "Delaware", value: "Delaware" },
+    { label: "Florida", value: "Florida" },
+    { label: "Georgia", value: "Georgia" },
+    { label: "Hawaii", value: "Hawaii" },
+    { label: "Ldaho", value: "Ldaho" },
+    { label: "Illinois", value: "Illinois" },
+    { label: "Indiana", value: "Indiana" },
+    { label: "Lowa", value: "Lowa" },
+    { label: "Kansas", value: "Kansas" },
+    { label: "Kentucky", value: "Kentucky" },
+    { label: "Louisiana", value: "Louisiana" },
+    { label: "Maine", value: "Maine" },
+    { label: "Maryland", value: "Maryland" },
+    { label: "Massachusetts", value: "Massachusetts" },
+    { label: "Michigan", value: "Michigan" },
+    { label: "Minnesota", value: "Minnesota" },
+    { label: "Mississippi", value: "Mississippi" },
+    { label: "Missouri", value: "Missouri" },
+    { label: "Montana", value: "Montana" },
+    { label: "Nebraska", value: "Nebraska" },
+    { label: "Nevada", value: "Nevada" },
+    { label: "New Hampshire", value: "New Hampshire" },
+    { label: "New Jersey", value: "New Jersy" },
+    { label: "New Mexico", value: "New Mexico" },
+    { label: "New York", value: "New York" },
+    { label: "North Carolina", value: "North Carolina" },
+    { label: "North Dakota", value: "North Dakota" },
+    { label: "Ohio", value: "Ohio" },
+    { label: "Oklahoma", value: "Oklahoma" },
+    { label: "Oregon", value: "Oregon" },
+    { label: "Pennsylvania", value: "Pennsylvania" },
+    { label: "Rhode Island", value: "Rhode Island" },
+    { label: "South Carolina", value: "South Carolina" },
+    { label: "South Dakota", value: "South Dakota" },
+    { label: "Tennessee", value: "Tennessee" },
+    { label: "Texas", value: "Texas" },
+    { label: "Utah", value: "Utah" },
+    { label: "Vermont", value: "Vermont" },
+    { label: "Wyoming", value: "Wyoming" },
+    { label: "Wisconsin", value: "Wisconsin" },
+    { label: "West Virginia", value: "West Virginia" },
+    { label: "Washington", value: "Washington" },
+    { label: "Virginia", value: "Virginia" },
+  ]);
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
@@ -1318,9 +1370,20 @@ const WebinarRegistration = () => {
                                                                                     dynamicFieldNo
                                                                               }`}
                                                                               options={
-                                                                                extItem?.label ==
-                                                                                "country"
+                                                                                extItem?.label?.includes(
+                                                                                  "country"
+                                                                                ) ||
+                                                                                extItem?.label?.includes(
+                                                                                  "Country"
+                                                                                )
                                                                                   ? countryList
+                                                                                  : extItem?.label?.includes(
+                                                                                      "state"
+                                                                                    ) ||
+                                                                                    extItem?.label?.include(
+                                                                                      "State"
+                                                                                    )
+                                                                                  ? stateOptions
                                                                                   : extItem?.option?.map(
                                                                                       (
                                                                                         item
@@ -1702,9 +1765,20 @@ const WebinarRegistration = () => {
                                                                               }`}
                                                                               className="dropdown-basic-button split-button-dropup webinar-select"
                                                                               options={
-                                                                                extItem?.label ==
-                                                                                "country"
+                                                                                extItem?.label?.includes(
+                                                                                  "country"
+                                                                                ) ||
+                                                                                extItem?.label?.include(
+                                                                                  "Country"
+                                                                                )
                                                                                   ? countryList
+                                                                                  : extItem?.label?.includes(
+                                                                                      "state"
+                                                                                    ) ||
+                                                                                    extItem?.label?.include(
+                                                                                      "State"
+                                                                                    )
+                                                                                  ? stateOptions
                                                                                   : extItem?.option?.map(
                                                                                       (
                                                                                         item
@@ -1847,9 +1921,20 @@ const WebinarRegistration = () => {
                                                                 dynamicFieldNo
                                                           }`}
                                                           options={
-                                                            data?.label ==
-                                                            "country"
+                                                            data?.label?.includes(
+                                                              "country"
+                                                            ) ||
+                                                            data?.label?.includes(
+                                                              "Country"
+                                                            )
                                                               ? countryList
+                                                              : data?.label?.includes(
+                                                                  "state"
+                                                                ) ||
+                                                                data?.label?.include(
+                                                                  "State"
+                                                                )
+                                                              ? stateOptions
                                                               : data?.option?.map(
                                                                   (item) => ({
                                                                     label:
