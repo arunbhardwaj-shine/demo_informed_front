@@ -19,8 +19,44 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const WebinarRegistration = () => {
   const [templateList, setTemplateList] = useState([
+    
     {
       templateId: 1,
+      pageTitle: "To register please fill in all your details below.",
+      bodyText: "",
+      headerImageUrl: "",
+      footerImageUrl: "",
+      labelColor: "",
+      backgroundColor: "",
+      body: [
+        {
+          name: "country",
+          label: "Your Country",
+          inputType: "selection",
+          placeholder: "Please enter country",
+          option: [],
+          required: "Yes",
+        },
+        {
+          label: "name",
+          name: "userName",
+          inputType: "text",
+          placeholder: "Please enter name",
+          option: [],
+          required: "Yes",
+        },
+        {
+          label: "email",
+          name: "userEmail",
+          inputType: "email",
+          placeholder: "Please enter email",
+          option: [],
+          required: "Yes",
+        },
+      ],
+    },
+    {
+      templateId: 2,
       pageTitle:
         "To register please select and fill in all your details below.",
       bodyText: "",
@@ -130,41 +166,6 @@ const WebinarRegistration = () => {
           placeholder: "Please enter name",
           option: [],
           required: "",
-        },
-        {
-          label: "email",
-          name: "userEmail",
-          inputType: "email",
-          placeholder: "Please enter email",
-          option: [],
-          required: "Yes",
-        },
-      ],
-    },
-    {
-      templateId: 2,
-      pageTitle: "To register please fill in all your details below.",
-      bodyText: "",
-      headerImageUrl: "",
-      footerImageUrl: "",
-      labelColor: "",
-      backgroundColor: "",
-      body: [
-        {
-          name: "country",
-          label: "Your Country",
-          inputType: "selection",
-          placeholder: "Please enter country",
-          option: [],
-          required: "Yes",
-        },
-        {
-          label: "name",
-          name: "userName",
-          inputType: "text",
-          placeholder: "Please enter name",
-          option: [],
-          required: "Yes",
         },
         {
           label: "email",
