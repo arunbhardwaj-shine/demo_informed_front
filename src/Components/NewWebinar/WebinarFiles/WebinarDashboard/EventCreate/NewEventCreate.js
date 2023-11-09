@@ -233,8 +233,8 @@ const NewEventCreate = () => {
       setIsActive("asc");
     }
 
-    setSortingCreate(1 - sorting);
-    setSortingCreateCount(sortingCount + 1);
+    setSortingCreate(1 - sortingCreate);
+    setSortingCreateCount(sortingCreateCount + 1);
   };
 
   const showDeleteButtons = () => {
