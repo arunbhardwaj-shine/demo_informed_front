@@ -332,6 +332,21 @@ const CommonAddQuestionModal = ({
                                 )
                               )
                             : ""}
+                            {formData?.inputType == "radio" ||
+                          formData?.inputType == "checkbox" ? (
+                            <div className="add-extension">
+                              <label htmlFor="">Add Extension</label>
+                              <input
+                                type="checkbox"
+                                name="extension"
+                                className="form-check-input"
+                                checked={formData?.extension}
+                                onChange={(e) => handleChange(e, "extension")}
+                              />
+                            </div>
+                          ) : (
+                            ""
+                          )}
                           {formData?.inputType == "radio" ||
                           formData?.inputType == "checkbox" ||
                           formData?.inputType == "selection" ? (
@@ -346,20 +361,7 @@ const CommonAddQuestionModal = ({
                           ) : (
                             ""
                           )}
-                          {formData?.inputType == "radio" ||
-                          formData?.inputType == "checkbox" ? (
-                            <div className="add-more-option">
-                              <label htmlFor=""> Extension</label>
-                              <input
-                                type="checkbox"
-                                name="extension"
-                                checked={formData?.extension}
-                                onChange={(e) => handleChange(e, "extension")}
-                              />
-                            </div>
-                          ) : (
-                            ""
-                          )}
+                          
                         </div>
                       </div>
                     </div>

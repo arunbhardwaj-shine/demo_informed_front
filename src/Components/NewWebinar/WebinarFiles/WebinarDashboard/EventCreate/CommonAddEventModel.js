@@ -85,12 +85,21 @@ const CommonAddEventModel = ({
     dateEndMin: "",
     event_code: "",
     description: "",
+    speaker_name: "",
+    speaker_email: "",
   });
   useEffect(() => {
     setCountryTimezone(webinarDetail?.countryTimezone);
     setIBUOptions(webinarDetail?.ibu);
     setTimezoneOptions(webinarDetail?.timezoneName);
     if (data?.id) {
+        let speaker_name = '';
+        let speaker_email = '';
+        if(data?.raw_description){
+          let parseData = JSON.parse(data?.raw_description);
+          speaker_name = parseData?.speaker_name;
+          speaker_email = parseData?.speaker_email;
+        }
       setEventInputs({
         ...data,
         title: data?.title,
@@ -108,6 +117,8 @@ const CommonAddEventModel = ({
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
         description: data?.description ? data?.description : "",
+        speaker_name: speaker_name,
+        speaker_email: speaker_email,
       });
     } else {
       setEventInputs({
@@ -126,6 +137,8 @@ const CommonAddEventModel = ({
         dateEndMin: "",
         event_code: "",
         description: "",
+        speaker_name: "",
+        speaker_email: "",
       });
     }
   }, [show]);
@@ -180,7 +193,10 @@ const CommonAddEventModel = ({
           dateEndMin: eventInputs?.dateEndMin,
           eventCode: eventInputs?.event_code,
           description: eventInputs?.description ? eventInputs?.description : "",
+          speaker_name: eventInputs?.speaker_name ? eventInputs?.speaker_name : "",
+          speaker_email: eventInputs?.speaker_email ? eventInputs?.speaker_email : "",
         };
+        console.log(dataObj,"dataObj");
 
         if (data?.id) {
           const res = await updateConsent(
@@ -275,28 +291,55 @@ const CommonAddEventModel = ({
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
-                                  <label htmlFor="">Speaker's Name</label>
+                                  <label htmlFor="">Speaker's Name  <span> *</span></label>
                                   <input
-                                type="text"
-                                name="title"
-                                placeholder=""
-                                className="form-control"/>
+                                    type="text"
+                                    name="speaker_name"
+                                    placeholder="Enter Speaker's Name"
+                                    className={
+                                      error?.speaker_name
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
+                                    onChange={(e) => handleChange(e)}
+                                    value={
+                                      eventInputs?.speaker_name ? eventInputs?.speaker_name : ""
+                                    }
+                                  />
+                                    {error?.speaker_name ? (
+                                      <div className="login-validation">
+                                        {error?.speaker_name}
+                                      </div>
+                                    ) : null}
                                 </div>
                               </div>
                               <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Speaker's Email</label>
-                                  <input
-                                    type="email"
-                                    name="email"
-                                    placeholder=""
-                                    className="form-control"
-                              />
+                                  <div className="form-group">
+                                    <label htmlFor="">Speaker's Email  <span> *</span> </label>
+                                    <input
+                                      type="email"
+                                      name="speaker_email"
+                                      placeholder="Enter Speaker's Email"
+                                      className={
+                                        error?.speaker_email
+                                          ? "form-control error"
+                                          : "form-control"
+                                      }
+                                      onChange={(e) => handleChange(e)}
+                                      value={
+                                        eventInputs?.speaker_email ? eventInputs?.speaker_email : ""
+                                      }
+                                    />
+                                    {error?.speaker_email ? (
+                                      <div className="login-validation">
+                                        {error?.speaker_email}
+                                      </div>
+                                    ) : null}
+                                  </div>
                                 </div>
-                                </div>
-                                <div className="col-12 col-md-12">
+                                {/* <div className="col-12 col-md-12">
                                   <span class="add-choice">Add Speaker<img src={path_image+"add-choice.svg"} alt=""/></span>
-                                </div>
+                                </div> */}
                             </div>
                           </div>
                           <div className="col-12 col-md-12">
@@ -560,11 +603,7 @@ const CommonAddEventModel = ({
                                 }
                                 isClearable
                               />
-                              {error?.dateStartHour ? (
-                                <div className="login-validation">
-                                  {error?.dateStartHour}
-                                </div>
-                              ) : null}
+                              
                               <Select
                                 options={timeMinutes}
                                 className={
@@ -591,6 +630,11 @@ const CommonAddEventModel = ({
                                 }
                                 isClearable
                               />
+                              {error?.dateStartHour ? (
+                                <div className="login-validation">
+                                  {error?.dateStartHour}
+                                </div>
+                              ) : null}
                             </div>
                           </div>
 
@@ -626,11 +670,7 @@ const CommonAddEventModel = ({
                                 }
                                 isClearable
                               />
-                              {error?.dateEndHour ? (
-                                <div className="login-validation">
-                                  {error?.dateEndHour}
-                                </div>
-                              ) : null}
+                              
                               <Select
                                 options={timeMinutes}
                                 // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -658,6 +698,12 @@ const CommonAddEventModel = ({
                                 }
                                 isClearable
                               />
+
+                              {error?.dateEndHour ? (
+                                <div className="login-validation">
+                                  {error?.dateEndHour}
+                                </div>
+                              ) : null}
                             </div>
                           </div>
                           <div className="col-12 col-md-12">
