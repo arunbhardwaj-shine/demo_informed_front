@@ -630,7 +630,7 @@
     min-height: 53px;
 
     label {
-      font-size: 18px;
+      font-size: 17px;
       line-height: 21px;
       color: $dark-blue;
       flex: 0 0 154px;
@@ -17203,9 +17203,10 @@ img.change-password-image {
 
           .add-choice {
             justify-content: flex-end;
-            align-self: flex-end;
+            align-self: flex-start;
             font-size: 12px;
             color: #8a4e9c;
+            padding-top: 3px;
           }
         }
 
