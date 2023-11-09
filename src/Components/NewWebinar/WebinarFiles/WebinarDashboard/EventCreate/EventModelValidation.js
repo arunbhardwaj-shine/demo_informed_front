@@ -1,5 +1,8 @@
 const EventModelValidation = (data) => {
   let error = {};
+  const regemail =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   if (!data?.title) {
     error.title = "Please enter title";
   }
@@ -30,10 +33,20 @@ const EventModelValidation = (data) => {
   if (!data?.event_code) {
     error.event_code = "Please select event code";
   }
-  // if (!data?.description) {
-  //   error.description = "Please select event description";
-  // }
+  if (!data?.speaker_name) {
+    error.speaker_name = "Please enter speaker name";
+  }
+  if (!data?.speaker_email) {
+    error.speaker_email = "Please enter speaker email";
+  }
 
+  if (
+    data?.speaker_email &&
+    regemail?.test(data?.speaker_email) === false
+  ) {
+    error.speaker_email = "Speaker email required with email pattern";
+  }
+  console.log(error,"error");
   return error;
 };
 export default EventModelValidation;
