@@ -29,10 +29,18 @@ const CommonExtensionModal = ({
   });
   const [error, setError] = useState({});
   useEffect(() => {
-    // if (extensionData) {
-    //   let editFormData = extensionData;
-    //   setFormData(editFormData);
-    // }
+    if (extensionData != "undefined" && extensionData) {
+      let editFormData = extensionData;
+      setFormData(editFormData);
+    } else {
+      setFormData({
+        label: "",
+        name: "",
+        inputType: "",
+        placeholder: "",
+        option: [],
+      });
+    }
   }, [show]);
   const handleClose = () => {
     setFormData({
@@ -73,8 +81,6 @@ const CommonExtensionModal = ({
 
   const saveClicked = (e) => {
     e.preventDefault();
-
-    console.log("exten form data--->", formData);
     handleSave(formData);
     handleClose();
   };
@@ -126,7 +132,9 @@ const CommonExtensionModal = ({
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {extensionData ? "Edit Extensions" : "Add Extensions"}
+              {extensionData != "undefined" && extensionData
+                ? "Edit Extensions"
+                : "Add Extensions"}
             </h5>
             <button
               type="button"
@@ -274,7 +282,7 @@ const CommonExtensionModal = ({
                                       type="text"
                                       placeholder="Enter option"
                                       value={
-                                        formData?.option[item]?.optionLabel
+                                        formData?.option[index]?.optionLabel
                                       }
                                       onChange={(e) =>
                                         handleChange(e, "optionValue", index)
@@ -312,7 +320,7 @@ const CommonExtensionModal = ({
                                 className="add-option"
                                 onClick={(e) => AddOptions(e)}
                               >
-                                Add extension
+                                Add option
                               </Button>
                             </div>
                           ) : (
