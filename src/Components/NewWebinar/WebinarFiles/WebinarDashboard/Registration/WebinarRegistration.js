@@ -1931,7 +1931,7 @@ const WebinarRegistration = () => {
                                                               : data?.label?.includes(
                                                                   "state"
                                                                 ) ||
-                                                                data?.label?.include(
+                                                                data?.label?.includes(
                                                                   "State"
                                                                 )
                                                               ? stateOptions
