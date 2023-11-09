@@ -335,6 +335,7 @@ const WebinarRegistration = () => {
   const [fieldData, setFieldData] = useState();
   const [formExtLabel, setFormExtLabel] = useState([]);
   const [extFieldData, setExtFieldData] = useState();
+  let dynamicFieldNo = 0;
 
   useEffect(() => {
     if (prevData?.content) {
@@ -474,6 +475,7 @@ const WebinarRegistration = () => {
     } else {
       updateFormBody.push(form);
     }
+    dynamicFieldNo = dynamicFieldNo + 1;
     setFormData({ ...formData, body: updateFormBody });
   };
 
@@ -519,6 +521,7 @@ const WebinarRegistration = () => {
     } else {
       newExtension[index]?.option?.[optIndex]?.extension?.push(form);
     }
+    dynamicFieldNo = dynamicFieldNo + 1;
     setFormData({ ...formData, body: newExtension });
   };
 
@@ -568,6 +571,7 @@ const WebinarRegistration = () => {
         } else if (isSelectedName == "travel accomodation") {
           let newObj = {
             label: isSelectedName,
+            name: isSelectedName,
             inputType: "radio",
             option: [
               { optionLabel: "Organize my own travel", extension: [] },
@@ -612,7 +616,7 @@ const WebinarRegistration = () => {
         } else if (isSelectedName == "consent") {
           let newObj = {
             label: isSelectedName,
-            name: "consent",
+            name: isSelectedName,
 
             inputType: "radio",
             required: "yes",
@@ -972,23 +976,6 @@ const WebinarRegistration = () => {
                           <Form.Check
                             className="webinar-checkbox"
                             inline
-                            label="Second Option"
-                            name="secondOption"
-                            type="checkbox"
-                            checked={
-                              formData?.body?.findIndex(
-                                (item) =>
-                                  item?.label?.toLowerCase() === "second option"
-                              ) !== -1
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => handleChange(e, "secondOption")}
-                          />
-
-                          <Form.Check
-                            className="webinar-checkbox"
-                            inline
                             label="Consent"
                             name="consent"
                             type="checkbox"
@@ -1063,9 +1050,12 @@ const WebinarRegistration = () => {
                                                                 type={
                                                                   data?.inputType
                                                                 }
-                                                                name={
-                                                                  data?.label
-                                                                }
+                                                                name={`${
+                                                                  data?.name
+                                                                    ? data?.name
+                                                                    : "dynamic_" +
+                                                                      dynamicFieldNo
+                                                                }`}
                                                                 value={
                                                                   item?.optionValue
                                                                 }
@@ -1152,9 +1142,12 @@ const WebinarRegistration = () => {
                                                                                 extItem?.inputType
                                                                               }
                                                                               className="form-control"
-                                                                              name={
-                                                                                extItem?.label
-                                                                              }
+                                                                              name={`${
+                                                                                extItem?.name
+                                                                                  ? data?.name
+                                                                                  : "dynamic_" +
+                                                                                    dynamicFieldNo
+                                                                              }`}
                                                                             />
                                                                           </div>
                                                                         ) : extItem?.inputType ==
@@ -1786,6 +1779,12 @@ const WebinarRegistration = () => {
                                                       >
                                                         <Select
                                                           className="dropdown-basic-button split-button-dropup webinar-select"
+                                                          name={`${
+                                                            data?.name
+                                                              ? data?.name
+                                                              : "dynamic_" +
+                                                                dynamicFieldNo
+                                                          }`}
                                                           options={
                                                             data?.label ==
                                                             "country"
@@ -1810,7 +1809,12 @@ const WebinarRegistration = () => {
                                                       >
                                                         <textarea
                                                           className="form-control"
-                                                          name={data?.label?.toLowerCase()}
+                                                          name={`${
+                                                            data?.name
+                                                              ? data?.name
+                                                              : "dynamic_" +
+                                                                dynamicFieldNo
+                                                          }`}
                                                           type={data?.inputType}
                                                           placeholder={
                                                             data?.placeholder
@@ -1819,7 +1823,12 @@ const WebinarRegistration = () => {
                                                       </div>
                                                     ) : (
                                                       <input
-                                                        name={data?.label}
+                                                        name={`${
+                                                          data?.name
+                                                            ? data?.name
+                                                            : "dynamic_" +
+                                                              dynamicFieldNo
+                                                        }`}
                                                         className="form-control"
                                                         type={data?.inputType}
                                                         placeholder={
