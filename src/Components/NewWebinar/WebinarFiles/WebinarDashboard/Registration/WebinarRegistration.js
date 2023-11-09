@@ -532,12 +532,11 @@ const WebinarRegistration = () => {
   const deleteExtField = (e, data, index, optIndex, extIndex) => {
     e.preventDefault();
     let updatedFormBody = formData?.body;
-    console.log("--old ext--->", updatedFormBody);
+   
     updatedFormBody?.[index]?.option?.[optIndex]?.extension?.splice(
       extIndex,
       1
     );
-    console.log("---->new ext--->", updatedFormBody);
     setFormData({ ...formData, body: updatedFormBody });
   };
 
@@ -645,7 +644,7 @@ const WebinarRegistration = () => {
         let index = updateFormBody?.findIndex((item, index) => {
           return item?.label?.toLowerCase() == isSelectedName;
         });
-        // console.log(isSelectedName,updateFormBody);
+       
         if (index > -1) {
           updateFormBody?.splice(index, 1);
         }
@@ -679,7 +678,6 @@ const WebinarRegistration = () => {
   };
 
   const saveClicked = async (e) => {
-    console.log("form data--->", formData);
     setFormData(formData);
     e.preventDefault();
     try {
@@ -767,7 +765,6 @@ const WebinarRegistration = () => {
   };
 
   const templateClicked = (template, e) => {
-    console.log(template);
     setActiveIndex(template?.templateId);
     let updatedBody = JSON.parse(JSON.stringify(template));
     setFormData(updatedBody);

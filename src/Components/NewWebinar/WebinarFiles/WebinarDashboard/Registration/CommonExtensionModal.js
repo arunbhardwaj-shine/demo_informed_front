@@ -29,7 +29,6 @@ const CommonExtensionModal = ({
   });
   const [error, setError] = useState({});
   useEffect(() => {
-    console.log("extensionData --->", extensionData);
     if (extensionData != "undefined" && extensionData) {
       let editFormData = extensionData;
       setFormData(editFormData);
@@ -82,8 +81,6 @@ const CommonExtensionModal = ({
 
   const saveClicked = (e) => {
     e.preventDefault();
-
-    console.log("exten form data--->", formData);
     handleSave(formData);
     handleClose();
   };
@@ -285,7 +282,7 @@ const CommonExtensionModal = ({
                                       type="text"
                                       placeholder="Enter option"
                                       value={
-                                        formData?.option[item]?.optionLabel
+                                        formData?.option[index]?.optionLabel
                                       }
                                       onChange={(e) =>
                                         handleChange(e, "optionValue", index)
@@ -323,7 +320,7 @@ const CommonExtensionModal = ({
                                 className="add-option"
                                 onClick={(e) => AddOptions(e)}
                               >
-                                Add extension
+                                Add option
                               </Button>
                             </div>
                           ) : (
