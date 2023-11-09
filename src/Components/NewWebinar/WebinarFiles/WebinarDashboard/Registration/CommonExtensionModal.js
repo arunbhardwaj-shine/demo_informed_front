@@ -117,11 +117,9 @@ const CommonExtensionModal = ({
     if (Object.keys(error)?.length) {
       // toast.error(error[Object.keys(error)[0]]);
       toast.error(error.option)
-      console.log(error)
       setError(error);
       return;
     } else {
-      console.log({...formData,name:formData?.label});
       handleSave({ ...formData, name: `dynamic_${dynamicFieldNo}` });
       handleClose();
       setError();

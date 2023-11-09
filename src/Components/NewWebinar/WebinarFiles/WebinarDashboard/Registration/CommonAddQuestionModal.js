@@ -36,14 +36,14 @@ const CommonAddQuestionModal = ({
 
   useEffect(() => {
     if (fieldData) {
-      let editFormData = fieldData;
+      let editFormData = JSON.parse(JSON.stringify(fieldData));
       setFormData(editFormData);
     }
   }, [show]);
 
   const handleClose = () => {
-    console.log(fieldData,'===>fieldData')
-    console.log(formData,'===>formData')
+
+  
     setFormData({
       label: "",
       inputType: "",
@@ -88,7 +88,10 @@ const CommonAddQuestionModal = ({
           : e?.target?.value,
       });
     }
+
   };
+
+ 
 
   const saveClicked = (e) => {
     e.preventDefault();
@@ -125,7 +128,7 @@ const CommonAddQuestionModal = ({
       setError(error);
       return;
     } else {
-      console.log({...formData,name:formData?.label});
+      
       handleSave({ ...formData, name: `dynamic_${dynamicFieldNo}` });
       handleClose();
       setError();

@@ -312,7 +312,7 @@ const WebinarRegistration = () => {
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
     : "";
-  console.log("location code-->", location?.state);
+ 
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
@@ -569,6 +569,7 @@ const WebinarRegistration = () => {
   };
 
   const handleModalSave = (form) => {
+   
     let updateFormBody = formData?.body;
     if (fieldData) {
       updateFormBody[index] = form;
@@ -790,7 +791,10 @@ const WebinarRegistration = () => {
   // };
 
   const saveClicked = async (e) => {
+  
     e.preventDefault();
+   
+   
     setFormData(formData);
 
     try {
