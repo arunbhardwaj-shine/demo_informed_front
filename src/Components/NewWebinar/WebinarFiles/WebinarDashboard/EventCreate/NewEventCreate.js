@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+const currentDate = moment.utc();
 const NewEventCreate = () => {
   let params = useParams();
   let navigate=useNavigate();
@@ -33,6 +34,13 @@ const NewEventCreate = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isDataLength, setIsDataLength] = useState(0);
   const [deletestatus, setDeleteStatus] = useState(false);
+  const [resetDataId, setResetDataId] = useState();
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
 
   useEffect(() => {
     setApiStatus(false);
@@ -159,28 +167,6 @@ const NewEventCreate = () => {
     loader("hide");
   };
 
-  const handleConfirmModalFun = async (id) => {
-    setConfirmationPopup(false);
-
-    try {
-      loader("show");
-      await deleteData(ENDPOINT.WEBINAR_DELETE_EVENT, id);
-
-      getDataFromApi(1);
-      setEventId("");
-      loader("hide");
-      popup_alert({
-        visible: "show",
-        message: "Your event has been deleted <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
-    } catch (err) {
-      console.log("--err", err);
-      loader("hide");
-    }
-  };
-
   const handleCommonEventModalClose = () => {
     setEventId("");
     setEditEvent(false);
@@ -223,20 +209,49 @@ const NewEventCreate = () => {
 
   const showConfirmationPopup = (stateMsg, e, id) => {
     if (stateMsg == "delete") {
-      // setResetDataId(id);
-      // setCommonConfirmModelFun(() => deleteUser);
-      // setPopupMessage({
-      //   message1:
-      //     "You are about to remove this content from any reader and every device forever.",
-      //   message2: "Are you sure you want to do this?",
-      //   footerButton: "Yes please!",
-      // });
-      // if (confirmationpopup) {
-      //   setConfirmationPopup(false);
-      // } else {
-      //   setConfirmationPopup(true);
-      // }
+      setResetDataId(id);
+      setCommonConfirmModelFun(() => deleteEvent);
+      setPopupMessage({
+        message1:
+          "You are about to remove this content from any reader and every device forever.",
+        message2: "Are you sure you want to do this?",
+        footerButton: "Yes please!",
+      });
+      if (confirmationpopup) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
+      }
     }
+  };
+
+  const deleteEvent = async (id) => {
+    loader("show");
+    try {
+      await deleteData(ENDPOINT.WEBINAR_DELETE_EVENT, id);
+      loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Event has been deleted <br />successfully !",
+          type: "success",
+          redirect: "",
+        });
+
+        const updatedevent = isData.filter((item) => item.id !== id);
+        setIsData(updatedevent);
+
+        const eventList = apiData.filter((item) => item.id !== id);
+        setApiData(eventList);
+
+        loader("hide");
+    } catch (err) {
+      loader("hide");
+    }
+    hideConfirmationModal();
+  };
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
   };
 
   return (
@@ -541,14 +556,22 @@ const NewEventCreate = () => {
                         </div>
                         <div className="event-title">{item?.title}</div>
                         <div className="event-details d-flex justify-content-between">
-                          <div className="time-left">5 Days Left</div>
+                          <div className="time-left">
+                            {
+                              moment.utc(item?.dateStart).diff(currentDate, 'days') > 0 ? 
+                              moment.utc(item?.dateStart).diff(currentDate, 'days') + " Days Left" :
+                              "Event Expire"
+                            }
+                          </div>
                           <div className="event-date">
-                             {moment(
+                          {/* {moment(
                                     new Date(item?.dateStart),
                                     "MM/DD/YYYY"
-                                  ).format("MM/DD/YYYY")} | {`${item?.dateStartHour}:${
-                                    item?.dateStartMin
-                                  } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
+                                  ).format("MM/DD/YYYY")} */}
+                          {moment.utc(item?.dateStart).format("MM/DD/YYYY")} | 
+                          {`${item?.dateStartHour}:${
+                            item?.dateStartMin
+                          } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
                           </div>
                         </div>
 
@@ -732,8 +755,8 @@ const NewEventCreate = () => {
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={handleCommonConfirmModal}
-        fun={handleConfirmModalFun}
-        resetDataId={eventId}
+        fun={deleteEvent}
+        resetDataId={resetDataId}
         popupMessage={{
           message1: "You are about to remove this event forever.",
           message2: "Are you sure you want to do this?",
