@@ -1,11 +1,11 @@
 import React from 'react'
 
-export default function TemplateTwo({children}) {
+export default function TemplateTwo({children,formdata}) {
   return (
     <>
   
-    <link rel="stylesheet" href="https://webinar.docintel.app/Webinar/css/bootstrap.css" />
-    <link rel="stylesheet" href="https://webinar.docintel.app/Webinar/css/style.css" />
+    <link rel="stylesheet" href="https://webinar.docintel.app/MOTIVATE-study/Regi/css/bootstrap.css" />
+    <link rel="stylesheet" href="https://webinar.docintel.app/MOTIVATE-study/Regi/css/style.css" />
   
     <div className="motivate_outer">
       <div className="motivate_inner">
@@ -26,7 +26,7 @@ export default function TemplateTwo({children}) {
                 <div className="invertor-metting">
                   <div className="meeting-logo">
                     {/* <img src="images/im-workshop.png" alt=""> */}
-                    <img src="https://webinar.docintel.app/Webinar/images/lund-logo.png" alt="" />
+                    <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/lund-logo.png" alt="" />
                   </div>
                   <div className="logo-top">
                     <h5>International ITI School and networking dinner</h5>
@@ -35,7 +35,7 @@ export default function TemplateTwo({children}) {
                 </div>
                 <div className="invertor-metting">
                   <div className="meeting-logo">
-                    <img src="https://webinar.docintel.app/Webinar/images/motivate-modern-logo-min.png" alt="" />
+                    <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/motivate-modern-logo-min.png" alt="" />
                   </div>
                   <div className="logo-top">
                     <h5>MOTIVATE Investigators meeting</h5>
@@ -87,8 +87,7 @@ export default function TemplateTwo({children}) {
       </div>
     </div>
             
-    <script src="https://webinar.docintel.app/Webinar/js/jquery.js"></script>
-        <script src="https://webinar.docintel.app/Webinar/js/bootstrap.js"></script>
+
   </>
   
   )

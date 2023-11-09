@@ -9,7 +9,7 @@ import CountryList from "./CountryList";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import FormField from "./FormField";
-import TemplateTwo from "./TemplateTwo";
+import TemplateThree from "./TemplateThree";
 const userData = {
   name: "userName",
   email: "userEmail",
@@ -95,7 +95,7 @@ const RegistrationPage = () => {
 
       let response = await postData(
         "https://webinar.docintel.app/flow/apis/register",
-        formFieldData
+        {...formFieldData,companyId:formData?.company_id,eventId:formData?.event_id}
       );
       console.log(response);
       loader("hide");
@@ -141,7 +141,7 @@ const RegistrationPage = () => {
     navigate("/webinar-registration", { state: prevData });
   };
   return (
-    <TemplateTwo>
+    <TemplateThree formData={formData}>
        <section className="consent-form">
                 <div className="container">
                   <div
@@ -190,7 +190,7 @@ const RegistrationPage = () => {
                   </div>
                 </div>
               </section>
-    </TemplateTwo>
+    </TemplateThree>
   );
 };
 
