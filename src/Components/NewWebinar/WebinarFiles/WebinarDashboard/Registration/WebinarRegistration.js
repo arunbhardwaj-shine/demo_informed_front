@@ -334,7 +334,7 @@ const WebinarRegistration = () => {
   const [extIndex, setExtIndex] = useState();
   const [fieldData, setFieldData] = useState();
   const [formExtLabel, setFormExtLabel] = useState([]);
-  const [extFieldData, setExtFieldData] = useState({});
+  const [extFieldData, setExtFieldData] = useState();
 
   useEffect(() => {
     if (prevData?.content) {
