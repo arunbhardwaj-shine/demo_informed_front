@@ -302,7 +302,6 @@ export default function PollListing() {
       }
     }
 
-    console.log(originalQuestions);
     // if (e == "INPUT") {
     //   updatedQuestions[key].questionData.answerOption = [];
 
@@ -411,8 +410,8 @@ export default function PollListing() {
           progress: undefined,
         });
 
-        slickRef.current.slickGoTo(0);
-        setCurrentIndex(0);
+        // slickRef.current.slickGoTo(0);
+        // setCurrentIndex(0);
       } else {
         const id = surveyData?.id;
         response = await updateConsent(
@@ -434,8 +433,8 @@ export default function PollListing() {
     } finally {
       setShowUploadMenu(false);
       const apiData = await getListingData(selectedItem?.value);
-      slickRef.current.slickGoTo(0);
-      setCurrentIndex(0);
+      slickRef.current.slickGoTo(apiData.length);
+      // setCurrentIndex(0);
       setQuestionFlag(false);
       loader("hide");
 
@@ -521,7 +520,7 @@ if(!questionObj){
   const handleAddQuestion = () => {
 
     const isValid = validateQuestions(currentIndex);
-console.log(currentIndex);
+
     if (!isValid) {
       return;
     }
