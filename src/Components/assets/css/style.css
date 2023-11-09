@@ -773,6 +773,15 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   line-height: 16px;
 }
 
+.event_listing .no_found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 15px;
+  flex: 0 0 50%;
+}
+
 .event_listing .email-block-add,
 .event_listing .email_box {
   min-height: 258px;
