@@ -707,25 +707,25 @@ const WebinarRegistration = () => {
         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
         data
       );
-      setFormData({
-        pageTitle: "",
-        bodyText: "",
-        headerImageUrl: "",
-        body: [],
-        footerImageUrl: "",
-        labelColor: "",
-        backgroundColor: "",
-      });
+      // setFormData({
+      //   pageTitle: "",
+      //   bodyText: "",
+      //   headerImageUrl: "",
+      //   body: [],
+      //   footerImageUrl: "",
+      //   labelColor: "",
+      //   backgroundColor: "",
+      // });
 
-      setEventData({ event_id: "", company_id: "" });
-      setFile("");
-      setFoot("");
+      // // setEventData({ event_id: "", company_id: "" });
+      // setFile("");
+      // setFoot("");
     } catch (err) {
       console.error("--err", err);
     } finally {
       loader("hide");
     }
-    navigate("/event-listing");
+    // navigate("/event-listing");
   };
 
   const handlePreview = (e, index) => {
@@ -1945,7 +1945,7 @@ Preview            </h5>
         </Modal.Header>
         <Modal.Body>
          <>
-         <p>You are previewing the  saved data .</p>
+         {/* <p>You are previewing the  saved data .</p> */}
 
          <iframe
           src={`/event-registration?event=${event_code}`}
