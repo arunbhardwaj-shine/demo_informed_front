@@ -563,6 +563,7 @@
         flex: 0 0 200px;
         align-self: flex-start;
         padding: 16px 0 0;
+        font-size: 16px;
       }
 
       .form-control {
@@ -630,7 +631,7 @@
     min-height: 53px;
 
     label {
-      font-size: 17px;
+      font-size: 18px;
       line-height: 21px;
       color: $dark-blue;
       flex: 0 0 154px;
@@ -17167,7 +17168,7 @@ img.change-password-image {
 
     .form-group {
       margin: 0px 0 0;
-      align-items: center;
+      align-items: flex-start;
 
       label {
         padding: 0px 5px 0 0;
@@ -17179,8 +17180,6 @@ img.change-password-image {
         align-self: flex-start;
         flex: 0 0 190px;
       }
-
-
 
       .slt-opt {
         flex: 1 1;
@@ -17212,11 +17211,13 @@ img.change-password-image {
 
         .extension {
           background: rgb(238 238 238 / 78%);
-          padding: 20px;
-          margin-top: 20px;
+          padding: 15px;
+          margin: 15px 0px;
           border-radius: 10px;
           min-width: 550px;
           margin-left: 25px;
+          margin-left: 0;
+          flex: 0 0 100%;
 
           label {
             font-size: 15px;
@@ -17224,11 +17225,25 @@ img.change-password-image {
 
           .extItem {
             margin: 0 0 11px;
+            display: flex;
+            align-items: flex-end;
+
+            .opt-internal {
+              flex: 1 1;
+            }
+
+            .extOption {
+              flex: 1 1;
+            }
           }
 
           .react-datepicker-wrapper {
             max-width: 100%;
           }
+        }
+
+        &~.btn-filled {
+          margin-top: 16px;
         }
       }
 
@@ -17277,7 +17292,7 @@ img.change-password-image {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 0 0 15px;
+        margin: 4px 0 0 15px;
         background: $white;
 
         &:hover {

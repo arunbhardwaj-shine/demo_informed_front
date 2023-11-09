@@ -1204,7 +1204,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "date" ? (
-                                                                          <div>
+                                                                          <div className="opt-internal">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1280,7 +1280,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "selection" ? (
-                                                                          <div>
+                                                                          <div className="opt-internal">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1312,7 +1312,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "textarea" ? (
-                                                                          <div>
+                                                                          <div className="opt-internal">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1491,7 +1491,7 @@ const WebinarRegistration = () => {
                                                                       <div className="extItem">
                                                                         {extItem?.inputType ==
                                                                         "text" ? (
-                                                                          <div>
+                                                                          <div className="opt-internal">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
