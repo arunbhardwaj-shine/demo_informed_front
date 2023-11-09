@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Button, Form, FormGroup, FormLabel } from "react-bootstrap";
+import { Col, Row, Button, Form, FormGroup, FormLabel, Modal } from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
 import Select from "react-select";
@@ -295,6 +295,7 @@ const WebinarRegistration = () => {
     },
   ]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPrevClicked, setIsPrevClicked] = useState(false);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
   const responsive = {
@@ -727,13 +728,18 @@ const WebinarRegistration = () => {
   };
 
   const handlePreview = (e, index) => {
+    setIsPrevClicked(true)
     let prevObj = {
       eventId: eventData?.event_id,
       companyId: eventData?.company_id,
       content: formData,
     };
-    navigate("/event-registration", { state: prevObj });
+    // navigate("/event-registration", { state: prevObj });
   };
+  const handleClose=()=>{
+    setIsPrevClicked(false)
+
+  }
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);
   };
@@ -1912,6 +1918,44 @@ const WebinarRegistration = () => {
         formLabel={formData?.body}
         extensionData={extFieldData}
       />
+    
+    {isPrevClicked && (
+        <Modal
+        show={isPrevClicked}
+        onHide={handleClose}
+        id="add_hcp"
+        className="event_edit"
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="modal-header">
+            <h5 className="modal-title" id="staticBackdropLabel">
+Preview            </h5>
+            <button
+              type="button"
+              onClick={handleClose}
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+         <>
+         <iframe
+          src={`/event-registration?event=${event_code}`}
+          width="100%"
+          height="500px"
+          title="Event Registration"
+        />
+         </>
+       </Modal.Body>
+     </Modal>
+        
+      )
+    }
     </>
   );
 };

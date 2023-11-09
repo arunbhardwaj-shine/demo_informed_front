@@ -8,6 +8,7 @@ const userData = {
   name: "userName",
   email: "userEmail",
   country: "country",
+  "Your Country": "country",
   state: "state",
   consent: "consent",
   websiteFolder: "websiteFolder",
@@ -24,6 +25,8 @@ const userData = {
   "Preferred departure date": "air_departure_date",
   "Preferred departure time": "departure_time",
   "Preferred return flight date": "air_return_date",
+  'I consent to:': "consent",
+
 
 };
 const FormField = ({
@@ -34,14 +37,15 @@ const FormField = ({
     pageColors,
     level,
   }) => {
-    // console.log(form);
     const [countryList, setCountryList] = useState(CountryList);
     const [extensionData, setExtensionData] = useState({});
     const label = userData[form.label]?userData[form.label]:form?.label?.replace(/ /g, "_");
+    // console.log(label);
   
   
     const handleFieldChange = (value) => {
       const newData = { ...formFieldData };
+      console.log(newData);
   
       if (form?.inputType === "datepicker") {
         newData[label] = moment(value).format("YYYY-MM-DD");
@@ -52,7 +56,7 @@ const FormField = ({
       setFormFieldData(newData);
     };
   
-    if (label?.includes('country')) {
+    if (label?.includes('country') || label?.includes('Country')) {
       form.inputType = "selection-country";
     }
   
