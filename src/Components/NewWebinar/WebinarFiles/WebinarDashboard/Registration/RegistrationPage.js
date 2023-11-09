@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Button } from "react-bootstrap";
-import Select from "react-select";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loader } from "../../../../../loader";
 import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
-import CountryList from "./CountryList";
-import DatePicker from "react-datepicker";
-import moment from "moment";
+import FormField from "./FormField";
+import TemplateThree from "./TemplateThree";
+
 const userData = {
   name: "userName",
   email: "userEmail",
@@ -24,26 +22,24 @@ const userData = {
   radio_group2: 1,
   organize_own: 4,
   being_connected: "being_connected",
- "Airport of departure": "departure",
+  "Airport of departure": "departure",
   "Preferred departure date": "air_departure_date",
   "Preferred departure time": "departure_time",
   "Preferred return flight date": "air_return_date",
-
+  'I consent to:': "consent",
 };
-// import Question from "./AddQuestion";
 
 const RegistrationPage = () => {
   const location = useLocation();
-  let params = useParams();
-  let navigate = useNavigate();
+  const params = useParams();
+  const navigate = useNavigate();
 
-  let prevData = useLocation();
-  prevData = prevData?.state;
-  // console.log(prevData,"prevData");
+  const prevData = useLocation()?.state;
   const event_code = new URLSearchParams(location.search).get("event");
-  const [formData, setFormData] = useState(prevData ? prevData : {});
+
+  const [formData, setFormData] = useState(prevData || {});
   const [formFieldData, setFormFieldData] = useState({});
-  const [formErrors, setFormErrors] = useState({}); // Create a state to store form validation errors
+  const [formErrors, setFormErrors] = useState({});
   const [pageColors, setPageColors] = useState(
     prevData
       ? {
@@ -51,73 +47,74 @@ const RegistrationPage = () => {
           background: prevData?.content?.backgroundColor,
         }
       : { labelColor: "#fff000", background: "#000" }
-  ); // Create a state to store form validation errors
+  );
 
   useEffect(() => {
     if (!prevData?.content) {
       EventDataFun();
     }
+
+    
   }, []);
+
   const EventDataFun = async () => {
     try {
       loader("show");
-      const response = await getData(
-        `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
-      );
-      let hadData = response?.data?.data;
-      hadData = { ...hadData, content: JSON.parse(hadData?.content) };
+      const response = await getData(`${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`);
+      const hadData = {
+        ...response?.data?.data,
+        content: JSON.parse(response?.data?.data?.content),
+        raw_description: JSON.parse(response?.data?.data?.raw_description),
+      };
+      console.log(hadData);
       setFormData(hadData);
-      // console.log(hadData?.content);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
         background: hadData?.content?.backgroundColor,
       });
-      //   setEventData({
-      //     ...eventData,
-      //     event_id: hadData?.event_id,
-      //     company_id: hadData?.company_id,
-      //   });
       loader("hide");
     } catch (err) {
       loader("hide");
-      console.log("-err", err);
+      console.error("-err", err);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formFieldData);
     const isValid = ValidateFormData();
 
     if (isValid) {
       loader("show");
-
-      let response = await postData(
-        "https://webinar.docintel.app/flow/apis/register",
-        formFieldData
-      );
-      console.log(response);
-      loader("hide");
-
-      console.log("Form is valid. Submitting data:", formFieldData);
+      try {
+        const response = await postData("https://webinar.docintel.app/flow/apis/register", {
+          ...formFieldData,
+          companyId: formData?.company_id,
+          eventId: formData?.event_id,
+          speaker: formData?.raw_description?.speaker_name,
+          companyEmail: formData?.raw_description?.speaker_email,
+          virtual_or_live: "Live",
+          websiteFolder: "new_webinar",
+        });
+        console.log(response);
+      } catch (error) {
+        console.error("Error submitting data:", error);
+      } finally {
+        loader("hide");
+      }
     } else {
       console.log("Form has errors. Please correct them.");
     }
   };
 
   const ValidateFormData = () => {
-    // console.log(formFieldData);
-    // console.log(formErrors);
     const errors = {};
 
     formData?.content?.body?.forEach((form) => {
-      const label = userData[form.label]?userData[form.label]:form.label.replace(/ /g, "_");
-
+      const label = userData[form.label] || form?.label?.replace(/ /g, "_");
       const fieldValue = formFieldData[label];
-      // console.log(label,form);
 
-      if (form.required == "yes" && !fieldValue) {
+      if (form.required === "yes" && !fieldValue) {
         errors[label] = `This field is required.`;
-        // errors[label] = `This ${label} is required.`;
       } else {
         delete errors[label];
       }
@@ -135,25 +132,14 @@ const RegistrationPage = () => {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
   const handleBackClicked = () => {
     navigate("/webinar-registration", { state: prevData });
   };
-  return (
-    <div className="outer">
-      <section className="webinarRegistrationBody">
-        <div className="sec1">
-          <div className="add_hcp_boxes">
-            <link
-              rel="stylesheet"
-              href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/style.css"
-            />
-            <link
-              rel="stylesheet"
-              href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/css/responsive.css"
-            />
 
-            <div className="wrapper">
-              {prevData && (
+  return (
+    <TemplateThree formData={formData}>
+       {prevData && (
                 <button
                   type="submit"
                   className="btn btn-primary"
@@ -163,309 +149,47 @@ const RegistrationPage = () => {
                   Back
                 </button>
               )}
-              <section className="factor-season">
-                <div className="container">
-                  <div
-                    className="factor-season-inner"
-                    style={{
-                      backgroundImage: `url("${formData?.content?.headerImageUrl}")`,
-                    }}
-                  >
-                    <div className="row">
-                      <div className="col-sm-8 col-md-8">
-                        <div className="factor-season-left">
-                          <div className="factor__logo">
-                            <img
-                              src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
-                              alt="Factor logo"
-                            />
-                          </div>
-                          <h2>
-                            5 February 2024
-                            <br />
-                            12:00-19:00
-                            <br />
-                            Frankfurt, Germany
-                          </h2>
-                        </div>
-                      </div>
-                      <div className="col-sm-4 col-md-4">
-                        <div className="factor-season-right">
-                          <h3>
-                            Robert F. Sidonio Jr.
-                            <br /> and Jan Astermark
-                          </h3>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+      <section className="consent-form">
+        
+        <div className="container">
+       
+          <div className="consent-form-inner" style={{ background: `${pageColors?.background}` }}>
+            <form id="registration_form" onSubmit={handleSubmit}>
+              <div className="row" id="form_upper">
+                <div className="col-sm-12 col-md-12 center-sided">
+                  <h2>{formData?.content?.pageTitle}</h2>
+                  <h3> {formData?.content?.bodyText}</h3>
                 </div>
-              </section>
-              <section className="consent-form">
-                <div className="container">
-                  <div
-                    className="consent-form-inner"
-                    style={{ background: `${pageColors?.background}` }}
-                  >
-                    <form id="registration_form" onSubmit={handleSubmit}>
-                      <div className="row" id="form_upper">
-                        <div className="col-sm-12 col-md-12 center-sided">
-                          <h2>{formData?.content?.pageTitle}</h2>
-                          <h3> {formData?.content?.bodyText}</h3>
-                        </div>
-                      </div>
-                      <div className="center-sided-inside">
-                        <div className="row">
-                          {formData?.content?.body?.map((form, index) => (
-                            <FormField
-                              form={form}
-                              key={index}
-                              formFieldData={formFieldData}
-                              setFormFieldData={setFormFieldData}
-                              formErrors={formErrors}
-                              pageColors={pageColors}
-                              level="root"
-                            />
-                          ))}
-                          {!prevData && (
-                            <button
-                              type="submit"
-                              className="btn btn-primary"
-                              id="submit_registration"
-                            >
-                              Submit
-                            </button>
-                          )}
-                        </div>
-
-                        <div className="footer-sec">
-                          <span>
-                            * This consent is mandatory in order to register for
-                            the event.
-                          </span>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
+              </div>
+              <div className="center-sided-inside">
+                <div className="row">
+                  {formData?.content?.body?.map((form, index) => (
+                    <FormField
+                      form={form}
+                      key={index}
+                      formFieldData={formFieldData}
+                      setFormFieldData={setFormFieldData}
+                      formErrors={formErrors}
+                      pageColors={pageColors}
+                      level="root"
+                    />
+                  ))}
+                  {!prevData && (
+                    <button type="submit" className="btn btn-primary" id="submit_registration">
+                      Submit
+                    </button>
+                  )}
                 </div>
-              </section>
-            </div>
+                <div className="footer-sec">
+                  <span>* This consent is mandatory in order to register for the event.</span>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </section>
-      <footer>
-        <div className="container">
-          <div className="row">
-            <div
-              className="footer-inner"
-              style={
-                formData?.content?.footerImageUrl
-                  ? {
-                      backgroundImage: `url("${formData?.content?.footerImageUrl}")`,
-                    }
-                  : {}
-              }
-            >
-              <div className="footer-left">
-                <div className="footer-logo">
-                  <img
-                    src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"
-                    alt="footer-logo"
-                  />
-                </div>
-              </div>
-              <div className="footer-right"></div>
-              <div className="footer-copyright">
-                <span>© 2023 CP. All rights Reserved</span>
-                <ul>
-                  <li>
-                    <a
-                      target="_blank"
-                      href="https://albert.docintel.app/privacy_policy/"
-                    >
-                      Privacy Policy
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      target="_blank"
-                      href="https://albert.docintel.app/terms_of_use/"
-                    >
-                      Terms of Services
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-      <div className="modal fade" id="myModal">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal">
-                ×
-              </button>
-            </div>
-            <div className="modal-body"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </TemplateThree>
   );
 };
 
 export default RegistrationPage;
-
-const FormField = ({
-  form,
-  formFieldData,
-  setFormFieldData,
-  formErrors,
-  pageColors,
-  level,
-}) => {
-  const [countryList, setCountryList] = useState(CountryList);
-  const [extensionData, setExtensionData] = useState({});
-  const label = userData[form.label]?userData[form.label]:form.label.replace(/ /g, "_");
-console.log(label);
-
-  const handleFieldChange = (value) => {
-    const newData = { ...formFieldData };
-
-    if (form.inputType === "datepicker") {
-      newData[label] = moment(value).format("YYYY-MM-DD");
-    } else {
-      newData[label] = value;
-    }
-
-    setFormFieldData(newData);
-  };
-
-  if (label == "country") {
-    form.inputType = "selection-country";
-  }
-
-  const isRequired = form.required === "yes";
-
-  let fieldInput = null;
-
-  if (form.inputType === "textarea") {
-    fieldInput = (
-      <textarea
-        className="form-control"
-        placeholder={form.placeholder}
-        cols="40"
-        rows="4"
-        onChange={(e) => handleFieldChange(e.target.value)}
-      ></textarea>
-    );
-  } else if (
-    form.inputType === "selection" ||
-    form.inputType === "selection-country"
-  ) {
-    const options = form.option?.map((op) => ({
-      label: op.optionLabel,
-      value: op.optionLabel,
-    }));
-
-    fieldInput = (
-      <Select
-        options={form.inputType === "selection-country" ? countryList : options}
-        className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
-        isClearable
-        onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
-      />
-    );
-  } else if (form.inputType === "datepicker") {
-    fieldInput = (
-      <DatePicker
-        selected={formFieldData[label] ? new Date(formFieldData[label]) : null}
-        name={form.label}
-        dateFormat="dd/MM/yyyy"
-        className="form-control"
-        placeholderText="Select task date"
-        onChange={(date) => handleFieldChange(date)}
-        onKeyDown={(e) => {
-          e.preventDefault();
-        }}
-      />
-    );
-  } else if (form.inputType === "checkbox" || form.inputType === "radio") {
-    fieldInput = (
-      <ul>
-        {form.option?.map((item, index) => (
-          <>
-            <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
-
-              <input
-                type={form.inputType}
-                id={label + index}
-                name={label}
-                className="organize_own_selection"
-                onChange={() => {
-                  handleFieldChange(item.optionLabel);
-                  if (item.extension) {
-                    setExtensionData({
-                      [item.optionLabel]: item.extension,
-                    });
-                  }
-                }}
-              />
-              <label
-                style={{
-                  textTransform: "capitalize",
-                  color: pageColors?.labelColor,
-                }}
-                htmlFor={label + index}
-              >
-                {item.optionLabel}
-              </label>
-              <span className="checkmark" />
-            </li>
-            {extensionData[item.optionLabel]?.length > 0 &&
-              extensionData[item.optionLabel]?.map((opt, i) => (
-                <FormField
-                  form={opt}
-                  key={i}
-                  formFieldData={formFieldData}
-                  setFormFieldData={setFormFieldData}
-                  formErrors={formErrors}
-                  pageColors={pageColors}
-                  level={form.label}
-                />
-              ))}
-          </>
-        ))}
-      </ul>
-    );
-  } else {
-    fieldInput = (
-      <input
-        type={form.inputType}
-        className="form-control"
-        id="usr"
-        placeholder={form.placeholder}
-        onChange={(e) => handleFieldChange(e.target.value)}
-      />
-    );
-  }
-
-  return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-      <label
-        style={{
-          textTransform: "capitalize",
-          color: pageColors?.labelColor,
-        }}
-      >
-        {form.label}
-        {isRequired ? "*" : ""}
-      </label>
-      {fieldInput}
-      <div class="help-block">{formErrors[label]}</div>
-    </div>
-  );
-};

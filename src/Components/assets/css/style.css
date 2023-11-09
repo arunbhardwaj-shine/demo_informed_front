@@ -2831,12 +2831,15 @@ form#add_hcp_form .row:not(:first-child) {
   width: 100%;
 }
 
-#add_hcp .modal-body .hcp-add-form form .form-group {
+#add_hcp .modal-body .hcp-add-form form .form-group,
+#add_hcp .modal-body .hcp-add-form form .add-extension {
   display: flex;
   align-items: center;
   margin: 12px 0;
 }
-
+#add_hcp .modal-body .hcp-add-form form .add-extension {
+  justify-content: flex-end;
+}
 #add_hcp .modal-body .hcp-add-form form .form-group .dlt_btn_event {
   margin-left: 10px;
   box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
@@ -2853,12 +2856,35 @@ form#add_hcp_form .row:not(:first-child) {
   background: var(--light-blue);
 }
 
-#add_hcp .modal-body .hcp-add-form form .form-group label {
-  flex: 0 0 114px;
+#add_hcp .modal-body .hcp-add-form form .form-group label,
+#add_hcp .modal-body .hcp-add-form form .add-extension label {
+  flex: 0 0 120px;
   font-size: 18px;
   line-height: 21px;
   /* text-transform: capitalize; */
   color: var(--dark-blue);
+}
+
+#add_hcp .modal-body .hcp-add-form form .add-extension .form-check-input {
+  margin: 0;
+  border: 1px solid #97B6CF;
+  width: 16px;
+  height: 16px;
+  padding: 1px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  display: inline-block;
+  flex: 0 0 16px;
+}
+
+#add_hcp .modal-body .hcp-add-form form .add-extension .form-check-input:checked {
+  background-color: #39cabc;
+  border-color: #39cabc;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
 }
 
 #add_hcp .modal-body .hcp-add-form form .form-group .form-control,
