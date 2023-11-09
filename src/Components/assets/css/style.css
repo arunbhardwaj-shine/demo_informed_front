@@ -762,7 +762,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 }
 
 .email-result-block .mail-box-content {
-  padding: 16px 16px 16px;
+  padding: 16px 16px 20px;
 }
 
 .event_listing .event-details .time-left,
@@ -2837,9 +2837,11 @@ form#add_hcp_form .row:not(:first-child) {
   align-items: center;
   margin: 12px 0;
 }
+
 #add_hcp .modal-body .hcp-add-form form .add-extension {
   justify-content: flex-end;
 }
+
 #add_hcp .modal-body .hcp-add-form form .form-group .dlt_btn_event {
   margin-left: 10px;
   box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
@@ -7347,6 +7349,41 @@ section.search-hcp.smart-list-view {
 
 .top-right-action.full .search-bar {
   margin-right: auto;
+}
+
+.top-right-action.full .hcp-sort {
+  gap: 0 15px;
+  display: flex;
+}
+
+.top-right-action.full .hcp-sort .btn {
+  background: var(--white);
+  -webkit-filter: drop-shadow(0 1px 6px rgba(0, 102, 190, .2));
+  filter: drop-shadow(0 1px 6px rgba(0, 102, 190, .2));
+  color: var(--skyblue);
+  font-size: 14px;
+  line-height: 16px;
+  padding: 10px 12px;
+  text-transform: capitalize;
+  border: 0;
+}
+
+.top-right-action.full .hcp-sort .btn:hover,
+.top-right-action.full .hcp-sort .btn.desc:hover,
+.top-right-action.full .hcp-sort .btn.asc:hover {
+  background: var(--light-blue);
+  color: var(--white);
+}
+
+.top-right-action.full .hcp-sort .btn.asc,
+.top-right-action.full .hcp-sort .btn.desc {
+  color: #0066be;
+  color: var(--light-blue);
+}
+
+.top-right-action.full .hcp-sort .btn img {
+  margin-left: 15px;
+  width: 20px;
 }
 
 section.search-hcp.smart-list-view .header-btn-left {

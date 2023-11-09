@@ -621,9 +621,6 @@ const NewEventCreate = () => {
                               </button>
                             </>
                           )}
-                        </div>
-
-                        <div className="hcp-sort">
                           {sortingCount == 0 ? (
                             <>
                               <button
