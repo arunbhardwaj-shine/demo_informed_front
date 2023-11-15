@@ -208,6 +208,7 @@ const CommonExtensionModal = ({
     updatedFormData?.splice(index, 1);
 
     setFormData({ ...formData, option: updatedFormData });
+    setError()
   };
   return (
     <>
@@ -218,6 +219,7 @@ const CommonExtensionModal = ({
         className="webinar-registration"
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
+        backdrop="static"
         centered
       >
         <Modal.Header>
