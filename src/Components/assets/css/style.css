@@ -2944,6 +2944,15 @@ form#add_hcp_form .row:not(:first-child) {
   flex: 0 0 40px;
 }
 
+#add_hcp .modal-body .hcp-add-form form .form-group .dlt_btn_event svg {
+  width: 20px;
+  height: 20px;
+}
+
+#add_hcp .modal-body .hcp-add-form form .form-group .dlt_btn_event:hover svg path {
+  fill: #ffffff;
+}
+
 #add_hcp .modal-body .hcp-add-form form .form-group .dlt_btn_event:hover {
   background: var(--light-blue);
 }
