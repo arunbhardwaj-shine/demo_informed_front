@@ -150,15 +150,11 @@ const NewEventCreate = () => {
   };
 
   const webinarRegistrationForm = (e, item) => {
-    console.log("e-->", e, "--->", item);
-
     navigate("/webinar-registration", {
       state: item,
     });
   };
   const webinarPollingForm = (e, item) => {
-    console.log("e-->", e, "--->", item);
-
     navigate("/poll-listing", {
       state: { event_id: item?.id },
     });
