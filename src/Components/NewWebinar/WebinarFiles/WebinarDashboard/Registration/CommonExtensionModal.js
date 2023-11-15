@@ -31,7 +31,8 @@ const CommonExtensionModal = ({
   const [error, setError] = useState({});
   useEffect(() => {
     if (extensionData != "undefined" && extensionData) {
-      let editFormData = extensionData;
+      let editFormData = JSON.parse(JSON.stringify(extensionData));
+      // let editFormData = extensionData;
       setFormData(editFormData);
     } else {
       setFormData({
