@@ -315,6 +315,7 @@ const WebinarRegistration = () => {
     ? location?.state?.event_code
     : "";
 
+
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
@@ -341,7 +342,8 @@ const WebinarRegistration = () => {
     totalFieldNo: 0,
     templateId: 0,
   });
-  const [eventData, setEventData] = useState({ event_id: "", company_id: "" });
+
+  const [eventData, setEventData] = useState({ event_id:  location?.state?.id, company_id:  location?.state?.user_id});
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
   const [errorMsg, setErrorMsg] = useState("");
@@ -435,12 +437,14 @@ const WebinarRegistration = () => {
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
       const hadData = response?.data?.data;
-
-      setEventData({
-        ...eventData,
-        event_id: hadData?.event_id,
-        company_id: hadData?.company_id,
-      });
+if(hadData?.event_id && hadData?.company_id){
+  setEventData({
+    ...eventData,
+    event_id: hadData?.event_id,
+    company_id: hadData?.company_id,
+  });
+}
+     
       const newFormData = hadData?.content ? JSON.parse(hadData?.content) : [];
       dynamicFieldNo = newFormData?.totalFieldNo
         ? newFormData?.totalFieldNo
@@ -471,6 +475,7 @@ const WebinarRegistration = () => {
           value: item?.id,
           label: item?.title,
           code: item?.event_code,
+          companyId: item?.user_id,
         }));
         setDropDownData(dropDownDataTemp);
         let index = 0;
@@ -492,8 +497,16 @@ const WebinarRegistration = () => {
   };
 
   const handleSelectChange = async (event) => {
+    // console.log(event);
     await getWebinarData(event.code);
     setSelectedItem(event);
+    if(event?.id && event?.user_id){
+      setEventData({
+        ...eventData,
+        event_id: event?.id,
+        company_id: event?.user_id,
+      });
+    }
   };
 
   const handleFileSelect = (e, isSelectedName) => {
@@ -827,6 +840,7 @@ const WebinarRegistration = () => {
         companyId: eventData?.company_id,
         content: JSON.stringify(formData),
       };
+      console.log(eventData);
       const response = await postData(
         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
         data
