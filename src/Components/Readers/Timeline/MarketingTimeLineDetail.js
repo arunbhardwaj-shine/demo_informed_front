@@ -1744,9 +1744,12 @@ const MarketingTimeLineDetail = (props) => {
                                               Message
                                             </th>
                                             <td className="device-name marketing">
+                                              <pre>
                                               {details?.value != ""
                                                 ? details.value
                                                 : ""}
+                                              </pre>
+                                           
                                               <button onClick={() => handleEditLogs(index,details)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="33" viewBox="0 0 28 33" fill="none">
                                                 <path d="M1.20158 32.2259C0.833603 32.3652 0.45356 32.0519 0.520092 31.6641L1.64674 25.0972C1.66147 25.0114 1.69834 24.9309 1.75373 24.8637L19.2673 3.61808L25.1553 8.47176L7.6417 29.7174C7.58631 29.7846 7.51434 29.8361 7.4329 29.867L1.20158 32.2259Z" fill="#0066BE"/>

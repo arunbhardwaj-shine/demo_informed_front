@@ -4061,8 +4061,17 @@ input[type="number"] {
         height: 18px;
       }
     }
+    pre {
+      overflow: auto;
+      font-size: 16px;
+      width: 100%;
+      white-space: pre-wrap;
+      font-family: "Roboto", sans-serif;
+      line-height: 1.2;
+  }
   }
 }
+
 
 .timeline-article-device tr:last-child td,
 .timeline-article-device tr:last-child th {
