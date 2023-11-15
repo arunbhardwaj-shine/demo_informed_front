@@ -11,7 +11,7 @@ const AddQuestionValidation = (formData, formLabel, fieldData) => {
   ) {
     error.option = "Please add options";
   }
-  if (formData?.label == "") {
+  if (formData?.label?.trim() == "") {
     error.label = "Please enter label";
   } else if (
     formLabel?.find(
