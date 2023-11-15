@@ -991,7 +991,8 @@ const MarketingReadersList = () => {
       const newaddress = JSON.parse(usersData?.data?.data?.address);
       setAddress(newaddress);
       const logActivity = JSON.parse(usersData?.data?.data?.log_activity);
-      setlLog(logActivity);
+      const updatelogActivity = ensureArray(logActivity);
+      setlLog(updatelogActivity);
       setPreviewUserId(id);
       setPreviewUserData(datapreview);
     } catch (error) {
@@ -1003,6 +1004,20 @@ const MarketingReadersList = () => {
     }
    
   };
+
+  const ensureArray = (input) => {
+    if (Array.isArray(input)) {
+      // If it's already an array, return it as is
+      return input;
+    } else if (typeof input === 'object' && input !== null) {
+      // If it's an object, convert it to an array
+      return [input];
+    } else {
+      // If it's neither an array nor an object, return an empty array
+      return [];
+    }
+  }
+  
   
 
   return (
