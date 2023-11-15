@@ -31,196 +31,57 @@ const WebinarRegistration = () => {
       backgroundColor: "",
       body: [
         {
-          name: "country",
-          label: "Your Country",
-          inputType: "selection",
-          placeholder: "Please enter country",
-          option: [],
-          required: "Yes",
+            "label": "Full consent (for additional information or to edit consent click Change)",
+            "inputType": "checkbox",
+            "placeholder": "",
+            "required": "yes",
+            "option": [
+                {
+                    "optionLabel": "my participation during the live webinar being recorded for live streaming and on-demand use*",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Full consent (for additional information or to edit consent click Change)",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "invites for future Octapharma haematology events (these may be promotional events)",
+                    "extension": [],
+                    "checked": ""
+                }
+            ],
+            "extension": "",
+            "name": "dynamic_8"
         },
         {
-          label: "name",
-          name: "userName",
-          inputType: "text",
-          placeholder: "Please enter name",
-          option: [],
-          required: "Yes",
+            "name": "country",
+            "label": "Your Country",
+            "inputType": "selection",
+            "placeholder": "Please enter country",
+            "option": [],
+            "required": "Yes"
         },
         {
-          label: "email",
-          name: "userEmail",
-          inputType: "email",
-          placeholder: "Please enter email",
-          option: [],
-          required: "Yes",
+            "label": "name",
+            "name": "userName",
+            "inputType": "text",
+            "placeholder": "Please enter name",
+            "option": [],
+            "required": "Yes"
         },
-      ],
+        {
+            "label": "email",
+            "name": "userEmail",
+            "inputType": "email",
+            "placeholder": "Please enter email",
+            "option": [],
+            "required": "Yes"
+        }
+    ],
     },
-    {
-      templateId: 2,
-      pageTitle:
-        "To register please select and fill in all your details below.",
-      bodyText: "",
-      headerImageUrl: "",
-      footerImageUrl: "",
-      labelColor: "",
-      backgroundColor: "",
-      body: [
-        {
-          label: "i will attend:",
-          inputType: "radio",
-          placeholder: "",
-          option: [
-            {
-              optionLabel:
-                "Both, International ITI School & MOTIVATE Investigators meeting",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel: "International ITI School",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel: "MOTIVATE Investigators meeting",
-              extension: [],
-              checked: "",
-            },
-          ],
-          required: "",
-          extension: false,
-          name: "dynamic_8",
-        },
-        {
-          label: "I would like to:",
-          inputType: "radio",
-          placeholder: "",
-          option: [
-            {
-              optionLabel: "Organize my own travel",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel: "Have my travel arranged by the meeting organizers",
-              extension: [
-                {
-                  label: "Airport of departure",
-                  name: "dynamic_10",
-                  inputType: "text",
-                  placeholder: "Airport of departure",
-                  option: [],
-                },
-                {
-                  label: "Preferred departure date",
-                  name: "dynamic_11",
-                  inputType: "date",
-                  placeholder: "",
-                  option: [],
-                },
-                {
-                  label: "Preferred departure time",
-                  name: "dynamic_12",
-                  inputType: "radio",
-                  placeholder: "",
-                  option: [
-                    {
-                      optionLabel: "Morning",
-                      extension: [],
-                      checked: "",
-                    },
-                    {
-                      optionLabel: "Afternoon",
-                      extension: [],
-                      checked: "",
-                    },
-                    {
-                      optionLabel: "Evening",
-                      extension: [],
-                      checked: "",
-                    },
-                  ],
-                },
-                {
-                  label: "Preferred return flight date",
-                  name: "dynamic_13",
-                  inputType: "date",
-                  placeholder: "",
-                  option: [],
-                },
-              ],
-              checked: "",
-            },
-          ],
-          required: "",
-          extension: true,
-          name: "dynamic_9",
-        },
-        {
-          label: "I consent to:",
-          inputType: "checkbox",
-          placeholder: "",
-          option: [
-            {
-              optionLabel:
-                "Be contacted by the MOTIVATE team for the purpose of this meeting*",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel: "Receive future materials from MOTIVATE",
-              extension: [],
-              checked: "",
-            },
-          ],
-          required: "",
-          extension: false,
-          name: "dynamic_14",
-        },
-        {
-          label: "Your Country",
-          inputType: "selection",
-          placeholder: "",
-          option: [
-            {
-              optionLabel: "US",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel: "Canada",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel: "Other",
-              extension: [],
-              checked: "",
-            },
-          ],
-          required: "",
-          extension: "",
-          name: "dynamic_16",
-        },
-        {
-          label: "name",
-          name: "userName",
-          inputType: "text",
-          placeholder: "Please enter name",
-          option: [],
-          required: "",
-        },
-        {
-          label: "email",
-          name: "userEmail",
-          inputType: "email",
-          placeholder: "Please enter email",
-          option: [],
-          required: "",
-        },
-      ],
-    },
+  
     {
       templateId: 2,
       pageTitle: "To register please fill in all your details below.",
@@ -231,75 +92,147 @@ const WebinarRegistration = () => {
       backgroundColor: "",
       body: [
         {
-          label: "I consent to",
-          inputType: "checkbox",
-          placeholder: "",
-          required: "yes",
-          option: [
-            {
-              optionLabel:
-                "my participation during the live webinar being recorded for live streaming and on-demand use*",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel:
-                "receive future digital library materials (these may be of a promotional nature)",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel:
-                "invites for future Octapharma haematology events (these may be promotional events)",
-              extension: [],
-              checked: "",
-            },
-          ],
-          extension: "",
-          name: "dynamic_0",
+            "label": "I will attend:",
+            "inputType": "radio",
+            "placeholder": "",
+            "option": [
+                {
+                    "optionLabel": "Both, International ITI School & MOTIVATE Investigators meeting",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "International ITI School",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "MOTIVATE Investigators meeting",
+                    "extension": [],
+                    "checked": ""
+                }
+            ],
+            "required": "yes",
+            "extension": "",
+            "name": "dynamic_5"
         },
         {
-          label: "Your Country",
-          inputType: "selection",
-          placeholder: "",
-          option: [
-            {
-              optionLabel: "US",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel: "Canada",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel: "Other",
-              extension: [],
-              checked: "",
-            },
-          ],
-          required: "",
-          extension: "",
-          name: "dynamic_1",
+            "label": "I would like to:",
+            "inputType": "radio",
+            "placeholder": "",
+            "required": "yes",
+            "option": [
+                {
+                    "optionLabel": "Organize my own travel",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Have my travel arranged by the meeting organizers",
+                    "extension": [
+                        {
+                            "label": "Airport of departure",
+                            "name": "dynamic_1",
+                            "inputType": "text",
+                            "placeholder": "Airport of departure",
+                            "option": []
+                        },
+                        {
+                            "label": "Airport of departure",
+                            "name": "dynamic_2",
+                            "inputType": "date",
+                            "placeholder": "",
+                            "option": []
+                        },
+                        {
+                            "label": "Preferred departure time",
+                            "name": "dynamic_3",
+                            "inputType": "radio",
+                            "placeholder": "",
+                            "option": [
+                                {
+                                    "optionLabel": "Morning",
+                                    "extension": [],
+                                    "checked": ""
+                                },
+                                {
+                                    "optionLabel": "Evening",
+                                    "extension": [],
+                                    "checked": ""
+                                },
+                                {
+                                    "optionLabel": "Afternoon",
+                                    "extension": [],
+                                    "checked": ""
+                                }
+                            ]
+                        },
+                        {
+                            "label": "Preferred return flight date",
+                            "name": "dynamic_4",
+                            "inputType": "date",
+                            "placeholder": "",
+                            "option": []
+                        }
+                    ],
+                    "checked": ""
+                }
+            ],
+            "extension": true,
+            "name": "dynamic_0"
         },
         {
-          label: "name",
-          name: "userName",
-          inputType: "text",
-          placeholder: "Please enter name",
-          option: [],
-          required: "",
+            "label": "I consent to:",
+            "inputType": "checkbox",
+            "placeholder": "",
+            "option": [
+                {
+                    "optionLabel": "Be contacted by the MOTIVATE team for the purpose of this meeting*",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Receive future materials from MOTIVATE",
+                    "extension": [],
+                    "checked": ""
+                }
+            ],
+            "required": "yes",
+            "extension": "",
+            "name": "dynamic_6"
         },
         {
-          label: "email",
-          name: "userEmail",
-          inputType: "email",
-          placeholder: "Please enter email",
-          option: [],
-          required: "",
+            "label": "Your Country",
+            "inputType": "selection",
+            "placeholder": "",
+            "option": [
+                {
+                    "optionLabel": "  ",
+                    "extension": [],
+                    "checked": ""
+                }
+            ],
+            "required": "yes",
+            "extension": "",
+            "name": "dynamic_7"
         },
-      ],
+        {
+            "label": "name",
+            "name": "userName",
+            "inputType": "text",
+            "placeholder": "Please enter name",
+            "option": [],
+            "required": ""
+        },
+        {
+            "label": "email",
+            "name": "userEmail",
+            "inputType": "email",
+            "placeholder": "Please enter email",
+            "option": [],
+            "required": ""
+        }
+    ],
     },
     {
       templateId: 3,
@@ -436,27 +369,7 @@ const WebinarRegistration = () => {
           extension: "",
           name: "dynamic_4",
         },
-        {
-          label: "I consent to:",
-          inputType: "checkbox",
-          placeholder: "",
-          option: [
-            {
-              optionLabel:
-                "Being contacted by FVIII Academy organizing team for the purpose of this meeting*",
-              extension: [],
-              checked: "",
-            },
-            {
-              optionLabel: "Receive future materials from the FVIII Academy",
-              extension: [],
-              checked: "",
-            },
-          ],
-          required: "",
-          extension: "",
-          name: "dynamic_5",
-        },
+       
       ],
     },
   ]);
@@ -983,7 +896,7 @@ if(hadData?.event_id && hadData?.company_id){
 
   const saveClicked = async (e) => {
     e.preventDefault();
-
+console.log(formData?.body);
     setFormData(formData);
     try {
       const error = WebinarRegistrationValidation(formData, eventData);

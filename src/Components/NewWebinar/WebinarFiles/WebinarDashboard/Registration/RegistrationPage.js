@@ -231,6 +231,7 @@ const myContent=(
     </TemplateTwo>}  
     
     {(formData?.content?.templateId ===3   || formData?.content?.templateId <=0) &&  <TemplateThree formData={formData}>
+    {myContent}
     </TemplateThree>}
 
    
