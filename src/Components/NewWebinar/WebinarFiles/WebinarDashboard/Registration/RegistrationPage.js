@@ -12,6 +12,7 @@ const userData = {
   name: "userName",
   email: "userEmail",
   country: "country",
+  "Your Country": "country",
   state: "state",
   consent: "consent",
   websiteFolder: "websiteFolder",
@@ -115,7 +116,7 @@ const RegistrationPage = () => {
     const errors = {};
 
     formData?.content?.body?.forEach((form) => {
-      const label = userData[form.label] || form?.label?.replace(/ /g, "_");
+      const label = userData[form.label]?userData[form.label]:form?.label?.replace(/ /g, "_");
       const fieldValue = formFieldData[label];
 
       if (form.required === "yes" && !fieldValue) {

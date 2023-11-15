@@ -97,17 +97,25 @@ const FormField = ({
 
   
   
-    const handleFieldChange = (value) => {
+    const handleFieldChange = (value, e = "") => {
       const newData = { ...formFieldData };
-  
+    
       if (form?.inputType === "datepicker") {
         newData[label] = moment(value).format("YYYY-MM-DD");
+      } else if (form?.inputType === "checkbox") {
+        newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
+    
+        if (e.target.checked) {
+          newData[label] = [...newData[label], value];
+        } else {
+          newData[label] = newData[label].filter((item) => item !== value);
+        }
       } else {
         newData[label] = value;
       }
-  
       setFormFieldData(newData);
     };
+    
   
     if (label?.includes('country') || label?.includes('Country')) {
       form.inputType = "selection-country";
@@ -226,7 +234,7 @@ const FormField = ({
                   name={label}
                   className="organize_own_selection"
                   onChange={(e) => {
-                    handleFieldChange(item.optionLabel);
+                    handleFieldChange(item.optionLabel,e);
                     // console.log(item,"");
                     // console.log();
                     if (!extensionData[label + index]) {

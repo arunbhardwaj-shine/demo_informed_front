@@ -840,7 +840,7 @@ const WebinarRegistration = () => {
             label: isSelectedName,
             name: isSelectedName,
 
-            inputType: "radio",
+            inputType: "checkbox",
             required: "yes",
 
             option: [
