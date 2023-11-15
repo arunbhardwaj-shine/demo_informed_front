@@ -148,4 +148,5 @@ export const ENDPOINT = {
   FORGET: "/auth/forget-password",
   CREATE_WEBINAR_REGISTRATION: "/webinar/create_registration",
   GET_REGISTRATION_FORM: "/webinar/getRegistrationFormByEventId",
+  UPDATELOGS: "/reader/update-logs",
 };
