@@ -1639,7 +1639,7 @@ if(hadData?.event_id && hadData?.company_id){
                                                                                   : extItem?.label?.includes(
                                                                                       "state"
                                                                                     ) ||
-                                                                                    extItem?.label?.include(
+                                                                                    extItem?.label?.includes(
                                                                                       "State"
                                                                                     )
                                                                                   ? stateOptions
@@ -2027,14 +2027,14 @@ if(hadData?.event_id && hadData?.company_id){
                                                                                 extItem?.label?.includes(
                                                                                   "country"
                                                                                 ) ||
-                                                                                extItem?.label?.include(
+                                                                                extItem?.label?.includes(
                                                                                   "Country"
                                                                                 )
                                                                                   ? countryList
                                                                                   : extItem?.label?.includes(
                                                                                       "state"
                                                                                     ) ||
-                                                                                    extItem?.label?.include(
+                                                                                    extItem?.label?.includes(
                                                                                       "State"
                                                                                     )
                                                                                   ? stateOptions
