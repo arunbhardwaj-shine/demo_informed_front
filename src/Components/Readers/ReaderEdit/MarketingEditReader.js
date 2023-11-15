@@ -201,8 +201,16 @@ const MarketingEditReader = () => {
       if (data?.log_activity) {
         if (data?.log_activity != "") {
           let jsonString = data?.log_activity;
+          console.log(jsonString);
           let logs = JSON.parse(jsonString);
-          setLogs(Array.isArray(logs)?logs:logs instanceof Object?[logs]:[])
+          console.log(logs);
+         logs=Array.isArray(logs)?logs:logs instanceof Object?[logs]:[]
+           logs = logs.map((log) => ({
+            ...log,
+            date: moment(log?.date).format("MM/DD/YYYY"),
+          }));
+          console.log(logs);
+          setLogs(logs)
           // note = jsonObject?.value;
           // const dateTime = new Date(jsonObject?.date);
           // let lasttime = formatDate(dateTime);

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import moment from "moment";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const CommonPreviewReader = ({ show, onClose, previewUser, address ,logActivity}) => {
  
   const [commonPreview, setCommonPreview] = useState([]);
-
 
   useEffect(() => {}, [show]);
 
@@ -276,19 +276,14 @@ const CommonPreviewReader = ({ show, onClose, previewUser, address ,logActivity}
               )}
             </h5>
             <h5> <span>Log:</span>
-            {logActivity?
+            {typeof logActivity != 'undefined' && logActivity?.length > 0 ?
                 <div className="log-active">
-            {logActivity?.map((log, index) => (
-                    <div className="log-activity-box"
-                      key={index}
-                    >
-                      <p>{log?.value}</p><p className="date-prev">{log?.date}</p> {" "}
-                      
+                  {logActivity?.map((log, index) => (
+                    <div className="log-activity-box" key={index}>
+                      <p>{log?.value}</p><p className="date-prev">{moment(log?.date).format("DD MMM YYYY")}</p>
                     </div>
                   ))}
-         
-              </div>:"N/A"}
-              
+                </div>:"N/A"}
             </h5></div>
 :<></>}
           </div>
