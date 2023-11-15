@@ -329,6 +329,17 @@ const WebinarRegistration = () => {
     backgroundColor: "",
     totalFieldNo: 0,
     templateId: 0,
+  });  
+  const [originalFormData, setOriginalFormData] = useState({
+    pageTitle: "",
+    bodyText: "",
+    headerImageUrl: "",
+    body: [],
+    footerImageUrl: "",
+    labelColor: "",
+    backgroundColor: "",
+    totalFieldNo: 0,
+    templateId: 0,
   });
   const [eventData, setEventData] = useState({ event_id: "", company_id: "" });
   const [error, setError] = useState({});
@@ -436,6 +447,8 @@ const WebinarRegistration = () => {
         : dynamicFieldNo;
 
       setFormData(newFormData);
+      // console.log(newFormData);
+      setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
       setActiveIndex(newFormData?.templateId? newFormData?.templateId :0)
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
@@ -886,9 +899,16 @@ const WebinarRegistration = () => {
   };
 
   const templateClicked = (template, e) => {
-    setActiveIndex(template?.templateId);
-    let updatedBody = JSON.parse(JSON.stringify(template));
+    if(originalFormData?.templateId==template?.templateId){
+      let updatedBody = JSON.parse(JSON.stringify(originalFormData));
+      setFormData(updatedBody);
+    }
+    else{
+      let updatedBody = JSON.parse(JSON.stringify(template));
     setFormData(updatedBody);
+    }
+    setActiveIndex(template?.templateId);
+    
   };
 
   return (
