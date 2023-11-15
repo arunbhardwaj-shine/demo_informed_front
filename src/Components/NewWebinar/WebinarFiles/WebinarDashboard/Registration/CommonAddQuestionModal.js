@@ -221,6 +221,7 @@ const CommonAddQuestionModal = ({
         className="webinar-registration"
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
+        backdrop="static"
         centered
       >
         <Modal.Header>
