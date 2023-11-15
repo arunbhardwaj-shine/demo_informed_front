@@ -1979,7 +1979,7 @@ const WebinarRegistration = () => {
                                                                                       })
                                                                                     )
                                                                               }
-                                                                              placeholder="Plese select the value"
+                                                                              placeholder="Please select the value"
                                                                             />
                                                                           </div>
                                                                         ) : extItem?.inputType ==
@@ -2133,7 +2133,7 @@ const WebinarRegistration = () => {
                                                                   })
                                                                 )
                                                           }
-                                                          placeholder="Plese select the value"
+                                                          placeholder="Please select the value"
                                                         />
                                                       </div>
                                                     ) : data?.inputType ==
