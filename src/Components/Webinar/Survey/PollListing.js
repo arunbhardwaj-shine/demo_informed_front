@@ -656,7 +656,7 @@ if(!questionObj){
                 <div className="create-change-content question-listing">
                   <div className="top-header reader_list">
                     <div className="page-title">
-                      <h4>Polls</h4>
+                      <h2>Polls</h2>
                     </div>
                   </div>
 

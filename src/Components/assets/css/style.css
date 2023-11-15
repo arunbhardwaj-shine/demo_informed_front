@@ -7361,7 +7361,7 @@ section.search-hcp.smart-list-view {
 }
 
 .top-right-action.full .hcp-sort {
-  gap: 0 15px;
+  gap: 0 24px;
   display: flex;
 }
 
@@ -7370,8 +7370,9 @@ section.search-hcp.smart-list-view {
   -webkit-filter: drop-shadow(0 1px 6px rgba(0, 102, 190, .2));
   filter: drop-shadow(0 1px 6px rgba(0, 102, 190, .2));
   color: var(--skyblue);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 16px;
+  font-weight: 400;
   padding: 10px 12px;
   text-transform: capitalize;
   border: 0;

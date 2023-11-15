@@ -4091,6 +4091,19 @@ input:-webkit-autofill:active {
   color: #024a97;
 }
 
+.consent-form .split-button-dropup div:nth-child(3)>div div {
+  font-size: 16px;
+}
+
+.consent-form .split-button-dropup>div:nth-child(4) {
+  max-height: 220px;
+}
+
+.consent-form .split-button-dropup>div:nth-child(4)>div {
+  max-height: 190px;
+  font-size: 16px;
+}
+
 .motivate_outer .motivation-body .consent-form-inner {
   box-shadow: none;
   border: 0;
@@ -4121,9 +4134,7 @@ footer .footer-inner {
   width: 100%;
   border-radius: 30px;
   padding: 35px 61px 25px;
-  background: -moz-linear-gradient(301.76deg, #74B8B3 19.67%, #263474 67.09%);
-  background: -webkit-linear-gradient(301.76deg, #74B8B3 19.67%, #263474 67.09%);
-  background: linear-gradient(301.76deg, #74B8B3 19.67%, #263474 67.09%);
+  background: #74B8B3;
   position: relative;
 }
 

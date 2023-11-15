@@ -32,6 +32,10 @@ const userData = {
 };
 
 const RegistrationPage = () => {
+  const [username, setUsername] = useState('');
+ const [password, setPassword] = useState('');
+ const [isSubmitted, setIsSubmitted] = useState(false);
+
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
@@ -138,6 +142,14 @@ const RegistrationPage = () => {
   const handleBackClicked = () => {
     navigate("/webinar-registration", { state: prevData });
   };
+  const handleSubmit1 = (event) => {
+    event.preventDefault();
+    setIsSubmitted(true);
+ };
+
+ if (isSubmitted) {
+    return <h2>Welcome {username}!</h2>;
+ }
 const myContent=(
 <>
 
@@ -151,6 +163,16 @@ const myContent=(
       Back
     </button>
   )}
+   <div className="App">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit1}>
+        <label>Username:</label>
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <label>Password:</label>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <button type="submit">Login</button>
+      </form>
+    </div>
 <section className="consent-form">
 
 <div className="container">
