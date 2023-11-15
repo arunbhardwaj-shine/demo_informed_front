@@ -24,7 +24,7 @@ const AddQuestionValidation = (formData, formLabel, fieldData) => {
   }
   if (formData?.option?.length) {
     let index = formData?.option?.findIndex(
-      (data, index) => data?.optionLabel == ""
+      (data, index) => data?.optionLabel?.trim() == ""
     );
     if (index > -1) {
       error.options = "Options can't be empty";

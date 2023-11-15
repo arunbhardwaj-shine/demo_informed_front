@@ -105,14 +105,15 @@ const CommonAddQuestionModal = ({
       );
       const lastTwoItems = formData?.option?.slice(-2);
       const [item1, item2] = lastTwoItems;
-      const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
+      const areLabelsEqual =
+        item1?.optionLabel?.trim() === item2?.optionLabel?.trim();
 
       if (
         formData.option.some(
           (option, i) =>
             i < formData.option.length - 1 &&
-            option.optionLabel ===
-              formData.option[formData.option.length - 1].optionLabel
+            option.optionLabel?.trim() ===
+              formData.option[formData.option.length - 1].optionLabel?.trim()
         )
       ) {
         toast.error("Option can't be the same");
@@ -210,7 +211,7 @@ const CommonAddQuestionModal = ({
     updatedFormData?.splice(index, 1);
 
     setFormData({ ...formData, option: updatedFormData });
-    setError()
+    setError();
   };
   return (
     <>
