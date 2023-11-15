@@ -17029,13 +17029,13 @@ img.change-password-image {
     line-height: 25px;
     color: #004A89;
     width: 100%;
-    margin: 0 0 10px;
+    margin: 0 0 16px;
   }
 
   .select-collected {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px 2%;
+    gap: 20px 3%;
     padding: 0 0 40px;
     margin-bottom: 22px;
     position: relative;
@@ -17060,7 +17060,7 @@ img.change-password-image {
     margin-left: auto;
     display: flex;
     align-items: center;
-    margin: 0 auto;
+    // margin: 0 auto;
     cursor: pointer;
 
     img {
@@ -17393,7 +17393,7 @@ img.change-password-image {
   }
 
   .footer-section {
-    min-height: 300px;
+    min-height: 304px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17842,6 +17842,12 @@ img.change-password-image {
   .pharma-slider .slider .slick-list .slick-track .slick-slide.slick-active .slider-in-view.slide4 .slider-bg-icons img.slide-ellipse4 {
     transform: translate(118px, 359px);
   }
+
+  .registration-right .footer-section,
+  .registration-right .header-section {
+    min-height: 298px;
+  }
+
 }
 
 @media only screen and (max-width: 1500px) {
@@ -18174,6 +18180,24 @@ img.change-password-image {
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-right-sided .slide-right-content h5 {
     margin: 0 0 25px;
   }
+
+  .webinarRegistrationBody #registration-form .form-group>label {
+    padding: 11px 5px 0 0;
+  }
+
+  .create-change-content.register-page .form-group label {
+    padding: 10px 0 0;
+  }
+
+  .registration-right .footer-section,
+  .registration-right .header-section {
+    min-height: 291px;
+  }
+
+  .poll-question .poll-question-create .form-check-inline {
+    min-width: 32%;
+    margin: 0 1.3% 17px 0;
+  }
 }
 
 @media (max-width: $layout-breakpoint-extraLarge) {
@@ -18346,6 +18370,24 @@ img.change-password-image {
 
   .modules-diagram .module-bigger-size .module-register .split-button-dropup>div:nth-child(4) div {
     padding-right: 5px;
+  }
+
+  .create-change-content.register-page .form-group label {
+    flex: 0 0 180px;
+    font-size: 15px;
+  }
+
+  .webinar-checkbox {
+    padding: 14px 16px;
+  }
+
+  .webinar-checkbox label,
+  .feilds-section .add-choice {
+    font-size: 15px;
+  }
+
+  .event_listing .event-title {
+    font-size: 19px;
   }
 }
 
@@ -18536,6 +18578,40 @@ img.change-password-image {
 }
 
 @media only screen and (max-width: 1300px) {
+  .feilds-section h5 {
+    font-size: 18px;
+    margin: 0 0 12px;
+  }
+
+  .webinarRegistrationBody .reg-color-set .form-group .color-pick {
+    height: 38px;
+    min-width: 85px;
+  }
+
+  .registration-right .footer-section,
+  .registration-right .header-section {
+    min-height: 280px;
+  }
+
+  .webinarRegistrationBody .reg-color-set .form-group .color-pick input[type=color] {
+    width: 75px;
+    margin-left: -22px;
+    padding-left: 25px;
+  }
+
+  .webinarRegistrationBody .reg-color-set .form-group .color-pick img {
+    max-width: 19px;
+  }
+
+  .webinar-checkbox label,
+  .feilds-section .add-choice {
+    font-size: 14px;
+  }
+
+  .webinar-checkbox {
+    padding: 14px 13px;
+  }
+
   .landing-banner {
     .landing-block {
       padding: 65px 0 80px;

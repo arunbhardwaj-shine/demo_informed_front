@@ -1276,7 +1276,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "date" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1358,7 +1358,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "selection" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1407,7 +1407,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "textarea" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
