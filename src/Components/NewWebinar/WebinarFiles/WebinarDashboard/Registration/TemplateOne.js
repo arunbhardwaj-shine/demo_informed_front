@@ -12,7 +12,8 @@ export default function TemplateOne({children,formData}) {
     <link rel="stylesheet" href="https://webinar.docintel.app/Webinar/css/login.css?v=1.7" /> */}
     {/*<link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/style.css">*/}
-    <div className="wrapper">
+
+    <div className="wrapper vwd">
       <section className="factor-season">
         <div className="container">
           <div className="row">
