@@ -228,7 +228,6 @@ const MarketingTimeLineDetail = (props) => {
       });
       await getTimeLineStatsData();
       if (Object.keys(timeLineData)?.length) {
-        console.log("First");
         // let newAr = [...timeLineData?.timeline,...res?.data?.data?.timeline]
         const data = {
           timeline: res?.data?.data?.timeline,
@@ -255,9 +254,7 @@ const MarketingTimeLineDetail = (props) => {
             ...log,
             date: moment(log?.date).format("DD MMM YYYY"),
           }));
-          console.log(logs, "logs");
           setLogs(logs);
-
           note = jsonObject?.value;
           const dateTime = new Date(jsonObject?.date);
           let lasttime = formatDate(dateTime);
@@ -470,7 +467,6 @@ const MarketingTimeLineDetail = (props) => {
   };
 
   const handleEditLogs = (index, details) => {
-    console.log(index,details);
     setLogShow(true);
     setLogInputs({
       logActivity: details?.value,
@@ -480,7 +476,6 @@ const MarketingTimeLineDetail = (props) => {
   }
 
   const handleLogsChange = (e, isSelectedName) => {
-    console.log(e,isSelectedName)
     setLogInputs({
       ...logInputs,
       [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -489,7 +484,7 @@ const MarketingTimeLineDetail = (props) => {
     });
   }
 
-  const saveLogs = (e) => {
+  const saveLogs = async(e) => {
     e.preventDefault();
     const error = modelValidation(logInputs);
     if (Object.keys(error)?.length) {
@@ -497,18 +492,22 @@ const MarketingTimeLineDetail = (props) => {
       setError(error);
       return;
     }else{
-      console.log(" NOT errors");
       try{
+        setError({});
+        loader("show");
         let get_index = logInputs?.index;
         let new_date =  moment(logInputs?.logActivityDate).format('MM/DD/YYYY');
         mainLogs[get_index].value = logInputs?.logActivity;
         mainLogs[get_index].date  = new_date;
         let payload = {
-          'logs' : JSON.parse(mainLogs),
+          'logs' : JSON.stringify(mainLogs),
           'userId' : readerId,
         }
-        console.log(payload,"payload")
+        const res = await postData(ENDPOINT.UPDATELOGS, payload);
+        setLogShow(false);
+        getUserTimelineData();
       }catch(err){
+        loader("hide");
         console.log(err);
       }
     }
