@@ -280,7 +280,7 @@ const CommonPreviewReader = ({ show, onClose, previewUser, address ,logActivity}
                 <div className="log-active">
                   {logActivity?.map((log, index) => (
                     <div className="log-activity-box" key={index}>
-                      <p>{log?.value}</p><p className="date-prev">{moment(log?.date).format("DD MMM YYYY")}</p>
+                      <pre>{log?.value}</pre><p className="date-prev">{moment(log?.date).format("DD MMM YYYY")}</p>
                     </div>
                   ))}
                 </div>:"N/A"}
