@@ -312,7 +312,7 @@ const WebinarRegistration = () => {
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
     : "";
- 
+
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
@@ -569,7 +569,6 @@ const WebinarRegistration = () => {
   };
 
   const handleModalSave = (form) => {
-   
     let updateFormBody = formData?.body;
     if (fieldData) {
       updateFormBody[index] = form;
@@ -791,10 +790,8 @@ const WebinarRegistration = () => {
   // };
 
   const saveClicked = async (e) => {
-  
     e.preventDefault();
-   
-   
+
     setFormData(formData);
 
     try {
@@ -1027,7 +1024,7 @@ const WebinarRegistration = () => {
                             onChange={(e) => handleChange(e, "email")}
                           />
 
-                          <Form.Check
+                          {/* <Form.Check
                             className="webinar-checkbox"
                             inline
                             label="Profession"
@@ -1042,7 +1039,7 @@ const WebinarRegistration = () => {
                                 : false
                             }
                             onChange={(e) => handleChange(e, "profession")}
-                          />
+                          /> */}
 
                           <Form.Check
                             className="webinar-checkbox"
