@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Button, Form, FormGroup, FormLabel } from "react-bootstrap";
+import { Col, Row, Button, Form, FormGroup, FormLabel, Modal } from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
 import Select from "react-select";
@@ -20,8 +20,44 @@ let dynamicFieldNo = 0;
 
 const WebinarRegistration = () => {
   const [templateList, setTemplateList] = useState([
+    
     {
       templateId: 1,
+      pageTitle: "To register please fill in all your details below.",
+      bodyText: "",
+      headerImageUrl: "",
+      footerImageUrl: "",
+      labelColor: "",
+      backgroundColor: "",
+      body: [
+        {
+          name: "country",
+          label: "Your Country",
+          inputType: "selection",
+          placeholder: "Please enter country",
+          option: [],
+          required: "Yes",
+        },
+        {
+          label: "name",
+          name: "userName",
+          inputType: "text",
+          placeholder: "Please enter name",
+          option: [],
+          required: "Yes",
+        },
+        {
+          label: "email",
+          name: "userEmail",
+          inputType: "email",
+          placeholder: "Please enter email",
+          option: [],
+          required: "Yes",
+        },
+      ],
+    },
+    {
+      templateId: 2,
       pageTitle:
         "To register please select and fill in all your details below.",
       bodyText: "",
@@ -31,74 +67,95 @@ const WebinarRegistration = () => {
       backgroundColor: "",
       body: [
         {
-          label: "I will attend:",
+          label: "i will attend:",
           inputType: "radio",
           placeholder: "",
-          required: "yes",
           option: [
             {
               optionLabel:
                 "Both, International ITI School & MOTIVATE Investigators meeting",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel: "International ITI School",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel: "MOTIVATE Investigators meeting",
+              extension: [],
+              checked: "",
             },
           ],
-          name: "i will attend:",
+          required: "",
+          extension: false,
+          name: "dynamic_8",
         },
         {
-          label: "travel accomodation",
+          label: "I would like to:",
           inputType: "radio",
+          placeholder: "",
           option: [
             {
               optionLabel: "Organize my own travel",
               extension: [],
+              checked: "",
             },
             {
               optionLabel: "Have my travel arranged by the meeting organizers",
               extension: [
                 {
-                  name: "departure",
                   label: "Airport of departure",
+                  name: "dynamic_10",
                   inputType: "text",
                   placeholder: "Airport of departure",
+                  option: [],
                 },
                 {
-                  name: "air_departure_date",
                   label: "Preferred departure date",
-                  inputType: "datepicker",
-                  placeholder: "dd-mm-yyyy",
+                  name: "dynamic_11",
+                  inputType: "date",
+                  placeholder: "",
+                  option: [],
                 },
                 {
-                  name: "departure_time",
                   label: "Preferred departure time",
+                  name: "dynamic_12",
                   inputType: "radio",
+                  placeholder: "",
                   option: [
                     {
                       optionLabel: "Morning",
+                      extension: [],
+                      checked: "",
                     },
                     {
                       optionLabel: "Afternoon",
+                      extension: [],
+                      checked: "",
                     },
                     {
                       optionLabel: "Evening",
+                      extension: [],
+                      checked: "",
                     },
                   ],
                 },
                 {
-                  name: "air_return_date",
                   label: "Preferred return flight date",
-                  inputType: "datepicker",
-                  placeholder: "dd-mm-yyyy",
+                  name: "dynamic_13",
+                  inputType: "date",
+                  placeholder: "",
+                  option: [],
                 },
               ],
+              checked: "",
             },
           ],
-          required: "yes",
-          name: "travel accomodation",
+          required: "",
+          extension: true,
+          name: "dynamic_9",
         },
         {
           label: "I consent to:",
@@ -108,21 +165,43 @@ const WebinarRegistration = () => {
             {
               optionLabel:
                 "Be contacted by the MOTIVATE team for the purpose of this meeting*",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel: "Receive future materials from MOTIVATE",
+              extension: [],
+              checked: "",
             },
           ],
-          required: "yes",
-          name: "i consent to:",
+          required: "",
+          extension: false,
+          name: "dynamic_14",
         },
         {
-          name: "country",
           label: "Your Country",
           inputType: "selection",
-          placeholder: "Please enter country",
-          option: [],
-          required: "Yes",
+          placeholder: "",
+          option: [
+            {
+              optionLabel: "US",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Canada",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Other",
+              extension: [],
+              checked: "",
+            },
+          ],
+          required: "",
+          extension: "",
+          name: "dynamic_16",
         },
         {
           label: "name",
@@ -138,7 +217,7 @@ const WebinarRegistration = () => {
           inputType: "email",
           placeholder: "Please enter email",
           option: [],
-          required: "Yes",
+          required: "",
         },
       ],
     },
@@ -152,12 +231,57 @@ const WebinarRegistration = () => {
       backgroundColor: "",
       body: [
         {
-          name: "country",
-          label: "You Country",
+          label: "I consent to",
+          inputType: "checkbox",
+          placeholder: "",
+          required: "yes",
+          option: [
+            {
+              optionLabel:
+                "my participation during the live webinar being recorded for live streaming and on-demand use*",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel:
+                "receive future digital library materials (these may be of a promotional nature)",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel:
+                "invites for future Octapharma haematology events (these may be promotional events)",
+              extension: [],
+              checked: "",
+            },
+          ],
+          extension: "",
+          name: "dynamic_0",
+        },
+        {
+          label: "Your Country",
           inputType: "selection",
-          placeholder: "Please enter country",
-          option: [],
-          required: "Yes",
+          placeholder: "",
+          option: [
+            {
+              optionLabel: "US",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Canada",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Other",
+              extension: [],
+              checked: "",
+            },
+          ],
+          required: "",
+          extension: "",
+          name: "dynamic_1",
         },
         {
           label: "name",
@@ -165,7 +289,7 @@ const WebinarRegistration = () => {
           inputType: "text",
           placeholder: "Please enter name",
           option: [],
-          required: "Yes",
+          required: "",
         },
         {
           label: "email",
@@ -173,7 +297,7 @@ const WebinarRegistration = () => {
           inputType: "email",
           placeholder: "Please enter email",
           option: [],
-          required: "Yes",
+          required: "",
         },
       ],
     },
@@ -204,12 +328,29 @@ const WebinarRegistration = () => {
           required: "",
         },
         {
-          name: "country",
-          label: "country",
+          label: "Your Country",
           inputType: "selection",
-          placeholder: "Please enter country",
-          option: [],
+          placeholder: "",
           required: "",
+          option: [
+            {
+              optionLabel: "US",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Canada",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Other",
+              extension: [],
+              checked: "",
+            },
+          ],
+          extension: "",
+          name: "dynamic_0",
         },
         {
           label: "I will attend:",
@@ -219,13 +360,18 @@ const WebinarRegistration = () => {
             {
               optionLabel:
                 "Both Factor VIII Relevance Academy and EAHAD congress",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel: "Factor VIII Relevance Academy only",
+              extension: [],
+              checked: "",
             },
           ],
-          required: "no",
-          name: "i will attend:",
+          required: "",
+          extension: "",
+          name: "dynamic_1",
         },
         {
           label:
@@ -237,20 +383,25 @@ const WebinarRegistration = () => {
               optionLabel: "Yes",
               extension: [
                 {
-                  name: "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
-                  // "label": "Airport of departure",
+                  label: " ",
+                  name: "dynamic_3",
                   inputType: "text",
                   placeholder:
                     "In case you have any dietary restrictions or allergies please specify here",
+                  option: [],
                 },
               ],
+              checked: "",
             },
             {
               optionLabel: "No",
+              extension: [],
+              checked: "",
             },
           ],
-          required: "no",
-          name: "i will join the factor viii relevance academy dinner (5th feb) :",
+          required: "",
+          extension: true,
+          name: "dynamic_2",
         },
         {
           label: "I would like to:",
@@ -259,22 +410,31 @@ const WebinarRegistration = () => {
           option: [
             {
               optionLabel: "Organize my own accomodation",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel:
                 "Have my accommodation organized for 1 night on the 4th of Feb",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel:
                 "Have my accommodation organized for 1 night only on the 5th of Feb",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel:
-                "Have my accommodation organized for 1 night only on the 5th of Feb",
+                "Have my accommodation organized for 2 nights (4th and 5th Feb)",
+              extension: [],
+              checked: "",
             },
           ],
-          required: "no",
-          name: "i would like to:",
+          required: "",
+          extension: "",
+          name: "dynamic_4",
         },
         {
           label: "I consent to:",
@@ -284,18 +444,24 @@ const WebinarRegistration = () => {
             {
               optionLabel:
                 "Being contacted by FVIII Academy organizing team for the purpose of this meeting*",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel: "Receive future materials from the FVIII Academy",
+              extension: [],
+              checked: "",
             },
           ],
-          required: "no",
-          name: "i consent to:",
+          required: "",
+          extension: "",
+          name: "dynamic_5",
         },
       ],
     },
   ]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPrevClicked, setIsPrevClicked] = useState(false);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
   const responsive = {
@@ -312,7 +478,8 @@ const WebinarRegistration = () => {
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
     : "";
- 
+
+
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
@@ -327,8 +494,20 @@ const WebinarRegistration = () => {
     backgroundColor: "",
     totalFieldNo: 0,
     templateId: 0,
+  });  
+  const [originalFormData, setOriginalFormData] = useState({
+    pageTitle: "",
+    bodyText: "",
+    headerImageUrl: "",
+    body: [],
+    footerImageUrl: "",
+    labelColor: "",
+    backgroundColor: "",
+    totalFieldNo: 0,
+    templateId: 0,
   });
-  const [eventData, setEventData] = useState({ event_id: "", company_id: "" });
+
+  const [eventData, setEventData] = useState({ event_id:  location?.state?.id, company_id:  location?.state?.user_id});
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
   const [errorMsg, setErrorMsg] = useState("");
@@ -422,19 +601,23 @@ const WebinarRegistration = () => {
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
       const hadData = response?.data?.data;
-
-      setEventData({
-        ...eventData,
-        event_id: hadData?.event_id,
-        company_id: hadData?.company_id,
-      });
+if(hadData?.event_id && hadData?.company_id){
+  setEventData({
+    ...eventData,
+    event_id: hadData?.event_id,
+    company_id: hadData?.company_id,
+  });
+}
+     
       const newFormData = hadData?.content ? JSON.parse(hadData?.content) : [];
       dynamicFieldNo = newFormData?.totalFieldNo
         ? newFormData?.totalFieldNo
         : dynamicFieldNo;
 
       setFormData(newFormData);
-
+      // console.log(newFormData);
+      setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
+      setActiveIndex(newFormData?.templateId? newFormData?.templateId :0)
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
     } catch (err) {
@@ -456,6 +639,7 @@ const WebinarRegistration = () => {
           value: item?.id,
           label: item?.title,
           code: item?.event_code,
+          companyId: item?.user_id,
         }));
         setDropDownData(dropDownDataTemp);
         let index = 0;
@@ -477,8 +661,16 @@ const WebinarRegistration = () => {
   };
 
   const handleSelectChange = async (event) => {
+    // console.log(event);
     await getWebinarData(event.code);
     setSelectedItem(event);
+    if(event?.id && event?.user_id){
+      setEventData({
+        ...eventData,
+        event_id: event?.id,
+        company_id: event?.user_id,
+      });
+    }
   };
 
   const handleFileSelect = (e, isSelectedName) => {
@@ -569,7 +761,6 @@ const WebinarRegistration = () => {
   };
 
   const handleModalSave = (form) => {
-   
     let updateFormBody = formData?.body;
     if (fieldData) {
       updateFormBody[index] = form;
@@ -791,12 +982,9 @@ const WebinarRegistration = () => {
   // };
 
   const saveClicked = async (e) => {
-  
     e.preventDefault();
-   
-   
-    setFormData(formData);
 
+    setFormData(formData);
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
       if (Object.keys(error)?.length) {
@@ -815,39 +1003,45 @@ const WebinarRegistration = () => {
         companyId: eventData?.company_id,
         content: JSON.stringify(formData),
       };
+      console.log(eventData);
       const response = await postData(
         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
         data
       );
-      setFormData({
-        pageTitle: "",
-        bodyText: "",
-        headerImageUrl: "",
-        body: [],
-        footerImageUrl: "",
-        labelColor: "",
-        backgroundColor: "",
-      });
+      // setFormData({
+      //   pageTitle: "",
+      //   bodyText: "",
+      //   headerImageUrl: "",
+      //   body: [],
+      //   footerImageUrl: "",
+      //   labelColor: "",
+      //   backgroundColor: "",
+      // });
 
-      setEventData({ event_id: "", company_id: "" });
-      setFile("");
-      setFoot("");
+      // // setEventData({ event_id: "", company_id: "" });
+      // setFile("");
+      // setFoot("");
     } catch (err) {
       console.error("--err", err);
     } finally {
       loader("hide");
     }
-    navigate("/event-listing");
+    // navigate("/event-listing");
   };
 
   const handlePreview = (e, index) => {
+    setIsPrevClicked(true)
     let prevObj = {
       eventId: eventData?.event_id,
       companyId: eventData?.company_id,
       content: formData,
     };
-    navigate("/event-registration", { state: prevObj });
+    // navigate("/event-registration", { state: prevObj });
   };
+  const handleClose=()=>{
+    setIsPrevClicked(false)
+
+  }
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);
   };
@@ -882,9 +1076,16 @@ const WebinarRegistration = () => {
   };
 
   const templateClicked = (template, e) => {
-    setActiveIndex(template?.templateId);
-    let updatedBody = JSON.parse(JSON.stringify(template));
+    if(originalFormData?.templateId==template?.templateId){
+      let updatedBody = JSON.parse(JSON.stringify(originalFormData));
+      setFormData(updatedBody);
+    }
+    else{
+      let updatedBody = JSON.parse(JSON.stringify(template));
     setFormData(updatedBody);
+    }
+    setActiveIndex(template?.templateId);
+    
   };
 
   return (
@@ -1027,7 +1228,7 @@ const WebinarRegistration = () => {
                             onChange={(e) => handleChange(e, "email")}
                           />
 
-                          <Form.Check
+                          {/* <Form.Check
                             className="webinar-checkbox"
                             inline
                             label="Profession"
@@ -1042,7 +1243,7 @@ const WebinarRegistration = () => {
                                 : false
                             }
                             onChange={(e) => handleChange(e, "profession")}
-                          />
+                          /> */}
 
                           <Form.Check
                             className="webinar-checkbox"
@@ -1327,7 +1528,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "date" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1409,7 +1610,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "selection" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1438,7 +1639,7 @@ const WebinarRegistration = () => {
                                                                                   : extItem?.label?.includes(
                                                                                       "state"
                                                                                     ) ||
-                                                                                    extItem?.label?.include(
+                                                                                    extItem?.label?.includes(
                                                                                       "State"
                                                                                     )
                                                                                   ? stateOptions
@@ -1458,7 +1659,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "textarea" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1826,14 +2027,14 @@ const WebinarRegistration = () => {
                                                                                 extItem?.label?.includes(
                                                                                   "country"
                                                                                 ) ||
-                                                                                extItem?.label?.include(
+                                                                                extItem?.label?.includes(
                                                                                   "Country"
                                                                                 )
                                                                                   ? countryList
                                                                                   : extItem?.label?.includes(
                                                                                       "state"
                                                                                     ) ||
-                                                                                    extItem?.label?.include(
+                                                                                    extItem?.label?.includes(
                                                                                       "State"
                                                                                     )
                                                                                   ? stateOptions
@@ -2299,6 +2500,46 @@ const WebinarRegistration = () => {
         extensionData={extFieldData}
         dynamicFieldNo={dynamicFieldNo}
       />
+    
+    {isPrevClicked && (
+        <Modal
+        show={isPrevClicked}
+        onHide={handleClose}
+        id="add_hcp"
+        className="event_edit"
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <div className="modal-header">
+            <h5 className="modal-title" id="staticBackdropLabel">
+Preview            </h5>
+            <button
+              type="button"
+              onClick={handleClose}
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+        </Modal.Header>
+        <Modal.Body>
+         <>
+         {/* <p>You are previewing the  saved data .</p> */}
+
+         <iframe
+          src={`/event-registration?event=${event_code}`}
+          width="100%"
+          height="500px"
+          title="Event Registration"
+        />
+         </>
+       </Modal.Body>
+     </Modal>
+        
+      )
+    }
     </>
   );
 };

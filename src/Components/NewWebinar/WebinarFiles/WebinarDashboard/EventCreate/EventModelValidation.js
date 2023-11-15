@@ -39,6 +39,9 @@ const EventModelValidation = (data) => {
   if (!data?.speaker_email) {
     error.speaker_email = "Please enter speaker email";
   }
+  if (!data?.meeting_type) {
+    error.meeting_type = "Please select meeting type";
+  }
 
   if (
     data?.speaker_email &&
@@ -46,7 +49,7 @@ const EventModelValidation = (data) => {
   ) {
     error.speaker_email = "Speaker email required with email pattern";
   }
-  console.log(error,"error");
+  
   return error;
 };
 export default EventModelValidation;

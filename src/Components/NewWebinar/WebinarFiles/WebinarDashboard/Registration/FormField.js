@@ -3,11 +3,13 @@ import CountryList from "./CountryList";
 import DatePicker from "react-datepicker";
 import { useState } from "react";
 import Select from "react-select";
+import { Ee } from "react-flags-select";
 
 const userData = {
   name: "userName",
   email: "userEmail",
   country: "country",
+  "Your Country": "country",
   state: "state",
   consent: "consent",
   websiteFolder: "websiteFolder",
@@ -24,6 +26,8 @@ const userData = {
   "Preferred departure date": "air_departure_date",
   "Preferred departure time": "departure_time",
   "Preferred return flight date": "air_return_date",
+  'I consent to:': "consent",
+
 
 };
 const FormField = ({
@@ -33,15 +37,18 @@ const FormField = ({
     formErrors,
     pageColors,
     level,
+    templateId
   }) => {
-    // console.log(form);
+
     const [countryList, setCountryList] = useState(CountryList);
     const [extensionData, setExtensionData] = useState({});
     const label = userData[form.label]?userData[form.label]:form?.label?.replace(/ /g, "_");
+    console.log(templateId);
   
   
     const handleFieldChange = (value) => {
       const newData = { ...formFieldData };
+      console.log(newData);
   
       if (form?.inputType === "datepicker") {
         newData[label] = moment(value).format("YYYY-MM-DD");
@@ -52,7 +59,7 @@ const FormField = ({
       setFormFieldData(newData);
     };
   
-    if (label?.includes('country')) {
+    if (label?.includes('country') || label?.includes('Country')) {
       form.inputType = "selection-country";
     }
   
@@ -101,7 +108,7 @@ const FormField = ({
           }}
         />
       );
-    } else if (form.inputType === "checkbox" || form.inputType === "radio") {
+    } else if ( form.inputType === "radio") {
       fieldInput = (
         <ul>
           {form.option?.map((item, index) => (
@@ -116,7 +123,7 @@ const FormField = ({
                   className="organize_own_selection"
                   onChange={() => {
                     handleFieldChange(item.optionLabel);
-                    console.log(extensionData,form);
+                    console.log(extensionData);
                     // if (item.extension) {
                       setExtensionData({
                         [item.optionLabel]: item.extension? item.extension:[],
@@ -137,6 +144,64 @@ const FormField = ({
               </li>
               {extensionData[item.optionLabel]?.length > 0 &&
                 extensionData[item.optionLabel]?.map((opt, i) => (
+                  <FormField
+                    form={opt}
+                    key={i}
+                    formFieldData={formFieldData}
+                    setFormFieldData={setFormFieldData}
+                    formErrors={formErrors}
+                    pageColors={pageColors}
+                    level={form.label}
+                  />
+                ))}
+            </>
+          ))}
+        </ul>
+      );
+    } 
+    else if (form.inputType === "checkbox" ) {
+      fieldInput = (
+        <ul>
+          {form.option?.map((item, index) => (
+            <>
+              <li key={index}>
+                {/* {console.log(item,"oppppp")} */}
+  
+                <input
+                  type={form.inputType}
+                  id={label + index}
+                  name={label}
+                  className="organize_own_selection"
+                  onChange={(e) => {
+                    handleFieldChange(item.optionLabel);
+                    // console.log(item,"");
+                    // console.log();
+                    if (!extensionData[label + index]) {
+                      setExtensionData({
+                        ...extensionData,
+                        [label + index]: item.extension ? item.extension : [],
+                      });
+                    } else {
+                      const updatedExtensionData = { ...extensionData };
+                      delete updatedExtensionData[label + index];
+                      setExtensionData(updatedExtensionData);
+                    }
+                    
+                  }}
+                />
+                <label
+                  style={{
+                    textTransform: "capitalize",
+                    color: pageColors?.labelColor,
+                  }}
+                  htmlFor={label + index}
+                >
+                  {item.optionLabel}
+                </label>
+                <span className="checkmark" />
+              </li>
+              {extensionData[label + index]?.length > 0 &&
+                extensionData[label + index]?.map((opt, i) => (
                   <FormField
                     form={opt}
                     key={i}
