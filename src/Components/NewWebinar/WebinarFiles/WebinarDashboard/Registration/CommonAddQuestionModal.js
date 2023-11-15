@@ -210,6 +210,7 @@ const CommonAddQuestionModal = ({
     updatedFormData?.splice(index, 1);
 
     setFormData({ ...formData, option: updatedFormData });
+    setError()
   };
   return (
     <>
