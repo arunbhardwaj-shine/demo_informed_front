@@ -10,6 +10,7 @@ const CommonAddQuestionModal = ({
   handleSave,
   formLabel,
   fieldData,
+  dynamicFieldNo,
 }) => {
   const [inputOptions, setInputOption] = useState([
     { label: "Text", value: "text" },
@@ -32,13 +33,17 @@ const CommonAddQuestionModal = ({
     extension: "",
   });
   const [error, setError] = useState({});
+
   useEffect(() => {
     if (fieldData) {
       let editFormData = fieldData;
       setFormData(editFormData);
     }
   }, [show]);
+
   const handleClose = () => {
+    console.log(fieldData,'===>fieldData')
+    console.log(formData,'===>formData')
     setFormData({
       label: "",
       inputType: "",
@@ -50,6 +55,7 @@ const CommonAddQuestionModal = ({
     onClose(false);
     setError();
   };
+
   const handleChange = (e, isSelectedName, index) => {
     if (isSelectedName == "optionValue") {
       let updateOption = formData?.option;
@@ -88,26 +94,12 @@ const CommonAddQuestionModal = ({
     e.preventDefault();
 
     const error = RegistrationValidation(formData, formLabel, fieldData);
-
-    if (Object.keys(error)?.length) {
-      // toast.error(error[Object.keys(error)[0]]);
-      setError(error);
-      return;
-    } else {
-      console.log({...formData,name:formData?.label});
-      handleSave({...formData,name:formData?.label?.toLowerCase()});
-      handleClose();
-      setError();
-    }
-  };
-  const AddOptions = (e) => {
-    e.preventDefault();
     let optionObj = {
       optionLabel: "",
       extension: [],
       checked: "",
     };
-
+   
     if (formData?.option?.length) {
       let index = formData?.option?.findIndex(
         (data, index) => data?.optionLabel == ""
@@ -115,11 +107,85 @@ const CommonAddQuestionModal = ({
       const lastTwoItems = formData?.option?.slice(-2);
       const [item1, item2] = lastTwoItems;
       const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
-      if (index > -1) {
+   
+      if (formData.option.some((option, i) => i < formData.option.length - 1 && option.optionLabel === formData.option[formData.option.length - 1].optionLabel)) {
+        toast.error("Option can't be the same");
+        return;
+      } 
+       else if (areLabelsEqual) {
+        toast.error("Option can't be the same");
+        return;
+      } 
+    }
+    
+    if (Object.keys(error)?.length) {
+      // toast.error(error[Object.keys(error)[0]]);
+      toast.error(error.option)
+      console.log(error)
+      setError(error);
+      return;
+    } else {
+      console.log({...formData,name:formData?.label});
+      handleSave({ ...formData, name: `dynamic_${dynamicFieldNo}` });
+      handleClose();
+      setError();
+    }
+  };
+  // const AddOptions = (e) => {
+  //   e.preventDefault();
+  //   let optionObj = {
+  //     optionLabel: "",
+  //     extension: [],
+  //     checked: "",
+  //   };
+
+  //   if (formData?.option?.length) {
+  //     let index = formData?.option?.findIndex(
+  //       (data, index) => data?.optionLabel == ""
+  //     );
+  //     const lastTwoItems = formData?.option?.slice(-2);
+  //     const [item1, item2] = lastTwoItems;
+  //     const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
+  //     if (index > -1) {
+  //       toast.error(`Please fill the option ${index + 1}`);
+  //       return;
+  //     } else if (item1?.optionLabel === item2?.optionLabel) {
+  //       toast.error("Option can't be same");
+  //       return;
+  //     } else {
+  //       setFormData({ ...formData, option: [...formData?.option, optionObj] });
+  //     }
+  //   } else {
+  //     setFormData({ ...formData, option: [...formData?.option, optionObj] });
+  //   }
+  // };
+
+  const AddOptions = (e) => {
+    e.preventDefault();
+    let optionObj = {
+      optionLabel: "",
+      extension: [],
+      checked: "",
+    };
+   
+    if (formData?.option?.length) {
+      let index = formData?.option?.findIndex(
+        (data, index) => data?.optionLabel == ""
+      );
+      const lastTwoItems = formData?.option?.slice(-2);
+      const [item1, item2] = lastTwoItems;
+      const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
+
+      if (formData.option.some((option, i) => i < formData.option.length - 1 && option.optionLabel === formData.option[formData.option.length - 1].optionLabel)) {
+        toast.error("Option can't be the same");
+        return;
+      } 
+      else if (index > -1) {
         toast.error(`Please fill the option ${index + 1}`);
         return;
-      } else if (item1?.optionLabel === item2?.optionLabel) {
-        toast.error("Option can't be same");
+      }
+       else if (areLabelsEqual) {
+        toast.error("Option can't be the same");
         return;
       } else {
         setFormData({ ...formData, option: [...formData?.option, optionObj] });
@@ -128,6 +194,7 @@ const CommonAddQuestionModal = ({
       setFormData({ ...formData, option: [...formData?.option, optionObj] });
     }
   };
+  
   const deleteOption = (e, index) => {
     e.preventDefault();
     let updatedFormData = formData?.option;
@@ -293,14 +360,14 @@ const CommonAddQuestionModal = ({
                                       }`}</label>
                                       <input
                                         className={
-                                          error?.option && error?.index == index
+                                          error?.option && error?.index == index || error?.options && error?.index == index
                                             ? "form-control error"
                                             : "form-control"
                                         }
                                         type="text"
                                         placeholder="Enter option"
                                         value={
-                                          formData?.option[item]?.optionLabel
+                                          formData?.option[item]?.optionLabel 
                                         }
                                         onChange={(e) =>
                                           handleChange(e, "optionValue", index)
@@ -310,6 +377,14 @@ const CommonAddQuestionModal = ({
                                       error?.index == index ? (
                                         <div className="login-validation">
                                           {error?.option}
+                                        </div>
+                                      ) : (
+                                        ""
+                                      )}
+                                       {error?.options &&
+                                      error?.index == index ? (
+                                        <div className="login-validation">
+                                          {error?.options}
                                         </div>
                                       ) : (
                                         ""

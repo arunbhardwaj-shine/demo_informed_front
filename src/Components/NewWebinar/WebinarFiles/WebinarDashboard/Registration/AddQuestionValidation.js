@@ -27,7 +27,7 @@ const AddQuestionValidation = (formData, formLabel, fieldData) => {
       (data, index) => data?.optionLabel == ""
     );
     if (index > -1) {
-      error.option = "Options can't be empty";
+      error.options = "Options can't be empty";
       error.index = index;
     }
   }

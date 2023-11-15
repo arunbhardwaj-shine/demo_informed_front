@@ -92,13 +92,14 @@ const RegistrationPage = () => {
     if (isValid) {
       loader("show");
       try {
+        let raw=formData?.raw_description
         const response = await postData("https://webinar.docintel.app/flow/apis/register", {
           ...formFieldData,
           companyId: formData?.company_id,
           eventId: formData?.event_id,
-          speaker: formData?.raw_description?.speaker_name,
-          companyEmail: formData?.raw_description?.speaker_email,
-          virtual_or_live: "Live",
+          speaker: raw?.speaker_name,
+          companyEmail: raw?.speaker_email,
+          virtual_or_live: raw?.meeting_type,
           websiteFolder: "new_webinar",
         });
         console.log(response);
@@ -226,7 +227,7 @@ const myContent=(
      {myContent}
     </TemplateTwo>}  
     
-    {formData?.content?.templateId >=3  && formData?.content?.templateId <=0   &&  <TemplateThree formData={formData}>
+    {formData?.content?.templateId ===3   && formData?.content?.templateId <=0 &&  <TemplateThree formData={formData}>ww
      {myContent}
     </TemplateThree>}
 

@@ -16,11 +16,48 @@ import AliceCarousel from "react-alice-carousel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let dynamicFieldNo = 0;
 
 const WebinarRegistration = () => {
   const [templateList, setTemplateList] = useState([
+    
     {
       templateId: 1,
+      pageTitle: "To register please fill in all your details below.",
+      bodyText: "",
+      headerImageUrl: "",
+      footerImageUrl: "",
+      labelColor: "",
+      backgroundColor: "",
+      body: [
+        {
+          name: "country",
+          label: "Your Country",
+          inputType: "selection",
+          placeholder: "Please enter country",
+          option: [],
+          required: "Yes",
+        },
+        {
+          label: "name",
+          name: "userName",
+          inputType: "text",
+          placeholder: "Please enter name",
+          option: [],
+          required: "Yes",
+        },
+        {
+          label: "email",
+          name: "userEmail",
+          inputType: "email",
+          placeholder: "Please enter email",
+          option: [],
+          required: "Yes",
+        },
+      ],
+    },
+    {
+      templateId: 2,
       pageTitle:
         "To register please select and fill in all your details below.",
       bodyText: "",
@@ -130,41 +167,6 @@ const WebinarRegistration = () => {
           placeholder: "Please enter name",
           option: [],
           required: "",
-        },
-        {
-          label: "email",
-          name: "userEmail",
-          inputType: "email",
-          placeholder: "Please enter email",
-          option: [],
-          required: "Yes",
-        },
-      ],
-    },
-    {
-      templateId: 2,
-      pageTitle: "To register please fill in all your details below.",
-      bodyText: "",
-      headerImageUrl: "",
-      footerImageUrl: "",
-      labelColor: "",
-      backgroundColor: "",
-      body: [
-        {
-          name: "country",
-          label: "Your Country",
-          inputType: "selection",
-          placeholder: "Please enter country",
-          option: [],
-          required: "Yes",
-        },
-        {
-          label: "name",
-          name: "userName",
-          inputType: "text",
-          placeholder: "Please enter name",
-          option: [],
-          required: "Yes",
         },
         {
           label: "email",
@@ -325,6 +327,8 @@ const WebinarRegistration = () => {
     footerImageUrl: "",
     labelColor: "",
     backgroundColor: "",
+    totalFieldNo: 0,
+    templateId: 0,
   });
   const [eventData, setEventData] = useState({ event_id: "", company_id: "" });
   const [error, setError] = useState({});
@@ -335,7 +339,60 @@ const WebinarRegistration = () => {
   const [extIndex, setExtIndex] = useState();
   const [fieldData, setFieldData] = useState();
   const [formExtLabel, setFormExtLabel] = useState([]);
-  const [extFieldData, setExtFieldData] = useState({});
+  const [extFieldData, setExtFieldData] = useState();
+  const [stateOptions, setStateOptions] = useState([
+    { label: "Alabama", value: "Alabama" },
+    { label: "Alaska", value: "Alaska" },
+    { label: "Arizona", value: "Arizona" },
+    { label: "Arkansas", value: "Arkansas" },
+    { label: "California", value: "California" },
+    { label: "Colorado", value: "Colorado" },
+    { label: "Connecticut", value: "Connecticut" },
+    { label: "Delaware", value: "Delaware" },
+    { label: "Florida", value: "Florida" },
+    { label: "Georgia", value: "Georgia" },
+    { label: "Hawaii", value: "Hawaii" },
+    { label: "Ldaho", value: "Ldaho" },
+    { label: "Illinois", value: "Illinois" },
+    { label: "Indiana", value: "Indiana" },
+    { label: "Lowa", value: "Lowa" },
+    { label: "Kansas", value: "Kansas" },
+    { label: "Kentucky", value: "Kentucky" },
+    { label: "Louisiana", value: "Louisiana" },
+    { label: "Maine", value: "Maine" },
+    { label: "Maryland", value: "Maryland" },
+    { label: "Massachusetts", value: "Massachusetts" },
+    { label: "Michigan", value: "Michigan" },
+    { label: "Minnesota", value: "Minnesota" },
+    { label: "Mississippi", value: "Mississippi" },
+    { label: "Missouri", value: "Missouri" },
+    { label: "Montana", value: "Montana" },
+    { label: "Nebraska", value: "Nebraska" },
+    { label: "Nevada", value: "Nevada" },
+    { label: "New Hampshire", value: "New Hampshire" },
+    { label: "New Jersey", value: "New Jersy" },
+    { label: "New Mexico", value: "New Mexico" },
+    { label: "New York", value: "New York" },
+    { label: "North Carolina", value: "North Carolina" },
+    { label: "North Dakota", value: "North Dakota" },
+    { label: "Ohio", value: "Ohio" },
+    { label: "Oklahoma", value: "Oklahoma" },
+    { label: "Oregon", value: "Oregon" },
+    { label: "Pennsylvania", value: "Pennsylvania" },
+    { label: "Rhode Island", value: "Rhode Island" },
+    { label: "South Carolina", value: "South Carolina" },
+    { label: "South Dakota", value: "South Dakota" },
+    { label: "Tennessee", value: "Tennessee" },
+    { label: "Texas", value: "Texas" },
+    { label: "Utah", value: "Utah" },
+    { label: "Vermont", value: "Vermont" },
+    { label: "Wyoming", value: "Wyoming" },
+    { label: "Wisconsin", value: "Wisconsin" },
+    { label: "West Virginia", value: "West Virginia" },
+    { label: "Washington", value: "Washington" },
+    { label: "Virginia", value: "Virginia" },
+  ]);
+  // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
     if (prevData?.content) {
@@ -369,6 +426,9 @@ const WebinarRegistration = () => {
         company_id: hadData?.company_id,
       });
       const newFormData = JSON.parse(hadData?.content);
+      dynamicFieldNo = newFormData?.totalFieldNo
+        ? newFormData?.totalFieldNo
+        : dynamicFieldNo;
 
       setFormData(newFormData);
 
@@ -469,14 +529,18 @@ const WebinarRegistration = () => {
   };
 
   const handleModalSave = (form) => {
-    console.log("model save form-->", form);
     let updateFormBody = formData?.body;
     if (fieldData) {
       updateFormBody[index] = form;
     } else {
       updateFormBody.push(form);
     }
-    setFormData({ ...formData, body: updateFormBody });
+    dynamicFieldNo = dynamicFieldNo + 1;
+    setFormData({
+      ...formData,
+      body: updateFormBody,
+      totalFieldNo: dynamicFieldNo,
+    });
   };
 
   const editFieldData = (e, index) => {
@@ -515,15 +579,18 @@ const WebinarRegistration = () => {
   };
 
   const handleExtensionModalSave = (form) => {
-    console.log("extension1--->", form);
-
     let newExtension = formData?.body;
     if (extFieldData) {
       newExtension[index].option[optIndex].extension[extIndex] = form;
     } else {
       newExtension[index]?.option?.[optIndex]?.extension?.push(form);
     }
-    setFormData({ ...formData, body: newExtension });
+    dynamicFieldNo = dynamicFieldNo + 1;
+    setFormData({
+      ...formData,
+      body: newExtension,
+      totalFieldNo: dynamicFieldNo,
+    });
   };
 
   const deleteField = (e, data, index) => {
@@ -536,7 +603,7 @@ const WebinarRegistration = () => {
   const deleteExtField = (e, data, index, optIndex, extIndex) => {
     e.preventDefault();
     let updatedFormBody = formData?.body;
-   
+
     updatedFormBody?.[index]?.option?.[optIndex]?.extension?.splice(
       extIndex,
       1
@@ -572,6 +639,7 @@ const WebinarRegistration = () => {
         } else if (isSelectedName == "travel accomodation") {
           let newObj = {
             label: isSelectedName,
+            name: isSelectedName,
             inputType: "radio",
             option: [
               { optionLabel: "Organize my own travel", extension: [] },
@@ -616,7 +684,7 @@ const WebinarRegistration = () => {
         } else if (isSelectedName == "consent") {
           let newObj = {
             label: isSelectedName,
-            name: "consent",
+            name: isSelectedName,
 
             inputType: "radio",
             required: "yes",
@@ -648,7 +716,7 @@ const WebinarRegistration = () => {
         let index = updateFormBody?.findIndex((item, index) => {
           return item?.label?.toLowerCase() == isSelectedName;
         });
-       
+
         if (index > -1) {
           updateFormBody?.splice(index, 1);
         }
@@ -668,22 +736,23 @@ const WebinarRegistration = () => {
     }
   };
 
-  const handleExtensionChange = (e, index, optIndex, type) => {
-    if (type == "radio") {
-      let newForm = formData?.body;
-      newForm[index]?.option?.forEach((item) => (item.checked = false));
-      newForm[index].option[optIndex].checked = e?.target?.checked;
-      setFormData({ ...formData, body: newForm });
-    } else if (type == "checkbox") {
-      let newForm = formData?.body;
-      newForm[index].option[optIndex].checked = e?.target?.checked;
-      setFormData({ ...formData, body: newForm });
-    }
-  };
+  // const handleExtensionChange = (e, index, optIndex, type) => {
+  //   if (type == "radio") {
+  //     let newForm = formData?.body;
+  //     newForm[index]?.option?.forEach((item) => (item.checked = false));
+  //     newForm[index].option[optIndex].checked = e?.target?.checked;
+  //     setFormData({ ...formData, body: newForm });
+  //   } else if (type == "checkbox") {
+  //     let newForm = formData?.body;
+  //     newForm[index].option[optIndex].checked = e?.target?.checked;
+  //     setFormData({ ...formData, body: newForm });
+  //   }
+  // };
 
   const saveClicked = async (e) => {
-    setFormData(formData);
     e.preventDefault();
+    setFormData(formData);
+
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
       if (Object.keys(error)?.length) {
@@ -706,25 +775,25 @@ const WebinarRegistration = () => {
         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
         data
       );
-      setFormData({
-        pageTitle: "",
-        bodyText: "",
-        headerImageUrl: "",
-        body: [],
-        footerImageUrl: "",
-        labelColor: "",
-        backgroundColor: "",
-      });
+      // setFormData({
+      //   pageTitle: "",
+      //   bodyText: "",
+      //   headerImageUrl: "",
+      //   body: [],
+      //   footerImageUrl: "",
+      //   labelColor: "",
+      //   backgroundColor: "",
+      // });
 
-      setEventData({ event_id: "", company_id: "" });
-      setFile("");
-      setFoot("");
+      // // setEventData({ event_id: "", company_id: "" });
+      // setFile("");
+      // setFoot("");
     } catch (err) {
       console.error("--err", err);
     } finally {
       loader("hide");
     }
-    navigate("/event-listing");
+    // navigate("/event-listing");
   };
 
   const handlePreview = (e, index) => {
@@ -981,23 +1050,6 @@ const WebinarRegistration = () => {
                           <Form.Check
                             className="webinar-checkbox"
                             inline
-                            label="Second Option"
-                            name="secondOption"
-                            type="checkbox"
-                            checked={
-                              formData?.body?.findIndex(
-                                (item) =>
-                                  item?.label?.toLowerCase() === "second option"
-                              ) !== -1
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => handleChange(e, "secondOption")}
-                          />
-
-                          <Form.Check
-                            className="webinar-checkbox"
-                            inline
                             label="Consent"
                             name="consent"
                             type="checkbox"
@@ -1072,28 +1124,26 @@ const WebinarRegistration = () => {
                                                                 type={
                                                                   data?.inputType
                                                                 }
-                                                                name={
-                                                                  data?.label
-                                                                }
+                                                                name={`${
+                                                                  data?.name
+                                                                    ? data?.name
+                                                                    : "dynamic_" +
+                                                                      dynamicFieldNo
+                                                                }`}
                                                                 value={
                                                                   item?.optionValue
                                                                 }
+                                                                checked={
+                                                                  item?.checked
+                                                                }
                                                                 // onChange={(e) =>
-                                                                //   handleRadioClick(
+                                                                //   handleExtensionChange(
                                                                 //     e,
-                                                                //     item.optionLabel,
                                                                 //     index,
-                                                                //     optIndex
+                                                                //     optIndex,
+                                                                //     data?.inputType
                                                                 //   )
                                                                 // }
-                                                                onChange={(e) =>
-                                                                  handleExtensionChange(
-                                                                    e,
-                                                                    index,
-                                                                    optIndex,
-                                                                    data?.inputType
-                                                                  )
-                                                                }
                                                               />
                                                               <label
                                                                 htmlFor={
@@ -1130,14 +1180,13 @@ const WebinarRegistration = () => {
                                                               ) : (
                                                                 ""
                                                               )}
-                                                              {console.log(
-                                                                "---Checked--->",
-                                                                item?.checked
-                                                              )}
-                                                              {item?.extension
+
+                                                              {/* {item?.extension
                                                                 ?.length > 0 &&
                                                               item?.checked ==
-                                                                true ? (
+                                                                true ?  */}
+                                                              {item?.extension
+                                                                ?.length > 0 ? (
                                                                 <div className="extension">
                                                                   {item?.extension?.map(
                                                                     (
@@ -1152,7 +1201,7 @@ const WebinarRegistration = () => {
                                                                       >
                                                                         {extItem?.inputType ==
                                                                         "text" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1167,9 +1216,12 @@ const WebinarRegistration = () => {
                                                                                 extItem?.inputType
                                                                               }
                                                                               className="form-control"
-                                                                              name={
-                                                                                extItem?.label
-                                                                              }
+                                                                              name={`${
+                                                                                extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                    dynamicFieldNo
+                                                                              }`}
                                                                             />
                                                                           </div>
                                                                         ) : extItem?.inputType ==
@@ -1199,9 +1251,12 @@ const WebinarRegistration = () => {
                                                                                     type={
                                                                                       extItem?.inputType
                                                                                     }
-                                                                                    name={
-                                                                                      extItem?.label
-                                                                                    }
+                                                                                    name={`${
+                                                                                      extItem?.name
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                          dynamicFieldNo
+                                                                                    }`}
                                                                                     value={
                                                                                       optItem?.optionValue
                                                                                     }
@@ -1221,7 +1276,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "date" ? (
-                                                                          <div className="opt-internal">
+                                                                          <div>
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1233,9 +1288,12 @@ const WebinarRegistration = () => {
                                                                               }
                                                                             </label>
                                                                             <DatePicker
-                                                                              name={
-                                                                                extItem?.label
-                                                                              }
+                                                                              name={`${
+                                                                                extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                    dynamicFieldNo
+                                                                              }`}
                                                                               dateFormat="dd/MM/yyyy"
                                                                               className="form-control"
                                                                               placeholderText="Select task date"
@@ -1275,9 +1333,12 @@ const WebinarRegistration = () => {
                                                                                     type={
                                                                                       extItem?.inputType
                                                                                     }
-                                                                                    name={
-                                                                                      extItem?.label
-                                                                                    }
+                                                                                    name={`${
+                                                                                      extItem?.name
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                          dynamicFieldNo
+                                                                                    }`}
                                                                                     value={
                                                                                       optItem?.optionValue
                                                                                     }
@@ -1297,7 +1358,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "selection" ? (
-                                                                          <div className="opt-internal">
+                                                                          <div>
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1309,10 +1370,27 @@ const WebinarRegistration = () => {
                                                                             </label>
                                                                             <Select
                                                                               className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                              name={`${
+                                                                                extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                    dynamicFieldNo
+                                                                              }`}
                                                                               options={
-                                                                                extItem?.label ==
-                                                                                "country"
+                                                                                extItem?.label?.includes(
+                                                                                  "country"
+                                                                                ) ||
+                                                                                extItem?.label?.includes(
+                                                                                  "Country"
+                                                                                )
                                                                                   ? countryList
+                                                                                  : extItem?.label?.includes(
+                                                                                      "state"
+                                                                                    ) ||
+                                                                                    extItem?.label?.include(
+                                                                                      "State"
+                                                                                    )
+                                                                                  ? stateOptions
                                                                                   : extItem?.option?.map(
                                                                                       (
                                                                                         item
@@ -1329,7 +1407,7 @@ const WebinarRegistration = () => {
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "textarea" ? (
-                                                                          <div className="opt-internal">
+                                                                          <div>
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1342,7 +1420,12 @@ const WebinarRegistration = () => {
 
                                                                             <textarea
                                                                               className="form-control"
-                                                                              name={extItem?.label?.toLowerCase()}
+                                                                              name={`${
+                                                                                extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                    dynamicFieldNo
+                                                                              }`}
                                                                               type={
                                                                                 extItem?.inputType
                                                                               }
@@ -1448,20 +1531,23 @@ const WebinarRegistration = () => {
                                                                 type={
                                                                   data?.inputType
                                                                 }
-                                                                name={
-                                                                  data?.label
-                                                                }
+                                                                name={`${
+                                                                  data?.name
+                                                                    ? data?.name
+                                                                    : "dynamic_" +
+                                                                      dynamicFieldNo
+                                                                }`}
                                                                 checked={
                                                                   item?.checked
                                                                 }
-                                                                onChange={(e) =>
-                                                                  handleExtensionChange(
-                                                                    e,
-                                                                    index,
-                                                                    optIndex,
-                                                                    data?.inputType
-                                                                  )
-                                                                }
+                                                                // onChange={(e) =>
+                                                                //   handleExtensionChange(
+                                                                //     e,
+                                                                //     index,
+                                                                //     optIndex,
+                                                                //     data?.inputType
+                                                                //   )
+                                                                // }
                                                               />
                                                               <label htmlFor="">
                                                                 {
@@ -1495,10 +1581,12 @@ const WebinarRegistration = () => {
                                                                 ""
                                                               )}
 
-                                                              {item?.extension
+                                                              {/* {item?.extension
                                                                 ?.length > 0 &&
                                                               item?.checked ==
-                                                                true ? (
+                                                                true ? */}
+                                                              {item?.extension
+                                                                ?.length > 0 ? (
                                                                 <div className="extension">
                                                                   {item?.extension?.map(
                                                                     (
@@ -1508,7 +1596,7 @@ const WebinarRegistration = () => {
                                                                       <div className="extItem">
                                                                         {extItem?.inputType ==
                                                                         "text" ? (
-                                                                          <div className="opt-internal">
+                                                                          <div>
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1523,8 +1611,221 @@ const WebinarRegistration = () => {
                                                                                 extItem?.inputType
                                                                               }
                                                                               className="form-control"
-                                                                              name={
+                                                                              name={`${
+                                                                                extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                    dynamicFieldNo
+                                                                              }`}
+                                                                            />
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "radio" ? (
+                                                                          <div className="extOption">
+                                                                            <label
+                                                                              htmlFor={
                                                                                 extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            {extItem?.option?.map(
+                                                                              (
+                                                                                optItem,
+                                                                                optItemIndex
+                                                                              ) => (
+                                                                                <div
+                                                                                  className="extOptionItem"
+                                                                                  key={
+                                                                                    optItemIndex
+                                                                                  }
+                                                                                >
+                                                                                  <input
+                                                                                    type={
+                                                                                      extItem?.inputType
+                                                                                    }
+                                                                                    name={`${
+                                                                                      extItem?.name
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                          dynamicFieldNo
+                                                                                    }`}
+                                                                                    value={
+                                                                                      optItem?.optionValue
+                                                                                    }
+                                                                                  />
+                                                                                  <label
+                                                                                    htmlFor={
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  >
+                                                                                    {
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  </label>
+                                                                                </div>
+                                                                              )
+                                                                            )}
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "date" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {" "}
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            <DatePicker
+                                                                              name={`${
+                                                                                extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                    dynamicFieldNo
+                                                                              }`}
+                                                                              dateFormat="dd/MM/yyyy"
+                                                                              className="form-control"
+                                                                              placeholderText="Select task date"
+                                                                              // minDate={currentDate}
+
+                                                                              onKeyDown={(
+                                                                                e
+                                                                              ) => {
+                                                                                e.preventDefault();
+                                                                              }}
+                                                                            />
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "checkbox" ? (
+                                                                          <div className="extOption">
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            {extItem?.option?.map(
+                                                                              (
+                                                                                optItem,
+                                                                                optItemIndex
+                                                                              ) => (
+                                                                                <div
+                                                                                  className="extOptionItem"
+                                                                                  key={
+                                                                                    optItemIndex
+                                                                                  }
+                                                                                >
+                                                                                  <input
+                                                                                    type={
+                                                                                      extItem?.inputType
+                                                                                    }
+                                                                                    name={`${
+                                                                                      extItem?.name
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                          dynamicFieldNo
+                                                                                    }`}
+                                                                                    value={
+                                                                                      optItem?.optionValue
+                                                                                    }
+                                                                                  />
+                                                                                  <label
+                                                                                    htmlFor={
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  >
+                                                                                    {
+                                                                                      optItem?.optionLabel
+                                                                                    }
+                                                                                  </label>
+                                                                                </div>
+                                                                              )
+                                                                            )}
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "selection" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+                                                                            <Select
+                                                                              name={`${
+                                                                                extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                    dynamicFieldNo
+                                                                              }`}
+                                                                              className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                              options={
+                                                                                extItem?.label?.includes(
+                                                                                  "country"
+                                                                                ) ||
+                                                                                extItem?.label?.include(
+                                                                                  "Country"
+                                                                                )
+                                                                                  ? countryList
+                                                                                  : extItem?.label?.includes(
+                                                                                      "state"
+                                                                                    ) ||
+                                                                                    extItem?.label?.include(
+                                                                                      "State"
+                                                                                    )
+                                                                                  ? stateOptions
+                                                                                  : extItem?.option?.map(
+                                                                                      (
+                                                                                        item
+                                                                                      ) => ({
+                                                                                        label:
+                                                                                          item?.optionLabel,
+                                                                                        value:
+                                                                                          item?.optionLabel,
+                                                                                      })
+                                                                                    )
+                                                                              }
+                                                                              placeholder="Plese select the value"
+                                                                            />
+                                                                          </div>
+                                                                        ) : extItem?.inputType ==
+                                                                          "textarea" ? (
+                                                                          <div>
+                                                                            <label
+                                                                              htmlFor={
+                                                                                extItem?.label
+                                                                              }
+                                                                            >
+                                                                              {
+                                                                                extItem?.label
+                                                                              }
+                                                                            </label>
+
+                                                                            <textarea
+                                                                              className="form-control"
+                                                                              name={`${
+                                                                                extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                    dynamicFieldNo
+                                                                              }`}
+                                                                              type={
+                                                                                extItem?.inputType
+                                                                              }
+                                                                              placeholder={
+                                                                                extItem?.placeholder
                                                                               }
                                                                             />
                                                                           </div>
@@ -1620,10 +1921,27 @@ const WebinarRegistration = () => {
                                                       >
                                                         <Select
                                                           className="dropdown-basic-button split-button-dropup webinar-select"
+                                                          name={`${
+                                                            data?.name
+                                                              ? data?.name
+                                                              : "dynamic_" +
+                                                                dynamicFieldNo
+                                                          }`}
                                                           options={
-                                                            data?.label ==
-                                                            "country"
+                                                            data?.label?.includes(
+                                                              "country"
+                                                            ) ||
+                                                            data?.label?.includes(
+                                                              "Country"
+                                                            )
                                                               ? countryList
+                                                              : data?.label?.includes(
+                                                                  "state"
+                                                                ) ||
+                                                                data?.label?.includes(
+                                                                  "State"
+                                                                )
+                                                              ? stateOptions
                                                               : data?.option?.map(
                                                                   (item) => ({
                                                                     label:
@@ -1644,7 +1962,12 @@ const WebinarRegistration = () => {
                                                       >
                                                         <textarea
                                                           className="form-control"
-                                                          name={data?.label?.toLowerCase()}
+                                                          name={`${
+                                                            data?.name
+                                                              ? data?.name
+                                                              : "dynamic_" +
+                                                                dynamicFieldNo
+                                                          }`}
                                                           type={data?.inputType}
                                                           placeholder={
                                                             data?.placeholder
@@ -1653,7 +1976,12 @@ const WebinarRegistration = () => {
                                                       </div>
                                                     ) : (
                                                       <input
-                                                        name={data?.label}
+                                                        name={`${
+                                                          data?.name
+                                                            ? data?.name
+                                                            : "dynamic_" +
+                                                              dynamicFieldNo
+                                                        }`}
                                                         className="form-control"
                                                         type={data?.inputType}
                                                         placeholder={
@@ -1910,6 +2238,7 @@ const WebinarRegistration = () => {
         handleSave={handleModalSave}
         formLabel={formData?.body}
         fieldData={fieldData}
+        dynamicFieldNo={dynamicFieldNo}
       />
       <CommonExtensionModal
         show={showExtensionModal}
@@ -1917,6 +2246,7 @@ const WebinarRegistration = () => {
         handleSave={handleExtensionModalSave}
         formLabel={formData?.body}
         extensionData={extFieldData}
+        dynamicFieldNo={dynamicFieldNo}
       />
     
     {isPrevClicked && (
@@ -1944,7 +2274,7 @@ Preview            </h5>
         </Modal.Header>
         <Modal.Body>
          <>
-         <p>You are previewing the  saved data .</p>
+         {/* <p>You are previewing the  saved data .</p> */}
 
          <iframe
           src={`/event-registration?event=${event_code}`}
