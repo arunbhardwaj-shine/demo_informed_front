@@ -436,7 +436,7 @@ const WebinarRegistration = () => {
         : dynamicFieldNo;
 
       setFormData(newFormData);
-
+      setActiveIndex(newFormData?.templateId? newFormData?.templateId :0)
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
     } catch (err) {
