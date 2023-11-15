@@ -164,7 +164,7 @@ const myContent=(
       Back
     </button>
   )}
-   <div className="App">
+   {/* <div className="App">
       <h2>Login</h2>
       <form onSubmit={handleSubmit1}>
         <label>Username:</label>
@@ -173,7 +173,7 @@ const myContent=(
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <button type="submit">Login</button>
       </form>
-    </div>
+    </div> */}
 <section className="consent-form">
 
 <div className="container">
@@ -227,7 +227,7 @@ const myContent=(
      {myContent}
     </TemplateTwo>}  
     
-    {formData?.content?.templateId ===3   && formData?.content?.templateId <=0 &&  <TemplateThree formData={formData}>ww
+    {(formData?.content?.templateId ===3   || formData?.content?.templateId <=0) &&  <TemplateThree formData={formData}>ww
      {myContent}
     </TemplateThree>}
 

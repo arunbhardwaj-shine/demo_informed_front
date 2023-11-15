@@ -70,6 +70,7 @@ const CommonExtensionModal = ({
           ? e
           : e?.target?.value,
       });
+      setError({});
     } else {
       setFormData({
         ...formData,
@@ -95,7 +96,7 @@ const CommonExtensionModal = ({
       extension: [],
       checked: "",
     };
-   
+
     if (formData?.option?.length) {
       let index = formData?.option?.findIndex(
         (data, index) => data?.optionLabel == ""
@@ -103,25 +104,29 @@ const CommonExtensionModal = ({
       const lastTwoItems = formData?.option?.slice(-2);
       const [item1, item2] = lastTwoItems;
       const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
-   
-      if (formData.option.some((option, i) => i < formData.option.length - 1 && option.optionLabel === formData.option[formData.option.length - 1].optionLabel)) {
+
+      if (
+        formData.option.some(
+          (option, i) =>
+            i < formData.option.length - 1 &&
+            option.optionLabel ===
+              formData.option[formData.option.length - 1].optionLabel
+        )
+      ) {
         toast.error("Option can't be the same");
         return;
-      } 
-       else if (areLabelsEqual) {
+      } else if (areLabelsEqual) {
         toast.error("Option can't be the same");
         return;
-      } 
+      }
     }
-    
+
     if (Object.keys(error)?.length) {
       // toast.error(error[Object.keys(error)[0]]);
-      toast.error(error.option)
-      console.log(error)
+      toast.error(error.option);
       setError(error);
       return;
     } else {
-      console.log({...formData,name:formData?.label});
       handleSave({ ...formData, name: `dynamic_${dynamicFieldNo}` });
       handleClose();
       setError();
@@ -135,7 +140,7 @@ const CommonExtensionModal = ({
       extension: [],
       checked: "",
     };
-   
+
     if (formData?.option?.length) {
       let index = formData?.option?.findIndex(
         (data, index) => data?.optionLabel == ""
@@ -144,15 +149,20 @@ const CommonExtensionModal = ({
       const [item1, item2] = lastTwoItems;
       const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
 
-      if (formData.option.some((option, i) => i < formData.option.length - 1 && option.optionLabel === formData.option[formData.option.length - 1].optionLabel)) {
+      if (
+        formData.option.some(
+          (option, i) =>
+            i < formData.option.length - 1 &&
+            option.optionLabel ===
+              formData.option[formData.option.length - 1].optionLabel
+        )
+      ) {
         toast.error("Option can't be the same");
         return;
-      } 
-      else if (index > -1) {
+      } else if (index > -1) {
         toast.error(`Please fill the option ${index + 1}`);
         return;
-      }
-       else if (areLabelsEqual) {
+      } else if (areLabelsEqual) {
         toast.error("Option can't be the same");
         return;
       } else {
@@ -301,30 +311,6 @@ const CommonExtensionModal = ({
                               )}
                             </div>
                           </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="">Field name</label>
-                              <input
-                                type="text"
-                                name="name"
-                                placeholder="Enter name"
-                                className={
-                                  error?.label
-                                    ? "form-control error"
-                                    : "form-control"
-                                }
-                                value={formData?.name}
-                                onChange={(e) => handleChange(e)}
-                              />
-                              {error?.name ? (
-                                <div className="login-validation">
-                                  {error?.name}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div>
 
                           {formData?.inputType == "text" ||
                           formData?.inputType == "email" ||
@@ -355,7 +341,10 @@ const CommonExtensionModal = ({
                                     }`}</label>
                                     <input
                                       className={
-                                        error?.option && error?.index == index || error?.options && error?.index == index
+                                        (error?.option &&
+                                          error?.index == index) ||
+                                        (error?.options &&
+                                          error?.index == index)
                                           ? "form-control error"
                                           : "form-control"
                                       }
@@ -376,14 +365,13 @@ const CommonExtensionModal = ({
                                       ""
                                     )}
 
-                                      {error?.options &&
-                                      error?.index == index ? (
-                                        <div className="login-validation">
-                                          {error?.options}
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
+                                    {error?.options && error?.index == index ? (
+                                      <div className="login-validation">
+                                        {error?.options}
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
 
                                     <button
                                       className="dlt_btn_event btn-voilet"

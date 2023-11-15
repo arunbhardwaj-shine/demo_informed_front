@@ -155,7 +155,7 @@ const NewEventCreate = () => {
     console.log("e-->", e, "--->", item);
 
     navigate("/webinar-registration", {
-      state: { event_code: item?.event_code },
+      state:   item ,
     });
   }; 
   const webinarPollingForm = (e, item) => {

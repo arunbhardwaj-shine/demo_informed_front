@@ -305,7 +305,6 @@ const WebinarRegistration = () => {
     568: { items: 2 },
     1024: { items: 5 },
   };
-  const [templateId, setTemplateId] = useState();
 
   let navigate = useNavigate();
   const location = useLocation();
@@ -315,6 +314,8 @@ const WebinarRegistration = () => {
   const event_code = location?.state?.event_code
     ? location?.state?.event_code
     : "";
+
+
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
@@ -329,8 +330,20 @@ const WebinarRegistration = () => {
     backgroundColor: "",
     totalFieldNo: 0,
     templateId: 0,
+  });  
+  const [originalFormData, setOriginalFormData] = useState({
+    pageTitle: "",
+    bodyText: "",
+    headerImageUrl: "",
+    body: [],
+    footerImageUrl: "",
+    labelColor: "",
+    backgroundColor: "",
+    totalFieldNo: 0,
+    templateId: 0,
   });
-  const [eventData, setEventData] = useState({ event_id: "", company_id: "" });
+
+  const [eventData, setEventData] = useState({ event_id:  location?.state?.id, company_id:  location?.state?.user_id});
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
   const [errorMsg, setErrorMsg] = useState("");
@@ -392,52 +405,107 @@ const WebinarRegistration = () => {
     { label: "Washington", value: "Washington" },
     { label: "Virginia", value: "Virginia" },
   ]);
+
+  const [dropDownData, setDropDownData] = useState([]);
+  const [selectedItem, setSelectedItem] = useState({});
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
-    if (prevData?.content) {
-      setEventData({
-        ...eventData,
-        event_id: prevData?.event_id,
-        company_id: prevData?.company_id,
-      });
-      const newFormData = prevData?.content;
+    // if (prevData?.content) {
+    //   setEventData({
+    //     ...eventData,
+    //     event_id: prevData?.event_id,
+    //     company_id: prevData?.company_id,
+    //   });
+    //   const newFormData = prevData?.content;
 
-      setFormData(newFormData);
+    //   setFormData(newFormData);
 
-      setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
-      setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
-    } else {
-      getWebinarData();
-    }
+    //   setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
+    //   setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
+    // } else {
+    //   getWebinarData();
+    // }
+
+    getAllEvents();
   }, []);
 
-  const getWebinarData = async () => {
+  const getWebinarData = async (event_code) => {
     try {
       loader("show");
       const response = await getData(
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
       const hadData = response?.data?.data;
-
-      setEventData({
-        ...eventData,
-        event_id: hadData?.event_id,
-        company_id: hadData?.company_id,
-      });
-      const newFormData = JSON.parse(hadData?.content);
+if(hadData?.event_id && hadData?.company_id){
+  setEventData({
+    ...eventData,
+    event_id: hadData?.event_id,
+    company_id: hadData?.company_id,
+  });
+}
+     
+      const newFormData = hadData?.content ? JSON.parse(hadData?.content) : [];
       dynamicFieldNo = newFormData?.totalFieldNo
         ? newFormData?.totalFieldNo
         : dynamicFieldNo;
 
       setFormData(newFormData);
-
+      // console.log(newFormData);
+      setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
+      setActiveIndex(newFormData?.templateId? newFormData?.templateId :0)
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
     } catch (err) {
       console.log("--err", err);
     } finally {
       loader("hide");
+    }
+  };
+
+  const getAllEvents = async () => {
+    try {
+      loader("show");
+      const response = await getData(
+        `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`
+      );
+      const allevents = response?.data?.data?.data;
+      if (allevents?.length > 0) {
+        let dropDownDataTemp = allevents?.map((item) => ({
+          value: item?.id,
+          label: item?.title,
+          code: item?.event_code,
+          companyId: item?.user_id,
+        }));
+        setDropDownData(dropDownDataTemp);
+        let index = 0;
+        if (event_code != "") {
+          index = dropDownDataTemp.findIndex((obj) => obj.code === event_code);
+        }
+        let selectedData = dropDownDataTemp.length
+          ? dropDownDataTemp?.[index]
+          : { value: "", label: "" };
+        setSelectedItem(selectedData);
+        if (selectedData) {
+          getWebinarData(selectedData.code);
+        }
+      }
+    } catch (err) {
+      loader("hide");
+      console.log(err);
+    }
+  };
+
+  const handleSelectChange = async (event) => {
+    // console.log(event);
+    await getWebinarData(event.code);
+    setSelectedItem(event);
+    if(event?.id && event?.user_id){
+      setEventData({
+        ...eventData,
+        event_id: event?.id,
+        company_id: event?.user_id,
+      });
     }
   };
 
@@ -751,6 +819,7 @@ const WebinarRegistration = () => {
 
   const saveClicked = async (e) => {
     e.preventDefault();
+
     setFormData(formData);
 
     try {
@@ -771,6 +840,7 @@ const WebinarRegistration = () => {
         companyId: eventData?.company_id,
         content: JSON.stringify(formData),
       };
+      console.log(eventData);
       const response = await postData(
         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
         data
@@ -843,9 +913,16 @@ const WebinarRegistration = () => {
   };
 
   const templateClicked = (template, e) => {
-    setActiveIndex(template?.templateId);
-    let updatedBody = JSON.parse(JSON.stringify(template));
+    if(originalFormData?.templateId==template?.templateId){
+      let updatedBody = JSON.parse(JSON.stringify(originalFormData));
+      setFormData(updatedBody);
+    }
+    else{
+      let updatedBody = JSON.parse(JSON.stringify(template));
     setFormData(updatedBody);
+    }
+    setActiveIndex(template?.templateId);
+    
   };
 
   return (
@@ -858,9 +935,21 @@ const WebinarRegistration = () => {
                 <h2>Registration Page</h2>
               </div>
             </div>
-            <section className="select-mail-template library-consent">
+            <section className="select-mail-template library-consent create-change-content">
               <div className="custom-container">
                 <Row>
+                  <div className="form-group">
+                    <label htmlFor="">Select Event</label>
+                    <Select
+                      options={dropDownData}
+                      placeholder="Select Event"
+                      name="province"
+                      className="dropdown-basic-button split-button-dropup"
+                      isClearable
+                      onChange={handleSelectChange}
+                      value={selectedItem}
+                    />
+                  </div>
                   <div className="page-title">
                     <h4>Select Template</h4>
                   </div>
@@ -976,7 +1065,7 @@ const WebinarRegistration = () => {
                             onChange={(e) => handleChange(e, "email")}
                           />
 
-                          <Form.Check
+                          {/* <Form.Check
                             className="webinar-checkbox"
                             inline
                             label="Profession"
@@ -991,7 +1080,7 @@ const WebinarRegistration = () => {
                                 : false
                             }
                             onChange={(e) => handleChange(e, "profession")}
-                          />
+                          /> */}
 
                           <Form.Check
                             className="webinar-checkbox"
