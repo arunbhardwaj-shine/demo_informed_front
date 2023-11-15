@@ -197,6 +197,9 @@ const myContent=(
           formErrors={formErrors}
           pageColors={pageColors}
           level="root"
+          templateId={
+            formData?.content?.templateId
+          }
         />
       ))}
       {!prevData && (

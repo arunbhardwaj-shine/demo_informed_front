@@ -37,11 +37,13 @@ const FormField = ({
     formErrors,
     pageColors,
     level,
+    templateId
   }) => {
+
     const [countryList, setCountryList] = useState(CountryList);
     const [extensionData, setExtensionData] = useState({});
     const label = userData[form.label]?userData[form.label]:form?.label?.replace(/ /g, "_");
-    // console.log(label);
+    console.log(templateId);
   
   
     const handleFieldChange = (value) => {
