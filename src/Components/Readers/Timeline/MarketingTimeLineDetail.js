@@ -1805,7 +1805,7 @@ const MarketingTimeLineDetail = (props) => {
 
       <Modal
         show={logShow}
-        className="send-confirm"
+        className="send-confirm update_logs"
         id="download-qr"
       >
         <Modal.Header>
