@@ -70,6 +70,7 @@ const CommonExtensionModal = ({
           ? e
           : e?.target?.value,
       });
+      setError({});
     } else {
       setFormData({
         ...formData,
