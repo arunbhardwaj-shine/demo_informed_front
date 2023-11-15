@@ -1387,6 +1387,9 @@ console.log(formData?.body);
                                                                                   : "dynamic_" +
                                                                                     dynamicFieldNo
                                                                               }`}
+                                                                              placeholder={
+                                                                                extItem?.placeholder
+                                                                              }
                                                                             />
                                                                           </div>
                                                                         ) : extItem?.inputType ==
@@ -1552,7 +1555,7 @@ console.log(formData?.body);
                                                                                   : extItem?.label?.includes(
                                                                                       "state"
                                                                                     ) ||
-                                                                                    extItem?.label?.include(
+                                                                                    extItem?.label?.includes(
                                                                                       "State"
                                                                                     )
                                                                                   ? stateOptions
@@ -1761,7 +1764,7 @@ console.log(formData?.body);
                                                                       <div className="extItem">
                                                                         {extItem?.inputType ==
                                                                         "text" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1782,6 +1785,9 @@ console.log(formData?.body);
                                                                                   : "dynamic_" +
                                                                                     dynamicFieldNo
                                                                               }`}
+                                                                              placeholder={
+                                                                                extItem?.placeholder
+                                                                              }
                                                                             />
                                                                           </div>
                                                                         ) : extItem?.inputType ==
@@ -1836,7 +1842,7 @@ console.log(formData?.body);
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "date" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1918,7 +1924,7 @@ console.log(formData?.body);
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "selection" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
@@ -1940,14 +1946,14 @@ console.log(formData?.body);
                                                                                 extItem?.label?.includes(
                                                                                   "country"
                                                                                 ) ||
-                                                                                extItem?.label?.include(
+                                                                                extItem?.label?.includes(
                                                                                   "Country"
                                                                                 )
                                                                                   ? countryList
                                                                                   : extItem?.label?.includes(
                                                                                       "state"
                                                                                     ) ||
-                                                                                    extItem?.label?.include(
+                                                                                    extItem?.label?.includes(
                                                                                       "State"
                                                                                     )
                                                                                   ? stateOptions
@@ -1967,7 +1973,7 @@ console.log(formData?.body);
                                                                           </div>
                                                                         ) : extItem?.inputType ==
                                                                           "textarea" ? (
-                                                                          <div>
+                                                                          <div className="extOption">
                                                                             <label
                                                                               htmlFor={
                                                                                 extItem?.label
