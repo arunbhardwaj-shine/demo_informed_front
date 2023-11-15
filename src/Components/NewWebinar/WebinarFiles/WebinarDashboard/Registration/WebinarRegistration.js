@@ -1474,6 +1474,9 @@ if(hadData?.event_id && hadData?.company_id){
                                                                                   : "dynamic_" +
                                                                                     dynamicFieldNo
                                                                               }`}
+                                                                              placeholder={
+                                                                                extItem?.placeholder
+                                                                              }
                                                                             />
                                                                           </div>
                                                                         ) : extItem?.inputType ==
@@ -1869,6 +1872,9 @@ if(hadData?.event_id && hadData?.company_id){
                                                                                   : "dynamic_" +
                                                                                     dynamicFieldNo
                                                                               }`}
+                                                                              placeholder={
+                                                                                extItem?.placeholder
+                                                                              }
                                                                             />
                                                                           </div>
                                                                         ) : extItem?.inputType ==
