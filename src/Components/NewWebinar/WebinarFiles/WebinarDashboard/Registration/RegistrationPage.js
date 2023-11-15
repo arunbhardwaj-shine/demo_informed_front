@@ -72,7 +72,6 @@ const RegistrationPage = () => {
         content: JSON.parse(response?.data?.data?.content),
         raw_description: JSON.parse(response?.data?.data?.raw_description),
       };
-      console.log(hadData);
       setFormData(hadData);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
@@ -102,7 +101,6 @@ const RegistrationPage = () => {
           virtual_or_live: raw?.meeting_type,
           websiteFolder: "new_webinar",
         });
-        console.log(response);
       } catch (error) {
         console.error("Error submitting data:", error);
       } finally {
