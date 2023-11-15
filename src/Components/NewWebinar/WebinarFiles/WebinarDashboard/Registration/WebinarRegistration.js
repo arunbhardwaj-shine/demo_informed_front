@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Button, Form, FormGroup, FormLabel, Modal } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Button,
+  Form,
+  FormGroup,
+  FormLabel,
+  Modal,
+} from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
 import Select from "react-select";
@@ -20,7 +28,6 @@ let dynamicFieldNo = 0;
 
 const WebinarRegistration = () => {
   const [templateList, setTemplateList] = useState([
-    
     {
       templateId: 1,
       pageTitle: "To register please fill in all your details below.",
@@ -392,7 +399,6 @@ const WebinarRegistration = () => {
     ? location?.state?.event_code
     : "";
 
-
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
@@ -407,7 +413,7 @@ const WebinarRegistration = () => {
     backgroundColor: "",
     totalFieldNo: 0,
     templateId: 0,
-  });  
+  });
   const [originalFormData, setOriginalFormData] = useState({
     pageTitle: "",
     bodyText: "",
@@ -420,7 +426,10 @@ const WebinarRegistration = () => {
     templateId: 0,
   });
 
-  const [eventData, setEventData] = useState({ event_id:  location?.state?.id, company_id:  location?.state?.user_id});
+  const [eventData, setEventData] = useState({
+    event_id: location?.state?.id,
+    company_id: location?.state?.user_id,
+  });
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
   const [errorMsg, setErrorMsg] = useState("");
@@ -514,14 +523,14 @@ const WebinarRegistration = () => {
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
       const hadData = response?.data?.data;
-if(hadData?.event_id && hadData?.company_id){
-  setEventData({
-    ...eventData,
-    event_id: hadData?.event_id,
-    company_id: hadData?.company_id,
-  });
-}
-     
+      if (hadData?.event_id && hadData?.company_id) {
+        setEventData({
+          ...eventData,
+          event_id: hadData?.event_id,
+          company_id: hadData?.company_id,
+        });
+      }
+
       const newFormData = hadData?.content ? JSON.parse(hadData?.content) : [];
       dynamicFieldNo = newFormData?.totalFieldNo
         ? newFormData?.totalFieldNo
@@ -530,7 +539,7 @@ if(hadData?.event_id && hadData?.company_id){
       setFormData(newFormData);
       // console.log(newFormData);
       setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
-      setActiveIndex(newFormData?.templateId? newFormData?.templateId :0)
+      setActiveIndex(newFormData?.templateId ? newFormData?.templateId : 0);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
     } catch (err) {
@@ -577,7 +586,7 @@ if(hadData?.event_id && hadData?.company_id){
     // console.log(event);
     await getWebinarData(event.code);
     setSelectedItem(event);
-    if(event?.id && event?.user_id){
+    if (event?.id && event?.user_id) {
       setEventData({
         ...eventData,
         event_id: event?.id,
@@ -921,29 +930,29 @@ console.log(formData?.body);
         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
         data
       );
-      // setFormData({
-      //   pageTitle: "",
-      //   bodyText: "",
-      //   headerImageUrl: "",
-      //   body: [],
-      //   footerImageUrl: "",
-      //   labelColor: "",
-      //   backgroundColor: "",
-      // });
+      setFormData({
+        pageTitle: "",
+        bodyText: "",
+        headerImageUrl: "",
+        body: [],
+        footerImageUrl: "",
+        labelColor: "",
+        backgroundColor: "",
+      });
 
-      // // setEventData({ event_id: "", company_id: "" });
-      // setFile("");
-      // setFoot("");
+      setEventData({ event_id: "", company_id: "" });
+      setFile("");
+      setFoot("");
     } catch (err) {
       console.error("--err", err);
     } finally {
       loader("hide");
     }
-    // navigate("/event-listing");
+    navigate("/event-listing");
   };
 
   const handlePreview = (e, index) => {
-    setIsPrevClicked(true)
+    setIsPrevClicked(true);
     let prevObj = {
       eventId: eventData?.event_id,
       companyId: eventData?.company_id,
@@ -951,10 +960,9 @@ console.log(formData?.body);
     };
     // navigate("/event-registration", { state: prevObj });
   };
-  const handleClose=()=>{
-    setIsPrevClicked(false)
-
-  }
+  const handleClose = () => {
+    setIsPrevClicked(false);
+  };
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);
   };
@@ -989,16 +997,14 @@ console.log(formData?.body);
   };
 
   const templateClicked = (template, e) => {
-    if(originalFormData?.templateId==template?.templateId){
+    if (originalFormData?.templateId == template?.templateId) {
       let updatedBody = JSON.parse(JSON.stringify(originalFormData));
       setFormData(updatedBody);
-    }
-    else{
+    } else {
       let updatedBody = JSON.parse(JSON.stringify(template));
-    setFormData(updatedBody);
+      setFormData(updatedBody);
     }
     setActiveIndex(template?.templateId);
-    
   };
 
   return (
@@ -2419,46 +2425,45 @@ console.log(formData?.body);
         extensionData={extFieldData}
         dynamicFieldNo={dynamicFieldNo}
       />
-    
-    {isPrevClicked && (
-        <Modal
-        show={isPrevClicked}
-        onHide={handleClose}
-        id="add_hcp"
-        className="event_edit"
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <div className="modal-header">
-            <h5 className="modal-title" id="staticBackdropLabel">
-Preview            </h5>
-            <button
-              type="button"
-              onClick={handleClose}
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-        </Modal.Header>
-        <Modal.Body>
-         <>
-         {/* <p>You are previewing the  saved data .</p> */}
 
-         <iframe
-          src={`/event-registration?event=${event_code}`}
-          width="100%"
-          height="500px"
-          title="Event Registration"
-        />
-         </>
-       </Modal.Body>
-     </Modal>
-        
-      )
-    }
+      {isPrevClicked && (
+        <Modal
+          show={isPrevClicked}
+          onHide={handleClose}
+          id="add_hcp"
+          className="event_edit"
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Preview{" "}
+              </h5>
+              <button
+                type="button"
+                onClick={handleClose}
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <>
+              {/* <p>You are previewing the  saved data .</p> */}
+
+              <iframe
+                src={`/event-registration?event=${event_code}`}
+                width="100%"
+                height="500px"
+                title="Event Registration"
+              />
+            </>
+          </Modal.Body>
+        </Modal>
+      )}
     </>
   );
 };
