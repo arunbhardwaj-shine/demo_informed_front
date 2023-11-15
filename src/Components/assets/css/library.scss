@@ -1587,6 +1587,32 @@ ul.tab-mail-list.data span.total-left small {
   }
 }
 
+#download-qr .modal-body .form-group textarea {
+  resize: none;
+}
+
+.update_logs #download-qr .modal-body .form-group label {
+  flex: 0 0 115px;
+}
+
+.update_logs #download-qr .modal-body .form-group textarea {
+  border-radius: 15px;
+}
+
+.update_logs ::-webkit-scrollbar {
+  width: 4px;
+}
+
+.update_logs ::-webkit-scrollbar-thumb {
+  width: 6px;
+  border: 1px solid #dce6ef;
+}
+
+.update_logs ::-webkit-scrollbar-track {
+  border-radius: 9px;
+  padding: 0 4px;
+}
+
 .login-confirm {
   background: rgba(0, 0, 36, 0.2);
   backdrop-filter: blur(10px);
@@ -4049,12 +4075,15 @@ input[type="number"] {
   color: $dark-blue;
   padding: 0 0 14px;
   text-transform: capitalize;
+
   &.marketing {
-    text-transform: unset; 
-    button{
+    text-transform: unset;
+
+    button {
       background-color: transparent;
       margin-left: 8px;
-      svg{
+
+      svg {
         width: 18px;
         height: 18px;
       }
@@ -8315,6 +8344,13 @@ svg.pencil_icon {
   }
 }
 
+.modal-form-group .react-datepicker__day-name,
+.modal-form-group .react-datepicker__day,
+.modal-form-group .react-datepicker__time-name {
+  width: 1.3rem;
+  line-height: 1.3rem;
+}
+
 /**Publisher page End**/
 
 /**Library Responsive**/
@@ -9826,6 +9862,8 @@ svg.pencil_icon {
   .selected-products-list .products-listing {
     max-width: 91%;
   }
+
+
 
   .library-content-box-layuot .doc-content-main-box,
   .library-content-box-layuot.readerlist .doc-content-main-box {
