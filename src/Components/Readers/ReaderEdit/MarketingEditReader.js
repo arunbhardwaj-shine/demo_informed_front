@@ -1610,7 +1610,7 @@ const MarketingEditReader = () => {
                     <div className="log-activity-box"
                       key={index}
                     >
-                      <span>{log?.value}</span> <span>{log?.date}</span>{" "}
+                        <pre>{log?.value}</pre> <span>{log?.date}</span>{" "}
                       <div className="add_product">
                         <button
                             onClick={() => {

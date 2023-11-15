@@ -1397,7 +1397,7 @@ const MarketingAddReader = () => {
                 <div className="new-change">
                   {logs?.map((log, index) => (
                     <div className="log-activity-box" key={index}>
-                      <span>{log?.value}</span> <span>{log?.date}</span>{" "}
+                      <pre>{log?.value}</pre><span>{log?.date}</span>{" "}
                       <div className="add_product">
                         <button
                           onClick={() => {

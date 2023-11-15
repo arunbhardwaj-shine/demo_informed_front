@@ -8550,13 +8550,21 @@ section.search-hcp.smart-list-view .header-btn-left {
   gap: 13px 0;
 }
 
-.create-change-content .right-change .log-activity-box span:first-child {
+.create-change-content .right-change .log-activity-box pre:first-child {
   margin-left: 0;
   margin-right: auto;
   flex: 1 1;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  color: #0066BE;
+  font-weight: 400;
+  font-size: 16px;
+  margin:0;
+  font-family: "Roboto", sans-serif;
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
 }
 
 .create-change-content .right-change .form-group.new-change span {
@@ -8856,6 +8864,22 @@ html {
   padding-right: 10px;
 }
 
+
+.data-preview .modal-body pre {
+  display: flex;
+  word-break: break-word;
+  margin: 0 0 7px;
+  font-weight: 400;
+  color: #004a89;
+  flex: 0 0 100%;
+  font-size: 16px;
+  padding-right: 10px;
+  white-space: pre-wrap;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+
+}
 .data-preview .modal-body h5 span {
   font-weight: 500;
   color: rgba(0, 74, 137, 0.55);
