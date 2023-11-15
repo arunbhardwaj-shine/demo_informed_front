@@ -70,6 +70,7 @@ const CommonExtensionModal = ({
           ? e
           : e?.target?.value,
       });
+      setError({});
     } else {
       setFormData({
         ...formData,
@@ -310,30 +311,6 @@ const CommonExtensionModal = ({
                               )}
                             </div>
                           </div>
-                          {/* <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="">Field name</label>
-                              <input
-                                type="text"
-                                name="name"
-                                placeholder="Enter name"
-                                className={
-                                  error?.label
-                                    ? "form-control error"
-                                    : "form-control"
-                                }
-                                value={formData?.name}
-                                onChange={(e) => handleChange(e)}
-                              />
-                              {error?.name ? (
-                                <div className="login-validation">
-                                  {error?.name}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div> */}
 
                           {formData?.inputType == "text" ||
                           formData?.inputType == "email" ||

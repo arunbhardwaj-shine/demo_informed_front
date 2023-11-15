@@ -42,8 +42,6 @@ const CommonAddQuestionModal = ({
   }, [show]);
 
   const handleClose = () => {
-
-  
     setFormData({
       label: "",
       inputType: "",
@@ -73,6 +71,7 @@ const CommonAddQuestionModal = ({
           ? e
           : e?.target?.value,
       });
+      setError({});
     } else if (isSelectedName == "extension") {
       setFormData({
         ...formData,
@@ -88,10 +87,7 @@ const CommonAddQuestionModal = ({
           : e?.target?.value,
       });
     }
-
   };
-
- 
 
   const saveClicked = (e) => {
     e.preventDefault();
@@ -102,7 +98,7 @@ const CommonAddQuestionModal = ({
       extension: [],
       checked: "",
     };
-   
+
     if (formData?.option?.length) {
       let index = formData?.option?.findIndex(
         (data, index) => data?.optionLabel == ""
@@ -110,25 +106,30 @@ const CommonAddQuestionModal = ({
       const lastTwoItems = formData?.option?.slice(-2);
       const [item1, item2] = lastTwoItems;
       const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
-   
-      if (formData.option.some((option, i) => i < formData.option.length - 1 && option.optionLabel === formData.option[formData.option.length - 1].optionLabel)) {
+
+      if (
+        formData.option.some(
+          (option, i) =>
+            i < formData.option.length - 1 &&
+            option.optionLabel ===
+              formData.option[formData.option.length - 1].optionLabel
+        )
+      ) {
         toast.error("Option can't be the same");
         return;
-      } 
-       else if (areLabelsEqual) {
+      } else if (areLabelsEqual) {
         toast.error("Option can't be the same");
         return;
-      } 
+      }
     }
-    
+
     if (Object.keys(error)?.length) {
       // toast.error(error[Object.keys(error)[0]]);
-      toast.error(error.option)
-      console.log(error)
+      toast.error(error.option);
+      console.log(error);
       setError(error);
       return;
     } else {
-      
       handleSave({ ...formData, name: `dynamic_${dynamicFieldNo}` });
       handleClose();
       setError();
@@ -170,7 +171,7 @@ const CommonAddQuestionModal = ({
       extension: [],
       checked: "",
     };
-   
+
     if (formData?.option?.length) {
       let index = formData?.option?.findIndex(
         (data, index) => data?.optionLabel == ""
@@ -179,15 +180,20 @@ const CommonAddQuestionModal = ({
       const [item1, item2] = lastTwoItems;
       const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
 
-      if (formData.option.some((option, i) => i < formData.option.length - 1 && option.optionLabel === formData.option[formData.option.length - 1].optionLabel)) {
+      if (
+        formData.option.some(
+          (option, i) =>
+            i < formData.option.length - 1 &&
+            option.optionLabel ===
+              formData.option[formData.option.length - 1].optionLabel
+        )
+      ) {
         toast.error("Option can't be the same");
         return;
-      } 
-      else if (index > -1) {
+      } else if (index > -1) {
         toast.error(`Please fill the option ${index + 1}`);
         return;
-      }
-       else if (areLabelsEqual) {
+      } else if (areLabelsEqual) {
         toast.error("Option can't be the same");
         return;
       } else {
@@ -197,7 +203,7 @@ const CommonAddQuestionModal = ({
       setFormData({ ...formData, option: [...formData?.option, optionObj] });
     }
   };
-  
+
   const deleteOption = (e, index) => {
     e.preventDefault();
     let updatedFormData = formData?.option;
@@ -363,14 +369,17 @@ const CommonAddQuestionModal = ({
                                       }`}</label>
                                       <input
                                         className={
-                                          error?.option && error?.index == index || error?.options && error?.index == index
+                                          (error?.option &&
+                                            error?.index == index) ||
+                                          (error?.options &&
+                                            error?.index == index)
                                             ? "form-control error"
                                             : "form-control"
                                         }
                                         type="text"
                                         placeholder="Enter option"
                                         value={
-                                          formData?.option[item]?.optionLabel 
+                                          formData?.option[item]?.optionLabel
                                         }
                                         onChange={(e) =>
                                           handleChange(e, "optionValue", index)
@@ -384,7 +393,7 @@ const CommonAddQuestionModal = ({
                                       ) : (
                                         ""
                                       )}
-                                       {error?.options &&
+                                      {error?.options &&
                                       error?.index == index ? (
                                         <div className="login-validation">
                                           {error?.options}
@@ -410,7 +419,7 @@ const CommonAddQuestionModal = ({
                                 )
                               )
                             : ""}
-                            {formData?.inputType == "radio" ||
+                          {formData?.inputType == "radio" ||
                           formData?.inputType == "checkbox" ? (
                             <div className="add-extension">
                               <label htmlFor="">Add Extension</label>
@@ -439,7 +448,6 @@ const CommonAddQuestionModal = ({
                           ) : (
                             ""
                           )}
-                          
                         </div>
                       </div>
                     </div>
