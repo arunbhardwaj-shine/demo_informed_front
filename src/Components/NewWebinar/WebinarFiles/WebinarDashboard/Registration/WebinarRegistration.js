@@ -67,74 +67,95 @@ const WebinarRegistration = () => {
       backgroundColor: "",
       body: [
         {
-          label: "I will attend:",
+          label: "i will attend:",
           inputType: "radio",
           placeholder: "",
-          required: "yes",
           option: [
             {
               optionLabel:
                 "Both, International ITI School & MOTIVATE Investigators meeting",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel: "International ITI School",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel: "MOTIVATE Investigators meeting",
+              extension: [],
+              checked: "",
             },
           ],
-          name: "i will attend:",
+          required: "",
+          extension: false,
+          name: "dynamic_8",
         },
         {
-          label: "travel accomodation",
+          label: "I would like to:",
           inputType: "radio",
+          placeholder: "",
           option: [
             {
               optionLabel: "Organize my own travel",
               extension: [],
+              checked: "",
             },
             {
               optionLabel: "Have my travel arranged by the meeting organizers",
               extension: [
                 {
-                  name: "departure",
                   label: "Airport of departure",
+                  name: "dynamic_10",
                   inputType: "text",
                   placeholder: "Airport of departure",
+                  option: [],
                 },
                 {
-                  name: "air_departure_date",
                   label: "Preferred departure date",
-                  inputType: "datepicker",
-                  placeholder: "dd-mm-yyyy",
+                  name: "dynamic_11",
+                  inputType: "date",
+                  placeholder: "",
+                  option: [],
                 },
                 {
-                  name: "departure_time",
                   label: "Preferred departure time",
+                  name: "dynamic_12",
                   inputType: "radio",
+                  placeholder: "",
                   option: [
                     {
                       optionLabel: "Morning",
+                      extension: [],
+                      checked: "",
                     },
                     {
                       optionLabel: "Afternoon",
+                      extension: [],
+                      checked: "",
                     },
                     {
                       optionLabel: "Evening",
+                      extension: [],
+                      checked: "",
                     },
                   ],
                 },
                 {
-                  name: "air_return_date",
                   label: "Preferred return flight date",
-                  inputType: "datepicker",
-                  placeholder: "dd-mm-yyyy",
+                  name: "dynamic_13",
+                  inputType: "date",
+                  placeholder: "",
+                  option: [],
                 },
               ],
+              checked: "",
             },
           ],
-          required: "yes",
-          name: "travel accomodation",
+          required: "",
+          extension: true,
+          name: "dynamic_9",
         },
         {
           label: "I consent to:",
@@ -144,21 +165,43 @@ const WebinarRegistration = () => {
             {
               optionLabel:
                 "Be contacted by the MOTIVATE team for the purpose of this meeting*",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel: "Receive future materials from MOTIVATE",
+              extension: [],
+              checked: "",
             },
           ],
-          required: "yes",
-          name: "i consent to:",
+          required: "",
+          extension: false,
+          name: "dynamic_14",
         },
         {
-          name: "country",
           label: "Your Country",
           inputType: "selection",
-          placeholder: "Please enter country",
-          option: [],
-          required: "Yes",
+          placeholder: "",
+          option: [
+            {
+              optionLabel: "US",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Canada",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Other",
+              extension: [],
+              checked: "",
+            },
+          ],
+          required: "",
+          extension: "",
+          name: "dynamic_16",
         },
         {
           label: "name",
@@ -174,7 +217,87 @@ const WebinarRegistration = () => {
           inputType: "email",
           placeholder: "Please enter email",
           option: [],
-          required: "Yes",
+          required: "",
+        },
+      ],
+    },
+    {
+      templateId: 2,
+      pageTitle: "To register please fill in all your details below.",
+      bodyText: "",
+      headerImageUrl: "",
+      footerImageUrl: "",
+      labelColor: "",
+      backgroundColor: "",
+      body: [
+        {
+          label: "I consent to",
+          inputType: "checkbox",
+          placeholder: "",
+          required: "yes",
+          option: [
+            {
+              optionLabel:
+                "my participation during the live webinar being recorded for live streaming and on-demand use*",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel:
+                "receive future digital library materials (these may be of a promotional nature)",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel:
+                "invites for future Octapharma haematology events (these may be promotional events)",
+              extension: [],
+              checked: "",
+            },
+          ],
+          extension: "",
+          name: "dynamic_0",
+        },
+        {
+          label: "Your Country",
+          inputType: "selection",
+          placeholder: "",
+          option: [
+            {
+              optionLabel: "US",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Canada",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Other",
+              extension: [],
+              checked: "",
+            },
+          ],
+          required: "",
+          extension: "",
+          name: "dynamic_1",
+        },
+        {
+          label: "name",
+          name: "userName",
+          inputType: "text",
+          placeholder: "Please enter name",
+          option: [],
+          required: "",
+        },
+        {
+          label: "email",
+          name: "userEmail",
+          inputType: "email",
+          placeholder: "Please enter email",
+          option: [],
+          required: "",
         },
       ],
     },
@@ -205,12 +328,29 @@ const WebinarRegistration = () => {
           required: "",
         },
         {
-          name: "country",
-          label: "country",
+          label: "Your Country",
           inputType: "selection",
-          placeholder: "Please enter country",
-          option: [],
+          placeholder: "",
           required: "",
+          option: [
+            {
+              optionLabel: "US",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Canada",
+              extension: [],
+              checked: "",
+            },
+            {
+              optionLabel: "Other",
+              extension: [],
+              checked: "",
+            },
+          ],
+          extension: "",
+          name: "dynamic_0",
         },
         {
           label: "I will attend:",
@@ -220,13 +360,18 @@ const WebinarRegistration = () => {
             {
               optionLabel:
                 "Both Factor VIII Relevance Academy and EAHAD congress",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel: "Factor VIII Relevance Academy only",
+              extension: [],
+              checked: "",
             },
           ],
-          required: "no",
-          name: "i will attend:",
+          required: "",
+          extension: "",
+          name: "dynamic_1",
         },
         {
           label:
@@ -238,20 +383,25 @@ const WebinarRegistration = () => {
               optionLabel: "Yes",
               extension: [
                 {
-                  name: "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
-                  // "label": "Airport of departure",
+                  label: " ",
+                  name: "dynamic_3",
                   inputType: "text",
                   placeholder:
                     "In case you have any dietary restrictions or allergies please specify here",
+                  option: [],
                 },
               ],
+              checked: "",
             },
             {
               optionLabel: "No",
+              extension: [],
+              checked: "",
             },
           ],
-          required: "no",
-          name: "i will join the factor viii relevance academy dinner (5th feb) :",
+          required: "",
+          extension: true,
+          name: "dynamic_2",
         },
         {
           label: "I would like to:",
@@ -260,22 +410,31 @@ const WebinarRegistration = () => {
           option: [
             {
               optionLabel: "Organize my own accomodation",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel:
                 "Have my accommodation organized for 1 night on the 4th of Feb",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel:
                 "Have my accommodation organized for 1 night only on the 5th of Feb",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel:
-                "Have my accommodation organized for 1 night only on the 5th of Feb",
+                "Have my accommodation organized for 2 nights (4th and 5th Feb)",
+              extension: [],
+              checked: "",
             },
           ],
-          required: "no",
-          name: "i would like to:",
+          required: "",
+          extension: "",
+          name: "dynamic_4",
         },
         {
           label: "I consent to:",
@@ -285,13 +444,18 @@ const WebinarRegistration = () => {
             {
               optionLabel:
                 "Being contacted by FVIII Academy organizing team for the purpose of this meeting*",
+              extension: [],
+              checked: "",
             },
             {
               optionLabel: "Receive future materials from the FVIII Academy",
+              extension: [],
+              checked: "",
             },
           ],
-          required: "no",
-          name: "i consent to:",
+          required: "",
+          extension: "",
+          name: "dynamic_5",
         },
       ],
     },
@@ -821,7 +985,6 @@ if(hadData?.event_id && hadData?.company_id){
     e.preventDefault();
 
     setFormData(formData);
-
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
       if (Object.keys(error)?.length) {
