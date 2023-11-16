@@ -3867,6 +3867,7 @@ input[type="number"] {
   padding: 17px 16px;
   position: relative;
 }
+
 .timeline-block button.timeline-block-edit-log {
   position: absolute;
   right: 15px;
@@ -4100,6 +4101,7 @@ input[type="number"] {
         height: 18px;
       }
     }
+
     pre {
       overflow: auto;
       font-size: 16px;
@@ -4107,7 +4109,7 @@ input[type="number"] {
       white-space: pre-wrap;
       font-family: "Roboto", sans-serif;
       line-height: 1.2;
-  }
+    }
   }
 }
 
@@ -17397,6 +17399,10 @@ img.change-password-image {
   border-radius: 20px;
   padding: 15px 18px;
   background-position: 95% center;
+}
+
+.vwd .consent-form .split-button-dropup>div:nth-child(3) {
+  background-color: #00529f;
 }
 
 .webinarRegistrationBody button.btn-back {
