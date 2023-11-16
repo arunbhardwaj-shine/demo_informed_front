@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import CommonExtensionModal from "./CommonExtensionModal";
 import AliceCarousel from "react-alice-carousel";
+import RegistrationPage from "./RegistrationPage";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -2627,12 +2628,18 @@ const WebinarRegistration = () => {
             <>
               {/* <p>You are previewing the  saved data .</p> */}
 
-              <iframe
+              {/* <iframe
                 src={`/event-registration?event=${event_code}`}
                 width="100%"
                 height="500px"
                 title="Event Registration"
-              />
+              /> */}
+              <RegistrationPage prevData={{
+        eventId: eventData?.event_id,
+        companyId: eventData?.company_id,
+        content: JSON.stringify(formData),
+        eventCode:event_code
+      }} />
             </>
           </Modal.Body>
         </Modal>

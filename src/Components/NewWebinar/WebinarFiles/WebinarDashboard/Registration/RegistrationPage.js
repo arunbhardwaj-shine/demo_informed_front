@@ -87,7 +87,7 @@ const stateOptions = [
   { label: "Virginia", value: "Virginia" },
 ];
 
-const RegistrationPage = () => {
+const RegistrationPage = ({prevData}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -95,8 +95,8 @@ const RegistrationPage = () => {
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
-
-  const prevData = useLocation()?.state;
+console.log(prevData);
+  // const prevData = useLocation()?.state;
   const event_code = new URLSearchParams(location.search).get("event");
 
   const [formData, setFormData] = useState(prevData || {});
@@ -112,22 +112,34 @@ const RegistrationPage = () => {
   );
 
   useEffect(() => {
-    if (!prevData?.content) {
+
       EventDataFun();
-    }
+    
   }, []);
 
   const EventDataFun = async () => {
     try {
       loader("show");
+      
       const response = await getData(
-        `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${prevData?.eventCode?prevData?.eventCode:event_code}`
       );
-      const hadData = {
+      let  hadData={
+
+      }
+      if (!prevData?.content) {
+        hadData = {
         ...response?.data?.data,
         content: JSON.parse(response?.data?.data?.content),
         raw_description: JSON.parse(response?.data?.data?.raw_description),
       };
+    }else{
+      hadData = {
+        ...response?.data?.data,
+        content: JSON.parse(prevData?.content),
+        raw_description: JSON.parse(response?.data?.data?.raw_description),
+      };
+    }
       setFormData(hadData);
       console.log(hadData);
       setPageColors({
@@ -213,7 +225,7 @@ const RegistrationPage = () => {
   }
   const myContent1 = (
     <>
-      {prevData && (
+      {/* {prevData && (
         <button
           type="submit"
           className="btn btn-primary"
@@ -222,7 +234,7 @@ const RegistrationPage = () => {
         >
           Back
         </button>
-      )}
+      )} */}
       {/* <div className="App">
       <h2>Login</h2>
       <form onSubmit={handleSubmit1}>
@@ -285,7 +297,7 @@ const RegistrationPage = () => {
   );
    const myContent2 = (
     <>
-      {prevData && (
+      {/* {prevData && (
         <button
           type="submit"
           className="btn btn-primary"
@@ -294,7 +306,7 @@ const RegistrationPage = () => {
         >
           Back
         </button>
-      )}
+      )} */}
       {/* <div className="App">
       <h2>Login</h2>
       <form onSubmit={handleSubmit1}>
@@ -357,7 +369,7 @@ const RegistrationPage = () => {
   ); 
   const myContent3 = (
     <>
-      {prevData && (
+      {/* {prevData && (
         <button
           type="submit"
           className="btn btn-primary"
@@ -366,7 +378,7 @@ const RegistrationPage = () => {
         >
           Back
         </button>
-      )}
+      )} */}
       {/* <div className="App">
       <h2>Login</h2>
       <form onSubmit={handleSubmit1}>
