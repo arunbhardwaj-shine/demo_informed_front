@@ -1595,6 +1595,11 @@ ul.tab-mail-list.data span.total-left small {
   flex: 0 0 115px;
 }
 
+.update_logs #download-qr .modal-body .form-group .login-validation {
+  position: static;
+  margin: 5px 0 0;
+}
+
 .update_logs #download-qr .modal-body .form-group textarea {
   border-radius: 15px;
   min-height: 160px;
