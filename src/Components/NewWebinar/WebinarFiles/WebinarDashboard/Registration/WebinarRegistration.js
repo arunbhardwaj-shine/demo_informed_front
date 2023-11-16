@@ -540,16 +540,22 @@ const WebinarRegistration = () => {
           company_id: hadData?.company_id,
         });
       }
-
       const newFormData = hadData?.content ? JSON.parse(hadData?.content) : [];
       dynamicFieldNo = newFormData?.totalFieldNo
         ? newFormData?.totalFieldNo
         : dynamicFieldNo;
-
       setFormData(newFormData);
-      // console.log(newFormData);
       setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
-      setActiveIndex(newFormData?.templateId ? newFormData?.templateId : 0);
+      let tempId = newFormData?.templateId;
+      if (tempId) {
+        let templateListData = [...templateList];
+        let tempData = templateListData[tempId - 1];
+        templateListData[tempId - 1] = templateListData[0];
+        templateListData[0] = tempData;
+        setTemplateList(templateListData);
+      }
+
+      setActiveIndex(tempId ? tempId : 0);
       setLogo(newFormData?.logoImageUrl ? newFormData?.logoImageUrl : "")
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
@@ -1042,7 +1048,27 @@ const WebinarRegistration = () => {
     }
     setActiveIndex(template?.templateId);
   };
-
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
+  };
   return (
     <>
       <Col className="right-sidebar">
@@ -1067,7 +1093,35 @@ const WebinarRegistration = () => {
                       onChange={handleSelectChange}
                       value={selectedItem}
                     />
+                    <span className="copy-content">
+                      <a
+                        href={`event-registration?event=${event_code}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          console.dir();
+                          let newLink = `${
+                            e.currentTarget.host
+                          }/${e.currentTarget.getAttribute("href")}`;
+                          copyToClipboard(newLink);
+                        }}
+                      >
+                        <img src={path_image + "copy-content.svg"} alt="Copy" />
+                      </a>
+                    </span>
+                    <div className="d-flex justify-content-center">
+                      <Button
+                        type="button"
+                        className="save btn-bordered"
+                        onClick={handlePreview}
+                      >
+                        Preview
+                      </Button>
+                      <Button onClick={(e) => saveClicked(e)} className="save">
+                        Save
+                      </Button>
+                    </div>
                   </div>
+
                   <div className="page-title">
                     <h4>Select Template</h4>
                   </div>
@@ -1088,7 +1142,7 @@ const WebinarRegistration = () => {
                           >
                             <img
                               id={`"template_dyn" + template?.popupNo`}
-                              src={`${path_image}/template-${index + 1}.png`}
+                              src={`${path_image}/template-${template?.templateId}.png`}
                               alt=""
                               className={
                                 typeof activeIndex !== "undefined" &&
@@ -1112,7 +1166,7 @@ const WebinarRegistration = () => {
                 <Row>
                   <Col md={8} sm={7}>
                     <div className="register-page-left">
-                      <Form onSubmit={saveClicked}>
+                      <Form>
                         <div className="form-group d-flex align-items-center">
                           <FormLabel>
                             Registration Page Title <span>*</span>
@@ -2362,7 +2416,7 @@ const WebinarRegistration = () => {
                             </div>
                           </section>
                         </div>
-                        <div className="d-flex justify-content-center">
+                        {/* <div className="d-flex justify-content-center">
                           <Button
                             type="button"
                             className="save btn-bordered"
@@ -2373,7 +2427,7 @@ const WebinarRegistration = () => {
                           <Button type="submit" className="save">
                             Save
                           </Button>
-                        </div>
+                        </div> */}
                       </Form>
                     </div>
                   </Col>

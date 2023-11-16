@@ -1,5 +1,10 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 const TemplateOne = ({ children ,formData}) => {
+  const eventData =formData?.raw_description;
+  const formattedDateString = moment(eventData.dateStart, 'D MMMM YYYY').format('D MMMM YYYY');
+
+
   return (
     <>
 <link rel="stylesheet" href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/fonts/fonts.css"/>
@@ -20,9 +25,16 @@ const TemplateOne = ({ children ,formData}) => {
                     />
                   </div>
                   <h2>
-                    5 February 2024
+                    {
+                                           formattedDateString
+
+                    }
                     <br />
-                    12:00-19:00
+                    {
+  `${eventData.dateStartHour}:${eventData.dateStartMin < 10 ? '0' + eventData.dateStartMin : eventData.dateStartMin}-${
+    eventData.dateEndHour
+  }:${eventData.dateEndMin < 10 ? '0' + eventData.dateEndMin : eventData.dateEndMin}`
+}
                     <br />
                     Frankfurt, Germany
                   </h2>
@@ -31,8 +43,9 @@ const TemplateOne = ({ children ,formData}) => {
               <div className="col-sm-4 col-md-4">
                 <div className="factor-season-right">
                   <h3>
-                    Robert F. Sidonio Jr.
-                    <br /> and Jan Astermark
+                    {
+                      eventData.speaker_name
+                    }
                   </h3>
                 </div>
               </div>

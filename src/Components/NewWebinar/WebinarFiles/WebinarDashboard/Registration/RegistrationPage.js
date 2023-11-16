@@ -129,6 +129,7 @@ const RegistrationPage = () => {
         raw_description: JSON.parse(response?.data?.data?.raw_description),
       };
       setFormData(hadData);
+      console.log(hadData);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
         background: hadData?.content?.backgroundColor,
@@ -525,6 +526,7 @@ const FormField1 = ({
             ? stateOptions
             : options
         }
+        placeholder="Select country"
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
