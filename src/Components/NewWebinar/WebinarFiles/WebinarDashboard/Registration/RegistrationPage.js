@@ -525,6 +525,7 @@ const FormField1 = ({
             ? stateOptions
             : options
         }
+        placeholder="Select country"
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
