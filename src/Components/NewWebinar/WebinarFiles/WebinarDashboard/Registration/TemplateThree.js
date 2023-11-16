@@ -36,16 +36,24 @@ const TemplateOne = ({ children ,formData}) => {
   }:${eventData.dateEndMin < 10 ? '0' + eventData.dateEndMin : eventData.dateEndMin}`
 }
                     <br />
-                    Frankfurt, Germany
+                   <span style={
+                   {
+                    textTransform:"capitalize"
+                   }
+                   }>
+                   {eventData?.location}
+                   </span>
                   </h2>
                 </div>
               </div>
               <div className="col-sm-4 col-md-4">
                 <div className="factor-season-right">
                   <h3>
-                    {
-                      eventData.speaker_name
-                    }
+                        <span style={
+                          {
+                           textTransform:"capitalize"
+                          }
+                          }> {eventData.speaker_name}</span>
                   </h3>
                 </div>
               </div>
