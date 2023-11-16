@@ -910,7 +910,7 @@ const WebinarRegistration = () => {
 
   const saveClicked = async (e) => {
     e.preventDefault();
-    console.log(formData?.body);
+
     setFormData(formData);
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
@@ -930,7 +930,7 @@ const WebinarRegistration = () => {
         companyId: eventData?.company_id,
         content: JSON.stringify(formData),
       };
-      console.log(eventData);
+
       const response = await postData(
         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
         data
