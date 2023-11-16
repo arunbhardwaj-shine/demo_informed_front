@@ -433,7 +433,7 @@ export default function PollListing() {
     } finally {
       setShowUploadMenu(false);
       const apiData = await getListingData(selectedItem?.value);
-      slickRef.current.slickGoTo(apiData.length);
+      // slickRef.current.slickGoTo(apiData.length);
       // setCurrentIndex(0);
       setQuestionFlag(false);
       loader("hide");
