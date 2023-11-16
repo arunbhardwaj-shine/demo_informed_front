@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-
-
 const TemplateOne = ({ children ,formData}) => {
-
   return (
     <>
-  <div className="wrapper">
+<link rel="stylesheet" href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/fonts/fonts.css"/>
+  <div className="wrapper emory">
     <section className="factor-season">
       <div className="container">
         <div className="row">
@@ -44,7 +42,6 @@ const TemplateOne = ({ children ,formData}) => {
       </div>
     </section>
   {children}
-  </div>
   <footer>
     <div className="container">
       <div className="row">
@@ -80,6 +77,8 @@ const TemplateOne = ({ children ,formData}) => {
       </div>
     </div>
   </footer>
+  </div>
+  
   <div className="modal fade" id="myModal">
     <div className="modal-dialog modal-dialog-centered">
       <div className="modal-content">

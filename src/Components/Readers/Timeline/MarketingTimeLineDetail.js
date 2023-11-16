@@ -1735,6 +1735,13 @@ const MarketingTimeLineDetail = (props) => {
                                       </div> */}
                                     </div>
 
+                                    <button className="timeline-block-edit-log" onClick={() => handleEditLogs(index,details)}>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="33" viewBox="0 0 28 33" fill="none">
+                                      <path d="M1.20158 32.2259C0.833603 32.3652 0.45356 32.0519 0.520092 31.6641L1.64674 25.0972C1.66147 25.0114 1.69834 24.9309 1.75373 24.8637L19.2673 3.61808L25.1553 8.47176L7.6417 29.7174C7.58631 29.7846 7.51434 29.8361 7.4329 29.867L1.20158 32.2259Z" fill="#0066BE"/>
+                                      <path d="M25.9642 7.49043L27.1584 6.0418C28.2829 4.6777 28.0979 2.65662 26.7467 1.54275L25.7654 0.733802C24.4141 -0.380056 22.3949 -0.175965 21.2704 1.18813L20.0762 2.63675L25.9642 7.49043Z" fill="#0066BE"/>
+                                      </svg>                
+                                    </button>
+
                                     <div className="timeline-article-device">
                                       <Table>
                                         <tbody>
@@ -1743,15 +1750,11 @@ const MarketingTimeLineDetail = (props) => {
                                               Message
                                             </th>
                                             <td className="device-name marketing">
+                                              <pre>
                                               {details?.value != ""
                                                 ? details.value
                                                 : ""}
-                                              <button onClick={() => handleEditLogs(index,details)}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="33" viewBox="0 0 28 33" fill="none">
-                                                <path d="M1.20158 32.2259C0.833603 32.3652 0.45356 32.0519 0.520092 31.6641L1.64674 25.0972C1.66147 25.0114 1.69834 24.9309 1.75373 24.8637L19.2673 3.61808L25.1553 8.47176L7.6417 29.7174C7.58631 29.7846 7.51434 29.8361 7.4329 29.867L1.20158 32.2259Z" fill="#0066BE"/>
-                                                <path d="M25.9642 7.49043L27.1584 6.0418C28.2829 4.6777 28.0979 2.65662 26.7467 1.54275L25.7654 0.733802C24.4141 -0.380056 22.3949 -0.175965 21.2704 1.18813L20.0762 2.63675L25.9642 7.49043Z" fill="#0066BE"/>
-                                                </svg>                
-                                              </button>
+                                              </pre>
                                             </td>
                                           </tr>
                                         </tbody>
