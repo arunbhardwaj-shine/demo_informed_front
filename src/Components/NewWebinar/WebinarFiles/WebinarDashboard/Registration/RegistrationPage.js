@@ -12,6 +12,7 @@ const userData = {
   name: "userName",
   email: "userEmail",
   country: "country",
+  "Your Country": "country",
   state: "state",
   consent: "consent",
   websiteFolder: "websiteFolder",
@@ -72,7 +73,6 @@ const RegistrationPage = () => {
         content: JSON.parse(response?.data?.data?.content),
         raw_description: JSON.parse(response?.data?.data?.raw_description),
       };
-      console.log(hadData);
       setFormData(hadData);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
@@ -102,7 +102,6 @@ const RegistrationPage = () => {
           virtual_or_live: raw?.meeting_type,
           websiteFolder: "new_webinar",
         });
-        console.log(response);
       } catch (error) {
         console.error("Error submitting data:", error);
       } finally {
@@ -117,7 +116,7 @@ const RegistrationPage = () => {
     const errors = {};
 
     formData?.content?.body?.forEach((form) => {
-      const label = userData[form.label] || form?.label?.replace(/ /g, "_");
+      const label = userData[form.label]?userData[form.label]:form?.label?.replace(/ /g, "_");
       const fieldValue = formFieldData[label];
 
       if (form.required === "yes" && !fieldValue) {
