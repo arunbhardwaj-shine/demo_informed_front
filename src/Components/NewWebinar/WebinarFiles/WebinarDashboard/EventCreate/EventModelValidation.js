@@ -1,12 +1,15 @@
 const EventModelValidation = (data) => {
   let error = {};
   const regemail =
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   if (!data?.title) {
     error.title = "Please enter title";
   }
-  
+  if (!data?.location) {
+    error.location = "Please enter location";
+  }
+
   if (!data?.timezone) {
     error.timezone = "Please select time zone";
   }
@@ -43,13 +46,10 @@ const EventModelValidation = (data) => {
     error.meeting_type = "Please select meeting type";
   }
 
-  if (
-    data?.speaker_email &&
-    regemail?.test(data?.speaker_email) === false
-  ) {
+  if (data?.speaker_email && regemail?.test(data?.speaker_email) === false) {
     error.speaker_email = "Speaker email required with email pattern";
   }
-  
+
   return error;
 };
 export default EventModelValidation;
