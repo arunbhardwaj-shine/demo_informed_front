@@ -834,10 +834,10 @@ const MarketingTimeLineDetail = (props) => {
                                 </div>
                               </div>
                             </li>
-                            <li>
+                            {/* <li>
                               <h6 className="tab-content-title">Note</h6>
-                              <div className="select-dropdown-wrapper">
-                                <textarea
+                              <div className="select-dropdown-wrapper"> */}
+                                {/* <textarea
                                   className="form-control"
                                   name="log_activity"
                                   id="formControlTextarea"
@@ -847,7 +847,7 @@ const MarketingTimeLineDetail = (props) => {
                                   onChange={(e) =>
                                     handleChange(e, "log_activity")
                                   }
-                                ></textarea>
+                                ></textarea> */}
                                 {/* {typeof lastnoteTime !== "undefined" &&
                                   lastnoteTime != "" && (
                                     <span>
@@ -879,8 +879,8 @@ const MarketingTimeLineDetail = (props) => {
                                                         isClearable
                                                     />
                                                 </div> */}
-                              </div>
-                            </li>
+                              {/* </div>
+                            </li> */}
                             <li>
                               <h6 className="tab-content-title">Next step</h6>
                               <div className="crm_picker">
