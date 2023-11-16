@@ -66,6 +66,7 @@ import OctaCountryRegistration from "./Components/Analytics/OctaCountryRegistrat
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReadersLayout from "./Components/Readers/ReadersView/ReadersLayout";
+import ReadersTimeLineLayout from "./Components/Readers/ReadersView/ReadersTimeLineLayout";
 import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReadersList";
 import ReaderLayout from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
@@ -407,7 +408,7 @@ const Routing = () => {
           path="/readers-list"
           element={<LoginLayout component={ReadersListAdd} />}
         />
-        <Route
+        {/* <Route
           path="/timeline-detail"
           element={
             localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
@@ -416,11 +417,11 @@ const Routing = () => {
               <LoginLayout component={TimelineDetail} />
             )
           }
-        />
-        {/*<Route
-          path="/timeline-detail"
-          element={<LoginLayout component={TimelineDetail} />}
         /> */}
+        <Route
+          path="/timeline-detail"
+          element={<LoginLayout component={ReadersTimeLineLayout} />}
+        />
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
