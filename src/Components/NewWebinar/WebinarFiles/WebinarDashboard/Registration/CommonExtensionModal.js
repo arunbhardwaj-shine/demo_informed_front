@@ -292,7 +292,8 @@ const CommonExtensionModal = ({
                           </div>
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-                              <label htmlFor="">Add Label</label>
+                              {/* <label htmlFor="">Add Label</label> */}
+                              {extensionData != "undefined" && extensionData? <label htmlFor="">Label Name</label>: <label htmlFor="">Add Label</label>}
                               <input
                                 type="text"
                                 name="label"
@@ -320,7 +321,8 @@ const CommonExtensionModal = ({
                           formData?.inputType == "textarea" ? (
                             <div className="col-12 col-md-6">
                               <div className="form-group">
-                                <label htmlFor="">Placeholder</label>
+                                {/* <label htmlFor="">Placeholder</label> */}
+                                {extensionData != "undefined" && extensionData? <label htmlFor="">Placeholder Value</label>: <label htmlFor="">Placeholder</label>}
                                 <input
                                   type="text"
                                   name="placeholder"

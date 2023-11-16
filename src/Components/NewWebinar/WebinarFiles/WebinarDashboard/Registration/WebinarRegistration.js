@@ -1491,7 +1491,7 @@ const WebinarRegistration = () => {
                                                                               }`}
                                                                               dateFormat="dd/MM/yyyy"
                                                                               className="form-control"
-                                                                              placeholderText="Select task date"
+                                                                              placeholderText="Select date"
                                                                               // minDate={currentDate}
 
                                                                               onKeyDown={(
@@ -1889,7 +1889,7 @@ const WebinarRegistration = () => {
                                                                               }`}
                                                                               dateFormat="dd/MM/yyyy"
                                                                               className="form-control"
-                                                                              placeholderText="Select task date"
+                                                                              placeholderText="Select date"
                                                                               // minDate={currentDate}
 
                                                                               onKeyDown={(
