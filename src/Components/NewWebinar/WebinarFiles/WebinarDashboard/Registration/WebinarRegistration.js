@@ -792,7 +792,7 @@ const WebinarRegistration = () => {
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
 
-            required: "",
+            required: "yes",
           };
           updateFormBody?.push(newObj);
         } else if (isSelectedName == "travel accomodation") {
@@ -800,6 +800,7 @@ const WebinarRegistration = () => {
             label: isSelectedName,
             name: isSelectedName,
             inputType: "radio",
+            required: "yes",
             option: [
               { optionLabel: "Organize my own travel", extension: [] },
               {
@@ -866,7 +867,7 @@ const WebinarRegistration = () => {
             inputType: "selection",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
-            required: "",
+            required: "yes",
           };
           updateFormBody?.push(newObj);
         }
@@ -891,7 +892,11 @@ const WebinarRegistration = () => {
         });
       }
     } else {
-      setFormData({ ...formData, [e.target.name]: e?.target?.value });
+      setFormData({
+        ...formData,
+        [e.target.name]: e?.target?.value,
+        required: "yes",
+      });
     }
   };
 
