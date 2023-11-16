@@ -129,6 +129,7 @@ const RegistrationPage = () => {
         raw_description: JSON.parse(response?.data?.data?.raw_description),
       };
       setFormData(hadData);
+      console.log(hadData);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
         background: hadData?.content?.backgroundColor,
