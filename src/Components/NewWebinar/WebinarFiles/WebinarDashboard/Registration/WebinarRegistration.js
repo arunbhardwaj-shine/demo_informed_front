@@ -541,13 +541,16 @@ const WebinarRegistration = () => {
         : dynamicFieldNo;
       setFormData(newFormData);
       setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
-      let tempId=newFormData?.templateId
-      let templateListData=[...templateList]
-      let tempData=templateListData[tempId-1];
-      templateListData[tempId-1]=templateListData[0];
-      templateListData[0]=tempData
-      setTemplateList(templateListData)
-      setActiveIndex(tempId? tempId: 0);
+      let tempId = newFormData?.templateId;
+      if (tempId) {
+        let templateListData = [...templateList];
+        let tempData = templateListData[tempId - 1];
+        templateListData[tempId - 1] = templateListData[0];
+        templateListData[0] = tempData;
+        setTemplateList(templateListData);
+      }
+
+      setActiveIndex(tempId ? tempId : 0);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
     } catch (err) {
@@ -1064,27 +1067,35 @@ const WebinarRegistration = () => {
                       onChange={handleSelectChange}
                       value={selectedItem}
                     />
-                           <span
-                                      className="copy-content"
-                                    
-                                    >
-                                    
-                                    <a  href={`event-registration?event=${event_code}`}  onClick={(e) => {
-
-                                      e.preventDefault()
-                                      console.dir();
-                                      let newLink=`${e.currentTarget.host}/${e.currentTarget.getAttribute('href')}`
-                                        copyToClipboard(newLink);
-                                      }} >
-
-                                 
-                                      <img
-                                        src={path_image + "copy-content.svg"}
-                                        alt="Copy"
-                                      />
-                                         </a>
-                                    </span>
+                    <span className="copy-content">
+                      <a
+                        href={`event-registration?event=${event_code}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          console.dir();
+                          let newLink = `${
+                            e.currentTarget.host
+                          }/${e.currentTarget.getAttribute("href")}`;
+                          copyToClipboard(newLink);
+                        }}
+                      >
+                        <img src={path_image + "copy-content.svg"} alt="Copy" />
+                      </a>
+                    </span>
+                    <div className="d-flex justify-content-center">
+                      <Button
+                        type="button"
+                        className="save btn-bordered"
+                        onClick={handlePreview}
+                      >
+                        Preview
+                      </Button>
+                      <Button onClick={(e) => saveClicked(e)} className="save">
+                        Save
+                      </Button>
+                    </div>
                   </div>
+
                   <div className="page-title">
                     <h4>Select Template</h4>
                   </div>
@@ -1129,7 +1140,7 @@ const WebinarRegistration = () => {
                 <Row>
                   <Col md={8} sm={7}>
                     <div className="register-page-left">
-                      <Form onSubmit={saveClicked}>
+                      <Form>
                         <div className="form-group d-flex align-items-center">
                           <FormLabel>
                             Registration Page Title <span>*</span>
@@ -2379,7 +2390,7 @@ const WebinarRegistration = () => {
                             </div>
                           </section>
                         </div>
-                        <div className="d-flex justify-content-center">
+                        {/* <div className="d-flex justify-content-center">
                           <Button
                             type="button"
                             className="save btn-bordered"
@@ -2390,7 +2401,7 @@ const WebinarRegistration = () => {
                           <Button type="submit" className="save">
                             Save
                           </Button>
-                        </div>
+                        </div> */}
                       </Form>
                     </div>
                   </Col>
