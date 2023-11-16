@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Table, Button, ProgressBar } from "react-bootstrap";
+import { Col, Row, Table, Button, ProgressBar, Modal, Form } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { postData, getData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
@@ -11,6 +11,7 @@ import CommonModel from "../../../Model/CommonModel";
 import { popup_alert } from "../../../popup_alert";
 import "react-datepicker/dist/react-datepicker.css";
 import { type } from "@amcharts/amcharts4/core";
+import modelValidation from "../../../Model/ModelValidation";
 // import {
 //   Accordion,
 //   Col,
@@ -24,12 +25,13 @@ import { type } from "@amcharts/amcharts4/core";
 
 const MarketingTimeLineDetail = (props) => {
   const [logs, setLogs] = useState([]);
-
+  const [mainLogs, setMainLogs] = useState([]);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const { state } = useLocation();
   const [isActive, setIsActive] = useState(false);
+  const [logShow, setLogShow] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [page, setPage] = useState(1);
   const [channel, setChannelAll] = useState([]);
@@ -42,10 +44,16 @@ const MarketingTimeLineDetail = (props) => {
   const [commonFooter, setCommonFooter] = useState("");
   const [lastnoteTime, setlastnoteTime] = useState("");
   const [data, setData] = useState([]);
+  const [errors, setError] = useState({});
   const [readerId, setReaderId] = useState(localStorage.getItem("myData"));
   const [newProduct, setNewProduct] = useState({
     label: "",
     value: "",
+  });
+  const [logInputs, setLogInputs] = useState({
+    logActivity: "",
+    logActivityDate: "",
+    index: '',
   });
   const [commanShow, setCommanShow] = useState(false);
   let obj = {
@@ -220,7 +228,6 @@ const MarketingTimeLineDetail = (props) => {
       });
       await getTimeLineStatsData();
       if (Object.keys(timeLineData)?.length) {
-        console.log("First");
         // let newAr = [...timeLineData?.timeline,...res?.data?.data?.timeline]
         const data = {
           timeline: res?.data?.data?.timeline,
@@ -242,13 +249,12 @@ const MarketingTimeLineDetail = (props) => {
             : logs instanceof Object
             ? [logs]
             : [];
+          setMainLogs(logs);
           logs = logs.map((log) => ({
             ...log,
-            date: moment(log?.date).format("D MMM YYYY"),
+            date: moment(log?.date).format("DD MMM YYYY"),
           }));
-          console.log(logs, "logs");
           setLogs(logs);
-
           note = jsonObject?.value;
           const dateTime = new Date(jsonObject?.date);
           let lasttime = formatDate(dateTime);
@@ -459,6 +465,59 @@ const MarketingTimeLineDetail = (props) => {
       loader("hide");
     }
   };
+
+  const handleEditLogs = (index, details) => {
+    setLogShow(true);
+    setLogInputs({
+      logActivity: details?.value,
+      logActivityDate: moment(details.date),
+      index: index
+    });
+  }
+
+  const handleLogsChange = (e, isSelectedName) => {
+    setLogInputs({
+      ...logInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e
+        : e?.target?.value,
+    });
+  }
+
+  const saveLogs = async(e) => {
+    e.preventDefault();
+    const error = modelValidation(logInputs);
+    if (Object.keys(error)?.length) {
+      console.log("errors",error);
+      setError(error);
+      return;
+    }else{
+      try{
+        setError({});
+        loader("show");
+        let get_index = logInputs?.index;
+        let new_date =  moment(logInputs?.logActivityDate).format('MM/DD/YYYY');
+        mainLogs[get_index].value = logInputs?.logActivity;
+        mainLogs[get_index].date  = new_date;
+        let payload = {
+          'logs' : JSON.stringify(mainLogs),
+          'userId' : readerId,
+        }
+        const res = await postData(ENDPOINT.UPDATELOGS, payload);
+        setLogShow(false);
+        getUserTimelineData();
+      }catch(err){
+        loader("hide");
+        console.log(err);
+      }
+    }
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 8 || event.keyCode === 46) {
+      event.preventDefault();
+    }
+  }
 
   return (
     <>
@@ -789,7 +848,7 @@ const MarketingTimeLineDetail = (props) => {
                                     handleChange(e, "log_activity")
                                   }
                                 ></textarea>
-                                {typeof lastnoteTime !== "undefined" &&
+                                {/* {typeof lastnoteTime !== "undefined" &&
                                   lastnoteTime != "" && (
                                     <span>
                                       <>
@@ -799,7 +858,7 @@ const MarketingTimeLineDetail = (props) => {
                                         )}
                                       </>
                                     </span>
-                                  )}
+                                  )} */}
 
                                 {/*<div className="select">
                                                     <Select
@@ -1676,6 +1735,13 @@ const MarketingTimeLineDetail = (props) => {
                                       </div> */}
                                     </div>
 
+                                    <button className="timeline-block-edit-log" onClick={() => handleEditLogs(index,details)}>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="33" viewBox="0 0 28 33" fill="none">
+                                      <path d="M1.20158 32.2259C0.833603 32.3652 0.45356 32.0519 0.520092 31.6641L1.64674 25.0972C1.66147 25.0114 1.69834 24.9309 1.75373 24.8637L19.2673 3.61808L25.1553 8.47176L7.6417 29.7174C7.58631 29.7846 7.51434 29.8361 7.4329 29.867L1.20158 32.2259Z" fill="#0066BE"/>
+                                      <path d="M25.9642 7.49043L27.1584 6.0418C28.2829 4.6777 28.0979 2.65662 26.7467 1.54275L25.7654 0.733802C24.4141 -0.380056 22.3949 -0.175965 21.2704 1.18813L20.0762 2.63675L25.9642 7.49043Z" fill="#0066BE"/>
+                                      </svg>                
+                                    </button>
+
                                     <div className="timeline-article-device">
                                       <Table>
                                         <tbody>
@@ -1683,10 +1749,12 @@ const MarketingTimeLineDetail = (props) => {
                                             <th className="device-title">
                                               Message
                                             </th>
-                                            <td className="device-name">
+                                            <td className="device-name marketing">
+                                              <pre>
                                               {details?.value != ""
                                                 ? details.value
                                                 : ""}
+                                              </pre>
                                             </td>
                                           </tr>
                                         </tbody>
@@ -1736,6 +1804,94 @@ const MarketingTimeLineDetail = (props) => {
         handleChange={handleModelFun}
         handleSubmit={handleSubmitModelFun}
       />
+
+
+      <Modal
+        show={logShow}
+        className="send-confirm update_logs"
+        id="download-qr"
+      >
+        <Modal.Header>
+          <h5 className="modal-title" id="staticBackdropLabel">
+            Update Logs activity
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => setLogShow(!logShow)}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+          <div className="form-group">
+            <label htmlFor="">Update Logs</label>
+            <div className="modal-form-group">
+              <textarea
+                name="logActivity"
+                defaultValue={logInputs?.logActivity}
+                value={logInputs?.logActivity}
+                className="form-control"
+                id="formControlTextarea"
+                rows="4"
+                onChange={(e) =>
+                  handleLogsChange(e?.target?.value, "logActivity")
+                }
+                placeholder="Please type your notes here..."
+              ></textarea>
+              {errors?.logActivity ? (
+                <div className="login-validation">Logs is required</div>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>  
+
+          <div className="form-group">
+              <label htmlFor="">Logs Date</label>
+              <div className="modal-form-group">
+              <DatePicker
+                selected={
+                  logInputs?.logActivityDate
+                    ? new Date(logInputs?.logActivityDate)
+                    : new Date(
+                        moment(
+                          new Date(),
+                          "DD/MM/YYYY"
+                        ).format("DD/MM/YYYY")
+                      )
+                }
+                name="expDatetime"
+                dateFormat="dd/MM/yyyy"
+                className="form-control"
+                onKeyDown={handleKeyDown}
+                popperPlacement="top"
+                onChange={(e) =>
+                  handleLogsChange(e, "logActivityDate")
+                }
+                id={"log_date_change"}
+              />
+              {errors?.logActivityDate ? (
+                <div className="login-validation">Log Date is required</div>
+              ) : (
+                ""
+              )}
+              </div>  
+          </div>
+          </Form>
+        </Modal.Body>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-primary save btn-filled"
+            onClick={(e) => {
+              saveLogs(e);
+            }}
+          >
+            Save
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };

@@ -162,8 +162,10 @@ import PageNotFound from "./Components/CommonComponent/PageNotFound";
 import Feedback from "./Components/R&D/Feedback";
 import WebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/WebinarRegistration";
 import SurveyBuilder from "./Components/Webinar/Survey/SurveyBuilder";
-import QuestionListing from "./Components/Webinar/Survey/QuestionListing";
+import PollListing from "./Components/Webinar/Survey/PollListing";
 import AutoLogout from "./Components/Login/AutoLogout";
+import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
+import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/RegistrationPage";
 let platform = 0;
 let show = 0;
 
@@ -520,11 +522,17 @@ const Routing = () => {
         <Route
           path="/add-poll"
           element={<LoginLayout component={SurveyBuilder} />}
-        /> 
-        <Route
-          path="/question-listing"
-          element={<LoginLayout component={QuestionListing} />}
         />
+        <Route
+          path="/poll-listing"
+          element={<LoginLayout component={PollListing} />}
+        />
+        {/* <Route
+          path="/event-registration"
+          element={<LoginLayout component={RegistrationPage} />}
+        /> */}
+                  <Route  path="/event-registration" element={<RegistrationPage />} />
+
         <Route
           path="/contact-form"
           element={<LoginLayout component={ContactForm} />}
@@ -546,12 +554,16 @@ const Routing = () => {
           element={<LoginLayout component={EventCreate} />}
         />
         <Route
-          path="/new-event-create"
+          path="/event-listing"
           element={<LoginLayout component={NewEventCreate} />}
         />
         <Route
           path="/webinar-registration"
           element={<LoginLayout component={WebinarRegistration} />}
+        />
+        <Route
+          path="/edit-webinar-registration"
+          element={<LoginLayout component={EditWebinarRegistration} />}
         />
         <Route
           path="/setting-webinar"

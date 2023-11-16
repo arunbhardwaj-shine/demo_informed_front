@@ -4,56 +4,57 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 import RegistrationValidation from "./AddQuestionValidation";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const CommonAddQuestionModal = ({
+const CommonExtensionModal = ({
   show,
   onClose,
   handleSave,
   formLabel,
-  fieldData,
+  extensionData,
   dynamicFieldNo,
 }) => {
   const [inputOptions, setInputOption] = useState([
     { label: "Text", value: "text" },
-    { label: "Email", value: "email" },
+    { label: "Radio", value: "radio" },
+    { label: "Date", value: "date" },
     { label: "Textarea", value: "textarea" },
     { label: "Selection", value: "selection" },
     { label: "Checkbox", value: "checkbox" },
-    { label: "Radio", value: "radio" },
   ]);
-  const [requiredOption, setRequiredOption] = useState([
-    { label: "Yes", value: "yes" },
-    { label: "No", value: "no" },
-  ]);
+
   const [formData, setFormData] = useState({
     label: "",
+    name: "",
     inputType: "",
     placeholder: "",
-    required: "",
-    option: "",
-    extension: "",
+    option: [],
   });
   const [error, setError] = useState({});
-
   useEffect(() => {
-    if (fieldData) {
-      let editFormData = JSON.parse(JSON.stringify(fieldData));
+    if (extensionData != "undefined" && extensionData) {
+      let editFormData = JSON.parse(JSON.stringify(extensionData));
+      // let editFormData = extensionData;
       setFormData(editFormData);
+    } else {
+      setFormData({
+        label: "",
+        name: "",
+        inputType: "",
+        placeholder: "",
+        option: [],
+      });
     }
   }, [show]);
-
   const handleClose = () => {
     setFormData({
       label: "",
+      name: "",
       inputType: "",
       placeholder: "",
       option: [],
-      required: "",
-      extension: "",
     });
     onClose(false);
     setError();
   };
-
   const handleChange = (e, isSelectedName, index) => {
     if (isSelectedName == "optionValue") {
       let updateOption = formData?.option;
@@ -65,20 +66,12 @@ const CommonAddQuestionModal = ({
         label: "",
         option: [],
         placeholder: "",
-        required: "",
-        extension: "",
+
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
           ? e
           : e?.target?.value,
       });
       setError({});
-    } else if (isSelectedName == "extension") {
-      setFormData({
-        ...formData,
-        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-          ? e?.target?.checked
-          : e?.target?.value,
-      });
     } else {
       setFormData({
         ...formData,
@@ -89,10 +82,16 @@ const CommonAddQuestionModal = ({
     }
   };
 
+  // const saveClicked = (e) => {
+  //   e.preventDefault();
+  //   handleSave(formData);
+  //   handleClose();
+  // };
+
   const saveClicked = (e) => {
     e.preventDefault();
 
-    const error = RegistrationValidation(formData, formLabel, fieldData);
+    const error = RegistrationValidation(formData, formLabel, extensionData);
     let optionObj = {
       optionLabel: "",
       extension: [],
@@ -105,15 +104,14 @@ const CommonAddQuestionModal = ({
       );
       const lastTwoItems = formData?.option?.slice(-2);
       const [item1, item2] = lastTwoItems;
-      const areLabelsEqual =
-        item1?.optionLabel?.trim() === item2?.optionLabel?.trim();
+      const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
 
       if (
         formData.option.some(
           (option, i) =>
             i < formData.option.length - 1 &&
-            option.optionLabel?.trim() ===
-              formData.option[formData.option.length - 1].optionLabel?.trim()
+            option.optionLabel ===
+              formData.option[formData.option.length - 1].optionLabel
         )
       ) {
         toast.error("Option can't be the same");
@@ -127,7 +125,6 @@ const CommonAddQuestionModal = ({
     if (Object.keys(error)?.length) {
       // toast.error(error[Object.keys(error)[0]]);
       toast.error(error.option);
-      console.log(error);
       setError(error);
       return;
     } else {
@@ -136,34 +133,6 @@ const CommonAddQuestionModal = ({
       setError();
     }
   };
-  // const AddOptions = (e) => {
-  //   e.preventDefault();
-  //   let optionObj = {
-  //     optionLabel: "",
-  //     extension: [],
-  //     checked: "",
-  //   };
-
-  //   if (formData?.option?.length) {
-  //     let index = formData?.option?.findIndex(
-  //       (data, index) => data?.optionLabel == ""
-  //     );
-  //     const lastTwoItems = formData?.option?.slice(-2);
-  //     const [item1, item2] = lastTwoItems;
-  //     const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
-  //     if (index > -1) {
-  //       toast.error(`Please fill the option ${index + 1}`);
-  //       return;
-  //     } else if (item1?.optionLabel === item2?.optionLabel) {
-  //       toast.error("Option can't be same");
-  //       return;
-  //     } else {
-  //       setFormData({ ...formData, option: [...formData?.option, optionObj] });
-  //     }
-  //   } else {
-  //     setFormData({ ...formData, option: [...formData?.option, optionObj] });
-  //   }
-  // };
 
   const AddOptions = (e) => {
     e.preventDefault();
@@ -205,13 +174,41 @@ const CommonAddQuestionModal = ({
     }
   };
 
+  // const AddOptions = (e) => {
+  //   e.preventDefault();
+
+  //   let optionObj = {
+  //     optionLabel: "",
+  //   };
+
+  //   if (formData?.option?.length) {
+  //     let index = formData?.option?.findIndex(
+  //       (data, index) => data?.optionLabel == ""
+  //     );
+  //     const lastTwoItems = formData?.option?.slice(-2);
+  //     const [item1, item2] = lastTwoItems;
+  //     const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
+  //     if (index > -1) {
+  //       toast.error(`Please fill the option ${index + 1}`);
+  //       return;
+  //     } else if (item1?.optionLabel === item2?.optionLabel) {
+  //       toast.error("Option can't be same");
+  //       return;
+  //     } else {
+  //       setFormData({ ...formData, option: [...formData?.option, optionObj] });
+  //     }
+  //   } else {
+  //     setFormData({ ...formData, option: [...formData?.option, optionObj] });
+  //   }
+  // };
+
   const deleteOption = (e, index) => {
     e.preventDefault();
     let updatedFormData = formData?.option;
     updatedFormData?.splice(index, 1);
 
     setFormData({ ...formData, option: updatedFormData });
-    setError();
+    setError()
   };
   return (
     <>
@@ -228,7 +225,9 @@ const CommonAddQuestionModal = ({
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {fieldData ? "Edit Fields" : "Add Fields"}
+              {extensionData != "undefined" && extensionData
+                ? "Edit Extensions"
+                : "Add Extensions"}
             </h5>
             <button
               type="button"
@@ -315,33 +314,7 @@ const CommonAddQuestionModal = ({
                               )}
                             </div>
                           </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group bottom">
-                              <label htmlFor="">Required</label>
-                              <Select
-                                options={requiredOption}
-                                name="required"
-                                placeholder="Select required type"
-                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                value={
-                                  requiredOption?.findIndex(
-                                    (item, index) =>
-                                      item?.value == formData?.required
-                                  ) != -1
-                                    ? requiredOption[
-                                        requiredOption?.findIndex(
-                                          (item, index) =>
-                                            item?.value == formData?.required
-                                        )
-                                      ]
-                                    : ""
-                                }
-                                onChange={(e) =>
-                                  handleChange(e?.value, "required")
-                                }
-                              />
-                            </div>
-                          </div>
+
                           {formData?.inputType == "text" ||
                           formData?.inputType == "email" ||
                           formData?.inputType == "textarea" ? (
@@ -362,81 +335,63 @@ const CommonAddQuestionModal = ({
                             ""
                           )}
 
-                          {Object.keys(formData?.option)?.length
-                            ? Object.keys(formData?.option)?.map(
-                                (item, index) => (
-                                  <div className="col-12 col-md-6" key={index}>
-                                    <div className="form-group">
-                                      <label htmlFor="">{`Option ${
-                                        index + 1
-                                      }`}</label>
-                                      <input
-                                        className={
-                                          (error?.option &&
-                                            error?.index == index) ||
-                                          (error?.options &&
-                                            error?.index == index)
-                                            ? "form-control error"
-                                            : "form-control"
-                                        }
-                                        type="text"
-                                        placeholder="Enter option"
-                                        value={
-                                          formData?.option[item]?.optionLabel
-                                        }
-                                        onChange={(e) =>
-                                          handleChange(e, "optionValue", index)
-                                        }
-                                      />
-                                      {error?.option &&
-                                      error?.index == index ? (
-                                        <div className="login-validation">
-                                          {error?.option}
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {error?.options &&
-                                      error?.index == index ? (
-                                        <div className="login-validation">
-                                          {error?.options}
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
+                          {formData?.option?.length > 0
+                            ? formData?.option?.map((item, index) => (
+                                <div className="col-12 col-md-6" key={index}>
+                                  <div className="form-group">
+                                    <label htmlFor="">{`Option ${
+                                      index + 1
+                                    }`}</label>
+                                    <input
+                                      className={
+                                        (error?.option &&
+                                          error?.index == index) ||
+                                        (error?.options &&
+                                          error?.index == index)
+                                          ? "form-control error"
+                                          : "form-control"
+                                      }
+                                      type="text"
+                                      placeholder="Enter option"
+                                      value={
+                                        formData?.option[index]?.optionLabel
+                                      }
+                                      onChange={(e) =>
+                                        handleChange(e, "optionValue", index)
+                                      }
+                                    />
+                                    {error?.option && error?.index == index ? (
+                                      <div className="login-validation">
+                                        {error?.option}
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
 
-                                      <button
-                                        className="dlt_btn_event btn-voilet"
-                                        onClick={(e) => {
-                                          deleteOption(e, index);
-                                        }}
-                                      >
-                                        <img
-                                          title="Delete"
-                                          src={path_image + "delete-icon.svg"}
-                                          alt="Delete Row"
-                                        />
-                                      </button>
-                                    </div>
+                                    {error?.options && error?.index == index ? (
+                                      <div className="login-validation">
+                                        {error?.options}
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+
+                                    <button
+                                      className="dlt_btn_event btn-voilet"
+                                      onClick={(e) => {
+                                        deleteOption(e, index);
+                                      }}
+                                    >
+                                      <img
+                                        title="Delete"
+                                        src={path_image + "delete-icon.svg"}
+                                        alt="Delete Row"
+                                      />
+                                    </button>
                                   </div>
-                                )
-                              )
+                                </div>
+                              ))
                             : ""}
-                          {formData?.inputType == "radio" ||
-                          formData?.inputType == "checkbox" ? (
-                            <div className="add-extension">
-                              <label htmlFor="">Add Extension</label>
-                              <input
-                                type="checkbox"
-                                name="extension"
-                                className="form-check-input"
-                                checked={formData?.extension}
-                                onChange={(e) => handleChange(e, "extension")}
-                              />
-                            </div>
-                          ) : (
-                            ""
-                          )}
                           {formData?.inputType == "radio" ||
                           formData?.inputType == "checkbox" ||
                           formData?.inputType == "selection" ? (
@@ -445,7 +400,7 @@ const CommonAddQuestionModal = ({
                                 className="add-option"
                                 onClick={(e) => AddOptions(e)}
                               >
-                                Add options
+                                Add option
                               </Button>
                             </div>
                           ) : (
@@ -482,4 +437,4 @@ const CommonAddQuestionModal = ({
     </>
   );
 };
-export default CommonAddQuestionModal;
+export default CommonExtensionModal;
