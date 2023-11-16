@@ -1202,6 +1202,22 @@ const WebinarRegistration = () => {
                             }
                             onChange={(e) => handleChange(e, "state")}
                           />
+                          <Form.Check
+                            className="webinar-checkbox"
+                            inline
+                            label="State (US)"
+                            name="State (US)"
+                            type="checkbox"
+                            checked={
+                              formData?.body?.findIndex(
+                                (item, index) =>
+                                  item?.label?.toLowerCase() == "state (us)"
+                              ) != -1
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => handleChange(e, "state (us)")}
+                          />
 
                           <Form.Check
                             className="webinar-checkbox"
@@ -2118,10 +2134,7 @@ const WebinarRegistration = () => {
                                                             )
                                                               ? countryList
                                                               : data?.label?.includes(
-                                                                  "state"
-                                                                ) ||
-                                                                data?.label?.includes(
-                                                                  "State"
+                                                                  "state (us)"
                                                                 )
                                                               ? stateOptions
                                                               : data?.option?.map(

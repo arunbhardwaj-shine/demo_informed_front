@@ -253,44 +253,49 @@ const CommonAddQuestionModal = ({
                     <div className="add_hcp_boxes">
                       <div className="form_action">
                         <div className="row">
-                          <div className="col-12 col-md-6">
-                            <div className="form-group bottom">
-                              <label htmlFor="">Input type</label>
-                              <Select
-                                options={inputOptions}
-                                name="inputType"
-                                placeholder="Enter input type"
-                                className={
-                                  error?.inputType
-                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                }
-                                value={
-                                  inputOptions.findIndex(
-                                    (item, index) =>
-                                      item?.value == formData?.inputType
-                                  ) != -1
-                                    ? inputOptions[
-                                        inputOptions.findIndex(
-                                          (item, index) =>
-                                            item?.value == formData?.inputType
-                                        )
-                                      ]
-                                    : ""
-                                }
-                                onChange={(e) =>
-                                  handleChange(e?.value, "inputType")
-                                }
-                              />
-                              {error?.inputType ? (
-                                <div className="login-validation">
-                                  {error?.inputType}
-                                </div>
-                              ) : (
-                                ""
-                              )}
+                          {fieldData ? (
+                            ""
+                          ) : (
+                            <div className="col-12 col-md-6">
+                              <div className="form-group bottom">
+                                <label htmlFor="">Input type</label>
+                                <Select
+                                  options={inputOptions}
+                                  name="inputType"
+                                  placeholder="Enter input type"
+                                  className={
+                                    error?.inputType
+                                      ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                      : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                  }
+                                  value={
+                                    inputOptions.findIndex(
+                                      (item, index) =>
+                                        item?.value == formData?.inputType
+                                    ) != -1
+                                      ? inputOptions[
+                                          inputOptions.findIndex(
+                                            (item, index) =>
+                                              item?.value == formData?.inputType
+                                          )
+                                        ]
+                                      : ""
+                                  }
+                                  onChange={(e) =>
+                                    handleChange(e?.value, "inputType")
+                                  }
+                                />
+                                {error?.inputType ? (
+                                  <div className="login-validation">
+                                    {error?.inputType}
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
                             </div>
-                          </div>
+                          )}
+
                           <div className="col-12 col-md-6">
                             <div className="form-group">
                               <label htmlFor="">Add Label</label>
@@ -470,9 +475,11 @@ const CommonAddQuestionModal = ({
                           ) : (
                             ""
                           )}
-                          {formData?.inputType == "radio" ||
-                          formData?.inputType == "checkbox" ||
-                          formData?.inputType == "selection" ? (
+                          {(formData?.inputType == "selection" &&
+                            formData?.label != "country" &&
+                            formData?.label != "state (us)") ||
+                          formData?.inputType == "radio" ||
+                          formData?.inputType == "checkbox" ? (
                             <div className="add-more-option">
                               <Button
                                 className="add-option"
