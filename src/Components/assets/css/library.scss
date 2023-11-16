@@ -1597,6 +1597,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .update_logs #download-qr .modal-body .form-group textarea {
   border-radius: 15px;
+  min-height: 160px;
 }
 
 .update_logs ::-webkit-scrollbar {
@@ -1785,6 +1786,14 @@ ul.tab-mail-list.data span.total-left small {
 #download-qr .modal-body .form-group .modal-form-group {
   max-width: 331px;
   width: 100%;
+}
+
+.update_logs #download-qr .modal-body .form-group .modal-form-group {
+  max-width: 470px;
+}
+
+.update_logs #download-qr .modal-body .form-group .form-control {
+  max-width: 100%;
 }
 
 .extra_multiselect div[class*="-multiValue"] {
@@ -3867,6 +3876,7 @@ input[type="number"] {
   padding: 17px 16px;
   position: relative;
 }
+
 .timeline-block button.timeline-block-edit-log {
   position: absolute;
   right: 15px;
@@ -4100,6 +4110,7 @@ input[type="number"] {
         height: 18px;
       }
     }
+
     pre {
       overflow: auto;
       font-size: 16px;
@@ -4107,7 +4118,7 @@ input[type="number"] {
       white-space: pre-wrap;
       font-family: "Roboto", sans-serif;
       line-height: 1.2;
-  }
+    }
   }
 }
 
@@ -17397,6 +17408,10 @@ img.change-password-image {
   border-radius: 20px;
   padding: 15px 18px;
   background-position: 95% center;
+}
+
+.vwd .consent-form .split-button-dropup>div:nth-child(3) {
+  background-color: #00529f;
 }
 
 .webinarRegistrationBody button.btn-back {

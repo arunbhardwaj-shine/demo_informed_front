@@ -3916,6 +3916,19 @@ input:-webkit-autofill:active {
   letter-spacing: -0.02em;
 }
 
+.emory .consent-form-inner .center-sided h2 {
+  color: #263474;
+  font-family: 'RobotoSlab-Bold';
+  font-size: 26px;
+}
+
+.emory .consent-form-inner .center-sided h3 {
+  color: #354367;
+  font-family: 'RobotoSlab-Bold';
+  font-size: 22px;
+  text-align: center;
+}
+
 .consent-form .btn#submit_registration {
   margin: 10px 12px 20px auto;
   background: #f18e50;
@@ -4016,8 +4029,37 @@ input:-webkit-autofill:active {
   font-family: "Muli";
 }
 
-.vwd .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
-  color: #97B6CF;
+.vwd .split-button-dropup div:nth-child(3)>div div[class*=-placeholder],
+.motivate_inner .split-button-dropup div:nth-child(3)>div div[class*=-placeholder] {
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.motivation-body .consent-form-inner .form-control::-webkit-input-placeholder {
+  color: #2068b3;
+  opacity: 1;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+.motivation-body .consent-form-inner .form-control::-moz-placeholder {
+  color: #2068b3;
+  opacity: 1;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+.motivation-body .consent-form-inner .form-control:-ms-input-placeholder {
+  color: #2068b3;
+  opacity: 1;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+.motivation-body .consent-form-inner .form-control:-moz-placeholder {
+  color: #2068b3;
+  opacity: 1;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
 }
 
@@ -4028,8 +4070,12 @@ input:-webkit-autofill:active {
 
 .emory .consent-form-list.attend-sec>label {
   color: #263474;
-  font-family: "Poppins";
+  font-family: 'RobotoSlab-Bold';
   font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0 0 7px;
+  font-size: 18px;
+  text-transform: unset !important;
 }
 
 .emory .consent-form-inner .form-control {

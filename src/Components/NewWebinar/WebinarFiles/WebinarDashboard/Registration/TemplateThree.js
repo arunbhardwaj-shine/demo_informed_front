@@ -45,7 +45,9 @@ const TemplateOne = ({ children ,formData}) => {
   <footer>
     <div className="container">
       <div className="row">
-        <div className="footer-inner">
+        <div className="footer-inner" style={{
+            backgroundImage: `url("${formData?.content?.footerImageUrl}")`,
+          }}>
           <div className="footer-left">
             <div className="footer-logo">
               <img src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png" alt="footer-logo" />
