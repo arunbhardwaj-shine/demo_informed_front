@@ -13456,7 +13456,7 @@ img.change-password-image {
 
 .landing-banner {
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
-  // background: #68d1e8 url(../../../../public/componentAssets/images/banner-bg-shade.png) no-repeat;
+  background: #68d1e8 url(../../../../public/componentAssets/images/banner-bg-shade.png) no-repeat;
   // position: sticky;
   // top: 0;
   background-size: cover;
@@ -17489,6 +17489,13 @@ img.change-password-image {
     padding: 10px 10px 50px;
     position: relative;
     min-height: 300px;
+
+    &.logo-section {
+      .logo-img {
+        max-width: 350px;
+        max-height: 160px;
+      }
+    }
 
     img {
       &.header-img {
