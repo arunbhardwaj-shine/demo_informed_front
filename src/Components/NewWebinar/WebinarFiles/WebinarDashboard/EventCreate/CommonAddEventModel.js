@@ -78,6 +78,7 @@ const CommonAddEventModel = ({
   const [eventInputs, setEventInputs] = useState({
     dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     title: "",
+    location: "",
     type: "",
     timezone: "",
     country_timezone: "",
@@ -110,6 +111,7 @@ const CommonAddEventModel = ({
       setEventInputs({
         ...data,
         title: data?.title,
+        location: data?.location,
         type: data?.type ? data?.type : "",
         timezone: data?.timezone,
         country_timezone: data?.country_timezone,
@@ -189,6 +191,7 @@ const CommonAddEventModel = ({
         loader("show");
         let dataObj = {
           title: eventInputs?.title,
+          location: eventInputs?.location,
           type: eventInputs?.type ? eventInputs?.type : "",
           timezone: eventInputs?.timezone,
           countryTimezone: eventInputs?.country_timezone,
