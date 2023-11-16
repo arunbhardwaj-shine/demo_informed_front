@@ -848,7 +848,7 @@ const MarketingTimeLineDetail = (props) => {
                                     handleChange(e, "log_activity")
                                   }
                                 ></textarea>
-                                {typeof lastnoteTime !== "undefined" &&
+                                {/* {typeof lastnoteTime !== "undefined" &&
                                   lastnoteTime != "" && (
                                     <span>
                                       <>
@@ -858,7 +858,7 @@ const MarketingTimeLineDetail = (props) => {
                                         )}
                                       </>
                                     </span>
-                                  )}
+                                  )} */}
 
                                 {/*<div className="select">
                                                     <Select
