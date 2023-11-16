@@ -97,7 +97,9 @@ const MarketingEditReader = () => {
     local: { value: "" },
     address: [],
     logActivity: "",
-    logActivityDate:  moment(new Date(), "MM/DD/YYYY").toDate(),
+    logActivityDate:  new Date(
+      moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+    ),
     task: { value: "" },
     nextContact: new Date(
       moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
@@ -209,7 +211,7 @@ const MarketingEditReader = () => {
             ...log,
             date: moment(log?.date).format("MM/DD/YYYY"),
           }));
-          console.log(logs);
+          
           setLogs(logs)
           // note = jsonObject?.value;
           // const dateTime = new Date(jsonObject?.date);
@@ -758,7 +760,9 @@ const MarketingEditReader = () => {
     const updateLogs = [...logs];
     let userD = { ...userInputs };
     userD.logActivity = updateLogs[index].value;
-    userD.logActivityDate =   moment(updateLogs[index].date, "MM/DD/YYYY").toDate()
+    userD.logActivityDate =    new Date(
+      moment(updateLogs[index].date, "MM/DD/YYYY").format("MM/DD/YYYY")
+    )
     // updateLogs.splice(index, 1);
 
     setUserInputs(userD);
@@ -1544,7 +1548,7 @@ const MarketingEditReader = () => {
                   <DatePicker
                       selected={
                         userInputs?.logActivityDate
-                          ? userInputs?.logActivityDate
+                          ? new Date(userInputs?.logActivityDate)
                           : new Date(
                               moment(new Date(), "MM/DD/YYYY").format(
                                 "MM/DD/YYYY"
@@ -1568,17 +1572,19 @@ const MarketingEditReader = () => {
                         let newData = [...logs];
                         let userD = { ...userInputs };
                         userD.logActivity = "";
-                        userD.logActivityDate =  moment(new Date(), "MM/DD/YYYY").toDate();
-
+                        userD.logActivityDate =  new Date(
+                          moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+                        )
                         if (currentIndex == -1) {
                           newData.push({
                             value: userInputs?.logActivity,
-                            date: userInputs?.logActivityDate.toLocaleDateString(),
+                            date: moment(userInputs?.logActivityDate).format('MM/DD/YYYY'),
                           });
                         } else {
+                          console.log("am herere to update");
                           newData[currentIndex] = {
                             value: userInputs?.logActivity,
-                            date: userInputs?.logActivityDate.toLocaleDateString(),
+                            date: moment(userInputs?.logActivityDate).format('MM/DD/YYYY'),
                           };
                         }
                         setLogs(newData);
@@ -1610,7 +1616,7 @@ const MarketingEditReader = () => {
                     <div className="log-activity-box"
                       key={index}
                     >
-                      <span>{log?.value}</span> <span>{log?.date}</span>{" "}
+                        <pre>{log?.value}</pre> <span>{log?.date}</span>{" "}
                       <div className="add_product">
                         <button
                             onClick={() => {
@@ -1634,7 +1640,7 @@ const MarketingEditReader = () => {
                         </button>
                         <button class="pawword_img" onClick={() => {
                           setCommanLogShow(true)
-                          setCommanLogData(logs[index].value)
+                          setCommanLogData(logs[index])
                         }}>
                           <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M10 0.0390625C6.17915 0.0390625 2.71497 2.12577 0.15681 5.52435C-0.0522702 5.80312 -0.0522702 6.18849 0.15681 6.46726C2.71497 9.86995 6.17915 11.9608 10 11.9608C13.8208 11.9608 17.285 9.87405 19.8432 6.47546C20.0523 6.19669 20.0523 5.81132 19.8432 5.53255C17.285 2.12987 13.8208 0.0390625 10 0.0390625ZM10.2747 10.1979C7.73701 10.3578 5.6462 8.267 5.80609 5.72933C5.93728 3.63853 7.63452 1.93719 9.72943 1.806C12.2671 1.64611 14.3579 3.73692 14.198 6.27458C14.0627 8.36539 12.3655 10.0626 10.2747 10.1979Z" fill="#0066be" fill-opacity="1"/>
@@ -2067,8 +2073,8 @@ const MarketingEditReader = () => {
       <MessageModelLog
         show={commanLogShow}
         onClose={()=>{setCommanLogShow(false)}}
-        heading={""}
-        data={commanLogData}
+        heading={commanLogData?.date}
+        data={commanLogData?.value}
         footerButton={"Close"}
         handleSubmit={()=>{setCommanLogShow(false)}}
       />

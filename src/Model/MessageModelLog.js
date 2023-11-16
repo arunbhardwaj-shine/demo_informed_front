@@ -44,7 +44,7 @@ const MessageModelLog = ({
                 footerButton !== ""
                 ?
                 <>
-                  {data != "" ? <p id="message_change">{data}</p> : null}
+                  {data != "" ? <pre id="message_change">{data}</pre> : null}
                   {/* <button
                     type="button"
                     className="btn btn-primary save btn-filled"

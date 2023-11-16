@@ -3865,6 +3865,18 @@ input[type="number"] {
   box-shadow: 0px 1px 8px rgba(0, 102, 190, 0.24);
   border-radius: 0px 20px 20px 20px;
   padding: 17px 16px;
+  position: relative;
+}
+.timeline-block button.timeline-block-edit-log {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  background: transparent;
+}
+
+.timeline-block button.timeline-block-edit-log svg {
+  width: 20px;
+  height: 20px;
 }
 
 .timeline-block+.timeline-block {
@@ -4088,8 +4100,17 @@ input[type="number"] {
         height: 18px;
       }
     }
+    pre {
+      overflow: auto;
+      font-size: 16px;
+      width: 100%;
+      white-space: pre-wrap;
+      font-family: "Roboto", sans-serif;
+      line-height: 1.2;
+  }
   }
 }
+
 
 .timeline-article-device tr:last-child td,
 .timeline-article-device tr:last-child th {
@@ -8328,6 +8349,8 @@ svg.pencil_icon {
   padding: 10px 9px 0 0;
   margin-top: 10px;
   word-break: break-word;
+  white-space: pre-wrap;
+  font-family: "Roboto", sans-serif;
 }
 
 .create-change-content {
