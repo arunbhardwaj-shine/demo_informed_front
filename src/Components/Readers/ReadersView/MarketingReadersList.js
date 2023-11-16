@@ -12,7 +12,7 @@ import {
   Tabs,
   Tooltip,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import {
   postData,
@@ -39,6 +39,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const MarketingReadersList = () => {
   let obj = {};
   const limit = 24;
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [country, setCountry] = useState([]);
@@ -607,8 +608,9 @@ const MarketingReadersList = () => {
   };
 
   const handleTimeLine = (data) => {
-    window.open("/timeline-detail", '_self');
+    // window.open("/timeline-detail", '_self');
     localStorage.setItem("myData", data);
+    navigate("/timeline-detail");
     // const windowProps = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=1200, height=800`;
     //  newWindow = window.open("/timeline-detail", " ", "");
     //  newWindow.opener.postMessage({readerId:data}," ")
