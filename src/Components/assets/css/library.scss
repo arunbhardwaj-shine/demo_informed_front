@@ -1597,6 +1597,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .update_logs #download-qr .modal-body .form-group textarea {
   border-radius: 15px;
+  min-height: 160px;
 }
 
 .update_logs ::-webkit-scrollbar {
@@ -1785,6 +1786,14 @@ ul.tab-mail-list.data span.total-left small {
 #download-qr .modal-body .form-group .modal-form-group {
   max-width: 331px;
   width: 100%;
+}
+
+.update_logs #download-qr .modal-body .form-group .modal-form-group {
+  max-width: 470px;
+}
+
+.update_logs #download-qr .modal-body .form-group .form-control {
+  max-width: 100%;
 }
 
 .extra_multiselect div[class*="-multiValue"] {
