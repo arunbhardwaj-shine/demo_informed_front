@@ -75,7 +75,7 @@ const WebinarRegistration = () => {
           inputType: "selection",
           placeholder: "Please enter country",
           option: [],
-          required: "Yes",
+          required: "yes",
         },
         {
           label: "name",
@@ -83,7 +83,7 @@ const WebinarRegistration = () => {
           inputType: "text",
           placeholder: "Please enter name",
           option: [],
-          required: "Yes",
+          required: "yes",
         },
         {
           label: "email",
@@ -91,7 +91,7 @@ const WebinarRegistration = () => {
           inputType: "email",
           placeholder: "Please enter email",
           option: [],
-          required: "Yes",
+          required: "yes",
         },
       ],
     },
@@ -128,7 +128,7 @@ const WebinarRegistration = () => {
               checked: "",
             },
           ],
-          required: "yes",
+          required: "",
           extension: "",
           name: "dynamic_5",
         },
@@ -136,7 +136,7 @@ const WebinarRegistration = () => {
           label: "I would like to:",
           inputType: "radio",
           placeholder: "",
-          required: "yes",
+          required: "",
           option: [
             {
               optionLabel: "Organize my own travel",
@@ -214,7 +214,7 @@ const WebinarRegistration = () => {
               checked: "",
             },
           ],
-          required: "yes",
+          required: "",
           extension: "",
           name: "dynamic_6",
         },
@@ -239,7 +239,7 @@ const WebinarRegistration = () => {
           inputType: "text",
           placeholder: "Please enter name",
           option: [],
-          required: "",
+          required: "yes",
         },
         {
           label: "email",
@@ -247,7 +247,7 @@ const WebinarRegistration = () => {
           inputType: "email",
           placeholder: "Please enter email",
           option: [],
-          required: "",
+          required: "yes",
         },
       ],
     },
@@ -268,7 +268,7 @@ const WebinarRegistration = () => {
           inputType: "text",
           placeholder: "Please enter name",
           option: [],
-          required: "",
+          required: "yes",
         },
         {
           label: "email",
@@ -276,13 +276,13 @@ const WebinarRegistration = () => {
           inputType: "email",
           placeholder: "Please enter email",
           option: [],
-          required: "",
+          required: "yes",
         },
         {
           label: "Your Country",
           inputType: "selection",
           placeholder: "",
-          required: "",
+          required: "yes",
           option: [
             {
               optionLabel: "US",
