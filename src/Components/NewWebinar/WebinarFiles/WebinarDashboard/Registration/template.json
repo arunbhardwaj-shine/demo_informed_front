@@ -1,0 +1,347 @@
+[
+    {
+        "templateId": 1,
+        "pageTitle": "To register please fill in all your details below.",
+        "bodyText": "",
+        "logoImageUrl": "",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "",
+        "backgroundColor": "",
+        "body": [
+            {
+                "label": "Full consent (for additional information or to edit consent click Change)",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "required": "yes",
+                "option": [
+                    {
+                        "optionLabel": "my participation during the live webinar being recorded for live streaming and on-demand use*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Full consent (for additional information or to edit consent click Change)",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "invites for future Octapharma haematology events (these may be promotional events)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "extension": "",
+                "name": "dynamic_8"
+            },
+            {
+                "name": "country",
+                "label": "Your Country",
+                "inputType": "selection",
+                "placeholder": "Please enter country",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            }
+        ]
+    },
+    {
+        "templateId": 2,
+        "pageTitle": "To register please fill in all your details below.",
+        "bodyText": "",
+        "logoImageUrl": "",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "",
+        "backgroundColor": "",
+        "body": [
+            {
+                "label": "I will attend:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both, International ITI School & MOTIVATE Investigators meeting",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "International ITI School",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "MOTIVATE Investigators meeting",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "dynamic_5"
+            },
+            {
+                "label": "I would like to:",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "",
+                "option": [
+                    {
+                        "optionLabel": "Organize my own travel",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my travel arranged by the meeting organizers",
+                        "extension": [
+                            {
+                                "label": "Airport of departure",
+                                "name": "dynamic_1",
+                                "inputType": "text",
+                                "placeholder": "Airport of departure",
+                                "option": []
+                            },
+                            {
+                                "label": "Airport of departure",
+                                "name": "dynamic_2",
+                                "inputType": "date",
+                                "placeholder": "",
+                                "option": []
+                            },
+                            {
+                                "label": "Preferred departure time",
+                                "name": "dynamic_3",
+                                "inputType": "radio",
+                                "placeholder": "",
+                                "option": [
+                                    {
+                                        "optionLabel": "Morning",
+                                        "extension": [],
+                                        "checked": ""
+                                    },
+                                    {
+                                        "optionLabel": "Evening",
+                                        "extension": [],
+                                        "checked": ""
+                                    },
+                                    {
+                                        "optionLabel": "Afternoon",
+                                        "extension": [],
+                                        "checked": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "label": "Preferred return flight date",
+                                "name": "dynamic_4",
+                                "inputType": "date",
+                                "placeholder": "",
+                                "option": []
+                            }
+                        ],
+                        "checked": ""
+                    }
+                ],
+                "extension": true,
+                "name": "dynamic_0"
+            },
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Be contacted by the MOTIVATE team for the purpose of this meeting*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Receive future materials from MOTIVATE",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "dynamic_6"
+            },
+            {
+                "label": "Your Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "dynamic_7"
+            },
+            {
+                "label": "name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            }
+        ]
+    },
+    {
+        "templateId": 3,
+        "pageTitle": "To register please select and fill in all your details below.",
+        "bodyText": "This meeting is for healthcare professionals only.",
+        "logoImageUrl": "",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "",
+        "backgroundColor": "",
+        "body": [
+            {
+                "label": "name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Your Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "required": "yes",
+                "option": [
+                    {
+                        "optionLabel": "US",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Canada",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Other",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "extension": "",
+                "name": "dynamic_0"
+            },
+            {
+                "label": "I will attend:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both Factor VIII Relevance Academy and EAHAD congress",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Factor VIII Relevance Academy only",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "dynamic_1"
+            },
+            {
+                "label": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Yes",
+                        "extension": [
+                            {
+                                "label": " ",
+                                "name": "dynamic_3",
+                                "inputType": "text",
+                                "placeholder": "In case you have any dietary restrictions or allergies please specify here",
+                                "option": []
+                            }
+                        ],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "No",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": true,
+                "name": "dynamic_2"
+            },
+            {
+                "label": "I would like to:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Organize my own accomodation",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night on the 4th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 2 nights (4th and 5th Feb)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "dynamic_4"
+            }
+        ]
+    }
+]
