@@ -4422,7 +4422,7 @@ input[type="number"] {
 }
 
 .select-template {
-  min-height: 300px;
+  min-height: 200px;
   @include flex-middle;
 
   h3 {
@@ -18514,7 +18514,7 @@ img.change-password-image {
   }
 
   .create-change-content.register-page .form-group label {
-    flex: 0 0 180px;
+    flex: 0 0 170px;
     font-size: 15px;
   }
 
