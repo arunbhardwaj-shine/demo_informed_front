@@ -223,6 +223,20 @@ p#totalCountText {
   }
 }
 
+@media only screen and (max-width: 1365px) {
+  .question-block .head-sec {
+    min-height: 103px;
+  }
+
+  .question-block .head-sec h2.top-title {
+    font-size: 26px;
+  }
+
+  .question-block .log-inner {
+    margin: -25px -30px 19px;
+  }
+}
+
 @media only screen and (max-width: 767px) {
   .question-block .header-logo img {
     max-width: 180px;
