@@ -2645,7 +2645,7 @@ const WebinarRegistration = () => {
               </div>
             ) : apiStatus?(
               <div className="select-template">
-                <h3>Please select the template first</h3>
+                <h3 className="no_found" style={{textAlign:'center' ,color:'#004A89'}}>Please select the template first</h3>
               </div>
             ):""}
           </div>
