@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import CommonExtensionModal from "./CommonExtensionModal";
 import AliceCarousel from "react-alice-carousel";
+import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -412,6 +413,15 @@ const WebinarRegistration = () => {
   const [foot, setFoot] = useState();
   const [showModal, setModal] = useState(false);
   const [showExtensionModal, setExtensionModal] = useState(false);
+  const [isFormChange, setIsFormChange] = useState(false);
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [template, setTemplate] = useState();
   const [formData, setFormData] = useState({
     pageTitle: "",
     bodyText: "",
@@ -557,7 +567,7 @@ const WebinarRegistration = () => {
       }
 
       setActiveIndex(tempId ? tempId : 0);
-      setLogo(newFormData?.logoImageUrl ? newFormData?.logoImageUrl : "")
+      setLogo(newFormData?.logoImageUrl ? newFormData?.logoImageUrl : "");
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
     } catch (err) {
@@ -614,6 +624,7 @@ const WebinarRegistration = () => {
   };
 
   const handleFileSelect = (e, isSelectedName) => {
+    setIsFormChange(true);
     const fileInput = document.createElement("input");
     // const validExtensions = ["png", "jpeg"];
     fileInput.type = "file";
@@ -630,13 +641,11 @@ const WebinarRegistration = () => {
             setErrorMsg(
               `Invalid file extension of header. Please select a valid extension file.`
             );
-          }
-          else if (isSelectedName === "logoImageUrl") {
+          } else if (isSelectedName === "logoImageUrl") {
             setErrorMsg(
               `Invalid file extension of logo. Please select a valid extension file.`
             );
-          }
-           else if (isSelectedName === "footerImageUrl") {
+          } else if (isSelectedName === "footerImageUrl") {
             setErrorMsg(
               `Invalid file extension of footer. Please select a valid extension file.`
             );
@@ -711,6 +720,7 @@ const WebinarRegistration = () => {
   };
 
   const handleModalSave = (form) => {
+    setIsFormChange(true);
     let updateFormBody = formData?.body;
     if (fieldData) {
       updateFormBody[index] = form;
@@ -761,6 +771,7 @@ const WebinarRegistration = () => {
   };
 
   const handleExtensionModalSave = (form) => {
+    setIsFormChange(true);
     let newExtension = formData?.body;
     if (extFieldData) {
       newExtension[index].option[optIndex].extension[extIndex] = form;
@@ -794,6 +805,7 @@ const WebinarRegistration = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
+    setIsFormChange(true);
     if (isSelectedName) {
       let updateFormBody = formData?.body;
 
@@ -937,9 +949,10 @@ const WebinarRegistration = () => {
   // };
 
   const saveClicked = async (e) => {
-    e.preventDefault();
-    console.log(formData,'====>form data')
-    console.log(file,foot,logo,'====>images')
+    if (e) {
+      e.preventDefault();
+    }
+
     setFormData(formData);
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
@@ -975,7 +988,7 @@ const WebinarRegistration = () => {
         backgroundColor: "",
       });
 
-      setEventData({ event_id: "", company_id: "" });
+      // setEventData({ event_id: "", company_id: "" });
       setFile("");
       setFoot("");
       setLogo("");
@@ -984,7 +997,22 @@ const WebinarRegistration = () => {
     } finally {
       loader("hide");
     }
-    navigate("/event-listing");
+    if (e) {
+      navigate("/event-listing");
+    } else {
+      setIsFormChange(false);
+      setConfirmationPopup(false);
+      setOriginalFormData(
+        JSON.parse(
+          JSON.stringify({
+            eventId: eventData?.event_id,
+            companyId: eventData?.company_id,
+            content: JSON.stringify(formData),
+          })
+        )
+      );
+      templateClicked(template);
+    }
   };
 
   const handlePreview = (e, index) => {
@@ -1029,7 +1057,7 @@ const WebinarRegistration = () => {
   const handleDeleteLogoImage = () => {
     setLogo("");
     setFormData({ ...formData, logoImageUrl: "" });
-  }
+  };
 
   const onColorChange = (e, isSelectedName) => {
     if (isSelectedName == "labelColor") {
@@ -1040,14 +1068,48 @@ const WebinarRegistration = () => {
   };
 
   const templateClicked = (template, e) => {
-    if (originalFormData?.templateId == template?.templateId) {
-      let updatedBody = JSON.parse(JSON.stringify(originalFormData));
-      setFormData(updatedBody);
+    console.log("is formchange-->", isFormChange);
+    console.log("original form data-->", originalFormData);
+    if (isFormChange) {
+      setTemplate(template);
+      setPopupMessage({
+        message1:
+          "Do you want to save the changes in form otherwise they will vanish.",
+        message2: "Are you sure you want to do this?",
+        footerButton: "Yes please!",
+      });
+      setIsFormChange(false);
+      if (confirmationpopup) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
+      }
     } else {
-      let updatedBody = JSON.parse(JSON.stringify(template));
-      setFormData(updatedBody);
+      if (originalFormData?.templateId == template?.templateId) {
+        console.log("template  if--->", template);
+        let updatedBody = JSON.parse(JSON.stringify(originalFormData));
+        setFormData(updatedBody);
+      } else {
+        console.log("template  else--->", template);
+        let updatedBody = JSON.parse(JSON.stringify(template));
+        setFormData(updatedBody);
+      }
+      setActiveIndex(template?.templateId);
     }
-    setActiveIndex(template?.templateId);
+
+    // if (originalFormData?.templateId == template?.templateId) {
+    //   console.log("template  if--->", template);
+    //   let updatedBody = JSON.parse(JSON.stringify(originalFormData));
+    //   setFormData(updatedBody);
+    // } else {
+    //   console.log("template  else--->", template);
+    //   let updatedBody = JSON.parse(JSON.stringify(template));
+    //   setFormData(updatedBody);
+    // }
+    // setActiveIndex(template?.templateId);
+  };
+  const handleCommonConfirmModal = () => {
+    setConfirmationPopup(false);
   };
   const copyToClipboard = (content) => {
     if (window.isSecureContext && navigator.clipboard) {
@@ -2441,51 +2503,53 @@ const WebinarRegistration = () => {
                   </Col>
                   <Col md={4} sm={5}>
                     <div className="registration-right">
-
-                    <div
-                      className="logo-section header-section"
-                      onClick={(e) => handleFileSelect(e, "logoImageUrl")}
-                    >
-                      {!logo && (
-                        <h4 className="logo-img-section header-img-section" id="uploadButton">
-                          Upload Logo
-                        </h4>
-                      )}
-                      <img className="logo-img" src={logo} />
-                      <div className="logo-text header-text">
-                        {logo && (
-                          <button
-                            className="btn btn-outline-primary"
-                            title="Edit user"
+                      <div
+                        className="logo-section header-section"
+                        onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                      >
+                        {!logo && (
+                          <h4
+                            className="logo-img-section header-img-section"
+                            id="uploadButton"
                           >
-                            <img
-                              src={path + "edit-button.svg"}
-                              alt="Edit"
+                            Upload Logo
+                          </h4>
+                        )}
+                        <img className="logo-img" src={logo} />
+                        <div className="logo-text header-text">
+                          {logo && (
+                            <button
+                              className="btn btn-outline-primary"
+                              title="Edit user"
+                            >
+                              <img
+                                src={path + "edit-button.svg"}
+                                alt="Edit"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleFileSelect(e, "logoImageUrl");
+                                }}
+                              />
+                            </button>
+                          )}
+
+                          {logo && (
+                            <button
+                              className="dlt_btn_event btn-voilet"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleFileSelect(e, "logoImageUrl");
+                                handleDeleteLogoImage(e, "logoImageUrl");
                               }}
-                            />
-                          </button>
-                        )}
-
-                        {logo && (
-                          <button
-                            className="dlt_btn_event btn-voilet"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteLogoImage(e, "logoImageUrl");
-                            }}
-                          >
-                            <img
-                              title="Delete"
-                              src={path_image + "delete-icon.svg"}
-                              alt="Delete Row"
-                            />
-                          </button>
-                        )}
+                            >
+                              <img
+                                title="Delete"
+                                src={path_image + "delete-icon.svg"}
+                                alt="Delete Row"
+                              />
+                            </button>
+                          )}
+                        </div>
                       </div>
-                    </div>
 
                       <div
                         className="header-section"
@@ -2605,6 +2669,13 @@ const WebinarRegistration = () => {
         formLabel={formData?.body}
         extensionData={extFieldData}
         dynamicFieldNo={dynamicFieldNo}
+      />
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={handleCommonConfirmModal}
+        fun={saveClicked}
+        popupMessage={popupMessage}
+        path_image={path_image}
       />
 
       {isPrevClicked && (
