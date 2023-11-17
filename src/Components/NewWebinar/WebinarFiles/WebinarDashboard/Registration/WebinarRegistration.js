@@ -26,6 +26,7 @@ import RegistrationPage from "./RegistrationPage";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
+const validExtensions = ["png", "jpeg"];
 
 const WebinarRegistration = () => {
   const [templateList, setTemplateList] = useState([
@@ -615,7 +616,6 @@ const WebinarRegistration = () => {
 
   const handleFileSelect = (e, isSelectedName) => {
     const fileInput = document.createElement("input");
-    const validExtensions = ["png", "jpeg"];
     fileInput.type = "file";
     fileInput.style.display = "none";
     fileInput.accept = ".png, .jpeg";
@@ -671,7 +671,6 @@ const WebinarRegistration = () => {
 
   const uploadImageToServer = async (file) => {
     try {
-      const validExtensions = ["png", "jpeg"];
       const extension = file.name.split(".").pop().toLowerCase();
       if (!validExtensions.includes(extension)) {
         throw new Error(

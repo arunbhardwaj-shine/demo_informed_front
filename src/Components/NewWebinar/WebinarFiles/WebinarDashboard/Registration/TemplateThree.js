@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const TemplateOne = ({ children ,formData}) => {
   const eventData =formData?.raw_description;
   const formattedDateString = moment(eventData.dateStart, 'D MMMM YYYY').format('D MMMM YYYY');
-
+console.log(formData);
 
   return (
     <>
@@ -20,7 +20,7 @@ const TemplateOne = ({ children ,formData}) => {
                 <div className="factor-season-left">
                   <div className="factor__logo">
                     <img
-                      src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"
+                      src={`${formData?.content?.logoImageUrl}`}
                       alt="Factor logo"
                     />
                   </div>
@@ -71,7 +71,7 @@ const TemplateOne = ({ children ,formData}) => {
           }}>
           <div className="footer-left">
             <div className="footer-logo">
-              <img src="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png" alt="footer-logo" />
+              <img src={`${formData?.content?.logoImageUrl}`} alt="footer-logo" />
             </div>
           </div>
           <div className="footer-right"></div>
