@@ -4421,6 +4421,15 @@ input[type="number"] {
   margin-right: 12px;
 }
 
+.select-template {
+  min-height: 300px;
+  @include flex-middle;
+
+  h3 {
+    color: $dark-blue
+  }
+}
+
 .add-padding {
   width: calc(100% - 45px);
   margin: 0 auto;

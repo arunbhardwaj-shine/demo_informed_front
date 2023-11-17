@@ -87,7 +87,7 @@ const stateOptions = [
   { label: "Virginia", value: "Virginia" },
 ];
 
-const RegistrationPage = ({prevData}) => {
+const RegistrationPage = ({ prevData }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -95,8 +95,6 @@ const RegistrationPage = ({prevData}) => {
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
-console.log(prevData);
-  // const prevData = useLocation()?.state;
   const event_code = new URLSearchParams(location.search).get("event");
 
   const [formData, setFormData] = useState(prevData || {});
@@ -112,36 +110,33 @@ console.log(prevData);
   );
 
   useEffect(() => {
-
-      EventDataFun();
-    
+    EventDataFun();
   }, []);
 
   const EventDataFun = async () => {
     try {
       loader("show");
-      
-      const response = await getData(
-        `${ENDPOINT.GET_REGISTRATION_FORM}/${prevData?.eventCode?prevData?.eventCode:event_code}`
-      );
-      let  hadData={
 
-      }
+      const response = await getData(
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${
+          prevData?.eventCode ? prevData?.eventCode : event_code
+        }`
+      );
+      let hadData = {};
       if (!prevData?.content) {
         hadData = {
-        ...response?.data?.data,
-        content: JSON.parse(response?.data?.data?.content),
-        raw_description: JSON.parse(response?.data?.data?.raw_description),
-      };
-    }else{
-      hadData = {
-        ...response?.data?.data,
-        content: JSON.parse(prevData?.content),
-        raw_description: JSON.parse(response?.data?.data?.raw_description),
-      };
-    }
+          ...response?.data?.data,
+          content: JSON.parse(response?.data?.data?.content),
+          raw_description: JSON.parse(response?.data?.data?.raw_description),
+        };
+      } else {
+        hadData = {
+          ...response?.data?.data,
+          content: JSON.parse(prevData?.content),
+          raw_description: JSON.parse(response?.data?.data?.raw_description),
+        };
+      }
       setFormData(hadData);
-      console.log(hadData);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
         background: hadData?.content?.backgroundColor,
@@ -295,7 +290,7 @@ console.log(prevData);
       </section>
     </>
   );
-   const myContent2 = (
+  const myContent2 = (
     <>
       {/* {prevData && (
         <button
@@ -366,7 +361,7 @@ console.log(prevData);
         </div>
       </section>
     </>
-  ); 
+  );
   const myContent3 = (
     <>
       {/* {prevData && (
@@ -441,9 +436,9 @@ console.log(prevData);
   );
   return (
     <>
-      <div class="loader" id="custom_loader">
-        <div class="loader_show">
-          <span class="loader-view"> </span>
+      <div className="loader" id="custom_loader">
+        <div className="loader_show">
+          <span className="loader-view"> </span>
         </div>
       </div>
 
@@ -687,7 +682,7 @@ const FormField1 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      <div class="help-block">{formErrors[label]}</div>
+      <div className="help-block">{formErrors[label]}</div>
     </div>
   );
 };
@@ -913,7 +908,7 @@ const FormField2 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      <div class="help-block">{formErrors[label]}</div>
+      <div className="help-block">{formErrors[label]}</div>
     </div>
   );
 };
@@ -1138,7 +1133,7 @@ const FormField3 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      <div class="help-block">{formErrors[label]}</div>
+      <div className="help-block">{formErrors[label]}</div>
     </div>
   );
 };
