@@ -422,7 +422,7 @@ const WebinarRegistration = () => {
     footerButton: "",
   });
   const [confirmationpopup, setConfirmationPopup] = useState(false);
-  const [template, setTemplate] = useState();
+  const [tempTemplate, setTempTemplate] = useState();
   const [formData, setFormData] = useState({
     pageTitle: "",
     bodyText: "",
@@ -1003,14 +1003,10 @@ const WebinarRegistration = () => {
       setConfirmationPopup(false);
       setOriginalFormData(
         JSON.parse(
-          JSON.stringify({
-            eventId: eventData?.event_id,
-            companyId: eventData?.company_id,
-            content: JSON.stringify(formData),
-          })
+          JSON.stringify(formData)
         )
       );
-      templateClicked(template);
+      templateClicked(tempTemplate);
     }
   };
 
@@ -1069,8 +1065,9 @@ const WebinarRegistration = () => {
   const templateClicked = (template, e) => {
     console.log("is formchange-->", isFormChange);
     console.log("original form data-->", originalFormData);
+    console.log("template?.templateId-->", template?.templateId);
     if (isFormChange) {
-      setTemplate(template);
+      setTempTemplate(template);
       setPopupMessage({
         message1:
           "Do you want to save the changes in form otherwise they will vanish.",
