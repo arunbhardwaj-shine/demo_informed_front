@@ -4,73 +4,123 @@ import Modal from "react-bootstrap/Modal";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 let  colors= ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"] 
-
-function DisplayAnswer({ show, data, onClose, readerCount }) {
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+function DisplayAnswer({ show, data, onClose, readerCount, customAnswer }) {
 
   const [userCount,setUserCount] = useState(0) 
+  let chartOptions = '';
+if(customAnswer == 1){
+  let graphData = [],
+      line_v = [],
+      line_h = [];
+      let i = 0;
+      data?.forEach((item) => {
+        line_v.push(item?.name);
+        line_h.push(item?.y);
+        const foundObj = {
+          y: item?.y,
+          name: item?.name,
+          color: colors[i],
+        };
+        graphData.push(foundObj);
+      });
 
-const seriesData = data.map((question,index) => ({
-  name: question.name,
-  y: question.y,
-  drilldown: question.drilldown,
-  color:colors[index],
-  // color: question.y === 2 ? "#00FF00" : "#FF0000", 
-}));
-const drilldownData = data
-  .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
-  .map(question => ({
-    id: question.drilldown,
-    name: question.name,
-    data: question.drillDownData.map(answer => [answer.name, answer.total]),
-    colors: question.drillDownData.map(answer => answer.color)
-  }));
-;
-
-// console.log(drilldownData);
-const chartOptions = {
-  chart: {
-    plotBackgroundColor: null,
-    plotBorderWidth: null,
-    plotShadow: false,
-    type: 'pie'
-  },
-  title: {
-    text: "User Answers",
-  },
-  tooltip: {
-    formatter: function() {
-      return this.point.name +' : <b>'+ this.point.y + '</b>';
-  },
-},
-accessibility: {
-    point: {
-        valueSuffix: '%'
-    }
-},
-legend: {
-    labelFormat: '{name} ({percentage:.2f}%) ',
-},
-plotOptions: {
-    pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-            enabled: false
+      chartOptions = {
+        chart: {
+          type: "column",
         },
-        showInLegend: true
-    }
-},
-  series: [
-    {
-      name: "Questions",
-      colorByPoint: true,
-      data: seriesData,
+        yAxis: {
+          min: 0,
+          tickInterval: 1,
+        },
+        xAxis: {
+          categories: line_v,
+        },
+        title: {
+          text: "User Answers",
+        },
+        plotOptions: {
+          series: {
+            pointWidth: 20,
+          },
+        },
+        column: {
+          colorByPoint: true,
+        },
+        exporting: {
+          enabled: false,
+        },
+        series: [
+          {
+            data: graphData,
+            showInLegend: false,
+          },
+        ],
+      };
+}else{
+    const seriesData = data.map((question,index) => ({
+      name: question.name,
+      y: question.y,
+      drilldown: question.drilldown,
+      color:colors[index],
+      // color: question.y === 2 ? "#00FF00" : "#FF0000", 
+    }));
+    const drilldownData = data
+      .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
+      .map(question => ({
+        id: question.drilldown,
+        name: question.name,
+        data: question.drillDownData.map(answer => [answer.name, answer.total]),
+        colors: question.drillDownData.map(answer => answer.color)
+      }));
+    ;
+    
+    // console.log(drilldownData);
+     chartOptions = {
+      chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+      },
+      title: {
+        text: "User Answers",
+      },
+      tooltip: {
+        formatter: function() {
+          return this.point.name +' : <b>'+ this.point.y + '</b>';
+      },
     },
-  ],
-  drilldown: {
-    series: drilldownData,
-  },
-};
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    legend: {
+        labelFormat: '{name} ({percentage:.2f}%) ',
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: false
+            },
+            showInLegend: true
+        }
+    },
+      series: [
+        {
+          name: "Questions",
+          colorByPoint: true,
+          data: seriesData,
+        },
+      ],
+      drilldown: {
+        series: drilldownData,
+      },
+    };
+}
 
 
 // const [highchartData, setHighChartData] = useState(chartOptions);
@@ -130,16 +180,17 @@ plotOptions: {
       <Modal show={show} backdrop="static"      onHide={onClose}
       keyboard={false} id="pollModel1">
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
+      <Modal.Title id="contained-modal-title-vcenter">
           <img
-            src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
-            alt=""
+            // src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
+            src={path_image+'FVIII_logo.png'} 
+            alt="logo"
           />
         </Modal.Title>
       </Modal.Header>
         <Modal.Body>
           <p>{data?.question}</p>
-          <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+          <HighchartsReact key = {"rand_"+customAnswer} highcharts={Highcharts} options={chartOptions} />
           <h5>Total Answer:{readerCount}</h5>
         </Modal.Body>
       
