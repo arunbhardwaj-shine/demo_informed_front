@@ -20,21 +20,20 @@ console.log(formData);
                 <div className="factor-season-left">
                   <div className="factor__logo">
                     <img
-                      src={`${formData?.content?.logoImageUrl}`}
+                      src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"}`}
                       alt="Factor logo"
                     />
                   </div>
                   <h2>
                     {
-                                           formattedDateString
-
+                      formattedDateString
                     }
                     <br />
                     {
-  `${eventData.dateStartHour}:${eventData.dateStartMin < 10 ? '0' + eventData.dateStartMin : eventData.dateStartMin}-${
-    eventData.dateEndHour
-  }:${eventData.dateEndMin < 10 ? '0' + eventData.dateEndMin : eventData.dateEndMin}`
-}
+                    `${eventData.dateStartHour}:${eventData.dateStartMin < 10 ? '0' + eventData.dateStartMin : eventData.dateStartMin}-${
+                      eventData.dateEndHour
+                    }:${eventData.dateEndMin < 10 ? '0' + eventData.dateEndMin : eventData.dateEndMin}`
+                  }
                     <br />
                    <span style={
                    {
@@ -71,7 +70,8 @@ console.log(formData);
           }}>
           <div className="footer-left">
             <div className="footer-logo">
-              <img src={`${formData?.content?.logoImageUrl}`} alt="footer-logo" />
+              <img  alt="footer-logo"     src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"}`}
+ />
             </div>
           </div>
           <div className="footer-right"></div>
@@ -101,21 +101,7 @@ console.log(formData);
     </div>
   </footer>
   </div>
-  
-  <div className="modal fade" id="myModal">
-    <div className="modal-dialog modal-dialog-centered">
-      <div className="modal-content">
-        {/* Modal Header */}
-        <div className="modal-header">
-          <button type="button" className="close" data-dismiss="modal">
-            ×
-          </button>
-        </div>
-        {/* Modal body */}
-        <div className="modal-body"></div>
-      </div>
-    </div>
-  </div>
+
 </>
 
   );

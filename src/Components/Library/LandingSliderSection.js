@@ -114,7 +114,7 @@ const LandingConsentSection = () => {
                         Create a library of all your content and easily
                         distribute it. We collect deep data, tracking what HCPs
                         have opened, what pages they’ve read and how much time
-                        they’ve spent on them.
+                        they’ve spent on each.
                       </h5>
                     </div>
                   </div>
@@ -218,7 +218,7 @@ const LandingConsentSection = () => {
                           <i>push & pull, delivery & availability</i>
                         </strong>{" "}
                         the standard for educating your HCPs. With a broad range
-                        of modules for every situation we ensure each HCP get
+                        of modules for every situation we ensure each HCP gets
                         what they need. And with AI recommendations we can help
                         you optimise personalised delivery engagement.{" "}
                       </h5>

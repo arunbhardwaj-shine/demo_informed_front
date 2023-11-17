@@ -42,23 +42,6 @@ export default function TemplateOne({children,formData}) {
     children
    }
     </div>
-    <div className="modal fade thnku" id="myModal">
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          {/* Modal Header */}
-          <div className="modal-header">
-            <button type="button" className="close" data-dismiss="modal">
-              <img src="https://webinar.docintel.app/Webinar/images/cross.png" alt="Close" />
-            </button>
-          </div>
-          {/* Modal body */}
-          <div className="modal-body">
-            <h2>Thank you for registering.</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script type="https://webinar.docintel.app/Webinar/text/javascript" src="https://webinar.docintel.app/Webinar/js/login.js"></script>
 
   </>
   
