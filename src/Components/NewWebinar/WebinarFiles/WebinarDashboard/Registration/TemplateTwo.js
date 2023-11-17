@@ -53,39 +53,8 @@ export default function TemplateTwo({children,formdata}) {
       </div>
       {/* <iframe src="https://webinar.docintel.app/MOTIVATE-study/Regi/login.php?utmevent=ITI-school-motivate-meeting" height="1000px" width="100%" title="Iframe Example"></iframe> */}
     </div>
-    <button
-      type="button"
-      style={{ display: "none" }}
-      id="btn-first-popup"
-      className="btn btn-info btn-lg"
-      data-toggle="modal"
-      data-target="#myModal"
-    >
-      Open Modal
-    </button>
-    {/* Modal */}
-    <div className="modal fade" id="myModal" role="dialog">
-      <div className="modal-dialog modal-dialog-centered">
-        {/* Modal content*/}
-        <div className="modal-content video-titleee">
-          <div className="modal-body">
-            <button type="button" className="close" data-dismiss="modal">
-              ×
-            </button>
-            <h3 style={{ textAlign: "center", fontSize: 20, fontWeight: 500 }}>
-              <br />
-            </h3>
-            <p
-              className="modalcontent"
-              style={{ paddingTop: 15, fontSize: 18, paddingBottom: 20 }}
-            >
-              <b>Thank you for registering</b>
-              <br />
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>         
+   
+        
   </>
   
   )

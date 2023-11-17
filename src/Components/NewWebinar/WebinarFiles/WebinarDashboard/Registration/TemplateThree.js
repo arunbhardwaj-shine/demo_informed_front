@@ -71,7 +71,7 @@ console.log(formData);
           }}>
           <div className="footer-left">
             <div className="footer-logo">
-              <img src={`${formData?.content?.logoImageUrl}`} alt="footer-logo" />
+              <img  alt="footer-logo" />
             </div>
           </div>
           <div className="footer-right"></div>
@@ -101,21 +101,7 @@ console.log(formData);
     </div>
   </footer>
   </div>
-  
-  <div className="modal fade" id="myModal">
-    <div className="modal-dialog modal-dialog-centered">
-      <div className="modal-content">
-        {/* Modal Header */}
-        <div className="modal-header">
-          <button type="button" className="close" data-dismiss="modal">
-            ×
-          </button>
-        </div>
-        {/* Modal body */}
-        <div className="modal-body"></div>
-      </div>
-    </div>
-  </div>
+
 </>
 
   );
