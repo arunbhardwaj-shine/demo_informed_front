@@ -28,7 +28,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
 const WebinarRegistration = () => {
-  const validExtensions = ["png", "jpeg","jpg"];
+  const validExtensions = ["png", "jpeg", "jpg"];
   const [templateList, setTemplateList] = useState([
     {
       templateId: 1,
@@ -422,6 +422,7 @@ const WebinarRegistration = () => {
   });
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [tempTemplate, setTempTemplate] = useState();
+  const [apiStatus,setApiStatus]=useState(false)
   const [formData, setFormData] = useState({
     pageTitle: "",
     bodyText: "",
@@ -518,6 +519,7 @@ const WebinarRegistration = () => {
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
+    
     // if (prevData?.content) {
     //   setEventData({
     //     ...eventData,
@@ -540,6 +542,7 @@ const WebinarRegistration = () => {
   const getWebinarData = async (event_code) => {
     try {
       loader("show");
+      setApiStatus(false)
       const response = await getData(
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
@@ -570,7 +573,9 @@ const WebinarRegistration = () => {
       setLogo(newFormData?.logoImageUrl ? newFormData?.logoImageUrl : "");
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
+      setApiStatus(true)
     } catch (err) {
+      setApiStatus(true)
       console.log("--err", err);
     } finally {
       loader("hide");
@@ -580,6 +585,7 @@ const WebinarRegistration = () => {
   const getAllEvents = async () => {
     try {
       loader("show");
+      setApiStatus(false)
       const response = await getData(
         `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`
       );
@@ -988,7 +994,6 @@ const WebinarRegistration = () => {
         backgroundColor: "",
       });
 
-      // setEventData({ event_id: "", company_id: "" });
       setFile("");
       setFoot("");
       setLogo("");
@@ -1002,11 +1007,7 @@ const WebinarRegistration = () => {
     } else {
       setIsFormChange(false);
       setConfirmationPopup(false);
-      setOriginalFormData(
-        JSON.parse(
-          JSON.stringify(formData)
-        )
-      );
+      setOriginalFormData(JSON.parse(JSON.stringify(formData)));
       templateClicked(tempTemplate);
     }
   };
@@ -1107,6 +1108,7 @@ const WebinarRegistration = () => {
   };
   const handleCommonConfirmModal = () => {
     setConfirmationPopup(false);
+    templateClicked(tempTemplate);
   };
   const copyToClipboard = (content) => {
     if (window.isSecureContext && navigator.clipboard) {
@@ -1139,56 +1141,54 @@ const WebinarRegistration = () => {
                 <h2>Registration Page</h2>
               </div>
             </div>
-              <div className="page-top-nav smart_list_names sticky">
-                <div className="d-flex justify-content-between align-items-center add-padding">
-                  <div className="d-flex event-select align-items-center">
-                      <label htmlFor="">Select Event</label>
-                      <Select
-                        options={dropDownData}
-                        placeholder="Select Event"
-                        name="province"
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                        onChange={handleSelectChange}
-                        value={selectedItem}
-                      />
-                    </div>
-                    <div className="top-right-action">
-                      
-                      <div className="d-flex justify-content-center header_btns">
-                        <a className="copy_link btn-voilet"
-                          href={`event-registration?event=${event_code}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            console.dir();
-                            let newLink = `${
-                              e.currentTarget.host
-                            }/${e.currentTarget.getAttribute("href")}`;
-                            copyToClipboard(newLink);
-                          }}
-                        >
-                          Copy Link
-                        </a>
-                        <Button
-                          type="button"
-                          className="save btn-bordered"
-                          onClick={handlePreview}
-                        >
-                          Preview
-                        </Button>
-                        <Button onClick={(e) => saveClicked(e)} className="save">
-                          Save
-                        </Button>
-                      </div>
-                    </div>
+            <div className="page-top-nav smart_list_names sticky">
+              <div className="d-flex justify-content-between align-items-center add-padding">
+                <div className="d-flex event-select align-items-center">
+                  <label htmlFor="">Select Event</label>
+                  <Select
+                    options={dropDownData}
+                    placeholder="Select Event"
+                    name="province"
+                    className="dropdown-basic-button split-button-dropup"
+                    isClearable
+                    onChange={handleSelectChange}
+                    value={selectedItem}
+                  />
+                </div>
+                <div className="top-right-action">
+                  <div className="d-flex justify-content-center header_btns">
+                    <a
+                      className="copy_link btn-voilet"
+                      href={`event-registration?event=${event_code}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        console.dir();
+                        let newLink = `${
+                          e.currentTarget.host
+                        }/${e.currentTarget.getAttribute("href")}`;
+                        copyToClipboard(newLink);
+                      }}
+                    >
+                      Copy Link
+                    </a>
+                    <Button
+                      type="button"
+                      className="save btn-bordered"
+                      onClick={handlePreview}
+                    >
+                      Preview
+                    </Button>
+                    <Button onClick={(e) => saveClicked(e)} className="save">
+                      Save
+                    </Button>
                   </div>
+                </div>
               </div>
-            
+            </div>
+
             <section className="select-mail-template library-consent create-change-content">
               <div className="custom-container">
                 <Row>
-                  
-
                   <div className="page-title">
                     <h4>Select Template</h4>
                   </div>
@@ -2643,11 +2643,11 @@ const WebinarRegistration = () => {
                   </Col>
                 </Row>
               </div>
-            ) : (
+            ) : apiStatus?(
               <div className="select-template">
                 <h3>Please select the template first</h3>
               </div>
-            )}
+            ):""}
           </div>
         </div>
       </Col>
@@ -2709,12 +2709,14 @@ const WebinarRegistration = () => {
                 height="500px"
                 title="Event Registration"
               /> */}
-              <RegistrationPage prevData={{
-        eventId: eventData?.event_id,
-        companyId: eventData?.company_id,
-        content: JSON.stringify(formData),
-        eventCode:event_code
-      }} />
+              <RegistrationPage
+                prevData={{
+                  eventId: eventData?.event_id,
+                  companyId: eventData?.company_id,
+                  content: JSON.stringify(formData),
+                  eventCode: event_code,
+                }}
+              />
             </>
           </Modal.Body>
         </Modal>
