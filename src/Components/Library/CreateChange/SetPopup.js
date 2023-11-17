@@ -158,6 +158,11 @@ const SetPopup = (props) => {
           setArticleId(state?.pdfId);
         }
       }
+      let ibu={
+        "Critical Care":"critical_care",
+        "Haematology":"haematology",
+        "Immunotherapy":"immunothreapy"
+      }
 
       let res;
       if (flag === 1 || flag === 0) {
@@ -167,6 +172,7 @@ const SetPopup = (props) => {
             userId: localStorage.getItem("user_id"),
             language: check_lng_index,
             consentType: consent,
+            ibu:localStorage.getItem('user_id')=="B7SHpAc XDXSH NXkN0rdQ=="?ibu[state?.ibu]?ibu[state?.ibu]:"haematology":undefined,
             pdfId:
               typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
           };

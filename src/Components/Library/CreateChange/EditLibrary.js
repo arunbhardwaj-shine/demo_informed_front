@@ -660,6 +660,7 @@ const EditLibrary = () => {
                 state: {
                   pdfId: state?.pdfid,
                   fileType: userInputs?.docintelFormat,
+                   ibu:userInputs?.ibu?userInputs?.ibu:"",
                   isEdit: 1,
                 },
               });
@@ -677,6 +678,7 @@ const EditLibrary = () => {
                   state: {
                     pdfId: state?.pdfid,
                     fileType: userInputs?.docintelFormat,
+                    ibu:userInputs?.ibu?userInputs?.ibu:"",
                     isEdit: 1,
                   },
                 });
