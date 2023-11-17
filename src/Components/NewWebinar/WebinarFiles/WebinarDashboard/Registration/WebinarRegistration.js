@@ -629,7 +629,7 @@ const WebinarRegistration = () => {
     // const validExtensions = ["png", "jpeg"];
     fileInput.type = "file";
     fileInput.style.display = "none";
-    fileInput.accept = ".png, .jpeg";
+    fileInput.accept = ".png, .jpeg, .jpg";
     fileInput.addEventListener("change", async (e) => {
       const file = e.target.files[0];
 
