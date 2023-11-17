@@ -3795,6 +3795,7 @@ input:-webkit-autofill:active {
   overflow: hidden;
   max-width: 1170px;
   margin: 20px auto 0;
+  background: #d7e9e8;
 }
 
 .factor-season-left {

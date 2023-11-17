@@ -36,7 +36,7 @@
             },
             {
                 "name": "country",
-                "label": "Your Country",
+                "label": "Country",
                 "inputType": "selection",
                 "placeholder": "Please enter country",
                 "option": [],
@@ -181,7 +181,7 @@
                 "name": "dynamic_6"
             },
             {
-                "label": "Your Country",
+                "label": "Country",
                 "inputType": "selection",
                 "placeholder": "",
                 "option": [
@@ -240,7 +240,7 @@
                 "required": "yes"
             },
             {
-                "label": "Your Country",
+                "label": "Country",
                 "inputType": "selection",
                 "placeholder": "",
                 "required": "yes",
