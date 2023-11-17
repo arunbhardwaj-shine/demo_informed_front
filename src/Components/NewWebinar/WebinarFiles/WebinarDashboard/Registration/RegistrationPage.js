@@ -122,6 +122,7 @@ const RegistrationPage = ({ prevData }) => {
           prevData?.eventCode ? prevData?.eventCode : event_code
         }`
       );
+      console.log(response);
       let hadData = {};
       if (!prevData?.content) {
         hadData = {
@@ -130,10 +131,29 @@ const RegistrationPage = ({ prevData }) => {
           raw_description: JSON.parse(response?.data?.data?.raw_description),
         };
       } else {
+       let raw=response?.data?.data?.raw_description? JSON.parse(response?.data?.data?.raw_description):{
+        "title": "",
+        "location": "",
+        "type": "",
+        "timezone": "",
+        "countryTimezone": "",
+        "isClientStream": 0,
+        "clientStreamUrl": "",
+        "dateStart": "",
+        "dateStartHour": "",
+        "dateStartMin": "",
+        "dateEndHour": "",
+        "dateEndMin": "",
+        "eventCode": "",
+        "description": "",
+        "speaker_name": "",
+        "speaker_email": "",
+        "meeting_type": ""
+      }
         hadData = {
           ...response?.data?.data,
           content: JSON.parse(prevData?.content),
-          raw_description: JSON.parse(response?.data?.data?.raw_description),
+          raw_description: raw,
         };
       }
       setFormData(hadData);

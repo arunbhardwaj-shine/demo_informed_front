@@ -1083,6 +1083,13 @@ input:-webkit-autofill {
   // animation: 1s linear blinker infinite;
 }
 
+.event_edit .webinar-popup {
+  max-height: 65vh;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 0 15px 15px;
+}
+
 .viewer-layout-container .viewer-layout-toolbar {
   background: #dbe7f2;
   position: sticky;
@@ -4422,7 +4429,7 @@ input[type="number"] {
 }
 
 .select-template {
-  min-height: 300px;
+  min-height: 200px;
   @include flex-middle;
 
   h3 {
@@ -4461,7 +4468,7 @@ input[type="number"] {
 }
 
 .event-select .dropdown-basic-button {
-  min-width: 300px;
+  min-width: 350px;
 }
 
 .react-datepicker {
@@ -18514,7 +18521,7 @@ img.change-password-image {
   }
 
   .create-change-content.register-page .form-group label {
-    flex: 0 0 180px;
+    flex: 0 0 170px;
     font-size: 15px;
   }
 

@@ -10,15 +10,15 @@ const TemplateOne = ({ children ,formData}) => {
     <section className="factor-season">
       <div className="container">
         <div className="row">
-          <div className="factor-season-inner"  style={{
+          <div className="factor-season-inner"  style={formData?.content?.headerImageUrl?{
             backgroundImage: `url("${formData?.content?.headerImageUrl}")`,
-          }}>
+          }:{}}>
             <div className="row">
               <div className="col-sm-8 col-md-8">
                 <div className="factor-season-left">
                   <div className="factor__logo">
                     <img
-                      src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"}`}
+                      src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"}`}
                       alt="Factor logo"
                     />
                   </div>
@@ -63,12 +63,12 @@ const TemplateOne = ({ children ,formData}) => {
   <footer>
     <div className="container">
       <div className="row">
-        <div className="footer-inner" style={{
+        <div className="footer-inner" style={formData?.content?.footerImageUrl?{
             backgroundImage: `url("${formData?.content?.footerImageUrl}")`,
-          }}>
+          }:{}}>
           <div className="footer-left">
             <div className="footer-logo">
-              <img  alt="footer-logo"     src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"}`}
+              <img  alt="footer-logo"     src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png"}`}
  />
             </div>
           </div>
