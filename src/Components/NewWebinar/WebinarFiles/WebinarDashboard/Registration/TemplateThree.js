@@ -2,7 +2,8 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 const TemplateOne = ({ children ,formData}) => {
   const eventData =formData?.raw_description;
-  const formattedDateString = moment(eventData.dateStart, 'D MMMM YYYY').format('D MMMM YYYY');
+  const formattedDateString = moment(new Date(eventData.dateStart), 'D MMMM YYYY').format('D MMMM YYYY');
+  console.log(eventData.dateStart);
   return (
     <>
 <link rel="stylesheet" href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/fonts/fonts.css"/>
