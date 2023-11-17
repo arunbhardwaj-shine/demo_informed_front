@@ -1083,6 +1083,13 @@ input:-webkit-autofill {
   // animation: 1s linear blinker infinite;
 }
 
+.event_edit .webinar-popup {
+  max-height: 65vh;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 0 15px 15px;
+}
+
 .viewer-layout-container .viewer-layout-toolbar {
   background: #dbe7f2;
   position: sticky;
@@ -4461,7 +4468,7 @@ input[type="number"] {
 }
 
 .event-select .dropdown-basic-button {
-  min-width: 300px;
+  min-width: 350px;
 }
 
 .react-datepicker {

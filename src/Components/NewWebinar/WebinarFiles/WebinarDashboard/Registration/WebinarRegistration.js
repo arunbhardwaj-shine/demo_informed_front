@@ -2726,6 +2726,7 @@ const WebinarRegistration = () => {
                 height="500px"
                 title="Event Registration"
               /> */}
+              <div className="webinar-popup">
               <RegistrationPage
                 prevData={{
                   eventId: eventData?.event_id,
@@ -2734,6 +2735,7 @@ const WebinarRegistration = () => {
                   eventCode: event_code,
                 }}
               />
+              </div>
             </>
           </Modal.Body>
         </Modal>
