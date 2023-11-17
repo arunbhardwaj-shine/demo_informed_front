@@ -70,7 +70,8 @@ console.log(formData);
           }}>
           <div className="footer-left">
             <div className="footer-logo">
-              <img  alt="footer-logo" />
+              <img  alt="footer-logo"     src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/footer-logo.png"}`}
+ />
             </div>
           </div>
           <div className="footer-right"></div>
