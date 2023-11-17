@@ -422,6 +422,7 @@ const WebinarRegistration = () => {
   });
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [tempTemplate, setTempTemplate] = useState();
+  const [apiStatus,setApiStatus]=useState(false)
   const [formData, setFormData] = useState({
     pageTitle: "",
     bodyText: "",
@@ -518,6 +519,7 @@ const WebinarRegistration = () => {
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
+    
     // if (prevData?.content) {
     //   setEventData({
     //     ...eventData,
@@ -540,6 +542,7 @@ const WebinarRegistration = () => {
   const getWebinarData = async (event_code) => {
     try {
       loader("show");
+      setApiStatus(false)
       const response = await getData(
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
@@ -570,7 +573,9 @@ const WebinarRegistration = () => {
       setLogo(newFormData?.logoImageUrl ? newFormData?.logoImageUrl : "");
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
+      setApiStatus(true)
     } catch (err) {
+      setApiStatus(true)
       console.log("--err", err);
     } finally {
       loader("hide");
@@ -580,6 +585,7 @@ const WebinarRegistration = () => {
   const getAllEvents = async () => {
     try {
       loader("show");
+      setApiStatus(false)
       const response = await getData(
         `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`
       );
@@ -2637,11 +2643,11 @@ const WebinarRegistration = () => {
                   </Col>
                 </Row>
               </div>
-            ) : (
+            ) : apiStatus?(
               <div className="select-template">
                 <h3>Please select the template first</h3>
               </div>
-            )}
+            ):""}
           </div>
         </div>
       </Col>
