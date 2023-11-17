@@ -13496,6 +13496,7 @@ img.change-password-image {
     .landing-heading {
       h1 {
         text-shadow: 0px 0px 11px rgba(0, 0, 60, 0.4);
+        text-transform: unset;
       }
     }
 
@@ -14291,7 +14292,7 @@ img.change-password-image {
   }
 
   .how-work-text {
-    max-width: 583px;
+    max-width: 600px;
 
     h3 {
       color: $dark-blue;
