@@ -107,7 +107,7 @@ const PharmaMarketing = () => {
       icon: "legal-document-icon.svg",
       title: "Consent",
       description:
-        "Consent forms the foundation of every relationship. Our solution ensure you get it right everywhere and can legally personalize even AI engagements.",
+        "Consent forms the foundation of every relationship. Our solution ensures you get it right everywhere and can legally personalize even AI engagements.",
     },
     {
       id: 7,
@@ -116,7 +116,7 @@ const PharmaMarketing = () => {
       icon: "email-small-icon.svg",
       title: "Email Engine",
       description:
-        "Personalized emails are undeniably one of the most potent tools, ours is build for and with the industry.",
+        "Personalized emails are undeniably one of the most potent tools, Ours is built for and with the industry.",
     },
     {
       id: 8,
@@ -151,7 +151,7 @@ const PharmaMarketing = () => {
       active: false,
       icon: "survey-icon.svg",
       title: "Survey Engine",
-      description: "Listen to the most important opinion - your HCPs!.",
+      description: "Listen to the most important opinion - your HCPs!",
     },
     {
       id: 12,
@@ -170,7 +170,7 @@ const PharmaMarketing = () => {
       icon: "webinar-small-icon.svg",
       title: "Webinar Portal",
       description:
-        "Make your webinars more engaging with live polls & questions and brand it to feel truly you.",
+        "Make your webinars more engaging with live polls and questions and brand it to feel truly you.",
     },
   ];
 

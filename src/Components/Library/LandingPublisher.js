@@ -142,7 +142,7 @@ const PharmaRd = () => {
       active: false,
       icon: "survey-icon.svg",
       title: "Survey Engine",
-      description: "Listen to the most important opinion - your HCPs!.",
+      description: "Listen to the most important opinion - your HCPs!",
     },
   ];
 
@@ -1411,7 +1411,7 @@ const colourStyles = {
                 <h5>
                   Upload and create an eprint in 2 minutes from your own
                   account. Your clients distribute and you see the usage in
-                  real-time and as they approach predefined limits you will be
+                  real-time and as they approach predefined limits you are
                   alerted.
                 </h5>
               </div>
@@ -1437,13 +1437,10 @@ const colourStyles = {
               className="d-flex justify-content-center align-items-center"
             >
               <div className="how-work-text">
-                <h3>Say yes to more of your clients requests</h3>
+                <h3>Say "yes" to more of your clients requests</h3>
                 <h5>
-                  With a decade of eprints in our system we’ve seen it all and
-                  solved more. With a universe of included tools you can help
-                  your clients achieve success. Allow us to demonstrate why our
-                  service continues to garnered enthusiastic praise from
-                  clients.
+                  With a decade of ePrints in our system we’ve seen it all. With a universe of included tools you can help
+                  your clients achieve success. Let us demonstrate why our service is loved by our clients.
                 </h5>
               </div>
             </Col>
@@ -1512,7 +1509,7 @@ const colourStyles = {
                         Create a library of all your content and easily
                         distribute it. We collect deep data, tracking what HCPs
                         have opened, what pages they’ve read and how much time
-                        they’ve spent on them.
+                        they’ve spent on each.
                       </h5>
                     </div>
                   </div>
@@ -1559,10 +1556,9 @@ const colourStyles = {
                       </span>
                       <h3>Consent</h3>
                       <h5>
-                        Effortlessly customize consent to match your clients and
-                        preferences. The correct consent empowers your client to
-                        gather unparalleled data, providing insights into HCP'c
-                        reading habita and boosting their engagement success.
+                        Effortlessly customize consent to match your client's preferences. The correct consent empowers your client to
+                        gather unparalleled data, providing insights into HCP's
+                        reading habits and boosting their engagement success.
                       </h5>
                     </div>
                   </div>
@@ -1616,8 +1612,8 @@ const colourStyles = {
                       <h3>Delivery</h3>
                       <h5>
                         ePrints success hinges on clients distributing content
-                        to HCPs . We provide free distribution tools and
-                        analytics dashboard to track effective channels-all
+                        to HCPs. We provide free distribution tools and
+                        an analytics dashboard to track effective channels-all
                         included with every ePrint.
                       </h5>
                     </div>
@@ -1662,15 +1658,11 @@ const colourStyles = {
                     <div className="slide-right-content">
                       <h3>Service</h3>
                       <h5>
-                        Saying Yes to clients and delievering quickly is a lot
-                        mor enjoylable. We have automated the majority of he
-                        eprints process, and for the remmaning 5% of unique
-                        customisation requests, we can turn them around in just
-                        one day.
+                        Saying yes to clients and delievering quickly increases sales. We have automated the majority of the
+                        ePrint process, and for the remaining 5%, where unique customisation is required, we typically turn these around in just one day!
                         <h5>
                           {" "}
-                          Our commitement is to keep your clients happy and
-                          staisfied.{" "}
+                          Our commitement is to delight your clients.{" "}
                         </h5>
                       </h5>
                     </div>
@@ -1724,11 +1716,11 @@ const colourStyles = {
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                  Docintel & inforMed.pro are 2 parts of a unified system. Create
+                  Docintel and inforMed.pro are 2 parts of a unified system. Create
                   and set limits in inforMed.pro and let your clients use the
                   free tools for distribution. HCPs engage with content using
-                  Docintel on any device of their choice. Usage and limits are
-                  monitored making life and reporting easier for you.
+                  Docintel on any device. Usage and limits are
+                  monitored making reporting - and your life - easier!
                 </h5>
               </div>
               <div className="consent-details pharma-view">
@@ -1756,9 +1748,7 @@ const colourStyles = {
                   Click on a module to explore its capabilities and discover how
                   it can benefit you. Learn about its connections with other
                   modules and how they collectively help your clients succeed.
-                  These modules have been collaboratively developed with the
-                  publishers and are now integral parts of our comprehensive
-                  offerings aimed at enhancing your workflow.
+                  Modules have been collaboratively developed with publishers - they are integral to inforMed.pro and built to enhance your workflow. 
                 </h5>
               </div>
               <div className="modules-diagram publish">
