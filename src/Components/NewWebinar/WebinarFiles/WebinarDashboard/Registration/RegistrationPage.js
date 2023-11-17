@@ -441,9 +441,9 @@ console.log(prevData);
   );
   return (
     <>
-      <div class="loader" id="custom_loader">
-        <div class="loader_show">
-          <span class="loader-view"> </span>
+      <div className="loader" id="custom_loader">
+        <div className="loader_show">
+          <span className="loader-view"> </span>
         </div>
       </div>
 
@@ -687,7 +687,7 @@ const FormField1 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      <div class="help-block">{formErrors[label]}</div>
+      <div className="help-block">{formErrors[label]}</div>
     </div>
   );
 };
@@ -913,7 +913,7 @@ const FormField2 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      <div class="help-block">{formErrors[label]}</div>
+      <div className="help-block">{formErrors[label]}</div>
     </div>
   );
 };
@@ -1138,7 +1138,7 @@ const FormField3 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      <div class="help-block">{formErrors[label]}</div>
+      <div className="help-block">{formErrors[label]}</div>
     </div>
   );
 };
