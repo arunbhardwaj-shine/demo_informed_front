@@ -27,6 +27,7 @@ let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
 
 const WebinarRegistration = () => {
+  const validExtensions = ["png", "jpeg","jpg"];
   const [templateList, setTemplateList] = useState([
     {
       templateId: 1,
@@ -614,7 +615,7 @@ const WebinarRegistration = () => {
 
   const handleFileSelect = (e, isSelectedName) => {
     const fileInput = document.createElement("input");
-    const validExtensions = ["png", "jpeg"];
+    // const validExtensions = ["png", "jpeg"];
     fileInput.type = "file";
     fileInput.style.display = "none";
     fileInput.accept = ".png, .jpeg";
@@ -627,17 +628,17 @@ const WebinarRegistration = () => {
         if (!validExtensions.includes(extension)) {
           if (isSelectedName === "headerImageUrl") {
             setErrorMsg(
-              `Invalid file extension of header. Please select a .png or .jpeg file.`
+              `Invalid file extension of header. Please select a valid extension file.`
             );
           }
           else if (isSelectedName === "logoImageUrl") {
             setErrorMsg(
-              `Invalid file extension of logo. Please select a .png or .jpeg file.`
+              `Invalid file extension of logo. Please select a valid extension file.`
             );
           }
            else if (isSelectedName === "footerImageUrl") {
             setErrorMsg(
-              `Invalid file extension of footer. Please select a .png or .jpeg file.`
+              `Invalid file extension of footer. Please select a valid extension file.`
             );
           }
         } else {
@@ -670,11 +671,11 @@ const WebinarRegistration = () => {
 
   const uploadImageToServer = async (file) => {
     try {
-      const validExtensions = ["png", "jpeg"];
+      // const validExtensions = ["png", "jpeg"];
       const extension = file.name.split(".").pop().toLowerCase();
       if (!validExtensions.includes(extension)) {
         throw new Error(
-          "Invalid file extension. Please select a .png or .jpeg file."
+          "Invalid file extension. Please select a valid extension file."
         );
       }
 
