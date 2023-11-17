@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 const TemplateOne = ({ children ,formData}) => {
   const eventData =formData?.raw_description;
   const formattedDateString = moment(eventData.dateStart, 'D MMMM YYYY').format('D MMMM YYYY');
-console.log(formData);
-
   return (
     <>
 <link rel="stylesheet" href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/fonts/fonts.css"/>
