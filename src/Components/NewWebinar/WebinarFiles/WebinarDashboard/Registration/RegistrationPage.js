@@ -122,7 +122,6 @@ const RegistrationPage = ({ prevData }) => {
           prevData?.eventCode ? prevData?.eventCode : event_code
         }`
       );
-      console.log(response);
       let hadData = {};
       if (!prevData?.content) {
         hadData = {
@@ -150,6 +149,7 @@ const RegistrationPage = ({ prevData }) => {
         "speaker_email": "",
         "meeting_type": ""
       }
+      console.log(raw);
         hadData = {
           ...response?.data?.data,
           content: JSON.parse(prevData?.content),
