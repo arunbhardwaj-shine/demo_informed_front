@@ -4411,8 +4411,48 @@ input[type="number"] {
   padding-right: 0;
 }
 
+.top-header.regi-web {
+  padding-top: 20px;
+}
+
+.event-select label {
+  color: #004A89;
+  font-size: 18px;
+  margin-right: 12px;
+}
+
+.add-padding {
+  width: calc(100% - 45px);
+  margin: 0 auto;
+}
+
+.page-top-nav .header_btns {
+  gap: 0 16px;
+}
+
+.header_btns .copy_link {
+  border-radius: 30px;
+  border: 1px solid #8A4E9C;
+  background: #FFF;
+  color: #8A4E9C;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 16px;
+
+  &:hover {
+    color: #ffffff;
+    background: #8A4E9C;
+  }
+}
+
 .content_details .verify-email-detail {
   margin-bottom: 0;
+}
+
+.event-select .dropdown-basic-button {
+  min-width: 300px;
 }
 
 .react-datepicker {
@@ -17449,6 +17489,13 @@ img.change-password-image {
     padding: 10px 10px 50px;
     position: relative;
     min-height: 300px;
+
+    &.logo-section {
+      .logo-img {
+        max-width: 350px;
+        max-height: 160px;
+      }
+    }
 
     img {
       &.header-img {
