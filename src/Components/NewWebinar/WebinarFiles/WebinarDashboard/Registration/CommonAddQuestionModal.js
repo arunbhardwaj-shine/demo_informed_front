@@ -298,7 +298,8 @@ const CommonAddQuestionModal = ({
 
                           <div className="col-12 col-md-6">
                             <div className="form-group">
-                              <label htmlFor="">Add Label</label>
+                              {/* <label htmlFor="">Add Label</label> */}
+                              {fieldData ? <label htmlFor="">Label Name</label> : <label htmlFor="">Add Label</label>}
                               <input
                                 type="text"
                                 name="label"
@@ -352,7 +353,8 @@ const CommonAddQuestionModal = ({
                           formData?.inputType == "textarea" ? (
                             <div className="col-12 col-md-6">
                               <div className="form-group">
-                                <label htmlFor="">Placeholder</label>
+                                {/* <label htmlFor="">Placeholder</label> */}
+                                {fieldData ?  <label htmlFor="">Placeholder Value</label> :  <label htmlFor="">Placeholder</label>}
                                 <input
                                   type="text"
                                   name="placeholder"

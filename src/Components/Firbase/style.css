@@ -284,8 +284,7 @@ body {
     margin-top: 10px;
 }
 
-#pollModel.modal-dialog .modal-header .btn-close,
-#pollModel1.modal-dialog .modal-header .btn-close {
+#pollModel.modal-dialog .modal-header .btn-close {
     filter: brightness(0) invert(1);
 }
 

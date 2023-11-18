@@ -8453,12 +8453,12 @@ html {
   overflow-y: auto;
 }
 
-.session-modal #pollModel .modal-title.h4 img {
+.session-modal #pollModel .modal-title.h4 img, #pollModel1 .modal-title.h4 img {
   max-width: 170px;
 }
 
-.session-modal #pollModel .modal-header {
-  background: #dbecea;
+.session-modal #pollModel .modal-header, #pollModel1 .modal-header {
+  background: #beddd9;
 }
 
 /* .data-preview .modal-header {
