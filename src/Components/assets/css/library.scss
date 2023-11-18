@@ -1099,6 +1099,13 @@ input:-webkit-autofill {
   margin-top: 5px;
 }
 
+.event_edit .webinar-popup {
+  max-height: 65vh;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 0 15px 15px;
+}
+
 .viewer-layout-container .viewer-layout-toolbar {
   background: #dbe7f2;
   position: sticky;
@@ -4427,8 +4434,57 @@ input[type="number"] {
   padding-right: 0;
 }
 
+.top-header.regi-web {
+  padding-top: 20px;
+}
+
+.event-select label {
+  color: #004A89;
+  font-size: 18px;
+  margin-right: 12px;
+}
+
+.select-template {
+  min-height: 200px;
+  @include flex-middle;
+
+  h3 {
+    color: $dark-blue
+  }
+}
+
+.add-padding {
+  width: calc(100% - 45px);
+  margin: 0 auto;
+}
+
+.page-top-nav .header_btns {
+  gap: 0 16px;
+}
+
+.header_btns .copy_link {
+  border-radius: 30px;
+  border: 1px solid #8A4E9C;
+  background: #FFF;
+  color: #8A4E9C;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 16px;
+
+  &:hover {
+    color: #ffffff;
+    background: #8A4E9C;
+  }
+}
+
 .content_details .verify-email-detail {
   margin-bottom: 0;
+}
+
+.event-select .dropdown-basic-button {
+  min-width: 350px;
 }
 
 .react-datepicker {
@@ -17467,6 +17523,13 @@ img.change-password-image {
     position: relative;
     min-height: 300px;
 
+    &.logo-section {
+      .logo-img {
+        max-width: 350px;
+        max-height: 160px;
+      }
+    }
+
     img {
       &.header-img {
         max-height: 250px;
@@ -18474,7 +18537,7 @@ img.change-password-image {
   }
 
   .create-change-content.register-page .form-group label {
-    flex: 0 0 180px;
+    flex: 0 0 170px;
     font-size: 15px;
   }
 

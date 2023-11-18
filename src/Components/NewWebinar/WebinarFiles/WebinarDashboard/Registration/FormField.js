@@ -301,7 +301,7 @@ const FormField = ({
           {isRequired ? "*" : ""}
         </label>
         {fieldInput}
-        <div class="help-block">{formErrors[label]}</div>
+        <div className="help-block">{formErrors[label]}</div>
       </div>
     );
   };

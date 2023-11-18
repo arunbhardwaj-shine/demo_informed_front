@@ -1,4 +1,5 @@
 export const LibraryEditValidation = (data) => {
+ 
   let error = {};
 
   if (!data?.limit?.toString()) {
@@ -12,8 +13,8 @@ export const LibraryEditValidation = (data) => {
   if (!data?.contentTitle) {
     error.contentTitle = "Content title is required!";
   }
-  if (data.hasOwnProperty("chapter")) {
-    data.chapter?.forEach((item, index) => {
+  if (data?.hasOwnProperty("chapter")) {
+    data?.chapter?.forEach((item, index) => {
       if (
         (item.hasOwnProperty("uploadFile") && item?.uploadFile == "") ||
         !item?.chapterTitle
@@ -32,9 +33,9 @@ export const LibraryEditValidation = (data) => {
       }
     });
   }
-  if (data.hasOwnProperty("pdfChapter")) {
-    data.pdfChapter?.forEach((item, index) => {
-      if (!item.uploadFile) {
+  if (data?.hasOwnProperty("pdfChapter")) {
+    data?.pdfChapter?.forEach((item, index) => {
+      if (  (item.hasOwnProperty("uploadFile") && item?.uploadFile == "")||!item?.chapterTitle) {
         if (!error?.pdfChapter?.[index]) {
           if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
             error.pdfChapter = {

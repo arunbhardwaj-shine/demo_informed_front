@@ -251,12 +251,14 @@
   /* #accordion-smart .card-body .col {
     margin-right: 42px;
   } */
-  .btn.btn-primary, .data-main-footer-sec .footer-btn button.view_btn {
+  .btn.btn-primary,
+  .data-main-footer-sec .footer-btn button.view_btn {
     font-size: 14px;
     min-width: 60px;
   }
 
-  .page-top-nav.smart_list_names .btn.btn-primary {
+  .page-top-nav.smart_list_names .btn.btn-primary,
+  .header_btns .copy_link {
     padding: 10px 13px;
     font-size: 14px;
   }
@@ -565,7 +567,8 @@
     right: -5px;
   }
 
-  .btn.btn-primary, .data-main-footer-sec .footer-btn button.view_btn {
+  .btn.btn-primary,
+  .data-main-footer-sec .footer-btn button.view_btn {
     font-size: 12px;
     min-width: 55px;
   }
@@ -1659,7 +1662,8 @@
     top: 129px;
   }
 
-  .btn.btn-primary, .data-main-footer-sec .footer-btn button.view_btn {
+  .btn.btn-primary,
+  .data-main-footer-sec .footer-btn button.view_btn {
     min-width: 54px;
     padding: 6px 14px;
   }

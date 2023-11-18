@@ -485,6 +485,7 @@ const LibraryCreateUser = () => {
                 state: {
                   pdfId: res?.data?.data?.pdfId,
                   fileType: userInputs?.docintelFormat,
+                  ibu:userInputs?.ibu?userInputs?.ibu:"",
                   isEdit: 0,
                 },
               });
@@ -502,6 +503,7 @@ const LibraryCreateUser = () => {
                   state: {
                     pdfId: res?.data?.data?.pdfId,
                     fileType: userInputs?.docintelFormat,
+                    ibu:userInputs?.ibu?userInputs?.ibu:"",
                     isEdit: 0,
                   },
                 });
