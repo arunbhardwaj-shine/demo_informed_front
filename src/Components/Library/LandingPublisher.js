@@ -1612,9 +1612,7 @@ const colourStyles = {
                       <h3>Delivery</h3>
                       <h5>
                         ePrints success hinges on clients distributing content
-                        to HCPs. We provide free distribution tools and
-                        an analytics dashboard to track effective channels-all
-                        included with every ePrint.
+                        to HCPs. We provide free distribution tools and an analytics dashboard to track each channel. Track effective channels doesn't work - it suggests it doesn't track ineffective channels.
                       </h5>
                     </div>
                   </div>
