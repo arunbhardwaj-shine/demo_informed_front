@@ -43,7 +43,7 @@
                 "required": "yes"
             },
             {
-                "label": "name",
+                "label": "Name",
                 "name": "userName",
                 "inputType": "text",
                 "placeholder": "Please enter name",
@@ -51,7 +51,7 @@
                 "required": "yes"
             },
             {
-                "label": "email",
+                "label": "Email",
                 "name": "userEmail",
                 "inputType": "email",
                 "placeholder": "Please enter email",
@@ -196,7 +196,7 @@
                 "name": "dynamic_7"
             },
             {
-                "label": "name",
+                "label": "Name",
                 "name": "userName",
                 "inputType": "text",
                 "placeholder": "Please enter name",
@@ -204,7 +204,7 @@
                 "required": "yes"
             },
             {
-                "label": "email",
+                "label": "Email",
                 "name": "userEmail",
                 "inputType": "email",
                 "placeholder": "Please enter email",
@@ -224,7 +224,7 @@
         "backgroundColor": "",
         "body": [
             {
-                "label": "name",
+                "label": "Name",
                 "name": "userName",
                 "inputType": "text",
                 "placeholder": "Please enter name",
@@ -232,7 +232,7 @@
                 "required": "yes"
             },
             {
-                "label": "email",
+                "label": "Email",
                 "name": "userEmail",
                 "inputType": "email",
                 "placeholder": "Please enter email",
