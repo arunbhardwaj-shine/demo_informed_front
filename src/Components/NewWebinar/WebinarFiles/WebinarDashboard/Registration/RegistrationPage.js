@@ -579,8 +579,6 @@ const FormField1 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
-
               <input
                 type={form.inputType}
                 id={label + index}
@@ -597,7 +595,6 @@ const FormField1 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
                   color: pageColors?.labelColor,
                 }}
                 htmlFor={label + index}
@@ -628,8 +625,6 @@ const FormField1 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
-
               <input
                 type={form.inputType}
                 id={label + index}
@@ -683,8 +678,7 @@ const FormField1 = ({
       <input
         type={form.inputType}
         className="form-control"
-        id="usr"
-        placeholder={form.placeholder}
+id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
       />
     );
@@ -694,7 +688,6 @@ const FormField1 = ({
     <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
       <label
         style={{
-          textTransform: "capitalize",
           color: pageColors?.labelColor,
         }}
       >
@@ -909,8 +902,7 @@ const FormField2 = ({
       <input
         type={form.inputType}
         className="form-control"
-        id="usr"
-        placeholder={form.placeholder}
+        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())} placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
       />
     );
@@ -920,14 +912,13 @@ const FormField2 = ({
     <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
       <label
         style={{
-          textTransform: "capitalize",
           color: pageColors?.labelColor,
         }}
       >
         {form.label}
         {isRequired ? "*" : ""}
       </label>
-      {fieldInput}
+      {fieldInput} 
       <div className="help-block">{formErrors[label]}</div>
     </div>
   );
@@ -1134,7 +1125,7 @@ const FormField3 = ({
       <input
         type={form.inputType}
         className="form-control"
-        id="usr"
+        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}
         placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
       />
@@ -1145,7 +1136,6 @@ const FormField3 = ({
     <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
       <label
         style={{
-          textTransform: "capitalize",
           color: pageColors?.labelColor,
         }}
       >
