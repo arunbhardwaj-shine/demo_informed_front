@@ -471,18 +471,19 @@ const WebinarRegistration = () => {
         }
         if (isSelectedName == "name" || isSelectedName == "email") {
           let newObj = {
-            label: isSelectedName,
+            // label: isSelectedName,
+            label: isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             name: isSelectedName == "email" ? "userEmail" : "userName",
             inputType: isSelectedName == "email" ? "email" : "text",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
-
             required: "yes",
           };
           updateFormBody?.push(newObj);
         } else if (isSelectedName == "travel accomodation") {
           let newObj = {
-            label: isSelectedName,
+            // label: isSelectedName,
+            label: isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             name: isSelectedName,
             inputType: "radio",
             required: "yes",
@@ -528,7 +529,8 @@ const WebinarRegistration = () => {
           updateFormBody?.push(newObj);
         } else if (isSelectedName == "consent") {
           let newObj = {
-            label: isSelectedName,
+            // label: isSelectedName,
+            label: isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             name: isSelectedName,
 
             inputType: "checkbox",
@@ -548,7 +550,8 @@ const WebinarRegistration = () => {
         } else {
           let newObj = {
             name: isSelectedName,
-            label: isSelectedName,
+            // label: isSelectedName,
+            label: isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             inputType: "selection",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
@@ -602,6 +605,7 @@ const WebinarRegistration = () => {
     if (e) {
       e.preventDefault();
     }
+    console.log(formData,'====>formData')
 
     setFormData(formData);
     try {

@@ -131,7 +131,12 @@ const CommonAddQuestionModal = ({
       setError(error);
       return;
     } else {
-      handleSave({ ...formData, name: `dynamic_${dynamicFieldNo}` });
+      // handleSave({ ...formData, name: `dynamic_${dynamicFieldNo}` });
+      if (fieldData) {
+        handleSave({ ...formData });
+      } else {
+        handleSave({ ...formData, name: `dynamic_${dynamicFieldNo}` }); 
+      }
       handleClose();
       setError();
     }
