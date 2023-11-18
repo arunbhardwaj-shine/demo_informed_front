@@ -1793,7 +1793,7 @@ const handleSelectionClick = () => {
                           <i>push & pull, delivery & availability</i>
                         </strong>{" "}
                         the standard for educating your HCPs. With a broad range
-                        of modules for every situation we ensure each HCP get
+                        of modules for every situation we ensure each HCP gets
                         what they need. And with AI recommendations we can help
                         you optimise personalised delivery engagement.{" "}
                       </h5>
