@@ -157,6 +157,7 @@ const WebinarRegistration = () => {
 
   const [dropDownData, setDropDownData] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
+  const [showModalPreview, setShowModalPreview] = useState(false);
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
@@ -654,8 +655,13 @@ const WebinarRegistration = () => {
   };
 
   const handlePreview = (e, index) => {
+    if (!formData?.templateId) {
+      setShowModalPreview(true); 
+      return;
+    }
+ 
     setIsPrevClicked(true);
-    console.log(eventData);
+ 
     let prevObj = {
       eventId: eventData?.event_id,
       companyId: eventData?.company_id,
@@ -663,9 +669,11 @@ const WebinarRegistration = () => {
     };
     // navigate("/event-registration", { state: prevObj });
   };
+
   const handleClose = () => {
     setIsPrevClicked(false);
   };
+
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);
   };
@@ -707,9 +715,6 @@ const WebinarRegistration = () => {
   };
 
   const templateClicked = (template, e) => {
-    console.log("is formchange-->", isFormChange);
-    console.log("original form data-->", originalFormData);
-    console.log("template?.templateId-->", template?.templateId);
     if (isFormChange) {
       setTempTemplate(template);
       setPopupMessage({
@@ -726,11 +731,9 @@ const WebinarRegistration = () => {
       }
     } else {
       if (originalFormData?.templateId == template?.templateId) {
-        console.log("template  if--->", template);
         let updatedBody = JSON.parse(JSON.stringify(originalFormData));
         setFormData(updatedBody);
       } else {
-        console.log("template  else--->", template);
         let updatedBody = JSON.parse(JSON.stringify(template));
         setFormData(updatedBody);
       }
@@ -748,10 +751,12 @@ const WebinarRegistration = () => {
     // }
     // setActiveIndex(template?.templateId);
   };
+
   const handleCommonConfirmModal = () => {
     setConfirmationPopup(false);
     templateClicked(tempTemplate);
   };
+
   const copyToClipboard = (content) => {
     if (window.isSecureContext && navigator.clipboard) {
       navigator.clipboard.writeText(content);
@@ -760,6 +765,7 @@ const WebinarRegistration = () => {
       unsecuredCopyToClipboard(content);
     }
   };
+
   const unsecuredCopyToClipboard = (text) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -773,6 +779,11 @@ const WebinarRegistration = () => {
     }
     document.body.removeChild(textArea);
   };
+
+  const handleCloseModal = () => {
+    setShowModalPreview(false);
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -2304,7 +2315,7 @@ const WebinarRegistration = () => {
               </div>
             ) : apiStatus?(
               <div className="select-template">
-                <h3 className="no_found" style={{textAlign:'center' ,color:'#004A89'}}>Please select the template first</h3>
+                <h3>Please select the template first</h3>
               </div>
             ):""}
           </div>
@@ -2382,6 +2393,23 @@ const WebinarRegistration = () => {
           </Modal.Body>
         </Modal>
       )}
+
+      <Modal className="modal send-confirm" id="delete-confirm" show={showModalPreview} onHide={handleCloseModal}>
+        <Modal.Header>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={handleCloseModal}></button>
+        </Modal.Header>
+        <Modal.Body>
+          <>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>Please Select Template First</h4>
+            <div className="modal-buttons">
+              <button type="button" className="btn btn-primary btn-bordered" onClick={handleCloseModal}>
+                Okay
+              </button>
+            </div>
+          </>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
