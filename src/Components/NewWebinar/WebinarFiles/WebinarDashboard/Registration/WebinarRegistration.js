@@ -65,6 +65,7 @@ const WebinarRegistration = () => {
   const [tempTemplate, setTempTemplate] = useState();
   const [apiStatus,setApiStatus]=useState(false)
   const [formData, setFormData] = useState({
+    title:"",
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",
@@ -77,6 +78,7 @@ const WebinarRegistration = () => {
     templateId: 0,
   });
   const [originalFormData, setOriginalFormData] = useState({
+    title:"",
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",
@@ -630,6 +632,7 @@ const WebinarRegistration = () => {
         data
       );
       setFormData({
+        title:"",
         pageTitle: "",
         bodyText: "",
         logoImageUrl: "",
@@ -659,6 +662,7 @@ const WebinarRegistration = () => {
   };
 
   const handlePreview = (e, index) => {
+    console.log(prevData,'===>prevData')
     if (!formData?.templateId) {
       setShowModalPreview(true); 
       return;
@@ -908,6 +912,29 @@ const WebinarRegistration = () => {
                   <Col md={8} sm={7}>
                     <div className="register-page-left">
                       <Form>
+                       <div className="form-group d-flex align-items-center">
+                          <FormLabel>
+                            Title <span>*</span>
+                          </FormLabel>
+                          <input
+                            type="text"
+                            name="title"
+                            value={formData?.title}
+                            onChange={handleChange}
+                            className={
+                              error?.title
+                                ? "form-control error"
+                                : "form-control"
+                            }
+                          />
+                          {error?.title ? (
+                            <div className="login-validation">
+                              {error?.title}
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </div>
                         <div className="form-group d-flex align-items-center">
                           <FormLabel>
                             Registration Page Title <span>*</span>

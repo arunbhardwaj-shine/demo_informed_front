@@ -62,6 +62,7 @@
     },
     {
         "templateId": 2,
+        "title": "Registration",
         "pageTitle": "To register please fill in all your details below.",
         "bodyText": "",
         "logoImageUrl": "",
