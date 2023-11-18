@@ -87,7 +87,7 @@ const stateOptions = [
   { label: "Virginia", value: "Virginia" },
 ];
 
-const RegistrationPage = () => {
+const RegistrationPage = ({ prevData }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -95,8 +95,6 @@ const RegistrationPage = () => {
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
-
-  const prevData = useLocation()?.state;
   const event_code = new URLSearchParams(location.search).get("event");
 
   const [formData, setFormData] = useState(prevData || {});
@@ -112,22 +110,52 @@ const RegistrationPage = () => {
   );
 
   useEffect(() => {
-    if (!prevData?.content) {
-      EventDataFun();
-    }
+    EventDataFun();
   }, []);
 
   const EventDataFun = async () => {
     try {
       loader("show");
+
       const response = await getData(
-        `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${
+          prevData?.eventCode ? prevData?.eventCode : event_code
+        }`
       );
-      const hadData = {
-        ...response?.data?.data,
-        content: JSON.parse(response?.data?.data?.content),
-        raw_description: JSON.parse(response?.data?.data?.raw_description),
-      };
+      let hadData = {};
+      if (!prevData?.content) {
+        hadData = {
+          ...response?.data?.data,
+          content: JSON.parse(response?.data?.data?.content),
+          raw_description: JSON.parse(response?.data?.data?.raw_description),
+        };
+      } else {
+       let raw=response?.data?.data?.raw_description? JSON.parse(response?.data?.data?.raw_description):{
+        "title": "",
+        "location": "",
+        "type": "",
+        "timezone": "",
+        "countryTimezone": "",
+        "isClientStream": 0,
+        "clientStreamUrl": "",
+        "dateStart": "",
+        "dateStartHour": "",
+        "dateStartMin": "",
+        "dateEndHour": "",
+        "dateEndMin": "",
+        "eventCode": "",
+        "description": "",
+        "speaker_name": "",
+        "speaker_email": "",
+        "meeting_type": ""
+      }
+      console.log(raw);
+        hadData = {
+          ...response?.data?.data,
+          content: JSON.parse(prevData?.content),
+          raw_description: raw,
+        };
+      }
       setFormData(hadData);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
@@ -212,7 +240,7 @@ const RegistrationPage = () => {
   }
   const myContent1 = (
     <>
-      {prevData && (
+      {/* {prevData && (
         <button
           type="submit"
           className="btn btn-primary"
@@ -221,7 +249,7 @@ const RegistrationPage = () => {
         >
           Back
         </button>
-      )}
+      )} */}
       {/* <div className="App">
       <h2>Login</h2>
       <form onSubmit={handleSubmit1}>
@@ -282,9 +310,9 @@ const RegistrationPage = () => {
       </section>
     </>
   );
-   const myContent2 = (
+  const myContent2 = (
     <>
-      {prevData && (
+      {/* {prevData && (
         <button
           type="submit"
           className="btn btn-primary"
@@ -293,7 +321,7 @@ const RegistrationPage = () => {
         >
           Back
         </button>
-      )}
+      )} */}
       {/* <div className="App">
       <h2>Login</h2>
       <form onSubmit={handleSubmit1}>
@@ -353,10 +381,10 @@ const RegistrationPage = () => {
         </div>
       </section>
     </>
-  ); 
+  );
   const myContent3 = (
     <>
-      {prevData && (
+      {/* {prevData && (
         <button
           type="submit"
           className="btn btn-primary"
@@ -365,7 +393,7 @@ const RegistrationPage = () => {
         >
           Back
         </button>
-      )}
+      )} */}
       {/* <div className="App">
       <h2>Login</h2>
       <form onSubmit={handleSubmit1}>
@@ -428,9 +456,9 @@ const RegistrationPage = () => {
   );
   return (
     <>
-      <div class="loader" id="custom_loader">
-        <div class="loader_show">
-          <span class="loader-view"> </span>
+      <div className="loader" id="custom_loader">
+        <div className="loader_show">
+          <span className="loader-view"> </span>
         </div>
       </div>
 
@@ -525,6 +553,7 @@ const FormField1 = ({
             ? stateOptions
             : options
         }
+        placeholder="Select country"
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
@@ -673,7 +702,7 @@ const FormField1 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      <div class="help-block">{formErrors[label]}</div>
+      <div className="help-block">{formErrors[label]}</div>
     </div>
   );
 };
@@ -899,7 +928,7 @@ const FormField2 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      <div class="help-block">{formErrors[label]}</div>
+      <div className="help-block">{formErrors[label]}</div>
     </div>
   );
 };
@@ -1124,7 +1153,7 @@ const FormField3 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      <div class="help-block">{formErrors[label]}</div>
+      <div className="help-block">{formErrors[label]}</div>
     </div>
   );
 };
