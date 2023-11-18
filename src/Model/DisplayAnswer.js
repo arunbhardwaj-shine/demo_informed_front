@@ -32,6 +32,9 @@ if(customAnswer == 1){
         yAxis: {
           min: 0,
           tickInterval: 1,
+          title: {
+            text: 'Number of users'
+          }
         },
         xAxis: {
           categories: line_v,
