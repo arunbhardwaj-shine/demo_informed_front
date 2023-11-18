@@ -211,10 +211,12 @@ const WebinarRegistration = () => {
         templateListData[tempId - 1] = templateListData[0];
         templateListData[0] = tempData;
         setTemplateList(templateListData);
+        // console.log(templateListData[tempId-1]);
+   setLogo(newFormData?.logoImageUrl ? newFormData?.logoImageUrl : templateList[[tempId-1<0 ? 0:tempId-1]]?.logoImageUrl);
+
       }
 
       setActiveIndex(tempId ? tempId : 0);
-      setLogo(newFormData?.logoImageUrl ? newFormData?.logoImageUrl : "");
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
       setApiStatus(true)
@@ -740,9 +742,12 @@ const WebinarRegistration = () => {
     } else {
       if (originalFormData?.templateId == template?.templateId) {
         let updatedBody = JSON.parse(JSON.stringify(originalFormData));
+        setLogo(updatedBody?.logoImageUrl?updatedBody?.logoImageUrl:template?.logoImageUrl);
+
         setFormData(updatedBody);
       } else {
         let updatedBody = JSON.parse(JSON.stringify(template));
+        setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
         setFormData(updatedBody);
       }
       setActiveIndex(template?.templateId);
