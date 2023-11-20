@@ -55,6 +55,7 @@ const PharmaMarketing = () => {
   const [height, setHeight] = useState(0);
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
   const [readMoreClicked,setReadMoreClicked]=useState([])
+  const [downloadedPpts, setDownloadedPpts] = useState([]);
 
   const modules = [
     {
@@ -1079,6 +1080,7 @@ const colourStyles = {
           consent: consent,
           consent_type: consentType,
           module_clicked:readMoreClicked,
+          register_type:"pharmaRegistered",
           type: "register",
         };
 
@@ -1218,6 +1220,12 @@ const colourStyles = {
     setFormFeilds(true);
   };
 
+  const handleDownloadClick = (pptPath) => {
+    const fileName = pptPath?.substring(pptPath.lastIndexOf('/') + 1);
+    const desiredText = fileName?.substring(0, fileName?.lastIndexOf('.'));
+    setDownloadedPpts(prevPpts => [...prevPpts, desiredText]);
+  };
+
   const handleSubmitClick = async () => {
     console.log("read more--->",readMoreClicked)
     // setAddDivClass(true);
@@ -1246,6 +1254,7 @@ const colourStyles = {
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
         all_module_clicked:readMoreClicked,
+        ppt: downloadedPpts,
         type: "modules",
       }
 
@@ -1259,6 +1268,7 @@ const colourStyles = {
       setAddDivClass(true);
       setAddSmallClass(true);
       setModuleFormInputs(obj);
+      setDownloadedPpts(prevPpts => [])
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -3280,7 +3290,7 @@ const handleSelectionClick = () => {
                             <img src={path_image + "downlaod-ppt.svg"} alt="" />
                           </Link> */}
 
-                          <a href={bigCircleModuleData?.ppt} download>
+                          <a href={bigCircleModuleData?.ppt} download onClick={() => handleDownloadClick(bigCircleModuleData?.ppt)}>
                             <img src={path_image + "downlaod-ppt.svg"} alt="" />
                           </a>
                         </div>
@@ -3415,7 +3425,7 @@ const handleSelectionClick = () => {
                                   >
                                     Request
                                   </Button>
-                                  <a href={bigCircleModuleData?.ppt} download>
+                                  <a href={bigCircleModuleData?.ppt} download onClick={() => handleDownloadClick(bigCircleModuleData?.ppt)}>
                                     <img
                                       src={path_image + "downlaod-ppt.svg"}
                                       alt=""

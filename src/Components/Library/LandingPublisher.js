@@ -50,6 +50,7 @@ const PharmaRd = () => {
   const countryRef = useRef(null);
   const [addSelectClass,setAddSelectClass] = useState(false)
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
+  const [downloadedPpts, setDownloadedPpts] = useState([]);
 
   const modules = [
     {
@@ -906,8 +907,9 @@ const colourStyles = {
           consent: consent,
           consent_type: consentType,
           type: "register",
+          register_type:"publisherRegistered"
         };
-
+        console.log(data,'publisherdata')
         setPayloadData(data);
         localStorage.setItem('publisherRegistered', 'true');
         setPublisherRegistered(true);
@@ -917,7 +919,7 @@ const colourStyles = {
         root.classList.remove('scrollerClass');
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
-        const res = await postData(ENDPOINT.REGISTER, data);
+        // const res = await postData(ENDPOINT.REGISTER, data);
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1038,6 +1040,12 @@ const colourStyles = {
     setFormFeilds(true);
   };
 
+  const handleDownloadClick = (pptPath) => {
+    const fileName = pptPath?.substring(pptPath.lastIndexOf('/') + 1);
+    const desiredText = fileName?.substring(0, fileName?.lastIndexOf('.'));
+    setDownloadedPpts(prevPpts => [...prevPpts, desiredText]);
+  };
+
   const handleSubmitClick = async () => {
     // setAddDivClass(true);
     // setAddHideClass(true);
@@ -1057,16 +1065,17 @@ const colourStyles = {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
-        // let data = {
+      // const res = await postData(ENDPOINT.REGISTER, {
+        let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
+        ppt: downloadedPpts,
         type: "modules",
-        // }
-      });
+        }
+      // });
       let obj = {};
       loader("hide");
       setEmailError(null);
@@ -1075,6 +1084,7 @@ const colourStyles = {
       setAddDivClass(true);
       setAddHideClass(true);
       setAddSmallClass(true);
+      setDownloadedPpts(prevPpts => [])
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -2892,7 +2902,7 @@ const colourStyles = {
                           <img src={path_image + "downlaod-ppt.svg"} alt="" />
                         </Link> */}
 
-                          <a href={bigCircleModuleData?.ppt} download>
+                          <a href={bigCircleModuleData?.ppt} download onClick={() => handleDownloadClick(bigCircleModuleData?.ppt)}>
                             <img src={path_image + "downlaod-ppt.svg"} alt="" />
                           </a>
                         </div>
@@ -3027,7 +3037,7 @@ const colourStyles = {
                                   >
                                     Request
                                   </Button>
-                                  <a href={bigCircleModuleData?.ppt} download>
+                                  <a href={bigCircleModuleData?.ppt} download onClick={() => handleDownloadClick(bigCircleModuleData?.ppt)}>
                                     <img
                                       src={path_image + "downlaod-ppt.svg"}
                                       alt=""
