@@ -2957,6 +2957,15 @@ a {
   font-size: 14px;
 }
 
+.emory .split-button-dropup>div:nth-child(3) div {
+  color: #263474;
+}
+
+.motivate_outer .split-button-dropup>div:nth-child(3) div,
+.vwd .consent-form .split-button-dropup>div:nth-child(3) div {
+  color: #fff;
+}
+
 .rd-main-wrapper .header-sec .header-right .text-img {
   width: 145px;
   height: auto;
@@ -3790,9 +3799,9 @@ input:-webkit-autofill:active {
   font-family: 'Roboto Slab';
   display: block;
   font-size: 32px;
-}l
+}
 
-.vwd .factor-season-left h2 {
+l .vwd .factor-season-left h2 {
   color: #f18e50;
   line-height: 37px;
   margin: 7px 0 21px;
@@ -3828,7 +3837,7 @@ input:-webkit-autofill:active {
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-start;
-  padding-left: 84px;
+  padding-left: 74px;
 }
 
 .factor-season-right::before {
@@ -4135,6 +4144,7 @@ input:-webkit-autofill:active {
   line-height: 24px;
   font-weight: 500;
   margin: 0 0 6px;
+  color: #00529f;
 }
 
 .consent-form-inner.attend-sec>label {
