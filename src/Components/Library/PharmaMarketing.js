@@ -1357,6 +1357,7 @@ const colourStyles = {
       if(!updateReadMoreClicked?.includes(moduleName)){
  updateReadMoreClicked.push(moduleName)
     setReadMoreClicked(updateReadMoreClicked)
+    console.log(updateReadMoreClicked,'updateReadMoreClicked')
       }
     
     if(pharmaRegistered){
@@ -2268,7 +2269,8 @@ const handleSelectionClick = () => {
                     </div>
 
                     <p>{moduleData?.paragraph}</p>
-                    <Button onClick={(e)=>handleRead(e,moduleData?.heading)}>Read more</Button>
+                    {/* <Button onClick={(e)=>handleRead(e,moduleData?.heading)}>Read more</Button> */}
+                    <Button onClick={(e)=>handleRead(e,activeModule)}>Read more</Button>
                   </div>
                 </div>
                 {register && (
