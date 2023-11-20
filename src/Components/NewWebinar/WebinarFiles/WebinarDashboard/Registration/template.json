@@ -9,7 +9,47 @@
         "labelColor": "",    
         "optionColor": "",
         "backgroundColor": "",
-        
+        "eventDetails":{
+            "eventStartDate":{
+                "title":"Event Start Date",
+                "type":"date",
+                "value":"18 November 2023",
+                "color":"#76B5AE"
+
+
+            }, "eventEndDate":{
+                "title":"Event End Date",
+                "type":"date",
+                "value":"19 November 2023"
+
+
+            },
+             "eventLocation":{
+                "title":"Location",
+                "type":"text",
+                "value":"University of Miami – Hemophilia Treatment Center, Miami FL 33136",
+                "color":"#354367"
+
+
+            },
+            "SpeakerName":{
+                "title":"Speaker Name",
+                "type":"text",
+                "value":"Chair : Fernando F Corrales-Medina, MD FAAP, Miami, USA",
+                "color":"#76B5AE"
+
+            },
+            "pageTitle":{
+                "title":"Registration Page Title",
+                "type":"text",
+                "value":"To register please fill in all your details below.                ",
+                "color":"#354367"
+                
+                
+            }
+
+            
+        },
        
         "body": [
             {
@@ -17,6 +57,7 @@
                 "inputType": "checkbox",
                 "placeholder": "",
                 "required": "yes",
+                
                 "option": [
                     {
                         "optionLabel": "my participation during the live webinar being recorded for live streaming and on-demand use*",

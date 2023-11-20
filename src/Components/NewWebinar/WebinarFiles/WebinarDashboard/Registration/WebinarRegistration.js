@@ -206,14 +206,18 @@ const WebinarRegistration = () => {
       dynamicFieldNo = newFormData?.totalFieldNo
         ? newFormData?.totalFieldNo
         : dynamicFieldNo;
-      setFormData(newFormData);
-      setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
+
       let tempId = newFormData?.templateId;
       if (tempId) {
         let templateListData = [...templateList];
         let tempData = templateListData[tempId - 1];
         templateListData[tempId - 1] = templateListData[0];
         templateListData[0] = tempData;
+        console.log(newFormData?.eventDetails);
+        console.log(tempData);
+        if (!newFormData?.eventDetails) {
+          newFormData.eventDetails = tempData?.eventDetails;
+        }
         setTemplateList(templateListData);
         // console.log(templateListData[tempId-1]);
         setLogo(
@@ -222,7 +226,8 @@ const WebinarRegistration = () => {
             : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoImageUrl
         );
       }
-
+      setFormData(newFormData);
+      setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
       setActiveIndex(tempId ? tempId : 0);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
