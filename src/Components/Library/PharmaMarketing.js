@@ -54,6 +54,7 @@ const PharmaMarketing = () => {
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
+  const [readMoreClicked,setReadMoreClicked]=useState([])
 
   const modules = [
     {
@@ -926,7 +927,7 @@ const PharmaMarketing = () => {
 const colourStyles = {
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     // const color = chroma(data.color);
-    console.log({ data, isDisabled, isFocused, isSelected });
+    // console.log({ data, isDisabled, isFocused, isSelected });
     return {
       ...styles,
       backgroundColor: isFocused ? "#0066BE" : null,
@@ -1021,6 +1022,7 @@ const colourStyles = {
   };
 
   const handleReadClick = async (event) => {
+    console.log("handle read clicked--->",readMoreClicked)
     // var root = document.getElementsByTagName( 'html' )[0];
     //   root.classList.remove('scrollerClass');
     // localStorage.setItem('pharmaRegistered', 'true');
@@ -1076,10 +1078,11 @@ const colourStyles = {
           country: registerFormInputs?.country?.trim(),
           consent: consent,
           consent_type: consentType,
+          module_clicked:readMoreClicked,
           type: "register",
         };
 
-        console.log(data,'data')
+        // console.log(data,'data')
         setPayloadData(data);
         localStorage.setItem('pharmaRegistered', 'true');
         setPharmaRegistered(true);
@@ -1089,7 +1092,7 @@ const colourStyles = {
         root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        const res = await postData(ENDPOINT.REGISTER,data );
+        // const res = await postData(ENDPOINT.REGISTER,data );
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1127,6 +1130,11 @@ const colourStyles = {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
+    let updateReadMoreClicked=readMoreClicked;  
+    if(!updateReadMoreClicked?.includes(moduleName)){
+       updateReadMoreClicked?.push(moduleName)
+      setReadMoreClicked(updateReadMoreClicked)
+    }
     const bigCircleData = bigCircleModules[index];
     setShowBigCircleData(true);
 
@@ -1211,6 +1219,7 @@ const colourStyles = {
   };
 
   const handleSubmitClick = async () => {
+    console.log("read more--->",readMoreClicked)
     // setAddDivClass(true);
     // setAddHideClass(true);
     // setAddSmallClass(true);
@@ -1229,16 +1238,19 @@ const colourStyles = {
     try {
       const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
       const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
-      // let data = {
+      // const res = await postData(ENDPOINT.REGISTER, {
+      let data = {
         ...payloadData,
         message: moduleFormInputs?.message?.trim(),
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
+        all_module_clicked:readMoreClicked,
         type: "modules",
-      // }
-       });
+      }
+
+      console.log("data--->",data)
+      //  }                                                );
       let obj = {};
       loader("hide");
       setEmailError(null);
@@ -1261,6 +1273,10 @@ const colourStyles = {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
+
+    console.log("big circle close")
+    console.log("read more-->",readMoreClicked)
+    setReadMoreClicked([])
     var root = document.getElementsByTagName( 'html' )[0];
     root.classList.remove('scrollerClass');
     setAddClass(false);
@@ -1325,11 +1341,19 @@ const colourStyles = {
     setPhoneError('')
   };
 
-  const handleRead = () => {
+  const handleRead = (e,moduleName) => {
     setReadStatus(true);
+     let updateReadMoreClicked=readMoreClicked;
+      if(!updateReadMoreClicked?.includes(moduleName)){
+ updateReadMoreClicked.push(moduleName)
+    setReadMoreClicked(updateReadMoreClicked)
+      }
+    
     if(pharmaRegistered){
       setAddDivClass(false);
       setAddSmallClass(true);
+     
+   
     }
     else{
       setAddDivClass(true);
@@ -2234,7 +2258,7 @@ const handleSelectionClick = () => {
                     </div>
 
                     <p>{moduleData?.paragraph}</p>
-                    <Button onClick={handleRead}>Read more</Button>
+                    <Button onClick={(e)=>handleRead(e,moduleData?.heading)}>Read more</Button>
                   </div>
                 </div>
                 {register && (
