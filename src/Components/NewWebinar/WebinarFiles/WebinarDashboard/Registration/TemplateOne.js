@@ -4,14 +4,7 @@ import React, { useEffect, useState } from "react";
 
 export default function TemplateOne({children,formData}) {
   const eventData = formData?.raw_description;
-  // const formattedStartDateString = moment(
-  //   new Date(eventData.dateStart),
-  //   "D MMMM YYYY"
-  // ).format("D MMMM YYYY");
-  // const formattedEndDateString = moment(
-  //   new Date(eventData.dateEnd),
-  //   "D MMMM YYYY"
-  // ).format("D MMMM YYYY");
+
 
   let eventDataSample = formData?.content?.eventDetails;
 

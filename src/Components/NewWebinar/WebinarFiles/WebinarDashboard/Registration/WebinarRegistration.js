@@ -1039,12 +1039,13 @@ const WebinarRegistration = () => {
                                     <DatePicker
                                       name={`eventDetails-${key}`}
                                       dateFormat="dd/MM/yyyy"
-                                      className="form-control"
+                                      className="form-control disabled"
                                       placeholderText="Select date"
+                                      readOnly={true}
                                       minDate={
-                                        key === "eventEndDate"
-                                          ? formData?.eventDetails
-                                              ?.eventStartDate?.value
+                                        key == "eventEndDate"
+                                          ? new Date(formData?.eventDetails
+                                              ?.eventStartDate?.value)
                                           : currentDate
                                       }
                                       selected={
@@ -1081,13 +1082,21 @@ const WebinarRegistration = () => {
                                     className="form-group d-flex align-items-center"
                                   >
                                     <label>
-                                      {field.title} <span>*</span>
+                                      {field.title} 
+                                      {/* <span>*</span> */}
                                     </label>
                                     <input
                                       type={field.type}
                                       name={`eventDetails-${key}`}
                                       value={field.value}
-                                      className="form-control"
+                                      readOnly={
+                                        key == "eventEndTime" || key == "eventStartTime"
+                                          ? true
+                                          : false
+                                      }
+                                      className={`form-control ${ key == "eventEndTime" || key == "eventStartTime"
+                                      ? "disabled"
+                                      : ""}`}
                                       onChange={handleChange}
                                     />
                                     {field.color && (
