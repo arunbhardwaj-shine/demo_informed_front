@@ -288,20 +288,11 @@ const RegistrationPage = ({ prevData }) => {
                     />
                   ))}
                   {!prevData && (
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                      id="submit_registration"
-                    >
-                      Submit
-                    </button>
+                    <button type="submit" className="btn btn-primary" id="submit_registration">Submit</button>
                   )}
                 </div>
                 <div className="footer-sec">
-                  <span>
-                    * This consent is mandatory in order to register for the
-                    event.
-                  </span>
+                  <span>* This consent is mandatory in order to register for the event.</span>
                 </div>
               </div>
             </form>
@@ -648,7 +639,6 @@ const FormField1 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
                   color: pageColors?.labelColor,
                 }}
                 htmlFor={label + index}
@@ -816,7 +806,6 @@ const FormField2 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
                   color: pageColors?.labelColor,
                 }}
                 htmlFor={label + index}
@@ -872,7 +861,6 @@ const FormField2 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
                   color: pageColors?.labelColor,
                 }}
                 htmlFor={label + index}
@@ -1039,7 +1027,6 @@ const FormField3 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
                   color: pageColors?.labelColor,
                 }}
                 htmlFor={label + index}
@@ -1095,7 +1082,6 @@ const FormField3 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
                   color: pageColors?.labelColor,
                 }}
                 htmlFor={label + index}

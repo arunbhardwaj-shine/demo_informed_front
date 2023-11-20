@@ -1798,9 +1798,6 @@
   .smartlist-buttons a.btn {
     padding: 6px 14px;
   }
-}
-
-@media only screen and (max-width: 1365px) {
 
   nav #collapsibleNavbar li.nav-item a,
   .nav-item.user-login .dropdown #dropdown-basic {
