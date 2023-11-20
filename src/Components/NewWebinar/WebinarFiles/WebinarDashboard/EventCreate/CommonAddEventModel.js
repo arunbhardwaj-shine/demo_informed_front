@@ -121,6 +121,7 @@ const CommonAddEventModel = ({
           ? data?.client_stream_url
           : "",
         dateStart: data?.dateStart,
+        dateEnd: data?.dateEnd,
         dateStartHour: data?.dateStartHour,
         dateStartMin: data?.dateStartMin,
         dateEndHour: data?.dateEndHour ? data?.dateEndHour : "",
@@ -133,7 +134,10 @@ const CommonAddEventModel = ({
       });
     } else {
       setEventInputs({
-        dateStart: new Date(
+        dateEnd: new Date(
+          moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+        ),
+        dateEnd: new Date(
           moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
         ),
         title: "",
@@ -159,6 +163,8 @@ const CommonAddEventModel = ({
     setError({});
     setEventInputs({
       dateStart: new Date(
+        moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+      ), dateEnd: new Date(
         moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
       ),
     });
@@ -237,6 +243,8 @@ const CommonAddEventModel = ({
         // onClose(false);
         setEventInputs({
           dateStart: new Date(
+            moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+          ), dateEnd: new Date(
             moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
           ),
         });
@@ -692,7 +700,7 @@ const CommonAddEventModel = ({
                               <DatePicker
                                 name="dateEnd"
                                 className={
-                                  error?.dateStart
+                                  error?.dateEnd
                                     ? "form-control error"
                                     : "form-control"
                                 }

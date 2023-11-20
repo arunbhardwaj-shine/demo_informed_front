@@ -70,7 +70,7 @@
         "bodyText": "",
         "eventDetails":{
             "heading":{
-                "title":"Top Header",
+                "title":"Main Header",
                 "type":"text",
                 "value":"Registration",
                 "color":"#ffffff"
@@ -298,24 +298,66 @@
         "optionColor": "",
         "backgroundColor": "",
         "eventDetails":{
-            "headingDate":{
-                "title":"Main Heading Date",
+            "eventStartDate":{
+                "title":"Event Start Date",
                 "type":"date",
-                "value":"18 November 2023"
+                "value":"18 November 2023",
+                "color":"#76B5AE"
+
+
+            }, 
+            "eventEndDate":{
+                "title":"Event End Date",
+                "type":"date",
+                "value":"19 November 2023"
+
+
+            },"eventStartTime":{
+                "title":"Event Start Time",
+                "type":"time",
+                "value":"04:16",
+                "color":"#76B5AE"
+
+
+            }, 
+            "eventEndTime":{
+                "title":"Event End Time",
+                "type":"time",
+                "value":"06:16"
+
 
             },
-             "eventName":{
-                "title":"Event Name",
+             "eventLocation":{
+                "title":"Location",
                 "type":"text",
-                "value":"Hotel del Coronado, San Diego, California, US"
+                "value":"Hotel del Coronado, San Diego, California, US",
+                "color":"#354367"
+
 
             },
             "SpeakerName":{
                 "title":"Speaker Name",
                 "type":"text",
-                "value":"Chair : Robert Sidonio, Atlanta, USA"
-            }
+                "value":"Chair : Robert Sidonio, Atlanta, USA",
+                "color":"#76B5AE"
 
+            },
+            "pageTitle":{
+                "title":"Registration Page Title",
+                "type":"text",
+                "value":"To register please select and fill in all your details below.",
+                "color":"#04b39a"
+                
+                
+            },
+            "bodyText":{
+                "title":"Registration Body Text",
+                "type":"text",
+                "value":"This meeting is for healthcare professionals only.",
+                "color":"#04b39a"
+                
+                
+            }
 
             
         },

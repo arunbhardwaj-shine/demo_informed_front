@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react'
 export default function TemplateTwo({children,formData}) {
   let eventData=formData?.content?.eventDetails
-  console.log(eventData);
+  
   const formatDate = (date) => {
     return moment(new Date(date), 'YYYY-MM-DD').format('dddd, D MMMM YYYY');
   };
@@ -32,7 +32,7 @@ export default function TemplateTwo({children,formData}) {
 
   
     <div className="motivate_outer">
-      <div className="motivate_inner">
+      <div className="motivate_inner" style={{ background: `${formData?.content?.backgroundColor}` }}>
         <div className="top_header"  >
           <h2 style={{
                     color:eventData?.heading?.color
@@ -86,7 +86,7 @@ export default function TemplateTwo({children,formData}) {
           <div className="motivate-mid-sec text-center">
             <h2 style={{
                     color:eventData?.SpeakerName?.color
-                  }}>{`${eventData?.SpeakerName?.value?eventData?.SpeakerName?.value:"Nashville, Tennessee"}`}</h2>
+                  }}>{eventData?.SpeakerName?.value}</h2>
             <p> These meetings are for healthcare professionals only.</p>
           </div>
           {children}
