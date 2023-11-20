@@ -3837,7 +3837,7 @@ l .vwd .factor-season-left h2 {
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-start;
-  padding-left: 84px;
+  padding-left: 74px;
 }
 
 .factor-season-right::before {
@@ -4144,6 +4144,7 @@ l .vwd .factor-season-left h2 {
   line-height: 24px;
   font-weight: 500;
   margin: 0 0 6px;
+  color: #00529f;
 }
 
 .consent-form-inner.attend-sec>label {
