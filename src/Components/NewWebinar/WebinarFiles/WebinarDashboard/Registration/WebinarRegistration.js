@@ -23,7 +23,7 @@ import CommonExtensionModal from "./CommonExtensionModal";
 import AliceCarousel from "react-alice-carousel";
 import RegistrationPage from "./RegistrationPage";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
-import templateData from './template.json';
+import templateData from "./template.json";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -63,9 +63,9 @@ const WebinarRegistration = () => {
   });
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [tempTemplate, setTempTemplate] = useState();
-  const [apiStatus,setApiStatus]=useState(false)
+  const [apiStatus, setApiStatus] = useState(false);
   const [formData, setFormData] = useState({
-    title:"",
+    title: "",
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",
@@ -78,7 +78,7 @@ const WebinarRegistration = () => {
     templateId: 0,
   });
   const [originalFormData, setOriginalFormData] = useState({
-    title:"",
+    title: "",
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",
@@ -163,7 +163,6 @@ const WebinarRegistration = () => {
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
-    
     // if (prevData?.content) {
     //   setEventData({
     //     ...eventData,
@@ -186,7 +185,7 @@ const WebinarRegistration = () => {
   const getWebinarData = async (event_code) => {
     try {
       loader("show");
-      setApiStatus(false)
+      setApiStatus(false);
       const response = await getData(
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
@@ -212,16 +211,19 @@ const WebinarRegistration = () => {
         templateListData[0] = tempData;
         setTemplateList(templateListData);
         // console.log(templateListData[tempId-1]);
-   setLogo(newFormData?.logoImageUrl ? newFormData?.logoImageUrl : templateList[[tempId-1<0 ? 0:tempId-1]]?.logoImageUrl);
-
+        setLogo(
+          newFormData?.logoImageUrl
+            ? newFormData?.logoImageUrl
+            : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoImageUrl
+        );
       }
 
       setActiveIndex(tempId ? tempId : 0);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
-      setApiStatus(true)
+      setApiStatus(true);
     } catch (err) {
-      setApiStatus(true)
+      setApiStatus(true);
       console.log("--err", err);
     } finally {
       loader("hide");
@@ -231,7 +233,7 @@ const WebinarRegistration = () => {
   const getAllEvents = async () => {
     try {
       loader("show");
-      setApiStatus(false)
+      setApiStatus(false);
       const response = await getData(
         `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`
       );
@@ -458,9 +460,9 @@ const WebinarRegistration = () => {
 
   const handleChange = (e, isSelectedName) => {
     // console.log(isSelectedName)
-  
+
     setIsFormChange(true);
-    if (isSelectedName && !(isSelectedName?.includes("eventDetails"))) {
+    if (isSelectedName && !isSelectedName?.includes("eventDetails")) {
       let updateFormBody = formData?.body;
 
       if (e?.target?.checked == true) {
@@ -476,7 +478,8 @@ const WebinarRegistration = () => {
         if (isSelectedName == "name" || isSelectedName == "email") {
           let newObj = {
             // label: isSelectedName,
-            label: isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
+            label:
+              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             name: isSelectedName == "email" ? "userEmail" : "userName",
             inputType: isSelectedName == "email" ? "email" : "text",
             placeholder: `Please enter ${isSelectedName}`,
@@ -487,7 +490,8 @@ const WebinarRegistration = () => {
         } else if (isSelectedName == "travel accomodation") {
           let newObj = {
             // label: isSelectedName,
-            label: isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
+            label:
+              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             name: isSelectedName,
             inputType: "radio",
             required: "yes",
@@ -531,16 +535,14 @@ const WebinarRegistration = () => {
             ],
           };
           updateFormBody?.push(newObj);
-        } 
-        else if (isSelectedName == "eventDetails") {
-          let newObj = {
-           
-          };
+        } else if (isSelectedName == "eventDetails") {
+          let newObj = {};
           updateFormBody?.push(newObj);
-        }  else if (isSelectedName == "consent") {
+        } else if (isSelectedName == "consent") {
           let newObj = {
             // label: isSelectedName,
-            label: isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
+            label:
+              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             name: isSelectedName,
 
             inputType: "checkbox",
@@ -561,7 +563,8 @@ const WebinarRegistration = () => {
           let newObj = {
             name: isSelectedName,
             // label: isSelectedName,
-            label: isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
+            label:
+              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             inputType: "selection",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
@@ -590,46 +593,73 @@ const WebinarRegistration = () => {
         });
       }
     } else {
-      
-      if (e?.target?.name.includes("eventDetails" )) {
-        const fieldName = e.target.name.split('-')[1]; 
-        console.log(fieldName)
+      let name =e?.target?.name
+      if (name?.includes("eventDetails")) {
+        const fieldName = e.target.name.split("-")[1];
+      let isColor= name.includes("color")
+      if(isColor){
         setFormData({
           ...formData,
           eventDetails: {
             ...formData.eventDetails,
-            [fieldName]:
-            {
+            [fieldName]: {
               ...formData.eventDetails?.[fieldName],
-              'value': e.target.value,
+              color: e.target.value,
             },
           },
-          required: "yes", 
+          required: "yes",
         });
-      }
-     else if (isSelectedName?.includes("eventDetails")) {
-        const fieldName =isSelectedName.split('-')[1]; 
+      }else{
+
         setFormData({
           ...formData,
           eventDetails: {
             ...formData.eventDetails,
-            [fieldName]:
-            {
+            [fieldName]: {
               ...formData.eventDetails?.[fieldName],
-              'value': e,
+              value: e.target.value,
             },
           },
-          required: "yes", 
+          required: "yes",
         });
       }
-    else{
-      setFormData({
-        ...formData,
-        [e.target.name]: e?.target?.value,
-        required: "yes",
-      }); 
-    }
-     
+      } else if (isSelectedName?.includes("eventDetails")) {
+        const fieldName = isSelectedName.split("-")[1];
+        let isColor=e?.target?.name.includes("color")
+        if(isColor){
+          setFormData({
+            ...formData,
+            eventDetails: {
+              ...formData.eventDetails,
+              [fieldName]: {
+                ...formData.eventDetails?.[fieldName],
+                color: e,
+              },
+            },
+            required: "yes",
+          });
+        }else{
+  
+          setFormData({
+            ...formData,
+            eventDetails: {
+              ...formData.eventDetails,
+              [fieldName]: {
+                ...formData.eventDetails?.[fieldName],
+                value: e,
+              },
+            },
+            required: "yes",
+          });
+        }
+    
+      } else {
+        setFormData({
+          ...formData,
+          [e.target.name]: e?.target?.value,
+          required: "yes",
+        });
+      }
     }
   };
 
@@ -650,7 +680,7 @@ const WebinarRegistration = () => {
     if (e) {
       e.preventDefault();
     }
-    console.log(formData,'====>formData')
+    console.log(formData, "====>formData");
 
     setFormData(formData);
     try {
@@ -677,7 +707,7 @@ const WebinarRegistration = () => {
         data
       );
       setFormData({
-        title:"",
+        title: "",
         pageTitle: "",
         bodyText: "",
         logoImageUrl: "",
@@ -707,14 +737,14 @@ const WebinarRegistration = () => {
   };
 
   const handlePreview = (e, index) => {
-    console.log(prevData,'===>prevData')
+    console.log(prevData, "===>prevData");
     if (!formData?.templateId) {
-      setShowModalPreview(true); 
+      setShowModalPreview(true);
       return;
     }
- 
+
     setIsPrevClicked(true);
- 
+
     let prevObj = {
       eventId: eventData?.event_id,
       companyId: eventData?.company_id,
@@ -785,7 +815,11 @@ const WebinarRegistration = () => {
     } else {
       if (originalFormData?.templateId == template?.templateId) {
         let updatedBody = JSON.parse(JSON.stringify(originalFormData));
-        setLogo(updatedBody?.logoImageUrl?updatedBody?.logoImageUrl:template?.logoImageUrl);
+        setLogo(
+          updatedBody?.logoImageUrl
+            ? updatedBody?.logoImageUrl
+            : template?.logoImageUrl
+        );
 
         setFormData(updatedBody);
       } else {
@@ -795,7 +829,7 @@ const WebinarRegistration = () => {
       }
       setActiveIndex(template?.templateId);
     }
-console.log(template);
+    console.log(template);
     // if (originalFormData?.templateId == template?.templateId) {
     //   console.log("template  if--->", template);
     //   let updatedBody = JSON.parse(JSON.stringify(originalFormData));
@@ -847,7 +881,7 @@ console.log(template);
           <div className="row">
             <div className="top-header regi-web">
               <div className="page-title">
-              <Link
+                <Link
                   className="btn btn-primary btn-bordered back-btn"
                   to="/event-listing"
                 >
@@ -960,68 +994,86 @@ console.log(template);
                   <Col md={8} sm={7}>
                     <div className="register-page-left">
                       <Form>
-                      <div>
-  {formData?.eventDetails && Object.keys(formData.eventDetails)?.map((key, index) => {
-    const field = formData.eventDetails[key];
-    return (
-      field.type=='date'?                                                                              
-      <div key={index} className="form-group d-flex align-items-center">
-        <label>{field.title} <span>*</span></label>
-      <DatePicker
-      name={`eventDetails-${key}`}
-      dateFormat="dd/MM/yyyy"
-      className="form-control"
-      placeholderText="Select date"
-      // minDate={currentDate}
-      selected={field.value ? new Date(field.value) : null}
-      onChange={(v,e)=>{
-        handleChange(v,`eventDetails-${key}` )
-      }}
-
-      onKeyDown={(
-        e
-      ) => {
-        e.preventDefault();
-      }}
-    /></div>:
-      <div key={index} className="form-group d-flex align-items-center">
-        <label>{field.title} <span>*</span></label>
-        <input
-          type={field.type}
-          name={`eventDetails-${key}`}
-          value={field.value}
-          className="form-control"
-          onChange={handleChange}
-
-        />
-      </div>
-    );
-  })}
-</div>
-                       <div className="form-group d-flex align-items-center">
-                          <FormLabel>
-                            Title <span>*</span>
-                          </FormLabel>
-                          <input
-                            type="text"
-                            name="title"
-                            value={formData?.title}
-                            onChange={handleChange}
-                            className={
-                              error?.title
-                                ? "form-control error"
-                                : "form-control"
-                            }
-                          />
-                          {error?.title ? (
-                            <div className="login-validation">
-                              {error?.title}
-                            </div>
-                          ) : (
-                            ""
-                          )}
+                        <div>
+                          {formData?.eventDetails &&
+                            Object.keys(formData.eventDetails)?.map(
+                              (key, index) => {
+                                const field = formData.eventDetails[key];
+                                return field.type == "date" ? (
+                                  <div
+                                    key={index}
+                                    className="form-group d-flex align-items-center"
+                                  >
+                                    <label>
+                                      {field.title} <span>*</span>
+                                    </label>
+                                    <DatePicker
+                                      name={`eventDetails-${key}`}
+                                      dateFormat="dd/MM/yyyy"
+                                      className="form-control"
+                                      placeholderText="Select date"
+                                      // minDate={currentDate}
+                                      selected={
+                                        field.value
+                                          ? new Date(field.value)
+                                          : null
+                                      }
+                                      onChange={(v, e) => {
+                                        handleChange(v, `eventDetails-${key}`);
+                                      }}
+                                      onKeyDown={(e) => {
+                                        e.preventDefault();
+                                      }}
+                                    />
+                                    <div className="color-pick">
+                                      <img
+                                        src={path_image + "color-picker.svg"}
+                                        alt=""
+                                      />
+                                      <input
+                                        type="color"
+                                        title="Choose your color"
+                                        name={`eventDetails-${key}-color`}
+                                        onChange={handleChange}
+                                        value={field.color}
+                                      />
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div
+                                    key={index}
+                                    className="form-group d-flex align-items-center"
+                                  >
+                                    <label>
+                                      {field.title} <span>*</span>
+                                    </label>
+                                    <input
+                                      type={field.type}
+                                      name={`eventDetails-${key}`}
+                                      value={field.value}
+                                      className="form-control"
+                                      onChange={handleChange}
+                                    />
+                                    <div className="color-pick">
+                                      <img
+                                        src={path_image + "color-picker.svg"}
+                                        alt=""
+                                      />
+                                      <input
+                                        type="color"
+                                        title="Choose your color"
+                                        name={`eventDetails-${key}-color`}
+                                        onChange={handleChange}
+                                        value={field.color}
+                                      />
+                                    </div>
+                                  </div>
+                                );
+                              }
+                            )}
                         </div>
-                        <div className="form-group d-flex align-items-center">
+                       
+                        {/* <div className="form-group d-flex align-items-center">
                           <FormLabel>
                             Registration Page Title <span>*</span>
                           </FormLabel>
@@ -1055,7 +1107,7 @@ console.log(template);
                             className="form-control"
                             placeholder="what will be the placeholder?"
                           />
-                        </div>
+                        </div> */}
                         <div className="feilds-section">
                           <h5>What data should be collected?</h5>
                           <div className="select-collected">
@@ -2430,11 +2482,13 @@ console.log(template);
                   </Col>
                 </Row>
               </div>
-            ) : apiStatus?(
+            ) : apiStatus ? (
               <div className="select-template">
                 <h3>Please select the template first</h3>
               </div>
-            ):""}
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </Col>
@@ -2497,30 +2551,44 @@ console.log(template);
                 title="Event Registration"
               /> */}
               <div className="webinar-popup">
-              <RegistrationPage
-                prevData={{
-                  eventId: eventData?.event_id,
-                  companyId: eventData?.company_id,
-                  content: JSON.stringify(formData),
-                  eventCode: event_code,
-                }}
-              />
+                <RegistrationPage
+                  prevData={{
+                    eventId: eventData?.event_id,
+                    companyId: eventData?.company_id,
+                    content: JSON.stringify(formData),
+                    eventCode: event_code,
+                  }}
+                />
               </div>
             </>
           </Modal.Body>
         </Modal>
       )}
 
-      <Modal className="modal send-confirm" id="delete-confirm" show={showModalPreview} onHide={handleCloseModal}>
+      <Modal
+        className="modal send-confirm"
+        id="delete-confirm"
+        show={showModalPreview}
+        onHide={handleCloseModal}
+      >
         <Modal.Header>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={handleCloseModal}></button>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={handleCloseModal}
+          ></button>
         </Modal.Header>
         <Modal.Body>
           <>
             <img src={path_image + "alert.png"} alt="" />
             <h4>Please Select Template First</h4>
             <div className="modal-buttons">
-              <button type="button" className="btn btn-primary btn-bordered" onClick={handleCloseModal}>
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered"
+                onClick={handleCloseModal}
+              >
                 Okay
               </button>
             </div>

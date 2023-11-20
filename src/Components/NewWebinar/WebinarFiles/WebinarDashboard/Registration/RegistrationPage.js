@@ -341,7 +341,7 @@ const RegistrationPage = ({ prevData }) => {
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                  <h2>{formData?.content?.pageTitle}</h2>
+                  <h2>{formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2>
                   <h3> {formData?.content?.bodyText}</h3>
                 </div>
               </div>

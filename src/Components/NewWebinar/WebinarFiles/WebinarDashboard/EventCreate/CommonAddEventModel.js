@@ -77,6 +77,7 @@ const CommonAddEventModel = ({
   ]);
   const [eventInputs, setEventInputs] = useState({
     dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+    dateEnd: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     title: "",
     location: "",
     type: "",
@@ -164,22 +165,27 @@ const CommonAddEventModel = ({
     onClose(false);
   };
   const handleChange = (e, isSelectedName) => {
-    if (e?.target?.name == "event_code") {
+    const { name, value } = e?.target || {};
+  
+    if (name === 'event_code') {
       setEventInputs({
         ...eventInputs,
-        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-          ? e
-          : e?.target?.value?.trim(),
+        [isSelectedName || name]: isSelectedName ? e : value?.trim(),
       });
     } else {
-      setEventInputs({
+      const updatedInputs = {
         ...eventInputs,
-        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-          ? e
-          : e?.target?.value,
-      });
+        [isSelectedName || name]: isSelectedName ? e : value,
+      };
+  
+      if (isSelectedName === 'dateStart') {
+        updatedInputs.dateEnd = isSelectedName ? e : value;
+      }
+  
+      setEventInputs(updatedInputs);
     }
   };
+  
   const saveClicked = async (e) => {
     try {
       const error = EventModelValidation(eventInputs);
@@ -200,6 +206,7 @@ const CommonAddEventModel = ({
             ? eventInputs?.client_stream_url
             : "",
           dateStart: eventInputs?.dateStart,
+          dateEnd: eventInputs?.dateEnd,
           dateStartHour: eventInputs?.dateStartHour,
           dateStartMin: eventInputs?.dateStartMin,
           dateEndHour: eventInputs?.dateEndHour,
@@ -643,7 +650,7 @@ const CommonAddEventModel = ({
                           <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
-                                Event Date <span> *</span>
+                                Event Start Date <span> *</span>
                               </label>
 
                               <DatePicker
@@ -672,6 +679,42 @@ const CommonAddEventModel = ({
                               {error?.dateStart ? (
                                 <div className="login-validation">
                                   {error?.dateStart}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div> 
+                          <div className="col-12 col-md-12">
+                            <div className="form-group">
+                              <label htmlFor="">
+                                Event End Date <span> *</span>
+                              </label>
+
+                              <DatePicker
+                                name="dateEnd"
+                                className={
+                                  error?.dateStart
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                placeholderText="Event Date"
+                                selected={
+                                  eventInputs?.dateEnd
+                                    ? new Date(eventInputs?.dateEnd)
+                                    : new Date(
+                                        moment(new Date(), "MM/DD/YYYY").format(
+                                          "MM/DD/YYYY"
+                                        )
+                                      )
+                                }
+                                onChange={(date) =>
+                                  handleChange(date, "dateEnd")
+                                }
+                                minDate={eventInputs.dateStart || currentDate}
+                                  dateFormat="dd/MM/yyyy"
+                              />
+                              {error?.dateEnd ? (
+                                <div className="login-validation">
+                                  {error?.dateEnd}
                                 </div>
                               ) : null}
                             </div>

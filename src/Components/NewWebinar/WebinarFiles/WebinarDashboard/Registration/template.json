@@ -8,6 +8,7 @@
         "footerImageUrl": "",
         "labelColor": "",
         "backgroundColor": "",
+        
        
         "body": [
             {
@@ -70,45 +71,66 @@
             "heading":{
                 "title":"Main Heading",
                 "type":"text",
-                "value":"Registration"
+                "value":"Registration",
+                "color":"#ffffff"
 
             },
             "SubHeadingOne":{
                 "title":"Sub Heading One",
                 "type":"text",
-                "value":"Welcome dinner"
+                "value":"Welcome dinner",
+                "color":"#004b95"
             },
             "SubHeadingOneDate":{
                 "title":"Sub Heading Date",
                 "type":"date",
-                "value":"Wednesday, 24 May 2023"
+                "value":"Wednesday, 24 May 2023",
+                "color":"#04b39a"
+
             },
             "SubHeadingTwo":{
                 "title":"Sub Heading Two",
                 "type":"text",
-                "value":"International ITI School and networking dinner"
+                "value":"International ITI School and networking dinner",
+                "color":"#004b95"
+                
             },
             "SubHeadingTwoDate":{
                 "title":"Sub Heading Date",
                 "type":"date",
-                "value":"Thursday, 25 May 2023"
+                "value":"Thursday, 25 May 2023",
+                "color":"#04b39a"
+                
             }
             ,
             "SubHeadingThree":{
                 "title":"Sub Heading Three",
                 "type":"text",
-                "value":"MOTIVATE Investigators meeting"
+                "value":"MOTIVATE Investigators meeting",
+                "color":"#004b95"
             },
             "SubHeadingThreeDate":{
                 "title":"Sub Heading Date",
                 "type":"date",
-                "value":"Friday, 26 May 2023"
+                "value":"Friday, 26 May 2023",
+                "color":"#04b39a"
             },
             
             "SpeakerName":{
                 "title":"Speaker Name",
                 "type":"text",
-                "value":"Nashville, Tennessee"
+                "value":"Nashville, Tennessee",
+                "color":"#04b39a"
+                
+                
+            } ,
+            "pageTitle":{
+                "title":"Registration Page Title",
+                "type":"text",
+                "value":"To register please select and fill in all your details below.",
+                "color":"#04b39a"
+                
+                
             }
 
 
@@ -117,8 +139,8 @@
         "logoImageUrl": "https://webinar.docintel.app/MOTIVATE-study/Regi/images/lund-logo.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
-        "labelColor": "",
-        "backgroundColor": "",
+        "labelColor": "#04b39a",
+        "backgroundColor": "#faf5f5",
         "body": [
             {
                 "label": "I will attend:",
@@ -272,6 +294,28 @@
         "footerImageUrl": "",
         "labelColor": "",
         "backgroundColor": "",
+        "eventDetails":{
+            "headingDate":{
+                "title":"Main Heading Date",
+                "type":"date",
+                "value":"18 November 2023"
+
+            },
+             "eventName":{
+                "title":"Event Name",
+                "type":"text",
+                "value":"Hotel del Coronado, San Diego, California, US"
+
+            },
+            "SpeakerName":{
+                "title":"Speaker Name",
+                "type":"text",
+                "value":"Chair : Robert Sidonio, Atlanta, USA"
+            }
+
+
+            
+        },
         "body": [
             {
                 "label": "Name",
