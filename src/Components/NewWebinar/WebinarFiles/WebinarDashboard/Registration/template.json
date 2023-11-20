@@ -346,7 +346,7 @@
                 "title":"Registration Page Title",
                 "type":"text",
                 "value":"To register please select and fill in all your details below.",
-                "color":"#04b39a"
+                "color":"#354367"
                 
                 
             },
@@ -354,7 +354,7 @@
                 "title":"Registration Body Text",
                 "type":"text",
                 "value":"This meeting is for healthcare professionals only.",
-                "color":"#04b39a"
+                "color":"#354367"
                 
                 
             }
