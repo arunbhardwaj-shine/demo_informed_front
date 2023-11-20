@@ -73,6 +73,7 @@ const WebinarRegistration = () => {
     body: [],
     footerImageUrl: "",
     labelColor: "",
+    optionColor: "",
     backgroundColor: "",
     totalFieldNo: 0,
     templateId: 0,
@@ -86,6 +87,7 @@ const WebinarRegistration = () => {
     body: [],
     footerImageUrl: "",
     labelColor: "",
+    optionColor: "",
     backgroundColor: "",
     totalFieldNo: 0,
     templateId: 0,
@@ -715,6 +717,7 @@ const WebinarRegistration = () => {
         body: [],
         footerImageUrl: "",
         labelColor: "",
+        optionColor:"",
         backgroundColor: "",
       });
 
@@ -794,6 +797,9 @@ const WebinarRegistration = () => {
       setFormData({ ...formData, labelColor: e?.target?.value });
     } else if (isSelectedName == "backgroundColor") {
       setFormData({ ...formData, backgroundColor: e?.target?.value });
+    }
+    else if (isSelectedName == "OptionColor") {
+      setFormData({ ...formData, optionColor: e?.target?.value });
     }
   };
 
@@ -2281,6 +2287,34 @@ const WebinarRegistration = () => {
                                               value={
                                                 formData?.labelColor
                                                   ? formData?.labelColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="form-group">
+                                        <label>Select Option color</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(
+                                                  e,
+                                                  "OptionColor"
+                                                )
+                                              }
+                                              value={
+                                                formData?.optionColor
+                                                  ? formData?.optionColor
                                                   : ""
                                               }
                                             />

@@ -6,7 +6,8 @@
         "logoImageUrl": "https://webinar.docintel.app/Webinar/images/logo.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
-        "labelColor": "",
+        "labelColor": "",    
+        "optionColor": "",
         "backgroundColor": "",
         
        
@@ -69,7 +70,7 @@
         "bodyText": "",
         "eventDetails":{
             "heading":{
-                "title":"Main Heading",
+                "title":"Top Header",
                 "type":"text",
                 "value":"Registration",
                 "color":"#ffffff"
@@ -140,6 +141,7 @@
         "headerImageUrl": "",
         "footerImageUrl": "",
         "labelColor": "#04b39a",
+        "optionColor": "",
         "backgroundColor": "#faf5f5",
         "body": [
             {
@@ -293,6 +295,7 @@
         "headerImageUrl": "",
         "footerImageUrl": "",
         "labelColor": "",
+        "optionColor": "",
         "backgroundColor": "",
         "eventDetails":{
             "headingDate":{

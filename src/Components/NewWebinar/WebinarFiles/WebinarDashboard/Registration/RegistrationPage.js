@@ -105,8 +105,9 @@ const RegistrationPage = ({ prevData }) => {
       ? {
           labelColor: prevData?.content?.labelColor,
           background: prevData?.content?.backgroundColor,
+          optionColor: prevData?.content?.optionColor,
         }
-      : { labelColor: "#fff000", background: "#000" }
+      : { labelColor: "#fff000", background: "#000",optionColor:"#000" }
   );
 
   useEffect(() => {
@@ -149,7 +150,7 @@ const RegistrationPage = ({ prevData }) => {
         "speaker_email": "",
         "meeting_type": ""
       }
-      console.log(raw);
+      
         hadData = {
           ...response?.data?.data,
           content: JSON.parse(prevData?.content),
@@ -160,6 +161,7 @@ const RegistrationPage = ({ prevData }) => {
       setPageColors({
         labelColor: hadData?.content?.labelColor,
         background: hadData?.content?.backgroundColor,
+        optionColor: hadData?.content?.optionColor,
       });
       loader("hide");
     } catch (err) {
@@ -699,6 +701,7 @@ const FormField2 = ({
   level,
   templateId,
 }) => {
+
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
   const label = userData[form.label]
@@ -806,7 +809,7 @@ const FormField2 = ({
               />
               <label
                 style={{
-                  color: pageColors?.labelColor,
+                  color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
@@ -861,7 +864,7 @@ const FormField2 = ({
               />
               <label
                 style={{
-                  color: pageColors?.labelColor,
+                  color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >

@@ -56,7 +56,7 @@ export default function TemplateTwo({children,formData}) {
                 <div className="invertor-metting">
                   <div className="meeting-logo">
                     {/* <img src="images/im-workshop.png" alt=""> */}
-                    <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/lund-logo.png" alt="" />
+                    <img                       src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/MOTIVATE-study/Regi/images/lund-logo.png"}`}alt="" />
                   </div>
                   <div className="logo-top">
                     <h5 style={{
