@@ -17180,6 +17180,49 @@ img.change-password-image {
   padding-left: 22px;
 }
 
+.create-change-content.register-page .form-group {
+  gap: 0 15px;
+}
+
+.color-pick {
+  border-radius: 30px;
+  background: rgb(231 239 246 / 76%);
+  width: 100%;
+  padding: 4px 8px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  max-width: 90px;
+
+  input[type="color"] {
+    border-radius: 30px;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 108px;
+    margin-left: -34px;
+    cursor: pointer;
+    padding-left: 40px;
+
+    &::-webkit-color-swatch {
+      border: none;
+      border-radius: 30px;
+      padding: 0;
+    }
+
+    &::-webkit-color-swatch-wrapper {
+      border: none;
+      border-radius: 30px;
+      padding: 0;
+    }
+  }
+
+  img {
+    max-width: 24px;
+    position: relative;
+    pointer-events: none
+  }
+}
+
 .feilds-section {
   border: 1px dashed $primary-color;
   border-radius: 12px;
@@ -17292,44 +17335,7 @@ img.change-password-image {
         flex: 0 0 auto;
       }
 
-      .color-pick {
-        border-radius: 30px;
-        background: rgb(231 239 246 / 76%);
-        width: 100%;
-        padding: 4px 8px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        max-width: 130px;
 
-        input[type="color"] {
-          border-radius: 30px;
-          -webkit-appearance: none;
-          appearance: none;
-          width: 108px;
-          margin-left: -34px;
-          cursor: pointer;
-          padding-left: 40px;
-
-          &::-webkit-color-swatch {
-            border: none;
-            border-radius: 30px;
-            padding: 0;
-          }
-
-          &::-webkit-color-swatch-wrapper {
-            border: none;
-            border-radius: 30px;
-            padding: 0;
-          }
-        }
-
-        img {
-          max-width: 24px;
-          position: relative;
-          pointer-events: none
-        }
-      }
     }
   }
 
