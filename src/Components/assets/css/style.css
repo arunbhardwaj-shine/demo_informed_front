@@ -810,7 +810,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   height: 35px;
   border-radius: 50%;
   padding: 4px;
-  background: #fff;
+  background: var(--white);
   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
   margin: 0 10px 0 0;
 }
@@ -2855,7 +2855,7 @@ form#add_hcp_form .row:not(:first-child) {
   box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
   border: 0;
   padding: 6px;
-  background: #fff;
+  background: var(--white);
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -2868,7 +2868,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 #add_hcp .modal-body .hcp-add-form form .form-group .dlt_btn_event:hover svg path {
-  fill: #ffffff;
+  fill: var(--white);
 }
 
 #add_hcp .modal-body .hcp-add-form form .form-group .dlt_btn_event:hover {
@@ -2880,7 +2880,6 @@ form#add_hcp_form .row:not(:first-child) {
   flex: 0 0 120px;
   font-size: 18px;
   line-height: 21px;
-  /* text-transform: capitalize; */
   color: var(--dark-blue);
 }
 
@@ -8138,7 +8137,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 .create-change-content .right-change .log-activity-box {
   border-radius: 13px;
-  background: #fff;
+  background: var(--white);
   box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
   display: flex;
   padding: 10px 15px;
@@ -8230,7 +8229,7 @@ html {
 
 .page_not_found {
   align-items: center;
-  background: #fff;
+  background: var(--white);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -8453,11 +8452,13 @@ html {
   overflow-y: auto;
 }
 
-.session-modal #pollModel .modal-title.h4 img, #pollModel1 .modal-title.h4 img {
+.session-modal #pollModel .modal-title.h4 img,
+#pollModel1 .modal-title.h4 img {
   max-width: 170px;
 }
 
-.session-modal #pollModel .modal-header, #pollModel1 .modal-header {
+.session-modal #pollModel .modal-header,
+#pollModel1 .modal-header {
   background: #beddd9;
 }
 

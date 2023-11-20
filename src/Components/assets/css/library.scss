@@ -553,6 +553,17 @@
     width: 100%;
     margin: 0;
 
+    .react-datepicker-wrapper {
+      max-width: 100%;
+      flex: 1 1;
+
+      .react-datepicker__input-container {
+        input {
+          background-position: 97% center;
+        }
+      }
+    }
+
     .register-page-left {
       padding-right: 30px;
     }
@@ -2269,7 +2280,7 @@ form.product-unit button {
   height: 35px;
   border-radius: 50%;
   padding: 4px;
-  background: #fff;
+  background: $white;
   filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
   margin: 0 10px 0 0;
 
@@ -4474,7 +4485,7 @@ input[type="number"] {
   padding: 4px 16px;
 
   &:hover {
-    color: #ffffff;
+    color: $white;
     background: #8A4E9C;
   }
 }
@@ -17283,7 +17294,7 @@ img.change-password-image {
 
       .color-pick {
         border-radius: 30px;
-        background: #EEE;
+        background: rgb(231 239 246 / 76%);
         width: 100%;
         padding: 4px 8px;
         height: 44px;
@@ -17377,7 +17388,7 @@ img.change-password-image {
         }
 
         .extension {
-          background: rgb(238 238 238 / 78%);
+          background: rgb(231 239 246 / 76%);
           padding: 15px;
           margin: 15px 0px;
           border-radius: 10px;

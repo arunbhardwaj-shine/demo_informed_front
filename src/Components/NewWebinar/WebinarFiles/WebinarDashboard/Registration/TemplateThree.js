@@ -47,11 +47,7 @@ const TemplateOne = ({ children ,formData}) => {
               <div className="col-sm-4 col-md-4">
                 <div className="factor-season-right">
                   <h3>
-                        <span style={
-                          {
-                           textTransform:"capitalize"
-                          }
-                          }> {eventData.speaker_name}</span>
+                        <span> {eventData.speaker_name}</span>
                   </h3>
                 </div>
               </div>
