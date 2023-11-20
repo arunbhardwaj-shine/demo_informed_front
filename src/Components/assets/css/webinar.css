@@ -3917,6 +3917,11 @@ l .vwd .factor-season-left h2 {
   letter-spacing: -0.02em;
 }
 
+.disabled {
+  cursor: no-drop !important;
+  opacity: 0.6 !important;
+}
+
 .emory .consent-form-inner .center-sided h2 {
   color: #263474;
   font-family: 'RobotoSlab-Bold';
