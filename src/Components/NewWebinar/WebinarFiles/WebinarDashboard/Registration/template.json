@@ -8,6 +8,7 @@
         "footerImageUrl": "",
         "labelColor": "",
         "backgroundColor": "",
+       
         "body": [
             {
                 "label": "Full consent (for additional information or to edit consent click Change)",
@@ -65,6 +66,54 @@
         "title": "Registration",
         "pageTitle": "To register please fill in all your details below.",
         "bodyText": "",
+        "eventDetails":{
+            "heading":{
+                "title":"Main Heading",
+                "type":"text",
+                "value":"Registration"
+
+            },
+            "SubHeadingOne":{
+                "title":"Sub Heading One",
+                "type":"text",
+                "value":"Welcome dinner"
+            },
+            "SubHeadingOneDate":{
+                "title":"Sub Heading Date",
+                "type":"date",
+                "value":"Wednesday, 24 May 2023"
+            },
+            "SubHeadingTwo":{
+                "title":"Sub Heading Two",
+                "type":"text",
+                "value":"International ITI School and networking dinner"
+            },
+            "SubHeadingTwoDate":{
+                "title":"Sub Heading Date",
+                "type":"date",
+                "value":"Thursday, 25 May 2023"
+            }
+            ,
+            "SubHeadingThree":{
+                "title":"Sub Heading Three",
+                "type":"text",
+                "value":"MOTIVATE Investigators meeting"
+            },
+            "SubHeadingThreeDate":{
+                "title":"Sub Heading Date",
+                "type":"date",
+                "value":"Friday, 26 May 2023"
+            },
+            
+            "SpeakerName":{
+                "title":"Speaker Name",
+                "type":"text",
+                "value":"Nashville, Tennessee"
+            }
+
+
+            
+        },
         "logoImageUrl": "https://webinar.docintel.app/MOTIVATE-study/Regi/images/lund-logo.png",
         "headerImageUrl": "",
         "footerImageUrl": "",

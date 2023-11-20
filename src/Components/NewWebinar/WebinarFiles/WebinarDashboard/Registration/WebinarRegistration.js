@@ -457,8 +457,10 @@ const WebinarRegistration = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
+    // console.log(isSelectedName)
+  
     setIsFormChange(true);
-    if (isSelectedName) {
+    if (isSelectedName && !(isSelectedName?.includes("eventDetails"))) {
       let updateFormBody = formData?.body;
 
       if (e?.target?.checked == true) {
@@ -529,7 +531,13 @@ const WebinarRegistration = () => {
             ],
           };
           updateFormBody?.push(newObj);
-        } else if (isSelectedName == "consent") {
+        } 
+        else if (isSelectedName == "eventDetails") {
+          let newObj = {
+           
+          };
+          updateFormBody?.push(newObj);
+        }  else if (isSelectedName == "consent") {
           let newObj = {
             // label: isSelectedName,
             label: isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
@@ -582,11 +590,46 @@ const WebinarRegistration = () => {
         });
       }
     } else {
+      
+      if (e?.target?.name.includes("eventDetails" )) {
+        const fieldName = e.target.name.split('-')[1]; 
+        console.log(fieldName)
+        setFormData({
+          ...formData,
+          eventDetails: {
+            ...formData.eventDetails,
+            [fieldName]:
+            {
+              ...formData.eventDetails?.[fieldName],
+              'value': e.target.value,
+            },
+          },
+          required: "yes", 
+        });
+      }
+     else if (isSelectedName?.includes("eventDetails")) {
+        const fieldName =isSelectedName.split('-')[1]; 
+        setFormData({
+          ...formData,
+          eventDetails: {
+            ...formData.eventDetails,
+            [fieldName]:
+            {
+              ...formData.eventDetails?.[fieldName],
+              'value': e,
+            },
+          },
+          required: "yes", 
+        });
+      }
+    else{
       setFormData({
         ...formData,
         [e.target.name]: e?.target?.value,
         required: "yes",
-      });
+      }); 
+    }
+     
     }
   };
 
@@ -752,7 +795,7 @@ const WebinarRegistration = () => {
       }
       setActiveIndex(template?.templateId);
     }
-
+console.log(template);
     // if (originalFormData?.templateId == template?.templateId) {
     //   console.log("template  if--->", template);
     //   let updatedBody = JSON.parse(JSON.stringify(originalFormData));
@@ -917,6 +960,44 @@ const WebinarRegistration = () => {
                   <Col md={8} sm={7}>
                     <div className="register-page-left">
                       <Form>
+                      <div>
+  {formData?.eventDetails && Object.keys(formData.eventDetails)?.map((key, index) => {
+    const field = formData.eventDetails[key];
+    return (
+      field.type=='date'?                                                                              
+      <div key={index} className="form-group d-flex align-items-center">
+        <label>{field.title} <span>*</span></label>
+      <DatePicker
+      name={`eventDetails-${key}`}
+      dateFormat="dd/MM/yyyy"
+      className="form-control"
+      placeholderText="Select date"
+      // minDate={currentDate}
+      selected={field.value ? new Date(field.value) : null}
+      onChange={(v,e)=>{
+        handleChange(v,`eventDetails-${key}` )
+      }}
+
+      onKeyDown={(
+        e
+      ) => {
+        e.preventDefault();
+      }}
+    /></div>:
+      <div key={index} className="form-group d-flex align-items-center">
+        <label>{field.title} <span>*</span></label>
+        <input
+          type={field.type}
+          name={`eventDetails-${key}`}
+          value={field.value}
+          className="form-control"
+          onChange={handleChange}
+
+        />
+      </div>
+    );
+  })}
+</div>
                        <div className="form-group d-flex align-items-center">
                           <FormLabel>
                             Title <span>*</span>
