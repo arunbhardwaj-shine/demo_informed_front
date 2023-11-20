@@ -3754,6 +3754,10 @@ input:-webkit-autofill:active {
   height: auto;
 }
 
+
+
+
+
 /***Webinar template 1***/
 .factor-season {
   margin-bottom: 20px;
@@ -3822,7 +3826,8 @@ l .vwd .factor-season-left h2 {
   letter-spacing: 0.03em;
   color: #76B5AE;
   line-height: 36px;
-  font-family: 'Poppins-SemiBold';
+  font-family: 'Poppins';
+  font-weight: 600;
   margin-bottom: 21px;
 }
 
@@ -3905,7 +3910,7 @@ l .vwd .factor-season-left h2 {
 
 .consent-form-inner .center-sided h2 {
   color: #2068b3;
-  font-family: Muli;
+  font-family: 'Muli';
   font-size: 34px;
   line-height: 47px;
   text-align: center;
