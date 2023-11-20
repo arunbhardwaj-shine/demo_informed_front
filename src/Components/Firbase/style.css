@@ -382,15 +382,24 @@ tr.poll_graph .highcharts-container {
         font-size: 14px;
     }
 
-    #pollModel .modal-body,
+    /* #pollModel .modal-body,
     #pollModel1 .modal-body {
         padding: 20px 20px;
+    } */
+    #pollModel .modal-body,
+    #pollModel1 .modal-body {
+        padding: 20px 0 20px;
     }
 
     #pollModel .modal-body p,
     #pollModel1 .modal-body p {
         font-size: 16px;
         margin-bottom: 12px;
+    }
+
+    #pollModel .modal-body h5,
+    #pollModel1 .modal-body h5 {
+        padding-left: 23px;
     }
 
     #pollModel .form-check.form-check-inline {
