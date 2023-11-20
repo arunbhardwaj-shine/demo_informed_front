@@ -1287,8 +1287,7 @@ const colourStyles = {
   const handleBigCircleClose = (moduleName, index) => {
 
     console.log("big circle close")
-    console.log("read more-->",readMoreClicked)
-    setReadMoreClicked([])
+    console.log(readMoreClicked,'===>cross')
     var root = document.getElementsByTagName( 'html' )[0];
     root.classList.remove('scrollerClass');
     setAddClass(false);
@@ -1326,6 +1325,7 @@ const colourStyles = {
         checked: false,
       },
     })
+    setReadMoreClicked([])
     }, 200);
     setSelectedModules([]);
     setModuleFormInputs(false)
@@ -1352,6 +1352,7 @@ const colourStyles = {
     setActiveModule(intialModuleData?.activeModule);
     setEmailError('')
     setPhoneError('')
+    setReadMoreClicked([])
   };
 
   const handleRead = (e,moduleName) => {
