@@ -1079,12 +1079,12 @@ const colourStyles = {
           country: registerFormInputs?.country?.trim(),
           consent: consent,
           consent_type: consentType,
-          module_clicked:readMoreClicked,
+          before_register_module_clicked:readMoreClicked,
           register_type:"pharmaRegistered",
           type: "register",
         };
 
-        // console.log(data,'data')
+        console.log('registerdata',data)
         setPayloadData(data);
         localStorage.setItem('pharmaRegistered', 'true');
         setPharmaRegistered(true);
@@ -1101,6 +1101,7 @@ const colourStyles = {
         setSelectedCountry([]);
         setRegisterError(false);
         setRegisterPage(false);
+        setReadMoreClicked([])
       } catch (err) {
         console.log(err);
         loader("hide");
@@ -1253,12 +1254,12 @@ const colourStyles = {
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
-        all_module_clicked:readMoreClicked,
+        after_register_module_clicked:readMoreClicked,
         ppt: downloadedPpts,
         type: "modules",
       }
 
-      console.log("data--->",data)
+      console.log("submitdata--->",data)
       //  }                                                );
       let obj = {};
       loader("hide");
@@ -1268,7 +1269,8 @@ const colourStyles = {
       setAddDivClass(true);
       setAddSmallClass(true);
       setModuleFormInputs(obj);
-      setDownloadedPpts(prevPpts => [])
+      setDownloadedPpts(prevPpts => []);
+      setReadMoreClicked([])
     } catch (err) {
       console.log(err);
       loader("hide");
@@ -1336,6 +1338,7 @@ const colourStyles = {
   };
 
   const handleBigClose = () => {
+    console.log(readMoreClicked,'===>module_clicked')
     var root = document.getElementsByTagName( 'html' )[0];
     root.classList.remove('scrollerClass');
     setAddDivClass(false);
@@ -1353,18 +1356,16 @@ const colourStyles = {
 
   const handleRead = (e,moduleName) => {
     setReadStatus(true);
-     let updateReadMoreClicked=readMoreClicked;
-      if(!updateReadMoreClicked?.includes(moduleName)){
- updateReadMoreClicked.push(moduleName)
-    setReadMoreClicked(updateReadMoreClicked)
-    console.log(updateReadMoreClicked,'updateReadMoreClicked')
-      }
+    let updateReadMoreClicked=readMoreClicked;
+    if(!updateReadMoreClicked?.includes(moduleName)){
+updateReadMoreClicked.push(moduleName)
+  setReadMoreClicked(updateReadMoreClicked)
+  console.log(updateReadMoreClicked,'updateReadMoreClicked')
+    }
     
     if(pharmaRegistered){
       setAddDivClass(false);
       setAddSmallClass(true);
-     
-   
     }
     else{
       setAddDivClass(true);
