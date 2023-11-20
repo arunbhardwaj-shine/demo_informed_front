@@ -271,8 +271,8 @@ const RegistrationPage = ({ prevData }) => {
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                  <h2>{formData?.content?.pageTitle}</h2>
-                  <h3> {formData?.content?.bodyText}</h3>
+                <h2>{formData?.content?.eventDetails?.pageTitle?.value}</h2>
+                  <h3> {formData?.content?.eventDetails?.bodyText?.value}</h3>
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -325,11 +325,11 @@ const RegistrationPage = ({ prevData }) => {
         <button type="submit">Login</button>
       </form>
     </div> */}
-      <section className="consent-form">
+      <section className="consent-form" >
         <div className="container">
           <div
             className="consent-form-inner"
-            style={{ background: `${pageColors?.background}` }}
+            
           >
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
@@ -406,8 +406,14 @@ const RegistrationPage = ({ prevData }) => {
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                  <h2>{formData?.content?.pageTitle}</h2>
-                  <h3> {formData?.content?.bodyText}</h3>
+                  <h2 style={{
+                    color: formData?.content?.eventDetails?.pageTitle?.color,
+
+                  }}>{formData?.content?.eventDetails?.pageTitle?.value}</h2>
+                  <h3  style={{
+                    color: formData?.content?.eventDetails?.bodyText?.color,
+                    
+                  }}> {formData?.content?.eventDetails?.bodyText?.value}</h3>
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -1030,7 +1036,7 @@ const FormField3 = ({
               />
               <label
                 style={{
-                  color: pageColors?.labelColor,
+                  color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
@@ -1085,7 +1091,7 @@ const FormField3 = ({
               />
               <label
                 style={{
-                  color: pageColors?.labelColor,
+                  color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >

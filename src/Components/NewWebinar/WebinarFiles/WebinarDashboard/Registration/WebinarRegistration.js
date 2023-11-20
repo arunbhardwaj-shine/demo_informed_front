@@ -24,7 +24,10 @@ import AliceCarousel from "react-alice-carousel";
 import RegistrationPage from "./RegistrationPage";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import templateData from "./template.json";
-
+import moment from "moment";
+let currentDate = new Date(
+  moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+);
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
@@ -595,40 +598,40 @@ const WebinarRegistration = () => {
         });
       }
     } else {
-      let name =e?.target?.name
+      let name = e?.target?.name;
       if (name?.includes("eventDetails")) {
         const fieldName = e.target.name.split("-")[1];
-      let isColor= name.includes("color")
-      if(isColor){
-        setFormData({
-          ...formData,
-          eventDetails: {
-            ...formData.eventDetails,
-            [fieldName]: {
-              ...formData.eventDetails?.[fieldName],
-              color: e.target.value,
+        let isColor = name.includes("color");
+        if (isColor) {
+          setFormData({
+            ...formData,
+            eventDetails: {
+              ...formData.eventDetails,
+              [fieldName]: {
+                ...formData.eventDetails?.[fieldName],
+                color: e.target.value,
+              },
             },
-          },
-          required: "yes",
-        });
-      }else{
-
-        setFormData({
-          ...formData,
-          eventDetails: {
-            ...formData.eventDetails,
-            [fieldName]: {
-              ...formData.eventDetails?.[fieldName],
-              value: e.target.value,
+            required: "yes",
+          });
+        } else {
+          setFormData({
+            ...formData,
+            eventDetails: {
+              ...formData.eventDetails,
+              [fieldName]: {
+                ...formData.eventDetails?.[fieldName],
+                value: e.target.value,
+              },
             },
-          },
-          required: "yes",
-        });
-      }
+            required: "yes",
+          });
+        }
       } else if (isSelectedName?.includes("eventDetails")) {
         const fieldName = isSelectedName.split("-")[1];
-        let isColor=e?.target?.name.includes("color")
-        if(isColor){
+        // console.log(fieldName);
+        let isColor = e?.target?.name.includes("color");
+        if (isColor) {
           setFormData({
             ...formData,
             eventDetails: {
@@ -640,21 +643,37 @@ const WebinarRegistration = () => {
             },
             required: "yes",
           });
-        }else{
-  
-          setFormData({
-            ...formData,
-            eventDetails: {
-              ...formData.eventDetails,
-              [fieldName]: {
-                ...formData.eventDetails?.[fieldName],
-                value: e,
+        } else {
+          if (fieldName == "eventStartDate") {
+            setFormData({
+              ...formData,
+              eventDetails: {
+                ...formData.eventDetails,
+                [fieldName]: {
+                  ...formData.eventDetails?.[fieldName],
+                  value: e,
+                },
+                ["eventEndDate"]: {
+                  ...formData.eventDetails?.[fieldName],
+                  value: e,
+                },
               },
-            },
-            required: "yes",
-          });
+              required: "yes",
+            });
+          } else {
+            setFormData({
+              ...formData,
+              eventDetails: {
+                ...formData.eventDetails,
+                [fieldName]: {
+                  ...formData.eventDetails?.[fieldName],
+                  value: e,
+                },
+              },
+              required: "yes",
+            });
+          }
         }
-    
       } else {
         setFormData({
           ...formData,
@@ -717,7 +736,7 @@ const WebinarRegistration = () => {
         body: [],
         footerImageUrl: "",
         labelColor: "",
-        optionColor:"",
+        optionColor: "",
         backgroundColor: "",
       });
 
@@ -797,8 +816,7 @@ const WebinarRegistration = () => {
       setFormData({ ...formData, labelColor: e?.target?.value });
     } else if (isSelectedName == "backgroundColor") {
       setFormData({ ...formData, backgroundColor: e?.target?.value });
-    }
-    else if (isSelectedName == "OptionColor") {
+    } else if (isSelectedName == "OptionColor") {
       setFormData({ ...formData, optionColor: e?.target?.value });
     }
   };
@@ -1018,7 +1036,12 @@ const WebinarRegistration = () => {
                                       dateFormat="dd/MM/yyyy"
                                       className="form-control"
                                       placeholderText="Select date"
-                                      // minDate={currentDate}
+                                      minDate={
+                                        key === "eventEndDate"
+                                          ? formData?.eventDetails
+                                              ?.eventStartDate?.value
+                                          : currentDate
+                                      }
                                       selected={
                                         field.value
                                           ? new Date(field.value)
@@ -1031,19 +1054,21 @@ const WebinarRegistration = () => {
                                         e.preventDefault();
                                       }}
                                     />
-                                    <div className="color-pick">
-                                      <img
-                                        src={path_image + "color-picker.svg"}
-                                        alt=""
-                                      />
-                                      <input
-                                        type="color"
-                                        title="Choose your color"
-                                        name={`eventDetails-${key}-color`}
-                                        onChange={handleChange}
-                                        value={field.color}
-                                      />
-                                    </div>
+                                    {field.color && (
+                                      <div className="color-pick">
+                                        <img
+                                          src={path_image + "color-picker.svg"}
+                                          alt=""
+                                        />
+                                        <input
+                                          type="color"
+                                          title="Choose your color"
+                                          name={`eventDetails-${key}-color`}
+                                          onChange={handleChange}
+                                          value={field.color}
+                                        />
+                                      </div>
+                                    )}
                                   </div>
                                 ) : (
                                   <div
@@ -1060,25 +1085,27 @@ const WebinarRegistration = () => {
                                       className="form-control"
                                       onChange={handleChange}
                                     />
-                                    <div className="color-pick">
-                                      <img
-                                        src={path_image + "color-picker.svg"}
-                                        alt=""
-                                      />
-                                      <input
-                                        type="color"
-                                        title="Choose your color"
-                                        name={`eventDetails-${key}-color`}
-                                        onChange={handleChange}
-                                        value={field.color}
-                                      />
-                                    </div>
+                                    {field.color && (
+                                      <div className="color-pick">
+                                        <img
+                                          src={path_image + "color-picker.svg"}
+                                          alt=""
+                                        />
+                                        <input
+                                          type="color"
+                                          title="Choose your color"
+                                          name={`eventDetails-${key}-color`}
+                                          onChange={handleChange}
+                                          value={field.color}
+                                        />
+                                      </div>
+                                    )}
                                   </div>
                                 );
                               }
                             )}
                         </div>
-                       
+
                         {/* <div className="form-group d-flex align-items-center">
                           <FormLabel>
                             Registration Page Title <span>*</span>
@@ -2307,10 +2334,7 @@ const WebinarRegistration = () => {
                                               type="color"
                                               title="Choose your color"
                                               onChange={(e) =>
-                                                onColorChange(
-                                                  e,
-                                                  "OptionColor"
-                                                )
+                                                onColorChange(e, "OptionColor")
                                               }
                                               value={
                                                 formData?.optionColor
