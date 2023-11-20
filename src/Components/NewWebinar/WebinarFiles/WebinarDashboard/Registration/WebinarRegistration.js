@@ -195,6 +195,8 @@ const WebinarRegistration = () => {
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
       const hadData = response?.data?.data;
+      let raw=hadData?.raw_description?JSON.parse(hadData?.raw_description):{};
+      console.log(raw);
       if (hadData?.event_id && hadData?.company_id) {
         setEventData({
           ...eventData,
@@ -213,10 +215,17 @@ const WebinarRegistration = () => {
         let tempData = templateListData[tempId - 1];
         templateListData[tempId - 1] = templateListData[0];
         templateListData[0] = tempData;
-        console.log(newFormData?.eventDetails);
-        console.log(tempData);
+       
         if (!newFormData?.eventDetails) {
+          tempData.eventDetails.eventStartDate=new Date(raw?.dateStart);
+          tempData.eventDetails.eventEndDate=new Date(raw?.dateEnd);
+     
           newFormData.eventDetails = tempData?.eventDetails;
+          // newFormData.eventDetails?.eventStartDate = tempData?.eventDetails;
+        }else{
+          newFormData.eventDetails.eventStartDate.value=new Date(raw?.dateStart);
+          newFormData.eventDetails.eventEndDate.value=new Date(raw?.dateEnd);
+      
         }
         setTemplateList(templateListData);
         // console.log(templateListData[tempId-1]);
