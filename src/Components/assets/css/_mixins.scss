@@ -210,3 +210,17 @@
   display: flex;
   align-items: center;
 }
+
+@mixin download-btn{
+  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+  border-radius: 30px;
+  background-color: $white;
+  border: 0;
+  min-width: 40px;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: capitalize;
+  color: $light-gray;
+  font-weight: 400;
+}
