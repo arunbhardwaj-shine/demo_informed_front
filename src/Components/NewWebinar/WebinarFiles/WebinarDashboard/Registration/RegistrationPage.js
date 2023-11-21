@@ -10,7 +10,7 @@ import moment from "moment";
 import CountryList from "./CountryList";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
-
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const userData = {
   name: "userName",
   email: "userEmail",
@@ -685,12 +685,17 @@ const FormField1 = ({
     );
   } else {
     fieldInput = (
+      <>
       <input
         type={form.inputType}
         className="form-control"
 id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={form.placeholder}
-        onChange={(e) => handleFieldChange(e.target.value)}
-      />
+        onChange={(e) => handleFieldChange(e.target.value)}/>
+        <div className="field-icon">
+          <img src={path_image + "form-mail.svg"} alt="" />
+        </div>
+        </>
+      
     );
   }
 
@@ -908,25 +913,31 @@ const FormField2 = ({
     );
   } else {
     fieldInput = (
+      <>
       <input
         type={form.inputType}
         className="form-control"
-        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())} placeholder={form.placeholder}
-        onChange={(e) => handleFieldChange(e.target.value)}
-      />
+        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())} placeholder={form.label}
+        onChange={(e) => handleFieldChange(e.target.value)}/>
+      <div className="field-icon">
+        <img src={path_image + "form-mail.svg"} alt="" />
+      </div>
+      </>
     );
   }
-
+console.log(form.inputType);
   return (
     <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`}>
-      <label
+      {(form.inputType !="text" && form.inputType !="email")  ?
+        <label
         style={{
           color: pageColors?.labelColor,
-        }}
-      >
+        }}>
         {form.label}
         {isRequired ? "*" : ""}
-      </label>
+      </label>:null
+      }
+      
       {fieldInput} 
       <div className="help-block">{formErrors[label]}</div>
     </div>

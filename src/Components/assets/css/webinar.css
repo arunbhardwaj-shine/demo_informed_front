@@ -4232,6 +4232,57 @@ l .vwd .factor-season-left h2 {
 
 .consent-form-list {
   margin-bottom: 16px;
+  position: relative;
+}
+
+.consent-form-list .field-icon {
+  position: absolute;
+  bottom: 8px;
+}
+
+.vwd .consent-form-list .field-icon {
+  bottom: 20px;
+  left: 35px;
+}
+
+.vwd .consent-form-inner .form-control {
+  padding: 18px 30px 18px 53px;
+}
+
+.vwd .consent-form-list .field-icon img {
+  width: 22px;
+}
+
+.consent-form-list .field-icon img {
+  width: 20px;
+}
+
+.consent-form-list.country {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex: 0 0 100%;
+  flex-wrap: wrap;
+  padding-right: 0;
+}
+
+.consent-form-list.country label {
+  margin: 0;
+}
+
+.consent-form-list.country .dropdown-basic-button {
+  max-width: 250px;
+  width: 100%;
+}
+
+.motivation-body .consent-form-list.country .dropdown-basic-button>div:nth-child(3) {
+  padding: 3px;
+  border-radius: 10px;
+}
+
+.consent-form-list.country .help-block {
+  flex: 0 0 100%;
 }
 
 .emory .consent-form-inner label {
@@ -4402,7 +4453,7 @@ l .vwd .factor-season-left h2 {
   height: auto;
   padding: 8px;
   line-height: normal;
-  padding-left: 0;
+  padding-left: 30px;
   border: 0;
   border-bottom: 1px solid rgb(31 104 179 / 40%);
   border-radius: 0;
