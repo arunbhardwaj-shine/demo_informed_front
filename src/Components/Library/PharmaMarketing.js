@@ -925,7 +925,8 @@ const PharmaMarketing = () => {
     { value: "Zambia", label: "Zambia" },
     { value: "Zimbabwe", label: "Zimbabwe" },
   ]);
-const colourStyles = {
+
+  const colourStyles = {
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     // const color = chroma(data.color);
     // console.log({ data, isDisabled, isFocused, isSelected });
@@ -937,7 +938,8 @@ const colourStyles = {
        color: isSelected ? "#ffffff!important" : "#97B6CF",
     };
   }
-};
+  };
+
   const [registerFormInputs, setRegisterFormInputs] = useState({
     name: "",
     email: "",
@@ -1260,7 +1262,7 @@ const colourStyles = {
       }
 
       console.log("submitdata--->",data)
-      //  }                                                );
+      //  });
       let obj = {};
       loader("hide");
       setEmailError(null);
