@@ -4237,12 +4237,18 @@ l .vwd .factor-season-left h2 {
 
 .consent-form-list .field-icon {
   position: absolute;
-  bottom: 8px;
+  top: 6px;
 }
 
 .vwd .consent-form-list .field-icon {
-  bottom: 20px;
+  bottom: auto;
   left: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.help-block {
+  font-size: 14px;
 }
 
 .vwd .consent-form-inner .form-control {
