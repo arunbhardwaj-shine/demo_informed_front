@@ -114,7 +114,11 @@ const SetPopup = (props) => {
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);
     }
-    getTemplateListData(0, "All", "", 1);
+    if (state?.lng) {
+      getTemplateListData(0, state?.lng, "", 1);
+    }else{
+      getTemplateListData(0, "All", "", 1);
+    }
   }, []);
 
   const dropDownSelected = (label, e) => {
@@ -246,6 +250,8 @@ const SetPopup = (props) => {
           pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
 
           language_change: 1,
+          
+          ibu:localStorage.getItem('user_id')=="B7SHpAc XDXSH NXkN0rdQ=="?ibu[state?.ibu]?ibu[state?.ibu]:"haematology":undefined,
         };
 
         const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
@@ -320,6 +326,12 @@ const SetPopup = (props) => {
       let third = templateList.findIndex((el) => el.popupNo === 3);
       let fourth = templateList.findIndex((el) => el.popupNo === 4);
 
+      let ibu={
+        "Critical Care":"critical_care",
+        "Haematology":"haematology",
+        "Immunotherapy":"immunothreapy"
+      }
+      
       let body = {
         user_id: localStorage.getItem("user_id"),
         pdfId: articleId,
@@ -330,6 +342,8 @@ const SetPopup = (props) => {
         htmlEditor2: templateList?.[second]?.source_code,
         htmlEditor3: templateList?.[third]?.source_code,
         htmlEditor4: templateList?.[fourth]?.source_code,
+        submitCancelPopupType: actualTemplateData?.data?.data?.submitCancelPopupType ? actualTemplateData?.data?.data?.submitCancelPopupType: 0,
+        ibu:localStorage.getItem('user_id')=="B7SHpAc XDXSH NXkN0rdQ=="?ibu[state?.ibu]?ibu[state?.ibu]:"haematology":undefined,
       };
       const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
       loader("hide");
