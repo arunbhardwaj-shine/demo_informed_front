@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef,useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { Router, Route, browserHistory } from 'react-router';
 import {
   Button,
@@ -41,11 +41,11 @@ const PharmaMarketing = () => {
   const [registerError, setRegisterError] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [pharmaRegistered, setPharmaRegistered] = useState(localStorage.getItem('pharmaRegistered'));
-  const [addSelectClass,setAddSelectClass] = useState(false)
+  const [addSelectClass, setAddSelectClass] = useState(false)
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [register, setRegister] = useState(false)
-  const[moduleRequest, setModuleRequest] = useState(false)
+  const [moduleRequest, setModuleRequest] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
@@ -54,9 +54,9 @@ const PharmaMarketing = () => {
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
-  const [readMoreClicked,setReadMoreClicked]=useState([])
+  const [readMoreClicked, setReadMoreClicked] = useState([])
   const [downloadedPpts, setDownloadedPpts] = useState([]);
-  const [userTrackDetail,setUserTrackDetail]=useState([])
+  const [userTrackDetail, setUserTrackDetail] = useState([])
   const modules = [
     {
       id: 1,
@@ -927,17 +927,17 @@ const PharmaMarketing = () => {
   ]);
 
   const colourStyles = {
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    // const color = chroma(data.color);
-    // console.log({ data, isDisabled, isFocused, isSelected });
-    return {
-      ...styles,
-      backgroundColor: isFocused ? "#0066BE" : null,
-      color: isFocused ? "#ffffff" : "#97B6CF",
-      backgroundColor: isSelected ? "#0066BE" : null,
-       color: isSelected ? "#ffffff!important" : "#97B6CF",
-    };
-  }
+    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+      // const color = chroma(data.color);
+      // console.log({ data, isDisabled, isFocused, isSelected });
+      return {
+        ...styles,
+        backgroundColor: isFocused ? "#0066BE" : null,
+        color: isFocused ? "#ffffff" : "#97B6CF",
+        backgroundColor: isSelected ? "#0066BE" : null,
+        color: isSelected ? "#ffffff!important" : "#97B6CF",
+      };
+    }
   };
 
   const [registerFormInputs, setRegisterFormInputs] = useState({
@@ -982,7 +982,7 @@ const PharmaMarketing = () => {
   });
 
   const handleClick = (moduleName, index) => {
-    
+
     setModulesSelect(true);
     setSubmitData(false);
     const smallCircleData = modules[index];
@@ -1033,20 +1033,20 @@ const PharmaMarketing = () => {
     // setAddSmallClass(true);
     // setAddDivClass(false);
     event.preventDefault();
-    const err = HomeValidation(registerFormInputs,1);
+    const err = HomeValidation(registerFormInputs, 1);
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
         nameRef?.current?.focus();
       } else if (Object?.keys(err)[0] == "email") {
         emailRef?.current?.focus();
-      } 
+      }
       // else if (Object.keys(err)[0] == "comapny") {
       //   companyRef.current.focus();
       // } 
       else if (Object.keys(err)[0] == "phone") {
         phoneRef.current.focus();
       }
-       else if (Object.keys(err)[0] == "country") {
+      else if (Object.keys(err)[0] == "country") {
         countryRef.current.focus();
       }
       setRegisterError(err);
@@ -1082,29 +1082,29 @@ const PharmaMarketing = () => {
           consent: consent,
           consent_type: consentType,
           // before_register_module_clicked:readMoreClicked,
-          register_type:"pharmaRegistered",
+          register_type: "pharmaRegistered",
           type: "register",
         };
-         let newObj={"user register with below mention information":data}
-         let updateTrackUser=userTrackDetail
-         updateTrackUser?.push(newObj)
-         setUserTrackDetail(updateTrackUser)
+        let newObj = { "user register with below mention information": data }
+        let updateTrackUser = userTrackDetail
+        updateTrackUser?.push(newObj)
+        setUserTrackDetail(updateTrackUser)
         setPayloadData(data);
         localStorage.setItem('pharmaRegistered', 'true');
         setPharmaRegistered(true);
         setAddSmallClass(true);
         setAddDivClass(false);
-        var root = document.getElementsByTagName( 'html' )[0];
+        var root = document.getElementsByTagName('html')[0];
         root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        const res = await postData(ENDPOINT.REGISTER,data );
-        console.log("res--->",res)
-       if(res?.userId){
-        localStorage.setItem("userId",res.userId)
-userTrackingFun(userTrackDetail)
-       }
-         
+        const res = await postData(ENDPOINT.REGISTER, data);
+        console.log("res--->", res)
+        if (res?.data?.data?.user_id) {
+          localStorage.setItem("userId", res?.data?.data?.user_id)
+          userTrackingFun(userTrackDetail)
+        }
+
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1144,9 +1144,9 @@ userTrackingFun(userTrackDetail)
 
   const handleBigCircleClick = (moduleName, index) => {
 
-    let newObj={"user clicked on module":moduleName}
-         userTrackingFun(newObj)
-      
+    let newObj = { "user clicked on module": moduleName }
+    userTrackingFun(newObj)
+
     const bigCircleData = bigCircleModules[index];
     setShowBigCircleData(true);
 
@@ -1198,11 +1198,11 @@ userTrackingFun(userTrackDetail)
   }, [selectedModules]);
 
   const handleRequestClick = () => {
-     let newObj={"user clicked on request with module ":activeModule}
-         userTrackingFun(newObj)
-    var root = document.getElementsByTagName( 'html' )[0];
-      root.classList.add('scrollerClass');
-      setModuleRequest(true)
+    let newObj = { "user clicked on request with module ": activeModule }
+    userTrackingFun(newObj)
+    var root = document.getElementsByTagName('html')[0];
+    root.classList.add('scrollerClass');
+    setModuleRequest(true)
     setAddClass(true);
     setAddDivClass(true);
     setAddSmallClass(false);
@@ -1233,12 +1233,12 @@ userTrackingFun(userTrackDetail)
   };
 
   const handleDownloadClick = (pptPath) => {
-    
+
     const fileName = pptPath?.substring(pptPath.lastIndexOf('/') + 1);
     const desiredText = fileName?.substring(0, fileName?.lastIndexOf('.'));
     setDownloadedPpts(prevPpts => [...prevPpts, desiredText]);
-    let newObj={"user download the ppt of":desiredText}
-         userTrackingFun(newObj)
+    let newObj = { "user download the ppt of": desiredText }
+    userTrackingFun(newObj)
   };
 
   const handleSubmitClick = async () => {
@@ -1250,65 +1250,65 @@ userTrackingFun(userTrackDetail)
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const phoneRegex = /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
     if (email && !emailRegex.test(email)) {
-        setEmailError('Please enter a valid email address');
-      } else if(phone && !phoneRegex.test(phone)){
-        setPhoneError('Please enter a valid phone number');
-      }
-      else {
-      loader("show");
-    // loader("show");
-    try {
-       
-      const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
-      const payloadData = JSON.parse(payloadDataPharmaString);
-      // const res = await postData(ENDPOINT.REGISTER, {
-      let data = {
-        ...payloadData,
-        message: moduleFormInputs?.message?.trim(),
-        secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
-        secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
-        modules: selectedModules,
-        // after_register_module_clicked:readMoreClicked,
-        // ppt: downloadedPpts,
-        type: "modules",
-      }
-      let newObj={"user clicked on submit with below information":data}
-         userTrackingFun(newObj)
-
-      //  });
-      let obj = {};
-      loader("hide");
-      setEmailError(null);
-      setPhoneError(null)
-      setAddHideClass(true);
-      setAddDivClass(true);
-      setAddSmallClass(true);
-      setModuleFormInputs(obj);
-      setDownloadedPpts(prevPpts => []);
-      setReadMoreClicked([])
-    } catch (err) {
-      console.log(err);
-      loader("hide");
+      setEmailError('Please enter a valid email address');
+    } else if (phone && !phoneRegex.test(phone)) {
+      setPhoneError('Please enter a valid phone number');
     }
-    setSubmitData(true);
-    setAddClass(false);
-    setShowBigCircleData(false);
-    setModulesSelect(false);
-    setFormFeilds(false);
-    setModuleFormInputs(false)
-  }
+    else {
+      loader("show");
+      // loader("show");
+      try {
+
+        const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
+        const payloadData = JSON.parse(payloadDataPharmaString);
+        // const res = await postData(ENDPOINT.REGISTER, {
+        let data = {
+          ...payloadData,
+          message: moduleFormInputs?.message?.trim(),
+          secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
+          secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
+          modules: selectedModules,
+          // after_register_module_clicked:readMoreClicked,
+          // ppt: downloadedPpts,
+          type: "modules",
+        }
+        let newObj = { "user clicked on submit with below information": data }
+        userTrackingFun(newObj)
+
+        //  });
+        let obj = {};
+        loader("hide");
+        setEmailError(null);
+        setPhoneError(null)
+        setAddHideClass(true);
+        setAddDivClass(true);
+        setAddSmallClass(true);
+        setModuleFormInputs(obj);
+        setDownloadedPpts(prevPpts => []);
+        setReadMoreClicked([])
+      } catch (err) {
+        console.log(err);
+        loader("hide");
+      }
+      setSubmitData(true);
+      setAddClass(false);
+      setShowBigCircleData(false);
+      setModulesSelect(false);
+      setFormFeilds(false);
+      setModuleFormInputs(false)
+    }
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-let newObj={"user clicked on cross icon of module":activeModule}
-         userTrackingFun(newObj)
-    var root = document.getElementsByTagName( 'html' )[0];
+    let newObj = { "user clicked on cross icon of module": activeModule }
+    userTrackingFun(newObj)
+    var root = document.getElementsByTagName('html')[0];
     root.classList.remove('scrollerClass');
     setAddClass(false);
     setRegister(false)
     setModuleRequest(false)
     setFormFeilds(false);
-     setAddDivClass(false)
+    setAddDivClass(false)
     setAddSmallClass(false)
     const smallCircleData = modules[index];
     if (moduleName !== activeModule) {
@@ -1324,37 +1324,37 @@ let newObj={"user clicked on cross icon of module":activeModule}
       setReadStatus(false);
       setRegisterError(false);
       setSelectedCountry([]);
-    setRegisterFormInputs({
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      country: "",
-      consent1: {
-        label: "Email me only about modules I’ve looked at",
-        checked: false,
-      },
-      consent2: {
-        label: "Keep me informed about other news from inforMed.pro",
-        checked: false,
-      },
-    })
-    setReadMoreClicked([])
+      setRegisterFormInputs({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        country: "",
+        consent1: {
+          label: "Email me only about modules I’ve looked at",
+          checked: false,
+        },
+        consent2: {
+          label: "Keep me informed about other news from inforMed.pro",
+          checked: false,
+        },
+      })
+      setReadMoreClicked([])
     }, 200);
     setSelectedModules([]);
     setModuleFormInputs(false)
     setEmailError('')
     setPhoneError('')
- 
-  //   setTimeout(() => {
-  //   setActiveModule(null);
-  // }, 2000);
+
+    //   setTimeout(() => {
+    //   setActiveModule(null);
+    // }, 2000);
   };
 
   const handleBigClose = () => {
-     let newObj={"user clicked on close after submit":""}
-         userTrackingFun(newObj)
-    var root = document.getElementsByTagName( 'html' )[0];
+    let newObj = { "user clicked on close after submit": "" }
+    userTrackingFun(newObj)
+    var root = document.getElementsByTagName('html')[0];
     root.classList.remove('scrollerClass');
     setAddDivClass(false);
     setAddClass(false);
@@ -1370,71 +1370,75 @@ let newObj={"user clicked on cross icon of module":activeModule}
     setReadMoreClicked([])
   };
 
-  const handleRead = (e,moduleName) => {
-    setReadStatus(true);  
-    if(pharmaRegistered){
+  const handleRead = (e, moduleName) => {
+    setReadStatus(true);
+    if (pharmaRegistered) {
       setAddDivClass(false);
       setAddSmallClass(true);
-       let newObj={"user clicked on read more with module select":moduleName}
-    userTrackingFun(newObj)
+      let newObj = { "user clicked on read more with module select": moduleName }
+      userTrackingFun(newObj)
     }
-    else{
-      let updateTrackUser=userTrackDetail;
-      let newObj={"user clicked on read more with module select":moduleName}
+    else {
+      let updateTrackUser = userTrackDetail;
+      let newObj = { "user clicked on read more with module select": moduleName }
       updateTrackUser?.push(newObj)
       setUserTrackDetail(updateTrackUser)
       setAddDivClass(true);
       setRegister(true)
       setAddSmallClass(false);
-      var root = document.getElementsByTagName( 'html' )[0];
+      var root = document.getElementsByTagName('html')[0];
       root.classList.add('scrollerClass');
     }
   };
 
-  const userTrackingFun=async(newObj)=>{
-    console.log("func--->",newObj)
-    try{
-        const res=await postData(ENDPOINT.PHARMA_USER_TRACKING,{data:newObj,userId:localStorage.getItem("userId")})
-    }catch(err){
-      console.log("--err",err)
+  const userTrackingFun = async (newObj) => {
+    console.log("func--->", newObj)
+    try {
+      const res = await postData(ENDPOINT.PHARMA_USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
+      console.log("res-->", res?.data)
+      if (res?.data?.message == "insert") {
+        localStorage.setItem("trackingId", res?.data?.data?.trackingId)
+      }
+    } catch (err) {
+      console.log("--err", err)
     }
   }
 
-useEffect(() => {
-  const interval = setInterval(() => {
-    const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
-    const currentModule = document.getElementById(`module-${currentModuleIndex}`);
-    const prevModule = document.getElementById(`module-${prevModuleIndex}`);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
+      const currentModule = document.getElementById(`module-${currentModuleIndex}`);
+      const prevModule = document.getElementById(`module-${prevModuleIndex}`);
 
-    const hasVisibleClass = Array.from({ length: 13 }, (_, i) => i)
-      .some(index => document.getElementById(`module-${index}`)?.classList?.contains("visible"));
- 
-    if (hasVisibleClass) {
-      currentModule?.classList.remove("random-class");
-      prevModule?.classList.remove("random-class");
-      clearInterval(interval);
-      return;
-    }
- 
-    // const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
-    // const currentModule = document.getElementById(`module-${currentModuleIndex}`);
-    // const prevModule = document.getElementById(`module-${prevModuleIndex}`);
+      const hasVisibleClass = Array.from({ length: 13 }, (_, i) => i)
+        .some(index => document.getElementById(`module-${index}`)?.classList?.contains("visible"));
 
-   
-    if (prevModule) {
-      prevModule?.classList.remove("random-class");
-    }
- 
-    if (currentModule) {
-      currentModule?.classList.add("random-class");
-    }
+      if (hasVisibleClass) {
+        currentModule?.classList.remove("random-class");
+        prevModule?.classList.remove("random-class");
+        clearInterval(interval);
+        return;
+      }
 
- 
-    setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
-  }, 4700);
- 
-  return () => clearInterval(interval);
-}, [currentModuleIndex]);
+      // const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
+      // const currentModule = document.getElementById(`module-${currentModuleIndex}`);
+      // const prevModule = document.getElementById(`module-${prevModuleIndex}`);
+
+
+      if (prevModule) {
+        prevModule?.classList.remove("random-class");
+      }
+
+      if (currentModule) {
+        currentModule?.classList.add("random-class");
+      }
+
+
+      setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
+    }, 4700);
+
+    return () => clearInterval(interval);
+  }, [currentModuleIndex]);
 
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1514,9 +1518,9 @@ useEffect(() => {
   }, []);
 
 
-const handleSelectionClick = () => {
-  setAddSelectClass(true);
-}
+  const handleSelectionClick = () => {
+    setAddSelectClass(true);
+  }
 
   return (
     <>
@@ -1538,8 +1542,8 @@ const handleSelectionClick = () => {
                   Connecting content and consent with intelligent predictions.
                   <br />
                   <br />
-                 The right materials reaching the right person at the
-                right time
+                  The right materials reaching the right person at the
+                  right time
                 </h4>
               </div>
               <div className="circular-height">
@@ -1960,7 +1964,7 @@ const handleSelectionClick = () => {
             <div className="consent-content-inner">
               <div className="consent-text">
                 <h5>
-                <strong>Content with consent</strong> underpins all our modules. So you can connect the data you collect in unprecedented ways - whether it's for automating tasks, reporting, analytics, or predictions - and always with consent.
+                  <strong>Content with consent</strong> underpins all our modules. So you can connect the data you collect in unprecedented ways - whether it's for automating tasks, reporting, analytics, or predictions - and always with consent.
                 </h5>
               </div>
               <div className="consent-details">
@@ -2007,8 +2011,8 @@ const handleSelectionClick = () => {
                         : activeModule === "docintel" ||
                           activeModule === "ai" ||
                           activeModule === "webinar"
-                        ? "stat read active"
-                        : "stat read"
+                          ? "stat read active"
+                          : "stat read"
                     }
                     onClick={() => handleClick("read", 0)}
                     style={{ "--i": "1" }}
@@ -2025,8 +2029,8 @@ const handleSelectionClick = () => {
                       activeModule === "rating"
                         ? "stat rating visible"
                         : activeModule === "web" || activeModule === "docintel"
-                        ? "stat rating active"
-                        : "stat rating"
+                          ? "stat rating active"
+                          : "stat rating"
                     }
                     onClick={() => handleClick("rating", 1)}
                     style={{ "--i": "2" }}
@@ -2043,8 +2047,8 @@ const handleSelectionClick = () => {
                       activeModule === "spc"
                         ? "stat spc visible"
                         : activeModule === ""
-                        ? "stat spc active"
-                        : "stat spc"
+                          ? "stat spc active"
+                          : "stat spc"
                     }
                     onClick={() => handleClick("spc", 2)}
                     style={{ "--i": "3" }}
@@ -2066,8 +2070,8 @@ const handleSelectionClick = () => {
                           activeModule === "qa" ||
                           activeModule === "informed" ||
                           activeModule === "spc"
-                        ? "stat automail active"
-                        : "stat automail"
+                          ? "stat automail active"
+                          : "stat automail"
                     }
                     onClick={() => handleClick("automail", 3)}
                     style={{ "--i": "4" }}
@@ -2088,8 +2092,8 @@ const handleSelectionClick = () => {
                           activeModule === "consent" ||
                           activeModule === "automail" ||
                           activeModule === "rating"
-                        ? "stat ai active"
-                        : "stat ai"
+                          ? "stat ai active"
+                          : "stat ai"
                     }
                     onClick={() => handleClick("ai", 4)}
                     style={{ "--i": "5" }}
@@ -2115,8 +2119,8 @@ const handleSelectionClick = () => {
                           activeModule === "read" ||
                           activeModule === "automail" ||
                           activeModule === "ai"
-                        ? "stat consent active"
-                        : " stat consent"
+                          ? "stat consent active"
+                          : " stat consent"
                     }
                     onClick={() => handleClick("consent", 5)}
                     style={{ "--i": "6" }}
@@ -2135,8 +2139,8 @@ const handleSelectionClick = () => {
                         : activeModule === "survey" ||
                           activeModule === "spc" ||
                           activeModule === "automail"
-                        ? "stat engine active"
-                        : "stat engine"
+                          ? "stat engine active"
+                          : "stat engine"
                     }
                     onClick={() => handleClick("engine", 6)}
                     style={{ "--i": "7" }}
@@ -2160,8 +2164,8 @@ const handleSelectionClick = () => {
                           activeModule === "informed" ||
                           activeModule === "engine" ||
                           activeModule === "rating"
-                        ? "stat docintel active"
-                        : "stat docintel"
+                          ? "stat docintel active"
+                          : "stat docintel"
                     }
                     onClick={() => handleClick("docintel", 7)}
                     style={{ "--i": "8" }}
@@ -2183,8 +2187,8 @@ const handleSelectionClick = () => {
                           activeModule === "webinar" ||
                           activeModule === "automail" ||
                           activeModule === "spc"
-                        ? "stat informed active"
-                        : "stat informed"
+                          ? "stat informed active"
+                          : "stat informed"
                     }
                     onClick={() => handleClick("informed", 8)}
                     style={{ "--i": "9" }}
@@ -2201,8 +2205,8 @@ const handleSelectionClick = () => {
                       activeModule === "qa"
                         ? "stat qa visible"
                         : activeModule === "survey"
-                        ? "stat qa active"
-                        : "stat qa"
+                          ? "stat qa active"
+                          : "stat qa"
                     }
                     onClick={() => handleClick("qa", 9)}
                     style={{ "--i": "10" }}
@@ -2219,8 +2223,8 @@ const handleSelectionClick = () => {
                       activeModule === "survey"
                         ? "stat survey visible"
                         : activeModule === "qa" || activeModule === "engine"
-                        ? "stat survey active"
-                        : "stat survey"
+                          ? "stat survey active"
+                          : "stat survey"
                     }
                     onClick={() => handleClick("survey", 10)}
                     style={{ "--i": "11" }}
@@ -2241,8 +2245,8 @@ const handleSelectionClick = () => {
                           activeModule === "consent" ||
                           activeModule === "qa" ||
                           activeModule === "rating"
-                        ? "stat web active"
-                        : "stat web"
+                          ? "stat web active"
+                          : "stat web"
                     }
                     onClick={() => handleClick("web", 11)}
                     style={{ "--i": "12" }}
@@ -2261,8 +2265,8 @@ const handleSelectionClick = () => {
                         : activeModule === "qa" ||
                           activeModule === "web" ||
                           activeModule === "ai"
-                        ? "stat webinar active"
-                        : "stat webinar"
+                          ? "stat webinar active"
+                          : "stat webinar"
                     }
                     onClick={() => handleClick("webinar", 12)}
                     style={{ "--i": "13" }}
@@ -2279,9 +2283,8 @@ const handleSelectionClick = () => {
                   </div>
 
                   <div
-                    className={`mudule-article-overview ${
-                      moduleData?.active === true ? "active" : ""
-                    }`}
+                    className={`mudule-article-overview ${moduleData?.active === true ? "active" : ""
+                      }`}
                     style={{ "--i": moduleData?.style }}
                   >
                     <div className="module-space">
@@ -2294,31 +2297,30 @@ const handleSelectionClick = () => {
 
                     <p>{moduleData?.paragraph}</p>
                     {/* <Button onClick={(e)=>handleRead(e,moduleData?.heading)}>Read more</Button> */}
-                    <Button onClick={(e)=>handleRead(e,activeModule)}>Read more</Button>
+                    <Button onClick={(e) => handleRead(e, activeModule)}>Read more</Button>
                   </div>
                 </div>
                 {register && (
-                <img
-                        className="close"
-                        src={path_image + "module-close-button.svg"}
-                        alt=""
-                        onClick={handleBigCircleClose}
-                      />
+                  <img
+                    className="close"
+                    src={path_image + "module-close-button.svg"}
+                    alt=""
+                    onClick={handleBigCircleClose}
+                  />
                 )}
 
                 {!showBigCircleData && !submitData && moduleRequest && (
-                    <img
-                      className="close"
-                      src={path_image + "module-close-button.svg"}
-                      alt=""
-                      onClick={handleBigCircleClose}
-                    />
-                  )}
+                  <img
+                    className="close"
+                    src={path_image + "module-close-button.svg"}
+                    alt=""
+                    onClick={handleBigCircleClose}
+                  />
+                )}
 
                 <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
-                    addHideClass ? "hide" : ""
-                  } ${addSmallClass ? "small" : ""}`}
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${addHideClass ? "hide" : ""
+                    } ${addSmallClass ? "small" : ""}`}
                 >
                   {!showBigCircleData && !submitData && (
                     <img
@@ -2399,7 +2401,7 @@ const handleSelectionClick = () => {
                                 <Select
                                   options={country}
                                   placeholder="Select country"
-                                   styles={colourStyles}
+                                  styles={colourStyles}
                                   // className="dropdown-basic-button split-button-dropup"
                                   className={`${!registerError?.country
                                     ? "dropdown-basic-button split-button-dropup"
@@ -2670,13 +2672,12 @@ const handleSelectionClick = () => {
                     className={`module-discribe ${addClass ? "request" : ""}`}
                   >
                     <div
-                      className={`${
-                        bigCircleModuleData?.active === true
-                          ? "active d-flex justify-content-between flex-column"
-                          : "d-flex justify-content-between flex-column"
-                      }`}
+                      className={`${bigCircleModuleData?.active === true
+                        ? "active d-flex justify-content-between flex-column"
+                        : "d-flex justify-content-between flex-column"
+                        }`}
                     >
-                      {showBigCircleData  && pharmaRegistered &&(
+                      {showBigCircleData && pharmaRegistered && (
                         <>
                           <div className="big-circle-data">
                             <div>
@@ -2721,7 +2722,7 @@ const handleSelectionClick = () => {
                                         {feature?.keyFeature}
                                         {feature?.subKeyFeatures &&
                                           feature?.subKeyFeatures.length >
-                                            0 && (
+                                          0 && (
                                             <ul>
                                               {feature?.subKeyFeatures?.map(
                                                 (subFeature, subIndex) => (
@@ -2793,15 +2794,15 @@ const handleSelectionClick = () => {
                                         onChange={handleModuleFormChange}
                                       /> */}
                                       <input
-                                      type="email"
-                                      placeholder="Email"
-                                      name="secondaryEmail"
-                                      className="form-control"
-                                      value={moduleFormInputs?.secondaryEmail ? moduleFormInputs?.secondaryEmail : ""}
-                                      onChange={handleModuleFormChange}
-                                    />
-                                    {emailError && (<p style={{ color: 'red' }}>{emailError}</p>)}
-                                    {/* <p style={{ color: 'red' }}>{emailError}</p> */}
+                                        type="email"
+                                        placeholder="Email"
+                                        name="secondaryEmail"
+                                        className="form-control"
+                                        value={moduleFormInputs?.secondaryEmail ? moduleFormInputs?.secondaryEmail : ""}
+                                        onChange={handleModuleFormChange}
+                                      />
+                                      {emailError && (<p style={{ color: 'red' }}>{emailError}</p>)}
+                                      {/* <p style={{ color: 'red' }}>{emailError}</p> */}
                                       <span>
                                         <svg
                                           width="20"
@@ -2835,7 +2836,7 @@ const handleSelectionClick = () => {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
-                                     {phoneError && (<p style={{ color: 'red' }}>{phoneError}</p>) }
+                                      {phoneError && (<p style={{ color: 'red' }}>{phoneError}</p>)}
                                       {/* <p style={{ color: 'red' }}>{phoneError}</p> */}
                                       <span>
                                         <svg
@@ -2861,7 +2862,7 @@ const handleSelectionClick = () => {
                           <p>Please select the modules you're interested in:</p>
                         </div>
                       )}
-                      {modulesSelect  && pharmaRegistered && (
+                      {modulesSelect && pharmaRegistered && (
                         <div
                           className="module-diagram circle pharma_market"
                           style={{ "--total": "24" }}
@@ -2869,12 +2870,12 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("rating") ||
-                              activeModule === "rating"
+                                activeModule === "rating"
                                 ? "stat rating visible"
                                 : activeModule === "web" ||
                                   activeModule === "docintel"
-                                ? "stat rating active"
-                                : "stat rating"
+                                  ? "stat rating active"
+                                  : "stat rating"
                             }
                             onClick={() => handleBigCircleClick("rating", 1)}
                             style={{ "--i": "1" }}
@@ -2895,11 +2896,11 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("spc") ||
-                              activeModule === "spc"
+                                activeModule === "spc"
                                 ? "stat spc visible"
                                 : activeModule === ""
-                                ? "stat spc active"
-                                : "stat spc"
+                                  ? "stat spc active"
+                                  : "stat spc"
                             }
                             onClick={() => handleBigCircleClick("spc", 2)}
                             style={{ "--i": "2" }}
@@ -2920,7 +2921,7 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules?.includes("automail") ||
-                              activeModule === "automail"
+                                activeModule === "automail"
                                 ? "stat automail visible"
                                 : activeModule === "engine" ||
                                   activeModule === "ai" ||
@@ -2928,8 +2929,8 @@ const handleSelectionClick = () => {
                                   activeModule === "qa" ||
                                   activeModule === "informed" ||
                                   activeModule === "spc"
-                                ? "stat automail active"
-                                : "stat automail"
+                                  ? "stat automail active"
+                                  : "stat automail"
                             }
                             onClick={() => handleBigCircleClick("automail", 3)}
                             style={{ "--i": "3" }}
@@ -2953,15 +2954,15 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules?.includes("ai") ||
-                              activeModule === "ai"
+                                activeModule === "ai"
                                 ? "stat ai visible"
                                 : activeModule === "read" ||
                                   activeModule === "informed" ||
                                   activeModule === "consent" ||
                                   activeModule === "automail" ||
                                   activeModule === "rating"
-                                ? "stat ai active"
-                                : "stat ai"
+                                  ? "stat ai active"
+                                  : "stat ai"
                             }
                             onClick={() => handleBigCircleClick("ai", 4)}
                             style={{ "--i": "4" }}
@@ -2987,7 +2988,7 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("consent") ||
-                              activeModule === "consent"
+                                activeModule === "consent"
                                 ? "stat consent visible"
                                 : activeModule === "web" ||
                                   activeModule === "informed" ||
@@ -2996,8 +2997,8 @@ const handleSelectionClick = () => {
                                   activeModule === "webinar" ||
                                   activeModule === "automail" ||
                                   activeModule === "ai"
-                                ? "stat consent active"
-                                : " stat consent"
+                                  ? "stat consent active"
+                                  : " stat consent"
                             }
                             onClick={() => handleBigCircleClick("consent", 5)}
                             style={{ "--i": "5" }}
@@ -3021,13 +3022,13 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("engine") ||
-                              activeModule === "engine"
+                                activeModule === "engine"
                                 ? "stat engine visible"
                                 : activeModule === "survey" ||
                                   activeModule === "spc" ||
                                   activeModule === "automail"
-                                ? "stat engine active"
-                                : "stat engine"
+                                  ? "stat engine active"
+                                  : "stat engine"
                             }
                             onClick={() => handleBigCircleClick("engine", 6)}
                             style={{ "--i": "6" }}
@@ -3072,7 +3073,7 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("docintel") ||
-                              activeModule === "docintel"
+                                activeModule === "docintel"
                                 ? "stat docintel visible"
                                 : activeModule === "read" ||
                                   activeModule === "spc" ||
@@ -3082,8 +3083,8 @@ const handleSelectionClick = () => {
                                   activeModule === "informed" ||
                                   activeModule === "engine" ||
                                   activeModule === "rating"
-                                ? "stat docintel active"
-                                : "stat docintel"
+                                  ? "stat docintel active"
+                                  : "stat docintel"
                             }
                             onClick={() => handleBigCircleClick("docintel", 7)}
                             style={{ "--i": "12" }}
@@ -3107,7 +3108,7 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("informed") ||
-                              activeModule === "informed"
+                                activeModule === "informed"
                                 ? "stat informed visible"
                                 : activeModule === "consent" ||
                                   activeModule === "consent" ||
@@ -3115,8 +3116,8 @@ const handleSelectionClick = () => {
                                   activeModule === "webinar" ||
                                   activeModule === "automail" ||
                                   activeModule === "spc"
-                                ? "stat informed active"
-                                : "stat informed"
+                                  ? "stat informed active"
+                                  : "stat informed"
                             }
                             onClick={() => handleBigCircleClick("informed", 8)}
                             style={{ "--i": "13" }}
@@ -3140,11 +3141,11 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("qa") ||
-                              activeModule === "qa"
+                                activeModule === "qa"
                                 ? "stat qa visible"
                                 : activeModule === "survey"
-                                ? "stat qa active"
-                                : "stat qa"
+                                  ? "stat qa active"
+                                  : "stat qa"
                             }
                             onClick={() => handleBigCircleClick("qa", 9)}
                             style={{ "--i": "14" }}
@@ -3165,12 +3166,12 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("survey") ||
-                              activeModule === "survey"
+                                activeModule === "survey"
                                 ? "stat survey visible"
                                 : activeModule === "qa" ||
                                   activeModule === "engine"
-                                ? "stat survey active"
-                                : "stat survey"
+                                  ? "stat survey active"
+                                  : "stat survey"
                             }
                             onClick={() => handleBigCircleClick("survey", 10)}
                             style={{ "--i": "15" }}
@@ -3191,15 +3192,15 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("web") ||
-                              activeModule === "web"
+                                activeModule === "web"
                                 ? "stat web visible"
                                 : activeModule === "webinar" ||
                                   activeModule === "docintel" ||
                                   activeModule === "consent" ||
                                   activeModule === "qa" ||
                                   activeModule === "rating"
-                                ? "stat web active"
-                                : "stat web"
+                                  ? "stat web active"
+                                  : "stat web"
                             }
                             onClick={() => handleBigCircleClick("web", 11)}
                             style={{ "--i": "16" }}
@@ -3223,13 +3224,13 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("webinar") ||
-                              activeModule === "webinar"
+                                activeModule === "webinar"
                                 ? "stat webinar visible"
                                 : activeModule === "qa" ||
                                   activeModule === "ai" ||
                                   activeModule === "web"
-                                ? "stat webinar active"
-                                : "stat webinar"
+                                  ? "stat webinar active"
+                                  : "stat webinar"
                             }
                             onClick={() => handleBigCircleClick("webinar", 12)}
                             style={{ "--i": "17" }}
@@ -3253,13 +3254,13 @@ const handleSelectionClick = () => {
                           <div
                             className={
                               selectedModules.includes("read") ||
-                              activeModule === "read"
+                                activeModule === "read"
                                 ? "stat read visible"
                                 : activeModule === "docintel" ||
                                   activeModule === "webinar" ||
                                   activeModule === "ai"
-                                ? "stat read active"
-                                : "stat read"
+                                  ? "stat read active"
+                                  : "stat read"
                             }
                             style={{ "--i": "18" }}
                             onClick={() => handleBigCircleClick("read", 0)}
@@ -3303,7 +3304,7 @@ const handleSelectionClick = () => {
                           ></div>
                         </div>
                       )}
-                      {showBigCircleData  && pharmaRegistered && (
+                      {showBigCircleData && pharmaRegistered && (
                         <div className="d-flex align-items-center justify-content-center fotter-btns">
                           <Button
                             className="btn-filled"
@@ -3334,7 +3335,7 @@ const handleSelectionClick = () => {
                       )}
                     </div>
 
-                    {submitData &&(
+                    {submitData && (
                       <div className="submit-section">
                         <img src={path_image + "thanks-img.svg"} alt="" />
                         <h3>Thank you!</h3>
@@ -3356,44 +3357,42 @@ const handleSelectionClick = () => {
                   alt=""
                   onClick={handleBigCircleClose}
                   /> */}
-                <div className="mobile-slider">
-                  <img
-                  className="close"
-                  src={path_image + "module-close-button.svg"}
-                  alt=""
-                  onClick={handleBigCircleClose}
-                  />
-                <div className="mobile-slider-inset">
-                 {showBigCircleData  && pharmaRegistered && (
-                    
-                    <Slider
-                      {...sliderSettings}
-                    >
-                      <div
-                        className={`module-discribe ${
-                          addClass ? "request" : ""
-                        }`}
-                      >
-                        <div
-                          className={`${
-                            bigCircleModuleData?.active === true
-                              ? "active d-flex justify-content-between flex-column"
-                              : "d-flex justify-content-between flex-column"
-                          }`}
+                  <div className="mobile-slider">
+                    <img
+                      className="close"
+                      src={path_image + "module-close-button.svg"}
+                      alt=""
+                      onClick={handleBigCircleClose}
+                    />
+                    <div className="mobile-slider-inset">
+                      {showBigCircleData && pharmaRegistered && (
+
+                        <Slider
+                          {...sliderSettings}
                         >
-                          <div>
-                            <img
-                              className="module-img"
-                              src={
-                                path_image + bigCircleModuleData?.logoIconPath
-                              }
-                            />
-                            <h4>{bigCircleModuleData?.heading}</h4>
-                            <img
-                              className="module-content-view"
-                              src={path_image + bigCircleModuleData?.imagePath}
-                            />
-                          </div>
+                          <div
+                            className={`module-discribe ${addClass ? "request" : ""
+                              }`}
+                          >
+                            <div
+                              className={`${bigCircleModuleData?.active === true
+                                ? "active d-flex justify-content-between flex-column"
+                                : "d-flex justify-content-between flex-column"
+                                }`}
+                            >
+                              <div>
+                                <img
+                                  className="module-img"
+                                  src={
+                                    path_image + bigCircleModuleData?.logoIconPath
+                                  }
+                                />
+                                <h4>{bigCircleModuleData?.heading}</h4>
+                                <img
+                                  className="module-content-view"
+                                  src={path_image + bigCircleModuleData?.imagePath}
+                                />
+                              </div>
 
                               <div>
                                 <p>{bigCircleModuleData?.detail}</p>
@@ -3408,16 +3407,14 @@ const handleSelectionClick = () => {
                           </div>
 
                           <div
-                            className={`module-discribe ${
-                              addClass ? "request" : ""
-                            }`}
+                            className={`module-discribe ${addClass ? "request" : ""
+                              }`}
                           >
                             <div
-                              className={`${
-                                bigCircleModuleData?.active === true
-                                  ? "active d-flex justify-content-between flex-column"
-                                  : "d-flex justify-content-between flex-column"
-                              }`}
+                              className={`${bigCircleModuleData?.active === true
+                                ? "active d-flex justify-content-between flex-column"
+                                : "d-flex justify-content-between flex-column"
+                                }`}
                             >
                               <div className="key-features">
                                 <h5>Key Features</h5>
@@ -3428,7 +3425,7 @@ const handleSelectionClick = () => {
                                         {feature?.keyFeature}
                                         {feature?.subKeyFeatures &&
                                           feature?.subKeyFeatures.length >
-                                            0 && (
+                                          0 && (
                                             <ul>
                                               {feature?.subKeyFeatures?.map(
                                                 (subFeature, subIndex) => (
@@ -3486,4 +3483,4 @@ const handleSelectionClick = () => {
   );
 };
 
-export default  React.memo(PharmaMarketing);
+export default React.memo(PharmaMarketing);
