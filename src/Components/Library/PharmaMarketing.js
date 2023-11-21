@@ -56,7 +56,6 @@ const PharmaMarketing = () => {
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
   const [readMoreClicked,setReadMoreClicked]=useState([])
   const [downloadedPpts, setDownloadedPpts] = useState([]);
-
   const modules = [
     {
       id: 1,
@@ -982,6 +981,7 @@ const PharmaMarketing = () => {
   });
 
   const handleClick = (moduleName, index) => {
+    
     setModulesSelect(true);
     setSubmitData(false);
     const smallCircleData = modules[index];
@@ -1025,7 +1025,6 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
-    console.log("handle read clicked--->",readMoreClicked)
     // var root = document.getElementsByTagName( 'html' )[0];
     //   root.classList.remove('scrollerClass');
     // localStorage.setItem('pharmaRegistered', 'true');
@@ -1081,12 +1080,10 @@ const PharmaMarketing = () => {
           country: registerFormInputs?.country?.trim(),
           consent: consent,
           consent_type: consentType,
-          before_register_module_clicked:readMoreClicked,
+          // before_register_module_clicked:readMoreClicked,
           register_type:"pharmaRegistered",
           type: "register",
         };
-
-        console.log('registerdata',data)
         setPayloadData(data);
         localStorage.setItem('pharmaRegistered', 'true');
         setPharmaRegistered(true);
@@ -1097,6 +1094,8 @@ const PharmaMarketing = () => {
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
         // const res = await postData(ENDPOINT.REGISTER,data );
+        let newObj={"user register with below mention information":data}
+         userTrackingFun(newObj)
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1135,11 +1134,10 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
-    let updateReadMoreClicked=readMoreClicked;  
-    if(!updateReadMoreClicked?.includes(moduleName)){
-       updateReadMoreClicked?.push(moduleName)
-      setReadMoreClicked(updateReadMoreClicked)
-    }
+
+    let newObj={"user clicked on module":moduleName}
+         userTrackingFun(newObj)
+      
     const bigCircleData = bigCircleModules[index];
     setShowBigCircleData(true);
 
@@ -1191,6 +1189,8 @@ const PharmaMarketing = () => {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
+     let newObj={"user clicked on request with module ":activeModule}
+         userTrackingFun(newObj)
     var root = document.getElementsByTagName( 'html' )[0];
       root.classList.add('scrollerClass');
       setModuleRequest(true)
@@ -1224,13 +1224,15 @@ const PharmaMarketing = () => {
   };
 
   const handleDownloadClick = (pptPath) => {
+    
     const fileName = pptPath?.substring(pptPath.lastIndexOf('/') + 1);
     const desiredText = fileName?.substring(0, fileName?.lastIndexOf('.'));
     setDownloadedPpts(prevPpts => [...prevPpts, desiredText]);
+    let newObj={"user download the ppt of":desiredText}
+         userTrackingFun(newObj)
   };
 
   const handleSubmitClick = async () => {
-    console.log("read more--->",readMoreClicked)
     // setAddDivClass(true);
     // setAddHideClass(true);
     // setAddSmallClass(true);
@@ -1247,6 +1249,7 @@ const PharmaMarketing = () => {
       loader("show");
     // loader("show");
     try {
+       
       const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
       const payloadData = JSON.parse(payloadDataPharmaString);
       // const res = await postData(ENDPOINT.REGISTER, {
@@ -1256,12 +1259,13 @@ const PharmaMarketing = () => {
         secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
         secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         modules: selectedModules,
-        after_register_module_clicked:readMoreClicked,
-        ppt: downloadedPpts,
+        // after_register_module_clicked:readMoreClicked,
+        // ppt: downloadedPpts,
         type: "modules",
       }
+      let newObj={"user clicked on submit with below information":data}
+         userTrackingFun(newObj)
 
-      console.log("submitdata--->",data)
       //  });
       let obj = {};
       loader("hide");
@@ -1287,9 +1291,8 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-
-    console.log("big circle close")
-    console.log(readMoreClicked,'===>cross')
+let newObj={"user clicked on cross icon of module":activeModule}
+         userTrackingFun(newObj)
     var root = document.getElementsByTagName( 'html' )[0];
     root.classList.remove('scrollerClass');
     setAddClass(false);
@@ -1340,7 +1343,8 @@ const PharmaMarketing = () => {
   };
 
   const handleBigClose = () => {
-    console.log(readMoreClicked,'===>module_clicked')
+     let newObj={"user clicked on close after submit":""}
+         userTrackingFun(newObj)
     var root = document.getElementsByTagName( 'html' )[0];
     root.classList.remove('scrollerClass');
     setAddDivClass(false);
@@ -1359,12 +1363,8 @@ const PharmaMarketing = () => {
 
   const handleRead = (e,moduleName) => {
     setReadStatus(true);
-    let updateReadMoreClicked=readMoreClicked;
-    if(!updateReadMoreClicked?.includes(moduleName)){
-updateReadMoreClicked.push(moduleName)
-  setReadMoreClicked(updateReadMoreClicked)
-  console.log(updateReadMoreClicked,'updateReadMoreClicked')
-    }
+    let newObj={"user clicked on read more with module select":moduleName}
+    userTrackingFun(newObj)
     
     if(pharmaRegistered){
       setAddDivClass(false);
@@ -1379,6 +1379,15 @@ updateReadMoreClicked.push(moduleName)
     }
   };
 
+  const userTrackingFun=async(newObj)=>{
+    console.log("func--->",newObj)
+    try{
+ // const res=await postData(ENDPOINT.PHARMA_USER_TRACKING,newObj)
+    }catch(err){
+      console.log("--err",err)
+    }
+  }
+
 useEffect(() => {
   const interval = setInterval(() => {
     const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
@@ -1389,7 +1398,6 @@ useEffect(() => {
       .some(index => document.getElementById(`module-${index}`)?.classList?.contains("visible"));
  
     if (hasVisibleClass) {
-      console.log(hasVisibleClass,'hasVisibleClass')
       currentModule?.classList.remove("random-class");
       prevModule?.classList.remove("random-class");
       clearInterval(interval);
@@ -1492,7 +1500,7 @@ useEffect(() => {
   useLayoutEffect(() => {
     setHeight(ref.current.offsetHeight);
   }, []);
-// console.log(height,'====>height')
+
 
 const handleSelectionClick = () => {
   setAddSelectClass(true);
