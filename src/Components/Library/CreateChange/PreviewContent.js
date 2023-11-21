@@ -28,6 +28,13 @@ import Select from "react-select";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 //pdf id  3846
 //ebook 3899
+const newLanguage = {
+  0 : 'English',
+  1 : 'Italian',
+  2 : 'Germany',
+  3 : 'Spanish',
+  4 : 'Russian',
+};
 const PreviewContent = () => {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
@@ -334,6 +341,8 @@ const PreviewContent = () => {
                         pdfId: state?.pdfId,
                         isEdit: isEdit,
                         allowVideo: allowStateVideo,
+                        ibu: pdfData?.ibu?pdfData?.ibu:"",
+                        lng:pdfData?.popup_email_content_language?newLanguage[pdfData?.popup_email_content_language]:10,
                       }}
                     >
                       Back

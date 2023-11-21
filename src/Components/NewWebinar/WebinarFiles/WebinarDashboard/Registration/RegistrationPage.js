@@ -918,7 +918,7 @@ const FormField2 = ({
   }
 
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`}>
       <label
         style={{
           color: pageColors?.labelColor,

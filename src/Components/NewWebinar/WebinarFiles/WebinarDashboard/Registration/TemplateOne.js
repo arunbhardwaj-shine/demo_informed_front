@@ -68,11 +68,11 @@ export default function TemplateOne({children,formData}) {
                     </div>
                     <h3 style={{
                             textTransform: "capitalize",
-                            color:eventDataSample?.SpeakerName?.color
+                            color:eventDataSample?.speakerName?.color
                           }}>
                           {" "}
-                          {eventDataSample?.SpeakerName?.value
-                            ? eventDataSample?.SpeakerName?.value
+                          {eventDataSample?.speakerName?.value
+                            ? eventDataSample?.speakerName?.value
                             : eventData.speaker_name}
                     </h3>
                   </div>
