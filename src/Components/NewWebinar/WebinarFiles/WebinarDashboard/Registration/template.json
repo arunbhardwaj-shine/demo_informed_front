@@ -13,36 +13,36 @@
             "eventStartDate":{
                 "title":"Event Start Date",
                 "type":"date",
-                "value":"18 November 2023",
+                "value":"",
                 "color":"#76B5AE"
 
 
             }, "eventEndDate":{
                 "title":"Event End Date",
                 "type":"date",
-                "value":"19 November 2023"
+                "value":""
 
 
             },
              "eventLocation":{
                 "title":"Location",
                 "type":"text",
-                "value":"University of Miami – Hemophilia Treatment Center, Miami FL 33136",
+                "value":"",
                 "color":"#354367"
 
 
             },
-            "SpeakerName":{
+            "speakerName":{
                 "title":"Speaker Name",
                 "type":"text",
-                "value":"Chair : Fernando F Corrales-Medina, MD FAAP, Miami, USA",
+                "value":"",
                 "color":"#76B5AE"
 
             },
             "pageTitle":{
                 "title":"Registration Page Title",
                 "type":"text",
-                "value":"To register please fill in all your details below.                ",
+                "value":"To register please fill in all your details below.",
                 "color":"#354367"
                 
                 
@@ -158,10 +158,10 @@
                 "color":"#04b39a"
             },
             
-            "SpeakerName":{
+            "speakerName":{
                 "title":"Speaker Name",
                 "type":"text",
-                "value":"Nashville, Tennessee",
+                "value":"",
                 "color":"#04b39a"
                 
                 
@@ -342,7 +342,7 @@
             "eventStartDate":{
                 "title":"Event Start Date",
                 "type":"date",
-                "value":"18 November 2023",
+                "value":"",
                 "color":"#76B5AE"
 
 
@@ -350,13 +350,13 @@
             "eventEndDate":{
                 "title":"Event End Date",
                 "type":"date",
-                "value":"19 November 2023"
+                "value":""
 
 
             },"eventStartTime":{
                 "title":"Event Start Time",
                 "type":"time",
-                "value":"04:16",
+                "value":"",
                 "color":"#76B5AE"
 
 
@@ -364,22 +364,22 @@
             "eventEndTime":{
                 "title":"Event End Time",
                 "type":"time",
-                "value":"06:16"
+                "value":""
 
 
             },
              "eventLocation":{
                 "title":"Location",
                 "type":"text",
-                "value":"Hotel del Coronado, San Diego, California, US",
+                "value":"",
                 "color":"#354367"
 
 
             },
-            "SpeakerName":{
+            "speakerName":{
                 "title":"Speaker Name",
                 "type":"text",
-                "value":"Chair : Robert Sidonio, Atlanta, USA",
+                "value":"",
                 "color":"#76B5AE"
 
             },

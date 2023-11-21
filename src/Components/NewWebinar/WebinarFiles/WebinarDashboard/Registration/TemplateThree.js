@@ -104,11 +104,11 @@ const TemplateOne = ({ children, formData }) => {
                       <h3>
                         <span style={{
                             textTransform: "capitalize",
-                            color:eventDataSample?.SpeakerName?.color
+                            color:eventDataSample?.speakerName?.color
                           }}>
                           {" "}
-                          {eventDataSample?.SpeakerName?.value
-                            ? eventDataSample?.SpeakerName?.value
+                          {eventDataSample?.speakerName?.value
+                            ? eventDataSample?.speakerName?.value
                             : eventData.speaker_name}
                         </span>
                       </h3>

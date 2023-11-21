@@ -85,8 +85,8 @@ export default function TemplateTwo({children,formData}) {
           </div>
           <div className="motivate-mid-sec text-center">
             <h2 style={{
-                    color:eventData?.SpeakerName?.color
-                  }}>{eventData?.SpeakerName?.value}</h2>
+                    color:eventData?.speakerName?.color
+                  }}>{eventData?.speakerName?.value}</h2>
             <p> These meetings are for healthcare professionals only.</p>
           </div>
           {children}

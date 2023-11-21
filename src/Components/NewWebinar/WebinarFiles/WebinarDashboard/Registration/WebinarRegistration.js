@@ -58,6 +58,7 @@ const WebinarRegistration = () => {
   const [showModal, setModal] = useState(false);
   const [showExtensionModal, setExtensionModal] = useState(false);
   const [isFormChange, setIsFormChange] = useState(false);
+  const [rawData, setRawData] = useState({});
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
@@ -195,8 +196,10 @@ const WebinarRegistration = () => {
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
       const hadData = response?.data?.data;
-      let raw=hadData?.raw_description?JSON.parse(hadData?.raw_description):{};
-      console.log(raw);
+      let raw = hadData?.raw_description
+        ? JSON.parse(hadData?.raw_description)
+        : {};
+      setRawData(raw);
       if (hadData?.event_id && hadData?.company_id) {
         setEventData({
           ...eventData,
@@ -215,17 +218,60 @@ const WebinarRegistration = () => {
         let tempData = templateListData[tempId - 1];
         templateListData[tempId - 1] = templateListData[0];
         templateListData[0] = tempData;
-       
+
         if (!newFormData?.eventDetails) {
-          tempData.eventDetails.eventStartDate.value=new Date(raw?.dateStart);
-          tempData.eventDetails.eventEndDate.value=new Date(raw?.dateEnd);
-          tempData.eventDetails.eventStartTime.value=`${raw?.dateStartHour}:${raw?.dateStartMin}`;      
-          tempData.eventDetails.eventEndTime.value=`${raw?.dateEndHour}:${raw?.dateEndMin}`;     
-        }else{
-          newFormData.eventDetails.eventStartDate.value=new Date(raw?.dateStart);
-          newFormData.eventDetails.eventEndDate.value=new Date(raw?.dateEnd);
-          newFormData.eventDetails.eventStartTime.value=`${raw?.dateStartHour}:${raw?.dateStartMin}`;      
-          newFormData.eventDetails.eventEndTime.value=`${raw?.dateEndHour}:${raw?.dateEndMin}`;      
+          tempData.eventDetails.eventStartDate.value = new Date(raw?.dateStart);
+          tempData.eventDetails.eventEndDate.value = new Date(raw?.dateEnd);
+          tempData.eventDetails.eventStartTime.value = `${raw?.dateStartHour}:${raw?.dateStartMin}`;
+          tempData.eventDetails.eventEndTime.value = `${raw?.dateEndHour}:${raw?.dateEndMin}`;
+          tempData.eventDetails.eventLocation.value = `${raw?.location}`;
+          tempData.eventDetails.speakerName.value = `${raw?.speaker_name}`;
+        } else {
+          if (
+            newFormData.eventDetails.eventStartDate?.value == "" &&
+            newFormData.eventDetails.eventStartDate?.value != undefined
+          ) {
+            newFormData.eventDetails.eventStartDate.value = new Date(
+              raw?.dateStart
+            );
+          }
+
+          if (
+            newFormData.eventDetails.eventEndDate?.value == "" &&
+            newFormData.eventDetails.eventEndDate?.value != undefined
+          ) {
+            newFormData.eventDetails.eventEndDate.value = new Date(
+              raw?.dateEnd
+            );
+          }
+
+          if (
+            newFormData.eventDetails.eventStartTime?.value == "" &&
+            newFormData.eventDetails.eventStartTime?.value != undefined
+          ) {
+            newFormData.eventDetails.eventStartTime.value = `${raw?.dateStartHour}:${raw?.dateStartMin}`;
+          }
+
+          if (
+            newFormData.eventDetails.eventEndTime?.value == "" &&
+            newFormData.eventDetails.eventEndTime?.value != undefined
+          ) {
+            newFormData.eventDetails.eventEndTime.value = `${raw?.dateEndHour}:${raw?.dateEndMin}`;
+          }
+
+          if (
+            newFormData.eventDetails.eventLocation?.value == "" &&
+            newFormData.eventDetails.eventLocation?.value != undefined
+          ) {
+            newFormData.eventDetails.eventLocation.value = `${raw?.location}`;
+          }
+
+          if (
+            newFormData.eventDetails.speakerName?.value == "" &&
+            newFormData.eventDetails.speakerName?.value != undefined
+          ) {
+            newFormData.eventDetails.speakerName.value = `${raw?.speaker_name}`;
+          }
         }
         setTemplateList(templateListData);
         // console.log(templateListData[tempId-1]);
@@ -862,12 +908,75 @@ const WebinarRegistration = () => {
         setFormData(updatedBody);
       } else {
         let updatedBody = JSON.parse(JSON.stringify(template));
+
+        if (!updatedBody?.eventDetails) {
+          updatedBody.eventDetails.eventStartDate.value = new Date(
+            rawData?.dateStart
+          );
+          updatedBody.eventDetails.eventEndDate.value = new Date(
+            rawData?.dateEnd
+          );
+          updatedBody.eventDetails.eventStartTime.value = `${rawData?.dateStartHour}:${rawData?.dateStartMin}`;
+          updatedBody.eventDetails.eventEndTime.value = `${rawData?.dateEndHour}:${rawData?.dateEndMin}`;
+          updatedBody.eventDetails.eventLocation.value = `${rawData?.location}`;
+          updatedBody.eventDetails.speakerName.value = `${rawData?.speaker_name}`;
+        } else {
+          if (
+            updatedBody.eventDetails.eventStartDate?.value == "" &&
+            updatedBody.eventDetails.eventStartDate?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventStartDate.value = new Date(
+              rawData?.dateStart
+            );
+          }
+
+          if (
+            updatedBody.eventDetails.eventEndDate?.value == "" &&
+            updatedBody.eventDetails.eventEndDate?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventEndDate.value = new Date(
+              rawData?.dateEnd
+            );
+          }
+
+          if (
+            updatedBody.eventDetails.eventStartTime?.value == "" &&
+            updatedBody.eventDetails.eventStartTime?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventStartTime.value = `${rawData?.dateStartHour}:${rawData?.dateStartMin}`;
+          }
+
+          if (
+            updatedBody.eventDetails.eventEndTime?.value == "" &&
+            updatedBody.eventDetails.eventEndTime?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventEndTime.value = `${rawData?.dateEndHour}:${rawData?.dateEndMin}`;
+          }
+
+          if (
+            updatedBody.eventDetails.eventLocation?.value == "" &&
+            updatedBody.eventDetails.eventLocation?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventLocation.value =
+              originalFormData.eventDetails.eventLocation?.value ||
+              `${rawData?.location}`;
+          }
+
+          if (
+            updatedBody.eventDetails.speakerName?.value == "" &&
+            updatedBody.eventDetails.speakerName?.value != undefined
+          ) {
+            updatedBody.eventDetails.speakerName.value =
+              originalFormData.eventDetails.speakerName?.value ||
+              `${rawData?.speaker_name}`;
+          }
+        }
         setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
         setFormData(updatedBody);
       }
       setActiveIndex(template?.templateId);
     }
-    console.log(template);
+
     // if (originalFormData?.templateId == template?.templateId) {
     //   console.log("template  if--->", template);
     //   let updatedBody = JSON.parse(JSON.stringify(originalFormData));
@@ -1053,8 +1162,9 @@ const WebinarRegistration = () => {
                                       readOnly={true}
                                       minDate={
                                         key == "eventEndDate"
-                                          ? new Date(formData?.eventDetails
-                                              ?.eventStartDate?.value)
+                                          ? new Date(
+                                              formData?.eventDetails?.eventStartDate?.value
+                                            )
                                           : currentDate
                                       }
                                       selected={
@@ -1091,7 +1201,7 @@ const WebinarRegistration = () => {
                                     className="form-group d-flex align-items-center"
                                   >
                                     <label>
-                                      {field.title} 
+                                      {field.title}
                                       {/* <span>*</span> */}
                                     </label>
                                     <input
@@ -1099,13 +1209,17 @@ const WebinarRegistration = () => {
                                       name={`eventDetails-${key}`}
                                       value={field.value}
                                       readOnly={
-                                        key == "eventEndTime" || key == "eventStartTime"
+                                        key == "eventEndTime" ||
+                                        key == "eventStartTime"
                                           ? true
                                           : false
                                       }
-                                      className={`form-control ${ key == "eventEndTime" || key == "eventStartTime"
-                                      ? "disabled"
-                                      : ""}`}
+                                      className={`form-control ${
+                                        key == "eventEndTime" ||
+                                        key == "eventStartTime"
+                                          ? "disabled"
+                                          : ""
+                                      }`}
                                       onChange={handleChange}
                                     />
                                     {field.color && (
