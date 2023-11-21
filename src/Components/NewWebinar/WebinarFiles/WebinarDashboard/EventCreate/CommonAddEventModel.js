@@ -428,7 +428,7 @@ const CommonAddEventModel = ({
                                     ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                     : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                 }
-                                placeholder="select meeting type"
+                                placeholder="Select meeting type"
                                 onChange={(e) =>
                                   handleChange(e?.value, "meeting_type")
                                 }
@@ -471,7 +471,7 @@ const CommonAddEventModel = ({
                                     : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                 }
                                 onChange={(e) => handleChange(e?.value, "type")}
-                                placeholder="select IBU"
+                                placeholder="Select IBU"
                                 value={
                                   ibuOptions
                                     ? ibuOptions.findIndex(
@@ -512,7 +512,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "timezone")
                                 }
-                                placeholder="select Country Timezone"
+                                placeholder="Select Country Timezone"
                                 value={
                                   timezoneOptions
                                     ? timezoneOptions.findIndex(
@@ -555,7 +555,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "country_timezone")
                                 }
-                                placeholder="select Timezone"
+                                placeholder="Select Timezone"
                                 value={
                                   countryTimezone
                                     ? countryTimezone?.findIndex(
@@ -598,7 +598,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.label, "is_client_stream")
                                 }
-                                placeholder="select Stream"
+                                placeholder="Select Stream"
                                 value={
                                   clientStreamOptions?.findIndex(
                                     (item) =>

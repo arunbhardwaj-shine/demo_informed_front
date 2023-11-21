@@ -217,15 +217,15 @@ const WebinarRegistration = () => {
         templateListData[0] = tempData;
        
         if (!newFormData?.eventDetails) {
-          tempData.eventDetails.eventStartDate=new Date(raw?.dateStart);
-          tempData.eventDetails.eventEndDate=new Date(raw?.dateEnd);
-     
-          newFormData.eventDetails = tempData?.eventDetails;
-          // newFormData.eventDetails?.eventStartDate = tempData?.eventDetails;
+          tempData.eventDetails.eventStartDate.value=new Date(raw?.dateStart);
+          tempData.eventDetails.eventEndDate.value=new Date(raw?.dateEnd);
+          tempData.eventDetails.eventStartTime.value=`${raw?.dateStartHour}:${raw?.dateStartMin}`;      
+          tempData.eventDetails.eventEndTime.value=`${raw?.dateEndHour}:${raw?.dateEndMin}`;     
         }else{
           newFormData.eventDetails.eventStartDate.value=new Date(raw?.dateStart);
           newFormData.eventDetails.eventEndDate.value=new Date(raw?.dateEnd);
-      
+          newFormData.eventDetails.eventStartTime.value=`${raw?.dateStartHour}:${raw?.dateStartMin}`;      
+          newFormData.eventDetails.eventEndTime.value=`${raw?.dateEndHour}:${raw?.dateEndMin}`;      
         }
         setTemplateList(templateListData);
         // console.log(templateListData[tempId-1]);
