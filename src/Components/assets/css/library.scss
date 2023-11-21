@@ -11811,17 +11811,7 @@ img.change-password-image {
       gap: 0 12px;
 
       button {
-        filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
-        border-radius: 30px;
-        background-color: $white;
-        border: 0;
-        min-width: 40px;
-        padding: 10px;
-        font-size: 14px;
-        line-height: 16px;
-        text-transform: capitalize;
-        color: $light-gray;
-        font-weight: 400;
+       @include download-btn;
 
         &#test-table-xls-button {
           margin: 0;
@@ -12362,7 +12352,20 @@ img.change-password-image {
     color: $light-gray;
   }
 }
-
+.top-header{
+  .download{
+    @include download-btn;
+    &:hover{
+      background: $primary-color;
+      border:0;
+      svg{
+        path{
+          fill:$white;
+        }
+      }
+    }
+  }
+} 
 .rd-full-explain .rd-training-block .accordion .accordion-item .accordion-header {
   padding: 0;
 }
