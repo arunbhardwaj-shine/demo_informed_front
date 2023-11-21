@@ -706,14 +706,14 @@ id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={f
 
   return (
     <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-      <label
+    {(form.inputType !="text" && form.inputType !="email")  ?( <label
         style={{
           color: pageColors?.labelColor,
         }}
       >
         {form.label}
-        {isRequired ? "*" : ""}
-      </label>
+        {isRequired ? "" : ""}
+      </label>):null}
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
     </div>
