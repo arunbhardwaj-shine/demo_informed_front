@@ -1043,9 +1043,9 @@ const PharmaMarketing = () => {
       // else if (Object.keys(err)[0] == "comapny") {
       //   companyRef.current.focus();
       // } 
-      // else if (Object.keys(err)[0] == "phone") {
-      //   phoneRef.current.focus();
-      // }
+      else if (Object.keys(err)[0] == "phone") {
+        phoneRef.current.focus();
+      }
        else if (Object.keys(err)[0] == "country") {
         countryRef.current.focus();
       }
@@ -2441,13 +2441,13 @@ const handleSelectionClick = () => {
                                   type="number"
                                   placeholder="Phone"
                                   name="phone"
-                                  className="form-control"
-                                  // ref={phoneRef}
-                                  // className={
-                                  //   !registerError?.phone
-                                  //     ? "form-control"
-                                  //     : "form-control error"
-                                  // }
+                                  // className="form-control"
+                                  ref={phoneRef}
+                                  className={
+                                    !registerError?.phone
+                                      ? "form-control"
+                                      : "form-control error"
+                                  }
                                   value={
                                     registerFormInputs?.phone
                                       ? registerFormInputs?.phone
@@ -2470,13 +2470,13 @@ const handleSelectionClick = () => {
                                     />
                                   </svg>
                                 </span>
-                                {/* {registerError?.phone ? (
+                                {registerError?.phone ? (
                                   <div className="contact-validation">
                                     {registerError?.phone}
                                   </div>
                                 ) : (
                                   ""
-                                )} */}
+                                )}
                               </div>
                             </Col>
 
