@@ -56,6 +56,7 @@ const PharmaMarketing = () => {
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
   const [readMoreClicked,setReadMoreClicked]=useState([])
   const [downloadedPpts, setDownloadedPpts] = useState([]);
+  const [userTrackDetail,setUserTrackDetail]=useState([])
   const modules = [
     {
       id: 1,
@@ -1084,6 +1085,10 @@ const PharmaMarketing = () => {
           register_type:"pharmaRegistered",
           type: "register",
         };
+         let newObj={"user register with below mention information":data}
+         let updateTrackUser=userTrackDetail
+         updateTrackUser?.push(newObj)
+         setUserTrackDetail(updateTrackUser)
         setPayloadData(data);
         localStorage.setItem('pharmaRegistered', 'true');
         setPharmaRegistered(true);
@@ -1093,9 +1098,13 @@ const PharmaMarketing = () => {
         root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        // const res = await postData(ENDPOINT.REGISTER,data );
-        let newObj={"user register with below mention information":data}
-         userTrackingFun(newObj)
+        const res = await postData(ENDPOINT.REGISTER,data );
+        console.log("res--->",res)
+       if(res?.userId){
+        localStorage.setItem("userId",res.userId)
+userTrackingFun(userTrackDetail)
+       }
+         
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -1362,15 +1371,18 @@ let newObj={"user clicked on cross icon of module":activeModule}
   };
 
   const handleRead = (e,moduleName) => {
-    setReadStatus(true);
-    let newObj={"user clicked on read more with module select":moduleName}
-    userTrackingFun(newObj)
-    
+    setReadStatus(true);  
     if(pharmaRegistered){
       setAddDivClass(false);
       setAddSmallClass(true);
+       let newObj={"user clicked on read more with module select":moduleName}
+    userTrackingFun(newObj)
     }
     else{
+      let updateTrackUser=userTrackDetail;
+      let newObj={"user clicked on read more with module select":moduleName}
+      updateTrackUser?.push(newObj)
+      setUserTrackDetail(updateTrackUser)
       setAddDivClass(true);
       setRegister(true)
       setAddSmallClass(false);
@@ -1382,7 +1394,7 @@ let newObj={"user clicked on cross icon of module":activeModule}
   const userTrackingFun=async(newObj)=>{
     console.log("func--->",newObj)
     try{
- // const res=await postData(ENDPOINT.PHARMA_USER_TRACKING,newObj)
+        const res=await postData(ENDPOINT.PHARMA_USER_TRACKING,{data:newObj,userId:localStorage.getItem("userId")})
     }catch(err){
       console.log("--err",err)
     }
