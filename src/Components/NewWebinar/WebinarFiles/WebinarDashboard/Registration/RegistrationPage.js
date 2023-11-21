@@ -34,6 +34,11 @@ const userData = {
   "Preferred return flight date": "air_return_date",
   "I consent to:": "consent",
 };
+let icons={
+  Email:"form-mail",
+  Name:"form-user",
+
+}
 const stateOptions = [
   { label: "Alabama", value: "Alabama" },
   { label: "Alaska", value: "Alaska" },
@@ -692,7 +697,7 @@ const FormField1 = ({
 id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}/>
         <div className="field-icon">
-          <img src={path_image + "form-mail.svg"} alt="" />
+        <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
         </div>
         </>
       
@@ -920,12 +925,12 @@ const FormField2 = ({
         id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())} placeholder={form.label}
         onChange={(e) => handleFieldChange(e.target.value)}/>
       <div className="field-icon">
-        <img src={path_image + "form-mail.svg"} alt="" />
+        <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
       </div>
       </>
     );
   }
-console.log(form.inputType);
+console.log(form.label);
   return (
     <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`}>
       {(form.inputType !="text" && form.inputType !="email")  ?
@@ -934,7 +939,9 @@ console.log(form.inputType);
           color: pageColors?.labelColor,
         }}>
         {form.label}
-        {isRequired ? "*" : ""}
+        {
+          // isRequired ? "*" : ""
+      }
       </label>:null
       }
       
