@@ -239,6 +239,7 @@ const SelectSmartList = (props) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
+      show_specific: 1,
     };
     loader("show");
     await axios
