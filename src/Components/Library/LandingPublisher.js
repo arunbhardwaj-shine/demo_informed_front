@@ -910,7 +910,6 @@ const PharmaRd = () => {
           type: "register",
           register_type: "publisherRegistered"
         };
-        console.log(data, 'publisherdata')
         let newObj = { "user register with below mention information": data }
         let updateTrackUser = userTrackDetail
         updateTrackUser?.push(newObj)
@@ -925,7 +924,6 @@ const PharmaRd = () => {
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
         const res = await postData(ENDPOINT.REGISTER, data);
-        console.log("res--->", res)
         if (res?.data?.data?.user_id) {
           localStorage.setItem("userId", res?.data?.data?.user_id)
           userTrackingFun(userTrackDetail)
@@ -967,6 +965,7 @@ const PharmaRd = () => {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
+    console.log("big circle click")
     let newObj = { "user clicked on module": moduleName }
     userTrackingFun(newObj)
     const bigCircleData = bigCircleModules[index];
@@ -1020,7 +1019,7 @@ const PharmaRd = () => {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
-    let newObj = { "user clicked on request with module ": activeModule }
+    let newObj = { "user request with module ": activeModule }
     userTrackingFun(newObj)
     var root = document.getElementsByTagName('html')[0];
     root.classList.add('scrollerClass');
@@ -1091,7 +1090,7 @@ const PharmaRd = () => {
           // ppt: downloadedPpts,
           type: "modules",
         }
-        let newObj = { "user clicked on submit with below information": data }
+        let newObj = { "user submit with below information": data }
         userTrackingFun(newObj)
         // });
         let obj = {};
@@ -1117,7 +1116,8 @@ const PharmaRd = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-    let newObj = { "user clicked on cross icon of module": activeModule }
+    console.log("big circle close")
+    let newObj = { "user unselect": activeModule }
     userTrackingFun(newObj)
     var root = document.getElementsByTagName('html')[0];
     root.classList.remove('scrollerClass');
@@ -1167,7 +1167,7 @@ const PharmaRd = () => {
   };
 
   const handleBigClose = () => {
-    let newObj = { "user clicked on close after submit": "" }
+    let newObj = { "user close after submit": "" }
     userTrackingFun(newObj)
     var root = document.getElementsByTagName('html')[0];
     root.classList.remove('scrollerClass');
@@ -1189,12 +1189,12 @@ const PharmaRd = () => {
     if (publisherRegistered) {
       setAddDivClass(false);
       setAddSmallClass(true);
-      let newObj = { "user clicked on read more with module select": moduleName }
+      let newObj = { "user clicked on read more with ": moduleName }
       userTrackingFun(newObj)
     }
     else {
       let updateTrackUser = userTrackDetail;
-      let newObj = { "user clicked on read more with module select": moduleName }
+      let newObj = { "user clicked on read more with ": moduleName }
       updateTrackUser?.push(newObj)
       setUserTrackDetail(updateTrackUser)
       setAddDivClass(true);
@@ -1205,10 +1205,8 @@ const PharmaRd = () => {
     }
   };
   const userTrackingFun = async (newObj) => {
-    console.log("func--->", newObj)
     try {
       const res = await postData(ENDPOINT.USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
-      console.log("res-->", res?.data)
       if (res?.data?.message == "insert") {
         localStorage.setItem("trackingId", res?.data?.data?.trackingId)
       }
@@ -1227,7 +1225,6 @@ const PharmaRd = () => {
         .some(index => document.getElementById(`module-${index}`)?.classList?.contains("visible"));
 
       if (hasVisibleClass) {
-        console.log(hasVisibleClass, 'hasVisibleClass')
         currentModule?.classList.remove("random-class");
         prevModule?.classList.remove("random-class");
         clearInterval(interval);
@@ -2832,23 +2829,29 @@ const PharmaRd = () => {
                                   ? "stat webinar active"
                                   : "stat webinar"
                             }
-                            onClick={() => handleBigCircleClick("webinar", 8)}
+
+                            // onClick={() => handleBigCircleClick("webinar", 8)}
                             style={{ "--i": "13" }}
                           >
-                            <img
+                            {/* <img
                               src={path_image + "webinar-small-icon.svg"}
                               alt=""
-                            />
+                              
+                            /> */}
                             <span>Webinar Portal</span>
-                            {activeModule === "webinar" && (
+                            {activeModule === "webinar" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ) : <img
+                              src={path_image + "webinar-small-icon.svg"}
+                              alt=""
+                              onClick={() => handleBigCircleClick("webinar", 8)}
+                            />}
                           </div>
 
                           <div
