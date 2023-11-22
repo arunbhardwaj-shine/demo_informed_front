@@ -12,7 +12,7 @@ const TemplateOne = ({ children, formData }) => {
   // ).format("D MMMM YYYY");
 
   let eventDataSample = formData?.content?.eventDetails;
-  console.log(eventDataSample);
+ 
 
   let formattedDateRange = "";
   const startDate = moment(

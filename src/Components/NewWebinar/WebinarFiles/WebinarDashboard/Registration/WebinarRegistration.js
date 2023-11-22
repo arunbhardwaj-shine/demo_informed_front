@@ -761,7 +761,7 @@ const WebinarRegistration = () => {
       e.preventDefault();
     }
     console.log(formData, "====>formData");
-return;
+// return;
     setFormData(formData);
     try {
       const error = WebinarRegistrationValidation(formData, eventData);

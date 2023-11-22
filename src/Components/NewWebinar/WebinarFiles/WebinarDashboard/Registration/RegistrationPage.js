@@ -209,9 +209,7 @@ const RegistrationPage = ({ prevData }) => {
     const errors = {};
 
     formData?.content?.body?.forEach((form) => {
-      const label = userData[form.label]
-        ? userData[form.label]
-        : form?.label?.replace(/ /g, "_");
+      const label =  form?.name?.replace(/ /g, "_");
       const fieldValue = formFieldData[label];
 
       if (form.required === "yes" && !fieldValue) {
@@ -648,8 +646,9 @@ const FormField1 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                  // console.log(item,"");
-                  // console.log();
+                 
+                  
+                  
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -819,8 +818,6 @@ const FormField2 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
-
               <input
                 type={form.inputType}
                 id={label + index}
@@ -867,8 +864,6 @@ const FormField2 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
-
               <input
                 type={form.inputType}
                 id={label + index}
@@ -876,8 +871,6 @@ const FormField2 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                  // console.log(item,"");
-                  // console.log();
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -930,7 +923,7 @@ const FormField2 = ({
       </>
     );
   }
-console.log(form.label);
+
   return (
     <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`}>
       {(form.inputType !="text" && form.inputType !="email")  ?
@@ -961,9 +954,7 @@ const FormField3 = ({
 }) => {
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label = userData[form.label]
-    ? userData[form.label]
-    : form?.label?.replace(/ /g, "_");
+  const label = form?.name?.replace(/ /g, "_");
 
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
@@ -1048,7 +1039,8 @@ const FormField3 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
+    
+    
 
               <input
                 type={form.inputType}
@@ -1096,7 +1088,7 @@ const FormField3 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
+
 
               <input
                 type={form.inputType}
@@ -1105,8 +1097,8 @@ const FormField3 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                  // console.log(item,"");
-                  // console.log();
+              
+                  
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
