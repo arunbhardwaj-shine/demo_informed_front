@@ -42,14 +42,16 @@ const PharmaRd = () => {
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [register, setRegister] = useState(false)
-  const[moduleRequest, setModuleRequest] = useState(false)
+  const [moduleRequest, setModuleRequest] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
-  const [addSelectClass,setAddSelectClass] = useState(false)
+  const [addSelectClass, setAddSelectClass] = useState(false)
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
+  const [downloadedPpts, setDownloadedPpts] = useState([]);
+  const [userTrackDetail, setUserTrackDetail] = useState([])
 
   const modules = [
     {
@@ -754,19 +756,19 @@ const PharmaRd = () => {
     { value: "Zambia", label: "Zambia" },
     { value: "Zimbabwe", label: "Zimbabwe" },
   ]);
-const colourStyles = {
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    // const color = chroma(data.color);
-    console.log({ data, isDisabled, isFocused, isSelected });
-    return {
-      ...styles,
-      backgroundColor: isFocused ? "#0066BE" : null,
-      color: isFocused ? "#ffffff" : "#97B6CF",
-      backgroundColor: isSelected ? "#0066BE" : null,
-       color: isSelected ? "#ffffff!important" : "#97B6CF",
-    };
-  }
-};
+  const colourStyles = {
+    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+      // const color = chroma(data.color);
+      console.log({ data, isDisabled, isFocused, isSelected });
+      return {
+        ...styles,
+        backgroundColor: isFocused ? "#0066BE" : null,
+        color: isFocused ? "#ffffff" : "#97B6CF",
+        backgroundColor: isSelected ? "#0066BE" : null,
+        color: isSelected ? "#ffffff!important" : "#97B6CF",
+      };
+    }
+  };
   const [registerFormInputs, setRegisterFormInputs] = useState({
     name: "",
     email: "",
@@ -857,20 +859,20 @@ const colourStyles = {
     // setAddDivClass(false);
     // setAddSmallClass(true);
     event.preventDefault();
-    const err = HomeValidation(registerFormInputs,1);
+    const err = HomeValidation(registerFormInputs, 1);
     if (Object.keys(err)?.length) {
       if (Object?.keys(err)[0] == "name") {
         nameRef?.current?.focus();
       } else if (Object?.keys(err)[0] == "email") {
         emailRef?.current?.focus();
-      } 
+      }
       // else if (Object.keys(err)[0] == "comapny") {
       //   companyRef.current.focus();
       // }
       //  else if (Object.keys(err)[0] == "phone") {
       //   phoneRef.current.focus();
       // }
-       else if (Object.keys(err)[0] == "country") {
+      else if (Object.keys(err)[0] == "country") {
         countryRef.current.focus();
       }
       setRegisterError(err);
@@ -906,18 +908,26 @@ const colourStyles = {
           consent: consent,
           consent_type: consentType,
           type: "register",
+          register_type: "publisherRegistered"
         };
-
+        let newObj = { "user register with below mention information": data }
+        let updateTrackUser = userTrackDetail
+        updateTrackUser?.push(newObj)
+        setUserTrackDetail(updateTrackUser)
         setPayloadData(data);
         localStorage.setItem('publisherRegistered', 'true');
         setPublisherRegistered(true);
         setAddDivClass(false);
         setAddSmallClass(true);
-        var root = document.getElementsByTagName( 'html' )[0];
+        var root = document.getElementsByTagName('html')[0];
         root.classList.remove('scrollerClass');
         const dataPublisherString = JSON.stringify(data);
         localStorage.setItem('payloadPublisherData', dataPublisherString);
         const res = await postData(ENDPOINT.REGISTER, data);
+        if (res?.data?.data?.user_id) {
+          localStorage.setItem("userId", res?.data?.data?.user_id)
+          userTrackingFun(userTrackDetail)
+        }
         let obj = {};
         loader("hide");
         setRegisterFormInputs(obj);
@@ -955,6 +965,9 @@ const colourStyles = {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
+    console.log("big circle click")
+    let newObj = { "user clicked on module": moduleName }
+    userTrackingFun(newObj)
     const bigCircleData = bigCircleModules[index];
     setShowBigCircleData(true);
 
@@ -1006,7 +1019,9 @@ const colourStyles = {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
-    var root = document.getElementsByTagName( 'html' )[0];
+    let newObj = { "user request with module ": activeModule }
+    userTrackingFun(newObj)
+    var root = document.getElementsByTagName('html')[0];
     root.classList.add('scrollerClass');
     setAddClass(true);
     setModuleRequest(true)
@@ -1038,6 +1053,14 @@ const colourStyles = {
     setFormFeilds(true);
   };
 
+  const handleDownloadClick = (pptPath) => {
+    const fileName = pptPath?.substring(pptPath.lastIndexOf('/') + 1);
+    const desiredText = fileName?.substring(0, fileName?.lastIndexOf('.'));
+    setDownloadedPpts(prevPpts => [...prevPpts, desiredText]);
+    let newObj = { "user download the ppt of": desiredText }
+    userTrackingFun(newObj)
+  };
+
   const handleSubmitClick = async () => {
     // setAddDivClass(true);
     // setAddHideClass(true);
@@ -1047,49 +1070,56 @@ const colourStyles = {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     const phoneRegex = /^[+]?(\d{1,2})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
     if (email && !emailRegex.test(email)) {
-        setEmailError('Please enter a valid email address');
-      } else if(phone && !phoneRegex.test(phone)){
-        setPhoneError('Please enter a phone number');
-      }
-      else {
-      loader("show");
-    // loader("show");
-    try {
-      const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
-      const payloadData = JSON.parse(payloadDataPharmaString);
-      const res = await postData(ENDPOINT.REGISTER, {
-        // let data = {
-        ...payloadData,
-        message: moduleFormInputs?.message?.trim(),
-        secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
-        secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
-        modules: selectedModules,
-        type: "modules",
-        // }
-      });
-      let obj = {};
-      loader("hide");
-      setEmailError(null);
-      setPhoneError(null)
-      setModuleFormInputs(obj);
-      setAddDivClass(true);
-      setAddHideClass(true);
-      setAddSmallClass(true);
-    } catch (err) {
-      console.log(err);
-      loader("hide");
+      setEmailError('Please enter a valid email address');
+    } else if (phone && !phoneRegex.test(phone)) {
+      setPhoneError('Please enter a phone number');
     }
-    setSubmitData(true);
-    setAddClass(false);
-    setShowBigCircleData(false);
-    setModulesSelect(false);
-    setFormFeilds(false);
-    setModuleFormInputs(false)
-  }
+    else {
+      loader("show");
+      // loader("show");
+      try {
+        const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
+        const payloadData = JSON.parse(payloadDataPharmaString);
+        // const res = await postData(ENDPOINT.REGISTER, {
+        let data = {
+          ...payloadData,
+          message: moduleFormInputs?.message?.trim(),
+          secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
+          secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
+          modules: selectedModules,
+          // ppt: downloadedPpts,
+          type: "modules",
+        }
+        let newObj = { "user submit with below information": data }
+        userTrackingFun(newObj)
+        // });
+        let obj = {};
+        loader("hide");
+        setEmailError(null);
+        setPhoneError(null)
+        setModuleFormInputs(obj);
+        setAddDivClass(true);
+        setAddHideClass(true);
+        setAddSmallClass(true);
+        setDownloadedPpts(prevPpts => [])
+      } catch (err) {
+        console.log(err);
+        loader("hide");
+      }
+      setSubmitData(true);
+      setAddClass(false);
+      setShowBigCircleData(false);
+      setModulesSelect(false);
+      setFormFeilds(false);
+      setModuleFormInputs(false)
+    }
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-    var root = document.getElementsByTagName( 'html' )[0];
+    console.log("big circle close")
+    let newObj = { "user unselect": activeModule }
+    userTrackingFun(newObj)
+    var root = document.getElementsByTagName('html')[0];
     root.classList.remove('scrollerClass');
     setAddClass(false);
     setRegister(false)
@@ -1111,21 +1141,21 @@ const colourStyles = {
       setReadStatus(false);
       setRegisterError(false);
       setSelectedCountry([]);
-    setRegisterFormInputs({
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      country: "",
-      consent1: {
-        label: "Email me only about modules I’ve looked at",
-        checked: false,
-      },
-      consent2: {
-        label: "Keep me informed about other news from inforMed.pro",
-        checked: false,
-      },
-    })
+      setRegisterFormInputs({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        country: "",
+        consent1: {
+          label: "Email me only about modules I’ve looked at",
+          checked: false,
+        },
+        consent2: {
+          label: "Keep me informed about other news from inforMed.pro",
+          checked: false,
+        },
+      })
     }, 200);
     setSelectedModules([]);
     setEmailError('')
@@ -1137,7 +1167,9 @@ const colourStyles = {
   };
 
   const handleBigClose = () => {
-    var root = document.getElementsByTagName( 'html' )[0];
+    let newObj = { "user close after submit": "" }
+    userTrackingFun(newObj)
+    var root = document.getElementsByTagName('html')[0];
     root.classList.remove('scrollerClass');
     setAddDivClass(false);
     setAddClass(false);
@@ -1152,50 +1184,65 @@ const colourStyles = {
     setPhoneError('')
   };
 
-  const handleRead = () => {
+  const handleRead = (e, moduleName) => {
     setReadStatus(true);
-    if(publisherRegistered){
+    if (publisherRegistered) {
       setAddDivClass(false);
       setAddSmallClass(true);
+      let newObj = { "user clicked on read more with ": moduleName }
+      userTrackingFun(newObj)
     }
-    else{
+    else {
+      let updateTrackUser = userTrackDetail;
+      let newObj = { "user clicked on read more with ": moduleName }
+      updateTrackUser?.push(newObj)
+      setUserTrackDetail(updateTrackUser)
       setAddDivClass(true);
       setRegister(true)
       setAddSmallClass(false);
-      var root = document.getElementsByTagName( 'html' )[0];
+      var root = document.getElementsByTagName('html')[0];
       root.classList.add('scrollerClass');
     }
   };
+  const userTrackingFun = async (newObj) => {
+    try {
+      const res = await postData(ENDPOINT.USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
+      if (res?.data?.message == "insert") {
+        localStorage.setItem("trackingId", res?.data?.data?.trackingId)
+      }
+    } catch (err) {
+      console.log("--err", err)
+    }
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
       const prevModuleIndex = currentModuleIndex === 0 ? 9 : currentModuleIndex - 1;
       const currentModule = document.getElementById(`module-${currentModuleIndex}`);
       const prevModule = document.getElementById(`module-${prevModuleIndex}`);
-  
+
       const hasVisibleClass = Array.from({ length: 10 }, (_, i) => i)
         .some(index => document.getElementById(`module-${index}`)?.classList?.contains("visible"));
-   
+
       if (hasVisibleClass) {
-        console.log(hasVisibleClass,'hasVisibleClass')
         currentModule?.classList.remove("random-class");
         prevModule?.classList.remove("random-class");
         clearInterval(interval);
         return;
       }
-     
+
       if (prevModule) {
         prevModule?.classList.remove("random-class");
       }
-   
+
       if (currentModule) {
         currentModule?.classList.add("random-class");
       }
-  
-   
+
+
       setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
     }, 4700);
-   
+
     return () => clearInterval(interval);
   }, [currentModuleIndex]);
 
@@ -1279,12 +1326,12 @@ const colourStyles = {
   //   const interval = setInterval(() => {
   //     const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
   //     document.getElementById(`module-${prevModuleIndex}`)?.classList?.remove("random-class");
-  
+
   //     document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
-  
+
   //     setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
   //   }, 4500); 
-  
+
   //   return () => clearInterval(interval);
   // }, [currentModuleIndex]);
 
@@ -1746,7 +1793,7 @@ const colourStyles = {
                   Click on a module to explore its capabilities and discover how
                   it can benefit you. Learn about its connections with other
                   modules and how they collectively help your clients succeed.
-                  Modules have been collaboratively developed with publishers - they are integral to inforMed.pro and built to enhance your workflow. 
+                  Modules have been collaboratively developed with publishers - they are integral to inforMed.pro and built to enhance your workflow.
                 </h5>
               </div>
               <div className="modules-diagram publish">
@@ -1761,8 +1808,8 @@ const colourStyles = {
                         : activeModule === "docintel" ||
                           activeModule === "ai" ||
                           activeModule === "webinar"
-                        ? "stat read active"
-                        : "stat read"
+                          ? "stat read active"
+                          : "stat read"
                     }
                     onClick={() => handleClick("read", 0)}
                     style={{ "--i": "1" }}
@@ -1779,8 +1826,8 @@ const colourStyles = {
                       activeModule === "rating"
                         ? "stat rating visible"
                         : activeModule === "web" || activeModule === "docintel"
-                        ? "stat rating active"
-                        : "stat rating"
+                          ? "stat rating active"
+                          : "stat rating"
                     }
                     onClick={() => handleClick("rating", 1)}
                     style={{ "--i": "2" }}
@@ -1801,8 +1848,8 @@ const colourStyles = {
                           activeModule === "informed" ||
                           activeModule === "ai" ||
                           activeModule === "spc"
-                        ? "stat automail active"
-                        : "stat automail"
+                          ? "stat automail active"
+                          : "stat automail"
                     }
                     onClick={() => handleClick("automail", 2)}
                     style={{ "--i": "3" }}
@@ -1825,8 +1872,8 @@ const colourStyles = {
                           activeModule === "read" ||
                           activeModule === "automail" ||
                           activeModule === "ai"
-                        ? "stat consent active"
-                        : " stat consent"
+                          ? "stat consent active"
+                          : " stat consent"
                     }
                     onClick={() => handleClick("consent", 3)}
                     style={{ "--i": "4" }}
@@ -1845,8 +1892,8 @@ const colourStyles = {
                         : activeModule === "survey" ||
                           activeModule === "spc" ||
                           activeModule === "automail"
-                        ? "stat engine active"
-                        : "stat engine"
+                          ? "stat engine active"
+                          : "stat engine"
                     }
                     onClick={() => handleClick("engine", 4)}
                     style={{ "--i": "5" }}
@@ -1870,8 +1917,8 @@ const colourStyles = {
                           activeModule === "informed" ||
                           activeModule === "engine" ||
                           activeModule === "rating"
-                        ? "stat docintel active"
-                        : "stat docintel"
+                          ? "stat docintel active"
+                          : "stat docintel"
                     }
                     onClick={() => handleClick("docintel", 5)}
                     style={{ "--i": "6" }}
@@ -1892,8 +1939,8 @@ const colourStyles = {
                           activeModule === "webinar" ||
                           activeModule === "automail" ||
                           activeModule === "spc"
-                        ? "stat informed active"
-                        : "stat informed"
+                          ? "stat informed active"
+                          : "stat informed"
                     }
                     onClick={() => handleClick("informed", 6)}
                     style={{ "--i": "7" }}
@@ -1914,8 +1961,8 @@ const colourStyles = {
                           activeModule === "consent" ||
                           activeModule === "ai" ||
                           activeModule === "rating"
-                        ? "stat web active"
-                        : "stat web"
+                          ? "stat web active"
+                          : "stat web"
                     }
                     onClick={() => handleClick("web", 7)}
                     style={{ "--i": "8" }}
@@ -1932,8 +1979,8 @@ const colourStyles = {
                       activeModule === "webinar"
                         ? "stat webinar visible"
                         : activeModule === "qa" || activeModule === "web"
-                        ? "stat webinar active"
-                        : "stat webinar"
+                          ? "stat webinar active"
+                          : "stat webinar"
                     }
                     onClick={() => handleClick("webinar", 8)}
                     style={{ "--i": "9" }}
@@ -1950,8 +1997,8 @@ const colourStyles = {
                       activeModule === "survey"
                         ? "stat survey visible"
                         : activeModule === "qa" || activeModule === "engine"
-                        ? "stat survey active"
-                        : "stat survey"
+                          ? "stat survey active"
+                          : "stat survey"
                     }
                     onClick={() => handleClick("survey", 9)}
                     style={{ "--i": "10" }}
@@ -1967,9 +2014,8 @@ const colourStyles = {
                     <img src={path_image + "module-logo.svg"} alt="" />
                   </div>
                   <div
-                    className={`mudule-article-overview ${
-                      moduleData?.active === true ? "active" : ""
-                    }`}
+                    className={`mudule-article-overview ${moduleData?.active === true ? "active" : ""
+                      }`}
                     style={{ "--i": moduleData?.style }}
                   >
                     <div className="module-space">
@@ -1980,21 +2026,20 @@ const colourStyles = {
                       <h4>{moduleData?.heading}</h4>
                     </div>
                     <p>{moduleData?.paragraph}</p>
-                    <Button onClick={handleRead}>Read more</Button>
+                    <Button onClick={(e) => handleRead(e, activeModule)}>Read more</Button>
                   </div>
                 </div>
                 {register && (
-                <img
-                        className="close"
-                        src={path_image + "module-close-button.svg"}
-                        alt=""
-                        onClick={handleBigCircleClose}
-                      />
+                  <img
+                    className="close"
+                    src={path_image + "module-close-button.svg"}
+                    alt=""
+                    onClick={handleBigCircleClose}
+                  />
                 )}
                 <div
-                  className={`module-bigger-size ${readStatus ? "show" : ""} ${
-                    addHideClass ? "hide" : ""
-                  } ${addSmallClass ? "small" : ""}`}
+                  className={`module-bigger-size ${readStatus ? "show" : ""} ${addHideClass ? "hide" : ""
+                    } ${addSmallClass ? "small" : ""}`}
                 >
                   {!showBigCircleData && !submitData && (
                     <img
@@ -2346,11 +2391,10 @@ const colourStyles = {
                     className={`module-discribe ${addClass ? "request" : ""}`}
                   >
                     <div
-                      className={`${
-                        bigCircleModuleData?.active === true
-                          ? "active d-flex justify-content-between flex-column"
-                          : "d-flex justify-content-between flex-column"
-                      }`}
+                      className={`${bigCircleModuleData?.active === true
+                        ? "active d-flex justify-content-between flex-column"
+                        : "d-flex justify-content-between flex-column"
+                        }`}
                     >
                       {showBigCircleData && publisherRegistered && (
                         <>
@@ -2397,7 +2441,7 @@ const colourStyles = {
                                         {feature?.keyFeature}
                                         {feature?.subKeyFeatures &&
                                           feature?.subKeyFeatures.length >
-                                            0 && (
+                                          0 && (
                                             <ul>
                                               {feature?.subKeyFeatures?.map(
                                                 (subFeature, subIndex) => (
@@ -2468,7 +2512,7 @@ const colourStyles = {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
-                                       {emailError && (<p style={{ color: 'red' }}>{emailError}</p>)}
+                                      {emailError && (<p style={{ color: 'red' }}>{emailError}</p>)}
                                       <span>
                                         <svg
                                           width="20"
@@ -2502,7 +2546,7 @@ const colourStyles = {
                                         }
                                         onChange={handleModuleFormChange}
                                       />
-                                     {phoneError && (<p style={{ color: 'red' }}>{phoneError}</p>) }
+                                      {phoneError && (<p style={{ color: 'red' }}>{phoneError}</p>)}
                                       <span>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
@@ -2535,12 +2579,12 @@ const colourStyles = {
                           <div
                             className={
                               selectedModules.includes("rating") ||
-                              activeModule === "rating"
+                                activeModule === "rating"
                                 ? "stat rating visible"
                                 : activeModule === "web" ||
                                   activeModule === "docintel"
-                                ? "stat rating active"
-                                : "stat rating"
+                                  ? "stat rating active"
+                                  : "stat rating"
                             }
                             onClick={() => handleBigCircleClick("rating", 1)}
                             style={{ "--i": "1" }}
@@ -2561,15 +2605,15 @@ const colourStyles = {
                           <div
                             className={
                               selectedModules?.includes("automail") ||
-                              activeModule === "automail"
+                                activeModule === "automail"
                                 ? "stat automail visible"
                                 : activeModule === "engine" ||
                                   activeModule === "ai" ||
                                   activeModule === "spc" ||
                                   activeModule === "webinar" ||
                                   activeModule === "informed"
-                                ? "stat automail active"
-                                : "stat automail"
+                                  ? "stat automail active"
+                                  : "stat automail"
                             }
                             onClick={() => handleBigCircleClick("automail", 2)}
                             style={{ "--i": "2" }}
@@ -2593,7 +2637,7 @@ const colourStyles = {
                           <div
                             className={
                               selectedModules.includes("consent") ||
-                              activeModule === "consent"
+                                activeModule === "consent"
                                 ? "stat consent visible"
                                 : activeModule === "webinar" ||
                                   activeModule === "web" ||
@@ -2602,8 +2646,8 @@ const colourStyles = {
                                   activeModule === "read" ||
                                   activeModule === "automail" ||
                                   activeModule === "ai"
-                                ? "stat consent active"
-                                : " stat consent"
+                                  ? "stat consent active"
+                                  : " stat consent"
                             }
                             onClick={() => handleBigCircleClick("consent", 3)}
                             style={{ "--i": "3" }}
@@ -2627,13 +2671,13 @@ const colourStyles = {
                           <div
                             className={
                               selectedModules.includes("engine") ||
-                              activeModule === "engine"
+                                activeModule === "engine"
                                 ? "stat engine visible"
                                 : activeModule === "survey" ||
                                   activeModule === "spc" ||
                                   activeModule === "automail"
-                                ? "stat engine active"
-                                : "stat engine"
+                                  ? "stat engine active"
+                                  : "stat engine"
                             }
                             onClick={() => handleBigCircleClick("engine", 4)}
                             style={{ "--i": "4" }}
@@ -2678,7 +2722,7 @@ const colourStyles = {
                           <div
                             className={
                               selectedModules.includes("docintel") ||
-                              activeModule === "docintel"
+                                activeModule === "docintel"
                                 ? "stat docintel visible"
                                 : activeModule === "read" ||
                                   activeModule === "spc" ||
@@ -2688,8 +2732,8 @@ const colourStyles = {
                                   activeModule === "informed" ||
                                   activeModule === "engine" ||
                                   activeModule === "rating"
-                                ? "stat docintel active"
-                                : "stat docintel"
+                                  ? "stat docintel active"
+                                  : "stat docintel"
                             }
                             onClick={() => handleBigCircleClick("docintel", 5)}
                             style={{ "--i": "10" }}
@@ -2713,7 +2757,7 @@ const colourStyles = {
                           <div
                             className={
                               selectedModules.includes("informed") ||
-                              activeModule === "informed"
+                                activeModule === "informed"
                                 ? "stat informed visible"
                                 : activeModule === "consent" ||
                                   activeModule === "consent" ||
@@ -2721,8 +2765,8 @@ const colourStyles = {
                                   activeModule === "automail" ||
                                   activeModule === "ai" ||
                                   activeModule === "spc"
-                                ? "stat informed active"
-                                : "stat informed"
+                                  ? "stat informed active"
+                                  : "stat informed"
                             }
                             onClick={() => handleBigCircleClick("informed", 6)}
                             style={{ "--i": "11" }}
@@ -2746,15 +2790,15 @@ const colourStyles = {
                           <div
                             className={
                               selectedModules.includes("web") ||
-                              activeModule === "web"
+                                activeModule === "web"
                                 ? "stat web visible"
                                 : activeModule === "webinar" ||
                                   activeModule === "docintel" ||
                                   activeModule === "consent" ||
                                   activeModule === "ai" ||
                                   activeModule === "rating"
-                                ? "stat web active"
-                                : "stat web"
+                                  ? "stat web active"
+                                  : "stat web"
                             }
                             onClick={() => handleBigCircleClick("web", 7)}
                             style={{ "--i": "12" }}
@@ -2778,41 +2822,47 @@ const colourStyles = {
                           <div
                             className={
                               selectedModules.includes("webinar") ||
-                              activeModule === "webinar"
+                                activeModule === "webinar"
                                 ? "stat webinar visible"
                                 : activeModule === "qa" ||
                                   activeModule === "web"
-                                ? "stat webinar active"
-                                : "stat webinar"
+                                  ? "stat webinar active"
+                                  : "stat webinar"
                             }
-                            onClick={() => handleBigCircleClick("webinar", 8)}
+
+                            // onClick={() => handleBigCircleClick("webinar", 8)}
                             style={{ "--i": "13" }}
                           >
-                            <img
+                            {/* <img
                               src={path_image + "webinar-small-icon.svg"}
                               alt=""
-                            />
+                              
+                            /> */}
                             <span>Webinar Portal</span>
-                            {activeModule === "webinar" && (
+                            {activeModule === "webinar" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ) : <img
+                              src={path_image + "webinar-small-icon.svg"}
+                              alt=""
+                              onClick={() => handleBigCircleClick("webinar", 8)}
+                            />}
                           </div>
 
                           <div
                             className={
                               selectedModules.includes("survey") ||
-                              activeModule === "survey"
+                                activeModule === "survey"
                                 ? "stat survey visible"
                                 : activeModule === "qa" ||
                                   activeModule === "engine"
-                                ? "stat survey active"
-                                : "stat survey"
+                                  ? "stat survey active"
+                                  : "stat survey"
                             }
                             onClick={() => handleBigCircleClick("survey", 9)}
                             style={{ "--i": "14" }}
@@ -2833,13 +2883,13 @@ const colourStyles = {
                           <div
                             className={
                               selectedModules.includes("read") ||
-                              activeModule === "read"
+                                activeModule === "read"
                                 ? "stat read visible"
                                 : activeModule === "docintel" ||
                                   activeModule === "webinar" ||
                                   activeModule === "ai"
-                                ? "stat read active"
-                                : "stat read"
+                                  ? "stat read active"
+                                  : "stat read"
                             }
                             style={{ "--i": "15" }}
                             onClick={() => handleBigCircleClick("read", 0)}
@@ -2892,7 +2942,7 @@ const colourStyles = {
                           <img src={path_image + "downlaod-ppt.svg"} alt="" />
                         </Link> */}
 
-                          <a href={bigCircleModuleData?.ppt} download>
+                          <a href={bigCircleModuleData?.ppt} download onClick={() => handleDownloadClick(bigCircleModuleData?.ppt)}>
                             <img src={path_image + "downlaod-ppt.svg"} alt="" />
                           </a>
                         </div>
@@ -2932,44 +2982,42 @@ const colourStyles = {
                       alt=""
                       onClick={handleBigCircleClose}
                     /> */}
-                   <div className="mobile-slider">
+                  <div className="mobile-slider">
                     <img
                       className="close"
                       src={path_image + "module-close-button.svg"}
                       alt=""
                       onClick={handleBigCircleClose}
                     />
-                <div className="mobile-slider-inset">
-                 {showBigCircleData  && publisherRegistered &&  (
-                    
-                    <Slider
-                      {...sliderSettings}
-                    >
-                      <div
-                        className={`module-discribe ${
-                          addClass ? "request" : ""
-                        }`}
-                      >
-                        <div
-                          className={`${
-                            bigCircleModuleData?.active === true
-                              ? "active d-flex justify-content-between flex-column"
-                              : "d-flex justify-content-between flex-column"
-                          }`}
+                    <div className="mobile-slider-inset">
+                      {showBigCircleData && publisherRegistered && (
+
+                        <Slider
+                          {...sliderSettings}
                         >
-                          <div>
-                            <img
-                              className="module-img"
-                              src={
-                                path_image + bigCircleModuleData?.logoIconPath
-                              }
-                            />
-                            <h4>{bigCircleModuleData?.heading}</h4>
-                            <img
-                              className="module-content-view"
-                              src={path_image + bigCircleModuleData?.imagePath}
-                            />
-                          </div>
+                          <div
+                            className={`module-discribe ${addClass ? "request" : ""
+                              }`}
+                          >
+                            <div
+                              className={`${bigCircleModuleData?.active === true
+                                ? "active d-flex justify-content-between flex-column"
+                                : "d-flex justify-content-between flex-column"
+                                }`}
+                            >
+                              <div>
+                                <img
+                                  className="module-img"
+                                  src={
+                                    path_image + bigCircleModuleData?.logoIconPath
+                                  }
+                                />
+                                <h4>{bigCircleModuleData?.heading}</h4>
+                                <img
+                                  className="module-content-view"
+                                  src={path_image + bigCircleModuleData?.imagePath}
+                                />
+                              </div>
 
                               <div>
                                 <p>{bigCircleModuleData?.detail}</p>
@@ -2984,16 +3032,14 @@ const colourStyles = {
                           </div>
 
                           <div
-                            className={`module-discribe ${
-                              addClass ? "request" : ""
-                            }`}
+                            className={`module-discribe ${addClass ? "request" : ""
+                              }`}
                           >
                             <div
-                              className={`${
-                                bigCircleModuleData?.active === true
-                                  ? "active d-flex justify-content-between flex-column"
-                                  : "d-flex justify-content-between flex-column"
-                              }`}
+                              className={`${bigCircleModuleData?.active === true
+                                ? "active d-flex justify-content-between flex-column"
+                                : "d-flex justify-content-between flex-column"
+                                }`}
                             >
                               <div className="key-features">
                                 <h5>Key Features</h5>
@@ -3004,7 +3050,7 @@ const colourStyles = {
                                         {feature?.keyFeature}
                                         {feature?.subKeyFeatures &&
                                           feature?.subKeyFeatures.length >
-                                            0 && (
+                                          0 && (
                                             <ul>
                                               {feature?.subKeyFeatures?.map(
                                                 (subFeature, subIndex) => (
@@ -3027,7 +3073,7 @@ const colourStyles = {
                                   >
                                     Request
                                   </Button>
-                                  <a href={bigCircleModuleData?.ppt} download>
+                                  <a href={bigCircleModuleData?.ppt} download onClick={() => handleDownloadClick(bigCircleModuleData?.ppt)}>
                                     <img
                                       src={path_image + "downlaod-ppt.svg"}
                                       alt=""
@@ -3062,4 +3108,4 @@ const colourStyles = {
   );
 };
 
-export default  React.memo(PharmaRd);
+export default React.memo(PharmaRd);
