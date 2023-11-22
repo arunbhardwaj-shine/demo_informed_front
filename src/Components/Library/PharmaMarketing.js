@@ -1198,7 +1198,7 @@ const PharmaMarketing = () => {
   }, [selectedModules]);
 
   const handleRequestClick = () => {
-    let newObj = { "user clicked on request with module ": activeModule }
+    let newObj = { "user request with module  ": activeModule }
     userTrackingFun(newObj)
     var root = document.getElementsByTagName('html')[0];
     root.classList.add('scrollerClass');
@@ -1272,7 +1272,7 @@ const PharmaMarketing = () => {
           // ppt: downloadedPpts,
           type: "modules",
         }
-        let newObj = { "user clicked on submit with below information": data }
+        let newObj = { "user submit with below information": data }
         userTrackingFun(newObj)
 
         //  });
@@ -1300,7 +1300,7 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-    let newObj = { "user clicked on cross icon of module": activeModule }
+    let newObj = { "user unselect": activeModule }
     userTrackingFun(newObj)
     var root = document.getElementsByTagName('html')[0];
     root.classList.remove('scrollerClass');
@@ -1352,7 +1352,7 @@ const PharmaMarketing = () => {
   };
 
   const handleBigClose = () => {
-    let newObj = { "user clicked on close after submit": "" }
+    let newObj = { "user close after submit": "" }
     userTrackingFun(newObj)
     var root = document.getElementsByTagName('html')[0];
     root.classList.remove('scrollerClass');
@@ -1375,12 +1375,12 @@ const PharmaMarketing = () => {
     if (pharmaRegistered) {
       setAddDivClass(false);
       setAddSmallClass(true);
-      let newObj = { "user clicked on read more with module select": moduleName }
+      let newObj = { "user clicked on read more with ": moduleName }
       userTrackingFun(newObj)
     }
     else {
       let updateTrackUser = userTrackDetail;
-      let newObj = { "user clicked on read more with module select": moduleName }
+      let newObj = { "user clicked on read more with ": moduleName }
       updateTrackUser?.push(newObj)
       setUserTrackDetail(updateTrackUser)
       setAddDivClass(true);
