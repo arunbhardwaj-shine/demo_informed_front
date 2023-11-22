@@ -218,14 +218,14 @@ const WebinarRegistration = () => {
         let tempData = templateListData[tempId - 1];
         templateListData[tempId - 1] = templateListData[0];
         templateListData[0] = tempData;
-
         if (!newFormData?.eventDetails) {
           tempData.eventDetails.eventStartDate.value = new Date(raw?.dateStart);
           tempData.eventDetails.eventEndDate.value = new Date(raw?.dateEnd);
           tempData.eventDetails.eventStartTime.value = `${raw?.dateStartHour}:${raw?.dateStartMin}`;
           tempData.eventDetails.eventEndTime.value = `${raw?.dateEndHour}:${raw?.dateEndMin}`;
-          tempData.eventDetails.eventLocation.value = `${raw?.location}`;
-          tempData.eventDetails.speakerName.value = `${raw?.speaker_name}`;
+          tempData.eventDetails.eventLocation.value = raw?.location || "";
+          tempData.eventDetails.speakerName.value = raw?.speaker_name || "";
+          newFormData.eventDetails=tempData.eventDetails
         } else {
           if (
             newFormData.eventDetails.eventStartDate?.value == "" &&
@@ -235,7 +235,6 @@ const WebinarRegistration = () => {
               raw?.dateStart
             );
           }
-
           if (
             newFormData.eventDetails.eventEndDate?.value == "" &&
             newFormData.eventDetails.eventEndDate?.value != undefined
@@ -274,7 +273,7 @@ const WebinarRegistration = () => {
           }
         }
         setTemplateList(templateListData);
-        // console.log(templateListData[tempId-1]);
+        // console.log(newFormData);
         setLogo(
           newFormData?.logoImageUrl
             ? newFormData?.logoImageUrl
@@ -534,20 +533,20 @@ const WebinarRegistration = () => {
         if (
           formData?.body?.find(
             (item, index) =>
-              item?.label?.toLowerCase() == isSelectedName?.toLowerCase()
+              item?.name?.toLowerCase() == isSelectedName?.toLowerCase()
           )
         ) {
           toast.error("Label already exist");
           return;
         }
-        if (isSelectedName == "name" || isSelectedName == "email") {
+        if (isSelectedName == "userEmail" || isSelectedName == "userName") {
           let newObj = {
             // label: isSelectedName,
             label:
-              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
-            name: isSelectedName == "email" ? "userEmail" : "userName",
-            inputType: isSelectedName == "email" ? "email" : "text",
-            placeholder: `Please enter ${isSelectedName}`,
+             isSelectedName == "userEmail" ? "Email" : "Name",
+            name: isSelectedName ,
+            inputType: isSelectedName == "userEmail" ? "email" : "text",
+            placeholder: `Please enter ${isSelectedName == "userEmail" ? "Email" : "Name"}`,
             option: [],
             required: "yes",
           };
@@ -640,7 +639,7 @@ const WebinarRegistration = () => {
         setFormData({ ...formData, body: updateFormBody });
       } else if (e?.target?.checked == false) {
         let index = updateFormBody?.findIndex((item, index) => {
-          return item?.label?.toLowerCase() == isSelectedName;
+          return item?.name == isSelectedName;
         });
 
         if (index > -1) {
@@ -762,7 +761,7 @@ const WebinarRegistration = () => {
       e.preventDefault();
     }
     console.log(formData, "====>formData");
-
+return;
     setFormData(formData);
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
@@ -918,12 +917,12 @@ const WebinarRegistration = () => {
           );
           updatedBody.eventDetails.eventStartTime.value = `${rawData?.dateStartHour}:${rawData?.dateStartMin}`;
           updatedBody.eventDetails.eventEndTime.value = `${rawData?.dateEndHour}:${rawData?.dateEndMin}`;
-          updatedBody.eventDetails.eventLocation.value = `${rawData?.location}`;
-          updatedBody.eventDetails.speakerName.value = `${rawData?.speaker_name}`;
+          updatedBody.eventDetails.eventLocation.value = rawData?.location || "";
+          updatedBody.eventDetails.speakerName.value = rawData?.speaker_name || "";
         } else {
           if (
-            updatedBody.eventDetails.eventStartDate?.value == "" &&
-            updatedBody.eventDetails.eventStartDate?.value != undefined
+            updatedBody?.eventDetails?.eventStartDate?.value == "" &&
+            updatedBody?.eventDetails?.eventStartDate?.value != undefined
           ) {
             updatedBody.eventDetails.eventStartDate.value = new Date(
               rawData?.dateStart
@@ -931,8 +930,8 @@ const WebinarRegistration = () => {
           }
 
           if (
-            updatedBody.eventDetails.eventEndDate?.value == "" &&
-            updatedBody.eventDetails.eventEndDate?.value != undefined
+            updatedBody?.eventDetails?.eventEndDate?.value == "" &&
+            updatedBody?.eventDetails?.eventEndDate?.value != undefined
           ) {
             updatedBody.eventDetails.eventEndDate.value = new Date(
               rawData?.dateEnd
@@ -940,35 +939,35 @@ const WebinarRegistration = () => {
           }
 
           if (
-            updatedBody.eventDetails.eventStartTime?.value == "" &&
-            updatedBody.eventDetails.eventStartTime?.value != undefined
+            updatedBody?.eventDetails?.eventStartTime?.value == "" &&
+            updatedBody?.eventDetails?.eventStartTime?.value != undefined
           ) {
             updatedBody.eventDetails.eventStartTime.value = `${rawData?.dateStartHour}:${rawData?.dateStartMin}`;
           }
 
           if (
-            updatedBody.eventDetails.eventEndTime?.value == "" &&
-            updatedBody.eventDetails.eventEndTime?.value != undefined
+            updatedBody?.eventDetails?.eventEndTime?.value == "" &&
+            updatedBody?.eventDetails?.eventEndTime?.value != undefined
           ) {
             updatedBody.eventDetails.eventEndTime.value = `${rawData?.dateEndHour}:${rawData?.dateEndMin}`;
           }
 
           if (
-            updatedBody.eventDetails.eventLocation?.value == "" &&
-            updatedBody.eventDetails.eventLocation?.value != undefined
+            updatedBody?.eventDetails?.eventLocation?.value == "" &&
+            updatedBody?.eventDetails?.eventLocation?.value != undefined
           ) {
             updatedBody.eventDetails.eventLocation.value =
-              originalFormData.eventDetails.eventLocation?.value ||
-              `${rawData?.location}`;
+              originalFormData?.eventDetails?.eventLocation?.value ||
+              `${rawData?.location}` || " ";
           }
 
           if (
-            updatedBody.eventDetails.speakerName?.value == "" &&
-            updatedBody.eventDetails.speakerName?.value != undefined
+            updatedBody?.eventDetails?.speakerName?.value == "" &&
+            updatedBody?.eventDetails?.speakerName?.value != undefined
           ) {
             updatedBody.eventDetails.speakerName.value =
-              originalFormData.eventDetails.speakerName?.value ||
-              `${rawData?.speaker_name}`;
+              originalFormData?.eventDetails?.speakerName?.value ||
+              `${rawData?.speaker_name}` || " ";
           }
         }
         setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
@@ -1157,9 +1156,9 @@ const WebinarRegistration = () => {
                                     <DatePicker
                                       name={`eventDetails-${key}`}
                                       dateFormat="dd/MM/yyyy"
-                                      className="form-control disabled"
+                                      className="form-control "
                                       placeholderText="Select date"
-                                      readOnly={true}
+                                      // readOnly={true}
                                       minDate={
                                         key == "eventEndDate"
                                           ? new Date(
@@ -1168,9 +1167,9 @@ const WebinarRegistration = () => {
                                           : currentDate
                                       }
                                       selected={
-                                        field.value
+                                        (field.value &&    field.value>=currentDate)
                                           ? new Date(field.value)
-                                          : null
+                                          : currentDate
                                       }
                                       onChange={(v, e) => {
                                         handleChange(v, `eventDetails-${key}`);
@@ -1208,18 +1207,19 @@ const WebinarRegistration = () => {
                                       type={field.type}
                                       name={`eventDetails-${key}`}
                                       value={field.value}
-                                      readOnly={
-                                        key == "eventEndTime" ||
-                                        key == "eventStartTime"
-                                          ? true
-                                          : false
-                                      }
-                                      className={`form-control ${
-                                        key == "eventEndTime" ||
-                                        key == "eventStartTime"
-                                          ? "disabled"
-                                          : ""
-                                      }`}
+                                      // readOnly={
+                                      //   key == "eventEndTime" ||
+                                      //   key == "eventStartTime"
+                                      //     ? true
+                                      //     : false
+                                      // }
+                                      // className={`form-control ${
+                                      //   key == "eventEndTime" ||
+                                      //   key == "eventStartTime"
+                                      //     ? "disabled"
+                                      //     : ""
+                                      // }`}
+                                      className="form-control"
                                       onChange={handleChange}
                                     />
                                     {field.color && (
@@ -1290,12 +1290,12 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "name"
+                                    item?.name == "userName"
                                 ) != -1
                                   ? true
                                   : false
                               }
-                              onChange={(e) => handleChange(e, "name")}
+                              onChange={(e) => handleChange(e, "userName")}
                             />
 
                             <Form.Check
@@ -1307,12 +1307,12 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "email"
+                                    item?.name == "userEmail"
                                 ) != -1
                                   ? true
                                   : false
                               }
-                              onChange={(e) => handleChange(e, "email")}
+                              onChange={(e) => handleChange(e, "userEmail")}
                             />
 
                             {/* <Form.Check
@@ -1341,7 +1341,7 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "country"
+                                    item?.name?.toLowerCase() == "country"
                                 ) != -1
                                   ? true
                                   : false
@@ -1358,7 +1358,7 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "state"
+                                    item?.name?.toLowerCase() == "state"
                                 ) != -1
                                   ? true
                                   : false
@@ -1374,7 +1374,7 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "state (us)"
+                                    item?.name?.toLowerCase() == "state (us)"
                                 ) != -1
                                   ? true
                                   : false
@@ -1391,7 +1391,7 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item) =>
-                                    item?.label?.toLowerCase() ==
+                                    item?.name?.toLowerCase() ==
                                     "travel accomodation"
                                 ) !== -1
                                   ? true
@@ -1411,7 +1411,7 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "consent"
+                                    item?.name?.toLowerCase() == "consent"
                                 ) != -1
                                   ? true
                                   : false

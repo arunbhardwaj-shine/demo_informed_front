@@ -11,12 +11,12 @@ const AddQuestionValidation = (formData, formLabel, fieldData) => {
   ) {
     error.option = "Please add options";
   }
-  if (formData?.label?.trim() == "") {
+  if (formData?.name?.trim() == "") {
     error.label = "Please enter label";
   } else if (
     formLabel?.find(
       (item, index) =>
-        item?.label?.toLowerCase() == formData?.label?.toLowerCase()
+        item?.name?.toLowerCase() == formData?.label?.toLowerCase()
     ) &&
     !fieldData
   ) {

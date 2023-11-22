@@ -12,6 +12,7 @@ const TemplateOne = ({ children, formData }) => {
   // ).format("D MMMM YYYY");
 
   let eventDataSample = formData?.content?.eventDetails;
+  console.log(eventDataSample);
 
   let formattedDateRange = "";
   const startDate = moment(
@@ -37,7 +38,18 @@ const TemplateOne = ({ children, formData }) => {
   } else {
     formattedDateRange = `${startDate.format("D MMMM")} - ${endDate.format("D MMMM YYYY")}`;
   }
+  const eventStartTime = eventDataSample?.eventStartTime?.value ?? '00:00';
+  const eventEndTime = eventDataSample?.eventEndTime?.value ?? '00:00';
+  function convertTo12HourFormat(time) {
+    const [hours, minutes] = time.split(':');
+    const formattedTime = new Date(`2000-01-01T${time}:00`);
+    return formattedTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+}
 
+const convertedStartTime = convertTo12HourFormat(eventStartTime);
+const convertedEndTime = convertTo12HourFormat(eventEndTime);
+
+const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
   return (
     <>
       <link
@@ -76,7 +88,7 @@ const TemplateOne = ({ children, formData }) => {
                           }}>
                         {formattedDateRange}
                         <br />
-                        {`${eventData.dateStartHour}:${
+                        {/* {`${eventData.dateStartHour}:${
                           eventData.dateStartMin < 10
                             ? "0" + eventData.dateStartMin
                             : eventData.dateStartMin
@@ -84,7 +96,9 @@ const TemplateOne = ({ children, formData }) => {
                           eventData.dateEndMin < 10
                             ? "0" + eventData.dateEndMin
                             : eventData.dateEndMin
-                        }`}
+                        }`} */}
+                        {
+timeRange                        }
                         <br />
                         <span
                           style={{
