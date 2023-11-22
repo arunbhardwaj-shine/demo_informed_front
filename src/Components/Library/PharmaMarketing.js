@@ -1098,12 +1098,12 @@ const PharmaMarketing = () => {
         root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        const res = await postData(ENDPOINT.REGISTER, data);
-        console.log("res--->", res)
-        if (res?.data?.data?.user_id) {
-          localStorage.setItem("userId", res?.data?.data?.user_id)
-          userTrackingFun(userTrackDetail)
-        }
+        // const res = await postData(ENDPOINT.REGISTER, data);
+        // console.log("res--->", res)
+        // if (res?.data?.data?.user_id) {
+        //   localStorage.setItem("userId", res?.data?.data?.user_id)
+        //   userTrackingFun(userTrackDetail)
+        // }
 
         let obj = {};
         loader("hide");
@@ -2877,12 +2877,12 @@ const PharmaMarketing = () => {
                                   ? "stat rating active"
                                   : "stat rating"
                             }
-                            onClick={() => handleBigCircleClick("rating", 1)}
+                            // onClick={() => handleBigCircleClick("rating", 1)}
                             style={{ "--i": "1" }}
                           >
-                            <img src={path_image + "rating-icon.svg"} alt="" />
-                            <span>Rating Tool</span>
-                            {activeModule === "rating" && (
+                            {/* <img src={path_image + "rating-icon.svg"} alt="" /> */}
+                            {/* <span>Rating Tool</span> */}
+                            {activeModule === "rating" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -2890,7 +2890,8 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ):<img src={path_image + "rating-icon.svg"} alt=""  onClick={() => handleBigCircleClick("rating", 1)} />}
+                             <span>Rating Tool</span>
                           </div>
 
                           <div
@@ -2902,12 +2903,12 @@ const PharmaMarketing = () => {
                                   ? "stat spc active"
                                   : "stat spc"
                             }
-                            onClick={() => handleBigCircleClick("spc", 2)}
+                            // onClick={() => handleBigCircleClick("spc", 2)}
                             style={{ "--i": "2" }}
                           >
-                            <img src={path_image + "SPC-icon.svg"} alt="" />
-                            <span>SPC Engine</span>
-                            {activeModule === "spc" && (
+                            {/* <img src={path_image + "SPC-icon.svg"} alt="" /> */}
+                            {/* <span>SPC Engine</span> */}
+                            {activeModule === "spc" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -2915,7 +2916,8 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ): <img src={path_image + "SPC-icon.svg"} alt="" onClick={() => handleBigCircleClick("spc", 2)} />}
+                             <span>SPC Engine</span>
                           </div>
 
                           <div
@@ -2932,15 +2934,15 @@ const PharmaMarketing = () => {
                                   ? "stat automail active"
                                   : "stat automail"
                             }
-                            onClick={() => handleBigCircleClick("automail", 3)}
+                            // onClick={() => handleBigCircleClick("automail", 3)}
                             style={{ "--i": "3" }}
                           >
-                            <img
+                            {/* <img
                               src={path_image + "auto-email-icon.svg"}
                               alt=""
-                            />
-                            <span>Automail</span>
-                            {activeModule === "automail" && (
+                            /> */}
+                            {/* <span>Automail</span> */}
+                            {activeModule === "automail" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -2948,7 +2950,11 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ):  <img
+                            src={path_image + "auto-email-icon.svg"}
+                            alt="" onClick={() => handleBigCircleClick("automail", 3)}
+                          /> }
+                           <span>Automail</span>
                           </div>
 
                           <div
@@ -2964,17 +2970,17 @@ const PharmaMarketing = () => {
                                   ? "stat ai active"
                                   : "stat ai"
                             }
-                            onClick={() => handleBigCircleClick("ai", 4)}
+                            // onClick={() => handleBigCircleClick("ai", 4)}
                             style={{ "--i": "4" }}
                           >
-                            <img
+                            {/* <img
                               src={
                                 path_image + "artificial-intelligence-icon.svg"
                               }
                               alt=""
-                            />
-                            <span>AI Prediction Tool</span>
-                            {activeModule === "ai" && (
+                            /> */}
+                            {/* <span>AI Prediction Tool</span> */}
+                            {activeModule === "ai" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -2982,7 +2988,13 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ): <img
+                            src={
+                              path_image + "artificial-intelligence-icon.svg"
+                            }
+                            alt="" onClick={() => handleBigCircleClick("ai", 4)}
+                          />}
+                           <span>AI Prediction Tool</span>
                           </div>
 
                           <div
@@ -3000,15 +3012,15 @@ const PharmaMarketing = () => {
                                   ? "stat consent active"
                                   : " stat consent"
                             }
-                            onClick={() => handleBigCircleClick("consent", 5)}
+                            // onClick={() => handleBigCircleClick("consent", 5)}
                             style={{ "--i": "5" }}
                           >
-                            <img
+                            {/* <img
                               src={path_image + "legal-document-icon.svg"}
                               alt=""
-                            />
-                            <span>Consent</span>
-                            {activeModule === "consent" && (
+                            /> */}
+                            {/* <span>Consent</span> */}
+                            {activeModule === "consent" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -3016,7 +3028,11 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ): <img
+                            src={path_image + "legal-document-icon.svg"}
+                            alt="" onClick={() => handleBigCircleClick("consent", 5)}
+                          /> }
+                           <span>Consent</span>
                           </div>
 
                           <div
@@ -3030,15 +3046,15 @@ const PharmaMarketing = () => {
                                   ? "stat engine active"
                                   : "stat engine"
                             }
-                            onClick={() => handleBigCircleClick("engine", 6)}
+                            // onClick={() => handleBigCircleClick("engine", 6)}
                             style={{ "--i": "6" }}
                           >
-                            <img
+                            {/* <img
                               src={path_image + "email-small-icon.svg"}
                               alt=""
-                            />
-                            <span>Email Engine</span>
-                            {activeModule === "engine" && (
+                            /> */}
+                            {/* <span>Email Engine</span> */}
+                            {activeModule === "engine" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -3046,7 +3062,11 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ): <img
+                            src={path_image + "email-small-icon.svg"}
+                            alt="" onClick={() => handleBigCircleClick("engine", 6)}
+                          /> }
+                           <span>Email Engine</span>
                           </div>
 
                           <div
@@ -3086,15 +3106,15 @@ const PharmaMarketing = () => {
                                   ? "stat docintel active"
                                   : "stat docintel"
                             }
-                            onClick={() => handleBigCircleClick("docintel", 7)}
+                            // onClick={() => handleBigCircleClick("docintel", 7)}
                             style={{ "--i": "12" }}
                           >
-                            <img
+                            {/* <img
                               src={path_image + "docintel-small-icon.svg"}
                               alt=""
-                            />
-                            <span>Docintel.app</span>
-                            {activeModule === "docintel" && (
+                            /> */}
+                            {/* <span>Docintel.app</span> */}
+                            {activeModule === "docintel" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -3102,7 +3122,11 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ): <img
+                            src={path_image + "docintel-small-icon.svg"}
+                            alt="" onClick={() => handleBigCircleClick("docintel", 7)}
+                          />}
+                           <span>Docintel.app</span>
                           </div>
 
                           <div
@@ -3119,15 +3143,15 @@ const PharmaMarketing = () => {
                                   ? "stat informed active"
                                   : "stat informed"
                             }
-                            onClick={() => handleBigCircleClick("informed", 8)}
+                            // onClick={() => handleBigCircleClick("informed", 8)}
                             style={{ "--i": "13" }}
                           >
-                            <img
+                            {/* <img
                               src={path_image + "informedgo-icon.svg"}
                               alt=""
-                            />
-                            <span>inforMedGo</span>
-                            {activeModule === "informed" && (
+                            /> */}
+                            {/* <span>inforMedGo</span> */}
+                            {activeModule === "informed" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -3135,7 +3159,11 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ):<img
+                            src={path_image + "informedgo-icon.svg"}
+                            alt="" onClick={() => handleBigCircleClick("informed", 8)}
+                          /> }
+                          <span>inforMedGo</span>
                           </div>
 
                           <div
@@ -3147,12 +3175,12 @@ const PharmaMarketing = () => {
                                   ? "stat qa active"
                                   : "stat qa"
                             }
-                            onClick={() => handleBigCircleClick("qa", 9)}
+                            // onClick={() => handleBigCircleClick("qa", 9)}
                             style={{ "--i": "14" }}
                           >
-                            <img src={path_image + "polling-icon.svg"} alt="" />
-                            <span>Q & Poll</span>
-                            {activeModule === "qa" && (
+                            {/* <img src={path_image + "polling-icon.svg"} alt="" /> */}
+                            {/* <span>Q & Poll</span> */}
+                            {activeModule === "qa" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -3160,7 +3188,8 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ): <img src={path_image + "polling-icon.svg"} alt="" onClick={() => handleBigCircleClick("qa", 9)} /> }
+                             <span>Q & Poll</span>
                           </div>
 
                           <div
@@ -3173,12 +3202,12 @@ const PharmaMarketing = () => {
                                   ? "stat survey active"
                                   : "stat survey"
                             }
-                            onClick={() => handleBigCircleClick("survey", 10)}
+                            // onClick={() => handleBigCircleClick("survey", 10)}
                             style={{ "--i": "15" }}
                           >
-                            <img src={path_image + "survey-icon.svg"} alt="" />
-                            <span>Survey Engine</span>
-                            {activeModule === "survey" && (
+                            {/* <img src={path_image + "survey-icon.svg"} alt="" /> */}
+                            {/* <span>Survey Engine</span> */}
+                            {activeModule === "survey" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -3186,7 +3215,8 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ):  <img src={path_image + "survey-icon.svg"} alt="" onClick={() => handleBigCircleClick("survey", 10)} />}
+                             <span>Survey Engine</span>
                           </div>
 
                           <div
@@ -3202,15 +3232,15 @@ const PharmaMarketing = () => {
                                   ? "stat web active"
                                   : "stat web"
                             }
-                            onClick={() => handleBigCircleClick("web", 11)}
+                            // onClick={() => handleBigCircleClick("web", 11)}
                             style={{ "--i": "16" }}
                           >
-                            <img
+                            {/* <img
                               src={path_image + "web-portal-icon.svg"}
                               alt=""
-                            />
-                            <span>Web Portal</span>
-                            {activeModule === "web" && (
+                            /> */}
+                            {/* <span>Web Portal</span> */}
+                            {activeModule === "web" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -3218,7 +3248,11 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ):  <img
+                            src={path_image + "web-portal-icon.svg"}
+                            alt="" onClick={() => handleBigCircleClick("web", 11)}
+                          />}
+                          <span>Web Portal</span>
                           </div>
 
                           <div
@@ -3232,15 +3266,15 @@ const PharmaMarketing = () => {
                                   ? "stat webinar active"
                                   : "stat webinar"
                             }
-                            onClick={() => handleBigCircleClick("webinar", 12)}
+                            // onClick={() => handleBigCircleClick("webinar", 12)}
                             style={{ "--i": "17" }}
                           >
-                            <img
+                            {/* <img
                               src={path_image + "webinar-small-icon.svg"}
                               alt=""
-                            />
-                            <span>Webinar Portal</span>
-                            {activeModule === "webinar" && (
+                            /> */}
+                            {/* <span>Webinar Portal</span> */}
+                            {activeModule === "webinar" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -3248,7 +3282,11 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ): <img
+                            src={path_image + "webinar-small-icon.svg"}
+                            alt="" onClick={() => handleBigCircleClick("webinar", 12)}
+                          />}
+                          <span>Webinar Portal</span>
                           </div>
 
                           <div
@@ -3263,11 +3301,11 @@ const PharmaMarketing = () => {
                                   : "stat read"
                             }
                             style={{ "--i": "18" }}
-                            onClick={() => handleBigCircleClick("read", 0)}
+                            // onClick={() => handleBigCircleClick("read", 0)}
                           >
-                            <img src={path_image + "RTR-icon.svg"} alt="" />
-                            <span>Read-Through -Rate</span>
-                            {activeModule === "read" && (
+                            {/* <img src={path_image + "RTR-icon.svg"} alt="" /> */}
+                            {/* <span>Read-Through -Rate</span> */}
+                            {activeModule === "read" ? (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
@@ -3275,7 +3313,8 @@ const PharmaMarketing = () => {
                                   onClick={handleBigCircleClose}
                                 />
                               </div>
-                            )}
+                            ): <img src={path_image + "RTR-icon.svg"} alt="" onClick={() => handleBigCircleClick("read", 0)}/>}
+                             <span>Read-Through -Rate</span>
                           </div>
 
                           <div
