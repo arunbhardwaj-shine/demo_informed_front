@@ -1098,12 +1098,12 @@ const PharmaMarketing = () => {
         root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         localStorage.setItem('payloadPharmaData', dataPharmaString);
-        // const res = await postData(ENDPOINT.REGISTER, data);
-        // console.log("res--->", res)
-        // if (res?.data?.data?.user_id) {
-        //   localStorage.setItem("userId", res?.data?.data?.user_id)
-        //   userTrackingFun(userTrackDetail)
-        // }
+        const res = await postData(ENDPOINT.REGISTER, data);
+        console.log("res--->", res)
+        if (res?.data?.data?.user_id) {
+          localStorage.setItem("userId", res?.data?.data?.user_id)
+          userTrackingFun(userTrackDetail)
+        }
 
         let obj = {};
         loader("hide");
