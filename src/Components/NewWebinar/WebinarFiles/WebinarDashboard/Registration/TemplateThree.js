@@ -2,18 +2,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 const TemplateOne = ({ children, formData }) => {
   const eventData = formData?.raw_description;
-  // const formattedStartDateString = moment(
-  //   new Date(eventData.dateStart),
-  //   "D MMMM YYYY"
-  // ).format("D MMMM YYYY");
-  // const formattedEndDateString = moment(
-  //   new Date(eventData.dateEnd),
-  //   "D MMMM YYYY"
-  // ).format("D MMMM YYYY");
-
   let eventDataSample = formData?.content?.eventDetails;
- 
-
   let formattedDateRange = "";
   const startDate = moment(
     new Date(
@@ -45,10 +34,8 @@ const TemplateOne = ({ children, formData }) => {
     const formattedTime = new Date(`2000-01-01T${time}:00`);
     return formattedTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 }
-
 const convertedStartTime = convertTo12HourFormat(eventStartTime);
 const convertedEndTime = convertTo12HourFormat(eventEndTime);
-
 const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
   return (
     <>
@@ -85,15 +72,7 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                           }}>
                         {formattedDateRange}
                         <br />
-                        {/* {`${eventData.dateStartHour}:${
-                          eventData.dateStartMin < 10
-                            ? "0" + eventData.dateStartMin
-                            : eventData.dateStartMin
-                        }-${eventData.dateEndHour}:${
-                          eventData.dateEndMin < 10
-                            ? "0" + eventData.dateEndMin
-                            : eventData.dateEndMin
-                        }`} */}
+                  
                         {
 timeRange                        }
                         <br />

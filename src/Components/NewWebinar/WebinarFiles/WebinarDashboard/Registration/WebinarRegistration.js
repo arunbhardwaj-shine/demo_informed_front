@@ -1101,6 +1101,7 @@ const WebinarRegistration = () => {
 
                   <AliceCarousel
                     mouseTracking
+                    disableButtonsControls
                     disableDotsControls
                     activeIndex={activeIndex}
                     responsive={responsive}
