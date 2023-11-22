@@ -1394,7 +1394,7 @@ const PharmaMarketing = () => {
   const userTrackingFun = async (newObj) => {
     console.log("func--->", newObj)
     try {
-      const res = await postData(ENDPOINT.PHARMA_USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
+      const res = await postData(ENDPOINT.USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
       console.log("res-->", res?.data)
       if (res?.data?.message == "insert") {
         localStorage.setItem("trackingId", res?.data?.data?.trackingId)
