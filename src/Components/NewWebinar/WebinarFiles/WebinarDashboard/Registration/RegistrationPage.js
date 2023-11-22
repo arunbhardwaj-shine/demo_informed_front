@@ -433,18 +433,18 @@ const RegistrationPage = ({ prevData }) => {
               </div>
               <div className="center-sided-inside">
                 <div className="row">
-                  {formData?.content?.body?.map((form, index) => (
-                    <FormField3
-                      form={form}
-                      key={index}
-                      formFieldData={formFieldData}
-                      setFormFieldData={setFormFieldData}
-                      formErrors={formErrors}
-                      pageColors={pageColors}
-                      level="root"
-                      templateId={formData?.content?.templateId}
-                    />
-                  ))}
+                {formData?.content?.body?.map((form, index) => (
+  <FormField3
+    key={`${form.label}_${index}`} 
+    form={form}
+    formFieldData={formFieldData}
+    setFormFieldData={setFormFieldData}
+    formErrors={formErrors}
+    pageColors={pageColors}
+    level="root"
+    templateId={formData?.content?.templateId}
+  />
+))}
                   {!prevData && (
                     <button
                       type="submit"
@@ -731,9 +731,8 @@ const FormField2 = ({
 
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label = userData[form.label]
-    ? userData[form.label]
-    : form?.label?.replace(/ /g, "_");
+  const label =  form?.name?.replace(/ /g, "_");
+  console.log(label);
 
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
