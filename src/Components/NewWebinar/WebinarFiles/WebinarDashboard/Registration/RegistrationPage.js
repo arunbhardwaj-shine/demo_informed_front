@@ -227,7 +227,7 @@ const RegistrationPage = ({ prevData }) => {
         }
       }
     });
-
+console.log(errors);
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -505,9 +505,7 @@ const FormField1 = ({
 }) => {
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label = userData[form.label]
-    ? userData[form.label]
-    : form?.label?.replace(/ /g, "_");
+  const label = form?.name?.replace(/ /g, "_");
 
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
@@ -702,7 +700,6 @@ id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={f
       
     );
   }
-
   return (
     <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
     {(form.inputType !="text" && form.inputType !="email")  ?( <label
@@ -732,16 +729,12 @@ const FormField2 = ({
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
   const label =  form?.name?.replace(/ /g, "_");
-  console.log(label);
-
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
-
     if (form?.inputType === "datepicker") {
       newData[label] = moment(value).format("YYYY-MM-DD");
     } else if (form?.inputType === "checkbox") {
       newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
-
       if (e.target.checked) {
         newData[label] = [...newData[label], value];
       } else {

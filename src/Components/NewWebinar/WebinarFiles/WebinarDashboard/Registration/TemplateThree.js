@@ -52,10 +52,7 @@ const convertedEndTime = convertTo12HourFormat(eventEndTime);
 const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
   return (
     <>
-      <link
-        rel="stylesheet"
-        href="https://webinar.docintel.app/FVIIIrelevance2024/register/assets/fonts/fonts.css"
-      />
+      
       <div className="wrapper emory">
         <section className="factor-season">
           <div className="container">

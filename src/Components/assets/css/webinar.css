@@ -3800,7 +3800,7 @@ input:-webkit-autofill:active {
   letter-spacing: 0.03em;
   line-height: 1.2;
   margin: 24px 0 14px;
-  font-family: 'Roboto Slab';
+  font-family: 'Roboto';
   display: block;
   font-size: 32px;
 }
@@ -4243,10 +4243,16 @@ l .vwd .factor-season-left h2 {
 .vwd .consent-form-list .field-icon {
   bottom: auto;
   left: 35px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 19px;
 }
-
+ .emory .factor__logo img {
+  max-height: 120px;
+  width: auto;
+}
+.factor__logo img {
+  width: auto;
+  max-height: 80px;
+}
 .help-block {
   font-size: 14px;
 }

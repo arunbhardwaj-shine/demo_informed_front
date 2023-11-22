@@ -36,15 +36,23 @@ export default function TemplateOne({children,formData}) {
   return (
     <>
     <div className="wrapper vwd">
-      <section className="factor-season">
+      <section className="factor-season" >
         <div className="container">
           <div className="row">
-            <div className="factor-season-inner">
+            <div className="factor-season-inner" style={
+                  formData?.content?.headerImageUrl
+                    ? {
+                        backgroundImage: `url("${formData?.content?.headerImageUrl}")`,
+                      }
+                    : {}
+                }>
               <div className="row">
                 <div className="col-sm-8 col-md-8">
                   <div className="factor-season-left">
                     <div className="factor__logo">
-                      <img src="https://webinar.docintel.app/Webinar/images/logo.png" alt="Factor logo" />
+                    <img  src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/Webinar/images/logo.png"}`}alt="Factor logo" />
+
+                      {/* <img src="https://webinar.docintel.app/Webinar/images/logo.png" alt="Factor logo" /> */}
                     </div>
                     <h1 style= {{
                             color:eventDataSample?.eventStartDate?.color
@@ -64,6 +72,7 @@ export default function TemplateOne({children,formData}) {
                 <div className="col-sm-4 col-md-4">
                   <div className="factor-season-right">
                     <div className="emory__logo">
+                      
                       <img src="https://webinar.docintel.app/Webinar/images/logo1.png" alt="Emory logo" />
                     </div>
                     <h3 style={{
