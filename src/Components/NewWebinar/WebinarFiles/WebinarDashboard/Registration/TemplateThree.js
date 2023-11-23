@@ -73,8 +73,10 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                         {formattedDateRange}
                         <br />
                   
-                        {
-timeRange                        }
+                     <span style= {{
+                            color:eventDataSample?.eventStartTime?.color
+                          }}>   {
+timeRange                        }</span>
                         <br />
                         <span
                           style={{
