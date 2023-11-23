@@ -977,7 +977,7 @@ const MarketingTimeLineDetail = (props) => {
                   
 
                    
-                      <>
+                     <div className="timeline-right-list">
                     
                       
                         <Tabs
@@ -1713,7 +1713,7 @@ const MarketingTimeLineDetail = (props) => {
                                 className="flex-column justify-content-between"
                               >
                                  {logs?.length ? (
-                                <div className="timeline-right-list">
+                               
                                     <div className="timeline-right-list-view">
                                 <div className="tabs-data">
                               {logs.map((details, index) => {
@@ -1781,7 +1781,7 @@ const MarketingTimeLineDetail = (props) => {
                           })}
                           </div>
                           </div>
-                          </div>): (
+                  ): (
                       <div className="no_found">
                         <p>No Data Found</p>
                       </div>
@@ -1802,7 +1802,7 @@ const MarketingTimeLineDetail = (props) => {
                             </div>
                           ) : null}
                         
-                      </>
+                      </div>
                     
                   </div>
                 </>
