@@ -535,6 +535,7 @@ const CreateEmail = (props) => {
       const body = {
         user_id: localStorage.getItem("user_id"),
         list_id: getSmartListId,
+        show_specific: 1,
       };
       axios
         .post(`distributes/get_reders_list`, body)
@@ -1737,6 +1738,7 @@ const CreateEmail = (props) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
+      show_specific: 1,
     };
     loader("show");
     await axios
