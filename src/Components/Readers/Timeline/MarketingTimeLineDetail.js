@@ -982,7 +982,7 @@ const MarketingTimeLineDetail = (props) => {
                         <div className="tabs-data">
                         <Tabs
                               // onSelect={(key) => tabClicked(key, data?.id)}
-                              defaultActiveKey="Activity"
+                              defaultActiveKey="activity"
                               fill
                             >
                               <Tab
@@ -990,7 +990,722 @@ const MarketingTimeLineDetail = (props) => {
                                 title="Activity"
                                 className="flex-column justify-content-between"
                               >
+                                  {apiFlag > 0 ? (
+              typeof timeLineData !== "undefined" &&
+              Object.keys(timeLineData).length > 0 ? (
+                <>
+                  <div className="vertical-timeline d-flex align-items-start">
+                 
+                    {
+                      timeLineData?.timeline?.length? <div className="timeline-right-list">
+                      <div className="timeline-right-list-view">
+                        {timeLineData?.timeline.map((details, index) => {
+                          return (
+                            <>
+               
+                              {( details.action == "Article opened") && (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date == moment("1970-01-01").format("DD MMM YYYY")?"N/A":details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-block-head read">
+                                      <div className="timeline-block-title">
+                                        <div className="timeline-block-img">
+                                          <img
+                                            src={
+                                              path_image + "read-content.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <h6>Content Opened</h6>
+                                      </div>
+                                      <div className="timeline-time-view">
+                                        <div className="timeline-time">
+                                          {details?.time}
+                                        </div>
+                                        |
+                                        <div className="timeline-timezone">
+                                          {details?.timezone}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article d-flex">
+                                      <div className="timeline-article-image">
+                                        <img
+                                          src={path_image + "dummy-img1.png"}
+                                          alt=""
+                                        />
+                                      </div>
+                                      <div className="timeline-article-detail">
+                                        <div className="timeline-title">
+                                          <p>{details?.pdfTitle}</p>
+                                        </div>
+                                        <div className="timeline-subtitle">
+                                          <p>{details?.pdf_sub_title}</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody>
+                                          <tr>
+                                            <th className="device-title">
+                                              Source
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.webinar != ""
+                                                ? details.webinar
+                                                : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <th className="device-title">
+                                              Medium
+                                            </th>
+                                            <td className="device-name">
+                                                 {
+                                                  details?.campaign_name ==0 ||details?.campaign_name == "" || details?.campaign_name == null?"N/A": obj[details.campaign_name]?obj[details.campaign_name] :details.campaign_name 
+                                                 }
+                                                 </td>
+                                          </tr>
+                                          <tr>
+                                            <th className="device-title">
+                                              Article Read
+                                            </th>
+                                            <td className="device-name">
+                                                 {
+                                                  details?.pdfTimeTracks 
+                                                 }
+                                                 </td>
+                                          </tr>
+                                              
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                    {/* details.file_type && details.file_type == "ebook"? "": */}
+                                    {
+                                        details?.pdfTimeTracks == "No"?""
+                                       :<div
+                                     className={
+                                       isActive && details.id == activeIndex
+                                         ? "timeline-article-detail-full active"
+                                         : "timeline-article-detail-full"
+                                     }
+                                     onClick={(e) => {
+                                       handleClick(
+                                         details.id,
+                                         details.pdf_id,
+                                         details.Created,
+                                         details
+                                       );
+                                     }}
+                                   >
+                                     
+                                     <div className="timeline-article-details-heading">
+                                       <p>
+                                         Details{" "}
+                                         <img
+                                           src={path_image + "down-arrow.png"}
+                                           alt=""
+                                         />
+                                       </p>
+                                     </div>
+                                     <div className="timeline-article-details-overall">
+                                       <div className="data-main-box tab-panel">
+                                         {/* <div className="timeline-article-details-boxes"> */}
+                                           {typeof ebookData !== "undefined" &&
+                                           ebookData.length > 0 ? (
+                                             <>
+                                               {ebookData.map(
+                                                 (data, index) => {
+                                                return (
+                                                      <div className="timeline-article-details-boxes d-flex">
+                                                       {data?.chapter?<h3 >Chapter name: {data?.chapter}</h3>:""} 
+                                                          {data?.data?.length? data?.data.map(item =>{
+                                                    return (
+                                                      <div className={`media media-${item?.flag}`}>
+                                                            <div className="media-left">
+                                                              {
+                                                                item?.image ?<img src={item?.image}  />:<p>
+                                                                Page: {item?.page}
+                                                              </p>
+                                                              }
+                                                             
+                                                            </div>
+                                                            <div className="media-right">
+                                                              <p>
+                                                                <span>
+                                                                  Time Needed:{" "}
+                                                                  {item?.minimum}{" "}
+                                                                  seconds
+                                                                </span>{" "}
+                                                                <span>
+                                                                  Time Spent:{" "}
+                                                                  {
+                                                                    item?.timeSpend
+                                                                  }{" "}
+                                                                  seconds
+                                                                </span>
+                                                              </p>
+                                                              <div className="content-type">{item?.readContent}</div>
+                                                            </div>
+                                                          </div>
+                                                       
+                                                       )
+                                                    }):""}
+
+                                                     </div>
+                                                ) 
+                                                  //  return (
+                                                  //    <>
+                                                           
+                                                     
+                                                  
+                                                  //    </>
+                                                  //  );
+                                                 }
+                                               )}
+                                             </>
+                                           ) : (
+                                             <div className="no_found">
+                                               <p>No Data Found</p>
+                                             </div>
+                                           )}
+                                         {/* </div> */}
+                                       </div>
+                                     </div>
+                                   </div>
+                                    }
+                                   
+                                  </div>
+                                </div>
+                              )}
+                              {["Immunology library opened in Docintel App","Haematology library opened in Docintel App","Critical Care library opened in Docintel App" ].includes(details?.action)
+                                && (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-block-head opened">
+                                      <div className="timeline-block-title">
+                                        <div className="timeline-block-img">
+                                          <img
+                                            src={
+                                              path_image + "open-content.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <h6>Opened Library</h6>
+                                      </div>
+                                      <div className="timeline-time-view">
+                                        <div className="timeline-time">
+                                          {details?.time}
+                                        </div>
+                                        |
+                                        <div className="timeline-timezone">
+                                          {details?.timezone}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article d-flex">
+                                      <div className="timeline-article-image">
+                                        <img
+                                          src={path_image + "dummy-img1.png"}
+                                          alt=""
+                                        />
+                                      </div>
+                                      <div className="timeline-article-detail">
+                                        <div className="timeline-title">
+                                          <p>{details?.action}</p>
+                                        </div>
+                                        <div className="timeline-subtitle">
+                                          <p>{details?.pdf_sub_title}</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody>
+                                          <tr>
+                                            <th className="device-title">
+                                              Source
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.webinar != ""
+                                                ? details.webinar
+                                                : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                              {details?.action ==
+                                "Checked Library in Docintel app" && (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-block-head library">
+                                      <div className="timeline-block-title">
+                                        <div className="timeline-block-img">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "checked-docintel.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <h6>Checked Docintel Library</h6>
+                                      </div>
+                                      <div className="timeline-time-view">
+                                        <div className="timeline-time">
+                                          {details?.time}
+                                        </div>
+                                        |
+                                        <div className="timeline-timezone">
+                                          {details?.timezone}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody>
+                                          <tr>
+                                            <th className="device-title">
+                                              Source
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.webinar != ""
+                                                ? details.webinar
+                                                : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                              {details?.action == "Login to docintel" && (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-block-head library">
+                                      <div className="timeline-block-title">
+                                        <div className="timeline-block-img">
+                                          <img
+                                            src={
+                                              path_image + "log-docintel.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <h6>User logged into Docintel</h6>
+                                      </div>
+                                      <div className="timeline-time-view">
+                                        <div className="timeline-time">
+                                          {details?.time}
+                                        </div>
+                                        |
+                                        <div className="timeline-timezone">
+                                          {details?.timezone}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody>
+                                          <tr>
+                                            <th className="device-title">
+                                              Source
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.webinar != ""
+                                                ? details.webinar
+                                                : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                              {details?.action ==
+                                "New docintel account is created" && (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-block-head library">
+                                      <div className="timeline-block-title">
+                                        <div className="timeline-block-img">
+                                          <img
+                                            src={
+                                              path_image + "account-create.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <h6>{details?.action}</h6>
+                                      </div>
+                                      <div className="timeline-time-view">
+                                        <div className="timeline-time">
+                                          {details?.time}
+                                        </div>
+                                        |
+                                        <div className="timeline-timezone">
+                                          {details?.timezone}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody>
+                                          <tr>
+                                            <th className="device-title">
+                                              Source
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.webinar != ""
+                                                ? details.webinar
+                                                : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                              {details?.action == "New mail received" || details?.action == "New Mail Received" ? (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-block-head received">
+                                      <div className="timeline-block-title">
+                                        <div className="timeline-block-img">
+                                          <img
+                                            src={
+                                              path_image + "email-received.png"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <h6>Email Sent</h6> 
+                                        
+                                      </div>
+                                      <div className="timeline-time-view">
+                                        <div className="timeline-time">
+                                          {details?.time}
+                                        </div>
+                                        |
+                                        <div className="timeline-timezone">
+                                          {details?.timezone}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody>
+                                        {
+                                              details?.pdfTitle && details?.pdfTitle == "Webinar sample"?"":<tr>
+                                              <th className="device-title">
+                                                Title
+                                              </th>
+                                             
+                                              <td className="device-name">
+                                                { details?.pdfTitle === null ||
+                                                details?.pdfTitle === ""
+                                                  ? "New mail received"
+                                                  : details?.pdfTitle}
+                                              </td>
+                                            </tr>
+                                         }
+                                         
+                                          <tr>
+                                            <th className="device-title">
+                                              Subject
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.mailContent != ""
+                                                ? isJSONValid(  details?.mailContent)?
+                                                JSON.parse(
+                                                    details?.mailContent
+                                                  )?.subject:"N/A"
+                                                : "N/A"}
+                                            </td>
+                                          </tr>
+                                          {/* <tr>
+                                            <th className="device-title">
+                                              Device
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.webinar != ""
+                                                ? details.webinar
+                                                : details?.device_used}
+                                            </td>
+                                          </tr> */}
+                                              <tr>
+                                       
+
+                                            <th className="device-title">
+                                              Email Opened
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.status == 1?`Yes (${moment(details.updated).format("DD MMM YYYY")})`:"No"
+                                              }
+                                            </td>
+                                           </tr>
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                  </div>
+                                </div>
+                              ): null}
+
+                              {details?.action &&
+                                details.action.includes("shared") && (
+                                  <div className="timeline-box">
+                                    <div className="timeline_date">
+                                      {details?.date}
+                                    </div>
+                                    <div className="timeline-block">
+                                      <div className="timeline-block-head shared">
+                                        <div className="timeline-block-title">
+                                          <div className="timeline-block-img">
+                                            <img
+                                              src={
+                                                path_image +
+                                                "share-materials.png"
+                                              }
+                                              alt=""
+                                            />
+                                          </div>
+                                          <h6>Shared Content</h6>
+                                        </div>
+                                        <div className="timeline-time-view">
+                                          <div className="timeline-time">
+                                            {details?.time}
+                                          </div>
+                                          |
+                                          <div className="timeline-timezone">
+                                            {details?.timezone}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="timeline-article d-flex">
+                                        <div className="timeline-article-image">
+                                          <img
+                                            src={path_image + "dummy-img1.png"}
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="timeline-article-detail">
+                                          <div className="timeline-title">
+                                            <p>
+                                              {details?.pdfTitle === null ||
+                                              details?.pdfTitle === ""
+                                                ? details?.action
+                                                : details?.pdfTitle}
+                                            </p>
+                                          </div>
+                                          <div className="timeline-subtitle">
+                                            <p>
+                                              {details?.pdfTitle === null ||
+                                              details?.pdfTitle === ""
+                                                ? ""
+                                                : details?.pdfTitle}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="timeline-article-device">
+                                        <Table>
+                                          <tbody>
+                                            <tr>
+                                              <th className="device-title">
+                                                Source
+                                              </th>
+                                              <td className="device-name">
+                                                {details?.webinar != ""
+                                                  ? details.webinar
+                                                  : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </Table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              {details?.action &&
+                                details.action.includes("Saved") ||  details.action.includes("Non Mandatory") && (
+                                  <div className="timeline-box">
+                                    <div className="timeline_date">
+                                      {details?.date}
+                                    </div>
+                                    <div className="timeline-block">
+                                      <div className="timeline-block-head saved">
+                                        <div className="timeline-block-title">
+                                          <div className="timeline-block-img">
+                                            <img
+                                              src={
+                                                path_image + "saved-content.png"
+                                              }
+                                              alt=""
+                                            />
+                                          </div>
+                                          <h6>Saved Content</h6>
+                                        </div>
+                                        <div className="timeline-time-view">
+                                          <div className="timeline-time">
+                                            {details?.time}
+                                          </div>
+                                          |
+                                          <div className="timeline-timezone">
+                                            {details?.timezone}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="timeline-article d-flex">
+                                        <div className="timeline-article-image">
+                                          <img
+                                            src={path_image + "dummy-img1.png"}
+                                            alt=""
+                                          />
+                                        </div>
+                                        <div className="timeline-article-detail">
+                                          <div className="timeline-title">
+                                            <p>
+                                              {details?.pdfTitle === null ||
+                                              details?.pdfTitle === ""
+                                                ? details?.action
+                                                : details?.pdfTitle}
+                                            </p>
+                                          </div>
+                                          <div className="timeline-subtitle">
+                                            <p>
+                                              {details?.pdf_sub_title ===
+                                                null ||
+                                              details?.pdf_sub_title === ""
+                                                ? details?.action
+                                                : details?.pdf_sub_title}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="timeline-article-device">
+                                        <Table>
+                                          <tbody>
+                                            <tr>
+                                              <th className="device-title">
+                                                Source
+                                              </th>
+                                              <td className="device-name">
+                                                {details?.webinar != ""
+                                                  ? details.webinar
+                                                  : deviceObj[details?.device_used]?deviceObj[details?.device_used]:details?.device_used}
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th className="device-title">
+                                                Medium
+                                              </th>
+
+                                              <td className="device-name">
+                                                 {
+                                                  details?.staticpdf_id? obj[details?.campaign_name]?obj[details?.campaign_name]:details?.campaign_name:details?.medium !=0 ||details?.medium != "" || details?.medium != null?"N/A":obj[details?.medium]?obj[details?.medium]:details?.medium  
+                                                 }
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </Table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                                  {details?.action == "ipData" && (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody>
+                                          <tr>
+                                            <th className="device-title">
+                                              Title
+                                            </th>
+                                            <td className="device-name">
+                                              {details?.pdfTitle === null ||
+                                              details?.pdfTitle === ""
+                                                ? "New mail received"
+                                                : details?.pdfTitle}
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <th className="device-title">
+                                              Source
+                                            </th>
+                                            <td className="device-name">
+                                              Web Browser
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                                 
+                            </>
+                          );
+                        })}
+                        {timeLineData?.loadMore?.length?<div className="load_more">
+                        <Button
+                          className="btn btn-primary btn-filled"
+                          onClick={handleLoadMore}
+                        >
+                          Load More
+                        </Button>
+                
+                       </div>:null}
+                      </div>
+                    </div>:(
+                <div className="no_found">
+                  <p>No Data Found</p>
+                </div>
+              )
+                    }
+                   
+                  </div>
+                </>
+              ) : (
+                <div className="no_found">
+                  <p>No Data Found</p>
+                </div>
+              )
+            ) : null}
                               </Tab>
                               <Tab
                                 eventKey="logs"
