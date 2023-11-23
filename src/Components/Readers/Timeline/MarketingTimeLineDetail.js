@@ -978,8 +978,6 @@ const MarketingTimeLineDetail = (props) => {
 
                    
                      <div className="timeline-right-list">
-                    
-                      
                         <Tabs
                               // onSelect={(key) => tabClicked(key, data?.id)}
                               defaultActiveKey="activity"
@@ -997,8 +995,7 @@ const MarketingTimeLineDetail = (props) => {
                   <div className="vertical-timeline d-flex align-items-start">
                  
                     {
-                      timeLineData?.timeline?.length? <div className="timeline-right-list">
-                      <div className="timeline-right-list-view">
+                      timeLineData?.timeline?.length? <div className="timeline_tabs">
                         {timeLineData?.timeline.map((details, index) => {
                           return (
                             <>
@@ -1690,7 +1687,6 @@ const MarketingTimeLineDetail = (props) => {
                         </Button>
                 
                        </div>:null}
-                      </div>
                     </div>:(
                 <div className="no_found">
                   <p>No Data Found</p>

@@ -3883,12 +3883,40 @@ input[type="number"] {
 
 .timeline-right-list {
   flex: 1 1;
+  padding-left: 45px;
 }
 
 .timeline-box {
   padding-left: 100px;
-  margin: 0 0 48px 45px;
+  margin: 0 0 48px 0px;
   position: relative;
+}
+
+.timeline-right-list {
+  .nav-tabs {
+    margin: 0 0 5git 0px;
+    border-bottom: 1px solid #004a89;
+
+    button {
+      border: 0;
+      background: rgb(0 74 137 / 8%);
+      color: #004a89;
+
+      &.active {
+        background: #004a89;
+        color: #fff;
+      }
+    }
+  }
+}
+
+
+.vertical-timeline {
+  width: 100%;
+
+  .timeline_tabs {
+    width: 100%;
+  }
 }
 
 .timeline-box .timeline_date {
@@ -11822,7 +11850,7 @@ img.change-password-image {
       gap: 0 12px;
 
       button {
-       @include download-btn;
+        @include download-btn;
 
         &#test-table-xls-button {
           margin: 0;
@@ -12363,20 +12391,24 @@ img.change-password-image {
     color: $light-gray;
   }
 }
-.top-header{
-  .download{
+
+.top-header {
+  .download {
     @include download-btn;
-    &:hover{
+
+    &:hover {
       background: $primary-color;
-      border:0;
-      svg{
-        path{
-          fill:$white;
+      border: 0;
+
+      svg {
+        path {
+          fill: $white;
         }
       }
     }
   }
-} 
+}
+
 .rd-full-explain .rd-training-block .accordion .accordion-item .accordion-header {
   padding: 0;
 }
