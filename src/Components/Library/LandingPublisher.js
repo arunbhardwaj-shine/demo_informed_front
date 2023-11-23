@@ -1205,6 +1205,7 @@ const PharmaRd = () => {
     }
   };
   const userTrackingFun = async (newObj) => {
+    console.log("func--->", newObj)
     try {
       const res = await postData(ENDPOINT.USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
       if (res?.data?.message == "insert") {
@@ -2587,26 +2588,31 @@ const PharmaRd = () => {
                                   : "stat rating"
                             }
                             // onClick={() => handleBigCircleClick("rating", 1)}
+                            onClick={(event) => {
+                              if (event.target.closest(".article-close")) {
+                                handleBigCircleClose();
+                              } else {
+                                handleBigCircleClick("rating", 1);
+                              }
+                              event.stopPropagation();
+                            }}
                             style={{ "--i": "1" }}
                           >
-                            {/* <img src={path_image + "rating-icon.svg"} alt="" /> */}
-                            {/* <span>Rating Tool</span> */}
-                            {activeModule === "rating" ? (
+                            <img src={path_image + "rating-icon.svg"} alt="" />
+                            <span>Rating Tool</span>
+                            {activeModule === "rating" && (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                  // onClick={handleBigCircleClose}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleBigCircleClose();
+                                  }}
                                 />
                               </div>
-                            ) : (
-                              <img
-                                src={path_image + "rating-icon.svg"}
-                                alt=""
-                                onClick={() => handleBigCircleClick("rating", 1)}
-                              />
                             )}
-                            <span>Rating Tool</span>
                           </div>
 
                           <div
@@ -2623,29 +2629,34 @@ const PharmaRd = () => {
                                   : "stat automail"
                             }
                             // onClick={() => handleBigCircleClick("automail", 2)}
+                            onClick={(event) => {
+                              if (event.target.closest(".article-close")) {
+                                handleBigCircleClose();
+                              } else {
+                                handleBigCircleClick("automail", 2);
+                              }
+                              event.stopPropagation();
+                            }}
                             style={{ "--i": "2" }}
                           >
-                            {/* <img
+                            <img
                               src={path_image + "auto-email-icon.svg"}
                               alt=""
-                            /> */}
-                            {/* <span>Automail</span> */}
-                            {activeModule === "automail" ? (
+                            />
+                            <span>Automail</span>
+                            {activeModule === "automail" && (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                  // onClick={handleBigCircleClose}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleBigCircleClose();
+                                  }}
                                 />
                               </div>
-                            ) : (
-                              <img
-                                src={path_image + "auto-email-icon.svg"}
-                                alt=""
-                                onClick={() => handleBigCircleClick("automail", 2)}
-                              />
                             )}
-                            <span>Automail</span>
                           </div>
 
                           <div
@@ -2664,29 +2675,34 @@ const PharmaRd = () => {
                                   : " stat consent"
                             }
                             // onClick={() => handleBigCircleClick("consent", 3)}
+                            onClick={(event) => {
+                              if (event.target.closest(".article-close")) {
+                                handleBigCircleClose();
+                              } else {
+                                handleBigCircleClick("consent", 3)
+                              }
+                              event.stopPropagation();
+                            }}
                             style={{ "--i": "3" }}
                           >
-                            {/* <img
+                            <img
                               src={path_image + "legal-document-icon.svg"}
                               alt=""
-                            /> */}
-                            {/* <span>Consent</span> */}
-                            {activeModule === "consent" ? (
+                            />
+                            <span>Consent</span>
+                            {activeModule === "consent" && (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                  // onClick={handleBigCircleClose}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleBigCircleClose();
+                                  }}
                                 />
                               </div>
-                            ) : (
-                              <img
-                                src={path_image + "legal-document-icon.svg"}
-                                alt=""
-                                onClick={() => handleBigCircleClick("consent", 3)}
-                              />
                             )}
-                            <span>Consent</span>
                           </div>
 
                           <div
@@ -2701,29 +2717,34 @@ const PharmaRd = () => {
                                   : "stat engine"
                             }
                             // onClick={() => handleBigCircleClick("engine", 4)}
+                            onClick={(event) => {
+                              if (event.target.closest(".article-close")) {
+                                handleBigCircleClose();
+                              } else {
+                                handleBigCircleClick("engine", 4)
+                              }
+                              event.stopPropagation();
+                            }}
                             style={{ "--i": "4" }}
                           >
-                            {/* <img
+                            <img
                               src={path_image + "email-small-icon.svg"}
                               alt=""
-                            /> */}
-                            {/* <span>Email Engine</span> */}
-                            {activeModule === "engine" ? (
+                            />
+                            <span>Email Engine</span>
+                            {activeModule === "engine" && (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                  // onClick={handleBigCircleClose}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleBigCircleClose();
+                                  }}
                                 />
                               </div>
-                            ) : (
-                              <img
-                                src={path_image + "email-small-icon.svg"}
-                                alt=""
-                                onClick={() => handleBigCircleClick("engine", 4)}
-                              />
                             )}
-                            <span>Email Engine</span>
                           </div>
 
                           <div
@@ -2764,29 +2785,34 @@ const PharmaRd = () => {
                                   : "stat docintel"
                             }
                             // onClick={() => handleBigCircleClick("docintel", 5)}
+                            onClick={(event) => {
+                              if (event.target.closest(".article-close")) {
+                                handleBigCircleClose();
+                              } else {
+                                handleBigCircleClick("docintel", 5)
+                              }
+                              event.stopPropagation();
+                            }}
                             style={{ "--i": "10" }}
                           >
-                            {/* <img
+                            <img
                               src={path_image + "docintel-small-icon.svg"}
                               alt=""
-                            /> */}
-                            {/* <span>Docintel.app</span> */}
-                            {activeModule === "docintel" ? (
+                            />
+                            <span>Docintel.app</span>
+                            {activeModule === "docintel" && (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                  // onClick={handleBigCircleClose}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleBigCircleClose();
+                                  }}
                                 />
                               </div>
-                            ) : (
-                              <img
-                                src={path_image + "docintel-small-icon.svg"}
-                                alt=""
-                                onClick={() => handleBigCircleClick("docintel", 5)}
-                              />
                             )}
-                            <span>Docintel.app</span>
                           </div>
 
                           <div
@@ -2804,29 +2830,34 @@ const PharmaRd = () => {
                                   : "stat informed"
                             }
                             // onClick={() => handleBigCircleClick("informed", 6)}
+                            onClick={(event) => {
+                              if (event.target.closest(".article-close")) {
+                                handleBigCircleClose();
+                              } else {
+                                handleBigCircleClick("informed", 6)
+                              }
+                              event.stopPropagation();
+                            }}
                             style={{ "--i": "11" }}
                           >
-                            {/* <img
+                            <img
                               src={path_image + "informedgo-icon.svg"}
                               alt=""
-                            /> */}
-                            {/* <span>inforMedGo</span> */}
-                            {activeModule === "informed" ? (
+                            />
+                            <span>inforMedGo</span>
+                            {activeModule === "informed" && (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                  // onClick={handleBigCircleClose}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleBigCircleClose();
+                                  }}
                                 />
                               </div>
-                            ) : (
-                              <img
-                                src={path_image + "informedgo-icon.svg"}
-                                alt=""
-                                onClick={() => handleBigCircleClick("informed", 6)}
-                              />
                             )}
-                            <span>inforMedGo</span>
                           </div>
 
                           <div
@@ -2843,29 +2874,34 @@ const PharmaRd = () => {
                                   : "stat web"
                             }
                             // onClick={() => handleBigCircleClick("web", 7)}
+                            onClick={(event) => {
+                              if (event.target.closest(".article-close")) {
+                                handleBigCircleClose();
+                              } else {
+                                handleBigCircleClick("web", 7)
+                              }
+                              event.stopPropagation();
+                            }}
                             style={{ "--i": "12" }}
                           >
-                            {/* <img
+                            <img
                               src={path_image + "web-portal-icon.svg"}
                               alt=""
-                            /> */}
-                            {/* <span>Web Portal</span> */}
-                            {activeModule === "web" ? (
+                            />
+                            <span>Web Portal</span>
+                            {activeModule === "web" && (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                  // onClick={handleBigCircleClose}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleBigCircleClose();
+                                  }}
                                 />
                               </div>
-                            ) : (
-                              <img
-                                src={path_image + "web-portal-icon.svg"}
-                                alt=""
-                                onClick={() => handleBigCircleClick("web", 7)}
-                              />
                             )}
-                            <span>Web Portal</span>
                           </div>
 
                           <div
@@ -2880,28 +2916,35 @@ const PharmaRd = () => {
                             }
 
                             // onClick={() => handleBigCircleClick("webinar", 8)}
+                            onClick={(event) => {
+                              if (event.target.closest(".article-close")) {
+                                handleBigCircleClose();
+                              } else {
+                                handleBigCircleClick("webinar", 8)
+                              }
+                              event.stopPropagation();
+                            }}
                             style={{ "--i": "13" }}
                           >
-                            {/* <img
+                            <img
                               src={path_image + "webinar-small-icon.svg"}
                               alt=""
                               
-                            /> */}
-                            {/* <span>Webinar Portal</span> */}
-                            {activeModule === "webinar" ? (
+                            />
+                            <span>Webinar Portal</span>
+                            {activeModule === "webinar" && (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                  // onClick={handleBigCircleClose}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleBigCircleClose();
+                                  }}
                                 />
                               </div>
-                            ) : <img
-                              src={path_image + "webinar-small-icon.svg"}
-                              alt=""
-                              onClick={() => handleBigCircleClick("webinar", 8)}
-                            />}
-                            <span>Webinar Portal</span>
+                            )}
                           </div>
 
                           <div
@@ -2915,26 +2958,31 @@ const PharmaRd = () => {
                                   : "stat survey"
                             }
                             // onClick={() => handleBigCircleClick("survey", 9)}
+                            onClick={(event) => {
+                              if (event.target.closest(".article-close")) {
+                                handleBigCircleClose();
+                              } else {
+                                handleBigCircleClick("survey", 9)
+                              }
+                              event.stopPropagation();
+                            }}
                             style={{ "--i": "14" }}
                           >
-                            {/* <img src={path_image + "survey-icon.svg"} alt="" /> */}
-                            {/* <span>Survey Engine</span> */}
-                            {activeModule === "survey" ? (
+                            <img src={path_image + "survey-icon.svg"} alt="" />
+                            <span>Survey Engine</span>
+                            {activeModule === "survey" && (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                  // onClick={handleBigCircleClose}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleBigCircleClose();
+                                  }}
                                 />
                               </div>
-                            ) : (
-                              <img
-                                src={path_image + "survey-icon.svg"}
-                                alt=""
-                                onClick={() => handleBigCircleClick("survey", 9)}
-                              />
                             )}
-                            <span>Survey Engine</span>
                           </div>
 
                           <div
@@ -2950,25 +2998,30 @@ const PharmaRd = () => {
                             }
                             style={{ "--i": "15" }}
                           // onClick={() => handleBigCircleClick("read", 0)}
+                          onClick={(event) => {
+                            if (event.target.closest(".article-close")) {
+                              handleBigCircleClose();
+                            } else {
+                              handleBigCircleClick("read", 0)
+                            }
+                            event.stopPropagation();
+                          }}
                           >
-                            {/* <img src={path_image + "RTR-icon.svg"} alt="" /> */}
-                            {/* <span>Read-Through -Rate</span> */}
-                            {activeModule === "read" ? (
+                            <img src={path_image + "RTR-icon.svg"} alt="" />
+                            <span>Read-Through -Rate</span>
+                            {activeModule === "read" && (
                               <div className="article-close">
                                 <img
                                   src={path_image + "close-button.svg"}
                                   alt=""
-                                  onClick={handleBigCircleClose}
+                                  // onClick={handleBigCircleClose}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleBigCircleClose();
+                                  }}
                                 />
                               </div>
-                            ) : (
-                              <img
-                                src={path_image + "RTR-icon.svg"}
-                                alt=""
-                                onClick={() => handleBigCircleClick("read", 0)}
-                              />
                             )}
-                            <span>Read-Through -Rate</span>
                           </div>
 
                           <div
