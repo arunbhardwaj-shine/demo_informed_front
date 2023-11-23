@@ -10,6 +10,7 @@ import moment from "moment";
 import CountryList from "./CountryList";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
+import axios from "axios";
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const userData = {
   name: "userName",
@@ -130,11 +131,14 @@ const RegistrationPage = ({ prevData }) => {
       );
       let hadData = {};
       if (!prevData?.content) {
-        hadData = {
-          ...response?.data?.data,
-          content: JSON.parse(response?.data?.data?.content),
-          raw_description: JSON.parse(response?.data?.data?.raw_description),
-        };
+        if(response?.data?.data?.content ){
+          hadData = {
+            ...response?.data?.data,
+            content: JSON.parse(response?.data?.data?.content),
+            raw_description: JSON.parse(response?.data?.data?.raw_description),
+          };
+        }
+      
       } else {
        let raw=response?.data?.data?.raw_description? JSON.parse(response?.data?.data?.raw_description):{
         "title": "",
@@ -183,7 +187,7 @@ const RegistrationPage = ({ prevData }) => {
       loader("show");
       try {
         let raw = formData?.raw_description;
-        const response = await postData(
+        const response = await axios.post(
           "https://webinar.docintel.app/flow/apis/register",
           {
             ...formFieldData,
@@ -193,6 +197,7 @@ const RegistrationPage = ({ prevData }) => {
             companyEmail: raw?.speaker_email,
             virtual_or_live: raw?.meeting_type,
             websiteFolder: "new_webinar",
+            consent:formFieldData.consent.join('~') || ""
           }
         );
       } catch (error) {

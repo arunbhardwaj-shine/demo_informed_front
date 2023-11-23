@@ -6,8 +6,8 @@
         "logoImageUrl": "https://webinar.docintel.app/Webinar/images/logo.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
-        "labelColor": "",
-        "optionColor": "",
+        "labelColor": "#2068B3",
+        "optionColor": "#2068B3",
         "backgroundColor": "",
         "eventDetails": {
             "eventStartDate": {
@@ -64,7 +64,7 @@
                     }
                 ],
                 "extension": "",
-                "name": "user_consent_options"
+                "name": "consent"
             },
             {
                 "name": "country",
@@ -310,9 +310,9 @@
         "logoImageUrl": "https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
-        "labelColor": "",
-        "optionColor": "",
-        "backgroundColor": "",
+        "labelColor": "#263474",
+        "optionColor": "#263474",
+        "backgroundColor": "#ffffff",
         "eventDetails": {
             "eventStartDate": {
                 "title": "Event Start Date",
