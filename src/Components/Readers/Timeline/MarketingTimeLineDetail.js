@@ -976,10 +976,10 @@ const MarketingTimeLineDetail = (props) => {
                     </div>
                   
 
-                    {logs?.length ? (
-                      <div className="timeline-right-list">
-                        <div className="timeline-right-list-view">
-                        <div className="tabs-data">
+                   
+                      <>
+                    
+                      
                         <Tabs
                               // onSelect={(key) => tabClicked(key, data?.id)}
                               defaultActiveKey="activity"
@@ -1712,7 +1712,10 @@ const MarketingTimeLineDetail = (props) => {
                                 title="Logs"
                                 className="flex-column justify-content-between"
                               >
-                              
+                                 {logs?.length ? (
+                                <div className="timeline-right-list">
+                                    <div className="timeline-right-list-view">
+                                <div className="tabs-data">
                               {logs.map((details, index) => {
                             return (
                               <>
@@ -1776,10 +1779,17 @@ const MarketingTimeLineDetail = (props) => {
                               </>
                             );
                           })}
+                          </div>
+                          </div>
+                          </div>): (
+                      <div className="no_found">
+                        <p>No Data Found</p>
+                      </div>
+                    )}
                               </Tab>
                               
                             </Tabs>
-                            </div>
+                           
                          
                           {timeLineData?.loadMore?.length ? (
                             <div className="load_more">
@@ -1791,13 +1801,9 @@ const MarketingTimeLineDetail = (props) => {
                               </Button>
                             </div>
                           ) : null}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="no_found">
-                        <p>No Data Found</p>
-                      </div>
-                    )}
+                        
+                      </>
+                    
                   </div>
                 </>
               ) : (
