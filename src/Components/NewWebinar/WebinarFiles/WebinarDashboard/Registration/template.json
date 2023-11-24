@@ -6,9 +6,40 @@
         "logoImageUrl": "https://webinar.docintel.app/Webinar/images/logo.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
-        "labelColor": "",
+        "labelColor": "#2068B3",
+        "optionColor": "#2068B3",
         "backgroundColor": "",
-       
+        "eventDetails": {
+            "eventStartDate": {
+                "title": "Event Start Date",
+                "type": "date",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndDate": {
+                "title": "Event End Date",
+                "type": "date",
+                "value": ""
+            },
+            "eventLocation": {
+                "title": "Location",
+                "type": "text",
+                "value": "",
+                "color": "#354367"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "pageTitle": {
+                "title": "Registration Page Title",
+                "type": "text",
+                "value": "To register please fill in all your details below.",
+                "color": "#354367"
+            }
+        },
         "body": [
             {
                 "label": "Full consent (for additional information or to edit consent click Change)",
@@ -33,7 +64,7 @@
                     }
                 ],
                 "extension": "",
-                "name": "dynamic_8"
+                "name": "consent"
             },
             {
                 "name": "country",
@@ -66,59 +97,68 @@
         "title": "Registration",
         "pageTitle": "To register please fill in all your details below.",
         "bodyText": "",
-        "eventDetails":{
-            "heading":{
-                "title":"Main Heading",
-                "type":"text",
-                "value":"Registration"
-
+        "eventDetails": {
+            "heading": {
+                "title": "Main Header",
+                "type": "text",
+                "value": "Registration",
+                "color": "#ffffff"
             },
-            "SubHeadingOne":{
-                "title":"Sub Heading One",
-                "type":"text",
-                "value":"Welcome dinner"
+            "SubHeadingOne": {
+                "title": "Sub Heading One",
+                "type": "text",
+                "value": "Welcome dinner",
+                "color": "#004b95"
             },
-            "SubHeadingOneDate":{
-                "title":"Sub Heading Date",
-                "type":"date",
-                "value":"Wednesday, 24 May 2023"
+            "SubHeadingOneDate": {
+                "title": "Sub Heading Date",
+                "type": "date",
+                "value": "Wednesday, 24 May 2023",
+                "color": "#04b39a"
             },
-            "SubHeadingTwo":{
-                "title":"Sub Heading Two",
-                "type":"text",
-                "value":"International ITI School and networking dinner"
+            "SubHeadingTwo": {
+                "title": "Sub Heading Two",
+                "type": "text",
+                "value": "International ITI School and networking dinner",
+                "color": "#004b95"
             },
-            "SubHeadingTwoDate":{
-                "title":"Sub Heading Date",
-                "type":"date",
-                "value":"Thursday, 25 May 2023"
+            "SubHeadingTwoDate": {
+                "title": "Sub Heading Date",
+                "type": "date",
+                "value": "Thursday, 25 May 2023",
+                "color": "#04b39a"
+            },
+            "SubHeadingThree": {
+                "title": "Sub Heading Three",
+                "type": "text",
+                "value": "MOTIVATE Investigators meeting",
+                "color": "#004b95"
+            },
+            "SubHeadingThreeDate": {
+                "title": "Sub Heading Date",
+                "type": "date",
+                "value": "Friday, 26 May 2023",
+                "color": "#04b39a"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#04b39a"
+            },
+            "pageTitle": {
+                "title": "Registration Page Title",
+                "type": "text",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#04b39a"
             }
-            ,
-            "SubHeadingThree":{
-                "title":"Sub Heading Three",
-                "type":"text",
-                "value":"MOTIVATE Investigators meeting"
-            },
-            "SubHeadingThreeDate":{
-                "title":"Sub Heading Date",
-                "type":"date",
-                "value":"Friday, 26 May 2023"
-            },
-            
-            "SpeakerName":{
-                "title":"Speaker Name",
-                "type":"text",
-                "value":"Nashville, Tennessee"
-            }
-
-
-            
         },
         "logoImageUrl": "https://webinar.docintel.app/MOTIVATE-study/Regi/images/lund-logo.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
-        "labelColor": "",
-        "backgroundColor": "",
+        "labelColor": "#04b39a",
+        "optionColor": "",
+        "backgroundColor": "#faf5f5",
         "body": [
             {
                 "label": "I will attend:",
@@ -143,7 +183,7 @@
                 ],
                 "required": "",
                 "extension": "",
-                "name": "dynamic_5"
+                "name": "event_attendance_choice"
             },
             {
                 "label": "I would like to:",
@@ -161,21 +201,21 @@
                         "extension": [
                             {
                                 "label": "Airport of departure",
-                                "name": "dynamic_1",
+                                "name": "departure",
                                 "inputType": "text",
                                 "placeholder": "Airport of departure",
                                 "option": []
                             },
                             {
                                 "label": "Airport of departure",
-                                "name": "dynamic_2",
+                                "name": "departure_time",
                                 "inputType": "date",
                                 "placeholder": "",
                                 "option": []
                             },
                             {
                                 "label": "Preferred departure time",
-                                "name": "dynamic_3",
+                                "name": "air_departure_date",
                                 "inputType": "radio",
                                 "placeholder": "",
                                 "option": [
@@ -198,7 +238,7 @@
                             },
                             {
                                 "label": "Preferred return flight date",
-                                "name": "dynamic_4",
+                                "name": "air_return_date",
                                 "inputType": "date",
                                 "placeholder": "",
                                 "option": []
@@ -208,7 +248,7 @@
                     }
                 ],
                 "extension": true,
-                "name": "dynamic_0"
+                "name": "mode_of_travel"
             },
             {
                 "label": "I consent to:",
@@ -228,7 +268,7 @@
                 ],
                 "required": "",
                 "extension": "",
-                "name": "dynamic_6"
+                "name": "consent"
             },
             {
                 "label": "Country",
@@ -243,7 +283,7 @@
                 ],
                 "required": "yes",
                 "extension": "",
-                "name": "dynamic_7"
+                "name": "country"
             },
             {
                 "label": "Name",
@@ -267,11 +307,60 @@
         "templateId": 3,
         "pageTitle": "To register please select and fill in all your details below.",
         "bodyText": "This meeting is for healthcare professionals only.",
-        "logoImageUrl":"https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png",
+        "logoImageUrl": "https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
-        "labelColor": "",
-        "backgroundColor": "",
+        "labelColor": "#263474",
+        "optionColor": "#263474",
+        "backgroundColor": "#ffffff",
+        "eventDetails": {
+            "eventStartDate": {
+                "title": "Event Start Date",
+                "type": "date",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndDate": {
+                "title": "Event End Date",
+                "type": "date",
+                "value": ""
+            },
+            "eventStartTime": {
+                "title": "Event Start Time",
+                "type": "time",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndTime": {
+                "title": "Event End Time",
+                "type": "time",
+                "value": ""
+            },
+            "eventLocation": {
+                "title": "Location",
+                "type": "text",
+                "value": "",
+                "color": "#354367"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "pageTitle": {
+                "title": "Registration Page Title",
+                "type": "text",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#354367"
+            },
+            "bodyText": {
+                "title": "Registration Body Text",
+                "type": "text",
+                "value": "This meeting is for healthcare professionals only.",
+                "color": "#354367"
+            }
+        },
         "body": [
             {
                 "label": "Name",
@@ -312,7 +401,7 @@
                     }
                 ],
                 "extension": "",
-                "name": "dynamic_0"
+                "name": "country"
             },
             {
                 "label": "I will attend:",
@@ -332,7 +421,7 @@
                 ],
                 "required": "",
                 "extension": "",
-                "name": "dynamic_1"
+                "name": "factor_viii_choice"
             },
             {
                 "label": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
@@ -344,7 +433,7 @@
                         "extension": [
                             {
                                 "label": " ",
-                                "name": "dynamic_3",
+                                "name": "factor_viii_dinner_restrictions_allergies",
                                 "inputType": "text",
                                 "placeholder": "In case you have any dietary restrictions or allergies please specify here",
                                 "option": []
@@ -360,12 +449,15 @@
                 ],
                 "required": "",
                 "extension": true,
-                "name": "dynamic_2"
+                "name": "factor_viii_dinner_attendance_with_details"
             },
             {
                 "label": "I would like to:",
                 "inputType": "radio",
                 "placeholder": "",
+                "required": "",
+                "extension": "",
+                "name": "accommodation_preference",
                 "option": [
                     {
                         "optionLabel": "Organize my own accomodation",
@@ -387,10 +479,7 @@
                         "extension": [],
                         "checked": ""
                     }
-                ],
-                "required": "",
-                "extension": "",
-                "name": "dynamic_4"
+                ]
             }
         ]
     }
