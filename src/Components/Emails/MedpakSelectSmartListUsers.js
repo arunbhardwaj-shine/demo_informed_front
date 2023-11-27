@@ -58,6 +58,7 @@ const MedpakSelectSmartListUsers = (props) => {
     const [editable, setEditable] = useState(0);
     const [updateCounter, setUpdateCounter] = useState(0);
     const [sortingCount, setSortingCount] = useState(0);
+    const [countryWiseData, setCountryWiseData] = useState({});
     const [hpc, setHpc] = useState([
         {
             firstname: "",
@@ -116,6 +117,7 @@ const MedpakSelectSmartListUsers = (props) => {
     const inputElement = useRef();
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     useEffect(() => {
+        console.log("user List--->", props)
         const body = {
             user_id: localStorage.getItem("user_id"),
             list_id: props.getSelectedSmartListData?.id
@@ -138,10 +140,12 @@ const MedpakSelectSmartListUsers = (props) => {
                                     return objFromA.profile_id === objFromB.profile_id;
                                 });
                             });
-
+                            console.log("i am here in 1")
                             setReaders(pendingUsers);
                         } else {
+                            console.log("i am here in 2")
                             setReaders(res.data.response.data);
+
                         }
                     } else if (
                         props?.getDraftData &&
@@ -159,13 +163,30 @@ const MedpakSelectSmartListUsers = (props) => {
                                     return objFromA.profile_id === objFromB.profile_id;
                                 });
                             });
-
+                            console.log("i am here in 3")
                             setReaders(pendingUsers);
                         } else {
+                            console.log("i am here in 4")
                             setReaders(res.data.response.data);
                         }
                     } else {
+                        console.log("i am here in 5")
                         setReaders(res.data.response.data);
+                        const processedData = res?.data?.response?.data?.reduce((acc, person) => {
+                            const country = person?.country?.toLowerCase();
+
+                            // If the country key doesn't exist, create an array for it
+                            if (!acc[country]) {
+                                acc[country] = [];
+                            }
+
+                            // Push the person data to the country array
+                            acc[country].push(person);
+
+                            return acc;
+                        }, {});
+                        console.log("process data--->", processedData)
+                        setCountryWiseData(processedData);
                     }
 
                     loader("hide");
@@ -1315,7 +1336,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                 ) : null}
                                             </tr>
                                         </thead> */}
-                                        {/* <tbody>
+                                {/* <tbody>
                                             {removedReaders?.map((rr, i) => {
                                                 return (
                                                     <>
@@ -1693,24 +1714,27 @@ const MedpakSelectSmartListUsers = (props) => {
                                 </div>*/}
 
 
-                        <Accordion>
-                        
-                            <Accordion.Item  eventKey="0">
-                              <Accordion.Header>
-                                India
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                 <li>
-                                    <label>
-                                        User 1
-                                    </label>
-                                 </li>
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                        </Accordion>
-                        
+                                <Accordion>
+                                    {Object.keys(countryWiseData)?.length ? Object.keys(countryWiseData)?.map((country, index) => {
+                                        return (
+                                            <Accordion.Item eventKey={index}>
+                                                <Accordion.Header>
+                                                    {country}
+                                                </Accordion.Header>
+                                                <Accordion.Body className="card-body">
+                                                    <ul>
+                                                        <li>
+                                                            <label>
+                                                                User 1
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </Accordion.Body>
+                                            </Accordion.Item>)
+                                    }) : ""}
+
+                                </Accordion>
+
                             </div>
                         </section>
                     </div>
