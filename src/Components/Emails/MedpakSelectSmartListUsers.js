@@ -13,6 +13,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
+import Accordion from "react-bootstrap/Accordion";
 var old_object = {};
 
 const MedpakSelectSmartListUsers = (props) => {
@@ -1281,9 +1282,9 @@ const MedpakSelectSmartListUsers = (props) => {
                                         ) : null}
                                     </div>
                                 </div>
-                                <div className="selected-hcp-list">
-                                    <table className="table">
-                                        <thead>
+                                {/* <div className="selected-hcp-list">
+                                    {/* <table className="table">
+                                        {/* <thead>
                                             <tr>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Email</th>
@@ -1313,12 +1314,12 @@ const MedpakSelectSmartListUsers = (props) => {
                                                     </>
                                                 ) : null}
                                             </tr>
-                                        </thead>
-                                        <tbody>
+                                        </thead> */}
+                                        {/* <tbody>
                                             {removedReaders?.map((rr, i) => {
                                                 return (
                                                     <>
-                                                        <tr className="hcps-deleted">
+                                                        {/* <tr className="hcps-deleted">
                                                             <td>
                                                                 <span>
                                                                     {rr?.first_name
@@ -1332,7 +1333,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                 <span>{rr.country ? rr.country : "N/A"}</span>
                                                             </td>
                                                             <td>
-                                                                {/*rr?.ibu ? rr?.ibu : "N/A"*/}
+                                                                {/*rr?.ibu ? rr?.ibu : "N/A"
                                                                 {localStorage.getItem("user_id") ==
                                                                     "56Ek4feL/1A8mZgIKQWEqg=="
                                                                     ? rr?.irt
@@ -1403,7 +1404,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                 );
                                             })}
 
-                                            <tr className="seprator-add">
+                                            {/* <tr className="seprator-add">
                                                 <td colSpan="13"></td>
                                             </tr>
                                             {readersNewlyAdded?.map((readers, i) => {
@@ -1458,7 +1459,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                 )}
                                                             </td>
                                                             <td>
-                                                                {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                                                {/*readers.ibu ? readers.ibu : "N/A"
                                                                 {localStorage.getItem("user_id") ==
                                                                     "56Ek4feL/1A8mZgIKQWEqg=="
                                                                     ? readers?.irt
@@ -1602,7 +1603,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                 )}
                                                             </td>
                                                             <td>
-                                                                {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                                                {/*readers.ibu ? readers.ibu : "N/A"
                                                                 {localStorage.getItem("user_id") ==
                                                                     "56Ek4feL/1A8mZgIKQWEqg=="
                                                                     ? readers?.irt
@@ -1687,9 +1688,29 @@ const MedpakSelectSmartListUsers = (props) => {
                                                     </>
                                                 );
                                             })}
-                                        </tbody>
+                                        </tbody> 
                                     </table>
-                                </div>
+                                </div>*/}
+
+
+                        <Accordion>
+                        
+                            <Accordion.Item  eventKey="0">
+                              <Accordion.Header>
+                                India
+                              </Accordion.Header>
+                              <Accordion.Body className="card-body">
+                                <ul>
+                                 <li>
+                                    <label>
+                                        User 1
+                                    </label>
+                                 </li>
+                                </ul>
+                              </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
+                        
                             </div>
                         </section>
                     </div>
