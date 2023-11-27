@@ -58,11 +58,12 @@ const MedpakSelectSmartListUsers = (props) => {
     const [editable, setEditable] = useState(0);
     const [updateCounter, setUpdateCounter] = useState(0);
     const [sortingCount, setSortingCount] = useState(0);
+    const [filterCountryWiseData, setFilterCountryWiseData] = useState({});
     const [countryWiseData, setCountryWiseData] = useState({});
     const [showfilter, setShowFilter] = useState(false);
     const buttonRef = useRef(null);
     const filterRef = useRef(null);
-    const [filterObject, setFilterObject] = useState({});
+
     const [hpc, setHpc] = useState([
         {
             firstname: "",
@@ -191,6 +192,7 @@ const MedpakSelectSmartListUsers = (props) => {
                         }, {});
                         console.log("process data--->", processedData)
                         setCountryWiseData(processedData);
+                        setFilterCountryWiseData(processedData)
                     }
 
                     loader("hide");
@@ -1136,6 +1138,10 @@ const MedpakSelectSmartListUsers = (props) => {
         setEditable(temp_val);
         setUpdate(update + 1);
     };
+    const handleChange = (e, country) => {
+        console.log("e-->", e, "country--->", country)
+
+    }
 
     return (
         <>
@@ -1216,7 +1222,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                     <button
                                         ref={buttonRef}
                                         className={
-                                            Object.keys(filterObject).length > 0
+                                            Object.keys(filterCountryWiseData).length > 0
                                                 ? "btn btn-secondary dropdown filter_applied"
                                                 : "btn btn-secondary dropdown"
                                         }
@@ -1282,13 +1288,10 @@ const MedpakSelectSmartListUsers = (props) => {
                                             <h4>Country List</h4>
 
                                             <ul>
-                                                {Object.keys(countryWiseData)?.map((country, index) => {
+                                                {Object.keys(filterCountryWiseData)?.map((country, index) => {
                                                     return (
                                                         <>
                                                             <li>
-
-
-
                                                                 <div className="form-group">
                                                                     <label htmlFor="">{country}</label>
                                                                     <div className="switch">
@@ -1296,13 +1299,13 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                             <input
                                                                                 type="checkbox"
 
-                                                                            // onChange={(e) => {
-                                                                            //     handleChange(e.target?.checked, "allowVideo");
-                                                                            // }}
+                                                                                onChange={(e) => {
+                                                                                    handleChange(e.target?.checked, country);
+                                                                                }}
                                                                             />
                                                                             <span>
-                                                                                <span className="switch-btn active">No</span>
-                                                                                <span className="switch-btn">Yes</span>
+                                                                                <span className="switch-btn active">Yes</span>
+                                                                                <span className="switch-btn">No</span>
                                                                             </span>
                                                                             <a className="btn"></a>
                                                                         </label>
