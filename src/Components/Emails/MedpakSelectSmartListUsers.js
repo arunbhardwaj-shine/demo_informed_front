@@ -173,7 +173,7 @@ const MedpakSelectSmartListUsers = (props) => {
                         console.log("i am here in 5")
                         setReaders(res.data.response.data);
                         const processedData = res?.data?.response?.data?.reduce((acc, person) => {
-                            const country = person?.country?.toLowerCase();
+                            const country = person?.country?.toUpperCase();
 
                             // If the country key doesn't exist, create an array for it
                             if (!acc[country]) {
@@ -1723,34 +1723,120 @@ const MedpakSelectSmartListUsers = (props) => {
                                                 </Accordion.Header>
 
                                                 <Accordion.Body className="card-body">
-                                                   <Table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                User1
-                                                            </td>
-                                                            <td>
-                                                                User1
-                                                            </td>
-                                                            <td>
-                                                                User1
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                User1
-                                                            </td>
-                                                            <td>
-                                                                User1
-                                                            </td>
-                                                            <td>
-                                                                User1
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                   </Table>
+                                                    <div className="selected-hcp-list">
+                                                        <table className="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Name</th>
+                                                                    <th scope="col">Email</th>
+                                                                    <th scope="col">Bounced</th>
+                                                                    <th scope="col">Country</th>
+                                                                    <th scope="col">Business unit</th>
+                                                                    <th scope="col">Contact type</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {
+                                                                    countryWiseData?.[country]?.map((readers, i) => {
+                                                                        return (
+                                                                            <tr
+                                                                                id={`row-selected` + i}
+                                                                                onClick={(e) =>
+                                                                                    editing(
+                                                                                        readers.profile_id,
+                                                                                        readers.profile_user_id,
+                                                                                        readers.email,
+                                                                                        readers.jobTitle,
+                                                                                        readers.company,
+                                                                                        readers.country,
+                                                                                        readers.first_name + " " + readers.last_name,
+                                                                                        readers.contact_type
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <td
+                                                                                    id={`field_name` + readers.profile_user_id}
+                                                                                    contentEditable={
+                                                                                        editable === 0 ? "false" : "true"
+                                                                                    }
+                                                                                >
+                                                                                    <span>
+                                                                                        {" "}
+                                                                                        {readers.first_name
+                                                                                            ? readers.first_name +
+                                                                                            " " +
+                                                                                            readers.last_name
+                                                                                            : "N/A"}{" "}
+                                                                                    </span>
+                                                                                </td>
 
-                                                   
+                                                                                <td id={`field_email` + readers.profile_user_id}>
+                                                                                    {readers.email ? readers.email : "N/A"}
+                                                                                </td>
+                                                                                <input
+                                                                                    type="hidden"
+                                                                                    id={`field_index` + readers.profile_user_id}
+                                                                                    value={i}
+                                                                                />
+                                                                                <td
+                                                                                    id={`field_bounced` + readers.profile_user_id}
+                                                                                >
+                                                                                    {readers.bounce ? readers.bounce : "N/A"}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {editable ? (
+                                                                                        <EditCountry
+                                                                                            selected_country={readers.country}
+                                                                                            profile_user={readers.profile_user_id}
+                                                                                        ></EditCountry>
+                                                                                    ) : (
+                                                                                        <span>
+                                                                                            {readers.country ? readers.country : "N/A"}
+                                                                                        </span>
+                                                                                    )}
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    {readers?.ibu && readers?.ibu != 0
+                                                                                        ? readers?.ibu
+                                                                                        : "N/A"
+                                                                                    }
+                                                                                </td>
+                                                                                <td>
+                                                                                    {localStorage.getItem("user_id") ==
+                                                                                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                                                        <span>
+                                                                                            {readers.user_type != 0
+                                                                                                ? readers?.user_type
+                                                                                                : "N/A"}
+                                                                                        </span>
+                                                                                    ) : editable ? (
+                                                                                        <EditContactType
+                                                                                            selected_ibu={readers.contact_type}
+                                                                                            profile_user={readers.profile_user_id}
+                                                                                        ></EditContactType>
+                                                                                    ) : (
+                                                                                        <span>
+                                                                                            {readers.contact_type
+                                                                                                ? readers.contact_type
+                                                                                                : "N/A"}
+                                                                                        </span>
+                                                                                    )}
+                                                                                </td>
+                                                                                <td className="delete_row" colSpan="12">
+                                                                                    <img
+                                                                                        src={path_image + "delete.svg"}
+                                                                                        alt="Add Row"
+                                                                                        onClick={() => deleteReader(i)}
+                                                                                    />
+                                                                                </td>
+                                                                            </tr>)
+                                                                    })
+                                                                }
+                                                            </tbody>
+
+                                                        </table>
+                                                    </div>
                                                 </Accordion.Body>
                                             </Accordion.Item>)
                                     }) : ""}
@@ -2222,54 +2308,56 @@ const MedpakSelectSmartListUsers = (props) => {
                                 </div>
                               </div>
                               */}
-                                                            {localStorage.getItem("user_id") ===
-                                                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                                                <>
-                                                                    {" "}
-                                                                    <div className="col-12 col-md-6">
-                                                                        <div className="form-group">
-                                                                            <label for="">Site number</label>
+                                                            {
+                                                                localStorage.getItem("user_id") ===
+                                                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                                    <>
+                                                                        {" "}
+                                                                        <div className="col-12 col-md-6">
+                                                                            <div className="form-group">
+                                                                                <label for="">Site number</label>
 
-                                                                            <Select
-                                                                                options={siteNumberAll}
-                                                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                                onChange={(event) =>
-                                                                                    onSiteNumberChange(event, i)
-                                                                                }
-                                                                                value={
-                                                                                    siteNumberAll[hpc[i]?.siteNumberIndex]
-                                                                                        ? siteNumberAll[
-                                                                                        hpc[i]?.siteNumberIndex
-                                                                                        ]
-                                                                                        : ""
-                                                                                }
-                                                                                placeholder={"Select Site Number"}
-                                                                            />
+                                                                                <Select
+                                                                                    options={siteNumberAll}
+                                                                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                                                    onChange={(event) =>
+                                                                                        onSiteNumberChange(event, i)
+                                                                                    }
+                                                                                    value={
+                                                                                        siteNumberAll[hpc[i]?.siteNumberIndex]
+                                                                                            ? siteNumberAll[
+                                                                                            hpc[i]?.siteNumberIndex
+                                                                                            ]
+                                                                                            : ""
+                                                                                    }
+                                                                                    placeholder={"Select Site Number"}
+                                                                                />
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div className="col-12 col-md-6">
-                                                                        <div className="form-group">
-                                                                            <label for="">Site name</label>
+                                                                        <div className="col-12 col-md-6">
+                                                                            <div className="form-group">
+                                                                                <label for="">Site name</label>
 
-                                                                            <Select
-                                                                                options={siteNameAll}
-                                                                                className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                                                                onChange={(event) =>
-                                                                                    onSiteNameChange(event, i)
-                                                                                }
-                                                                                value={
-                                                                                    siteNameAll[hpc[i].siteNameIndex]
-                                                                                        ? siteNameAll[hpc[i].siteNameIndex]
-                                                                                        : ""
-                                                                                }
-                                                                                placeholder={"Select Site Name"}
-                                                                            />
+                                                                                <Select
+                                                                                    options={siteNameAll}
+                                                                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                                                                    onChange={(event) =>
+                                                                                        onSiteNameChange(event, i)
+                                                                                    }
+                                                                                    value={
+                                                                                        siteNameAll[hpc[i].siteNameIndex]
+                                                                                            ? siteNameAll[hpc[i].siteNameIndex]
+                                                                                            : ""
+                                                                                    }
+                                                                                    placeholder={"Select Site Name"}
+                                                                                />
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </>
-                                                            ) : (
-                                                                ""
-                                                            )}
+                                                                    </>
+                                                                ) : (
+                                                                    ""
+                                                                )
+                                                            }
                                                         </div>
                                                     </div>
                                                     <div className="hcp-modal-action">
@@ -2353,7 +2441,7 @@ const MedpakSelectSmartListUsers = (props) => {
                         </button>
                     </div>
                 </div>
-            </Modal>
+            </Modal >
         </>
     );
 };
