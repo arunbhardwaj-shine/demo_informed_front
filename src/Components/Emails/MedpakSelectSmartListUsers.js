@@ -1273,6 +1273,64 @@ const MedpakSelectSmartListUsers = (props) => {
                                             </svg>
                                         )}
                                     </button>
+                                    {showfilter && (
+                                        <div
+                                            ref={filterRef}
+                                            className="dropdown-menu filter-options"
+                                            aria-labelledby="dropdownMenuButton2"
+                                        >
+                                            <h4>Country List</h4>
+
+                                            <ul>
+                                                {Object.keys(countryWiseData)?.map((country, index) => {
+                                                    return (
+                                                        <>
+                                                            <li>
+
+
+
+                                                                <div className="form-group">
+                                                                    <label htmlFor="">{country}</label>
+                                                                    <div className="switch">
+                                                                        <label className="switch-light">
+                                                                            <input
+                                                                                type="checkbox"
+
+                                                                            // onChange={(e) => {
+                                                                            //     handleChange(e.target?.checked, "allowVideo");
+                                                                            // }}
+                                                                            />
+                                                                            <span>
+                                                                                <span className="switch-btn active">No</span>
+                                                                                <span className="switch-btn">Yes</span>
+                                                                            </span>
+                                                                            <a className="btn"></a>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </>
+                                                    );
+                                                })}
+                                            </ul>
+
+
+                                            <div className="filter-footer">
+                                                <button
+                                                    className="btn btn-primary btn-bordered"
+                                                // onClick={clearFilter}
+                                                >
+                                                    Clear
+                                                </button>
+                                                <button
+                                                    className="btn btn-primary btn-filled"
+                                                // onClick={applyFilter}
+                                                >
+                                                    Apply
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <Accordion>
