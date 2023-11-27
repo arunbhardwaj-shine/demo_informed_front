@@ -167,6 +167,7 @@ import PollListing from "./Components/Webinar/Survey/PollListing";
 import AutoLogout from "./Components/Login/AutoLogout";
 import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
 import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/RegistrationPage";
+import SelectSmartListUsersLayout from "./Components/Emails/SelectSmartListUsersLayout";
 let platform = 0;
 let show = 0;
 
@@ -510,7 +511,7 @@ const Routing = () => {
           element={<LoginLayout component={SpcCreate} />}
         />
         {localStorage.getItem("user_id") ==
-        "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
+          "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
           <Route
             path="/products"
             element={<LoginLayout component={Products} />}
@@ -532,7 +533,7 @@ const Routing = () => {
           path="/event-registration"
           element={<LoginLayout component={RegistrationPage} />}
         /> */}
-                  <Route  path="/event-registration" element={<RegistrationPage />} />
+        <Route path="/event-registration" element={<RegistrationPage />} />
 
         <Route
           path="/contact-form"
@@ -630,9 +631,13 @@ const Routing = () => {
           path="/VerifyHcpMAIL"
           element={<LoginLayout component={VerifyHcpMAIL} />}
         />
-        <Route
+        {/* <Route
           path="/SelectSmartListUsers"
           element={<LoginLayout component={SelectSmartListUsers} />}
+        /> */}
+        <Route
+          path="/SelectSmartListUsers"
+          element={<LoginLayout component={SelectSmartListUsersLayout} />}
         />
         <Route
           path="/VerifySmartList"
