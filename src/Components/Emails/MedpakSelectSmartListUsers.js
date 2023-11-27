@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
-import { Modal, Dropdown } from "react-bootstrap";
+import { Modal, Dropdown, Table } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
@@ -1721,14 +1721,36 @@ const MedpakSelectSmartListUsers = (props) => {
                                                 <Accordion.Header>
                                                     {country}
                                                 </Accordion.Header>
+
                                                 <Accordion.Body className="card-body">
-                                                    <ul>
-                                                        <li>
-                                                            <label>
-                                                                User 1
-                                                            </label>
-                                                        </li>
-                                                    </ul>
+                                                   <Table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                User1
+                                                            </td>
+                                                            <td>
+                                                                User1
+                                                            </td>
+                                                            <td>
+                                                                User1
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                User1
+                                                            </td>
+                                                            <td>
+                                                                User1
+                                                            </td>
+                                                            <td>
+                                                                User1
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                   </Table>
+
+                                                   
                                                 </Accordion.Body>
                                             </Accordion.Item>)
                                     }) : ""}
