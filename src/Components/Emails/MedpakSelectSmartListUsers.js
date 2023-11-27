@@ -1206,588 +1206,74 @@ const MedpakSelectSmartListUsers = (props) => {
                         <section className="search-hcp">
                             <div className="result-hcp-table">
 
-                            <div
-                    className={
-                      showfilter
-                        ? "filter-by nav-item dropdown highlight"
-                        : "filter-by nav-item dropdown"
-                    }
-                  >
-                    <button
-                      ref={buttonRef}
-                      className={
-                        Object.keys(filterObject).length > 0
-                          ? "btn btn-secondary dropdown filter_applied"
-                          : "btn btn-secondary dropdown"
-                      }
-                      type="button"
-                      id="dropdownMenuButton2"
-                      onClick={() => setShowFilter((showfilter) => !showfilter)}
-                    >
-                      Filter By
-                      {showfilter ? (
-                        <svg
-                          className="close-arrow"
-                          width="13"
-                          height="12"
-                          viewBox="0 0 13 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            width="2.09896"
-                            height="15.1911"
-                            rx="1.04948"
-                            transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                            fill="#0066BE"
-                          />
-                          <rect
-                            width="2.09896"
-                            height="15.1911"
-                            rx="1.04948"
-                            transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                            fill="#0066BE"
-                          />
-                        </svg>
-                      ) : (
-                        <svg
-                          className="filter-arrow"
-                          width="16"
-                          height="14"
-                          viewBox="0 0 16 14"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                            fill="#97B6CF"
-                          />
-                          <path
-                            d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                            fill="#97B6CF"
-                          />
-                          <path
-                            d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                            fill="#97B6CF"
-                          />
-                        </svg>
-                      )}
-                    </button>
-                  </div>
-
-                                {/* <div className="table-title">
-                                    <h4>
-                                        {/* HCPs <span>| {smartListSelected.readers_count}</span>
-                                    </h4>
-                                    <div className="selected-hcp-table-action">
-                                        {editable == false ? (
-                                            <>
-                                                {
-                                                    localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
-                                                        <a
-                                                            className="show-less-info"
-                                                            onClick={(e) => showMoreInfo(e)}
-                                                        >
-                                                            {showLessInfo == true ? (
-                                                                <p className="show_more">Show More information</p>
-                                                            ) : (
-                                                                <p className="show_less">Show less information</p>
-                                                            )}{" "}
-                                                        </a> : null
-                                                }
-                                                <div className="hcp-new-user">
-                                                    <button
-                                                        className="btn btn-outline-primary"
-                                                        onClick={addNewUser}
-                                                    >
-                                                        <img
-                                                            src={path_image + "new-user.svg"}
-                                                            alt="New User"
-                                                        />
-                                                    </button>
-                                                </div>
-                                                <div className="hcp-added">
-                                                    <button
-                                                        className="btn btn-outline-primary"
-                                                        onClick={editButtonClicked}
-                                                    >
-                                                        <img src={path_image + "edit.svg"} alt="Edit" />
-                                                    </button>
-                                                </div>
-                                                <div className="hcp-sort">
-                                                    {sortingCount == 0 ? (
-                                                        <>
-                                                            <button
-                                                                className="btn btn-outline-primary"
-                                                                onClick={sortSelectedUsers}
-                                                            >
-                                                                Sort By{" "}
-                                                                <img
-                                                                    src={path_image + "sort.svg"}
-                                                                    alt="Shorting"
-                                                                />
-                                                            </button>
-                                                        </>
-                                                    ) : sorting == 0 ? (
-                                                        <>
-                                                            <button
-                                                                className="btn btn-outline-primary desc"
-                                                                onClick={sortSelectedUsers}
-                                                            >
-                                                                Sort By{" "}
-                                                                <img
-                                                                    src={path_image + "sort-decending.svg"}
-                                                                    alt="Shorting"
-                                                                />
-                                                            </button>
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <button
-                                                                className="btn btn-outline-primary asc"
-                                                                onClick={sortSelectedUsers}
-                                                            >
-                                                                Sort By{" "}
-                                                                <img
-                                                                    src={path_image + "sort-assending.svg"}
-                                                                    alt="Shorting"
-                                                                />
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            </>
-                                        ) : null}
-                                        {saveOpen ? (
-                                            <>
-                                                <button
-                                                    className="btn btn-primary btn-filled"
-                                                    onClick={closeClicked}
-                                                >
-                                                    Close
-                                                </button>
-
-                                                <button
-                                                    className="btn btn-primary btn-bordered"
-                                                    onClick={saveEditClicked}
-                                                >
-                                                    Save
-                                                </button>
-                                            </>
-                                        ) : null}
-                                    </div>
-                                </div> */}
-
-                                {/* <div className="selected-hcp-list">
-                                    {/* <table className="table">
-                                        {/* <thead>
-                                            <tr>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">Bounced</th>
-                                                <th scope="col">Country</th>
-
-                                                {localStorage.getItem("user_id") ==
-                                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                                    <>
-                                                        <th scope="col">IRT mandatory training</th>
-                                                        <th scope="col">IRT role</th>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <th scope="col">Business unit</th>
-                                                        <th scope="col">Contact type</th>
-                                                    </>
-                                                )}
-
-                                                {showLessInfo == false ? (
-                                                    <>
-                                                        <th scope="col">Consent</th>
-                                                        <th scope="col">Email received</th>
-                                                        <th scope="col">Openings</th>
-                                                        <th scope="col">Registrations</th>
-                                                        <th scope="col">Last email</th>
-                                                    </>
-                                                ) : null}
-                                            </tr>
-                                        </thead> */}
-                                {/* <tbody>
-                                            {removedReaders?.map((rr, i) => {
-                                                return (
-                                                    <>
-                                                        {/* <tr className="hcps-deleted">
-                                                            <td>
-                                                                <span>
-                                                                    {rr?.first_name
-                                                                        ? rr?.first_name + " " + rr?.last_name
-                                                                        : "N/A"}
-                                                                </span>
-                                                            </td>
-                                                            <td>{rr.email ? rr.email : "N/A"}</td>
-                                                            <td>{rr.bounce ? rr.bounce : "N/A"}</td>
-                                                            <td>
-                                                                <span>{rr.country ? rr.country : "N/A"}</span>
-                                                            </td>
-                                                            <td>
-                                                                {/*rr?.ibu ? rr?.ibu : "N/A"
-                                                                {localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                    ? rr?.irt
-                                                                        ? "Yes"
-                                                                        : "No"
-                                                                    : rr.ibu && rr.ibu != 0
-                                                                        ? rr.ibu
-                                                                        : "N/A"}
-                                                            </td>
-                                                            {localStorage.getItem("user_id") ==
-                                                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                                                <td>
-                                                                    {rr?.user_type != 0 ? rr.user_type : "N/A"}
-                                                                </td>
-                                                            ) : (
-                                                                <td>
-                                                                    {rr.contact_type ? rr.contact_type : "N/A"}
-                                                                </td>
-                                                            )}
-
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>{rr.consent ? rr.consent : "N/A"}</span>{" "}
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {rr.email_received
-                                                                            ? rr.email_received
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {rr.email_opening
-                                                                            ? rr.email_opening
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {rr.registration ? rr.registration : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {rr.last_email ? rr.last_email : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-
-                                                            <td className="add-new-hcp" colSpan="12">
-                                                                <img
-                                                                    src={path_image + "add-row.png"}
-                                                                    alt="Add Row"
-                                                                    onClick={() => readersAdded(rr, i)}
-                                                                />
-                                                            </td>
-                                                        </tr>
-                                                    </>
-                                                );
-                                            })}
-
-                                            {/* <tr className="seprator-add">
-                                                <td colSpan="13"></td>
-                                            </tr>
-                                            {readersNewlyAdded?.map((readers, i) => {
-                                                return (
-                                                    <>
-                                                        <tr
-                                                            className="hcps-added"
-                                                            onClick={(e) =>
-                                                                editing(
-                                                                    readers.profile_id,
-                                                                    readers.profile_user_id,
-                                                                    readers.email,
-                                                                    readers.jobTitle,
-                                                                    readers.company,
-                                                                    readers.country,
-                                                                    readers.first_name + " " + readers.last_name,
-                                                                    readers.contact_type
-                                                                )
-                                                            }
-                                                        >
-                                                            <td
-                                                                id={`field_name` + readers.profile_user_id}
-                                                                contentEditable={
-                                                                    editable === 0 ? "false" : "true"
-                                                                }
-                                                            >
-                                                                <span>
-                                                                    {readers.first_name
-                                                                        ? readers.first_name +
-                                                                        " " +
-                                                                        readers.last_name
-                                                                        : "N/A"}
-                                                                </span>
-                                                            </td>
-                                                            <td>{readers.email ? readers.email : "N/A"}</td>
-                                                            <input
-                                                                type="hidden"
-                                                                id={`field_index` + readers.profile_user_id}
-                                                                value={i}
-                                                            />
-                                                            <td>{readers.bounce ? readers.bounce : "N/A"}</td>
-                                                            <td>
-                                                                {editable ? (
-                                                                    <EditCountry
-                                                                        selected_country={readers.country}
-                                                                        profile_user={readers.profile_user_id}
-                                                                    ></EditCountry>
-                                                                ) : (
-                                                                    <span>
-                                                                        {readers.country ? readers.country : "N/A"}
-                                                                    </span>
-                                                                )}
-                                                            </td>
-                                                            <td>
-                                                                {/*readers.ibu ? readers.ibu : "N/A"
-                                                                {localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                    ? readers?.irt
-                                                                        ? "Yes"
-                                                                        : "No"
-                                                                    : readers.ibu && readers.ibu != 0
-                                                                        ? readers.ibu
-                                                                        : "N/A"}
-                                                            </td>
-                                                            <td>
-                                                                {localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                                                    <span>
-                                                                        {readers.user_type != 0
-                                                                            ? readers?.user_type
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                ) : editable ? (
-                                                                    <EditContactType
-                                                                        selected_ibu={readers.contact_type}
-                                                                        profile_user={readers.profile_user_id}
-                                                                    ></EditContactType>
-                                                                ) : (
-                                                                    <span>
-                                                                        {readers.contact_type
-                                                                            ? readers.contact_type
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                )}
-                                                            </td>
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {readers.consent ? readers.consent : "N/A"}
-                                                                    </span>{" "}
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {readers.email_received
-                                                                            ? readers.email_received
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {readers.email_opening
-                                                                            ? readers.email_opening
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {readers.registration
-                                                                            ? readers.registration
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {readers.last_email
-                                                                            ? readers.last_email
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            <td className="delete_row" colSpan="12">
-                                                                <img
-                                                                    src={path_image + "delete.svg"}
-                                                                    alt="Delete Row"
-                                                                    onClick={() => newlyAddedRemoved(readers, i)}
-                                                                />
-                                                            </td>
-                                                        </tr>
-                                                    </>
-                                                );
-                                            })}
-                                            {readers?.map((readers, i) => {
-                                                return (
-                                                    <>
-                                                        <tr
-                                                            id={`row-selected` + i}
-                                                            onClick={(e) =>
-                                                                editing(
-                                                                    readers.profile_id,
-                                                                    readers.profile_user_id,
-                                                                    readers.email,
-                                                                    readers.jobTitle,
-                                                                    readers.company,
-                                                                    readers.country,
-                                                                    readers.first_name + " " + readers.last_name,
-                                                                    readers.contact_type
-                                                                )
-                                                            }
-                                                        >
-                                                            <td
-                                                                id={`field_name` + readers.profile_user_id}
-                                                                contentEditable={
-                                                                    editable === 0 ? "false" : "true"
-                                                                }
-                                                            >
-                                                                <span>
-                                                                    {" "}
-                                                                    {readers.first_name
-                                                                        ? readers.first_name +
-                                                                        " " +
-                                                                        readers.last_name
-                                                                        : "N/A"}{" "}
-                                                                </span>
-                                                            </td>
-                                                            <td id={`field_email` + readers.profile_user_id}>
-                                                                {readers.email ? readers.email : "N/A"}
-                                                            </td>
-                                                            <input
-                                                                type="hidden"
-                                                                id={`field_index` + readers.profile_user_id}
-                                                                value={i}
-                                                            />
-                                                            <td
-                                                                id={`field_bounced` + readers.profile_user_id}
-                                                            >
-                                                                {readers.bounce ? readers.bounce : "N/A"}
-                                                            </td>
-                                                            <td>
-                                                                {editable ? (
-                                                                    <EditCountry
-                                                                        selected_country={readers.country}
-                                                                        profile_user={readers.profile_user_id}
-                                                                    ></EditCountry>
-                                                                ) : (
-                                                                    <span>
-                                                                        {readers.country ? readers.country : "N/A"}
-                                                                    </span>
-                                                                )}
-                                                            </td>
-                                                            <td>
-                                                                {/*readers.ibu ? readers.ibu : "N/A"
-                                                                {localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                    ? readers?.irt
-                                                                        ? "Yes"
-                                                                        : "No"
-                                                                    : readers.ibu && readers.ibu != 0
-                                                                        ? readers.ibu
-                                                                        : "N/A"}
-                                                            </td>
-                                                            <td>
-                                                                {localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                                                    <span>
-                                                                        {readers.user_type != 0
-                                                                            ? readers?.user_type
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                ) : editable ? (
-                                                                    <EditContactType
-                                                                        selected_ibu={readers.contact_type}
-                                                                        profile_user={readers.profile_user_id}
-                                                                    ></EditContactType>
-                                                                ) : (
-                                                                    <span>
-                                                                        {readers.contact_type
-                                                                            ? readers.contact_type
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                )}
-                                                            </td>
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {readers.consent ? readers.consent : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {readers.email_received
-                                                                            ? readers.email_received
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {readers.email_opening
-                                                                            ? readers.email_opening
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {readers.registration
-                                                                            ? readers.registration
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            {showLessInfo == false ? (
-                                                                <td>
-                                                                    <span>
-                                                                        {readers.last_email
-                                                                            ? readers.last_email
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                            ) : null}
-                                                            <td className="delete_row" colSpan="12">
-                                                                <img
-                                                                    src={path_image + "delete.svg"}
-                                                                    alt="Add Row"
-                                                                    onClick={() => deleteReader(i)}
-                                                                />
-                                                            </td>
-                                                        </tr>
-                                                    </>
-                                                );
-                                            })}
-                                        </tbody> 
-                                    </table>
-                                </div>*/}
-
+                                <div
+                                    className={
+                                        showfilter
+                                            ? "filter-by nav-item dropdown highlight"
+                                            : "filter-by nav-item dropdown"
+                                    }
+                                >
+                                    <button
+                                        ref={buttonRef}
+                                        className={
+                                            Object.keys(filterObject).length > 0
+                                                ? "btn btn-secondary dropdown filter_applied"
+                                                : "btn btn-secondary dropdown"
+                                        }
+                                        type="button"
+                                        id="dropdownMenuButton2"
+                                        onClick={() => setShowFilter((showfilter) => !showfilter)}
+                                    >
+                                        Filter By
+                                        {showfilter ? (
+                                            <svg
+                                                className="close-arrow"
+                                                width="13"
+                                                height="12"
+                                                viewBox="0 0 13 12"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <rect
+                                                    width="2.09896"
+                                                    height="15.1911"
+                                                    rx="1.04948"
+                                                    transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                                                    fill="#0066BE"
+                                                />
+                                                <rect
+                                                    width="2.09896"
+                                                    height="15.1911"
+                                                    rx="1.04948"
+                                                    transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                                                    fill="#0066BE"
+                                                />
+                                            </svg>
+                                        ) : (
+                                            <svg
+                                                className="filter-arrow"
+                                                width="16"
+                                                height="14"
+                                                viewBox="0 0 16 14"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                                                    fill="#97B6CF"
+                                                />
+                                                <path
+                                                    d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                                                    fill="#97B6CF"
+                                                />
+                                                <path
+                                                    d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                                                    fill="#97B6CF"
+                                                />
+                                            </svg>
+                                        )}
+                                    </button>
+                                </div>
 
                                 <Accordion>
                                     {Object.keys(countryWiseData)?.length ? Object.keys(countryWiseData)?.map((country, index) => {
