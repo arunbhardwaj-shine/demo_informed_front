@@ -113,19 +113,19 @@ export const saveNewTemplate = (data) => {
   
   if(data.hasOwnProperty("template_name")){
     if(!data?.template_name){
-      error.template_name = "Please enter template name.";
+      error.template_name = "Please enter template name";
     }
   }
 
   if(data.hasOwnProperty("language")){
     if(!data?.language){
-      error.language = "Please select language.";
+      error.language = "Please select language";
     }
   }
 
   if(data.hasOwnProperty("ibu")){
     if(!data?.ibu){
-      error.ibu = "Please select ibu.";
+      error.ibu = "Please select ibu";
     }
   }
 
