@@ -60,6 +60,7 @@ const MedpakSelectSmartListUsers = (props) => {
     const [sortingCount, setSortingCount] = useState(0);
     const [filterCountryWiseData, setFilterCountryWiseData] = useState({});
     const [countryWiseData, setCountryWiseData] = useState({});
+    const [newlyAddedCountryWiseData, setNewlyAddedCountryWiseData] = useState({})
     const [showfilter, setShowFilter] = useState(false);
     const buttonRef = useRef(null);
     const filterRef = useRef(null);
@@ -1204,6 +1205,23 @@ const MedpakSelectSmartListUsers = (props) => {
                             res.data.response.data.map((data) => {
                                 setReadersNewlyAdded((oldArray) => [data, ...oldArray]);
                             });
+                            const processedData = res?.data?.response?.data?.reduce((acc, person) => {
+                                const country = person?.country?.toUpperCase();
+
+                                // If the country key doesn't exist, create an array for it
+                                if (!acc[country]) {
+                                    acc[country] = [];
+                                }
+
+                                // Push the person data to the country array
+                                acc[country].push(person);
+
+                                return acc;
+                            }, {});
+                            console.log("--->", processedData)
+
+                            // setNewlyAddedCountryWiseData({ processedData, ...newlyAddedCountryWiseData });
+                            setNewlyAddedCountryWiseData((oldData) => ({ ...processedData, ...oldData }))
                             setIsOpen(false);
                             setIsOpenAdd(false);
                         } else {
@@ -1448,6 +1466,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                     </div>
                                 </div>
 
+
                                 <div
                                     className={
                                         showfilter
@@ -1572,36 +1591,135 @@ const MedpakSelectSmartListUsers = (props) => {
                                     )}
                                 </div>
 
+
                                 <Accordion>
                                     {Object.keys(countryWiseData)?.length ? Object.keys(countryWiseData)?.map((country, index) => {
                                         return (
                                             <>
 
                                                 {!excludeCountry?.includes(country) ?
-                                                    <Accordion.Item eventKey={index}>
-                                                        <Accordion.Header>
-                                                            {`${country} (${countryWiseData?.[country]?.length})`}
-                                                        </Accordion.Header>
+                                                    <>
+                                                        <Accordion.Item eventKey={index}>
+                                                            <Accordion.Header>
+                                                                {`${country} (${countryWiseData?.[country]?.length + (newlyAddedCountryWiseData?.[country]?.length ? newlyAddedCountryWiseData?.[country]?.length : 0)})`}
+                                                            </Accordion.Header>
 
-                                                        <Accordion.Body className="card-body">
-                                                            <div className="selected-hcp-list">
-                                                                <table className="table">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th scope="col">Name</th>
-                                                                            <th scope="col">Email</th>
-                                                                            <th scope="col">Bounced</th>
-                                                                            <th scope="col">Country</th>
-                                                                            <th scope="col">Business unit</th>
-                                                                            <th scope="col">Contact type</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        {
-                                                                            countryWiseData?.[country]?.map((readers, i) => {
+                                                            <Accordion.Body className="card-body">
+                                                                <div className="selected-hcp-list">
+                                                                    <table className="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Name</th>
+                                                                                <th scope="col">Email</th>
+                                                                                <th scope="col">Bounced</th>
+                                                                                <th scope="col">Country</th>
+                                                                                <th scope="col">Business unit</th>
+                                                                                <th scope="col">Contact type</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                            {removedReaders?.map((rr, i) => {
+                                                                                return (
+                                                                                    <>
+                                                                                        <tr className="hcps-deleted">
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {rr?.first_name
+                                                                                                        ? rr?.first_name + " " + rr?.last_name
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                            <td>{rr.email ? rr.email : "N/A"}</td>
+                                                                                            <td>{rr.bounce ? rr.bounce : "N/A"}</td>
+                                                                                            <td>
+                                                                                                <span>{rr.country ? rr.country : "N/A"}</span>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                {/*rr?.ibu ? rr?.ibu : "N/A"*/}
+                                                                                                {localStorage.getItem("user_id") ==
+                                                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                                                    ? rr?.irt
+                                                                                                        ? "Yes"
+                                                                                                        : "No"
+                                                                                                    : rr.ibu && rr.ibu != 0
+                                                                                                        ? rr.ibu
+                                                                                                        : "N/A"}
+                                                                                            </td>
+                                                                                            {localStorage.getItem("user_id") ==
+                                                                                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                                                                <td>
+                                                                                                    {rr?.user_type != 0 ? rr.user_type : "N/A"}
+                                                                                                </td>
+                                                                                            ) : (
+                                                                                                <td>
+                                                                                                    {rr.contact_type ? rr.contact_type : "N/A"}
+                                                                                                </td>
+                                                                                            )}
+
+                                                                                            {showLessInfo == false ? (
+                                                                                                <td>
+                                                                                                    <span>{rr.consent ? rr.consent : "N/A"}</span>{" "}
+                                                                                                </td>
+                                                                                            ) : null}
+                                                                                            {showLessInfo == false ? (
+                                                                                                <td>
+                                                                                                    <span>
+                                                                                                        {rr.email_received
+                                                                                                            ? rr.email_received
+                                                                                                            : "N/A"}
+                                                                                                    </span>
+                                                                                                </td>
+                                                                                            ) : null}
+                                                                                            {showLessInfo == false ? (
+                                                                                                <td>
+                                                                                                    <span>
+                                                                                                        {rr.email_opening
+                                                                                                            ? rr.email_opening
+                                                                                                            : "N/A"}
+                                                                                                    </span>
+                                                                                                </td>
+                                                                                            ) : null}
+                                                                                            {showLessInfo == false ? (
+                                                                                                <td>
+                                                                                                    <span>
+                                                                                                        {rr.registration ? rr.registration : "N/A"}
+                                                                                                    </span>
+                                                                                                </td>
+                                                                                            ) : null}
+                                                                                            {showLessInfo == false ? (
+                                                                                                <td>
+                                                                                                    <span>
+                                                                                                        {rr.last_email ? rr.last_email : "N/A"}
+                                                                                                    </span>
+                                                                                                </td>
+                                                                                            ) : null}
+
+                                                                                            <td className="add-new-hcp" colSpan="12">
+                                                                                                <img
+                                                                                                    src={path_image + "add-row.png"}
+                                                                                                    alt="Add Row"
+                                                                                                    onClick={() => readersAdded(rr, i)}
+                                                                                                />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </>
+                                                                                );
+                                                                            })}
+
+                                                                            <tr className="seprator-add">
+                                                                                <td colSpan="13"></td>
+                                                                            </tr>
+
+                                                                            {/* {Object.keys(newlyAddedCountryWiseData)?.length ? Object.keys(newlyAddedCountryWiseData)?.map((newCountry, key) => {
+                                                                                return (
+                                                                                    <> */}
+
+                                                                            {newlyAddedCountryWiseData?.[country]?.map((readers, i) => {
                                                                                 return (
                                                                                     <tr
                                                                                         id={`row-selected` + i}  key={`row-selected${i}`}
+                                                                                        className="hcps-added"
                                                                                         onClick={(e) =>
                                                                                             editing(
                                                                                                 readers.profile_id,
@@ -1622,28 +1740,20 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                             }
                                                                                         >
                                                                                             <span>
-                                                                                                {" "}
                                                                                                 {readers.first_name
                                                                                                     ? readers.first_name +
                                                                                                     " " +
                                                                                                     readers.last_name
-                                                                                                    : "N/A"}{" "}
+                                                                                                    : "N/A"}
                                                                                             </span>
                                                                                         </td>
-
-                                                                                        <td id={`field_email` + readers.profile_user_id}>
-                                                                                            {readers.email ? readers.email : "N/A"}
-                                                                                        </td>
+                                                                                        <td>{readers.email ? readers.email : "N/A"}</td>
                                                                                         <input
                                                                                             type="hidden"
                                                                                             id={`field_index` + readers.profile_user_id}
                                                                                             value={i}
                                                                                         />
-                                                                                        <td
-                                                                                            id={`field_bounced` + readers.profile_user_id}
-                                                                                        >
-                                                                                            {readers.bounce ? readers.bounce : "N/A"}
-                                                                                        </td>
+                                                                                        <td>{readers.bounce ? readers.bounce : "N/A"}</td>
                                                                                         <td>
                                                                                             {editable ? (
                                                                                                 <EditCountry
@@ -1657,11 +1767,15 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                             )}
                                                                                         </td>
                                                                                         <td>
-
-                                                                                            {readers?.ibu && readers?.ibu != 0
-                                                                                                ? readers?.ibu
-                                                                                                : "N/A"
-                                                                                            }
+                                                                                            {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                                                                            {localStorage.getItem("user_id") ==
+                                                                                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                                                ? readers?.irt
+                                                                                                    ? "Yes"
+                                                                                                    : "No"
+                                                                                                : readers.ibu && readers.ibu != 0
+                                                                                                    ? readers.ibu
+                                                                                                    : "N/A"}
                                                                                         </td>
                                                                                         <td>
                                                                                             {localStorage.getItem("user_id") ==
@@ -1684,24 +1798,169 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                 </span>
                                                                                             )}
                                                                                         </td>
+                                                                                        {showLessInfo == false ? (
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.consent ? readers.consent : "N/A"}
+                                                                                                </span>{" "}
+                                                                                            </td>
+                                                                                        ) : null}
+                                                                                        {showLessInfo == false ? (
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.email_received
+                                                                                                        ? readers.email_received
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        ) : null}
+                                                                                        {showLessInfo == false ? (
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.email_opening
+                                                                                                        ? readers.email_opening
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        ) : null}
+                                                                                        {showLessInfo == false ? (
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.registration
+                                                                                                        ? readers.registration
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        ) : null}
+                                                                                        {showLessInfo == false ? (
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.last_email
+                                                                                                        ? readers.last_email
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        ) : null}
                                                                                         <td className="delete_row" colSpan="12">
                                                                                             <img
                                                                                                 src={path_image + "delete.svg"}
                                                                                                 alt="Delete Row"
                                                                                                 // onClick={() => deleteReader(i)}
-                                                                                                onClick={() => deleteReader(readers.profile_user_id, country)}
+                                                                                                // onClick={() => deleteReader(readers.profile_user_id, country)}
+                                                                                                onClick={() => newlyAddedRemoved(readers, i)}
                                                                                             />
                                                                                         </td>
                                                                                     </tr>)
-                                                                            })
-                                                                        }
-                                                                    </tbody>
+                                                                            })}
+                                                                            {/* 
+                                                                                    </>
+                                                                                );
+                                                                            }) : ""} */}
 
-                                                                </table>
-                                                            </div>
-                                                        </Accordion.Body>
-                                                    </Accordion.Item>
-                                                    : ""}
+                                                                            {
+                                                                                countryWiseData?.[country]?.map((readers, i) => {
+                                                                                    return (
+                                                                                        <tr
+                                                                                            id={`row-selected` + i}
+                                                                                            onClick={(e) =>
+                                                                                                editing(
+                                                                                                    readers.profile_id,
+                                                                                                    readers.profile_user_id,
+                                                                                                    readers.email,
+                                                                                                    readers.jobTitle,
+                                                                                                    readers.company,
+                                                                                                    readers.country,
+                                                                                                    readers.first_name + " " + readers.last_name,
+                                                                                                    readers.contact_type
+                                                                                                )
+                                                                                            }
+                                                                                        >
+                                                                                            <td
+                                                                                                id={`field_name` + readers.profile_user_id}
+                                                                                                contentEditable={
+                                                                                                    editable === 0 ? "false" : "true"
+                                                                                                }
+                                                                                            >
+                                                                                                <span>
+                                                                                                    {" "}
+                                                                                                    {readers.first_name
+                                                                                                        ? readers.first_name +
+                                                                                                        " " +
+                                                                                                        readers.last_name
+                                                                                                        : "N/A"}{" "}
+                                                                                                </span>
+                                                                                            </td>
+
+                                                                                            <td id={`field_email` + readers.profile_user_id}>
+                                                                                                {readers.email ? readers.email : "N/A"}
+                                                                                            </td>
+                                                                                            <input
+                                                                                                type="hidden"
+                                                                                                id={`field_index` + readers.profile_user_id}
+                                                                                                value={i}
+                                                                                            />
+                                                                                            <td
+                                                                                                id={`field_bounced` + readers.profile_user_id}
+                                                                                            >
+                                                                                                {readers.bounce ? readers.bounce : "N/A"}
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                {editable ? (
+                                                                                                    <EditCountry
+                                                                                                        selected_country={readers.country}
+                                                                                                        profile_user={readers.profile_user_id}
+                                                                                                    ></EditCountry>
+                                                                                                ) : (
+                                                                                                    <span>
+                                                                                                        {readers.country ? readers.country : "N/A"}
+                                                                                                    </span>
+                                                                                                )}
+                                                                                            </td>
+                                                                                            <td>
+
+                                                                                                {readers?.ibu && readers?.ibu != 0
+                                                                                                    ? readers?.ibu
+                                                                                                    : "N/A"
+                                                                                                }
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                {localStorage.getItem("user_id") ==
+                                                                                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                                                                    <span>
+                                                                                                        {readers.user_type != 0
+                                                                                                            ? readers?.user_type
+                                                                                                            : "N/A"}
+                                                                                                    </span>
+                                                                                                ) : editable ? (
+                                                                                                    <EditContactType
+                                                                                                        selected_ibu={readers.contact_type}
+                                                                                                        profile_user={readers.profile_user_id}
+                                                                                                    ></EditContactType>
+                                                                                                ) : (
+                                                                                                    <span>
+                                                                                                        {readers.contact_type
+                                                                                                            ? readers.contact_type
+                                                                                                            : "N/A"}
+                                                                                                    </span>
+                                                                                                )}
+                                                                                            </td>
+                                                                                            <td className="delete_row" colSpan="12">
+                                                                                                <img
+                                                                                                    src={path_image + "delete.svg"}
+                                                                                                    alt="Add Row"
+                                                                                                    onClick={() => deleteReader(i)}
+                                                                                                />
+                                                                                            </td>
+                                                                                        </tr>)
+                                                                                })
+                                                                            }
+                                                                        </tbody>
+
+                                                                    </table>
+                                                                </div>
+                                                            </Accordion.Body>
+                                                        </Accordion.Item>
+                                                    </> : ""}
                                             </>
                                         )
                                     }) : ""}
