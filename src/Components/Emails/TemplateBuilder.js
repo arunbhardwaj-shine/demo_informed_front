@@ -1449,7 +1449,7 @@ const TemplateBuilder = (props) => {
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
-          .post(`emailapi/add_update_template123`, body)
+          .post(`emailapi/add_update_template`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
               getTemplateListData(
@@ -1508,7 +1508,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/add_update_template456465`, body)
+        .post(`emailapi/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             loader("hide");
@@ -3790,6 +3790,7 @@ const TemplateBuilder = (props) => {
           show={getNewTemplatePopup}
         >
           <Modal.Header>
+            <h4>Save as template</h4>
             <button
               type="button"
               className="btn-close"
