@@ -124,91 +124,91 @@ const MedpakSelectSmartListUsers = (props) => {
     const inputElement = useRef();
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     useEffect(() => {
-       getDataByCountryWise();
+        getDataByCountryWise();
     }, []);
 
-    const getDataByCountryWise=()=>{
-    const body = {
-        user_id: localStorage.getItem("user_id"),
-        list_id: props.getSelectedSmartListData?.id
-            ? props.getSelectedSmartListData.id
-            : props.getDraftData.campaign_data.smart_list_id,
-        show_specific: 1,
-    };
+    const getDataByCountryWise = () => {
+        const body = {
+            user_id: localStorage.getItem("user_id"),
+            list_id: props.getSelectedSmartListData?.id
+                ? props.getSelectedSmartListData.id
+                : props.getDraftData.campaign_data.smart_list_id,
+            show_specific: 1,
+        };
 
-    if (props.getSelectedSmartListData?.id) {
-        loader("show");
-        axios
-            .post(`distributes/get_reders_list`, body)
-            .then((res) => {
-                if (old_object?.removedHcp) {
-                    if (old_object.removedHcp.length > 0) {
-                        var removedUsers = old_object.removedHcp;
-                        var allUsers = res.data.response.data;
-                        var pendingUsers = allUsers.filter(function (objFromA) {
-                            return !removedUsers.find(function (objFromB) {
-                                return objFromA.profile_id === objFromB.profile_id;
+        if (props.getSelectedSmartListData?.id) {
+            loader("show");
+            axios
+                .post(`distributes/get_reders_list`, body)
+                .then((res) => {
+                    if (old_object?.removedHcp) {
+                        if (old_object.removedHcp.length > 0) {
+                            var removedUsers = old_object.removedHcp;
+                            var allUsers = res.data.response.data;
+                            var pendingUsers = allUsers.filter(function (objFromA) {
+                                return !removedUsers.find(function (objFromB) {
+                                    return objFromA.profile_id === objFromB.profile_id;
+                                });
                             });
-                        });
-                        console.log("i am here in 1")
-                        setReaders(pendingUsers);
-                    } else {
-                        console.log("i am here in 2")
-                        setReaders(res.data.response.data);
+                            console.log("i am here in 1")
+                            setReaders(pendingUsers);
+                        } else {
+                            console.log("i am here in 2")
+                            setReaders(res.data.response.data);
 
-                    }
-                } else if (
-                    props?.getDraftData &&
-                    props.getDraftData.campaign_data?.removedHcp
-                ) {
-                    if (
-                        typeof props.getDraftData.campaign_data.removedHcp !=
-                        "undefined" &&
-                        props.getDraftData.campaign_data.removedHcp != ""
-                    ) {
-                        var removedUsers = props.getDraftData.campaign_data.removedHcp;
-                        var allUsers = res.data.response.data;
-                        var pendingUsers = allUsers.filter(function (objFromA) {
-                            return !removedUsers.find(function (objFromB) {
-                                return objFromA.profile_id === objFromB.profile_id;
-                            });
-                        });
-                        console.log("i am here in 3")
-                        setReaders(pendingUsers);
-                    } else {
-                        console.log("i am here in 4")
-                        setReaders(res.data.response.data);
-                    }
-                } else {
-                    console.log("i am here in 5")
-                    setReaders(res.data.response.data);
-                    const processedData = res?.data?.response?.data?.reduce((acc, person) => {
-                        const country = person?.country?.toUpperCase();
-
-                        // If the country key doesn't exist, create an array for it
-                        if (!acc[country]) {
-                            acc[country] = [];
                         }
+                    } else if (
+                        props?.getDraftData &&
+                        props.getDraftData.campaign_data?.removedHcp
+                    ) {
+                        if (
+                            typeof props.getDraftData.campaign_data.removedHcp !=
+                            "undefined" &&
+                            props.getDraftData.campaign_data.removedHcp != ""
+                        ) {
+                            var removedUsers = props.getDraftData.campaign_data.removedHcp;
+                            var allUsers = res.data.response.data;
+                            var pendingUsers = allUsers.filter(function (objFromA) {
+                                return !removedUsers.find(function (objFromB) {
+                                    return objFromA.profile_id === objFromB.profile_id;
+                                });
+                            });
+                            console.log("i am here in 3")
+                            setReaders(pendingUsers);
+                        } else {
+                            console.log("i am here in 4")
+                            setReaders(res.data.response.data);
+                        }
+                    } else {
+                        console.log("i am here in 5")
+                        setReaders(res.data.response.data);
+                        const processedData = res?.data?.response?.data?.reduce((acc, person) => {
+                            const country = person?.country?.toUpperCase();
 
-                        // Push the person data to the country array
-                        acc[country].push(person);
+                            // If the country key doesn't exist, create an array for it
+                            if (!acc[country]) {
+                                acc[country] = [];
+                            }
 
-                        return acc;
-                    }, {});
+                            // Push the person data to the country array
+                            acc[country].push(person);
 
-                    setCountryWiseData(processedData);
-                    setFilterCountryWiseData(processedData)
-                }
+                            return acc;
+                        }, {});
 
-                loader("hide");
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    } else {
-        setReaders(props.getDraftData.campaign_data.selectedHcp);
+                        setCountryWiseData(processedData);
+                        setFilterCountryWiseData(processedData)
+                    }
+
+                    loader("hide");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else {
+            setReaders(props.getDraftData.campaign_data.selectedHcp);
+        }
     }
-}
     const backClicked = () => {
         navigate("/SelectSmartList");
     };
@@ -636,7 +636,7 @@ const MedpakSelectSmartListUsers = (props) => {
         setNewlyAddedCountryWiseData((prevData) => {
             const updatedData = { ...prevData };
             updatedData[country] = updatedData[country].filter((reader) => reader.profile_user_id !== profileUserId);
-            console.log(updatedData,'===>updatedData')
+            console.log(updatedData, '===>updatedData')
             return updatedData;
         });
     };
@@ -952,7 +952,7 @@ const MedpakSelectSmartListUsers = (props) => {
                 user_id: localStorage.getItem("user_id"),
                 edit_list_array: editableData,
             };
-       
+
             setSaveOpen(false);
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
@@ -975,7 +975,7 @@ const MedpakSelectSmartListUsers = (props) => {
                     toast.error("Something went wrong");
                 });
             setEditableData([]);
-            getDataByCountryWise();  
+            getDataByCountryWise();
         } else {
             setSaveOpen(false);
             toast.warning("No row update");
@@ -1555,6 +1555,35 @@ const MedpakSelectSmartListUsers = (props) => {
                                             aria-labelledby="dropdownMenuButton2"
                                         >
                                             <h4>Country List</h4>
+                                            <ul>
+                                                {Object.keys(newlyAddedCountryWiseData)?.map((country, index) => {
+                                                    return (
+                                                        <>
+                                                            <li>
+                                                                <div className="form-group">
+                                                                    <label htmlFor="">{country}</label>
+                                                                    <div className="switch">
+                                                                        <label className="switch-light">
+                                                                            <input
+                                                                                type="checkbox"
+
+                                                                                onChange={(e) => {
+                                                                                    handleChange(e.target?.checked, country);
+                                                                                }}
+                                                                            />
+                                                                            <span>
+                                                                                <span className="switch-btn active">Yes</span>
+                                                                                <span className="switch-btn">No</span>
+                                                                            </span>
+                                                                            <a className="btn"></a>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </>
+                                                    );
+                                                })}
+                                            </ul>
 
                                             <ul>
                                                 {Object.keys(countryWiseData)?.map((country, index) => {
@@ -2032,7 +2061,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                 // onClick={() => deleteReader(i)}
                                                                                                 // onClick={() => newlyAddedRemoved(readers, i)}
                                                                                                 onClick={() => newlyAddedRemoved(readers.profile_user_id, country)}
-                                                                                              
+
                                                                                             />
                                                                                         </td>
                                                                                     </tr>)
