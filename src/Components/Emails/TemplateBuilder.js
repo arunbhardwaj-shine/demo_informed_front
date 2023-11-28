@@ -23,6 +23,8 @@ import "react-circular-progressbar/dist/styles.css";
 import Select, { createFilter } from "react-select";
 import { ProgressBar } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { saveNewTemplate } from "../CommonComponent/Validations";
+
 
 var dxr = 0;
 var state_object = {};
@@ -124,6 +126,8 @@ const TemplateBuilder = (props) => {
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
   const [getDefaultTemplate, setDefaultTemplate] = useState(0);
 
+  const [ibuList, setIbuList] = useState([]);
+  const [languageList, setLanguageList] = useState([]);
   const [hpc, setHpc] = useState([
     {
       firstname: "",
@@ -165,6 +169,12 @@ const TemplateBuilder = (props) => {
     selectType[0]?.value
   );
   const [saveTemplateType, setsaveTemplateType] = useState();
+  const [userInputs, setSaveTemplateInputs] = useState({
+    template_name : "",
+    language : "",
+  });
+  const [error, setError] = useState({});
+
   const newArr = [];
 
   useEffect(() => {
@@ -332,11 +342,24 @@ const TemplateBuilder = (props) => {
             label: label.toUpperCase(),
           });
         });
-
+        
         let ibu = res.data.response.ibu;
         let ibu_arr = [];
         if (ibu.length > 0) {
+          //in case if ibu display then ibu should by submitted
+
+          setSaveTemplateInputs({
+            ...userInputs,
+            ibu: '',
+          });
+
           Object.entries(ibu).map(([index, item]) => {
+            if(index == 0){
+              ibu_arr.push({
+                value: '',
+                label: 'All',
+              }); 
+            }
             let label = item;
             ibu_arr.push({
               value: item,
@@ -349,8 +372,16 @@ const TemplateBuilder = (props) => {
         setCountryOption(index);
 
         setTemplateLanguage(lng_arr);
-
         setTemplateIbu(ibu_arr);
+        let modifiedIbuArray = [...ibu_arr];
+        modifiedIbuArray.shift();
+
+        let modifiedLanArray = [...lng_arr];
+        modifiedLanArray.shift();
+
+        setIbuList(modifiedIbuArray);
+        setLanguageList(modifiedLanArray);
+
         setTemplateList(res.data.response.data);
         getSelectedTemplateSource(res.data.response.data);
         setDefaultTemplate(res.data.response.is_default);
@@ -1384,58 +1415,65 @@ const TemplateBuilder = (props) => {
 
   const savenewtemplate = async (e) => {
     e.preventDefault();
-    let template_name = document.getElementById("template_name").value;
-    if (template_name !== "" && template_name.trim().length > 0) {
-      let lang = 0;
-      if (selectedLanguage == "All" || selectedLanguage == "english") {
-        lang = 0;
-      } else if (selectedLanguage == "italian") {
-        lang = 1;
-      } else if (selectedLanguage == "germany") {
-        lang = 2;
-      } else if (selectedLanguage == "spanish") {
-        lang = 3;
-      } else if (selectedLanguage == "russian") {
-        lang = 4;
-      }
-
-      const body = {
-        user_id: localStorage.getItem("user_id"),
-        source_code: template,
-        template_id: templateId,
-        name: template_name,
-        ibu: selectedIbu,
-        status: 1,
-        language: lang,
-      };
-
-      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      loader("show");
-      await axios
-        .post(`emailapi/add_update_template`, body)
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            getTemplateListData(
-              1,
-              selectedLanguage,
-              selectedIbu,
-              userTemplateType
-            );
-            setTemplateId(res.data.response.data.last_id);
-            setTemplateName(template_name);
-          } else {
+    const err = saveNewTemplate(userInputs);
+    if (Object.keys(err)?.length) {
+      setError(err);
+      return;
+    }else{
+      // let template_name = document.getElementById("template_name").value;
+      // if (template_name !== "" && template_name.trim().length > 0) {
+        loader("show");
+        let lang = 0;
+        if (userInputs?.language == "All" || userInputs?.language == "english") {
+          lang = 0;
+        } else if (userInputs?.language == "italian") {
+          lang = 1;
+        } else if (userInputs?.language == "germany") {
+          lang = 2;
+        } else if (userInputs?.language == "spanish") {
+          lang = 3;
+        } else if (userInputs?.language == "russian") {
+          lang = 4;
+        }
+  
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          source_code: template,
+          template_id: templateId,
+          name: userInputs?.template_name,
+          ibu: userInputs?.ibu ? userInputs?.ibu : '',
+          status: 1,
+          language: lang,
+        };
+  
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        await axios
+          .post(`emailapi/add_update_template123`, body)
+          .then((res) => {
+            if (res.data.status_code === 200) {
+              getTemplateListData(
+                1,
+                selectedLanguage,
+                selectedIbu,
+                userTemplateType
+              );
+              setTemplateId(res.data.response.data.last_id);
+              setTemplateName(userInputs?.template_name);
+            } else {
+              loader("hide");
+              toast.warning("Template not selected.");
+            }
+          })
+          .catch((err) => {
             loader("hide");
-            toast.warning("Template not selected.");
-          }
-        })
-        .catch((err) => {
-          loader("hide");
-          toast.error("Something went wrong");
-        });
-      setNewTemplatePopup(false);
-      setTemplatePopup(false);
-    } else {
-      toast.warning("Please enter template name.");
+            toast.error("Something went wrong");
+          });
+        setNewTemplatePopup(false);
+        setTemplatePopup(false);
+      // } else {
+      //   toast.warning("Please enter template name.");
+      // }
     }
   };
 
@@ -1470,7 +1508,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/add_update_template`, body)
+        .post(`emailapi/add_update_template456465`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             loader("hide");
@@ -1914,6 +1952,18 @@ const TemplateBuilder = (props) => {
       }
     });
   };
+
+  const userInputChange = (e, isSelectedName) => {
+    setSaveTemplateInputs({
+      ...userInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e?.target?.files
+          : e
+        : e?.target?.value,
+    });
+  }
+
   return (
     <>
       <div className="col right-sidebar">
@@ -1999,12 +2049,12 @@ const TemplateBuilder = (props) => {
                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                         defaultValue={
                           typeof getTemplateIbu[ibuOption] === "undefined"
-                            ? "Select Ibu"
+                            ? getTemplateIbu[0]
                             : getTemplateIbu[ibuOption]
                         }
                         placeholder={
                           typeof getTemplateIbu[ibuOption] === "undefined"
-                            ? "Select Ibu"
+                            ? getTemplateIbu[0]
                             : getTemplateIbu[ibuOption]
                         }
                       />
@@ -3751,13 +3801,65 @@ const TemplateBuilder = (props) => {
           <Modal.Body>
             <form>
               <div className="form-group">
-                <label>Enter new template name</label>
+                <label htmlFor="">Enter new template name <span>*</span></label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={
+                    error?.template_name
+                      ? "form-control error"
+                      : "form-control"
+                  }
                   id="template_name"
+                  name="template_name"
+                  onChange={userInputChange}
                 />
+                {error?.template_name ? (
+                  <div className="login-validation">{error?.template_name}</div>
+                ) : null}
               </div>
+              {languageList.length > 0 && (
+                <div className="form-group">
+                  <label htmlFor="">Template language <span>*</span></label>
+                  <Select
+                    placeholder="Select language"
+                    options={languageList}
+                    onChange={(e) => userInputChange(e?.value, "language")}
+                    className={
+                      error?.language
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                    isClearable
+                  />
+                  {error?.language ? (
+                        <div className="login-validation">
+                          {error?.language}
+                        </div>
+                      ) : null}
+                </div>
+              )}
+
+              {ibuList.length > 0 && (
+                <div className="form-group">
+                  <label htmlFor="">IBU <span>*</span></label>
+                  <Select
+                    placeholder="Select Ibu"
+                    options={ibuList}
+                    onChange={(e) => userInputChange(e?.value, "ibu")}
+                    className={
+                      error?.ibu
+                        ? "dropdown-basic-button split-button-dropup error"
+                        : "dropdown-basic-button split-button-dropup"
+                    }
+                    isClearable
+                  />
+                  {error?.ibu ? (
+                        <div className="login-validation">
+                          {error?.ibu}
+                        </div>
+                      ) : null}
+                </div>
+              )}
               <button
                 type="submit"
                 className="btn btn-primary btn-filled"
