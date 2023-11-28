@@ -65,6 +65,7 @@ const MedpakSelectSmartListUsers = (props) => {
     const buttonRef = useRef(null);
     const filterRef = useRef(null);
     const [excludeCountry, setExcludeCountry] = useState([]);
+    const [otherFilter, setOtherFilter] = useState([])
 
     const [hpc, setHpc] = useState([
         {
@@ -182,8 +183,12 @@ const MedpakSelectSmartListUsers = (props) => {
                     } else {
                         console.log("i am here in 5")
                         setReaders(res.data.response.data);
+                        let otherCountry = []
                         const processedData = res?.data?.response?.data?.reduce((acc, person) => {
                             const country = person?.country?.toUpperCase();
+                            if (!otherCountry?.includes(country)) {
+                                otherCountry?.push(country);
+                            }
 
                             // If the country key doesn't exist, create an array for it
                             if (!acc[country]) {
@@ -195,6 +200,9 @@ const MedpakSelectSmartListUsers = (props) => {
 
                             return acc;
                         }, {});
+                        console.log("other country--->", otherCountry)
+                        setOtherFilter(otherCountry)
+                        setExcludeCountry(otherCountry)
 
                         setCountryWiseData(processedData);
                         setFilterCountryWiseData(processedData)
@@ -753,7 +761,7 @@ const MedpakSelectSmartListUsers = (props) => {
         setSortingCount(sortingCount + 1);
     };
     const sortSelectedCountry = () => {
-        console.log("in country sorting");
+
         let normalArr = { ...countryWiseData }; // Use spread operator to create a shallow copy
 
         const sortedKeys = Object.keys(normalArr).sort((a, b) =>
@@ -766,8 +774,6 @@ const MedpakSelectSmartListUsers = (props) => {
         for (const key of sortedKeys) {
             sortedObject[key] = normalArr[key];
         }
-
-        console.log("sorted object--->", sortedObject);
 
         setCountryWiseData(sortedObject);
         setSorting(1 - sorting);
@@ -1202,12 +1208,26 @@ const MedpakSelectSmartListUsers = (props) => {
         setEditable(temp_val);
         setUpdate(update + 1);
     };
-    const handleChange = (e, country) => {
+    const handleOnFilterChange = (e, country) => {
+        console.log("e-->", e)
+        let otherObj = JSON.parse(JSON.stringify(otherFilter));
+        console.log("other obj 1--->", otherObj)
         if (e === true) {
-            setExcludeCountry(prev => [...prev, country]);
+            if(otherObj?.length>1){
+                let index = otherObj?.indexOf(country)
+                otherObj?.splice(index, 1)
+                setExcludeCountry(prev => prev?.filter(c => c !== country));
+            }
+          
         } else if (e === false) {
-            setExcludeCountry(prev => prev?.filter(c => c !== country));
+
+            otherObj?.push(country)
+            setExcludeCountry(prev => [...prev, country]);
+
+
         }
+        console.log("other obj 2--->", otherObj)
+        setOtherFilter(otherObj)
 
     }
     // useEffect(() => {
@@ -1464,7 +1484,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                 type="checkbox"
 
                                                                                 onChange={(e) => {
-                                                                                    handleChange(e.target?.checked, country);
+                                                                                    handleOnFilterChange(e.target?.checked, country);
                                                                                 }}
                                                                             />
                                                                             <span>
@@ -1486,15 +1506,19 @@ const MedpakSelectSmartListUsers = (props) => {
                                                     return (
                                                         <>
                                                             <li>
+                                                                { }
                                                                 <div className="form-group">
                                                                     <label htmlFor="">{country}</label>
                                                                     <div className="switch">
                                                                         <label className="switch-light">
                                                                             <input
                                                                                 type="checkbox"
+                                                                                checked={
+                                                                                    !otherFilter?.includes(country)
 
+                                                                                }
                                                                                 onChange={(e) => {
-                                                                                    handleChange(e.target?.checked, country);
+                                                                                    handleOnFilterChange(e.target?.checked, country);
                                                                                 }}
                                                                             />
                                                                             <span>
@@ -1522,7 +1546,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                 <Accordion>
                                     {Object.keys(newlyAddedCountryWiseData)?.length ? Object.keys(newlyAddedCountryWiseData)?.map((country, index) => {
                                         return (<>
-                                            {!excludeCountry?.includes(country) ?
+                                            {excludeCountry?.includes(country) ?
                                                 <>
                                                     {!countryWiseData?.[country]?.length ?
                                                         <Accordion.Item eventKey={index}>
@@ -1705,7 +1729,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                         return (
                                             <>
 
-                                                {!excludeCountry?.includes(country) ?
+                                                {excludeCountry?.includes(country) ?
                                                     <>
                                                         <Accordion.Item eventKey={index}>
                                                             <Accordion.Header>
