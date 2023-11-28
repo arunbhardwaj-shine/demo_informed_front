@@ -123,7 +123,7 @@ const MedpakSelectSmartListUsers = (props) => {
     const inputElement = useRef();
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     useEffect(() => {
-        console.log("user List--->", props)
+
         const body = {
             user_id: localStorage.getItem("user_id"),
             list_id: props.getSelectedSmartListData?.id
@@ -191,7 +191,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
                             return acc;
                         }, {});
-                        console.log("process data--->", processedData)
+
                         setCountryWiseData(processedData);
                         setFilterCountryWiseData(processedData)
                     }
@@ -1225,7 +1225,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                     <button
                                         ref={buttonRef}
                                         className={
-                                            Object.keys(filterCountryWiseData).length > 0
+                                            Object.keys(countryWiseData).length > 0
                                                 ? "btn btn-secondary dropdown filter_applied"
                                                 : "btn btn-secondary dropdown"
                                         }
@@ -1291,7 +1291,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                             <h4>Country List</h4>
 
                                             <ul>
-                                                {Object.keys(filterCountryWiseData)?.map((country, index) => {
+                                                {Object.keys(countryWiseData)?.map((country, index) => {
                                                     return (
                                                         <>
                                                             <li>
@@ -1343,7 +1343,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                     {Object.keys(countryWiseData)?.length ? Object.keys(countryWiseData)?.map((country, index) => {
                                         return (
                                             <>
-                                                {console.log("country---->", excludeCountry)}
+
                                                 {!excludeCountry?.includes(country) ?
                                                     <Accordion.Item eventKey={index}>
                                                         <Accordion.Header>
