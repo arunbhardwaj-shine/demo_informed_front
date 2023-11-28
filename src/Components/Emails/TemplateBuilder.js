@@ -1422,6 +1422,7 @@ const TemplateBuilder = (props) => {
     }else{
       // let template_name = document.getElementById("template_name").value;
       // if (template_name !== "" && template_name.trim().length > 0) {
+        setError({});
         loader("show");
         let lang = 0;
         if (userInputs?.language == "All" || userInputs?.language == "english") {
