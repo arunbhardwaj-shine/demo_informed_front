@@ -729,9 +729,10 @@ const MedpakSelectSmartListUsers = (props) => {
         setManualReRender(manualReRender + 1);
     };
 
-    const sortSelectedUsers = () => {
-        let normalArr = [];
-        normalArr = readers;
+    const sortSelectedUsers = (e,country) => {
+        console.log("users--->", countryWiseData)
+        const normalArr = countryWiseData[country];
+       
         if (sorting === 0) {
             normalArr.sort((a, b) =>
                 a.first_name.toLowerCase() > b.first_name.toLowerCase()
@@ -749,8 +750,32 @@ const MedpakSelectSmartListUsers = (props) => {
                         : 0
             );
         }
-
+        setCountryWiseData(prevData => ({
+            ...prevData,
+            [country]: normalArr,
+        }));
         setReaders(normalArr);
+        setSorting(1 - sorting);
+        setSortingCount(sortingCount + 1);
+    };
+    const sortSelectedCountry = () => {
+        console.log("in country sorting");
+        let normalArr = { ...countryWiseData }; // Use spread operator to create a shallow copy
+
+        const sortedKeys = Object.keys(normalArr).sort((a, b) =>
+            sorting === 0
+                ? a.toLowerCase().localeCompare(b.toLowerCase())
+                : b.toLowerCase().localeCompare(a.toLowerCase())
+        );
+
+        const sortedObject = {};
+        for (const key of sortedKeys) {
+            sortedObject[key] = normalArr[key];
+        }
+
+        console.log("sorted object--->", sortedObject);
+
+        setCountryWiseData(sortedObject);
         setSorting(1 - sorting);
         setSortingCount(sortingCount + 1);
     };
@@ -1384,7 +1409,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                     <div className="selected-hcp-table-action">
                                         {editable == false ? (
                                             <>
-                                                {
+                                                {/* {
                                                     localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
                                                         <a
                                                             className="show-less-info"
@@ -1396,7 +1421,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                 <p className="show_less">Show less information</p>
                                                             )}{" "}
                                                         </a> : null
-                                                }
+                                                } */}
                                                 <div className="hcp-new-user">
                                                     <button
                                                         className="btn btn-outline-primary"
@@ -1421,7 +1446,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                         <>
                                                             <button
                                                                 className="btn btn-outline-primary"
-                                                                onClick={sortSelectedUsers}
+                                                                onClick={sortSelectedCountry}
                                                             >
                                                                 Sort By{" "}
                                                                 <img
@@ -1434,7 +1459,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                         <>
                                                             <button
                                                                 className="btn btn-outline-primary desc"
-                                                                onClick={sortSelectedUsers}
+                                                                onClick={sortSelectedCountry}
                                                             >
                                                                 Sort By{" "}
                                                                 <img
@@ -1447,7 +1472,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                         <>
                                                             <button
                                                                 className="btn btn-outline-primary asc"
-                                                                onClick={sortSelectedUsers}
+                                                                onClick={sortSelectedCountry}
                                                             >
                                                                 Sort By{" "}
                                                                 <img
@@ -1654,6 +1679,16 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                 <th scope="col">Country</th>
                                                                                 <th scope="col">Business unit</th>
                                                                                 <th scope="col">Contact type</th>
+                                                                                {showLessInfo == false ? (
+                                                                                    <>
+                                                                                        <th scope="col">Consent</th>
+                                                                                        <th scope="col">Email received</th>
+                                                                                        <th scope="col">Openings</th>
+                                                                                        <th scope="col">Registrations</th>
+                                                                                        <th scope="col">Last email</th>
+                                                                                    </>
+                                                                                ) : null}
+
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -1828,6 +1863,59 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                 <th scope="col">Country</th>
                                                                                 <th scope="col">Business unit</th>
                                                                                 <th scope="col">Contact type</th>
+                                                                                {showLessInfo == false ? (
+                                                                                    <>
+                                                                                        <th scope="col">Consent</th>
+                                                                                        <th scope="col">Email received</th>
+                                                                                        <th scope="col">Openings</th>
+                                                                                        <th scope="col">Registrations</th>
+                                                                                        <th scope="col">Last email</th>
+                                                                                    </>
+                                                                                ) : null}
+                                                                                <th>
+                                                                                    <div className="hcp-sort">
+                                                                                        {sortingCount == 0 ? (
+                                                                                            <>
+                                                                                                <button
+                                                                                                    className="btn btn-outline-primary"
+                                                                                                    onClick={(e) => sortSelectedUsers(e, country)}
+                                                                                                >
+                                                                                                    Sort By{" "}
+                                                                                                    <img
+                                                                                                        src={path_image + "sort.svg"}
+                                                                                                        alt="Shorting"
+                                                                                                    />
+                                                                                                </button>
+                                                                                            </>
+                                                                                        ) : sorting == 0 ? (
+                                                                                            <>
+                                                                                                <button
+                                                                                                    className="btn btn-outline-primary desc"
+                                                                                                    onClick={(e) => sortSelectedUsers(e, country)}
+                                                                                                >
+                                                                                                    Sort By{" "}
+                                                                                                    <img
+                                                                                                        src={path_image + "sort-decending.svg"}
+                                                                                                        alt="Shorting"
+                                                                                                    />
+                                                                                                </button>
+                                                                                            </>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <button
+                                                                                                    className="btn btn-outline-primary asc"
+                                                                                                    onClick={(e) => sortSelectedUsers(e, country)}
+                                                                                                >
+                                                                                                    Sort By{" "}
+                                                                                                    <img
+                                                                                                        src={path_image + "sort-assending.svg"}
+                                                                                                        alt="Shorting"
+                                                                                                    />
+                                                                                                </button>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </div>
+                                                                                </th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
