@@ -1214,6 +1214,108 @@ const MedpakSelectSmartListUsers = (props) => {
 
                         <section className="search-hcp">
                             <div className="result-hcp-table">
+                                <div className="table-title">
+                                    <h4>
+                                        {/* HCPs <span>| {smartListSelected.readers_count}</span> */}
+                                    </h4>
+                                    <div className="selected-hcp-table-action">
+                                        {editable == false ? (
+                                            <>
+                                                {
+                                                    localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
+                                                        <a
+                                                            className="show-less-info"
+                                                            onClick={(e) => showMoreInfo(e)}
+                                                        >
+                                                            {showLessInfo == true ? (
+                                                                <p className="show_more">Show More information</p>
+                                                            ) : (
+                                                                <p className="show_less">Show less information</p>
+                                                            )}{" "}
+                                                        </a> : null
+                                                }
+                                                <div className="hcp-new-user">
+                                                    <button
+                                                        className="btn btn-outline-primary"
+                                                        onClick={addNewUser}
+                                                    >
+                                                        <img
+                                                            src={path_image + "new-user.svg"}
+                                                            alt="New User"
+                                                        />
+                                                    </button>
+                                                </div>
+                                                <div className="hcp-added">
+                                                    <button
+                                                        className="btn btn-outline-primary"
+                                                        onClick={editButtonClicked}
+                                                    >
+                                                        <img src={path_image + "edit.svg"} alt="Edit" />
+                                                    </button>
+                                                </div>
+                                                <div className="hcp-sort">
+                                                    {sortingCount == 0 ? (
+                                                        <>
+                                                            <button
+                                                                className="btn btn-outline-primary"
+                                                                onClick={sortSelectedUsers}
+                                                            >
+                                                                Sort By{" "}
+                                                                <img
+                                                                    src={path_image + "sort.svg"}
+                                                                    alt="Shorting"
+                                                                />
+                                                            </button>
+                                                        </>
+                                                    ) : sorting == 0 ? (
+                                                        <>
+                                                            <button
+                                                                className="btn btn-outline-primary desc"
+                                                                onClick={sortSelectedUsers}
+                                                            >
+                                                                Sort By{" "}
+                                                                <img
+                                                                    src={path_image + "sort-decending.svg"}
+                                                                    alt="Shorting"
+                                                                />
+                                                            </button>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <button
+                                                                className="btn btn-outline-primary asc"
+                                                                onClick={sortSelectedUsers}
+                                                            >
+                                                                Sort By{" "}
+                                                                <img
+                                                                    src={path_image + "sort-assending.svg"}
+                                                                    alt="Shorting"
+                                                                />
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </>
+                                        ) : null}
+                                        {saveOpen ? (
+                                            <>
+                                                <button
+                                                    className="btn btn-primary btn-filled"
+                                                    onClick={closeClicked}
+                                                >
+                                                    Close
+                                                </button>
+
+                                                <button
+                                                    className="btn btn-primary btn-bordered"
+                                                    onClick={saveEditClicked}
+                                                >
+                                                    Save
+                                                </button>
+                                            </>
+                                        ) : null}
+                                    </div>
+                                </div>
 
                                 <div
                                     className={
@@ -1347,7 +1449,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                 {!excludeCountry?.includes(country) ?
                                                     <Accordion.Item eventKey={index}>
                                                         <Accordion.Header>
-                                                            {country}
+                                                            {`${country} (${countryWiseData?.[country]?.length})`}
                                                         </Accordion.Header>
 
                                                         <Accordion.Body className="card-body">
