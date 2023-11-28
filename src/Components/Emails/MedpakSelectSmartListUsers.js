@@ -612,21 +612,31 @@ const MedpakSelectSmartListUsers = (props) => {
         setPdfSelected(e.target.value);
     };
 
-    const newlyAddedRemoved = (reader, i) => {
-        const readersRemoved = removedReaders;
-        setRemovedReaders((oldArray) => [reader, ...oldArray]);
-        const newlyAdded = readersNewlyAdded;
-        newlyAdded.splice(i, 1);
-        setReadersNewlyAdded(newlyAdded);
-        let merged_array = [reader, ...readersRemoved];
-        old_object.removedHcp = merged_array;
+    // const newlyAddedRemoved = (reader, i) => {
+    //     const readersRemoved = removedReaders;
+    //     setRemovedReaders((oldArray) => [reader, ...oldArray]);
+    //     const newlyAdded = readersNewlyAdded;
+    //     newlyAdded.splice(i, 1);
+    //     setReadersNewlyAdded(newlyAdded);
+    //     let merged_array = [reader, ...readersRemoved];
+    //     old_object.removedHcp = merged_array;
 
-        if (props.getDraftData?.campaign_data) {
-            if (props.getDraftData.campaign_data?.removedHcp) {
-                props.getDraftData.campaign_data.removedHcp = merged_array;
-            }
-        }
-        setUpdate(update + 1);
+    //     if (props.getDraftData?.campaign_data) {
+    //         if (props.getDraftData.campaign_data?.removedHcp) {
+    //             props.getDraftData.campaign_data.removedHcp = merged_array;
+    //         }
+    //     }
+    //     setUpdate(update + 1);
+    // };
+
+
+    const newlyAddedRemoved = (profileUserId, country) => {
+        setNewlyAddedCountryWiseData((prevData) => {
+            const updatedData = { ...prevData };
+            updatedData[country] = updatedData[country].filter((reader) => reader.profile_user_id !== profileUserId);
+            console.log(updatedData,'===>updatedData')
+            return updatedData;
+        });
     };
 
     const handleInputChange = (event, selected) => {
@@ -1846,8 +1856,9 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                 src={path_image + "delete.svg"}
                                                                                                 alt="Delete Row"
                                                                                                 // onClick={() => deleteReader(i)}
-                                                                                                // onClick={() => deleteReader(readers.profile_user_id, country)}
-                                                                                                onClick={() => newlyAddedRemoved(readers, i)}
+                                                                                                // onClick={() => newlyAddedRemoved(readers, i)}
+                                                                                                onClick={() => newlyAddedRemoved(readers.profile_user_id, country)}
+                                                                                              
                                                                                             />
                                                                                         </td>
                                                                                     </tr>)
@@ -1948,7 +1959,8 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                 <img
                                                                                                     src={path_image + "delete.svg"}
                                                                                                     alt="Add Row"
-                                                                                                    onClick={() => deleteReader(i)}
+                                                                                                    // onClick={() => deleteReader(i)}
+                                                                                                    onClick={() => deleteReader(readers.profile_user_id, country)}
                                                                                                 />
                                                                                             </td>
                                                                                         </tr>)
