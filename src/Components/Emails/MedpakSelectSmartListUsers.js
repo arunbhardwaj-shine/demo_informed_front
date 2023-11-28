@@ -1378,11 +1378,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                 </button>
                                             </>
                                         ) : null}
-                                    </div>
-                                </div>
-
-
-                                <div
+                                        <div
                                     className={
                                         showfilter
                                             ? "filter-by nav-item dropdown highlight"
@@ -1515,25 +1511,15 @@ const MedpakSelectSmartListUsers = (props) => {
                                                     );
                                                 })}
                                             </ul>
-
-
-                                            {/* <div className="filter-footer">
-                                                <button
-                                                    className="btn btn-primary btn-bordered"
-                                                onClick={clearFilter}
-                                                >
-                                                    Clear
-                                                </button>
-                                                <button
-                                                    className="btn btn-primary btn-filled"
-                                                onClick={applyFilter}
-                                                >
-                                                    Apply
-                                                </button>
-                                            </div> */}
                                         </div>
                                     )}
                                 </div>
+                                    </div>
+                                    
+                                </div>
+
+
+                                
                                 <Accordion>
                                     {Object.keys(newlyAddedCountryWiseData)?.length ? Object.keys(newlyAddedCountryWiseData)?.map((country, index) => {
                                         return (<>
