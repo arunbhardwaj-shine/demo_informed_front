@@ -2291,7 +2291,7 @@ form .input-group {
   background: #97b6cf7a;
   color: var(--light-gray);
   border-radius: 4px;
-  padding: 1 3px;
+  padding: 1px 3px;
 }
 
 .form-search-hcp .form-inline .form-group input {
@@ -2734,6 +2734,12 @@ form#add_hcp_form .row:not(:first-child) {
 .selected-hcp-table-action .switch .switch-light>span span {
   top: 2px;
   font-size: 12px;
+}
+
+.selected-hcp-table-action .split-button-dropup.edit-country-dropdown div:nth-child(3)>div div {
+  font-size: 13px;
+  margin: 0;
+  padding: 1px;
 }
 
 .search-hcp .result-hcp-table .accordion {
