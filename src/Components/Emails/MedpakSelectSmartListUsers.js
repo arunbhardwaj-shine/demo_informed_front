@@ -661,6 +661,7 @@ const MedpakSelectSmartListUsers = (props) => {
         //setReaders((oldArray) => [reader, ...oldArray]);
         setReRender(reRender + 1);
     };
+
     const addMoreHcp = () => {
         const status = hpc.map((data) => {
             if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -849,60 +850,6 @@ const MedpakSelectSmartListUsers = (props) => {
         }
     };
 
-
-    // const editing = (
-    //     profile_id,
-    //     profile_user_id,
-    //     email,
-    //     jobTitle,
-    //     company,
-    //     country,
-    //     names,
-    //     contact_type
-    // ) => {
-    //     console.log("Editing function called for profile_user_id:", profile_user_id);
-
-    //     if (editable !== 0) {
-    //         const name_edit = document.getElementById("field_name" + profile_user_id).innerText;
-    //         const country_edit = document.getElementById("field_country" + profile_user_id).value;
-
-    //         const contact_type_edit =
-    //             localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
-    //                 ? document.getElementById("field_contact_type" + profile_user_id).value
-    //                 : "";
-
-    //         setCountryWiseData((prevCountryWiseData) => {
-    //             if (prevCountryWiseData && prevCountryWiseData[country]) {
-    //                 const updatedData = prevCountryWiseData[country].map((reader) => {
-    //                     if (reader.profile_user_id === profile_user_id) {
-    //                         return {
-    //                             ...reader,
-    //                             email,
-    //                             jobTitle,
-    //                             company,
-    //                             country: country_edit,
-    //                             username: name_edit,
-    //                             contact_type: contact_type_edit,
-    //                         };
-    //                     } else {
-    //                         return reader;
-    //                     }
-    //                 });
-
-    //                 return {
-    //                     ...prevCountryWiseData,
-    //                     [country]: updatedData,
-    //                 };
-    //             }
-
-    //             return prevCountryWiseData;
-    //         });
-    //     }
-
-    //     console.log("Editable data after edit:", editableData);
-    // };
-
-
     // const deleteReader = (i) => {
     //     const previous_removed_users = removedReaders;
     //     const readersList = readers;
@@ -1007,69 +954,6 @@ const MedpakSelectSmartListUsers = (props) => {
         }
     };
 
-
-
-    // const saveEditClicked = async () => {
-    //     setEditable(0);
-    //     if (editableData.length > 0) {
-    //         editableData.forEach((data) => {
-    //             const name_edit = document.getElementById("field_name" + data.profile_user_id).innerText;
-    //             const country_edit = document.getElementById("field_country" + data.profile_user_id).value;
-    //             const edit_index = document.getElementById("field_index" + data.profile_user_id).value;
-    //             const contact_type_edit =
-    //                 localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
-    //                     ? document.getElementById("field_contact_type" + data.profile_user_id).value
-    //                     : "";
-
-    //             // Update the local readers or readersNewlyAdded array
-    //             let targetArray = readers;
-    //             if (readers.find((x) => x.profile_user_id === data.profile_user_id) === undefined) {
-    //                 targetArray = readersNewlyAdded;
-    //             }
-
-    //             const targetReader = targetArray.find((x) => x.profile_user_id === data.profile_user_id);
-    //             if (targetReader) {
-    //                 targetReader.country = country_edit;
-    //                 targetReader.contact_type = contact_type_edit;
-    //             }
-
-    //             // Update the data object itself
-    //             data.country = country_edit;
-    //             data.username = name_edit;
-    //             data.contact_type = contact_type_edit;
-    //         });
-
-    //         const body = {
-    //             user_id: localStorage.getItem("user_id"),
-    //             edit_list_array: editableData,
-    //         };
-    //         setSaveOpen(false);
-    //         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-    //         loader("show");
-
-    //         try {
-    //             const res = await axios.post(`distributes/update_reders_details`, body);
-    //             loader("hide");
-
-    //             if (res.data.status_code === 200) {
-    //                 toast.success("List updated");
-    //             } else {
-    //                 popup_alert({
-    //                     visible: "show",
-    //                     message: res.data.message,
-    //                     type: "error",
-    //                 });
-    //             }
-    //         } catch (err) {
-    //             toast.error("Something went wrong");
-    //         }
-
-    //         setEditableData([]);
-    //     } else {
-    //         setSaveOpen(false);
-    //         toast.warning("No row update");
-    //     }
-    // };
 
     const closeClicked = () => {
         setSaveOpen(false);
@@ -1824,7 +1708,8 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                 alt="Delete Row"
                                                                                                 // onClick={() => deleteReader(i)}
                                                                                                 // onClick={() => deleteReader(readers.profile_user_id, country)}
-                                                                                                onClick={() => newlyAddedRemoved(readers, i)}
+                                                                                                // onClick={() => newlyAddedRemoved(readers, i)}
+                                                                                                onClick={() => newlyAddedRemoved(readers.profile_user_id, country)}
                                                                                             />
                                                                                         </td>
                                                                                     </tr>)
