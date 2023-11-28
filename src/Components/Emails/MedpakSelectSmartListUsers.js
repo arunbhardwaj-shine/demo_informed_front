@@ -808,7 +808,7 @@ const MedpakSelectSmartListUsers = (props) => {
                 //create new
                 setEditableData((oldArray) => [...oldArray, ...arr]);
             }
-            
+
         }
     };
 
@@ -824,16 +824,16 @@ const MedpakSelectSmartListUsers = (props) => {
     //     contact_type
     // ) => {
     //     console.log("Editing function called for profile_user_id:", profile_user_id);
-    
+
     //     if (editable !== 0) {
     //         const name_edit = document.getElementById("field_name" + profile_user_id).innerText;
     //         const country_edit = document.getElementById("field_country" + profile_user_id).value;
-    
+
     //         const contact_type_edit =
     //             localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
     //                 ? document.getElementById("field_contact_type" + profile_user_id).value
     //                 : "";
-    
+
     //         setCountryWiseData((prevCountryWiseData) => {
     //             if (prevCountryWiseData && prevCountryWiseData[country]) {
     //                 const updatedData = prevCountryWiseData[country].map((reader) => {
@@ -851,21 +851,21 @@ const MedpakSelectSmartListUsers = (props) => {
     //                         return reader;
     //                     }
     //                 });
-    
+
     //                 return {
     //                     ...prevCountryWiseData,
     //                     [country]: updatedData,
     //                 };
     //             }
-    
+
     //             return prevCountryWiseData;
     //         });
     //     }
-    
+
     //     console.log("Editable data after edit:", editableData);
     // };
-    
-    
+
+
     // const deleteReader = (i) => {
     //     const previous_removed_users = removedReaders;
     //     const readersList = readers;
@@ -888,7 +888,7 @@ const MedpakSelectSmartListUsers = (props) => {
         setCountryWiseData((prevData) => {
             const updatedData = { ...prevData };
             updatedData[country] = updatedData[country].filter((reader) => reader.profile_user_id !== profileUserId);
-            console.log(updatedData,'===>updatedData')
+            console.log(updatedData, '===>updatedData')
             return updatedData;
         });
     };
@@ -981,25 +981,25 @@ const MedpakSelectSmartListUsers = (props) => {
     //                 localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
     //                     ? document.getElementById("field_contact_type" + data.profile_user_id).value
     //                     : "";
-    
+
     //             // Update the local readers or readersNewlyAdded array
     //             let targetArray = readers;
     //             if (readers.find((x) => x.profile_user_id === data.profile_user_id) === undefined) {
     //                 targetArray = readersNewlyAdded;
     //             }
-    
+
     //             const targetReader = targetArray.find((x) => x.profile_user_id === data.profile_user_id);
     //             if (targetReader) {
     //                 targetReader.country = country_edit;
     //                 targetReader.contact_type = contact_type_edit;
     //             }
-    
+
     //             // Update the data object itself
     //             data.country = country_edit;
     //             data.username = name_edit;
     //             data.contact_type = contact_type_edit;
     //         });
-    
+
     //         const body = {
     //             user_id: localStorage.getItem("user_id"),
     //             edit_list_array: editableData,
@@ -1007,11 +1007,11 @@ const MedpakSelectSmartListUsers = (props) => {
     //         setSaveOpen(false);
     //         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     //         loader("show");
-    
+
     //         try {
     //             const res = await axios.post(`distributes/update_reders_details`, body);
     //             loader("hide");
-    
+
     //             if (res.data.status_code === 200) {
     //                 toast.success("List updated");
     //             } else {
@@ -1024,14 +1024,14 @@ const MedpakSelectSmartListUsers = (props) => {
     //         } catch (err) {
     //             toast.error("Something went wrong");
     //         }
-    
+
     //         setEditableData([]);
     //     } else {
     //         setSaveOpen(false);
     //         toast.warning("No row update");
     //     }
     // };
-    
+
     const closeClicked = () => {
         setSaveOpen(false);
         setEditable(0);
@@ -1590,9 +1590,179 @@ const MedpakSelectSmartListUsers = (props) => {
                                         </div>
                                     )}
                                 </div>
-
+                                <Accordion>
+                                    {Object.keys(newlyAddedCountryWiseData)?.length ? Object.keys(newlyAddedCountryWiseData)?.map((country, index) => {
+                                        return (<>
+                                            {!excludeCountry?.includes(country) ?
+                                                <>
+                                                    {!countryWiseData?.[country]?.length ?
+                                                        <Accordion.Item eventKey={index}>
+                                                            <Accordion.Header>
+                                                                {`${country} (${newlyAddedCountryWiseData?.[country]?.length})`}
+                                                            </Accordion.Header>
+                                                            <Accordion.Body className="card-body">
+                                                                <div className="selected-hcp-list">
+                                                                    <table className="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Name</th>
+                                                                                <th scope="col">Email</th>
+                                                                                <th scope="col">Bounced</th>
+                                                                                <th scope="col">Country</th>
+                                                                                <th scope="col">Business unit</th>
+                                                                                <th scope="col">Contact type</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {newlyAddedCountryWiseData?.[country]?.map((readers, i) => {
+                                                                                return (
+                                                                                    <tr
+                                                                                        id={`row-selected` + i} key={`row-selected${i}`}
+                                                                                        className="hcps-added"
+                                                                                        onClick={(e) =>
+                                                                                            editing(
+                                                                                                readers.profile_id,
+                                                                                                readers.profile_user_id,
+                                                                                                readers.email,
+                                                                                                readers.jobTitle,
+                                                                                                readers.company,
+                                                                                                readers.country,
+                                                                                                readers.first_name + " " + readers.last_name,
+                                                                                                readers.contact_type
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        <td
+                                                                                            id={`field_name` + readers.profile_user_id}
+                                                                                            contentEditable={
+                                                                                                editable === 0 ? "false" : "true"
+                                                                                            }
+                                                                                        >
+                                                                                            <span>
+                                                                                                {readers.first_name
+                                                                                                    ? readers.first_name +
+                                                                                                    " " +
+                                                                                                    readers.last_name
+                                                                                                    : "N/A"}
+                                                                                            </span>
+                                                                                        </td>
+                                                                                        <td>{readers.email ? readers.email : "N/A"}</td>
+                                                                                        <input
+                                                                                            type="hidden"
+                                                                                            id={`field_index` + readers.profile_user_id}
+                                                                                            value={i}
+                                                                                        />
+                                                                                        <td>{readers.bounce ? readers.bounce : "N/A"}</td>
+                                                                                        <td>
+                                                                                            {editable ? (
+                                                                                                <EditCountry
+                                                                                                    selected_country={readers.country}
+                                                                                                    profile_user={readers.profile_user_id}
+                                                                                                ></EditCountry>
+                                                                                            ) : (
+                                                                                                <span>
+                                                                                                    {readers.country ? readers.country : "N/A"}
+                                                                                                </span>
+                                                                                            )}
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            {/*readers.ibu ? readers.ibu : "N/A"*/}
+                                                                                            {localStorage.getItem("user_id") ==
+                                                                                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                                                ? readers?.irt
+                                                                                                    ? "Yes"
+                                                                                                    : "No"
+                                                                                                : readers.ibu && readers.ibu != 0
+                                                                                                    ? readers.ibu
+                                                                                                    : "N/A"}
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            {localStorage.getItem("user_id") ==
+                                                                                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                                                                <span>
+                                                                                                    {readers.user_type != 0
+                                                                                                        ? readers?.user_type
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            ) : editable ? (
+                                                                                                <EditContactType
+                                                                                                    selected_ibu={readers.contact_type}
+                                                                                                    profile_user={readers.profile_user_id}
+                                                                                                ></EditContactType>
+                                                                                            ) : (
+                                                                                                <span>
+                                                                                                    {readers.contact_type
+                                                                                                        ? readers.contact_type
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            )}
+                                                                                        </td>
+                                                                                        {showLessInfo == false ? (
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.consent ? readers.consent : "N/A"}
+                                                                                                </span>{" "}
+                                                                                            </td>
+                                                                                        ) : null}
+                                                                                        {showLessInfo == false ? (
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.email_received
+                                                                                                        ? readers.email_received
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        ) : null}
+                                                                                        {showLessInfo == false ? (
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.email_opening
+                                                                                                        ? readers.email_opening
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        ) : null}
+                                                                                        {showLessInfo == false ? (
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.registration
+                                                                                                        ? readers.registration
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        ) : null}
+                                                                                        {showLessInfo == false ? (
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.last_email
+                                                                                                        ? readers.last_email
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        ) : null}
+                                                                                        <td className="delete_row" colSpan="12">
+                                                                                            <img
+                                                                                                src={path_image + "delete.svg"}
+                                                                                                alt="Delete Row"
+                                                                                                // onClick={() => deleteReader(i)}
+                                                                                                // onClick={() => deleteReader(readers.profile_user_id, country)}
+                                                                                                onClick={() => newlyAddedRemoved(readers, i)}
+                                                                                            />
+                                                                                        </td>
+                                                                                    </tr>)
+                                                                            })}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </Accordion.Body>
+                                                        </Accordion.Item> : ""}
+                                                </> : ""}
+                                        </>)
+                                    }) : ""}
+                                </Accordion>
 
                                 <Accordion>
+
                                     {Object.keys(countryWiseData)?.length ? Object.keys(countryWiseData)?.map((country, index) => {
                                         return (
                                             <>
@@ -1718,7 +1888,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                             {newlyAddedCountryWiseData?.[country]?.map((readers, i) => {
                                                                                 return (
                                                                                     <tr
-                                                                                        id={`row-selected` + i}  key={`row-selected${i}`}
+                                                                                        id={`row-selected` + i} key={`row-selected${i}`}
                                                                                         className="hcps-added"
                                                                                         onClick={(e) =>
                                                                                             editing(
