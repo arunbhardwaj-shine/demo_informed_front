@@ -652,7 +652,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
         //setReaders((oldArray) => [reader, ...oldArray]);
         setReRender(reRender + 1);
-        console.log(readersRemoved,'====>readersRemoved')
+        console.log(readersRemoved,'==>readersRemoved')
     };
 
     const addMoreHcp = () => {
@@ -859,7 +859,6 @@ const MedpakSelectSmartListUsers = (props) => {
             }
         }
     };
-
 
     // const deleteReader = (profileUserId, country) => {
     //     setCountryWiseData((prevData) => {
