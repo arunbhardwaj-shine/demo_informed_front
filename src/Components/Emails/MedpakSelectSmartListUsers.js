@@ -843,22 +843,21 @@ const MedpakSelectSmartListUsers = (props) => {
         }
     };
 
-    const deleteReader = (i,country) => {
+    const deleteReader = (i) => {
         const previous_removed_users = removedReaders;
-        const readersList = countryWiseData?.[country];
+        const readersList = readers;
         const removedReader = readersList.splice(i, 1);
         setReaders(readersList);
         setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
         let merged_array = [...previous_removed_users, ...removedReader];
         old_object.removedHcp = merged_array;
-        console.log(removedReader,'===>removedReader')
-
+    
         if (props.getDraftData?.campaign_data) {
-            if (props.getDraftData.campaign_data?.removedHcp) {
-                props.getDraftData.campaign_data.removedHcp = merged_array;
-            }
+          if (props.getDraftData.campaign_data?.removedHcp) {
+            props.getDraftData.campaign_data.removedHcp = merged_array;
+          }
         }
-    };
+      };
 
     // const deleteReader = (profileUserId, country) => {
     //     setCountryWiseData((prevData) => {
@@ -2112,7 +2111,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                 <img
                                                                                                     src={path_image + "delete.svg"}
                                                                                                     alt="Add Row"
-                                                                                                    onClick={() => deleteReader(i,country)}
+                                                                                                    onClick={() => deleteReader(i)}
                                                                                                     // onClick={() => deleteReader(readers.profile_user_id, country)}
                                                                                                 />
                                                                                             </td>
