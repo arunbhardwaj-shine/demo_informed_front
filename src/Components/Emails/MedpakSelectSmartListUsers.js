@@ -730,11 +730,11 @@ const MedpakSelectSmartListUsers = (props) => {
         setManualReRender(manualReRender + 1);
     };
 
-    const sortSelectedUsers = (e,country) => {
+    const sortSelectedUsers = (e, country) => {
         console.log("users--->", countryWiseData)
         const normalArr = countryWiseData[country];
-       
-        if (sorting === 0) {
+
+        if (sorting == 0) {
             normalArr.sort((a, b) =>
                 a.first_name.toLowerCase() > b.first_name.toLowerCase()
                     ? 1
@@ -755,7 +755,7 @@ const MedpakSelectSmartListUsers = (props) => {
             ...prevData,
             [country]: normalArr,
         }));
-        setReaders(normalArr);
+
         setSorting(1 - sorting);
         setSortingCount(sortingCount + 1);
     };
@@ -1759,46 +1759,48 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                 ) : null}
                                                                                 <th>
                                                                                     <div className="hcp-sort">
-                                                                                        {sortingCount == 0 ? (
-                                                                                            <>
-                                                                                                <button
-                                                                                                    className="btn btn-outline-primary"
-                                                                                                    onClick={(e) => sortSelectedUsers(e, country)}
-                                                                                                >
-                                                                                                    Sort By{" "}
-                                                                                                    <img
-                                                                                                        src={path_image + "sort.svg"}
-                                                                                                        alt="Shorting"
-                                                                                                    />
-                                                                                                </button>
-                                                                                            </>
-                                                                                        ) : sorting == 0 ? (
-                                                                                            <>
-                                                                                                <button
-                                                                                                    className="btn btn-outline-primary desc"
-                                                                                                    onClick={(e) => sortSelectedUsers(e, country)}
-                                                                                                >
-                                                                                                    Sort By{" "}
-                                                                                                    <img
-                                                                                                        src={path_image + "sort-decending.svg"}
-                                                                                                        alt="Shorting"
-                                                                                                    />
-                                                                                                </button>
-                                                                                            </>
-                                                                                        ) : (
-                                                                                            <>
-                                                                                                <button
-                                                                                                    className="btn btn-outline-primary asc"
-                                                                                                    onClick={(e) => sortSelectedUsers(e, country)}
-                                                                                                >
-                                                                                                    Sort By{" "}
-                                                                                                    <img
-                                                                                                        src={path_image + "sort-assending.svg"}
-                                                                                                        alt="Shorting"
-                                                                                                    />
-                                                                                                </button>
-                                                                                            </>
-                                                                                        )}
+                                                                                        {
+                                                                                            sortingCount == 0 ? (
+                                                                                                <>
+                                                                                                    <button
+                                                                                                        className="btn btn-outline-primary"
+                                                                                                        onClick={(e) => sortSelectedUsers(e, country)}
+                                                                                                    >
+                                                                                                        Sort By{" "}
+                                                                                                        <img
+                                                                                                            src={path_image + "sort.svg"}
+                                                                                                            alt="Shorting"
+                                                                                                        />
+                                                                                                    </button>
+                                                                                                </>
+                                                                                            ) :
+                                                                                                sorting == 0 ? (
+                                                                                                    <>
+                                                                                                        <button
+                                                                                                            className="btn btn-outline-primary desc"
+                                                                                                            onClick={(e) => sortSelectedUsers(e, country)}
+                                                                                                        >
+                                                                                                            Sort By{" "}
+                                                                                                            <img
+                                                                                                                src={path_image + "sort-decending.svg"}
+                                                                                                                alt="Shorting"
+                                                                                                            />
+                                                                                                        </button>
+                                                                                                    </>
+                                                                                                ) : (
+                                                                                                    <>
+                                                                                                        <button
+                                                                                                            className="btn btn-outline-primary asc"
+                                                                                                            onClick={(e) => sortSelectedUsers(e, country)}
+                                                                                                        >
+                                                                                                            Sort By{" "}
+                                                                                                            <img
+                                                                                                                src={path_image + "sort-assending.svg"}
+                                                                                                                alt="Shorting"
+                                                                                                            />
+                                                                                                        </button>
+                                                                                                    </>
+                                                                                                )}
                                                                                     </div>
                                                                                 </th>
                                                                             </tr>
