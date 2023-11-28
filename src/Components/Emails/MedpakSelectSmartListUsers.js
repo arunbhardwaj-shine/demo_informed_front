@@ -124,89 +124,91 @@ const MedpakSelectSmartListUsers = (props) => {
     const inputElement = useRef();
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     useEffect(() => {
-
-        const body = {
-            user_id: localStorage.getItem("user_id"),
-            list_id: props.getSelectedSmartListData?.id
-                ? props.getSelectedSmartListData.id
-                : props.getDraftData.campaign_data.smart_list_id,
-            show_specific: 1,
-        };
-
-        if (props.getSelectedSmartListData?.id) {
-            loader("show");
-            axios
-                .post(`distributes/get_reders_list`, body)
-                .then((res) => {
-                    if (old_object?.removedHcp) {
-                        if (old_object.removedHcp.length > 0) {
-                            var removedUsers = old_object.removedHcp;
-                            var allUsers = res.data.response.data;
-                            var pendingUsers = allUsers.filter(function (objFromA) {
-                                return !removedUsers.find(function (objFromB) {
-                                    return objFromA.profile_id === objFromB.profile_id;
-                                });
-                            });
-                            console.log("i am here in 1")
-                            setReaders(pendingUsers);
-                        } else {
-                            console.log("i am here in 2")
-                            setReaders(res.data.response.data);
-
-                        }
-                    } else if (
-                        props?.getDraftData &&
-                        props.getDraftData.campaign_data?.removedHcp
-                    ) {
-                        if (
-                            typeof props.getDraftData.campaign_data.removedHcp !=
-                            "undefined" &&
-                            props.getDraftData.campaign_data.removedHcp != ""
-                        ) {
-                            var removedUsers = props.getDraftData.campaign_data.removedHcp;
-                            var allUsers = res.data.response.data;
-                            var pendingUsers = allUsers.filter(function (objFromA) {
-                                return !removedUsers.find(function (objFromB) {
-                                    return objFromA.profile_id === objFromB.profile_id;
-                                });
-                            });
-                            console.log("i am here in 3")
-                            setReaders(pendingUsers);
-                        } else {
-                            console.log("i am here in 4")
-                            setReaders(res.data.response.data);
-                        }
-                    } else {
-                        console.log("i am here in 5")
-                        setReaders(res.data.response.data);
-                        const processedData = res?.data?.response?.data?.reduce((acc, person) => {
-                            const country = person?.country?.toUpperCase();
-
-                            // If the country key doesn't exist, create an array for it
-                            if (!acc[country]) {
-                                acc[country] = [];
-                            }
-
-                            // Push the person data to the country array
-                            acc[country].push(person);
-
-                            return acc;
-                        }, {});
-
-                        setCountryWiseData(processedData);
-                        setFilterCountryWiseData(processedData)
-                    }
-
-                    loader("hide");
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        } else {
-            setReaders(props.getDraftData.campaign_data.selectedHcp);
-        }
+       getDataByCountryWise();
     }, []);
 
+    const getDataByCountryWise=()=>{
+    const body = {
+        user_id: localStorage.getItem("user_id"),
+        list_id: props.getSelectedSmartListData?.id
+            ? props.getSelectedSmartListData.id
+            : props.getDraftData.campaign_data.smart_list_id,
+        show_specific: 1,
+    };
+
+    if (props.getSelectedSmartListData?.id) {
+        loader("show");
+        axios
+            .post(`distributes/get_reders_list`, body)
+            .then((res) => {
+                if (old_object?.removedHcp) {
+                    if (old_object.removedHcp.length > 0) {
+                        var removedUsers = old_object.removedHcp;
+                        var allUsers = res.data.response.data;
+                        var pendingUsers = allUsers.filter(function (objFromA) {
+                            return !removedUsers.find(function (objFromB) {
+                                return objFromA.profile_id === objFromB.profile_id;
+                            });
+                        });
+                        console.log("i am here in 1")
+                        setReaders(pendingUsers);
+                    } else {
+                        console.log("i am here in 2")
+                        setReaders(res.data.response.data);
+
+                    }
+                } else if (
+                    props?.getDraftData &&
+                    props.getDraftData.campaign_data?.removedHcp
+                ) {
+                    if (
+                        typeof props.getDraftData.campaign_data.removedHcp !=
+                        "undefined" &&
+                        props.getDraftData.campaign_data.removedHcp != ""
+                    ) {
+                        var removedUsers = props.getDraftData.campaign_data.removedHcp;
+                        var allUsers = res.data.response.data;
+                        var pendingUsers = allUsers.filter(function (objFromA) {
+                            return !removedUsers.find(function (objFromB) {
+                                return objFromA.profile_id === objFromB.profile_id;
+                            });
+                        });
+                        console.log("i am here in 3")
+                        setReaders(pendingUsers);
+                    } else {
+                        console.log("i am here in 4")
+                        setReaders(res.data.response.data);
+                    }
+                } else {
+                    console.log("i am here in 5")
+                    setReaders(res.data.response.data);
+                    const processedData = res?.data?.response?.data?.reduce((acc, person) => {
+                        const country = person?.country?.toUpperCase();
+
+                        // If the country key doesn't exist, create an array for it
+                        if (!acc[country]) {
+                            acc[country] = [];
+                        }
+
+                        // Push the person data to the country array
+                        acc[country].push(person);
+
+                        return acc;
+                    }, {});
+
+                    setCountryWiseData(processedData);
+                    setFilterCountryWiseData(processedData)
+                }
+
+                loader("hide");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    } else {
+        setReaders(props.getDraftData.campaign_data.selectedHcp);
+    }
+}
     const backClicked = () => {
         navigate("/SelectSmartList");
     };
@@ -822,59 +824,6 @@ const MedpakSelectSmartListUsers = (props) => {
         }
     };
 
-
-    // const editing = (
-    //     profile_id,
-    //     profile_user_id,
-    //     email,
-    //     jobTitle,
-    //     company,
-    //     country,
-    //     names,
-    //     contact_type
-    // ) => {
-    //     console.log("Editing function called for profile_user_id:", profile_user_id);
-    
-    //     if (editable !== 0) {
-    //         const name_edit = document.getElementById("field_name" + profile_user_id).innerText;
-    //         const country_edit = document.getElementById("field_country" + profile_user_id).value;
-    
-    //         const contact_type_edit =
-    //             localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
-    //                 ? document.getElementById("field_contact_type" + profile_user_id).value
-    //                 : "";
-    
-    //         setCountryWiseData((prevCountryWiseData) => {
-    //             if (prevCountryWiseData && prevCountryWiseData[country]) {
-    //                 const updatedData = prevCountryWiseData[country].map((reader) => {
-    //                     if (reader.profile_user_id === profile_user_id) {
-    //                         return {
-    //                             ...reader,
-    //                             email,
-    //                             jobTitle,
-    //                             company,
-    //                             country: country_edit,
-    //                             username: name_edit,
-    //                             contact_type: contact_type_edit,
-    //                         };
-    //                     } else {
-    //                         return reader;
-    //                     }
-    //                 });
-    
-    //                 return {
-    //                     ...prevCountryWiseData,
-    //                     [country]: updatedData,
-    //                 };
-    //             }
-    
-    //             return prevCountryWiseData;
-    //         });
-    //     }
-    
-    //     console.log("Editable data after edit:", editableData);
-    // };
-    
     
     // const deleteReader = (i) => {
     //     const previous_removed_users = removedReaders;
@@ -950,6 +899,7 @@ const MedpakSelectSmartListUsers = (props) => {
                 user_id: localStorage.getItem("user_id"),
                 edit_list_array: editableData,
             };
+       
             setSaveOpen(false);
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
@@ -972,6 +922,7 @@ const MedpakSelectSmartListUsers = (props) => {
                     toast.error("Something went wrong");
                 });
             setEditableData([]);
+            getDataByCountryWise();  
         } else {
             setSaveOpen(false);
             toast.warning("No row update");
