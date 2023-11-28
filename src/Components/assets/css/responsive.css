@@ -352,6 +352,16 @@
     margin-right: 30px;
   }
 
+  .template_builder-option .template_language .split-button-dropup.edit-country-dropdown>div:nth-child(3),
+  .template_builder-option .template_country .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
+    width: 240px;
+    max-width: 240px;
+  }
+
+  .template_builder-option .template_language {
+    margin-right: 45px;
+  }
+
   section.search-hcp.smart-list-view .header-btn-left button.back {
     padding: 9px 15px;
   }

@@ -5776,15 +5776,17 @@ button.btn.btn-primary.btn.btn-primary.disabled {
 }
 
 #save_new_template_action_modal .modal-body {
-  padding-top: 50px;
+  padding-top: 40px;
   padding-bottom: 27px;
 }
 
 #save_new_template_action_modal .modal-body label {
-  font-size: 20px;
+  font-size: 17px;
   line-height: 23px;
   color: var(--dark-blue);
   margin-bottom: 16px;
+  flex: 0 0 212px;
+  margin: 0;
 }
 
 #save_new_template_action_modal .modal-body input {
@@ -5798,7 +5800,7 @@ button.btn.btn-primary.btn.btn-primary.disabled {
 }
 
 #save_new_template_action_modal form {
-  max-width: 432px;
+  max-width: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -5815,6 +5817,47 @@ button.btn.btn-primary.btn.btn-primary.disabled {
 
 #save_new_template_action_modal form .form-group {
   width: 100%;
+  align-items: center;
+  display: flex;
+  margin: 0 0 15px;
+  flex-wrap: wrap;
+}
+
+#save_new_template_action_modal .modal-body .form-group .form-control.error {
+  box-shadow: 0px 1px 6px rgba(214, 25, 117, 0.6);
+}
+
+#save_new_template_action_modal .modal-body input {
+  height: auto;
+}
+
+#save_new_template_action_modal .modal-body .form-group .form-control {
+  padding: 12px 24px;
+  flex: 1 1;
+}
+
+.send-confirm #save_new_template_action_modal .modal-body {
+  padding: 40px 25px 24px;
+}
+
+#save_new_template_action_modal .modal-body label span {
+  color: #d61975;
+}
+
+#save_new_template_action_modal form .form-group .dropdown-basic-button {
+  width: 100%;
+  flex: 1 1;
+}
+
+#save_new_template_action_modal form .form-group .login-validation {
+  position: static;
+  flex: 0 0 100%;
+  text-align: right;
+  margin: 3px 0 0;
+}
+
+.modal #save_new_template_action_modal .split-button-dropup>div:nth-child(3) div {
+  color: #0066BE;
 }
 
 #add_hcp .modal-body .hcp-add-form form .form-group.files label {
@@ -8454,11 +8497,13 @@ html {
   overflow-y: auto;
 }
 
-.session-modal #pollModel .modal-title.h4 img, #pollModel1 .modal-title.h4 img {
+.session-modal #pollModel .modal-title.h4 img,
+#pollModel1 .modal-title.h4 img {
   max-width: 170px;
 }
 
-.session-modal #pollModel .modal-header, #pollModel1 .modal-header {
+.session-modal #pollModel .modal-header,
+#pollModel1 .modal-header {
   background: #beddd9;
 }
 
@@ -8609,6 +8654,7 @@ html {
 .select-mail-template .form-group {
   padding: 0;
 }
+
 .mail-box-content-top-view .mail-resend {
   position: absolute;
   right: 9px;
