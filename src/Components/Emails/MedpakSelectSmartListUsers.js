@@ -65,6 +65,7 @@ const MedpakSelectSmartListUsers = (props) => {
     const buttonRef = useRef(null);
     const filterRef = useRef(null);
     const [excludeCountry, setExcludeCountry] = useState([]);
+    const [newlyAddedExcludeCountry, setNewlyAddedExcludeCountry] = useState([])
     const [otherFilter, setOtherFilter] = useState([])
 
     const [hpc, setHpc] = useState([
@@ -638,7 +639,7 @@ const MedpakSelectSmartListUsers = (props) => {
         }
         setUpdate(update + 1);
     };
-    
+
 
 
     const handleInputChange = (event, selected) => {
@@ -651,16 +652,24 @@ const MedpakSelectSmartListUsers = (props) => {
         setTemplateId(selected);
     };
 
+    // const readersAdded = (reader, i) => {
+    //     const readersRemoved = removedReaders;
+    //     readersRemoved.splice(i, 1);
+    //     setRemovedReaders(readersRemoved);
+    //     setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
+    //     setReRender(reRender + 1);
+    //     console.log(readersRemoved, '==>readersRemoved')
+    // };
     const readersAdded = (reader, i) => {
-        // const newlyAddedReaders = readersNewlyAdded;
         const readersRemoved = removedReaders;
         readersRemoved.splice(i, 1);
         setRemovedReaders(readersRemoved);
-        setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
-
-        //setReaders((oldArray) => [reader, ...oldArray]);
+        const resultObject = {
+            [reader.country.toUpperCase()]: [reader]
+        };
+        setNewlyAddedCountryWiseData((oldData) => ({ ...resultObject, ...oldData }))
         setReRender(reRender + 1);
-        console.log(readersRemoved,'==>readersRemoved')
+
     };
 
     const addMoreHcp = () => {
@@ -849,21 +858,21 @@ const MedpakSelectSmartListUsers = (props) => {
         }
     };
 
-    const deleteReader = (i) => {
-        const previous_removed_users = removedReaders;
-        const readersList = readers;
-        const removedReader = readersList.splice(i, 1);
-        setReaders(readersList);
-        setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-        let merged_array = [...previous_removed_users, ...removedReader];
-        old_object.removedHcp = merged_array;
-    
-        if (props.getDraftData?.campaign_data) {
-          if (props.getDraftData.campaign_data?.removedHcp) {
-            props.getDraftData.campaign_data.removedHcp = merged_array;
-          }
-        }
-      };
+    // const deleteReader = (i) => {
+    //     const previous_removed_users = removedReaders;
+    //     const readersList = readers;
+    //     const removedReader = readersList.splice(i, 1);
+    //     setReaders(readersList);
+    //     setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
+    //     let merged_array = [...previous_removed_users, ...removedReader];
+    //     old_object.removedHcp = merged_array;
+
+    //     if (props.getDraftData?.campaign_data) {
+    //         if (props.getDraftData.campaign_data?.removedHcp) {
+    //             props.getDraftData.campaign_data.removedHcp = merged_array;
+    //         }
+    //     }
+    // };
 
     // const deleteReader = (profileUserId, country) => {
     //     setCountryWiseData((prevData) => {
@@ -873,6 +882,21 @@ const MedpakSelectSmartListUsers = (props) => {
     //         return updatedData;
     //     });
     // };
+
+    const deleteReader = (country, index, i) => {
+        const previous_removed_users = removedReaders;
+        const readersList = JSON.parse(JSON.stringify(countryWiseData))
+        const removedReader = readersList[country]?.splice(i, 1);
+        setCountryWiseData(readersList)
+        setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
+        let merged_array = [...previous_removed_users, ...removedReader];
+        old_object.removedHcp = merged_array;
+        if (props.getDraftData?.campaign_data) {
+            if (props.getDraftData.campaign_data?.removedHcp) {
+                props.getDraftData.campaign_data.removedHcp = merged_array;
+            }
+        }
+    };
 
     const saveEditClicked = async () => {
         setEditable(0);
@@ -1208,31 +1232,51 @@ const MedpakSelectSmartListUsers = (props) => {
         setEditable(temp_val);
         setUpdate(update + 1);
     };
-    const handleOnFilterChange = (e, country) => {
-        console.log("e-->", e)
-        let otherObj = JSON.parse(JSON.stringify(otherFilter));
-        console.log("other obj 1--->", otherObj)
-        if (e === true) {
-            if(otherObj?.length>1){
-                let index = otherObj?.indexOf(country)
-                otherObj?.splice(index, 1)
-                setExcludeCountry(prev => prev?.filter(c => c !== country));
-            }
-          
-        } else if (e === false) {
+    // const handleOnFilterChange = (e, country) => {
+    //     let otherObj = JSON.parse(JSON.stringify(otherFilter));
+    //     if (e === true) {
+    //         if(otherObj?.length>1){
+    //             let index = otherObj?.indexOf(country)
+    //             otherObj?.splice(index, 1)
+    //             setExcludeCountry(prev => prev?.filter(c => c !== country));
+    //         }
 
+    //     } else if (e === false) {
+
+    //         otherObj?.push(country)
+    //         setExcludeCountry(prev => [...prev, country]);
+
+
+    //     }
+    //     setOtherFilter(otherObj)
+
+    // }
+    const handleOnFilterChange = (e, country) => {
+        let otherObj = JSON.parse(JSON.stringify(otherFilter));
+        let newlyAddedOtherObj = newlyAddedExcludeCountry
+        if (e === true) {
+            if (otherObj?.length > 1) {
+                let index = otherObj?.indexOf(country)
+                if (index > -1) {
+                    otherObj?.splice(index, 1)
+                    setExcludeCountry(prev => prev?.filter(c => c !== country));
+                }
+            }
+            newlyAddedOtherObj.push(country)
+            setNewlyAddedExcludeCountry(newlyAddedOtherObj)
+
+        } else if (e === false) {
             otherObj?.push(country)
             setExcludeCountry(prev => [...prev, country]);
-
-
+            let index = newlyAddedOtherObj?.indexOf(country)
+            if (index > -1) {
+                newlyAddedOtherObj?.splice(index, 1)
+                setNewlyAddedExcludeCountry(newlyAddedOtherObj)
+            }
         }
-        console.log("other obj 2--->", otherObj)
         setOtherFilter(otherObj)
 
     }
-    // useEffect(() => {
-
-    // }, [excludeCountry])
 
     return (
         <>
@@ -1398,155 +1442,155 @@ const MedpakSelectSmartListUsers = (props) => {
                                             </>
                                         ) : null}
                                         <div
-                                    className={
-                                        showfilter
-                                            ? "filter-by nav-item dropdown highlight"
-                                            : "filter-by nav-item dropdown"
-                                    }
-                                >
-                                    <button
-                                        ref={buttonRef}
-                                        className={
-                                            Object.keys(countryWiseData).length > 0
-                                                ? "btn btn-secondary dropdown filter_applied"
-                                                : "btn btn-secondary dropdown"
-                                        }
-                                        type="button"
-                                        id="dropdownMenuButton2"
-                                        onClick={() => setShowFilter((showfilter) => !showfilter)}
-                                    >
-                                        Filter By
-                                        {showfilter ? (
-                                            <svg
-                                                className="close-arrow"
-                                                width="13"
-                                                height="12"
-                                                viewBox="0 0 13 12"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <rect
-                                                    width="2.09896"
-                                                    height="15.1911"
-                                                    rx="1.04948"
-                                                    transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                                                    fill="#0066BE"
-                                                />
-                                                <rect
-                                                    width="2.09896"
-                                                    height="15.1911"
-                                                    rx="1.04948"
-                                                    transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                                                    fill="#0066BE"
-                                                />
-                                            </svg>
-                                        ) : (
-                                            <svg
-                                                className="filter-arrow"
-                                                width="16"
-                                                height="14"
-                                                viewBox="0 0 16 14"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                                                    fill="#97B6CF"
-                                                />
-                                                <path
-                                                    d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                                                    fill="#97B6CF"
-                                                />
-                                                <path
-                                                    d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                                                    fill="#97B6CF"
-                                                />
-                                            </svg>
-                                        )}
-                                    </button>
-                                    {showfilter && (
-                                        <div
-                                            ref={filterRef}
-                                            className="dropdown-menu filter-options"
-                                            aria-labelledby="dropdownMenuButton2"
+                                            className={
+                                                showfilter
+                                                    ? "filter-by nav-item dropdown highlight"
+                                                    : "filter-by nav-item dropdown"
+                                            }
                                         >
-                                            <h4>Country List</h4>
-                                            <ul>
-                                                {Object.keys(newlyAddedCountryWiseData)?.map((country, index) => {
-                                                    return (
-                                                        <>
-                                                            <li>
-                                                                <div className="form-group">
-                                                                    <label htmlFor="">{country}</label>
-                                                                    <div className="switch">
-                                                                        <label className="switch-light">
-                                                                            <input
-                                                                                type="checkbox"
+                                            <button
+                                                ref={buttonRef}
+                                                className={
+                                                    Object.keys(countryWiseData).length > 0
+                                                        ? "btn btn-secondary dropdown filter_applied"
+                                                        : "btn btn-secondary dropdown"
+                                                }
+                                                type="button"
+                                                id="dropdownMenuButton2"
+                                                onClick={() => setShowFilter((showfilter) => !showfilter)}
+                                            >
+                                                Filter By
+                                                {showfilter ? (
+                                                    <svg
+                                                        className="close-arrow"
+                                                        width="13"
+                                                        height="12"
+                                                        viewBox="0 0 13 12"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                        <rect
+                                                            width="2.09896"
+                                                            height="15.1911"
+                                                            rx="1.04948"
+                                                            transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                                                            fill="#0066BE"
+                                                        />
+                                                        <rect
+                                                            width="2.09896"
+                                                            height="15.1911"
+                                                            rx="1.04948"
+                                                            transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                                                            fill="#0066BE"
+                                                        />
+                                                    </svg>
+                                                ) : (
+                                                    <svg
+                                                        className="filter-arrow"
+                                                        width="16"
+                                                        height="14"
+                                                        viewBox="0 0 16 14"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                        <path
+                                                            d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                                                            fill="#97B6CF"
+                                                        />
+                                                        <path
+                                                            d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                                                            fill="#97B6CF"
+                                                        />
+                                                        <path
+                                                            d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                                                            fill="#97B6CF"
+                                                        />
+                                                    </svg>
+                                                )}
+                                            </button>
+                                            {showfilter && (
+                                                <div
+                                                    ref={filterRef}
+                                                    className="dropdown-menu filter-options"
+                                                    aria-labelledby="dropdownMenuButton2"
+                                                >
+                                                    <h4>Country List</h4>
+                                                    <ul>
+                                                        {Object.keys(newlyAddedCountryWiseData)?.map((country, index) => {
+                                                            return (
+                                                                <>
+                                                                    <li>
+                                                                        <div className="form-group">
+                                                                            <label htmlFor="">{country}</label>
+                                                                            <div className="switch">
+                                                                                <label className="switch-light">
+                                                                                    <input
+                                                                                        type="checkbox"
 
-                                                                                onChange={(e) => {
-                                                                                    handleOnFilterChange(e.target?.checked, country);
-                                                                                }}
-                                                                            />
-                                                                            <span>
-                                                                                <span className="switch-btn active">Yes</span>
-                                                                                <span className="switch-btn">No</span>
-                                                                            </span>
-                                                                            <a className="btn"></a>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        </>
-                                                    );
-                                                })}
-                                            </ul>
+                                                                                        onChange={(e) => {
+                                                                                            handleOnFilterChange(e.target?.checked, country);
+                                                                                        }}
+                                                                                    />
+                                                                                    <span>
+                                                                                        <span className="switch-btn active">Yes</span>
+                                                                                        <span className="switch-btn">No</span>
+                                                                                    </span>
+                                                                                    <a className="btn"></a>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </>
+                                                            );
+                                                        })}
+                                                    </ul>
 
-                                            <ul>
-                                                {Object.keys(countryWiseData)?.map((country, index) => {
-                                                    return (
-                                                        <>
-                                                            <li>
-                                                                { }
-                                                                <div className="form-group">
-                                                                    <label htmlFor="">{country}</label>
-                                                                    <div className="switch">
-                                                                        <label className="switch-light">
-                                                                            <input
-                                                                                type="checkbox"
-                                                                                checked={
-                                                                                    !otherFilter?.includes(country)
+                                                    <ul>
+                                                        {Object.keys(countryWiseData)?.map((country, index) => {
+                                                            return (
+                                                                <>
+                                                                    <li>
+                                                                        { }
+                                                                        <div className="form-group">
+                                                                            <label htmlFor="">{country}</label>
+                                                                            <div className="switch">
+                                                                                <label className="switch-light">
+                                                                                    <input
+                                                                                        type="checkbox"
+                                                                                        checked={
+                                                                                            !otherFilter?.includes(country)
 
-                                                                                }
-                                                                                onChange={(e) => {
-                                                                                    handleOnFilterChange(e.target?.checked, country);
-                                                                                }}
-                                                                            />
-                                                                            <span>
-                                                                                <span className="switch-btn active">Yes</span>
-                                                                                <span className="switch-btn">No</span>
-                                                                            </span>
-                                                                            <a className="btn"></a>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        </>
-                                                    );
-                                                })}
-                                            </ul>
+                                                                                        }
+                                                                                        onChange={(e) => {
+                                                                                            handleOnFilterChange(e.target?.checked, country);
+                                                                                        }}
+                                                                                    />
+                                                                                    <span>
+                                                                                        <span className="switch-btn active">Yes</span>
+                                                                                        <span className="switch-btn">No</span>
+                                                                                    </span>
+                                                                                    <a className="btn"></a>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </>
+                                                            );
+                                                        })}
+                                                    </ul>
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
                                     </div>
-                                    
+
                                 </div>
 
 
-                                
+
                                 <Accordion>
                                     {Object.keys(newlyAddedCountryWiseData)?.length ? Object.keys(newlyAddedCountryWiseData)?.map((country, index) => {
                                         return (<>
-                                            {excludeCountry?.includes(country) ?
+                                            {!newlyAddedExcludeCountry?.includes(country) ?
                                                 <>
                                                     {!countryWiseData?.[country]?.length ?
                                                         <Accordion.Item eventKey={index}>
@@ -2136,7 +2180,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                     src={path_image + "delete.svg"}
                                                                                                     alt="Add Row"
                                                                                                     onClick={() => deleteReader(i)}
-                                                                                                    // onClick={() => deleteReader(readers.profile_user_id, country)}
+                                                                                                // onClick={() => deleteReader(readers.profile_user_id, country)}
                                                                                                 />
                                                                                             </td>
                                                                                         </tr>)
