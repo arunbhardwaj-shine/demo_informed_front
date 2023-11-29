@@ -1232,25 +1232,7 @@ const MedpakSelectSmartListUsers = (props) => {
         setEditable(temp_val);
         setUpdate(update + 1);
     };
-    // const handleOnFilterChange = (e, country) => {
-    //     let otherObj = JSON.parse(JSON.stringify(otherFilter));
-    //     if (e === true) {
-    //         if(otherObj?.length>1){
-    //             let index = otherObj?.indexOf(country)
-    //             otherObj?.splice(index, 1)
-    //             setExcludeCountry(prev => prev?.filter(c => c !== country));
-    //         }
-
-    //     } else if (e === false) {
-
-    //         otherObj?.push(country)
-    //         setExcludeCountry(prev => [...prev, country]);
-
-
-    //     }
-    //     setOtherFilter(otherObj)
-
-    // }
+  
     const handleOnFilterChange = (e, country) => {
         let otherObj = JSON.parse(JSON.stringify(otherFilter));
         let newlyAddedOtherObj = newlyAddedExcludeCountry
