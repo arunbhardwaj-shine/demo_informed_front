@@ -149,4 +149,5 @@ export const ENDPOINT = {
   CREATE_WEBINAR_REGISTRATION: "/webinar/create_registration",
   GET_REGISTRATION_FORM: "/webinar/getRegistrationFormByEventId",
   UPDATELOGS: "/reader/update-logs",
+  USER_TRACKING:"/auth/pharma-marketing-tracking"
 };
