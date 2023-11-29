@@ -2217,7 +2217,7 @@ form .input-group {
 }
 
 .search-hcp-table table th,
-.selected-hcp-list table th {
+.selected-hcp-list table th, .selected-hcp-list table th .hcp-sort .btn {
   font-size: 13px;
   line-height: 15px;
   color: var(--dark-blue);
@@ -2227,7 +2227,12 @@ form .input-group {
   padding-top: 10px;
   padding-bottom: 0;
 }
-
+.selected-hcp-list table th .hcp-sort .btn{
+  padding:0;
+  outline: none;
+  box-shadow: none;
+  border:0;
+}
 .search-hcp-table table td,
 .selected-hcp-list table td {
   vertical-align: middle;
@@ -2502,7 +2507,7 @@ h5 {
 
 .search-hcp .accordion .accordion-item .accordion-body {
   border-top: .5px dashed #97b6cf;
-  padding: 10px 15px;
+  padding: 10px 20px;
 }
 
 .search-hcp .accordion .accordion-item button.accordion-button:after {

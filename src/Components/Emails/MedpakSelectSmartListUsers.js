@@ -58,6 +58,8 @@ const MedpakSelectSmartListUsers = (props) => {
     const [editable, setEditable] = useState(0);
     const [updateCounter, setUpdateCounter] = useState(0);
     const [sortingCount, setSortingCount] = useState(0);
+    const [sortingUsers, setSortingUsers] = useState(0);
+    const [sortingCountUsers, setSortingCountUsers] = useState(0);
     const [filterCountryWiseData, setFilterCountryWiseData] = useState({});
     const [countryWiseData, setCountryWiseData] = useState({});
     const [newlyAddedCountryWiseData, setNewlyAddedCountryWiseData] = useState({})
@@ -744,7 +746,7 @@ const MedpakSelectSmartListUsers = (props) => {
         console.log("users--->", countryWiseData)
         const normalArr = countryWiseData[country];
 
-        if (sorting == 0) {
+        if (sortingUsers == 0) {
             normalArr.sort((a, b) =>
                 a.first_name.toLowerCase() > b.first_name.toLowerCase()
                     ? 1
@@ -766,8 +768,8 @@ const MedpakSelectSmartListUsers = (props) => {
             [country]: normalArr,
         }));
 
-        setSorting(1 - sorting);
-        setSortingCount(sortingCount + 1);
+        setSortingUsers(1 - sortingUsers);
+        setSortingCountUsers(sortingCountUsers + 1);
     };
     const sortSelectedCountry = () => {
 
@@ -1232,7 +1234,7 @@ const MedpakSelectSmartListUsers = (props) => {
         setEditable(temp_val);
         setUpdate(update + 1);
     };
-  
+
     const handleOnFilterChange = (e, country) => {
         let otherObj = JSON.parse(JSON.stringify(otherFilter));
         let newlyAddedOtherObj = newlyAddedExcludeCountry
@@ -1785,7 +1787,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                 <th>
                                                                                     <div className="hcp-sort">
                                                                                         {
-                                                                                            sortingCount == 0 ? (
+                                                                                            sortingCountUsers == 0 ? (
                                                                                                 <>
                                                                                                     <button
                                                                                                         className="btn btn-outline-primary"
@@ -1799,7 +1801,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                     </button>
                                                                                                 </>
                                                                                             ) :
-                                                                                                sorting == 0 ? (
+                                                                                                sortingUsers == 0 ? (
                                                                                                     <>
                                                                                                         <button
                                                                                                             className="btn btn-outline-primary desc"
@@ -2161,7 +2163,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                 <img
                                                                                                     src={path_image + "delete.svg"}
                                                                                                     alt="Add Row"
-                                                                                                    onClick={() => deleteReader(i)}
+                                                                                                    onClick={() => deleteReader(country, index, i)}
                                                                                                 // onClick={() => deleteReader(readers.profile_user_id, country)}
                                                                                                 />
                                                                                             </td>
