@@ -1423,6 +1423,53 @@ const MarketingTimeLineDetail = (props) => {
                                               </div>
                                             )}
 
+{details?.action?.startsWith("user") && (
+                                              <div className="timeline-box">
+                                                <div className="timeline_date">
+                                                  {moment(details?.Created).format("DD MMM YYYY")}
+                                                </div>
+                                                <div className="timeline-block">
+                                                  <div className="timeline-block-head library">
+                                                    <div className="timeline-block-title">
+                                                      <div className="timeline-block-img">
+                                                        <img
+                                                          src={
+                                                            path_image + "log-docintel.png"
+                                                          }
+                                                          alt=""
+                                                        />
+                                                      </div>
+                                                      <h6>User Activity</h6>
+                                                    </div>
+                                                    <div className="timeline-time-view">
+                                                      <div className="timeline-time">
+                                                        {moment(details?.Created).format("hh:mm:ss A")}
+                                                      </div>
+                                                      |
+                                                      <div className="timeline-timezone">
+                                                        {/* {moment(details?.Created).format("z")} */}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div className="timeline-article-device">
+                                                    <Table>
+                                                      <tbody>
+                                                        <tr>
+                                                          <th className="device-title">
+                                                            Details
+                                                          </th>
+                                                          <td className="device-name" dangerouslySetInnerHTML={{ __html: details.action.replace(/"/g, ' ').replace(/<br\s*\/?>/g, '<br />') }} >
+                                                            {/* {details?.action != ""
+                                                              ? details.action
+                                                              : ""} */}
+                                                          </td>
+                                                        </tr>
+                                                      </tbody>
+                                                    </Table>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            )}
                                             {details?.action ==
                                               "New docintel account is created" && (
                                                 <div className="timeline-box">
