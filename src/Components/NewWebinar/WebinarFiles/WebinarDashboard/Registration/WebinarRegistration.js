@@ -23,8 +23,11 @@ import CommonExtensionModal from "./CommonExtensionModal";
 import AliceCarousel from "react-alice-carousel";
 import RegistrationPage from "./RegistrationPage";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
-import templateData from './template.json';
-
+import templateData from "./template.json";
+import moment from "moment";
+let currentDate = new Date(
+  moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+);
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
@@ -55,6 +58,7 @@ const WebinarRegistration = () => {
   const [showModal, setModal] = useState(false);
   const [showExtensionModal, setExtensionModal] = useState(false);
   const [isFormChange, setIsFormChange] = useState(false);
+  const [rawData, setRawData] = useState({});
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
@@ -63,8 +67,9 @@ const WebinarRegistration = () => {
   });
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [tempTemplate, setTempTemplate] = useState();
-  const [apiStatus,setApiStatus]=useState(false)
+  const [apiStatus, setApiStatus] = useState(false);
   const [formData, setFormData] = useState({
+    title: "",
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",
@@ -72,11 +77,13 @@ const WebinarRegistration = () => {
     body: [],
     footerImageUrl: "",
     labelColor: "",
+    optionColor: "",
     backgroundColor: "",
     totalFieldNo: 0,
     templateId: 0,
   });
   const [originalFormData, setOriginalFormData] = useState({
+    title: "",
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",
@@ -84,6 +91,7 @@ const WebinarRegistration = () => {
     body: [],
     footerImageUrl: "",
     labelColor: "",
+    optionColor: "",
     backgroundColor: "",
     totalFieldNo: 0,
     templateId: 0,
@@ -157,10 +165,10 @@ const WebinarRegistration = () => {
 
   const [dropDownData, setDropDownData] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
+  const [showModalPreview, setShowModalPreview] = useState(false);
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
-    
     // if (prevData?.content) {
     //   setEventData({
     //     ...eventData,
@@ -183,11 +191,15 @@ const WebinarRegistration = () => {
   const getWebinarData = async (event_code) => {
     try {
       loader("show");
-      setApiStatus(false)
+      setApiStatus(false);
       const response = await getData(
         `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
       );
       const hadData = response?.data?.data;
+      let raw = hadData?.raw_description
+        ? JSON.parse(hadData?.raw_description)
+        : {};
+      setRawData(raw);
       if (hadData?.event_id && hadData?.company_id) {
         setEventData({
           ...eventData,
@@ -199,24 +211,83 @@ const WebinarRegistration = () => {
       dynamicFieldNo = newFormData?.totalFieldNo
         ? newFormData?.totalFieldNo
         : dynamicFieldNo;
-      setFormData(newFormData);
-      setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
+
       let tempId = newFormData?.templateId;
       if (tempId) {
         let templateListData = [...templateList];
         let tempData = templateListData[tempId - 1];
         templateListData[tempId - 1] = templateListData[0];
         templateListData[0] = tempData;
-        setTemplateList(templateListData);
-      }
+        if (!newFormData?.eventDetails) {
+          tempData.eventDetails.eventStartDate.value = new Date(raw?.dateStart);
+          tempData.eventDetails.eventEndDate.value = new Date(raw?.dateEnd);
+          tempData.eventDetails.eventStartTime.value = `${raw?.dateStartHour}:${raw?.dateStartMin}`;
+          tempData.eventDetails.eventEndTime.value = `${raw?.dateEndHour}:${raw?.dateEndMin}`;
+          tempData.eventDetails.eventLocation.value = raw?.location || "";
+          tempData.eventDetails.speakerName.value = raw?.speaker_name || "";
+          newFormData.eventDetails=tempData.eventDetails
+        } else {
+          if (
+            newFormData.eventDetails.eventStartDate?.value == "" &&
+            newFormData.eventDetails.eventStartDate?.value != undefined
+          ) {
+            newFormData.eventDetails.eventStartDate.value = new Date(
+              raw?.dateStart
+            );
+          }
+          if (
+            newFormData.eventDetails.eventEndDate?.value == "" &&
+            newFormData.eventDetails.eventEndDate?.value != undefined
+          ) {
+            newFormData.eventDetails.eventEndDate.value = new Date(
+              raw?.dateEnd
+            );
+          }
 
+          if (
+            newFormData.eventDetails.eventStartTime?.value == "" &&
+            newFormData.eventDetails.eventStartTime?.value != undefined
+          ) {
+            newFormData.eventDetails.eventStartTime.value = `${raw?.dateStartHour}:${raw?.dateStartMin}`;
+          }
+
+          if (
+            newFormData.eventDetails.eventEndTime?.value == "" &&
+            newFormData.eventDetails.eventEndTime?.value != undefined
+          ) {
+            newFormData.eventDetails.eventEndTime.value = `${raw?.dateEndHour}:${raw?.dateEndMin}`;
+          }
+
+          if (
+            newFormData.eventDetails.eventLocation?.value == "" &&
+            newFormData.eventDetails.eventLocation?.value != undefined
+          ) {
+            newFormData.eventDetails.eventLocation.value = `${raw?.location}`;
+          }
+
+          if (
+            newFormData.eventDetails.speakerName?.value == "" &&
+            newFormData.eventDetails.speakerName?.value != undefined
+          ) {
+            newFormData.eventDetails.speakerName.value = `${raw?.speaker_name}`;
+          }
+        }
+        setTemplateList(templateListData);
+        // console.log(newFormData);
+        setLogo(
+          newFormData?.logoImageUrl
+            ? newFormData?.logoImageUrl
+            : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoImageUrl
+        );
+      }
+      setFormData(newFormData);
+      setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
       setActiveIndex(tempId ? tempId : 0);
-      setLogo(newFormData?.logoImageUrl ? newFormData?.logoImageUrl : "");
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
-      setApiStatus(true)
+      setApiStatus(true);
     } catch (err) {
-      setApiStatus(true)
+      setApiStatus(true);
       console.log("--err", err);
     } finally {
       loader("hide");
@@ -226,7 +297,7 @@ const WebinarRegistration = () => {
   const getAllEvents = async () => {
     try {
       loader("show");
-      setApiStatus(false)
+      setApiStatus(false);
       const response = await getData(
         `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`
       );
@@ -452,34 +523,39 @@ const WebinarRegistration = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
+    // console.log(isSelectedName)
+
     setIsFormChange(true);
-    if (isSelectedName) {
+    if (isSelectedName && !isSelectedName?.includes("eventDetails")) {
       let updateFormBody = formData?.body;
 
       if (e?.target?.checked == true) {
         if (
           formData?.body?.find(
             (item, index) =>
-              item?.label?.toLowerCase() == isSelectedName?.toLowerCase()
+              item?.name?.toLowerCase() == isSelectedName?.toLowerCase()
           )
         ) {
           toast.error("Label already exist");
           return;
         }
-        if (isSelectedName == "name" || isSelectedName == "email") {
+        if (isSelectedName == "userEmail" || isSelectedName == "userName") {
           let newObj = {
-            label: isSelectedName,
-            name: isSelectedName == "email" ? "userEmail" : "userName",
-            inputType: isSelectedName == "email" ? "email" : "text",
-            placeholder: `Please enter ${isSelectedName}`,
+            // label: isSelectedName,
+            label:
+             isSelectedName == "userEmail" ? "Email" : "Name",
+            name: isSelectedName ,
+            inputType: isSelectedName == "userEmail" ? "email" : "text",
+            placeholder: `Please enter ${isSelectedName == "userEmail" ? "Email" : "Name"}`,
             option: [],
-
             required: "yes",
           };
           updateFormBody?.push(newObj);
         } else if (isSelectedName == "travel accomodation") {
           let newObj = {
-            label: isSelectedName,
+            // label: isSelectedName,
+            label:
+              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             name: isSelectedName,
             inputType: "radio",
             required: "yes",
@@ -523,9 +599,14 @@ const WebinarRegistration = () => {
             ],
           };
           updateFormBody?.push(newObj);
+        } else if (isSelectedName == "eventDetails") {
+          let newObj = {};
+          updateFormBody?.push(newObj);
         } else if (isSelectedName == "consent") {
           let newObj = {
-            label: isSelectedName,
+            // label: isSelectedName,
+            label:
+              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             name: isSelectedName,
 
             inputType: "checkbox",
@@ -545,7 +626,9 @@ const WebinarRegistration = () => {
         } else {
           let newObj = {
             name: isSelectedName,
-            label: isSelectedName,
+            // label: isSelectedName,
+            label:
+              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             inputType: "selection",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
@@ -556,7 +639,7 @@ const WebinarRegistration = () => {
         setFormData({ ...formData, body: updateFormBody });
       } else if (e?.target?.checked == false) {
         let index = updateFormBody?.findIndex((item, index) => {
-          return item?.label?.toLowerCase() == isSelectedName;
+          return item?.name == isSelectedName;
         });
 
         if (index > -1) {
@@ -574,11 +657,89 @@ const WebinarRegistration = () => {
         });
       }
     } else {
-      setFormData({
-        ...formData,
-        [e.target.name]: e?.target?.value,
-        required: "yes",
-      });
+      let name = e?.target?.name;
+      if (name?.includes("eventDetails")) {
+        const fieldName = e.target.name.split("-")[1];
+        let isColor = name.includes("color");
+        if (isColor) {
+          setFormData({
+            ...formData,
+            eventDetails: {
+              ...formData.eventDetails,
+              [fieldName]: {
+                ...formData.eventDetails?.[fieldName],
+                color: e.target.value,
+              },
+            },
+            required: "yes",
+          });
+        } else {
+          setFormData({
+            ...formData,
+            eventDetails: {
+              ...formData.eventDetails,
+              [fieldName]: {
+                ...formData.eventDetails?.[fieldName],
+                value: e.target.value,
+              },
+            },
+            required: "yes",
+          });
+        }
+      } else if (isSelectedName?.includes("eventDetails")) {
+        const fieldName = isSelectedName.split("-")[1];
+        // console.log(fieldName);
+        let isColor = e?.target?.name.includes("color");
+        if (isColor) {
+          setFormData({
+            ...formData,
+            eventDetails: {
+              ...formData.eventDetails,
+              [fieldName]: {
+                ...formData.eventDetails?.[fieldName],
+                color: e,
+              },
+            },
+            required: "yes",
+          });
+        } else {
+          if (fieldName == "eventStartDate") {
+            setFormData({
+              ...formData,
+              eventDetails: {
+                ...formData.eventDetails,
+                [fieldName]: {
+                  ...formData.eventDetails?.[fieldName],
+                  value: e,
+                },
+                ["eventEndDate"]: {
+                  ...formData.eventDetails?.[fieldName],
+                  value: e,
+                },
+              },
+              required: "yes",
+            });
+          } else {
+            setFormData({
+              ...formData,
+              eventDetails: {
+                ...formData.eventDetails,
+                [fieldName]: {
+                  ...formData.eventDetails?.[fieldName],
+                  value: e,
+                },
+              },
+              required: "yes",
+            });
+          }
+        }
+      } else {
+        setFormData({
+          ...formData,
+          [e.target.name]: e?.target?.value,
+          required: "yes",
+        });
+      }
     }
   };
 
@@ -599,7 +760,8 @@ const WebinarRegistration = () => {
     if (e) {
       e.preventDefault();
     }
-
+    console.log(formData, "====>formData");
+// return;
     setFormData(formData);
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
@@ -625,6 +787,7 @@ const WebinarRegistration = () => {
         data
       );
       setFormData({
+        title: "",
         pageTitle: "",
         bodyText: "",
         logoImageUrl: "",
@@ -632,6 +795,7 @@ const WebinarRegistration = () => {
         body: [],
         footerImageUrl: "",
         labelColor: "",
+        optionColor: "",
         backgroundColor: "",
       });
 
@@ -654,8 +818,14 @@ const WebinarRegistration = () => {
   };
 
   const handlePreview = (e, index) => {
+    console.log(prevData, "===>prevData");
+    if (!formData?.templateId) {
+      setShowModalPreview(true);
+      return;
+    }
+
     setIsPrevClicked(true);
-    console.log(eventData);
+
     let prevObj = {
       eventId: eventData?.event_id,
       companyId: eventData?.company_id,
@@ -663,9 +833,11 @@ const WebinarRegistration = () => {
     };
     // navigate("/event-registration", { state: prevObj });
   };
+
   const handleClose = () => {
     setIsPrevClicked(false);
   };
+
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);
   };
@@ -703,13 +875,12 @@ const WebinarRegistration = () => {
       setFormData({ ...formData, labelColor: e?.target?.value });
     } else if (isSelectedName == "backgroundColor") {
       setFormData({ ...formData, backgroundColor: e?.target?.value });
+    } else if (isSelectedName == "OptionColor") {
+      setFormData({ ...formData, optionColor: e?.target?.value });
     }
   };
 
   const templateClicked = (template, e) => {
-    console.log("is formchange-->", isFormChange);
-    console.log("original form data-->", originalFormData);
-    console.log("template?.templateId-->", template?.templateId);
     if (isFormChange) {
       setTempTemplate(template);
       setPopupMessage({
@@ -726,12 +897,80 @@ const WebinarRegistration = () => {
       }
     } else {
       if (originalFormData?.templateId == template?.templateId) {
-        console.log("template  if--->", template);
         let updatedBody = JSON.parse(JSON.stringify(originalFormData));
+        setLogo(
+          updatedBody?.logoImageUrl
+            ? updatedBody?.logoImageUrl
+            : template?.logoImageUrl
+        );
+
         setFormData(updatedBody);
       } else {
-        console.log("template  else--->", template);
         let updatedBody = JSON.parse(JSON.stringify(template));
+
+        if (!updatedBody?.eventDetails) {
+          updatedBody.eventDetails.eventStartDate.value = new Date(
+            rawData?.dateStart
+          );
+          updatedBody.eventDetails.eventEndDate.value = new Date(
+            rawData?.dateEnd
+          );
+          updatedBody.eventDetails.eventStartTime.value = `${rawData?.dateStartHour}:${rawData?.dateStartMin}`;
+          updatedBody.eventDetails.eventEndTime.value = `${rawData?.dateEndHour}:${rawData?.dateEndMin}`;
+          updatedBody.eventDetails.eventLocation.value = rawData?.location || "";
+          updatedBody.eventDetails.speakerName.value = rawData?.speaker_name || "";
+        } else {
+          if (
+            updatedBody?.eventDetails?.eventStartDate?.value == "" &&
+            updatedBody?.eventDetails?.eventStartDate?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventStartDate.value = new Date(
+              rawData?.dateStart
+            );
+          }
+
+          if (
+            updatedBody?.eventDetails?.eventEndDate?.value == "" &&
+            updatedBody?.eventDetails?.eventEndDate?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventEndDate.value = new Date(
+              rawData?.dateEnd
+            );
+          }
+
+          if (
+            updatedBody?.eventDetails?.eventStartTime?.value == "" &&
+            updatedBody?.eventDetails?.eventStartTime?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventStartTime.value = `${rawData?.dateStartHour}:${rawData?.dateStartMin}`;
+          }
+
+          if (
+            updatedBody?.eventDetails?.eventEndTime?.value == "" &&
+            updatedBody?.eventDetails?.eventEndTime?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventEndTime.value = `${rawData?.dateEndHour}:${rawData?.dateEndMin}`;
+          }
+
+          if (
+            updatedBody?.eventDetails?.eventLocation?.value == "" &&
+            updatedBody?.eventDetails?.eventLocation?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventLocation.value =
+              originalFormData?.eventDetails?.eventLocation?.value ||
+              `${rawData?.location}` || " ";
+          }
+
+          if (
+            updatedBody?.eventDetails?.speakerName?.value == "" &&
+            updatedBody?.eventDetails?.speakerName?.value != undefined
+          ) {
+            updatedBody.eventDetails.speakerName.value =
+              originalFormData?.eventDetails?.speakerName?.value ||
+              `${rawData?.speaker_name}` || " ";
+          }
+        }
+        setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
         setFormData(updatedBody);
       }
       setActiveIndex(template?.templateId);
@@ -748,10 +987,12 @@ const WebinarRegistration = () => {
     // }
     // setActiveIndex(template?.templateId);
   };
+
   const handleCommonConfirmModal = () => {
     setConfirmationPopup(false);
     templateClicked(tempTemplate);
   };
+
   const copyToClipboard = (content) => {
     if (window.isSecureContext && navigator.clipboard) {
       navigator.clipboard.writeText(content);
@@ -760,6 +1001,7 @@ const WebinarRegistration = () => {
       unsecuredCopyToClipboard(content);
     }
   };
+
   const unsecuredCopyToClipboard = (text) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -773,6 +1015,11 @@ const WebinarRegistration = () => {
     }
     document.body.removeChild(textArea);
   };
+
+  const handleCloseModal = () => {
+    setShowModalPreview(false);
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -780,7 +1027,7 @@ const WebinarRegistration = () => {
           <div className="row">
             <div className="top-header regi-web">
               <div className="page-title">
-              <Link
+                <Link
                   className="btn btn-primary btn-bordered back-btn"
                   to="/event-listing"
                 >
@@ -854,6 +1101,7 @@ const WebinarRegistration = () => {
 
                   <AliceCarousel
                     mouseTracking
+                    disableButtonsControls
                     disableDotsControls
                     activeIndex={activeIndex}
                     responsive={responsive}
@@ -893,7 +1141,110 @@ const WebinarRegistration = () => {
                   <Col md={8} sm={7}>
                     <div className="register-page-left">
                       <Form>
-                        <div className="form-group d-flex align-items-center">
+                        <div>
+                          {formData?.eventDetails &&
+                            Object.keys(formData.eventDetails)?.map(
+                              (key, index) => {
+                                const field = formData.eventDetails[key];
+                                return field.type == "date" ? (
+                                  <div
+                                    key={index}
+                                    className="form-group d-flex align-items-center"
+                                  >
+                                    <label>
+                                      {field.title} <span>*</span>
+                                    </label>
+                                    <DatePicker
+                                      name={`eventDetails-${key}`}
+                                      dateFormat="dd/MM/yyyy"
+                                      className="form-control "
+                                      placeholderText="Select date"
+                                      // readOnly={true}
+                                      minDate={
+                                        key == "eventEndDate"
+                                          ? new Date(
+                                              formData?.eventDetails?.eventStartDate?.value
+                                            )
+                                          : currentDate
+                                      }
+                                      selected={
+                                        (field.value &&    field.value>=currentDate)
+                                          ? new Date(field.value)
+                                          : currentDate
+                                      }
+                                      onChange={(v, e) => {
+                                        handleChange(v, `eventDetails-${key}`);
+                                      }}
+                                      onKeyDown={(e) => {
+                                        e.preventDefault();
+                                      }}
+                                    />
+                                    {field.color && (
+                                      <div className="color-pick">
+                                        <img
+                                          src={path_image + "color-picker.svg"}
+                                          alt=""
+                                        />
+                                        <input
+                                          type="color"
+                                          title="Choose your color"
+                                          name={`eventDetails-${key}-color`}
+                                          onChange={handleChange}
+                                          value={field.color}
+                                        />
+                                      </div>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <div
+                                    key={index}
+                                    className="form-group d-flex align-items-center"
+                                  >
+                                    <label>
+                                      {field.title}
+                                      {/* <span>*</span> */}
+                                    </label>
+                                    <input
+                                      type={field.type}
+                                      name={`eventDetails-${key}`}
+                                      value={field.value}
+                                      // readOnly={
+                                      //   key == "eventEndTime" ||
+                                      //   key == "eventStartTime"
+                                      //     ? true
+                                      //     : false
+                                      // }
+                                      // className={`form-control ${
+                                      //   key == "eventEndTime" ||
+                                      //   key == "eventStartTime"
+                                      //     ? "disabled"
+                                      //     : ""
+                                      // }`}
+                                      className="form-control"
+                                      onChange={handleChange}
+                                    />
+                                    {field.color && (
+                                      <div className="color-pick">
+                                        <img
+                                          src={path_image + "color-picker.svg"}
+                                          alt=""
+                                        />
+                                        <input
+                                          type="color"
+                                          title="Choose your color"
+                                          name={`eventDetails-${key}-color`}
+                                          onChange={handleChange}
+                                          value={field.color}
+                                        />
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              }
+                            )}
+                        </div>
+
+                        {/* <div className="form-group d-flex align-items-center">
                           <FormLabel>
                             Registration Page Title <span>*</span>
                           </FormLabel>
@@ -927,7 +1278,7 @@ const WebinarRegistration = () => {
                             className="form-control"
                             placeholder="what will be the placeholder?"
                           />
-                        </div>
+                        </div> */}
                         <div className="feilds-section">
                           <h5>What data should be collected?</h5>
                           <div className="select-collected">
@@ -940,29 +1291,28 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "name"
+                                    item?.name == "userName"
                                 ) != -1
                                   ? true
                                   : false
                               }
-                              onChange={(e) => handleChange(e, "name")}
+                              onChange={(e) => handleChange(e, "userName")}
                             />
 
                             <Form.Check
                               className="webinar-checkbox"
-                              inlin
                               label="Email"
                               name="email"
                               type="checkbox"
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "email"
+                                    item?.name == "userEmail"
                                 ) != -1
                                   ? true
                                   : false
                               }
-                              onChange={(e) => handleChange(e, "email")}
+                              onChange={(e) => handleChange(e, "userEmail")}
                             />
 
                             {/* <Form.Check
@@ -991,7 +1341,7 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "country"
+                                    item?.name?.toLowerCase() == "country"
                                 ) != -1
                                   ? true
                                   : false
@@ -1008,7 +1358,7 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "state"
+                                    item?.name?.toLowerCase() == "state"
                                 ) != -1
                                   ? true
                                   : false
@@ -1024,7 +1374,7 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "state (us)"
+                                    item?.name?.toLowerCase() == "state (us)"
                                 ) != -1
                                   ? true
                                   : false
@@ -1041,7 +1391,7 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item) =>
-                                    item?.label?.toLowerCase() ==
+                                    item?.name?.toLowerCase() ==
                                     "travel accomodation"
                                 ) !== -1
                                   ? true
@@ -1061,7 +1411,7 @@ const WebinarRegistration = () => {
                               checked={
                                 formData?.body?.findIndex(
                                   (item, index) =>
-                                    item?.label?.toLowerCase() == "consent"
+                                    item?.name?.toLowerCase() == "consent"
                                 ) != -1
                                   ? true
                                   : false
@@ -1473,8 +1823,8 @@ const WebinarRegistration = () => {
                                                                               fill="none"
                                                                             >
                                                                               <path
-                                                                                fill-rule="evenodd"
-                                                                                clip-rule="evenodd"
+                                                                                fillRule="evenodd"
+                                                                                clipRule="evenodd"
                                                                                 d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z"
                                                                                 fill="#0066be"
                                                                               />
@@ -1515,8 +1865,8 @@ const WebinarRegistration = () => {
                                                                                 fill="#0066be"
                                                                               />
                                                                               <path
-                                                                                fill-rule="evenodd"
-                                                                                clip-rule="evenodd"
+                                                                                fillRule="evenodd"
+                                                                                clipRule="evenodd"
                                                                                 d="M27.3721 3.90252V5.85366H37.6923C38.0833 5.85366 38.4583 6.00784 38.7348 6.28228C39.0113 6.55673 39.1667 6.92895 39.1667 7.31707C39.1667 7.70519 39.0113 8.07742 38.7348 8.35186C38.4583 8.62631 38.0833 8.78049 37.6923 8.78049H35.1489L33.5251 34.4195C33.4302 35.9294 32.7595 37.3467 31.6494 38.3833C30.5393 39.4199 29.0731 39.998 27.5489 40H12.4512C10.9407 39.9783 9.49405 39.3915 8.40063 38.3569C7.30721 37.3222 6.64757 35.916 6.55362 34.4195L4.85518 8.78049H2.3077C1.91668 8.78049 1.54167 8.62631 1.26517 8.35186C0.988677 8.07742 0.833344 7.70519 0.833344 7.31707C0.833344 6.92895 0.988677 6.55673 1.26517 6.28228C1.54167 6.00784 1.91668 5.85366 2.3077 5.85366H12.6283V3.80495C12.6532 2.80361 13.0651 1.85011 13.7787 1.14183C14.4922 0.433555 15.4529 0.0247359 16.4617 0H23.5387C24.5643 0.0254581 25.5393 0.447827 26.2555 1.17695C26.9717 1.90607 27.3724 2.88419 27.3721 3.90252ZM24.4233 3.90252V5.85366H15.5771V3.90252C15.5771 3.66964 15.6703 3.4463 15.8362 3.28163C16.0021 3.11696 16.2271 3.02445 16.4617 3.02445H23.5387C23.7733 3.02445 23.9983 3.11696 24.1642 3.28163C24.3301 3.4463 24.4233 3.66964 24.4233 3.90252ZM9.40411 34.2439L7.8904 8.78049L32.1883 8.87805L30.596 34.2439C30.5414 35.0101 30.1971 35.7274 29.632 36.2522C29.0668 36.7769 28.3228 37.0702 27.5489 37.0732H12.4512C11.676 37.0748 10.9293 36.7831 10.3632 36.2574C9.7971 35.7318 9.45412 35.0117 9.40411 34.2439Z"
                                                                                 fill="#0066be"
                                                                               />
@@ -1876,8 +2226,8 @@ const WebinarRegistration = () => {
                                                                               fill="none"
                                                                             >
                                                                               <path
-                                                                                fill-rule="evenodd"
-                                                                                clip-rule="evenodd"
+                                                                                fillRule="evenodd"
+                                                                                clipRule="evenodd"
                                                                                 d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z"
                                                                                 fill="#0066be"
                                                                               />
@@ -1918,8 +2268,8 @@ const WebinarRegistration = () => {
                                                                                 fill="#0066be"
                                                                               />
                                                                               <path
-                                                                                fill-rule="evenodd"
-                                                                                clip-rule="evenodd"
+                                                                                fillRule="evenodd"
+                                                                                clipRule="evenodd"
                                                                                 d="M27.3721 3.90252V5.85366H37.6923C38.0833 5.85366 38.4583 6.00784 38.7348 6.28228C39.0113 6.55673 39.1667 6.92895 39.1667 7.31707C39.1667 7.70519 39.0113 8.07742 38.7348 8.35186C38.4583 8.62631 38.0833 8.78049 37.6923 8.78049H35.1489L33.5251 34.4195C33.4302 35.9294 32.7595 37.3467 31.6494 38.3833C30.5393 39.4199 29.0731 39.998 27.5489 40H12.4512C10.9407 39.9783 9.49405 39.3915 8.40063 38.3569C7.30721 37.3222 6.64757 35.916 6.55362 34.4195L4.85518 8.78049H2.3077C1.91668 8.78049 1.54167 8.62631 1.26517 8.35186C0.988677 8.07742 0.833344 7.70519 0.833344 7.31707C0.833344 6.92895 0.988677 6.55673 1.26517 6.28228C1.54167 6.00784 1.91668 5.85366 2.3077 5.85366H12.6283V3.80495C12.6532 2.80361 13.0651 1.85011 13.7787 1.14183C14.4922 0.433555 15.4529 0.0247359 16.4617 0H23.5387C24.5643 0.0254581 25.5393 0.447827 26.2555 1.17695C26.9717 1.90607 27.3724 2.88419 27.3721 3.90252ZM24.4233 3.90252V5.85366H15.5771V3.90252C15.5771 3.66964 15.6703 3.4463 15.8362 3.28163C16.0021 3.11696 16.2271 3.02445 16.4617 3.02445H23.5387C23.7733 3.02445 23.9983 3.11696 24.1642 3.28163C24.3301 3.4463 24.4233 3.66964 24.4233 3.90252ZM9.40411 34.2439L7.8904 8.78049L32.1883 8.87805L30.596 34.2439C30.5414 35.0101 30.1971 35.7274 29.632 36.2522C29.0668 36.7769 28.3228 37.0702 27.5489 37.0732H12.4512C11.676 37.0748 10.9293 36.7831 10.3632 36.2574C9.7971 35.7318 9.45412 35.0117 9.40411 34.2439Z"
                                                                                 fill="#0066be"
                                                                               />
@@ -2028,8 +2378,8 @@ const WebinarRegistration = () => {
                                                           fill="none"
                                                         >
                                                           <path
-                                                            fill-rule="evenodd"
-                                                            clip-rule="evenodd"
+                                                            fillRule="evenodd"
+                                                            clipRule="evenodd"
                                                             d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z"
                                                             fill="#0066be"
                                                           />
@@ -2065,8 +2415,8 @@ const WebinarRegistration = () => {
                                                             fill="#0066be"
                                                           />
                                                           <path
-                                                            fill-rule="evenodd"
-                                                            clip-rule="evenodd"
+                                                            fillRule="evenodd"
+                                                            clipRule="evenodd"
                                                             d="M27.3721 3.90252V5.85366H37.6923C38.0833 5.85366 38.4583 6.00784 38.7348 6.28228C39.0113 6.55673 39.1667 6.92895 39.1667 7.31707C39.1667 7.70519 39.0113 8.07742 38.7348 8.35186C38.4583 8.62631 38.0833 8.78049 37.6923 8.78049H35.1489L33.5251 34.4195C33.4302 35.9294 32.7595 37.3467 31.6494 38.3833C30.5393 39.4199 29.0731 39.998 27.5489 40H12.4512C10.9407 39.9783 9.49405 39.3915 8.40063 38.3569C7.30721 37.3222 6.64757 35.916 6.55362 34.4195L4.85518 8.78049H2.3077C1.91668 8.78049 1.54167 8.62631 1.26517 8.35186C0.988677 8.07742 0.833344 7.70519 0.833344 7.31707C0.833344 6.92895 0.988677 6.55673 1.26517 6.28228C1.54167 6.00784 1.91668 5.85366 2.3077 5.85366H12.6283V3.80495C12.6532 2.80361 13.0651 1.85011 13.7787 1.14183C14.4922 0.433555 15.4529 0.0247359 16.4617 0H23.5387C24.5643 0.0254581 25.5393 0.447827 26.2555 1.17695C26.9717 1.90607 27.3724 2.88419 27.3721 3.90252ZM24.4233 3.90252V5.85366H15.5771V3.90252C15.5771 3.66964 15.6703 3.4463 15.8362 3.28163C16.0021 3.11696 16.2271 3.02445 16.4617 3.02445H23.5387C23.7733 3.02445 23.9983 3.11696 24.1642 3.28163C24.3301 3.4463 24.4233 3.66964 24.4233 3.90252ZM9.40411 34.2439L7.8904 8.78049L32.1883 8.87805L30.596 34.2439C30.5414 35.0101 30.1971 35.7274 29.632 36.2522C29.0668 36.7769 28.3228 37.0702 27.5489 37.0732H12.4512C11.676 37.0748 10.9293 36.7831 10.3632 36.2574C9.7971 35.7318 9.45412 35.0117 9.40411 34.2439Z"
                                                             fill="#0066be"
                                                           />
@@ -2101,6 +2451,31 @@ const WebinarRegistration = () => {
                                               value={
                                                 formData?.labelColor
                                                   ? formData?.labelColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="form-group">
+                                        <label>Select Option color</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "OptionColor")
+                                              }
+                                              value={
+                                                formData?.optionColor
+                                                  ? formData?.optionColor
                                                   : ""
                                               }
                                             />
@@ -2302,11 +2677,13 @@ const WebinarRegistration = () => {
                   </Col>
                 </Row>
               </div>
-            ) : apiStatus?(
+            ) : apiStatus ? (
               <div className="select-template">
-                <h3 className="no_found" style={{textAlign:'center' ,color:'#004A89'}}>Please select the template first</h3>
+                <h3>Please select the template first</h3>
               </div>
-            ):""}
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </Col>
@@ -2369,19 +2746,50 @@ const WebinarRegistration = () => {
                 title="Event Registration"
               /> */}
               <div className="webinar-popup">
-              <RegistrationPage
-                prevData={{
-                  eventId: eventData?.event_id,
-                  companyId: eventData?.company_id,
-                  content: JSON.stringify(formData),
-                  eventCode: event_code,
-                }}
-              />
+                <RegistrationPage
+                  prevData={{
+                    eventId: eventData?.event_id,
+                    companyId: eventData?.company_id,
+                    content: JSON.stringify(formData),
+                    eventCode: event_code,
+                  }}
+                />
               </div>
             </>
           </Modal.Body>
         </Modal>
       )}
+
+      <Modal
+        className="modal send-confirm"
+        id="delete-confirm"
+        show={showModalPreview}
+        onHide={handleCloseModal}
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={handleCloseModal}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>Please Select Template First</h4>
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered"
+                onClick={handleCloseModal}
+              >
+                Okay
+              </button>
+            </div>
+          </>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

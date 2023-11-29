@@ -10,7 +10,8 @@ import moment from "moment";
 import CountryList from "./CountryList";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
-
+import axios from "axios";
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const userData = {
   name: "userName",
   email: "userEmail",
@@ -34,6 +35,11 @@ const userData = {
   "Preferred return flight date": "air_return_date",
   "I consent to:": "consent",
 };
+let icons={
+  Email:"form-mail",
+  Name:"form-user",
+
+}
 const stateOptions = [
   { label: "Alabama", value: "Alabama" },
   { label: "Alaska", value: "Alaska" },
@@ -105,8 +111,9 @@ const RegistrationPage = ({ prevData }) => {
       ? {
           labelColor: prevData?.content?.labelColor,
           background: prevData?.content?.backgroundColor,
+          optionColor: prevData?.content?.optionColor,
         }
-      : { labelColor: "#fff000", background: "#000" }
+      : { labelColor: "#fff000", background: "#000",optionColor:"#000" }
   );
 
   useEffect(() => {
@@ -124,11 +131,14 @@ const RegistrationPage = ({ prevData }) => {
       );
       let hadData = {};
       if (!prevData?.content) {
-        hadData = {
-          ...response?.data?.data,
-          content: JSON.parse(response?.data?.data?.content),
-          raw_description: JSON.parse(response?.data?.data?.raw_description),
-        };
+        if(response?.data?.data?.content ){
+          hadData = {
+            ...response?.data?.data,
+            content: JSON.parse(response?.data?.data?.content),
+            raw_description: JSON.parse(response?.data?.data?.raw_description),
+          };
+        }
+      
       } else {
        let raw=response?.data?.data?.raw_description? JSON.parse(response?.data?.data?.raw_description):{
         "title": "",
@@ -149,7 +159,7 @@ const RegistrationPage = ({ prevData }) => {
         "speaker_email": "",
         "meeting_type": ""
       }
-      console.log(raw);
+      
         hadData = {
           ...response?.data?.data,
           content: JSON.parse(prevData?.content),
@@ -160,6 +170,7 @@ const RegistrationPage = ({ prevData }) => {
       setPageColors({
         labelColor: hadData?.content?.labelColor,
         background: hadData?.content?.backgroundColor,
+        optionColor: hadData?.content?.optionColor,
       });
       loader("hide");
     } catch (err) {
@@ -176,7 +187,7 @@ const RegistrationPage = ({ prevData }) => {
       loader("show");
       try {
         let raw = formData?.raw_description;
-        const response = await postData(
+        const response = await axios.post(
           "https://webinar.docintel.app/flow/apis/register",
           {
             ...formFieldData,
@@ -186,6 +197,7 @@ const RegistrationPage = ({ prevData }) => {
             companyEmail: raw?.speaker_email,
             virtual_or_live: raw?.meeting_type,
             websiteFolder: "new_webinar",
+            consent:formFieldData.consent.join('~') || ""
           }
         );
       } catch (error) {
@@ -202,9 +214,7 @@ const RegistrationPage = ({ prevData }) => {
     const errors = {};
 
     formData?.content?.body?.forEach((form) => {
-      const label = userData[form.label]
-        ? userData[form.label]
-        : form?.label?.replace(/ /g, "_");
+      const label =  form?.name?.replace(/ /g, "_");
       const fieldValue = formFieldData[label];
 
       if (form.required === "yes" && !fieldValue) {
@@ -222,7 +232,7 @@ const RegistrationPage = ({ prevData }) => {
         }
       }
     });
-
+console.log(errors);
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -269,8 +279,14 @@ const RegistrationPage = ({ prevData }) => {
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                  <h2>{formData?.content?.pageTitle}</h2>
-                  <h3> {formData?.content?.bodyText}</h3>
+                <h2 style={{
+                    color: formData?.content?.eventDetails?.pageTitle?.color,
+
+                  }} >{formData?.content?.eventDetails?.pageTitle?.value}</h2>
+                  <h3 style={{
+                    color: formData?.content?.eventDetails?.bodyText?.color,
+
+                  }}> {formData?.content?.eventDetails?.bodyText?.value}</h3>
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -288,20 +304,11 @@ const RegistrationPage = ({ prevData }) => {
                     />
                   ))}
                   {!prevData && (
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                      id="submit_registration"
-                    >
-                      Submit
-                    </button>
+                    <button type="submit" className="btn btn-primary" id="submit_registration">Submit</button>
                   )}
                 </div>
                 <div className="footer-sec">
-                  <span>
-                    * This consent is mandatory in order to register for the
-                    event.
-                  </span>
+                  <span>* This consent is mandatory in order to register for the event.</span>
                 </div>
               </div>
             </form>
@@ -332,17 +339,23 @@ const RegistrationPage = ({ prevData }) => {
         <button type="submit">Login</button>
       </form>
     </div> */}
-      <section className="consent-form">
+      <section className="consent-form" >
         <div className="container">
           <div
             className="consent-form-inner"
-            style={{ background: `${pageColors?.background}` }}
+            
           >
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                  <h2>{formData?.content?.pageTitle}</h2>
-                  <h3> {formData?.content?.bodyText}</h3>
+                  <h2 style={{
+                    color: formData?.content?.eventDetails?.pageTitle?.color,
+
+                  }}>{formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2>
+                  <h3 style={{
+                    color: formData?.content?.eventDetails?.bodyText?.color,
+
+                  }}> {formData?.content?.bodyText}</h3>
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -413,24 +426,30 @@ const RegistrationPage = ({ prevData }) => {
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                  <h2>{formData?.content?.pageTitle}</h2>
-                  <h3> {formData?.content?.bodyText}</h3>
+                  <h2 style={{
+                    color: formData?.content?.eventDetails?.pageTitle?.color,
+
+                  }}>{formData?.content?.eventDetails?.pageTitle?.value}</h2>
+                  <h3  style={{
+                    color: formData?.content?.eventDetails?.bodyText?.color,
+                    
+                  }}> {formData?.content?.eventDetails?.bodyText?.value}</h3>
                 </div>
               </div>
               <div className="center-sided-inside">
                 <div className="row">
-                  {formData?.content?.body?.map((form, index) => (
-                    <FormField3
-                      form={form}
-                      key={index}
-                      formFieldData={formFieldData}
-                      setFormFieldData={setFormFieldData}
-                      formErrors={formErrors}
-                      pageColors={pageColors}
-                      level="root"
-                      templateId={formData?.content?.templateId}
-                    />
-                  ))}
+                {formData?.content?.body?.map((form, index) => (
+  <FormField3
+    key={`${form.label}_${index}`} 
+    form={form}
+    formFieldData={formFieldData}
+    setFormFieldData={setFormFieldData}
+    formErrors={formErrors}
+    pageColors={pageColors}
+    level="root"
+    templateId={formData?.content?.templateId}
+  />
+))}
                   {!prevData && (
                     <button
                       type="submit"
@@ -491,9 +510,7 @@ const FormField1 = ({
 }) => {
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label = userData[form.label]
-    ? userData[form.label]
-    : form?.label?.replace(/ /g, "_");
+  const label = form?.name?.replace(/ /g, "_");
 
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
@@ -595,7 +612,7 @@ const FormField1 = ({
               />
               <label
                 style={{
-                  color: pageColors?.labelColor,
+                  color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
@@ -632,8 +649,9 @@ const FormField1 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                  // console.log(item,"");
-                  // console.log();
+                 
+                  
+                  
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -648,8 +666,7 @@ const FormField1 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
-                  color: pageColors?.labelColor,
+                  color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
@@ -675,25 +692,29 @@ const FormField1 = ({
     );
   } else {
     fieldInput = (
+      <>
       <input
         type={form.inputType}
         className="form-control"
 id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={form.placeholder}
-        onChange={(e) => handleFieldChange(e.target.value)}
-      />
+        onChange={(e) => handleFieldChange(e.target.value)}/>
+        <div className="field-icon">
+        <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
+        </div>
+        </>
+      
     );
   }
-
   return (
     <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-      <label
+    {(form.inputType !="text" && form.inputType !="email")  ?( <label
         style={{
           color: pageColors?.labelColor,
         }}
       >
         {form.label}
-        {isRequired ? "*" : ""}
-      </label>
+        {isRequired ? "" : ""}
+      </label>):null}
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
     </div>
@@ -709,20 +730,16 @@ const FormField2 = ({
   level,
   templateId,
 }) => {
+
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label = userData[form.label]
-    ? userData[form.label]
-    : form?.label?.replace(/ /g, "_");
-
+  const label =  form?.name?.replace(/ /g, "_");
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
-
     if (form?.inputType === "datepicker") {
       newData[label] = moment(value).format("YYYY-MM-DD");
     } else if (form?.inputType === "checkbox") {
       newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
-
       if (e.target.checked) {
         newData[label] = [...newData[label], value];
       } else {
@@ -798,8 +815,6 @@ const FormField2 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
-
               <input
                 type={form.inputType}
                 id={label + index}
@@ -816,8 +831,7 @@ const FormField2 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
-                  color: pageColors?.labelColor,
+                  color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
@@ -847,8 +861,6 @@ const FormField2 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
-
               <input
                 type={form.inputType}
                 id={label + index}
@@ -856,8 +868,6 @@ const FormField2 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                  // console.log(item,"");
-                  // console.log();
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -872,8 +882,7 @@ const FormField2 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
-                  color: pageColors?.labelColor,
+                  color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
@@ -899,25 +908,33 @@ const FormField2 = ({
     );
   } else {
     fieldInput = (
+      <>
       <input
         type={form.inputType}
         className="form-control"
-        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())} placeholder={form.placeholder}
-        onChange={(e) => handleFieldChange(e.target.value)}
-      />
+        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())} placeholder={form.label}
+        onChange={(e) => handleFieldChange(e.target.value)}/>
+      <div className="field-icon">
+        <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
+      </div>
+      </>
     );
   }
 
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-      <label
+    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`}>
+      {(form.inputType !="text" && form.inputType !="email")  ?
+        <label
         style={{
           color: pageColors?.labelColor,
-        }}
-      >
+        }}>
         {form.label}
-        {isRequired ? "*" : ""}
-      </label>
+        {
+          // isRequired ? "*" : ""
+      }
+      </label>:null
+      }
+      
       {fieldInput} 
       <div className="help-block">{formErrors[label]}</div>
     </div>
@@ -934,9 +951,7 @@ const FormField3 = ({
 }) => {
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label = userData[form.label]
-    ? userData[form.label]
-    : form?.label?.replace(/ /g, "_");
+  const label = form?.name?.replace(/ /g, "_");
 
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
@@ -1021,7 +1036,8 @@ const FormField3 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
+    
+    
 
               <input
                 type={form.inputType}
@@ -1039,8 +1055,7 @@ const FormField3 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
-                  color: pageColors?.labelColor,
+                  color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
@@ -1070,7 +1085,7 @@ const FormField3 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-              {/* {console.log(item,"oppppp")} */}
+
 
               <input
                 type={form.inputType}
@@ -1079,8 +1094,8 @@ const FormField3 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                  // console.log(item,"");
-                  // console.log();
+              
+                  
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -1095,8 +1110,7 @@ const FormField3 = ({
               />
               <label
                 style={{
-                  textTransform: "capitalize",
-                  color: pageColors?.labelColor,
+                  color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >

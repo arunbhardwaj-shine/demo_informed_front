@@ -77,6 +77,7 @@ const CommonAddEventModel = ({
   ]);
   const [eventInputs, setEventInputs] = useState({
     dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+    dateEnd: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     title: "",
     location: "",
     type: "",
@@ -120,6 +121,7 @@ const CommonAddEventModel = ({
           ? data?.client_stream_url
           : "",
         dateStart: data?.dateStart,
+        dateEnd: data?.dateEnd,
         dateStartHour: data?.dateStartHour,
         dateStartMin: data?.dateStartMin,
         dateEndHour: data?.dateEndHour ? data?.dateEndHour : "",
@@ -132,7 +134,10 @@ const CommonAddEventModel = ({
       });
     } else {
       setEventInputs({
-        dateStart: new Date(
+        dateEnd: new Date(
+          moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+        ),
+        dateEnd: new Date(
           moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
         ),
         title: "",
@@ -159,27 +164,34 @@ const CommonAddEventModel = ({
     setEventInputs({
       dateStart: new Date(
         moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+      ), dateEnd: new Date(
+        moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
       ),
     });
     onClose(false);
   };
   const handleChange = (e, isSelectedName) => {
-    if (e?.target?.name == "event_code") {
+    const { name, value } = e?.target || {};
+  
+    if (name === 'event_code') {
       setEventInputs({
         ...eventInputs,
-        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-          ? e
-          : e?.target?.value?.trim(),
+        [isSelectedName || name]: isSelectedName ? e : value?.trim(),
       });
     } else {
-      setEventInputs({
+      const updatedInputs = {
         ...eventInputs,
-        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-          ? e
-          : e?.target?.value,
-      });
+        [isSelectedName || name]: isSelectedName ? e : value,
+      };
+  
+      if (isSelectedName === 'dateStart') {
+        updatedInputs.dateEnd = isSelectedName ? e : value;
+      }
+  
+      setEventInputs(updatedInputs);
     }
   };
+  
   const saveClicked = async (e) => {
     try {
       const error = EventModelValidation(eventInputs);
@@ -196,25 +208,18 @@ const CommonAddEventModel = ({
           timezone: eventInputs?.timezone,
           countryTimezone: eventInputs?.country_timezone,
           isClientStream: eventInputs?.is_client_stream == "Yes" ? 1 : 0,
-          clientStreamUrl: eventInputs?.client_stream_url
-            ? eventInputs?.client_stream_url
-            : "",
+          clientStreamUrl: eventInputs?.client_stream_url ? eventInputs?.client_stream_url : "",
           dateStart: eventInputs?.dateStart,
+          dateEnd: eventInputs?.dateEnd,
           dateStartHour: eventInputs?.dateStartHour,
           dateStartMin: eventInputs?.dateStartMin,
           dateEndHour: eventInputs?.dateEndHour,
           dateEndMin: eventInputs?.dateEndMin,
           eventCode: eventInputs?.event_code,
           description: eventInputs?.description ? eventInputs?.description : "",
-          speaker_name: eventInputs?.speaker_name
-            ? eventInputs?.speaker_name
-            : "",
-          speaker_email: eventInputs?.speaker_email
-            ? eventInputs?.speaker_email
-            : "",
-          meeting_type: eventInputs?.meeting_type
-            ? eventInputs?.meeting_type
-            : "",
+          speaker_name: eventInputs?.speaker_name ? eventInputs?.speaker_name : "",
+          speaker_email: eventInputs?.speaker_email ? eventInputs?.speaker_email : "",
+          meeting_type: eventInputs?.meeting_type ? eventInputs?.meeting_type : "",
         };
         console.log(dataObj, "dataObj");
 
@@ -230,6 +235,8 @@ const CommonAddEventModel = ({
         // onClose(false);
         setEventInputs({
           dateStart: new Date(
+            moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+          ), dateEnd: new Date(
             moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
           ),
         });
@@ -273,8 +280,7 @@ const CommonAddEventModel = ({
             data-bs-backdrop="static"
             data-bs-keyboard="false"
             tabIndex="-1"
-            aria-hidden="true"
-          >
+            aria-hidden="true">
             <div className="hcp-add-box">
               <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + "active"}>
@@ -290,22 +296,15 @@ const CommonAddEventModel = ({
                               <input
                                 type="text"
                                 name="title"
-                                placeholder="Event Title"
-                                className={
-                                  error?.title
-                                    ? "form-control error"
-                                    : "form-control"
-                                }
+                                placeholder="Event title"
+                                className={error?.title ? "form-control error" : "form-control"}
                                 onChange={(e) => handleChange(e)}
-                                value={
-                                  eventInputs?.title ? eventInputs?.title : ""
-                                }
-                              />
-                              {error?.title ? (
-                                <div className="login-validation">
-                                  {error?.title}
-                                </div>
-                              ) : null}
+                                value={eventInputs?.title ? eventInputs?.title : ""}/>
+                                {error?.title ? (
+                                  <div className="login-validation">
+                                    {error?.title}
+                                  </div>
+                                ) : null}
                             </div>
                           </div>
                           <div className="col-12 col-md-12">
@@ -346,7 +345,7 @@ const CommonAddEventModel = ({
                                   <input
                                     type="text"
                                     name="speaker_name"
-                                    placeholder="Enter Speaker's Name"
+                                    placeholder="Enter speaker's name"
                                     className={
                                       error?.speaker_name
                                         ? "form-control error"
@@ -374,7 +373,7 @@ const CommonAddEventModel = ({
                                   <input
                                     type="email"
                                     name="speaker_email"
-                                    placeholder="Enter Speaker's Email"
+                                    placeholder="Enter speaker's email"
                                     className={
                                       error?.speaker_email
                                         ? "form-control error"
@@ -413,7 +412,7 @@ const CommonAddEventModel = ({
                                     ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                     : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                 }
-                                placeholder="select meeting type"
+                                placeholder="Select meeting type"
                                 onChange={(e) =>
                                   handleChange(e?.value, "meeting_type")
                                 }
@@ -456,7 +455,7 @@ const CommonAddEventModel = ({
                                     : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                 }
                                 onChange={(e) => handleChange(e?.value, "type")}
-                                placeholder="select IBU"
+                                placeholder="Select IBU"
                                 value={
                                   ibuOptions
                                     ? ibuOptions.findIndex(
@@ -497,7 +496,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "timezone")
                                 }
-                                placeholder="select Country Timezone"
+                                placeholder="Select country timezone"
                                 value={
                                   timezoneOptions
                                     ? timezoneOptions.findIndex(
@@ -540,7 +539,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "country_timezone")
                                 }
-                                placeholder="select Timezone"
+                                placeholder="Select timezone"
                                 value={
                                   countryTimezone
                                     ? countryTimezone?.findIndex(
@@ -583,7 +582,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.label, "is_client_stream")
                                 }
-                                placeholder="select Stream"
+                                placeholder="Select stream"
                                 value={
                                   clientStreamOptions?.findIndex(
                                     (item) =>
@@ -643,7 +642,7 @@ const CommonAddEventModel = ({
                           <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
-                                Event Date <span> *</span>
+                                Event Start Date <span> *</span>
                               </label>
 
                               <DatePicker
@@ -653,7 +652,7 @@ const CommonAddEventModel = ({
                                     ? "form-control error"
                                     : "form-control"
                                 }
-                                placeholderText="Event Date"
+                                placeholderText="Event date"
                                 selected={
                                   eventInputs?.dateStart
                                     ? new Date(eventInputs?.dateStart)
@@ -672,6 +671,42 @@ const CommonAddEventModel = ({
                               {error?.dateStart ? (
                                 <div className="login-validation">
                                   {error?.dateStart}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div> 
+                          <div className="col-12 col-md-12">
+                            <div className="form-group">
+                              <label htmlFor="">
+                                Event End Date <span> *</span>
+                              </label>
+
+                              <DatePicker
+                                name="dateEnd"
+                                className={
+                                  error?.dateEnd
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                placeholderText="Event date"
+                                selected={
+                                  eventInputs?.dateEnd
+                                    ? new Date(eventInputs?.dateEnd)
+                                    : new Date(
+                                        moment(new Date(), "MM/DD/YYYY").format(
+                                          "MM/DD/YYYY"
+                                        )
+                                      )
+                                }
+                                onChange={(date) =>
+                                  handleChange(date, "dateEnd")
+                                }
+                                minDate={eventInputs.dateStart || currentDate}
+                                  dateFormat="dd/MM/yyyy"
+                              />
+                              {error?.dateEnd ? (
+                                <div className="login-validation">
+                                  {error?.dateEnd}
                                 </div>
                               ) : null}
                             </div>
@@ -814,12 +849,12 @@ const CommonAddEventModel = ({
                           <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
-                                Event Code <span> *</span>
+                                Event Code <span>*</span>
                               </label>
                               <input
                                 type="text"
                                 name="event_code"
-                                placeholder="Event Code"
+                                placeholder="Event code"
                                 className={
                                   error?.event_code
                                     ? "form-control error"
