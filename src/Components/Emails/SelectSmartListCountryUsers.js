@@ -39,6 +39,7 @@ const SelectSmartListCountryUsers = (props) => {
     const [update, setUpdate] = useState(0);
     const [activeManual, setActiveManual] = useState("active");
     const [activeExcel, setActiveExcel] = useState("");
+    const [sortOrder, setSortOrder] = useState(true);
     const [editableData, setEditableData] = useState([]);
     const [sorting, setSorting] = useState(0);
     const [countryall, setCountryall] = useState([]);
@@ -368,7 +369,13 @@ loader("hide");
         setUpdate(update + 1);
     };
     function sortObj(obj) {
-        return Object.keys(obj).sort().reduce(function (result, key) {
+        const sortedKeys = Object.keys(obj).sort();
+      
+        if (!sortOrder) {
+          sortedKeys.reverse();
+        }
+      setSortOrder(!sortOrder)
+        return sortedKeys.reduce(function(result, key) {
           result[key] = obj[key];
           return result;
         }, {});
@@ -383,13 +390,7 @@ loader("hide");
             data=sortObj(data)
             getSortObj[key]=data
         }
-        setCountryWiseData(getSortObj)
-// let discardCountryData=normalArr[separateData[0]]
-// let allCountryData=normalArr[separateData[1]]
-// allCountryData=sortObj(allCountryData)
-// discardCountryData=sortObj(discardCountryData)
-
-//       
+        setCountryWiseData(getSortObj)       
 
     };
 
