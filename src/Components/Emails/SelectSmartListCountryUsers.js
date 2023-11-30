@@ -1136,7 +1136,7 @@ loader("hide");
                                     </div>
                                 </div>
 
-                                <Accordion>
+                                <Accordion className="deleted">
                                     {Object.keys(countryWiseData?.discardCountryData)?.length ? Object.keys(countryWiseData?.discardCountryData)?.map((country, index) => {
                                         return (
                                             <>
@@ -1236,8 +1236,7 @@ loader("hide");
                                         )
                                     }) : ""}
                                 </Accordion>
-
-                                <Accordion className="deleted">
+                                 <Accordion>
                                     {Object.keys(countryWiseData?.allCountryData)?.length ? Object.keys(countryWiseData?.allCountryData)?.map((country, index) => {
                                         return (
                                             <>

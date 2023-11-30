@@ -2507,6 +2507,7 @@ h5 {
   background: transparent;
   border: 0;
   box-shadow: none;
+  border-radius: 9px;
 }
 
 .search-hcp .accordion .accordion-item .accordion-body {
@@ -2520,6 +2521,38 @@ h5 {
   margin-right: 10px;
 }
 
+.search-hcp .deleted.accordion .accordion-header button.accordion-button {
+  box-shadow: 0px 0px 10px #b91b68;
+}
+
+.search-hcp .deleted.accordion .delete-country-button {
+  background: transparent;
+  padding: 0;
+  z-index: 3;
+  opacity: 1;
+}
+
+.search-hcp .deleted.accordion .delete-country-button img {
+  width: 32px;
+  height: 32px;
+}
+
+.search-hcp .deleted.accordion .accordion-header {
+  position: relative;
+}
+
+.search-hcp .deleted.accordion .accordion-header:after {
+  content: "Deleted";
+  font-size: 14px;
+  line-height: 16px;
+  color: #d61975;
+  transform: rotate(-90deg);
+  position: absolute;
+  left: -23px;
+  transform-origin: top left;
+  top: 50px;
+}
+
 .accordion-header+button.delete-country-button {
   border-radius: 30px;
   padding: 2px;
@@ -2529,6 +2562,7 @@ h5 {
   position: absolute;
   right: -16px;
   top: 11px;
+  z-index: 3;
 }
 
 .accordion-header+button.delete-country-button img {
