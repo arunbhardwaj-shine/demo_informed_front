@@ -370,14 +370,14 @@ const SelectSmartListCountryUsers = (props) => {
     };
     function sortObj(obj) {
         const sortedKeys = Object.keys(obj).sort();
-      
+
         if (!sortOrder) {
-          sortedKeys.reverse();
+            sortedKeys.reverse();
         }
-      setSortOrder(!sortOrder)
-        return sortedKeys.reduce(function(result, key) {
-          result[key] = obj[key];
-          return result;
+        setSortOrder(!sortOrder)
+        return sortedKeys.reduce(function (result, key) {
+            result[key] = obj[key];
+            return result;
         }, {});
     }
 
@@ -390,7 +390,7 @@ const SelectSmartListCountryUsers = (props) => {
             data = sortObj(data)
             getSortObj[key] = data
         }
-        setCountryWiseData(getSortObj)       
+        setCountryWiseData(getSortObj)
 
     };
 
@@ -443,13 +443,26 @@ const SelectSmartListCountryUsers = (props) => {
         const { country, ...userData } = user;
         const uppercaseCountry = country.toUpperCase();
         const combinedUserData = { ...userData, country: country };
-        setCountryWiseData((prevData) => ({
-            discardCountryData: { ...prevData.discardCountryData },
-            allCountryData: {
-                ...prevData.allCountryData,
-                [uppercaseCountry]: [...prevData.allCountryData[uppercaseCountry], combinedUserData],
-            },
-        }));
+        if (countryWiseData.discardCountryData[uppercaseCountry]) {
+            // Add user object to discardCountryData for the specific country
+            setCountryWiseData((prevData) => ({
+                discardCountryData: {
+                    ...prevData.discardCountryData,
+                    [uppercaseCountry]: [...prevData.discardCountryData[uppercaseCountry], combinedUserData],
+                },
+                allCountryData: { ...prevData.allCountryData },
+            }));
+        }
+        else if (countryWiseData.allCountryData[uppercaseCountry]) {
+            setCountryWiseData((prevData) => ({
+                discardCountryData: { ...prevData.discardCountryData },
+                allCountryData: {
+                    ...prevData.allCountryData,
+                    [uppercaseCountry]: [...prevData.allCountryData[uppercaseCountry], combinedUserData],
+                },
+            }));
+        }
+
 
 
         setReRender(reRender + 1);
@@ -1406,7 +1419,11 @@ const SelectSmartListCountryUsers = (props) => {
                                                     </>
                                                 );
                                             })}
+                                            <tr className="seprator-add">
+                                                <td colSpan="13"></td>
+                                            </tr>
                                         </tbody>
+
                                     </table>
                                     : ""}
                                 <Accordion>
@@ -1499,9 +1516,7 @@ const SelectSmartListCountryUsers = (props) => {
 
 
 
-                                                                    <tr className="seprator-add">
-                                                                        <td colSpan="13"></td>
-                                                                    </tr>
+
                                                                     {countryWiseData?.allCountryData?.[country]?.map((readers, i) => {
                                                                         return (
                                                                             <tr
