@@ -290,25 +290,30 @@ const SelectSmartListCountryUsers = (props) => {
         setEditable(temp_val);
         setUpdate(update + 1);
     };
-
+    function sortObj(obj) {
+        return Object.keys(obj).sort().reduce(function (result, key) {
+          result[key] = obj[key];
+          return result;
+        }, {});
+      }
+      
     const sortSelectedCountry = () => {
+        let normalArr = JSON.parse(JSON.stringify(countryWiseData))
+      let getSortObj={}
 
-        let normalArr = { ...countryWiseData }; // Use spread operator to create a shallow copy
-
-        const sortedKeys = Object.keys(normalArr).sort((a, b) =>
-            sorting === 0
-                ? a.toLowerCase().localeCompare(b.toLowerCase())
-                : b.toLowerCase().localeCompare(a.toLowerCase())
-        );
-
-        const sortedObject = {};
-        for (const key of sortedKeys) {
-            sortedObject[key] = normalArr[key];
+        for (const key in normalArr) {
+            let data=normalArr[key];
+            data=sortObj(data)
+            getSortObj[key]=data
         }
+        setCountryWiseData(getSortObj)
+// let discardCountryData=normalArr[separateData[0]]
+// let allCountryData=normalArr[separateData[1]]
+// allCountryData=sortObj(allCountryData)
+// discardCountryData=sortObj(discardCountryData)
 
-        setCountryWiseData(sortedObject);
-        setSorting(1 - sorting);
-        setSortingCount(sortingCount + 1);
+//       
+
     };
 
     const closeClicked = () => {
@@ -455,17 +460,23 @@ const SelectSmartListCountryUsers = (props) => {
         if (countryWiseData.allCountryData[selectedCountry]) {
             // Remove selected country data from allCountryData
             const updatedAllCountryData = { ...countryWiseData.allCountryData };
-            const discardedData = updatedAllCountryData[selectedCountry];
-            delete updatedAllCountryData[selectedCountry];
-      
-            // Update state with the modified data
-            setCountryWiseData((prevData) => ({
-              discardCountryData: {
-                ...prevData.discardCountryData,
-                [selectedCountry]: discardedData,
-              },
-              allCountryData: updatedAllCountryData,
-            }));
+            console.log(updatedAllCountryData,"updatedAllCountryData");
+            if(Object.keys(updatedAllCountryData).length>1){
+                const discardedData = updatedAllCountryData[selectedCountry];
+                delete updatedAllCountryData[selectedCountry];
+          
+                // Update state with the modified data
+                setCountryWiseData((prevData) => ({
+                  discardCountryData: {
+                    ...prevData.discardCountryData,
+                    [selectedCountry]: discardedData,
+                  },
+                  allCountryData: updatedAllCountryData,
+                }));
+            }else{
+                toast.warning("There must be at least one country present.");
+            }
+         
           } else {
             console.error(`${selectedCountry} not found in allCountryData.`);
           }
