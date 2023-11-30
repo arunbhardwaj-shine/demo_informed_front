@@ -2217,7 +2217,8 @@ form .input-group {
 }
 
 .search-hcp-table table th,
-.selected-hcp-list table th, .selected-hcp-list table th .hcp-sort .btn {
+.selected-hcp-list table th,
+.selected-hcp-list table th .hcp-sort .btn {
   font-size: 13px;
   line-height: 15px;
   color: var(--dark-blue);
@@ -2227,12 +2228,14 @@ form .input-group {
   padding-top: 10px;
   padding-bottom: 0;
 }
-.selected-hcp-list table th .hcp-sort .btn{
-  padding:0;
+
+.selected-hcp-list table th .hcp-sort .btn {
+  padding: 0;
   outline: none;
   box-shadow: none;
-  border:0;
+  border: 0;
 }
+
 .search-hcp-table table td,
 .selected-hcp-list table td {
   vertical-align: middle;
@@ -2489,9 +2492,10 @@ h5 {
   border: 0;
   border-radius: 9px;
   box-shadow: 0 1px 6px rgba(0, 102, 190, .2);
-  overflow: hidden;
+  /* overflow: hidden; */
   vertical-align: middle;
   margin: 0 0 15px;
+  position: relative;
 }
 
 .search-hcp .accordion .accordion-item button.accordion-button {
@@ -2513,6 +2517,23 @@ h5 {
 .search-hcp .accordion .accordion-item button.accordion-button:after {
   background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
   background-position: center;
+  margin-right: 10px;
+}
+
+.accordion-header+button.delete-country-button {
+  border-radius: 30px;
+  padding: 2px;
+  background: var(--light-blue);
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  right: -16px;
+  top: 11px;
+}
+
+.accordion-header+button.delete-country-button img {
+  width: 20px;
+  height: 20px;
 }
 
 .table-title .selected-hcp-table-action .btn-filled:hover {

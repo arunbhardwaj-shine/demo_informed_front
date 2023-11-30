@@ -930,7 +930,6 @@ const PharmaMarketing = () => {
   const colourStyles = {
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
       // const color = chroma(data.color);
-      // console.log({ data, isDisabled, isFocused, isSelected });
       return {
         ...styles,
         backgroundColor: isFocused ? "#0066BE" : null,
@@ -1027,12 +1026,6 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
-    // var root = document.getElementsByTagName( 'html' )[0];
-    //   root.classList.remove('scrollerClass');
-    // localStorage.setItem('pharmaRegistered', 'true');
-    // setPharmaRegistered(true);
-    // setAddSmallClass(true);
-    // setAddDivClass(false);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs, 1);
     if (Object.keys(err)?.length) {
@@ -1082,7 +1075,6 @@ const PharmaMarketing = () => {
           country: registerFormInputs?.country?.trim(),
           consent: consent,
           consent_type: consentType,
-          // before_register_module_clicked:readMoreClicked,
           register_type: "pharmaRegistered",
           type: "register",
         };
@@ -1154,7 +1146,6 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
-    console.log('Big Circle click')
     let newObj = { "user select the module": moduleName }
     userTrackingFun(newObj)
 
@@ -1269,24 +1260,25 @@ const PharmaMarketing = () => {
       loader("show");
       // loader("show");
       try {
-
         const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
         const payloadData = JSON.parse(payloadDataPharmaString);
-        // const res = await postData(ENDPOINT.REGISTER, {
-        let data = {
-          // ...payloadData,
+        const res = await postData(ENDPOINT.REGISTER, {
+        // let data = {
+          ...payloadData,
           message: moduleFormInputs?.message?.trim(),
           secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
           secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
-          // modules: selectedModules,
-          // after_register_module_clicked:readMoreClicked,
-          // ppt: downloadedPpts,
-          // type: "modules",
-        }
-        let newObj = { "user submit the data": data }
+          modules: selectedModules,
+          type: "modules",
+        // }
+         });
+         let submitData = {
+          message: moduleFormInputs?.message?.trim(),
+          secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
+          secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
+         }
+        let newObj = { "user submit the data": submitData }
         userTrackingFun(newObj)
-
-        //  });
         let obj = {};
         loader("hide");
         setEmailError(null);
@@ -1311,7 +1303,6 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-    console.log('Big Circle close')
     let newObj = { "user deselect the module": activeModule }
     userTrackingFun(newObj)
     var root = document.getElementsByTagName('html')[0];
@@ -1407,7 +1398,6 @@ const PharmaMarketing = () => {
     console.log("func--->", newObj)
     try {
       const res = await postData(ENDPOINT.USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
-      // console.log("res-->", res?.data)
       if (res?.data?.message == "insert") {
         localStorage.setItem("trackingId", res?.data?.data?.trackingId)
       }
