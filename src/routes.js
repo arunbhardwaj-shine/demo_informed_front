@@ -168,7 +168,7 @@ import PollListing from "./Components/Webinar/Survey/PollListing";
 import AutoLogout from "./Components/Login/AutoLogout";
 import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
 import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/RegistrationPage";
-import SelectSmartListUsersLayout from "./Components/Emails/SelectSmartListUsersLayout";
+// import SelectSmartListUsersLayout from "./Components/Emails/SelectSmartListUsersLayout";
 let platform = 0;
 let show = 0;
 
