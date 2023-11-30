@@ -956,11 +956,19 @@ loader("hide");
             // Remove user from their current country in discardCountryData
             Object.entries(updatedDiscardCountryData).forEach(([country, users]) => {
                 updatedDiscardCountryData[country] = users.filter((user) => user.profile_user_id !== userId);
+                if(updatedAllCountryData[country]==0){
+                    delete updatedAllCountryData[country]
+                }
+
             });
 
             // Remove user from their current country in allCountryData
             Object.entries(updatedAllCountryData).forEach(([country, users]) => {
                 updatedAllCountryData[country] = users.filter((user) => user.profile_user_id !== userId);
+                if(updatedAllCountryData[country]==0){
+                    delete updatedAllCountryData[country]
+                }
+
             });
 
             // Add user to the specified country in discardCountryData, if present
