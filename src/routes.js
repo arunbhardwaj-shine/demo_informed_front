@@ -90,6 +90,7 @@ import EmailStatsss from "./Components/NewWebinar/WebinarFiles/EmailStatsss";
 // -------END----------Webinar routes------------------------
 
 import DefaultLayout from "./Components/CommonComponent/DefaultLayout";
+import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
 import LoginLayout from "./Components/CommonComponent/LoginLayout";
 import Sidebar from "./Components/CommonComponent/SidebarComponent/Sidebar";
 import Table from "./Components/Distributes/SmartListComponent/Table";
