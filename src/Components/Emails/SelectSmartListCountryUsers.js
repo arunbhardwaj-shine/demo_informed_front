@@ -1144,109 +1144,112 @@ const SelectSmartListCountryUsers = (props) => {
                                         ) : null}
                                     </div>
                                 </div>
+                                {
+                                    Object.keys(countryWiseData?.discardCountryData)?.length ? 
+                                        <Accordion className="deleted">
+                                            {Object.keys(countryWiseData?.discardCountryData)?.length ? Object.keys(countryWiseData?.discardCountryData)?.map((country, index) => {
+                                                return (
+                                                    <>
+                                                        <Accordion.Item eventKey={index}>
+                                                            <Accordion.Header>
+                                                                {`${country} (${countryWiseData?.discardCountryData?.[country]?.length + (newlyAddedCountryWiseData?.[country]?.length ? newlyAddedCountryWiseData?.[country]?.length : 0)})`}
 
-                                <Accordion className="deleted">
-                                    {Object.keys(countryWiseData?.discardCountryData)?.length ? Object.keys(countryWiseData?.discardCountryData)?.map((country, index) => {
-                                        return (
-                                            <>
-                                                <Accordion.Item eventKey={index}>
-                                                    <Accordion.Header>
-                                                        {`${country} (${countryWiseData?.discardCountryData?.[country]?.length + (newlyAddedCountryWiseData?.[country]?.length ? newlyAddedCountryWiseData?.[country]?.length : 0)})`}
+                                                            </Accordion.Header>
 
-                                                    </Accordion.Header>
+                                                            <button className="delete-country-button">
+                                                                <img
+                                                                    src={path_image + "add-row.png"}
+                                                                    alt="Add Row"
+                                                                    onClick={() => addCountryData(country)}
+                                                                />
+                                                            </button>
 
-                                                    <button className="delete-country-button">
-                                                        <img
-                                                            src={path_image + "add-row.png"}
-                                                            alt="Add Row"
-                                                            onClick={() => addCountryData(country)}
-                                                        />
-                                                    </button>
+                                                            <Accordion.Body className="card-body">
+                                                                <div className="selected-hcp-list">
+                                                                    <table className="table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Name</th>
+                                                                                <th scope="col">Email</th>
+                                                                                <th scope="col">Bounced</th>
+                                                                                <th scope="col">Country</th>
+                                                                                <th scope="col">Business unit</th>
+                                                                                <th scope="col">Contact type</th>
+                                                                                {showLessInfo == false ? (
+                                                                                    <>
+                                                                                        <th scope="col">Consent</th>
+                                                                                        <th scope="col">Email received</th>
+                                                                                        <th scope="col">Openings</th>
+                                                                                        <th scope="col">Registrations</th>
+                                                                                        <th scope="col">Last email</th>
+                                                                                    </>
+                                                                                ) : null}
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {
+                                                                                countryWiseData?.discardCountryData?.[country]?.map((readers, i) => {
+                                                                                    return (
+                                                                                        <tr id={`row-selected` + i}>
+                                                                                            <td id={`field_name` + readers.profile_user_id}>
+                                                                                                <span>
+                                                                                                    {readers.first_name
+                                                                                                        ? readers.first_name +
+                                                                                                        " " +
+                                                                                                        readers.last_name
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
 
-                                                    <Accordion.Body className="card-body">
-                                                        <div className="selected-hcp-list">
-                                                            <table className="table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th scope="col">Name</th>
-                                                                        <th scope="col">Email</th>
-                                                                        <th scope="col">Bounced</th>
-                                                                        <th scope="col">Country</th>
-                                                                        <th scope="col">Business unit</th>
-                                                                        <th scope="col">Contact type</th>
-                                                                        {showLessInfo == false ? (
-                                                                            <>
-                                                                                <th scope="col">Consent</th>
-                                                                                <th scope="col">Email received</th>
-                                                                                <th scope="col">Openings</th>
-                                                                                <th scope="col">Registrations</th>
-                                                                                <th scope="col">Last email</th>
-                                                                            </>
-                                                                        ) : null}
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {
-                                                                        countryWiseData?.discardCountryData?.[country]?.map((readers, i) => {
-                                                                            return (
-                                                                                <tr id={`row-selected` + i}>
-                                                                                    <td id={`field_name` + readers.profile_user_id}>
-                                                                                        <span>
-                                                                                            {readers.first_name
-                                                                                                ? readers.first_name +
-                                                                                                " " +
-                                                                                                readers.last_name
-                                                                                                : "N/A"}
-                                                                                        </span>
-                                                                                    </td>
+                                                                                            <td id={`field_email` + readers.profile_user_id}>
+                                                                                                {readers.email ? readers.email : "N/A"}
+                                                                                            </td>
+                                                                                            <input
+                                                                                                type="hidden"
+                                                                                                id={`field_index` + readers.profile_user_id}
+                                                                                                value={i}
+                                                                                            />
+                                                                                            <td
+                                                                                                id={`field_bounced` + readers.profile_user_id}
+                                                                                            >
+                                                                                                {readers.bounce ? readers.bounce : "N/A"}
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.country ? readers.country : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                            <td>
 
-                                                                                    <td id={`field_email` + readers.profile_user_id}>
-                                                                                        {readers.email ? readers.email : "N/A"}
-                                                                                    </td>
-                                                                                    <input
-                                                                                        type="hidden"
-                                                                                        id={`field_index` + readers.profile_user_id}
-                                                                                        value={i}
-                                                                                    />
-                                                                                    <td
-                                                                                        id={`field_bounced` + readers.profile_user_id}
-                                                                                    >
-                                                                                        {readers.bounce ? readers.bounce : "N/A"}
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <span>
-                                                                                            {readers.country ? readers.country : "N/A"}
-                                                                                        </span>
-                                                                                    </td>
-                                                                                    <td>
+                                                                                                {readers?.ibu && readers?.ibu != 0
+                                                                                                    ? readers?.ibu
+                                                                                                    : "N/A"
+                                                                                                }
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <span>
+                                                                                                    {readers.contact_type
+                                                                                                        ? readers.contact_type
+                                                                                                        : "N/A"}
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        </tr>)
+                                                                                })
+                                                                            }
+                                                                        </tbody>
 
-                                                                                        {readers?.ibu && readers?.ibu != 0
-                                                                                            ? readers?.ibu
-                                                                                            : "N/A"
-                                                                                        }
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <span>
-                                                                                            {readers.contact_type
-                                                                                                ? readers.contact_type
-                                                                                                : "N/A"}
-                                                                                        </span>
-                                                                                    </td>
-                                                                                </tr>)
-                                                                        })
-                                                                    }
-                                                                </tbody>
-
-                                                            </table>
-                                                        </div>
-                                                    </Accordion.Body>
-                                                </Accordion.Item>
-                                            </>
-                                        )
-                                    }) : ""}
-                                </Accordion>
+                                                                    </table>
+                                                                </div>
+                                                            </Accordion.Body>
+                                                        </Accordion.Item>
+                                                    </>
+                                                )
+                                            }) : ""}
+                                        </Accordion>
+                                    : null
+                                }            
                                 {removedReaders?.length ?
-                                    <table className="table">
+                                    <table className="table ">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Name</th>
