@@ -23,12 +23,12 @@ const SelectSmartListCountryUsers = (props) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation();
     const selectedHcp = location.state
-    ? location.state.selectedHcp:
-    [];  
-     const removedHcp = location.state
-    ? location.state.removedHcp:
-    [];
-    
+        ? location.state.selectedHcp :
+        [];
+    const removedHcp = location.state
+        ? location.state.removedHcp :
+        [];
+
     const [readers, setReaders] = useState([]);
     const [campaign_id_st, setCampaign_id] = useState();
     const [showLessInfo, setShowLessInfo] = useState(true);
@@ -147,56 +147,56 @@ const SelectSmartListCountryUsers = (props) => {
         } else {
             setReaders(selectedHcp);
 
-const processedData = {};
-const otherCountry = [];
-const removedUsers = [];
+            const processedData = {};
+            const otherCountry = [];
+            const removedUsers = [];
 
-selectedHcp?.forEach(person => {
-  const country = (person && person.country && person.country.toUpperCase()) || null;
-  if (country) {
-    if (!processedData[country]) {
-      processedData[country] = [];
-    }
-    processedData[country].push(person);
+            selectedHcp?.forEach(person => {
+                const country = (person && person.country && person.country.toUpperCase()) || null;
+                if (country) {
+                    if (!processedData[country]) {
+                        processedData[country] = [];
+                    }
+                    processedData[country].push(person);
 
-    if (!otherCountry.includes(country)) {
-      otherCountry.push(country);
-    }
-  }
-});
+                    if (!otherCountry.includes(country)) {
+                        otherCountry.push(country);
+                    }
+                }
+            });
 
-if (removedHcp) {
-  removedHcp.forEach(element => {
-    const country = (element && element.country && element.country.toUpperCase()) || null;
-    if (country && processedData[country]) {
-      removedUsers.push(element);
-    }
-  });
-}
+            if (removedHcp) {
+                removedHcp.forEach(element => {
+                    const country = (element && element.country && element.country.toUpperCase()) || null;
+                    if (country && processedData[country]) {
+                        removedUsers.push(element);
+                    }
+                });
+            }
 
-const removedHcpData = removedHcp?.reduce((acc, person) => {
-  const country = (person && person.country && person.country.toUpperCase()) || null;
-  if (!(country && processedData[country])) {
-    if (country) {
-      if (!otherCountry.includes(country)) {
-        otherCountry.push(country);
-      }
-      if (!acc[country]) {
-        acc[country] = [];
-      }
-      acc[country].push(person);
-    }
-  }
-  return acc;
-}, {});
+            const removedHcpData = removedHcp?.reduce((acc, person) => {
+                const country = (person && person.country && person.country.toUpperCase()) || null;
+                if (!(country && processedData[country])) {
+                    if (country) {
+                        if (!otherCountry.includes(country)) {
+                            otherCountry.push(country);
+                        }
+                        if (!acc[country]) {
+                            acc[country] = [];
+                        }
+                        acc[country].push(person);
+                    }
+                }
+                return acc;
+            }, {});
 
-setRemovedReaders(removedUsers);
-setCountryWiseData({
-  ...countryWiseData,
-  allCountryData: processedData,
-  discardCountryData: removedHcpData
-});
-loader("hide");
+            setRemovedReaders(removedUsers);
+            setCountryWiseData({
+                ...countryWiseData,
+                allCountryData: processedData,
+                discardCountryData: removedHcpData
+            });
+            loader("hide");
 
         }
     }
@@ -310,35 +310,35 @@ loader("hide");
     };
 
     const nextClicked = () => {
-       
-        let allCountryData=[]
-        let discardCountryData=[]
+
+        let allCountryData = []
+        let discardCountryData = []
         for (const key in countryWiseData) {
-           let data=countryWiseData[key]
-           if(key=="allCountryData"){
-            for (const key2 in data) {
-                data[key2].map((data)=>{
-                    allCountryData.push(data)
-                })
-               
-           }
+            let data = countryWiseData[key]
+            if (key == "allCountryData") {
+                for (const key2 in data) {
+                    data[key2].map((data) => {
+                        allCountryData.push(data)
+                    })
+
+                }
+            }
+            else {
+                for (const key2 in data) {
+                    data[key2].map((data) => {
+                        discardCountryData.push(data)
+                    })
+
+                }
+            }
         }
-        else{
-            for (const key2 in data) {
-                data[key2].map((data)=>{
-                    discardCountryData.push(data)
-                })
-               
-           }
-        }
-    }
 
         navigate("/verifyMAIL", {
             // data: data,
             // smartListName: smartListName,
             state: {
                 selectedHcp: allCountryData,
-                removedHcp: [...removedReaders,...discardCountryData]
+                removedHcp: [...removedReaders, ...discardCountryData]
             },
         });
     };
@@ -369,27 +369,27 @@ loader("hide");
     };
     function sortObj(obj) {
         return Object.keys(obj).sort().reduce(function (result, key) {
-          result[key] = obj[key];
-          return result;
+            result[key] = obj[key];
+            return result;
         }, {});
-      }
-      
+    }
+
     const sortSelectedCountry = () => {
         let normalArr = JSON.parse(JSON.stringify(countryWiseData))
-      let getSortObj={}
+        let getSortObj = {}
 
         for (const key in normalArr) {
-            let data=normalArr[key];
-            data=sortObj(data)
-            getSortObj[key]=data
+            let data = normalArr[key];
+            data = sortObj(data)
+            getSortObj[key] = data
         }
         setCountryWiseData(getSortObj)
-// let discardCountryData=normalArr[separateData[0]]
-// let allCountryData=normalArr[separateData[1]]
-// allCountryData=sortObj(allCountryData)
-// discardCountryData=sortObj(discardCountryData)
+        // let discardCountryData=normalArr[separateData[0]]
+        // let allCountryData=normalArr[separateData[1]]
+        // allCountryData=sortObj(allCountryData)
+        // discardCountryData=sortObj(discardCountryData)
 
-//       
+        //       
 
     };
 
@@ -546,24 +546,24 @@ loader("hide");
         if (countryWiseData.allCountryData[selectedCountry]) {
             // Remove selected country data from allCountryData
             const updatedAllCountryData = { ...countryWiseData.allCountryData };
-            console.log(updatedAllCountryData,"updatedAllCountryData");
-            if(Object.keys(updatedAllCountryData).length>1){
+            console.log(updatedAllCountryData, "updatedAllCountryData");
+            if (Object.keys(updatedAllCountryData).length > 1) {
                 const discardedData = updatedAllCountryData[selectedCountry];
                 delete updatedAllCountryData[selectedCountry];
-          
+
                 // Update state with the modified data
                 setCountryWiseData((prevData) => ({
-                  discardCountryData: {
-                    ...prevData.discardCountryData,
-                    [selectedCountry]: discardedData,
-                  },
-                  allCountryData: updatedAllCountryData,
+                    discardCountryData: {
+                        ...prevData.discardCountryData,
+                        [selectedCountry]: discardedData,
+                    },
+                    allCountryData: updatedAllCountryData,
                 }));
-            }else{
+            } else {
                 toast.warning("There must be at least one country present.");
             }
-         
-          } else {
+
+        } else {
             console.error(`${selectedCountry} not found in allCountryData.`);
         }
     }
@@ -956,7 +956,7 @@ loader("hide");
             // Remove user from their current country in discardCountryData
             Object.entries(updatedDiscardCountryData).forEach(([country, users]) => {
                 updatedDiscardCountryData[country] = users.filter((user) => user.profile_user_id !== userId);
-                if(updatedAllCountryData[country]==0){
+                if (updatedAllCountryData[country] == 0) {
                     delete updatedAllCountryData[country]
                 }
 
@@ -965,7 +965,7 @@ loader("hide");
             // Remove user from their current country in allCountryData
             Object.entries(updatedAllCountryData).forEach(([country, users]) => {
                 updatedAllCountryData[country] = users.filter((user) => user.profile_user_id !== userId);
-                if(updatedAllCountryData[country]==0){
+                if (updatedAllCountryData[country] == 0) {
                     delete updatedAllCountryData[country]
                 }
 
@@ -1156,7 +1156,7 @@ loader("hide");
 
                                                     <button className="delete-country-button">
                                                         <img
-                                                           src={path_image + "add-row.png"}
+                                                            src={path_image + "add-row.png"}
                                                             alt="Add Row"
                                                             onClick={() => addCountryData(country)}
                                                         />
@@ -1244,7 +1244,168 @@ loader("hide");
                                         )
                                     }) : ""}
                                 </Accordion>
-                                 <Accordion>
+                                {removedReaders?.length ?
+                                    <table className="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Bounced</th>
+                                                <th scope="col">Country</th>
+                                                <th scope="col">Business unit</th>
+                                                <th scope="col">Contact type</th>
+                                                {showLessInfo == false ? (
+                                                    <>
+                                                        <th scope="col">Consent</th>
+                                                        <th scope="col">Email received</th>
+                                                        <th scope="col">Openings</th>
+                                                        <th scope="col">Registrations</th>
+                                                        <th scope="col">Last email</th>
+                                                    </>
+                                                ) : null}
+                                                {/* <th>
+                                                                        <div className="hcp-sort">
+                                                                            {
+                                                                                sortingCountUsers == 0 ? (
+                                                                                    <>
+                                                                                        <button
+                                                                                            className="btn btn-outline-primary"
+                                                                                            onClick={(e) => sortSelectedUsers(e, country)}
+                                                                                        >
+                                                                                            Sort By{" "}
+                                                                                            <img
+                                                                                                src={path_image + "sort.svg"}
+                                                                                                alt="Shorting"
+                                                                                            />
+                                                                                        </button>
+                                                                                    </>
+                                                                                ) :
+                                                                                    sortingUsers == 0 ? (
+                                                                                        <>
+                                                                                            <button
+                                                                                                className="btn btn-outline-primary desc"
+                                                                                                onClick={(e) => sortSelectedUsers(e, country)}
+                                                                                            >
+                                                                                                Sort By{" "}
+                                                                                                <img
+                                                                                                    src={path_image + "sort-decending.svg"}
+                                                                                                    alt="Shorting"
+                                                                                                />
+                                                                                            </button>
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <button
+                                                                                                className="btn btn-outline-primary asc"
+                                                                                                onClick={(e) => sortSelectedUsers(e, country)}
+                                                                                            >
+                                                                                                Sort By{" "}
+                                                                                                <img
+                                                                                                    src={path_image + "sort-assending.svg"}
+                                                                                                    alt="Shorting"
+                                                                                                />
+                                                                                            </button>
+                                                                                        </>
+                                                                                    )}
+                                                                        </div>
+                                                                    </th> */}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {removedReaders?.map((rr, i) => {
+                                                return (
+                                                    <>
+
+                                                        {/* {rr["country"]?.toUpperCase() == country ? */}
+                                                        <tr className="hcps-deleted">
+                                                            <td>
+                                                                <span>
+                                                                    {rr?.first_name
+                                                                        ? rr?.first_name + " " + rr?.last_name
+                                                                        : "N/A"}
+                                                                </span>
+                                                            </td>
+                                                            <td>{rr.email ? rr.email : "N/A"}</td>
+                                                            <td>{rr.bounce ? rr.bounce : "N/A"}</td>
+                                                            <td>
+                                                                <span>{rr.country ? rr.country : "N/A"}</span>
+                                                            </td>
+                                                            <td>
+                                                                {/*rr?.ibu ? rr?.ibu : "N/A"*/}
+                                                                {localStorage.getItem("user_id") ==
+                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                    ? rr?.irt
+                                                                        ? "Yes"
+                                                                        : "No"
+                                                                    : rr.ibu && rr.ibu != 0
+                                                                        ? rr.ibu
+                                                                        : "N/A"}
+                                                            </td>
+                                                            {localStorage.getItem("user_id") ==
+                                                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                                                <td>
+                                                                    {rr?.user_type != 0 ? rr.user_type : "N/A"}
+                                                                </td>
+                                                            ) : (
+                                                                <td>
+                                                                    {rr.contact_type ? rr.contact_type : "N/A"}
+                                                                </td>
+                                                            )}
+
+                                                            {showLessInfo == false ? (
+                                                                <td>
+                                                                    <span>{rr.consent ? rr.consent : "N/A"}</span>{" "}
+                                                                </td>
+                                                            ) : null}
+                                                            {showLessInfo == false ? (
+                                                                <td>
+                                                                    <span>
+                                                                        {rr.email_received
+                                                                            ? rr.email_received
+                                                                            : "N/A"}
+                                                                    </span>
+                                                                </td>
+                                                            ) : null}
+                                                            {showLessInfo == false ? (
+                                                                <td>
+                                                                    <span>
+                                                                        {rr.email_opening
+                                                                            ? rr.email_opening
+                                                                            : "N/A"}
+                                                                    </span>
+                                                                </td>
+                                                            ) : null}
+                                                            {showLessInfo == false ? (
+                                                                <td>
+                                                                    <span>
+                                                                        {rr.registration ? rr.registration : "N/A"}
+                                                                    </span>
+                                                                </td>
+                                                            ) : null}
+                                                            {showLessInfo == false ? (
+                                                                <td>
+                                                                    <span>
+                                                                        {rr.last_email ? rr.last_email : "N/A"}
+                                                                    </span>
+                                                                </td>
+                                                            ) : null}
+
+                                                            <td className="add-new-hcp" colSpan="12">
+                                                                <img
+                                                                    src={path_image + "add-row.png"}
+                                                                    alt="Add Row"
+                                                                    onClick={() => addRemovedReader(rr, i)}
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                        {/* : ""} */}
+                                                    </>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                    : ""}
+                                <Accordion>
                                     {Object.keys(countryWiseData?.allCountryData)?.length ? Object.keys(countryWiseData?.allCountryData)?.map((country, index) => {
                                         return (
                                             <>
@@ -1332,96 +1493,7 @@ loader("hide");
                                                                 </thead>
                                                                 <tbody>
 
-                                                                    {removedReaders?.map((rr, i) => {
-                                                                        return (
-                                                                            <>
 
-                                                                                {rr["country"]?.toUpperCase() == country ?
-                                                                                    <tr className="hcps-deleted">
-                                                                                        <td>
-                                                                                            <span>
-                                                                                                {rr?.first_name
-                                                                                                    ? rr?.first_name + " " + rr?.last_name
-                                                                                                    : "N/A"}
-                                                                                            </span>
-                                                                                        </td>
-                                                                                        <td>{rr.email ? rr.email : "N/A"}</td>
-                                                                                        <td>{rr.bounce ? rr.bounce : "N/A"}</td>
-                                                                                        <td>
-                                                                                            <span>{rr.country ? rr.country : "N/A"}</span>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                                                                                            {localStorage.getItem("user_id") ==
-                                                                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                                                ? rr?.irt
-                                                                                                    ? "Yes"
-                                                                                                    : "No"
-                                                                                                : rr.ibu && rr.ibu != 0
-                                                                                                    ? rr.ibu
-                                                                                                    : "N/A"}
-                                                                                        </td>
-                                                                                        {localStorage.getItem("user_id") ==
-                                                                                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                                                                            <td>
-                                                                                                {rr?.user_type != 0 ? rr.user_type : "N/A"}
-                                                                                            </td>
-                                                                                        ) : (
-                                                                                            <td>
-                                                                                                {rr.contact_type ? rr.contact_type : "N/A"}
-                                                                                            </td>
-                                                                                        )}
-
-                                                                                        {showLessInfo == false ? (
-                                                                                            <td>
-                                                                                                <span>{rr.consent ? rr.consent : "N/A"}</span>{" "}
-                                                                                            </td>
-                                                                                        ) : null}
-                                                                                        {showLessInfo == false ? (
-                                                                                            <td>
-                                                                                                <span>
-                                                                                                    {rr.email_received
-                                                                                                        ? rr.email_received
-                                                                                                        : "N/A"}
-                                                                                                </span>
-                                                                                            </td>
-                                                                                        ) : null}
-                                                                                        {showLessInfo == false ? (
-                                                                                            <td>
-                                                                                                <span>
-                                                                                                    {rr.email_opening
-                                                                                                        ? rr.email_opening
-                                                                                                        : "N/A"}
-                                                                                                </span>
-                                                                                            </td>
-                                                                                        ) : null}
-                                                                                        {showLessInfo == false ? (
-                                                                                            <td>
-                                                                                                <span>
-                                                                                                    {rr.registration ? rr.registration : "N/A"}
-                                                                                                </span>
-                                                                                            </td>
-                                                                                        ) : null}
-                                                                                        {showLessInfo == false ? (
-                                                                                            <td>
-                                                                                                <span>
-                                                                                                    {rr.last_email ? rr.last_email : "N/A"}
-                                                                                                </span>
-                                                                                            </td>
-                                                                                        ) : null}
-
-                                                                                        <td className="add-new-hcp" colSpan="12">
-                                                                                            <img
-                                                                                                src={path_image + "add-row.png"}
-                                                                                                alt="Add Row"
-                                                                                                onClick={() => addRemovedReader(rr, i)}
-                                                                                            />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    : ""}
-                                                                            </>
-                                                                        );
-                                                                    })}
 
                                                                     <tr className="seprator-add">
                                                                         <td colSpan="13"></td>
