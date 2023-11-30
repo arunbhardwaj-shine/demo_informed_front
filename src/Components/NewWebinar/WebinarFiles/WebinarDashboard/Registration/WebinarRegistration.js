@@ -49,9 +49,9 @@ const WebinarRegistration = () => {
 
   let prevData = location?.state;
 
-  const event_code = location?.state?.event_code
+  const [event_code,setEventCode] = useState(location?.state?.event_code
     ? location?.state?.event_code
-    : "";
+    : "");
   const [logo, setLogo] = useState();
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
@@ -200,7 +200,8 @@ const WebinarRegistration = () => {
         ? JSON.parse(hadData?.raw_description)
         : {};
       setRawData(raw);
-      if (hadData?.event_id && hadData?.company_id) {
+      // console.log(hadData?.event_id , hadData?.company_id,"hadData?.event_id && hadData?.company_id");
+      if (hadData?.event_id !=undefined && hadData?.company_id !=undefined) {
         setEventData({
           ...eventData,
           event_id: hadData?.event_id,
@@ -319,6 +320,13 @@ const WebinarRegistration = () => {
           : { value: "", label: "" };
         setSelectedItem(selectedData);
         if (selectedData) {
+          // console.log(selectedData,'selectedData');
+          setEventData({
+            ...eventData,
+            event_id: selectedData?.value,
+            company_id: selectedData?.companyId,
+          });
+          setEventCode(selectedData.code)
           getWebinarData(selectedData.code);
         }
       }
@@ -329,14 +337,15 @@ const WebinarRegistration = () => {
   };
 
   const handleSelectChange = async (event) => {
-    // console.log(event);
+    console.log(event);
     await getWebinarData(event.code);
+    setEventCode(event.code)
     setSelectedItem(event);
-    if (event?.id && event?.user_id) {
+    if (event?.value && event?.companyId) {
       setEventData({
         ...eventData,
-        event_id: event?.id,
-        company_id: event?.user_id,
+        event_id: event?.value,
+        company_id: event?.companyId,
       });
     }
   };
@@ -760,7 +769,7 @@ const WebinarRegistration = () => {
     if (e) {
       e.preventDefault();
     }
-    console.log(formData, "====>formData");
+    console.log(eventData, "====>formData");
 // return;
     setFormData(formData);
     try {
@@ -2588,7 +2597,7 @@ const WebinarRegistration = () => {
                       >
                         {!file && (
                           <h4 className="header-img-section" id="uploadButton">
-                            Upload header
+                            Upload header Image
                           </h4>
                         )}
                         <img className="header-img" src={file} />
@@ -2632,7 +2641,7 @@ const WebinarRegistration = () => {
                         onClick={(e) => handleFileSelect(e, "footerImageUrl")}
                       >
                         {!foot && (
-                          <h4 className="footer-img-section">Upload footer</h4>
+                          <h4 className="footer-img-section">Upload footer Image</h4>
                         )}
                         <img className="footer-img" src={foot} />
                         <div className="footer-text">
@@ -2706,6 +2715,11 @@ const WebinarRegistration = () => {
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={handleCommonConfirmModal}
+        onCloseCross={()=>{
+          setConfirmationPopup(false)
+          setIsFormChange(true);
+
+        }}
         fun={saveClicked}
         popupMessage={popupMessage}
         path_image={path_image}

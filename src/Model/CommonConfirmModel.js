@@ -8,6 +8,7 @@ const CommonConfirmModel = ({
   popupMessage,
   path_image,
   resetDataId,
+  onCloseCross
 }) => {
   const handleClose = () => {
     onClose(false);
@@ -29,7 +30,7 @@ const CommonConfirmModel = ({
             type="button"
             className="btn-close"
             data-bs-dismiss="modal"
-            onClick={handleClose}
+            onClick={onCloseCross}
           ></button>
         </Modal.Header>
 
