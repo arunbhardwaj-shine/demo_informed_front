@@ -90,7 +90,6 @@ import EmailStatsss from "./Components/NewWebinar/WebinarFiles/EmailStatsss";
 // -------END----------Webinar routes------------------------
 
 import DefaultLayout from "./Components/CommonComponent/DefaultLayout";
-import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
 import LoginLayout from "./Components/CommonComponent/LoginLayout";
 import Sidebar from "./Components/CommonComponent/SidebarComponent/Sidebar";
 import Table from "./Components/Distributes/SmartListComponent/Table";
@@ -112,7 +111,7 @@ import SelectHCP from "./Components/Emails/SelectHCP";
 import VerifyMAIL from "./Components/Emails/VerifyMAIL";
 import VerifyHcpMAIL from "./Components/Emails/VerifyHcpMAIL";
 import SelectSmartList from "./Components/Emails/SelectSmartList";
-import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
+// import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import EmailStatss from "./Components/Distributes/EmailStatss";
 import GetDetails from "./Components/Distributes/GetDetails";
@@ -168,7 +167,7 @@ import PollListing from "./Components/Webinar/Survey/PollListing";
 import AutoLogout from "./Components/Login/AutoLogout";
 import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
 import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/RegistrationPage";
-// import SelectSmartListUsersLayout from "./Components/Emails/SelectSmartListUsersLayout";
+import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
 let platform = 0;
 let show = 0;
 

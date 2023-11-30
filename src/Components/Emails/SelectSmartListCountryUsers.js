@@ -17,10 +17,18 @@ import Accordion from "react-bootstrap/Accordion";
 var old_object = {};
 
 const SelectSmartListCountryUsers = (props) => {
+
     const [totalData, setTotalData] = useState({});
     const navigate = useNavigate();
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation();
+    const selectedHcp = location.state
+    ? location.state.selectedHcp:
+    [];  
+     const removedHcp = location.state
+    ? location.state.removedHcp:
+    [];
+    
     const [readers, setReaders] = useState([]);
     const [campaign_id_st, setCampaign_id] = useState();
     const [showLessInfo, setShowLessInfo] = useState(true);
@@ -110,7 +118,7 @@ const SelectSmartListCountryUsers = (props) => {
             show_specific: 1,
         };
 
-        if (props.getSelectedSmartListData?.id) {
+        if (!selectedHcp?.length && !selectedHcp?.length) {
             loader("show");
             axios
                 .post(`distributes/get_reders_list`, body)
@@ -137,7 +145,59 @@ const SelectSmartListCountryUsers = (props) => {
                     console.log(err);
                 });
         } else {
-            setReaders(props.getDraftData.campaign_data.selectedHcp);
+            setReaders(selectedHcp);
+
+const processedData = {};
+const otherCountry = [];
+const removedUsers = [];
+
+selectedHcp?.forEach(person => {
+  const country = (person && person.country && person.country.toUpperCase()) || null;
+  if (country) {
+    if (!processedData[country]) {
+      processedData[country] = [];
+    }
+    processedData[country].push(person);
+
+    if (!otherCountry.includes(country)) {
+      otherCountry.push(country);
+    }
+  }
+});
+
+if (removedHcp) {
+  removedHcp.forEach(element => {
+    const country = (element && element.country && element.country.toUpperCase()) || null;
+    if (country && processedData[country]) {
+      removedUsers.push(element);
+    }
+  });
+}
+
+const removedHcpData = removedHcp?.reduce((acc, person) => {
+  const country = (person && person.country && person.country.toUpperCase()) || null;
+  if (!(country && processedData[country])) {
+    if (country) {
+      if (!otherCountry.includes(country)) {
+        otherCountry.push(country);
+      }
+      if (!acc[country]) {
+        acc[country] = [];
+      }
+      acc[country].push(person);
+    }
+  }
+  return acc;
+}, {});
+
+setRemovedReaders(removedUsers);
+setCountryWiseData({
+  ...countryWiseData,
+  allCountryData: processedData,
+  discardCountryData: removedHcpData
+});
+loader("hide");
+
         }
     }
 
@@ -250,12 +310,35 @@ const SelectSmartListCountryUsers = (props) => {
     };
 
     const nextClicked = () => {
+       
+        let allCountryData=[]
+        let discardCountryData=[]
+        for (const key in countryWiseData) {
+           let data=countryWiseData[key]
+           if(key=="allCountryData"){
+            for (const key2 in data) {
+                data[key2].map((data)=>{
+                    allCountryData.push(data)
+                })
+               
+           }
+        }
+        else{
+            for (const key2 in data) {
+                data[key2].map((data)=>{
+                    discardCountryData.push(data)
+                })
+               
+           }
+        }
+    }
+
         navigate("/verifyMAIL", {
             // data: data,
             // smartListName: smartListName,
             state: {
-                selectedHcp: [...readers, ...readersNewlyAdded],
-                removedHcp: removedReaders,
+                selectedHcp: allCountryData,
+                removedHcp: [...removedReaders,...discardCountryData]
             },
         });
     };
