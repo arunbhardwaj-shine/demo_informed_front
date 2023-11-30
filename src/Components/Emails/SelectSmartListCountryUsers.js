@@ -1136,7 +1136,7 @@ loader("hide");
                                     </div>
                                 </div>
 
-                                <Accordion>
+                                <Accordion className="deleted">
                                     {Object.keys(countryWiseData?.discardCountryData)?.length ? Object.keys(countryWiseData?.discardCountryData)?.map((country, index) => {
                                         return (
                                             <>
@@ -1148,7 +1148,7 @@ loader("hide");
 
                                                     <button className="delete-country-button">
                                                         <img
-                                                            src={path_image + "delete.svg"}
+                                                           src={path_image + "add-row.png"}
                                                             alt="Add Row"
                                                             onClick={() => addCountryData(country)}
                                                         />
@@ -1237,7 +1237,7 @@ loader("hide");
                                     }) : ""}
                                 </Accordion>
 
-                                <Accordion>
+                                <Accordion className="deleted">
                                     {Object.keys(countryWiseData?.allCountryData)?.length ? Object.keys(countryWiseData?.allCountryData)?.map((country, index) => {
                                         return (
                                             <>
