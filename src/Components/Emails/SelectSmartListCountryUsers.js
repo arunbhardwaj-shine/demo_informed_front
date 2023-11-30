@@ -1416,7 +1416,11 @@ const SelectSmartListCountryUsers = (props) => {
                                                     </>
                                                 );
                                             })}
+                                            <tr className="seprator-add">
+                                                <td colSpan="13"></td>
+                                            </tr>
                                         </tbody>
+
                                     </table>
                                     : ""}
                                 <Accordion>
@@ -1509,9 +1513,7 @@ const SelectSmartListCountryUsers = (props) => {
 
 
 
-                                                                    <tr className="seprator-add">
-                                                                        <td colSpan="13"></td>
-                                                                    </tr>
+
                                                                     {countryWiseData?.allCountryData?.[country]?.map((readers, i) => {
                                                                         return (
                                                                             <tr
