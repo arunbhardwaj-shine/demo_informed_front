@@ -23,9 +23,7 @@ const SelectSmartListCountryUsers = (props) => {
     const location = useLocation();
     const [readers, setReaders] = useState([]);
     const [campaign_id_st, setCampaign_id] = useState();
-
     const [showLessInfo, setShowLessInfo] = useState(true);
-
     const [removedReaders, setRemovedReaders] = useState([]);
     const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
     const [reRender, setReRender] = useState(0);
@@ -49,7 +47,6 @@ const SelectSmartListCountryUsers = (props) => {
     });
     const [newlyAddedCountryWiseData, setNewlyAddedCountryWiseData] = useState({})
     const buttonRef = useRef(null);
-    const [excludeCountry, setExcludeCountry] = useState([]);
     const [counterFlag, setCounterFlag] = useState(0);
     const [hpc, setHpc] = useState([
         {
@@ -118,7 +115,6 @@ const SelectSmartListCountryUsers = (props) => {
             axios
                 .post(`distributes/get_reders_list`, body)
                 .then((res) => {
-                    console.log("i am here in 5")
                     setReaders(res.data.response.data);
                     let otherCountry = []
                     const processedData = res?.data?.response?.data?.reduce((acc, person) => {
@@ -134,8 +130,6 @@ const SelectSmartListCountryUsers = (props) => {
                         acc[country].push(person);
                         return acc;
                     }, {});
-                    // setExcludeCountry(otherCountry)
-                    // console.log(processedData,"processedData");
                     setCountryWiseData({ ...countryWiseData, allCountryData: processedData });
                     loader("hide");
                 })
@@ -353,14 +347,22 @@ const SelectSmartListCountryUsers = (props) => {
         setSortingCountUsers(sortingCountUsers + 1);
     };
 
-    const readersAdded = (reader, i) => {
+    const addRemovedReader = (user, i) => {
         const readersRemoved = removedReaders;
         readersRemoved.splice(i, 1);
         setRemovedReaders(readersRemoved);
-        const resultObject = {
-            [reader.country.toUpperCase()]: [reader]
-        };
-        setNewlyAddedCountryWiseData((oldData) => ({ ...resultObject, ...oldData }))
+        const { country, ...userData } = user;
+        const uppercaseCountry = country.toUpperCase();
+        const combinedUserData = { ...userData, country: country };
+        setCountryWiseData((prevData) => ({
+            discardCountryData: { ...prevData.discardCountryData },
+            allCountryData: {
+                ...prevData.allCountryData,
+                [uppercaseCountry]: [...prevData.allCountryData[uppercaseCountry], combinedUserData],
+            },
+        }));
+
+
         setReRender(reRender + 1);
 
     };
@@ -437,7 +439,7 @@ const SelectSmartListCountryUsers = (props) => {
     };
 
     const deleteReader = (country, index, i) => {
-      
+
         const previous_removed_users = removedReaders;
         const readersList = JSON.parse(JSON.stringify(countryWiseData["allCountryData"]))
         const removedReader = readersList[country]?.splice(i, 1);
@@ -685,7 +687,6 @@ const SelectSmartListCountryUsers = (props) => {
     const saveEditClicked = async () => {
         setEditable(0);
         if (editableData.length > 0) {
-            console.log(editableData, "editableData");
             editableData.map((data) => {
                 const name_edit = document.getElementById(
                     "field_name" + data.profile_user_id
@@ -736,7 +737,7 @@ const SelectSmartListCountryUsers = (props) => {
                 user_id: localStorage.getItem("user_id"),
                 edit_list_array: editableData,
             };
-            console.log(body, "body");
+
             setSaveOpen(false);
             axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
@@ -783,6 +784,7 @@ const SelectSmartListCountryUsers = (props) => {
     };
 
     const addUserToCountry = (users) => {
+
         users.forEach((user) => {
             const { country, ...userData } = user;
             const uppercaseCountry = country.toUpperCase();
@@ -921,7 +923,7 @@ const SelectSmartListCountryUsers = (props) => {
                                         </li>
 
                                         <li className="active active-main">
-                                            <Link to="/MedpakSelectSmartListUsers">Verify Your List</Link>
+                                            <Link to="/SelectSmartListCountryUsers">Verify Your List</Link>
                                         </li>
 
                                         <li className="">
@@ -1149,7 +1151,7 @@ const SelectSmartListCountryUsers = (props) => {
                                             <>
                                                 <Accordion.Item eventKey={index}>
                                                     <Accordion.Header>
-                                                        {`${country} (${countryWiseData?.allCountryData?.[country]?.length + (newlyAddedCountryWiseData?.[country]?.length ? newlyAddedCountryWiseData?.[country]?.length : 0)})`}
+                                                        {`${country} (${countryWiseData?.allCountryData?.[country]?.length})`}
 
                                                     </Accordion.Header>
 
@@ -1313,7 +1315,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                                             <img
                                                                                                 src={path_image + "add-row.png"}
                                                                                                 alt="Add Row"
-                                                                                                onClick={() => readersAdded(rr, i)}
+                                                                                                onClick={() => addRemovedReader(rr, i)}
                                                                                             />
                                                                                         </td>
                                                                                     </tr>
@@ -1325,13 +1327,10 @@ const SelectSmartListCountryUsers = (props) => {
                                                                     <tr className="seprator-add">
                                                                         <td colSpan="13"></td>
                                                                     </tr>
-
-
-                                                                    {newlyAddedCountryWiseData?.[country]?.map((readers, i) => {
+                                                                    {countryWiseData?.allCountryData?.[country]?.map((readers, i) => {
                                                                         return (
                                                                             <tr
-                                                                                id={`row-selected` + i} key={`row-selected${i}`}
-                                                                                className="hcps-added"
+                                                                                id={`row-selected` + i}
                                                                                 onClick={(e) =>
                                                                                     editing(
                                                                                         readers.profile_id,
@@ -1352,20 +1351,28 @@ const SelectSmartListCountryUsers = (props) => {
                                                                                     }
                                                                                 >
                                                                                     <span>
+                                                                                        {" "}
                                                                                         {readers.first_name
                                                                                             ? readers.first_name +
                                                                                             " " +
                                                                                             readers.last_name
-                                                                                            : "N/A"}
+                                                                                            : "N/A"}{" "}
                                                                                     </span>
                                                                                 </td>
-                                                                                <td>{readers.email ? readers.email : "N/A"}</td>
+
+                                                                                <td id={`field_email` + readers.profile_user_id}>
+                                                                                    {readers.email ? readers.email : "N/A"}
+                                                                                </td>
                                                                                 <input
                                                                                     type="hidden"
                                                                                     id={`field_index` + readers.profile_user_id}
                                                                                     value={i}
                                                                                 />
-                                                                                <td>{readers.bounce ? readers.bounce : "N/A"}</td>
+                                                                                <td
+                                                                                    id={`field_bounced` + readers.profile_user_id}
+                                                                                >
+                                                                                    {readers.bounce ? readers.bounce : "N/A"}
+                                                                                </td>
                                                                                 <td>
                                                                                     {editable ? (
                                                                                         <EditCountry
@@ -1379,15 +1386,11 @@ const SelectSmartListCountryUsers = (props) => {
                                                                                     )}
                                                                                 </td>
                                                                                 <td>
-                                                                                    {/*readers.ibu ? readers.ibu : "N/A"*/}
-                                                                                    {localStorage.getItem("user_id") ==
-                                                                                        "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                                        ? readers?.irt
-                                                                                            ? "Yes"
-                                                                                            : "No"
-                                                                                        : readers.ibu && readers.ibu != 0
-                                                                                            ? readers.ibu
-                                                                                            : "N/A"}
+
+                                                                                    {readers?.ibu && readers?.ibu != 0
+                                                                                        ? readers?.ibu
+                                                                                        : "N/A"
+                                                                                    }
                                                                                 </td>
                                                                                 <td>
                                                                                     {localStorage.getItem("user_id") ==
@@ -1410,156 +1413,15 @@ const SelectSmartListCountryUsers = (props) => {
                                                                                         </span>
                                                                                     )}
                                                                                 </td>
-                                                                                {showLessInfo == false ? (
-                                                                                    <td>
-                                                                                        <span>
-                                                                                            {readers.consent ? readers.consent : "N/A"}
-                                                                                        </span>{" "}
-                                                                                    </td>
-                                                                                ) : null}
-                                                                                {showLessInfo == false ? (
-                                                                                    <td>
-                                                                                        <span>
-                                                                                            {readers.email_received
-                                                                                                ? readers.email_received
-                                                                                                : "N/A"}
-                                                                                        </span>
-                                                                                    </td>
-                                                                                ) : null}
-                                                                                {showLessInfo == false ? (
-                                                                                    <td>
-                                                                                        <span>
-                                                                                            {readers.email_opening
-                                                                                                ? readers.email_opening
-                                                                                                : "N/A"}
-                                                                                        </span>
-                                                                                    </td>
-                                                                                ) : null}
-                                                                                {showLessInfo == false ? (
-                                                                                    <td>
-                                                                                        <span>
-                                                                                            {readers.registration
-                                                                                                ? readers.registration
-                                                                                                : "N/A"}
-                                                                                        </span>
-                                                                                    </td>
-                                                                                ) : null}
-                                                                                {showLessInfo == false ? (
-                                                                                    <td>
-                                                                                        <span>
-                                                                                            {readers.last_email
-                                                                                                ? readers.last_email
-                                                                                                : "N/A"}
-                                                                                        </span>
-                                                                                    </td>
-                                                                                ) : null}
                                                                                 <td className="delete_row" colSpan="12">
                                                                                     <img
                                                                                         src={path_image + "delete.svg"}
-                                                                                        alt="Delete Row"
-                                                                                       
-                                                                                        onClick={() => newlyAddedRemoved(readers, i, country)}
-
+                                                                                        alt="Add Row"
+                                                                                        onClick={() => deleteReader(country, index, i)}
                                                                                     />
                                                                                 </td>
                                                                             </tr>)
-                                                                    })}
-                                                                    {
-                                                                        countryWiseData?.allCountryData?.[country]?.map((readers, i) => {
-                                                                            return (
-                                                                                <tr
-                                                                                    id={`row-selected` + i}
-                                                                                    onClick={(e) =>
-                                                                                        editing(
-                                                                                            readers.profile_id,
-                                                                                            readers.profile_user_id,
-                                                                                            readers.email,
-                                                                                            readers.jobTitle,
-                                                                                            readers.company,
-                                                                                            readers.country,
-                                                                                            readers.first_name + " " + readers.last_name,
-                                                                                            readers.contact_type
-                                                                                        )
-                                                                                    }
-                                                                                >
-                                                                                    <td
-                                                                                        id={`field_name` + readers.profile_user_id}
-                                                                                        contentEditable={
-                                                                                            editable === 0 ? "false" : "true"
-                                                                                        }
-                                                                                    >
-                                                                                        <span>
-                                                                                            {" "}
-                                                                                            {readers.first_name
-                                                                                                ? readers.first_name +
-                                                                                                " " +
-                                                                                                readers.last_name
-                                                                                                : "N/A"}{" "}
-                                                                                        </span>
-                                                                                    </td>
-
-                                                                                    <td id={`field_email` + readers.profile_user_id}>
-                                                                                        {readers.email ? readers.email : "N/A"}
-                                                                                    </td>
-                                                                                    <input
-                                                                                        type="hidden"
-                                                                                        id={`field_index` + readers.profile_user_id}
-                                                                                        value={i}
-                                                                                    />
-                                                                                    <td
-                                                                                        id={`field_bounced` + readers.profile_user_id}
-                                                                                    >
-                                                                                        {readers.bounce ? readers.bounce : "N/A"}
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        {editable ? (
-                                                                                            <EditCountry
-                                                                                                selected_country={readers.country}
-                                                                                                profile_user={readers.profile_user_id}
-                                                                                            ></EditCountry>
-                                                                                        ) : (
-                                                                                            <span>
-                                                                                                {readers.country ? readers.country : "N/A"}
-                                                                                            </span>
-                                                                                        )}
-                                                                                    </td>
-                                                                                    <td>
-
-                                                                                        {readers?.ibu && readers?.ibu != 0
-                                                                                            ? readers?.ibu
-                                                                                            : "N/A"
-                                                                                        }
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        {localStorage.getItem("user_id") ==
-                                                                                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                                                                                            <span>
-                                                                                                {readers.user_type != 0
-                                                                                                    ? readers?.user_type
-                                                                                                    : "N/A"}
-                                                                                            </span>
-                                                                                        ) : editable ? (
-                                                                                            <EditContactType
-                                                                                                selected_ibu={readers.contact_type}
-                                                                                                profile_user={readers.profile_user_id}
-                                                                                            ></EditContactType>
-                                                                                        ) : (
-                                                                                            <span>
-                                                                                                {readers.contact_type
-                                                                                                    ? readers.contact_type
-                                                                                                    : "N/A"}
-                                                                                            </span>
-                                                                                        )}
-                                                                                    </td>
-                                                                                    <td className="delete_row" colSpan="12">
-                                                                                        <img
-                                                                                            src={path_image + "delete.svg"}
-                                                                                            alt="Add Row"
-                                                                                            onClick={() => deleteReader(country, index, i)}
-                                                                                        />
-                                                                                    </td>
-                                                                                </tr>)
-                                                                        })
+                                                                    })
                                                                     }
                                                                 </tbody>
 
