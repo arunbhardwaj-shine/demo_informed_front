@@ -855,10 +855,6 @@ const PharmaRd = () => {
   };
 
   const handleReadClick = async (event) => {
-    // localStorage.setItem('publisherRegistered', 'true');
-    // setPublisherRegistered(true);
-    // setAddDivClass(false);
-    // setAddSmallClass(true);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs, 1);
     if (Object.keys(err)?.length) {
@@ -939,6 +935,15 @@ const PharmaRd = () => {
       } catch (err) {
         console.log(err);
         loader("hide");
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     }
   };
@@ -967,7 +972,6 @@ const PharmaRd = () => {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
-    console.log("big circle click")
     let newObj = { "user select the module": moduleName }
     userTrackingFun(newObj)
     const bigCircleData = bigCircleModules[index];
@@ -1082,18 +1086,23 @@ const PharmaRd = () => {
       try {
         const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
         const payloadData = JSON.parse(payloadDataPharmaString);
-        // const res = await postData(ENDPOINT.REGISTER, {
-        let data = {
-          // ...payloadData,
+        const res = await postData(ENDPOINT.REGISTER, {
+        // let data = {
+          ...payloadData,
           message: moduleFormInputs?.message?.trim(),
           secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
           secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
-          // modules: selectedModules,
-          // type: "modules",
+          modules: selectedModules,
+          type: "modules",
+        // }
+        });
+        let submitData= {
+          message: moduleFormInputs?.message?.trim(),
+          secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
+          secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         }
-        let newObj = { "user submit the data": data }
+        let newObj = { "user submit the data": submitData }
         userTrackingFun(newObj)
-        // });
         let obj = {};
         loader("hide");
         setEmailError(null);
@@ -1117,7 +1126,6 @@ const PharmaRd = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-    console.log("big circle close")
     let newObj = { "user deselect the module": activeModule }
     userTrackingFun(newObj)
     var root = document.getElementsByTagName('html')[0];
@@ -1206,6 +1214,7 @@ const PharmaRd = () => {
     }
   };
   const userTrackingFun = async (newObj) => {
+    console.log("func--->", newObj)
     try {
       const res = await postData(ENDPOINT.USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
       if (res?.data?.message == "insert") {
