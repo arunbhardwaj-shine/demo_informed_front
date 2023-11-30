@@ -2215,7 +2215,17 @@ form .input-group {
   overflow-y: auto;
   overflow-x: hidden;
 }
+.result-hcp-table .table tbody tr.hcps-deleted + tr.seprator-add {
+    padding: 0;
+    box-shadow: none;
+    border-spacing: 0;
+    background: transparent;
+}
 
+.result-hcp-table .table tbody tr.hcps-deleted + tr.seprator-add td {
+    border-radius: 0;
+    border-bottom: 1px dashed var(--light-blue);
+}
 .search-hcp-table table th,
 .selected-hcp-list table th,
 .selected-hcp-list table th .hcp-sort .btn,
