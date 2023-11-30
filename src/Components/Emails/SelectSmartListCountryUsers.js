@@ -1237,8 +1237,6 @@ loader("hide");
                                     }) : ""}
                                 </Accordion>
 
-                                <p>REMOVE COUNTRY IS UPPER AND ACTUAL COUNTRY IS BELOW</p>
-
                                 <Accordion>
                                     {Object.keys(countryWiseData?.allCountryData)?.length ? Object.keys(countryWiseData?.allCountryData)?.map((country, index) => {
                                         return (
