@@ -477,13 +477,45 @@ const LibraryCreateUser = () => {
               }
             }
           } else {
-            navigate("/set-popup", {
-              state: {
-                pdfId: res?.data?.data?.pdfId,
-                fileType: userInputs?.docintelFormat,
-                isEdit: 0,
-              },
-            });
+            if (
+              userInputs?.docintelFormat == "video" ||
+              userInputs?.docintelFormat == "Video"
+            ) {
+              navigate("/set-popup", {
+                state: {
+                  pdfId: res?.data?.data?.pdfId,
+                  fileType: userInputs?.docintelFormat,
+                  ibu:userInputs?.ibu?userInputs?.ibu:"",
+                  isEdit: 0,
+                },
+              });
+            } else {
+              if (userInputs?.allowVideo) {
+                navigate("/library-add-link", {
+                  state: {
+                    pdfId: res?.data?.data?.pdfId,
+                    isEdit: 0,
+                    allowVideo: userInputs?.allowVideo,
+                  },
+                });
+              } else {
+                navigate("/set-popup", {
+                  state: {
+                    pdfId: res?.data?.data?.pdfId,
+                    fileType: userInputs?.docintelFormat,
+                    ibu:userInputs?.ibu?userInputs?.ibu:"",
+                    isEdit: 0,
+                  },
+                });
+              }
+            }
+            // navigate("/set-popup", {
+            //   state: {
+            //     pdfId: res?.data?.data?.pdfId,
+            //     fileType: userInputs?.docintelFormat,
+            //     isEdit: 0,
+            //   },
+            // });
           }
         }
       } catch (err) {

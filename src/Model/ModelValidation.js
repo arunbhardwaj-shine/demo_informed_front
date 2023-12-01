@@ -3,7 +3,7 @@ const modelValidation = (data) => {
 
   if (Object.keys(data)?.length) {
     Object.keys(data)?.forEach((item) => {
-      if (!data[item]) {
+      if (item != 'index' && !data[item]) {
         error[item] = `${
           item.charAt(0).toUpperCase() + item.slice(1)
         } is required`;

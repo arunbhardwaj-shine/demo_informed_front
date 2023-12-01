@@ -1381,68 +1381,267 @@ const LicenseEditListing = () => {
                                         />
                                       </div>
                                     </li>
-                                    <li className="d-flex align-center">
-                                      <h6 className="tab-content-title">
-                                        Unique reader (total)
-                                        <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress send">
-                                        <ProgressBar
-                                          variant={
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            ) !== -1
-                                              ? opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ]?.unique
-                                                ? "warning"
-                                                : "default"
-                                              : "default"
-                                          }
-                                          now={
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            ) !== -1
-                                              ? (opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ]?.unique /
-                                                  opening_details[
+                                    
+                                    {
+                                      data?.lastRomanNumber == 2 || data?.lastRomanNumber == 3  ?
+                                      (
+                                        <>
+                                        <li className="d-flex align-center">
+                                          <h6 className="tab-content-title">
+                                            Unique reader (total)
+                                            <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "info_circle_icon.svg"
+                                                }
+                                                alt="refresh-btn"
+                                              />
+                                            </LinkWithTooltip>
+                                          </h6>
+                                          <div className="data-progress send">
+                                            <ProgressBar
+                                              variant={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique > 0
+                                                    ? "warning"
+                                                    : "default"
+                                                  : "default"
+                                              }
+                                              now={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? (opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique) 
+                                                  : "100"
+                                              }
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique
+                                                  : "Loading"
+                                              }
+                                            />
+                                          </div>
+                                        </li>
+                                        <li>
+                                          <h6 className="tab-content-title">
+                                            Article Usage
+                                            <LinkWithTooltip tooltip="Number of usage on the content.">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "info_circle_icon.svg"
+                                                }
+                                                alt="refresh-btn"
+                                              />
+                                            </LinkWithTooltip>
+                                          </h6>
+                                          <div className="data-progress">
+                                            <ProgressBar
+                                              variant={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.pinReaders
+                                                    ? "pin_usage"
+                                                    : "default"
+                                                  : "default"
+                                              }
+                                              now={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? (opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.pinReaders /
+                                                      opening_details[
+                                                        opening_details.findIndex(
+                                                          (el) =>
+                                                            el.pdfId == data?.id
+                                                        )
+                                                      ]?.limit) *
+                                                    100
+                                                  : "100"
+                                              }
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ].pinReaders
+                                                  : "Loading"
+                                              }
+                                            />
+                                            <span>
+                                              Agreed Limit :&nbsp;
+                                              <strong>
+                                                {opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit == 1000
+                                                    ? "Unlimited"
+                                                    : opening_details[
+                                                        opening_details.findIndex(
+                                                          (el) =>
+                                                            el.pdfId == data?.id
+                                                        )
+                                                      ]?.limit
+                                                  : "Unlimited"}
+                                              </strong>
+                                            </span>
+                                          </div>
+                                          <span className="total-left">
+                                              {opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
                                                     opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
+                                                      (el) => el.pdfId == data?.id
                                                     )
-                                                  ]?.limit) *
-                                                100
-                                              : "100"
-                                          }
-                                          label={
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            ) !== -1
-                                              ? opening_details[
+                                                  ]?.limit == 1000
+                                                  ? null
+                                                  : opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit -
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.pinReaders
+                                                : null}
+
+                                              {opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1 ? (
+                                                opening_details[
                                                   opening_details.findIndex(
                                                     (el) => el.pdfId == data?.id
                                                   )
-                                                ]?.unique
-                                              : "Loading"
-                                          }
-                                        />
-                                        <span>
-                                          Agreed Limit :&nbsp;
-                                          <strong>
-                                            {" "}
+                                                ]?.limit != 1000 ? (
+                                                  <small>Left</small>
+                                                ) : null
+                                              ) : null}
+                                            </span>
+                                        </li>
+                                        </>
+                                      )
+                                       : 
+                                        <li className="d-flex align-center">
+                                          <h6 className="tab-content-title">
+                                            Unique reader (total)
+                                            <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "info_circle_icon.svg"
+                                                }
+                                                alt="refresh-btn"
+                                              />
+                                            </LinkWithTooltip>
+                                          </h6>
+                                          <div className="data-progress send">
+                                            <ProgressBar
+                                              variant={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique
+                                                    ? "warning"
+                                                    : "default"
+                                                  : "default"
+                                              }
+                                              now={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? (opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique /
+                                                      opening_details[
+                                                        opening_details.findIndex(
+                                                          (el) =>
+                                                            el.pdfId == data?.id
+                                                        )
+                                                      ]?.limit) *
+                                                    100
+                                                  : "100"
+                                              }
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique
+                                                  : "Loading"
+                                              }
+                                            />
+                                            <span>
+                                              Agreed Limit :&nbsp;
+                                              <strong>
+                                                {" "}
+                                                {opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit == 1000
+                                                    ? "unlimited"
+                                                    : opening_details[
+                                                        opening_details.findIndex(
+                                                          (el) =>
+                                                            el.pdfId == data?.id
+                                                        )
+                                                      ]?.limit
+                                                  : "unlimited"}
+                                              </strong>
+                                            </span>
+                                          </div>
+                                          <span className="total-left">
                                             {opening_details.findIndex(
                                               (el) => el.pdfId == data?.id
                                             ) !== -1
@@ -1451,52 +1650,34 @@ const LicenseEditListing = () => {
                                                     (el) => el.pdfId == data?.id
                                                   )
                                                 ]?.limit == 1000
-                                                ? "unlimited"
+                                                ? null
                                                 : opening_details[
                                                     opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
+                                                      (el) => el.pdfId == data?.id
                                                     )
-                                                  ]?.limit
-                                              : "unlimited"}
-                                          </strong>
-                                        </span>
-                                      </div>
-                                      <span className="total-left">
-                                        {opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        ) !== -1
-                                          ? opening_details[
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              )
-                                            ]?.limit == 1000
-                                            ? null
-                                            : opening_details[
-                                                opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                )
-                                              ]?.limit -
+                                                  ]?.limit -
+                                                  opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) => el.pdfId == data?.id
+                                                    )
+                                                  ]?.unique
+                                              : null}
+
+                                            {opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1 ? (
                                               opening_details[
                                                 opening_details.findIndex(
                                                   (el) => el.pdfId == data?.id
                                                 )
-                                              ]?.unique
-                                          : null}
+                                              ]?.limit != 1000 ? (
+                                                <small>Left</small>
+                                              ) : null
+                                            ) : null}
+                                          </span>
+                                        </li>
+                                    }
 
-                                        {opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        ) !== -1 ? (
-                                          opening_details[
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            )
-                                          ]?.limit != 1000 ? (
-                                            <small>Left</small>
-                                          ) : null
-                                        ) : null}
-                                      </span>
-                                    </li>
                                     <li>
                                       <h6 className="tab-content-title">
                                         Registered readers

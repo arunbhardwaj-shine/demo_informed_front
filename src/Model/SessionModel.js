@@ -6,7 +6,7 @@ import axios from "axios";
 import { postData } from "../axios/apiHelper";
 import { ENDPOINT } from "../axios/apiConfig";
 import { loader } from "../loader";
-
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SessionModel = ({ show, onClose, data, eventData }) => {
   const [user, setUser] = useState([]);
   const [userValid, setUserValid] = useState({});
@@ -28,6 +28,12 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
 
   const handleChange = (questionId, data, type = "") => {
     try {
+      
+      if(typeof data === 'string'){
+        if(data?.trim() == ''){
+          data = 0;
+        }
+      }
       if (type) {
         setUserValid({
           ...userValid,
@@ -121,8 +127,9 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
           <img
-            src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
-            alt=""
+            // src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
+            src={path_image+'FVIII_logo.png'} 
+            alt="logo"
           />
         </Modal.Title>
       </Modal.Header>

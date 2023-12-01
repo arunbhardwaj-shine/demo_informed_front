@@ -248,6 +248,12 @@ const EmailArticleSelect = (props) => {
     setloadmore(1);
   };
 
+  const handleSpcFun = (data) => {
+    let newWindow = "";
+    newWindow = window.open("/article_preview");
+    newWindow.data = data;
+  };
+
   return (
     <>
       <div className="col right-sidebar custom-change">
@@ -891,11 +897,21 @@ const EmailArticleSelect = (props) => {
                             </table>
                           </div>
                           <div className="mail-content-footer">
-                            <a href={data.preview_link} target="_blank">
-                              <button className="btn btn-primary btn-filled">
+                            {
+                              data?.spc_included ? 
+                              <button className="btn btn-primary btn-filled" onClick={() =>
+                                handleSpcFun(data?.spc_url)
+                              }>
                                 Preview
                               </button>
-                            </a>
+                               : 
+                              <a href={data.preview_link} target="_blank">
+                                <button className="btn btn-primary btn-filled">
+                                  Preview
+                                </button>
+                              </a>
+                            }
+                            
                           </div>
                         </div>
                       </div>
@@ -937,4 +953,4 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getEmailData: getEmailData,
   getDraftData: getDraftData,
-})(EmailArticleSelect);
+})(EmailArticleSelect)

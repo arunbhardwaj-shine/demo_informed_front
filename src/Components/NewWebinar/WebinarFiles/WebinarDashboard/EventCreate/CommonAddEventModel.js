@@ -22,6 +22,7 @@ const CommonAddEventModel = ({
   const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [timeHours, setTimeHours] = useState([
+    { label: "Select", value: "Select" },
     { label: "00 ", value: "00" },
     { label: "01 ", value: "01" },
     { label: "02 ", value: "02" },
@@ -48,6 +49,7 @@ const CommonAddEventModel = ({
     { label: "23 ", value: "23" },
   ]);
   const [timeMinutes, setTimeMinutes] = useState([
+    { label: "Select", value: "Select" },
     { label: "00 ", value: "00" },
     { label: "05 ", value: "05" },
     { label: "10 ", value: "10" },
@@ -71,9 +73,15 @@ const CommonAddEventModel = ({
   ]);
   const [timezoneOptions, setTimezoneOptions] = useState([]);
   const [ibuOptions, setIBUOptions] = useState([]);
+  const [meetingOptions, setMeetingOptions] = useState([
+    { label: "Live", value: "Live" },
+    { label: "Virtual", value: "Virtual" },
+  ]);
   const [eventInputs, setEventInputs] = useState({
     dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+    dateEnd: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     title: "",
+    location: "",
     type: "",
     timezone: "",
     country_timezone: "",
@@ -85,15 +93,28 @@ const CommonAddEventModel = ({
     dateEndMin: "",
     event_code: "",
     description: "",
+    speaker_name: "",
+    speaker_email: "",
+    meeting_type: "",
   });
   useEffect(() => {
     setCountryTimezone(webinarDetail?.countryTimezone);
     setIBUOptions(webinarDetail?.ibu);
     setTimezoneOptions(webinarDetail?.timezoneName);
     if (data?.id) {
+      let speaker_name = "";
+      let speaker_email = "";
+      let meeting_type = "";
+      if (data?.raw_description) {
+        let parseData = JSON.parse(data?.raw_description);
+        speaker_name = parseData?.speaker_name;
+        speaker_email = parseData?.speaker_email;
+        meeting_type = parseData?.meeting_type;
+      }
       setEventInputs({
         ...data,
         title: data?.title,
+        location: data?.location,
         type: data?.type ? data?.type : "",
         timezone: data?.timezone,
         country_timezone: data?.country_timezone,
@@ -102,19 +123,25 @@ const CommonAddEventModel = ({
           ? data?.client_stream_url
           : "",
         dateStart: data?.dateStart,
+        dateEnd: data?.dateEnd,
         dateStartHour: data?.dateStartHour,
         dateStartMin: data?.dateStartMin,
         dateEndHour: data?.dateEndHour ? data?.dateEndHour : "",
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
         description: data?.description ? data?.description : "",
+        speaker_name: speaker_name,
+        speaker_email: speaker_email,
+        meeting_type: meeting_type,
       });
     } else {
       setEventInputs({
-        dateStart: new Date(
+        dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+        dateEnd: new Date(
           moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
         ),
         title: "",
+        location: "",
         type: "",
         timezone: "",
         country_timezone: "",
@@ -126,6 +153,9 @@ const CommonAddEventModel = ({
         dateEndMin: "",
         event_code: "",
         description: "",
+        speaker_name: "",
+        speaker_email: "",
+        meeting_type: "",
       });
     }
   }, [show]);
@@ -134,28 +164,36 @@ const CommonAddEventModel = ({
     setEventInputs({
       dateStart: new Date(
         moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+      ), dateEnd: new Date(
+        moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
       ),
     });
     onClose(false);
   };
   const handleChange = (e, isSelectedName) => {
-    if (e?.target?.name == "event_code") {
+    const { name, value } = e?.target || {};
+
+    if (name === 'event_code') {
       setEventInputs({
         ...eventInputs,
-        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-          ? e
-          : e?.target?.value?.trim(),
+        [isSelectedName || name]: isSelectedName ? e : value?.trim(),
       });
     } else {
-      setEventInputs({
+      const updatedInputs = {
         ...eventInputs,
-        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-          ? e
-          : e?.target?.value,
-      });
+        [isSelectedName || name]: isSelectedName ? e : value,
+      };
+
+      if (isSelectedName === 'dateStart') {
+        updatedInputs.dateEnd = isSelectedName ? e : value;
+      }
+
+      setEventInputs(updatedInputs);
     }
   };
+
   const saveClicked = async (e) => {
+
     try {
       const error = EventModelValidation(eventInputs);
       if (Object.keys(error)?.length) {
@@ -166,21 +204,25 @@ const CommonAddEventModel = ({
         loader("show");
         let dataObj = {
           title: eventInputs?.title,
+          location: eventInputs?.location,
           type: eventInputs?.type ? eventInputs?.type : "",
           timezone: eventInputs?.timezone,
           countryTimezone: eventInputs?.country_timezone,
           isClientStream: eventInputs?.is_client_stream == "Yes" ? 1 : 0,
-          clientStreamUrl: eventInputs?.client_stream_url
-            ? eventInputs?.client_stream_url
-            : "",
+          clientStreamUrl: eventInputs?.client_stream_url ? eventInputs?.client_stream_url : "",
           dateStart: eventInputs?.dateStart,
+          dateEnd: eventInputs?.dateEnd,
           dateStartHour: eventInputs?.dateStartHour,
           dateStartMin: eventInputs?.dateStartMin,
           dateEndHour: eventInputs?.dateEndHour,
           dateEndMin: eventInputs?.dateEndMin,
           eventCode: eventInputs?.event_code,
           description: eventInputs?.description ? eventInputs?.description : "",
+          speaker_name: eventInputs?.speaker_name ? eventInputs?.speaker_name : "",
+          speaker_email: eventInputs?.speaker_email ? eventInputs?.speaker_email : "",
+          meeting_type: eventInputs?.meeting_type ? eventInputs?.meeting_type : "",
         };
+        console.log(dataObj, "dataObj");
 
         if (data?.id) {
           const res = await updateConsent(
@@ -194,6 +236,8 @@ const CommonAddEventModel = ({
         // onClose(false);
         setEventInputs({
           dateStart: new Date(
+            moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+          ), dateEnd: new Date(
             moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
           ),
         });
@@ -215,12 +259,13 @@ const CommonAddEventModel = ({
         className="event_edit"
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
+        backdrop="static"
         centered
       >
         <Modal.Header>
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {data?.id ? "Edit Event" : "Add New Event"}
+              {data?.id ? "Edit Event" : "New Event"}
             </h5>
             <button
               type="button"
@@ -235,9 +280,8 @@ const CommonAddEventModel = ({
           <div
             data-bs-backdrop="static"
             data-bs-keyboard="false"
-            tabindex="-1"
-            aria-hidden="true"
-          >
+            tabIndex="-1"
+            aria-hidden="true">
             <div className="hcp-add-box">
               <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + "active"}>
@@ -245,7 +289,7 @@ const CommonAddEventModel = ({
                     <div className="add_hcp_boxes">
                       <div className="form_action">
                         <div className="row">
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 Event Title <span> *</span>
@@ -253,17 +297,10 @@ const CommonAddEventModel = ({
                               <input
                                 type="text"
                                 name="title"
-                                placeholder="Event Title"
-                                className={
-                                  error?.title
-                                    ? "form-control error"
-                                    : "form-control"
-                                }
+                                placeholder="Event title"
+                                className={error?.title ? "form-control error" : "form-control"}
                                 onChange={(e) => handleChange(e)}
-                                value={
-                                  eventInputs?.title ? eventInputs?.title : ""
-                                }
-                              />
+                                value={eventInputs?.title ? eventInputs?.title : ""} />
                               {error?.title ? (
                                 <div className="login-validation">
                                   {error?.title}
@@ -271,7 +308,143 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
+                            <div className="form-group">
+                              <label htmlFor="">
+                                Event Location <span> *</span>
+                              </label>
+                              <input
+                                type="text"
+                                name="location"
+                                placeholder="Event location"
+                                className={
+                                  error?.location
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                onChange={(e) => handleChange(e)}
+                                value={
+                                  eventInputs?.location
+                                    ? eventInputs?.location
+                                    : ""
+                                }
+                              />
+                              {error?.location ? (
+                                <div className="login-validation">
+                                  {error?.location}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-12 speaker-name">
+                            <div className="row">
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">
+                                    Speaker's Name <span> *</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="speaker_name"
+                                    placeholder="Enter speaker's name"
+                                    className={
+                                      error?.speaker_name
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
+                                    onChange={(e) => handleChange(e)}
+                                    value={
+                                      eventInputs?.speaker_name
+                                        ? eventInputs?.speaker_name
+                                        : ""
+                                    }
+                                  />
+                                  {error?.speaker_name ? (
+                                    <div className="login-validation">
+                                      {error?.speaker_name}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6">
+                                <div className="form-group">
+                                  <label htmlFor="">
+                                    Speaker's Email <span> *</span>{" "}
+                                  </label>
+                                  <input
+                                    type="email"
+                                    name="speaker_email"
+                                    placeholder="Enter speaker's email"
+                                    className={
+                                      error?.speaker_email
+                                        ? "form-control error"
+                                        : "form-control"
+                                    }
+                                    onChange={(e) => handleChange(e)}
+                                    value={
+                                      eventInputs?.speaker_email
+                                        ? eventInputs?.speaker_email
+                                        : ""
+                                    }
+                                  />
+                                  {error?.speaker_email ? (
+                                    <div className="login-validation">
+                                      {error?.speaker_email}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                              {/* <div className="col-12 col-md-12">
+                                  <span class="add-choice">Add Speaker<img src={path_image+"add-choice.svg"} alt=""/></span>
+                                </div> */}
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-12">
+                            <div className="form-group">
+                              <label htmlFor="">
+                                Meeting Type <span> *</span>
+                              </label>
+
+                              <Select
+                                options={meetingOptions}
+                                className={
+                                  error?.meeting_type
+                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                }
+                                placeholder="Select meeting type"
+                                onChange={(e) =>
+                                  handleChange(e?.value, "meeting_type")
+                                }
+                                value={
+                                  meetingOptions
+                                    ? meetingOptions.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.meeting_type
+                                    ) != -1
+                                      ? meetingOptions[
+                                      meetingOptions.findIndex(
+                                        (item) =>
+                                          item?.value ==
+                                          eventInputs?.meeting_type
+                                      )
+                                      ]
+                                      : ""
+                                    : ""
+                                }
+                                isClearable
+                              />
+                              {error?.meeting_type ? (
+                                <div className="login-validation">
+                                  {error?.meeting_type}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">IBU</label>
 
@@ -283,18 +456,19 @@ const CommonAddEventModel = ({
                                     : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                 }
                                 onChange={(e) => handleChange(e?.value, "type")}
+                                placeholder="Select IBU"
                                 value={
                                   ibuOptions
                                     ? ibuOptions.findIndex(
+                                      (item) =>
+                                        item?.value == eventInputs?.type
+                                    ) != -1
+                                      ? ibuOptions[
+                                      ibuOptions.findIndex(
                                         (item) =>
                                           item?.value == eventInputs?.type
-                                      ) != -1
-                                      ? ibuOptions[
-                                          ibuOptions.findIndex(
-                                            (item) =>
-                                              item?.value == eventInputs?.type
-                                          )
-                                        ]
+                                      )
+                                      ]
                                       : ""
                                     : ""
                                 }
@@ -308,10 +482,10 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
-                                Timezone <span> *</span>
+                                Country Timezone <span> *</span>
                               </label>
                               <Select
                                 options={timezoneOptions}
@@ -323,19 +497,20 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "timezone")
                                 }
+                                placeholder="Select country timezone"
                                 value={
                                   timezoneOptions
                                     ? timezoneOptions.findIndex(
-                                        (item) =>
-                                          item?.value == eventInputs?.timezone
-                                      ) != -1
+                                      (item) =>
+                                        item?.value == eventInputs?.timezone
+                                    ) != -1
                                       ? timezoneOptions[
-                                          timezoneOptions.findIndex(
-                                            (item) =>
-                                              item?.value ==
-                                              eventInputs?.timezone
-                                          )
-                                        ]
+                                      timezoneOptions.findIndex(
+                                        (item) =>
+                                          item?.value ==
+                                          eventInputs?.timezone
+                                      )
+                                      ]
                                       : ""
                                     : ""
                                 }
@@ -349,11 +524,11 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 {" "}
-                                Select Country Timezone <span> *</span>
+                                Timezone<span>*</span>
                               </label>
                               <Select
                                 options={countryTimezone}
@@ -365,20 +540,21 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "country_timezone")
                                 }
+                                placeholder="Select timezone"
                                 value={
                                   countryTimezone
                                     ? countryTimezone?.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.country_timezone
+                                    ) != -1
+                                      ? countryTimezone[
+                                      countryTimezone?.findIndex(
                                         (item) =>
                                           item?.value ==
                                           eventInputs?.country_timezone
-                                      ) != -1
-                                      ? countryTimezone[
-                                          countryTimezone?.findIndex(
-                                            (item) =>
-                                              item?.value ==
-                                              eventInputs?.country_timezone
-                                          )
-                                        ]
+                                      )
+                                      ]
                                       : ""
                                     : ""
                                 }
@@ -391,7 +567,7 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 {" "}
@@ -407,6 +583,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.label, "is_client_stream")
                                 }
+                                placeholder="Select stream"
                                 value={
                                   clientStreamOptions?.findIndex(
                                     (item) =>
@@ -414,12 +591,12 @@ const CommonAddEventModel = ({
                                       eventInputs?.is_client_stream
                                   ) != -1
                                     ? clientStreamOptions[
-                                        clientStreamOptions?.findIndex(
-                                          (item) =>
-                                            item?.label ==
-                                            eventInputs?.is_client_stream
-                                        )
-                                      ]
+                                    clientStreamOptions?.findIndex(
+                                      (item) =>
+                                        item?.label ==
+                                        eventInputs?.is_client_stream
+                                    )
+                                    ]
                                     : ""
                                 }
                                 isClearable
@@ -432,7 +609,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
                           {eventInputs?.is_client_stream == "Yes" ? (
-                            <div className="col-12 col-md-6">
+                            <div className="col-12 col-md-12">
                               <div className="form-group">
                                 <label htmlFor="">
                                   Client Stream URL <span> *</span>
@@ -463,10 +640,10 @@ const CommonAddEventModel = ({
                           ) : (
                             ""
                           )}
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
-                                Event Date <span> *</span>
+                                Event Start Date <span> *</span>
                               </label>
 
                               <DatePicker
@@ -476,15 +653,15 @@ const CommonAddEventModel = ({
                                     ? "form-control error"
                                     : "form-control"
                                 }
-                                placeholderText="Event Date"
+                                placeholderText="Event date"
                                 selected={
                                   eventInputs?.dateStart
                                     ? new Date(eventInputs?.dateStart)
                                     : new Date(
-                                        moment(new Date(), "MM/DD/YYYY").format(
-                                          "MM/DD/YYYY"
-                                        )
+                                      moment(new Date(), "MM/DD/YYYY").format(
+                                        "MM/DD/YYYY"
                                       )
+                                    )
                                 }
                                 onChange={(date) =>
                                   handleChange(date, "dateStart")
@@ -499,11 +676,46 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
+                          <div className="col-12 col-md-12">
+                            <div className="form-group">
+                              <label htmlFor="">
+                                Event End Date <span> *</span>
+                              </label>
 
-                          <div className="col-12 col-md-6">
+                              <DatePicker
+                                name="dateEnd"
+                                className={
+                                  error?.dateEnd
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                placeholderText="Event date"
+                                selected={
+                                  eventInputs?.dateEnd
+                                    ? new Date(eventInputs?.dateEnd)
+                                    : new Date(
+                                      moment(new Date(), "MM/DD/YYYY").format(
+                                        "MM/DD/YYYY"
+                                      )
+                                    )
+                                }
+                                onChange={(date) =>
+                                  handleChange(date, "dateEnd")
+                                }
+                                minDate={eventInputs.dateStart || currentDate}
+                                dateFormat="dd/MM/yyyy"
+                              />
+                              {error?.dateEnd ? (
+                                <div className="login-validation">
+                                  {error?.dateEnd}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          <div className="col-12 col-md-12">
                             <div className="form-group double-select">
                               <label htmlFor="">
-                                {" "}
                                 Event Start Time <span> *</span>
                               </label>
                               <Select
@@ -522,21 +734,16 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateStartHour
                                   ) != -1
                                     ? timeHours[
-                                        timeHours?.findIndex(
-                                          (item) =>
-                                            item?.value ==
-                                            eventInputs?.dateStartHour
-                                        )
-                                      ]
-                                    : ""
+                                    timeHours?.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.dateStartHour
+                                    )
+                                    ]
+                                    : timeHours[0]
                                 }
                                 isClearable
                               />
-                              {error?.dateStartHour ? (
-                                <div className="login-validation">
-                                  {error?.dateStartHour}
-                                </div>
-                              ) : null}
 
                               <Select
                                 options={timeMinutes}
@@ -554,20 +761,25 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateStartMin
                                   ) != -1
                                     ? timeMinutes[
-                                        timeMinutes?.findIndex(
-                                          (item) =>
-                                            item?.value ==
-                                            eventInputs?.dateStartMin
-                                        )
-                                      ]
-                                    : ""
+                                    timeMinutes?.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.dateStartMin
+                                    )
+                                    ]
+                                    : timeMinutes[0]
                                 }
                                 isClearable
                               />
+                              {error?.dateStartHour ? (
+                                <div className="login-validation">
+                                  {error?.dateStartHour}
+                                </div>
+                              ) : null}
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group double-select">
                               <label htmlFor="">
                                 {" "}
@@ -589,21 +801,17 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateEndHour
                                   ) != -1
                                     ? timeHours[
-                                        timeHours?.findIndex(
-                                          (item) =>
-                                            item?.value ==
-                                            eventInputs?.dateEndHour
-                                        )
-                                      ]
-                                    : ""
+                                    timeHours?.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.dateEndHour
+                                    )
+                                    ]
+                                    : timeHours[0]
                                 }
                                 isClearable
                               />
-                              {error?.dateEndHour ? (
-                                <div className="login-validation">
-                                  {error?.dateEndHour}
-                                </div>
-                              ) : null}
+
                               <Select
                                 options={timeMinutes}
                                 // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -621,27 +829,33 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateEndMin
                                   ) != -1
                                     ? timeMinutes[
-                                        timeMinutes?.findIndex(
-                                          (item) =>
-                                            item?.value ==
-                                            eventInputs?.dateEndMin
-                                        )
-                                      ]
-                                    : ""
+                                    timeMinutes?.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.dateEndMin
+                                    )
+                                    ]
+                                    : timeMinutes[0]
                                 }
                                 isClearable
                               />
+
+                              {error?.dateEndHour ? (
+                                <div className="login-validation">
+                                  {error?.dateEndHour}
+                                </div>
+                              ) : null}
                             </div>
                           </div>
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
-                                Event Code <span> *</span>
+                                Event Code <span>*</span>
                               </label>
                               <input
                                 type="text"
                                 name="event_code"
-                                placeholder="Event Code"
+                                placeholder="Event code"
                                 className={
                                   error?.event_code
                                     ? "form-control error"
@@ -662,7 +876,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">Event Description</label>
                               <textarea
@@ -710,19 +924,19 @@ const CommonAddEventModel = ({
         <div className="modal-footer">
           <button
             type="button"
+            className="btn btn-primary save btn-bordered"
+            onClick={handleClose}
+          >
+            Close
+          </button>
+          <button
+            type="button"
             className="btn btn-primary save btn-filled"
             onClick={(e) => {
               saveClicked(e);
             }}
           >
             Save
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            onClick={handleClose}
-          >
-            Close
           </button>
         </div>
       </Modal>

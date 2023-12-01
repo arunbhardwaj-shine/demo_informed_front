@@ -23,6 +23,7 @@ const WebinarQuestion = () => {
   const location = useLocation();
   const [commentPop,setCommentPopup] = useState(false)
   const [comments,setComments] = useState([])
+  const [currentQuestion,setCurrentQuestion] = useState('')
   const queryParams = new URLSearchParams(location.search);   
   const [countValue, setCountvalue] = useState(0);
   const q = query(collection(db, "chat"),where("event_id","==",eventId?.id),orderBy("date","desc"),limit(1))
@@ -83,6 +84,7 @@ useEffect(()=>{
         });
         newData.push({
           question: value?.question,
+          canCustomAnswer: value?.canCustomAnswer,
           highchartData: {
             chart: {
               type: "column",
@@ -91,6 +93,9 @@ useEffect(()=>{
             yAxis: {
               min: 0,
               tickInterval: 1,
+              title: {
+                  text: 'Number of users'
+              }
             },
             xAxis: {
               categories: line_v,
@@ -208,6 +213,7 @@ useEffect(() => {
       let allComments = alldata?.[index]?.userComments;
       let comments = allComments?.map(obj => obj.comments);
       setComments(comments);
+      setCurrentQuestion(alldata?.[index]?.question);
       console.log(`Element found at index ${index}`);
     } else {
       console.log('Element not found');
@@ -226,9 +232,17 @@ useEffect(() => {
                  {data?.map((item,index)=>{
                   return (
                     <>
-                    <p>{index+1}. {item?.question}</p>
-                    {/* {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.highchartData} />: <h6>This question hasn't been answered yet.</h6>} */}
-                    {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.pieChartData} />: <h6>This question hasn't been answered yet.</h6>}
+                    <p>{index+1}. {item?.question} </p>
+                    {
+                      item?.canCustomAnswer == 1 ?
+                      <>
+                      {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.highchartData} />: <h6>This question hasn't been answered yet.</h6>}
+                      </>
+                      :
+                      <>
+                      {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.pieChartData} />: <h6>This question hasn't been answered yet.</h6>}
+                      </>
+                    }
                     {item?.answer? 
                       <>
                       <h6 className="total_count">Total user: {item?.answer} </h6>
@@ -249,10 +263,17 @@ useEffect(() => {
           <Modal show={commentPop} backdrop="static" onHide={onClose} keyboard={false} id="showComments">
             <Modal.Header closeButton>
               <Modal.Title id="contained-modal-title-vcenter">
-                <img
+                {
+                  currentQuestion?.length > 0 ? currentQuestion : "Answer"
+                  // <img
+                  //   src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
+                  //   alt=""
+                  // /> 
+                }
+                {/* <img
                   src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
                   alt=""
-                />
+                /> */}
               </Modal.Title>
             </Modal.Header>
               <Modal.Body>
@@ -260,7 +281,7 @@ useEffect(() => {
                         <thead>
                           <tr>
                           <th>User Name</th>
-                          <th>Answer</th>
+                          {/* <th>Answer</th> */}
                           <th>Explanation</th>
                           </tr>
                         </thead>
@@ -272,7 +293,7 @@ useEffect(() => {
                             <>
                             <tr>
                               <td>N/A</td>
-                              <td></td>
+                              {/* <td></td> */}
                               <td>{item}</td>
                             </tr>
                             </>

@@ -114,7 +114,11 @@ const SetPopup = (props) => {
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);
     }
-    getTemplateListData(0, "All", "", 1);
+    if (state?.lng) {
+      getTemplateListData(0, state?.lng, "", 1);
+    }else{
+      getTemplateListData(0, "All", "", 1);
+    }
   }, []);
 
   const dropDownSelected = (label, e) => {
@@ -158,6 +162,11 @@ const SetPopup = (props) => {
           setArticleId(state?.pdfId);
         }
       }
+      let ibu={
+        "Critical Care":"critical_care",
+        "Haematology":"haematology",
+        "Immunotherapy":"immunothreapy"
+      }
 
       let res;
       if (flag === 1 || flag === 0) {
@@ -167,6 +176,7 @@ const SetPopup = (props) => {
             userId: localStorage.getItem("user_id"),
             language: check_lng_index,
             consentType: consent,
+            ibu:localStorage.getItem('user_id')=="B7SHpAc XDXSH NXkN0rdQ=="?ibu[state?.ibu]?ibu[state?.ibu]:"haematology":undefined,
             pdfId:
               typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
           };
@@ -240,6 +250,8 @@ const SetPopup = (props) => {
           pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
 
           language_change: 1,
+          
+          ibu:localStorage.getItem('user_id')=="B7SHpAc XDXSH NXkN0rdQ=="?ibu[state?.ibu]?ibu[state?.ibu]:"haematology":undefined,
         };
 
         const res = await postData(ENDPOINT.LIBRARYGETPOPUP, body);
@@ -314,6 +326,12 @@ const SetPopup = (props) => {
       let third = templateList.findIndex((el) => el.popupNo === 3);
       let fourth = templateList.findIndex((el) => el.popupNo === 4);
 
+      let ibu={
+        "Critical Care":"critical_care",
+        "Haematology":"haematology",
+        "Immunotherapy":"immunothreapy"
+      }
+      
       let body = {
         user_id: localStorage.getItem("user_id"),
         pdfId: articleId,
@@ -324,6 +342,8 @@ const SetPopup = (props) => {
         htmlEditor2: templateList?.[second]?.source_code,
         htmlEditor3: templateList?.[third]?.source_code,
         htmlEditor4: templateList?.[fourth]?.source_code,
+        submitCancelPopupType: actualTemplateData?.data?.data?.submitCancelPopupType ? actualTemplateData?.data?.data?.submitCancelPopupType: 0,
+        ibu:localStorage.getItem('user_id')=="B7SHpAc XDXSH NXkN0rdQ=="?ibu[state?.ibu]?ibu[state?.ibu]:"haematology":undefined,
       };
       const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
       loader("hide");
@@ -868,7 +888,7 @@ const SetPopup = (props) => {
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/react_informed.css",
+                            "https://docintel.app/react_informed.css?v=1.0",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
                           init_instance_callback: (editor)=>addTracking(editor),

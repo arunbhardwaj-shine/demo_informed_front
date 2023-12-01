@@ -11,6 +11,7 @@ import {
   limit,
 } from "firebase/firestore";
 import HighchartsReact from "highcharts-react-official";
+import HighchartsReactBAR from "highcharts-react-official";
 import { Col, Container, Row, Table } from "react-bootstrap";
 import { db } from "../../config/firebaseConfig";
 import { loader } from "../../loader";
@@ -33,6 +34,8 @@ const PollQuestion = () => {
   );
   const [data, setData] = useState([]);
   const [showAccordian, setAccordian] = useState(0);
+  const [customAns,setCustomAns] = useState(0);
+  const [syncFlag, setSyncFlag] = useState(1);
   const [count, setCount] = useState(0);
   const [chartData, setChartData] = useState({});
 
@@ -63,8 +66,6 @@ const PollQuestion = () => {
     try {
       loader("show");
       const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
-        // companyId: 18207,
-        // eventId: 136,
         companyId: eventId?.companyId,
         eventId: eventId?.id,
       });
@@ -187,9 +188,8 @@ const PollQuestion = () => {
 
   const fireBaseFun = async () => {
     try {
+      console.log("FIREBASE FUNCTIONA WORKING");
       const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
-        // companyId: 18207,
-        // eventId: 136,
         companyId: eventId?.companyId,
         eventId: eventId?.id,
       });
@@ -291,6 +291,7 @@ const PollQuestion = () => {
           speakerName: value?.speakerName,
         });
       });
+      console.log(newData,"INSIDE FIREBASE FUNCTIONA");
       setData(newData);
     } catch (err) {
       console.log("-err", err);
@@ -325,69 +326,123 @@ const PollQuestion = () => {
           eventId: eventId?.id,
         });
         let data=result?.data?.data
-  
-        const seriesData = data.map((question,index) => ({
-          name: question.name,
-          y: question.y,
-          drilldown: question.drilldown,
-          color:colors[index],
-          // color: question.y === 2 ? "#00FF00" : "#FF0000", 
-        }));
-        const drilldownData = data
-          .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
-          .map(question => ({
-            id: question.drilldown,
-            data: question.drillDownData.map(answer => [answer.name, answer.total]),
-            colors: question.drillDownData.map(answer => answer.color)
-          }));
-        ;
+        let custom_ans = result?.data?.custom_answer ? result?.data?.custom_answer : 0 ;
+        setCustomAns(custom_ans);
+        let chartOptions = {};
         
-        // console.log(drilldownData);
-        const chartOptions = {
-          chart: {
-              plotBackgroundColor: null,
-              plotBorderWidth: null,
-              plotShadow: false,
-              type: 'pie'
-          },
-          title: {
-            text: "User Answers",
-          },
-          tooltip: {
-              formatter: function() {
-                return this.point.name +' : <b>'+ this.point.y + '</b>';
+          // for COLUMN GRAPH
+          let graphData = [],
+          line_v = [],
+          line_h = [];
+          let i = 0;
+          data?.forEach((item) => {
+            line_v.push(item?.name);
+            line_h.push(item?.y);
+            const foundObj = {
+              y: item?.y,
+              name: item?.name,
+              color: colors[i],
+            };
+            graphData.push(foundObj);
+          });
+          chartOptions.linechart = {
+            chart: {
+              type: "column",
             },
-          },
-          accessibility: {
-              point: {
-                  valueSuffix: '%'
+            yAxis: {
+              min: 0,
+              tickInterval: 1,
+              title: {
+                  text: 'Number of users'
               }
-          },
-          legend: {
-              labelFormat: '{name} ({percentage:.2f}%) ',
-          },
-          plotOptions: {
-              pie: {
-                  allowPointSelect: true,
-                  cursor: 'pointer',
-                  dataLabels: {
-                      enabled: false
-                  },
-                  showInLegend: true
-              }
-          },
-          series: [
-            {
-              name: "Questions",
+            },
+            xAxis: {
+              categories: line_v,
+            },
+            title: {
+              text: "User Answers",
+            },
+            plotOptions: {
+              series: {
+                pointWidth: 20,
+              },
+            },
+            column: {
               colorByPoint: true,
-              data: seriesData,
             },
-          ],
-          drilldown: {
-            series: drilldownData,
-          },
-        };
+            exporting: {
+              enabled: false,
+            },
+            series: [
+              {
+                data: graphData,
+                showInLegend: false,
+              },
+            ],
+          };
+        
+            const seriesData = data.map((question,index) => ({
+              name: question.name,
+              y: question.y,
+              drilldown: question.drilldown,
+              color:colors[index],
+              // color: question.y === 2 ? "#00FF00" : "#FF0000", 
+            }));
+            const drilldownData = data
+              .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
+              .map(question => ({
+                id: question.drilldown,
+                data: question.drillDownData.map(answer => [answer.name, answer.total]),
+                colors: question.drillDownData.map(answer => answer.color)
+              }));
+            ;
+            chartOptions.piechart = {
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                text: "User Answers",
+              },
+              tooltip: {
+                  formatter: function() {
+                    return this.point.name +' : <b>'+ this.point.y + '</b>';
+                },
+              },
+              accessibility: {
+                  point: {
+                      valueSuffix: '%'
+                  }
+              },
+              legend: {
+                  labelFormat: '{name} ({percentage:.2f}%) ',
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: false
+                      },
+                      showInLegend: true
+                  }
+              },
+              series: [
+                {
+                  name: "Questions",
+                  colorByPoint: true,
+                  data: seriesData,
+                },
+              ],
+              drilldown: {
+                series: drilldownData,
+              },
+            };
+        
       setChartData(chartOptions)
+      setSyncFlag(syncFlag + 1);
       }
       setAccordian(value);
       
@@ -495,10 +550,32 @@ const PollQuestion = () => {
                     >
                       <td colspan="6">
                         <div class="highcharts-container">
-                          <HighchartsReact
-                            highcharts={Highcharts}
-                            options={chartData}
-                          />
+                          {
+                            syncFlag && (
+                                customAns == 1 ? 
+                                <>
+                                {
+                                  console.log("FOR LINE CHART")
+                                }
+                                <HighchartsReact
+                                  key={"lineChart_"+syncFlag}
+                                  highcharts={Highcharts}
+                                  options={chartData?.linechart}
+                                />
+                                </>
+                                : 
+                                <>
+                                {
+                                  console.log("FOR PIE CHART")
+                                }
+                                <HighchartsReact
+                                  key={"pieChart_"+syncFlag}
+                                  highcharts={Highcharts}
+                                  options={chartData?.piechart}
+                                />
+                                </>
+                            ) 
+                          }
                         </div>
                       </td>
                     </tr>

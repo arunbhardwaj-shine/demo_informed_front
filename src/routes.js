@@ -66,6 +66,7 @@ import OctaCountryRegistration from "./Components/Analytics/OctaCountryRegistrat
 //Readers routes
 import NewReaders from "./Components/Readers/ReadersView/ReadersList";
 import ReadersLayout from "./Components/Readers/ReadersView/ReadersLayout";
+import ReadersTimeLineLayout from "./Components/Readers/ReadersView/ReadersTimeLineLayout";
 import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReadersList";
 import ReaderLayout from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
@@ -110,7 +111,7 @@ import SelectHCP from "./Components/Emails/SelectHCP";
 import VerifyMAIL from "./Components/Emails/VerifyMAIL";
 import VerifyHcpMAIL from "./Components/Emails/VerifyHcpMAIL";
 import SelectSmartList from "./Components/Emails/SelectSmartList";
-import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
+// import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import EmailStatss from "./Components/Distributes/EmailStatss";
 import GetDetails from "./Components/Distributes/GetDetails";
@@ -162,7 +163,13 @@ import PageNotFound from "./Components/CommonComponent/PageNotFound";
 import Feedback from "./Components/R&D/Feedback";
 import WebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/WebinarRegistration";
 import SurveyBuilder from "./Components/Webinar/Survey/SurveyBuilder";
-import QuestionListing from "./Components/Webinar/Survey/QuestionListing";
+import PollListing from "./Components/Webinar/Survey/PollListing";
+import AutoLogout from "./Components/Login/AutoLogout";
+import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
+import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/RegistrationPage";
+import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
+import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
+
 let platform = 0;
 let show = 0;
 
@@ -404,7 +411,7 @@ const Routing = () => {
           path="/readers-list"
           element={<LoginLayout component={ReadersListAdd} />}
         />
-        <Route
+        {/* <Route
           path="/timeline-detail"
           element={
             localStorage.getItem("user_id") == "90VIqoM675WT4/peSRnbSQ==" ? (
@@ -413,11 +420,11 @@ const Routing = () => {
               <LoginLayout component={TimelineDetail} />
             )
           }
-        />
-        {/*<Route
-          path="/timeline-detail"
-          element={<LoginLayout component={TimelineDetail} />}
         /> */}
+        <Route
+          path="/timeline-detail"
+          element={<LoginLayout component={ReadersTimeLineLayout} />}
+        />
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}
@@ -506,7 +513,7 @@ const Routing = () => {
           element={<LoginLayout component={SpcCreate} />}
         />
         {localStorage.getItem("user_id") ==
-        "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
+          "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
           <Route
             path="/products"
             element={<LoginLayout component={Products} />}
@@ -519,11 +526,17 @@ const Routing = () => {
         <Route
           path="/add-poll"
           element={<LoginLayout component={SurveyBuilder} />}
-        /> 
-        <Route
-          path="/question-listing"
-          element={<LoginLayout component={QuestionListing} />}
         />
+        <Route
+          path="/poll-listing"
+          element={<LoginLayout component={PollListing} />}
+        />
+        {/* <Route
+          path="/event-registration"
+          element={<LoginLayout component={RegistrationPage} />}
+        /> */}
+        <Route path="/event-registration" element={<RegistrationPage />} />
+
         <Route
           path="/contact-form"
           element={<LoginLayout component={ContactForm} />}
@@ -545,12 +558,16 @@ const Routing = () => {
           element={<LoginLayout component={EventCreate} />}
         />
         <Route
-          path="/new-event-create"
+          path="/event-listing"
           element={<LoginLayout component={NewEventCreate} />}
         />
         <Route
           path="/webinar-registration"
           element={<LoginLayout component={WebinarRegistration} />}
+        />
+        <Route
+          path="/edit-webinar-registration"
+          element={<LoginLayout component={EditWebinarRegistration} />}
         />
         <Route
           path="/setting-webinar"
@@ -616,9 +633,13 @@ const Routing = () => {
           path="/VerifyHcpMAIL"
           element={<LoginLayout component={VerifyHcpMAIL} />}
         />
-        <Route
+        {/* <Route
           path="/SelectSmartListUsers"
           element={<LoginLayout component={SelectSmartListUsers} />}
+        /> */}
+        <Route
+          path="/SelectSmartListUsers"
+          element={<LoginLayout component={SelectSmartListUsersLayout} />}
         />
         <Route
           path="/VerifySmartList"
@@ -648,9 +669,13 @@ const Routing = () => {
           path="/bounced-email"
           element={<LoginLayout component={BouncedEmail} />}
         />
-        <Route
+        {/* <Route
           path="/get-details"
           element={<LoginLayout component={GetDetails} />}
+        /> */}
+        <Route
+          path="/get-details"
+          element={<LoginLayout component={GetDetailsLayout} />}
         />
         <Route
           path="/license-content"
@@ -708,6 +733,10 @@ const Routing = () => {
         <Route
           path="/pharma-marketing"
           element={<DefaultLayout component={PharmaMarketing} />}
+        />
+        <Route
+          path="/autologout"
+          element={<LoginLayout component={AutoLogout} />}
         />
       </Routes>
     </Router>

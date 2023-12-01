@@ -1,0 +1,486 @@
+[
+    {
+        "templateId": 1,
+        "pageTitle": "To register please fill in all your details below.",
+        "bodyText": "",
+        "logoImageUrl": "https://webinar.docintel.app/Webinar/images/logo.png",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#2068B3",
+        "optionColor": "#2068B3",
+        "backgroundColor": "",
+        "eventDetails": {
+            "eventStartDate": {
+                "title": "Event Start Date",
+                "type": "date",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndDate": {
+                "title": "Event End Date",
+                "type": "date",
+                "value": ""
+            },
+            "eventLocation": {
+                "title": "Location",
+                "type": "text",
+                "value": "",
+                "color": "#354367"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "pageTitle": {
+                "title": "Registration Page Title",
+                "type": "text",
+                "value": "To register please fill in all your details below.",
+                "color": "#354367"
+            }
+        },
+        "body": [
+            {
+                "label": "Full consent (for additional information or to edit consent click Change)",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "required": "yes",
+                "option": [
+                    {
+                        "optionLabel": "my participation during the live webinar being recorded for live streaming and on-demand use*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Full consent (for additional information or to edit consent click Change)",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "invites for future Octapharma haematology events (these may be promotional events)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "extension": "",
+                "name": "consent"
+            },
+            {
+                "name": "country",
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "Please enter country",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            }
+        ]
+    },
+    {
+        "templateId": 2,
+        "title": "Registration",
+        "pageTitle": "To register please fill in all your details below.",
+        "bodyText": "",
+        "eventDetails": {
+            "heading": {
+                "title": "Main Header",
+                "type": "text",
+                "value": "Registration",
+                "color": "#ffffff"
+            },
+            "SubHeadingOne": {
+                "title": "Sub Heading One",
+                "type": "text",
+                "value": "Welcome dinner",
+                "color": "#004b95"
+            },
+            "SubHeadingOneDate": {
+                "title": "Sub Heading Date",
+                "type": "date",
+                "value": "Wednesday, 24 May 2023",
+                "color": "#04b39a"
+            },
+            "SubHeadingTwo": {
+                "title": "Sub Heading Two",
+                "type": "text",
+                "value": "International ITI School and networking dinner",
+                "color": "#004b95"
+            },
+            "SubHeadingTwoDate": {
+                "title": "Sub Heading Date",
+                "type": "date",
+                "value": "Thursday, 25 May 2023",
+                "color": "#04b39a"
+            },
+            "SubHeadingThree": {
+                "title": "Sub Heading Three",
+                "type": "text",
+                "value": "MOTIVATE Investigators meeting",
+                "color": "#004b95"
+            },
+            "SubHeadingThreeDate": {
+                "title": "Sub Heading Date",
+                "type": "date",
+                "value": "Friday, 26 May 2023",
+                "color": "#04b39a"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#04b39a"
+            },
+            "pageTitle": {
+                "title": "Registration Page Title",
+                "type": "text",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#04b39a"
+            }
+        },
+        "logoImageUrl": "https://webinar.docintel.app/MOTIVATE-study/Regi/images/lund-logo.png",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#04b39a",
+        "optionColor": "",
+        "backgroundColor": "#faf5f5",
+        "body": [
+            {
+                "label": "I will attend:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both, International ITI School & MOTIVATE Investigators meeting",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "International ITI School",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "MOTIVATE Investigators meeting",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "event_attendance_choice"
+            },
+            {
+                "label": "I would like to:",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "",
+                "option": [
+                    {
+                        "optionLabel": "Organize my own travel",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my travel arranged by the meeting organizers",
+                        "extension": [
+                            {
+                                "label": "Airport of departure",
+                                "name": "departure",
+                                "inputType": "text",
+                                "placeholder": "Airport of departure",
+                                "option": []
+                            },
+                            {
+                                "label": "Airport of departure",
+                                "name": "departure_time",
+                                "inputType": "date",
+                                "placeholder": "",
+                                "option": []
+                            },
+                            {
+                                "label": "Preferred departure time",
+                                "name": "air_departure_date",
+                                "inputType": "radio",
+                                "placeholder": "",
+                                "option": [
+                                    {
+                                        "optionLabel": "Morning",
+                                        "extension": [],
+                                        "checked": ""
+                                    },
+                                    {
+                                        "optionLabel": "Evening",
+                                        "extension": [],
+                                        "checked": ""
+                                    },
+                                    {
+                                        "optionLabel": "Afternoon",
+                                        "extension": [],
+                                        "checked": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "label": "Preferred return flight date",
+                                "name": "air_return_date",
+                                "inputType": "date",
+                                "placeholder": "",
+                                "option": []
+                            }
+                        ],
+                        "checked": ""
+                    }
+                ],
+                "extension": true,
+                "name": "mode_of_travel"
+            },
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Be contacted by the MOTIVATE team for the purpose of this meeting*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Receive future materials from MOTIVATE",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "consent"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            }
+        ]
+    },
+    {
+        "templateId": 3,
+        "pageTitle": "To register please select and fill in all your details below.",
+        "bodyText": "This meeting is for healthcare professionals only.",
+        "logoImageUrl": "https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png",
+        "headerImageUrl": "",
+        "footerImageUrl": "",
+        "labelColor": "#263474",
+        "optionColor": "#263474",
+        "backgroundColor": "#ffffff",
+        "eventDetails": {
+            "eventStartDate": {
+                "title": "Event Start Date",
+                "type": "date",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndDate": {
+                "title": "Event End Date",
+                "type": "date",
+                "value": ""
+            },
+            "eventStartTime": {
+                "title": "Event Start Time",
+                "type": "time",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "eventEndTime": {
+                "title": "Event End Time",
+                "type": "time",
+                "value": ""
+            },
+            "eventLocation": {
+                "title": "Location",
+                "type": "text",
+                "value": "",
+                "color": "#354367"
+            },
+            "speakerName": {
+                "title": "Speaker Name",
+                "type": "text",
+                "value": "",
+                "color": "#76B5AE"
+            },
+            "pageTitle": {
+                "title": "Registration Page Title",
+                "type": "text",
+                "value": "To register please select and fill in all your details below.",
+                "color": "#354367"
+            },
+            "bodyText": {
+                "title": "Registration Body Text",
+                "type": "text",
+                "value": "This meeting is for healthcare professionals only.",
+                "color": "#354367"
+            }
+        },
+        "body": [
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "",
+                "required": "yes",
+                "option": [
+                    {
+                        "optionLabel": "US",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Canada",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Other",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "I will attend:",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both Factor VIII Relevance Academy and EAHAD congress",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Factor VIII Relevance Academy only",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "factor_viii_choice"
+            },
+            {
+                "label": "I will join the Factor VIII Relevance Academy dinner (5th Feb) :",
+                "inputType": "radio",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Yes",
+                        "extension": [
+                            {
+                                "label": " ",
+                                "name": "factor_viii_dinner_restrictions_allergies",
+                                "inputType": "text",
+                                "placeholder": "In case you have any dietary restrictions or allergies please specify here",
+                                "option": []
+                            }
+                        ],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "No",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": true,
+                "name": "factor_viii_dinner_attendance_with_details"
+            },
+            {
+                "label": "I would like to:",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "",
+                "extension": "",
+                "name": "accommodation_preference",
+                "option": [
+                    {
+                        "optionLabel": "Organize my own accomodation",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night on the 4th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 1 night only on the 5th of Feb",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Have my accommodation organized for 2 nights (4th and 5th Feb)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -396,7 +396,11 @@ const VerifyMAIL = (props) => {
       typeof getSmartListData !== "undefined" &&
       getSmartListData.hasOwnProperty("id")
     ) {
-      navigate("/SelectSmartListUsers");
+      navigate("/SelectSmartListUsers",{
+        state: {
+         ...location?.state
+      },
+      });
     } else {
       navigate("/VerifyHCP");
     }
@@ -408,6 +412,7 @@ const VerifyMAIL = (props) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
+      show_specific: 1,
     };
     loader("show");
     await axios
@@ -510,6 +515,12 @@ const VerifyMAIL = (props) => {
         loader("hide");
         toast.error("Something went wrong");
       });
+  };
+
+  const handleSpcFun = (data) => {
+    let newWindow = "";
+    newWindow = window.open("/article_preview");
+    newWindow.data = data;
   };
   return (
     <>
@@ -742,14 +753,23 @@ const VerifyMAIL = (props) => {
                                   </table>
                                 </div>
                                 <div className="mail-content-footer">
-                                  <a
-                                    href={getpdfdata.pdf_preview_link}
-                                    target="_blank"
-                                  >
-                                    <button className="btn btn-primary btn-filled">
-                                      Preview
-                                    </button>
-                                  </a>
+                                  {
+                                    getpdfdata?.pdf_spc_included ?
+                                      <button className="btn btn-primary btn-filled" onClick={() =>
+                                        handleSpcFun(getpdfdata?.spc_url)
+                                      }>
+                                        Preview
+                                      </button>
+                                    :
+                                    <a
+                                      href={getpdfdata.pdf_preview_link}
+                                      target="_blank"
+                                    >
+                                      <button className="btn btn-primary btn-filled">
+                                        Preview
+                                      </button>
+                                    </a>
+                                  }
                                 </div>
                               </div>
                             )}

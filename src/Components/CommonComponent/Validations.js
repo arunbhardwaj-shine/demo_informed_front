@@ -1,4 +1,4 @@
-export const createContent = (data, fileCheck, groupId = 2) => {
+export const createContent = (data, fileCheck, groupId = 2, retailer = 0) => {
   let error = {};
   const regemail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -15,6 +15,12 @@ export const createContent = (data, fileCheck, groupId = 2) => {
       }
     }
   }
+
+  // if(data.hasOwnProperty("sold_unsold_status")){
+  //   if(retailer == 1 && !data?.sold_unsold_status){
+  //     error.status = "Status is required";
+  //   }
+  // }
 
   if (!data?.contentTitle) {
     error.contentTitle = "Content title is required!";
@@ -97,6 +103,31 @@ export const createContent = (data, fileCheck, groupId = 2) => {
   // } else if (!data.sales) {
   //   error.sales = "Sales is required";
   // }
+
+  return error;
+};
+
+
+export const saveNewTemplate = (data) => {
+  let error = {};
+  
+  if(data.hasOwnProperty("template_name")){
+    if(!data?.template_name){
+      error.template_name = "Please enter template name";
+    }
+  }
+
+  if(data.hasOwnProperty("language")){
+    if(!data?.language){
+      error.language = "Please select language";
+    }
+  }
+
+  if(data.hasOwnProperty("ibu")){
+    if(!data?.ibu){
+      error.ibu = "Please select ibu";
+    }
+  }
 
   return error;
 };

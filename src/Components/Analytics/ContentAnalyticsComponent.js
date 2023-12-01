@@ -7,7 +7,6 @@ import highchartsMore from "highcharts/highcharts-more";
 import solidGauge from "highcharts/modules/solid-gauge";
 highchartsMore(Highcharts);
 solidGauge(Highcharts);
-
 export default function ContentAnalyticsComponent({ data, sublinkData }) {
   const [selectedData, setSelectedData] = useState();
   useEffect(() => {
@@ -67,12 +66,14 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
       : 1000;
 
   if (selectedData) {
-    const arr = ["Openings", "Unique Readers"];
+    const arr = ["Openings", "Unique Readers","Article Usage"];
+    const colorarray = ["#57cabd", "#f4c64b","#00003C"];
     var categories_data = Object.keys(selectedData?.graph?.openig);
     var series_data = Object.entries(selectedData?.graph)?.map(
       ([name, values], index) => ({
         name: arr[index],
         data: Object.values(values),
+        color: colorarray[index],
       })
     );
   }
@@ -187,16 +188,44 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               color="#57cabd"
               limit={agreed_limit}
               pdf_id={data?.id}
+              tooltip="Number of opening counts for specific article."
             />
-            <ContentAnalyticsComponentActivityGauge
-              value={selectedData?.uniqueReader}
-              color="#f4c64b"
-              limit={agreed_limit}
-              label={`Unique Reader (total) Agreed Limit | ${
-                data?.limit == 0 ? "Unlimited" : data?.limit
-              }`}
-              pdf_id={data?.id}
-            />
+            
+
+            {
+              data?.lastRomanNumber == 2 || data?.lastRomanNumber == 3 ? 
+              <>
+                <ContentAnalyticsComponentActivityGauge
+                  value={selectedData?.uniqueReader}
+                  color="#f4c64b"
+                  limit={agreed_limit}
+                  label={`Unique Reader (total)`}
+                  pdf_id={data?.id}
+                  tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                />
+                <ContentAnalyticsComponentActivityGauge
+                  value={selectedData?.pinReaders}
+                  color="#00003C"
+                  limit={agreed_limit}
+                  label={`Article Usage (total) Agreed Limit | ${
+                    data?.limit == 0 ? "Unlimited" : data?.limit
+                  }`}
+                  pdf_id={data?.id}
+                  tooltip="Number of unique HCPs who have unique pin codes."
+                />
+              </>
+               : 
+                <ContentAnalyticsComponentActivityGauge
+                  value={selectedData?.uniqueReader}
+                  color="#f4c64b"
+                  limit={agreed_limit}
+                  label={`Unique Reader (total) Agreed Limit | ${
+                    data?.limit == 0 ? "Unlimited" : data?.limit
+                  }`}
+                  pdf_id={data?.id}
+                  tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                />
+            }
 
             <ContentAnalyticsComponentActivityGauge
               value={selectedData?.registerReader}
@@ -204,6 +233,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               limit={agreed_limit}
               label=" Registered Reader (total)"
               pdf_id={data?.id}
+              tooltip="Number of HCPs who have register for or activated the content."
             />
             <ContentAnalyticsComponentActivityGauge
               value={selectedData?.rtr}
@@ -211,6 +241,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               limit={agreed_limit}
               label="User With RTR"
               pdf_id={data?.id}
+              tooltip="Number of Unique Readers spend time on pdf."
             />
             <ContentAnalyticsComponentActivityGauge
               value={selectedData?.download}
@@ -218,6 +249,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               limit={agreed_limit}
               label="Downloads"
               pdf_id={data?.id}
+              tooltip="Number of times download the article."
             />
           </div>
         </Row>

@@ -652,13 +652,47 @@ const EditLibrary = () => {
               }
             }
           } else {
-            navigate("/set-popup", {
-              state: {
-                pdfId: state?.pdfid,
-                fileType: userInputs?.docintelFormat,
-                isEdit: 1,
-              },
-            });
+            if (
+              userInputs?.docintelFormat == "video" ||
+              userInputs?.docintelFormat == "Video"
+            ) {
+              navigate("/set-popup", {
+                state: {
+                  pdfId: state?.pdfid,
+                  fileType: userInputs?.docintelFormat,
+                  ibu:userInputs?.ibu?userInputs?.ibu:"",
+                  lng:userInputs?.language?userInputs?.language:10,
+                  isEdit: 1,
+                },
+              });
+            } else {
+              if (userInputs?.allow_video) {
+                navigate("/library-add-link", {
+                  state: {
+                    pdfId: state?.pdfid,
+                    isEdit: 1,
+                    allowVideo: userInputs?.allow_video ? true : false,
+                  },
+                });
+              } else {
+                navigate("/set-popup", {
+                  state: {
+                    pdfId: state?.pdfid,
+                    fileType: userInputs?.docintelFormat,
+                    ibu:userInputs?.ibu?userInputs?.ibu:"",
+                    lng:userInputs?.language?userInputs?.language:10,
+                    isEdit: 1,
+                  },
+                });
+              }
+            }
+            // navigate("/set-popup", {
+            //   state: {
+            //     pdfId: state?.pdfid,
+            //     fileType: userInputs?.docintelFormat,
+            //     isEdit: 1,
+            //   },
+            // });
           }
         }
       } catch (err) {

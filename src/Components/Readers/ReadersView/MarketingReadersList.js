@@ -12,7 +12,7 @@ import {
   Tabs,
   Tooltip,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import {
   postData,
@@ -32,15 +32,20 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import moment from "moment";
+import CommonPreviewReader from "./CommonPreviewReader";
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const MarketingReadersList = () => {
   let obj = {};
   const limit = 24;
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
   const [country, setCountry] = useState([]);
   const [isFlag, setFlag] = useState(0);
+  const[address,setAddress]=useState()
+  const[log,setlLog]=useState()
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
@@ -110,7 +115,7 @@ const MarketingReadersList = () => {
     role: "",
   });
   const [apiFilterData, setApiFilterData] = useState({});
-
+ const [previewUserData,setPreviewUserData]=useState([])
   const [forceRender, setForceRender] = useState(false);
   const [updateflag, setUpdateFlag] = useState(0);
   const [types, setTypes] = useState([
@@ -169,6 +174,13 @@ const MarketingReadersList = () => {
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [refreshButton, setRefreshButton] = useState(false);
   const [defaultOwner, setDefaultOwner] = useState("");
+  const [showModal, setModal] = useState(false);
+  const[previewUserId,setPreviewUserId]=useState([]);
+  const handleCommonPreviewReader = () => {
+    setModal(false);
+    setPreviewUserData("")
+    
+  };
 
   useEffect(() => {
     // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -183,6 +195,7 @@ const MarketingReadersList = () => {
 
     getFilters();
     getReaderListData(page, filterObject, search);
+
 
     function handleOutsideClick(event) {
       if (
@@ -595,8 +608,9 @@ const MarketingReadersList = () => {
   };
 
   const handleTimeLine = (data) => {
-    window.open("/timeline-detail");
+    // window.open("/timeline-detail", '_self');
     localStorage.setItem("myData", data);
+    navigate("/timeline-detail");
     // const windowProps = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=1200, height=800`;
     //  newWindow = window.open("/timeline-detail", " ", "");
     //  newWindow.opener.postMessage({readerId:data}," ")
@@ -964,6 +978,49 @@ const MarketingReadersList = () => {
       setRefreshFlag(false);
     }
   };
+
+  const previewUserDetail = async (e, id) => {
+    setModal(true);
+
+    loader("show")
+    try {
+     
+      const usersData = await getData(`${ENDPOINT.GET_MARKETING_USER_DROP}/${id}`);
+      const datapreview = usersData?.data?.data;
+  
+      
+  
+      const newaddress = JSON.parse(usersData?.data?.data?.address);
+      setAddress(newaddress);
+      const logActivity = JSON.parse(usersData?.data?.data?.log_activity);
+      const updatelogActivity = ensureArray(logActivity);
+      setlLog(updatelogActivity);
+      setPreviewUserId(id);
+      setPreviewUserData(datapreview);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    
+    } finally {
+     loader("hide")
+     
+    }
+   
+  };
+
+  const ensureArray = (input) => {
+    if (Array.isArray(input)) {
+      // If it's already an array, return it as is
+      return input;
+    } else if (typeof input === 'object' && input !== null) {
+      // If it's an object, convert it to an array
+      return [input];
+    } else {
+      // If it's neither an array nor an object, return an empty array
+      return [];
+    }
+  }
+  
+  
 
   return (
     <>
@@ -1403,6 +1460,7 @@ const MarketingReadersList = () => {
             <div className="library-content-box-layuot readerlist d-flex">
               {readerDataList?.length || updateflag ? (
                 readerDataList.map((data, index) => {
+              
                   return (
                     <>
                       <div className="doc-content-main-box col" key={index}>
@@ -1525,6 +1583,12 @@ const MarketingReadersList = () => {
                                 ) : !data?.ipFlag ? (
                                   <div className="data-main-footer-sec-inner">
                                     <div className="footer-btn d-flex justify-content-end">
+                                    <Button className="view_btn"
+                      onClick={ (e)=>previewUserDetail (e,data?.id)}
+                    >
+                     Preview
+                    </Button>
+                  
                                       <Link
                                         to="/reader-edit"
                                         className="btn btn-primary btn-filled"
@@ -1532,6 +1596,7 @@ const MarketingReadersList = () => {
                                       >
                                         Edit
                                       </Link>
+
                                     </div>
                                   </div>
                                 ) : (
@@ -1969,6 +2034,15 @@ const MarketingReadersList = () => {
         path_image={path_image}
         resetDataId={resetDataId}
       />
+       <CommonPreviewReader
+        show={showModal}
+        onClose={handleCommonPreviewReader}
+        previewUser={previewUserData}
+        address={address}
+        logActivity={log}
+       
+      />
+    
     </>
   );
 };

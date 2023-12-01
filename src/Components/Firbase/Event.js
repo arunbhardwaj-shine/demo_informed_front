@@ -37,6 +37,7 @@ const Event = () =>{
     const [apiData,setApiData] = useState([])
     const [answerPop,setAnswerPopup] = useState(false)
     const [totalReaders,setTotalReaders] = useState(0)
+    const [customAnswer,setCustomAnswer] = useState(0)
 
     useEffect(()=>{
         EventDataFun()
@@ -61,7 +62,7 @@ const Event = () =>{
     const handleSubmit = async(e) =>{
         try{
             e.preventDefault();
-            if(!user.question){
+            if(!user.question.trim()){
               setError({"question": "Please enter your question"})
               return
             }else{
@@ -233,6 +234,7 @@ const Event = () =>{
                       })
                       setApiData(result?.data?.data)
                       setTotalReaders(result?.data?.totalReader)
+                      setCustomAnswer(result?.data?.custom_answer)
                       setAnswerPopup(true)
                       setShow(false)
                       setData(0)
@@ -388,6 +390,7 @@ const Event = () =>{
 show={answerPop}
 data={apiData}
 readerCount={totalReaders}
+customAnswer = {customAnswer}
  onClose={()=>setAnswerPopup(false)}
 />}
 </div>

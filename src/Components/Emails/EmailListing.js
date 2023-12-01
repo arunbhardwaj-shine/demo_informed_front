@@ -15,6 +15,8 @@ import HighchartsReact from "highcharts-react-official";
 import queryString from "query-string";
 import { getSelectedSmartListData } from "../../actions";
 import { Col, Row } from "react-bootstrap";
+import moment from "moment";
+
 const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -1175,6 +1177,14 @@ const EmailList = (props) => {
                           <div className="mail-box-content">
                             <div className="mail-box-content-top">
                               <div className="mail-box-content-top-view">
+                                {
+                                  data?.resend_badge >= 2 ? 
+                                  <div className="mail-resend" title="Resend Emails">
+                                  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be"/><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be"/></g></g></svg>
+                                  <span>{data?.resend_badge - 1}</span>
+                                  </div>
+                                   : null
+                                }
                                 <h5>{data.subject}</h5>
                                 <p>{data.description}</p>
                                 <div className="mailbox-table">
@@ -2027,7 +2037,7 @@ const EmailList = (props) => {
       {/*Modal start for send Draft Email*/}
       <div>
         <Modal
-          className="modal send-confirm"
+          className="modal send-confirm event_list"
           id="send-draft-mail"
           show={getDraftEmailSendStatus}
         >
@@ -2117,7 +2127,7 @@ const EmailList = (props) => {
                       ) : (
                         <th scope="col">Business Unit</th>
                       )}
-
+                        <th scope="col">Date</th>
                         {/* <th scope="col">Contact Type</th> */}
                         {/* <th scope="col">Opened</th> */}
                         {/* <th scope="col"> Clicked</th> */}
@@ -2127,6 +2137,7 @@ const EmailList = (props) => {
                       {typeof readerDetailsData !== "undefined" &&
                       readerDetailsData.length > 0 ? (
                         readerDetailsData.map((item, index) => (
+                          <>
                           <tr
                             key={"readers_" + index}
                             className="hcp"
@@ -2154,10 +2165,55 @@ const EmailList = (props) => {
                                   ? item.ibu
                                   : "N/A"}
                             </td>
-                            {/* <td> {item?.contact_type} </td> */}
-                            {/* <td>{item?.opened ? item?.opened : "N/A"}</td> */}
-                            {/* <td>{item?.ctr ? item?.ctr : "N/A"}</td> */}
+                            <td>
+                              {
+                                item?.recent_send?.length > 0 ? moment(item?.recent_send?.[0]?.sent_date, 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
+                                 : null
+                              }
+                            </td>
                           </tr>
+                          
+                          {
+                            item?.recent_send?.length > 1 ?
+                            
+                              <>
+                              {
+                                item?.recent_send?.map((subItem, subIndex) => (
+                                  subIndex !== 0 ?
+                                  <>
+                                  <tr>
+                                    <td>
+                                    {item?.first_name + " " + item?.last_name}
+                                    </td>
+                                    <td> {item?.email ? item.email : "N/A"} </td>
+                                    <td>
+                                      <span>
+                                        {item?.country ? item.country : "N/A"}
+                                      </span>
+                                    </td>
+                                    <td>
+                                      {localStorage.getItem("user_id") ==
+                                        "56Ek4feL/1A8mZgIKQWEqg=="
+                                          ? item.irt
+                                            ? "Yes"
+                                            : "No"
+                                          :item.ibu
+                                          ? item.ibu
+                                          : "N/A"}
+                                    </td>
+                                    <td>{subItem?.sent_date ? 
+                                          moment(subItem?.sent_date , 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
+                                          : null}</td>
+                                  </tr>
+                                  </>
+                                  : null
+                                ))
+                              }
+                              </>
+                            
+                            : null
+                          }
+                          </>
                         ))
                       ) : readerDetailsData.length == 0 ? (
                         <tr className="table_no_data_found">

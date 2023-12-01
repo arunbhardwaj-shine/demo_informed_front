@@ -251,12 +251,14 @@
   /* #accordion-smart .card-body .col {
     margin-right: 42px;
   } */
-  .btn.btn-primary {
+  .btn.btn-primary,
+  .data-main-footer-sec .footer-btn button.view_btn {
     font-size: 14px;
     min-width: 60px;
   }
 
-  .page-top-nav.smart_list_names .btn.btn-primary {
+  .page-top-nav.smart_list_names .btn.btn-primary,
+  .header_btns .copy_link {
     padding: 10px 13px;
     font-size: 14px;
   }
@@ -348,6 +350,16 @@
 @media only screen and (max-width: 1450px) {
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 30px;
+  }
+
+  .template_builder-option .template_language .split-button-dropup.edit-country-dropdown>div:nth-child(3),
+  .template_builder-option .template_country .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
+    width: 240px;
+    max-width: 240px;
+  }
+
+  .template_builder-option .template_language {
+    margin-right: 45px;
   }
 
   section.search-hcp.smart-list-view .header-btn-left button.back {
@@ -565,7 +577,8 @@
     right: -5px;
   }
 
-  .btn.btn-primary {
+  .btn.btn-primary,
+  .data-main-footer-sec .footer-btn button.view_btn {
     font-size: 12px;
     min-width: 55px;
   }
@@ -1659,7 +1672,8 @@
     top: 129px;
   }
 
-  .btn.btn-primary {
+  .btn.btn-primary,
+  .data-main-footer-sec .footer-btn button.view_btn {
     min-width: 54px;
     padding: 6px 14px;
   }
@@ -1794,11 +1808,8 @@
   .smartlist-buttons a.btn {
     padding: 6px 14px;
   }
-}
 
-@media only screen and (max-width: 1365px) {
-
-  nav #collapsibleNavbar li.nav-item a,
+  nGetDetailsLayoutav #collapsibleNavbar li.nav-item a,
   .nav-item.user-login .dropdown #dropdown-basic {
     padding: 0 28px;
   }
