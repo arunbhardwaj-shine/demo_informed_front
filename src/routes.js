@@ -168,6 +168,8 @@ import AutoLogout from "./Components/Login/AutoLogout";
 import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
 import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/RegistrationPage";
 import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
+import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
+
 let platform = 0;
 let show = 0;
 
@@ -667,9 +669,13 @@ const Routing = () => {
           path="/bounced-email"
           element={<LoginLayout component={BouncedEmail} />}
         />
-        <Route
+        {/* <Route
           path="/get-details"
           element={<LoginLayout component={GetDetails} />}
+        /> */}
+        <Route
+          path="/get-details"
+          element={<LoginLayout component={GetDetailsLayout} />}
         />
         <Route
           path="/license-content"
