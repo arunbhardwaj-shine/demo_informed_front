@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import ReactDataGrid from "@inovua/reactdatagrid-community";
 import "@inovua/reactdatagrid-community/index.css";
 import { popup_alert } from "../../popup_alert";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper"
 
 const GetMedpakDetails = () => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -81,93 +83,6 @@ const GetMedpakDetails = () => {
                     setData(readers);
                     setHeading(heading);
                     setUpdatedData(readers);
-                    // const filteredData1 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "Yes" &&
-                    //     reader.article_open == "Yes" &&
-                    //     reader.article_register == "Yes"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData2 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "Yes" &&
-                    //     reader.article_open == "Yes" &&
-                    //     reader.article_register == "No"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData3 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "Yes" &&
-                    //     reader.article_open == "No" &&
-                    //     reader.article_register == "Yes"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData4 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "Yes" &&
-                    //     reader.article_open == "No" &&
-                    //     reader.article_register == "No"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData5 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "No" &&
-                    //     reader.article_open == "Yes" &&
-                    //     reader.article_register == "Yes"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData6 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "No" &&
-                    //     reader.article_open == "Yes" &&
-                    //     reader.article_register == "No"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData7 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "No" &&
-                    //     reader.article_open == "No" &&
-                    //     reader.article_register == "Yes"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData8 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "No" &&
-                    //     reader.article_open == "No" &&
-                    //     reader.article_register == "No"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
 
                     setDistributeData(res.data.response.data.distribute_data);
                 } else {
@@ -294,6 +209,7 @@ const GetMedpakDetails = () => {
         e.preventDefault();
         getCampaignReaderDetails(1);
     };
+
     const handleOnCheckedAll = (e) => {
         console.log("e", e?.target?.checked)
 
@@ -319,7 +235,8 @@ const GetMedpakDetails = () => {
                 compaign_id: distributeData?.campaign_id,
                 reminderUsers: reminderChecked
             }
-            console.log("data--->", data)
+            const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
+            console.log("res--->", res)
 
         } catch (err) {
             console.log("--err", err)
