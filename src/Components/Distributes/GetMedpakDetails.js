@@ -420,27 +420,8 @@ const GetMedpakDetails = () => {
                                     </div>
                                     <div className="table_xls search_view sync">
                                         <div className="smart-list-btns">
-                                            <div className="top-left-action">
-                                                <button
-                                                    className="btn btn-primary btn-bordered back"
-                                                    onClick={(e) => syncData(e)}
-                                                >
-                                                    Sync
-                                                    <svg
-                                                        data-name="Layer 1"
-                                                        id="Layer_1"
-                                                        viewBox="0 0 512 512"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        <path
-                                                            fill="#0066be"
-                                                            d="M64,256H34A222,222,0,0,1,430,118.15V85h30V190H355V160h67.27A192.21,192.21,0,0,0,256,64C150.13,64,64,150.13,64,256Zm384,0c0,105.87-86.13,192-192,192A192.21,192.21,0,0,1,89.73,352H157V322H52V427H82V393.85A222,222,0,0,0,478,256Z"
-                                                        />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                            <div className="top-right-action">
-
+                                            <div className="top-left-action d-flex align-items-center" style={{gap:"0 10px"}}>
+                                                
                                                 <div className="search-bar">
                                                     <form
                                                         className="d-flex"
@@ -475,13 +456,35 @@ const GetMedpakDetails = () => {
                                                         ) : null}
                                                     </form>
                                                 </div>
+                                                <button
+                                                    className="btn btn-primary btn-bordered back"
+                                                    onClick={(e) => syncData(e)}
+                                                >
+                                                    Sync
+                                                    <svg
+                                                        data-name="Layer 1"
+                                                        id="Layer_1"
+                                                        viewBox="0 0 512 512"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                        <path
+                                                            fill="#0066be"
+                                                            d="M64,256H34A222,222,0,0,1,430,118.15V85h30V190H355V160h67.27A192.21,192.21,0,0,0,256,64C150.13,64,64,150.13,64,256Zm384,0c0,105.87-86.13,192-192,192A192.21,192.21,0,0,1,89.73,352H157V322H52V427H82V393.85A222,222,0,0,0,478,256Z"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <div className="top-right-action">
+
+                                                
                                                 <div className="all-checked-reminder">
-                                                    <label>Checked</label>
+                                                    
                                                     <input
-                                                        type="checkbox"
+                                                        type="checkbox" id="checked_all"
                                                         checked={Object.values(reminderChecked).every((value) => value === true)}
                                                         onChange={(e) => handleOnCheckedAll(e)}
                                                     />
+                                                    <label for="checked_all">Reminder</label>
 
                                                 </div>
                                                 <div className="save-reminder">
