@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import ReactDataGrid from "@inovua/reactdatagrid-community";
 import "@inovua/reactdatagrid-community/index.css";
 import { popup_alert } from "../../popup_alert";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper"
 
 const GetMedpakDetails = () => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -27,6 +29,7 @@ const GetMedpakDetails = () => {
     const [reminderChecked, setReminderChecked] = useState({})
 
     useEffect(() => {
+        console.log("reminder state-->", reminderChecked)
         setData([]);
         getCampaignReaderDetails(0);
     }, []);
@@ -81,93 +84,6 @@ const GetMedpakDetails = () => {
                     setData(readers);
                     setHeading(heading);
                     setUpdatedData(readers);
-                    // const filteredData1 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "Yes" &&
-                    //     reader.article_open == "Yes" &&
-                    //     reader.article_register == "Yes"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData2 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "Yes" &&
-                    //     reader.article_open == "Yes" &&
-                    //     reader.article_register == "No"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData3 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "Yes" &&
-                    //     reader.article_open == "No" &&
-                    //     reader.article_register == "Yes"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData4 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "Yes" &&
-                    //     reader.article_open == "No" &&
-                    //     reader.article_register == "No"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData5 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "No" &&
-                    //     reader.article_open == "Yes" &&
-                    //     reader.article_register == "Yes"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData6 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "No" &&
-                    //     reader.article_open == "Yes" &&
-                    //     reader.article_register == "No"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData7 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "No" &&
-                    //     reader.article_open == "No" &&
-                    //     reader.article_register == "Yes"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
-                    //
-                    // const filteredData8 = readers.filter((reader) => {
-                    //   if (
-                    //     reader.email_read == "No" &&
-                    //     reader.article_open == "No" &&
-                    //     reader.article_register == "No"
-                    //   ) {
-                    //     setData((oldArray) => [...oldArray, reader]);
-                    //     setUpdatedData((oldArray) => [...oldArray, reader]);
-                    //   }
-                    // });
 
                     setDistributeData(res.data.response.data.distribute_data);
                 } else {
@@ -294,6 +210,7 @@ const GetMedpakDetails = () => {
         e.preventDefault();
         getCampaignReaderDetails(1);
     };
+
     const handleOnCheckedAll = (e) => {
         console.log("e", e?.target?.checked)
 
@@ -319,7 +236,8 @@ const GetMedpakDetails = () => {
                 compaign_id: distributeData?.campaign_id,
                 reminderUsers: reminderChecked
             }
-            console.log("data--->", data)
+            const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
+            console.log("res--->", res)
 
         } catch (err) {
             console.log("--err", err)
@@ -420,8 +338,8 @@ const GetMedpakDetails = () => {
                                     </div>
                                     <div className="table_xls search_view sync">
                                         <div className="smart-list-btns">
-                                            <div className="top-left-action d-flex align-items-center" style={{gap:"0 10px"}}>
-                                                
+                                            <div className="top-left-action d-flex align-items-center" style={{ gap: "0 10px" }}>
+
                                                 <div className="search-bar">
                                                     <form
                                                         className="d-flex"
@@ -476,12 +394,12 @@ const GetMedpakDetails = () => {
                                             </div>
                                             <div className="top-right-action">
 
-                                                
+
                                                 <div className="all-checked-reminder">
-                                                    
+
                                                     <input
                                                         type="checkbox" id="checked_all"
-                                                        checked={Object.values(reminderChecked).every((value) => value === true)}
+                                                        checked={Object.keys(reminderChecked)?.length > 0 && Object.values(reminderChecked).every((value) => value === true)}
                                                         onChange={(e) => handleOnCheckedAll(e)}
                                                     />
                                                     <label for="checked_all">Reminder</label>
