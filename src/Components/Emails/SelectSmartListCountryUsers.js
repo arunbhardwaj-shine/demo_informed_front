@@ -1370,7 +1370,7 @@ const SelectSmartListCountryUsers = (props) => {
                                     </table>
                                     : ""}
                                 <Accordion>
-                                    {Object.keys(countryWiseData?.allCountryData)?.length ? Object.keys(countryWiseData?.allCountryData)?.map((country, index) => {
+                                    {Object.keys(countryWiseData?.allCountryData)?.length ? Object.keys(countryWiseData?.allCountryData)?.filter(country => countryWiseData?.allCountryData[country].length > 0)?.map((country, index) => {
                                         return (
                                             <>
                                                 <Accordion.Item eventKey={index}>
