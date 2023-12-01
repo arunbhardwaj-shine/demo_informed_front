@@ -2,9 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
-
-import TableOnly from "./TableOnly";
-import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
@@ -407,7 +404,6 @@ const SelectSmartListCountryUsers = (props) => {
     };
 
     const sortSelectedUsers = (e, country) => {
-        console.log("users--->", countryWiseData)
         const normalArr = countryWiseData[country];
 
         if (sortingUsers == 0) {
@@ -521,24 +517,6 @@ const SelectSmartListCountryUsers = (props) => {
         }
     };
 
-    const newlyAddedRemoved = (reader, i, country) => {
-        const readersRemoved = removedReaders;
-        setRemovedReaders((oldArray) => [reader, ...oldArray]);
-        const newlyAddedReaderList = JSON.parse(JSON.stringify(newlyAddedCountryWiseData));
-        const removedReader = newlyAddedReaderList[country]?.splice(i, 1);
-
-        setNewlyAddedCountryWiseData(newlyAddedReaderList)
-
-        let merged_array = [reader, ...readersRemoved];
-        old_object.removedHcp = merged_array;
-
-        if (props.getDraftData?.campaign_data) {
-            if (props.getDraftData.campaign_data?.removedHcp) {
-                props.getDraftData.campaign_data.removedHcp = merged_array;
-            }
-        }
-        setUpdate(update + 1);
-    };
 
     const deleteReader = (country, index, i) => {
 
@@ -547,13 +525,7 @@ const SelectSmartListCountryUsers = (props) => {
         const removedReader = readersList[country]?.splice(i, 1);
         setCountryWiseData({ ...countryWiseData, allCountryData: readersList })
         setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-        // let merged_array = [...previous_removed_users, ...removedReader];
-        // old_object.removedHcp = merged_array;
-        // if (props.getDraftData?.campaign_data) {
-        //     if (props.getDraftData.campaign_data?.removedHcp) {
-        //         props.getDraftData.campaign_data.removedHcp = merged_array;
-        //     }
-        // }
+
     };
 
     const deleteCountryData = (selectedCountry) => {
@@ -930,35 +902,6 @@ const SelectSmartListCountryUsers = (props) => {
         });
     };
 
-    // const updateUserByIds = (userIds, updatedDataArray) => {
-    //     const updatedDiscardCountryData = { ...countryWiseData.discardCountryData };
-    //     const updatedAllCountryData = { ...countryWiseData.allCountryData };
-
-    //     userIds.forEach((userId) => {
-    //         const updatedUserData = updatedDataArray.find((data) => data.profile_user_id === userId);
-
-    //         // Remove user from their current country
-    //         Object.entries(updatedDiscardCountryData).forEach(([country, users]) => {
-    //         updatedDiscardCountryData[country] = users.filter((user) => user.profile_user_id !== userId);
-    //         });
-
-    //         Object.entries(updatedAllCountryData).forEach(([country, users]) => {
-    //         updatedAllCountryData[country] = users.filter((user) => user.profile_user_id !== userId);
-    //         });
-
-    //         // Add user to the specified country
-    //         const targetCountry = updatedUserData.country.toUpperCase();
-    //         if (!updatedAllCountryData[targetCountry]) {
-    //             updatedAllCountryData[targetCountry] = [];
-    //         }
-    //         updatedAllCountryData[targetCountry].push({ ...updatedUserData, country: updatedUserData.country });
-    //     });
-
-    //     setCountryWiseData({
-    //         discardCountryData: updatedDiscardCountryData,
-    //         allCountryData: updatedAllCountryData,
-    //     });
-    // };
 
     const updateUserByIds = (userIds, updatedDataArray) => {
         const updatedDiscardCountryData = { ...countryWiseData.discardCountryData };
@@ -1158,7 +1101,7 @@ const SelectSmartListCountryUsers = (props) => {
                                     </div>
                                 </div>
                                 {
-                                    Object.keys(countryWiseData?.discardCountryData)?.length ? 
+                                    Object.keys(countryWiseData?.discardCountryData)?.length ?
                                         <Accordion className="deleted">
                                             {Object.keys(countryWiseData?.discardCountryData)?.length ? Object.keys(countryWiseData?.discardCountryData)?.map((country, index) => {
                                                 return (
@@ -1259,8 +1202,8 @@ const SelectSmartListCountryUsers = (props) => {
                                                 )
                                             }) : ""}
                                         </Accordion>
-                                    : null
-                                }            
+                                        : null
+                                }
                                 {removedReaders?.length ?
                                     <table className="table ">
                                         <thead>
