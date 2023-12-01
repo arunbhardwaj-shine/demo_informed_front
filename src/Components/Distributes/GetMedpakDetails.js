@@ -236,6 +236,7 @@ const GetMedpakDetails = () => {
                 compaign_id: distributeData?.campaign_id,
                 reminderUsers: reminderChecked
             }
+            console.log("data--->", data)
             const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
             console.log("res--->", res)
 
@@ -399,7 +400,7 @@ const GetMedpakDetails = () => {
 
                                                     <input
                                                         type="checkbox" id="checked_all"
-                                                        checked={Object.keys(reminderChecked)?.length > 0 && Object.values(reminderChecked).every((value) => value === true)}
+                                                        // checked={Object.keys(reminderChecked)?.length&&Object.values(reminderChecked).every((value) => value)}
                                                         onChange={(e) => handleOnCheckedAll(e)}
                                                     />
                                                     <label for="checked_all">Reminder</label>
