@@ -29,6 +29,7 @@ const GetMedpakDetails = () => {
     const [reminderChecked, setReminderChecked] = useState({})
 
     useEffect(() => {
+        console.log("reminder state-->", reminderChecked)
         setData([]);
         getCampaignReaderDetails(0);
     }, []);
@@ -337,8 +338,8 @@ const GetMedpakDetails = () => {
                                     </div>
                                     <div className="table_xls search_view sync">
                                         <div className="smart-list-btns">
-                                            <div className="top-left-action d-flex align-items-center" style={{gap:"0 10px"}}>
-                                                
+                                            <div className="top-left-action d-flex align-items-center" style={{ gap: "0 10px" }}>
+
                                                 <div className="search-bar">
                                                     <form
                                                         className="d-flex"
@@ -393,12 +394,12 @@ const GetMedpakDetails = () => {
                                             </div>
                                             <div className="top-right-action">
 
-                                                
+
                                                 <div className="all-checked-reminder">
-                                                    
+
                                                     <input
                                                         type="checkbox" id="checked_all"
-                                                        checked={Object.values(reminderChecked).every((value) => value === true)}
+                                                        checked={Object.keys(reminderChecked)?.length > 0 && Object.values(reminderChecked).every((value) => value === true)}
                                                         onChange={(e) => handleOnCheckedAll(e)}
                                                     />
                                                     <label for="checked_all">Reminder</label>
