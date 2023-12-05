@@ -299,14 +299,14 @@ const PreviewContent = () => {
         } else {
           setPublishStatus(true);
           navigate("/content-detail", {
-            state: { pdfId: articleId },
+            state: { pdfId: articleId,isEdit: isEdit },
           });
         }
         setPdfData(pdfData);
       } else {
         setPublishStatus(true);
         navigate("/content-detail", {
-          state: { pdfId: articleId },
+          state: { pdfId: articleId,isEdit: isEdit },
         });
       }
       setApiCallBackFlag(apiCallBackFlag + 1);

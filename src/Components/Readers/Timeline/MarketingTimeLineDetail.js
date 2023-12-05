@@ -1835,7 +1835,7 @@ const MarketingTimeLineDetail = (props) => {
                       </Tabs>
 
 
-                      {timeLineData?.loadMore?.length ? (
+                      {/* {timeLineData?.loadMore?.length ? (
                         <div className="load_more">
                           <Button
                             className="btn btn-primary btn-filled"
@@ -1844,7 +1844,7 @@ const MarketingTimeLineDetail = (props) => {
                             Load More
                           </Button>
                         </div>
-                      ) : null}
+                      ) : null} */}
 
                     </div>
 

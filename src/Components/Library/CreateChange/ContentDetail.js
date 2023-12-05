@@ -10,8 +10,19 @@ import { useNavigate } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
 import { Button } from "react-bootstrap";
 import QRCode from "qrcode.react";
+import { Modal } from "react-bootstrap";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+import {
+  getEmailData,
+  getDraftData,
+  getSelectedSmartListData,
+} from "../../../actions";
+import { connect } from "react-redux";
 
-const ContentDetail = () => {
+var dxr = 0;
+var pdf_id = 0;
+
+const ContentDetail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [open, setOpen] = useState(false);
   const [openProduction, setOpenProduction] = useState(false);
@@ -32,6 +43,18 @@ const ContentDetail = () => {
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
   );
+  const [isEdit, setIsEdit] = useState(
+    typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
+  );
+
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+    footerButtonSecond: ""
+  });
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
 
   useEffect(() => {
     getLibraryData();
@@ -47,6 +70,9 @@ const ContentDetail = () => {
         }
       }
 
+      dxr = typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId;
+      pdf_id = typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId;
+
       let body = {
         pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
         apiType: "Library",
@@ -54,6 +80,11 @@ const ContentDetail = () => {
       };
 
       const res = await postData(ENDPOINT.LIBRARY, body);
+      // if(typeof (state?.isEdit) !== "undefined" && state?.isEdit !== 1){
+        if(localStorage.getItem('user_id') == 'm5JI5zEDY3xHFTZBnSGQZg=='){
+          messagePopup();
+        }
+      // }
 
       setLibraryData(res?.data?.data?.library);
       let data = "";
@@ -163,6 +194,35 @@ const ContentDetail = () => {
     }
     setQr({ ...qrState, level: e });
   };
+
+  const messagePopup = async() => {
+    console.log("POPUP IS OPEN")
+    setTimeout(function () {
+      setCommonConfirmModelFun(() => userAction);
+      setPopupMessage({
+        message1: "Please select which action you performed with this article.",
+        message2: "",
+        footerButton: "Only upload",
+        footerButtonSecond: "Upload and Email",
+      });
+      setConfirmationPopup(true);
+    }, 800);
+  }
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+
+  const userAction = (val) => {
+    if(val == 'mail'){
+      props.getEmailData({ PdfSelected: articleId });
+      navigate("/CreateEmail", {
+        state: { PdfSelected: articleId },
+      });
+    }else{
+      navigate("/library-content");
+    }
+  }
 
   return (
     <>
@@ -773,8 +833,25 @@ const ContentDetail = () => {
         level={qrState?.level}
         includeMargin={true}
       />
+
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={hideConfirmationModal}
+        fun={commonConfirmModelFun}
+        popupMessage={popupMessage}
+        path_image={path_image}
+      />
     </>
   );
 };
 
-export default ContentDetail;
+const mapStateToProps = (state) => {
+  dxr = state.getEmailData?.PdfSelected;
+  pdf_id = state.getDraftData?.pdf_id;
+  return state;
+};
+
+export default connect(mapStateToProps, {
+  getEmailData: getEmailData,
+  getDraftData: getDraftData,
+})(ContentDetail)

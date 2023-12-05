@@ -68,6 +68,9 @@ const LibraryCreateUser = () => {
     allowVideo: false,
     comDatetime: "",
     cpdValue: "",
+    sold_unsold_status: "sold",
+    request_quote: false,
+    pharmaArr: '',
   });
 
   const [language, setLanguage] = useState([
@@ -101,6 +104,7 @@ const LibraryCreateUser = () => {
   const [userDetail, setUserDetail] = useState({
     user: {},
     production: [],
+    pharmaArr: [],
     sales: [],
     country: [],
     format: [],
@@ -188,6 +192,7 @@ const LibraryCreateUser = () => {
         ...userDetail,
         user: hadData?.data?.data?.user,
         production: hadData?.data?.data?.production,
+        pharmaArr: hadData?.data?.data?.pharma_arr,
         country: country,
         costCenter: hadData?.data?.data?.costCenter,
         sales: hadData?.data?.data?.sale,
@@ -208,7 +213,7 @@ const LibraryCreateUser = () => {
   useEffect(() => {
     initalFun();
   }, []);
-  const handleChange = (e, isSelectedName) => {
+  const handleChange = (e, isSelectedName) => {    
     if (e?.target?.files?.length < 1) {
       return;
     }
@@ -275,7 +280,8 @@ const LibraryCreateUser = () => {
     const err = createContent(
       userInputs,
       ebookFile,
-      userDetail?.user?.[0]?.group_id
+      userDetail?.user?.[0]?.group_id,
+      userDetail?.user?.[0]?.retailer,
     );
 
     if (Object.keys(err)?.length) {
@@ -424,6 +430,12 @@ const LibraryCreateUser = () => {
           tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
         );
 
+        formData.append("request_quote", userInputs?.request_quote ? 1 : 0);
+        formData.append("sold_unsold_status", userInputs?.sold_unsold_status);
+        formData.append(
+          "pharama_val",
+          userInputs?.pharmaArr ? userInputs?.pharmaArr : ""
+        );
         const res = await postFormData(ENDPOINT.LIBRARYCREATE, formData, {
           header: {
             "Content-Type": "multipart/form-data",
@@ -509,6 +521,8 @@ const LibraryCreateUser = () => {
                 });
               }
             }
+
+
             // navigate("/set-popup", {
             //   state: {
             //     pdfId: res?.data?.data?.pdfId,
@@ -798,6 +812,21 @@ const LibraryCreateUser = () => {
                   isClearable
                 />
               </div>
+
+              {
+                 userDetail?.user?.[0]?.retailer == 1  ? 
+                  <div className="form-group">
+                    <label htmlFor="">Pharma</label>
+                    <Select
+                      options={userDetail?.pharmaArr}
+                      onChange={(e) => handleChange(e?.value, "pharmaArr")}
+                      placeholder="Select pharma person"
+                      className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                      isClearable
+                    />
+                  </div>
+                 : null
+              }
 
               {localStorage.getItem("user_id") ==
                 "rOhdD02MgXkownQqcreqAw==" && (
@@ -1205,6 +1234,72 @@ const LibraryCreateUser = () => {
                 */}
                 </fieldset>
               </div>
+
+              {
+                userDetail?.user?.[0]?.retailer == 1  ? 
+                  <>
+                    <div className="form-group">
+                      <label htmlFor="">Status 
+                      {/* <span>*</span> */}
+                      </label>
+                      <fieldset id="group2">
+                        <input
+                          type="radio"
+                          value="sold"
+                          name="sold_unsold_status"
+                          checked={userInputs?.sold_unsold_status == 'sold' ? true : false}
+                          onClick={(e) =>
+                            handleChange('sold', "sold_unsold_status")
+                          }
+                          id="sold"
+                        />
+                        <label htmlFor="sold">Sold</label>
+                        <input
+                          type="radio"
+                          value="unsold"
+                          name="sold_unsold_status"
+                          checked={userInputs?.sold_unsold_status == 'unsold' ? true : false}
+                          onClick={(e) =>
+                            handleChange('unsold', "sold_unsold_status")
+                          }
+                          id="unsold"
+                        />
+                        <label htmlFor="unsold">Unsold</label>
+                      </fieldset>
+                      {error?.status ? (
+                        <div className="login-validation">
+                          {error?.status}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div className="form-group">
+                    <label htmlFor="setasdraft1">Request quote</label>
+                    <fieldset id="request_quote">
+                      <div className="switch">
+                        <label className="switch-light">
+                          <input
+                            type="checkbox"
+                            value="value1"
+                            name="request_quote"
+                            id="setasdraft1"
+                            onChange={(e) => {
+                              handleChange(e.target?.checked, "request_quote");
+                            }}
+                          />
+                          <span>
+                            <span className="switch-btn active">No</span>
+                            <span className="switch-btn ">Yes</span>
+                          </span>
+                          <a className="btn"></a>
+                        </label>
+                      </div>
+                    </fieldset>
+                    </div>
+                  </>
+                
+                : null
+              }
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
               <div className="form-group justify-content-end">
