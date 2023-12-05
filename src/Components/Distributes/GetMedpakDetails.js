@@ -245,12 +245,12 @@ const GetMedpakDetails = () => {
      };
   
      useEffect(() => {
-        const allSingleCheckboxesChecked = data?.every((item) => {
+        const allSingleCheckboxesChecked = data.length > 0 ? data?.every((item) => {
            return (
               item?.article_already_register === 1 ||
               reminderChecked[item.user_id]
            );
-        });
+        }):false;
         setAllChecked(allSingleCheckboxesChecked);
      }, [data, reminderChecked]);
 
@@ -289,8 +289,8 @@ const GetMedpakDetails = () => {
               toast.success("Reminder send to the readers successfully")
                setReminderChecked({})
              
-            //   const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
-            //   console.log("res--->", res);
+              const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
+              console.log("res--->", res);
            } else {
               toast.error("Please select atleast one reader for reminder");
            }
