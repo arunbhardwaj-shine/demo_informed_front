@@ -94,6 +94,7 @@ const entering = (e) => {
         completed: result?.data?.data?.completed,
         notcompleted: result?.data?.data?.notcompleted,
         total: result?.data?.data?.total,
+        pending: result?.data?.data?.pending,
       });
       let newValue = [
         {
@@ -109,12 +110,20 @@ const entering = (e) => {
               color: colors[0],
             },
             {
-              name: "Not Completed",
+              name: "Started",
               y: result?.data?.data?.notcompleted
                 ? result?.data?.data?.notcompleted
                 : 0,
 
-              color: colors[1],
+              color: '#FFBE2C',
+            },
+            {
+              name: "Ignored",
+              y: result?.data?.data?.pending
+                ? result?.data?.data?.pending
+                : 0,
+
+              color: '#f58289',
             },
           ],
         },
