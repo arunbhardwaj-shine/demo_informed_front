@@ -255,7 +255,7 @@ const SelectSmartListCountryUsers = (props) => {
             subject: old_object?.emailSubject
                 ? old_object.emailSubject
                 : props.getDraftData.subject,
-            route_location: "MedpakSelectSmartListUsers",
+            route_location: "SelectSmartListUsers",
             tags: old_object?.tags ? old_object.tags : props.getDraftData.tags,
             campaign_data: {
                 template_id: old_object?.templateId
