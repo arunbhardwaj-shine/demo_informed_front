@@ -27,6 +27,7 @@ const GetMedpakDetails = () => {
     const location = useLocation();
     const { distribute_id } = location.state;
     const [reminderChecked, setReminderChecked] = useState({})
+    const [allChecked, setAllChecked] = useState(false);
 
     useEffect(() => {
         // console.log("reminder state-->", reminderChecked)
@@ -204,23 +205,54 @@ const GetMedpakDetails = () => {
         getCampaignReaderDetails(1);
     };
 
+    // const handleOnCheckedAll = (e) => {
+    //     console.log("e", e?.target?.checked)
+
+    //     data?.map((item) => {
+    //         if (item?.article_already_register !== 1) {
+    //             setReminderChecked(prevData => ({ ...prevData, [item.user_id]: e?.target?.checked }))
+    //         }
+
+    //     })
+    //     console.log(data,'===>data')
+    // }
+
+    // const handleOnReminderChange = (e, item) => {
+    //     let updateReminderChecked = { ...reminderChecked }
+    //     updateReminderChecked[item?.user_id] = e?.target?.checked
+    //     setReminderChecked(updateReminderChecked)
+    // }
+
+
     const handleOnCheckedAll = (e) => {
-        console.log("e", e?.target?.checked)
-
-        data?.map((item) => {
-            if (item?.article_already_register !== 1) {
-                setReminderChecked(prevData => ({ ...prevData, [item.user_id]: e?.target?.checked }))
-            }
-
-        })
-        console.log(data,'===>data')
-    }
-
-    const handleOnReminderChange = (e, item) => {
-        let updateReminderChecked = { ...reminderChecked }
-        updateReminderChecked[item?.user_id] = e?.target?.checked
-        setReminderChecked(updateReminderChecked)
-    }
+        const newAllChecked = e?.target?.checked;
+        setReminderChecked((prevData) => {
+           const updatedChecked = {};
+           data?.forEach((item) => {
+              if (item?.article_already_register !== 1) {
+                 updatedChecked[item.user_id] = newAllChecked;
+              }
+           });
+           return { ...prevData, ...updatedChecked };
+        });
+     };
+  
+     const handleOnReminderChange = (e, item) => {
+        setReminderChecked((prevData) => ({
+           ...prevData,
+           [item?.user_id]: e?.target?.checked,
+        }));
+     };
+  
+     useEffect(() => {
+        const allSingleCheckboxesChecked = data?.every((item) => {
+           return (
+              item?.article_already_register === 1 ||
+              reminderChecked[item.user_id]
+           );
+        });
+        setAllChecked(allSingleCheckboxesChecked);
+     }, [data, reminderChecked]);
 
     const checkedCount = Object.values(reminderChecked).filter(value => value).length;
 
@@ -257,8 +289,8 @@ const GetMedpakDetails = () => {
               toast.success("Reminder send to the readers successfully")
                setReminderChecked({})
              
-              const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
-              console.log("res--->", res);
+            //   const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
+            //   console.log("res--->", res);
            } else {
               toast.error("Please select atleast one reader for reminder");
            }
@@ -420,7 +452,7 @@ const GetMedpakDetails = () => {
                                                   <p for="checked_all">Selected Readers : {checkedCount}</p>
                                                 </div>
 
-                                                <div className="all-checked-reminder">
+                                                {/* <div className="all-checked-reminder">
 
                                                     <input
                                                         type="checkbox" id="checked_all"
@@ -428,7 +460,18 @@ const GetMedpakDetails = () => {
                                                         onChange={(e) => handleOnCheckedAll(e)}
                                                     />
                                                     <label for="checked_all">Reminder</label>
+                                                </div> */}
+
+                                                <div className="all-checked-reminder">
+                                                    <input
+                                                    type="checkbox"
+                                                    id="checked_all"
+                                                    checked={allChecked}
+                                                    onChange={(e) => handleOnCheckedAll(e)}
+                                                    />
+                                                    <label htmlFor="checked_all">Reminder</label>
                                                 </div>
+
 
                                                 <div className="save-reminder">
                                                     <button
@@ -603,7 +646,7 @@ const GetMedpakDetails = () => {
                                                                             )
                                                                         )
                                                                         : ""}
-                                                                    <td>
+                                                                    {/* <td>
                                                                         {item?.article_already_register !== 1 ?
                                                                             <input
                                                                                 type="checkbox"
@@ -611,7 +654,19 @@ const GetMedpakDetails = () => {
                                                                                 onChange={(e) => handleOnReminderChange(e, item)}
                                                                             />
                                                                             : "N/A"}
-                                                                    </td>
+                                                                    </td> */}
+
+                                                                    <td key={item.user_id}>
+                                                                        {item.article_already_register !== 1 ? (
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                checked={reminderChecked[item.user_id] || false}
+                                                                                onChange={(e) => handleOnReminderChange(e, item)}
+                                                                            />
+                                                                        ) : (
+                                                                            'N/A'
+                                                                        )}
+                                                                        </td>
                                                                 </tr>
                                                             ) : (
                                                                 <tr>
