@@ -285,12 +285,26 @@ const GetMedpakDetails = () => {
                  reminderUsers: reminderChecked
               };
       
-              console.log("data--->", data);
-              toast.success("Reminder send to the readers successfully")
-               setReminderChecked({})
+            //   console.log("data--->", data);
+              setReminderChecked({})
+                await axios
+                .post(`emailapi/change-email-reminder`, data)
+                .then((res) => {
+                    if (res.data.status_code == 200) {
+                        toast.success("Reminder send to the readers successfully")
+                    } else {
+                        toast.warning(res.data.message);
+                    }
+                    loader("hide");
+                })
+                .catch((err) => {
+                    loader("hide");
+                    toast.error("Something went wrong");
+                    console.log(err);
+                });
              
-              const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
-              console.log("res--->", res);
+            //   const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
+            //   console.log("res--->", res);
            } else {
               toast.error("Please select atleast one reader for reminder");
            }
