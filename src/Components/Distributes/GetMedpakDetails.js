@@ -29,7 +29,7 @@ const GetMedpakDetails = () => {
     const [reminderChecked, setReminderChecked] = useState({})
 
     useEffect(() => {
-        console.log("reminder state-->", reminderChecked)
+        // console.log("reminder state-->", reminderChecked)
         setData([]);
         getCampaignReaderDetails(0);
     }, []);
@@ -72,31 +72,25 @@ const GetMedpakDetails = () => {
 
                     if (data != undefined && data.heading != undefined) {
                         heading = data.heading;
-
-
                     }
                     else {
-
                         heading.push("Link Open");
-
                     }
 
                     setData(readers);
                     setHeading(heading);
                     setUpdatedData(readers);
-
                     setDistributeData(res.data.response.data.distribute_data);
+
                 } else {
                     toast.warning(res.data.message);
                 }
                 loader("hide");
-                //console.log("here");
             })
             .catch((err) => {
                 loader("hide");
                 toast.error("Something went wrong");
                 console.log(err);
-                //  / console.log("here");
             });
     };
 
@@ -168,7 +162,6 @@ const GetMedpakDetails = () => {
         }
 
         setSortingCount(0);
-
         setData(normalArr);
         setSortingEmail(1 - sortingEmail);
         setSortingCountEmail(sortingCountEmail + 1);
@@ -220,32 +213,61 @@ const GetMedpakDetails = () => {
             }
 
         })
+        console.log(data,'===>data')
     }
+
     const handleOnReminderChange = (e, item) => {
         let updateReminderChecked = { ...reminderChecked }
         updateReminderChecked[item?.user_id] = e?.target?.checked
         setReminderChecked(updateReminderChecked)
-
     }
+
+    const checkedCount = Object.values(reminderChecked).filter(value => value).length;
+
+    // const saveReminderMail = async () => {
+    //     try {
+    //         loader("show")
+    //         let data = {
+    //             distribute_id: distributeData?.distribute_id,
+    //             compaign_id: distributeData?.campaign_id,
+    //             reminderUsers: reminderChecked
+    //         }
+    //         console.log("data--->", data)
+    //         // const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
+    //         // console.log("res--->", res)
+
+    //     } catch (err) {
+    //         console.log("--err", err)
+    //     } finally {
+    //         loader("hide")
+    //     }
+    // }
 
     const saveReminderMail = async () => {
         try {
-            loader("show")
-            let data = {
-                distribute_id: distributeData?.distribute_id,
-                compaign_id: distributeData?.campaign_id,
-                reminderUsers: reminderChecked
-            }
-            const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
-            console.log("res--->", res)
-
+           loader("show");
+           if (Object.values(reminderChecked).some(value => value)) {
+              let data = {
+                 distribute_id: distributeData?.distribute_id,
+                 compaign_id: distributeData?.campaign_id,
+                 reminderUsers: reminderChecked
+              };
+      
+              console.log("data--->", data);
+              toast.success("Reminder send to the readers successfully")
+               setReminderChecked({})
+             
+              const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
+              console.log("res--->", res);
+           } else {
+              toast.error("Please select atleast one reader for reminder");
+           }
         } catch (err) {
-            console.log("--err", err)
+           console.log("--err", err);
         } finally {
-            loader("hide")
+           loader("hide");
         }
-
-    }
+     };
 
     return (
         <>
@@ -394,17 +416,20 @@ const GetMedpakDetails = () => {
                                             </div>
                                             <div className="top-right-action">
 
+                                               <div className="all-checked-reminder">
+                                                  <p for="checked_all">Selected Readers : {checkedCount}</p>
+                                                </div>
 
                                                 <div className="all-checked-reminder">
 
                                                     <input
                                                         type="checkbox" id="checked_all"
-                                                        checked={Object.keys(reminderChecked)?.length > 0 && Object.values(reminderChecked).every((value) => value === true)}
+                                                         // checked={Object.keys(reminderChecked)?.length&&Object.values(reminderChecked).every((value) => value)}
                                                         onChange={(e) => handleOnCheckedAll(e)}
                                                     />
                                                     <label for="checked_all">Reminder</label>
-
                                                 </div>
+
                                                 <div className="save-reminder">
                                                     <button
                                                         type="button"
