@@ -58,6 +58,8 @@ const WebinarRegistration = () => {
   const [showModal, setModal] = useState(false);
   const [showExtensionModal, setExtensionModal] = useState(false);
   const [isFormChange, setIsFormChange] = useState(false);
+  const [isDataSaved, setIsDataSaved] = useState(true);
+  const [isSavedClicked, setIsSavedClicked] = useState(false);
   const [rawData, setRawData] = useState({});
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [popupMessage, setPopupMessage] = useState({
@@ -209,6 +211,10 @@ const WebinarRegistration = () => {
         });
       }
       const newFormData = hadData?.content ? JSON.parse(hadData?.content) : [];
+      console.log(newFormData?.length,"newFormData?.length");
+      if(newFormData?.length==0){
+        setIsDataSaved(false);
+      }
       dynamicFieldNo = newFormData?.totalFieldNo
         ? newFormData?.totalFieldNo
         : dynamicFieldNo;
@@ -338,6 +344,7 @@ const WebinarRegistration = () => {
 
   const handleSelectChange = async (event) => {
     console.log(event);
+    setIsDataSaved(false)
     await getWebinarData(event.code);
     setEventCode(event.code)
     setSelectedItem(event);
@@ -769,6 +776,10 @@ const WebinarRegistration = () => {
     if (e) {
       e.preventDefault();
     }
+    if (!formData?.templateId) {
+      setShowModalPreview(true);
+      return;
+    }
     console.log(eventData, "====>formData");
 // return;
     setFormData(formData);
@@ -795,29 +806,33 @@ const WebinarRegistration = () => {
         ENDPOINT.CREATE_WEBINAR_REGISTRATION,
         data
       );
-      setFormData({
-        title: "",
-        pageTitle: "",
-        bodyText: "",
-        logoImageUrl: "",
-        headerImageUrl: "",
-        body: [],
-        footerImageUrl: "",
-        labelColor: "",
-        optionColor: "",
-        backgroundColor: "",
-      });
+      // setFormData({
+      //   title: "",
+      //   pageTitle: "",
+      //   bodyText: "",
+      //   logoImageUrl: "",
+      //   headerImageUrl: "",
+      //   body: [],
+      //   footerImageUrl: "",
+      //   labelColor: "",
+      //   optionColor: "",
+      //   backgroundColor: "",
+      // });
 
-      setFile("");
-      setFoot("");
-      setLogo("");
+      // setFile("");
+      // setFoot("");
+      // setLogo("");
+      setIsDataSaved(true);
+
     } catch (err) {
       console.error("--err", err);
     } finally {
       loader("hide");
     }
     if (e) {
-      navigate("/event-listing");
+      // navigate("/event-listing");
+      // setIsSavedClicked(true)
+      toast.success("Your changes has been saved successfully !")
     } else {
       setIsFormChange(false);
       setConfirmationPopup(false);
@@ -1073,10 +1088,14 @@ const WebinarRegistration = () => {
                 <div className="top-right-action">
                   <div className="d-flex justify-content-center header_btns">
                     <a
-                      className="copy_link btn-voilet"
+                      className={`copy_link btn-voilet ${!isDataSaved ?"disabled": ""}`}
                       href={`event-registration?event=${event_code}`}
                       onClick={(e) => {
+                        
                         e.preventDefault();
+                        if (!isDataSaved) {
+                        return;
+                        }
                         console.dir();
                         let newLink = `${
                           e.currentTarget.host
@@ -2804,6 +2823,43 @@ const WebinarRegistration = () => {
           </>
         </Modal.Body>
       </Modal>
+
+      {/* <Modal
+        className="modal send-confirm"
+        id="delete-confirm"
+        show={isSavedClicked}
+        onHide={()=>{
+          setIsSavedClicked(false)
+        }}
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={()=>{
+              setIsSavedClicked(false)
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <>
+            <img src={path_image + "success.png"} alt="" />
+            <h4>Data saved successfully!</h4>
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered"
+                onClick={()=>{
+                  setIsSavedClicked(false)
+                }}
+              >
+                Okay
+              </button>
+            </div>
+          </>
+        </Modal.Body>
+      </Modal> */}
     </>
   );
 };

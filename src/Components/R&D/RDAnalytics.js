@@ -981,7 +981,9 @@ const RDAnalytics = () => {
                                     ? "Started"
                                     : item?.training_status_code == "2"
                                     ? "Not yet"
-                                    : null}
+                                    : item?.training_status_code == "3"
+                                    ? "Ignored"
+                                    :null}
                                 </td>
 
                                 <td>
@@ -1011,12 +1013,17 @@ const RDAnalytics = () => {
                                 <tr className={"fold show"}>
                                   <td colspan="6">
                                     <div className="fold-content">
-                                      <p>
-                                        Completed Contents |{" "}
-                                        <span>
-                                          {trainingDropdownData?.length}
-                                        </span>
-                                      </p>
+                                      {
+                                        trainingDropdownData?.length == 0 ?
+                                          <p>No Data Found</p>
+                                        :
+                                          <p>
+                                            Completed Contents |{" "}
+                                            <span>
+                                              {trainingDropdownData?.length}
+                                            </span>
+                                          </p>
+                                      }
                                       {/* <span>
                                         Click on the content for more details
                                       </span> */}

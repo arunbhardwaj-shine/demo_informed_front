@@ -1145,13 +1145,71 @@ const PharmaMarketing = () => {
     });
   };
 
-  const handleBigCircleClick = (moduleName, index) => {
-    let newObj = { "user select the module": moduleName }
-    userTrackingFun(newObj)
+  // const handleBigCircleClick = (moduleName, index) => {
+  //   let newObj = { "user select the module": moduleName }
+  //   userTrackingFun(newObj)
 
+  //   const bigCircleData = bigCircleModules[index];
+  //   setShowBigCircleData(true);
+
+  //   if (showBigCircleData) {
+  //     setAddClass(false);
+  //     setBigModuleData((prevState) => ({
+  //       active: moduleName === activeModule ? !prevState.active : true,
+  //       logoIconPath: bigCircleData?.logo,
+  //       heading: bigCircleData?.title,
+  //       ppt: bigCircleData?.ppt,
+  //       imagePath: bigCircleData?.image,
+  //       detail: bigCircleData?.description,
+  //       paragraph: bigCircleData?.para,
+  //       highlights: bigCircleData?.features,
+  //     }));
+  //     setActiveModule(moduleName === activeModule ? null : moduleName);
+  //   } else {
+  //     setShowBigCircleData(false);
+  //     setActiveModule(moduleName === activeModule ? null : moduleName);
+  //     const visibleModules = document.querySelectorAll(".stat.visible");
+  //     const visibleModuleNames = Array.from(visibleModules).map((module) => {
+  //       const classNames = module.className.split(" ");
+  //       return classNames[classNames.length - 2];
+  //     });
+  //     setSelectedModules((prevState) => {
+  //       const isPreviouslySelected = prevState.includes(moduleName);
+  //       const updatedModules = isPreviouslySelected
+  //         ? prevState.filter((item) => item !== moduleName)
+  //         : [...prevState, moduleName];
+  //       const stats = document.querySelectorAll(".stat");
+  //       stats.forEach((stat) => {
+  //         if (stat.classList.contains(moduleName)) {
+  //           stat.classList.toggle("visible");
+  //           stat.classList.toggle("active");
+  //         }
+  //       });
+  //       return updatedModules;
+  //     });
+  //   }
+  // };
+
+
+  const handleBigCircleClick = (moduleName, index) => {
+    const moduleDiscribeDiv = document.querySelector('.module-discribe');
+    const isModuleDiscribeRequest = moduleDiscribeDiv ? moduleDiscribeDiv.classList.contains('request') : false;
+  
+    const moduleVisibilityStates = {};
+    document.querySelectorAll('.stat').forEach((stat) => {
+      const classNames = stat.className.split(' ');
+      const module = classNames[classNames.length - 2];
+      moduleVisibilityStates[module] = stat.classList.contains('visible');
+    });
+  
+    const isVisible = moduleVisibilityStates[moduleName];
+    const trackingMessage = isModuleDiscribeRequest ? (isVisible ? 'user deselect the module' : 'user select the module') : 'user select the module';
+    const trackingObj = { [trackingMessage]: moduleName };
+    userTrackingFun(trackingObj);
+  
     const bigCircleData = bigCircleModules[index];
     setShowBigCircleData(true);
-
+  
     if (showBigCircleData) {
       setAddClass(false);
       setBigModuleData((prevState) => ({
@@ -1168,9 +1226,9 @@ const PharmaMarketing = () => {
     } else {
       setShowBigCircleData(false);
       setActiveModule(moduleName === activeModule ? null : moduleName);
-      const visibleModules = document.querySelectorAll(".stat.visible");
+      const visibleModules = document.querySelectorAll('.stat.visible');
       const visibleModuleNames = Array.from(visibleModules).map((module) => {
-        const classNames = module.className.split(" ");
+        const classNames = module.className.split(' ');
         return classNames[classNames.length - 2];
       });
       setSelectedModules((prevState) => {
@@ -1178,18 +1236,18 @@ const PharmaMarketing = () => {
         const updatedModules = isPreviouslySelected
           ? prevState.filter((item) => item !== moduleName)
           : [...prevState, moduleName];
-        const stats = document.querySelectorAll(".stat");
+        const stats = document.querySelectorAll('.stat');
         stats.forEach((stat) => {
           if (stat.classList.contains(moduleName)) {
-            stat.classList.toggle("visible");
-            stat.classList.toggle("active");
+            stat.classList.toggle('visible');
+            stat.classList.toggle('active');
           }
         });
         return updatedModules;
       });
     }
   };
-
+  
   useEffect(() => {
     const stats = document.querySelectorAll(".stat");
     stats?.forEach((stat) => {
