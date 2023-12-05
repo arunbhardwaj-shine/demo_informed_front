@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import Select from "react-select";
 import axios from "axios";
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
 const userData = {
   name: "userName",
   email: "userEmail",
