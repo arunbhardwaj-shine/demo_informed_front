@@ -234,6 +234,27 @@ const SelectSmartListCountryUsers = (props) => {
     };
 
     const saveAsDraft = async () => {
+        let allCountryData = []
+        let discardCountryData = []
+        for (const key in countryWiseData) {
+            let data = countryWiseData[key]
+            if (key == "allCountryData") {
+                for (const key2 in data) {
+                    data[key2].map((data) => {
+                        allCountryData.push(data)
+                    })
+
+                }
+            }
+            else {
+                for (const key2 in data) {
+                    data[key2].map((data) => {
+                        discardCountryData.push(data)
+                    })
+
+                }
+            }
+        }
         const body = {
             user_id: localStorage.getItem("user_id"),
             pdf_id: old_object?.PdfSelected
@@ -266,13 +287,13 @@ const SelectSmartListCountryUsers = (props) => {
                     : props.getDraftData.campaign_data.smart_list_id,
                 //smart_list_data: readers,
                 // users_list : smartListSelected,
-                selectedHcp: [...readers, ...readersNewlyAdded],
+                selectedHcp: allCountryData,
                 list_selection: old_object?.selected
                     ? old_object.selected
                     : props.getDraftData?.campaign_data?.list_selection
                         ? props.getDraftData.campaign_data.list_selection
                         : 0,
-                removedHcp: removedReaders,
+                removedHcp: [removedReaders,...discardCountryData],
             },
             campaign_id: campaign_id_st,
             source_code: old_object?.template
