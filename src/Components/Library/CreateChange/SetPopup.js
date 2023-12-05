@@ -357,7 +357,7 @@ const SetPopup = (props) => {
         });
       } else {
         navigate("/content-detail", {
-          state: { pdfId: articleId },
+          state: { pdfId: articleId, isEdit: isEdit },
         });
       }
     } catch (err) {

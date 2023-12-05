@@ -327,44 +327,86 @@ const VerifyMAIL = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //loader("show");
       setShowProgressBar(true);
-      await axios
-        .post(`emailapi/send_email`, body)
-        .then((res) => {
-          // loader("hide");
-          if (res.data.status_code === 200) {
-            setUploadOrDownloadCount(100);
-            clearInterval(timer);
-            setTimeout(() => {
-              popup_alert({
-                visible: "show",
-                message: "Mail sent successfully",
-                type: "success",
-                redirect: "/EmailList",
-              });
+      if(localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg=='){
+        await axios
+          .post(`emailapi/send_email_new`, body)
+          .then((res) => {
+            // loader("hide");
+            if (res.data.status_code === 200) {
+              setUploadOrDownloadCount(100);
+              clearInterval(timer);
+              setTimeout(() => {
+                popup_alert({
+                  visible: "show",
+                  message: "Mail sent successfully",
+                  type: "success",
+                  redirect: "/EmailList",
+                });
+                setUploadOrDownloadCount(0);
+                setMailsIncrement(0);
+  
+                setShowProgressBar(false);
+              }, 1000);
+            } else {
+              clearInterval(timer);
               setUploadOrDownloadCount(0);
               setMailsIncrement(0);
-
+  
               setShowProgressBar(false);
-            }, 1000);
-          } else {
+              popup_alert({
+                visible: "show",
+                message: res.data.message,
+                type: "error",
+              });
+            }
+          })
+          .catch((err) => {
             clearInterval(timer);
-            setUploadOrDownloadCount(0);
-            setMailsIncrement(0);
-
             setShowProgressBar(false);
-            popup_alert({
-              visible: "show",
-              message: res.data.message,
-              type: "error",
-            });
-          }
-        })
-        .catch((err) => {
-          clearInterval(timer);
-          setShowProgressBar(false);
-          toast.error("Something went wrong");
-          console.log(err);
-        });
+            toast.error("Something went wrong");
+            console.log(err);
+          });
+      }else{
+
+        await axios
+          .post(`emailapi/send_email`, body)
+          .then((res) => {
+            // loader("hide");
+            if (res.data.status_code === 200) {
+              setUploadOrDownloadCount(100);
+              clearInterval(timer);
+              setTimeout(() => {
+                popup_alert({
+                  visible: "show",
+                  message: "Mail sent successfully",
+                  type: "success",
+                  redirect: "/EmailList",
+                });
+                setUploadOrDownloadCount(0);
+                setMailsIncrement(0);
+  
+                setShowProgressBar(false);
+              }, 1000);
+            } else {
+              clearInterval(timer);
+              setUploadOrDownloadCount(0);
+              setMailsIncrement(0);
+  
+              setShowProgressBar(false);
+              popup_alert({
+                visible: "show",
+                message: res.data.message,
+                type: "error",
+              });
+            }
+          })
+          .catch((err) => {
+            clearInterval(timer);
+            setShowProgressBar(false);
+            toast.error("Something went wrong");
+            console.log(err);
+          });
+      }
     }
   };
 
@@ -396,7 +438,11 @@ const VerifyMAIL = (props) => {
       typeof getSmartListData !== "undefined" &&
       getSmartListData.hasOwnProperty("id")
     ) {
-      navigate("/SelectSmartListUsers");
+      navigate("/SelectSmartListUsers",{
+        state: {
+         ...location?.state
+      },
+      });
     } else {
       navigate("/VerifyHCP");
     }

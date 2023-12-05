@@ -1374,7 +1374,7 @@ const NewReaders = () => {
       } else {
         const index = changeCountry.findIndex((el) => el.index === reader_id);
 
-        let country = "";
+        //let country = "";
         if (index !== -1) {
           country = changeCountry[index].value;
         }
@@ -1392,15 +1392,12 @@ const NewReaders = () => {
 
       if (Object.keys(body)?.length !== 0) {
         const res = await postData(ENDPOINT.READERSTATUSUPDATE, body);
-
         const libDataIndex = readerDataList.findIndex(
           (el) => el?.id === reader_id
         );
-
         if (country !== "") {
           readerDataList[libDataIndex].country = country;
         }
-
         if (type !== "") {
           let userTypeValue = userTypeValues?.[type];
           readerDataList[libDataIndex].user_status = userTypeValue;

@@ -111,7 +111,7 @@ import SelectHCP from "./Components/Emails/SelectHCP";
 import VerifyMAIL from "./Components/Emails/VerifyMAIL";
 import VerifyHcpMAIL from "./Components/Emails/VerifyHcpMAIL";
 import SelectSmartList from "./Components/Emails/SelectSmartList";
-import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
+// import SelectSmartListUsers from "./Components/Emails/SelectSmartListUsers";
 import UploadExcel from "./Components/Distributes/SmartListComponent/UploadExcel";
 import EmailStatss from "./Components/Distributes/EmailStatss";
 import GetDetails from "./Components/Distributes/GetDetails";
@@ -167,6 +167,9 @@ import PollListing from "./Components/Webinar/Survey/PollListing";
 import AutoLogout from "./Components/Login/AutoLogout";
 import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
 import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/RegistrationPage";
+import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
+import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
+
 let platform = 0;
 let show = 0;
 
@@ -510,7 +513,7 @@ const Routing = () => {
           element={<LoginLayout component={SpcCreate} />}
         />
         {localStorage.getItem("user_id") ==
-        "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
+          "56Ek4feL/1A8mZgIKQWEqg==" ? null : (
           <Route
             path="/products"
             element={<LoginLayout component={Products} />}
@@ -532,7 +535,7 @@ const Routing = () => {
           path="/event-registration"
           element={<LoginLayout component={RegistrationPage} />}
         /> */}
-                  <Route  path="/event-registration" element={<RegistrationPage />} />
+        <Route path="/event-registration" element={<RegistrationPage />} />
 
         <Route
           path="/contact-form"
@@ -630,9 +633,13 @@ const Routing = () => {
           path="/VerifyHcpMAIL"
           element={<LoginLayout component={VerifyHcpMAIL} />}
         />
-        <Route
+        {/* <Route
           path="/SelectSmartListUsers"
           element={<LoginLayout component={SelectSmartListUsers} />}
+        /> */}
+        <Route
+          path="/SelectSmartListUsers"
+          element={<LoginLayout component={SelectSmartListUsersLayout} />}
         />
         <Route
           path="/VerifySmartList"
@@ -662,9 +669,13 @@ const Routing = () => {
           path="/bounced-email"
           element={<LoginLayout component={BouncedEmail} />}
         />
-        <Route
+        {/* <Route
           path="/get-details"
           element={<LoginLayout component={GetDetails} />}
+        /> */}
+        <Route
+          path="/get-details"
+          element={<LoginLayout component={GetDetailsLayout} />}
         />
         <Route
           path="/license-content"

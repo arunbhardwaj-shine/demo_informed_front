@@ -285,29 +285,57 @@ const VerifyHcpMAIL = (props) => {
       };
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
-      await axios
-        .post(`emailapi/send_email`, body)
-        .then((res) => {
-          loader("hide");
-          if (res.data.status_code === 200) {
-            popup_alert({
-              visible: "show",
-              message: "Mail sent successfully",
-              type: "success",
-              redirect: "/EmailList",
-            });
-          } else {
-            popup_alert({
-              visible: "show",
-              message: res.data.message,
-              type: "error",
-            });
-          }
-        })
-        .catch((err) => {
-          toast.error("Something went wrong");
-          console.log(err);
-        });
+      if(localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg=='){
+        await axios
+          .post(`emailapi/send_email_new`, body)
+          .then((res) => {
+            loader("hide");
+            if (res.data.status_code === 200) {
+              popup_alert({
+                visible: "show",
+                message: "Mail sent successfully",
+                type: "success",
+                redirect: "/EmailList",
+              });
+            } else {
+              popup_alert({
+                visible: "show",
+                message: res.data.message,
+                type: "error",
+              });
+            }
+          })
+          .catch((err) => {
+            loader("hide");
+            toast.error("Something went wrong");
+            console.log(err);
+          });
+      }else{
+        await axios
+          .post(`emailapi/send_email`, body)
+          .then((res) => {
+            loader("hide");
+            if (res.data.status_code === 200) {
+              popup_alert({
+                visible: "show",
+                message: "Mail sent successfully",
+                type: "success",
+                redirect: "/EmailList",
+              });
+            } else {
+              popup_alert({
+                visible: "show",
+                message: res.data.message,
+                type: "error",
+              });
+            }
+          })
+          .catch((err) => {
+            toast.error("Something went wrong");
+            loader("hide");
+            console.log(err);
+          });
+      }
     }
   };
 

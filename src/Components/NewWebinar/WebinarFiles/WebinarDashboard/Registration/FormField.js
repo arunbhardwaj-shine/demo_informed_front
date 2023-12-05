@@ -194,7 +194,6 @@ const FormField = ({
                 />
                 <label
                   style={{
-                    textTransform: "capitalize",
                     color: pageColors?.labelColor,
                   }}
                   htmlFor={label + index}
@@ -252,7 +251,6 @@ const FormField = ({
                 />
                 <label
                   style={{
-                    textTransform: "capitalize",
                     color: pageColors?.labelColor,
                   }}
                   htmlFor={label + index}
@@ -293,7 +291,6 @@ const FormField = ({
       <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
         <label
           style={{
-            textTransform: "capitalize",
             color: pageColors?.labelColor,
           }}
         >
