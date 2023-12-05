@@ -285,8 +285,7 @@ const GetMedpakDetails = () => {
                  reminderUsers: reminderChecked
               };
       
-            //   console.log("data--->", data);
-              setReminderChecked({})
+            //   setReminderChecked({})
                 await axios
                 .post(`emailapi/change-email-reminder`, data)
                 .then((res) => {
