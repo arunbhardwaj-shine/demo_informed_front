@@ -349,6 +349,7 @@ const CreateEmail = (props) => {
       ibu: "",
       content_included: content_included,
       siteContent: siteContent,
+      pdf: pdf_id,
     };
 
     loader("show");
@@ -358,6 +359,16 @@ const CreateEmail = (props) => {
         setTemplateList(res.data.response.data);
         getSelectedTemplateSource(res.data.response.data);
         setCounter(counter + 1);
+
+
+        setTimeout(function () {
+          const div_img = document.querySelector("#template_dyn0");
+          if (div_img !== null && typeof div_img != "undefined") {
+            div_img.click();
+          }
+        }, 400);
+
+
       })
       .catch((err) => {
         console.log(err);
@@ -429,7 +440,7 @@ const CreateEmail = (props) => {
     ) {
       if (typeof dd !== "undefined") {
         let getSpecificKeyData = dd.find(
-          (e) => e.id === props.getDraftData.campaign_data.template_id
+          (e) => e.id === props?.getDraftData?.campaign_data?.template_id
         );
         if (
           getSpecificKeyData &&
@@ -2043,7 +2054,7 @@ const CreateEmail = (props) => {
                             onClick={(e) => templateClicked(template, e)}
                           >
                             <img
-                              id={"template_dyn" + template.id}
+                              id={"template_dyn" + index }
                               src={template.template_img}
                               alt=""
                               className={
