@@ -16,6 +16,11 @@ const CommonConfirmModel = ({
   const handleCollection = () => {
     fun(resetDataId);
   };
+
+  const mailprocess = () => {
+    fun('mail');
+  }
+
   return (
     <>
       <Modal
@@ -51,13 +56,25 @@ const CommonConfirmModel = ({
                 {popupMessage?.footerButton}
               </button>
 
-              <button
-                type="button"
-                className="btn btn-primary btn-bordered"
-                onClick={handleClose}
-              >
-                Cancel
-              </button>
+              {
+                popupMessage?.footerButtonSecond 
+                ?
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-bordered"
+                    onClick={mailprocess}
+                  >
+                    {popupMessage?.footerButtonSecond}
+                  </button>
+                :
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-bordered"
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </button>
+              }
             </div>
           </>
         </Modal.Body>
