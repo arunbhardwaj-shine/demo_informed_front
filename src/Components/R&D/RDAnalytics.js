@@ -779,7 +779,7 @@ const RDAnalytics = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'example.xlsx';
+      a.download = 'site_data.xlsx';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
