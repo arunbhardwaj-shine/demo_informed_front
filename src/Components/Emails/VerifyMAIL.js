@@ -396,7 +396,11 @@ const VerifyMAIL = (props) => {
       typeof getSmartListData !== "undefined" &&
       getSmartListData.hasOwnProperty("id")
     ) {
-      navigate("/SelectSmartListUsers");
+      navigate("/SelectSmartListUsers",{
+        state: {
+         ...location?.state
+      },
+      });
     } else {
       navigate("/VerifyHCP");
     }

@@ -22,6 +22,7 @@ const CommonAddEventModel = ({
   const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [timeHours, setTimeHours] = useState([
+    { label: "Select", value: "Select" },
     { label: "00 ", value: "00" },
     { label: "01 ", value: "01" },
     { label: "02 ", value: "02" },
@@ -48,6 +49,7 @@ const CommonAddEventModel = ({
     { label: "23 ", value: "23" },
   ]);
   const [timeMinutes, setTimeMinutes] = useState([
+    { label: "Select", value: "Select" },
     { label: "00 ", value: "00" },
     { label: "05 ", value: "05" },
     { label: "10 ", value: "10" },
@@ -134,9 +136,7 @@ const CommonAddEventModel = ({
       });
     } else {
       setEventInputs({
-        dateEnd: new Date(
-          moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
-        ),
+        dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
         dateEnd: new Date(
           moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
         ),
@@ -172,7 +172,7 @@ const CommonAddEventModel = ({
   };
   const handleChange = (e, isSelectedName) => {
     const { name, value } = e?.target || {};
-  
+
     if (name === 'event_code') {
       setEventInputs({
         ...eventInputs,
@@ -183,16 +183,17 @@ const CommonAddEventModel = ({
         ...eventInputs,
         [isSelectedName || name]: isSelectedName ? e : value,
       };
-  
+
       if (isSelectedName === 'dateStart') {
         updatedInputs.dateEnd = isSelectedName ? e : value;
       }
-  
+
       setEventInputs(updatedInputs);
     }
   };
-  
+
   const saveClicked = async (e) => {
+
     try {
       const error = EventModelValidation(eventInputs);
       if (Object.keys(error)?.length) {
@@ -299,12 +300,12 @@ const CommonAddEventModel = ({
                                 placeholder="Event title"
                                 className={error?.title ? "form-control error" : "form-control"}
                                 onChange={(e) => handleChange(e)}
-                                value={eventInputs?.title ? eventInputs?.title : ""}/>
-                                {error?.title ? (
-                                  <div className="login-validation">
-                                    {error?.title}
-                                  </div>
-                                ) : null}
+                                value={eventInputs?.title ? eventInputs?.title : ""} />
+                              {error?.title ? (
+                                <div className="login-validation">
+                                  {error?.title}
+                                </div>
+                              ) : null}
                             </div>
                           </div>
                           <div className="col-12 col-md-12">
@@ -419,17 +420,17 @@ const CommonAddEventModel = ({
                                 value={
                                   meetingOptions
                                     ? meetingOptions.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.meeting_type
+                                    ) != -1
+                                      ? meetingOptions[
+                                      meetingOptions.findIndex(
                                         (item) =>
                                           item?.value ==
                                           eventInputs?.meeting_type
-                                      ) != -1
-                                      ? meetingOptions[
-                                          meetingOptions.findIndex(
-                                            (item) =>
-                                              item?.value ==
-                                              eventInputs?.meeting_type
-                                          )
-                                        ]
+                                      )
+                                      ]
                                       : ""
                                     : ""
                                 }
@@ -459,15 +460,15 @@ const CommonAddEventModel = ({
                                 value={
                                   ibuOptions
                                     ? ibuOptions.findIndex(
+                                      (item) =>
+                                        item?.value == eventInputs?.type
+                                    ) != -1
+                                      ? ibuOptions[
+                                      ibuOptions.findIndex(
                                         (item) =>
                                           item?.value == eventInputs?.type
-                                      ) != -1
-                                      ? ibuOptions[
-                                          ibuOptions.findIndex(
-                                            (item) =>
-                                              item?.value == eventInputs?.type
-                                          )
-                                        ]
+                                      )
+                                      ]
                                       : ""
                                     : ""
                                 }
@@ -500,16 +501,16 @@ const CommonAddEventModel = ({
                                 value={
                                   timezoneOptions
                                     ? timezoneOptions.findIndex(
-                                        (item) =>
-                                          item?.value == eventInputs?.timezone
-                                      ) != -1
+                                      (item) =>
+                                        item?.value == eventInputs?.timezone
+                                    ) != -1
                                       ? timezoneOptions[
-                                          timezoneOptions.findIndex(
-                                            (item) =>
-                                              item?.value ==
-                                              eventInputs?.timezone
-                                          )
-                                        ]
+                                      timezoneOptions.findIndex(
+                                        (item) =>
+                                          item?.value ==
+                                          eventInputs?.timezone
+                                      )
+                                      ]
                                       : ""
                                     : ""
                                 }
@@ -543,17 +544,17 @@ const CommonAddEventModel = ({
                                 value={
                                   countryTimezone
                                     ? countryTimezone?.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.country_timezone
+                                    ) != -1
+                                      ? countryTimezone[
+                                      countryTimezone?.findIndex(
                                         (item) =>
                                           item?.value ==
                                           eventInputs?.country_timezone
-                                      ) != -1
-                                      ? countryTimezone[
-                                          countryTimezone?.findIndex(
-                                            (item) =>
-                                              item?.value ==
-                                              eventInputs?.country_timezone
-                                          )
-                                        ]
+                                      )
+                                      ]
                                       : ""
                                     : ""
                                 }
@@ -590,12 +591,12 @@ const CommonAddEventModel = ({
                                       eventInputs?.is_client_stream
                                   ) != -1
                                     ? clientStreamOptions[
-                                        clientStreamOptions?.findIndex(
-                                          (item) =>
-                                            item?.label ==
-                                            eventInputs?.is_client_stream
-                                        )
-                                      ]
+                                    clientStreamOptions?.findIndex(
+                                      (item) =>
+                                        item?.label ==
+                                        eventInputs?.is_client_stream
+                                    )
+                                    ]
                                     : ""
                                 }
                                 isClearable
@@ -657,10 +658,10 @@ const CommonAddEventModel = ({
                                   eventInputs?.dateStart
                                     ? new Date(eventInputs?.dateStart)
                                     : new Date(
-                                        moment(new Date(), "MM/DD/YYYY").format(
-                                          "MM/DD/YYYY"
-                                        )
+                                      moment(new Date(), "MM/DD/YYYY").format(
+                                        "MM/DD/YYYY"
                                       )
+                                    )
                                 }
                                 onChange={(date) =>
                                   handleChange(date, "dateStart")
@@ -674,7 +675,7 @@ const CommonAddEventModel = ({
                                 </div>
                               ) : null}
                             </div>
-                          </div> 
+                          </div>
                           <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
@@ -693,16 +694,16 @@ const CommonAddEventModel = ({
                                   eventInputs?.dateEnd
                                     ? new Date(eventInputs?.dateEnd)
                                     : new Date(
-                                        moment(new Date(), "MM/DD/YYYY").format(
-                                          "MM/DD/YYYY"
-                                        )
+                                      moment(new Date(), "MM/DD/YYYY").format(
+                                        "MM/DD/YYYY"
                                       )
+                                    )
                                 }
                                 onChange={(date) =>
                                   handleChange(date, "dateEnd")
                                 }
                                 minDate={eventInputs.dateStart || currentDate}
-                                  dateFormat="dd/MM/yyyy"
+                                dateFormat="dd/MM/yyyy"
                               />
                               {error?.dateEnd ? (
                                 <div className="login-validation">
@@ -733,12 +734,12 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateStartHour
                                   ) != -1
                                     ? timeHours[
-                                        timeHours?.findIndex(
-                                          (item) =>
-                                            item?.value ==
-                                            eventInputs?.dateStartHour
-                                        )
-                                      ]
+                                    timeHours?.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.dateStartHour
+                                    )
+                                    ]
                                     : timeHours[0]
                                 }
                                 isClearable
@@ -760,12 +761,12 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateStartMin
                                   ) != -1
                                     ? timeMinutes[
-                                        timeMinutes?.findIndex(
-                                          (item) =>
-                                            item?.value ==
-                                            eventInputs?.dateStartMin
-                                        )
-                                      ]
+                                    timeMinutes?.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.dateStartMin
+                                    )
+                                    ]
                                     : timeMinutes[0]
                                 }
                                 isClearable
@@ -800,12 +801,12 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateEndHour
                                   ) != -1
                                     ? timeHours[
-                                        timeHours?.findIndex(
-                                          (item) =>
-                                            item?.value ==
-                                            eventInputs?.dateEndHour
-                                        )
-                                      ]
+                                    timeHours?.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.dateEndHour
+                                    )
+                                    ]
                                     : timeHours[0]
                                 }
                                 isClearable
@@ -828,12 +829,12 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateEndMin
                                   ) != -1
                                     ? timeMinutes[
-                                        timeMinutes?.findIndex(
-                                          (item) =>
-                                            item?.value ==
-                                            eventInputs?.dateEndMin
-                                        )
-                                      ]
+                                    timeMinutes?.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.dateEndMin
+                                    )
+                                    ]
                                     : timeMinutes[0]
                                 }
                                 isClearable

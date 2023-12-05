@@ -21,6 +21,7 @@ import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
+import { toast } from "react-toastify";
 
 const PharmaRd = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -854,10 +855,6 @@ const PharmaRd = () => {
   };
 
   const handleReadClick = async (event) => {
-    // localStorage.setItem('publisherRegistered', 'true');
-    // setPublisherRegistered(true);
-    // setAddDivClass(false);
-    // setAddSmallClass(true);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs, 1);
     if (Object.keys(err)?.length) {
@@ -915,18 +912,19 @@ const PharmaRd = () => {
         updateTrackUser?.push(newObj)
         setUserTrackDetail(updateTrackUser)
         setPayloadData(data);
-        localStorage.setItem('publisherRegistered', 'true');
-        setPublisherRegistered(true);
-        setAddDivClass(false);
-        setAddSmallClass(true);
         var root = document.getElementsByTagName('html')[0];
         root.classList.remove('scrollerClass');
         const dataPublisherString = JSON.stringify(data);
-        localStorage.setItem('payloadPublisherData', dataPublisherString);
+
         const res = await postData(ENDPOINT.REGISTER, data);
         if (res?.data?.data?.user_id) {
           localStorage.setItem("userId", res?.data?.data?.user_id)
           userTrackingFun(userTrackDetail)
+          setPublisherRegistered(true);
+          setAddDivClass(false);
+          setAddSmallClass(true);
+          localStorage.setItem('publisherRegistered', 'true');
+          localStorage.setItem('payloadPublisherData', dataPublisherString);
         }
         let obj = {};
         loader("hide");
@@ -937,6 +935,15 @@ const PharmaRd = () => {
       } catch (err) {
         console.log(err);
         loader("hide");
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     }
   };
@@ -965,8 +972,7 @@ const PharmaRd = () => {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
-    console.log("big circle click")
-    let newObj = { "user clicked on module": moduleName }
+    let newObj = { "user select the module": moduleName }
     userTrackingFun(newObj)
     const bigCircleData = bigCircleModules[index];
     setShowBigCircleData(true);
@@ -1080,19 +1086,23 @@ const PharmaRd = () => {
       try {
         const payloadDataPharmaString = localStorage.getItem('payloadPublisherData');
         const payloadData = JSON.parse(payloadDataPharmaString);
-        // const res = await postData(ENDPOINT.REGISTER, {
-        let data = {
+        const res = await postData(ENDPOINT.REGISTER, {
+        // let data = {
           ...payloadData,
           message: moduleFormInputs?.message?.trim(),
           secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
           secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
           modules: selectedModules,
-          // ppt: downloadedPpts,
           type: "modules",
+        // }
+        });
+        let submitData= {
+          message: moduleFormInputs?.message?.trim(),
+          secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
+          secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         }
-        let newObj = { "user submit with below information": data }
+        let newObj = { "user submit the data": submitData }
         userTrackingFun(newObj)
-        // });
         let obj = {};
         loader("hide");
         setEmailError(null);
@@ -1116,8 +1126,7 @@ const PharmaRd = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-    console.log("big circle close")
-    let newObj = { "user unselect": activeModule }
+    let newObj = { "user deselect the module": activeModule }
     userTrackingFun(newObj)
     var root = document.getElementsByTagName('html')[0];
     root.classList.remove('scrollerClass');
@@ -2929,7 +2938,7 @@ const PharmaRd = () => {
                             <img
                               src={path_image + "webinar-small-icon.svg"}
                               alt=""
-                              
+
                             />
                             <span>Webinar Portal</span>
                             {activeModule === "webinar" && (
@@ -2997,15 +3006,15 @@ const PharmaRd = () => {
                                   : "stat read"
                             }
                             style={{ "--i": "15" }}
-                          // onClick={() => handleBigCircleClick("read", 0)}
-                          onClick={(event) => {
-                            if (event.target.closest(".article-close")) {
-                              handleBigCircleClose();
-                            } else {
-                              handleBigCircleClick("read", 0)
-                            }
-                            event.stopPropagation();
-                          }}
+                            // onClick={() => handleBigCircleClick("read", 0)}
+                            onClick={(event) => {
+                              if (event.target.closest(".article-close")) {
+                                handleBigCircleClose();
+                              } else {
+                                handleBigCircleClick("read", 0)
+                              }
+                              event.stopPropagation();
+                            }}
                           >
                             <img src={path_image + "RTR-icon.svg"} alt="" />
                             <span>Read-Through -Rate</span>
