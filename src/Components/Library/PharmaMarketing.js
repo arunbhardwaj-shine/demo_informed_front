@@ -23,6 +23,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { toast } from "react-toastify";
 
 const PharmaMarketing = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -929,7 +930,6 @@ const PharmaMarketing = () => {
   const colourStyles = {
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
       // const color = chroma(data.color);
-      // console.log({ data, isDisabled, isFocused, isSelected });
       return {
         ...styles,
         backgroundColor: isFocused ? "#0066BE" : null,
@@ -1026,12 +1026,6 @@ const PharmaMarketing = () => {
   };
 
   const handleReadClick = async (event) => {
-    // var root = document.getElementsByTagName( 'html' )[0];
-    //   root.classList.remove('scrollerClass');
-    // localStorage.setItem('pharmaRegistered', 'true');
-    // setPharmaRegistered(true);
-    // setAddSmallClass(true);
-    // setAddDivClass(false);
     event.preventDefault();
     const err = HomeValidation(registerFormInputs, 1);
     if (Object.keys(err)?.length) {
@@ -1081,7 +1075,6 @@ const PharmaMarketing = () => {
           country: registerFormInputs?.country?.trim(),
           consent: consent,
           consent_type: consentType,
-          // before_register_module_clicked:readMoreClicked,
           register_type: "pharmaRegistered",
           type: "register",
         };
@@ -1090,19 +1083,19 @@ const PharmaMarketing = () => {
         updateTrackUser?.push(newObj)
         setUserTrackDetail(updateTrackUser)
         setPayloadData(data);
-        localStorage.setItem('pharmaRegistered', 'true');
-        setPharmaRegistered(true);
-        setAddSmallClass(true);
-        setAddDivClass(false);
         var root = document.getElementsByTagName('html')[0];
         root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
-        localStorage.setItem('payloadPharmaData', dataPharmaString);
         const res = await postData(ENDPOINT.REGISTER, data);
         console.log("res--->", res)
         if (res?.data?.data?.user_id) {
           localStorage.setItem("userId", res?.data?.data?.user_id)
           userTrackingFun(userTrackDetail)
+          setPharmaRegistered(true);
+          setAddSmallClass(true);
+          setAddDivClass(false);
+          localStorage.setItem('payloadPharmaData', dataPharmaString);
+          localStorage.setItem('pharmaRegistered', 'true');
         }
 
         let obj = {};
@@ -1114,7 +1107,17 @@ const PharmaMarketing = () => {
         setReadMoreClicked([])
       } catch (err) {
         console.log(err);
+
         loader("hide");
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     }
   };
@@ -1143,8 +1146,7 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClick = (moduleName, index) => {
-   console.log('Big Circle click')
-    let newObj = { "user clicked on module": moduleName }
+    let newObj = { "user select the module": moduleName }
     userTrackingFun(newObj)
 
     const bigCircleData = bigCircleModules[index];
@@ -1258,24 +1260,25 @@ const PharmaMarketing = () => {
       loader("show");
       // loader("show");
       try {
-
         const payloadDataPharmaString = localStorage.getItem('payloadPharmaData');
         const payloadData = JSON.parse(payloadDataPharmaString);
-        // const res = await postData(ENDPOINT.REGISTER, {
-        let data = {
+        const res = await postData(ENDPOINT.REGISTER, {
+        // let data = {
           ...payloadData,
           message: moduleFormInputs?.message?.trim(),
           secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
           secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
           modules: selectedModules,
-          // after_register_module_clicked:readMoreClicked,
-          // ppt: downloadedPpts,
           type: "modules",
-        }
-        let newObj = { "user submit with below information": data }
+        // }
+         });
+         let submitData = {
+          message: moduleFormInputs?.message?.trim(),
+          secondaryEmail: moduleFormInputs?.secondaryEmail?.trim(),
+          secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
+         }
+        let newObj = { "user submit the data": submitData }
         userTrackingFun(newObj)
-
-        //  });
         let obj = {};
         loader("hide");
         setEmailError(null);
@@ -1300,8 +1303,7 @@ const PharmaMarketing = () => {
   };
 
   const handleBigCircleClose = (moduleName, index) => {
-    console.log('Big Circle close')
-    let newObj = { "user unselect": activeModule }
+    let newObj = { "user deselect the module": activeModule }
     userTrackingFun(newObj)
     var root = document.getElementsByTagName('html')[0];
     root.classList.remove('scrollerClass');
@@ -1396,7 +1398,6 @@ const PharmaMarketing = () => {
     console.log("func--->", newObj)
     try {
       const res = await postData(ENDPOINT.USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
-      // console.log("res-->", res?.data)
       if (res?.data?.message == "insert") {
         localStorage.setItem("trackingId", res?.data?.data?.trackingId)
       }
@@ -2889,8 +2890,8 @@ const PharmaMarketing = () => {
                             }}
                             style={{ "--i": "1" }}
                           >
-                             <img src={path_image + "rating-icon.svg"} alt="" /> 
-                           <span>Rating Tool</span> 
+                            <img src={path_image + "rating-icon.svg"} alt="" />
+                            <span>Rating Tool</span>
                             {activeModule === "rating" && (
                               <div className="article-close">
                                 <img
@@ -3077,7 +3078,7 @@ const PharmaMarketing = () => {
                                   }}
                                 />
                               </div>
-                            ) }
+                            )}
                           </div>
 
                           <div

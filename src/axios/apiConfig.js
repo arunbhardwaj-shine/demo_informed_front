@@ -135,7 +135,6 @@ export const ENDPOINT = {
   FEEDBACKLISTINGMESSAGE: `/analytics/feedback-messages`,
   FEEDBACKIMPORT: `/analytics/download-feedback-excel`,
   QUESTIONUPDATE: `/analytics/update_question_reply`,
-  REGISTER: "/auth/register_module",
   ADD_QUESTION: "/webinar/add-question",
   EDIT_QUESTION: "/webinar/update-question",
   EVENT_LIST: "/webinar/get-event-list",
@@ -149,5 +148,6 @@ export const ENDPOINT = {
   CREATE_WEBINAR_REGISTRATION: "/webinar/create_registration",
   GET_REGISTRATION_FORM: "/webinar/getRegistrationFormByEventId",
   UPDATELOGS: "/reader/update-logs",
-  USER_TRACKING:"/auth/pharma-marketing-tracking"
+  USER_TRACKING:"/auth/pharma-marketing-tracking",
+  GET_EMAIL_REMINDER:"http://192.168.0.162:8000/api/emailapi/change-email-reminder"
 };
