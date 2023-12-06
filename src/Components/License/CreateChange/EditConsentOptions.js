@@ -994,7 +994,7 @@ const EditConsentOptions = (props) => {
 
   const downloadFile = () => {
     let link = document.createElement("a");
-    link.href = "https://webinar.informed.pro/sample.xls";
+    link.href = "https://webinar.informed.pro/sample.xlsx";
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";

@@ -245,12 +245,12 @@ const GetMedpakDetails = () => {
      };
   
      useEffect(() => {
-        const allSingleCheckboxesChecked = data?.every((item) => {
+        const allSingleCheckboxesChecked = data.length > 0 ? data?.every((item) => {
            return (
               item?.article_already_register === 1 ||
               reminderChecked[item.user_id]
            );
-        });
+        }):false;
         setAllChecked(allSingleCheckboxesChecked);
      }, [data, reminderChecked]);
 
@@ -285,9 +285,22 @@ const GetMedpakDetails = () => {
                  reminderUsers: reminderChecked
               };
       
-              console.log("data--->", data);
-              toast.success("Reminder send to the readers successfully")
-               setReminderChecked({})
+            //   setReminderChecked({})
+                await axios
+                .post(`emailapi/change-email-reminder`, data)
+                .then((res) => {
+                    if (res.data.status_code == 200) {
+                        toast.success("Reminder send to the readers successfully")
+                    } else {
+                        toast.warning(res.data.message);
+                    }
+                    loader("hide");
+                })
+                .catch((err) => {
+                    loader("hide");
+                    toast.error("Something went wrong");
+                    console.log(err);
+                });
              
             //   const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
             //   console.log("res--->", res);

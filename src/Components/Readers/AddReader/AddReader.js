@@ -701,7 +701,7 @@ const ReaderAdd = () => {
     if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
     } else {
-      link.href = "https://webinar.informed.pro/sample.xls";
+      link.href = "https://webinar.informed.pro/sample.xlsx";
     }
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
