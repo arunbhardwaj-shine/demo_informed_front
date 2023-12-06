@@ -293,7 +293,7 @@ const VerifyHcpMAIL = (props) => {
             if (res.data.status_code === 200) {
               popup_alert({
                 visible: "show",
-                message: "Mail sent successfully",
+                message: res.data.message,
                 type: "success",
                 redirect: "/EmailList",
               });
@@ -318,7 +318,7 @@ const VerifyHcpMAIL = (props) => {
             if (res.data.status_code === 200) {
               popup_alert({
                 visible: "show",
-                message: "Mail sent successfully",
+                message: res.data.message,
                 type: "success",
                 redirect: "/EmailList",
               });
