@@ -282,7 +282,8 @@ const GetMedpakDetails = () => {
               let data = {
                  distribute_id: distributeData?.distribute_id,
                  compaign_id: distributeData?.campaign_id,
-                 reminderUsers: reminderChecked
+                 reminderUsers: reminderChecked,
+                 user_id: localStorage.getItem("user_id"),
               };
       
             //   setReminderChecked({})
