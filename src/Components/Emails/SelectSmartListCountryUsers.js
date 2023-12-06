@@ -19,12 +19,16 @@ const SelectSmartListCountryUsers = (props) => {
     const navigate = useNavigate();
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation();
-    const selectedHcp = location.state
-        ? location.state.selectedHcp :
-        [];
-    const removedHcp = location.state
-        ? location.state.removedHcp :
-        [];
+    const selectedHcp = location.state?.selectedHcp
+        ? location.state?.selectedHcp :
+        props.getDraftData?.campaign_data?.selectedHcp
+            ? props.getDraftData?.campaign_data?.selectedHcp :
+            [];
+    const removedHcp = location.state?.removedHcp
+        ? location.state?.removedHcp :
+        props.getDraftData?.campaign_data?.removedHcp
+            ? props.getDraftData?.campaign_data?.removedHcp :
+            [];
 
     const [readers, setReaders] = useState([]);
     const [campaign_id_st, setCampaign_id] = useState();
@@ -293,8 +297,9 @@ const SelectSmartListCountryUsers = (props) => {
                     : props.getDraftData?.campaign_data?.list_selection
                         ? props.getDraftData.campaign_data.list_selection
                         : 0,
-                removedHcp: [removedReaders,...discardCountryData],
+                removedHcp: [...removedReaders, ...discardCountryData],
             },
+
             campaign_id: campaign_id_st,
             source_code: old_object?.template
                 ? old_object.template
@@ -553,7 +558,6 @@ const SelectSmartListCountryUsers = (props) => {
         if (countryWiseData.allCountryData[selectedCountry]) {
             // Remove selected country data from allCountryData
             const updatedAllCountryData = { ...countryWiseData.allCountryData };
-            console.log(updatedAllCountryData, "updatedAllCountryData");
             if (Object.keys(updatedAllCountryData).length > 1) {
                 const discardedData = updatedAllCountryData[selectedCountry];
                 delete updatedAllCountryData[selectedCountry];
