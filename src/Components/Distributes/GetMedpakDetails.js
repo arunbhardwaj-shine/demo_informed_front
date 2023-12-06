@@ -46,6 +46,7 @@ const GetMedpakDetails = () => {
         await axios
             .post(`distributes/get_campaign_readers_details`, body)
             .then((res) => {
+                console.log(res.data.response.data.readers,'===>reminder')
                 if (res.data.status_code == 200) {
                     if (flag == 1) {
                         setData([]);
@@ -82,6 +83,14 @@ const GetMedpakDetails = () => {
                     setHeading(heading);
                     setUpdatedData(readers);
                     setDistributeData(res.data.response.data.distribute_data);
+
+                    const updatedReminderChecked = {};
+                    readers.forEach((user) => {
+                       if (user.reminder === 1) {
+                          updatedReminderChecked[user.user_id] = true;
+                       }
+                    });
+                    setReminderChecked((prevData) => ({ ...prevData, ...updatedReminderChecked }));
 
                 } else {
                     toast.warning(res.data.message);
@@ -277,42 +286,41 @@ const GetMedpakDetails = () => {
 
     const saveReminderMail = async () => {
         try {
-           loader("show");
-           if (Object.values(reminderChecked).some(value => value)) {
+           loader('show');
+           if (Object.values(reminderChecked).some((value) => value)) {
               let data = {
                  distribute_id: distributeData?.distribute_id,
                  compaign_id: distributeData?.campaign_id,
-                 reminderUsers: reminderChecked
+                 reminderUsers: reminderChecked,
               };
-      
-            //   setReminderChecked({})
-                await axios
-                .post(`emailapi/change-email-reminder`, data)
-                .then((res) => {
-                    if (res.data.status_code == 200) {
-                        toast.success("Reminder send to the readers successfully")
+     
+              await axios
+                 .post(`emailapi/change-email-reminder`, data)
+                 .then((res) => {
+                    console.log("Response from the server:", res);
+                    if (res.data.status_code === 200) {
+                       toast.success("Reminder sent to the readers successfully");
                     } else {
-                        toast.warning(res.data.message);
+                       toast.warning(res.data.message);
                     }
-                    loader("hide");
-                })
-                .catch((err) => {
-                    loader("hide");
+                    loader('hide');
+                 })
+                 .catch((err) => {
+                    loader('hide');
                     toast.error("Something went wrong");
                     console.log(err);
-                });
-             
-            //   const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
-            //   console.log("res--->", res);
+                 });
+                 //   const res = await postData(ENDPOINT.GET_EMAIL_REMINDER, data)
+                //   console.log("res--->", res);
            } else {
-              toast.error("Please select atleast one reader for reminder");
+              toast.error("Please select at least one reader for reminder");
            }
         } catch (err) {
            console.log("--err", err);
         } finally {
-           loader("hide");
+           loader('hide');
         }
-     };
+    };
 
     return (
         <>
@@ -475,17 +483,6 @@ const GetMedpakDetails = () => {
                                                     <label for="checked_all">Reminder</label>
                                                 </div> */}
 
-                                                <div className="all-checked-reminder">
-                                                    <input
-                                                    type="checkbox"
-                                                    id="checked_all"
-                                                    checked={allChecked}
-                                                    onChange={(e) => handleOnCheckedAll(e)}
-                                                    />
-                                                    <label htmlFor="checked_all">Reminder</label>
-                                                </div>
-
-
                                                 <div className="save-reminder">
                                                     <button
                                                         type="button"
@@ -497,6 +494,17 @@ const GetMedpakDetails = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div className="d-flex justify-content-end">
+                                    <div className="all-checked-reminder">
+                                        <input
+                                        type="checkbox"
+                                        id="checked_all"
+                                        checked={allChecked}
+                                        onChange={(e) => handleOnCheckedAll(e)}
+                                        />
+                                        <label htmlFor="checked_all">Select All</label>
+                                    </div>
                                     </div>
                                     <div className="table_xls">
                                         <table className="table" id="table-to-xls">
