@@ -12,7 +12,6 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SessionModel = ({ show, onClose, data, eventData }) => {
   const [searchParams] = useSearchParams();
   let parms=searchParams.get('evnt');
-   console.log(parms);
   const [user, setUser] = useState([]);
   const [userValid, setUserValid] = useState({});
   const [userSpeaker, setSpeaker] = useState({});
@@ -119,6 +118,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
     initiFun();
     setError({});
   }, [show]);
+  const shouldAddClass = parms && parms.includes("eahad_2024");
   return (
     <Modal
       id="pollModel"
@@ -126,7 +126,8 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
       // onHide={onClose}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
-      className="session-modal"
+      // className="session-modal"
+      className={`session-modal ${shouldAddClass ? "eahad_2024" : ""}`}
       centered
     >
       <Modal.Header>
