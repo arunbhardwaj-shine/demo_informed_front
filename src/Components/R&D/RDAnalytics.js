@@ -713,6 +713,17 @@ const RDAnalytics = () => {
       pic.remove();
     });
 
+    // Remove the td whose class is infocol in exportTable
+    const infocol = exportTable.getElementsByClassName("infocol");
+    Array.from(infocol).forEach((infocol) => {
+      infocol.remove();
+    });
+
+    const infotd = exportTable.getElementsByClassName("infotd");
+    Array.from(infotd).forEach((infotd) => {
+      infotd.remove();
+    });
+
     // Remove the img element from the td with class="active-irt"
     const activeIRTRows = exportTable.getElementsByClassName("doctor");
     Array.from(activeIRTRows).forEach((row) => {
@@ -929,6 +940,11 @@ const RDAnalytics = () => {
                           <th>Role</th>
                           <th>Training</th>
                           <th>Last activity</th>
+                          <th className="infotd">&nbsp;</th>
+                          <th className="non_display">First email sent</th>
+                          <th className="non_display">Last email sent</th>
+                          <th className="non_display">Total reminders sent</th>
+                          {/* <th className="non_display">Bounce back</th> */}
                           <th>&nbsp;</th>
                         </tr>
                       </thead>
@@ -991,6 +1007,55 @@ const RDAnalytics = () => {
                                     ? item.last_activity
                                     : "NA"}
                                 </td>
+
+                                <td className="infocol">
+                                  <img className="info_img" src="componentAssets/images/user_info.svg" alt=""/>
+                                  <div className="extra_info">
+                                    <p>
+                                       <span>First email sent:</span> 
+                                       {item?.date_first_email_sent ? item.date_first_email_sent : "NA"}
+                                    </p>
+
+                                    <p>
+                                      <span>Last email sent:</span> 
+                                      {item?.date_last_email_sent ? item.date_last_email_sent : "NA"}
+                                    </p>
+
+                                    <p>
+                                      <span>Total reminders sent:</span> 
+                                      {item?.reminders_sent ? item.reminders_sent : 0}
+                                    </p>
+
+                                    {/* <p>
+                                      <span>Bounce back:</span> 
+                                      {item?.bounced ? item.bounced : "NA"}
+                                    </p> */}
+                                  </div>
+                                </td>
+
+                                <td className="non_display">
+                                  {item?.date_first_email_sent
+                                    ? item.date_first_email_sent
+                                    : "NA"}
+                                </td>
+
+                                <td className="non_display">
+                                  {item?.date_last_email_sent
+                                    ? item.date_last_email_sent
+                                    : "NA"}
+                                </td>
+
+                                <td className="non_display">
+                                  {item?.reminders_sent
+                                    ? item.reminders_sent
+                                    : 0}
+                                </td>
+
+                                {/* <td className="non_display">
+                                  {item?.bounced
+                                    ? item.bounced
+                                    : "NA"}
+                                </td> */}
 
                                 <td className="pics">
                                   {item?.training_status_code === 0 ? (
