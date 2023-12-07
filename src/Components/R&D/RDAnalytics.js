@@ -944,7 +944,7 @@ const RDAnalytics = () => {
                           <th className="non_display">First email sent</th>
                           <th className="non_display">Last email sent</th>
                           <th className="non_display">Total reminders sent</th>
-                          {/* <th className="non_display">Bounce back</th> */}
+                          <th className="non_display">Bounce back</th>
                           <th>&nbsp;</th>
                         </tr>
                       </thead>
@@ -1026,10 +1026,10 @@ const RDAnalytics = () => {
                                       {item?.reminders_sent ? item.reminders_sent : 0}
                                     </p>
 
-                                    {/* <p>
+                                    <p>
                                       <span>Bounce back:</span> 
                                       {item?.bounced ? item.bounced : "NA"}
-                                    </p> */}
+                                    </p>
                                   </div>
                                 </td>
 
@@ -1051,11 +1051,11 @@ const RDAnalytics = () => {
                                     : 0}
                                 </td>
 
-                                {/* <td className="non_display">
+                                <td className="non_display">
                                   {item?.bounced
                                     ? item.bounced
                                     : "NA"}
-                                </td> */}
+                                </td>
 
                                 <td className="pics">
                                   {item?.training_status_code === 0 ? (
@@ -1334,7 +1334,7 @@ const RDAnalytics = () => {
                                 </tr>
                               ) : null}
                               <tr className="blank">
-                                <td colspan="6" style={{ height: "10px;" }}>
+                                <td colspan="7" style={{ height: "10px;" }}>
                                   &nbsp;
                                 </td>
                               </tr>
