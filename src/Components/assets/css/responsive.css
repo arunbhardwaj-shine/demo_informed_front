@@ -1282,6 +1282,9 @@
     position: static;
     margin-bottom: 10px;
   }
+    .session-modal #pollModel .popup-content {
+      max-height: 58vh;
+    }
 }
 
 @media only screen and (max-width: 1365px) {

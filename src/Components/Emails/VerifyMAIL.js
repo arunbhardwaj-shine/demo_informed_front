@@ -338,7 +338,7 @@ const VerifyMAIL = (props) => {
               setTimeout(() => {
                 popup_alert({
                   visible: "show",
-                  message: res.data.message,
+                  message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
                   type: "success",
                   redirect: "/EmailList",
                 });
@@ -355,7 +355,7 @@ const VerifyMAIL = (props) => {
               setShowProgressBar(false);
               popup_alert({
                 visible: "show",
-                message: res.data.message,
+                message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
                 type: "error",
               });
             }
