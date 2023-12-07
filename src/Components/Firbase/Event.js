@@ -1,6 +1,6 @@
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import EventModel from "../../Model/EventModel";
@@ -18,6 +18,10 @@ import {db} from "../../config/firebaseConfig"
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const Event = () =>{
     const location = useLocation();
+    const [searchParams] = useSearchParams();
+   let parms=searchParams.get('evnt');
+    console.log(parms);
+
     const queryParams = new URLSearchParams(location.search);   
     const [eventId,setEvent] = useState({
         id:0,
@@ -286,9 +290,10 @@ const Event = () =>{
        
         <div>
             {/* <img src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png" /> */}
-            <img src={path_image+'FVIII_logo.png'} alt="Logo" />
+            {/* <img src={path_image+'FVIII_logo.png'} alt="Logo" /> */}
+            <img  src={`${parms?.includes("eahad_2024")?"https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png":path_image+'FVIII_logo.png'}`}alt="Factor logo" />
         </div>
-       
+      
     </div>
     <div className="question-block-form">
 
@@ -324,9 +329,18 @@ const Event = () =>{
                 </div>
             </div>
         </form> 
+        {parms?.includes("eahad_2024") ? <div className="copy-right-bottom-text">
+            <p></p>
+        </div> : (
         <div className="copy-right-bottom-text">
             <p>Preparation date: 7-8 December 2023</p>
         </div>
+        )}
+        
+        {/* <div className="copy-right-bottom-text">
+            <p>Preparation date: 7-8 December 2023</p>
+        </div> */}
+
     </div>
 </div>
 </div>
