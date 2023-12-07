@@ -1334,7 +1334,7 @@ const RDAnalytics = () => {
                                 </tr>
                               ) : null}
                               <tr className="blank">
-                                <td colspan="6" style={{ height: "10px;" }}>
+                                <td colspan="7" style={{ height: "10px;" }}>
                                   &nbsp;
                                 </td>
                               </tr>
