@@ -66,7 +66,7 @@ const Event = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      if (!user.question.trim()) {
+      if (Object.keys(user).length === 0 || !user.question?.trim()) {
         setError({ question: "Please enter your question" });
         return;
       } else {
