@@ -6,8 +6,12 @@ import axios from "axios";
 import { postData } from "../axios/apiHelper";
 import { ENDPOINT } from "../axios/apiConfig";
 import { loader } from "../loader";
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SessionModel = ({ show, onClose, data, eventData }) => {
+  const [searchParams] = useSearchParams();
+  let parms=searchParams.get('evnt');
   const [user, setUser] = useState([]);
   const [userValid, setUserValid] = useState({});
   const [userSpeaker, setSpeaker] = useState({});
@@ -114,6 +118,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
     initiFun();
     setError({});
   }, [show]);
+  const shouldAddClass = parms && parms.includes("eahad_2024");
   return (
     <Modal
       id="pollModel"
@@ -121,16 +126,18 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
       // onHide={onClose}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
-      className="session-modal"
+      // className="session-modal"
+      className={`session-modal ${shouldAddClass ? "eahad_2024" : ""}`}
       centered
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          <img
+          {/* <img
             // src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
             src={path_image+'FVIII_logo.png'} 
             alt="logo"
-          />
+          /> */}
+          <img  src={`${parms?.includes("eahad_2024")?"https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png":path_image+'FVIII_logo.png'}`}alt="Factor logo" />
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

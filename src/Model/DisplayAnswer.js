@@ -3,10 +3,12 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 let  colors= ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"] 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 function DisplayAnswer({ show, data, onClose, readerCount, customAnswer }) {
-
+  const [searchParams] = useSearchParams();
+  let parms=searchParams.get('evnt');
   const [userCount,setUserCount] = useState(0) 
   let chartOptions = '';
 if(customAnswer == 1){
@@ -178,17 +180,19 @@ if(customAnswer == 1){
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
   });
+  const shouldAddClass = parms && parms.includes("eahad_2024");
   return (
     <>
-      <Modal show={show} backdrop="static"      onHide={onClose}
+      <Modal show={show} backdrop="static" onHide={onClose}  className={`${shouldAddClass ? "eahad_2024" : ""}`}
       keyboard={false} id="pollModel1">
       <Modal.Header closeButton>
       <Modal.Title id="contained-modal-title-vcenter">
-          <img
+          {/* <img
             // src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
             src={path_image+'FVIII_logo.png'} 
             alt="logo"
-          />
+          /> */}
+           <img  src={`${parms?.includes("eahad_2024")?"https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png":path_image+'FVIII_logo.png'}`}alt="Factor logo" />
         </Modal.Title>
       </Modal.Header>
         <Modal.Body>

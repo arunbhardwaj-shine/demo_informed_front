@@ -8839,7 +8839,7 @@ html {
 
   .session-modal #pollModel .popup-content {
     padding-right: 4px;
-    max-height: 64vh;
+    max-height: 62vh;
   }
 
   .session-modal ::-webkit-scrollbar {
