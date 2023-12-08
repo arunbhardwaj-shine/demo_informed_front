@@ -561,7 +561,13 @@ const SelectSmartListCountryUsers = (props) => {
             setCountryWiseData({ ...countryWiseData, allCountryData: readersList })
             setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
         }else {
-            toast.warning("There must be at least one user present.");
+            // toast.warning("There must be at least one user present.");
+            popup_alert({
+                visible: "show",
+                message: "There must be at least one user or delete the country",
+                type: "error",
+                redirect: "",
+              });
         }
     };
 
@@ -582,7 +588,13 @@ const SelectSmartListCountryUsers = (props) => {
                     allCountryData: updatedAllCountryData,
                 }));
             } else {
-                toast.warning("There must be at least one country present.");
+                // toast.warning("There must be at least one country present.");
+                popup_alert({
+                    visible: "show",
+                    message: "There must be at least one country or delete the smart list",
+                    type: "error",
+                    redirect: "",
+                  });
             }
 
         } else {
