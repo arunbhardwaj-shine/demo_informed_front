@@ -1380,7 +1380,19 @@ const EmailList = (props) => {
                                   </>
                                 )}
                               </div>
-                            ) : (
+                            ) : 
+                              data.status == 5 ? (
+                                <div className="mailbox-buttons d-flex justify-content-end">
+                                  <button
+                                        className="btn btn-primary btn-filled edit"
+                                        onClick={(e) =>
+                                          showViewEmailModal(data.id)
+                                        }
+                                      >
+                                        View
+                                      </button>
+                                </div>
+                              ) :(
                               <div className="mailbox-buttons">
                                 {!deletestatus && (
                                   <div className="mailbox-buttons-list">
@@ -1532,7 +1544,7 @@ const EmailList = (props) => {
               onClick={hideEmailModal}
             ></button>
           </Modal.Header>
-
+           
           <Modal.Body onScroll={handleScroll}>
             {typeof viewEmailData !== "undefined" && (
               <div className="modal-body-view">
@@ -1542,14 +1554,19 @@ const EmailList = (props) => {
                       <h5>{viewEmailData[0].subject}</h5>
                       <p>{viewEmailData[0].description}</p>
                     </div>
-                    <div className="mail-view-btn">
-                      <button
-                        className="btn btn-primary btn-bordered"
-                        onClick={(e) => showModal("send", campaign_id)}
-                      >
-                        Resend
-                      </button>
-                    </div>
+                    {
+                      viewEmailData[0].status != 5
+                      ? 
+                      <div className="mail-view-btn">
+                        <button
+                          className="btn btn-primary btn-bordered"
+                          onClick={(e) => showModal("send", campaign_id)}
+                        >
+                          Resend
+                        </button>
+                      </div>
+                      : null
+                    }
                   </div>
                   <div className="mailbox-table">
                     <table>
