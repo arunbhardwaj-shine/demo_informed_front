@@ -102,6 +102,7 @@ const LibraryContent = (props) => {
   const [newTag, setNewTag] = useState("");
   const [libraryData, setLibraryData] = useState([]);
   const [changeConsent, setchangeConsent] = useState([]);
+  const [changeStatus, setChangeStatus] = useState([])
   const [updateflag, setupdateFlag] = useState(0);
   const [qrState, setQr] = useState({
     value: "",
@@ -667,20 +668,61 @@ const LibraryContent = (props) => {
     }
   };
 
-  const updateConset = async (pdf_id, index) => {
+  const onStatusChange = (e, i) => {
+    let statusValue = e?.value;
+    let status = {
+      index: i,
+      value: statusValue
+    }
+    const found = changeStatus.some((el) => el?.index === i);
+    if (!found) {
+      setChangeStatus((oldArray) => [...oldArray, status])
+    } else {
+      const index = changeStatus.findIndex((el) => el?.index === i);
+      changeStatus[index].value = statusValue;
+    }
+  }
+
+  const updateChanges = async (pdf_id, index) => {
     loader("show");
     try {
-      const index = changeConsent.findIndex((el) => el.index === pdf_id);
-      let consent_value = changeConsent[index].value;
+      let body = {}
+      let consent_value = "";
+      let status_value = "";
+      const consentIndex = changeConsent.findIndex((el) => el.index === pdf_id);
+      if (consentIndex != -1) {
+        consent_value = changeConsent[consentIndex]?.value;
+      } else {
+        const consentIndex = libraryData.findIndex((el) => el?.id === pdf_id)
+        consent_value = libraryData[consentIndex]?.linkType;
+      }
 
-      let body = {
-        pdfId: pdf_id,
-        consentType: consent_value,
-      };
-
+      if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        const statusIndex = changeStatus?.findIndex((el) => el?.index === pdf_id);
+        if (statusIndex != -1) {
+          status_value = changeStatus[statusIndex]?.value;
+        } else {
+          const statusIndex = libraryData?.findIndex((el) => el?.id === pdf_id)
+          status_value = libraryData[statusIndex]?.sold_unsold;
+        }
+        body = {
+          pdfId: pdf_id,
+          consentType: consent_value,
+          // sold_unsold: status_value
+        };
+      } else {
+        body = {
+          pdfId: pdf_id,
+          consentType: consent_value,
+        };
+      }
       const res = await updateConsent(ENDPOINT.LIBRARYCHANGECONSENT, body);
       const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
       libraryData[lib_data_index].linkType = consent_value;
+      if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        libraryData[lib_data_index].sold_unsold = status_value;
+      }
+
       const new_data = libraryData;
       setLibraryData(new_data);
       setupdateFlag(updateflag + 1);
@@ -696,6 +738,7 @@ const LibraryContent = (props) => {
       loader("hide");
     }
   };
+
 
   const resetCollection = async (pdf_id) => {
     try {
@@ -2308,74 +2351,84 @@ const LibraryContent = (props) => {
                               >
                                 <div className="data-main-box change-tab-main-box tab-panel">
                                   <ul className="tab-mail-list data change">
-                                    <div className="form-group d-flex align-items-center">
-                                      <label htmlFor="">Consent type</label>
-                                      <Select
-                                        options={types}
-                                        defaultValue={
-                                          data.linkType == "Online"
-                                            ? types[0]
-                                            : data.linkType == "Offline"
-                                              ? types[1]
-                                              : data.linkType == "Sunshine"
-                                                ? types[2]
-                                                : data.linkType == "Sunshine USA"
-                                                  ? types?.[3]
-                                                  : "Select"
-                                        }
-                                        onChange={(event) =>
-                                          onConsentChange(event, data?.id)
-                                        }
-                                        id={"consent_dropdown_" + index}
-                                        className="dropdown-basic-button split-button-dropup"
-                                        isClearable
-                                      />
+                                    {/* <div className="form-group d-flex align-items-center"> */}
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Consent type
+                                      </h6>
+                                      <div className="select-dropdown-wrapper">
+                                        <div className="select">
+                                          <Select
+                                            options={types}
+                                            defaultValue={
+                                              data.linkType == "Online"
+                                                ? types[0]
+                                                : data.linkType == "Offline"
+                                                  ? types[1]
+                                                  : data.linkType == "Sunshine"
+                                                    ? types[2]
+                                                    : data.linkType == "Sunshine USA"
+                                                      ? types?.[3]
+                                                      : "Select"
+                                            }
+                                            onChange={(event) =>
+                                              onConsentChange(event, data?.id)
+                                            }
+                                            id={"consent_dropdown_" + index}
+                                            className="dropdown-basic-button split-button-dropup"
+                                            isClearable
+                                          />
+                                        </div>
+                                      </div>
+                                    </li>
+
+                                    {localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" ?
+                                      (<>
+                                        <li>
+                                          {/* <div className="form-group d-flex align-items-center"> */}
+
+                                          <h6 className="tab-content-title">
+                                            Status
+                                          </h6>
+                                          <div className="select-dropdown-wrapper">
+                                            <div className="select">
+                                              <Select
+                                                options={statusOptions}
+                                                defaultValue={
+                                                  data.sold_unsold == "sold"
+                                                    ? statusOptions[0]
+                                                    : data.sold_unsold == "unsold"
+                                                      ? statusOptions[1]
+                                                      : "Select"
+                                                }
+                                                onChange={(event) =>
+                                                  onStatusChange(event, data?.id)
+                                                }
+                                                id={"status_dropdown_" + index}
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            </div>
+                                          </div>
+                                        </li>
+                                      </>) : ""}
+
+                                  </ul>
+
+                                  <div className="data-main-footer-sec">
+                                    <div className="footer-btn d-flex justify-content-end">
                                       <Button
                                         onClick={(e) =>
-                                          updateConset(data.id, index)
+                                          updateChanges(data.id, index)
                                         }
                                       >
                                         Update
                                       </Button>
+
                                     </div>
-                                  </ul>
-                                </div>
-                                {localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" ?
-                                  <div className="data-main-box change-tab-main-box tab-panel">
-                                    <ul className="tab-mail-list data change">
-                                      <div className="form-group d-flex align-items-center">
-                                        <label htmlFor="">Status</label>
-                                        <Select
-                                          options={statusOptions}
-                                          // defaultValue={
-                                          //   data.linkType == "Online"
-                                          //     ? types[0]
-                                          //     : data.linkType == "Offline"
-                                          //       ? types[1]
-                                          //       : data.linkType == "Sunshine"
-                                          //         ? types[2]
-                                          //         : data.linkType == "Sunshine USA"
-                                          //           ? types?.[3]
-                                          //           : "Select"
-                                          // }
-                                          // onChange={(event) =>
-                                          //   onConsentChange(event, data?.id)
-                                          // }
-                                          // id={"consent_dropdown_" + index}
-                                          className="dropdown-basic-button split-button-dropup"
-                                          isClearable
-                                        />
-                                        <Button
-                                          onClick={(e) =>
-                                            updateConset(data.id, index)
-                                          }
-                                        >
-                                          Update
-                                        </Button>
-                                      </div>
-                                    </ul>
                                   </div>
-                                  : ""}
+                                </div>
+
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
                                     {/* <Button className="footer-btn">
