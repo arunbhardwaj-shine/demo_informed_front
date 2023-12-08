@@ -38,8 +38,8 @@ const SelectSmartList = (props) => {
   const campaign_id = old_object?.campaign_id
     ? old_object.campaign_id
     : draft_object?.campaign_id
-    ? draft_object.campaign_id
-    : "";
+      ? draft_object.campaign_id
+      : "";
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [getReaderDetails, setReaderDetails] = useState({});
@@ -96,8 +96,8 @@ const SelectSmartList = (props) => {
     let listid = new_object?.id
       ? new_object.id
       : draft_object?.campaign_data?.smart_list_id
-      ? draft_object.campaign_data.smart_list_id
-      : 0;
+        ? draft_object.campaign_data.smart_list_id
+        : 0;
     setselecedlistid(listid);
     setPdfSelected(listid);
   }, []);
@@ -150,13 +150,13 @@ const SelectSmartList = (props) => {
       description: old_object?.emailDescription
         ? old_object.emailDescription
         : draft_object?.description
-        ? draft_object.description
-        : "",
+          ? draft_object.description
+          : "",
       creator: old_object?.emailCreator
         ? old_object.emailCreator
         : draft_object?.creator
-        ? draft_object.creator
-        : "",
+          ? draft_object.creator
+          : "",
       campaign_name: old_object?.emailCampaign
         ? old_object.emailCampaign
         : draft_object.campaign,
@@ -173,16 +173,16 @@ const SelectSmartList = (props) => {
         list_selection: old_object?.selected
           ? old_object.selected
           : props.getDraftData?.campaign_data?.list_selection
-          ? props.getDraftData.campaign_data.list_selection
-          : 0,
+            ? props.getDraftData.campaign_data.list_selection
+            : 0,
 
         // selectedHcp: selectedHcp,
       },
       source_code: old_object?.template
         ? old_object.template
         : draft_object?.source_code
-        ? draft_object.source_code
-        : "",
+          ? draft_object.source_code
+          : "",
       campaign_id: campaign_id_st ? campaign_id_st : "",
       status: 2,
     };
@@ -407,7 +407,7 @@ const SelectSmartList = (props) => {
       user_id == "UbCJcnLM9fe HsRMgX8c1A=="
     ) {
       link.href = "https://webinar.informed.pro/sample_st.xlsx";
-    } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
+    } else if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xlsx";
@@ -488,7 +488,7 @@ const SelectSmartList = (props) => {
                     ) : (
                       <Link
                         to="/SelectSmartListUsers"
-                        state={{ smartListSelected: smartListSelected }}
+                        state={{ smartListSelected: smartListSelected, flag: 1 }}
                       >
                         <button
                           ref={inputElement}
@@ -547,103 +547,103 @@ const SelectSmartList = (props) => {
                 <div className="col smartlist-result-block">
                   {
                     apiCallStatus && SendListData.length > 0
-                    ?
-                    SendListData.map((template) => {
-                      return (
-                        <div className="smartlist_box_block">
-                          <div className="smartlist-view email_box">
-                            <div className="mail-box-content">
-                              <h5>{template.name}</h5>
-                              <div className="select-mail-option">
-                                <input
-                                  onClick={() => handleSelect(template)}
-                                  type="radio"
-                                  name="radio"
-                                  checked={
-                                    template.id == PdfSelected
-                                      ? true
-                                      : template.id == getselecedlistid &&
-                                        !PdfSelected
-                                      ? true
-                                      : false
-                                  }
-                                />
-                                <span className="checkmark"></span>
-                              </div>
-                              <div className="mailbox-table">
-                                <table>
-                                  <tbody>
-                                    <tr>
-                                      <th>Contact type</th>
-                                      <td>{template.contact_type}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>Speciality</th>
-                                      <td>{template.speciality}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>Readers</th>
-                                      <td>{template.reader_selection}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>IBU</th>
-                                      <td>{template.ibu}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>Product</th>
-                                      <td>{template.product}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>Country</th>
-                                      <td>{template.country}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>Registered</th>
-                                      <td>{template.registered}</td>
-                                    </tr>
-                                    <tr>
-                                      <th>Created by</th>
-                                      <td>
-                                        <span>{template.creator}</span>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-
-                              <div className="mail-time">
-                                <span> {template.created_at}</span>
-                              </div>
-                              <div className="smart-list-added-user">
-                                <img
-                                  src={path_image + "smartlist-user.svg"}
-                                  alt="User icon"
-                                />
-                                {template.readers_count}
-                              </div>
-
-                              <div className="smartlist-buttons">
-                                <button className="btn view">
-                                  <a
-                                    className="color_blue"
-                                    onClick={() =>
-                                      openSmartListPopup(template.id)
+                      ?
+                      SendListData.map((template) => {
+                        return (
+                          <div className="smartlist_box_block">
+                            <div className="smartlist-view email_box">
+                              <div className="mail-box-content">
+                                <h5>{template.name}</h5>
+                                <div className="select-mail-option">
+                                  <input
+                                    onClick={() => handleSelect(template)}
+                                    type="radio"
+                                    name="radio"
+                                    checked={
+                                      template.id == PdfSelected
+                                        ? true
+                                        : template.id == getselecedlistid &&
+                                          !PdfSelected
+                                          ? true
+                                          : false
                                     }
-                                  >
-                                    View
-                                  </a>
-                                </button>
+                                  />
+                                  <span className="checkmark"></span>
+                                </div>
+                                <div className="mailbox-table">
+                                  <table>
+                                    <tbody>
+                                      <tr>
+                                        <th>Contact type</th>
+                                        <td>{template.contact_type}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Speciality</th>
+                                        <td>{template.speciality}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Readers</th>
+                                        <td>{template.reader_selection}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>IBU</th>
+                                        <td>{template.ibu}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Product</th>
+                                        <td>{template.product}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Country</th>
+                                        <td>{template.country}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Registered</th>
+                                        <td>{template.registered}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Created by</th>
+                                        <td>
+                                          <span>{template.creator}</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+
+                                <div className="mail-time">
+                                  <span> {template.created_at}</span>
+                                </div>
+                                <div className="smart-list-added-user">
+                                  <img
+                                    src={path_image + "smartlist-user.svg"}
+                                    alt="User icon"
+                                  />
+                                  {template.readers_count}
+                                </div>
+
+                                <div className="smartlist-buttons">
+                                  <button className="btn view">
+                                    <a
+                                      className="color_blue"
+                                      onClick={() =>
+                                        openSmartListPopup(template.id)
+                                      }
+                                    >
+                                      View
+                                    </a>
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })
-                  :
-                  apiCallStatus ? (
-                    <div class="no_found"><p>No Data Found</p></div>
-                  ): null
-                }
+                        );
+                      })
+                      :
+                      apiCallStatus ? (
+                        <div class="no_found"><p>No Data Found</p></div>
+                      ) : null
+                  }
                 </div>
 
                 {typeof SendListData !== "undefined" &&
@@ -771,13 +771,13 @@ const SelectSmartList = (props) => {
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
                       {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <th scope="col">IRT mandatory training</th>
                       ) : (
                         <th scope="col">Business unit</th>
                       )}
                       {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <th scope="col">IRT role</th>
                       ) : (
                         <th scope="col">Contact type</th>
@@ -807,24 +807,24 @@ const SelectSmartList = (props) => {
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
                               <td>
-                              {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                {localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr.irt
                                     ? "Yes"
                                     : "No"
-                                  :rr.ibu
-                                  ? rr.ibu
-                                  : "N/A"}
+                                  : rr.ibu
+                                    ? rr.ibu
+                                    : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr.user_type != 0
                                     ? rr.user_type
                                     : "N/A"
                                   : rr.contact_type
-                                  ? rr.contact_type
-                                  : "N/A"}
+                                    ? rr.contact_type
+                                    : "N/A"}
                               </td>
                               {showLessInfo == false ? (
                                 <td>
@@ -1011,7 +1011,7 @@ const SelectSmartList = (props) => {
                         ref={file_name}
                       />
                       {file_name.current?.files === undefined ||
-                      file_name.current.files?.length === 0 ? (
+                        file_name.current.files?.length === 0 ? (
                         <>
                           <label htmlFor="file-4">
                             <span>Choose Your File</span>
@@ -1038,7 +1038,7 @@ const SelectSmartList = (props) => {
               </div>
               <div className="modal-buttons">
                 {file_name.current?.files === undefined ||
-                file_name.current.files?.length === 0 ? (
+                  file_name.current.files?.length === 0 ? (
                   <>
                     {" "}
                     <button

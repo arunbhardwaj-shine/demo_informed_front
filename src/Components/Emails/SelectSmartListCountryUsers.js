@@ -19,16 +19,17 @@ const SelectSmartListCountryUsers = (props) => {
     const navigate = useNavigate();
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation();
-    const selectedHcp = location.state?.selectedHcp
-        ? location.state?.selectedHcp :
-        props.getDraftData?.campaign_data?.selectedHcp
-            ? props.getDraftData?.campaign_data?.selectedHcp :
-            [];
-    const removedHcp = location.state?.removedHcp
-        ? location.state?.removedHcp :
-        props.getDraftData?.campaign_data?.removedHcp
-            ? props.getDraftData?.campaign_data?.removedHcp :
-            [];
+    console.log("location.state--->", location.state)
+    const [selectedHcp, setSelectedHcp] = useState(location.state?.selectedHcp
+        ? location.state?.selectedHcp : location.state?.flag != 1 ?
+            props.getDraftData?.campaign_data?.selectedHcp
+                ? props.getDraftData?.campaign_data?.selectedHcp :
+                [] : []);
+    const [removedHcp, setRemovedHcp] = useState(location.state?.removedHcp
+        ? location.state?.removedHcp : location.state?.flag != 1 ?
+            props.getDraftData?.campaign_data?.removedHcp
+                ? props.getDraftData?.campaign_data?.removedHcp :
+                [] : []);
 
     const [readers, setReaders] = useState([]);
     const [campaign_id_st, setCampaign_id] = useState();
@@ -76,6 +77,8 @@ const SelectSmartListCountryUsers = (props) => {
     //   : props.getDraftData.smart_list_data;
 
     useEffect(() => {
+        console.log("use Effect 1--old_object>", old_object?.removedHcp)
+        console.log("use Effect 1--props>", props.getDraftData.campaign_data.removedHcp)
         let campaign_id =
             typeof old_object === "object" &&
                 old_object !== null &&
@@ -92,7 +95,7 @@ const SelectSmartListCountryUsers = (props) => {
                 setRemovedReaders(old_object.removedHcp);
             }
         } else {
-            if (props?.getDraftData && props.getDraftData.campaign_data?.removedHcp) {
+            if (location?.state?.flag != 1 && props?.getDraftData && props.getDraftData.campaign_data?.removedHcp) {
                 if (
                     typeof props.getDraftData.campaign_data.removedHcp != "undefined" &&
                     props.getDraftData.campaign_data.removedHcp != ""
@@ -104,6 +107,8 @@ const SelectSmartListCountryUsers = (props) => {
     }, []);
 
     useEffect(() => {
+        console.log("selected--->", selectedHcp)
+        console.log("removed--->", removedHcp)
         getDataByCountryWise();
         getalCountry();
     }, []);
@@ -112,6 +117,8 @@ const SelectSmartListCountryUsers = (props) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
     const getDataByCountryWise = () => {
+        console.log("props.getSelectedSmartListData?.id--->", props.getSelectedSmartListData?.id)
+        console.log("old_object--->", old_object)
         const body = {
             user_id: localStorage.getItem("user_id"),
             list_id: props.getSelectedSmartListData?.id
@@ -132,11 +139,11 @@ const SelectSmartListCountryUsers = (props) => {
                         if (!otherCountry?.includes(country)) {
                             otherCountry?.push(country);
                         }
-                        // If the country key doesn't exist, create an array for it
+
                         if (!acc[country]) {
                             acc[country] = [];
                         }
-                        // Push the person data to the country array
+
                         acc[country].push(person);
                         return acc;
                     }, {});
@@ -234,6 +241,8 @@ const SelectSmartListCountryUsers = (props) => {
     };
 
     const backClicked = () => {
+        setSelectedHcp([]);
+        setRemovedHcp([]);
         navigate("/SelectSmartList");
     };
 
@@ -545,13 +554,15 @@ const SelectSmartListCountryUsers = (props) => {
 
 
     const deleteReader = (country, index, i) => {
-
         const previous_removed_users = removedReaders;
         const readersList = JSON.parse(JSON.stringify(countryWiseData["allCountryData"]))
-        const removedReader = readersList[country]?.splice(i, 1);
-        setCountryWiseData({ ...countryWiseData, allCountryData: readersList })
-        setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-
+        if(Object.keys(readersList[country]).length > 1 && readersList[country].length>  1){
+            const removedReader = readersList[country]?.splice(i, 1);
+            setCountryWiseData({ ...countryWiseData, allCountryData: readersList })
+            setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
+        }else {
+            toast.warning("There must be at least one user present.");
+        }
     };
 
     const deleteCountryData = (selectedCountry) => {
