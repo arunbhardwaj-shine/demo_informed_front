@@ -6,7 +6,6 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 export default function TemplateFour({ children, formData }) {
   const eventData = formData?.raw_description;
-  console.log(formData?.raw_description);
   let eventDataSample = formData?.content?.eventDetails;
 
   let formattedDateRange = "";
@@ -69,14 +68,14 @@ export default function TemplateFour({ children, formData }) {
             >
               {eventDataSample?.speakerName?.value
                 ? eventDataSample?.speakerName?.value
-                : eventData?.speaker_name}
+                : eventData?.speaker_name},<span>Children’s Hospital (US)</span>
             </h4>
 
             <h4 style= {{ color:eventDataSample?.eventStartDate?.color}}>
               {formattedDateRange}
             </h4>
 
-            <h4>{formData?.content?.eventDetails?.eventStartTime?.value}</h4>
+            <h4>{formData?.content?.eventDetails?.eventStartTime?.value} ({eventData.countryTimezone}) online in One Source</h4>
 
             <div className="octapharma_event_form">{children}</div>
           </div>
