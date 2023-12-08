@@ -496,7 +496,7 @@
             "title": "Event Start Date",
             "type": "date",
             "value": "",
-            "color": "#76B5AE"
+            "color": "#001489"
         },
         "eventEndDate": {
             "title": "Event End Date",
@@ -507,7 +507,7 @@
             "title": "Event Start Time",
             "type": "time",
             "value": "",
-            "color": "#76B5AE"
+            "color": "#001489"
         },
         "eventEndTime": {
             "title": "Event End Time",
@@ -518,19 +518,25 @@
             "title": "Speaker Name",
             "type": "text",
             "value": "",
-            "color": "#76B5AE"
+            "color": "#001489"
         },
         "pageTitle": {
             "title": "Registration Page Title",
             "type": "text",
             "value": "Registrations are now open to the Patient Case",
-            "color": "#354367"
+            "color": "#001489"
         },
         "SubHeading": {
             "title": "Sub Heading",
             "type": "text",
             "value": "Surgery using FVIII in a HA PUP on emicizumab prophylaxis",
-            "color": "#004b95"
+            "color": "#33baa8"
+        },
+        "Specialization": {
+            "title": "Specialization",
+            "type": "text",
+            "value": "",
+            "color": "#001489"
         }
     },
     "body": [

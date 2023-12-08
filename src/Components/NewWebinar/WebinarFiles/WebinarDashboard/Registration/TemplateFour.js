@@ -6,7 +6,6 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 export default function TemplateFour({ children, formData }) {
   const eventData = formData?.raw_description;
-  console.log(formData?.raw_description);
   let eventDataSample = formData?.content?.eventDetails;
 
   let formattedDateRange = "";
@@ -51,32 +50,38 @@ export default function TemplateFour({ children, formData }) {
             </div>
           </div>
           <div className="octapharma_event_content">
-            <h4 style={{ color: formData?.content?.eventDetails?.pageTitle?.color,}}>
+            <h4 style={{ color: formData?.content?.eventDetails?.pageTitle?.color}}>
               {formData?.content?.eventDetails?.pageTitle?.value}
             </h4>
 
-            <h4 style={{color: formData?.content?.eventDetails?.bodyText?.color, }}>
+            <h4 style={{color: formData?.content?.eventDetails?.bodyText?.color}}>
               {formData?.content?.eventDetails?.bodyText?.value}
             </h4>
 
-            <h3 style={{ color: formData?.content?.eventDetails?.SubHeading?.color,}}>
+            <h3 style={{ color: formData?.content?.eventDetails?.SubHeading?.color}}>
               {formData?.content?.eventDetails?.SubHeading?.value}
             </h3>
 
+            <div className="speaker">
             <h4
               className="mb-4"
-              style={{textTransform: "capitalize",color:eventDataSample?.speakerName?.color }}
+              style={{textTransform: "capitalize",color:eventDataSample?.speakerName?.color}}
             >
-              {eventDataSample?.speakerName?.value
+             by {eventDataSample?.speakerName?.value
                 ? eventDataSample?.speakerName?.value
-                : eventData?.speaker_name}
+                : eventData?.speaker_name},
             </h4>
+
+            <h4 style={{ color: formData?.content?.eventDetails?.Specialization?.color}} className="speaker-specialization"> 
+            {formData?.content?.eventDetails?.Specialization?.value}
+            </h4>
+            </div>
 
             <h4 style= {{ color:eventDataSample?.eventStartDate?.color}}>
               {formattedDateRange}
             </h4>
 
-            <h4>{formData?.content?.eventDetails?.eventStartTime?.value}</h4>
+            <h4>{formData?.content?.eventDetails?.eventStartTime?.value} ({eventData?.countryTimezone}) online in One Source</h4>
 
             <div className="octapharma_event_form">{children}</div>
           </div>
