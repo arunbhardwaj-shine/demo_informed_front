@@ -11993,7 +11993,7 @@ form.product-unit button {
 
           .view {
             position: relative;
-
+             cursor: pointer;
             &:after {
               content: "";
               position: absolute;
@@ -12006,8 +12006,6 @@ form.product-unit button {
               height: 10px;
               transition: all 0.2s ease-out 0s;
             }
-
-            cursor: pointer;
 
             &.show {
               border-radius: 9px 9px 0 0;
@@ -12076,6 +12074,13 @@ form.product-unit button {
               }
               }
             }
+            &:nth-last-child(2){
+              td{
+                .extra_info {
+                    bottom: 50px;
+                }
+              } 
+            } 
           }
 
           .fold {
