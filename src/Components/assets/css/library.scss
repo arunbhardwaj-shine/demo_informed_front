@@ -19256,14 +19256,20 @@ form.product-unit button {
 
   @media (max-width: $layout-breakpoint-large) {
     .webinar-quest .container, .webinar-question-box .container{
-    max-width: 96%;
+    max-width: 98%;
+}
+.webinar-question-results table thead th {
+    font-size: 14px;
 }
 .webinar-question-results table tbody tr td button {
-    font-size: 13px;
-    padding: 4px 8px;
+    font-size: 12px;
+    padding: 4px 6px;
 }
-.webinar-question-results table tbody tr td:nth-child(2), .webinar-question-results table tbody tr th:nth-child(2) {
-    width: 320px;
+.webinar-question-results table tbody tr td:last-child, .webinar-question-results table tbody tr th:last-child {
+    width: 210px;
+}
+.webinar-question-results {
+    padding: 20px 20px 20px;
 }
 .webinar-quest .navbar .nav-fill .nav-item {
     font-size: 14px;
