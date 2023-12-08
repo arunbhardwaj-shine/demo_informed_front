@@ -226,7 +226,7 @@ useEffect(() => {
 
   return (
     <>
-          <div className="webinar-questions">
+          <div className="webinar-questions webinar-question-box">
             <Container>
               <div className="webinar-question-results">
                  {data?.map((item,index)=>{
