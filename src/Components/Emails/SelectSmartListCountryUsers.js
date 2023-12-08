@@ -545,13 +545,15 @@ const SelectSmartListCountryUsers = (props) => {
 
 
     const deleteReader = (country, index, i) => {
-
         const previous_removed_users = removedReaders;
         const readersList = JSON.parse(JSON.stringify(countryWiseData["allCountryData"]))
-        const removedReader = readersList[country]?.splice(i, 1);
-        setCountryWiseData({ ...countryWiseData, allCountryData: readersList })
-        setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-
+        if(Object.keys(readersList[country]).length > 1 && readersList[country].length>  1){
+            const removedReader = readersList[country]?.splice(i, 1);
+            setCountryWiseData({ ...countryWiseData, allCountryData: readersList })
+            setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
+        }else {
+            toast.warning("There must be at least one user present.");
+        }
     };
 
     const deleteCountryData = (selectedCountry) => {
