@@ -48,6 +48,10 @@ const LibraryContent = (props) => {
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
   ]);
+  const [statusOptions, setStatusOptions] = useState([
+    { label: "Sold", value: "sold" },
+    { label: "Unsold", value: "unsold" }
+  ])
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -2336,6 +2340,42 @@ const LibraryContent = (props) => {
                                     </div>
                                   </ul>
                                 </div>
+                                {localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" ?
+                                  <div className="data-main-box change-tab-main-box tab-panel">
+                                    <ul className="tab-mail-list data change">
+                                      <div className="form-group d-flex align-items-center">
+                                        <label htmlFor="">Status</label>
+                                        <Select
+                                          options={statusOptions}
+                                          // defaultValue={
+                                          //   data.linkType == "Online"
+                                          //     ? types[0]
+                                          //     : data.linkType == "Offline"
+                                          //       ? types[1]
+                                          //       : data.linkType == "Sunshine"
+                                          //         ? types[2]
+                                          //         : data.linkType == "Sunshine USA"
+                                          //           ? types?.[3]
+                                          //           : "Select"
+                                          // }
+                                          // onChange={(event) =>
+                                          //   onConsentChange(event, data?.id)
+                                          // }
+                                          // id={"consent_dropdown_" + index}
+                                          className="dropdown-basic-button split-button-dropup"
+                                          isClearable
+                                        />
+                                        <Button
+                                          onClick={(e) =>
+                                            updateConset(data.id, index)
+                                          }
+                                        >
+                                          Update
+                                        </Button>
+                                      </div>
+                                    </ul>
+                                  </div>
+                                  : ""}
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
                                     {/* <Button className="footer-btn">

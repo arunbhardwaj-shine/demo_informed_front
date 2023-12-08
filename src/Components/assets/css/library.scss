@@ -11993,7 +11993,7 @@ form.product-unit button {
 
           .view {
             position: relative;
-
+             cursor: pointer;
             &:after {
               content: "";
               position: absolute;
@@ -12006,8 +12006,6 @@ form.product-unit button {
               height: 10px;
               transition: all 0.2s ease-out 0s;
             }
-
-            cursor: pointer;
 
             &.show {
               border-radius: 9px 9px 0 0;
@@ -12076,6 +12074,13 @@ form.product-unit button {
               }
               }
             }
+            &:nth-last-child(2){
+              td{
+                .extra_info {
+                    bottom: 50px;
+                }
+              } 
+            } 
           }
 
           .fold {
@@ -19251,6 +19256,26 @@ form.product-unit button {
   }
 
   @media (max-width: $layout-breakpoint-large) {
+    .webinar-quest .container, .webinar-question-box .container{
+    max-width: 98%;
+}
+.webinar-question-results table thead th {
+    font-size: 14px;
+}
+.webinar-question-results table tbody tr td button {
+    font-size: 12px;
+    padding: 4px 6px;
+}
+.webinar-question-results table tbody tr td:last-child, .webinar-question-results table tbody tr th:last-child {
+    width: 210px;
+}
+.webinar-question-results {
+    padding: 20px 20px 20px;
+}
+.webinar-quest .navbar .nav-fill .nav-item {
+    font-size: 14px;
+    padding: 7px 12px;
+}
     .landing-banner {
       .landing-heading {
         margin: 28px 0 14px;
