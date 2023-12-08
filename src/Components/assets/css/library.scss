@@ -11907,6 +11907,10 @@ form.product-unit button {
               &.active-irt {
                 width: 125px;
               }
+
+              &.non_display {
+                display: none;
+              }
             }
           }
         }
@@ -11981,6 +11985,10 @@ form.product-unit button {
                 width: 40px;
               }
             }
+
+            &.non_display {
+              display: none;
+            }
           }
 
           .view {
@@ -12023,6 +12031,7 @@ form.product-unit button {
             td {
               height: 50px;
               vertical-align: middle;
+              position: relative;
 
               &.active-irt {
                 span {
@@ -12037,6 +12046,34 @@ form.product-unit button {
 
               &.pics {
                 text-align: right;
+              }
+              .info_img{
+                max-width: 26px;
+                &:hover{
+                  &+.extra_info{
+                    display: block;
+                    position: absolute;
+                    z-index: 1;
+                    background: #fff;
+                    right: 25px;
+                    width: 270px;
+                    padding: 15px;
+                    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+                    border-radius: 6px;
+                  }
+                }
+              }
+              .extra_info{
+                display: none;
+                p {
+                  font-size: 13px;
+                  line-height: 15px;
+                  color: #70899E;
+                  span{
+                    font-weight: 500;
+                    margin-right: 6px;
+                  }
+              }
               }
             }
           }
