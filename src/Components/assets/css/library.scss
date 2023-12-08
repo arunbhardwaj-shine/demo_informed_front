@@ -19262,12 +19262,12 @@ form.product-unit button {
     font-size: 13px;
     padding: 4px 8px;
 }
-.webinar-question-results table tbody tr td:nth-child(2) {
-    max-width: 320px;
+.webinar-question-results table tbody tr td:nth-child(2), .webinar-question-results table tbody tr th:nth-child(2) {
+    width: 320px;
 }
 .webinar-quest .navbar .nav-fill .nav-item {
-    font-size: 15px;
-    padding: 7px 15px;
+    font-size: 14px;
+    padding: 7px 12px;
 }
     .landing-banner {
       .landing-heading {
