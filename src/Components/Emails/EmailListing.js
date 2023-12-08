@@ -21,7 +21,7 @@ const EmailList = (props) => {
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const colorArray =['#0E9B8E','#00003C','#FFBE2C','#FFBE2C','#F58289','#D61975','#0066BE'];
+  const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
   const queryParams = queryString.parse(window.location.search);
 
   const [SendListData, setSendListData] = useState([]);
@@ -132,7 +132,7 @@ const EmailList = (props) => {
       let valueupdate = options_ch;
       valueupdate?.xAxis?.categories.push(getSpecificKeyData[0].click_name);
 
-      if(getSpecificKeyData[0]?.multi_ctr?.length > 0){
+      if (getSpecificKeyData[0]?.multi_ctr?.length > 0) {
         getSpecificKeyData[0]?.multi_ctr.map((multilinkdata) => {
           valueupdate?.xAxis?.categories.push(multilinkdata?.click_name);
         });
@@ -144,8 +144,8 @@ const EmailList = (props) => {
         { y: getSpecificKeyData[0].total_Click, color: "#39cabc" },
       ];
 
-      if(getSpecificKeyData[0]?.multi_ctr?.length > 0){
-        getSpecificKeyData[0]?.multi_ctr.map((multilinkdata,index) => {
+      if (getSpecificKeyData[0]?.multi_ctr?.length > 0) {
+        getSpecificKeyData[0]?.multi_ctr.map((multilinkdata, index) => {
           let obj = {
             y: multilinkdata?.total_Click,
             color: colorArray?.[index]
@@ -615,7 +615,7 @@ const EmailList = (props) => {
     setloadmore(1);
   };
 
-  const getReaderData = async (type = "", name = "", color_code = "",dynamic_name = "") => {
+  const getReaderData = async (type = "", name = "", color_code = "", dynamic_name = "") => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: viewEmailData?.[0]?.id,
@@ -627,7 +627,7 @@ const EmailList = (props) => {
     // if(type == "ctr"){
     //   setDetailPopupName(name);
     // }else{
-      setDetailPopupName(name);
+    setDetailPopupName(name);
     // }
     setPopupHeadingColor(color_code);
     loader("show");
@@ -780,7 +780,7 @@ const EmailList = (props) => {
                                               checked={
                                                 updateflag > 0 &&
                                                 typeof filtertags !==
-                                                  "undefined" &&
+                                                "undefined" &&
                                                 filtertags.indexOf(item) !== -1
                                               }
                                               onChange={() =>
@@ -819,7 +819,7 @@ const EmailList = (props) => {
                                             checked={
                                               updateflag > 0 &&
                                               typeof filtercreator !==
-                                                "undefined" &&
+                                              "undefined" &&
                                               filtercreator.indexOf(item) !== -1
                                             }
                                             onChange={() =>
@@ -856,7 +856,7 @@ const EmailList = (props) => {
                                             checked={
                                               updateflag > 0 &&
                                               typeof filterdate !==
-                                                "undefined" &&
+                                              "undefined" &&
                                               filterdate.indexOf(item) !== -1
                                             }
                                             onChange={() =>
@@ -1114,8 +1114,8 @@ const EmailList = (props) => {
                                   {item == 3
                                     ? "Draft Approved"
                                     : item == 2
-                                    ? "Draft"
-                                    : "Sent"}
+                                      ? "Draft"
+                                      : "Sent"}
                                   <img
                                     src={path_image + "filter-close.svg"}
                                     alt="Close-filter"
@@ -1162,28 +1162,34 @@ const EmailList = (props) => {
                         <div
                           className={
                             "email_box " +
-                            (data.status == 1
-                              ? "approved"
-                              : data.status == 2
-                              ? "email-draft"
-                              : "draft-approved")
+                            ((localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" && data?.status == 5)
+                              ? "queue" :
+                              data.status == 1
+                                ? "approved"
+                                : data.status == 2
+                                  ? "email-draft"
+                                  : "draft-approved")
                           }
                         >
                           <div className="mail-top-title">
+
                             <span>
-                              {data.status == 2 ? "Draft" : "Approved Draft"}
+                              {(localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" && data?.status == 5)
+                                ? "Queue" :
+                                data.status == 2 ? "Draft" : "Approved Draft"
+                              }
                             </span>
                           </div>
                           <div className="mail-box-content">
                             <div className="mail-box-content-top">
                               <div className="mail-box-content-top-view">
                                 {
-                                  data?.resend_badge >= 2 ? 
-                                  <div className="mail-resend" title="Resend Emails">
-                                  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be"/><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be"/></g></g></svg>
-                                  <span>{data?.resend_badge - 1}</span>
-                                  </div>
-                                   : null
+                                  data?.resend_badge >= 2 ?
+                                    <div className="mail-resend" title="Resend Emails">
+                                      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be" /><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be" /></g></g></svg>
+                                      <span>{data?.resend_badge - 1}</span>
+                                    </div>
+                                    : null
                                 }
                                 <h5>{data.subject}</h5>
                                 <p>{data.description}</p>
@@ -1379,7 +1385,7 @@ const EmailList = (props) => {
                                 {!deletestatus && (
                                   <div className="mailbox-buttons-list">
                                     {data.route_location == "VerifyMAIL" &&
-                                    data.pdf_id != 13 ? (
+                                      data.pdf_id != 13 ? (
                                       <button
                                         className="btn btn-primary send btn-bordered"
                                         onClick={() => {
@@ -1390,7 +1396,7 @@ const EmailList = (props) => {
                                               !getDraftEmailSendStatus
                                           );
                                         }}
-                                        // onClick={(e) => showModal("send", data.id)
+                                      // onClick={(e) => showModal("send", data.id)
                                       >
                                         Send
                                       </button>
@@ -1737,7 +1743,7 @@ const EmailList = (props) => {
                       </li>
                       <li
                         onClick={() => {
-                          getReaderData("ctr", viewEmailData[0]?.click_name, "#39cabc",viewEmailData[0]?.click_key);
+                          getReaderData("ctr", viewEmailData[0]?.click_name, "#39cabc", viewEmailData[0]?.click_key);
                         }}
                       >
                         <div className="mail_click">
@@ -1773,53 +1779,53 @@ const EmailList = (props) => {
                           </div>
                         </div>
                       </li>
-                       
+
                       {
-                         viewEmailData[0]?.multi_ctr && viewEmailData[0]?.multi_ctr?.length > 0 
-                         ?
-                          viewEmailData[0]?.multi_ctr.map((ctr,index) => {
-                               return (
-                                <li
-                                  onClick={() => {
-                                    getReaderData("ctr", ctr?.click_name, colorArray?.[index],ctr?.click_key);
-                                  }}
-                                >
-                                  <div className="mail_click">
-                                    <div className="mail_click_box">
-                                      <h6 style={{color: colorArray?.[index]}}>{ctr?.click_name}</h6>
-                                      <div className="mail_click_box_content">
-                                        <svg
-                                          width="40"
-                                          height="40"
-                                          viewBox="0 0 40 40"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <circle
-                                            cx="20"
-                                            cy="20"
-                                            r="18.5"
-                                            stroke={colorArray?.[index]}
-                                            stroke-width="3"
-                                            stroke-linejoin="round"
-                                          />
-                                          <path
-                                            d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
-                                            fill={colorArray?.[index]}
-                                          />
-                                          <path
-                                            d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
-                                            fill={colorArray?.[index]}
-                                          />
-                                        </svg>
-                                        <span>{ctr?.total_Click_pr}%</span>
-                                      </div>
+                        viewEmailData[0]?.multi_ctr && viewEmailData[0]?.multi_ctr?.length > 0
+                          ?
+                          viewEmailData[0]?.multi_ctr.map((ctr, index) => {
+                            return (
+                              <li
+                                onClick={() => {
+                                  getReaderData("ctr", ctr?.click_name, colorArray?.[index], ctr?.click_key);
+                                }}
+                              >
+                                <div className="mail_click">
+                                  <div className="mail_click_box">
+                                    <h6 style={{ color: colorArray?.[index] }}>{ctr?.click_name}</h6>
+                                    <div className="mail_click_box_content">
+                                      <svg
+                                        width="40"
+                                        height="40"
+                                        viewBox="0 0 40 40"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <circle
+                                          cx="20"
+                                          cy="20"
+                                          r="18.5"
+                                          stroke={colorArray?.[index]}
+                                          stroke-width="3"
+                                          stroke-linejoin="round"
+                                        />
+                                        <path
+                                          d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
+                                          fill={colorArray?.[index]}
+                                        />
+                                        <path
+                                          d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
+                                          fill={colorArray?.[index]}
+                                        />
+                                      </svg>
+                                      <span>{ctr?.total_Click_pr}%</span>
                                     </div>
                                   </div>
-                                </li>
-                                )
+                                </div>
+                              </li>
+                            )
                           })
-                         : null
+                          : null
                       }
                     </ul>
                   </div>
@@ -2122,11 +2128,11 @@ const EmailList = (props) => {
                         {/* <th scope="col">Bounced</th> */}
                         <th scope="col">Country</th>
                         {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                        <th scope="col">IRT mandatory training</th>
-                      ) : (
-                        <th scope="col">Business Unit</th>
-                      )}
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          <th scope="col">IRT mandatory training</th>
+                        ) : (
+                          <th scope="col">Business Unit</th>
+                        )}
                         <th scope="col">Date</th>
                         {/* <th scope="col">Contact Type</th> */}
                         {/* <th scope="col">Opened</th> */}
@@ -2135,84 +2141,84 @@ const EmailList = (props) => {
                     </thead>
                     <tbody>
                       {typeof readerDetailsData !== "undefined" &&
-                      readerDetailsData.length > 0 ? (
+                        readerDetailsData.length > 0 ? (
                         readerDetailsData.map((item, index) => (
                           <>
-                          <tr
-                            key={"readers_" + index}
-                            className="hcp"
-                            id={`row-selected` + index}
-                          >
-                            <td>
-                              {" "}
-                              {item?.first_name + " " + item?.last_name}{" "}
-                            </td>
-                            <td> {item?.email ? item.email : "N/A"} </td>
-                            {/* <td> {item?.bounce ? item.bounce : "N/A"}</td> */}
-                            <td>
-                              {" "}
-                              <span>
-                                {item?.country ? item.country : "N/A"}
-                              </span>{" "}
-                            </td>
-                            <td>
-                              {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
+                            <tr
+                              key={"readers_" + index}
+                              className="hcp"
+                              id={`row-selected` + index}
+                            >
+                              <td>
+                                {" "}
+                                {item?.first_name + " " + item?.last_name}{" "}
+                              </td>
+                              <td> {item?.email ? item.email : "N/A"} </td>
+                              {/* <td> {item?.bounce ? item.bounce : "N/A"}</td> */}
+                              <td>
+                                {" "}
+                                <span>
+                                  {item?.country ? item.country : "N/A"}
+                                </span>{" "}
+                              </td>
+                              <td>
+                                {localStorage.getItem("user_id") ==
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? item.irt
                                     ? "Yes"
                                     : "No"
-                                  :item.ibu
-                                  ? item.ibu
-                                  : "N/A"}
-                            </td>
-                            <td>
-                              {
-                                item?.recent_send?.length > 0 ? moment(item?.recent_send?.[0]?.sent_date, 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
-                                 : null
-                              }
-                            </td>
-                          </tr>
-                          
-                          {
-                            item?.recent_send?.length > 1 ?
-                            
-                              <>
-                              {
-                                item?.recent_send?.map((subItem, subIndex) => (
-                                  subIndex !== 0 ?
-                                  <>
-                                  <tr>
-                                    <td>
-                                    {item?.first_name + " " + item?.last_name}
-                                    </td>
-                                    <td> {item?.email ? item.email : "N/A"} </td>
-                                    <td>
-                                      <span>
-                                        {item?.country ? item.country : "N/A"}
-                                      </span>
-                                    </td>
-                                    <td>
-                                      {localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
-                                          ? item.irt
-                                            ? "Yes"
-                                            : "No"
-                                          :item.ibu
-                                          ? item.ibu
-                                          : "N/A"}
-                                    </td>
-                                    <td>{subItem?.sent_date ? 
-                                          moment(subItem?.sent_date , 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
-                                          : null}</td>
-                                  </tr>
-                                  </>
-                                  : null
-                                ))
-                              }
-                              </>
-                            
-                            : null
-                          }
+                                  : item.ibu
+                                    ? item.ibu
+                                    : "N/A"}
+                              </td>
+                              <td>
+                                {
+                                  item?.recent_send?.length > 0 ? moment(item?.recent_send?.[0]?.sent_date, 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
+                                    : null
+                                }
+                              </td>
+                            </tr>
+
+                            {
+                              item?.recent_send?.length > 1 ?
+
+                                <>
+                                  {
+                                    item?.recent_send?.map((subItem, subIndex) => (
+                                      subIndex !== 0 ?
+                                        <>
+                                          <tr>
+                                            <td>
+                                              {item?.first_name + " " + item?.last_name}
+                                            </td>
+                                            <td> {item?.email ? item.email : "N/A"} </td>
+                                            <td>
+                                              <span>
+                                                {item?.country ? item.country : "N/A"}
+                                              </span>
+                                            </td>
+                                            <td>
+                                              {localStorage.getItem("user_id") ==
+                                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                                ? item.irt
+                                                  ? "Yes"
+                                                  : "No"
+                                                : item.ibu
+                                                  ? item.ibu
+                                                  : "N/A"}
+                                            </td>
+                                            <td>{subItem?.sent_date ?
+                                              moment(subItem?.sent_date, 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
+                                              : null}</td>
+                                          </tr>
+                                        </>
+                                        : null
+                                    ))
+                                  }
+                                </>
+
+                                : null
+                            }
                           </>
                         ))
                       ) : readerDetailsData.length == 0 ? (
