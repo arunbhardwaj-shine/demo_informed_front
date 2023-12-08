@@ -81,9 +81,8 @@ export default function TemplateFour({ children, formData }) {
                   textTransform: "capitalize",
                   color: eventDataSample?.speakerName?.color,
                 }}
-              >
-                by
-                {eventDataSample?.speakerName?.value
+              > 
+                 by {eventDataSample?.speakerName?.value
                   ? eventDataSample?.speakerName?.value
                   : eventData?.speaker_name}
                 {formData?.content?.eventDetails?.Specialization?.value && ","}
