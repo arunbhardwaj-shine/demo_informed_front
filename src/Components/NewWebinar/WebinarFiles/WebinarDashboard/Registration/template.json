@@ -531,6 +531,12 @@
             "type": "text",
             "value": "Surgery using FVIII in a HA PUP on emicizumab prophylaxis",
             "color": "#004b95"
+        },
+        "Specialization": {
+            "title": "Specialization",
+            "type": "text",
+            "value": "",
+            "color": "#004b95"
         }
     },
     "body": [
