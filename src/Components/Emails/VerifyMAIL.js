@@ -440,7 +440,7 @@ const VerifyMAIL = (props) => {
     ) {
       navigate("/SelectSmartListUsers", {
         state: {
-          ...location?.state, flag: 1
+          ...location?.state
         },
       });
     } else {
@@ -528,6 +528,7 @@ const VerifyMAIL = (props) => {
         list_selection: props.getEmailData?.selected
           ? props.getEmailData.selected
           : props.getDraftData.campaign_data.list_selection,
+        removedHcp: getRemovedHcp
       },
       campaign_id: campaign_id_st,
       source_code: props.getEmailData?.template
