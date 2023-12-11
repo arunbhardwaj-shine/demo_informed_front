@@ -1174,10 +1174,12 @@ const WebinarRegistration = () => {
                             Object.keys(formData.eventDetails)?.map(
                               (key, index) => {
                                 const field = formData.eventDetails[key];
+                                const isEventEndDate = key === "eventEndDate"
+                                const isEventEndTime = key === "eventEndTime"
                                 return field.type == "date" ? (
                                   <div
                                     key={index}
-                                    className="form-group d-flex align-items-center"
+                                    className="form-group d-flex align-items-center" 
                                   >
                                     <label>
                                       {field.title} <span>*</span>
@@ -1206,7 +1208,9 @@ const WebinarRegistration = () => {
                                       onKeyDown={(e) => {
                                         e.preventDefault();
                                       }}
-                                    />
+                                    />{
+                                      isEventEndDate ? <div className="event-endDate"></div> : ''
+                                    }
                                     {field.color && (
                                       <div className="color-pick">
                                         <img
@@ -1251,6 +1255,9 @@ const WebinarRegistration = () => {
                                       className="form-control"
                                       onChange={handleChange}
                                     />
+                                    {
+                                      isEventEndTime ? <div className="event-endTime"></div> : ''
+                                    }
                                     {field.color && (
                                       <div className="color-pick">
                                         <img
@@ -1272,41 +1279,6 @@ const WebinarRegistration = () => {
                             )}
                         </div>
 
-                        {/* <div className="form-group d-flex align-items-center">
-                          <FormLabel>
-                            Registration Page Title <span>*</span>
-                          </FormLabel>
-                          <input
-                            type="text"
-                            name="pageTitle"
-                            value={formData?.pageTitle}
-                            onChange={handleChange}
-                            className={
-                              error?.pageTitle
-                                ? "form-control error"
-                                : "form-control"
-                            }
-                          />
-                          {error?.pageTitle ? (
-                            <div className="login-validation">
-                              {error?.pageTitle}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div className="form-group d-flex align-items-center">
-                          <FormLabel>Body Text</FormLabel>
-                          <textarea
-                            cols="40"
-                            rows="3"
-                            name="bodyText"
-                            value={formData?.bodyText}
-                            onChange={handleChange}
-                            className="form-control"
-                            placeholder="what will be the placeholder?"
-                          />
-                        </div> */}
                         <div className="feilds-section">
                           <h5>What data should be collected?</h5>
                           <div className="select-collected">
