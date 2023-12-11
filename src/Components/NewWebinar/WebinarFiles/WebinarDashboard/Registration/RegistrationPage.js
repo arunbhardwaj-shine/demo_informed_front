@@ -1429,7 +1429,6 @@ const FormField4 = ({
       />
     );
   }
-  console.log(form,'====>form')
 
   return (
     <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`}>
