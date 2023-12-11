@@ -8595,6 +8595,7 @@ html {
   padding: 20px 30px;
   display: flex;
   flex-wrap: wrap;
+  min-height: 220px;
 }
 
 .session-modal #pollModel h4 {
@@ -8641,7 +8642,37 @@ html {
   display: inline-block;
   min-width: 25px;
 }
+.session-modal #pollModel .form-group.no_child {
+  justify-content: flex-start;
+}
 
+.session-modal #pollModel .form-group.head.no_child {
+  display: none;
+}
+.session-modal #pollModel .form-group.no_child .check-group {
+  gap: 0 1px;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  align-items: flex-end;
+}
+.session-modal #pollModel .form-group.no_child .check-values {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  margin: 0 0 13px;
+  align-items: center;
+}
+
+.session-modal #pollModel .form-group.no_child label {
+  text-align: left;
+  padding:0 0px 0 12px;
+  cursor: pointer;
+}
+.session-modal #pollModel .form-group.no_child .check-group > span {
+  min-width: 40px;
+  text-align: center;
+}
 .custom-answer-area {
   border: 1px solid #00b39a;
 }
@@ -8653,7 +8684,9 @@ html {
   width: 24px;
   height: 24px;
 }
-
+.session-modal #pollModel .form-group.no_child span.error {
+  margin-top: -1px;
+}
 .session-modal #pollModel textarea {
   width: 100%;
   resize: none;

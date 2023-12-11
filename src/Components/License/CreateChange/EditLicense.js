@@ -66,6 +66,9 @@ const EditLicense = () => {
     comDatetime: "",
     trial: "",
     cpdValue: "",
+    sold_unsold_status: "",
+    request_quote: '',
+    pharmaArr: '',
   });
 
   const [pdfSpcData, setpdfSpcData] = useState([
@@ -94,6 +97,7 @@ const EditLicense = () => {
   const [userDetail, setUserDetail] = useState({
     user: {},
     production: [],
+    pharmaArr: [],
     sales: [],
     country: [],
     format: [],
@@ -163,6 +167,7 @@ const EditLicense = () => {
       ...userDetail,
       user: hadData?.data?.data?.user,
       production: hadData?.data?.data?.production,
+      pharmaArr: hadData?.data?.data?.pharma_arr,
       costCenter: hadData?.data?.data?.costCenter,
       country: country,
       sales: hadData?.data?.data?.sale,
@@ -413,6 +418,14 @@ const EditLicense = () => {
         );
         formData.append("licensed", 1);
         formData.append("spcInc", 0);
+        if(userDetail?.user?.[0]?.retailer == 1){
+          formData.append("request_quote", userInputs?.request_quote ? 1 : 0);
+          formData.append("sold_unsold_status", userInputs?.sold_unsold_status);
+          formData.append(
+            "pharama_val",
+            userInputs?.pharmaArr ? userInputs?.pharmaArr : ""
+          );
+        }
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
           header: {
             "Content-Type": "multipart/form-data",
@@ -647,6 +660,30 @@ const EditLicense = () => {
                   isClearable
                 />
               </div>
+
+              {
+                 userDetail?.user?.[0]?.retailer == 1  ? 
+                  <div className="form-group">
+                    <label htmlFor="">Pharma</label>
+                    <Select
+                      options={userDetail?.pharmaArr}
+                      onChange={(e) => handleChange(e?.value, "pharmaArr")}
+                      defaultValue={
+                        userDetail?.pharmaArr?.length
+                          ? userDetail?.pharmaArr[
+                            userDetail?.pharmaArr?.findIndex(
+                                (el) => el.value == userInputs?.pharmaArr
+                              )
+                            ]
+                          : ""
+                      }
+                      placeholder="Select own production person"
+                      className="dropdown-basic-button split-button-dropup edit-production-dropdown"
+                      isClearable
+                    />
+                  </div>
+                 : null
+              }
 
               {localStorage.getItem("user_id") ==
                 "rOhdD02MgXkownQqcreqAw==" && (
@@ -1145,6 +1182,92 @@ const EditLicense = () => {
                     */}
                 </fieldset>
               </div>
+              
+              {
+                userDetail?.user?.[0]?.retailer == 1  ? 
+                  <>
+                    <div className="form-group">
+                      <label htmlFor="">Status 
+                      {/* <span>*</span> */}
+                      </label>
+                      <fieldset id="group2">
+                        <input
+                          type="radio"
+                          value="sold"
+                          name="sold_unsold_status"
+                          checked={userInputs?.sold_unsold_status == 'sold' ? true : false}
+                          onClick={(e) =>
+                            handleChange('sold', "sold_unsold_status")
+                          }
+                          id="sold"
+                        />
+                        <label htmlFor="sold">Sold</label>
+                        <input
+                          type="radio"
+                          value="unsold"
+                          name="sold_unsold_status"
+                          checked={userInputs?.sold_unsold_status == 'unsold' ? true : false}
+                          onClick={(e) =>
+                            handleChange('unsold', "sold_unsold_status")
+                          }
+                          id="unsold"
+                        />
+                        <label htmlFor="unsold">Unsold</label>
+                      </fieldset>
+                      {error?.status ? (
+                        <div className="login-validation">
+                          {error?.status}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div className="form-group">
+                    <label htmlFor="setasdraft1">Request quote</label>
+                    <fieldset id="request_quote">
+                      <div className="switch">
+                        <label className="switch-light">
+                          <input
+                            type="checkbox"
+                            value="value1"
+                            name="request_quote"
+                            id="setasdraft1"
+                            defaultChecked={
+                              userInputs?.request_quote ? true : false
+                            }
+                            onChange={(e) => {
+                              handleChange(e.target?.checked, "request_quote");
+                            }}
+                          />
+                          <span>
+                            <span
+                              className={`switch-btn ${
+                                userInputs?.request_quote == 0
+                                  ? " Active"
+                                  : ""
+                              }`}
+                            >
+                              No
+                            </span>
+                            <span
+                              className={`switch-btn ${
+                                userInputs?.draft == 1
+                                  ? " Active"
+                                  : ""
+                              }`}
+                            >
+                              Yes
+                            </span>
+                          </span>
+                          <a className="btn"></a>
+                        </label>
+                      </div>
+                    </fieldset>
+                    </div>
+                  </>
+                
+                : null
+              }
+
             </div>
             <div className="col-12 col-md-6 d-flex justify-content-end align-items-start right-change">
               <div className="form-group justify-content-end">
