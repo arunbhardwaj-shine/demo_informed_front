@@ -78,7 +78,7 @@ export default function TemplateFour({ children, formData }) {
               <h4
                 className="mb-4"
                 style={{
-                  textTransform: "capitalize",
+                  // textTransform: "capitalize",
                   color: eventDataSample?.speakerName?.color,
                 }}
               > 
