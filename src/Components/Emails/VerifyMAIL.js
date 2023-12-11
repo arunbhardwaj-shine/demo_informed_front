@@ -338,7 +338,7 @@ const VerifyMAIL = (props) => {
               setTimeout(() => {
                 popup_alert({
                   visible: "show",
-                  message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
+                  message: res?.data?.message ? res?.data?.message : "Mail sent successfully",
                   type: "success",
                   redirect: "/EmailList",
                 });
@@ -355,7 +355,7 @@ const VerifyMAIL = (props) => {
               setShowProgressBar(false);
               popup_alert({
                 visible: "show",
-                message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
+                message: res?.data?.message ? res?.data?.message : "Mail sent successfully",
                 type: "error",
               });
             }
@@ -440,7 +440,7 @@ const VerifyMAIL = (props) => {
     ) {
       navigate("/SelectSmartListUsers", {
         state: {
-          ...location?.state
+          ...location?.state, flag: 1
         },
       });
     } else {
