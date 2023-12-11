@@ -19,12 +19,16 @@ const SelectSmartListCountryUsers = (props) => {
     const navigate = useNavigate();
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation();
-    const selectedHcp = location.state
-        ? location.state.selectedHcp :
-        [];
-    const removedHcp = location.state
-        ? location.state.removedHcp :
-        [];
+    const [selectedHcp, setSelectedHcp] = useState(location.state?.selectedHcp
+        ? location.state?.selectedHcp : location.state?.flag != 1 ?
+            props.getDraftData?.campaign_data?.selectedHcp
+                ? props.getDraftData?.campaign_data?.selectedHcp :
+                [] : []);
+    const [removedHcp, setRemovedHcp] = useState(location.state?.removedHcp
+        ? location.state?.removedHcp : location.state?.flag != 1 ?
+            props.getDraftData?.campaign_data?.removedHcp
+                ? props.getDraftData?.campaign_data?.removedHcp :
+                [] : []);
 
     const [readers, setReaders] = useState([]);
     const [campaign_id_st, setCampaign_id] = useState();
@@ -88,7 +92,7 @@ const SelectSmartListCountryUsers = (props) => {
                 setRemovedReaders(old_object.removedHcp);
             }
         } else {
-            if (props?.getDraftData && props.getDraftData.campaign_data?.removedHcp) {
+            if (location?.state?.flag != 1 && props?.getDraftData && props.getDraftData.campaign_data?.removedHcp) {
                 if (
                     typeof props.getDraftData.campaign_data.removedHcp != "undefined" &&
                     props.getDraftData.campaign_data.removedHcp != ""
@@ -128,11 +132,11 @@ const SelectSmartListCountryUsers = (props) => {
                         if (!otherCountry?.includes(country)) {
                             otherCountry?.push(country);
                         }
-                        // If the country key doesn't exist, create an array for it
+
                         if (!acc[country]) {
                             acc[country] = [];
                         }
-                        // Push the person data to the country array
+
                         acc[country].push(person);
                         return acc;
                     }, {});
@@ -230,6 +234,8 @@ const SelectSmartListCountryUsers = (props) => {
     };
 
     const backClicked = () => {
+        setSelectedHcp([]);
+        setRemovedHcp([]);
         navigate("/SelectSmartList");
     };
 
@@ -293,8 +299,9 @@ const SelectSmartListCountryUsers = (props) => {
                     : props.getDraftData?.campaign_data?.list_selection
                         ? props.getDraftData.campaign_data.list_selection
                         : 0,
-                removedHcp: [removedReaders,...discardCountryData],
+                removedHcp: [...removedReaders, ...discardCountryData],
             },
+
             campaign_id: campaign_id_st,
             source_code: old_object?.template
                 ? old_object.template
@@ -540,20 +547,27 @@ const SelectSmartListCountryUsers = (props) => {
 
 
     const deleteReader = (country, index, i) => {
-
         const previous_removed_users = removedReaders;
         const readersList = JSON.parse(JSON.stringify(countryWiseData["allCountryData"]))
-        const removedReader = readersList[country]?.splice(i, 1);
-        setCountryWiseData({ ...countryWiseData, allCountryData: readersList })
-        setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-
+        if (Object.keys(readersList[country]).length > 1 && readersList[country].length > 1) {
+            const removedReader = readersList[country]?.splice(i, 1);
+            setCountryWiseData({ ...countryWiseData, allCountryData: readersList })
+            setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
+        } else {
+            // toast.warning("There must be at least one user present.");
+            popup_alert({
+                visible: "show",
+                message: "There must be at least one user or delete the country",
+                type: "error",
+                redirect: "",
+            });
+        }
     };
 
     const deleteCountryData = (selectedCountry) => {
         if (countryWiseData.allCountryData[selectedCountry]) {
             // Remove selected country data from allCountryData
             const updatedAllCountryData = { ...countryWiseData.allCountryData };
-            console.log(updatedAllCountryData, "updatedAllCountryData");
             if (Object.keys(updatedAllCountryData).length > 1) {
                 const discardedData = updatedAllCountryData[selectedCountry];
                 delete updatedAllCountryData[selectedCountry];
@@ -567,7 +581,13 @@ const SelectSmartListCountryUsers = (props) => {
                     allCountryData: updatedAllCountryData,
                 }));
             } else {
-                toast.warning("There must be at least one country present.");
+                // toast.warning("There must be at least one country present.");
+                popup_alert({
+                    visible: "show",
+                    message: "There must be at least one country or delete the smart list",
+                    type: "error",
+                    redirect: "",
+                });
             }
 
         } else {
@@ -698,8 +718,6 @@ const SelectSmartListCountryUsers = (props) => {
             const status = body.data.map((data, index) => {
                 if (
                     data.email == "" ||
-                    data.first_name == "" ||
-                    data.last_name == "" ||
                     data.country == ""
                 ) {
                     if (data.email == "") {
@@ -721,6 +739,7 @@ const SelectSmartListCountryUsers = (props) => {
                     }
                     return "true";
                 } else if (data.email != "") {
+
                     let email = data.email;
                     let useremail = email.trim();
                     var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -870,16 +889,20 @@ const SelectSmartListCountryUsers = (props) => {
     const isEmailInBothArrays = (email) => {
         // Check in discardCountryData
         for (const countryData of Object.values(countryWiseData.discardCountryData)) {
-            if (countryData.some((user) => user.email === email)) {
+            if (countryData.some((user) => user?.email?.toLowerCase() === email)) {
+
                 return true;
             }
         }
 
         // Check in allCountryData
         for (const countryData of Object.values(countryWiseData.allCountryData)) {
-            if (countryData.some((user) => user.email === email)) {
+            if (countryData.some((user) => user?.email?.toLowerCase() === email)) {
                 return true;
             }
+        }
+        if (removedReaders?.some((user) => user?.email?.toLowerCase() === email)) {
+            return true;
         }
         return false;
     };

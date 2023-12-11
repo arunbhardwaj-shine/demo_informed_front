@@ -389,7 +389,7 @@ const EmailStats = (props) => {
                     campaignData.length > 0 ? (
                       campaignData.map((item, index) => (
                         <>
-                          <tr key={index}>
+                          <tr className={item?.campaign_status == 5 ? "queue_row" : "campaign_row"} key={index}>
                             <td> {item.c_id}</td>
                             <td> {item.sent_data}</td>
                             <td className="smartlistth"> {item.subject}</td>
@@ -403,7 +403,7 @@ const EmailStats = (props) => {
                             <td>
                               <button
                                 type="button"
-                                className="btn btn-primary btn-bordered"
+                                className={item?.campaign_status == 5 ? "btn btn-primary btn-bordered disabled" : "btn btn-primary btn-bordered" }
                                 onClick={(e) => getDetails(item.distribute_id)}
                               >
                                 Details
@@ -412,7 +412,7 @@ const EmailStats = (props) => {
                             <td>
                               <button
                                 type="button"
-                                className="btn btn-primary btn-bordered"
+                                className={item?.campaign_status == 5 ? "btn btn-primary btn-bordered disabled" : "btn btn-primary btn-bordered" }
                                 onClick={(e) =>
                                   sendCampaign(item.distribute_id, 2)
                                 }
@@ -423,7 +423,7 @@ const EmailStats = (props) => {
                             <td>
                               <button
                                 type="button"
-                                className="btn btn-primary btn-bordered"
+                                className={item?.campaign_status == 5 ? "btn btn-primary btn-bordered disabled" : "btn btn-primary btn-bordered" }
                                 onClick={(e) =>
                                   sendCampaign(item.distribute_id, 1)
                                 }

@@ -54,7 +54,7 @@ const VerifyMAIL = (props) => {
     : props.getDraftData.PdfSelected;
 
   const [getpdfdata, setPdfData] = useState([]);
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
+  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
@@ -64,19 +64,19 @@ const VerifyMAIL = (props) => {
     props.getEmailData?.status
       ? props.getEmailData.status
       : props.getDraftData?.status && props.getDraftData.status != ""
-      ? props.getDraftData.status
-      : 0
+        ? props.getDraftData.status
+        : 0
   );
 
   useEffect(() => {
     let campaign_id =
       typeof props.getEmailData === "object" &&
-      props.getEmailData !== null &&
-      props.getEmailData?.campaign_id
+        props.getEmailData !== null &&
+        props.getEmailData?.campaign_id
         ? props.getEmailData.campaign_id
         : props.getDraftData?.campaign_id
-        ? props.getDraftData.campaign_id
-        : "";
+          ? props.getDraftData.campaign_id
+          : "";
     setCampaign_id(campaign_id);
 
     if (
@@ -86,7 +86,7 @@ const VerifyMAIL = (props) => {
     ) {
       let smart_list_data =
         typeof props.getSelectedSmartListData === "object" &&
-        props.getSelectedSmartListData !== null
+          props.getSelectedSmartListData !== null
           ? props.getSelectedSmartListData
           : props.getDraftData.smart_list_data;
       setSmartListData(smart_list_data);
@@ -171,13 +171,13 @@ const VerifyMAIL = (props) => {
       description: props.getEmailData?.emailDescription
         ? props.getEmailData.emailDescription
         : props.getDraftData?.description
-        ? props.getDraftData.description
-        : "",
+          ? props.getDraftData.description
+          : "",
       creator: props.getEmailData?.emailCreator
         ? props.getEmailData.emailCreator
         : props.getDraftData?.creator
-        ? props.getDraftData.creator
-        : "",
+          ? props.getDraftData.creator
+          : "",
       campaign_name: props.getEmailData?.emailCampaign
         ? props.getEmailData.emailCampaign
         : props.getDraftData.campaign,
@@ -194,7 +194,7 @@ const VerifyMAIL = (props) => {
           : props.getDraftData.campaign_data.template_id,
         smart_list_id:
           typeof getSmartListData !== "undefined" &&
-          getSmartListData.hasOwnProperty("id")
+            getSmartListData.hasOwnProperty("id")
             ? getSmartListData.id
             : "",
         selectedHcp: selectedHcp,
@@ -267,20 +267,20 @@ const VerifyMAIL = (props) => {
     } else {
       let finalTags = props.getEmailData?.tags
         ? props.getEmailData.tags.map((tags) => {
-            return tags.innerHTML || tags;
-          })
+          return tags.innerHTML || tags;
+        })
         : props.getDraftData.tags.map((tags) => {
-            return tags.innerHTML || tags;
-          });
+          return tags.innerHTML || tags;
+        });
 
       let user_list =
         props.getEmailData?.selectedHcp || location.state
           ? selectedHcp.map((userId) => {
-              return userId.profile_user_id || userId.user_id;
-            })
+            return userId.profile_user_id || userId.user_id;
+          })
           : props.getDraftData.campaign_data.selectedHcp.map((userId) => {
-              return userId.profile_user_id || userId.user_id;
-            });
+            return userId.profile_user_id || userId.user_id;
+          });
 
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -294,13 +294,13 @@ const VerifyMAIL = (props) => {
         description: props.getEmailData?.emailDescription
           ? props.getEmailData.emailDescription
           : props.getDraftData?.description
-          ? props.getDraftData.description
-          : "",
+            ? props.getDraftData.description
+            : "",
         creator: props.getEmailData?.emailCreator
           ? props.getEmailData.emailCreator
           : props.getDraftData?.creator
-          ? props.getDraftData.creator
-          : "",
+            ? props.getDraftData.creator
+            : "",
         campaign_name: props.getEmailData?.emailCampaign
           ? props.getEmailData.emailCampaign
           : props.getDraftData.campaign,
@@ -313,7 +313,7 @@ const VerifyMAIL = (props) => {
           user_list: user_list,
           smart_list_id:
             typeof getSmartListData !== "undefined" &&
-            getSmartListData.hasOwnProperty("id")
+              getSmartListData.hasOwnProperty("id")
               ? getSmartListData.id
               : "",
           template_id: props.getEmailData?.templateId
@@ -327,7 +327,7 @@ const VerifyMAIL = (props) => {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //loader("show");
       setShowProgressBar(true);
-      if(localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg=='){
+      if (localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg==' || localStorage.getItem('user_id') == 'm5JI5zEDY3xHFTZBnSGQZg==') {
         await axios
           .post(`emailapi/send_email_new`, body)
           .then((res) => {
@@ -338,24 +338,24 @@ const VerifyMAIL = (props) => {
               setTimeout(() => {
                 popup_alert({
                   visible: "show",
-                  message: "Mail sent successfully",
+                  message: res?.data?.message ? res?.data?.message : "Mail sent successfully",
                   type: "success",
                   redirect: "/EmailList",
                 });
                 setUploadOrDownloadCount(0);
                 setMailsIncrement(0);
-  
+
                 setShowProgressBar(false);
               }, 1000);
             } else {
               clearInterval(timer);
               setUploadOrDownloadCount(0);
               setMailsIncrement(0);
-  
+
               setShowProgressBar(false);
               popup_alert({
                 visible: "show",
-                message: res.data.message,
+                message: res?.data?.message ? res?.data?.message : "Mail sent successfully",
                 type: "error",
               });
             }
@@ -366,7 +366,7 @@ const VerifyMAIL = (props) => {
             toast.error("Something went wrong");
             console.log(err);
           });
-      }else{
+      } else {
 
         await axios
           .post(`emailapi/send_email`, body)
@@ -378,20 +378,20 @@ const VerifyMAIL = (props) => {
               setTimeout(() => {
                 popup_alert({
                   visible: "show",
-                  message: "Mail sent successfully",
+                  message: res.data.message,
                   type: "success",
                   redirect: "/EmailList",
                 });
                 setUploadOrDownloadCount(0);
                 setMailsIncrement(0);
-  
+
                 setShowProgressBar(false);
               }, 1000);
             } else {
               clearInterval(timer);
               setUploadOrDownloadCount(0);
               setMailsIncrement(0);
-  
+
               setShowProgressBar(false);
               popup_alert({
                 visible: "show",
@@ -438,10 +438,10 @@ const VerifyMAIL = (props) => {
       typeof getSmartListData !== "undefined" &&
       getSmartListData.hasOwnProperty("id")
     ) {
-      navigate("/SelectSmartListUsers",{
+      navigate("/SelectSmartListUsers", {
         state: {
-         ...location?.state
-      },
+          ...location?.state
+        },
       });
     } else {
       navigate("/VerifyHCP");
@@ -498,13 +498,13 @@ const VerifyMAIL = (props) => {
       description: props.getEmailData?.emailDescription
         ? props.getEmailData.emailDescription
         : props.getDraftData?.description
-        ? props.getDraftData.description
-        : "",
+          ? props.getDraftData.description
+          : "",
       creator: props.getEmailData?.emailCreator
         ? props.getEmailData.emailCreator
         : props.getDraftData?.creator
-        ? props.getDraftData.creator
-        : "",
+          ? props.getDraftData.creator
+          : "",
       campaign_name: props.getEmailData?.emailCampaign
         ? props.getEmailData.emailCampaign
         : props.getDraftData.campaign,
@@ -521,13 +521,14 @@ const VerifyMAIL = (props) => {
           : props.getDraftData.campaign_data.template_id,
         smart_list_id:
           typeof getSmartListData !== "undefined" &&
-          getSmartListData.hasOwnProperty("id")
+            getSmartListData.hasOwnProperty("id")
             ? getSmartListData.id
             : "",
         selectedHcp: selectedHcp,
         list_selection: props.getEmailData?.selected
           ? props.getEmailData.selected
           : props.getDraftData.campaign_data.list_selection,
+        removedHcp: getRemovedHcp
       },
       campaign_id: campaign_id_st,
       source_code: props.getEmailData?.template
@@ -590,7 +591,7 @@ const VerifyMAIL = (props) => {
                       <Link to="/CreateEmail">Create Your Email</Link>
                     </li>
                     <li className="active">
-                      <Link to="/SelectSmartList">{localStorage.getItem("user_id") == userId?"Select Users":"Select HCPs"}</Link>
+                      <Link to="/SelectSmartList">{localStorage.getItem("user_id") == userId ? "Select Users" : "Select HCPs"}</Link>
                     </li>
 
                     {/*
@@ -603,7 +604,7 @@ const VerifyMAIL = (props) => {
                      */}
 
                     {typeof getSmartListData !== "undefined" &&
-                    getSmartListData.hasOwnProperty("id") ? (
+                      getSmartListData.hasOwnProperty("id") ? (
                       <li className="active">
                         <Link to="/SelectSmartListUsers">Verify Your List</Link>
                       </li>
@@ -659,41 +660,41 @@ const VerifyMAIL = (props) => {
                           {props.getEmailData?.emailCreator
                             ? props.getEmailData.emailCreator
                             : props.getDraftData?.creator
-                            ? props.getDraftData.creator
-                            : ""}
+                              ? props.getDraftData.creator
+                              : ""}
                         </h6>
                         <h6>
                           <strong>Tags | </strong>
                           <ul>
                             {props.getEmailData?.tags
                               ? props.getEmailData.tags.map((tags, i) => {
-                                  return (
-                                    <>
-                                      <li className="list1">
-                                        {tags.innerHTML || tags}{" "}
-                                        <img
-                                          src={path_image + "filter-close.svg"}
-                                          alt="Close-filter"
-                                          onClick={() => removeTag(i)}
-                                        />
-                                      </li>
-                                    </>
-                                  );
-                                })
+                                return (
+                                  <>
+                                    <li className="list1">
+                                      {tags.innerHTML || tags}{" "}
+                                      <img
+                                        src={path_image + "filter-close.svg"}
+                                        alt="Close-filter"
+                                        onClick={() => removeTag(i)}
+                                      />
+                                    </li>
+                                  </>
+                                );
+                              })
                               : props.getDraftData.tags.map((tags, i) => {
-                                  return (
-                                    <>
-                                      <li className="list1">
-                                        {tags.innerHTML || tags}{" "}
-                                        <img
-                                          src={path_image + "filter-close.svg"}
-                                          alt="Close-filter"
-                                          onClick={() => removeTag(i)}
-                                        />
-                                      </li>
-                                    </>
-                                  );
-                                })}
+                                return (
+                                  <>
+                                    <li className="list1">
+                                      {tags.innerHTML || tags}{" "}
+                                      <img
+                                        src={path_image + "filter-close.svg"}
+                                        alt="Close-filter"
+                                        onClick={() => removeTag(i)}
+                                      />
+                                    </li>
+                                  </>
+                                );
+                              })}
                           </ul>
                         </h6>
                       </div>
@@ -701,14 +702,14 @@ const VerifyMAIL = (props) => {
                         <button
                           className={
                             typeof getArticleType !== "undefined" &&
-                            getArticleType == 3
+                              getArticleType == 3
                               ? "btn btn-primary approved-btn btn-bordered checked"
                               : "btn btn-primary approved-btn btn-bordered"
                           }
                           onClick={(e) => approvedClicked(e)}
                         >
                           {typeof getArticleType !== "undefined" &&
-                          getArticleType == 3
+                            getArticleType == 3
                             ? "Approved"
                             : "Approve?"}
 
@@ -751,7 +752,7 @@ const VerifyMAIL = (props) => {
                                       <ul>
                                         {typeof getpdfdata.pdf_tags !==
                                           "undefined" &&
-                                        getpdfdata.pdf_tags.length > 0 ? (
+                                          getpdfdata.pdf_tags.length > 0 ? (
                                           getpdfdata.pdf_tags.map((tag) => {
                                             return (
                                               <li className="list1">{tag}</li>
@@ -802,15 +803,15 @@ const VerifyMAIL = (props) => {
                                       }>
                                         Preview
                                       </button>
-                                    :
-                                    <a
-                                      href={getpdfdata.pdf_preview_link}
-                                      target="_blank"
-                                    >
-                                      <button className="btn btn-primary btn-filled">
-                                        Preview
-                                      </button>
-                                    </a>
+                                      :
+                                      <a
+                                        href={getpdfdata.pdf_preview_link}
+                                        target="_blank"
+                                      >
+                                        <button className="btn btn-primary btn-filled">
+                                          Preview
+                                        </button>
+                                      </a>
                                   }
                                 </div>
                               </div>
@@ -1077,7 +1078,7 @@ const VerifyMAIL = (props) => {
               type="button"
               className="btn btn-primary save btn-filled"
               onClick={closeButtonClicked}
-              //  onClick={saveClicked}
+            //  onClick={saveClicked}
             >
               Close
             </button>
@@ -1146,15 +1147,15 @@ const VerifyMAIL = (props) => {
                       <th scope="col">Country</th>
 
                       {localStorage.getItem("user_id") ===
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
-                        <th scope="col">IRT mandatory training</th>
-                        <th scope="col">IRT role</th>
+                          <th scope="col">IRT mandatory training</th>
+                          <th scope="col">IRT role</th>
                         </>
                       ) : (
                         <>
-                        <th scope="col">Business unit</th>
-                        <th scope="col">Contact type</th>
+                          <th scope="col">Business unit</th>
+                          <th scope="col">Contact type</th>
                         </>
                       )}
 
@@ -1183,10 +1184,10 @@ const VerifyMAIL = (props) => {
                               <td>
                                 {localStorage.getItem("user_id") ==
                                   "56Ek4feL/1A8mZgIKQWEqg=="
-                                    ? rr?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    :rr.ibu
+                                  ? rr?.irt
+                                    ? "Yes"
+                                    : "No"
+                                  : rr.ibu
                                     ? rr.ibu
                                     : "N/A"}
                               </td>
