@@ -557,7 +557,7 @@ const SelectSmartListCountryUsers = (props) => {
             // toast.warning("There must be at least one user present.");
             popup_alert({
                 visible: "show",
-                message: "There must be at least one user or delete the country",
+                message: "There must be at least one user in list.",
                 type: "error",
                 redirect: "",
             });

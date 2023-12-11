@@ -708,7 +708,7 @@ const LibraryContent = (props) => {
         body = {
           pdfId: pdf_id,
           consentType: consent_value,
-          // sold_unsold: status_value
+          sold_unsold: status_value
         };
       } else {
         body = {

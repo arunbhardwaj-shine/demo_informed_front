@@ -504,7 +504,9 @@ const PollQuestion = () => {
                   <>
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item?.question}</td>
+                      <td dangerouslySetInnerHTML={{
+                            __html: item?.question,
+                          }}></td>
                       <td>{item?.speakerName}</td>
                       <td>{item?.totalUser}</td>
                       <td>

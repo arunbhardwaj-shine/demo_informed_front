@@ -12,7 +12,7 @@ import Modal from "react-bootstrap/Modal";
 
 import 'react-tabs/style/react-tabs.css';
 let  colors= ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"] 
-const WebinarQuestion = () => {
+const   WebinarQuestion = () => {
   const [data, setData] = useState([]);
   const [alldata, setAllData] = useState([]);
   const [count, setCount] = useState(0);
@@ -232,7 +232,10 @@ useEffect(() => {
                  {data?.map((item,index)=>{
                   return (
                     <>
-                    <p>{index+1}. {item?.question} </p>
+                    {/* <p>{index+1}. {item?.question} </p> */}
+                    <p dangerouslySetInnerHTML={{
+                            __html: `${index + 1} ${item?.question}`,
+                          }}></p>
                     {
                       item?.canCustomAnswer == 1 ?
                       <>
