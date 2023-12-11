@@ -4645,24 +4645,30 @@ l .vwd .factor-season-left h2 {
 
 .eahad .form-control {
   box-shadow: none;
-  border: 2px solid #33baa8;
+  border: 1px solid #33baa8;
   padding: 12px 25px;
+  border-radius: 0;
 }
-
+.eahad .form-control:focus {
+  box-shadow: none;
+}
 .eahad .consent-form .split-button-dropup>div:nth-child(3) {
   max-width: 100%;
   min-width: 60px;
   padding: 8px 50px 8px 15px;
   font-size: 16px;
   box-shadow: none;
-  border: 2px solid #33baa8;
-  border-radius: 6px;
+  border: 1px solid #33baa8;
+  border-radius: 0px;
   color: #000000;
   background-position: 96% center;
 }
 .eahad .footer-sec span {
   font-size: 12px;
   color: #cf0000;
+}
+ .modal .eahad .split-button-dropup>div:nth-child(3) div {
+  color: #000000;
 }
 /** Template four End**/
 .footer-sec {
