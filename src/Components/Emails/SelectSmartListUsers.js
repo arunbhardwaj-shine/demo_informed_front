@@ -86,12 +86,12 @@ const SelectSmartListUsers = (props) => {
   useEffect(() => {
     let campaign_id =
       typeof old_object === "object" &&
-      old_object !== null &&
-      old_object?.campaign_id
+        old_object !== null &&
+        old_object?.campaign_id
         ? old_object.campaign_id
         : props.getDraftData?.campaign_id
-        ? props.getDraftData.campaign_id
-        : "";
+          ? props.getDraftData.campaign_id
+          : "";
     setCampaign_id(campaign_id);
 
     // removedHcp
@@ -103,7 +103,7 @@ const SelectSmartListUsers = (props) => {
       if (props?.getDraftData && props.getDraftData.campaign_data?.removedHcp) {
         if (
           typeof props.getDraftData.campaign_data.removedHcp != "undefined" &&
-          props.getDraftData.campaign_data.removedHcp != ""
+          props.getDraftData.campaign_data.removedHcp != "" && location?.state?.flag != 1
         ) {
           setRemovedReaders(props.getDraftData.campaign_data.removedHcp);
         }
@@ -119,7 +119,7 @@ const SelectSmartListUsers = (props) => {
       list_id: props.getSelectedSmartListData?.id
         ? props.getSelectedSmartListData.id
         : props.getDraftData.campaign_data.smart_list_id,
-      show_specific: 1,  
+      show_specific: 1,
     };
 
     if (props.getSelectedSmartListData?.id) {
@@ -147,7 +147,7 @@ const SelectSmartListUsers = (props) => {
           ) {
             if (
               typeof props.getDraftData.campaign_data.removedHcp !=
-                "undefined" &&
+              "undefined" &&
               props.getDraftData.campaign_data.removedHcp != ""
             ) {
               var removedUsers = props.getDraftData.campaign_data.removedHcp;
@@ -254,13 +254,13 @@ const SelectSmartListUsers = (props) => {
       description: old_object?.emailDescription
         ? old_object.emailDescription
         : props.getDraftData?.description
-        ? props.getDraftData.description
-        : "",
+          ? props.getDraftData.description
+          : "",
       creator: old_object?.emailCreator
         ? old_object.emailCreator
         : props.getDraftData?.creator
-        ? props.getDraftData.creator
-        : "",
+          ? props.getDraftData.creator
+          : "",
       campaign_name: old_object?.emailCampaign
         ? old_object.emailCampaign
         : props.getDraftData.campaign,
@@ -282,8 +282,8 @@ const SelectSmartListUsers = (props) => {
         list_selection: old_object?.selected
           ? old_object.selected
           : props.getDraftData?.campaign_data?.list_selection
-          ? props.getDraftData.campaign_data.list_selection
-          : 0,
+            ? props.getDraftData.campaign_data.list_selection
+            : 0,
         removedHcp: removedReaders,
       },
       campaign_id: campaign_id_st,
@@ -694,16 +694,16 @@ const SelectSmartListUsers = (props) => {
         a.first_name.toLowerCase() > b.first_name.toLowerCase()
           ? 1
           : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-          ? -1
-          : 0
+            ? -1
+            : 0
       );
     } else {
       normalArr.sort((a, b) =>
         a.first_name.toLowerCase() < b.first_name.toLowerCase()
           ? 1
           : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-          ? -1
-          : 0
+            ? -1
+            : 0
       );
     }
 
@@ -750,7 +750,7 @@ const SelectSmartListUsers = (props) => {
       const contact_type_edit =
         localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
           ? document.getElementById("field_contact_type" + profile_user_id)
-              .value
+            .value
           : "";
 
       const arr = [];
@@ -811,8 +811,8 @@ const SelectSmartListUsers = (props) => {
         const contact_type_edit =
           localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
             ? document.getElementById(
-                "field_contact_type" + data.profile_user_id
-              ).value
+              "field_contact_type" + data.profile_user_id
+            ).value
             : "";
 
         let prev_obj = readers.find(
@@ -1187,16 +1187,16 @@ const SelectSmartListUsers = (props) => {
                       <>
                         {
                           localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
-                          <a
-                            className="show-less-info"
-                            onClick={(e) => showMoreInfo(e)}
-                          >
-                            {showLessInfo == true ? (
-                              <p className="show_more">Show More information</p>
-                            ) : (
-                              <p className="show_less">Show less information</p>
-                            )}{" "}
-                          </a> : null
+                            <a
+                              className="show-less-info"
+                              onClick={(e) => showMoreInfo(e)}
+                            >
+                              {showLessInfo == true ? (
+                                <p className="show_more">Show More information</p>
+                              ) : (
+                                <p className="show_less">Show less information</p>
+                              )}{" "}
+                            </a> : null
                         }
                         <div className="hcp-new-user">
                           <button
@@ -1290,7 +1290,7 @@ const SelectSmartListUsers = (props) => {
                         <th scope="col">Country</th>
 
                         {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                          "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <>
                             <th scope="col">IRT mandatory training</th>
                             <th scope="col">IRT role</th>
@@ -1333,16 +1333,16 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr?.irt
                                     ? "Yes"
                                     : "No"
                                   : rr.ibu && rr.ibu != 0
-                                  ? rr.ibu
-                                  : "N/A"}
+                                    ? rr.ibu
+                                    : "N/A"}
                               </td>
                               {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <td>
                                   {rr?.user_type != 0 ? rr.user_type : "N/A"}
                                 </td>
@@ -1432,8 +1432,8 @@ const SelectSmartListUsers = (props) => {
                                 <span>
                                   {readers.first_name
                                     ? readers.first_name +
-                                      " " +
-                                      readers.last_name
+                                    " " +
+                                    readers.last_name
                                     : "N/A"}
                                 </span>
                               </td>
@@ -1459,17 +1459,17 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 {/*readers.ibu ? readers.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? readers?.irt
                                     ? "Yes"
                                     : "No"
                                   : readers.ibu && readers.ibu != 0
-                                  ? readers.ibu
-                                  : "N/A"}
+                                    ? readers.ibu
+                                    : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <span>
                                     {readers.user_type != 0
                                       ? readers?.user_type
@@ -1570,8 +1570,8 @@ const SelectSmartListUsers = (props) => {
                                   {" "}
                                   {readers.first_name
                                     ? readers.first_name +
-                                      " " +
-                                      readers.last_name
+                                    " " +
+                                    readers.last_name
                                     : "N/A"}{" "}
                                 </span>
                               </td>
@@ -1603,17 +1603,17 @@ const SelectSmartListUsers = (props) => {
                               <td>
                                 {/*readers.ibu ? readers.ibu : "N/A"*/}
                                 {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? readers?.irt
                                     ? "Yes"
                                     : "No"
                                   : readers.ibu && readers.ibu != 0
-                                  ? readers.ibu
-                                  : "N/A"}
+                                    ? readers.ibu
+                                    : "N/A"}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <span>
                                     {readers.user_type != 0
                                       ? readers?.user_type
@@ -1727,12 +1727,12 @@ const SelectSmartListUsers = (props) => {
                     countryIndex: "",
                     role:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? irtRole?.[0]?.value
                         : "",
                     optIrt:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? "yes"
                         : "",
                     institutionType: "",
@@ -1764,14 +1764,14 @@ const SelectSmartListUsers = (props) => {
                                     First name{" "}
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}{" "}
+                                        <span>*</span>
+                                      )}{" "}
                                   </label>
                                   <input
                                     type="text"
                                     className={
                                       validationError?.newHcpFirstName &&
-                                      validationError?.index == i
+                                        validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -1781,7 +1781,7 @@ const SelectSmartListUsers = (props) => {
                                     value={val.firstname}
                                   />
                                   {validationError?.newHcpFirstName &&
-                                  validationError?.index == i ? (
+                                    validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpFirstName}
                                     </div>
@@ -1794,14 +1794,14 @@ const SelectSmartListUsers = (props) => {
                                     Last name{" "}
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}{" "}
+                                        <span>*</span>
+                                      )}{" "}
                                   </label>
                                   <input
                                     type="text"
                                     className={
                                       validationError?.newHcpLastName &&
-                                      validationError?.index == i
+                                        validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -1811,7 +1811,7 @@ const SelectSmartListUsers = (props) => {
                                     value={val.lastname}
                                   />
                                   {validationError?.newHcpLastName &&
-                                  validationError?.index == i ? (
+                                    validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpLastName}
                                     </div>
@@ -1827,7 +1827,7 @@ const SelectSmartListUsers = (props) => {
                                     type="email"
                                     className={
                                       validationError?.newHcpEmail &&
-                                      validationError?.index == i
+                                        validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -1839,7 +1839,7 @@ const SelectSmartListUsers = (props) => {
                                     value={val.email}
                                   />
                                   {validationError?.newHcpEmail &&
-                                  validationError?.index == i ? (
+                                    validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpEmail}
                                     </div>
@@ -1848,7 +1848,7 @@ const SelectSmartListUsers = (props) => {
                               </div>
 
                               {localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -1860,7 +1860,7 @@ const SelectSmartListUsers = (props) => {
                                         options={institutionType}
                                         className={
                                           validationError?.newHcpInstitution &&
-                                          validationError?.index == i
+                                            validationError?.index == i
                                             ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                             : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         }
@@ -1870,15 +1870,15 @@ const SelectSmartListUsers = (props) => {
                                         defaultValue={
                                           val?.institutionType
                                             ? {
-                                                label: val?.institutionType,
-                                                value: val?.institutionType,
-                                              }
+                                              label: val?.institutionType,
+                                              value: val?.institutionType,
+                                            }
                                             : ""
                                         }
                                         placeholder="Select institution"
                                       />
                                       {validationError?.newHcpInstitution &&
-                                      validationError?.index == i ? (
+                                        validationError?.index == i ? (
                                         <div className="login-validation">
                                           {validationError?.newHcpInstitution}
                                         </div>
@@ -1899,9 +1899,9 @@ const SelectSmartListUsers = (props) => {
                                         defaultValue={
                                           val?.optIrt
                                             ? {
-                                                label: "Yes",
-                                                value: val?.optIrt,
-                                              }
+                                              label: "Yes",
+                                              value: val?.optIrt,
+                                            }
                                             : ""
                                         }
                                         value={
@@ -1910,11 +1910,11 @@ const SelectSmartListUsers = (props) => {
                                           ) == -1
                                             ? ""
                                             : optIRT[
-                                                optIRT.findIndex(
-                                                  (el) =>
-                                                    el.value == val?.optIrt
-                                                )
-                                              ]
+                                            optIRT.findIndex(
+                                              (el) =>
+                                                el.value == val?.optIrt
+                                            )
+                                            ]
                                         }
                                         placeholder="Select IRT"
                                       />
@@ -1936,11 +1936,11 @@ const SelectSmartListUsers = (props) => {
                                             ) == -1
                                               ? ""
                                               : irtRole[
-                                                  irtRole?.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
+                                              irtRole?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -1958,11 +1958,11 @@ const SelectSmartListUsers = (props) => {
                                             ) == -1
                                               ? ""
                                               : role[
-                                                  role?.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
+                                              role?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -1985,7 +1985,7 @@ const SelectSmartListUsers = (props) => {
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
                                           hpc[i].contact_type != "" &&
-                                          hpc[i].contact_type != "undefined"
+                                            hpc[i].contact_type != "undefined"
                                             ? hpc[i].contact_type
                                             : "Select Type"
                                         }
@@ -2035,8 +2035,8 @@ const SelectSmartListUsers = (props) => {
                                     Country{" "}
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}{" "}
+                                        <span>*</span>
+                                      )}{" "}
                                   </label>
                                   {val?.optIrt == "yes" ? (
                                     <>
@@ -2044,7 +2044,7 @@ const SelectSmartListUsers = (props) => {
                                         options={irtCountry}
                                         className={
                                           validationError?.index == i &&
-                                          validationError?.newHcpCountry
+                                            validationError?.newHcpCountry
                                             ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                             : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         }
@@ -2057,11 +2057,11 @@ const SelectSmartListUsers = (props) => {
                                           ) == -1
                                             ? ""
                                             : irtCountry[
-                                                irtCountry.findIndex(
-                                                  (el) =>
-                                                    el.value == val?.country
-                                                )
-                                              ]
+                                            irtCountry.findIndex(
+                                              (el) =>
+                                                el.value == val?.country
+                                            )
+                                            ]
                                         }
                                         placeholder="Select Country"
                                         filterOption={createFilter(
@@ -2083,7 +2083,7 @@ const SelectSmartListUsers = (props) => {
                                         options={countryall}
                                         className={
                                           validationError?.index == i &&
-                                          validationError?.newHcpCountry
+                                            validationError?.newHcpCountry
                                             ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                             : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         }
@@ -2097,11 +2097,11 @@ const SelectSmartListUsers = (props) => {
                                           ) == -1
                                             ? ""
                                             : countryall[
-                                                countryall.findIndex(
-                                                  (el) =>
-                                                    el.value == val?.country
-                                                )
-                                              ]
+                                            countryall.findIndex(
+                                              (el) =>
+                                                el.value == val?.country
+                                            )
+                                            ]
                                         }
                                         placeholder="Select Country"
                                         filterOption={createFilter(
@@ -2155,7 +2155,7 @@ const SelectSmartListUsers = (props) => {
                               </div>
                               */}
                               {localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -2171,8 +2171,8 @@ const SelectSmartListUsers = (props) => {
                                         value={
                                           siteNumberAll[hpc[i]?.siteNumberIndex]
                                             ? siteNumberAll[
-                                                hpc[i]?.siteNumberIndex
-                                              ]
+                                            hpc[i]?.siteNumberIndex
+                                            ]
                                             : ""
                                         }
                                         placeholder={"Select Site Number"}

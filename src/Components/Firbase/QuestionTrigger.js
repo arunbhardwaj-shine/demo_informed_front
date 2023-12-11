@@ -98,6 +98,7 @@ const QuestionTrigger = () =>{
     },[count])
 
     return (
+        <div className="webinar-question-box">
         <Container>
             <div className="webinar-question-results webinar_tabs_show">
         <Row>
@@ -203,6 +204,7 @@ const QuestionTrigger = () =>{
         </Row>
         </div>
       </Container>
+      </div>
     )
 }
 export default QuestionTrigger

@@ -1462,6 +1462,7 @@ ul.tab-mail-list.data span.total-left small {
   line-height: 24px;
   color: $primary-color;
   margin-bottom: 6px;
+  word-break: break-all;
 }
 
 #resend-confirm .modal-header {
@@ -11906,6 +11907,10 @@ form.product-unit button {
               &.active-irt {
                 width: 125px;
               }
+
+              &.non_display {
+                display: none;
+              }
             }
           }
         }
@@ -11980,11 +11985,15 @@ form.product-unit button {
                 width: 40px;
               }
             }
+
+            &.non_display {
+              display: none;
+            }
           }
 
           .view {
             position: relative;
-
+             cursor: pointer;
             &:after {
               content: "";
               position: absolute;
@@ -11997,8 +12006,6 @@ form.product-unit button {
               height: 10px;
               transition: all 0.2s ease-out 0s;
             }
-
-            cursor: pointer;
 
             &.show {
               border-radius: 9px 9px 0 0;
@@ -12022,6 +12029,7 @@ form.product-unit button {
             td {
               height: 50px;
               vertical-align: middle;
+              position: relative;
 
               &.active-irt {
                 span {
@@ -12037,7 +12045,42 @@ form.product-unit button {
               &.pics {
                 text-align: right;
               }
+              .info_img{
+                max-width: 26px;
+                &:hover{
+                  &+.extra_info{
+                    display: block;
+                    position: absolute;
+                    z-index: 1;
+                    background: #fff;
+                    right: 25px;
+                    width: 270px;
+                    padding: 15px;
+                    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+                    border-radius: 6px;
+                  }
+                }
+              }
+              .extra_info{
+                display: none;
+                p {
+                  font-size: 13px;
+                  line-height: 15px;
+                  color: #70899E;
+                  span{
+                    font-weight: 500;
+                    margin-right: 6px;
+                  }
+              }
+              }
             }
+            &:nth-last-child(2){
+              td{
+                .extra_info {
+                    bottom: 50px;
+                }
+              } 
+            } 
           }
 
           .fold {
@@ -19213,6 +19256,26 @@ form.product-unit button {
   }
 
   @media (max-width: $layout-breakpoint-large) {
+    .webinar-quest .container, .webinar-question-box .container{
+    max-width: 98%;
+}
+.webinar-question-results table thead th {
+    font-size: 14px;
+}
+.webinar-question-results table tbody tr td button {
+    font-size: 12px;
+    padding: 4px 6px;
+}
+.webinar-question-results table tbody tr td:last-child, .webinar-question-results table tbody tr th:last-child {
+    width: 210px;
+}
+.webinar-question-results {
+    padding: 20px 20px 20px;
+}
+.webinar-quest .navbar .nav-fill .nav-item {
+    font-size: 14px;
+    padding: 7px 12px;
+}
     .landing-banner {
       .landing-heading {
         margin: 28px 0 14px;

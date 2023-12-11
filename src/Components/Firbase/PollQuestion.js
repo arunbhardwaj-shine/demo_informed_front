@@ -485,6 +485,7 @@ const PollQuestion = () => {
   }, [count]);
   return (
     <>
+    <div className="webinar-question-box">
       <Container>
         <div className="webinar-question-results">
           <Table>
@@ -601,6 +602,7 @@ const PollQuestion = () => {
           </Table>
         </div>
       </Container>
+      </div>
     </>
   );
 };

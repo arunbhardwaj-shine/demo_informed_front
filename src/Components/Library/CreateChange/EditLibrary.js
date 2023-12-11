@@ -605,13 +605,14 @@ const EditLibrary = () => {
           "tags",
           tagClickedFirst?.length ? JSON.stringify(tagClickedFirst) : ""
         );
-
-        formData.append("request_quote", userInputs?.request_quote ? 1 : 0);
-        formData.append("sold_unsold_status", userInputs?.sold_unsold_status);
-        formData.append(
-          "pharama_val",
-          userInputs?.pharmaArr ? userInputs?.pharmaArr : ""
-        );
+        if(userDetail?.user?.[0]?.retailer == 1){
+          formData.append("request_quote", userInputs?.request_quote ? 1 : 0);
+          formData.append("sold_unsold_status", userInputs?.sold_unsold_status);
+          formData.append(
+            "pharama_val",
+            userInputs?.pharmaArr ? userInputs?.pharmaArr : ""
+          );
+        }
         await postFormData(ENDPOINT.UPDATE_ARTICLE, formData, {
           header: {
             "Content-Type": "multipart/form-data",
