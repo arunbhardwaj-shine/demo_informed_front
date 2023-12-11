@@ -553,14 +553,14 @@ const SelectSmartListCountryUsers = (props) => {
             const removedReader = readersList[country]?.splice(i, 1);
             setCountryWiseData({ ...countryWiseData, allCountryData: readersList })
             setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-        }else {
+        } else {
             // toast.warning("There must be at least one user present.");
             popup_alert({
                 visible: "show",
                 message: "There must be at least one user or delete the country",
                 type: "error",
                 redirect: "",
-              });
+            });
         }
     };
 
@@ -587,7 +587,7 @@ const SelectSmartListCountryUsers = (props) => {
                     message: "There must be at least one country or delete the smart list",
                     type: "error",
                     redirect: "",
-                  });
+                });
             }
 
         } else {
@@ -718,8 +718,6 @@ const SelectSmartListCountryUsers = (props) => {
             const status = body.data.map((data, index) => {
                 if (
                     data.email == "" ||
-                    data.first_name == "" ||
-                    data.last_name == "" ||
                     data.country == ""
                 ) {
                     if (data.email == "") {
@@ -741,6 +739,7 @@ const SelectSmartListCountryUsers = (props) => {
                     }
                     return "true";
                 } else if (data.email != "") {
+
                     let email = data.email;
                     let useremail = email.trim();
                     var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -890,16 +889,20 @@ const SelectSmartListCountryUsers = (props) => {
     const isEmailInBothArrays = (email) => {
         // Check in discardCountryData
         for (const countryData of Object.values(countryWiseData.discardCountryData)) {
-            if (countryData.some((user) => user.email === email)) {
+            if (countryData.some((user) => user?.email?.toLowerCase() === email)) {
+
                 return true;
             }
         }
 
         // Check in allCountryData
         for (const countryData of Object.values(countryWiseData.allCountryData)) {
-            if (countryData.some((user) => user.email === email)) {
+            if (countryData.some((user) => user?.email?.toLowerCase() === email)) {
                 return true;
             }
+        }
+        if (removedReaders?.some((user) => user?.email?.toLowerCase() === email)) {
+            return true;
         }
         return false;
     };
