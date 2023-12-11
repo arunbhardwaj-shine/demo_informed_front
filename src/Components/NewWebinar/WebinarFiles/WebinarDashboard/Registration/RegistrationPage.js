@@ -1239,7 +1239,9 @@ const FormField4 = ({
 }) => {
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label = form?.name?.replace(/ /g, "_");
+  const label = form?.name?.replace(/ /g, "_"); 
+   const isConsentField = form?.label?.toLowerCase().includes('consent');
+   const consentFieldClass = isConsentField ? 'consent-feild' : '';
 
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
@@ -1427,9 +1429,10 @@ const FormField4 = ({
       />
     );
   }
+  console.log(form,'====>form')
 
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`}>
       <label
         style={{
           color: pageColors?.labelColor,
