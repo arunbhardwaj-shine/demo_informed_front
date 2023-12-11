@@ -488,22 +488,22 @@ console.log(errors);
             <form id="registration_form" onSubmit={handleSubmit}>
               {/* <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                <h2 style={{
+                  <h2 style={{
                     color: formData?.content?.eventDetails?.pageTitle?.color,
 
-                  }} >{formData?.content?.eventDetails?.pageTitle?.value}</h2>
-                  <h3 style={{
+                  }}>{formData?.content?.eventDetails?.pageTitle?.value}</h2>
+                  <h3  style={{
                     color: formData?.content?.eventDetails?.bodyText?.color,
-
+                    
                   }}> {formData?.content?.eventDetails?.bodyText?.value}</h3>
                 </div>
               </div> */}
               <div className="center-sided-inside">
                 <div className="row">
-                  {formData?.content?.body?.map((form, index) => (
+                {formData?.content?.body?.map((form, index) => (
                     <FormField4
+                      key={`${form.label}_${index}`} 
                       form={form}
-                      key={index}
                       formFieldData={formFieldData}
                       setFormFieldData={setFormFieldData}
                       formErrors={formErrors}
@@ -513,11 +513,20 @@ console.log(errors);
                     />
                   ))}
                   {!prevData && (
-                    <button type="submit" className="btn btn-primary" id="submit_registration">Submit</button>
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      id="submit_registration"
+                    >
+                      Submit
+                    </button>
                   )}
                 </div>
                 {/* <div className="footer-sec">
-                  <span>* This consent is mandatory in order to register for the event.</span>
+                  <span>
+                    * This consent is mandatory in order to register for the
+                    event.
+                  </span>
                 </div> */}
               </div>
             </form>
@@ -1290,7 +1299,6 @@ const FormField4 = ({
             ? stateOptions
             : options
         }
-        placeholder="Select country"
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
@@ -1369,8 +1377,6 @@ const FormField4 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                 
-                  
                   
                   if (!extensionData[label + index]) {
                     setExtensionData({
@@ -1412,29 +1418,26 @@ const FormField4 = ({
     );
   } else {
     fieldInput = (
-      <>
       <input
         type={form.inputType}
         className="form-control"
-id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={form.placeholder}
-        onChange={(e) => handleFieldChange(e.target.value)}/>
-        <div className="field-icon">
-        <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
-        </div>
-        </>
-      
+        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}
+        // placeholder={form.placeholder}
+        onChange={(e) => handleFieldChange(e.target.value)}
+      />
     );
   }
+
   return (
     <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
-    {(form.inputType !="text" && form.inputType !="email")  ?( <label
+      <label
         style={{
           color: pageColors?.labelColor,
         }}
       >
         {form.label}
-        {isRequired ? "" : ""}
-      </label>):null}
+        {isRequired ? "*" : ""}
+      </label>
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
     </div>
