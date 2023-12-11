@@ -150,8 +150,12 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                 :
                 <p className="event_sub_heading">Thank you for attending the Factor VIII Relevance Academy. We would be very grateful if you would complete and return this evaluation form. Your feedback will help us in our efforts to provide high-quality scientific meetings in the future.</p>
               }
-              <h4>{item?.parentQuestion}</h4>
-              
+              <h4
+                  dangerouslySetInnerHTML={{
+                    __html: item?.parentQuestion,
+                  }}
+                ></h4>
+
               {item?.groupId == 0 && item?.canCustomAnswer == 1 ? (
                 <>
                 <textarea
@@ -181,7 +185,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                       item?.childData?.[index]?.answerData?.[0].answer !=
                         item?.childData?.[index - 1]?.answerData?.[0]
                           ?.answer) ? (
-                      <div className="form-group head">
+                      <div className={item?.hasParent ? "form-group head" : "form-group head no_child"}>
                         <label></label>
                         <div className="check-group">
                           {value?.answerData?.map((item, index) => {
@@ -195,12 +199,15 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                       </div>
                     ) : null}
 
-                    <div className="form-group">
-                      <label
-                        dangerouslySetInnerHTML={{ __html: value?.question }}
-                      />
+                    <div className={item?.hasParent ? "form-group" : "form-group no_child"}>
+                      {
+                        item?.hasParent ? 
+                          <label
+                            dangerouslySetInnerHTML={{ __html: value?.question }}
+                          />
+                        : null  
+                      }
                       
-
                       <div className="check-group">
                         {value?.answerData?.length ? (
                           value?.answerData?.map((childValue) => {
