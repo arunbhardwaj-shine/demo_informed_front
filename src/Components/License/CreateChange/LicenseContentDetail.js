@@ -10,8 +10,19 @@ import { useNavigate } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
 import { Button } from "react-bootstrap";
 import QRCode from "qrcode.react";
+import { Modal } from "react-bootstrap";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+import {
+  getEmailData,
+  getDraftData,
+  getSelectedSmartListData,
+} from "../../../actions";
+import { connect } from "react-redux";
 
-const LicenseContentDetail = () => {
+var dxr = 0;
+var pdf_id = 0;
+
+const LicenseContentDetail = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [open, setOpen] = useState(false);
   const [openProduction, setOpenProduction] = useState(false);
@@ -33,6 +44,19 @@ const LicenseContentDetail = () => {
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
   );
 
+  const [isEdit, setIsEdit] = useState(
+    typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
+  );
+
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+    footerButtonSecond: ""
+  });
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+
   useEffect(() => {
     getLibraryData();
   }, []);
@@ -47,6 +71,9 @@ const LicenseContentDetail = () => {
         }
       }
 
+      dxr = typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId;
+      pdf_id = typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId;
+
       let body = {
         pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
         apiType: "Library",
@@ -55,19 +82,25 @@ const LicenseContentDetail = () => {
 
       const res = await postData(ENDPOINT.LIBRARY, body);
 
+      // if(typeof (state?.isEdit) !== "undefined" && state?.isEdit !== 1){
+        if(localStorage.getItem('user_id') == 'm5JI5zEDY3xHFTZBnSGQZg=='){
+          messagePopup();
+        }
+      // }
+
       setLibraryData(res?.data?.data?.library);
       let data = "";
       if (res?.data?.data?.library?.[0]?.allow_print) {
-        data += "print,";
+        data += "Print,";
       }
       if (res?.data?.data?.library?.[0]?.allow_download) {
-        data += "Download,";
+        data += " Download,";
       }
       if (res?.data?.data?.library?.[0]?.allow_share) {
-        data += "Share,";
+        data += " Share,";
       }
       if (res?.data?.data?.library?.[0]?.chat_box) {
-        data += "Request,";
+        data += " Request,";
       }
       if (data) {
         data = data.replace(/^,|,$/g, "");
@@ -164,6 +197,34 @@ const LicenseContentDetail = () => {
     setQr({ ...qrState, level: e });
   };
 
+  const messagePopup = async() => {
+    setTimeout(function () {
+      setCommonConfirmModelFun(() => userAction);
+      setPopupMessage({
+        message1: "Please select which action you performed with this article.",
+        message2: "",
+        footerButton: "Only upload",
+        footerButtonSecond: "Upload and Email",
+      });
+      setConfirmationPopup(true);
+    }, 800);
+  }
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+
+  const userAction = (val) => {
+    if(val == 'mail'){
+      props.getEmailData({ PdfSelected: articleId });
+      navigate("/CreateEmail", {
+        state: { PdfSelected: articleId },
+      });
+    }else{
+      navigate("/license-content");
+    }
+  }
+
   return (
     <>
       <div className="col right-sidebar">
@@ -206,9 +267,9 @@ const LicenseContentDetail = () => {
                               <div className="verify-email-detail">
                                 <div>
                                   <h4>Content Details</h4>
-                                  <div className="d-flex align-items-start">
+                                  <div className="d-flex align-items-start preview_content">
                                     <img
-                                      src={path_image + "dummy-img.png"}
+                                      src={data?.coverImage}
                                       alt="Preview "
                                     />
                                     <div className="verify-email-detail-clear">
@@ -609,8 +670,28 @@ const LicenseContentDetail = () => {
         level={qrState?.level}
         includeMargin={true}
       />
+
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={hideConfirmationModal}
+        fun={commonConfirmModelFun}
+        popupMessage={popupMessage}
+        path_image={path_image}
+      />
+
     </>
   );
 };
 
-export default LicenseContentDetail;
+const mapStateToProps = (state) => {
+  dxr = state.getEmailData?.PdfSelected;
+  pdf_id = state.getDraftData?.pdf_id;
+  return state;
+};
+
+export default connect(mapStateToProps, {
+  getEmailData: getEmailData,
+  getDraftData: getDraftData,
+})(LicenseContentDetail)
+
+// export default LicenseContentDetail;

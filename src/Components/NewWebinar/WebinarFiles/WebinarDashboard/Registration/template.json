@@ -482,5 +482,112 @@
                 ]
             }
         ]
-    }
+    },
+    {"templateId": 4,
+    "pageTitle": "Registrations are now open to the Patient Case",
+    "bodyText": "",
+    "headerImageUrl": "",
+    "footerImageUrl": "",
+    "labelColor": "#2068B3",
+    "optionColor": "#2068B3",
+    "backgroundColor": "",
+    "eventDetails": {
+        "eventStartDate": {
+            "title": "Event Start Date",
+            "type": "date",
+            "value": "",
+            "color": "#001489"
+        },
+        "eventEndDate": {
+            "title": "Event End Date",
+            "type": "date",
+            "value": ""
+        },
+        "eventStartTime": {
+            "title": "Event Start Time",
+            "type": "time",
+            "value": "",
+            "color": "#001489"
+        },
+        "eventEndTime": {
+            "title": "Event End Time",
+            "type": "time",
+            "value": ""
+        },
+        "speakerName": {
+            "title": "Speaker Name",
+            "type": "text",
+            "value": "",
+            "color": "#001489"
+        },
+        "pageTitle": {
+            "title": "Registration Page Title",
+            "type": "text",
+            "value": "Registrations are now open to the Patient Case",
+            "color": "#001489"
+        },
+        "SubHeading": {
+            "title": "Sub Heading",
+            "type": "text",
+            "value": "Surgery using FVIII in a HA PUP on emicizumab prophylaxis",
+            "color": "#33baa8"
+        },
+        "Specialization": {
+            "title": "Specialization",
+            "type": "text",
+            "value": "",
+            "color": "#001489"
+        }
+    },
+    "body": [
+        {
+            "label": "Full consent (for additional information or to edit consent click Change)",
+            "inputType": "checkbox",
+            "placeholder": "",
+            "required": "yes",
+            "option": [
+                {
+                    "optionLabel": "my participation during the live webinar being recorded for live streaming and on-demand use*",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "Full consent (for additional information or to edit consent click Change)",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "invites for future Octapharma haematology events (these may be promotional events)",
+                    "extension": [],
+                    "checked": ""
+                }
+            ],
+            "extension": "",
+            "name": "consent"
+        },
+        {
+            "name": "country",
+            "label": "Country",
+            "inputType": "selection",
+            "placeholder": "Please enter country",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Name",
+            "name": "userName",
+            "inputType": "text",
+            "placeholder": "Please enter name",
+            "option": [],
+            "required": "yes"
+        },
+        {
+            "label": "Email",
+            "name": "userEmail",
+            "inputType": "email",
+            "placeholder": "Please enter email",
+            "option": [],
+            "required": "yes"
+        }
+    ]}
 ]
