@@ -210,7 +210,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                       
                       <div className="check-group">
                         {value?.answerData?.length ? (
-                          value?.answerData?.map((childValue) => {
+                          value?.answerData?.map((childValue,index) => {
                             return (
                               <>
                                 {value?.groupId == 0 &&
@@ -230,8 +230,12 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                                       }
                                       name={value?.question}
                                       value={childValue?.answer}
+                                      id={"ans_"+index}
                                     />
                                     <span className="checkmark"></span>
+                                    {
+                                      !item?.hasParent ? <label for={"ans_"+index}>{childValue?.answer}</label> : null
+                                    }
                                   </div>
                                 )}
                               </>
