@@ -4559,14 +4559,6 @@ l .vwd .factor-season-left h2 {
   padding: 0 60px;
 }
 
-.octapharma_event_content h4 {
-  color: #001489;
-  font-family: 'Roboto';
-  text-transform: none;
-  font-weight: 600;
-  font-size: 22px;
-}
-
 .octapharma_event_content h3 {
   color: #33baa8;
   font-family: "Poppins";
@@ -4649,9 +4641,11 @@ l .vwd .factor-season-left h2 {
   padding: 12px 25px;
   border-radius: 0;
 }
+
 .eahad .form-control:focus {
   box-shadow: none;
 }
+
 .eahad .consent-form .split-button-dropup>div:nth-child(3) {
   max-width: 100%;
   min-width: 60px;
@@ -4663,13 +4657,61 @@ l .vwd .factor-season-left h2 {
   color: #000000;
   background-position: 96% center;
 }
+
 .eahad .footer-sec span {
   font-size: 12px;
   color: #cf0000;
 }
- .modal .eahad .split-button-dropup>div:nth-child(3) div {
+
+.modal .eahad .split-button-dropup>div:nth-child(3) div {
   color: #000000;
 }
+
+.eahad .center-sided-inside .consent-form-list.attend-sec {
+  display: flex;
+  align-items: center;
+}
+
+.eahad .center-sided-inside .consent-form-list.attend-sec>label {
+  flex: 0 0 100px;
+  font-weight: 700;
+}
+
+.eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild {
+  display: block;
+  margin: 15px 0;
+}
+
+.eahad .center-sided-inside .consent-form-list.attend-sec .dropdown-basic-button {
+  flex: 1 1;
+}
+
+.eahad .consent-form .split-button-dropup div:nth-child(4) {
+  border: 1px solid #33baa8;
+  border-radius: 0px;
+}
+
+.eahad .consent-form .split-button-dropup div:nth-child(4)>div div {
+  color: #33baa8;
+  border-radius: 15px;
+  cursor: pointer;
+  margin: 0 0 2px;
+  word-break: break-word;
+  white-space: normal;
+  font-size: 15px;
+  line-height: 20px;
+  padding: 5px 7px;
+  border: 0;
+}
+
+.eahad .consent-form .split-button-dropup div:nth-child(4)>div div:hover {
+  background-color: rgb(51 186 168 / 39%) !important;
+}
+
+.eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild>label {
+  font-weight: 400;
+}
+
 /** Template four End**/
 .footer-sec {
   margin: 30px 0 0 0;
@@ -4744,14 +4786,6 @@ l .vwd .factor-season-left h2 {
   padding: 0 60px;
 }
 
-.octapharma_event_content h4 {
-  color: #001489;
-  font-family: 'Roboto';
-  text-transform: none;
-  font-weight: 600;
-  font-size: 22px;
-}
-
 .octapharma_event_content h3 {
   color: #33baa8;
   font-family: "Poppins";
@@ -4774,14 +4808,6 @@ l .vwd .factor-season-left h2 {
 
 .octapharma_event_content {
   padding: 0 60px;
-}
-
-.octapharma_event_content h4 {
-  color: #001489;
-  font-family: 'Roboto';
-  text-transform: none;
-  font-weight: 600;
-  font-size: 22px;
 }
 
 .octapharma_event_content h3 {
