@@ -565,6 +565,7 @@ const WebinarRegistration = () => {
             placeholder: `Please enter ${isSelectedName == "userEmail" ? "Email" : "Name"}`,
             option: [],
             required: "yes",
+            addSpace: 10,
           };
           updateFormBody?.push(newObj);
         } else if (isSelectedName == "travel accomodation") {
@@ -574,7 +575,9 @@ const WebinarRegistration = () => {
               isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             name: isSelectedName,
             inputType: "radio",
-            required: "yes",
+            required: "yes", 
+             addSpace: 10,
+
             option: [
               { optionLabel: "Organize my own travel", extension: [] },
               {
@@ -627,6 +630,8 @@ const WebinarRegistration = () => {
 
             inputType: "checkbox",
             required: "yes",
+            addSpace: 10,
+
 
             option: [
               {
@@ -648,7 +653,10 @@ const WebinarRegistration = () => {
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
             required: "yes",
+                        addSpace: 10,
+
             showAllCountries:false
+            
           };
           updateFormBody?.push(newObj);
         }
@@ -687,6 +695,7 @@ const WebinarRegistration = () => {
                 color: e.target.value,
               },
             },
+            addSpace: 10,
             required: "yes",
           });
         } else {
@@ -699,6 +708,8 @@ const WebinarRegistration = () => {
                 value: e.target.value,
               },
             },
+            addSpace: 10,
+
             required: "yes",
           });
         }
@@ -716,6 +727,8 @@ const WebinarRegistration = () => {
                 color: e,
               },
             },
+            addSpace: 10,
+
             required: "yes",
           });
         } else {
@@ -733,6 +746,8 @@ const WebinarRegistration = () => {
                   value: e,
                 },
               },
+              addSpace: 10,
+
               required: "yes",
             });
           } else {
@@ -745,6 +760,7 @@ const WebinarRegistration = () => {
                   value: e,
                 },
               },
+              addSpace: 10,
               required: "yes",
             });
           }

@@ -22,6 +22,14 @@ const CommonAddQuestionModal = ({
     { label: "Selection", value: "selection" },
     { label: "Checkbox", value: "checkbox" },
     { label: "Radio", value: "radio" },
+  ]);  
+  const [addSpaceOptions, setAddSpaceOptions] = useState([
+    { label: 10, value: 10},
+    { label: 15, value: 15 },
+    { label:20, value: 20 },
+    { label: 25, value: 25},
+    { label: 30, value: 30 },
+    { label: 35, value: 35 },
   ]);
   const [requiredOption, setRequiredOption] = useState([
     { label: "Yes", value: "yes" },
@@ -519,7 +527,44 @@ const CommonAddQuestionModal = ({
                             ""
                           )}
 
-
+<div className="col-12 col-md-6">
+                              <div className="form-group bottom">
+                                <label htmlFor="">Add Space</label>
+                                <Select
+                                  options={addSpaceOptions}
+                                  name="addSpace"
+                                  placeholder="Enter input type"
+                                  className={
+                                    error?.inputType
+                                      ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                      : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                  }
+                                  value={
+                                    addSpaceOptions.findIndex(
+                                      (item, index) =>
+                                        item?.value == formData?.addSpace
+                                    ) != -1
+                                      ? addSpaceOptions[
+                                        addSpaceOptions.findIndex(
+                                            (item, index) =>
+                                              item?.value == formData?.addSpace
+                                          )
+                                        ]
+                                      : addSpaceOptions[0]
+                                  }
+                                  onChange={(e) =>
+                                    handleChange(e?.value, "addSpace")
+                                  }
+                                />
+                                {error?.inputType ? (
+                                  <div className="login-validation">
+                                    {error?.addSpace}
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            </div>
                           {
                             formData?.name == "country" ? (
                               <div className="add-extension">
