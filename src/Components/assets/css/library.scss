@@ -20538,10 +20538,12 @@ img.change-password-image {
   }
 
   .consent-content {
-    padding: 10px 16px 100px;
+    padding: 10px 0px 100px;
     z-index: 3;
 
     .consent-content-inner {
+      padding: 0 16px;
+
       .consent-text {
         padding: 29px 12px;
 
@@ -21386,6 +21388,10 @@ img.change-password-image {
 
   .how-work .works-started .works-started-links .started-links a {
     line-height: 29px;
+  }
+
+  .consent-content .works-started .works-started-links.pharm-page {
+    padding: 85px 45px 0;
   }
 }
 
