@@ -4678,6 +4678,7 @@ l .vwd .factor-season-left h2 {
 .eahad .center-sided-inside .consent-form-list.attend-sec>label {
   flex: 0 0 100px;
   font-weight: 700;
+  margin:0;
 }
 
 .eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild {
