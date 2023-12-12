@@ -13,7 +13,7 @@ import Select from "react-select";
 import axios from "axios";
 import TemplateFour from "./TemplateFour";
 import { Modal } from "react-bootstrap";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -560,6 +560,17 @@ console.log(errors);
           <span className="loader-view"> </span>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
 
       {formData?.content?.templateId === 1 && (
         <TemplateOne formData={formData}>{myContent1}</TemplateOne>
@@ -605,7 +616,10 @@ console.log(errors);
               <button
                 type="button"
                 className="btn btn-primary btn-bordered"
-                onClick={() => setModalIsOpen(false)}
+                onClick={() => {
+                  window.location.reload();
+                  setModalIsOpen(false)}
+                }
               >
                 Okay
               </button>

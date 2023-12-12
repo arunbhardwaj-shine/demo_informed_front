@@ -75,18 +75,26 @@ export default function TemplateFour({ children, formData }) {
             </h3>
 
             <div className="speaker">
-              <h4
-                className="mb-4"
-                style={{
-                  // textTransform: "capitalize",
-                  color: eventDataSample?.speakerName?.color,
-                }}
-              > 
-                 by {eventDataSample?.speakerName?.value
-                  ? eventDataSample?.speakerName?.value
-                  : eventData?.speaker_name}
-                {formData?.content?.eventDetails?.Specialization?.value && ","}
-              </h4>
+            <h4
+            className="mb-4"
+            style={{
+              // textTransform: "capitalize",
+              color: eventDataSample?.speakerName?.color,
+            }}
+            dangerouslySetInnerHTML={{
+              __html: eventDataSample?.speakerName?.value
+                ? `${eventDataSample?.speakerName?.value},`
+                : `${eventData?.speaker_name},${
+                    formData?.content?.eventDetails?.Specialization?.value && ","
+                  }`
+            }}
+          >
+            {/* by {eventDataSample?.speakerName?.value
+              ? eventDataSample?.speakerName?.value
+              : eventData?.speaker_name}
+            {formData?.content?.eventDetails?.Specialization?.value && ","} */}
+          </h4>
+
 
               <h4
                 style={{
