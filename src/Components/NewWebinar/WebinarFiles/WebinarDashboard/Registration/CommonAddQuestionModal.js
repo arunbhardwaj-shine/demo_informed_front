@@ -3,7 +3,10 @@ import { Button, Modal } from "react-bootstrap";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import RegistrationValidation from "./AddQuestionValidation";
+import CountryList from "./CountryList";
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
 const CommonAddQuestionModal = ({
   show,
   onClose,
@@ -49,6 +52,7 @@ const CommonAddQuestionModal = ({
       option: [],
       required: "",
       extension: "",
+      addSpace: 10,
     });
     onClose(false);
     setError();
@@ -79,7 +83,22 @@ const CommonAddQuestionModal = ({
           ? e?.target?.checked
           : e?.target?.value,
       });
-    } else {
+    }
+    else if (isSelectedName == "showAllCountries") {
+      console.log(formData,"abhi yahan ho mai !!");
+      // console.log(CountryList,"abhi couyntry ho mai !!");
+      let ourOptions=CountryList.map((country)=>{
+        return {checked:"","optionLabel":country.value,"extension":[]}}
+        )
+// console.log(ourOptions,"ourOptions");
+      setFormData({
+        ...formData,
+        [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+          ? e?.target?.checked
+          : e?.target?.value,
+          option: e?.target?.checked?ourOptions:[]
+      });
+    }  else {
       setFormData({
         ...formData,
         [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
@@ -355,7 +374,8 @@ const CommonAddQuestionModal = ({
                           </div>
                           {formData?.inputType == "text" ||
                           formData?.inputType == "email" ||
-                          formData?.inputType == "textarea" ? (
+                          formData?.inputType == "textarea" ||
+                          formData?.name == "country"? (
                             <div className="col-12 col-md-6">
                               <div className="form-group">
                                 {/* <label htmlFor="">Placeholder</label> */}
@@ -498,6 +518,22 @@ const CommonAddQuestionModal = ({
                           ) : (
                             ""
                           )}
+
+
+                          {
+                            formData?.name == "country" ? (
+                              <div className="add-extension">
+                                <label htmlFor="">Show All Countries</label>
+                                <input
+                                  type="checkbox"
+                                  name="showAllCountries"
+                                  className="form-check-input"
+                                  checked={formData?.showAllCountries}
+                                  onChange={(e) => handleChange(e, "showAllCountries")}
+                                />
+                              </div>
+                            ) : null
+                          }
                         </div>
                       </div>
                     </div>

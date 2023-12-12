@@ -643,12 +643,12 @@ const WebinarRegistration = () => {
           let newObj = {
             name: isSelectedName,
             // label: isSelectedName,
-            label:
-              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
+            label: isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             inputType: "selection",
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
             required: "yes",
+            showAllCountries:false
           };
           updateFormBody?.push(newObj);
         }
@@ -2171,6 +2171,7 @@ const WebinarRegistration = () => {
                                                                                       )
                                                                                 }
                                                                                 placeholder="Please select the value"
+                                                                                disbaled
                                                                               />
                                                                             </div>
                                                                           ) : extItem?.inputType ==
@@ -2321,7 +2322,7 @@ const WebinarRegistration = () => {
                                                                     })
                                                                   )
                                                             }
-                                                            placeholder="Please select the value"
+                                                            placeholder={data?.placeholder}
                                                           />
                                                         </div>
                                                       ) : data?.inputType ==
