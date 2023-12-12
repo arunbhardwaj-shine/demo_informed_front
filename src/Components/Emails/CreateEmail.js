@@ -74,8 +74,8 @@ const CreateEmail = (props) => {
     state_object != null && state_object != "undefined" && state_object.template
       ? state_object.template
       : props.getDraftData
-      ? props.getDraftData.source_code
-      : ""
+        ? props.getDraftData.source_code
+        : ""
   );
   const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [templateSaving, setTemplateSaving] = useState("");
@@ -87,8 +87,8 @@ const CreateEmail = (props) => {
       state_object.emailDescription
       ? state_object.emailDescription
       : props.getDraftData
-      ? props.getDraftData.description
-      : ""
+        ? props.getDraftData.description
+        : ""
   );
   const [emailCreator, setEmailCreator] = useState(
     state_object != null &&
@@ -96,8 +96,8 @@ const CreateEmail = (props) => {
       state_object.emailCreator
       ? state_object.emailCreator
       : props.getDraftData
-      ? props.getDraftData.creator
-      : ""
+        ? props.getDraftData.creator
+        : ""
   );
   const [counter, setCounter] = useState(0);
   const [modalCounter, setModalCounter] = useState(0);
@@ -107,8 +107,8 @@ const CreateEmail = (props) => {
       state_object.emailCampaign
       ? state_object.emailCampaign
       : props.getDraftData
-      ? props.getDraftData.campaign
-      : ""
+        ? props.getDraftData.campaign
+        : ""
   );
   const [emailSubject, setEmailSubject] = useState(
     state_object != null &&
@@ -116,8 +116,8 @@ const CreateEmail = (props) => {
       state_object.emailSubject
       ? state_object.emailSubject
       : props.getDraftData
-      ? props.getDraftData.subject
-      : ""
+        ? props.getDraftData.subject
+        : ""
   );
   const [templateId, setTemplateId] = useState(
     state_object != null &&
@@ -125,8 +125,8 @@ const CreateEmail = (props) => {
       state_object.templateId
       ? state_object.templateId
       : props.getDraftData
-      ? props.getDraftData.campaign_data.template_id
-      : ""
+        ? props.getDraftData.campaign_data.template_id
+        : ""
   );
   const [templateName, setTemplateName] = useState("");
   const [renderAfterValidation, setRenderAfterValidation] = useState(0);
@@ -139,8 +139,8 @@ const CreateEmail = (props) => {
     state_object != null && state_object != "undefined" && state_object.tags
       ? state_object.tags
       : props.getDraftData
-      ? props.getDraftData.tags
-      : []
+        ? props.getDraftData.tags
+        : []
   );
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
@@ -489,7 +489,15 @@ const CreateEmail = (props) => {
         } else {
           return "true";
         }
-      } else {
+      }
+      else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        if (data.email == "" || data.country == "") {
+          return "false"
+        } else {
+          return "true"
+        }
+      }
+      else {
         if (data.email == "") {
           return "false";
         } else {
@@ -1527,7 +1535,7 @@ const CreateEmail = (props) => {
 
           if (
             data.country == "" &&
-            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==")
           ) {
             setValidationError({
               newHcpCountry: "Please select the country",
@@ -1545,7 +1553,14 @@ const CreateEmail = (props) => {
               return;
             }
           }
-        } else if (data.email != "") {
+        } else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+          setValidationError({
+            newHcpCountry: "Please select the country",
+            index: index,
+          });
+          return;
+        }
+        else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -2054,12 +2069,12 @@ const CreateEmail = (props) => {
                             onClick={(e) => templateClicked(template, e)}
                           >
                             <img
-                              id={"template_dyn" + index }
+                              id={"template_dyn" + index}
                               src={template.template_img}
                               alt=""
                               className={
                                 typeof templateId !== "undefined" &&
-                                templateId == template.id
+                                  templateId == template.id
                                   ? "select_mm"
                                   : ""
                               }
@@ -2077,7 +2092,7 @@ const CreateEmail = (props) => {
                   <div className="email-form">
                     <form>
                       {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                           <div className="form-inline row justify-content-between align-items-center">
                             <div className="form-group col-12 col-md-7">
@@ -2222,10 +2237,10 @@ const CreateEmail = (props) => {
                               {validationError?.emailSubject}
                             </div>
                           ) : validator.message(
-                              "emailSubject",
-                              emailSubject,
-                              "required"
-                            ) ? (
+                            "emailSubject",
+                            emailSubject,
+                            "required"
+                          ) ? (
                             validator.message(
                               "emailSubject",
                               emailSubject,
@@ -2248,14 +2263,14 @@ const CreateEmail = (props) => {
                           <button
                             className={
                               typeof getIsApprovedStatus !== "undefined" &&
-                              getIsApprovedStatus == 3
+                                getIsApprovedStatus == 3
                                 ? "btn btn-primary approved-btn btn-bordered checked"
                                 : "btn btn-primary approved-btn btn-bordered"
                             }
                             onClick={(e) => approvedClicked(e)}
                           >
                             {typeof getIsApprovedStatus !== "undefined" &&
-                            getIsApprovedStatus == 3
+                              getIsApprovedStatus == 3
                               ? "Approved"
                               : "Approve?"}
                             <img
@@ -2476,14 +2491,14 @@ const CreateEmail = (props) => {
                 <div className="tag-lists-view">
                   {allTags
                     ? Object.values(allTags)?.map((data, index) => {
-                        return (
-                          <>
-                            <div key={index} onClick={() => tagClicked(data)}>
-                              {data}{" "}
-                            </div>
-                          </>
-                        );
-                      })
+                      return (
+                        <>
+                          <div key={index} onClick={() => tagClicked(data)}>
+                            {data}{" "}
+                          </div>
+                        </>
+                      );
+                    })
                     : ""}
                 </div>
               </div>
@@ -2698,7 +2713,7 @@ const CreateEmail = (props) => {
                               </p>
 
                               {localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <p className="send-hcp-box-title">
                                   {" "}
                                   Role |{" "}
@@ -2868,7 +2883,7 @@ const CreateEmail = (props) => {
             </div>
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
-              smartListData.length > 0 ? (
+                smartListData.length > 0 ? (
                 smartListData.map((data, index) => {
                   return (
                     <>
@@ -2883,8 +2898,8 @@ const CreateEmail = (props) => {
                                 onClick={(e) => handleSelect(data, e)}
                                 checked={
                                   typeof getSmartListId !== "undefined" &&
-                                  getSmartListId !== 0 &&
-                                  getSmartListId == data.id
+                                    getSmartListId !== 0 &&
+                                    getSmartListId == data.id
                                     ? "checked"
                                     : ""
                                 }
@@ -3056,12 +3071,12 @@ const CreateEmail = (props) => {
                     countryIndex: "",
                     role:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? irtRole?.[0]?.value
                         : "",
                     optIRT:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? "yes"
                         : "",
                     institutionType: "",
@@ -3096,14 +3111,14 @@ const CreateEmail = (props) => {
                                     First name{" "}
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}{" "}
+                                        <span>*</span>
+                                      )}{" "}
                                   </label>
                                   <input
                                     type="text"
                                     className={
                                       validationError?.newHcpFirstName &&
-                                      validationError?.index == i
+                                        validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3113,7 +3128,7 @@ const CreateEmail = (props) => {
                                     value={val.firstname}
                                   />
                                   {validationError?.newHcpFirstName &&
-                                  validationError?.index == i ? (
+                                    validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpFirstName}
                                     </div>
@@ -3126,14 +3141,14 @@ const CreateEmail = (props) => {
                                     Last name{" "}
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}
+                                        <span>*</span>
+                                      )}
                                   </label>
                                   <input
                                     type="text"
                                     className={
                                       validationError?.newHcpLastName &&
-                                      validationError?.index == i
+                                        validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3143,7 +3158,7 @@ const CreateEmail = (props) => {
                                     value={val.lastname}
                                   />
                                   {validationError?.newHcpLastName &&
-                                  validationError?.index == i ? (
+                                    validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpLastName}
                                     </div>
@@ -3159,7 +3174,7 @@ const CreateEmail = (props) => {
                                     type="email"
                                     className={
                                       validationError?.newHcpEmail &&
-                                      validationError?.index == i
+                                        validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3171,7 +3186,7 @@ const CreateEmail = (props) => {
                                     value={val.email}
                                   />
                                   {validationError?.newHcpEmail &&
-                                  validationError?.index == i ? (
+                                    validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpEmail}
                                     </div>
@@ -3180,7 +3195,7 @@ const CreateEmail = (props) => {
                               </div>
 
                               {localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -3192,7 +3207,7 @@ const CreateEmail = (props) => {
                                         options={institutionType}
                                         className={
                                           validationError?.index == i &&
-                                          validationError?.newHcpInstitution
+                                            validationError?.newHcpInstitution
                                             ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                             : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         }
@@ -3202,15 +3217,15 @@ const CreateEmail = (props) => {
                                         defaultValue={
                                           val?.institutionType
                                             ? {
-                                                label: val?.institutionType,
-                                                value: val?.institutionType,
-                                              }
+                                              label: val?.institutionType,
+                                              value: val?.institutionType,
+                                            }
                                             : ""
                                         }
                                         placeholder="Select institution"
                                       />
                                       {validationError?.newHcpInstitution &&
-                                      validationError?.index == i ? (
+                                        validationError?.index == i ? (
                                         <div className="login-validation">
                                           {validationError?.newHcpInstitution}
                                         </div>
@@ -3232,9 +3247,9 @@ const CreateEmail = (props) => {
                                         defaultValue={
                                           val?.optIRT == "yes"
                                             ? {
-                                                label: "Yes",
-                                                value: val?.optIRT,
-                                              }
+                                              label: "Yes",
+                                              value: val?.optIRT,
+                                            }
                                             : ""
                                         }
                                         value={
@@ -3243,11 +3258,11 @@ const CreateEmail = (props) => {
                                           ) == -1
                                             ? ""
                                             : optIRT[
-                                                optIRT.findIndex(
-                                                  (el) =>
-                                                    el.value == val?.optIRT
-                                                )
-                                              ]
+                                            optIRT.findIndex(
+                                              (el) =>
+                                                el.value == val?.optIRT
+                                            )
+                                            ]
                                         }
                                         placeholder="Select IRT"
                                       />
@@ -3269,11 +3284,11 @@ const CreateEmail = (props) => {
                                             ) == -1
                                               ? ""
                                               : irtRole[
-                                                  irtRole.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
+                                              irtRole.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -3291,11 +3306,11 @@ const CreateEmail = (props) => {
                                             ) == -1
                                               ? ""
                                               : role[
-                                                  role.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
+                                              role.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -3319,7 +3334,7 @@ const CreateEmail = (props) => {
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
                                           hpc[i].contact_type != "" &&
-                                          hpc[i].contact_type != "undefined"
+                                            hpc[i].contact_type != "undefined"
                                             ? hpc[i].contact_type
                                             : "Select Type"
                                         }
@@ -3366,10 +3381,11 @@ const CreateEmail = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Country{" "}
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}
+                                    {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==
+                                      "m5JI5zEDY3xHFTZBnSGQZg==") && (
+                                        <span>*</span>
+                                      )}
                                   </label>
                                   {val.optIRT == "yes" ? (
                                     <>
@@ -3377,7 +3393,7 @@ const CreateEmail = (props) => {
                                         options={irtCountry}
                                         className={
                                           validationError?.index == i &&
-                                          validationError?.newHcpCountry
+                                            validationError?.newHcpCountry
                                             ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                             : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         }
@@ -3390,11 +3406,11 @@ const CreateEmail = (props) => {
                                           ) == -1
                                             ? ""
                                             : irtCountry[
-                                                irtCountry.findIndex(
-                                                  (el) =>
-                                                    el.value == val?.country
-                                                )
-                                              ]
+                                            irtCountry.findIndex(
+                                              (el) =>
+                                                el.value == val?.country
+                                            )
+                                            ]
                                         }
                                         placeholder="Select Country"
                                         filterOption={createFilter(
@@ -3415,7 +3431,7 @@ const CreateEmail = (props) => {
                                         options={countryall}
                                         className={
                                           validationError?.index == i &&
-                                          validationError?.newHcpCountry
+                                            validationError?.newHcpCountry
                                             ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                             : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         }
@@ -3428,11 +3444,11 @@ const CreateEmail = (props) => {
                                           ) == -1
                                             ? ""
                                             : countryall[
-                                                countryall.findIndex(
-                                                  (el) =>
-                                                    el.value == val?.country
-                                                )
-                                              ]
+                                            countryall.findIndex(
+                                              (el) =>
+                                                el.value == val?.country
+                                            )
+                                            ]
                                         }
                                         placeholder="Select Country"
                                         filterOption={createFilter(
@@ -3511,7 +3527,7 @@ const CreateEmail = (props) => {
                                 </div>
                               </div>*/}
                               {localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -3527,8 +3543,8 @@ const CreateEmail = (props) => {
                                         value={
                                           siteNumberAll[hpc[i]?.siteNumberIndex]
                                             ? siteNumberAll[
-                                                hpc[i]?.siteNumberIndex
-                                              ]
+                                            hpc[i]?.siteNumberIndex
+                                            ]
                                             : ""
                                         }
                                         placeholder={"Select Site Number"}
@@ -3802,7 +3818,7 @@ const CreateEmail = (props) => {
                       <th scope="col">Country</th>
 
                       {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                           <th scope="col">IRT mandatory training</th>
                           <th scope="col">IRT role</th>
@@ -3838,24 +3854,24 @@ const CreateEmail = (props) => {
                               <td>{rr?.country ? rr?.country : "N/A"}</td>
                               <td>
                                 {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr.irt
                                     ? "Yes"
                                     : "No"
                                   : rr.ibu
-                                  ? rr.ibu
-                                  : "N/A"}
+                                    ? rr.ibu
+                                    : "N/A"}
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                               </td>
                               <td>
                                 {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
                                   ? rr?.user_type != 0
                                     ? rr?.user_type
                                     : "N/A"
                                   : rr?.contact_type
-                                  ? rr?.contact_type
-                                  : "N/A"}
+                                    ? rr?.contact_type
+                                    : "N/A"}
                               </td>
                               {showLessInfo == false ? (
                                 <td>
