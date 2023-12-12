@@ -13,6 +13,7 @@ import Select from "react-select";
 import axios from "axios";
 import TemplateFour from "./TemplateFour";
 import { Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -208,8 +209,17 @@ const RegistrationPage = ({ prevData }) => {
         );
         if (response?.data?.status === 1) {
           setModalIsOpen(true);
-        } else  {
-          console.log("Registration failed. Message:", response.data.message);
+        }  else {
+          console.log("Registration failed. Message:", response?.data?.message);
+          toast.error(`${response?.data?.message}`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
         }
       } catch (error) {
         console.error("Error submitting data:", error);
