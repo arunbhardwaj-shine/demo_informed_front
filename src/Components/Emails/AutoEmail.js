@@ -599,41 +599,41 @@ const AutoEmail = () => {
     }
   };
 
- const onInstitionTypeChange = (e,i) => {
-   console.log("e--->", e);
-  if (e == "") {
+  const onInstitionTypeChange = (e, i) => {
+    console.log("e--->", e);
+    if (e == "") {
 
-    const list = [...hpc];
-    console.log("list",list);
-    list[i].institutionType = "";
-    list[i].optIrt = "";
-    list[i].role = "";
-    list[i].country = "";
-    setHpc(list);
-  } else {
-    const value = e?.value;
-    const list = [...hpc];
-    const name = hpc[i].institutionType;
-    list[i].institutionType = value;
-    setHpc(list);
-    if (e?.value == "Study site") {
-      onIRTChange("yes", i);
+      const list = [...hpc];
+      console.log("list", list);
+      list[i].institutionType = "";
+      list[i].optIrt = "";
+      list[i].role = "";
+      list[i].country = "";
+      setHpc(list);
     } else {
       const value = e?.value;
       const list = [...hpc];
-      console.log("list else", list);
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
       if (e?.value == "Study site") {
         onIRTChange("yes", i);
       } else {
-        onIRTChange("no", i);
+        const value = e?.value;
+        const list = [...hpc];
+        console.log("list else", list);
+        const name = hpc[i].institutionType;
+        list[i].institutionType = value;
+        setHpc(list);
+        if (e?.value == "Study site") {
+          onIRTChange("yes", i);
+        } else {
+          onIRTChange("no", i);
+        }
+        console.log("list", list[i].optIrt);
       }
-      console.log("list", list[i].optIrt);
     }
   }
- }
 
 
 
@@ -649,7 +649,7 @@ const AutoEmail = () => {
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
-      list[i].role = e=="yes"?irtRole[0]?.value:"Other";   
+      list[i].role = e == "yes" ? irtRole[0]?.value : "Other";
       list[i].country = "";
       list[i].siteNumberIndex = "";
       list[i].siteNameIndex = "";
@@ -758,7 +758,7 @@ const AutoEmail = () => {
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-         
+
           return {
             first_name: data.firstname,
             last_name: data.lastname,
@@ -791,20 +791,20 @@ const AutoEmail = () => {
       };
 
       const status = body.data.map((data) => {
-        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-          if(data.first_name == ""){
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          if (data.first_name == "") {
             return "Please enter the first name";
-          }else if(data.last_name == ""){
+          } else if (data.last_name == "") {
             return "Please enter the last name";
           }
         }
-         if (data.email == "") {
+        if (data.email == "") {
           return "Please enter the email atleast";
         } else if (data?.institution_type == "") {
           return "Please select the institution type";
-        } 
-        if(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="){
-          if(data?.country == ""){
+        }
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+          if (data?.country == "") {
             return "Please select country";
           }
         }
@@ -822,8 +822,8 @@ const AutoEmail = () => {
           } else {
             return "Email format is not valid";
           }
-        } 
-          return "true";
+        }
+        return "true";
       });
       status.sort();
       if (status.every((element) => element == "true")) {
@@ -915,12 +915,19 @@ const AutoEmail = () => {
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
       if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-        if (data?.email == "" || data?.institutionType == "" || data?.first_name == ""|| data.last_name == "" || data.country == "") {
+        if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data.last_name == "" || data.country == "") {
           return "false";
         } else {
           return "true";
         }
-      } else {
+      } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        if (data.email == "" || data.country == "") {
+          return "false"
+        } else {
+          return "true"
+        }
+      }
+      else {
         if (data.email == "") {
           return "false";
         } else {
@@ -950,7 +957,7 @@ const AutoEmail = () => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast");
@@ -1201,18 +1208,18 @@ const AutoEmail = () => {
                 {/* <h2>Auto Email</h2> */}
                 {localStorage.getItem("user_id") ==
                   "B7SHpAc XDXSH NXkN0rdQ==" && (
-                  <div className="template_language">
-                    <span>Language</span>
-                    <div className="form-group">
-                      <Select
-                        options={getTemplateLanguage}
-                        defaultValue={getTemplateLanguage[0]}
-                        onChange={(e) => changeLanguage(e)}
-                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                      />
+                    <div className="template_language">
+                      <span>Language</span>
+                      <div className="form-group">
+                        <Select
+                          options={getTemplateLanguage}
+                          defaultValue={getTemplateLanguage[0]}
+                          onChange={(e) => changeLanguage(e)}
+                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                        />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
               <div className="top-right-action">
                 {templateClicked ? (
@@ -1224,7 +1231,7 @@ const AutoEmail = () => {
                       Cancel
                     </button>
                     {templateName == "Reset password" ||
-                    templateName == "Welcome mail" ? null : (
+                      templateName == "Welcome mail" ? null : (
                       <button
                         className="btn btn-primary btn-filled next"
                         onClick={(e) => {
@@ -1255,44 +1262,44 @@ const AutoEmail = () => {
                     <div className="mail_trigger_content">
                       {typeof templates !== "undefined" && templates.length > 0
                         ? templates.map((template, index) => {
-                            return (
-                              <>
-                                <div
-                                  className={
-                                    indexClicked == index
-                                      ? "trigger_content_box d-flex active"
-                                      : "trigger_content_box d-flex"
-                                  }
-                                >
-                                  <div className="trigger_content_image">
-                                    <img
-                                      src={template.template_img}
-                                      alt="Preview"
-                                    />
-                                  </div>
-                                  <div className="trigger_content">
-                                    <h6>
-                                      {template.name} ({template.language_code})
-                                    </h6>
-                                    <p>
-                                      When New content add to the user library
-                                    </p>
-
-                                    {indexClicked !== index ? (
-                                      <button
-                                        onClick={() =>
-                                          viewButtonClicked(template, index)
-                                        }
-                                        className="btn btn-primary btn-filled  d-flex justify-content-center"
-                                      >
-                                        View
-                                      </button>
-                                    ) : null}
-                                  </div>
+                          return (
+                            <>
+                              <div
+                                className={
+                                  indexClicked == index
+                                    ? "trigger_content_box d-flex active"
+                                    : "trigger_content_box d-flex"
+                                }
+                              >
+                                <div className="trigger_content_image">
+                                  <img
+                                    src={template.template_img}
+                                    alt="Preview"
+                                  />
                                 </div>
-                              </>
-                            );
-                          })
+                                <div className="trigger_content">
+                                  <h6>
+                                    {template.name} ({template.language_code})
+                                  </h6>
+                                  <p>
+                                    When New content add to the user library
+                                  </p>
+
+                                  {indexClicked !== index ? (
+                                    <button
+                                      onClick={() =>
+                                        viewButtonClicked(template, index)
+                                      }
+                                      className="btn btn-primary btn-filled  d-flex justify-content-center"
+                                    >
+                                      View
+                                    </button>
+                                  ) : null}
+                                </div>
+                              </div>
+                            </>
+                          );
+                        })
                         : null}
                     </div>
                   </div>
@@ -1403,9 +1410,9 @@ const AutoEmail = () => {
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
                             {templateName == "Welcome mail" ||
-                            templateName ==
+                              templateName ==
                               "Reset password" ? null : approveClickedd ===
-                              true ? (
+                                true ? (
                               <button
                                 className="btn btn-primary approved-btn btn-bordered "
                                 onClick={(e) => updateTemplate(e, 2)}
@@ -1436,7 +1443,7 @@ const AutoEmail = () => {
                         </div>
                         <div className="row">
                           {templateName == "Reset password" ||
-                          templateName == "Welcome mail" ? (
+                            templateName == "Welcome mail" ? (
                             <Editor
                               apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
                               onInit={(evt, editor) =>
@@ -1885,12 +1892,12 @@ const AutoEmail = () => {
                     country: "",
                     role:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? irtRole?.[0]?.value
                         : "",
                     optIrt:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? "yes"
                         : "",
                     institutionType: "",
@@ -1920,9 +1927,9 @@ const AutoEmail = () => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">
-                                    First name {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
-                                    
-                                    </label>
+                                    First name {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? <span>*</span> : null}
+
+                                  </label>
                                   <input
                                     type="text"
                                     className="form-control"
@@ -1936,7 +1943,7 @@ const AutoEmail = () => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Last name
-                                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                    {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? <span>*</span> : null}
                                   </label>
                                   <input
                                     type="text"
@@ -1967,26 +1974,26 @@ const AutoEmail = () => {
                               </div>
 
                               {localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
-                                <div className="form-group bottom">
-                                  <label for="">Institution <span>*</span>                      
-                                  </label>
-                                  <Select
-                                    options={institutionType}
-                                    className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                  //  id="institution-desc"
-                                     onChange={(event) =>
+                                    <div className="form-group bottom">
+                                      <label for="">Institution <span>*</span>
+                                      </label>
+                                      <Select
+                                        options={institutionType}
+                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        //  id="institution-desc"
+                                        onChange={(event) =>
                                           onInstitionTypeChange(event, i)
                                         }
                                         defaultValue={
                                           val?.institutionType
                                             ? {
-                                                label: val?.institutionType,
-                                                value: val?.institutionType,
-                                              }
+                                              label: val?.institutionType,
+                                              value: val?.institutionType,
+                                            }
                                             : ""
                                         }
                                         placeholder="Select Institution"
@@ -2008,9 +2015,9 @@ const AutoEmail = () => {
                                         defaultValue={
                                           val?.optIrt
                                             ? {
-                                                label: "Yes",
-                                                value: val?.optIrt,
-                                              }
+                                              label: "Yes",
+                                              value: val?.optIrt,
+                                            }
                                             : ""
                                         }
                                         value={
@@ -2019,11 +2026,11 @@ const AutoEmail = () => {
                                           ) == -1
                                             ? ""
                                             : optIRT[
-                                                optIRT.findIndex(
-                                                  (el) =>
-                                                    el.value == val?.optIrt
-                                                )
-                                              ]
+                                            optIRT.findIndex(
+                                              (el) =>
+                                                el.value == val?.optIrt
+                                            )
+                                            ]
                                         }
                                         placeholder="Select IRT"
                                       />
@@ -2045,11 +2052,11 @@ const AutoEmail = () => {
                                             ) == -1
                                               ? ""
                                               : irtRole[
-                                                  irtRole?.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
+                                              irtRole?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -2067,11 +2074,11 @@ const AutoEmail = () => {
                                             ) == -1
                                               ? ""
                                               : role[
-                                                  role?.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
+                                              role?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -2094,7 +2101,7 @@ const AutoEmail = () => {
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
                                           hpc[i].contact_type != "" &&
-                                          hpc[i].contact_type != "undefined"
+                                            hpc[i].contact_type != "undefined"
                                             ? hpc[i].contact_type
                                             : "Select Type"
                                         }
@@ -2141,7 +2148,8 @@ const AutoEmail = () => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Country
-                                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?<span>*</span>:null}
+                                    {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
+                                      localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") ? <span>*</span> : null}
                                   </label>
                                   {val?.optIrt == "yes" ? (
                                     <Select
@@ -2156,10 +2164,10 @@ const AutoEmail = () => {
                                         ) == -1
                                           ? ""
                                           : irtCountry[
-                                              irtCountry.findIndex(
-                                                (el) => el.value == val?.country
-                                              )
-                                            ]
+                                          irtCountry.findIndex(
+                                            (el) => el.value == val?.country
+                                          )
+                                          ]
                                       }
                                       placeholder="Select Country"
                                       filterOption={createFilter(filterConfig)}
@@ -2178,10 +2186,10 @@ const AutoEmail = () => {
                                         ) == -1
                                           ? ""
                                           : countryall[
-                                              countryall.findIndex(
-                                                (el) => el.value == val?.country
-                                              )
-                                            ]
+                                          countryall.findIndex(
+                                            (el) => el.value == val?.country
+                                          )
+                                          ]
                                       }
                                       placeholder="Select Country"
                                       filterOption={createFilter(filterConfig)}
@@ -2235,7 +2243,7 @@ const AutoEmail = () => {
                                 </div>
                               </div> */}
                               {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -2250,8 +2258,8 @@ const AutoEmail = () => {
                                         value={
                                           siteNumberAll[hpc[i].siteNumberIndex]
                                             ? siteNumberAll[
-                                                hpc[i].siteNumberIndex
-                                              ]
+                                            hpc[i].siteNumberIndex
+                                            ]
                                             : ""
                                         }
                                         placeholder={
@@ -2260,8 +2268,8 @@ const AutoEmail = () => {
                                           ] === "undefined"
                                             ? "Select Site Number"
                                             : siteNumberAll[
-                                                hpc[i].siteNumberIndex
-                                              ]
+                                            hpc[i].siteNumberIndex
+                                            ]
                                         }
                                       />
                                     </div>
@@ -2402,7 +2410,7 @@ const AutoEmail = () => {
             </div>
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
-              smartListData.length > 0 ? (
+                smartListData.length > 0 ? (
                 smartListData.map((data) => {
                   return (
                     <>
@@ -2417,8 +2425,8 @@ const AutoEmail = () => {
                                 onClick={(e) => handleSelect(data, e)}
                                 checked={
                                   typeof getSmartListId !== "undefined" &&
-                                  getSmartListId !== 0 &&
-                                  getSmartListId == data.id
+                                    getSmartListId !== 0 &&
+                                    getSmartListId == data.id
                                     ? "checked"
                                     : ""
                                 }

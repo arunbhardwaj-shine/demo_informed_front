@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import Select from "react-select";
 import axios from "axios";
 import TemplateFour from "./TemplateFour";
+import { Modal } from "react-bootstrap";
 
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -119,6 +120,7 @@ const RegistrationPage = ({ prevData }) => {
         }
       : { labelColor: "#fff000", background: "#000",optionColor:"#000" }
   );
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     EventDataFun();
@@ -204,6 +206,11 @@ const RegistrationPage = ({ prevData }) => {
             consent:formFieldData.consent.join('~') || ""
           }
         );
+        if (response?.data?.status === 1) {
+          setModalIsOpen(true);
+        } else  {
+          console.log("Registration failed. Message:", response.data.message);
+        }
       } catch (error) {
         console.error("Error submitting data:", error);
       } finally {
@@ -535,6 +542,7 @@ console.log(errors);
       </section>
     </>
   );
+  
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -559,8 +567,45 @@ console.log(errors);
        {formData?.content?.templateId === 4 && (
         <TemplateFour formData={formData}>{myContent4}</TemplateFour>
       )} 
-    </>
-  );
+
+      <Modal
+        className="modal send-confirm"
+        show={modalIsOpen}
+        centered
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => setModalIsOpen(false)}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <>
+            {formData?.content?.eventDetails?.Message?.value ? (
+              <h4>{formData.content.eventDetails.Message.value}</h4>
+            ) : (
+              <h4>Thank you for registering!</h4>
+            )}
+            
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered"
+                onClick={() => setModalIsOpen(false)}
+              >
+                Okay
+              </button>
+            </div>
+          </>
+        </Modal.Body>
+      </Modal>
+    
+    </> 
+  ); 
 };
 
 export default RegistrationPage;

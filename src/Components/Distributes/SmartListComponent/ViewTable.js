@@ -648,7 +648,14 @@ const ViewTable = (props) => {
         localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
       ) {
         return "false";
-      } else if (data.email == "") {
+      } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        if (data.email == "" || data.country == "") {
+          return "false"
+        } else {
+          return "true"
+        }
+      }
+      else if (data.email == "") {
         return "false";
       } else {
         return "true";
@@ -697,7 +704,10 @@ const ViewTable = (props) => {
               : "",
         },
       ]);
-    } else {
+    } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+      toast.warning("Please input the required fields");
+    }
+    else {
       toast.warning("Please input the email atleast");
     }
   };
@@ -749,8 +759,8 @@ const ViewTable = (props) => {
         const contact_type_edit =
           localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
             ? document.getElementById(
-                "field_contact_type" + data.profile_user_id
-              ).value
+              "field_contact_type" + data.profile_user_id
+            ).value
             : "";
 
         let prev_obj = editList.find(
@@ -952,7 +962,7 @@ const ViewTable = (props) => {
       const contact_type_edit =
         localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
           ? document.getElementById("field_contact_type" + profile_user_id)
-              .value
+            .value
           : "";
 
       var arr = [];
@@ -1471,7 +1481,8 @@ const ViewTable = (props) => {
           return "Please select Institution";
         } else if (
           data.country == "" &&
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
+            localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==")
         ) {
           return "Please select country";
         } else if (data.email != "") {
@@ -1811,7 +1822,7 @@ const ViewTable = (props) => {
                   <th scope="col">Country</th>
 
                   {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
                     <>
                       <th scope="col">IRT mandatory training</th>
                       <th scope="col">IRT role</th>
@@ -1859,7 +1870,7 @@ const ViewTable = (props) => {
                       id={`field_name` + item.profile_user_id}
                     >
                       {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
+                        inEditMode.rowKey === item.profile_id ? (
                         <input
                           value={name}
                           onChange={(event) => setName(event.target.value)}
@@ -1871,7 +1882,7 @@ const ViewTable = (props) => {
                     <td>
                       {" "}
                       {inEditMode.status &&
-                      inEditMode.rowKey === item.profile_id ? (
+                        inEditMode.rowKey === item.profile_id ? (
                         <input
                           value={email}
                           type="email"
@@ -1899,17 +1910,17 @@ const ViewTable = (props) => {
                     </td>
                     <td>
                       {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? item?.irt
                           ? "Yes"
                           : "No"
                         : item.ibu
-                        ? item.ibu
-                        : "N/A"}
+                          ? item.ibu
+                          : "N/A"}
                     </td>
                     <td>
                       {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <span>
                           {item.user_type != 0 ? item.user_type : "N/A"}
                         </span>
@@ -2018,17 +2029,17 @@ const ViewTable = (props) => {
                     <td id="field_business_unit">
                       {/*item.ibu*/}
                       {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? item?.irt
                           ? "Yes"
                           : "No"
                         : item.ibu
-                        ? item.ibu
-                        : "N/A"}
+                          ? item.ibu
+                          : "N/A"}
                     </td>
                     <td id="field_interest">
                       {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <span>
                           {item.user_type != 0 ? item.user_type : "N/A"}
                         </span>
@@ -2184,24 +2195,24 @@ const ViewTable = (props) => {
                     country: "",
                     userType:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? irtRole?.[0]?.value
                         : "",
                     userTypeIndex:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? 0
                         : "",
                     countryIndex: "",
                     siteIrt:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? siteIrtAll?.find((item) => item?.value == "Yes")
-                            ?.value
+                          ?.value
                         : "",
                     siteIrtIndex:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                         : "",
                   },
@@ -2233,8 +2244,8 @@ const ViewTable = (props) => {
                                     First name{" "}
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}{" "}
+                                        <span>*</span>
+                                      )}{" "}
                                   </label>
                                   <input
                                     type="text"
@@ -2252,8 +2263,8 @@ const ViewTable = (props) => {
                                     Last name{" "}
                                     {localStorage.getItem("user_id") ==
                                       "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                      <span>*</span>
-                                    )}
+                                        <span>*</span>
+                                      )}
                                   </label>
                                   <input
                                     type="text"
@@ -2293,7 +2304,7 @@ const ViewTable = (props) => {
                               </div>
 
                               {localStorage.getItem("user_id") !=
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
                                     <label for="">Contact type</label>
@@ -2301,7 +2312,7 @@ const ViewTable = (props) => {
                                       className="dropdown-basic-button split-button-dropup"
                                       title={
                                         hpc[i].contact_type != "" &&
-                                        hpc[i].contact_type != "undefined"
+                                          hpc[i].contact_type != "undefined"
                                           ? hpc[i].contact_type
                                           : "Select Type"
                                       }
@@ -2347,10 +2358,16 @@ const ViewTable = (props) => {
                               ) : null}
 
                               {localStorage.getItem("user_id") !=
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label for="">Country</label>
+                                    <label for="">Country
+                                      {localStorage.getItem("user_id") ==
+                                        "m5JI5zEDY3xHFTZBnSGQZg==" && (
+                                          <span>*</span>
+                                        )}
+                                    </label>
+
                                     <Select
                                       options={countryall}
                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2395,7 +2412,7 @@ const ViewTable = (props) => {
                               ) : null}
 
                               {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   <hr />
                                   <div className="col-12 col-md-6">
@@ -2458,10 +2475,10 @@ const ViewTable = (props) => {
                                           value={irtRole[hpc[i].roleIndex]}
                                           placeholder={"Select Role"}
                                           isClearable
-                                          // filterOption={createFilter(filterConfig)}
+                                        // filterOption={createFilter(filterConfig)}
                                         />
                                       ) : siteIrtAll[hpc[i].siteIrtIndex]
-                                          ?.value === "No" ? (
+                                        ?.value === "No" ? (
                                         <Select
                                           options={userTypeAll}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2471,7 +2488,7 @@ const ViewTable = (props) => {
                                           value={userTypeAll[hpc[i].roleIndex]}
                                           isClearable
                                           placeholder={"Select Role"}
-                                          // filterOption={createFilter(filterConfig)}
+                                        // filterOption={createFilter(filterConfig)}
                                         />
                                       ) : (
                                         <Select
@@ -2519,7 +2536,7 @@ const ViewTable = (props) => {
                                         }
                                         defaultValue={
                                           subUserTypeAll[
-                                            hpc[i].subUserTypeIndex
+                                          hpc[i].subUserTypeIndex
                                           ]
                                         }
                                         placeholder={
@@ -2528,11 +2545,11 @@ const ViewTable = (props) => {
                                           ] === "undefined"
                                             ? "Select Study Role"
                                             : subUserTypeAll[
-                                                hpc[i].subUserTypeIndex
-                                              ]
+                                            hpc[i].subUserTypeIndex
+                                            ]
                                         }
-                                        // filterOption={createFilter(filterConfig)}
-                                        //  isClearable
+                                      // filterOption={createFilter(filterConfig)}
+                                      //  isClearable
                                       />
                                     </div>
                                   </div>
@@ -2543,8 +2560,8 @@ const ViewTable = (props) => {
                                         Country{" "}
                                         {localStorage.getItem("user_id") ==
                                           "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                          <span>*</span>
-                                        )}
+                                            <span>*</span>
+                                          )}
                                       </label>
                                       {siteIrtAll[hpc[i].siteIrtIndex]
                                         ?.value === "Yes" ? (
@@ -2560,11 +2577,11 @@ const ViewTable = (props) => {
                                             ) == -1
                                               ? ""
                                               : irtCountry[
-                                                  irtCountry.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.country
-                                                  )
-                                                ]
+                                              irtCountry.findIndex(
+                                                (el) =>
+                                                  el.value == val?.country
+                                              )
+                                              ]
                                           }
                                           placeholder="Select Country"
                                           filterOption={createFilter(
@@ -2585,11 +2602,11 @@ const ViewTable = (props) => {
                                             ) == -1
                                               ? ""
                                               : countryall[
-                                                  countryall.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.country
-                                                  )
-                                                ]
+                                              countryall.findIndex(
+                                                (el) =>
+                                                  el.value == val?.country
+                                              )
+                                              ]
                                           }
                                           placeholder="Select Country"
                                           filterOption={createFilter(
@@ -2633,8 +2650,8 @@ const ViewTable = (props) => {
                                         value={
                                           siteNumberAll[hpc[i].siteNumberIndex]
                                             ? siteNumberAll[
-                                                hpc[i].siteNumberIndex
-                                              ]
+                                            hpc[i].siteNumberIndex
+                                            ]
                                             : ""
                                         }
                                         // defaultValue={
@@ -2646,27 +2663,27 @@ const ViewTable = (props) => {
                                           ] === "undefined"
                                             ? "Select Site Number"
                                             : siteNumberAll[
-                                                hpc[i].siteNumberIndex
-                                              ]
+                                            hpc[i].siteNumberIndex
+                                            ]
                                         }
-                                        // onChange={(event) =>
-                                        //   onUserTypeChange(event, i)
-                                        // }
-                                        // defaultValue={
-                                        //   userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ]
-                                        // }
-                                        // placeholder={
-                                        //   typeof userTypeAll[
-                                        //     hpc[i].userTypeIndex
-                                        //   ] === "undefined"
-                                        //     ? "Select User Type"
-                                        //     : userTypeAll[
-                                        //         hpc[i].userTypeIndex
-                                        //       ]
-                                        // }
-                                        // filterOption={createFilter(filterConfig)}
+                                      // onChange={(event) =>
+                                      //   onUserTypeChange(event, i)
+                                      // }
+                                      // defaultValue={
+                                      //   userTypeAll[
+                                      //     hpc[i].userTypeIndex
+                                      //   ]
+                                      // }
+                                      // placeholder={
+                                      //   typeof userTypeAll[
+                                      //     hpc[i].userTypeIndex
+                                      //   ] === "undefined"
+                                      //     ? "Select User Type"
+                                      //     : userTypeAll[
+                                      //         hpc[i].userTypeIndex
+                                      //       ]
+                                      // }
+                                      // filterOption={createFilter(filterConfig)}
                                       />
                                     </div>
                                   </div>
@@ -2706,7 +2723,7 @@ const ViewTable = (props) => {
                                             ? "Select Site Name"
                                             : siteNameAll[hpc[i].siteNameIndex]
                                         }
-                                        // filterOption={createFilter(filterConfig)}
+                                      // filterOption={createFilter(filterConfig)}
                                       />
                                     </div>
                                   </div>
