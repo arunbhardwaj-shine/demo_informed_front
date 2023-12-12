@@ -542,6 +542,7 @@ console.log(errors);
       </section>
     </>
   );
+  
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -584,7 +585,12 @@ console.log(errors);
         </Modal.Header>
         <Modal.Body>
           <>
-            <h4>Thank you for registering!</h4>
+            {formData?.content?.eventDetails?.Message?.value ? (
+              <h4>{formData.content.eventDetails.Message.value}</h4>
+            ) : (
+              <h4>Thank you for registering!</h4>
+            )}
+            
             <div className="modal-buttons">
               <button
                 type="button"
@@ -1463,7 +1469,7 @@ const FormField4 = ({
         type={form.inputType}
         className="form-control"
         id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}
-        // placeholder={form.placeholder}
+        placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
       />
     );
