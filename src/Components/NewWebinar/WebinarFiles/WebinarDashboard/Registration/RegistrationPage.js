@@ -542,6 +542,7 @@ console.log(errors);
       </section>
     </>
   );
+  
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -584,7 +585,12 @@ console.log(errors);
         </Modal.Header>
         <Modal.Body>
           <>
-            <h4>Thank you for registering!</h4>
+            {formData?.content?.eventDetails?.Message?.value ? (
+              <h4>{formData.content.eventDetails.Message.value}</h4>
+            ) : (
+              <h4>Thank you for registering!</h4>
+            )}
+            
             <div className="modal-buttons">
               <button
                 type="button"
