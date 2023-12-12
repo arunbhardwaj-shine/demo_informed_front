@@ -4842,13 +4842,25 @@ l .vwd .factor-season-left h2 {
   text-decoration: none;
   font-weight: 600;
 }
-
+.wrapper.eahad {
+  margin: 20px 0;
+}
 .eahad .footer-inner p.health-professional {
   padding-top: 22px;
   padding-right: 50px;
   text-align: left;
 }
-
+.eahad .octapharma_event .octapharma_event_form #submit_registration {
+  margin: 40px auto 0;
+  padding: 12px 20px;
+  border-radius: 15px;
+  background: linear-gradient(90deg, #001489, #00a993);
+  min-width: 210px;
+  max-width: 210px;
+  font-size: 19px;
+  font-weight: 500;
+  font-family: 'Roboto';
+}
 /** Template four End**/
 footer {
   margin: 30px 0;
