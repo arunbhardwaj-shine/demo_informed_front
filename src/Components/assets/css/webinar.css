@@ -4640,6 +4640,7 @@ l .vwd .factor-season-left h2 {
   border: 1px solid #33baa8;
   padding: 12px 25px;
   border-radius: 0;
+  flex:1 1;
 }
 
 .eahad .form-control:focus {
@@ -4666,12 +4667,14 @@ l .vwd .factor-season-left h2 {
 .modal .eahad .split-button-dropup>div:nth-child(3) div {
   color: #000000;
 }
-
-.eahad .center-sided-inside .consent-form-list.attend-sec {
-  display: flex;
-  align-items: center;
+.eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild .help-block {
+  padding-left: 0;
 }
-
+.eahad .center-sided-inside .consent-form-list.attend-sec {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
 .eahad .center-sided-inside .consent-form-list.attend-sec>label {
   flex: 0 0 100px;
   font-weight: 700;
@@ -4860,6 +4863,21 @@ l .vwd .factor-season-left h2 {
   font-size: 19px;
   font-weight: 500;
   font-family: 'Roboto';
+}
+.eahad .consent-form-list .help-block {
+  width: 100%;
+  flex: 0 0 100%;
+  padding-left: 101px;
+  margin:3px 0 0;
+}
+.eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild li label {
+  cursor: pointer;
+}
+.eahad input:-webkit-autofill {
+  -webkit-text-fill-color: #000 !important;
+}
+.eahad .split-button-dropup div:nth-child(3)>div div {
+  color: #000;
 }
 /** Template four End**/
 footer {
