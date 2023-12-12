@@ -1133,10 +1133,18 @@ const Table = (props, ref) => {
         } else {
           return "true";
         }
-      } else {
+      } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        if (data.email == "" || data.country == "") {
+          return "false"
+        } else {
+          return "true"
+        }
+      }
+      else {
         if (data.email == "") {
           return "false";
-        } else {
+        }
+        else {
           return "true";
         }
       }
@@ -1171,7 +1179,7 @@ const Table = (props, ref) => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast.");
@@ -1530,7 +1538,10 @@ const Table = (props, ref) => {
         //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (data.email == "") {
           return "Please enter the email atleast";
-        } else if (data.email != "") {
+        } else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+          return "Please enter the country";
+        }
+        else if (data.email != "") {
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -1669,16 +1680,16 @@ const Table = (props, ref) => {
         a.first_name.toLowerCase() > b.first_name.toLowerCase()
           ? 1
           : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-          ? -1
-          : 0
+            ? -1
+            : 0
       );
     } else {
       normalArr.sort((a, b) =>
         a.first_name.toLowerCase() < b.first_name.toLowerCase()
           ? 1
           : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-          ? -1
-          : 0
+            ? -1
+            : 0
       );
     }
 
@@ -1761,7 +1772,7 @@ const Table = (props, ref) => {
             ) : (
               <h4>
                 Selected HCPs for the smart list |{" "}
-                <span> 
+                <span>
                   {
                     editList?.length > 0 ? editList?.length : 0
                   }
@@ -1870,12 +1881,12 @@ const Table = (props, ref) => {
                     </>
                   ) : null}
                 </div>
-              : null
+                : null
             }
           </div>
 
           {
-            props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ? 
+            props?.upload_by_filter == 1 && localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
               <div className="selected-hcp-list">
                 <table className="table" id="table-to-xls">
                   <thead className="sticky-header">
@@ -1885,7 +1896,7 @@ const Table = (props, ref) => {
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
                       {localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
                         <>
                           <th scope="col">IRT mandatory training</th>
                           <th scope="col">IRT role</th>
@@ -1936,7 +1947,7 @@ const Table = (props, ref) => {
                             id={`field_name` + item?.profile_user_id}
                           >
                             {inEditMode?.status &&
-                            inEditMode?.rowKey === item?.profile_id ? (
+                              inEditMode?.rowKey === item?.profile_id ? (
                               <input
                                 value={name}
                                 onChange={(event) => setName(event?.target?.value)}
@@ -1948,7 +1959,7 @@ const Table = (props, ref) => {
                           <td>
                             {" "}
                             {inEditMode?.status &&
-                            inEditMode?.rowKey === item?.profile_id ? (
+                              inEditMode?.rowKey === item?.profile_id ? (
                               <input
                                 value={email}
                                 type="email"
@@ -1979,17 +1990,17 @@ const Table = (props, ref) => {
                           <td>
                             {/*item.ibu*/}
                             {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg=="
+                              "56Ek4feL/1A8mZgIKQWEqg=="
                               ? item?.irt
                                 ? "Yes"
                                 : "No"
                               : item?.ibu
-                              ? item?.ibu
-                              : "N/A"}
+                                ? item?.ibu
+                                : "N/A"}
                           </td>
                           <td>
                             {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
                               <span>
                                 {item?.user_type != 0 ? item?.user_type : "N/A"}
                               </span>
@@ -2111,17 +2122,17 @@ const Table = (props, ref) => {
                           ) : null*/}
                           <td id="field_business_unit">
                             {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg=="
+                              "56Ek4feL/1A8mZgIKQWEqg=="
                               ? item?.irt
                                 ? "Yes"
                                 : "No"
                               : item?.ibu
-                              ? item?.ibu
-                              : "N/A"}
+                                ? item?.ibu
+                                : "N/A"}
                           </td>
                           <td id="field_interest">
                             {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
                               <span>
                                 {item?.user_type != 0 ? item?.user_type : "N/A"}
                               </span>
@@ -2199,8 +2210,8 @@ const Table = (props, ref) => {
                   </tbody>
                 </table>
               </div>
-            : null
-          }  
+              : null
+          }
         </div>
       </section>
 
@@ -2375,23 +2386,23 @@ const Table = (props, ref) => {
                       countryIndex: "",
                       userType:
                         localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           ? irtRole?.[0]?.value
                           : "",
                       userTypeIndex:
                         localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           ? 0
                           : "",
                       siteIrt:
                         localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           ? siteIrtAll?.find((item) => item?.value == "Yes")
-                              ?.value
+                            ?.value
                           : "",
                       siteIrtIndex:
                         localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                           : "",
                     },
@@ -2423,8 +2434,8 @@ const Table = (props, ref) => {
                                       First name{" "}
                                       {localStorage.getItem("user_id") ==
                                         "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                        <span>*</span>
-                                      )}
+                                          <span>*</span>
+                                        )}
                                     </label>
                                     <input
                                       type="text"
@@ -2442,8 +2453,8 @@ const Table = (props, ref) => {
                                       Last name{" "}
                                       {localStorage.getItem("user_id") ==
                                         "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                        <span>*</span>
-                                      )}
+                                          <span>*</span>
+                                        )}
                                     </label>
                                     <input
                                       type="text"
@@ -2483,7 +2494,7 @@ const Table = (props, ref) => {
                                 </div>
 
                                 {localStorage.getItem("user_id") !=
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Contact type</label>
@@ -2491,7 +2502,7 @@ const Table = (props, ref) => {
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
                                           hpc[i].contact_type != "" &&
-                                          hpc[i].contact_type != "undefined"
+                                            hpc[i].contact_type != "undefined"
                                             ? hpc[i].contact_type
                                             : "Select Type"
                                         }
@@ -2524,7 +2535,7 @@ const Table = (props, ref) => {
                                             eventKey="Test Users"
                                             className={
                                               hpc[i].contact_type ==
-                                              "Test Users"
+                                                "Test Users"
                                                 ? "active"
                                                 : ""
                                             }
@@ -2538,10 +2549,12 @@ const Table = (props, ref) => {
                                 ) : null}
 
                                 {localStorage.getItem("user_id") !=
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
-                                      <label for="">Country </label>
+                                      <label for="">Country
+
+                                      </label>
                                       <Select
                                         options={countryall}
                                         className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2588,7 +2601,7 @@ const Table = (props, ref) => {
                                 ) : null}
 
                                 {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                   <>
                                     <hr />
                                     <div className="col-12 col-md-6">
@@ -2611,8 +2624,8 @@ const Table = (props, ref) => {
                                             ] === "undefined"
                                               ? "Select Institutions"
                                               : instituions[
-                                                  hpc[i].instituteIndex
-                                                ]
+                                              hpc[i].instituteIndex
+                                              ]
                                           }
                                         />
                                       </div>
@@ -2660,10 +2673,10 @@ const Table = (props, ref) => {
                                             value={irtRole[hpc[i].roleIndex]}
                                             placeholder={"Select Role"}
                                             isClearable
-                                            // filterOption={createFilter(filterConfig)}
+                                          // filterOption={createFilter(filterConfig)}
                                           />
                                         ) : siteIrtAll[hpc[i].siteIrtIndex]
-                                            ?.value === "No" ? (
+                                          ?.value === "No" ? (
                                           <Select
                                             options={userTypeAll}
                                             className="dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -2675,7 +2688,7 @@ const Table = (props, ref) => {
                                             }
                                             isClearable
                                             placeholder={"Select Role"}
-                                            // filterOption={createFilter(filterConfig)}
+                                          // filterOption={createFilter(filterConfig)}
                                           />
                                         ) : (
                                           <Select
@@ -2722,7 +2735,7 @@ const Table = (props, ref) => {
                                           }
                                           defaultValue={
                                             subUserTypeAll[
-                                              hpc[i].subUserTypeIndex
+                                            hpc[i].subUserTypeIndex
                                             ]
                                           }
                                           placeholder={
@@ -2731,11 +2744,11 @@ const Table = (props, ref) => {
                                             ] === "undefined"
                                               ? "Select Study Role"
                                               : subUserTypeAll[
-                                                  hpc[i].subUserTypeIndex
-                                                ]
+                                              hpc[i].subUserTypeIndex
+                                              ]
                                           }
-                                          // filterOption={createFilter(filterConfig)}
-                                          //  isClearable
+                                        // filterOption={createFilter(filterConfig)}
+                                        //  isClearable
                                         />
                                       </div>
                                     </div>
@@ -2743,11 +2756,14 @@ const Table = (props, ref) => {
                                     <div className="col-12 col-md-6">
                                       <div className="form-group">
                                         <label for="">
-                                          Country{" "}
-                                          {localStorage.getItem("user_id") ==
-                                            "56Ek4feL/1A8mZgIKQWEqg==" && (
-                                            <span>*</span>
-                                          )}
+                                          country{" "}
+                                          {(localStorage.getItem("user_id") ==
+                                            "56Ek4feL/1A8mZgIKQWEqg==" ||
+                                            localStorage.getItem("user_id") ==
+                                            "m5JI5zEDY3xHFTZBnSGQZg==")
+                                            && (
+                                              <span>*</span>
+                                            )}
                                         </label>
                                         {siteIrtAll[hpc[i].siteIrtIndex]
                                           ?.value === "Yes" ? (
@@ -2763,11 +2779,11 @@ const Table = (props, ref) => {
                                               ) == -1
                                                 ? ""
                                                 : irtCountry[
-                                                    irtCountry.findIndex(
-                                                      (el) =>
-                                                        el.value == val?.country
-                                                    )
-                                                  ]
+                                                irtCountry.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.country
+                                                )
+                                                ]
                                             }
                                             placeholder="Select Country"
                                             filterOption={createFilter(
@@ -2788,11 +2804,11 @@ const Table = (props, ref) => {
                                               ) == -1
                                                 ? ""
                                                 : countryall[
-                                                    countryall.findIndex(
-                                                      (el) =>
-                                                        el.value == val?.country
-                                                    )
-                                                  ]
+                                                countryall.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.country
+                                                )
+                                                ]
                                             }
                                             placeholder="Select Country"
                                             filterOption={createFilter(
@@ -2838,8 +2854,8 @@ const Table = (props, ref) => {
                                               hpc[i].siteNumberIndex
                                             ]
                                               ? siteNumberAll[
-                                                  hpc[i].siteNumberIndex
-                                                ]
+                                              hpc[i].siteNumberIndex
+                                              ]
                                               : ""
                                           }
                                           // defaultValue={
@@ -2851,27 +2867,27 @@ const Table = (props, ref) => {
                                             ] === "undefined"
                                               ? "Select Site Number"
                                               : siteNumberAll[
-                                                  hpc[i].siteNumberIndex
-                                                ]
+                                              hpc[i].siteNumberIndex
+                                              ]
                                           }
-                                          // onChange={(event) =>
-                                          //   onUserTypeChange(event, i)
-                                          // }
-                                          // defaultValue={
-                                          //   userTypeAll[
-                                          //     hpc[i].userTypeIndex
-                                          //   ]
-                                          // }
-                                          // placeholder={
-                                          //   typeof userTypeAll[
-                                          //     hpc[i].userTypeIndex
-                                          //   ] === "undefined"
-                                          //     ? "Select User Type"
-                                          //     : userTypeAll[
-                                          //         hpc[i].userTypeIndex
-                                          //       ]
-                                          // }
-                                          // filterOption={createFilter(filterConfig)}
+                                        // onChange={(event) =>
+                                        //   onUserTypeChange(event, i)
+                                        // }
+                                        // defaultValue={
+                                        //   userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ]
+                                        // }
+                                        // placeholder={
+                                        //   typeof userTypeAll[
+                                        //     hpc[i].userTypeIndex
+                                        //   ] === "undefined"
+                                        //     ? "Select User Type"
+                                        //     : userTypeAll[
+                                        //         hpc[i].userTypeIndex
+                                        //       ]
+                                        // }
+                                        // filterOption={createFilter(filterConfig)}
                                         />
                                       </div>
                                     </div>
@@ -2899,8 +2915,8 @@ const Table = (props, ref) => {
                                           value={
                                             siteNameAll[hpc[i].siteNameIndex]
                                               ? siteNameAll[
-                                                  hpc[i].siteNameIndex
-                                                ]
+                                              hpc[i].siteNameIndex
+                                              ]
                                               : ""
                                           }
                                           defaultValue={
@@ -2912,10 +2928,10 @@ const Table = (props, ref) => {
                                             ] === "undefined"
                                               ? "Select Site Name"
                                               : siteNameAll[
-                                                  hpc[i].siteNameIndex
-                                                ]
+                                              hpc[i].siteNameIndex
+                                              ]
                                           }
-                                          // filterOption={createFilter(filterConfig)}
+                                        // filterOption={createFilter(filterConfig)}
                                         />
                                       </div>
                                     </div>
@@ -3364,7 +3380,7 @@ const Table = (props, ref) => {
                                 </div>
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label htmlFor="">Email *</label>
+                                    <label htmlFor="">Email <span>*</span></label>
                                     <input
                                       type="email"
                                       className="form-control"
@@ -3384,7 +3400,7 @@ const Table = (props, ref) => {
                                       className="dropdown-basic-button split-button-dropup"
                                       title={
                                         hpc[i].contact_type != "" &&
-                                        hpc[i].contact_type != "undefined"
+                                          hpc[i].contact_type != "undefined"
                                           ? hpc[i].contact_type
                                           : "Select Type"
                                       }
@@ -3427,7 +3443,12 @@ const Table = (props, ref) => {
                                 </div>
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
-                                    <label htmlFor="">Country</label>
+                                    <label htmlFor="">Country
+                                      {localStorage.getItem("user_id") ==
+                                        "m5JI5zEDY3xHFTZBnSGQZg==" && (
+                                          <span>*</span>
+                                        )}
+                                    </label>
                                     <Select
                                       options={countryall}
                                       className="dropdown-basic-button split-button-dropup edit-country-dropdown"
