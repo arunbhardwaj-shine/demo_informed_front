@@ -29,11 +29,11 @@ export default function TemplateFour({ children, formData }) {
     formattedDateRange = startDate.format("D. MMMM YYYY");
   } else if (startDate.isSame(endDate, "month")) {
     formattedDateRange = `${startDate.format("D")} - ${endDate.format(
-      "D MMMM YYYY"
+      "D. MMMM YYYY"
     )}`;
   } else {
-    formattedDateRange = `${startDate.format("D MMMM")} - ${endDate.format(
-      "D MMMM YYYY"
+    formattedDateRange = `${startDate.format("D. MMMM")} - ${endDate.format(
+      "D. MMMM YYYY"
     )}`;
   }
 
