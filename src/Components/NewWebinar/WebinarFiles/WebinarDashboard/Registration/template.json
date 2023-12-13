@@ -38,6 +38,12 @@
                 "type": "text",
                 "value": "To register please fill in all your details below.",
                 "color": "#354367"
+            },
+            "Message": {
+                "title": "Modal Message",
+                "type": "text",
+                "value": "Thank you for registering!",
+                "color": "#354367"
             }
         },
         "body": [
@@ -150,6 +156,12 @@
                 "title": "Registration Page Title",
                 "type": "text",
                 "value": "To register please select and fill in all your details below.",
+                "color": "#04b39a"
+            },
+            "Message": {
+                "title": "Modal Message",
+                "type": "text",
+                "value": "Thank you for registering!",
                 "color": "#04b39a"
             }
         },
@@ -359,6 +371,12 @@
                 "type": "text",
                 "value": "This meeting is for healthcare professionals only.",
                 "color": "#354367"
+            },
+            "Message": {
+                "title": "Modal Message",
+                "type": "text",
+                "value": "Thank you for registering!",
+                "color":  "#354367"
             }
         },
         "body": [
@@ -537,6 +555,12 @@
             "type": "text",
             "value": "",
             "color": "#001489"
+        },
+        "Message": {
+            "title": "Modal Message",
+            "type": "text",
+            "value": "Thank you for registering!",
+            "color":  "#001489"
         }
     },
     "body": [
