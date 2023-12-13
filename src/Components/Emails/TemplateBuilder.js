@@ -170,8 +170,8 @@ const TemplateBuilder = (props) => {
   );
   const [saveTemplateType, setsaveTemplateType] = useState();
   const [userInputs, setSaveTemplateInputs] = useState({
-    template_name : "",
-    language : "",
+    template_name: "",
+    language: "",
   });
   const [error, setError] = useState({});
 
@@ -342,7 +342,7 @@ const TemplateBuilder = (props) => {
             label: label.toUpperCase(),
           });
         });
-        
+
         let ibu = res.data.response.ibu;
         let ibu_arr = [];
         if (ibu.length > 0) {
@@ -354,11 +354,11 @@ const TemplateBuilder = (props) => {
           });
 
           Object.entries(ibu).map(([index, item]) => {
-            if(index == 0){
+            if (index == 0) {
               ibu_arr.push({
                 value: '',
                 label: 'All',
-              }); 
+              });
             }
             let label = item;
             ibu_arr.push({
@@ -509,7 +509,14 @@ const TemplateBuilder = (props) => {
         } else {
           return "true";
         }
-      } else {
+      } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        if (data.email == "" || data.country == "") {
+          return "false"
+        } else {
+          return "true"
+        }
+      }
+      else {
         if (data.email == "") {
           return "false";
         } else {
@@ -1275,7 +1282,7 @@ const TemplateBuilder = (props) => {
           }
         }
 
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           if (data?.country == "") {
             setValidationError({
               [`country-${index}`]: "Please select country ",
@@ -1419,59 +1426,59 @@ const TemplateBuilder = (props) => {
     if (Object.keys(err)?.length) {
       setError(err);
       return;
-    }else{
+    } else {
       // let template_name = document.getElementById("template_name").value;
       // if (template_name !== "" && template_name.trim().length > 0) {
-        setError({});
-        loader("show");
-        let lang = 0;
-        if (userInputs?.language == "All" || userInputs?.language == "english") {
-          lang = 0;
-        } else if (userInputs?.language == "italian") {
-          lang = 1;
-        } else if (userInputs?.language == "germany") {
-          lang = 2;
-        } else if (userInputs?.language == "spanish") {
-          lang = 3;
-        } else if (userInputs?.language == "russian") {
-          lang = 4;
-        }
-  
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          source_code: template,
-          template_id: templateId,
-          name: userInputs?.template_name,
-          ibu: userInputs?.ibu ? userInputs?.ibu : '',
-          status: 1,
-          language: lang,
-        };
-  
-        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-        loader("show");
-        await axios
-          .post(`emailapi/add_update_template`, body)
-          .then((res) => {
-            if (res.data.status_code === 200) {
-              getTemplateListData(
-                1,
-                selectedLanguage,
-                selectedIbu,
-                userTemplateType
-              );
-              setTemplateId(res.data.response.data.last_id);
-              setTemplateName(userInputs?.template_name);
-            } else {
-              loader("hide");
-              toast.warning("Template not selected.");
-            }
-          })
-          .catch((err) => {
+      setError({});
+      loader("show");
+      let lang = 0;
+      if (userInputs?.language == "All" || userInputs?.language == "english") {
+        lang = 0;
+      } else if (userInputs?.language == "italian") {
+        lang = 1;
+      } else if (userInputs?.language == "germany") {
+        lang = 2;
+      } else if (userInputs?.language == "spanish") {
+        lang = 3;
+      } else if (userInputs?.language == "russian") {
+        lang = 4;
+      }
+
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        source_code: template,
+        template_id: templateId,
+        name: userInputs?.template_name,
+        ibu: userInputs?.ibu ? userInputs?.ibu : '',
+        status: 1,
+        language: lang,
+      };
+
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`emailapi/add_update_template`, body)
+        .then((res) => {
+          if (res.data.status_code === 200) {
+            getTemplateListData(
+              1,
+              selectedLanguage,
+              selectedIbu,
+              userTemplateType
+            );
+            setTemplateId(res.data.response.data.last_id);
+            setTemplateName(userInputs?.template_name);
+          } else {
             loader("hide");
-            toast.error("Something went wrong");
-          });
-        setNewTemplatePopup(false);
-        setTemplatePopup(false);
+            toast.warning("Template not selected.");
+          }
+        })
+        .catch((err) => {
+          loader("hide");
+          toast.error("Something went wrong");
+        });
+      setNewTemplatePopup(false);
+      setTemplatePopup(false);
       // } else {
       //   toast.warning("Please enter template name.");
       // }
@@ -1989,7 +1996,7 @@ const TemplateBuilder = (props) => {
                     <button
                       disabled
                       className="btn btn-primary btn-bordered send-sample"
-                      //onClick={sendSample}
+                    //onClick={sendSample}
                     >
                       Send A Sample
                     </button>
@@ -2006,13 +2013,13 @@ const TemplateBuilder = (props) => {
                       <Select
                         defaultValue={
                           typeof getTemplateLanguage[countryOption] ===
-                          "undefined"
+                            "undefined"
                             ? "Select Language"
                             : getTemplateLanguage[countryOption]
                         }
                         placeholder={
                           typeof getTemplateLanguage[countryOption] ===
-                          "undefined"
+                            "undefined"
                             ? "Select Language"
                             : getTemplateLanguage[countryOption]
                         }
@@ -2105,7 +2112,7 @@ const TemplateBuilder = (props) => {
                               alt=""
                               className={
                                 typeof templateId !== "undefined" &&
-                                templateId == template.id
+                                  templateId == template.id
                                   ? "select_mm"
                                   : ""
                               }
@@ -2181,8 +2188,8 @@ const TemplateBuilder = (props) => {
                                     templateType == 0
                                       ? "Pure Text"
                                       : templateType == 1
-                                      ? "Article"
-                                      : "Select Type"
+                                        ? "Article"
+                                        : "Select Type"
                                     // "Article"
                                     // "Plain Text"
                                   }
@@ -2278,8 +2285,8 @@ const TemplateBuilder = (props) => {
                                           saveTemplateType == 0
                                             ? "Pure Text"
                                             : saveTemplateType == 1
-                                            ? "Article"
-                                            : "Select Type"
+                                              ? "Article"
+                                              : "Select Type"
                                         }
                                         onSelect={(event) =>
                                           onSaveTemplateTypeChange(event)
@@ -2418,383 +2425,383 @@ const TemplateBuilder = (props) => {
                   ) : (
                     ""
                   )}
-                  {templateClickedd ? 
-                  (
-                    <>
-                    {console.log("First")}
-                    <Editor
-                      apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
-                      onInit={(evt, editor) => (editorRef.current = editor)}
-                      initialValue={template}
-                      link_default_protocol={"https"}
-                      link_assume_external_targets={"https"}
-                      relative_urls={true}
-                      init={{
-                        height: "100vh",
-                        menubar:
-                          "file edit view insert format tools table help",
-                        plugins:
-                          "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
-                        toolbar:
-                          "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
-                        content_style:
-                          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                        file_picker_types: "file image media",
+                  {templateClickedd ?
+                    (
+                      <>
+                        {console.log("First")}
+                        <Editor
+                          apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                          onInit={(evt, editor) => (editorRef.current = editor)}
+                          initialValue={template}
+                          link_default_protocol={"https"}
+                          link_assume_external_targets={"https"}
+                          relative_urls={true}
+                          init={{
+                            height: "100vh",
+                            menubar:
+                              "file edit view insert format tools table help",
+                            plugins:
+                              "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                            toolbar:
+                              "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                            content_style:
+                              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                            file_picker_types: "file image media",
 
-                        file_picker_callback: function (callback, value, meta) {
-                          const input = document.createElement("input");
+                            file_picker_callback: function (callback, value, meta) {
+                              const input = document.createElement("input");
 
-                          if (meta.filetype === "media") {
-                            input.setAttribute("type", "file");
-                            input.setAttribute("accept", "video/*");
+                              if (meta.filetype === "media") {
+                                input.setAttribute("type", "file");
+                                input.setAttribute("accept", "video/*");
 
-                            input.onchange = async () => {
-                              const file = input.files[0];
-                              if (file) {
-                                let uploadedImageUrl;
+                                input.onchange = async () => {
+                                  const file = input.files[0];
+                                  if (file) {
+                                    let uploadedImageUrl;
 
-                                try {
-                                  if (meta && meta.width && meta.height) {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(
-                                        file,
-                                        meta.width,
-                                        meta.height
+                                    try {
+                                      if (meta && meta.width && meta.height) {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(
+                                            file,
+                                            meta.width,
+                                            meta.height
+                                          );
+                                      } else {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(file);
+                                      }
+
+                                      if (uploadedImageUrl) {
+                                        callback(uploadedImageUrl, {
+                                          width: 500,
+                                          height: 500,
+                                        });
+                                      } else {
+                                        console.error("Failed to upload image");
+                                      }
+                                    } catch (error) {
+                                      console.error(
+                                        "Error uploading image:",
+                                        error
                                       );
-                                  } else {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(file);
+                                    } finally {
+                                    }
                                   }
+                                };
+                              } else {
+                                input.setAttribute("type", "file");
+                                input.setAttribute("accept", "image/*");
 
-                                  if (uploadedImageUrl) {
-                                    callback(uploadedImageUrl, {
-                                      width: 500,
-                                      height: 500,
-                                    });
-                                  } else {
-                                    console.error("Failed to upload image");
-                                  }
-                                } catch (error) {
-                                  console.error(
-                                    "Error uploading image:",
-                                    error
-                                  );
-                                } finally {
-                                }
-                              }
-                            };
-                          } else {
-                            input.setAttribute("type", "file");
-                            input.setAttribute("accept", "image/*");
+                                // Create a loading indicator element (e.g., a spinner)
+                                const loadingIndicator =
+                                  document.createElement("div");
+                                loadingIndicator.className = "loading-indicator";
+                                loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
 
-                            // Create a loading indicator element (e.g., a spinner)
-                            const loadingIndicator =
-                              document.createElement("div");
-                            loadingIndicator.className = "loading-indicator";
-                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+                                input.onchange = async () => {
+                                  document.body.appendChild(loadingIndicator); // Show loading indicator
 
-                            input.onchange = async () => {
-                              document.body.appendChild(loadingIndicator); // Show loading indicator
+                                  const file = input.files[0];
+                                  if (file) {
+                                    let uploadedImageUrl;
 
-                              const file = input.files[0];
-                              if (file) {
-                                let uploadedImageUrl;
+                                    try {
+                                      if (meta && meta.width && meta.height) {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(
+                                            file,
+                                            meta.width,
+                                            meta.height
+                                          );
+                                      } else {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(file);
+                                      }
 
-                                try {
-                                  if (meta && meta.width && meta.height) {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(
-                                        file,
-                                        meta.width,
-                                        meta.height
+                                      if (uploadedImageUrl) {
+                                        callback(uploadedImageUrl, {
+                                          width: 500,
+                                          height: 500,
+                                        });
+                                        loader("hide");
+                                      } else {
+                                        console.error("Failed to upload image");
+                                      }
+                                    } catch (error) {
+                                      console.error(
+                                        "Error uploading image:",
+                                        error
                                       );
-                                  } else {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(file);
+                                    } finally {
+                                      document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                    }
                                   }
-
-                                  if (uploadedImageUrl) {
-                                    callback(uploadedImageUrl, {
-                                      width: 500,
-                                      height: 500,
-                                    });
-                                    loader("hide");
-                                  } else {
-                                    console.error("Failed to upload image");
-                                  }
-                                } catch (error) {
-                                  console.error(
-                                    "Error uploading image:",
-                                    error
-                                  );
-                                } finally {
-                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
-                                }
+                                };
                               }
-                            };
-                          }
-                          input.click();
-                        },
-                        init_instance_callback: (editor) => addTracking(editor),
-                      }}
-                      onEditorChange={(content) => {
-                        setTemplateSaving(content);
-                      }}
-                    />
-                    </>
-                  ) : null}
+                              input.click();
+                            },
+                            init_instance_callback: (editor) => addTracking(editor),
+                          }}
+                          onEditorChange={(content) => {
+                            setTemplateSaving(content);
+                          }}
+                        />
+                      </>
+                    ) : null}
 
-                  {templateType == 0 && !templateClickedd ? 
-                  (
-                    <>
-                    {console.log("Second")}
-                    <Editor
-                      apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
-                      onInit={(evt, editor) => (editorRef.current = editor)}
-                      initialValue={newTemplateNamee}
-                      link_default_protocol={"https"}
-                      link_assume_external_targets={"https"}
-                      relative_urls={true}
-                      init={{
-                        height: "100vh",
-                        menubar:
-                          "file edit view insert format tools table help",
-                        plugins:
-                          "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
-                        toolbar:
-                          "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
-                        content_style:
-                          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                        file_picker_types: "file image media",
+                  {templateType == 0 && !templateClickedd ?
+                    (
+                      <>
+                        {console.log("Second")}
+                        <Editor
+                          apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                          onInit={(evt, editor) => (editorRef.current = editor)}
+                          initialValue={newTemplateNamee}
+                          link_default_protocol={"https"}
+                          link_assume_external_targets={"https"}
+                          relative_urls={true}
+                          init={{
+                            height: "100vh",
+                            menubar:
+                              "file edit view insert format tools table help",
+                            plugins:
+                              "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                            toolbar:
+                              "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                            content_style:
+                              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                            file_picker_types: "file image media",
 
-                        file_picker_callback: function (callback, value, meta) {
-                          const input = document.createElement("input");
+                            file_picker_callback: function (callback, value, meta) {
+                              const input = document.createElement("input");
 
-                          if (meta.filetype === "media") {
-                            input.setAttribute("type", "file");
-                            input.setAttribute("accept", "video/*");
+                              if (meta.filetype === "media") {
+                                input.setAttribute("type", "file");
+                                input.setAttribute("accept", "video/*");
 
-                            input.onchange = async () => {
-                              const file = input.files[0];
-                              if (file) {
-                                let uploadedImageUrl;
+                                input.onchange = async () => {
+                                  const file = input.files[0];
+                                  if (file) {
+                                    let uploadedImageUrl;
 
-                                try {
-                                  if (meta && meta.width && meta.height) {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(
-                                        file,
-                                        meta.width,
-                                        meta.height
+                                    try {
+                                      if (meta && meta.width && meta.height) {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(
+                                            file,
+                                            meta.width,
+                                            meta.height
+                                          );
+                                      } else {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(file);
+                                      }
+
+                                      if (uploadedImageUrl) {
+                                        callback(uploadedImageUrl, {
+                                          width: 500,
+                                          height: 500,
+                                        });
+                                      } else {
+                                        console.error("Failed to upload image");
+                                      }
+                                    } catch (error) {
+                                      console.error(
+                                        "Error uploading image:",
+                                        error
                                       );
-                                  } else {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(file);
+                                    } finally {
+                                    }
                                   }
+                                };
+                              } else {
+                                input.setAttribute("type", "file");
+                                input.setAttribute("accept", "image/*");
 
-                                  if (uploadedImageUrl) {
-                                    callback(uploadedImageUrl, {
-                                      width: 500,
-                                      height: 500,
-                                    });
-                                  } else {
-                                    console.error("Failed to upload image");
-                                  }
-                                } catch (error) {
-                                  console.error(
-                                    "Error uploading image:",
-                                    error
-                                  );
-                                } finally {
-                                }
-                              }
-                            };
-                          } else {
-                            input.setAttribute("type", "file");
-                            input.setAttribute("accept", "image/*");
+                                // Create a loading indicator element (e.g., a spinner)
+                                const loadingIndicator =
+                                  document.createElement("div");
+                                loadingIndicator.className = "loading-indicator";
+                                loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
 
-                            // Create a loading indicator element (e.g., a spinner)
-                            const loadingIndicator =
-                              document.createElement("div");
-                            loadingIndicator.className = "loading-indicator";
-                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+                                input.onchange = async () => {
+                                  document.body.appendChild(loadingIndicator); // Show loading indicator
 
-                            input.onchange = async () => {
-                              document.body.appendChild(loadingIndicator); // Show loading indicator
+                                  const file = input.files[0];
+                                  if (file) {
+                                    let uploadedImageUrl;
 
-                              const file = input.files[0];
-                              if (file) {
-                                let uploadedImageUrl;
+                                    try {
+                                      if (meta && meta.width && meta.height) {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(
+                                            file,
+                                            meta.width,
+                                            meta.height
+                                          );
+                                      } else {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(file);
+                                      }
 
-                                try {
-                                  if (meta && meta.width && meta.height) {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(
-                                        file,
-                                        meta.width,
-                                        meta.height
+                                      if (uploadedImageUrl) {
+                                        callback(uploadedImageUrl, {
+                                          width: 500,
+                                          height: 500,
+                                        });
+                                        loader("hide");
+                                      } else {
+                                        console.error("Failed to upload image");
+                                      }
+                                    } catch (error) {
+                                      console.error(
+                                        "Error uploading image:",
+                                        error
                                       );
-                                  } else {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(file);
+                                    } finally {
+                                      document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                    }
                                   }
-
-                                  if (uploadedImageUrl) {
-                                    callback(uploadedImageUrl, {
-                                      width: 500,
-                                      height: 500,
-                                    });
-                                    loader("hide");
-                                  } else {
-                                    console.error("Failed to upload image");
-                                  }
-                                } catch (error) {
-                                  console.error(
-                                    "Error uploading image:",
-                                    error
-                                  );
-                                } finally {
-                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
-                                }
+                                };
                               }
-                            };
-                          }
-                          input.click();
-                        },
-                        init_instance_callback: (editor) => addTracking(editor),
-                      }}
-                      onEditorChange={(content) => {
-                        setNewTemplateContent(content);
-                      }}
-                    />
-                    </>
-                  ) : null}
+                              input.click();
+                            },
+                            init_instance_callback: (editor) => addTracking(editor),
+                          }}
+                          onEditorChange={(content) => {
+                            setNewTemplateContent(content);
+                          }}
+                        />
+                      </>
+                    ) : null}
 
-                  {templateType == 1 && !templateClickedd ? 
-                  (
-                    <>
-                    {console.log("Third")}
-                    <Editor
-                      apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
-                      onInit={(evt, editor) => (editorRef.current = editor)}
-                      initialValue={newTemplateNamee}
-                      link_default_protocol={"https"}
-                      link_assume_external_targets={"https"}
-                      relative_urls={true}
-                      init={{
-                        height: "100vh",
-                        menubar:
-                          "file edit view insert format tools table help",
-                        plugins:
-                          "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
-                        toolbar:
-                          "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
-                        content_style:
-                          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                        file_picker_types: "file image media",
+                  {templateType == 1 && !templateClickedd ?
+                    (
+                      <>
+                        {console.log("Third")}
+                        <Editor
+                          apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                          onInit={(evt, editor) => (editorRef.current = editor)}
+                          initialValue={newTemplateNamee}
+                          link_default_protocol={"https"}
+                          link_assume_external_targets={"https"}
+                          relative_urls={true}
+                          init={{
+                            height: "100vh",
+                            menubar:
+                              "file edit view insert format tools table help",
+                            plugins:
+                              "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                            toolbar:
+                              "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                            content_style:
+                              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                            file_picker_types: "file image media",
 
-                        file_picker_callback: function (callback, value, meta) {
-                          const input = document.createElement("input");
+                            file_picker_callback: function (callback, value, meta) {
+                              const input = document.createElement("input");
 
-                          if (meta.filetype === "media") {
-                            input.setAttribute("type", "file");
-                            input.setAttribute("accept", "video/*");
+                              if (meta.filetype === "media") {
+                                input.setAttribute("type", "file");
+                                input.setAttribute("accept", "video/*");
 
-                            input.onchange = async () => {
-                              const file = input.files[0];
-                              if (file) {
-                                let uploadedImageUrl;
+                                input.onchange = async () => {
+                                  const file = input.files[0];
+                                  if (file) {
+                                    let uploadedImageUrl;
 
-                                try {
-                                  if (meta && meta.width && meta.height) {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(
-                                        file,
-                                        meta.width,
-                                        meta.height
+                                    try {
+                                      if (meta && meta.width && meta.height) {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(
+                                            file,
+                                            meta.width,
+                                            meta.height
+                                          );
+                                      } else {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(file);
+                                      }
+
+                                      if (uploadedImageUrl) {
+                                        callback(uploadedImageUrl, {
+                                          width: 500,
+                                          height: 500,
+                                        });
+                                      } else {
+                                        console.error("Failed to upload image");
+                                      }
+                                    } catch (error) {
+                                      console.error(
+                                        "Error uploading image:",
+                                        error
                                       );
-                                  } else {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(file);
+                                    } finally {
+                                    }
                                   }
+                                };
+                              } else {
+                                input.setAttribute("type", "file");
+                                input.setAttribute("accept", "image/*");
 
-                                  if (uploadedImageUrl) {
-                                    callback(uploadedImageUrl, {
-                                      width: 500,
-                                      height: 500,
-                                    });
-                                  } else {
-                                    console.error("Failed to upload image");
-                                  }
-                                } catch (error) {
-                                  console.error(
-                                    "Error uploading image:",
-                                    error
-                                  );
-                                } finally {
-                                }
-                              }
-                            };
-                          } else {
-                            input.setAttribute("type", "file");
-                            input.setAttribute("accept", "image/*");
+                                // Create a loading indicator element (e.g., a spinner)
+                                const loadingIndicator =
+                                  document.createElement("div");
+                                loadingIndicator.className = "loading-indicator";
+                                loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
 
-                            // Create a loading indicator element (e.g., a spinner)
-                            const loadingIndicator =
-                              document.createElement("div");
-                            loadingIndicator.className = "loading-indicator";
-                            loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+                                input.onchange = async () => {
+                                  document.body.appendChild(loadingIndicator); // Show loading indicator
 
-                            input.onchange = async () => {
-                              document.body.appendChild(loadingIndicator); // Show loading indicator
+                                  const file = input.files[0];
+                                  if (file) {
+                                    let uploadedImageUrl;
 
-                              const file = input.files[0];
-                              if (file) {
-                                let uploadedImageUrl;
+                                    try {
+                                      if (meta && meta.width && meta.height) {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(
+                                            file,
+                                            meta.width,
+                                            meta.height
+                                          );
+                                      } else {
+                                        uploadedImageUrl =
+                                          await uploadImageToServer(file);
+                                      }
 
-                                try {
-                                  if (meta && meta.width && meta.height) {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(
-                                        file,
-                                        meta.width,
-                                        meta.height
+                                      if (uploadedImageUrl) {
+                                        callback(uploadedImageUrl, {
+                                          width: 500,
+                                          height: 500,
+                                        });
+                                        loader("hide");
+                                      } else {
+                                        console.error("Failed to upload image");
+                                      }
+                                    } catch (error) {
+                                      console.error(
+                                        "Error uploading image:",
+                                        error
                                       );
-                                  } else {
-                                    uploadedImageUrl =
-                                      await uploadImageToServer(file);
+                                    } finally {
+                                      document.body.removeChild(loadingIndicator); // Hide loading indicator
+                                    }
                                   }
-
-                                  if (uploadedImageUrl) {
-                                    callback(uploadedImageUrl, {
-                                      width: 500,
-                                      height: 500,
-                                    });
-                                    loader("hide");
-                                  } else {
-                                    console.error("Failed to upload image");
-                                  }
-                                } catch (error) {
-                                  console.error(
-                                    "Error uploading image:",
-                                    error
-                                  );
-                                } finally {
-                                  document.body.removeChild(loadingIndicator); // Hide loading indicator
-                                }
+                                };
                               }
-                            };
-                          }
-                          input.click();
-                        },
-                        init_instance_callback: (editor) => addTracking(editor),
-                      }}
-                      onEditorChange={(content) => {
-                        setNewTemplateContent(content);
-                      }}
-                    />
-                    </>
-                  ) : null}
+                              input.click();
+                            },
+                            init_instance_callback: (editor) => addTracking(editor),
+                          }}
+                          onEditorChange={(content) => {
+                            setNewTemplateContent(content);
+                          }}
+                        />
+                      </>
+                    ) : null}
 
                   {/*
                   <CKEditor
@@ -3038,12 +3045,12 @@ const TemplateBuilder = (props) => {
                     country: "",
                     role:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? irtRole?.[0]?.value
                         : "",
                     optIrt:
                       localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ? "yes"
                         : "",
                     institutionType: "",
@@ -3074,7 +3081,7 @@ const TemplateBuilder = (props) => {
                                   <label htmlFor="">
                                     First name
                                     {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                       <span>*</span>
                                     ) : null}
                                   </label>
@@ -3082,7 +3089,7 @@ const TemplateBuilder = (props) => {
                                     type="text"
                                     className={
                                       validationError?.[`firstName-${i}`] &&
-                                      localStorage.getItem("user_id") ==
+                                        localStorage.getItem("user_id") ==
                                         "56Ek4feL/1A8mZgIKQWEqg=="
                                         ? "form-control error"
                                         : "form-control"
@@ -3093,7 +3100,7 @@ const TemplateBuilder = (props) => {
                                     value={val.firstname}
                                   />
                                   {validationError?.[`firstName-${i}`] &&
-                                  localStorage.getItem("user_id") ==
+                                    localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                     <div className="login-validation">
                                       {validationError?.[`firstName-${i}`]}
@@ -3106,7 +3113,7 @@ const TemplateBuilder = (props) => {
                                   <label htmlFor="">
                                     Last name
                                     {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                       <span>*</span>
                                     ) : null}
                                   </label>
@@ -3114,7 +3121,7 @@ const TemplateBuilder = (props) => {
                                     type="text"
                                     className={
                                       validationError?.[`lastName-${i}`] &&
-                                      localStorage.getItem("user_id") ==
+                                        localStorage.getItem("user_id") ==
                                         "56Ek4feL/1A8mZgIKQWEqg=="
                                         ? "form-control error"
                                         : "form-control"
@@ -3125,7 +3132,7 @@ const TemplateBuilder = (props) => {
                                     value={val.lastname}
                                   />
                                   {validationError?.[`lastName-${i}`] &&
-                                  localStorage.getItem("user_id") ==
+                                    localStorage.getItem("user_id") ==
                                     "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                     <div className="login-validation">
                                       {validationError?.[`lastName-${i}`]}
@@ -3142,7 +3149,7 @@ const TemplateBuilder = (props) => {
                                     type="email"
                                     className={
                                       validationError?.newHcpEmail &&
-                                      validationError?.index == i
+                                        validationError?.index == i
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3154,7 +3161,7 @@ const TemplateBuilder = (props) => {
                                     value={val.email}
                                   />
                                   {validationError?.newHcpEmail &&
-                                  validationError?.index == i ? (
+                                    validationError?.index == i ? (
                                     <div className="login-validation">
                                       {validationError?.newHcpEmail}
                                     </div>
@@ -3163,7 +3170,7 @@ const TemplateBuilder = (props) => {
                               </div>
 
                               {localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -3175,7 +3182,7 @@ const TemplateBuilder = (props) => {
                                         options={institutionType}
                                         className={
                                           validationError?.newHcpInstitution &&
-                                          validationError?.index == i
+                                            validationError?.index == i
                                             ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                             : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                         }
@@ -3185,15 +3192,15 @@ const TemplateBuilder = (props) => {
                                         defaultValue={
                                           val?.institutionType
                                             ? {
-                                                label: val?.institutionType,
-                                                value: val?.institutionType,
-                                              }
+                                              label: val?.institutionType,
+                                              value: val?.institutionType,
+                                            }
                                             : ""
                                         }
                                         placeholder="Select institution"
                                       />
                                       {validationError?.newHcpInstitution &&
-                                      validationError?.index == i ? (
+                                        validationError?.index == i ? (
                                         <div className="login-validation">
                                           {validationError?.newHcpInstitution}
                                         </div>
@@ -3215,9 +3222,9 @@ const TemplateBuilder = (props) => {
                                         defaultValue={
                                           val?.optIrt
                                             ? {
-                                                label: "Yes",
-                                                value: val?.optIrt,
-                                              }
+                                              label: "Yes",
+                                              value: val?.optIrt,
+                                            }
                                             : ""
                                         }
                                         value={
@@ -3226,11 +3233,11 @@ const TemplateBuilder = (props) => {
                                           ) == -1
                                             ? ""
                                             : optIRT[
-                                                optIRT.findIndex(
-                                                  (el) =>
-                                                    el.value == val?.optIrt
-                                                )
-                                              ]
+                                            optIRT.findIndex(
+                                              (el) =>
+                                                el.value == val?.optIrt
+                                            )
+                                            ]
                                         }
                                         placeholder="Select IRT"
                                       />
@@ -3252,11 +3259,11 @@ const TemplateBuilder = (props) => {
                                             ) == -1
                                               ? ""
                                               : irtRole[
-                                                  irtRole?.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
+                                              irtRole?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -3274,11 +3281,11 @@ const TemplateBuilder = (props) => {
                                             ) == -1
                                               ? ""
                                               : role[
-                                                  role?.findIndex(
-                                                    (el) =>
-                                                      el.value == val?.role
-                                                  )
-                                                ]
+                                              role?.findIndex(
+                                                (el) =>
+                                                  el.value == val?.role
+                                              )
+                                              ]
                                           }
                                           isClearable
                                           placeholder="Select Role"
@@ -3301,7 +3308,7 @@ const TemplateBuilder = (props) => {
                                         className="dropdown-basic-button split-button-dropup"
                                         title={
                                           hpc[i].contact_type != "" &&
-                                          hpc[i].contact_type != "undefined"
+                                            hpc[i].contact_type != "undefined"
                                             ? hpc[i].contact_type
                                             : "Select Type"
                                         }
@@ -3348,8 +3355,9 @@ const TemplateBuilder = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Country
-                                    {localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    {(localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==
+                                      "m5JI5zEDY3xHFTZBnSGQZg==") ? (
                                       <span>*</span>
                                     ) : null}
                                   </label>
@@ -3358,7 +3366,7 @@ const TemplateBuilder = (props) => {
                                       options={irtCountry}
                                       className={
                                         validationError?.[`country-${i}`] &&
-                                        localStorage.getItem("user_id") ==
+                                          localStorage.getItem("user_id") ==
                                           "56Ek4feL/1A8mZgIKQWEqg=="
                                           ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                           : "dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -3372,10 +3380,10 @@ const TemplateBuilder = (props) => {
                                         ) == -1
                                           ? ""
                                           : irtCountry[
-                                              irtCountry.findIndex(
-                                                (el) => el.value == val?.country
-                                              )
-                                            ]
+                                          irtCountry.findIndex(
+                                            (el) => el.value == val?.country
+                                          )
+                                          ]
                                       }
                                       placeholder="Select Country"
                                       filterOption={createFilter(filterConfig)}
@@ -3387,8 +3395,9 @@ const TemplateBuilder = (props) => {
                                       // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       className={
                                         validationError?.[`country-${i}`] &&
-                                        localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg=="
+                                          (localStorage.getItem("user_id") ==
+                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==
+                                            "m5JI5zEDY3xHFTZBnSGQZg==")
                                           ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                           : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       }
@@ -3401,10 +3410,10 @@ const TemplateBuilder = (props) => {
                                         ) == -1
                                           ? ""
                                           : countryall[
-                                              countryall.findIndex(
-                                                (el) => el.value == val?.country
-                                              )
-                                            ]
+                                          countryall.findIndex(
+                                            (el) => el.value == val?.country
+                                          )
+                                          ]
                                       }
                                       placeholder="Select Country"
                                       filterOption={createFilter(filterConfig)}
@@ -3412,8 +3421,9 @@ const TemplateBuilder = (props) => {
                                     />
                                   )}
                                   {validationError?.[`country-${i}`] &&
-                                  localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                    (localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==
+                                      "m5JI5zEDY3xHFTZBnSGQZg==") ? (
                                     <div className="login-validation">
                                       {validationError?.[`country-${i}`]}
                                     </div>
@@ -3465,7 +3475,7 @@ const TemplateBuilder = (props) => {
                                 </div>
                               </div> */}
                               {localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" ? (
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -3480,8 +3490,8 @@ const TemplateBuilder = (props) => {
                                         value={
                                           siteNumberAll[hpc[i].siteNumberIndex]
                                             ? siteNumberAll[
-                                                hpc[i].siteNumberIndex
-                                              ]
+                                            hpc[i].siteNumberIndex
+                                            ]
                                             : ""
                                         }
                                         placeholder={
@@ -3490,8 +3500,8 @@ const TemplateBuilder = (props) => {
                                           ] === "undefined"
                                             ? "Select Site Number"
                                             : siteNumberAll[
-                                                hpc[i].siteNumberIndex
-                                              ]
+                                            hpc[i].siteNumberIndex
+                                            ]
                                         }
                                       />
                                     </div>
@@ -3632,7 +3642,7 @@ const TemplateBuilder = (props) => {
             </div>
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
-              smartListData.length > 0 ? (
+                smartListData.length > 0 ? (
                 smartListData.map((data) => {
                   return (
                     <>
@@ -3647,8 +3657,8 @@ const TemplateBuilder = (props) => {
                                 onClick={(e) => handleSelect(data, e)}
                                 checked={
                                   typeof getSmartListId !== "undefined" &&
-                                  getSmartListId !== 0 &&
-                                  getSmartListId == data.id
+                                    getSmartListId !== 0 &&
+                                    getSmartListId == data.id
                                     ? "checked"
                                     : ""
                                 }
@@ -3834,10 +3844,10 @@ const TemplateBuilder = (props) => {
                     isClearable
                   />
                   {error?.language ? (
-                        <div className="login-validation">
-                          {error?.language}
-                        </div>
-                      ) : null}
+                    <div className="login-validation">
+                      {error?.language}
+                    </div>
+                  ) : null}
                 </div>
               )}
 
@@ -3856,10 +3866,10 @@ const TemplateBuilder = (props) => {
                     isClearable
                   />
                   {error?.ibu ? (
-                        <div className="login-validation">
-                          {error?.ibu}
-                        </div>
-                      ) : null}
+                    <div className="login-validation">
+                      {error?.ibu}
+                    </div>
+                  ) : null}
                 </div>
               )}
               <button

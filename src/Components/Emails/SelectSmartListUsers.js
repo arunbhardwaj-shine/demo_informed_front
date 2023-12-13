@@ -1162,12 +1162,14 @@ const SelectSmartListUsers = (props) => {
                     <button
                       className="btn btn-primary btn-bordered move-draft"
                       onClick={saveAsDraft}
+                      disabled={readers?.length < 1 && readersNewlyAdded?.length < 1}
                     >
                       Save As Draft
                     </button>
                     <button
                       className="btn btn-primary btn-filled next"
                       onClick={nextClicked}
+                      disabled={readers?.length < 1 && readersNewlyAdded?.length < 1}
                     >
                       Next
                     </button>
