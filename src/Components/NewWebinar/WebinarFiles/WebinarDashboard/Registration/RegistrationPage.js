@@ -706,7 +706,7 @@ const FormField1 = ({
             ? stateOptions
             : options
         }
-        placeholder="Select country"
+        placeholder={form.placeholder? form.placeholder: 'Select'}
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
@@ -929,6 +929,7 @@ const FormField2 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder? form.placeholder: 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1151,6 +1152,7 @@ const FormField3 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder? form.placeholder: 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1375,6 +1377,7 @@ const FormField4 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder? form.placeholder: 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
