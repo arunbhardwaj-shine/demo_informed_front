@@ -30,6 +30,7 @@ const CommonAddQuestionModal = ({
     { label: 25, value: 25 },
     { label: 30, value: 30 },
     { label: 35, value: 35 },
+    { label: 40, value: 40 }
   ]);
   const [requiredOption, setRequiredOption] = useState([
     { label: "Yes", value: "yes" },
