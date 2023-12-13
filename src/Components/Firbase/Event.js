@@ -313,7 +313,12 @@ const Event = () => {
               <div className="log-inner">
                 <div className="head-sec">
                 {parms?.includes("eahad_2024") ? (
-                  <h2 className="top-title">Type your question here!</h2>
+                  <div>
+                  <img classname="header-img" src={path_image + "underspotlight-new1.png"} alt="" />
+                  <div className="right-side-img">
+                    <img src={path_image + "underspot-lady.png"} alt="" />
+                  </div>
+                  </div>
                 ) : (
                   <h2 className="top-title">Write your question here!</h2>
                 )}
@@ -322,6 +327,13 @@ const Event = () => {
            </div> */}
                 </div>
               </div>
+              {parms?.includes("eahad_2024") ? (
+                  <div className="event_title">
+                  <h2 className="top-title">Write your question here!</h2>
+                  </div>
+                ) : (
+                  null
+                )}
               <form onSubmit={handleSubmit}>
                 <input
                   type="hidden"
@@ -399,19 +411,13 @@ const Event = () => {
                   </div>
 
                   {parms?.includes("eahad_2024") && (
-                   <div>
-                    <div className="eahad-modal">
-                      <p>This symposium is for healthcare professionals attending
-                        the ISTH congress only and is organised and sponsored by Octapharma.
-                        It has been approved in line with UK regulations for an international audience.
-                        Prescribing information may vary depending on local approval in each country.
-                        Before prescribing any product, always refer to local materials such as the
-                        prescribing information and/or the summary of product characteristics.
-                        This is a promotional symposium and products will be discussed.</p>
-                    </div>
-                    <div className="eahad-modal-footer">
-                      <p>UK-NUW-2200034 <br/>Date of preparation: May 2022</p>
-                    </div>
+                   <div className="eahad-footer">
+                      <img src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif" alt=""/>
+                      <div className="footer-msg">
+                        <p>Visit <a href="https://onesource.octapharma.com">One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.</p>
+                        <p>To visit One Source click here: <a href="https://onesource.octapharma.com">https://onesource.octapharma.com</a></p>
+<span>One Source platform is for healthcare professionals only.</span>
+                      </div>
                    </div>
                   )}
                    
