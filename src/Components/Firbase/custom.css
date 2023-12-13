@@ -50,8 +50,22 @@ body {
   position: relative;
 }
 .eahad_2024 .question-block .head-sec {
-  background: #0053a0;
-  border-bottom: 7px solid rgb(0 75 145);
+  background: linear-gradient(135deg, #ff8848 0%, #ff4f69 100%);
+  border-bottom: none;
+  width: 100%;
+  justify-content: center;
+  position:relative;
+}
+.eahad_2024 .question-block .head-sec .right-side-img img {
+  position: absolute;
+  bottom: 0;
+  max-height: 150px;
+  right: 10px;
+}
+.eahad_2024 .question-block .head-sec img {
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
 }
 .question-block .head-sec h2.top-title {
   font-weight: 700;
@@ -71,6 +85,7 @@ body {
 }
 .eahad_2024 .question-block-form .form-control {
   border: 1px solid #0053a0;
+  box-shadow: none;
 }
 .question-block-form input.btn {
   background: #64b8b0;
@@ -84,14 +99,15 @@ body {
   -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
 }
-.eahad_2024 .question-block-form input.btn {
-  background: #0053a0;
-}
+
 .question-block-form input.btn:hover {
   background: #25ab9e;
 }
+.eahad_2024 .question-block-form input.btn {
+  background: linear-gradient(135deg, #ff8848 0%, #ff4f69 100%);
+}
 .eahad_2024 .question-block-form input.btn:hover {
-  background: #0067c7;
+  background: linear-gradient(135deg, #ff4f69 0%, #ff8848 100%);
 }
 .question-block .header-logo {
   text-align: center;
@@ -186,7 +202,51 @@ body {
 .question-block .log-inner {
   margin: -25px -30px 40px;
 }
+.eahad_2024 .question-block .log-inner {
+  margin: -25px -30px 10px;
+}
+.eahad_2024 .event_title h2.top-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 27px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  color: #004b95;
+}
+.eahad_2024 .eahad-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 26px;
+}
 
+.eahad_2024 .eahad-footer img {
+  flex: 0 0 200px;
+  width: 100%;
+  max-width: 190px;
+  align-items: center;
+}
+
+.eahad_2024 .footer-msg p, .eahad_2024 .footer-msg p a {
+  font-size: 11px;
+  color: #004b95;
+  margin: 0 0 6px;
+}
+.eahad_2024 .footer-msg a {
+text-decoration: underline;
+}
+.eahad_2024 .footer-msg span {
+  font-size: 10px;
+  color: #004b95;
+  display: block;
+}
+.eahad_2024 .question-block .copy-right-bottom-text {
+  padding: 0;
+}
+.eahad_2024 .eahad-footer .footer-msg {
+  flex: 1 1;
+  padding-left: 20px;
+}
 #pollModel .modal-footer button,
 #pollModel1 .modal-footer button {
   padding: 9px 10px;
