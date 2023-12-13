@@ -210,7 +210,7 @@ const RegistrationPage = ({ prevData }) => {
         if (response?.data?.status === 1) {
           setModalIsOpen(true);
         }  else {
-          console.log("Registration failed. Message:", response?.data?.message);
+         
           toast.error(`${response?.data?.message}`, {
             position: "top-right",
             autoClose: 5000,

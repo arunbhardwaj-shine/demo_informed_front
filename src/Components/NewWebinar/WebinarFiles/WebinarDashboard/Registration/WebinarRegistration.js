@@ -211,7 +211,7 @@ const WebinarRegistration = () => {
         });
       }
       const newFormData = hadData?.content ? JSON.parse(hadData?.content) : [];
-      console.log(newFormData?.length, "newFormData?.length");
+    
       if (newFormData?.length == 0) {
         setIsDataSaved(false);
       }
@@ -796,8 +796,7 @@ const WebinarRegistration = () => {
       setShowModalPreview(true);
       return;
     }
-    console.log(eventData, "====>formData");
-    // return;
+   
     setFormData(formData);
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
@@ -858,7 +857,7 @@ const WebinarRegistration = () => {
   };
 
   const handlePreview = (e, index) => {
-    console.log(prevData, "===>prevData");
+  
     if (!formData?.templateId) {
       setShowModalPreview(true);
       return;
