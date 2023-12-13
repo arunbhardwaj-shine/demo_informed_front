@@ -1493,7 +1493,7 @@ const FormField4 = ({
         type={form.inputType}
         className="form-control"
         id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}
-        // placeholder={form.placeholder}
+        placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
       />
     );
