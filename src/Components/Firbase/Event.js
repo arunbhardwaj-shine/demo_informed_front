@@ -312,12 +312,28 @@ const Event = () => {
             <div className="question-block-form">
               <div className="log-inner">
                 <div className="head-sec">
+                {parms?.includes("eahad_2024") ? (
+                  <div>
+                  <img classname="header-img" src={path_image + "underspotlight-new1.png"} alt="" />
+                  <div className="right-side-img">
+                    <img src={path_image + "underspot-lady.png"} alt="" />
+                  </div>
+                  </div>
+                ) : (
                   <h2 className="top-title">Write your question here!</h2>
+                )}
                   {/*<div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div> 
              <div className="head_desc">
            </div> */}
                 </div>
               </div>
+              {parms?.includes("eahad_2024") ? (
+                  <div className="event_title">
+                  <h2 className="top-title">Write your question here!</h2>
+                  </div>
+                ) : (
+                  null
+                )}
               <form onSubmit={handleSubmit}>
                 <input
                   type="hidden"
@@ -340,7 +356,7 @@ const Event = () => {
                       id="name"
                       onChange={handleChange}
                       className="form-control"
-                      placeholder="Write your name"
+                      placeholder={parms?.includes("eahad_2024") ? "Type your name" : "Write your name"}
                       name="name"
                       value={user?.name}
                     />
@@ -372,7 +388,7 @@ const Event = () => {
                       id="question"
                       onChange={handleChange}
                       className="form-control"
-                      placeholder="Write your question"
+                      placeholder={parms?.includes("eahad_2024") ? "Type your question" : "Write your question"}
                       cols="40"
                       rows="4"
                       value={user?.question}
@@ -390,9 +406,21 @@ const Event = () => {
                     <input
                       type="submit"
                       className="btn btn-success"
-                      value="SEND"
+                      value={parms?.includes("eahad_2024") ? "SUBMIT" : "SEND"}
                     />
                   </div>
+
+                  {parms?.includes("eahad_2024") && (
+                   <div className="eahad-footer">
+                      <img src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif" alt=""/>
+                      <div className="footer-msg">
+                        <p>Visit <a href="https://onesource.octapharma.com">One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.</p>
+                        <p>To visit One Source click here: <a href="https://onesource.octapharma.com">https://onesource.octapharma.com</a></p>
+<span>One Source platform is for healthcare professionals only.</span>
+                      </div>
+                   </div>
+                  )}
+                   
                 </div>
               </form>
               {parms?.includes("eahad_2024") ? (

@@ -13,7 +13,7 @@ export default function TemplateFour({ children, formData }) {
     new Date(
       eventDataSample?.eventStartDate?.value
         ? eventDataSample?.eventStartDate?.value
-        : eventData?.dateStart
+        : eventData.dateStart
     ),
     "YYYY-MM-DD"
   );
@@ -21,7 +21,7 @@ export default function TemplateFour({ children, formData }) {
     new Date(
       eventDataSample?.eventEndDate?.value
         ? eventDataSample?.eventEndDate?.value
-        : eventData?.dateEnd
+        : eventData.dateEnd
     ),
     "YYYY-MM-DD"
   );
@@ -29,18 +29,30 @@ export default function TemplateFour({ children, formData }) {
     formattedDateRange = startDate.format("D. MMMM YYYY");
   } else if (startDate.isSame(endDate, "month")) {
     formattedDateRange = `${startDate.format("D")} - ${endDate.format(
-      "D MMMM YYYY"
+      "D. MMMM YYYY"
     )}`;
   } else {
-    formattedDateRange = `${startDate.format("D MMMM")} - ${endDate.format(
-      "D MMMM YYYY"
+    formattedDateRange = `${startDate.format("D. MMMM")} - ${endDate.format(
+      "D. MMMM YYYY"
     )}`;
   }
+
+  const eventStartTime = eventDataSample?.eventStartTime?.value ?? '00:00';
+  const eventEndTime = eventDataSample?.eventEndTime?.value ?? '00:00';
+  function convertTo12HourFormat(time) {
+    const [hours, minutes] = time.split(':');
+    const formattedTime = new Date(`2000-01-01T${time}:00`);
+    return formattedTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+}
+const convertedStartTime = convertTo12HourFormat(eventStartTime);
+const convertedEndTime = convertTo12HourFormat(eventEndTime);
+const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
+  console.log(eventDataSample,'===>eventData')
 
   return (
     <>
       <div className="wrapper eahad">
-        <div className="octapharma_event">
+        <div className="octapharma_event" style={{ background: `${formData?.content?.backgroundColor}` }}>
           <div className="header">
             <div className="header-text">
               <h3>
@@ -54,8 +66,11 @@ export default function TemplateFour({ children, formData }) {
               style={{
                 color: formData?.content?.eventDetails?.pageTitle?.color,
               }}
+              dangerouslySetInnerHTML={{
+                __html: formData?.content?.eventDetails?.pageTitle?.value
+              }} 
             >
-              {formData?.content?.eventDetails?.pageTitle?.value}
+              {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
             </h4>
 
             <h4
@@ -70,31 +85,43 @@ export default function TemplateFour({ children, formData }) {
               style={{
                 color: formData?.content?.eventDetails?.SubHeading?.color,
               }}
+              dangerouslySetInnerHTML={{
+                __html: formData?.content?.eventDetails?.SubHeading?.value
+              }} 
             >
-              {formData?.content?.eventDetails?.SubHeading?.value}
+              {/* {formData?.content?.eventDetails?.SubHeading?.value} */}
             </h3>
 
             <div className="speaker">
-              <h4
-                className="mb-4"
-                style={{
-                  // textTransform: "capitalize",
-                  color: eventDataSample?.speakerName?.color,
-                }}
-              > 
-                 by {eventDataSample?.speakerName?.value
-                  ? eventDataSample?.speakerName?.value
-                  : eventData?.speaker_name}
-                {formData?.content?.eventDetails?.Specialization?.value && ","}
-              </h4>
+            <h4
+            className="mb-4"
+            style={{
+              // textTransform: "capitalize",
+              color: eventDataSample?.speakerName?.color,
+            }}
+            dangerouslySetInnerHTML={{
+              __html: eventDataSample?.speakerName?.value
+                ? `${eventDataSample.speakerName.value}${formData?.content?.eventDetails?.Specialization?.value ? ',' : ''}`
+                : `${eventData?.speaker_name}${formData?.content?.eventDetails?.Specialization?.value ? ',' : ''}`
+            }}
+          >
+            {/* by {eventDataSample?.speakerName?.value
+              ? eventDataSample?.speakerName?.value
+              : eventData?.speaker_name}
+            {formData?.content?.eventDetails?.Specialization?.value && ","} */}
+          </h4>
+
 
               <h4
                 style={{
                   color: formData?.content?.eventDetails?.Specialization?.color,
                 }}
                 className="speaker-specialization"
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.Specialization?.value
+                }}
               >
-                {formData?.content?.eventDetails?.Specialization?.value}
+                {/* {formData?.content?.eventDetails?.Specialization?.value} */}
               </h4>
             </div>
 
@@ -103,7 +130,9 @@ export default function TemplateFour({ children, formData }) {
             </h4>
 
             <h4>
-              {formData?.content?.eventDetails?.eventStartTime?.value} (
+              {/* {formData?.content?.eventDetails?.eventStartTime?.value} */}
+              {timeRange}
+               (
               {eventData?.countryTimezone}) online in One Source
             </h4>
 

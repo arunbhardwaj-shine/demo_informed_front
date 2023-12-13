@@ -36,7 +36,13 @@ export default function TemplateTwo({children,formData}) {
         <div className="top_header"  >
           <h2 style={{
                     color:eventData?.heading?.color
-        }}>{`${eventData?.heading?.value?eventData?.heading?.value:"Registration"}`}</h2>
+        }}
+        dangerouslySetInnerHTML={{
+          __html: eventData?.heading?.value?eventData?.heading?.value:"Registration"
+        }}
+        >
+          {/* {`${eventData?.heading?.value?eventData?.heading?.value:"Registration"}`} */}
+        </h2>
         </div>
         <div className="motivation-body">
           <div className="logo-part">
@@ -47,7 +53,13 @@ export default function TemplateTwo({children,formData}) {
                   <div className="logo-top" >
                     <h5 style={{
                     color:eventData?.SubHeadingOne?.color
-                  }} >{`${eventData?.SubHeadingOne?.value?eventData?.SubHeadingOne?.value:"Welcome dinner"}`}</h5>
+                  }} 
+                  dangerouslySetInnerHTML={{
+                    __html: eventData?.SubHeadingOne?.value?eventData?.SubHeadingOne?.value:"Welcome dinner"
+                  }}
+                  >
+                    {/* {`${eventData?.SubHeadingOne?.value?eventData?.SubHeadingOne?.value:"Welcome dinner"}`} */}
+                    </h5>
                     <p style={{
                     color:eventData?.SubHeadingOneDate?.color
                   }} >{SubHeadingOneDate}</p>
@@ -61,7 +73,14 @@ export default function TemplateTwo({children,formData}) {
                   <div className="logo-top">
                     <h5 style={{
                     color:eventData?.SubHeadingTwo?.color
-                  }} >{`${eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"}`}</h5>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"
+                  }}
+                   >
+                    {/* {`${eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"}`} */}
+                    
+                    </h5>
                     <p style={{
                     color:eventData?.SubHeadingTwoDate?.color
                   }}>{SubHeadingTwoDate}</p>
@@ -74,7 +93,13 @@ export default function TemplateTwo({children,formData}) {
                   <div className="logo-top">
                     <h5 style={{
                     color:eventData?.SubHeadingThree?.color
-                  }}>{`${eventData?.SubHeadingThree?.value?eventData?.SubHeadingThree?.value:"MOTIVATE Investigators meeting"}`} </h5>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: eventData?.SubHeadingThree?.value?eventData?.SubHeadingThree?.value:"MOTIVATE Investigators meeting"
+                  }}
+                  >
+                    {/* {`${eventData?.SubHeadingThree?.value?eventData?.SubHeadingThree?.value:"MOTIVATE Investigators meeting"}`}  */}
+                    </h5>
                     <p style={{
                     color:eventData?.SubHeadingThreeDate?.color
                   }} >{SubHeadingThreeDate}</p>
@@ -86,7 +111,12 @@ export default function TemplateTwo({children,formData}) {
           <div className="motivate-mid-sec text-center">
             <h2 style={{
                     color:eventData?.speakerName?.color
-                  }}>{eventData?.speakerName?.value}</h2>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: eventData?.speakerName?.value
+                  }}
+                  />
+                    {/* {eventData?.speakerName?.value}</h2> */}
             <p> These meetings are for healthcare professionals only.</p>
           </div>
           {children}

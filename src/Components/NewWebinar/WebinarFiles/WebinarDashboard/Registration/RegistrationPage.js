@@ -13,6 +13,7 @@ import Select from "react-select";
 import axios from "axios";
 import TemplateFour from "./TemplateFour";
 import { Modal } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
 
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -208,8 +209,17 @@ const RegistrationPage = ({ prevData }) => {
         );
         if (response?.data?.status === 1) {
           setModalIsOpen(true);
-        } else  {
-          console.log("Registration failed. Message:", response.data.message);
+        }  else {
+         
+          toast.error(`${response?.data?.message}`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
         }
       } catch (error) {
         console.error("Error submitting data:", error);
@@ -293,11 +303,21 @@ console.log(errors);
                 <h2 style={{
                     color: formData?.content?.eventDetails?.pageTitle?.color,
 
-                  }} >{formData?.content?.eventDetails?.pageTitle?.value}</h2>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: formData?.content?.eventDetails?.pageTitle?.value
+                  }}
+                  />
+                    {/* {formData?.content?.eventDetails?.pageTitle?.value}</h2> */}
                   <h3 style={{
                     color: formData?.content?.eventDetails?.bodyText?.color,
 
-                  }}> {formData?.content?.eventDetails?.bodyText?.value}</h3>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: formData?.content?.eventDetails?.bodyText?.value
+                  }}
+                  />
+                     {/* {formData?.content?.eventDetails?.bodyText?.value}</h3> */}
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -362,7 +382,12 @@ console.log(errors);
                   <h2 style={{
                     color: formData?.content?.eventDetails?.pageTitle?.color,
 
-                  }}>{formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."
+                  }}
+                  />
+                    {/* {formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2> */}
                   <h3 style={{
                     color: formData?.content?.eventDetails?.bodyText?.color,
 
@@ -406,6 +431,7 @@ console.log(errors);
       </section>
     </>
   );
+  // console.log(formData,"formData?.content?.formData?.content?.");
   const myContent3 = (
     <>
       {/* {prevData && (
@@ -440,11 +466,25 @@ console.log(errors);
                   <h2 style={{
                     color: formData?.content?.eventDetails?.pageTitle?.color,
 
-                  }}>{formData?.content?.eventDetails?.pageTitle?.value}</h2>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: formData?.content?.eventDetails?.pageTitle?.value
+                  }}
+                  >
+                    {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
+                  </h2>
+
                   <h3  style={{
                     color: formData?.content?.eventDetails?.bodyText?.color,
                     
-                  }}> {formData?.content?.eventDetails?.bodyText?.value}</h3>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: formData?.content?.eventDetails?.bodyText?.value
+                  }}
+                  > 
+                  {/* {formData?.content?.eventDetails?.bodyText?.value} */}
+                  
+                  </h3>
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -542,6 +582,7 @@ console.log(errors);
       </section>
     </>
   );
+  
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -549,6 +590,17 @@ console.log(errors);
           <span className="loader-view"> </span>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
 
       {formData?.content?.templateId === 1 && (
         <TemplateOne formData={formData}>{myContent1}</TemplateOne>
@@ -584,12 +636,20 @@ console.log(errors);
         </Modal.Header>
         <Modal.Body>
           <>
-            <h4>Thank you for registering!</h4>
+            {formData?.content?.eventDetails?.Message?.value ? (
+              <h4>{formData.content.eventDetails.Message.value}</h4>
+            ) : (
+              <h4>Thank you for registering!</h4>
+            )}
+            
             <div className="modal-buttons">
               <button
                 type="button"
                 className="btn btn-primary btn-bordered"
-                onClick={() => setModalIsOpen(false)}
+                onClick={() => {
+                  window.location.reload();
+                  setModalIsOpen(false)}
+                }
               >
                 Okay
               </button>
@@ -675,7 +735,7 @@ const FormField1 = ({
             ? stateOptions
             : options
         }
-        placeholder="Select country"
+        placeholder={form.placeholder? form.placeholder: 'Select'}
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
@@ -811,7 +871,7 @@ id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={f
     );
   }
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+    <div className="col-sm-12 col-md-12 consent-form-list attend-sec" style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
     {(form.inputType !="text" && form.inputType !="email")  ?( <label
         style={{
           color: pageColors?.labelColor,
@@ -898,6 +958,7 @@ const FormField2 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder? form.placeholder: 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1027,7 +1088,7 @@ const FormField2 = ({
   }
 
   return (
-    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`}>
+    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`} style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
       {(form.inputType !="text" && form.inputType !="email")  ?
         <label
         style={{
@@ -1054,6 +1115,7 @@ const FormField3 = ({
   level,
   templateId,
 }) => {
+
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
@@ -1119,6 +1181,7 @@ const FormField3 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder? form.placeholder: 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1252,7 +1315,7 @@ const FormField3 = ({
   }
 
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+    <div className="col-sm-12 col-md-12 consent-form-list attend-sec" style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
       <label
         style={{
           color: pageColors?.labelColor,
@@ -1343,6 +1406,7 @@ const FormField4 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder? form.placeholder: 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1463,14 +1527,14 @@ const FormField4 = ({
         type={form.inputType}
         className="form-control"
         id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}
-        // placeholder={form.placeholder}
+        placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
       />
     );
   }
 
   return (
-    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`}>
+    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`} style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
       <label
         style={{
           color: pageColors?.labelColor,

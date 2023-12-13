@@ -4880,6 +4880,20 @@ l .vwd .factor-season-left h2 {
 .eahad .split-button-dropup div:nth-child(3)>div div {
   color: #000;
 }
+.eahad-modal p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  margin-top: 40px;
+  margin-bottom: 0;
+  color: #004b95;
+}
+.eahad-modal-footer p{
+  padding-top: 8px;
+  color: #004b95;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+}
 /** Template four End**/
 footer {
   margin: 30px 0;
