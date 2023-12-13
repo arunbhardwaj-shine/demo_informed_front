@@ -78,7 +78,14 @@ export default function TemplateOne({children,formData}) {
                     <h3 style={{
                             textTransform: "capitalize",
                             color:eventDataSample?.speakerName?.color
-                          }}>
+                          }}
+                          // dangerouslySetInnerHTML={{
+                          //   __html: eventDataSample?.speakerName?.value
+                          //     ? eventDataSample?.speakerName?.value
+                          //     : eventData.speaker_name
+                          // }}
+                          
+                          >
                           {" "}
                           {eventDataSample?.speakerName?.value
                             ? eventDataSample?.speakerName?.value

@@ -76,8 +76,7 @@ console.log(eventDataSample,'===>eventData333')
                   
                      <span style= {{
                             color:eventDataSample?.eventStartTime?.color
-                          }}>   {
-timeRange                        }</span>
+                          }}>{timeRange}</span>
                         <br />
                         <span
                           style={{
@@ -98,7 +97,8 @@ timeRange                        }</span>
                         <span style={{
                             textTransform: "capitalize",
                             color:eventDataSample?.speakerName?.color
-                          }}>
+                          }}
+                          >
                           {" "}
                           {eventDataSample?.speakerName?.value
                             ? eventDataSample?.speakerName?.value

@@ -312,7 +312,11 @@ const Event = () => {
             <div className="question-block-form">
               <div className="log-inner">
                 <div className="head-sec">
+                {parms?.includes("eahad_2024") ? (
+                  <h2 className="top-title">Type your question here!</h2>
+                ) : (
                   <h2 className="top-title">Write your question here!</h2>
+                )}
                   {/*<div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div> 
              <div className="head_desc">
            </div> */}
@@ -340,7 +344,7 @@ const Event = () => {
                       id="name"
                       onChange={handleChange}
                       className="form-control"
-                      placeholder="Write your name"
+                      placeholder={parms?.includes("eahad_2024") ? "Type your name" : "Write your name"}
                       name="name"
                       value={user?.name}
                     />
@@ -372,7 +376,7 @@ const Event = () => {
                       id="question"
                       onChange={handleChange}
                       className="form-control"
-                      placeholder="Write your question"
+                      placeholder={parms?.includes("eahad_2024") ? "Type your question" : "Write your question"}
                       cols="40"
                       rows="4"
                       value={user?.question}
@@ -390,9 +394,27 @@ const Event = () => {
                     <input
                       type="submit"
                       className="btn btn-success"
-                      value="SEND"
+                      value={parms?.includes("eahad_2024") ? "SUBMIT" : "SEND"}
                     />
                   </div>
+
+                  {parms?.includes("eahad_2024") && (
+                   <div>
+                    <div className="eahad-modal">
+                      <p>This symposium is for healthcare professionals attending
+                        the ISTH congress only and is organised and sponsored by Octapharma.
+                        It has been approved in line with UK regulations for an international audience.
+                        Prescribing information may vary depending on local approval in each country.
+                        Before prescribing any product, always refer to local materials such as the
+                        prescribing information and/or the summary of product characteristics.
+                        This is a promotional symposium and products will be discussed.</p>
+                    </div>
+                    <div className="eahad-modal-footer">
+                      <p>UK-NUW-2200034 <br/>Date of preparation: May 2022</p>
+                    </div>
+                   </div>
+                  )}
+                   
                 </div>
               </form>
               {parms?.includes("eahad_2024") ? (

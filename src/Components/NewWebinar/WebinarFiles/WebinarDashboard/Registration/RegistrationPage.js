@@ -416,6 +416,7 @@ console.log(errors);
       </section>
     </>
   );
+  // console.log(formData,"formData?.content?.formData?.content?.");
   const myContent3 = (
     <>
       {/* {prevData && (
@@ -841,7 +842,7 @@ id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={f
     );
   }
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+    <div className="col-sm-12 col-md-12 consent-form-list attend-sec" style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
     {(form.inputType !="text" && form.inputType !="email")  ?( <label
         style={{
           color: pageColors?.labelColor,
@@ -1057,7 +1058,7 @@ const FormField2 = ({
   }
 
   return (
-    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`}>
+    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`} style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
       {(form.inputType !="text" && form.inputType !="email")  ?
         <label
         style={{
@@ -1084,6 +1085,7 @@ const FormField3 = ({
   level,
   templateId,
 }) => {
+
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
@@ -1282,7 +1284,7 @@ const FormField3 = ({
   }
 
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec">
+    <div className="col-sm-12 col-md-12 consent-form-list attend-sec" style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
       <label
         style={{
           color: pageColors?.labelColor,
@@ -1500,7 +1502,7 @@ const FormField4 = ({
   }
 
   return (
-    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`}>
+    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`} style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
       <label
         style={{
           color: pageColors?.labelColor,

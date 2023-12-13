@@ -66,8 +66,11 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
               style={{
                 color: formData?.content?.eventDetails?.pageTitle?.color,
               }}
+              dangerouslySetInnerHTML={{
+                __html: formData?.content?.eventDetails?.pageTitle?.value
+              }} 
             >
-              {formData?.content?.eventDetails?.pageTitle?.value}
+              {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
             </h4>
 
             <h4
@@ -82,8 +85,11 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
               style={{
                 color: formData?.content?.eventDetails?.SubHeading?.color,
               }}
+              dangerouslySetInnerHTML={{
+                __html: formData?.content?.eventDetails?.SubHeading?.value
+              }} 
             >
-              {formData?.content?.eventDetails?.SubHeading?.value}
+              {/* {formData?.content?.eventDetails?.SubHeading?.value} */}
             </h3>
 
             <div className="speaker">
@@ -111,8 +117,11 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                   color: formData?.content?.eventDetails?.Specialization?.color,
                 }}
                 className="speaker-specialization"
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.Specialization?.value
+                }}
               >
-                {formData?.content?.eventDetails?.Specialization?.value}
+                {/* {formData?.content?.eventDetails?.Specialization?.value} */}
               </h4>
             </div>
 
