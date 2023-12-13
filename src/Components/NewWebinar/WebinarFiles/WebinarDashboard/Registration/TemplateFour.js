@@ -95,10 +95,8 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
             }}
             dangerouslySetInnerHTML={{
               __html: eventDataSample?.speakerName?.value
-                ? `${eventDataSample?.speakerName?.value},`
-                : `${eventData?.speaker_name},${
-                    formData?.content?.eventDetails?.Specialization?.value && ","
-                  }`
+                ? `${eventDataSample.speakerName.value}${formData?.content?.eventDetails?.Specialization?.value ? ',' : ''}`
+                : `${eventData?.speaker_name}${formData?.content?.eventDetails?.Specialization?.value ? ',' : ''}`
             }}
           >
             {/* by {eventDataSample?.speakerName?.value
