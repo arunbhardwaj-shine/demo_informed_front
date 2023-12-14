@@ -202,7 +202,6 @@ const WebinarRegistration = () => {
         ? JSON.parse(hadData?.raw_description)
         : {};
       setRawData(raw);
-      // console.log(hadData?.event_id , hadData?.company_id,"hadData?.event_id && hadData?.company_id");
       if (hadData?.event_id != undefined && hadData?.company_id != undefined) {
         setEventData({
           ...eventData,
@@ -211,7 +210,7 @@ const WebinarRegistration = () => {
         });
       }
       const newFormData = hadData?.content ? JSON.parse(hadData?.content) : [];
-    
+
       if (newFormData?.length == 0) {
         setIsDataSaved(false);
       }
@@ -280,7 +279,6 @@ const WebinarRegistration = () => {
           }
         }
         setTemplateList(templateListData);
-        // console.log(newFormData);
         setLogo(
           newFormData?.logoImageUrl
             ? newFormData?.logoImageUrl
@@ -326,7 +324,6 @@ const WebinarRegistration = () => {
           : { value: "", label: "" };
         setSelectedItem(selectedData);
         if (selectedData) {
-          // console.log(selectedData,'selectedData');
           setEventData({
             ...eventData,
             event_id: selectedData?.value,
@@ -539,7 +536,6 @@ const WebinarRegistration = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
-    // console.log(isSelectedName)
 
     setIsFormChange(true);
     if (isSelectedName && !isSelectedName?.includes("eventDetails")) {
@@ -575,14 +571,14 @@ const WebinarRegistration = () => {
               isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
             name: isSelectedName,
             inputType: "radio",
-            required: "yes", 
-             addSpace: 10,
+            required: "yes",
+            addSpace: 10,
 
             option: [
-              { optionLabel: "Organize my own travel", extension: [] },
+              { optionLabel: "Organize my own travel", extension: [], checked: '' },
               {
                 optionLabel:
-                  "Have my travel arranged by the meeting organizers",
+                  "Have my travel arranged by the meeting organizers", checked: '',
 
                 extension: [
                   {
@@ -602,9 +598,9 @@ const WebinarRegistration = () => {
                     label: "Preferred departure time",
                     inputType: "radio",
                     option: [
-                      { optionLabel: "Morning" },
-                      { optionLabel: "Afternoon" },
-                      { optionLabel: "Evening" },
+                      { optionLabel: "Morning", checked: '' },
+                      { optionLabel: "Afternoon", checked: '' },
+                      { optionLabel: "Evening", checked: '' },
                     ],
                   },
                   {
@@ -637,9 +633,11 @@ const WebinarRegistration = () => {
               {
                 optionLabel:
                   "Being contacted by FVIII Academy organizing team for the purpose of this meeting*",
+                checked: ''
               },
               {
                 optionLabel: "Receive future materials from the FVIII Academy",
+                checked: ''
               },
             ],
           };
@@ -653,10 +651,10 @@ const WebinarRegistration = () => {
             placeholder: `Please enter ${isSelectedName}`,
             option: [],
             required: "yes",
-                        addSpace: 10,
+            addSpace: 10,
 
-            showAllCountries:false
-            
+            showAllCountries: false
+
           };
           updateFormBody?.push(newObj);
         }
@@ -709,13 +707,11 @@ const WebinarRegistration = () => {
               },
             },
             addSpace: 10,
-
             required: "yes",
           });
         }
       } else if (isSelectedName?.includes("eventDetails")) {
         const fieldName = isSelectedName.split("-")[1];
-        // console.log(fieldName);
         let isColor = e?.target?.name.includes("color");
         if (isColor) {
           setFormData({
@@ -796,7 +792,7 @@ const WebinarRegistration = () => {
       setShowModalPreview(true);
       return;
     }
-   
+
     setFormData(formData);
     try {
       const error = WebinarRegistrationValidation(formData, eventData);
@@ -857,7 +853,7 @@ const WebinarRegistration = () => {
   };
 
   const handlePreview = (e, index) => {
-  
+
     if (!formData?.templateId) {
       setShowModalPreview(true);
       return;

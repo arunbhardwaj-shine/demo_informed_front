@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 
 export default function TemplateOne({children,formData}) {
   const eventData = formData?.raw_description;
-  console.log(formData?.raw_description)
 
   let eventDataSample = formData?.content?.eventDetails;
 

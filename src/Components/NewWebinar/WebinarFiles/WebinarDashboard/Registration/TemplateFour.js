@@ -47,7 +47,7 @@ export default function TemplateFour({ children, formData }) {
 const convertedStartTime = convertTo12HourFormat(eventStartTime);
 const convertedEndTime = convertTo12HourFormat(eventEndTime);
 const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
-  console.log(eventDataSample,'===>eventData')
+
 
   return (
     <>
