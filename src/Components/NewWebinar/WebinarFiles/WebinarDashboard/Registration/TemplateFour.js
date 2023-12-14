@@ -158,7 +158,8 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                 <Col md={4}>
                   <div className="footer-logo">
                     <img
-                      src={path_image + "one_source_blue.svg"}
+                      // src={path_image + "one_source_blue.svg"}
+                      src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
                       alt="Logo image"
                     />
                   </div>
