@@ -83,11 +83,16 @@ console.log(eventDataSample,'===>eventData333')
                             textTransform: "capitalize",
                             color:eventDataSample?.eventLocation?.color
                           }}
-                        >
-                          {eventDataSample?.eventLocation?.value
+                          dangerouslySetInnerHTML={{
+                            __html: eventDataSample?.eventLocation?.value
                             ? eventDataSample?.eventLocation?.value
-                            : eventData?.location}
-                        </span>
+                            : eventData?.location
+                          }}
+                        />
+                          {/* {eventDataSample?.eventLocation?.value
+                            ? eventDataSample?.eventLocation?.value
+                            : eventData?.location} */}
+                        {/* </span> */}
                       </h2>
                     </div>
                   </div>
@@ -98,12 +103,17 @@ console.log(eventDataSample,'===>eventData333')
                             textTransform: "capitalize",
                             color:eventDataSample?.speakerName?.color
                           }}
-                          >
-                          {" "}
-                          {eventDataSample?.speakerName?.value
+                          dangerouslySetInnerHTML={{
+                            __html: eventDataSample?.speakerName?.value
                             ? eventDataSample?.speakerName?.value
-                            : eventData.speaker_name}
-                        </span>
+                            : eventData.speaker_name
+                          }}
+                         />
+                          {" "}
+                          {/* {eventDataSample?.speakerName?.value
+                            ? eventDataSample?.speakerName?.value
+                            : eventData.speaker_name} */}
+                        {/* </span> */}
                       </h3>
                     </div>
                   </div>

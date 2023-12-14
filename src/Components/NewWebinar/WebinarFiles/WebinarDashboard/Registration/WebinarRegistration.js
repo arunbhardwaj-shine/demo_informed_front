@@ -1766,7 +1766,7 @@ const WebinarRegistration = () => {
                                                                                         })
                                                                                       )
                                                                                 }
-                                                                                placeholder={extItem?.placeholder ? extItem?.placeholder : `Select ${extItem?.label?.toLowerCase()}`}
+                                                                                placeholder={extItem?.placeholder ? extItem?.placeholder : `Select`}
                                                                                 isDisabled={true}
                                                                               />
                                                                             </div>
@@ -2160,7 +2160,7 @@ const WebinarRegistration = () => {
                                                                                         })
                                                                                       )
                                                                                 }
-                                                                                placeholder={extItem?.placeholder ? extItem?.placeholder : `Select ${extItem?.label?.toLowerCase()}`}
+                                                                                placeholder={extItem?.placeholder ? extItem?.placeholder : `Select`}
                                                                                 isDisabled={true}
                                                                               />
                                                                             </div>
@@ -2311,7 +2311,7 @@ const WebinarRegistration = () => {
                                                                     })
                                                                   )
                                                             }
-                                                            placeholder={data?.placeholder ? data?.placeholder : `Select ${data?.label?.toLowerCase()}`}
+                                                            placeholder={data?.placeholder ? data?.placeholder : `Select`}
                                                             isDisabled={true}
                                                           />
                                                         </div>

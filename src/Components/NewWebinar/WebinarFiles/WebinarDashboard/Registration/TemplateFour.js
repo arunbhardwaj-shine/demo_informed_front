@@ -52,7 +52,7 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
   return (
     <>
       <div className="wrapper eahad">
-        <div className="octapharma_event">
+        <div className="octapharma_event" style={{ background: `${formData?.content?.backgroundColor}` }}>
           <div className="header">
             <div className="header-text">
               <h3>

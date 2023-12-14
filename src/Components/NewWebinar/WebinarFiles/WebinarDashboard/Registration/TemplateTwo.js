@@ -111,7 +111,12 @@ export default function TemplateTwo({children,formData}) {
           <div className="motivate-mid-sec text-center">
             <h2 style={{
                     color:eventData?.speakerName?.color
-                  }}>{eventData?.speakerName?.value}</h2>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: eventData?.speakerName?.value
+                  }}
+                  />
+                    {/* {eventData?.speakerName?.value}</h2> */}
             <p> These meetings are for healthcare professionals only.</p>
           </div>
           {children}

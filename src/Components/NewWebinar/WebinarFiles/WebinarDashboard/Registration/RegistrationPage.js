@@ -303,11 +303,21 @@ console.log(errors);
                 <h2 style={{
                     color: formData?.content?.eventDetails?.pageTitle?.color,
 
-                  }} >{formData?.content?.eventDetails?.pageTitle?.value}</h2>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: formData?.content?.eventDetails?.pageTitle?.value
+                  }}
+                  />
+                    {/* {formData?.content?.eventDetails?.pageTitle?.value}</h2> */}
                   <h3 style={{
                     color: formData?.content?.eventDetails?.bodyText?.color,
 
-                  }}> {formData?.content?.eventDetails?.bodyText?.value}</h3>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: formData?.content?.eventDetails?.bodyText?.value
+                  }}
+                  />
+                     {/* {formData?.content?.eventDetails?.bodyText?.value}</h3> */}
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -372,7 +382,12 @@ console.log(errors);
                   <h2 style={{
                     color: formData?.content?.eventDetails?.pageTitle?.color,
 
-                  }}>{formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."
+                  }}
+                  />
+                    {/* {formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2> */}
                   <h3 style={{
                     color: formData?.content?.eventDetails?.bodyText?.color,
 
@@ -451,11 +466,25 @@ console.log(errors);
                   <h2 style={{
                     color: formData?.content?.eventDetails?.pageTitle?.color,
 
-                  }}>{formData?.content?.eventDetails?.pageTitle?.value}</h2>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: formData?.content?.eventDetails?.pageTitle?.value
+                  }}
+                  >
+                    {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
+                  </h2>
+
                   <h3  style={{
                     color: formData?.content?.eventDetails?.bodyText?.color,
                     
-                  }}> {formData?.content?.eventDetails?.bodyText?.value}</h3>
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: formData?.content?.eventDetails?.bodyText?.value
+                  }}
+                  > 
+                  {/* {formData?.content?.eventDetails?.bodyText?.value} */}
+                  
+                  </h3>
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -706,7 +735,7 @@ const FormField1 = ({
             ? stateOptions
             : options
         }
-        placeholder="Select country"
+        placeholder={form.placeholder? form.placeholder: 'Select'}
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
@@ -929,6 +958,7 @@ const FormField2 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder? form.placeholder: 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1151,6 +1181,7 @@ const FormField3 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder? form.placeholder: 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1375,6 +1406,7 @@ const FormField4 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder? form.placeholder: 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
