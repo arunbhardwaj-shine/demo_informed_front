@@ -47,12 +47,12 @@ export default function TemplateFour({ children, formData }) {
 const convertedStartTime = convertTo12HourFormat(eventStartTime);
 const convertedEndTime = convertTo12HourFormat(eventEndTime);
 const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
-  console.log(eventDataSample,'===>eventData')
+
 
   return (
     <>
       <div className="wrapper eahad">
-        <div className="octapharma_event">
+        <div className="octapharma_event" style={{ background: `${formData?.content?.backgroundColor}` }}>
           <div className="header">
             <div className="header-text">
               <h3>

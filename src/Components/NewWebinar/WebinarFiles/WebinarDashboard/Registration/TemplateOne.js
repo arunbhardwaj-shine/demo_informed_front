@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 
 export default function TemplateOne({children,formData}) {
   const eventData = formData?.raw_description;
-  console.log(formData?.raw_description)
 
   let eventDataSample = formData?.content?.eventDetails;
 
@@ -62,11 +61,16 @@ export default function TemplateOne({children,formData}) {
                            
                             color:eventDataSample?.eventLocation?.color
                           }}
-                        >
-                          {eventDataSample?.eventLocation?.value
+                          dangerouslySetInnerHTML={{
+                            __html: eventDataSample?.eventLocation?.value
+                            ? eventDataSample?.eventLocation?.value
+                            : eventData?.location
+                          }}
+                        />
+                          {/* {eventDataSample?.eventLocation?.value
                             ? eventDataSample?.eventLocation?.value
                             : eventData?.location}
-                    </h2>
+                    </h2> */}
                   </div>
                 </div>
                 <div className="col-sm-4 col-md-4">
@@ -79,18 +83,18 @@ export default function TemplateOne({children,formData}) {
                             textTransform: "capitalize",
                             color:eventDataSample?.speakerName?.color
                           }}
-                          // dangerouslySetInnerHTML={{
-                          //   __html: eventDataSample?.speakerName?.value
-                          //     ? eventDataSample?.speakerName?.value
-                          //     : eventData.speaker_name
-                          // }}
+                          dangerouslySetInnerHTML={{
+                            __html: eventDataSample?.speakerName?.value
+                              ? eventDataSample?.speakerName?.value
+                              : eventData.speaker_name
+                          }}
                           
-                          >
+                          />
                           {" "}
-                          {eventDataSample?.speakerName?.value
+                          {/* {eventDataSample?.speakerName?.value
                             ? eventDataSample?.speakerName?.value
-                            : eventData.speaker_name}
-                    </h3>
+                            : eventData.speaker_name} */}
+                    {/* </h3> */}
                   </div>
                 </div>
               </div>
