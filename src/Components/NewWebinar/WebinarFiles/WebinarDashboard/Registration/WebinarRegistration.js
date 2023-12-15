@@ -188,7 +188,13 @@ const WebinarRegistration = () => {
     // }
 
     getAllEvents();
+
   }, []);
+
+  useEffect(()=>{
+    console.log('huhku')
+
+  },[formData])
 
   const getWebinarData = async (event_code) => {
     try {
@@ -2519,8 +2525,6 @@ const WebinarRegistration = () => {
                         </div> */}
                       </Form>
                     </div>
-                  </Col>
-                  <Col md={4} sm={5}>
                     <div className="registration-right">
                       <div
                         className="logo-section header-section"
@@ -2662,6 +2666,160 @@ const WebinarRegistration = () => {
                             </div>
                     </div> */}
                     </div>
+                  </Col>
+                  <Col md={4} sm={5}>
+                    {/* <div className="registration-right">
+                      <div
+                        className="logo-section header-section"
+                        onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                      >
+                        {!logo && (
+                          <h4
+                            className="logo-img-section header-img-section"
+                            id="uploadButton"
+                          >
+                            Upload Logo
+                          </h4>
+                        )}
+                        <img className="logo-img" src={logo} />
+                        <div className="logo-text header-text">
+                          {logo && (
+                            <button
+                              className="btn btn-outline-primary"
+                              title="Edit user"
+                            >
+                              <img
+                                src={path + "edit-button.svg"}
+                                alt="Edit"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleFileSelect(e, "logoImageUrl");
+                                }}
+                              />
+                            </button>
+                          )}
+
+                          {logo && (
+                            <button
+                              className="dlt_btn_event btn-voilet"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteLogoImage(e, "logoImageUrl");
+                              }}
+                            >
+                              <img
+                                title="Delete"
+                                src={path_image + "delete-icon.svg"}
+                                alt="Delete Row"
+                              />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      <div
+                        className="header-section"
+                        onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+                      >
+                        {!file && (
+                          <h4 className="header-img-section" id="uploadButton">
+                            Upload header Image
+                          </h4>
+                        )}
+                        <img className="header-img" src={file} />
+                        <div className="header-text">
+                          {file && (
+                            <button
+                              className="btn btn-outline-primary"
+                              title="Edit user"
+                            >
+                              <img
+                                src={path + "edit-button.svg"}
+                                alt="Edit"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleFileSelect(e, "headerImageUrl");
+                                }}
+                              />
+                            </button>
+                          )}
+
+                          {file && (
+                            <button
+                              className="dlt_btn_event btn-voilet"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteHeaderImage(e, "headerImageUrl");
+                              }}
+                            >
+                              <img
+                                title="Delete"
+                                src={path_image + "delete-icon.svg"}
+                                alt="Delete Row"
+                              />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      <div
+                        className="footer-section"
+                        onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                      >
+                        {!foot && (
+                          <h4 className="footer-img-section">Upload footer Image</h4>
+                        )}
+                        <img className="footer-img" src={foot} />
+                        <div className="footer-text">
+                          {foot && (
+                            <button
+                              className="btn btn-outline-primary"
+                              title="Edit user"
+                            >
+                              <img
+                                src={path + "edit-button.svg"}
+                                alt="Edit"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleFileSelect(e, "footerImageUrl");
+                                }}
+                              />
+                            </button>
+                          )}
+                          {foot && (
+                            <button
+                              className="dlt_btn_event btn-voilet"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteFooterImage(e, "footerImageUrl");
+                              }}
+                            >
+                              <img
+                                title="Delete"
+                                src={path_image + "delete-icon.svg"}
+                                alt="Delete Row"
+                              />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      {/* <div className="registration-preview">
+                            <div className="registration-form-view">
+
+                            </div>
+                    </div>
+                    </div> */}
+
+              <div className="webinar-popup">
+                <RegistrationPage
+                  prevData={{
+                    eventId: eventData?.event_id,
+                    companyId: eventData?.company_id,
+                    content: JSON.stringify(formData),
+                    eventCode: event_code,
+                  }}
+                />
+              </div>
                   </Col>
                 </Row>
               </div>
