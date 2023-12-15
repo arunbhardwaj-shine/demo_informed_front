@@ -125,6 +125,7 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
               </h4>
             </div>
 
+         
             <h4 style={{ color: eventDataSample?.eventStartDate?.color }}>
               {formattedDateRange}
             </h4>
@@ -135,7 +136,7 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                (
               {eventData?.countryTimezone}) online in One Source
             </h4>
-
+            <p class="speaker-specialization">By registering to One Source you will gain access to the relevant content in accordance with the data privacy policy of <a href="/octapharma-privacy" target="_blank">Octapharma AG</a> and <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel.app</a> operating this page.</p>
             <div className="octapharma_event_form">{children}</div>
           </div>
           <div className="footer">

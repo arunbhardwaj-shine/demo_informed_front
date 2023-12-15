@@ -1346,16 +1346,107 @@ const FormField4 = ({
    const consentFieldClass = isConsentField ? 'consent-feild' : '';
 
   const handleFieldChange = (value, e = "") => {
+    // console.log("i am here ");
     const newData = { ...formFieldData };
 
     if (form?.inputType === "datepicker") {
       newData[label] = moment(value).format("YYYY-MM-DD");
     } else if (form?.inputType === "checkbox") {
       newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
-
       if (e.target.checked) {
+       if(label=="onesource_consent"){
+        let options=form?.option
+        
+        const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
+        // console.dir(checkboxes,'checkboxes');
+        // console.log(e ,'checkboxes');
+        for (const checkbox of checkboxes) {
+          if(e.target.id=='onesource_consent0'){
+            checkboxes[0].checked = true;
+            // checkboxes[1].checked = false;
+            // console.log(newData,'newDatanewData');
+
+            checkboxes[2].checked = checkboxes[1].checked ?true:false;
+            checkboxes[3].checked = false;
+
+
+
+          }
+         else if(e.target.id=='onesource_consent1'){
+            // checkboxes[0].checked = false;
+            checkboxes[1].checked = true;
+            checkboxes[2].checked = checkboxes[0].checked ?true:false;
+            checkboxes[3].checked = false;
+
+
+
+          }
+          else if(e.target.id=='onesource_consent2'){
+            checkboxes[0].checked = true;
+            checkboxes[1].checked = true;
+            checkboxes[2].checked = true;
+            checkboxes[3].checked = false;
+
+
+
+          }else if(e.target.id=='onesource_consent3'){
+            checkboxes[0].checked = false;
+            checkboxes[1].checked = false;
+            checkboxes[2].checked = false;
+            checkboxes[3].checked = true;
+
+
+
+          }
+         
+          // checkbox.checked = !checkbox.checked;
+        }
+       }
+
         newData[label] = [...newData[label], value];
       } else {
+        const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
+        // console.dir(checkboxes,'checkboxes');
+        // console.log(e ,'checkboxes');
+        for (const checkbox of checkboxes) {
+          if(e.target.id=='onesource_consent0'){
+            checkboxes[0].checked = false;
+            // checkboxes[1].checked = false;
+            checkboxes[2].checked = false;
+            checkboxes[3].checked = false;
+
+
+
+          }
+         else if(e.target.id=='onesource_consent1'){
+            // checkboxes[0].checked = false;
+            checkboxes[1].checked = false;
+            checkboxes[2].checked = false;
+            checkboxes[3].checked = false;
+
+
+
+          }
+         else if(e.target.id=='onesource_consent2'){
+            checkboxes[0].checked = false;
+            checkboxes[1].checked = false;
+            checkboxes[2].checked = false;
+            checkboxes[3].checked = false;
+
+
+
+          }
+          else if(e.target.id=='onesource_consent3'){
+            checkboxes[0].checked = false;
+            checkboxes[1].checked = false;
+            checkboxes[2].checked = false;
+            checkboxes[3].checked = false;
+
+
+
+          }
+          // checkbox.checked = !checkbox.checked;
+        }
         newData[label] = newData[label].filter((item) => item !== value);
       }
     } else {

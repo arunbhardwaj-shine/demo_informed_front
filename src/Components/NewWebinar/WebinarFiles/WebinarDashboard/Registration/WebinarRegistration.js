@@ -648,6 +648,38 @@ const WebinarRegistration = () => {
             ],
           };
           updateFormBody?.push(newObj);
+        } else if (isSelectedName == "onesource_consent") {
+          let newObj = {
+            // label: isSelectedName,
+            label: "I also consent to: " ,
+            name: "onesource_consent",
+
+            inputType: "checkbox",
+            required: "yes",
+            addSpace: 10,
+
+
+            option: [
+              {
+                optionLabel:
+                  "Receive One Source updates and new materials from Octapharma.",
+                checked: ''
+              },
+              {
+                optionLabel: "Receive invitations to future events.",
+                checked: ''
+              }, 
+               {
+                optionLabel: "Both of the options above.",
+                checked: ''
+              },  
+              {
+                optionLabel: "None of the options above.",
+                checked: ''
+              },
+            ],
+          };
+          updateFormBody?.push(newObj);
         } else {
           let newObj = {
             name: isSelectedName,
@@ -1439,6 +1471,22 @@ const WebinarRegistration = () => {
                                   : false
                               }
                               onChange={(e) => handleChange(e, "consent")}
+                            />
+<Form.Check
+                              className="webinar-checkbox"
+                              inline
+                              label="Onesource Consent"
+                              name="onesource_consent"
+                              type="checkbox"
+                              checked={
+                                formData?.body?.findIndex(
+                                  (item, index) =>
+                                    item?.name?.toLowerCase() == "onesource_consent"
+                                ) != -1
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => handleChange(e, "onesource_consent")}
                             />
 
                             <span

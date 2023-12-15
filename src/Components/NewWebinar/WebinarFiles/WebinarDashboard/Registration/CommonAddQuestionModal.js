@@ -417,7 +417,7 @@ const CommonAddQuestionModal = ({
                                           (error?.options &&
                                             error?.index == index)
                                           ? "form-control error"
-                                          : "form-control"
+                                          : formData?.name=="onesource_consent"?"form-control disabled ":"form-control" 
                                       }
                                       type="text"
                                       placeholder="Enter option"
@@ -427,6 +427,7 @@ const CommonAddQuestionModal = ({
                                       onChange={(e) =>
                                         handleChange(e, "optionValue", index)
                                       }
+                                      // disabled={`${ formData?.name=="onesource_consent"?true:false}`}
                                     />
                                     {error?.option &&
                                       error?.index == index ? (
@@ -458,9 +459,16 @@ const CommonAddQuestionModal = ({
                                         />
                                       </button> */}
                                     <button
-                                      className="dlt_btn_event btn-filled"
+                                      className={`dlt_btn_event btn-filled ${ formData?.name=="onesource_consent"?"disabled":''}`  }
+                                      // disabled={`${ formData?.name=="onesource_consent"?true:false}`}
+
                                       onClick={(e) => {
-                                        deleteOption(e, index);
+                                        if(formData?.name!="onesource_consent"){
+
+                                          deleteOption(e, index);
+                                        }else{
+                                          return;
+                                        }
                                       }}
                                     >
                                       <svg
@@ -569,7 +577,8 @@ const CommonAddQuestionModal = ({
                             formData?.inputType == "checkbox" ? (
                             <div className="add-more-option">
                               <Button
-                                className="add-option"
+                                className={`add-option ${ formData?.name=="onesource_consent"?"disabled":''}`  }
+                                // disabled={`${ formData?.name=="onesource_consent"?true:false}`}
                                 onClick={(e) => AddOptions(e)}
                               >
                                 Add options
