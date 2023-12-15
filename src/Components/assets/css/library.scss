@@ -17636,10 +17636,11 @@ img.change-password-image {
 }
 
 .registration-right {
-  height: 100%;
+  // height: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 20px 0;
+  // flex-direction: column;
+  // gap: 20px 0;
+  gap: 20px;
   // justify-content: space-between;
   padding-top: 18px;
   padding-bottom: 74px;
