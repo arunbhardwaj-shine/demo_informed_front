@@ -738,7 +738,7 @@ const WebinarRegistration = () => {
                   value: e,
                 },
                 ["eventEndDate"]: {
-                  ...formData.eventDetails?.eventEndDate, 
+                  ...formData.eventDetails?.eventEndDate,
                   value: e,
                 },
               },
@@ -1199,7 +1199,8 @@ const WebinarRegistration = () => {
                                       dateFormat="dd/MM/yyyy"
                                       className="form-control "
                                       placeholderText="Select date"
-                                      // readOnly={true}
+                                      readOnly={true}
+                                      disabled
                                       minDate={
                                         key == "eventEndDate"
                                           ? new Date(
