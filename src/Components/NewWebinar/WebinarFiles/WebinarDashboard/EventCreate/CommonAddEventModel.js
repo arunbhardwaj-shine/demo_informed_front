@@ -192,8 +192,27 @@ const CommonAddEventModel = ({
     }
   };
 
-  const saveClicked = async (e) => {
+  const formatDate = (newDate) => {
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, "0");
+    const day = String(newDate.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
 
+  function isValidDateFormat(dateString) {
+    const regex = /^\d{1,2} [A-Za-z]+ \d{4}$/;
+    return regex.test(dateString);
+  }
+
+  function convertDate(dateString) {
+    const formattedDate = moment(dateString, "DD MMMM YYYY").format(
+      "YYYY-MM-DD"
+    );
+    return formattedDate;
+  }
+
+  const saveClicked = async (e) => {
     try {
       const error = EventModelValidation(eventInputs);
       if (Object.keys(error)?.length) {
@@ -202,6 +221,18 @@ const CommonAddEventModel = ({
         return;
       } else {
         loader("show");
+        let dateStart = "";
+        if (isValidDateFormat(eventInputs?.dateStart)) {
+          dateStart = convertDate(eventInputs?.dateStart);
+        } else {
+          dateStart = formatDate(eventInputs?.dateStart);
+        }
+        let dateEnd = "";
+        if (isValidDateFormat(eventInputs?.dateEnd)) {
+          dateEnd = convertDate(eventInputs?.dateEnd);
+        } else {
+          dateEnd = formatDate(eventInputs?.dateEnd);
+        }
         let dataObj = {
           title: eventInputs?.title,
           location: eventInputs?.location,
@@ -210,8 +241,8 @@ const CommonAddEventModel = ({
           countryTimezone: eventInputs?.country_timezone,
           isClientStream: eventInputs?.is_client_stream == "Yes" ? 1 : 0,
           clientStreamUrl: eventInputs?.client_stream_url ? eventInputs?.client_stream_url : "",
-          dateStart: eventInputs?.dateStart,
-          dateEnd: eventInputs?.dateEnd,
+          dateStart: dateStart,
+          dateEnd: dateEnd,
           dateStartHour: eventInputs?.dateStartHour,
           dateStartMin: eventInputs?.dateStartMin,
           dateEndHour: eventInputs?.dateEndHour,
