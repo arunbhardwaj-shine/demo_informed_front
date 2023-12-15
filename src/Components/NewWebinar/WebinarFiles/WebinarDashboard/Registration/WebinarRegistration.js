@@ -1257,22 +1257,25 @@ const WebinarRegistration = () => {
                                       type={field.type}
                                       name={`eventDetails-${key}`}
                                       value={field.value}
-                                      // readOnly={
-                                      //   key == "eventEndTime" ||
-                                      //   key == "eventStartTime"
-                                      //     ? true
-                                      //     : false
-                                      // }
-                                      // className={`form-control ${
-                                      //   key == "eventEndTime" ||
-                                      //   key == "eventStartTime"
-                                      //     ? "disabled"
-                                      //     : ""
-                                      // }`}
-                                      className="form-control disabled"
+                                      readOnly={
+                                        key == "eventEndTime" ||
+                                          key == "eventStartTime"
+                                          ? true
+                                          : false
+                                      }
+                                      disabled={key == "eventEndTime" ||
+                                        key == "eventStartTime"
+                                        ? true
+                                        : false}
+                                      className={`form-control ${key == "eventEndTime" ||
+                                        key == "eventStartTime"
+                                        ? "disabled"
+                                        : ""
+                                        }`}
+                                      // className="form-control"
                                       onChange={handleChange}
-                                      disabled
-                                      readOnly={true}
+                                    // disabled
+                                    // readOnly={true}
                                     />
                                     {
                                       isEventEndTime ? <div className="event-endTime"></div> : ''
