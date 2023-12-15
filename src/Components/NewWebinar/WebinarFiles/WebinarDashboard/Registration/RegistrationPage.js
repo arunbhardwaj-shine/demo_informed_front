@@ -123,9 +123,12 @@ const RegistrationPage = ({ prevData }) => {
   );
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+
   useEffect(() => {
     EventDataFun();
-  }, [prevData.content]);
+  }, [prevData?.content]);
+
+
 
   const EventDataFun = async () => {
     try {
