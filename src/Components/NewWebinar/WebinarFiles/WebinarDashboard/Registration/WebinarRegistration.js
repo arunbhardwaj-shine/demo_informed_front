@@ -168,6 +168,7 @@ const WebinarRegistration = () => {
   const [dropDownData, setDropDownData] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
   const [showModalPreview, setShowModalPreview] = useState(false);
+ 
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
@@ -190,11 +191,6 @@ const WebinarRegistration = () => {
     getAllEvents();
 
   }, []);
-
-  useEffect(() => {
-    console.log('huhku')
-
-  }, [formData])
 
   const getWebinarData = async (event_code) => {
     try {
@@ -2817,6 +2813,7 @@ const WebinarRegistration = () => {
                     </div> */}
 
                     <div className="webinar-popup">
+
                       <RegistrationPage
                         prevData={{
                           eventId: eventData?.event_id,
@@ -2825,7 +2822,9 @@ const WebinarRegistration = () => {
                           eventCode: event_code,
                         }}
                       />
+                     
                     </div>
+
                   </Col>
                 </Row>
               </div>

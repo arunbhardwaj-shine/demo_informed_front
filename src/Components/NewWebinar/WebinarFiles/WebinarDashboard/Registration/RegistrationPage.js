@@ -41,9 +41,9 @@ const userData = {
   "Preferred return flight date": "air_return_date",
   "I consent to:": "consent",
 };
-let icons={
-  Email:"form-mail",
-  Name:"form-user",
+let icons = {
+  Email: "form-mail",
+  Name: "form-user",
 
 }
 const stateOptions = [
@@ -115,58 +115,57 @@ const RegistrationPage = ({ prevData }) => {
   const [pageColors, setPageColors] = useState(
     prevData
       ? {
-          labelColor: prevData?.content?.labelColor,
-          background: prevData?.content?.backgroundColor,
-          optionColor: prevData?.content?.optionColor,
-        }
-      : { labelColor: "#fff000", background: "#000",optionColor:"#000" }
+        labelColor: prevData?.content?.labelColor,
+        background: prevData?.content?.backgroundColor,
+        optionColor: prevData?.content?.optionColor,
+      }
+      : { labelColor: "#fff000", background: "#000", optionColor: "#000" }
   );
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     EventDataFun();
-  }, []);
+  }, [prevData.content]);
 
   const EventDataFun = async () => {
     try {
       loader("show");
 
       const response = await getData(
-        `${ENDPOINT.GET_REGISTRATION_FORM}/${
-          prevData?.eventCode ? prevData?.eventCode : event_code
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${prevData?.eventCode ? prevData?.eventCode : event_code
         }`
       );
       let hadData = {};
       if (!prevData?.content) {
-        if(response?.data?.data?.content ){
+        if (response?.data?.data?.content) {
           hadData = {
             ...response?.data?.data,
             content: JSON.parse(response?.data?.data?.content),
             raw_description: JSON.parse(response?.data?.data?.raw_description),
           };
         }
-      
+
       } else {
-       let raw=response?.data?.data?.raw_description? JSON.parse(response?.data?.data?.raw_description):{
-        "title": "",
-        "location": "",
-        "type": "",
-        "timezone": "",
-        "countryTimezone": "",
-        "isClientStream": 0,
-        "clientStreamUrl": "",
-        "dateStart": "",
-        "dateStartHour": "",
-        "dateStartMin": "",
-        "dateEndHour": "",
-        "dateEndMin": "",
-        "eventCode": "",
-        "description": "",
-        "speaker_name": "",
-        "speaker_email": "",
-        "meeting_type": ""
-      }
-      
+        let raw = response?.data?.data?.raw_description ? JSON.parse(response?.data?.data?.raw_description) : {
+          "title": "",
+          "location": "",
+          "type": "",
+          "timezone": "",
+          "countryTimezone": "",
+          "isClientStream": 0,
+          "clientStreamUrl": "",
+          "dateStart": "",
+          "dateStartHour": "",
+          "dateStartMin": "",
+          "dateEndHour": "",
+          "dateEndMin": "",
+          "eventCode": "",
+          "description": "",
+          "speaker_name": "",
+          "speaker_email": "",
+          "meeting_type": ""
+        }
+
         hadData = {
           ...response?.data?.data,
           content: JSON.parse(prevData?.content),
@@ -204,13 +203,13 @@ const RegistrationPage = ({ prevData }) => {
             companyEmail: raw?.speaker_email,
             virtual_or_live: raw?.meeting_type,
             websiteFolder: "new_webinar",
-            consent:formFieldData.consent.join('~') || ""
+            consent: formFieldData.consent.join('~') || ""
           }
         );
         if (response?.data?.status === 1) {
           setModalIsOpen(true);
-        }  else {
-         
+        } else {
+
           toast.error(`${response?.data?.message}`, {
             position: "top-right",
             autoClose: 5000,
@@ -219,7 +218,7 @@ const RegistrationPage = ({ prevData }) => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            });
+          });
         }
       } catch (error) {
         console.error("Error submitting data:", error);
@@ -235,7 +234,7 @@ const RegistrationPage = ({ prevData }) => {
     const errors = {};
 
     formData?.content?.body?.forEach((form) => {
-      const label =  form?.name?.replace(/ /g, "_");
+      const label = form?.name?.replace(/ /g, "_");
       const fieldValue = formFieldData[label];
 
       if (form.required === "yes" && !fieldValue) {
@@ -253,7 +252,7 @@ const RegistrationPage = ({ prevData }) => {
         }
       }
     });
-console.log(errors);
+    console.log(errors);
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -300,24 +299,24 @@ console.log(errors);
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                <h2 style={{
+                  <h2 style={{
                     color: formData?.content?.eventDetails?.pageTitle?.color,
 
                   }}
-                  dangerouslySetInnerHTML={{
-                    __html: formData?.content?.eventDetails?.pageTitle?.value
-                  }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.pageTitle?.value
+                    }}
                   />
-                    {/* {formData?.content?.eventDetails?.pageTitle?.value}</h2> */}
+                  {/* {formData?.content?.eventDetails?.pageTitle?.value}</h2> */}
                   <h3 style={{
                     color: formData?.content?.eventDetails?.bodyText?.color,
 
                   }}
-                  dangerouslySetInnerHTML={{
-                    __html: formData?.content?.eventDetails?.bodyText?.value
-                  }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.bodyText?.value
+                    }}
                   />
-                     {/* {formData?.content?.eventDetails?.bodyText?.value}</h3> */}
+                  {/* {formData?.content?.eventDetails?.bodyText?.value}</h3> */}
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -374,7 +373,7 @@ console.log(errors);
         <div className="container">
           <div
             className="consent-form-inner"
-            
+
           >
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
@@ -383,11 +382,11 @@ console.log(errors);
                     color: formData?.content?.eventDetails?.pageTitle?.color,
 
                   }}
-                  dangerouslySetInnerHTML={{
-                    __html: formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."
-                  }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."
+                    }}
                   />
-                    {/* {formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2> */}
+                  {/* {formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2> */}
                   <h3 style={{
                     color: formData?.content?.eventDetails?.bodyText?.color,
 
@@ -467,31 +466,31 @@ console.log(errors);
                     color: formData?.content?.eventDetails?.pageTitle?.color,
 
                   }}
-                  dangerouslySetInnerHTML={{
-                    __html: formData?.content?.eventDetails?.pageTitle?.value
-                  }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.pageTitle?.value
+                    }}
                   >
                     {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
                   </h2>
 
-                  <h3  style={{
+                  <h3 style={{
                     color: formData?.content?.eventDetails?.bodyText?.color,
-                    
+
                   }}
-                  dangerouslySetInnerHTML={{
-                    __html: formData?.content?.eventDetails?.bodyText?.value
-                  }}
-                  > 
-                  {/* {formData?.content?.eventDetails?.bodyText?.value} */}
-                  
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.bodyText?.value
+                    }}
+                  >
+                    {/* {formData?.content?.eventDetails?.bodyText?.value} */}
+
                   </h3>
                 </div>
               </div>
               <div className="center-sided-inside">
                 <div className="row">
-                {formData?.content?.body?.map((form, index) => (
+                  {formData?.content?.body?.map((form, index) => (
                     <FormField3
-                      key={`${form.label}_${index}`} 
+                      key={`${form.label}_${index}`}
                       form={form}
                       formFieldData={formFieldData}
                       setFormFieldData={setFormFieldData}
@@ -547,9 +546,9 @@ console.log(errors);
               </div> */}
               <div className="center-sided-inside">
                 <div className="row">
-                {formData?.content?.body?.map((form, index) => (
+                  {formData?.content?.body?.map((form, index) => (
                     <FormField4
-                      key={`${form.label}_${index}`} 
+                      key={`${form.label}_${index}`}
                       form={form}
                       formFieldData={formFieldData}
                       setFormFieldData={setFormFieldData}
@@ -582,7 +581,7 @@ console.log(errors);
       </section>
     </>
   );
-  
+
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -612,12 +611,12 @@ console.log(errors);
 
       {(formData?.content?.templateId === 3 ||
         formData?.content?.templateId <= 0) && (
-        <TemplateThree formData={formData}>{myContent3}</TemplateThree>
-      )}
+          <TemplateThree formData={formData}>{myContent3}</TemplateThree>
+        )}
 
-       {formData?.content?.templateId === 4 && (
+      {formData?.content?.templateId === 4 && (
         <TemplateFour formData={formData}>{myContent4}</TemplateFour>
-      )} 
+      )}
 
       <Modal
         className="modal send-confirm"
@@ -641,14 +640,15 @@ console.log(errors);
             ) : (
               <h4>Thank you for registering!</h4>
             )}
-            
+
             <div className="modal-buttons">
               <button
                 type="button"
                 className="btn btn-primary btn-bordered"
                 onClick={() => {
                   window.location.reload();
-                  setModalIsOpen(false)}
+                  setModalIsOpen(false)
+                }
                 }
               >
                 Okay
@@ -657,9 +657,9 @@ console.log(errors);
           </>
         </Modal.Body>
       </Modal>
-    
-    </> 
-  ); 
+
+    </>
+  );
 };
 
 export default RegistrationPage;
@@ -732,10 +732,10 @@ const FormField1 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
-        placeholder={form.placeholder? form.placeholder: 'Select'}
+        placeholder={form.placeholder ? form.placeholder : 'Select'}
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
@@ -814,9 +814,9 @@ const FormField1 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                 
-                  
-                  
+
+
+
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -858,28 +858,28 @@ const FormField1 = ({
   } else {
     fieldInput = (
       <>
-      <input
-        type={form.inputType}
-        className="form-control"
-id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={form.placeholder}
-        onChange={(e) => handleFieldChange(e.target.value)}/>
+        <input
+          type={form.inputType}
+          className="form-control"
+          id={label.replace(/[A-Z]/g, m => "-" + m.toLowerCase())} placeholder={form.placeholder}
+          onChange={(e) => handleFieldChange(e.target.value)} />
         <div className="field-icon">
-        <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
+          <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
         </div>
-        </>
-      
+      </>
+
     );
   }
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec" style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
-    {(form.inputType !="text" && form.inputType !="email")  ?( <label
+    <div className="col-sm-12 col-md-12 consent-form-list attend-sec" style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}>
+      {(form.inputType != "text" && form.inputType != "email") ? (<label
         style={{
           color: pageColors?.labelColor,
         }}
       >
         {form.label}
         {isRequired ? "" : ""}
-      </label>):null}
+      </label>) : null}
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
     </div>
@@ -898,7 +898,7 @@ const FormField2 = ({
 
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label =  form?.name?.replace(/ /g, "_");
+  const label = form?.name?.replace(/ /g, "_");
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
     if (form?.inputType === "datepicker") {
@@ -952,13 +952,13 @@ const FormField2 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
-        placeholder={form.placeholder? form.placeholder: 'Select'}
+        placeholder={form.placeholder ? form.placeholder : 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1075,33 +1075,33 @@ const FormField2 = ({
   } else {
     fieldInput = (
       <>
-      <input
-        type={form.inputType}
-        className="form-control"
-        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())} placeholder={form.label}
-        onChange={(e) => handleFieldChange(e.target.value)}/>
-      <div className="field-icon">
-        <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
-      </div>
+        <input
+          type={form.inputType}
+          className="form-control"
+          id={label.replace(/[A-Z]/g, m => "-" + m.toLowerCase())} placeholder={form.label}
+          onChange={(e) => handleFieldChange(e.target.value)} />
+        <div className="field-icon">
+          <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
+        </div>
       </>
     );
   }
 
   return (
-    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`} style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
-      {(form.inputType !="text" && form.inputType !="email")  ?
+    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country") ? "country" : ""}`} style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}>
+      {(form.inputType != "text" && form.inputType != "email") ?
         <label
-        style={{
-          color: pageColors?.labelColor,
-        }}>
-        {form.label}
-        {
-          // isRequired ? "*" : ""
+          style={{
+            color: pageColors?.labelColor,
+          }}>
+          {form.label}
+          {
+            // isRequired ? "*" : ""
+          }
+        </label> : null
       }
-      </label>:null
-      }
-      
-      {fieldInput} 
+
+      {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
     </div>
   );
@@ -1175,13 +1175,13 @@ const FormField3 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
-        placeholder={form.placeholder? form.placeholder: 'Select'}
+        placeholder={form.placeholder ? form.placeholder : 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1204,8 +1204,8 @@ const FormField3 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-    
-    
+
+
 
               <input
                 type={form.inputType}
@@ -1262,8 +1262,8 @@ const FormField3 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-              
-                  
+
+
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -1307,7 +1307,7 @@ const FormField3 = ({
       <input
         type={form.inputType}
         className="form-control"
-        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}
+        id={label.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}
         placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
       />
@@ -1315,7 +1315,7 @@ const FormField3 = ({
   }
 
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec" style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
+    <div className="col-sm-12 col-md-12 consent-form-list attend-sec" style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}>
       <label
         style={{
           color: pageColors?.labelColor,
@@ -1341,9 +1341,9 @@ const FormField4 = ({
 }) => {
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label = form?.name?.replace(/ /g, "_"); 
-   const isConsentField = form?.label?.toLowerCase().includes('consent');
-   const consentFieldClass = isConsentField ? 'consent-feild' : '';
+  const label = form?.name?.replace(/ /g, "_");
+  const isConsentField = form?.label?.toLowerCase().includes('consent');
+  const consentFieldClass = isConsentField ? 'consent-feild' : '';
 
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
@@ -1400,13 +1400,13 @@ const FormField4 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
-        placeholder={form.placeholder? form.placeholder: 'Select'}
+        placeholder={form.placeholder ? form.placeholder : 'Select'}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1482,7 +1482,7 @@ const FormField4 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                  
+
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -1526,7 +1526,7 @@ const FormField4 = ({
       <input
         type={form.inputType}
         className="form-control"
-        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}
+        id={label.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}
         placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
       />
@@ -1534,7 +1534,7 @@ const FormField4 = ({
   }
 
   return (
-    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`} style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
+    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`} style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}>
       <label
         style={{
           color: pageColors?.labelColor,
