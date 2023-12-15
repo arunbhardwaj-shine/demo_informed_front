@@ -191,10 +191,10 @@ const WebinarRegistration = () => {
 
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log('huhku')
 
-  },[formData])
+  }, [formData])
 
   const getWebinarData = async (event_code) => {
     try {
@@ -1195,7 +1195,7 @@ const WebinarRegistration = () => {
                                 return field.type == "date" ? (
                                   <div
                                     key={index}
-                                    className="form-group d-flex align-items-center"
+                                    className="form-group d-flex align-items-center "
                                   >
                                     <label>
                                       {field.title} <span>*</span>
@@ -1203,7 +1203,7 @@ const WebinarRegistration = () => {
                                     <DatePicker
                                       name={`eventDetails-${key}`}
                                       dateFormat="dd/MM/yyyy"
-                                      className="form-control "
+                                      className="form-control disabled"
                                       placeholderText="Select date"
                                       readOnly={true}
                                       disabled
@@ -1269,8 +1269,10 @@ const WebinarRegistration = () => {
                                       //     ? "disabled"
                                       //     : ""
                                       // }`}
-                                      className="form-control"
+                                      className="form-control disabled"
                                       onChange={handleChange}
+                                      disabled
+                                      readOnly={true}
                                     />
                                     {
                                       isEventEndTime ? <div className="event-endTime"></div> : ''
@@ -1586,7 +1588,7 @@ const WebinarRegistration = () => {
                                                                                 type={
                                                                                   extItem?.inputType
                                                                                 }
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 name={`${extItem?.name
                                                                                   ? extItem?.name
                                                                                   : "dynamic_" +
@@ -1668,7 +1670,7 @@ const WebinarRegistration = () => {
                                                                                   dynamicFieldNo
                                                                                   }`}
                                                                                 dateFormat="dd/MM/yyyy"
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 placeholderText="Select date"
                                                                                 // minDate={currentDate}
                                                                                 disabled
@@ -1737,7 +1739,7 @@ const WebinarRegistration = () => {
                                                                                 }
                                                                               </label>
                                                                               <Select
-                                                                                className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                                className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                                                 name={`${extItem?.name
                                                                                   ? extItem?.name
                                                                                   : "dynamic_" +
@@ -1787,7 +1789,7 @@ const WebinarRegistration = () => {
                                                                               </label>
 
                                                                               <textarea
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 name={`${extItem?.name
                                                                                   ? extItem?.name
                                                                                   : "dynamic_" +
@@ -1975,7 +1977,7 @@ const WebinarRegistration = () => {
                                                                                 type={
                                                                                   extItem?.inputType
                                                                                 }
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 name={`${extItem?.name
                                                                                   ? extItem?.name
                                                                                   : "dynamic_" +
@@ -2059,7 +2061,7 @@ const WebinarRegistration = () => {
                                                                                   dynamicFieldNo
                                                                                   }`}
                                                                                 dateFormat="dd/MM/yyyy"
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 placeholderText="Select date"
                                                                                 // minDate={currentDate}
 
@@ -2136,7 +2138,7 @@ const WebinarRegistration = () => {
                                                                                   : "dynamic_" +
                                                                                   dynamicFieldNo
                                                                                   }`}
-                                                                                className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                                className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                                                 options={
                                                                                   extItem?.label?.includes(
                                                                                     "country"
@@ -2181,7 +2183,7 @@ const WebinarRegistration = () => {
                                                                               </label>
 
                                                                               <textarea
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 name={`${extItem?.name
                                                                                   ? extItem?.name
                                                                                   : "dynamic_" +
@@ -2287,7 +2289,7 @@ const WebinarRegistration = () => {
                                                           key={index}
                                                         >
                                                           <Select
-                                                            className="dropdown-basic-button split-button-dropup webinar-select"
+                                                            className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                             name={`${data?.name
                                                               ? data?.name
                                                               : "dynamic_" +
@@ -2316,6 +2318,7 @@ const WebinarRegistration = () => {
                                                             }
                                                             placeholder={data?.placeholder ? data?.placeholder : `Select`}
                                                             isDisabled={true}
+                                                            readOnly={true}
                                                           />
                                                         </div>
                                                       ) : data?.inputType ==
@@ -2325,7 +2328,7 @@ const WebinarRegistration = () => {
                                                           key={index}
                                                         >
                                                           <textarea
-                                                            className="form-control"
+                                                            className="form-control disabled"
                                                             name={`${data?.name
                                                               ? data?.name
                                                               : "dynamic_" +
@@ -2347,7 +2350,7 @@ const WebinarRegistration = () => {
                                                             : "dynamic_" +
                                                             dynamicFieldNo
                                                             }`}
-                                                          className="form-control"
+                                                          className="form-control disabled"
                                                           type={data?.inputType}
                                                           placeholder={
                                                             data?.placeholder
@@ -2810,16 +2813,16 @@ const WebinarRegistration = () => {
                     </div>
                     </div> */}
 
-              <div className="webinar-popup">
-                <RegistrationPage
-                  prevData={{
-                    eventId: eventData?.event_id,
-                    companyId: eventData?.company_id,
-                    content: JSON.stringify(formData),
-                    eventCode: event_code,
-                  }}
-                />
-              </div>
+                    <div className="webinar-popup">
+                      <RegistrationPage
+                        prevData={{
+                          eventId: eventData?.event_id,
+                          companyId: eventData?.company_id,
+                          content: JSON.stringify(formData),
+                          eventCode: event_code,
+                        }}
+                      />
+                    </div>
                   </Col>
                 </Row>
               </div>
