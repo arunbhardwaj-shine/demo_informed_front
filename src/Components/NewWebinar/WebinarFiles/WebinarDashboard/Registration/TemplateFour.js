@@ -51,13 +51,13 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
 
   return (
     <>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
       <div className="wrapper eahad">
         <div className="octapharma_event" style={{ background: `${formData?.content?.backgroundColor}` }}>
           <div className="header">
             <div className="header-text">
               <h3>
-                An interactive online series of monthly patient cases presented
-                by Haematology leading experts
+                A monthly online series of interactive patient cases presented by leading experts in haematology
               </h3>
             </div>
           </div>
