@@ -329,7 +329,7 @@ const Event = () => {
               </div>
               {parms?.includes("eahad_2024") ? (
                   <div className="event_title">
-                  <h2 className="top-title">Write your question here!</h2>
+                  <h2 className="top-title">Type your question here!</h2>
                   </div>
                 ) : (
                   null

@@ -4871,6 +4871,13 @@ l .vwd .factor-season-left h2 {
   padding-left: 101px;
   margin:3px 0 0;
 }
+.eahad .footer-inner .col-md-4 {
+  padding-left: 0;
+}
+.eahad .footer-inner .footer-logo img {
+  max-width: 210px;
+  width: 100%;
+}
 .eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild li label {
   cursor: pointer;
 }
