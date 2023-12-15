@@ -744,7 +744,7 @@ const WebinarRegistration = () => {
                   value: e,
                 },
                 ["eventEndDate"]: {
-                  ...formData.eventDetails?.[fieldName],
+                  ...formData.eventDetails?.eventEndDate, 
                   value: e,
                 },
               },
