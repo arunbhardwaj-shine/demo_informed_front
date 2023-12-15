@@ -202,7 +202,6 @@ const WebinarRegistration = () => {
         ? JSON.parse(hadData?.raw_description)
         : {};
       setRawData(raw);
-      // console.log(hadData?.event_id , hadData?.company_id,"hadData?.event_id && hadData?.company_id");
       if (hadData?.event_id != undefined && hadData?.company_id != undefined) {
         setEventData({
           ...eventData,
@@ -280,7 +279,6 @@ const WebinarRegistration = () => {
           }
         }
         setTemplateList(templateListData);
-        // console.log(newFormData);
         setLogo(
           newFormData?.logoImageUrl
             ? newFormData?.logoImageUrl
@@ -326,7 +324,6 @@ const WebinarRegistration = () => {
           : { value: "", label: "" };
         setSelectedItem(selectedData);
         if (selectedData) {
-          // console.log(selectedData,'selectedData');
           setEventData({
             ...eventData,
             event_id: selectedData?.value,
@@ -539,7 +536,6 @@ const WebinarRegistration = () => {
   };
 
   const handleChange = (e, isSelectedName) => {
-    // console.log(isSelectedName)
 
     setIsFormChange(true);
     if (isSelectedName && !isSelectedName?.includes("eventDetails")) {
@@ -716,7 +712,6 @@ const WebinarRegistration = () => {
         }
       } else if (isSelectedName?.includes("eventDetails")) {
         const fieldName = isSelectedName.split("-")[1];
-        // console.log(fieldName);
         let isColor = e?.target?.name.includes("color");
         if (isColor) {
           setFormData({

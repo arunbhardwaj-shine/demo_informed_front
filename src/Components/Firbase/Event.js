@@ -329,7 +329,7 @@ const Event = () => {
               </div>
               {parms?.includes("eahad_2024") ? (
                   <div className="event_title">
-                  <h2 className="top-title">Write your question here!</h2>
+                  <h2 className="top-title">Type your question here!</h2>
                   </div>
                 ) : (
                   null
@@ -414,8 +414,8 @@ const Event = () => {
                    <div className="eahad-footer">
                       <img src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif" alt=""/>
                       <div className="footer-msg">
-                        <p>Visit <a href="https://onesource.octapharma.com">One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.</p>
-                        <p>To visit One Source click here: <a href="https://onesource.octapharma.com">https://onesource.octapharma.com</a></p>
+                        <p>Visit <a target="_blank" href="https://onesource.octapharma.com">One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.</p>
+                        <p>To visit One Source click here: <a target="_blank" href="https://onesource.octapharma.com">https://onesource.octapharma.com</a></p>
 <span>One Source platform is for healthcare professionals only.</span>
                       </div>
                    </div>

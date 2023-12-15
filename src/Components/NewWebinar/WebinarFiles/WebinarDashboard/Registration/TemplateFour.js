@@ -47,17 +47,17 @@ export default function TemplateFour({ children, formData }) {
 const convertedStartTime = convertTo12HourFormat(eventStartTime);
 const convertedEndTime = convertTo12HourFormat(eventEndTime);
 const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
-  console.log(eventDataSample,'===>eventData')
+
 
   return (
     <>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
       <div className="wrapper eahad">
         <div className="octapharma_event" style={{ background: `${formData?.content?.backgroundColor}` }}>
           <div className="header">
             <div className="header-text">
               <h3>
-                An interactive online series of monthly patient cases presented
-                by Haematology leading experts
+                A monthly online series of interactive patient cases presented by leading experts in haematology
               </h3>
             </div>
           </div>
@@ -158,7 +158,8 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                 <Col md={4}>
                   <div className="footer-logo">
                     <img
-                      src={path_image + "one_source_blue.svg"}
+                      // src={path_image + "one_source_blue.svg"}
+                      src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
                       alt="Logo image"
                     />
                   </div>
