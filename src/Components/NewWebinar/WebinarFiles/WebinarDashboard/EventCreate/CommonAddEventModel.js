@@ -22,7 +22,7 @@ const CommonAddEventModel = ({
   const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [timeHours, setTimeHours] = useState([
-    { label: "Select", value: "Select" },
+    { label: "Hour", value: "Hour" },
     { label: "00 ", value: "00" },
     { label: "01 ", value: "01" },
     { label: "02 ", value: "02" },
@@ -49,7 +49,7 @@ const CommonAddEventModel = ({
     { label: "23 ", value: "23" },
   ]);
   const [timeMinutes, setTimeMinutes] = useState([
-    { label: "Select", value: "Select" },
+    { label: "Min", value: "Min" },
     { label: "00 ", value: "00" },
     { label: "05 ", value: "05" },
     { label: "10 ", value: "10" },
@@ -63,7 +63,6 @@ const CommonAddEventModel = ({
     { label: "50 ", value: "50" },
     { label: "55 ", value: "55" },
   ]);
-
   const [error, setError] = useState({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [countryTimezone, setCountryTimezone] = useState([]);
@@ -77,6 +76,10 @@ const CommonAddEventModel = ({
     { label: "Live", value: "Live" },
     { label: "Virtual", value: "Virtual" },
   ]);
+  const [eventOptions, setEventOptions] = useState([
+    { label: "Webinar", value: "Webinar" },
+    { label: "Conference", value: "Conference" }
+  ])
   const [eventInputs, setEventInputs] = useState({
     dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     dateEnd: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
@@ -215,6 +218,7 @@ const CommonAddEventModel = ({
   const saveClicked = async (e) => {
     try {
       const error = EventModelValidation(eventInputs);
+      console.log("error--->", error)
       if (Object.keys(error)?.length) {
         // toast.error(error[Object.keys(error)[0]]);
         setError(error);
@@ -237,6 +241,7 @@ const CommonAddEventModel = ({
           title: eventInputs?.title,
           location: eventInputs?.location,
           type: eventInputs?.type ? eventInputs?.type : "",
+          event_type: eventInputs?.event_type ? eventInputs?.event_type : "",
           timezone: eventInputs?.timezone,
           countryTimezone: eventInputs?.country_timezone,
           isClientStream: eventInputs?.is_client_stream == "Yes" ? 1 : 0,
@@ -367,6 +372,50 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
+
+                          <div className="col-12 col-md-12">
+                            <div className="form-group">
+                              <label htmlFor="">
+                                Event Type
+                              </label>
+
+                              <Select
+                                options={eventOptions}
+                                className={
+                                  error?.event_type
+                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                }
+                                placeholder="Select event type"
+                                onChange={(e) =>
+                                  handleChange(e?.value, "event_type")
+                                }
+                                value={
+                                  eventOptions
+                                    ? eventOptions.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.event_type
+                                    ) != -1
+                                      ? eventOptions[
+                                      eventOptions.findIndex(
+                                        (item) =>
+                                          item?.value ==
+                                          eventInputs?.event_type
+                                      )
+                                      ]
+                                      : ""
+                                    : ""
+                                }
+                                isClearable
+                              />
+                              {error?.event_type ? (
+                                <div className="login-validation">
+                                  {error?.event_type}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
                           <div className="col-12 col-md-12 speaker-name">
                             <div className="row">
                               <div className="col-12 col-md-6">
@@ -389,7 +438,15 @@ const CommonAddEventModel = ({
                                         ? eventInputs?.speaker_name
                                         : ""
                                     }
+
                                   />
+                                  <span
+                                    className="add-choice"
+                                  // onClick={(e) => addNewSpeakerClicked(e, "speaker")}
+                                  >
+                                    Add speaker
+                                    <img src={path_image + "add-choice.svg"} alt="" />
+                                  </span>
                                   {error?.speaker_name ? (
                                     <div className="login-validation">
                                       {error?.speaker_name}
@@ -397,7 +454,8 @@ const CommonAddEventModel = ({
                                   ) : null}
                                 </div>
                               </div>
-                              <div className="col-12 col-md-6">
+
+                              {/* <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Speaker's Email <span> *</span>{" "}
@@ -424,14 +482,14 @@ const CommonAddEventModel = ({
                                     </div>
                                   ) : null}
                                 </div>
-                              </div>
+                              </div> */}
                               {/* <div className="col-12 col-md-12">
                                   <span class="add-choice">Add Speaker<img src={path_image+"add-choice.svg"} alt=""/></span>
                                 </div> */}
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-12">
+                          {/* <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 Meeting Type <span> *</span>
@@ -473,7 +531,7 @@ const CommonAddEventModel = ({
                                 </div>
                               ) : null}
                             </div>
-                          </div>
+                          </div> */}
 
                           <div className="col-12 col-md-12">
                             <div className="form-group">
@@ -513,7 +571,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-12">
+                          {/* <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 Country Timezone <span> *</span>
@@ -553,7 +611,7 @@ const CommonAddEventModel = ({
                                 </div>
                               ) : null}
                             </div>
-                          </div>
+                          </div> */}
 
                           <div className="col-12 col-md-12">
                             <div className="form-group">
@@ -598,7 +656,7 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
-                          <div className="col-12 col-md-12">
+                          {/* <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 {" "}
@@ -638,7 +696,7 @@ const CommonAddEventModel = ({
                                 </div>
                               ) : null}
                             </div>
-                          </div>
+                          </div> */}
                           {eventInputs?.is_client_stream == "Yes" ? (
                             <div className="col-12 col-md-12">
                               <div className="form-group">
@@ -759,6 +817,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "dateStartHour")
                                 }
+                                placeholder="Hour"
                                 value={
                                   timeHours?.findIndex(
                                     (item) =>
@@ -786,6 +845,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "dateStartMin")
                                 }
+                                placeholder="Min"
                                 value={
                                   timeMinutes?.findIndex(
                                     (item) =>
@@ -907,7 +967,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-12">
+                          {/* <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">Event Description</label>
                               <textarea
@@ -923,7 +983,7 @@ const CommonAddEventModel = ({
                                 }
                               />
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
 
@@ -971,6 +1031,7 @@ const CommonAddEventModel = ({
           </button>
         </div>
       </Modal>
+
     </>
   );
 };

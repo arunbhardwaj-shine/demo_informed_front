@@ -115,10 +115,13 @@ const RegistrationPage = ({ prevData }) => {
     prevData
       ? {
           labelColor: prevData?.content?.labelColor,
+          // typedTextColor:prevData?.content?.typedTextColor,
           background: prevData?.content?.backgroundColor,
           optionColor: prevData?.content?.optionColor,
         }
-      : { labelColor: "#fff000", background: "#000", optionColor: "#000" }
+      : { labelColor: "#fff000", background: "#000", optionColor: "#000",
+      // typedTextColor:"#fff000" 
+    }
   );
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -179,6 +182,7 @@ const RegistrationPage = ({ prevData }) => {
       setFormData(hadData);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
+        // typedTextColor: hadData?.content?.typedTextColor,
         background: hadData?.content?.backgroundColor,
         optionColor: hadData?.content?.optionColor,
       });
@@ -1671,6 +1675,9 @@ const FormField4 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
+      {/* <div  style={{
+          color: pageColors?.typedTextColor,
+        }}>{fieldInput}</div> */}
       <div className="help-block">{formErrors[label]}</div>
     </div>
   );
