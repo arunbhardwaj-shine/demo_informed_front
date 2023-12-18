@@ -59,6 +59,7 @@ const WebinarRegistration = () => {
   const [showExtensionModal, setExtensionModal] = useState(false);
   const [isFormChange, setIsFormChange] = useState(false);
   const [isDataSaved, setIsDataSaved] = useState(true);
+  const [save, setSave] = useState()
   const [isSavedClicked, setIsSavedClicked] = useState(false);
   const [rawData, setRawData] = useState({});
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
@@ -168,7 +169,7 @@ const WebinarRegistration = () => {
   const [dropDownData, setDropDownData] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
   const [showModalPreview, setShowModalPreview] = useState(false);
- 
+
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
@@ -191,6 +192,7 @@ const WebinarRegistration = () => {
     getAllEvents();
 
   }, []);
+
 
   const getWebinarData = async (event_code) => {
     try {
@@ -647,7 +649,7 @@ const WebinarRegistration = () => {
         } else if (isSelectedName == "onesource_consent") {
           let newObj = {
             // label: isSelectedName,
-            label: "I also consent to: " ,
+            label: "I also consent to: ",
             name: "onesource_consent",
 
             inputType: "checkbox",
@@ -664,11 +666,11 @@ const WebinarRegistration = () => {
               {
                 optionLabel: "Receive invitations to future events.",
                 checked: ''
-              }, 
-               {
+              },
+              {
                 optionLabel: "Both of the options above.",
                 checked: ''
-              },  
+              },
               {
                 optionLabel: "None of the options above.",
                 checked: ''
@@ -819,6 +821,7 @@ const WebinarRegistration = () => {
   // };
 
   const saveClicked = async (e) => {
+
     if (e) {
       e.preventDefault();
     }
@@ -867,6 +870,7 @@ const WebinarRegistration = () => {
       // setFile("");
       // setFoot("");
       // setLogo("");
+      setSave(response)
       setIsDataSaved(true);
 
     } catch (err) {
@@ -1468,7 +1472,7 @@ const WebinarRegistration = () => {
                               }
                               onChange={(e) => handleChange(e, "consent")}
                             />
-<Form.Check
+                            <Form.Check
                               className="webinar-checkbox"
                               inline
                               label="Onesource Consent"
@@ -2861,16 +2865,18 @@ const WebinarRegistration = () => {
                     </div> */}
 
                     <div className="webinar-popup">
-
                       <RegistrationPage
                         prevData={{
                           eventId: eventData?.event_id,
                           companyId: eventData?.company_id,
                           content: JSON.stringify(formData),
                           eventCode: event_code,
+                          isDataSaved: save
+
                         }}
+
                       />
-                     
+
                     </div>
 
                   </Col>
@@ -2956,7 +2962,10 @@ const WebinarRegistration = () => {
                     companyId: eventData?.company_id,
                     content: JSON.stringify(formData),
                     eventCode: event_code,
+                    isDataSaved: save
+
                   }}
+
                 />
               </div>
             </>

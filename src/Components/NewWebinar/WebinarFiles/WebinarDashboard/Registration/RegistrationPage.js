@@ -125,7 +125,7 @@ const RegistrationPage = ({ prevData }) => {
 
   useEffect(() => {
     EventDataFun();
-  }, [prevData?.content]);
+  }, [prevData?.isDataSaved]);
 
 
 
