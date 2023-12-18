@@ -14,7 +14,7 @@ import axios from "axios";
 import TemplateFour from "./TemplateFour";
 import { Modal } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
-
+import { options } from "@amcharts/amcharts4/core";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -41,11 +41,10 @@ const userData = {
   "Preferred return flight date": "air_return_date",
   "I consent to:": "consent",
 };
-let icons={
-  Email:"form-mail",
-  Name:"form-user",
-
-}
+let icons = {
+  Email: "form-mail",
+  Name: "form-user",
+};
 const stateOptions = [
   { label: "Alabama", value: "Alabama" },
   { label: "Alaska", value: "Alaska" },
@@ -116,16 +115,22 @@ const RegistrationPage = ({ prevData }) => {
     prevData
       ? {
           labelColor: prevData?.content?.labelColor,
+          // typedTextColor:prevData?.content?.typedTextColor,
           background: prevData?.content?.backgroundColor,
           optionColor: prevData?.content?.optionColor,
         }
-      : { labelColor: "#fff000", background: "#000",optionColor:"#000" }
+      : { labelColor: "#fff000", background: "#000", optionColor: "#000",
+      // typedTextColor:"#fff000" 
+    }
   );
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+
   useEffect(() => {
     EventDataFun();
-  }, []);
+  }, [prevData?.isDataSaved]);
+
+
 
   const EventDataFun = async () => {
     try {
@@ -138,35 +143,36 @@ const RegistrationPage = ({ prevData }) => {
       );
       let hadData = {};
       if (!prevData?.content) {
-        if(response?.data?.data?.content ){
+        if (response?.data?.data?.content) {
           hadData = {
             ...response?.data?.data,
             content: JSON.parse(response?.data?.data?.content),
             raw_description: JSON.parse(response?.data?.data?.raw_description),
           };
         }
-      
       } else {
-       let raw=response?.data?.data?.raw_description? JSON.parse(response?.data?.data?.raw_description):{
-        "title": "",
-        "location": "",
-        "type": "",
-        "timezone": "",
-        "countryTimezone": "",
-        "isClientStream": 0,
-        "clientStreamUrl": "",
-        "dateStart": "",
-        "dateStartHour": "",
-        "dateStartMin": "",
-        "dateEndHour": "",
-        "dateEndMin": "",
-        "eventCode": "",
-        "description": "",
-        "speaker_name": "",
-        "speaker_email": "",
-        "meeting_type": ""
-      }
-      
+        let raw = response?.data?.data?.raw_description
+          ? JSON.parse(response?.data?.data?.raw_description)
+          : {
+              title: "",
+              location: "",
+              type: "",
+              timezone: "",
+              countryTimezone: "",
+              isClientStream: 0,
+              clientStreamUrl: "",
+              dateStart: "",
+              dateStartHour: "",
+              dateStartMin: "",
+              dateEndHour: "",
+              dateEndMin: "",
+              eventCode: "",
+              description: "",
+              speaker_name: "",
+              speaker_email: "",
+              meeting_type: "",
+            };
+
         hadData = {
           ...response?.data?.data,
           content: JSON.parse(prevData?.content),
@@ -176,6 +182,7 @@ const RegistrationPage = ({ prevData }) => {
       setFormData(hadData);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
+        // typedTextColor: hadData?.content?.typedTextColor,
         background: hadData?.content?.backgroundColor,
         optionColor: hadData?.content?.optionColor,
       });
@@ -187,6 +194,7 @@ const RegistrationPage = ({ prevData }) => {
   };
 
   const handleSubmit = async (e) => {
+    console.log(formFieldData, "formDataformDataformDataformDataformData");
     e.preventDefault();
     const isValid = ValidateFormData();
 
@@ -204,13 +212,12 @@ const RegistrationPage = ({ prevData }) => {
             companyEmail: raw?.speaker_email,
             virtual_or_live: raw?.meeting_type,
             websiteFolder: "new_webinar",
-            consent:formFieldData.consent.join('~') || ""
+            consent: formFieldData.consent.join("~") || "",
           }
         );
         if (response?.data?.status === 1) {
           setModalIsOpen(true);
-        }  else {
-         
+        } else {
           toast.error(`${response?.data?.message}`, {
             position: "top-right",
             autoClose: 5000,
@@ -219,7 +226,7 @@ const RegistrationPage = ({ prevData }) => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            });
+          });
         }
       } catch (error) {
         console.error("Error submitting data:", error);
@@ -235,7 +242,7 @@ const RegistrationPage = ({ prevData }) => {
     const errors = {};
 
     formData?.content?.body?.forEach((form) => {
-      const label =  form?.name?.replace(/ /g, "_");
+      const label = form?.name?.replace(/ /g, "_");
       const fieldValue = formFieldData[label];
 
       if (form.required === "yes" && !fieldValue) {
@@ -253,7 +260,7 @@ const RegistrationPage = ({ prevData }) => {
         }
       }
     });
-console.log(errors);
+    console.log(errors);
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -300,24 +307,24 @@ console.log(errors);
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                <h2 style={{
-                    color: formData?.content?.eventDetails?.pageTitle?.color,
-
-                  }}
-                  dangerouslySetInnerHTML={{
-                    __html: formData?.content?.eventDetails?.pageTitle?.value
-                  }}
+                  <h2
+                    style={{
+                      color: formData?.content?.eventDetails?.pageTitle?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.pageTitle?.value,
+                    }}
                   />
-                    {/* {formData?.content?.eventDetails?.pageTitle?.value}</h2> */}
-                  <h3 style={{
-                    color: formData?.content?.eventDetails?.bodyText?.color,
-
-                  }}
-                  dangerouslySetInnerHTML={{
-                    __html: formData?.content?.eventDetails?.bodyText?.value
-                  }}
+                  {/* {formData?.content?.eventDetails?.pageTitle?.value}</h2> */}
+                  <h3
+                    style={{
+                      color: formData?.content?.eventDetails?.bodyText?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.bodyText?.value,
+                    }}
                   />
-                     {/* {formData?.content?.eventDetails?.bodyText?.value}</h3> */}
+                  {/* {formData?.content?.eventDetails?.bodyText?.value}</h3> */}
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -335,11 +342,20 @@ console.log(errors);
                     />
                   ))}
                   {!prevData && (
-                    <button type="submit" className="btn btn-primary" id="submit_registration">Submit</button>
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      id="submit_registration"
+                    >
+                      Submit
+                    </button>
                   )}
                 </div>
                 <div className="footer-sec">
-                  <span>* This consent is mandatory in order to register for the event.</span>
+                  <span>
+                    * This consent is mandatory in order to register for the
+                    event.
+                  </span>
                 </div>
               </div>
             </form>
@@ -370,28 +386,31 @@ console.log(errors);
         <button type="submit">Login</button>
       </form>
     </div> */}
-      <section className="consent-form" >
+      <section className="consent-form">
         <div className="container">
-          <div
-            className="consent-form-inner"
-            
-          >
+          <div className="consent-form-inner">
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                  <h2 style={{
-                    color: formData?.content?.eventDetails?.pageTitle?.color,
-
-                  }}
-                  dangerouslySetInnerHTML={{
-                    __html: formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."
-                  }}
+                  <h2
+                    style={{
+                      color: formData?.content?.eventDetails?.pageTitle?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        formData?.content?.eventDetails?.pageTitle?.value ||
+                        "These meetings are for healthcare professionals only.",
+                    }}
                   />
-                    {/* {formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2> */}
-                  <h3 style={{
-                    color: formData?.content?.eventDetails?.bodyText?.color,
-
-                  }}> {formData?.content?.bodyText}</h3>
+                  {/* {formData?.content?.eventDetails?.pageTitle?.value || "These meetings are for healthcare professionals only."}</h2> */}
+                  <h3
+                    style={{
+                      color: formData?.content?.eventDetails?.bodyText?.color,
+                    }}
+                  >
+                    {" "}
+                    {formData?.content?.bodyText}
+                  </h3>
                 </div>
               </div>
               <div className="center-sided-inside">
@@ -431,7 +450,7 @@ console.log(errors);
       </section>
     </>
   );
-  // console.log(formData,"formData?.content?.formData?.content?.");
+
   const myContent3 = (
     <>
       {/* {prevData && (
@@ -463,35 +482,34 @@ console.log(errors);
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
                 <div className="col-sm-12 col-md-12 center-sided">
-                  <h2 style={{
-                    color: formData?.content?.eventDetails?.pageTitle?.color,
-
-                  }}
-                  dangerouslySetInnerHTML={{
-                    __html: formData?.content?.eventDetails?.pageTitle?.value
-                  }}
+                  <h2
+                    style={{
+                      color: formData?.content?.eventDetails?.pageTitle?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.pageTitle?.value,
+                    }}
                   >
                     {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
                   </h2>
 
-                  <h3  style={{
-                    color: formData?.content?.eventDetails?.bodyText?.color,
-                    
-                  }}
-                  dangerouslySetInnerHTML={{
-                    __html: formData?.content?.eventDetails?.bodyText?.value
-                  }}
-                  > 
-                  {/* {formData?.content?.eventDetails?.bodyText?.value} */}
-                  
+                  <h3
+                    style={{
+                      color: formData?.content?.eventDetails?.bodyText?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.bodyText?.value,
+                    }}
+                  >
+                    {/* {formData?.content?.eventDetails?.bodyText?.value} */}
                   </h3>
                 </div>
               </div>
               <div className="center-sided-inside">
                 <div className="row">
-                {formData?.content?.body?.map((form, index) => (
+                  {formData?.content?.body?.map((form, index) => (
                     <FormField3
-                      key={`${form.label}_${index}`} 
+                      key={`${form.label}_${index}`}
                       form={form}
                       formFieldData={formFieldData}
                       setFormFieldData={setFormFieldData}
@@ -547,9 +565,9 @@ console.log(errors);
               </div> */}
               <div className="center-sided-inside">
                 <div className="row">
-                {formData?.content?.body?.map((form, index) => (
+                  {formData?.content?.body?.map((form, index) => (
                     <FormField4
-                      key={`${form.label}_${index}`} 
+                      key={`${form.label}_${index}`}
                       form={form}
                       formFieldData={formFieldData}
                       setFormFieldData={setFormFieldData}
@@ -582,7 +600,7 @@ console.log(errors);
       </section>
     </>
   );
-  
+
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -615,9 +633,9 @@ console.log(errors);
         <TemplateThree formData={formData}>{myContent3}</TemplateThree>
       )}
 
-       {formData?.content?.templateId === 4 && (
+      {formData?.content?.templateId === 4 && (
         <TemplateFour formData={formData}>{myContent4}</TemplateFour>
-      )} 
+      )}
 
       <Modal
         className="modal send-confirm"
@@ -641,15 +659,15 @@ console.log(errors);
             ) : (
               <h4>Thank you for registering!</h4>
             )}
-            
+
             <div className="modal-buttons">
               <button
                 type="button"
                 className="btn btn-primary btn-bordered"
                 onClick={() => {
                   window.location.reload();
-                  setModalIsOpen(false)}
-                }
+                  setModalIsOpen(false);
+                }}
               >
                 Okay
               </button>
@@ -657,9 +675,8 @@ console.log(errors);
           </>
         </Modal.Body>
       </Modal>
-    
-    </> 
-  ); 
+    </>
+  );
 };
 
 export default RegistrationPage;
@@ -735,7 +752,7 @@ const FormField1 = ({
             ? stateOptions
             : options
         }
-        placeholder={form.placeholder? form.placeholder: 'Select'}
+        placeholder={form.placeholder ? form.placeholder : "Select"}
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
@@ -814,9 +831,7 @@ const FormField1 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                 
-                  
-                  
+
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -858,28 +873,34 @@ const FormField1 = ({
   } else {
     fieldInput = (
       <>
-      <input
-        type={form.inputType}
-        className="form-control"
-id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}        placeholder={form.placeholder}
-        onChange={(e) => handleFieldChange(e.target.value)}/>
+        <input
+          type={form.inputType}
+          className="form-control"
+          id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
+          placeholder={form.placeholder}
+          onChange={(e) => handleFieldChange(e.target.value)}
+        />
         <div className="field-icon">
-        <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
+          <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
         </div>
-        </>
-      
+      </>
     );
   }
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec" style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
-    {(form.inputType !="text" && form.inputType !="email")  ?( <label
-        style={{
-          color: pageColors?.labelColor,
-        }}
-      >
-        {form.label}
-        {isRequired ? "" : ""}
-      </label>):null}
+    <div
+      className="col-sm-12 col-md-12 consent-form-list attend-sec"
+      style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
+    >
+      {form.inputType != "text" && form.inputType != "email" ? (
+        <label
+          style={{
+            color: pageColors?.labelColor,
+          }}
+        >
+          {form.label}
+          {isRequired ? "" : ""}
+        </label>
+      ) : null}
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
     </div>
@@ -895,10 +916,9 @@ const FormField2 = ({
   level,
   templateId,
 }) => {
-
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label =  form?.name?.replace(/ /g, "_");
+  const label = form?.name?.replace(/ /g, "_");
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
     if (form?.inputType === "datepicker") {
@@ -958,7 +978,7 @@ const FormField2 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
-        placeholder={form.placeholder? form.placeholder: 'Select'}
+        placeholder={form.placeholder ? form.placeholder : "Select"}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1075,33 +1095,43 @@ const FormField2 = ({
   } else {
     fieldInput = (
       <>
-      <input
-        type={form.inputType}
-        className="form-control"
-        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())} placeholder={form.label}
-        onChange={(e) => handleFieldChange(e.target.value)}/>
-      <div className="field-icon">
-        <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
-      </div>
+        <input
+          type={form.inputType}
+          className="form-control"
+          id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
+          placeholder={form.label}
+          onChange={(e) => handleFieldChange(e.target.value)}
+        />
+        <div className="field-icon">
+          <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
+        </div>
       </>
     );
   }
 
   return (
-    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")?"country":""}`} style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
-      {(form.inputType !="text" && form.inputType !="email")  ?
+    <div
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${
+        label?.includes("country") || label?.includes("Country")
+          ? "country"
+          : ""
+      }`}
+      style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
+    >
+      {form.inputType != "text" && form.inputType != "email" ? (
         <label
-        style={{
-          color: pageColors?.labelColor,
-        }}>
-        {form.label}
-        {
-          // isRequired ? "*" : ""
-      }
-      </label>:null
-      }
-      
-      {fieldInput} 
+          style={{
+            color: pageColors?.labelColor,
+          }}
+        >
+          {form.label}
+          {
+            // isRequired ? "*" : ""
+          }
+        </label>
+      ) : null}
+
+      {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
     </div>
   );
@@ -1115,7 +1145,6 @@ const FormField3 = ({
   level,
   templateId,
 }) => {
-
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
@@ -1181,7 +1210,7 @@ const FormField3 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
-        placeholder={form.placeholder? form.placeholder: 'Select'}
+        placeholder={form.placeholder ? form.placeholder : "Select"}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1204,9 +1233,6 @@ const FormField3 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-    
-    
-
               <input
                 type={form.inputType}
                 id={label + index}
@@ -1253,8 +1279,6 @@ const FormField3 = ({
         {form.option?.map((item, index) => (
           <>
             <li key={index}>
-
-
               <input
                 type={form.inputType}
                 id={label + index}
@@ -1262,8 +1286,7 @@ const FormField3 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-              
-                  
+
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -1307,7 +1330,7 @@ const FormField3 = ({
       <input
         type={form.inputType}
         className="form-control"
-        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}
+        id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
         placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
       />
@@ -1315,7 +1338,10 @@ const FormField3 = ({
   }
 
   return (
-    <div className="col-sm-12 col-md-12 consent-form-list attend-sec" style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
+    <div
+      className="col-sm-12 col-md-12 consent-form-list attend-sec"
+      style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
+    >
       <label
         style={{
           color: pageColors?.labelColor,
@@ -1341,22 +1367,124 @@ const FormField4 = ({
 }) => {
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
-  const label = form?.name?.replace(/ /g, "_"); 
-   const isConsentField = form?.label?.toLowerCase().includes('consent');
-   const consentFieldClass = isConsentField ? 'consent-feild' : '';
+  const label = form?.name?.replace(/ /g, "_");
+  const isConsentField = form?.label?.toLowerCase().includes("consent");
+  const consentFieldClass = isConsentField ? "consent-feild" : "";
 
   const handleFieldChange = (value, e = "") => {
+    // console.log("i am here ");
     const newData = { ...formFieldData };
 
     if (form?.inputType === "datepicker") {
       newData[label] = moment(value).format("YYYY-MM-DD");
     } else if (form?.inputType === "checkbox") {
       newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
-
       if (e.target.checked) {
-        newData[label] = [...newData[label], value];
+        if (label == "onesource_consent") {
+          let options = form?.option;
+
+          const checkboxes = document.querySelectorAll(
+            `input[name="${label}"]`
+          );
+          // console.dir(checkboxes,'checkboxes');
+          // console.log(e ,'checkboxes');
+
+          if (e.target.id == "onesource_consent0") {
+            checkboxes[0].checked = true;
+            checkboxes[2].checked = checkboxes[1].checked ? true : false;
+            checkboxes[3].checked = false;
+
+            newData[label] = [];
+            newData[label] = [ options[0]];
+            if (checkboxes[1].checked) {
+              newData[label] = [...newData[label], options[1]];
+              newData[label] = [...newData[label], options[2]];
+            }
+          } else if (e.target.id == "onesource_consent1") {
+            checkboxes[1].checked = true;
+            newData[label] = [];
+            newData[label] = [ options[1]];
+            if (checkboxes[0].checked) {
+              newData[label] = [...newData[label], options[0]];
+              newData[label] = [...newData[label], options[2]];
+            }
+            checkboxes[2].checked = checkboxes[0].checked ? true : false;
+            checkboxes[3].checked = false;
+          } else if (e.target.id == "onesource_consent2") {
+            checkboxes[0].checked = true;
+            checkboxes[1].checked = true;
+            checkboxes[2].checked = true;
+            checkboxes[3].checked = false;
+            newData[label] = [];
+            newData[label] = [...newData[label], options[0]];
+            newData[label] = [...newData[label], options[1]];
+            newData[label] = [...newData[label], options[2]];
+          } else if (e.target.id == "onesource_consent3") {
+            checkboxes[0].checked = false;
+            checkboxes[1].checked = false;
+            checkboxes[2].checked = false;
+            checkboxes[3].checked = true;
+            newData[label] = [options[3]];
+          }
+
+          // checkbox.checked = !checkbox.checked;
+        } else {
+          newData[label] = [...newData[label], value];
+        }
       } else {
+        if (label == "onesource_consent") {
+
+        let options = form?.option;
+
+        const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
+        // console.dir(checkboxes,'checkboxes');
+        // console.log(e ,'checkboxes');
+        for (const checkbox of checkboxes) {
+          if (e.target.id == "onesource_consent0") {
+            checkboxes[0].checked = false;
+            // checkboxes[1].checked = false;
+            checkboxes[2].checked = false;
+            checkboxes[3].checked = false;
+            newData[label] = [];
+            if (checkboxes[1].checked) {
+              newData[label] = [ options[1]];
+            }
+
+
+          } else if (e.target.id == "onesource_consent1") {
+            // checkboxes[0].checked = false;
+            checkboxes[1].checked = false;
+            checkboxes[2].checked = false;
+            checkboxes[3].checked = false;
+            newData[label] = [];
+            newData[label] = [];
+            if (checkboxes[0].checked) {
+              newData[label] = [ options[0]];
+            }
+
+            
+          } else if (e.target.id == "onesource_consent2") {
+            checkboxes[0].checked = false;
+            checkboxes[1].checked = false;
+            checkboxes[2].checked = false;
+            checkboxes[3].checked = false;
+            newData[label] = [];
+          } else if (e.target.id == "onesource_consent3") {
+            checkboxes[0].checked = false;
+            checkboxes[1].checked = false;
+            checkboxes[2].checked = false;
+            checkboxes[3].checked = false;
+            newData[label] = [];
+
+            newData[label] = [];
+          }
+          // checkbox.checked = !checkbox.checked;
+        }
+      }
+      else{
+
         newData[label] = newData[label].filter((item) => item !== value);
+      } 
       }
     } else {
       newData[label] = value;
@@ -1406,7 +1534,7 @@ const FormField4 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
-        placeholder={form.placeholder? form.placeholder: 'Select'}
+        placeholder={form.placeholder ? form.placeholder : "Select"}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1482,7 +1610,7 @@ const FormField4 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
-                  
+
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -1526,7 +1654,7 @@ const FormField4 = ({
       <input
         type={form.inputType}
         className="form-control"
-        id={label. replace(/[A-Z]/g, m => "-" + m. toLowerCase())}
+        id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
         placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
       />
@@ -1534,7 +1662,10 @@ const FormField4 = ({
   }
 
   return (
-    <div className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`} style={{marginBottom:`${form?.addSpace?form?.addSpace:10}px`}}>
+    <div
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`}
+      style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
+    >
       <label
         style={{
           color: pageColors?.labelColor,
@@ -1544,6 +1675,9 @@ const FormField4 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
+      {/* <div  style={{
+          color: pageColors?.typedTextColor,
+        }}>{fieldInput}</div> */}
       <div className="help-block">{formErrors[label]}</div>
     </div>
   );

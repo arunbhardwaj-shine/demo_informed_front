@@ -37,27 +37,37 @@ export default function TemplateFour({ children, formData }) {
     )}`;
   }
 
-  const eventStartTime = eventDataSample?.eventStartTime?.value ?? '00:00';
-  const eventEndTime = eventDataSample?.eventEndTime?.value ?? '00:00';
+  const eventStartTime = eventDataSample?.eventStartTime?.value ?? "00:00";
+  const eventEndTime = eventDataSample?.eventEndTime?.value ?? "00:00";
   function convertTo12HourFormat(time) {
-    const [hours, minutes] = time.split(':');
+    const [hours, minutes] = time.split(":");
     const formattedTime = new Date(`2000-01-01T${time}:00`);
-    return formattedTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-}
-const convertedStartTime = convertTo12HourFormat(eventStartTime);
-const convertedEndTime = convertTo12HourFormat(eventEndTime);
-const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
-  console.log(eventDataSample,'===>eventData')
+    return formattedTime.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+  }
+  const convertedStartTime = convertTo12HourFormat(eventStartTime);
+  const convertedEndTime = convertTo12HourFormat(eventEndTime);
+  const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
 
   return (
     <>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+      />
       <div className="wrapper eahad">
-        <div className="octapharma_event" style={{ background: `${formData?.content?.backgroundColor}` }}>
+        <div
+          className="octapharma_event"
+          style={{ background: `${formData?.content?.backgroundColor}` }}
+        >
           <div className="header">
             <div className="header-text">
               <h3>
-                An interactive online series of monthly patient cases presented
-                by Haematology leading experts
+                A monthly online series of interactive patient cases presented
+                by leading experts in haematology
               </h3>
             </div>
           </div>
@@ -67,8 +77,8 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                 color: formData?.content?.eventDetails?.pageTitle?.color,
               }}
               dangerouslySetInnerHTML={{
-                __html: formData?.content?.eventDetails?.pageTitle?.value
-              }} 
+                __html: formData?.content?.eventDetails?.pageTitle?.value,
+              }}
             >
               {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
             </h4>
@@ -83,34 +93,41 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
 
             <h3
               style={{
-                color: formData?.content?.eventDetails?.SubHeading?.color,
+                color: formData?.content?.eventDetails?.SubTitle?.color,
               }}
               dangerouslySetInnerHTML={{
-                __html: formData?.content?.eventDetails?.SubHeading?.value
-              }} 
+                __html: formData?.content?.eventDetails?.SubTitle?.value,
+              }}
             >
               {/* {formData?.content?.eventDetails?.SubHeading?.value} */}
             </h3>
 
             <div className="speaker">
-            <h4
-            className="mb-4"
-            style={{
-              // textTransform: "capitalize",
-              color: eventDataSample?.speakerName?.color,
-            }}
-            dangerouslySetInnerHTML={{
-              __html: eventDataSample?.speakerName?.value
-                ? `${eventDataSample.speakerName.value}${formData?.content?.eventDetails?.Specialization?.value ? ',' : ''}`
-                : `${eventData?.speaker_name}${formData?.content?.eventDetails?.Specialization?.value ? ',' : ''}`
-            }}
-          >
-            {/* by {eventDataSample?.speakerName?.value
+              <h4
+                className="mb-4"
+                style={{
+                  // textTransform: "capitalize",
+                  color: eventDataSample?.speakerName?.color,
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: eventDataSample?.speakerName?.value
+                    ? `${eventDataSample.speakerName.value}${
+                        formData?.content?.eventDetails?.Specialization?.value
+                          ? ","
+                          : ""
+                      }`
+                    : `${eventData?.speaker_name}${
+                        formData?.content?.eventDetails?.Specialization?.value
+                          ? ","
+                          : ""
+                      }`,
+                }}
+              >
+                {/* by {eventDataSample?.speakerName?.value
               ? eventDataSample?.speakerName?.value
               : eventData?.speaker_name}
             {formData?.content?.eventDetails?.Specialization?.value && ","} */}
-          </h4>
-
+              </h4>
 
               <h4
                 style={{
@@ -118,7 +135,8 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                 }}
                 className="speaker-specialization"
                 dangerouslySetInnerHTML={{
-                  __html: formData?.content?.eventDetails?.Specialization?.value
+                  __html:
+                    formData?.content?.eventDetails?.Specialization?.value,
                 }}
               >
                 {/* {formData?.content?.eventDetails?.Specialization?.value} */}
@@ -131,11 +149,44 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
 
             <h4>
               {/* {formData?.content?.eventDetails?.eventStartTime?.value} */}
-              {timeRange}
-               (
-              {eventData?.countryTimezone}) online in One Source
+              {timeRange}({eventData?.countryTimezone}) online in One Source
             </h4>
 
+            {/* <p class="speaker-specialization">
+              If you already have a One Source account you can register to the
+              clinical practice session using the same login details.
+            </p> */}
+
+            <p class="speaker-specialization"
+            dangerouslySetInnerHTML={{
+              __html:
+                formData?.content?.eventDetails?.SubHeading?.value,
+            }}/>
+
+            {/* <p class="speaker-specialization">
+              If you do not yet have a One Source account, by registering to a
+              Clinical Practice session an automatic account will be generated
+              and you will gain access to this content in accordance with the
+              data privacy policy of{" "}
+              <a href="/octapharma-privacy" target="_blank">
+                Octapharma AG
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://albert.docintel.app/privacy_policy/"
+                target="_blank"
+              >
+                Docintel.app
+              </a>{" "}
+              operating this page.
+            </p> */}
+
+            <p class="speaker-specialization"
+            dangerouslySetInnerHTML={{
+              __html:
+                formData?.content?.eventDetails?.SubText?.value,
+            }}/>
+            
             <div className="octapharma_event_form">{children}</div>
           </div>
           <div className="footer">
@@ -158,7 +209,8 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                 <Col md={4}>
                   <div className="footer-logo">
                     <img
-                      src={path_image + "one_source_blue.svg"}
+                      // src={path_image + "one_source_blue.svg"}
+                      src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
                       alt="Logo image"
                     />
                   </div>

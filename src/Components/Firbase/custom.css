@@ -49,24 +49,28 @@ body {
   min-height: 170px;
   position: relative;
 }
+
 .eahad_2024 .question-block .head-sec {
   background: linear-gradient(135deg, #ff8848 0%, #ff4f69 100%);
   border-bottom: none;
   width: 100%;
   justify-content: center;
-  position:relative;
+  position: relative;
 }
+
 .eahad_2024 .question-block .head-sec .right-side-img img {
   position: absolute;
   bottom: 0;
   max-height: 150px;
   right: 10px;
 }
+
 .eahad_2024 .question-block .head-sec img {
   max-width: 300px;
   margin: 0 auto;
   display: block;
 }
+
 .question-block .head-sec h2.top-title {
   font-weight: 700;
   font-size: 30px;
@@ -74,19 +78,23 @@ body {
   margin-top: 0px;
   color: #233c7a;
 }
+
 .eahad_2024 .question-block .head-sec h2.top-title {
   color: #ffffff;
 }
+
 .question-block-form .form-control {
   border: 1px solid #64b8b0;
   border-radius: 4px;
   margin-bottom: 10px;
   resize: none;
 }
+
 .eahad_2024 .question-block-form .form-control {
   border: 1px solid #0053a0;
   box-shadow: none;
 }
+
 .question-block-form input.btn {
   background: #64b8b0;
   border: none;
@@ -103,27 +111,34 @@ body {
 .question-block-form input.btn:hover {
   background: #25ab9e;
 }
+
 .eahad_2024 .question-block-form input.btn {
   background: linear-gradient(135deg, #ff8848 0%, #ff4f69 100%);
 }
+
 .eahad_2024 .question-block-form input.btn:hover {
   background: linear-gradient(135deg, #ff4f69 0%, #ff8848 100%);
 }
+
 .question-block .header-logo {
   text-align: center;
   margin-bottom: 30px;
 }
+
 .eahad_2024 #pollModel .modal-footer button,
 .eahad_2024 #pollModel1 .modal-footer button {
   background: #0053a0;
 }
-.session-modal.eahad_2024 #pollModel .modal-header{
+
+.session-modal.eahad_2024 #pollModel .modal-header {
   background: rgb(0 83 160 / 41%);
 }
+
 .eahad_2024 #pollModel .modal-body .event_sub_heading,
 .eahad_2024 #pollModel1 .modal-body .event_sub_heading {
   color: #0053a0;
 }
+
 /* .question-block .under-spotlight {
   margin-bottom: 20px;
   position: absolute;
@@ -136,10 +151,12 @@ body {
   outline: none; */
   border-color: #ff8848;
 }
+
 .eahad_2024 #pollModel .modal-header,
 .eahad_2024 #pollModel1 .modal-header {
   background: rgb(0 83 160 / 41%);
 }
+
 .question-block form #error {
   font-size: 14px;
   position: relative;
@@ -202,9 +219,11 @@ body {
 .question-block .log-inner {
   margin: -25px -30px 40px;
 }
+
 .eahad_2024 .question-block .log-inner {
   margin: -25px -30px 10px;
 }
+
 .eahad_2024 .event_title h2.top-title {
   text-align: center;
   font-weight: 700;
@@ -213,6 +232,7 @@ body {
   margin-top: 15px;
   color: #004b95;
 }
+
 .eahad_2024 .eahad-footer {
   display: flex;
   justify-content: space-between;
@@ -227,26 +247,32 @@ body {
   align-items: center;
 }
 
-.eahad_2024 .footer-msg p, .eahad_2024 .footer-msg p a {
+.eahad_2024 .footer-msg p,
+.eahad_2024 .footer-msg p a {
   font-size: 11px;
   color: #004b95;
   margin: 0 0 6px;
 }
+
 .eahad_2024 .footer-msg a {
-text-decoration: underline;
+  text-decoration: underline;
 }
+
 .eahad_2024 .footer-msg span {
   font-size: 10px;
   color: #004b95;
   display: block;
 }
+
 .eahad_2024 .question-block .copy-right-bottom-text {
   padding: 0;
 }
+
 .eahad_2024 .eahad-footer .footer-msg {
   flex: 1 1;
   padding-left: 20px;
 }
+
 #pollModel .modal-footer button,
 #pollModel1 .modal-footer button {
   padding: 9px 10px;
@@ -304,6 +330,37 @@ p#totalCountText {
   .question-block .under-spotlight {
     margin-bottom: 20px;
   }
+
+  .eahad_2024 .question-block .header-logo {
+    margin-bottom: 15px;
+  }
+
+  .eahad_2024 .question-block .head-sec {
+    min-height: 130px;
+  }
+
+  .eahad_2024 .question-block .head-sec .right-side-img img {
+    max-height: 115px;
+  }
+
+  .eahad_2024 .event_title h2.top-title {
+    font-size: 25px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    line-height: 30px;
+  }
+
+  .eahad_2024 .eahad-footer {
+    margin-top: 12px;
+  }
+
+  .eahad_2024 .question-block-form textarea.form-control {
+    height: 100px;
+  }
+
+  .eahad_2024 .question-block .head-sec img {
+    max-width: 260px;
+  }
 }
 
 @media only screen and (max-width: 1365px) {
@@ -314,9 +371,30 @@ p#totalCountText {
   .question-block .head-sec h2.top-title {
     font-size: 26px;
   }
-
+.eahad_2024 .question-block .head-sec {
+  min-height: 110px;
+}
+.eahad_2024 .question-block .head-sec .right-side-img img {
+  max-height: 105px;
+}
+.eahad_2024 .question-block .head-sec img {
+  max-width: 240px;
+}
   .question-block .log-inner {
     margin: -25px -30px 19px;
+  }
+
+  .eahad_2024 .question-block-form textarea.form-control {
+    height: 80px;
+  }
+
+  .eahad_2024 .eahad-footer img {
+    flex: 0 0 180px;
+    max-width: 170px;
+  }
+
+  .eahad_2024 .question-block .header-logo img {
+    max-width: 240px;
   }
 }
 
@@ -324,7 +402,35 @@ p#totalCountText {
   .question-block .header-logo img {
     max-width: 180px;
   }
-
+.octa_events.eahad_2024 {
+  padding: 12px 0;
+}
+.eahad_2024 .question-block .header-logo img {
+  max-width: 190px;
+}
+.eahad_2024 .question-block .head-sec img {
+  max-width: 170px;
+}
+.eahad_2024 .question-block .head-sec .right-side-img img {
+  max-height: 90px;
+  right: 15px;
+}
+.eahad_2024 .event_title h2.top-title {
+  font-size: 20px;
+}
+.eahad_2024 .eahad-footer {
+  margin-top: 12px;
+  flex-direction: column;
+  align-items: center;
+}
+.eahad_2024 .eahad-footer .footer-msg {
+  padding-left: 0;
+}
+.eahad_2024 .eahad-footer img {
+  flex: 0 0 auto;
+  max-width: 200px;
+  align-items: center;
+}
   .question-block-form .form-control::-webkit-input-placeholder {
     font-size: 14px;
     opacity: 1;
