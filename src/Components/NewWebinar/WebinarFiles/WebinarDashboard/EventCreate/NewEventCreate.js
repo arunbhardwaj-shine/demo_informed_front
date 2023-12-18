@@ -34,6 +34,8 @@ const NewEventCreate = () => {
   const [isDataLength, setIsDataLength] = useState(0);
   const [deletestatus, setDeleteStatus] = useState(false);
   const [resetDataId, setResetDataId] = useState();
+  const [rawDescription, setRawDescription] = useState();
+
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
@@ -63,7 +65,7 @@ const NewEventCreate = () => {
       setWebinarDetail(response?.data?.data);
     } catch (err) {
       console.log("--err", err);
-    }
+    }  
   };
   const getDataFromApi = async (page, load = 0) => {
     try {
@@ -79,6 +81,9 @@ const NewEventCreate = () => {
 
       if (page == 1) {
         setTotalEvents(response?.data?.data?.totalPage);
+       let raw_description = response?.data?.data?.data.map((d)=>d?.raw_description?JSON.parse(d?.raw_description):{})
+      //  console.log(raw_description,"raw_descriptionraw_description");
+        setRawDescription(raw_description)
         setIsData(response?.data?.data?.data);
         setApiData(response?.data?.data?.data);
         if (
@@ -90,7 +95,8 @@ const NewEventCreate = () => {
         }
       } else {
         let newDataLength = isData?.length + response?.data?.data?.data?.length;
-
+        let  raw_description = response?.data?.data?.data.map((d)=>d?.raw_description?JSON.parse(d?.raw_description):{})
+        setRawDescription(raw_description)
         setIsData([...isData, ...response?.data?.data?.data]);
         setApiData([...apiData, ...response?.data?.data?.data]);
         if (totalEvents > newDataLength) {
@@ -99,7 +105,6 @@ const NewEventCreate = () => {
           setIsLoaded(false);
         }
       }
-
       setApiStatus(true);
     } catch (err) {
       console.log("--err", err);
@@ -107,7 +112,7 @@ const NewEventCreate = () => {
     } finally {
       setPageAll(false);
       loader("hide");
-    }
+    } 
   };
   const loadMoreClicked = () => {
     loader("show");
@@ -721,6 +726,11 @@ const NewEventCreate = () => {
                           <div className="email_box">
                             <div className="mail-box-content">
                               <div className="action_btn text-end">
+                              {differenceDays(item?.dateStart) == 0
+                                    ? "Event Live"
+                                    : differenceDays(item?.dateStart) > 0
+                                    ?"Coming Soon"
+                                    : "Has Ended"}
                                 <button
                                   className="btn-edit"
                                   onClick={(e) => {
@@ -759,6 +769,7 @@ const NewEventCreate = () => {
                                 </button>
                               </div>
                               <div className="event-title">{item?.title}</div>
+                              <div className="speaker-name">Speaker: {rawDescription[index]?.speaker_name?rawDescription[index]?.speaker_name:"N/A"}</div>
                               <div className="event-details d-flex justify-content-between">
                                 <div className="time-left">
                                   {differenceDays(item?.dateStart) == 0
@@ -766,7 +777,7 @@ const NewEventCreate = () => {
                                     : differenceDays(item?.dateStart) > 0
                                     ? differenceDays(item?.dateStart) +
                                       " Days Left"
-                                    : "Event Expire"}
+                                    : ""}
                                 </div>
                                 <div className="event-date">
                                   {formatDate(item?.dateStart)} |{" "}
@@ -776,6 +787,7 @@ const NewEventCreate = () => {
                                       : item?.dateStartMin
                                   } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
                                 </div>
+                                <div className="country-timezone event-date">{item?.country_timezone}</div>
                               </div>
 
                               {deletestatus ? (
