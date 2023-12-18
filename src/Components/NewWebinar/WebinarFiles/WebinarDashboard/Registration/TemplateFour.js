@@ -93,10 +93,10 @@ export default function TemplateFour({ children, formData }) {
 
             <h3
               style={{
-                color: formData?.content?.eventDetails?.SubTitle?.color,
+                color: formData?.content?.eventDetails?.SubHeading?.color,
               }}
               dangerouslySetInnerHTML={{
-                __html: formData?.content?.eventDetails?.SubTitle?.value,
+                __html: formData?.content?.eventDetails?.SubHeading?.value,
               }}
             >
               {/* {formData?.content?.eventDetails?.SubHeading?.value} */}
@@ -151,19 +151,13 @@ export default function TemplateFour({ children, formData }) {
               {/* {formData?.content?.eventDetails?.eventStartTime?.value} */}
               {timeRange}({eventData?.countryTimezone}) online in One Source
             </h4>
-
-            {/* <p class="speaker-specialization">
+            <p class="speaker-specialization">
               If you already have a One Source account you can register to the
               clinical practice session using the same login details.
-            </p> */}
+            </p>
 
-            <p class="speaker-specialization"
-            dangerouslySetInnerHTML={{
-              __html:
-                formData?.content?.eventDetails?.SubHeading?.value,
-            }}/>
 
-            {/* <p class="speaker-specialization">
+            <p class="speaker-specialization">
               If you do not yet have a One Source account, by registering to a
               Clinical Practice session an automatic account will be generated
               and you will gain access to this content in accordance with the
@@ -179,14 +173,7 @@ export default function TemplateFour({ children, formData }) {
                 Docintel.app
               </a>{" "}
               operating this page.
-            </p> */}
-
-            <p class="speaker-specialization"
-            dangerouslySetInnerHTML={{
-              __html:
-                formData?.content?.eventDetails?.SubText?.value,
-            }}/>
-            
+            </p>
             <div className="octapharma_event_form">{children}</div>
           </div>
           <div className="footer">
