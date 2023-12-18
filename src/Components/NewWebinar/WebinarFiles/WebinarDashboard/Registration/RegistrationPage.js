@@ -126,7 +126,7 @@ const RegistrationPage = ({ prevData }) => {
 
   useEffect(() => {
     EventDataFun();
-  }, [prevData?.content]);
+  }, [prevData?.isDataSaved]);
 
 
 
@@ -1357,54 +1357,54 @@ const FormField4 = ({
     } else if (form?.inputType === "checkbox") {
       newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
       if (e.target.checked) {
-       if(label=="onesource_consent"){
-        let options=form?.option
-        
-        const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
-        // console.dir(checkboxes,'checkboxes');
-        // console.log(e ,'checkboxes');
-        for (const checkbox of checkboxes) {
-          if(e.target.id=='onesource_consent0'){
-            checkboxes[0].checked = true;
-            // checkboxes[1].checked = false;
-            // console.log(newData,'newDatanewData');
+        if (label == "onesource_consent") {
+          let options = form?.option
 
-            checkboxes[2].checked = checkboxes[1].checked ?true:false;
-            checkboxes[3].checked = false;
+          const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
+          // console.dir(checkboxes,'checkboxes');
+          // console.log(e ,'checkboxes');
+          for (const checkbox of checkboxes) {
+            if (e.target.id == 'onesource_consent0') {
+              checkboxes[0].checked = true;
+              // checkboxes[1].checked = false;
+              // console.log(newData,'newDatanewData');
+
+              checkboxes[2].checked = checkboxes[1].checked ? true : false;
+              checkboxes[3].checked = false;
 
 
 
+            }
+            else if (e.target.id == 'onesource_consent1') {
+              // checkboxes[0].checked = false;
+              checkboxes[1].checked = true;
+              checkboxes[2].checked = checkboxes[0].checked ? true : false;
+              checkboxes[3].checked = false;
+
+
+
+            }
+            else if (e.target.id == 'onesource_consent2') {
+              checkboxes[0].checked = true;
+              checkboxes[1].checked = true;
+              checkboxes[2].checked = true;
+              checkboxes[3].checked = false;
+
+
+
+            } else if (e.target.id == 'onesource_consent3') {
+              checkboxes[0].checked = false;
+              checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              checkboxes[3].checked = true;
+
+
+
+            }
+
+            // checkbox.checked = !checkbox.checked;
           }
-         else if(e.target.id=='onesource_consent1'){
-            // checkboxes[0].checked = false;
-            checkboxes[1].checked = true;
-            checkboxes[2].checked = checkboxes[0].checked ?true:false;
-            checkboxes[3].checked = false;
-
-
-
-          }
-          else if(e.target.id=='onesource_consent2'){
-            checkboxes[0].checked = true;
-            checkboxes[1].checked = true;
-            checkboxes[2].checked = true;
-            checkboxes[3].checked = false;
-
-
-
-          }else if(e.target.id=='onesource_consent3'){
-            checkboxes[0].checked = false;
-            checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            checkboxes[3].checked = true;
-
-
-
-          }
-         
-          // checkbox.checked = !checkbox.checked;
         }
-       }
 
         newData[label] = [...newData[label], value];
       } else {
@@ -1412,7 +1412,7 @@ const FormField4 = ({
         // console.dir(checkboxes,'checkboxes');
         // console.log(e ,'checkboxes');
         for (const checkbox of checkboxes) {
-          if(e.target.id=='onesource_consent0'){
+          if (e.target.id == 'onesource_consent0') {
             checkboxes[0].checked = false;
             // checkboxes[1].checked = false;
             checkboxes[2].checked = false;
@@ -1421,7 +1421,7 @@ const FormField4 = ({
 
 
           }
-         else if(e.target.id=='onesource_consent1'){
+          else if (e.target.id == 'onesource_consent1') {
             // checkboxes[0].checked = false;
             checkboxes[1].checked = false;
             checkboxes[2].checked = false;
@@ -1430,7 +1430,7 @@ const FormField4 = ({
 
 
           }
-         else if(e.target.id=='onesource_consent2'){
+          else if (e.target.id == 'onesource_consent2') {
             checkboxes[0].checked = false;
             checkboxes[1].checked = false;
             checkboxes[2].checked = false;
@@ -1439,7 +1439,7 @@ const FormField4 = ({
 
 
           }
-          else if(e.target.id=='onesource_consent3'){
+          else if (e.target.id == 'onesource_consent3') {
             checkboxes[0].checked = false;
             checkboxes[1].checked = false;
             checkboxes[2].checked = false;
