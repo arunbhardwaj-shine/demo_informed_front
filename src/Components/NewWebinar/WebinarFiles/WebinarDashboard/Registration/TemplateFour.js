@@ -156,6 +156,7 @@ export default function TemplateFour({ children, formData }) {
               clinical practice session using the same login details.
             </p>
 
+
             <p class="speaker-specialization">
               If you do not yet have a One Source account, by registering to a
               Clinical Practice session an automatic account will be generated
