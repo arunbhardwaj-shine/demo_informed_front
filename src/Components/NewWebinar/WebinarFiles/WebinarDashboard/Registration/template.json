@@ -564,30 +564,36 @@
         }
     },
     "body": [
+        
         {
-            "label": "Full consent (for additional information or to edit consent click Change)",
+            "label": "I also consent to:",
             "inputType": "checkbox",
             "placeholder": "",
             "required": "yes",
             "option": [
                 {
-                    "optionLabel": "my participation during the live webinar being recorded for live streaming and on-demand use*",
+                    "optionLabel": "Receive One Source updates and new materials from Octapharma.",
                     "extension": [],
                     "checked": ""
                 },
                 {
-                    "optionLabel": "Full consent (for additional information or to edit consent click Change)",
+                    "optionLabel": "Receive invitations to future events.",
                     "extension": [],
                     "checked": ""
                 },
                 {
-                    "optionLabel": "invites for future Octapharma haematology events (these may be promotional events)",
+                    "optionLabel": "Both of the options above.",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "None of the options above.",
                     "extension": [],
                     "checked": ""
                 }
             ],
             "extension": "",
-            "name": "consent"
+            "name": "onesource_consent"
         },
         {
             "name": "country",
