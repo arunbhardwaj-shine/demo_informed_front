@@ -59,6 +59,7 @@ const WebinarRegistration = () => {
   const [showExtensionModal, setExtensionModal] = useState(false);
   const [isFormChange, setIsFormChange] = useState(false);
   const [isDataSaved, setIsDataSaved] = useState(true);
+  const [save, setSave] = useState()
   const [isSavedClicked, setIsSavedClicked] = useState(false);
   const [rawData, setRawData] = useState({});
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
@@ -78,6 +79,7 @@ const WebinarRegistration = () => {
     headerImageUrl: "",
     body: [],
     footerImageUrl: "",
+    // typedTextColor:"",
     labelColor: "",
     optionColor: "",
     backgroundColor: "",
@@ -93,6 +95,7 @@ const WebinarRegistration = () => {
     body: [],
     footerImageUrl: "",
     labelColor: "",
+    // typedTextColor:"",
     optionColor: "",
     backgroundColor: "",
     totalFieldNo: 0,
@@ -168,6 +171,7 @@ const WebinarRegistration = () => {
   const [dropDownData, setDropDownData] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
   const [showModalPreview, setShowModalPreview] = useState(false);
+
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
@@ -188,7 +192,9 @@ const WebinarRegistration = () => {
     // }
 
     getAllEvents();
+
   }, []);
+
 
   const getWebinarData = async (event_code) => {
     try {
@@ -642,6 +648,38 @@ const WebinarRegistration = () => {
             ],
           };
           updateFormBody?.push(newObj);
+        } else if (isSelectedName == "onesource_consent") {
+          let newObj = {
+            // label: isSelectedName,
+            label: "I also consent to: ",
+            name: "onesource_consent",
+
+            inputType: "checkbox",
+            required: "yes",
+            addSpace: 10,
+
+
+            option: [
+              {
+                optionLabel:
+                  "Receive One Source updates and new materials from Octapharma.",
+                checked: ''
+              },
+              {
+                optionLabel: "Receive invitations to future events.",
+                checked: ''
+              },
+              {
+                optionLabel: "Both of the options above.",
+                checked: ''
+              },
+              {
+                optionLabel: "None of the options above.",
+                checked: ''
+              },
+            ],
+          };
+          updateFormBody?.push(newObj);
         } else {
           let newObj = {
             name: isSelectedName,
@@ -738,7 +776,7 @@ const WebinarRegistration = () => {
                   value: e,
                 },
                 ["eventEndDate"]: {
-                  ...formData.eventDetails?.[fieldName],
+                  ...formData.eventDetails?.eventEndDate,
                   value: e,
                 },
               },
@@ -785,6 +823,7 @@ const WebinarRegistration = () => {
   // };
 
   const saveClicked = async (e) => {
+
     if (e) {
       e.preventDefault();
     }
@@ -833,6 +872,7 @@ const WebinarRegistration = () => {
       // setFile("");
       // setFoot("");
       // setLogo("");
+      setSave(response)
       setIsDataSaved(true);
 
     } catch (err) {
@@ -908,7 +948,11 @@ const WebinarRegistration = () => {
   const onColorChange = (e, isSelectedName) => {
     if (isSelectedName == "labelColor") {
       setFormData({ ...formData, labelColor: e?.target?.value });
-    } else if (isSelectedName == "backgroundColor") {
+    } 
+    //  else if (isSelectedName == "typedTextColor") {
+    //   setFormData({ ...formData, typedTextColor: e?.target?.value });
+    // }
+    else if (isSelectedName == "backgroundColor") {
       setFormData({ ...formData, backgroundColor: e?.target?.value });
     } else if (isSelectedName == "OptionColor") {
       setFormData({ ...formData, optionColor: e?.target?.value });
@@ -1120,11 +1164,11 @@ const WebinarRegistration = () => {
                       className="save btn-bordered"
                       onClick={handlePreview}
                     >
-                      Preview
+                      Preview In New Tab
                     </Button>
-                    <Button onClick={(e) => saveClicked(e)} className="save">
+                    {/* <Button onClick={(e) => saveClicked(e)} className="save">
                       Save
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </div>
@@ -1189,7 +1233,7 @@ const WebinarRegistration = () => {
                                 return field.type == "date" ? (
                                   <div
                                     key={index}
-                                    className="form-group d-flex align-items-center"
+                                    className="form-group d-flex align-items-center "
                                   >
                                     <label>
                                       {field.title} <span>*</span>
@@ -1197,9 +1241,10 @@ const WebinarRegistration = () => {
                                     <DatePicker
                                       name={`eventDetails-${key}`}
                                       dateFormat="dd/MM/yyyy"
-                                      className="form-control "
+                                      className="form-control disabled"
                                       placeholderText="Select date"
-                                      // readOnly={true}
+                                      readOnly={true}
+                                      disabled
                                       minDate={
                                         key == "eventEndDate"
                                           ? new Date(
@@ -1250,20 +1295,25 @@ const WebinarRegistration = () => {
                                       type={field.type}
                                       name={`eventDetails-${key}`}
                                       value={field.value}
-                                      // readOnly={
-                                      //   key == "eventEndTime" ||
-                                      //   key == "eventStartTime"
-                                      //     ? true
-                                      //     : false
-                                      // }
-                                      // className={`form-control ${
-                                      //   key == "eventEndTime" ||
-                                      //   key == "eventStartTime"
-                                      //     ? "disabled"
-                                      //     : ""
-                                      // }`}
-                                      className="form-control"
+                                      readOnly={
+                                        key == "eventEndTime" ||
+                                          key == "eventStartTime"
+                                          ? true
+                                          : false
+                                      }
+                                      disabled={key == "eventEndTime" ||
+                                        key == "eventStartTime"
+                                        ? true
+                                        : false}
+                                      className={`form-control ${key == "eventEndTime" ||
+                                        key == "eventStartTime"
+                                        ? "disabled"
+                                        : ""
+                                        }`}
+                                      // className="form-control"
                                       onChange={handleChange}
+                                    // disabled
+                                    // readOnly={true}
                                     />
                                     {
                                       isEventEndTime ? <div className="event-endTime"></div> : ''
@@ -1428,6 +1478,22 @@ const WebinarRegistration = () => {
                               }
                               onChange={(e) => handleChange(e, "consent")}
                             />
+                            <Form.Check
+                              className="webinar-checkbox"
+                              inline
+                              label="Onesource Consent"
+                              name="onesource_consent"
+                              type="checkbox"
+                              checked={
+                                formData?.body?.findIndex(
+                                  (item, index) =>
+                                    item?.name?.toLowerCase() == "onesource_consent"
+                                ) != -1
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => handleChange(e, "onesource_consent")}
+                            />
 
                             <span
                               className="add-choice"
@@ -1579,7 +1645,7 @@ const WebinarRegistration = () => {
                                                                                 type={
                                                                                   extItem?.inputType
                                                                                 }
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 name={`${extItem?.name
                                                                                   ? extItem?.name
                                                                                   : "dynamic_" +
@@ -1661,7 +1727,7 @@ const WebinarRegistration = () => {
                                                                                   dynamicFieldNo
                                                                                   }`}
                                                                                 dateFormat="dd/MM/yyyy"
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 placeholderText="Select date"
                                                                                 // minDate={currentDate}
                                                                                 disabled
@@ -1730,7 +1796,7 @@ const WebinarRegistration = () => {
                                                                                 }
                                                                               </label>
                                                                               <Select
-                                                                                className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                                className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                                                 name={`${extItem?.name
                                                                                   ? extItem?.name
                                                                                   : "dynamic_" +
@@ -1780,7 +1846,7 @@ const WebinarRegistration = () => {
                                                                               </label>
 
                                                                               <textarea
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 name={`${extItem?.name
                                                                                   ? extItem?.name
                                                                                   : "dynamic_" +
@@ -1968,7 +2034,7 @@ const WebinarRegistration = () => {
                                                                                 type={
                                                                                   extItem?.inputType
                                                                                 }
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 name={`${extItem?.name
                                                                                   ? extItem?.name
                                                                                   : "dynamic_" +
@@ -2052,7 +2118,7 @@ const WebinarRegistration = () => {
                                                                                   dynamicFieldNo
                                                                                   }`}
                                                                                 dateFormat="dd/MM/yyyy"
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 placeholderText="Select date"
                                                                                 // minDate={currentDate}
 
@@ -2129,7 +2195,7 @@ const WebinarRegistration = () => {
                                                                                   : "dynamic_" +
                                                                                   dynamicFieldNo
                                                                                   }`}
-                                                                                className="dropdown-basic-button split-button-dropup webinar-select"
+                                                                                className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                                                 options={
                                                                                   extItem?.label?.includes(
                                                                                     "country"
@@ -2174,7 +2240,7 @@ const WebinarRegistration = () => {
                                                                               </label>
 
                                                                               <textarea
-                                                                                className="form-control"
+                                                                                className="form-control disabled"
                                                                                 name={`${extItem?.name
                                                                                   ? extItem?.name
                                                                                   : "dynamic_" +
@@ -2280,7 +2346,7 @@ const WebinarRegistration = () => {
                                                           key={index}
                                                         >
                                                           <Select
-                                                            className="dropdown-basic-button split-button-dropup webinar-select"
+                                                            className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                             name={`${data?.name
                                                               ? data?.name
                                                               : "dynamic_" +
@@ -2309,6 +2375,7 @@ const WebinarRegistration = () => {
                                                             }
                                                             placeholder={data?.placeholder ? data?.placeholder : `Select`}
                                                             isDisabled={true}
+                                                            readOnly={true}
                                                           />
                                                         </div>
                                                       ) : data?.inputType ==
@@ -2318,7 +2385,7 @@ const WebinarRegistration = () => {
                                                           key={index}
                                                         >
                                                           <textarea
-                                                            className="form-control"
+                                                            className="form-control disabled"
                                                             name={`${data?.name
                                                               ? data?.name
                                                               : "dynamic_" +
@@ -2340,7 +2407,7 @@ const WebinarRegistration = () => {
                                                             : "dynamic_" +
                                                             dynamicFieldNo
                                                             }`}
-                                                          className="form-control"
+                                                          className="form-control disabled"
                                                           type={data?.inputType}
                                                           placeholder={
                                                             data?.placeholder
@@ -2444,6 +2511,31 @@ const WebinarRegistration = () => {
                                           </div>
                                         </div>
                                       </div>
+                                      {/* <div className="form-group">
+                                        <label>Typed Text</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "typedTextColor")
+                                              }
+                                              value={
+                                                formData?.typedTextColor
+                                                  ? formData?.typedTextColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div> */}
                                       <div className="form-group">
                                         <label>Select Option color</label>
                                         <div className="option-action">
@@ -2518,21 +2610,23 @@ const WebinarRegistration = () => {
                         </div> */}
                       </Form>
                     </div>
-                  </Col>
-                  <Col md={4} sm={5}>
                     <div className="registration-right">
+                      Upload Logo
                       <div
                         className="logo-section header-section"
-                        onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                        // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
                       >
                         {!logo && (
-                          <h4
-                            className="logo-img-section header-img-section"
-                            id="uploadButton"
-                          >
-                            Upload Logo
-                          </h4>
+                          <>
+                          <div>
+                         <h5>Upload your file</h5>
+                        <h6>(Recommended size 000 x 000)</h6>
+                        </div>
+                        <Button onClick={(e) => handleFileSelect(e, "logoImageUrl")}>Choose Your File</Button>
+                        </>
                         )}
+
+                       
                         <img className="logo-img" src={logo} />
                         <div className="logo-text header-text">
                           {logo && (
@@ -2568,16 +2662,21 @@ const WebinarRegistration = () => {
                           )}
                         </div>
                       </div>
-
+                      Upload Header
                       <div
                         className="header-section"
-                        onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+                        // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
                       >
                         {!file && (
-                          <h4 className="header-img-section" id="uploadButton">
-                            Upload header Image
-                          </h4>
+                          <>
+                         <div>
+                         <h5>Upload your file</h5>
+                        <h6>(Recommended size 000 x 000)</h6>
+                        </div>
+                        <Button onClick={(e) => handleFileSelect(e, "headerImageUrl")}>Choose Your File</Button>
+                        </>
                         )}
+                        
                         <img className="header-img" src={file} />
                         <div className="header-text">
                           {file && (
@@ -2613,14 +2712,21 @@ const WebinarRegistration = () => {
                           )}
                         </div>
                       </div>
-
+                      Upload Footer
                       <div
                         className="footer-section"
-                        onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                        // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
                       >
                         {!foot && (
-                          <h4 className="footer-img-section">Upload footer Image</h4>
+                          <>
+                          <div>
+                         <h5>Upload your file</h5>
+                        <h6>(Recommended size 000 x 000)</h6>
+                        </div>
+                        <Button onClick={(e) => handleFileSelect(e, "footerImageUrl")}>Choose Your File</Button>
+                        </>
                         )}
+                       
                         <img className="footer-img" src={foot} />
                         <div className="footer-text">
                           {foot && (
@@ -2661,6 +2767,29 @@ const WebinarRegistration = () => {
                             </div>
                     </div> */}
                     </div>
+                  </Col>
+                  <Col md={4} sm={5}>
+
+                    Preview (save it to see the changes)
+                    <Button onClick={(e) => saveClicked(e)} className="save">
+                      Save
+                    </Button>
+                  
+                    <div className="webinar-popup">
+                      <RegistrationPage
+                        prevData={{
+                          eventId: eventData?.event_id,
+                          companyId: eventData?.company_id,
+                          content: JSON.stringify(formData),
+                          eventCode: event_code,
+                          isDataSaved: save
+
+                        }}
+
+                      />
+
+                    </div>
+
                   </Col>
                 </Row>
               </div>
@@ -2744,7 +2873,10 @@ const WebinarRegistration = () => {
                     companyId: eventData?.company_id,
                     content: JSON.stringify(formData),
                     eventCode: event_code,
+                    isDataSaved: save
+
                   }}
+
                 />
               </div>
             </>
