@@ -115,12 +115,16 @@ const RegistrationPage = ({ prevData }) => {
     prevData
       ? {
           labelColor: prevData?.content?.labelColor,
-          // typedTextColor:prevData?.content?.typedTextColor,
+          typedTextColor:prevData?.content?.typedTextColor,
+          placeholderTextColor:prevData?.content?.placeholderTextColor,
+          dropdownOptionColor:prevData?.content?.dropdownOptionColor,
+          dropdownHoveringColor:prevData?.content?.dropdownHoveringColor,
+          selectedTextColor:prevData?.content?.selectedTextColor,
           background: prevData?.content?.backgroundColor,
           optionColor: prevData?.content?.optionColor,
         }
       : { labelColor: "#fff000", background: "#000", optionColor: "#000",
-      // typedTextColor:"#fff000" 
+      typedTextColor:"#000" , placeholderTextColor:"#000",dropdownOptionColor:"#000", dropdownHoveringColor:"#000",selectedTextColor:"#000"
     }
   );
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -182,7 +186,11 @@ const RegistrationPage = ({ prevData }) => {
       setFormData(hadData);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
-        // typedTextColor: hadData?.content?.typedTextColor,
+        typedTextColor: hadData?.content?.typedTextColor,
+        placeholderTextColor: hadData?.content?.placeholderTextColor,
+        dropdownOptionColor: hadData?.content?.dropdownOptionColor,
+        dropdownHoveringColor: hadData?.content?.dropdownHoveringColor,
+        selectedTextColor: hadData?.content?.selectedTextColor,
         background: hadData?.content?.backgroundColor,
         optionColor: hadData?.content?.optionColor,
       });
@@ -1504,12 +1512,15 @@ const FormField4 = ({
 
   if (form.inputType === "textarea") {
     fieldInput = (
-      <textarea
+      <textarea 
         className="form-control"
         placeholder={form.placeholder}
         cols="40"
         rows="4"
         onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
       ></textarea>
     );
   } else if (
@@ -1523,7 +1534,7 @@ const FormField4 = ({
     }));
 
     fieldInput = (
-      <Select
+      <Select 
         options={
           form.inputType === "selection-country"
             ? countryList
@@ -1535,6 +1546,9 @@ const FormField4 = ({
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
         placeholder={form.placeholder ? form.placeholder : "Select"}
+        style={{
+          color: pageColors?.dropdownOptionColor,
+        }}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1657,6 +1671,9 @@ const FormField4 = ({
         id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
         placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
       />
     );
   }
@@ -1675,9 +1692,6 @@ const FormField4 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      {/* <div  style={{
-          color: pageColors?.typedTextColor,
-        }}>{fieldInput}</div> */}
       <div className="help-block">{formErrors[label]}</div>
     </div>
   );
