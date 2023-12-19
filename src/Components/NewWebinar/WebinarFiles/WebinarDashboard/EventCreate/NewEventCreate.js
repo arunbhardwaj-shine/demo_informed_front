@@ -83,8 +83,15 @@ const NewEventCreate = () => {
       if (page == 1) {
         setTotalEvents(response?.data?.data?.totalPage);
         let raw_description = response?.data?.data?.data.map((d) => d?.raw_description ? JSON.parse(d?.raw_description) : {})
-        //  console.log(raw_description,"raw_descriptionraw_description");
+        console.log("raw_descriptionraw_description", raw_description);
+        let ssName = raw_description?.map((item, index) =>
+          console.log("type-->", index, "-->", typeof item?.speaker_name)
+          // typeof item?.speaker_name?.speakerName == "object" ? JSON.parse(item?.speaker_name) : item?.speaker_name ? [{ speakerName: item?.speaker_name }] : [{}]
+        )
+        // let ssName = JSON.parse(raw_description[0]?.speaker_name)
+        console.log("raw_descriptionraw_description", ssName);
         setRawDescription(raw_description)
+
         setIsData(response?.data?.data?.data);
         setApiData(response?.data?.data?.data);
         if (
@@ -814,7 +821,7 @@ const NewEventCreate = () => {
                                 </button>
                               </div>
                               <div className="event-title">{item?.title}</div>
-                              <div className="speaker-name">Speaker: {rawDescription[index]?.speaker_name ? rawDescription[index]?.speaker_name : "N/A"}</div>
+                              <div className="speaker-name">Speaker: {index == 0 ? JSON.parse(rawDescription[index]?.speaker_name)?.map((item, i) => (item?.speakerName)) : rawDescription[index]?.speaker_name ? rawDescription[index]?.speaker_name : "N/A"}</div>
                               <div className="event-details d-flex justify-content-between">
                                 <div className="time-left">
                                   {differenceDays(item?.dateStart) == 0

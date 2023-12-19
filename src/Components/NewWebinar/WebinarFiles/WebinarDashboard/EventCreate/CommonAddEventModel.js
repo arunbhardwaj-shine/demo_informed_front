@@ -133,7 +133,7 @@ const CommonAddEventModel = ({
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
         description: data?.description ? data?.description : "",
-        speaker_name: speaker_name,
+        speaker_name: JSON.parse(speaker_name),
         speaker_email: speaker_email,
         meeting_type: meeting_type,
       });
@@ -240,11 +240,15 @@ const CommonAddEventModel = ({
   };
 
   const formatDate = (newDate) => {
-    const year = newDate.getFullYear();
-    const month = String(newDate.getMonth() + 1).padStart(2, "0");
-    const day = String(newDate.getDate()).padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
-    return formattedDate;
+    console.log("new date--->", newDate)
+    if(newDate!=""){
+      const year = newDate.getFullYear();
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const day = String(newDate.getDate()).padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+      return formattedDate;
+    }
+    
   };
 
   function isValidDateFormat(dateString) {
@@ -272,13 +276,15 @@ const CommonAddEventModel = ({
         if (isValidDateFormat(eventInputs?.dateStart)) {
           dateStart = convertDate(eventInputs?.dateStart);
         } else {
-          dateStart = formatDate(eventInputs?.dateStart);
+          const dateTime = new Date(eventInputs?.dateStart)
+          dateStart = formatDate(dateTime);
         }
         let dateEnd = "";
         if (isValidDateFormat(eventInputs?.dateEnd)) {
           dateEnd = convertDate(eventInputs?.dateEnd);
         } else {
-          dateEnd = formatDate(eventInputs?.dateEnd);
+          const dateTime = new Date(eventInputs?.dateEnd)
+          dateEnd = formatDate(dateTime);
         }
         let dataObj = {
           title: eventInputs?.title,
@@ -297,7 +303,7 @@ const CommonAddEventModel = ({
           dateEndMin: eventInputs?.dateEndMin,
           eventCode: eventInputs?.event_code,
           description: eventInputs?.description ? eventInputs?.description : "",
-          speaker_name: eventInputs?.speaker_name ? eventInputs?.speaker_name : "",
+          speaker_name: eventInputs?.speaker_name ? JSON.stringify(eventInputs?.speaker_name) : "",
           speaker_email: eventInputs?.speaker_email ? eventInputs?.speaker_email : "",
           meeting_type: eventInputs?.meeting_type ? eventInputs?.meeting_type : "",
         };
