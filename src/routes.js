@@ -167,6 +167,7 @@ import PollListing from "./Components/Webinar/Survey/PollListing";
 import AutoLogout from "./Components/Login/AutoLogout";
 import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
 import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/RegistrationPage";
+import Invitees from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Invitees"
 import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
 import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
 
@@ -560,6 +561,10 @@ const Routing = () => {
         <Route
           path="/event-listing"
           element={<LoginLayout component={NewEventCreate} />}
+        />
+         <Route
+          path="/invitees"
+          element={<LoginLayout component={Invitees} />}
         />
         <Route
           path="/webinar-registration"

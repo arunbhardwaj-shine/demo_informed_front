@@ -336,6 +336,10 @@ const NewEventCreate = () => {
     return dayDifference;
   };
 
+  const handleCardClick = (item) => {
+    navigate("/invitees");
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -722,7 +726,8 @@ const NewEventCreate = () => {
                   <>
                     {isData?.map((item, index) => {
                       return (
-                        <div className="email_box_block">
+                        <div className="email_box_block" key={index}
+                        onClick={() => handleCardClick(item)}>
                           <div className="email_box">
                             <div className="mail-box-content">
                               <div className="action_btn text-end">
@@ -735,6 +740,7 @@ const NewEventCreate = () => {
                                   className="btn-edit"
                                   onClick={(e) => {
                                     handleAddEventClick(e, item);
+                                    e.stopPropagation(); 
                                   }}
                                 >
                                   <img
@@ -747,6 +753,7 @@ const NewEventCreate = () => {
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarRegistrationForm(e, item);
+                                    e.stopPropagation(); 
                                   }}
                                 >
                                   <img
@@ -759,6 +766,7 @@ const NewEventCreate = () => {
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarPollingForm(e, item);
+                                    e.stopPropagation(); 
                                   }}
                                 >
                                   <img
@@ -793,13 +801,19 @@ const NewEventCreate = () => {
                               {deletestatus ? (
                                 <div className="dlt_btn">
                                   <button
-                                    onClick={(e) =>
-                                      showConfirmationPopup(
-                                        "delete",
-                                        e,
-                                        item?.id
-                                      )
-                                    }
+                                    // onClick={(e) =>
+                                    //   showConfirmationPopup(
+                                    //     "delete",
+                                    //     e,
+                                    //     item?.id
+                                    //   )
+                                      
+                                    // }
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      showConfirmationPopup("delete", e, item?.id);
+                                    }}
+                                    
                                   >
                                     <img
                                       src={path_image + "delete.svg"}
