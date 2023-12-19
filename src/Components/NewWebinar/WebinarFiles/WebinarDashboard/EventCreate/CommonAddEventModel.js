@@ -96,7 +96,7 @@ const CommonAddEventModel = ({
     dateEndMin: "",
     event_code: "",
     description: "",
-    speaker_name: "",
+    speaker_name: [""],
     speaker_email: "",
     meeting_type: "",
   });
@@ -419,6 +419,7 @@ const CommonAddEventModel = ({
                           <div className="col-12 col-md-12 speaker-name">
                             <div className="row">
                               <div className="col-12 col-md-6">
+                                {eventInputs?.speaker_name}
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Speaker's Name <span> *</span>
@@ -440,19 +441,20 @@ const CommonAddEventModel = ({
                                     }
 
                                   />
-                                  <span
-                                    className="add-choice"
-                                  // onClick={(e) => addNewSpeakerClicked(e, "speaker")}
-                                  >
-                                    Add speaker
-                                    <img src={path_image + "add-choice.svg"} alt="" />
-                                  </span>
+                                 
                                   {error?.speaker_name ? (
                                     <div className="login-validation">
                                       {error?.speaker_name}
                                     </div>
                                   ) : null}
                                 </div>
+                                <span
+                                  className="add-choice"
+                                // onClick={(e) => addNewSpeakerClicked(e, "speaker")}
+                                >
+                                  Add speaker
+                                  <img src={path_image + "add-choice.svg"} alt="" />
+                                </span>
                               </div>
 
                               {/* <div className="col-12 col-md-6">
