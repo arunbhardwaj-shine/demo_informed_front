@@ -251,7 +251,7 @@ const NewEventCreate = () => {
     } else {
       setDeleteStatus(false);
       setEditStatus(true);
-      
+
     }
   };
 
@@ -764,7 +764,7 @@ const NewEventCreate = () => {
                     {isData?.map((item, index) => {
                       return (
                         <div className="email_box_block" key={index}
-                        onClick={() => handleCardClick(item)}>
+                          onClick={() => handleCardClick(item)}>
                           <div className="email_box">
                             <div className="mail-box-content">
                               <div className="action_btn text-end">
@@ -790,7 +790,7 @@ const NewEventCreate = () => {
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarRegistrationForm(e, item);
-                                    e.stopPropagation(); 
+                                    e.stopPropagation();
                                   }}
                                 >
                                   <img
@@ -803,7 +803,7 @@ const NewEventCreate = () => {
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarPollingForm(e, item);
-                                    e.stopPropagation(); 
+                                    e.stopPropagation();
                                   }}
                                 >
                                   <img
@@ -834,30 +834,46 @@ const NewEventCreate = () => {
                                 <div className="country-timezone event-date">{item?.country_timezone}</div>
                               </div>
 
-                              {deletestatus ? (
-                                <div className="dlt_btn">
-                                  <button
-                                    // onClick={(e) =>
-                                    //   showConfirmationPopup(
-                                    //     "delete",
-                                    //     e,
-                                    //     item?.id
-                                    //   )
-                                      
-                                    // }
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      showConfirmationPopup("delete", e, item?.id);
-                                    }}
-                                    
-                                  >
-                                    <img
-                                      src={path_image + "delete.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
-                                </div>
-                              ) : null}
+                              {editstatus ? (<div className="dlt_btn">
+                                <button
+                                  onClick={(e) => {
+                                    handleAddEventClick(e, item);
+                                    e.stopPropagation();
+                                  }}
+
+
+                                >
+                                  <img
+                                    title="Edit"
+                                    src={path_image + "edit-button.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
+                              </div>)
+                                : deletestatus ? (
+                                  <div className="dlt_btn">
+                                    <button
+                                      // onClick={(e) =>
+                                      //   showConfirmationPopup(
+                                      //     "delete",
+                                      //     e,
+                                      //     item?.id
+                                      //   )
+
+                                      // }
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        showConfirmationPopup("delete", e, item?.id);
+                                      }}
+
+                                    >
+                                      <img
+                                        src={path_image + "delete.svg"}
+                                        alt="Delete Row"
+                                      />
+                                    </button>
+                                  </div>
+                                ) : null}
                             </div>
                           </div>
                         </div>
