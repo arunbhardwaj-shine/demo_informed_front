@@ -202,8 +202,9 @@ export default function TemplateFour({ children, formData }) {
               <Row>
                 <Col md={8}>
                   <p>
-                    <Link to="https://onesource.octapharma.com/">
-                      Visit One Source,
+                  To Visit One Source &nbsp; 
+                    <Link to="https://onesource.octapharma.com/" style={{textDecoration:"underline"}}>
+                     Click Here
                     </Link>{" "}
                     Octapharma’s online haematology platform for healthcare
                     professionals, to be up to date with the latest news and
@@ -216,7 +217,7 @@ export default function TemplateFour({ children, formData }) {
                 </Col>
                 <Col md={4}>
                   <div className="footer-logo">
-                    <a target="_blank" href="https://onesource.octapharma.com/octapharma-privacy">
+                    <a target="_blank" href="https://onesource.octapharma.com">
                     <img
                       src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
                       alt="Logo image"
