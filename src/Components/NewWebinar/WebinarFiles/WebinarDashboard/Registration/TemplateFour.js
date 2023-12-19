@@ -203,7 +203,7 @@ export default function TemplateFour({ children, formData }) {
                 <Col md={8}>
                   <p>
                   To Visit One Source &nbsp; 
-                    <Link to="https://onesource.octapharma.com/" style={{textDecoration:"underline"}}>
+                    <Link  target="_blank" to="https://onesource.octapharma.com/" style={{textDecoration:"underline"}}>
                      Click Here
                     </Link>{" "}
                     Octapharma’s online haematology platform for healthcare
