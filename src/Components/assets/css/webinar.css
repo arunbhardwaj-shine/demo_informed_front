@@ -4895,7 +4895,9 @@ l .vwd .factor-season-left h2 {
 .eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild li label {
   cursor: pointer;
 }
-
+.eahad .center-sided-inside  .consent-form-list.attend-sec.consent-feild > label{
+  font-weight: 700;
+}
 .eahad input:-webkit-autofill {
   -webkit-text-fill-color: #000 !important;
 }
