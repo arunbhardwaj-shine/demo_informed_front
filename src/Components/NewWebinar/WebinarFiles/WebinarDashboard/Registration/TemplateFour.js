@@ -93,10 +93,10 @@ export default function TemplateFour({ children, formData }) {
 
             <h3
               style={{
-                color: formData?.content?.eventDetails?.SubHeading?.color,
+                color: formData?.content?.eventDetails?.SubTitle?.color,
               }}
               dangerouslySetInnerHTML={{
-                __html: formData?.content?.eventDetails?.SubHeading?.value,
+                __html: formData?.content?.eventDetails?.SubTitle?.value,
               }}
             >
               {/* {formData?.content?.eventDetails?.SubHeading?.value} */}
@@ -151,29 +151,47 @@ export default function TemplateFour({ children, formData }) {
               {/* {formData?.content?.eventDetails?.eventStartTime?.value} */}
               {timeRange}({eventData?.countryTimezone}) online in One Source
             </h4>
-            <p class="speaker-specialization">
-              If you already have a One Source account you can register to the
-              clinical practice session using the same login details.
-            </p>
 
+            {/*  */}
+{formData?.content?.eventDetails?.SubHeading?.value?
+ <p class="speaker-specialization"
+ dangerouslySetInnerHTML={{
+   __html:
+     formData?.content?.eventDetails?.SubHeading?.value,
+ }}/>:<p class="speaker-specialization">
+ If you already have a One Source account you can register to the
+ clinical practice session using the same login details.
+</p>
+}
+           
 
-            <p class="speaker-specialization">
-              If you do not yet have a One Source account, by registering to a
-              Clinical Practice session an automatic account will be generated
-              and you will gain access to this content in accordance with the
-              data privacy policy of{" "}
-              <a href="/octapharma-privacy" target="_blank">
-                Octapharma AG
-              </a>{" "}
-              and{" "}
-              <a
-                href="https://albert.docintel.app/privacy_policy/"
-                target="_blank"
-              >
-                Docintel.app
-              </a>{" "}
-              operating this page.
-            </p>
+            {/*  */}
+{
+   formData?.content?.eventDetails?.SubText?.value?
+   <p class="speaker-specialization"
+   dangerouslySetInnerHTML={{
+     __html:
+       formData?.content?.eventDetails?.SubText?.value,
+   }}/>:<p class="speaker-specialization">
+   If you do not yet have a One Source account, by registering to a
+   Clinical Practice session an automatic account will be generated
+   and you will gain access to this content in accordance with the
+   data privacy policy of{" "}
+   <a href="/octapharma-privacy" target="_blank">
+     Octapharma AG
+   </a>{" "}
+   and{" "}
+   <a
+     href="https://albert.docintel.app/privacy_policy/"
+     target="_blank"
+   >
+     Docintel.app
+   </a>{" "}
+   operating this page.
+ </p>
+}
+          
+            
             <div className="octapharma_event_form">{children}</div>
           </div>
           <div className="footer">
