@@ -508,6 +508,11 @@
     "footerImageUrl": "",
     "labelColor": "#2068B3",
     "optionColor": "#2068B3",
+    "typedTextColor":"#2068B3",
+    "placeholderTextColor":"#2068B3",
+    "dropdownOptionColor": "#2068B3",
+    "dropdownHoveringColor":"#2068B3",
+    "selectedTextColor":"#2068B3",
     "backgroundColor": "",
     "eventDetails": {
         "eventStartDate": {

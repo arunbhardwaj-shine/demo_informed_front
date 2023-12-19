@@ -79,7 +79,11 @@ const WebinarRegistration = () => {
     headerImageUrl: "",
     body: [],
     footerImageUrl: "",
-    // typedTextColor:"",
+    typedTextColor:"",
+    placeholderTextColor:"",
+    dropdownOptionColor:"",
+    dropdownHoveringColor:"",
+    selectedTextColor:"",
     labelColor: "",
     optionColor: "",
     backgroundColor: "",
@@ -95,7 +99,11 @@ const WebinarRegistration = () => {
     body: [],
     footerImageUrl: "",
     labelColor: "",
-    // typedTextColor:"",
+    typedTextColor:"",
+    placeholderTextColor:"",
+    dropdownOptionColor:"",
+    dropdownHoveringColor:"",
+    selectedTextColor:"",
     optionColor: "",
     backgroundColor: "",
     totalFieldNo: 0,
@@ -949,9 +957,21 @@ const WebinarRegistration = () => {
     if (isSelectedName == "labelColor") {
       setFormData({ ...formData, labelColor: e?.target?.value });
     } 
-    //  else if (isSelectedName == "typedTextColor") {
-    //   setFormData({ ...formData, typedTextColor: e?.target?.value });
-    // }
+     else if (isSelectedName == "typedTextColor") {
+      setFormData({ ...formData, typedTextColor: e?.target?.value });
+    }
+    else if (isSelectedName == "placeholderTextColor") {
+      setFormData({ ...formData, placeholderTextColor: e?.target?.value });
+    }
+    else if (isSelectedName == "dropdownOptionColor") {
+      setFormData({ ...formData, dropdownOptionColor: e?.target?.value });
+    }
+    else if (isSelectedName == "dropdownHoveringColor") {
+      setFormData({ ...formData, dropdownHoveringColor: e?.target?.value });
+    }
+    else if (isSelectedName == "selectedTextColor") {
+      setFormData({ ...formData, selectedTextColor: e?.target?.value });
+    }
     else if (isSelectedName == "backgroundColor") {
       setFormData({ ...formData, backgroundColor: e?.target?.value });
     } else if (isSelectedName == "OptionColor") {
@@ -2485,33 +2505,10 @@ const WebinarRegistration = () => {
                                         </div>
                                       ) : null}
                                     </div>
+                                    <div>
+                                    Select color of:
                                     <div className="d-flex align-items-center reg-color-set">
                                       <div className="form-group">
-                                        <label>Select label color</label>
-                                        <div className="option-action">
-                                          <div className="color-pick">
-                                            <img
-                                              src={
-                                                path_image + "color-picker.svg"
-                                              }
-                                              alt=""
-                                            />
-                                            <input
-                                              type="color"
-                                              title="Choose your color"
-                                              onChange={(e) =>
-                                                onColorChange(e, "labelColor")
-                                              }
-                                              value={
-                                                formData?.labelColor
-                                                  ? formData?.labelColor
-                                                  : ""
-                                              }
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      {/* <div className="form-group">
                                         <label>Typed Text</label>
                                         <div className="option-action">
                                           <div className="color-pick">
@@ -2535,7 +2532,57 @@ const WebinarRegistration = () => {
                                             />
                                           </div>
                                         </div>
-                                      </div> */}
+                                      </div>
+                                      <div className="form-group">
+                                        <label>Placeholder Text</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "placeholderTextColor")
+                                              }
+                                              value={
+                                                formData?.placeholderTextColor
+                                                  ? formData?.placeholderTextColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="form-group">
+                                        <label> Label </label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "labelColor")
+                                              }
+                                              value={
+                                                formData?.labelColor
+                                                  ? formData?.labelColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
                                       <div className="form-group">
                                         <label>Select Option color</label>
                                         <div className="option-action">
@@ -2561,7 +2608,8 @@ const WebinarRegistration = () => {
                                           </div>
                                         </div>
                                       </div>
-                                      <div className="form-group">
+                                      
+                                      {/* <div className="form-group">
                                         <label>Select background color</label>
                                         <div className="option-action">
                                           <div className="color-pick">
@@ -2588,7 +2636,88 @@ const WebinarRegistration = () => {
                                             />
                                           </div>
                                         </div>
+                                      </div> */}
+                                    </div>
+                                    </div>
+                                    <div>
+                                      Select color of dropdown list:
+                                      <div className="d-flex align-items-center reg-color-set">
+                                      <div className="form-group">
+                                        <label>Options Text color</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "dropdownOptionColor")
+                                              }
+                                              value={
+                                                formData?.dropdownOptionColor
+                                                  ? formData?.dropdownOptionColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
                                       </div>
+                                      <div className="form-group">
+                                        <label>Hovering Bar</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "dropdownHoveringColor")
+                                              }
+                                              value={
+                                                formData?.dropdownHoveringColor
+                                                  ? formData?.dropdownHoveringColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="form-group">
+                                        <label>Selected Text</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "selectedTextColor")
+                                              }
+                                              value={
+                                                formData?.selectedTextColor
+                                                  ? formData?.selectedTextColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                     </div>
                                   </div>
                                 </div>
