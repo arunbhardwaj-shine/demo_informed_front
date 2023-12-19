@@ -33,10 +33,11 @@ const NewEventCreate = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isDataLength, setIsDataLength] = useState(0);
   const [deletestatus, setDeleteStatus] = useState(false);
+  const [editstatus, setEditStatus] = useState(false);
   const [resetDataId, setResetDataId] = useState();
   const [rawDescription, setRawDescription] = useState();
 
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -65,7 +66,7 @@ const NewEventCreate = () => {
       setWebinarDetail(response?.data?.data);
     } catch (err) {
       console.log("--err", err);
-    }  
+    }
   };
   const getDataFromApi = async (page, load = 0) => {
     try {
@@ -81,8 +82,8 @@ const NewEventCreate = () => {
 
       if (page == 1) {
         setTotalEvents(response?.data?.data?.totalPage);
-       let raw_description = response?.data?.data?.data.map((d)=>d?.raw_description?JSON.parse(d?.raw_description):{})
-      //  console.log(raw_description,"raw_descriptionraw_description");
+        let raw_description = response?.data?.data?.data.map((d) => d?.raw_description ? JSON.parse(d?.raw_description) : {})
+        //  console.log(raw_description,"raw_descriptionraw_description");
         setRawDescription(raw_description)
         setIsData(response?.data?.data?.data);
         setApiData(response?.data?.data?.data);
@@ -95,7 +96,7 @@ const NewEventCreate = () => {
         }
       } else {
         let newDataLength = isData?.length + response?.data?.data?.data?.length;
-        let  raw_description = response?.data?.data?.data.map((d)=>d?.raw_description?JSON.parse(d?.raw_description):{})
+        let raw_description = response?.data?.data?.data.map((d) => d?.raw_description ? JSON.parse(d?.raw_description) : {})
         setRawDescription(raw_description)
         setIsData([...isData, ...response?.data?.data?.data]);
         setApiData([...apiData, ...response?.data?.data?.data]);
@@ -112,7 +113,7 @@ const NewEventCreate = () => {
     } finally {
       setPageAll(false);
       loader("hide");
-    } 
+    }
   };
   const loadMoreClicked = () => {
     loader("show");
@@ -240,7 +241,17 @@ const NewEventCreate = () => {
     if (deletestatus) {
       setDeleteStatus(false);
     } else {
+      setEditStatus(false);
       setDeleteStatus(true);
+    }
+  };
+  const showEditButtons = () => {
+    if (editstatus) {
+      setEditStatus(false);
+    } else {
+      setDeleteStatus(false);
+      setEditStatus(true);
+      
     }
   };
 
@@ -627,6 +638,32 @@ const NewEventCreate = () => {
                         </>
                       )}
                     </div>
+                    <div className="clear-search">
+                      {editstatus ? (
+                        <button
+                          className="btn btn-outline-primary cancel"
+                          title="Cancel delete"
+                          onClick={(e) => showEditButtons()}
+                        >
+                          Cancel
+                        </button>
+                      ) : (
+
+                        <button
+                          // className="btn-edit"
+                          className="btn btn-outline-primary"
+                          onClick={(e) => {
+                            showEditButtons();
+                          }}
+                        >
+                          <img
+                            title="Edit"
+                            src={path_image + "edit-button.svg"}
+                            alt="Delete Row"
+                          />
+                        </button>
+                      )}
+                    </div>
 
                     <div className="clear-search">
                       {deletestatus ? (
@@ -731,12 +768,12 @@ const NewEventCreate = () => {
                           <div className="email_box">
                             <div className="mail-box-content">
                               <div className="action_btn text-end">
-                              {differenceDays(item?.dateStart) == 0
-                                    ? "Event Live"
-                                    : differenceDays(item?.dateStart) > 0
-                                    ?"Coming Soon"
+                                {differenceDays(item?.dateStart) == 0
+                                  ? "Event Live"
+                                  : differenceDays(item?.dateStart) > 0
+                                    ? "Coming Soon"
                                     : "Has Ended"}
-                                <button
+                                {/* <button
                                   className="btn-edit"
                                   onClick={(e) => {
                                     handleAddEventClick(e, item);
@@ -748,7 +785,7 @@ const NewEventCreate = () => {
                                     src={path_image + "edit-button.svg"}
                                     alt="Delete Row"
                                   />
-                                </button>
+                                </button> */}
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
@@ -777,23 +814,22 @@ const NewEventCreate = () => {
                                 </button>
                               </div>
                               <div className="event-title">{item?.title}</div>
-                              <div className="speaker-name">Speaker: {rawDescription[index]?.speaker_name?rawDescription[index]?.speaker_name:"N/A"}</div>
+                              <div className="speaker-name">Speaker: {rawDescription[index]?.speaker_name ? rawDescription[index]?.speaker_name : "N/A"}</div>
                               <div className="event-details d-flex justify-content-between">
                                 <div className="time-left">
                                   {differenceDays(item?.dateStart) == 0
                                     ? "Event Live"
                                     : differenceDays(item?.dateStart) > 0
-                                    ? differenceDays(item?.dateStart) +
+                                      ? differenceDays(item?.dateStart) +
                                       " Days Left"
-                                    : ""}
+                                      : ""}
                                 </div>
                                 <div className="event-date">
                                   {formatDate(item?.dateStart)} |{" "}
-                                  {`${item?.dateStartHour}:${
-                                    item?.dateStartMin.length == 1
-                                      ? "0" + item?.dateStartMin
-                                      : item?.dateStartMin
-                                  } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
+                                  {`${item?.dateStartHour}:${item?.dateStartMin.length == 1
+                                    ? "0" + item?.dateStartMin
+                                    : item?.dateStartMin
+                                    } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
                                 </div>
                                 <div className="country-timezone event-date">{item?.country_timezone}</div>
                               </div>
