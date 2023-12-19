@@ -153,45 +153,48 @@ export default function TemplateFour({ children, formData }) {
             </h4>
 
             {/*  */}
-{formData?.content?.eventDetails?.SubHeading?.value?
- <p class="speaker-specialization"
- dangerouslySetInnerHTML={{
-   __html:
-     formData?.content?.eventDetails?.SubHeading?.value,
- }}/>:<p class="speaker-specialization">
- If you already have a One Source account you can register to the
- clinical practice session using the same login details.
-</p>
-}
-           
+            {formData?.content?.eventDetails?.SubHeading?.value ? (
+              <p
+                class="speaker-specialization"
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.SubHeading?.value,
+                }}
+              />
+            ) : (
+              <p class="speaker-specialization">
+                If you already have a One Source account you can register to the
+                clinical practice session using the same login details.
+              </p>
+            )}
 
             {/*  */}
-{
-   formData?.content?.eventDetails?.SubText?.value?
-   <p class="speaker-specialization"
-   dangerouslySetInnerHTML={{
-     __html:
-       formData?.content?.eventDetails?.SubText?.value,
-   }}/>:<p class="speaker-specialization">
-   If you do not yet have a One Source account, by registering to a
-   Clinical Practice session an automatic account will be generated
-   and you will gain access to this content in accordance with the
-   data privacy policy of{" "}
-   <a href="/octapharma-privacy" target="_blank">
-     Octapharma AG
-   </a>{" "}
-   and{" "}
-   <a
-     href="https://albert.docintel.app/privacy_policy/"
-     target="_blank"
-   >
-     Docintel.app
-   </a>{" "}
-   operating this page.
- </p>
-}
-          
-            
+            {formData?.content?.eventDetails?.SubText?.value ? (
+              <p
+                class="speaker-specialization"
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.SubText?.value,
+                }}
+              />
+            ) : (
+              <p class="speaker-specialization">
+                If you do not yet have a One Source account, by registering to a
+                Clinical Practice session an automatic account will be generated
+                and you will gain access to this content in accordance with the
+                data privacy policy of{" "}
+                <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">
+                  Octapharma AG
+                </a>{" "}
+                and{" "}
+                <a
+                  href="https://albert.docintel.app/privacy_policy/"
+                  target="_blank"
+                >
+                  Docintel.app
+                </a>{" "}
+                operating this page.
+              </p>
+            )}
+
             <div className="octapharma_event_form">{children}</div>
           </div>
           <div className="footer">
@@ -199,8 +202,9 @@ export default function TemplateFour({ children, formData }) {
               <Row>
                 <Col md={8}>
                   <p>
-                    <Link to="https://onesource.octapharma.com/">
-                      Visit One Source,
+                  To Visit One Source &nbsp; 
+                    <Link  target="_blank" to="https://onesource.octapharma.com/" style={{textDecoration:"underline"}}>
+                     Click Here
                     </Link>{" "}
                     Octapharma’s online haematology platform for healthcare
                     professionals, to be up to date with the latest news and
@@ -213,11 +217,12 @@ export default function TemplateFour({ children, formData }) {
                 </Col>
                 <Col md={4}>
                   <div className="footer-logo">
+                    <a target="_blank" href="https://onesource.octapharma.com">
                     <img
-                      // src={path_image + "one_source_blue.svg"}
                       src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
                       alt="Logo image"
                     />
+                    </a>
                   </div>
                 </Col>
               </Row>

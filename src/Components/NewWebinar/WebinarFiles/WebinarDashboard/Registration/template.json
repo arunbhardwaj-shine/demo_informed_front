@@ -551,7 +551,7 @@
         "SubText": {
             "title": "Sub Text",
             "type": "text",
-            "value": "If you do not yet have a One Source account, by registering to a Clinical Practice session, an automatic account will be generated, and you will gain access to this content in accordance with the data privacy policy of <a href='/octapharma-privacy' target='_blank'>Octapharma AG</a> and <a href='https://albert.docintel.app/privacy_policy/' target='_blank'>Docintel.app</a> operating this page.",
+            "value": "If you do not yet have a One Source account, by registering to a Clinical Practice session, an automatic account will be generated, and you will gain access to this content in accordance with the data privacy policy of <a href='https://onesource.octapharma.com/octapharma-privacy' target='_blank'>Octapharma AG</a> and <a href='https://albert.docintel.app/privacy_policy/' target='_blank'>Docintel.app</a> operating this page.",
             "color": "#33baa8"
         },
         "Specialization": {
