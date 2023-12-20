@@ -83,9 +83,7 @@ const NewEventCreate = () => {
       if (page == 1) {
         setTotalEvents(response?.data?.data?.totalPage);
         let raw_description = response?.data?.data?.data.map((d) => d?.raw_description ? JSON.parse(d?.raw_description) : {})
-        console.log("raw_descriptionraw_description", raw_description);
         let speakerName = raw_description?.map((item, index) => {
-
           try {
 
             return JSON.parse(item?.speaker_name)
@@ -828,7 +826,7 @@ const NewEventCreate = () => {
                                 </button>
                               </div>
                               <div className="event-title">{item?.title}</div>
-                              <div className="speaker-name">Speaker: {(speakerName[index])?.map((item, i) => (item?.speakerName)).join(",")}</div>
+                              <div className="speaker-name">Speaker: {(speakerName[index])?.map((item, i) => (item?.speakerName)).join(" , ")}</div>
                               <div className="event-details d-flex justify-content-between">
                                 <div className="time-left">
                                   {differenceDays(item?.dateStart) == 0
