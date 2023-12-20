@@ -258,6 +258,11 @@ body {
   text-decoration: underline;
 }
 
+.eahad_2024 .question-block .copy-right-bottom-text p {
+  font-size: 10px;
+  margin: 8px 0 0;
+}
+
 .eahad_2024 .footer-msg span {
   font-size: 10px;
   color: #004b95;
@@ -371,15 +376,19 @@ p#totalCountText {
   .question-block .head-sec h2.top-title {
     font-size: 26px;
   }
-.eahad_2024 .question-block .head-sec {
-  min-height: 110px;
-}
-.eahad_2024 .question-block .head-sec .right-side-img img {
-  max-height: 105px;
-}
-.eahad_2024 .question-block .head-sec img {
-  max-width: 240px;
-}
+
+  .eahad_2024 .question-block .head-sec {
+    min-height: 110px;
+  }
+
+  .eahad_2024 .question-block .head-sec .right-side-img img {
+    max-height: 105px;
+  }
+
+  .eahad_2024 .question-block .head-sec img {
+    max-width: 240px;
+  }
+
   .question-block .log-inner {
     margin: -25px -30px 19px;
   }
@@ -402,35 +411,48 @@ p#totalCountText {
   .question-block .header-logo img {
     max-width: 180px;
   }
-.octa_events.eahad_2024 {
-  padding: 12px 0;
-}
-.eahad_2024 .question-block .header-logo img {
-  max-width: 190px;
-}
-.eahad_2024 .question-block .head-sec img {
-  max-width: 170px;
-}
-.eahad_2024 .question-block .head-sec .right-side-img img {
-  max-height: 90px;
-  right: 15px;
-}
-.eahad_2024 .event_title h2.top-title {
-  font-size: 20px;
-}
-.eahad_2024 .eahad-footer {
-  margin-top: 12px;
-  flex-direction: column;
-  align-items: center;
-}
-.eahad_2024 .eahad-footer .footer-msg {
-  padding-left: 0;
-}
-.eahad_2024 .eahad-footer img {
-  flex: 0 0 auto;
-  max-width: 200px;
-  align-items: center;
-}
+
+  .eahad_2024 .question-block .copy-right-bottom-text p {
+    margin: 13px 0 0;
+  }
+
+  .octa_events.eahad_2024 {
+    padding: 12px 0;
+  }
+
+  .eahad_2024 .question-block .header-logo img {
+    max-width: 190px;
+  }
+
+  .eahad_2024 .question-block .head-sec img {
+    max-width: 170px;
+  }
+
+  .eahad_2024 .question-block .head-sec .right-side-img img {
+    max-height: 90px;
+    right: 15px;
+  }
+
+  .eahad_2024 .event_title h2.top-title {
+    font-size: 20px;
+  }
+
+  .eahad_2024 .eahad-footer {
+    margin-top: 12px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .eahad_2024 .eahad-footer .footer-msg {
+    padding-left: 0;
+  }
+
+  .eahad_2024 .eahad-footer img {
+    flex: 0 0 auto;
+    max-width: 200px;
+    align-items: center;
+  }
+
   .question-block-form .form-control::-webkit-input-placeholder {
     font-size: 14px;
     opacity: 1;
