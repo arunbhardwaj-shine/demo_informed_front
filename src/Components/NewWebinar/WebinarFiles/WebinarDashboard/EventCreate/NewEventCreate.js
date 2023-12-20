@@ -33,8 +33,11 @@ const NewEventCreate = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isDataLength, setIsDataLength] = useState(0);
   const [deletestatus, setDeleteStatus] = useState(false);
+  const [editstatus, setEditStatus] = useState(false);
   const [resetDataId, setResetDataId] = useState();
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [rawDescription, setRawDescription] = useState();
+  const [speakerName, setSpeakerName] = useState()
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -79,6 +82,23 @@ const NewEventCreate = () => {
 
       if (page == 1) {
         setTotalEvents(response?.data?.data?.totalPage);
+        let raw_description = response?.data?.data?.data.map((d) => d?.raw_description ? JSON.parse(d?.raw_description) : {})
+        console.log("raw_descriptionraw_description", raw_description);
+        let speakerName = raw_description?.map((item, index) => {
+
+          try {
+
+            return JSON.parse(item?.speaker_name)
+
+          } catch (e) {
+            return item?.speaker_name ? [{ speakerName: item?.speaker_name }] : [{ speakerName: "" }]
+          }
+        }
+        )
+
+        setSpeakerName(speakerName)
+        setRawDescription(raw_description)
+
         setIsData(response?.data?.data?.data);
         setApiData(response?.data?.data?.data);
         if (
@@ -90,7 +110,8 @@ const NewEventCreate = () => {
         }
       } else {
         let newDataLength = isData?.length + response?.data?.data?.data?.length;
-
+        let raw_description = response?.data?.data?.data.map((d) => d?.raw_description ? JSON.parse(d?.raw_description) : {})
+        setRawDescription(raw_description)
         setIsData([...isData, ...response?.data?.data?.data]);
         setApiData([...apiData, ...response?.data?.data?.data]);
         if (totalEvents > newDataLength) {
@@ -99,7 +120,6 @@ const NewEventCreate = () => {
           setIsLoaded(false);
         }
       }
-
       setApiStatus(true);
     } catch (err) {
       console.log("--err", err);
@@ -235,7 +255,17 @@ const NewEventCreate = () => {
     if (deletestatus) {
       setDeleteStatus(false);
     } else {
+      setEditStatus(false);
       setDeleteStatus(true);
+    }
+  };
+  const showEditButtons = () => {
+    if (editstatus) {
+      setEditStatus(false);
+    } else {
+      setDeleteStatus(false);
+      setEditStatus(true);
+
     }
   };
 
@@ -329,6 +359,10 @@ const NewEventCreate = () => {
     const dayDifference = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
     // console.log(dayDifference); // Output: 4
     return dayDifference;
+  };
+
+  const handleCardClick = (item) => {
+    navigate("/invitees");
   };
 
   return (
@@ -618,6 +652,32 @@ const NewEventCreate = () => {
                         </>
                       )}
                     </div>
+                    <div className="clear-search">
+                      {editstatus ? (
+                        <button
+                          className="btn btn-outline-primary cancel"
+                          title="Cancel delete"
+                          onClick={(e) => showEditButtons()}
+                        >
+                          Cancel
+                        </button>
+                      ) : (
+
+                        <button
+                          // className="btn-edit"
+                          className="btn btn-outline-primary"
+                          onClick={(e) => {
+                            showEditButtons();
+                          }}
+                        >
+                          <img
+                            title="Edit"
+                            src={path_image + "edit-button.svg"}
+                            alt="Delete Row"
+                          />
+                        </button>
+                      )}
+                    </div>
 
                     <div className="clear-search">
                       {deletestatus ? (
@@ -717,14 +777,21 @@ const NewEventCreate = () => {
                   <>
                     {isData?.map((item, index) => {
                       return (
-                        <div className="email_box_block">
+                        <div className="email_box_block" key={index}
+                          onClick={() => handleCardClick(item)}>
                           <div className="email_box">
                             <div className="mail-box-content">
                               <div className="action_btn text-end">
-                                <button
+                                {differenceDays(item?.dateStart) == 0
+                                  ? "Event Live"
+                                  : differenceDays(item?.dateStart) > 0
+                                    ? "Coming Soon"
+                                    : "Has Ended"}
+                                {/* <button
                                   className="btn-edit"
                                   onClick={(e) => {
                                     handleAddEventClick(e, item);
+                                    e.stopPropagation(); 
                                   }}
                                 >
                                   <img
@@ -732,11 +799,12 @@ const NewEventCreate = () => {
                                     src={path_image + "edit-button.svg"}
                                     alt="Delete Row"
                                   />
-                                </button>
+                                </button> */}
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarRegistrationForm(e, item);
+                                    e.stopPropagation();
                                   }}
                                 >
                                   <img
@@ -749,6 +817,7 @@ const NewEventCreate = () => {
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarPollingForm(e, item);
+                                    e.stopPropagation();
                                   }}
                                 >
                                   <img
@@ -759,43 +828,66 @@ const NewEventCreate = () => {
                                 </button>
                               </div>
                               <div className="event-title">{item?.title}</div>
+                              <div className="speaker-name">Speaker: {(speakerName[index])?.map((item, i) => (item?.speakerName)).join(",")}</div>
                               <div className="event-details d-flex justify-content-between">
                                 <div className="time-left">
                                   {differenceDays(item?.dateStart) == 0
                                     ? "Event Live"
                                     : differenceDays(item?.dateStart) > 0
-                                    ? differenceDays(item?.dateStart) +
+                                      ? differenceDays(item?.dateStart) +
                                       " Days Left"
-                                    : "Event Expire"}
+                                      : ""}
                                 </div>
                                 <div className="event-date">
                                   {formatDate(item?.dateStart)} |{" "}
-                                  {`${item?.dateStartHour}:${
-                                    item?.dateStartMin.length == 1
-                                      ? "0" + item?.dateStartMin
-                                      : item?.dateStartMin
-                                  } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
+                                  {`${item?.dateStartHour}:${item?.dateStartMin.length == 1
+                                    ? "0" + item?.dateStartMin
+                                    : item?.dateStartMin
+                                    } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
                                 </div>
+                                <div className="country-timezone event-date">{item?.country_timezone}</div>
                               </div>
 
-                              {deletestatus ? (
-                                <div className="dlt_btn">
-                                  <button
-                                    onClick={(e) =>
-                                      showConfirmationPopup(
-                                        "delete",
-                                        e,
-                                        item?.id
-                                      )
-                                    }
-                                  >
-                                    <img
-                                      src={path_image + "delete.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
-                                </div>
-                              ) : null}
+                              {editstatus ? (<div className="dlt_btn">
+                                <button
+                                  onClick={(e) => {
+                                    handleAddEventClick(e, item);
+                                    e.stopPropagation();
+                                  }}
+
+
+                                >
+                                  <img
+                                    title="Edit"
+                                    src={path_image + "edit-button.svg"}
+                                    alt="Delete Row"
+                                  />
+                                </button>
+                              </div>)
+                                : deletestatus ? (
+                                  <div className="dlt_btn">
+                                    <button
+                                      // onClick={(e) =>
+                                      //   showConfirmationPopup(
+                                      //     "delete",
+                                      //     e,
+                                      //     item?.id
+                                      //   )
+
+                                      // }
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        showConfirmationPopup("delete", e, item?.id);
+                                      }}
+
+                                    >
+                                      <img
+                                        src={path_image + "delete.svg"}
+                                        alt="Delete Row"
+                                      />
+                                    </button>
+                                  </div>
+                                ) : null}
                             </div>
                           </div>
                         </div>

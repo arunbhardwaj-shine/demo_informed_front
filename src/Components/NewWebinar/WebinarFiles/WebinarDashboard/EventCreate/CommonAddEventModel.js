@@ -22,7 +22,7 @@ const CommonAddEventModel = ({
   const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [timeHours, setTimeHours] = useState([
-    { label: "Select", value: "Select" },
+    { label: "Hour", value: "Hour" },
     { label: "00 ", value: "00" },
     { label: "01 ", value: "01" },
     { label: "02 ", value: "02" },
@@ -49,7 +49,7 @@ const CommonAddEventModel = ({
     { label: "23 ", value: "23" },
   ]);
   const [timeMinutes, setTimeMinutes] = useState([
-    { label: "Select", value: "Select" },
+    { label: "Min", value: "Min" },
     { label: "00 ", value: "00" },
     { label: "05 ", value: "05" },
     { label: "10 ", value: "10" },
@@ -63,7 +63,6 @@ const CommonAddEventModel = ({
     { label: "50 ", value: "50" },
     { label: "55 ", value: "55" },
   ]);
-
   const [error, setError] = useState({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [countryTimezone, setCountryTimezone] = useState([]);
@@ -77,6 +76,10 @@ const CommonAddEventModel = ({
     { label: "Live", value: "Live" },
     { label: "Virtual", value: "Virtual" },
   ]);
+  const [eventOptions, setEventOptions] = useState([
+    { label: "Webinar", value: "Webinar" },
+    { label: "Conference", value: "Conference" }
+  ])
   const [eventInputs, setEventInputs] = useState({
     dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     dateEnd: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
@@ -93,7 +96,7 @@ const CommonAddEventModel = ({
     dateEndMin: "",
     event_code: "",
     description: "",
-    speaker_name: "",
+    speaker_name: [{ speakerName: "" }],
     speaker_email: "",
     meeting_type: "",
   });
@@ -130,7 +133,7 @@ const CommonAddEventModel = ({
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
         description: data?.description ? data?.description : "",
-        speaker_name: speaker_name,
+        speaker_name: JSON.parse(speaker_name),
         speaker_email: speaker_email,
         meeting_type: meeting_type,
       });
@@ -153,7 +156,7 @@ const CommonAddEventModel = ({
         dateEndMin: "",
         event_code: "",
         description: "",
-        speaker_name: "",
+        speaker_name: [{ speakerName: "" }],
         speaker_email: "",
         meeting_type: "",
       });
@@ -167,18 +170,26 @@ const CommonAddEventModel = ({
       ), dateEnd: new Date(
         moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
       ),
+      speaker_name: [{ speakerName: "" }]
     });
     onClose(false);
   };
-  const handleChange = (e, isSelectedName) => {
-    const { name, value } = e?.target || {};
+  const handleChange = (e, isSelectedName, index) => {
 
-    if (name === 'event_code') {
+
+    const { name, value } = e?.target || {};
+    if (isSelectedName == "speaker_name") {
+      let updateOption = eventInputs?.speaker_name;
+      updateOption[index].speakerName = e?.target?.value;
+      setEventInputs({ ...eventInputs, speaker_name: updateOption });
+    }
+    else if (name === 'event_code') {
       setEventInputs({
         ...eventInputs,
         [isSelectedName || name]: isSelectedName ? e : value?.trim(),
       });
-    } else {
+    }
+    else {
       const updatedInputs = {
         ...eventInputs,
         [isSelectedName || name]: isSelectedName ? e : value,
@@ -187,17 +198,57 @@ const CommonAddEventModel = ({
       if (isSelectedName === 'dateStart') {
         updatedInputs.dateEnd = isSelectedName ? e : value;
       }
-
       setEventInputs(updatedInputs);
+
+
     }
   };
 
+  const addNewSpeakerClicked = (e, isSelectedName) => {
+    let speakerObj = {
+      speakerName: ""
+    }
+    let error = {}
+    if (eventInputs?.speaker_name?.length) {
+      let index = eventInputs?.speaker_name?.findIndex(
+        (data, index) => data?.speakerName == ""
+      );
+      if (index > -1) {
+        // toast.error(`Please fill the speaker name ${index + 1}`);
+        error = { speaker_name: "Please enter speaker name", index: index }
+        setError(error)
+        return;
+      } else {
+        setEventInputs({ ...eventInputs, speaker_name: [...eventInputs?.speaker_name, speakerObj] })
+      }
+    }
+  }
+  const deleteSpeaker = (e, index) => {
+    e.preventDefault();
+    let error = {}
+    if (Object.keys(eventInputs?.speaker_name)?.length > 1) {
+      let updatedEventInputs = eventInputs?.speaker_name;
+      updatedEventInputs?.splice(index, 1);
+      setEventInputs({ ...eventInputs, speaker_name: updatedEventInputs });
+      setError();
+    } else {
+      error = { speaker_name: "Atleast one Speaker must be required", index: index }
+      setError(error)
+      return
+    }
+
+  };
+
   const formatDate = (newDate) => {
-    const year = newDate.getFullYear();
-    const month = String(newDate.getMonth() + 1).padStart(2, "0");
-    const day = String(newDate.getDate()).padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
-    return formattedDate;
+    console.log("new date--->", newDate)
+    if(newDate!=""){
+      const year = newDate.getFullYear();
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const day = String(newDate.getDate()).padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+      return formattedDate;
+    }
+    
   };
 
   function isValidDateFormat(dateString) {
@@ -225,18 +276,21 @@ const CommonAddEventModel = ({
         if (isValidDateFormat(eventInputs?.dateStart)) {
           dateStart = convertDate(eventInputs?.dateStart);
         } else {
-          dateStart = formatDate(eventInputs?.dateStart);
+          const dateTime = new Date(eventInputs?.dateStart)
+          dateStart = formatDate(dateTime);
         }
         let dateEnd = "";
         if (isValidDateFormat(eventInputs?.dateEnd)) {
           dateEnd = convertDate(eventInputs?.dateEnd);
         } else {
-          dateEnd = formatDate(eventInputs?.dateEnd);
+          const dateTime = new Date(eventInputs?.dateEnd)
+          dateEnd = formatDate(dateTime);
         }
         let dataObj = {
           title: eventInputs?.title,
           location: eventInputs?.location,
           type: eventInputs?.type ? eventInputs?.type : "",
+          event_type: eventInputs?.event_type ? eventInputs?.event_type : "",
           timezone: eventInputs?.timezone,
           countryTimezone: eventInputs?.country_timezone,
           isClientStream: eventInputs?.is_client_stream == "Yes" ? 1 : 0,
@@ -249,11 +303,10 @@ const CommonAddEventModel = ({
           dateEndMin: eventInputs?.dateEndMin,
           eventCode: eventInputs?.event_code,
           description: eventInputs?.description ? eventInputs?.description : "",
-          speaker_name: eventInputs?.speaker_name ? eventInputs?.speaker_name : "",
+          speaker_name: eventInputs?.speaker_name ? JSON.stringify(eventInputs?.speaker_name) : "",
           speaker_email: eventInputs?.speaker_email ? eventInputs?.speaker_email : "",
           meeting_type: eventInputs?.meeting_type ? eventInputs?.meeting_type : "",
         };
-        console.log(dataObj, "dataObj");
 
         if (data?.id) {
           const res = await updateConsent(
@@ -271,6 +324,7 @@ const CommonAddEventModel = ({
           ), dateEnd: new Date(
             moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
           ),
+          speaker_name: [{ speakerName: "" }]
         });
         handleSubmit();
         setError({});
@@ -367,37 +421,122 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
+
+                          <div className="col-12 col-md-12">
+                            <div className="form-group">
+                              <label htmlFor="">
+                                Event Type
+                              </label>
+
+                              <Select
+                                options={eventOptions}
+                                className={
+                                  error?.event_type
+                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                }
+                                placeholder="Select event type"
+                                onChange={(e) =>
+                                  handleChange(e?.value, "event_type")
+                                }
+                                value={
+                                  eventOptions
+                                    ? eventOptions.findIndex(
+                                      (item) =>
+                                        item?.value ==
+                                        eventInputs?.event_type
+                                    ) != -1
+                                      ? eventOptions[
+                                      eventOptions.findIndex(
+                                        (item) =>
+                                          item?.value ==
+                                          eventInputs?.event_type
+                                      )
+                                      ]
+                                      : ""
+                                    : ""
+                                }
+                                isClearable
+                              />
+                              {error?.event_type ? (
+                                <div className="login-validation">
+                                  {error?.event_type}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
                           <div className="col-12 col-md-12 speaker-name">
                             <div className="row">
                               <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    Speaker's Name <span> *</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="speaker_name"
-                                    placeholder="Enter speaker's name"
-                                    className={
-                                      error?.speaker_name
-                                        ? "form-control error"
-                                        : "form-control"
-                                    }
-                                    onChange={(e) => handleChange(e)}
-                                    value={
-                                      eventInputs?.speaker_name
-                                        ? eventInputs?.speaker_name
-                                        : ""
-                                    }
-                                  />
-                                  {error?.speaker_name ? (
-                                    <div className="login-validation">
-                                      {error?.speaker_name}
-                                    </div>
-                                  ) : null}
-                                </div>
+                                {Object.keys(eventInputs?.speaker_name)?.map((item, index) => (
+                                  <div className="form-group">
+                                    <label htmlFor="">
+                                      {`Speaker's name ${index + 1
+                                        }`} <span> *</span>
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="speaker_name"
+                                      placeholder="Enter speaker's name"
+                                      className={
+                                        (error?.speaker_name && error?.index == index)
+                                          ? "form-control error"
+                                          : "form-control"
+                                      }
+                                      onChange={(e) => handleChange(e, 'speaker_name', index)}
+                                      value={
+                                        eventInputs?.speaker_name[item]?.speakerName
+
+                                      }
+
+                                    />
+                                    <button onClick={(e) => { deleteSpeaker(e, index) }}>
+
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="40"
+                                        height="40"
+                                        viewBox="0 0 40 40"
+                                        fill="none"
+                                      >
+                                        <path
+                                          d="M24.8608 31.7609C25.1362 32.0343 25.5082 32.1901 25.8977 32.1951C26.2871 32.1901 26.6592 32.0343 26.9346 31.7609C27.21 31.4876 27.367 31.1183 27.3721 30.7317V15.122C27.3721 14.7338 27.2167 14.3616 26.9402 14.0872C26.6637 13.8127 26.2887 13.6585 25.8977 13.6585C25.5067 13.6585 25.1316 13.8127 24.8551 14.0872C24.5786 14.3616 24.4233 14.7338 24.4233 15.122V30.7317C24.4284 31.1183 24.5854 31.4876 24.8608 31.7609Z"
+                                          fill="#0066be"
+                                        />
+                                        <path
+                                          d="M14.1027 32.1951C13.7133 32.1901 13.3412 32.0343 13.0658 31.7609C12.7904 31.4876 12.6334 31.1183 12.6283 30.7317V15.122C12.6283 14.7338 12.7837 14.3616 13.0602 14.0872C13.3367 13.8127 13.7117 13.6585 14.1027 13.6585C14.4937 13.6585 14.8687 13.8127 15.1452 14.0872C15.4217 14.3616 15.5771 14.7338 15.5771 15.122V30.7317C15.572 31.1183 15.415 31.4876 15.1396 31.7609C14.8642 32.0343 14.4921 32.1901 14.1027 32.1951Z"
+                                          fill="#0066be"
+                                        />
+                                        <path
+                                          d="M18.9633 31.7609C19.2387 32.0343 19.6107 32.1901 20.0002 32.1951C20.3896 32.1901 20.7617 32.0343 21.0371 31.7609C21.3125 31.4876 21.4695 31.1183 21.4746 30.7317V15.122C21.4746 14.7338 21.3192 14.3616 21.0427 14.0872C20.7662 13.8127 20.3912 13.6585 20.0002 13.6585C19.6092 13.6585 19.2341 13.8127 18.9577 14.0872C18.6812 14.3616 18.5258 14.7338 18.5258 15.122V30.7317C18.5309 31.1183 18.6879 31.4876 18.9633 31.7609Z"
+                                          fill="#0066be"
+                                        />
+                                        <path
+                                          fillRule="evenodd"
+                                          clipRule="evenodd"
+                                          d="M27.3721 3.90252V5.85366H37.6923C38.0833 5.85366 38.4583 6.00784 38.7348 6.28228C39.0113 6.55673 39.1667 6.92895 39.1667 7.31707C39.1667 7.70519 39.0113 8.07742 38.7348 8.35186C38.4583 8.62631 38.0833 8.78049 37.6923 8.78049H35.1489L33.5251 34.4195C33.4302 35.9294 32.7595 37.3467 31.6494 38.3833C30.5393 39.4199 29.0731 39.998 27.5489 40H12.4512C10.9407 39.9783 9.49405 39.3915 8.40063 38.3569C7.30721 37.3222 6.64757 35.916 6.55362 34.4195L4.85518 8.78049H2.3077C1.91668 8.78049 1.54167 8.62631 1.26517 8.35186C0.988677 8.07742 0.833344 7.70519 0.833344 7.31707C0.833344 6.92895 0.988677 6.55673 1.26517 6.28228C1.54167 6.00784 1.91668 5.85366 2.3077 5.85366H12.6283V3.80495C12.6532 2.80361 13.0651 1.85011 13.7787 1.14183C14.4922 0.433555 15.4529 0.0247359 16.4617 0H23.5387C24.5643 0.0254581 25.5393 0.447827 26.2555 1.17695C26.9717 1.90607 27.3724 2.88419 27.3721 3.90252ZM24.4233 3.90252V5.85366H15.5771V3.90252C15.5771 3.66964 15.6703 3.4463 15.8362 3.28163C16.0021 3.11696 16.2271 3.02445 16.4617 3.02445H23.5387C23.7733 3.02445 23.9983 3.11696 24.1642 3.28163C24.3301 3.4463 24.4233 3.66964 24.4233 3.90252ZM9.40411 34.2439L7.8904 8.78049L32.1883 8.87805L30.596 34.2439C30.5414 35.0101 30.1971 35.7274 29.632 36.2522C29.0668 36.7769 28.3228 37.0702 27.5489 37.0732H12.4512C11.676 37.0748 10.9293 36.7831 10.3632 36.2574C9.7971 35.7318 9.45412 35.0117 9.40411 34.2439Z"
+                                          fill="#0066be"
+                                        />
+                                      </svg>
+                                    </button>
+                                    {(error?.speaker_name && error?.index == index) ? (
+                                      <div className="login-validation">
+                                        {error?.speaker_name}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                ))}
+
+                                <span
+                                  className="add-choice"
+                                  onClick={(e) => addNewSpeakerClicked(e, "speaker")}
+                                >
+                                  Add speaker
+                                  <img src={path_image + "add-choice.svg"} alt="" />
+                                </span>
                               </div>
-                              <div className="col-12 col-md-6">
+
+                              {/* <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Speaker's Email <span> *</span>{" "}
@@ -424,14 +563,14 @@ const CommonAddEventModel = ({
                                     </div>
                                   ) : null}
                                 </div>
-                              </div>
+                              </div> */}
                               {/* <div className="col-12 col-md-12">
                                   <span class="add-choice">Add Speaker<img src={path_image+"add-choice.svg"} alt=""/></span>
                                 </div> */}
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-12">
+                          {/* <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 Meeting Type <span> *</span>
@@ -473,7 +612,7 @@ const CommonAddEventModel = ({
                                 </div>
                               ) : null}
                             </div>
-                          </div>
+                          </div> */}
 
                           <div className="col-12 col-md-12">
                             <div className="form-group">
@@ -513,7 +652,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-12">
+                          {/* <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 Country Timezone <span> *</span>
@@ -553,7 +692,7 @@ const CommonAddEventModel = ({
                                 </div>
                               ) : null}
                             </div>
-                          </div>
+                          </div> */}
 
                           <div className="col-12 col-md-12">
                             <div className="form-group">
@@ -598,7 +737,7 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
-                          <div className="col-12 col-md-12">
+                          {/* <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 {" "}
@@ -638,7 +777,7 @@ const CommonAddEventModel = ({
                                 </div>
                               ) : null}
                             </div>
-                          </div>
+                          </div> */}
                           {eventInputs?.is_client_stream == "Yes" ? (
                             <div className="col-12 col-md-12">
                               <div className="form-group">
@@ -759,6 +898,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "dateStartHour")
                                 }
+                                placeholder="Hour"
                                 value={
                                   timeHours?.findIndex(
                                     (item) =>
@@ -786,6 +926,7 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "dateStartMin")
                                 }
+                                placeholder="Min"
                                 value={
                                   timeMinutes?.findIndex(
                                     (item) =>
@@ -907,7 +1048,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
 
-                          <div className="col-12 col-md-12">
+                          {/* <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">Event Description</label>
                               <textarea
@@ -923,7 +1064,7 @@ const CommonAddEventModel = ({
                                 }
                               />
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
 
@@ -971,6 +1112,7 @@ const CommonAddEventModel = ({
           </button>
         </div>
       </Modal>
+
     </>
   );
 };

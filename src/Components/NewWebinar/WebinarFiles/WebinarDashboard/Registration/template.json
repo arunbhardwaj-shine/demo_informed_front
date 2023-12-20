@@ -508,6 +508,11 @@
     "footerImageUrl": "",
     "labelColor": "#2068B3",
     "optionColor": "#2068B3",
+    "typedTextColor":"#2068B3",
+    "placeholderTextColor":"#2068B3",
+    "dropdownOptionColor": "#2068B3",
+    "dropdownHoveringColor":"#2068B3",
+    "selectedTextColor":"#2068B3",
     "backgroundColor": "",
     "eventDetails": {
         "eventStartDate": {
@@ -516,22 +521,14 @@
             "value": "",
             "color": "#001489"
         },
-        "eventEndDate": {
-            "title": "Event End Date",
-            "type": "date",
-            "value": ""
-        },
+        
         "eventStartTime": {
             "title": "Event Start Time",
             "type": "time",
             "value": "",
             "color": "#001489"
         },
-        "eventEndTime": {
-            "title": "Event End Time",
-            "type": "time",
-            "value": ""
-        },
+ 
         "speakerName": {
             "title": "Speaker Name",
             "type": "text",
@@ -544,10 +541,22 @@
             "value": "Registrations are now open to the Patient Case",
             "color": "#001489"
         },
+        "SubTitle": {
+            "title": "Sub Title",
+            "type": "text",
+            "value": "Surgery using FVIII in a HA PUP on emicizumab prophylaxis",
+            "color": "#33baa8"
+        },
         "SubHeading": {
             "title": "Sub Heading",
             "type": "text",
-            "value": "Surgery using FVIII in a HA PUP on emicizumab prophylaxis",
+            "value": "If you already have a One Source account you can register to the clinical practice session using the same login details.",
+            "color": "#33baa8"
+        },
+        "SubText": {
+            "title": "Sub Text",
+            "type": "text",
+            "value": "If you do not yet have a One Source account, by registering to a Clinical Practice session, an automatic account will be generated, and you will gain access to this content in accordance with the data privacy policy of <a href='/octapharma-privacy' target='_blank'>Octapharma AG</a> and <a href='https://albert.docintel.app/privacy_policy/' target='_blank'>Docintel.app</a> operating this page.",
             "color": "#33baa8"
         },
         "Specialization": {
@@ -564,30 +573,36 @@
         }
     },
     "body": [
+        
         {
-            "label": "Full consent (for additional information or to edit consent click Change)",
+            "label": "I also consent to:",
             "inputType": "checkbox",
             "placeholder": "",
             "required": "yes",
             "option": [
                 {
-                    "optionLabel": "my participation during the live webinar being recorded for live streaming and on-demand use*",
+                    "optionLabel": "Receive One Source updates and new materials from Octapharma.",
                     "extension": [],
                     "checked": ""
                 },
                 {
-                    "optionLabel": "Full consent (for additional information or to edit consent click Change)",
+                    "optionLabel": "Receive invitations to future events.",
                     "extension": [],
                     "checked": ""
                 },
                 {
-                    "optionLabel": "invites for future Octapharma haematology events (these may be promotional events)",
+                    "optionLabel": "Both of the options above.",
+                    "extension": [],
+                    "checked": ""
+                },
+                {
+                    "optionLabel": "None of the options above.",
                     "extension": [],
                     "checked": ""
                 }
             ],
             "extension": "",
-            "name": "consent"
+            "name": "onesource_consent"
         },
         {
             "name": "country",

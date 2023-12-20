@@ -1162,7 +1162,7 @@ const EmailList = (props) => {
                         <div
                           className={
                             "email_box " +
-                            ((localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" && data?.status == 5)
+                            ((data?.status == 5)
                               ? "queue" :
                               data.status == 1
                                 ? "approved"
@@ -1174,8 +1174,8 @@ const EmailList = (props) => {
                           <div className="mail-top-title">
 
                             <span>
-                              {(localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" && data?.status == 5)
-                                ? "Queue" :
+                              {( data?.status == 5)
+                                ? "Sending in queue" :
                                 data.status == 2 ? "Draft" : "Approved Draft"
                               }
                             </span>

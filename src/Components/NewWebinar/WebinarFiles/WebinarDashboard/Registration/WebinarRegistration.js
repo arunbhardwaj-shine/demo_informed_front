@@ -59,6 +59,7 @@ const WebinarRegistration = () => {
   const [showExtensionModal, setExtensionModal] = useState(false);
   const [isFormChange, setIsFormChange] = useState(false);
   const [isDataSaved, setIsDataSaved] = useState(true);
+  const [save, setSave] = useState()
   const [isSavedClicked, setIsSavedClicked] = useState(false);
   const [rawData, setRawData] = useState({});
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
@@ -78,6 +79,11 @@ const WebinarRegistration = () => {
     headerImageUrl: "",
     body: [],
     footerImageUrl: "",
+    typedTextColor:"",
+    placeholderTextColor:"",
+    dropdownOptionColor:"",
+    dropdownHoveringColor:"",
+    selectedTextColor:"",
     labelColor: "",
     optionColor: "",
     backgroundColor: "",
@@ -93,6 +99,11 @@ const WebinarRegistration = () => {
     body: [],
     footerImageUrl: "",
     labelColor: "",
+    typedTextColor:"",
+    placeholderTextColor:"",
+    dropdownOptionColor:"",
+    dropdownHoveringColor:"",
+    selectedTextColor:"",
     optionColor: "",
     backgroundColor: "",
     totalFieldNo: 0,
@@ -168,7 +179,7 @@ const WebinarRegistration = () => {
   const [dropDownData, setDropDownData] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
   const [showModalPreview, setShowModalPreview] = useState(false);
- 
+
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
   useEffect(() => {
@@ -191,6 +202,7 @@ const WebinarRegistration = () => {
     getAllEvents();
 
   }, []);
+
 
   const getWebinarData = async (event_code) => {
     try {
@@ -647,7 +659,7 @@ const WebinarRegistration = () => {
         } else if (isSelectedName == "onesource_consent") {
           let newObj = {
             // label: isSelectedName,
-            label: "I also consent to: " ,
+            label: "I also consent to: ",
             name: "onesource_consent",
 
             inputType: "checkbox",
@@ -664,11 +676,11 @@ const WebinarRegistration = () => {
               {
                 optionLabel: "Receive invitations to future events.",
                 checked: ''
-              }, 
-               {
+              },
+              {
                 optionLabel: "Both of the options above.",
                 checked: ''
-              },  
+              },
               {
                 optionLabel: "None of the options above.",
                 checked: ''
@@ -819,6 +831,7 @@ const WebinarRegistration = () => {
   // };
 
   const saveClicked = async (e) => {
+
     if (e) {
       e.preventDefault();
     }
@@ -867,6 +880,7 @@ const WebinarRegistration = () => {
       // setFile("");
       // setFoot("");
       // setLogo("");
+      setSave(response)
       setIsDataSaved(true);
 
     } catch (err) {
@@ -942,7 +956,23 @@ const WebinarRegistration = () => {
   const onColorChange = (e, isSelectedName) => {
     if (isSelectedName == "labelColor") {
       setFormData({ ...formData, labelColor: e?.target?.value });
-    } else if (isSelectedName == "backgroundColor") {
+    } 
+     else if (isSelectedName == "typedTextColor") {
+      setFormData({ ...formData, typedTextColor: e?.target?.value });
+    }
+    else if (isSelectedName == "placeholderTextColor") {
+      setFormData({ ...formData, placeholderTextColor: e?.target?.value });
+    }
+    else if (isSelectedName == "dropdownOptionColor") {
+      setFormData({ ...formData, dropdownOptionColor: e?.target?.value });
+    }
+    else if (isSelectedName == "dropdownHoveringColor") {
+      setFormData({ ...formData, dropdownHoveringColor: e?.target?.value });
+    }
+    else if (isSelectedName == "selectedTextColor") {
+      setFormData({ ...formData, selectedTextColor: e?.target?.value });
+    }
+    else if (isSelectedName == "backgroundColor") {
       setFormData({ ...formData, backgroundColor: e?.target?.value });
     } else if (isSelectedName == "OptionColor") {
       setFormData({ ...formData, optionColor: e?.target?.value });
@@ -1154,11 +1184,11 @@ const WebinarRegistration = () => {
                       className="save btn-bordered"
                       onClick={handlePreview}
                     >
-                      Preview
+                      Preview In New Tab
                     </Button>
-                    <Button onClick={(e) => saveClicked(e)} className="save">
+                    {/* <Button onClick={(e) => saveClicked(e)} className="save">
                       Save
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </div>
@@ -1468,7 +1498,7 @@ const WebinarRegistration = () => {
                               }
                               onChange={(e) => handleChange(e, "consent")}
                             />
-<Form.Check
+                            <Form.Check
                               className="webinar-checkbox"
                               inline
                               label="Onesource Consent"
@@ -2475,9 +2505,61 @@ const WebinarRegistration = () => {
                                         </div>
                                       ) : null}
                                     </div>
+                                    <div>
+                                    Select color of:
                                     <div className="d-flex align-items-center reg-color-set">
                                       <div className="form-group">
-                                        <label>Select label color</label>
+                                        <label>Typed Text</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "typedTextColor")
+                                              }
+                                              value={
+                                                formData?.typedTextColor
+                                                  ? formData?.typedTextColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="form-group">
+                                        <label>Placeholder Text</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "placeholderTextColor")
+                                              }
+                                              value={
+                                                formData?.placeholderTextColor
+                                                  ? formData?.placeholderTextColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="form-group">
+                                        <label> Label </label>
                                         <div className="option-action">
                                           <div className="color-pick">
                                             <img
@@ -2526,7 +2608,8 @@ const WebinarRegistration = () => {
                                           </div>
                                         </div>
                                       </div>
-                                      <div className="form-group">
+                                      
+                                      {/* <div className="form-group">
                                         <label>Select background color</label>
                                         <div className="option-action">
                                           <div className="color-pick">
@@ -2553,7 +2636,88 @@ const WebinarRegistration = () => {
                                             />
                                           </div>
                                         </div>
+                                      </div> */}
+                                    </div>
+                                    </div>
+                                    <div>
+                                      Select color of dropdown list:
+                                      <div className="d-flex align-items-center reg-color-set">
+                                      <div className="form-group">
+                                        <label>Options Text color</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "dropdownOptionColor")
+                                              }
+                                              value={
+                                                formData?.dropdownOptionColor
+                                                  ? formData?.dropdownOptionColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
                                       </div>
+                                      <div className="form-group">
+                                        <label>Hovering Bar</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "dropdownHoveringColor")
+                                              }
+                                              value={
+                                                formData?.dropdownHoveringColor
+                                                  ? formData?.dropdownHoveringColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="form-group">
+                                        <label>Selected Text</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "selectedTextColor")
+                                              }
+                                              value={
+                                                formData?.selectedTextColor
+                                                  ? formData?.selectedTextColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                     </div>
                                   </div>
                                 </div>
@@ -2576,18 +2740,22 @@ const WebinarRegistration = () => {
                       </Form>
                     </div>
                     <div className="registration-right">
+                      Upload Logo
                       <div
                         className="logo-section header-section"
-                        onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                        // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
                       >
                         {!logo && (
-                          <h4
-                            className="logo-img-section header-img-section"
-                            id="uploadButton"
-                          >
-                            Upload Logo
-                          </h4>
+                          <>
+                          <div>
+                         <h5>Upload your file</h5>
+                        <h6>(Recommended size 000 x 000)</h6>
+                        </div>
+                        <Button onClick={(e) => handleFileSelect(e, "logoImageUrl")}>Choose Your File</Button>
+                        </>
                         )}
+
+                       
                         <img className="logo-img" src={logo} />
                         <div className="logo-text header-text">
                           {logo && (
@@ -2623,16 +2791,21 @@ const WebinarRegistration = () => {
                           )}
                         </div>
                       </div>
-
+                      Upload Header
                       <div
                         className="header-section"
-                        onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+                        // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
                       >
                         {!file && (
-                          <h4 className="header-img-section" id="uploadButton">
-                            Upload header Image
-                          </h4>
+                          <>
+                         <div>
+                         <h5>Upload your file</h5>
+                        <h6>(Recommended size 000 x 000)</h6>
+                        </div>
+                        <Button onClick={(e) => handleFileSelect(e, "headerImageUrl")}>Choose Your File</Button>
+                        </>
                         )}
+                        
                         <img className="header-img" src={file} />
                         <div className="header-text">
                           {file && (
@@ -2668,14 +2841,21 @@ const WebinarRegistration = () => {
                           )}
                         </div>
                       </div>
-
+                      Upload Footer
                       <div
                         className="footer-section"
-                        onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                        // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
                       >
                         {!foot && (
-                          <h4 className="footer-img-section">Upload footer Image</h4>
+                          <>
+                          <div>
+                         <h5>Upload your file</h5>
+                        <h6>(Recommended size 000 x 000)</h6>
+                        </div>
+                        <Button onClick={(e) => handleFileSelect(e, "footerImageUrl")}>Choose Your File</Button>
+                        </>
                         )}
+                       
                         <img className="footer-img" src={foot} />
                         <div className="footer-text">
                           {foot && (
@@ -2718,159 +2898,25 @@ const WebinarRegistration = () => {
                     </div>
                   </Col>
                   <Col md={4} sm={5}>
-                    {/* <div className="registration-right">
-                      <div
-                        className="logo-section header-section"
-                        onClick={(e) => handleFileSelect(e, "logoImageUrl")}
-                      >
-                        {!logo && (
-                          <h4
-                            className="logo-img-section header-img-section"
-                            id="uploadButton"
-                          >
-                            Upload Logo
-                          </h4>
-                        )}
-                        <img className="logo-img" src={logo} />
-                        <div className="logo-text header-text">
-                          {logo && (
-                            <button
-                              className="btn btn-outline-primary"
-                              title="Edit user"
-                            >
-                              <img
-                                src={path + "edit-button.svg"}
-                                alt="Edit"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleFileSelect(e, "logoImageUrl");
-                                }}
-                              />
-                            </button>
-                          )}
 
-                          {logo && (
-                            <button
-                              className="dlt_btn_event btn-voilet"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteLogoImage(e, "logoImageUrl");
-                              }}
-                            >
-                              <img
-                                title="Delete"
-                                src={path_image + "delete-icon.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-
-                      <div
-                        className="header-section"
-                        onClick={(e) => handleFileSelect(e, "headerImageUrl")}
-                      >
-                        {!file && (
-                          <h4 className="header-img-section" id="uploadButton">
-                            Upload header Image
-                          </h4>
-                        )}
-                        <img className="header-img" src={file} />
-                        <div className="header-text">
-                          {file && (
-                            <button
-                              className="btn btn-outline-primary"
-                              title="Edit user"
-                            >
-                              <img
-                                src={path + "edit-button.svg"}
-                                alt="Edit"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleFileSelect(e, "headerImageUrl");
-                                }}
-                              />
-                            </button>
-                          )}
-
-                          {file && (
-                            <button
-                              className="dlt_btn_event btn-voilet"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteHeaderImage(e, "headerImageUrl");
-                              }}
-                            >
-                              <img
-                                title="Delete"
-                                src={path_image + "delete-icon.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-
-                      <div
-                        className="footer-section"
-                        onClick={(e) => handleFileSelect(e, "footerImageUrl")}
-                      >
-                        {!foot && (
-                          <h4 className="footer-img-section">Upload footer Image</h4>
-                        )}
-                        <img className="footer-img" src={foot} />
-                        <div className="footer-text">
-                          {foot && (
-                            <button
-                              className="btn btn-outline-primary"
-                              title="Edit user"
-                            >
-                              <img
-                                src={path + "edit-button.svg"}
-                                alt="Edit"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleFileSelect(e, "footerImageUrl");
-                                }}
-                              />
-                            </button>
-                          )}
-                          {foot && (
-                            <button
-                              className="dlt_btn_event btn-voilet"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteFooterImage(e, "footerImageUrl");
-                              }}
-                            >
-                              <img
-                                title="Delete"
-                                src={path_image + "delete-icon.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      {/* <div className="registration-preview">
-                            <div className="registration-form-view">
-
-                            </div>
-                    </div>
-                    </div> */}
-
+                    Preview (save it to see the changes)
+                    <Button onClick={(e) => saveClicked(e)} className="save">
+                      Save
+                    </Button>
+                  
                     <div className="webinar-popup">
-
                       <RegistrationPage
                         prevData={{
                           eventId: eventData?.event_id,
                           companyId: eventData?.company_id,
                           content: JSON.stringify(formData),
                           eventCode: event_code,
+                          isDataSaved: save
+
                         }}
+
                       />
-                     
+
                     </div>
 
                   </Col>
@@ -2956,7 +3002,10 @@ const WebinarRegistration = () => {
                     companyId: eventData?.company_id,
                     content: JSON.stringify(formData),
                     eventCode: event_code,
+                    isDataSaved: save
+
                   }}
+
                 />
               </div>
             </>
