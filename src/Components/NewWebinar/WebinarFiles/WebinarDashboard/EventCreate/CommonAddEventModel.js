@@ -9,6 +9,7 @@ import moment from "moment";
 import { loader } from "../../../../../loader";
 import { postData, updateConsent } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
+import { object } from "@amcharts/amcharts4/core";
 
 const CommonAddEventModel = ({
   show,
@@ -109,8 +110,13 @@ const CommonAddEventModel = ({
       let speaker_email = "";
       let meeting_type = "";
       if (data?.raw_description) {
-        let parseData = JSON.parse(data?.raw_description);
-        speaker_name = parseData?.speaker_name;
+        let parseData = JSON.parse(data?.raw_description);       
+          try 
+          { 
+            speaker_name = JSON.parse(parseData?.speaker_name) 
+          } catch 
+          { speaker_name = parseData?.speaker_name ? [{ speakerName: parseData?.speaker_name }] : [{ speakerName: "" }] }
+        
         speaker_email = parseData?.speaker_email;
         meeting_type = parseData?.meeting_type;
       }
@@ -133,7 +139,8 @@ const CommonAddEventModel = ({
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
         description: data?.description ? data?.description : "",
-        speaker_name: JSON.parse(speaker_name),
+        // speaker_name: JSON.parse(speaker_name),
+        speaker_name: speaker_name,
         speaker_email: speaker_email,
         meeting_type: meeting_type,
       });
@@ -240,15 +247,15 @@ const CommonAddEventModel = ({
   };
 
   const formatDate = (newDate) => {
-    console.log("new date--->", newDate)
-    if(newDate!=""){
+
+    if (newDate != "") {
       const year = newDate.getFullYear();
       const month = String(newDate.getMonth() + 1).padStart(2, "0");
       const day = String(newDate.getDate()).padStart(2, "0");
       const formattedDate = `${year}-${month}-${day}`;
       return formattedDate;
     }
-    
+
   };
 
   function isValidDateFormat(dateString) {
