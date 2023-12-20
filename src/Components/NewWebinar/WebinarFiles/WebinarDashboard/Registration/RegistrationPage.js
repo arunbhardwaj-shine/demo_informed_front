@@ -638,7 +638,7 @@ const RegistrationPage = ({ prevData }) => {
       )}
 
       <Modal
-        className="modal send-confirm"
+        className="modal send-confirm registration-popup"
         show={modalIsOpen}
         centered
         size="lg"
@@ -654,11 +654,12 @@ const RegistrationPage = ({ prevData }) => {
         </Modal.Header>
         <Modal.Body>
           <>
-            {formData?.content?.eventDetails?.Message?.value ? (
-              <h4>{formData.content.eventDetails.Message.value}</h4>
-            ) : (
-              <h4>Thank you for registering!</h4>
-            )}
+       
+              <h4   dangerouslySetInnerHTML={{
+                __html:
+                formData?.content?.eventDetails?.Message?.value?formData.content.eventDetails.Message.value:"Thank you for registering!"
+              }} />
+            
 
             <div className="modal-buttons">
               <button

@@ -570,7 +570,7 @@
         "Message": {
             "title": "Modal Message",
             "type": "text",
-            "value": "Thank you for registering!",
+            "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
             "color":  "#001489"
         }
     },
