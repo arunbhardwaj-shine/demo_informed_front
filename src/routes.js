@@ -170,6 +170,7 @@ import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashbo
 import Invitees from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Invitees"
 import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
 import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
+import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
 
 let platform = 0;
 let show = 0;
@@ -532,12 +533,19 @@ const Routing = () => {
           path="/poll-listing"
           element={<LoginLayout component={PollListing} />}
         />
+        <Route
+          path="/polls"
+          element={<LoginLayout component={Polls} />}
+        />
         {/* <Route
           path="/event-registration"
           element={<LoginLayout component={RegistrationPage} />}
         /> */}
         <Route path="/event-registration" element={<RegistrationPage />} />
-
+        {/* <Route
+          path="/event-listing"
+          element={<NewEventCreate />}
+        /> */}
         <Route
           path="/contact-form"
           element={<LoginLayout component={ContactForm} />}
