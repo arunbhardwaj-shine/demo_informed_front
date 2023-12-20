@@ -828,7 +828,7 @@ const NewEventCreate = () => {
                                 </button>
                               </div>
                               <div className="event-title">{item?.title}</div>
-                              <div className="speaker-name">Speaker: {(speakerName[index])?.map((item, i) => (item?.speakerName  +  " , " ))}</div>
+                              <div className="speaker-name">Speaker: {(speakerName[index])?.map((item, i) => (item?.speakerName)).join(",")}</div>
                               <div className="event-details d-flex justify-content-between">
                                 <div className="time-left">
                                   {differenceDays(item?.dateStart) == 0
