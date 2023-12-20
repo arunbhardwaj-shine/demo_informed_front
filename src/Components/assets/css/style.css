@@ -3995,7 +3995,7 @@ form#add_hcp_form .row:not(:first-child) {
   display: block;
   margin:0 0 7px;
 }
-.registration-popup .modal-body .modal-buttons button#submit_registration {
+.registration-popup .modal-body .modal-buttons button {
   height: 39px;
   line-height: 1;
   min-width: 140px;
@@ -4014,9 +4014,10 @@ form#add_hcp_form .row:not(:first-child) {
   height: auto;
   box-shadow: 0 10px 20px rgba(0,0,0,.16);
 }
-.registration-popup .modal-body .modal-buttons button#submit_registration:hover {
+.registration-popup .modal-body .modal-buttons button:hover {
   box-shadow: 0 5px 10px rgba(0,0,0,.48);
 }
+
 .registration-popup.send-confirm .modal-body h4 {
   font-size: 18px;
   font-weight: 400;
@@ -5382,7 +5383,15 @@ h2 {
 .send-confirm .modal-body .modal-buttons button:first-child {
   margin-left: 0;
 }
-
+.registration-popup .modal-body .modal-buttons button:first-child {
+  margin: 0 auto 20px;
+  font-size: 17px;
+  height: auto;
+  min-width: 180px;
+}
+.eahad .split-button-dropup div:nth-child(3) > div div {
+  font-size: 15px;
+}
 /* Smart List */
 .smart_list_names .header-btn .btn {
   margin-left: 12px;
