@@ -10,9 +10,9 @@ const EventModelValidation = (data) => {
     error.location = "Please enter location";
   }
 
-  // if (!data?.timezone) {
-  //   error.timezone = "Please select time zone";
-  // }
+  if (!data?.timezone) {
+    error.timezone = "Please select time zone";
+  }
   if (!data?.country_timezone) {
     error.country_timezone = "Please select country time zone";
   }

@@ -114,18 +114,19 @@ const RegistrationPage = ({ prevData }) => {
   const [pageColors, setPageColors] = useState(
     prevData
       ? {
-          labelColor: prevData?.content?.labelColor,
-          typedTextColor:prevData?.content?.typedTextColor,
-          placeholderTextColor:prevData?.content?.placeholderTextColor,
-          dropdownOptionColor:prevData?.content?.dropdownOptionColor,
-          dropdownHoveringColor:prevData?.content?.dropdownHoveringColor,
-          selectedTextColor:prevData?.content?.selectedTextColor,
-          background: prevData?.content?.backgroundColor,
-          optionColor: prevData?.content?.optionColor,
-        }
-      : { labelColor: "#fff000", background: "#000", optionColor: "#000",
-      typedTextColor:"#000" , placeholderTextColor:"#000",dropdownOptionColor:"#000", dropdownHoveringColor:"#000",selectedTextColor:"#000"
-    }
+        labelColor: prevData?.content?.labelColor,
+        typedTextColor: prevData?.content?.typedTextColor,
+        placeholderTextColor: prevData?.content?.placeholderTextColor,
+        dropdownOptionColor: prevData?.content?.dropdownOptionColor,
+        dropdownHoveringColor: prevData?.content?.dropdownHoveringColor,
+        selectedTextColor: prevData?.content?.selectedTextColor,
+        background: prevData?.content?.backgroundColor,
+        optionColor: prevData?.content?.optionColor,
+      }
+      : {
+        labelColor: "#fff000", background: "#000", optionColor: "#000",
+        typedTextColor: "#000", placeholderTextColor: "#000", dropdownOptionColor: "#000", dropdownHoveringColor: "#000", selectedTextColor: "#000"
+      }
   );
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -141,8 +142,7 @@ const RegistrationPage = ({ prevData }) => {
       loader("show");
 
       const response = await getData(
-        `${ENDPOINT.GET_REGISTRATION_FORM}/${
-          prevData?.eventCode ? prevData?.eventCode : event_code
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${prevData?.eventCode ? prevData?.eventCode : event_code
         }`
       );
       let hadData = {};
@@ -158,24 +158,24 @@ const RegistrationPage = ({ prevData }) => {
         let raw = response?.data?.data?.raw_description
           ? JSON.parse(response?.data?.data?.raw_description)
           : {
-              title: "",
-              location: "",
-              type: "",
-              timezone: "",
-              countryTimezone: "",
-              isClientStream: 0,
-              clientStreamUrl: "",
-              dateStart: "",
-              dateStartHour: "",
-              dateStartMin: "",
-              dateEndHour: "",
-              dateEndMin: "",
-              eventCode: "",
-              description: "",
-              speaker_name: "",
-              speaker_email: "",
-              meeting_type: "",
-            };
+            title: "",
+            location: "",
+            type: "",
+            timezone: "",
+            countryTimezone: "",
+            isClientStream: 0,
+            clientStreamUrl: "",
+            dateStart: "",
+            dateStartHour: "",
+            dateStartMin: "",
+            dateEndHour: "",
+            dateEndMin: "",
+            eventCode: "",
+            description: "",
+            speaker_name: "",
+            speaker_email: "",
+            meeting_type: "",
+          };
 
         hadData = {
           ...response?.data?.data,
@@ -268,7 +268,7 @@ const RegistrationPage = ({ prevData }) => {
         }
       }
     });
-    console.log(errors);
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -638,8 +638,8 @@ const RegistrationPage = ({ prevData }) => {
 
       {(formData?.content?.templateId === 3 ||
         formData?.content?.templateId <= 0) && (
-        <TemplateThree formData={formData}>{myContent3}</TemplateThree>
-      )}
+          <TemplateThree formData={formData}>{myContent3}</TemplateThree>
+        )}
 
       {formData?.content?.templateId === 4 && (
         <TemplateFour formData={formData}>{myContent4}</TemplateFour>
@@ -757,8 +757,8 @@ const FormField1 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         placeholder={form.placeholder ? form.placeholder : "Select"}
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
@@ -980,8 +980,8 @@ const FormField2 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
@@ -1119,11 +1119,10 @@ const FormField2 = ({
 
   return (
     <div
-      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${
-        label?.includes("country") || label?.includes("Country")
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")
           ? "country"
           : ""
-      }`}
+        }`}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
       {form.inputType != "text" && form.inputType != "email" ? (
@@ -1212,8 +1211,8 @@ const FormField3 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
@@ -1403,7 +1402,7 @@ const FormField4 = ({
             checkboxes[3].checked = false;
 
             newData[label] = [];
-            newData[label] = [ options[0]];
+            newData[label] = [options[0]];
             if (checkboxes[1].checked) {
               newData[label] = [...newData[label], options[1]];
               newData[label] = [...newData[label], options[2]];
@@ -1411,7 +1410,7 @@ const FormField4 = ({
           } else if (e.target.id == "onesource_consent1") {
             checkboxes[1].checked = true;
             newData[label] = [];
-            newData[label] = [ options[1]];
+            newData[label] = [options[1]];
             if (checkboxes[0].checked) {
               newData[label] = [...newData[label], options[0]];
               newData[label] = [...newData[label], options[2]];
@@ -1442,57 +1441,57 @@ const FormField4 = ({
       } else {
         if (label == "onesource_consent") {
 
-        let options = form?.option;
+          let options = form?.option;
 
-        const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
-        // console.dir(checkboxes,'checkboxes');
-        // console.log(e ,'checkboxes');
-        for (const checkbox of checkboxes) {
-          if (e.target.id == "onesource_consent0") {
-            checkboxes[0].checked = false;
-            // checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            checkboxes[3].checked = false;
-            newData[label] = [];
-            if (checkboxes[1].checked) {
-              newData[label] = [ options[1]];
+          const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
+          // console.dir(checkboxes,'checkboxes');
+          // console.log(e ,'checkboxes');
+          for (const checkbox of checkboxes) {
+            if (e.target.id == "onesource_consent0") {
+              checkboxes[0].checked = false;
+              // checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              checkboxes[3].checked = false;
+              newData[label] = [];
+              if (checkboxes[1].checked) {
+                newData[label] = [options[1]];
+              }
+
+
+            } else if (e.target.id == "onesource_consent1") {
+              // checkboxes[0].checked = false;
+              checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              checkboxes[3].checked = false;
+              newData[label] = [];
+              newData[label] = [];
+              if (checkboxes[0].checked) {
+                newData[label] = [options[0]];
+              }
+
+
+            } else if (e.target.id == "onesource_consent2") {
+              checkboxes[0].checked = false;
+              checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              checkboxes[3].checked = false;
+              newData[label] = [];
+            } else if (e.target.id == "onesource_consent3") {
+              checkboxes[0].checked = false;
+              checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              checkboxes[3].checked = false;
+              newData[label] = [];
+
+              newData[label] = [];
             }
-
-
-          } else if (e.target.id == "onesource_consent1") {
-            // checkboxes[0].checked = false;
-            checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            checkboxes[3].checked = false;
-            newData[label] = [];
-            newData[label] = [];
-            if (checkboxes[0].checked) {
-              newData[label] = [ options[0]];
-            }
-
-            
-          } else if (e.target.id == "onesource_consent2") {
-            checkboxes[0].checked = false;
-            checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            checkboxes[3].checked = false;
-            newData[label] = [];
-          } else if (e.target.id == "onesource_consent3") {
-            checkboxes[0].checked = false;
-            checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            checkboxes[3].checked = false;
-            newData[label] = [];
-
-            newData[label] = [];
+            // checkbox.checked = !checkbox.checked;
           }
-          // checkbox.checked = !checkbox.checked;
         }
-      }
-      else{
+        else {
 
-        newData[label] = newData[label].filter((item) => item !== value);
-      } 
+          newData[label] = newData[label].filter((item) => item !== value);
+        }
       }
     } else {
       newData[label] = value;
@@ -1512,7 +1511,7 @@ const FormField4 = ({
 
   if (form.inputType === "textarea") {
     fieldInput = (
-      <textarea 
+      <textarea
         className="form-control"
         placeholder={form.placeholder}
         cols="40"
@@ -1534,13 +1533,13 @@ const FormField4 = ({
     }));
 
     fieldInput = (
-      <Select 
+      <Select
         options={
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable

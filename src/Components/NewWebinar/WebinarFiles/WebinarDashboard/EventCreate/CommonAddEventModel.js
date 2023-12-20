@@ -110,13 +110,12 @@ const CommonAddEventModel = ({
       let speaker_email = "";
       let meeting_type = "";
       if (data?.raw_description) {
-        let parseData = JSON.parse(data?.raw_description);       
-          try 
-          { 
-            speaker_name = JSON.parse(parseData?.speaker_name) 
-          } catch 
-          { speaker_name = parseData?.speaker_name ? [{ speakerName: parseData?.speaker_name }] : [{ speakerName: "" }] }
-        
+        let parseData = JSON.parse(data?.raw_description);
+        try {
+          speaker_name = JSON.parse(parseData?.speaker_name)
+        } catch
+        { speaker_name = parseData?.speaker_name ? [{ speakerName: parseData?.speaker_name }] : [{ speakerName: "" }] }
+
         speaker_email = parseData?.speaker_email;
         meeting_type = parseData?.meeting_type;
       }
@@ -195,7 +194,11 @@ const CommonAddEventModel = ({
         ...eventInputs,
         [isSelectedName || name]: isSelectedName ? e : value?.trim(),
       });
+    } else if (isSelectedName == "timezone") {
+
+      setEventInputs({ ...eventInputs, timezone: e?.label, country_timezone: e?.value })
     }
+
     else {
       const updatedInputs = {
         ...eventInputs,
@@ -206,6 +209,8 @@ const CommonAddEventModel = ({
         updatedInputs.dateEnd = isSelectedName ? e : value;
       }
       setEventInputs(updatedInputs);
+
+
 
 
     }
@@ -665,49 +670,6 @@ const CommonAddEventModel = ({
                                 Country Timezone <span> *</span>
                               </label>
                               <Select
-                                options={timezoneOptions}
-                                className={
-                                  error?.timezone
-                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                }
-                                onChange={(e) =>
-                                  handleChange(e?.value, "timezone")
-                                }
-                                placeholder="Select country timezone"
-                                value={
-                                  timezoneOptions
-                                    ? timezoneOptions.findIndex(
-                                      (item) =>
-                                        item?.value == eventInputs?.timezone
-                                    ) != -1
-                                      ? timezoneOptions[
-                                      timezoneOptions.findIndex(
-                                        (item) =>
-                                          item?.value ==
-                                          eventInputs?.timezone
-                                      )
-                                      ]
-                                      : ""
-                                    : ""
-                                }
-                                isClearable
-                              />
-                              {error?.timezone ? (
-                                <div className="login-validation">
-                                  {error?.timezone}
-                                </div>
-                              ) : null}
-                            </div>
-                          </div> */}
-
-                          <div className="col-12 col-md-12">
-                            <div className="form-group">
-                              <label htmlFor="">
-                                {" "}
-                                Timezone<span>*</span>
-                              </label>
-                              <Select
                                 options={countryTimezone}
                                 className={
                                   error?.country_timezone
@@ -717,16 +679,15 @@ const CommonAddEventModel = ({
                                 onChange={(e) =>
                                   handleChange(e?.value, "country_timezone")
                                 }
-                                placeholder="Select timezone"
+                                placeholder="Select country timezone"
                                 value={
-                                  countryTimezone
-                                    ? countryTimezone?.findIndex(
+                                  timezoneOptions
+                                    ? timezoneOptions.findIndex(
                                       (item) =>
-                                        item?.value ==
-                                        eventInputs?.country_timezone
+                                        item?.value == eventInputs?.country_timezone
                                     ) != -1
-                                      ? countryTimezone[
-                                      countryTimezone?.findIndex(
+                                      ? timezoneOptions[
+                                      timezoneOptions.findIndex(
                                         (item) =>
                                           item?.value ==
                                           eventInputs?.country_timezone
@@ -740,6 +701,50 @@ const CommonAddEventModel = ({
                               {error?.country_timezone ? (
                                 <div className="login-validation">
                                   {error?.country_timezone}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div> */}
+
+                          <div className="col-12 col-md-12">
+                            <div className="form-group">
+                              <label htmlFor="">
+                                {" "}
+                                Timezone<span>*</span>
+                              </label>
+                              <Select
+                                options={timezoneOptions}
+                                className={
+                                  error?.timezone
+                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                }
+                                onChange={(e) =>
+                                  handleChange(e, "timezone")
+                                }
+                                placeholder="Select timezone"
+                                value={
+                                  timezoneOptions
+                                    ? timezoneOptions?.findIndex(
+                                      (item) =>
+                                        item?.label ==
+                                        eventInputs?.timezone
+                                    ) != -1
+                                      ? timezoneOptions[
+                                      timezoneOptions?.findIndex(
+                                        (item) =>
+                                          item?.label ==
+                                          eventInputs?.timezone
+                                      )
+                                      ]
+                                      : ""
+                                    : ""
+                                }
+                                isClearable
+                              />
+                              {error?.timezone ? (
+                                <div className="login-validation">
+                                  {error?.timezone}
                                 </div>
                               ) : null}
                             </div>
