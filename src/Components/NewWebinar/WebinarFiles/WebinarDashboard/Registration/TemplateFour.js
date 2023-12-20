@@ -150,7 +150,7 @@ export default function TemplateFour({ children, formData }) {
             </h4> */}
 
 <h4 dangerouslySetInnerHTML={{
-  __html: `${formData?.content?.eventDetails?.eventDateDetails?.value?formData?.content?.eventDetails?.eventDateDetails?.value:"31st January <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source"}`
+  __html: `${formData?.content?.eventDetails?.eventDateDetails?.value?formData?.content?.eventDetails?.eventDateDetails?.value:"31st January 2024 <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source"}`
 }}>
 </h4>
 {/* <h4 dangerouslySetInnerHTML={{

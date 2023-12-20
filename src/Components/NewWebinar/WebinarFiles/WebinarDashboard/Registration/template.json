@@ -506,8 +506,8 @@
     "bodyText": "",
     "headerImageUrl": "",
     "footerImageUrl": "",
-    "labelColor": "#2068B3",
-    "optionColor": "#2068B3",
+    "labelColor": "#001489",
+    "optionColor": "#001489",
     "backgroundColor": "",
     "eventDetails": {
         "eventStartDate": {
@@ -534,7 +534,7 @@
         "eventDateDetails": {
             "title": "Event Date Details",
             "type": "text",
-            "value": "31st January <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source",
+            "value": "31st January 2024 <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source",
             "color": "#001489"
         },
         "pageTitle": {
