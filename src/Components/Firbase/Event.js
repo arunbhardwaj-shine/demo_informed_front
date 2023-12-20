@@ -425,7 +425,8 @@ const Event = () => {
               </form>
               {parms?.includes("eahad_2024") ? (
                 <div className="copy-right-bottom-text">
-                  <p></p>
+                  <p>591_HAEQUE_EAHAD 2024<br/>
+                  Preparation date: December 2023</p>
                 </div>
               ) : (
                 <div className="copy-right-bottom-text">
