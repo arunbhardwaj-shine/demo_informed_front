@@ -527,7 +527,14 @@
         "speakerName": {
             "title": "Speaker Name",
             "type": "text",
-            "value": "",
+            "value": "Guy Young ",
+            "color": "#001489"
+        },
+        
+        "eventDateDetails": {
+            "title": "Event Date Details",
+            "type": "text",
+            "value": "31st January <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source",
             "color": "#001489"
         },
         "pageTitle": {
@@ -539,7 +546,7 @@
         "SubTitle": {
             "title": "Sub Title",
             "type": "text",
-            "value": "Surgery using FVIII in a HA PUP on emicizumab prophylaxis",
+            "value": "Use of FVIII during surgery in a previously untreated haemophilia A patient on emicizumab prophylaxis",
             "color": "#33baa8"
         },
         "SubHeading": {
@@ -557,7 +564,7 @@
         "Specialization": {
             "title": "Specialization",
             "type": "text",
-            "value": "",
+            "value": "Children's Hospital Los Angeles",
             "color": "#001489"
         },
         "Message": {

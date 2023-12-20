@@ -220,7 +220,7 @@ const EmailList = (props) => {
       .post(`emailapi/resend_email`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
-          toast.success("Email send successfully.");
+          toast.success(res.data.message ?? "Email send successfully.");
         } else if (res.data.status_code == 201) {
           toast.warning(res.data.message);
         } else {
