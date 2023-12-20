@@ -779,12 +779,16 @@ const NewEventCreate = () => {
                           onClick={() => handleCardClick(item)}>
                           <div className="email_box">
                             <div className="mail-box-content">
-                              <div className="action_btn text-end">
+                              <div 
+                              className="action_btn text-end"
+                              // className={`action_btn text-end ${differenceDays(item?.dateStart) > 0 ? 'coming' : differenceDays(item?.dateStart) < 0 ? 'ended' : ''}`}
+                              >
                                 {differenceDays(item?.dateStart) == 0
-                                  ? "Event Live"
+                                  ? <div className="live">Event Live</div>
                                   : differenceDays(item?.dateStart) > 0
-                                    ? "Coming Soon"
-                                    : "Has Ended"}
+                                    ? <div className="coming">Coming Soon</div>
+                                    : <div className="end">Has Ended</div>
+                                    }
                                 {/* <button
                                   className="btn-edit"
                                   onClick={(e) => {
@@ -800,6 +804,19 @@ const NewEventCreate = () => {
                                 </button> */}
                                 <button
                                   className="btn-webinar"
+                                  // onClick={(e) => {
+                                  //   webinarRegistrationForm(e, item);
+                                  //   e.stopPropagation();
+                                  // }}
+                                >
+                                  <img
+                                    title="Email"
+                                    src={path_image + "email-icon1.svg"}
+                                    alt="Email"
+                                  />
+                                </button>
+                                <button
+                                  className="btn-webinar"
                                   onClick={(e) => {
                                     webinarRegistrationForm(e, item);
                                     e.stopPropagation();
@@ -811,7 +828,7 @@ const NewEventCreate = () => {
                                     alt="Registration"
                                   />
                                 </button>
-                                <button
+                                {/* <button
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarPollingForm(e, item);
@@ -823,10 +840,23 @@ const NewEventCreate = () => {
                                     src={path_image + "polling-icon.svg"}
                                     alt="Polls"
                                   />
+                                </button> */}
+                                <button
+                                  className="btn-webinar"
+                                  // onClick={(e) => {
+                                  //   webinarRegistrationForm(e, item);
+                                  //   e.stopPropagation();
+                                  // }}
+                                >
+                                  <img
+                                    title="Live Stream"
+                                    src={path_image + "live-stream.svg"}
+                                    alt="live"
+                                  />
                                 </button>
                               </div>
                               <div className="event-title">{item?.title}</div>
-                              <div className="speaker-name">Speaker: {(speakerName[index])?.map((item, i) => (item?.speakerName)).join(" , ")}</div>
+                              <div className="speaker-name"><span>Speaker</span> {(speakerName[index])?.map((item, i) => (item?.speakerName)).join(" , ")}</div>
                               <div className="event-details d-flex justify-content-between">
                                 <div className="time-left">
                                   {differenceDays(item?.dateStart) == 0
@@ -843,7 +873,7 @@ const NewEventCreate = () => {
                                     : item?.dateStartMin
                                     } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
                                 </div>
-                                <div className="country-timezone event-date">{item?.country_timezone}</div>
+                                <div className="country-timezone">{item?.country_timezone}</div>
                               </div>
 
                               {editstatus ? (<div className="dlt_btn">
