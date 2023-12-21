@@ -778,7 +778,18 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   padding: 16px 16px 20px;
   height: calc(100% - 22px);
 }
+.event_listing .email-result-block .mail-box-content {
+  height: 100%;
+}
+.event_listing .email-result-block .mail-box-content .action_btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
+.event_listing .email-result-block .mail-box-content .action_btn .end {
+  margin-right: auto;
+}
 .event_listing .event-details .time-left,
 .event_listing .event-details .event-date {
   color: rgba(0, 74, 137, 0.55);
