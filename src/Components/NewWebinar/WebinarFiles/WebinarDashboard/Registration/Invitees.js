@@ -17,6 +17,10 @@ const Invitees = () => {
   const [userData, setUserData] = useState()
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [clickUserId, setClickUserId] = useState(0);
+  const [sortNameDirection, setSortNameDirection] = useState(0);
+  const [sortingCount, setSortingCount] = useState(0);
+  const [sorting, setSorting] = useState(0);
+  const [isActive, setIsActive] = useState("");
 
   useEffect(() => {
     getWebinarData();
@@ -28,40 +32,40 @@ const Invitees = () => {
 
   var tableData = [
     {
-      Name: "UserName1",
-      Email: "Username1@gmail.com",
-      Country: "India",
-      Registered: "12.19.2023",
-      "Last Email": "Invite Email",
+      name: "UserName1",
+      email: "Username5@gmail.com",
+      country: "India",
+      registered: "12.19.2023",
+      last_email: "Invite Email",
       user_type: "HCP"
     },
 
     {
-      Name: "UserName2",
-      Email: "Username2@gmail.com",
-      Country: "USA",
-      Registered: "12.20.2023",
-      "Last Email": "Confirmation Email",
+      name: "UserName2",
+      email: "Username6@gmail.com",
+      country: "USA",
+      registered: "12.20.2023",
+      last_email: "Confirmation Email",
       user_type: "Staff user"
 
     },
 
     {
-      Name: "UserName3",
-      Email: "Username3@gmail.com",
-      Country: "Canada",
-      Registered: "12.21.2023",
-      "Last Email": "Welcome Email",
+      name: "UserName3",
+      email: "Username7@gmail.com",
+      country: "Canada",
+      registered: "12.21.2023",
+      last_email: "Welcome Email",
       user_type: "Test user"
 
     },
 
     {
-      Name: "UserName4",
-      Email: "Username4@gmail.com",
-      Country: "Canada",
-      Registered: "12.21.2023",
-      "Last Email": "Welcome Email",
+      name: "UserName4",
+      email: "Username8@gmail.com",
+      country: "Canada",
+      registered: "12.21.2023",
+      last_email: "Welcome Email",
       user_type: "HCP"
 
     },
@@ -69,7 +73,6 @@ const Invitees = () => {
 
   const handleChange = (e, user, index) => {
     let updateUserData = [...userData]
-
     let updateUser = { ...updateUserData[index] }
     updateUser.user_type = e?.value
     updateUserData[index] = updateUser
@@ -109,6 +112,62 @@ const Invitees = () => {
       loader("hide");
     }
   };
+
+  // const userSort = (e, type) => {
+  //   const sortedIsData = [...userData].sort((a, b) => {
+  //     const siteNumberA = a?.type;
+  //     const siteNumberB = b?.type;
+  //     if (sortNameDirection === 0) {
+  //       if (siteNumberA < siteNumberB) return -1;
+  //       if (siteNumberA > siteNumberB) return 1;
+  //       return 0;
+  //     } else {
+  //       if (siteNumberA > siteNumberB) return -1;
+  //       if (siteNumberA < siteNumberB) return 1;
+  //       return 0;
+  //     }
+  //   });
+
+  //   setUserData(sortedIsData);
+  //   setSortNameDirection(sortNameDirection === 0 ? 1 : 0); // Toggle the sort direction
+  //   if (isActive == "asc") {
+  //     setIsActive("dec");
+  //   } else {
+  //     setIsActive("asc");
+  //   }
+
+  //   setSorting(1 - sorting);
+  //   setSortingCount(sortingCount + 1);
+  // };
+
+
+  const dynamicSort = (key, direction) => (a, b) => {
+    const valueA = a[key];
+    const valueB = b[key];
+
+    if (direction === 'asc') {
+      if (valueA < valueB) return -1;
+      if (valueA > valueB) return 1;
+      return 0;
+    } else {
+      if (valueA > valueB) return -1;
+      if (valueA < valueB) return 1;
+      return 0;
+    }
+  };
+
+  const userSort = (e, key) => {
+    const direction = sortNameDirection === 0 ? 'asc' : 'dec';
+
+    const sortedUserData = [...userData].sort(dynamicSort(key, direction));
+
+    setUserData(sortedUserData);
+    setSortNameDirection(sortNameDirection === 0 ? 1 : 0); // Toggle the sort direction
+    setIsActive(direction === 'asc' ? 'dec' : 'asc');
+    setSorting(1 - sorting);
+    setSortingCount(sortingCount + 1);
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -163,9 +222,95 @@ const Invitees = () => {
                   <table className="table" id="table-to-xls">
                     <thead className="sticky-header">
                       <tr>
-                        <th scope="col">Name</th>
+                        <th scope="col">Name
+                          <button
+                            className={`event_sort_btn ${isActive == "dec"
+                              ? "svg_active"
+                              : isActive == "asc"
+                                ? "svg_asc"
+                                : ""
+                              }`}
+                            onClick={(e) => userSort(e, "name")}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              viewBox="0 0 20 20"
+                              fill="none"
+                            >
+                              <path
+                                id="asc"
+                                d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
+                                fill="#97B6CF"
+                              />
+                              <path
+                                id="dsc"
+                                d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
+                                fill="#97B6CF"
+                              />
+                            </svg>
+                          </button>
+                        </th>
                         <th scope="col">Email</th>
-                        <th scope="col">Country</th>
+                        <button
+                          className={`event_sort_btn ${isActive == "dec"
+                            ? "svg_active"
+                            : isActive == "asc"
+                              ? "svg_asc"
+                              : ""
+                            }`}
+                          onClick={(e) => userSort(e, "email")}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                          >
+                            <path
+                              id="asc"
+                              d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
+                              fill="#97B6CF"
+                            />
+                            <path
+                              id="dsc"
+                              d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
+                              fill="#97B6CF"
+                            />
+                          </svg>
+                        </button>
+                        <th scope="col">Country
+                          <button
+                            className={`event_sort_btn ${isActive == "dec"
+                              ? "svg_active"
+                              : isActive == "asc"
+                                ? "svg_asc"
+                                : ""
+                              }`}
+                            onClick={(e) => userSort(e, "country")}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              viewBox="0 0 20 20"
+                              fill="none"
+                            >
+                              <path
+                                id="asc"
+                                d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
+                                fill="#97B6CF"
+                              />
+                              <path
+                                id="dsc"
+                                d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
+                                fill="#97B6CF"
+                              />
+                            </svg>
+                          </button>
+                        </th>
                         <th scope="col">Registered</th>
                         <th scope="col">Last Email</th>
                         <th scope="col">User Type</th>
@@ -175,11 +320,11 @@ const Invitees = () => {
                     <tbody className="form-group">
                       {userData?.map((user, index) => (
                         <tr key={index}>
-                          <td>{user?.Name}</td>
-                          <td>{user?.Email}</td>
-                          <td>{user?.Country}</td>
-                          <td>{user?.Registered}</td>
-                          <td>{user["Last Email"]}</td>
+                          <td>{user?.name}</td>
+                          <td>{user?.email}</td>
+                          <td>{user?.country}</td>
+                          <td>{user?.registered}</td>
+                          <td>{user?.last_email}</td>
                           <td>
                             <tr>
                               <td>
@@ -290,75 +435,6 @@ const Invitees = () => {
           </div>
         </div>
       </Col>
-      {/* <Modal
-        className="modal send-confirm"
-        id="delete-confirm"
-      // show={showModalPreview}
-      // onHide={handleCloseModal}
-      >
-        <Modal.Header>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-          // onClick={handleCloseModal}
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <>
-            <img src={path_image + "alert.png"} alt="" />
-            <h4>The delete user will no longer access to One Source.</h4>
-            <span>Are you sure you want to delete it?</span>
-            <div className="modal-buttons">
-              <button
-                type="button"
-                className="btn btn-primary btn-bordered"
-              // onClick={handleCloseModal}
-              >
-                Yes Please!
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary btn-bordered"
-              // onClick={handleCloseModal}
-              >
-                Cancel
-              </button>
-            </div>
-          </>
-        </Modal.Body>
-      </Modal> */}
-
-      {/* <Modal
-        className="modal send-confirm"
-      // id="delete-confirm"
-      // show={showModalPreview}
-      // onHide={handleCloseModal}
-      >
-        <Modal.Header>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-          // onClick={handleCloseModal}
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <>
-            <img src={path_image + "alert.png"} alt="" />
-            <h4>The user has been deleted successfully!</h4>
-            <div className="modal-buttons">
-              <button
-                type="button"
-                className="btn btn-primary btn-bordered"
-              // onClick={handleCloseModal}
-              >
-                Close
-              </button>
-            </div>
-          </>
-        </Modal.Body>
-      </Modal> */}
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={setConfirmationPopup}
