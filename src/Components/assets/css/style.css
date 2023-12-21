@@ -775,11 +775,12 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 }
 
 .email-result-block .mail-box-content {
-  padding: 16px 16px 20px;
+  padding: 16px 16px 20px ;
   height: calc(100% - 22px);
 }
 .event_listing .email-result-block .mail-box-content {
   height: 100%;
+  padding: 16px 16px 20px 24px;
 }
 .event_listing .email-result-block .mail-box-content .action_btn {
   display: flex;
@@ -787,17 +788,41 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   justify-content: flex-end;
 }
 
-.event_listing .email-result-block .mail-box-content .action_btn .end {
+.event_listing .email-result-block .mail-box-content .action_btn .action-status {
   margin-right: auto;
+  border-radius: 3px;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 0px 5px;
+    min-width: 93px;
+    text-align: center;
 }
-.event_listing .event-details .time-left,
+.event_listing .action_btn .end {
+  background: rgba(152, 108, 165, 0.15);
+  color: #986CA5;
+}
+.event_listing .action_btn .coming {
+  background: rgba(57, 202, 188, 0.15);
+  color: #39CABC;
+}
+.event_listing .action_btn .live {
+  background: rgba(0, 102, 190, 0.15);
+  color: var(--light-blue);;
+}
+
 .event_listing .event-details .event-date {
-  color: rgba(0, 74, 137, 0.55);
+  color: #0066BE;
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
 }
-
+.event_listing .event-details .country-timezone {
+  color: rgba(0, 74, 137, 0.50);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  margin: 0 0 0 6px;
+}
 .event_listing .no_found {
   display: flex;
   align-items: center;
@@ -815,9 +840,28 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 .event_listing .email_box {
   box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.2);
 }
+.event_listing .email-result-block .speaker-name {
+  color: #004A89;
+  font-size: 14px;
+}
+.event_listing .email-result-block .speaker-name span {
+  color: rgba(0, 74, 137, 0.55);
+  font-weight: 500;
+  min-width: 63px;
+  display: inline-block;
+}
+.event_listing .mail-box-content .event-details .time-left {
+  margin-right: auto;
+  color: rgba(0, 74, 137, 0.55);
+  font-size: 11px;
+}
 
+.event_listing .mail-box-content .event-details .time-left span {
+  font-size: 14px;
+  font-weight: 500;
+}
 .event_listing .event-title {
-  font-size: 22px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   color: var(--light-blue);
@@ -831,8 +875,8 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 }
 
 .event_listing .action_btn button {
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   padding: 4px;
   background: var(--white);
@@ -853,8 +897,8 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 }
 
 .event_listing .action_btn button img {
-  max-width: 20px;
-  height: 20px;
+  max-width: 18px;
+  height: 18px;
 }
 
 .mail-box-content h5 {
