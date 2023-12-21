@@ -387,7 +387,7 @@ const NewEventCreate = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header sticky">
-              <div className="top-right-action full">
+              <div className="top-right-action full evnt-listing">
                 <div className="search-bar">
                   <form
                     className="d-flex"
@@ -686,11 +686,9 @@ const NewEventCreate = () => {
                             showEditButtons();
                           }}
                         >
-                          <img
-                            title="Edit"
-                            src={path_image + "edit-button.svg"}
-                            alt="Delete Row"
-                          />
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z" fill="#0066BE"/>
+                          </svg>
                         </button>
                       )}
                     </div>
@@ -908,11 +906,9 @@ const NewEventCreate = () => {
 
 
                                 >
-                                  <img
-                                    title="Edit"
-                                    src={path_image + "edit-button.svg"}
-                                    alt="Delete Row"
-                                  />
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z" fill="#ffffff"/>
+                                  </svg>
                                 </button>
                               </div>)
                                 : deletestatus ? (

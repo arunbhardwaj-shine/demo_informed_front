@@ -773,7 +773,9 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   padding: 0 15px;
   margin: 0 0 29px;
 }
-
+.event_listing .email-result-block .email_box_block {
+  margin: 0 0 56px;
+}
 .email-result-block .mail-box-content {
   padding: 16px 16px 20px ;
   height: calc(100% - 22px);
@@ -7691,7 +7693,9 @@ section.search-hcp.smart-list-view {
 .top-right-action.full .search-bar {
   margin-right: auto;
 }
-
+.top-right-action.evnt-listing .search-bar {
+  margin-right: 0;
+}
 .top-right-action.full .hcp-sort {
   gap: 0 24px;
   display: flex;
