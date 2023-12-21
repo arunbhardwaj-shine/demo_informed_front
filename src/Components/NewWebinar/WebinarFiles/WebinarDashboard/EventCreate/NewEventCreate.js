@@ -321,6 +321,21 @@ const NewEventCreate = () => {
     console.log("HERE");
   };
 
+  // const handleOnFilterChange = (e, item, index, key, currentFilter) => {
+  //   const updatedFilter = { ...otherFilter };
+  //   if (e.target.type === "checkbox") {
+  //     if (updatedFilter[key]?.includes(item)) {
+  //       updatedFilter[key] = updatedFilter[key].filter((value) => value !== item);
+  //     } else {
+  //       updatedFilter[key] = [...updatedFilter[key], item];
+  //     }
+  //   } else if (e.target.type === "radio") {
+  //     updatedFilter[key] = [item];
+  //   }
+  //   setOtherFilter(updatedFilter);
+  // };
+  
+
   const formatDate = (eventDate) => {
     const months = [
       "Jan",
@@ -403,7 +418,7 @@ const NewEventCreate = () => {
                   </form>
                 </div>
 
-                {/* <div
+                 <div
                   className="filter-by nav-item dropdown"
                 >
                   <button
@@ -573,11 +588,11 @@ const NewEventCreate = () => {
                         </div>
                       ) 
                     }  
-                </div> */}
+                </div> 
 
                 {isData != "undefined" && isData?.length > 0 ? (
                   <>
-                    <div className="hcp-sort">
+                    {/* <div className="hcp-sort">
                       {sortingCreateCount == 0 ? (
                         <>
                           <button
@@ -652,7 +667,7 @@ const NewEventCreate = () => {
                           </button>
                         </>
                       )}
-                    </div>
+                    </div> */}
                     <div className="clear-search">
                       {editstatus ? (
                         <button
@@ -787,10 +802,10 @@ const NewEventCreate = () => {
                               // className={`action_btn text-end ${differenceDays(item?.dateStart) > 0 ? 'coming' : differenceDays(item?.dateStart) < 0 ? 'ended' : ''}`}
                               >
                                 {differenceDays(item?.dateStart) == 0
-                                  ? <div className="live">Event Live</div>
+                                  ? <div className="action-status live">Event Live</div>
                                   : differenceDays(item?.dateStart) > 0
-                                    ? <div className="coming">Coming Soon</div>
-                                    : <div className="end">Has Ended</div>
+                                    ? <div className="action-status coming">Coming Soon</div>
+                                    : <div className="action-status end">Has Ended</div>
                                     }
                                 {/* <button
                                   className="btn-edit"
@@ -865,9 +880,14 @@ const NewEventCreate = () => {
                                   {differenceDays(item?.dateStart) == 0
                                     ? "Event Live"
                                     : differenceDays(item?.dateStart) > 0
-                                      ? differenceDays(item?.dateStart) +
-                                      " Days Left"
+                                      ? 
+                                      // differenceDays(item?.dateStart) +
+                                      <>
+                                      <span className="days-left">{differenceDays(item?.dateStart)}</span><span>Days Left</span></>
+                                      // " Days Left"
                                       : ""}
+
+
                                 </div>
                                 <div className="event-date">
                                   {formatDate(item?.dateStart)} |{" "}
@@ -876,7 +896,8 @@ const NewEventCreate = () => {
                                     : item?.dateStartMin
                                     } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
                                 </div>
-                                <div className="country-timezone">{item?.country_timezone}</div>
+                                {/* <div className="country-timezone">{item?.country_timezone}</div> */}
+                                <div className="country-timezone">{item?.timezone}</div>
                               </div>
 
                               {editstatus ? (<div className="dlt_btn">
