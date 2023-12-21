@@ -50,19 +50,17 @@ const NewEventCreate = () => {
   // });
 
   const [filterdata, setFilterData] = useState({
-    "Event ": ["Live","Coming","End"],
+    "Event ": ["Live", "Coming", "End"],
   });
-  
+
   const [otherFilter, setOtherFilter] = useState({});
   const [sortingCount, setSortingCount] = useState(0);
   const [sorting, setSorting] = useState(0);
   const [sortingCreateCount, setSortingCreateCount] = useState(0);
   const [sortingCreate, setSortingCreate] = useState(0);
   useEffect(() => {
-    setApiStatus(false);
     getWebinarFilterData();
     getDataFromApi(page);
-    applyFilters();
   }, []);
   const getWebinarFilterData = async () => {
     try {
@@ -77,10 +75,12 @@ const NewEventCreate = () => {
   const getDataFromApi = async (page, load = 0) => {
     try {
       loader("show");
+
       setIsLoaded(false);
       if (load) {
         setPageAll(true);
       }
+      setApiStatus(false);
 
       const response = await getData(
         `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?page=${page}`
@@ -112,6 +112,7 @@ const NewEventCreate = () => {
         } else {
           setIsLoaded(false);
         }
+
       } else {
         let newDataLength = isData?.length + response?.data?.data?.data?.length;
         let raw_description = response?.data?.data?.data.map((d) => d?.raw_description ? JSON.parse(d?.raw_description) : {})
@@ -123,13 +124,17 @@ const NewEventCreate = () => {
         } else {
           setIsLoaded(false);
         }
+
       }
-      setApiStatus(true);
+      // setApiStatus(true);
+      loader("hide");
+
     } catch (err) {
       console.log("--err", err);
-      setApiStatus(true);
+
     } finally {
       setPageAll(false);
+      setApiStatus(true);
       loader("hide");
     }
   };
@@ -153,6 +158,7 @@ const NewEventCreate = () => {
     }
   };
   const submitSearchHandler = (event) => {
+    console.log("search handler--->",apiStatus)
     event.preventDefault();
 
     const filteredData = apiData?.filter((item) =>
@@ -172,7 +178,6 @@ const NewEventCreate = () => {
       const filterKey = getFilterKey(item);
       return filterdata[filterKey]?.length > 0;
     });
-    console.log(isData,'===>data')
 
     setIsData(result);
     setIsLoaded(false);
@@ -180,10 +185,10 @@ const NewEventCreate = () => {
   };
 
   const getFilterKey = (item) => {
-    const eventStatus = getEventStatus(item); 
+    const eventStatus = getEventStatus(item);
     return eventStatus === 'Live' ? 'Live' :
       eventStatus === 'Coming Soon' ? 'Coming' :
-      eventStatus === 'Has Ended' ? 'End' : 'Other';
+        eventStatus === 'Has Ended' ? 'End' : 'Other';
   };
 
   const getEventStatus = (item) => {
@@ -193,7 +198,7 @@ const NewEventCreate = () => {
         ? 'Coming Soon'
         : 'Has Ended';
   };
-  
+
   const handleAddEventClick = (e, item) => {
     if (item) {
       setEventData(item);
@@ -361,36 +366,36 @@ const NewEventCreate = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = {}) => {
     const updatedFilter = { ...data };
-    
+
     if (e.target.type === "checkbox") {
       if (updatedFilter[key]) {
-      
+
         updatedFilter[key] = updatedFilter[key].includes(item)
           ? updatedFilter[key].filter((value) => value !== item)
           : [...updatedFilter[key], item];
       } else {
-      
+
         updatedFilter[key] = [item];
       }
     } else if (e.target.type === "radio") {
-     
+
       updatedFilter[key] = [item];
     }
-  
+
     setOtherFilter(updatedFilter);
-    console.log(updatedFilter,'===>updatedFilter')
+    console.log(updatedFilter, '===>updatedFilter')
   };
 
   const applyFilter = () => {
     console.log("Filters Applied:", otherFilter);
     setShowFilter(false)
   };
-  
+
   const clearFilter = () => {
-    setOtherFilter({}); 
+    setOtherFilter({});
   };
-  
-  
+
+
 
   const formatDate = (eventDate) => {
     const months = [
@@ -474,7 +479,7 @@ const NewEventCreate = () => {
                   </form>
                 </div>
 
-                 <div
+                <div
                   className="filter-by nav-item dropdown"
                 >
                   <button
@@ -484,64 +489,64 @@ const NewEventCreate = () => {
                     onClick={() => setShowFilter((showfilter) => !showfilter)}
                   >
                     Filter By
-                      {
-                        showfilter ? (
-                          <svg
-                            className="close-arrow"
-                            width="13"
-                            height="12"
-                            viewBox="0 0 13 12"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <rect
-                              width="2.09896"
-                              height="15.1911"
-                              rx="1.04948"
-                              transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                              fill="#0066BE"
-                            />
-                            <rect
-                              width="2.09896"
-                              height="15.1911"
-                              rx="1.04948"
-                              transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                              fill="#0066BE"
-                            />
-                          </svg>
-                        ) : (
-                          <svg
-                            className="filter-arrow"
-                            width="16"
-                            height="14"
-                            viewBox="0 0 16 14"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                              fill="#97B6CF"
-                            ></path>
-                            <path
-                              d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                              fill="#97B6CF"
-                            ></path>
-                            <path
-                              d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                              fill="#97B6CF"
-                            ></path>
-                          </svg>
-                        )
-                      }
-                  </button>
                     {
-                      showfilter && (
-                        <div
-                          className="dropdown-menu filter-options"
-                          aria-labelledby="dropdownMenuButton2"
+                      showfilter ? (
+                        <svg
+                          className="close-arrow"
+                          width="13"
+                          height="12"
+                          viewBox="0 0 13 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <h4>Filter By</h4>
-                          <Accordion defaultActiveKey="0" flush>
+                          <rect
+                            width="2.09896"
+                            height="15.1911"
+                            rx="1.04948"
+                            transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                            fill="#0066BE"
+                          />
+                          <rect
+                            width="2.09896"
+                            height="15.1911"
+                            rx="1.04948"
+                            transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                            fill="#0066BE"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          className="filter-arrow"
+                          width="16"
+                          height="14"
+                          viewBox="0 0 16 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                            fill="#97B6CF"
+                          ></path>
+                          <path
+                            d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                            fill="#97B6CF"
+                          ></path>
+                          <path
+                            d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                            fill="#97B6CF"
+                          ></path>
+                        </svg>
+                      )
+                    }
+                  </button>
+                  {
+                    showfilter && (
+                      <div
+                        className="dropdown-menu filter-options"
+                        aria-labelledby="dropdownMenuButton2"
+                      >
+                        <h4>Filter By</h4>
+                        <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
                             return (
                               <>
@@ -559,67 +564,67 @@ const NewEventCreate = () => {
                                       <ul>
                                         {filterdata[key]?.length
                                           ? filterdata[key]?.map(
-                                              (item, index) => (
-                                                <li>
-                                                  {item != "" ? (
-                                                    <label className="select-multiple-option">
-                                                      <input
-                                                        type={
-                                                          key == "draft" ||
+                                            (item, index) => (
+                                              <li>
+                                                {item != "" ? (
+                                                  <label className="select-multiple-option">
+                                                    <input
+                                                      type={
+                                                        key == "draft" ||
                                                           key == "ibu" ||
                                                           key ==
-                                                            "Selected By Articles" ||
+                                                          "Selected By Articles" ||
                                                           key ==
-                                                            "SPC Included" ||
+                                                          "SPC Included" ||
                                                           key == "Blinded" ||
                                                           key == "Mandatory" ||
                                                           key == "List" ||
                                                           key == "language" ||
                                                           key ==
-                                                            "IRT mandatory training" ||
+                                                          "IRT mandatory training" ||
                                                           key ==
-                                                            "Business Unit" ||
+                                                          "Business Unit" ||
                                                           key ==
-                                                            "Content Owners" ||
+                                                          "Content Owners" ||
                                                           key == "Platform"
-                                                            ? "radio"
-                                                            : "checkbox"
-                                                        }
-                                                        id={`custom-checkbox-tags-${index}`}
-                                                        value={item}
-                                                        name={key}
-                                                        checked={
-                                                          otherFilter[
-                                                            key
-                                                          ]?.includes(item)
-                                                            ? true
-                                                            : false
-                                                        }
-                                                        onChange={(e) =>
-                                                          // handleOnFilterChange(
-                                                          //   e,
-                                                          //   item,
-                                                          //   index,
-                                                          //   key,
-                                                          //   [...filterdata[key]]
-                                                          // )
-                                                          handleOnFilterChange(e, item, index, key, otherFilter)
-                                                        }
-                                                      />
+                                                          ? "radio"
+                                                          : "checkbox"
+                                                      }
+                                                      id={`custom-checkbox-tags-${index}`}
+                                                      value={item}
+                                                      name={key}
+                                                      checked={
+                                                        otherFilter[
+                                                          key
+                                                        ]?.includes(item)
+                                                          ? true
+                                                          : false
+                                                      }
+                                                      onChange={(e) =>
+                                                        // handleOnFilterChange(
+                                                        //   e,
+                                                        //   item,
+                                                        //   index,
+                                                        //   key,
+                                                        //   [...filterdata[key]]
+                                                        // )
+                                                        handleOnFilterChange(e, item, index, key, otherFilter)
+                                                      }
+                                                    />
 
-                                                      {key == "draft" &&
+                                                    {key == "draft" &&
                                                       item == "0"
-                                                        ? "live"
-                                                        : key == "draft" &&
-                                                          item == "1"
+                                                      ? "live"
+                                                      : key == "draft" &&
+                                                        item == "1"
                                                         ? "draft"
                                                         : item}
-                                                      <span className="checkmark"></span>
-                                                    </label>
-                                                  ) : null}
-                                                </li>
-                                              )
+                                                    <span className="checkmark"></span>
+                                                  </label>
+                                                ) : null}
+                                              </li>
                                             )
+                                          )
                                           : null}
                                       </ul>
                                     </Accordion.Body>
@@ -630,22 +635,22 @@ const NewEventCreate = () => {
                           })}
                         </Accordion>
 
-                          <div className="filter-footer">
-                            <button
-                              className="btn btn-primary btn-bordered" onClick={clearFilter}
-                            >
-                              Clear
-                            </button>
-                            <button
-                              className="btn btn-primary btn-filled" onClick={applyFilter}
-                            >
-                              Apply
-                            </button>
-                          </div>
+                        <div className="filter-footer">
+                          <button
+                            className="btn btn-primary btn-bordered" onClick={clearFilter}
+                          >
+                            Clear
+                          </button>
+                          <button
+                            className="btn btn-primary btn-filled" onClick={applyFilter}
+                          >
+                            Apply
+                          </button>
                         </div>
-                      ) 
-                    }  
-                </div> 
+                      </div>
+                    )
+                  }
+                </div>
 
                 {isData != "undefined" && isData?.length > 0 ? (
                   <>
@@ -744,7 +749,7 @@ const NewEventCreate = () => {
                           }}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z" fill="#0066BE"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z" fill="#0066BE" />
                           </svg>
                         </button>
                       )}
@@ -843,16 +848,17 @@ const NewEventCreate = () => {
                     <p>Create New Webinar/Event</p>
                   </div>
                 </div>
-                {isData != "undefined" && isData?.length > 0 ? (
+                {console.log("api status--->", apiStatus)}
+                {isData?.length > 0 ? (
                   <>
                     {isData?.map((item, index) => {
                       return (
                         <div className="email_box_block" key={index}
-                          >
+                        >
                           <div className="email_box">
                             <div className="mail-box-content" onClick={() => handleCardClick(item)}>
-                              <div 
-                              className="action_btn text-end"
+                              <div
+                                className="action_btn text-end"
                               // className={`action_btn text-end ${differenceDays(item?.dateStart) > 0 ? 'coming' : differenceDays(item?.dateStart) < 0 ? 'ended' : ''}`}
                               >
                                 {differenceDays(item?.dateStart) == 0
@@ -860,7 +866,7 @@ const NewEventCreate = () => {
                                   : differenceDays(item?.dateStart) > 0
                                     ? <div className="action-status coming">Coming Soon</div>
                                     : <div className="action-status end">Has Ended</div>
-                                    }
+                                }
                                 {/* <button
                                   className="btn-edit"
                                   onClick={(e) => {
@@ -876,10 +882,10 @@ const NewEventCreate = () => {
                                 </button> */}
                                 <button
                                   className="btn-webinar"
-                                  // onClick={(e) => {
-                                  //   webinarRegistrationForm(e, item);
-                                  //   e.stopPropagation();
-                                  // }}
+                                // onClick={(e) => {
+                                //   webinarRegistrationForm(e, item);
+                                //   e.stopPropagation();
+                                // }}
                                 >
                                   <img
                                     title="Email"
@@ -932,14 +938,14 @@ const NewEventCreate = () => {
                               <div className="event-details d-flex justify-content-end align-items-center">
                                 <div className="time-left">
                                   {
-                                  // differenceDays(item?.dateStart) == 0
-                                  //   ? "Event Live"
-                                  //   : 
+                                    // differenceDays(item?.dateStart) == 0
+                                    //   ? "Event Live"
+                                    //   : 
                                     differenceDays(item?.dateStart) > 0
-                                      ? 
+                                      ?
                                       // differenceDays(item?.dateStart) +
                                       <>
-                                      <span className="days-left">{differenceDays(item?.dateStart)}</span>Days Left</>
+                                        <span className="days-left">{differenceDays(item?.dateStart)}</span>Days Left</>
                                       // " Days Left"
                                       : ""}
 
@@ -966,7 +972,7 @@ const NewEventCreate = () => {
 
                                 >
                                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path fillRule="evenodd" clipRule="evenodd" d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z" fill="#ffffff"/>
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z" fill="#ffffff" />
                                   </svg>
                                 </button>
                               </div>)
@@ -1000,7 +1006,7 @@ const NewEventCreate = () => {
                       );
                     })}
                   </>
-                ) : apiStatus ? (
+                ) : apiStatus == true ? (
                   <div class="email_box_block no_found">
                     <p>No Data Found</p>
                   </div>
