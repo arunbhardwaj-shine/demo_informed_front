@@ -44,10 +44,15 @@ const NewEventCreate = () => {
     footerButton: "",
   });
   const [showfilter, setShowFilter] = useState(false);
+  // const [filterdata, setFilterData] = useState({
+  //   "Sort By Event": ["Asc", "Desc"],
+  //   "Sort By Created": ["Asc", "Desc"],
+  // });
+
   const [filterdata, setFilterData] = useState({
-    "Sort By Event": ["Asc", "Desc"],
-    "Sort By Created": ["Asc", "Desc"],
+    "Event ": ["Live","Coming","End"],
   });
+  
   const [otherFilter, setOtherFilter] = useState({});
   const [sortingCount, setSortingCount] = useState(0);
   const [sorting, setSorting] = useState(0);
@@ -57,6 +62,7 @@ const NewEventCreate = () => {
     setApiStatus(false);
     getWebinarFilterData();
     getDataFromApi(page);
+    applyFilters();
   }, []);
   const getWebinarFilterData = async () => {
     try {
@@ -157,6 +163,37 @@ const NewEventCreate = () => {
     setIsLoaded(false);
     setApiStatus(true);
   };
+
+  const applyFilters = () => {
+    const filteredData = apiData?.filter((item) =>
+      item?.title?.toLowerCase().includes(search?.toLowerCase())
+    );
+    const result = filteredData.filter((item) => {
+      const filterKey = getFilterKey(item);
+      return filterdata[filterKey]?.length > 0;
+    });
+    console.log(isData,'===>data')
+
+    setIsData(result);
+    setIsLoaded(false);
+    setApiStatus(true);
+  };
+
+  const getFilterKey = (item) => {
+    const eventStatus = getEventStatus(item); 
+    return eventStatus === 'Live' ? 'Live' :
+      eventStatus === 'Coming Soon' ? 'Coming' :
+      eventStatus === 'Has Ended' ? 'End' : 'Other';
+  };
+
+  const getEventStatus = (item) => {
+    return differenceDays(item?.dateStart) === 0
+      ? 'Live'
+      : differenceDays(item?.dateStart) > 0
+        ? 'Coming Soon'
+        : 'Has Ended';
+  };
+  
   const handleAddEventClick = (e, item) => {
     if (item) {
       setEventData(item);
@@ -896,9 +933,11 @@ const NewEventCreate = () => {
                               <div className="speaker-name"><span>Speaker</span> {(speakerName[index])?.map((item, i) => (item?.speakerName)).join(" , ")}</div>
                               <div className="event-details d-flex justify-content-end align-items-center">
                                 <div className="time-left">
-                                  {differenceDays(item?.dateStart) == 0
-                                    ? "Event Live"
-                                    : differenceDays(item?.dateStart) > 0
+                                  {
+                                  // differenceDays(item?.dateStart) == 0
+                                  //   ? "Event Live"
+                                  //   : 
+                                    differenceDays(item?.dateStart) > 0
                                       ? 
                                       // differenceDays(item?.dateStart) +
                                       <>
