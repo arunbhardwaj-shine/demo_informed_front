@@ -171,6 +171,7 @@ import Invitees from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Regi
 import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
 import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
 import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
+import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/LiveStream";
 
 let platform = 0;
 let show = 0;
@@ -573,6 +574,10 @@ const Routing = () => {
          <Route
           path="/invitees"
           element={<LoginLayout component={Invitees} />}
+        />
+        <Route
+          path="/live-stream"
+          element={<LoginLayout component={LiveStream} />}
         />
         <Route
           path="/webinar-registration"

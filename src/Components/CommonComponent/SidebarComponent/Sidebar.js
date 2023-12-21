@@ -5,11 +5,13 @@ import { useLocation } from "react-router-dom";
 import { Button, Modal, ModalDialog } from "react-bootstrap";
 import { Player, BigPlayButton } from "video-react";
 import { useSidebar } from "../LoginLayout";
+import { useNavigate } from "react-router-dom";
 
 let title = "";
 let video_url = "";
 let video_poster = "";
 const Sidebar = () => {
+  let navigate = useNavigate();
   let c_id = 0;
   const location = useLocation();
 
@@ -30,6 +32,9 @@ const Sidebar = () => {
 
   const toggleClassToBody = () => {
     document.body.classList.toggle("toggle_sidebar");
+  };
+  const eventList = () => {
+    navigate("/event-listing");
   };
 
   // if (
@@ -163,6 +168,21 @@ const Sidebar = () => {
     <>
       <div className="left-sidebar">
         <div className="sidebar-menu">
+        {window.location.pathname === "/invitees" || 
+        window.location.pathname == "/webinar-registration" ||
+        window.location.pathname == "/email" ||
+        window.location.pathname == "/live-stream" ||
+        window.location.pathname == "/analytics" ?(
+          <>
+          <button className="toggle_btn"  onClick={() => {
+            eventList();
+          }}>
+            <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
+          </button>
+          <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span>
+          </>
+        ) : null}
+
           <button className="toggle_btn" onClick={() => toggleClassToBody()}>
             <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
           </button>
@@ -986,7 +1006,7 @@ const Sidebar = () => {
           window.location.pathname == "/invitees"  ||
           window.location.pathname == "/webinar-registration" ||
           window.location.pathname == "/email" ||
-          window.location.pathname == "/liveStream" ||
+          window.location.pathname == "/live-stream" ||
           window.location.pathname == "/analytics" ?
            (
             <ul>
@@ -1034,12 +1054,12 @@ const Sidebar = () => {
                 </li>
                 <li
                   className={
-                    location.pathname == "/liveStream"
+                    location.pathname == "/live-stream"
                       ? "active"
                       : "side_li"
                   }
                 >
-                  <Link to={"/liveStream"}>
+                  <Link to={"/live-stream"}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="512" height="480" viewBox="0 0 512 480">
                       <path id="Color_Fill_1" data-name="Color Fill 1" class="cls-1" d="M150,16h30V46H512V166H180v30H332V316H180v30H452V466H180v30H150V16ZM52,46l21,1v1h4v1l6,1v1l6,2v1h2v1l3,1,1,2h2l6,7,5,4v2l2,1v2l2,1q1,3,2,6h1v2h1q0.5,3,1,6c1.535,4.144,5.108,17.823,3,25h-1v5h-1v4h-1v3h-1v3h-1v2h-1q-1,3-2,6l-2,1v2l-2,1v2l-8,7-3,4H95l-1,2H92l-1,2-6,2v1H83v1H80v1H77v1H73v1H68v1c-6.371,1.825-24.041-1.434-28-3v-1H37v-1H35v-1l-6-2-1-2H26l-1-2H23l-7-8-4-3v-2l-2-1v-2l-2-1-2-6H5v-2H4L2,119c-1.21-3.727-3.795-14.844-2-21H1V93H2V89H3V86H4V83H5V81H6l2-6,2-1V72l2-1V69l4-3,7-8h2l1-2h2l1-2h2V53h2V52h2V51Zm3,30-9,3v1H44l-1,2H41l-1,2-4,3v2l-2,1-1,4H32v3H31v4H30c-2.018,6.879,2.1,15.6,4,19v2l2,1v2l2,1,3,4h2l1,2h2v1h2v1h3c2.813,1.058,8.9,3.558,14,2,10.324-3.156,18.958-8.669,23-18l1-7h1c1.506-5.133-.906-11.157-2-14V94c-4.089-9.243-12.632-14.951-23-18H55Zm125,0v60H482V76H180ZM52,196l21,1v1h4v1l6,1v1l6,2v1h2v1l3,1,1,2h2l6,7,5,4v2l2,1v2l2,1q1,3,2,6h1v2h1q0.5,3,1,6c1.535,4.144,5.108,17.823,3,25h-1v5h-1v4h-1v3h-1v3h-1v2h-1l-2,6-2,1v2l-2,1v2l-8,7-3,4H95l-1,2H92l-1,2-6,2v1H83v1H80v1H77v1H73v1H68v1c-6.371,1.825-24.041-1.434-28-3v-1H37v-1H35v-1l-6-2-1-2H26l-1-2H23l-7-8-4-3v-2l-2-1v-2l-2-1-2-6H5v-2H4L2,269c-1.21-3.727-3.795-14.844-2-21H1v-5H2v-4H3v-3H4v-3H5v-2H6l2-6,2-1v-2l2-1v-2l4-3,7-8h2l1-2h2l1-2h2v-1h2v-1h2v-1Zm3,30-9,3v1H44l-1,2H41l-1,2-4,3v2l-2,1-1,4H32v3H31v4H30c-2.018,6.879,2.1,15.6,4,19v2l2,1v2l2,1,3,4h2l1,2h2v1h2v1h3c2.813,1.058,8.9,3.558,14,2,10.324-3.156,18.958-8.669,23-18l1-7h1c1.506-5.133-.906-11.157-2-14v-3c-4.089-9.243-12.632-14.951-23-18H55Zm125,0v60H302V226H180ZM52,346l21,1v1h4v1l6,1v1l6,2v1h2v1l3,1,1,2h2l6,7,5,4v2l2,1v2l2,1,2,6h1v2h1q0.5,3,1,6c1.535,4.144,5.108,17.823,3,25h-1v5h-1v4h-1v3h-1v3h-1v2h-1l-2,6-2,1v2l-2,1v2l-8,7-3,4H95l-1,2H92l-1,2-6,2v1H83v1H80v1H77v1H73v1H68v1c-6.371,1.825-24.041-1.434-28-3v-1H37v-1H35v-1l-6-2-1-2H26l-1-2H23l-7-8-4-3v-2l-2-1v-2l-2-1-2-6H5v-2H4L2,419c-1.21-3.727-3.795-14.844-2-21H1v-5H2v-4H3v-3H4v-3H5v-2H6l2-6,2-1v-2l2-1v-2l4-3,7-8h2l1-2h2l1-2h2v-1h2v-1h2v-1Zm3,30-9,3v1H44l-1,2H41l-1,2-4,3v2l-2,1-1,4H32v3H31v4H30c-2.018,6.879,2.1,15.6,4,19v2l2,1v2l2,1,3,4h2l1,2h2v1h2v1h3c2.813,1.058,8.9,3.558,14,2,10.324-3.156,18.958-8.669,23-18l1-7h1c1.506-5.133-.906-11.157-2-14v-3c-4.089-9.243-12.632-14.951-23-18H55Zm125,0v60H422V376H180Z" transform="translate(0 -16)" fill= "#0066be" fill-opacity="0.6" />
                   </svg>
