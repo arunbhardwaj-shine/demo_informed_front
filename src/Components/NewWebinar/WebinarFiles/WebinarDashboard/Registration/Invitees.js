@@ -642,6 +642,75 @@ const Invitees = () => {
           </div>
         </div>
       </Col>
+      <Modal
+        className="modal send-confirm"
+        id="delete-confirm"
+        // show={showModalPreview}
+        // onHide={handleCloseModal}
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            // onClick={handleCloseModal}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>The delete user will no longer access to One Source.</h4>
+            <span>Are you sure you want to delete it?</span>
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered"
+                // onClick={handleCloseModal}
+              >
+                Yes Please!
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered"
+                // onClick={handleCloseModal}
+              >
+                Cancel
+              </button>
+            </div>
+          </>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        className="modal send-confirm"
+        // id="delete-confirm"
+        // show={showModalPreview}
+        // onHide={handleCloseModal}
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            // onClick={handleCloseModal}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>The user has been deleted successfully!</h4>
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered"
+                // onClick={handleCloseModal}
+              >
+                Close
+              </button>
+            </div>
+          </>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

@@ -172,6 +172,9 @@ const NewEventCreate = () => {
       state: item,
     });
   };
+  const liveStream = () => {
+    navigate("/live-stream");
+  };
   const webinarPollingForm = (e, item) => {
     navigate("/poll-listing", {
       state: { event_id: item?.id },
@@ -815,7 +818,7 @@ const NewEventCreate = () => {
                                     alt="Email"
                                   />
                                 </button>
-                                <button
+                                {/* <button
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarRegistrationForm(e, item);
@@ -827,8 +830,8 @@ const NewEventCreate = () => {
                                     src={path_image + "webinar-icon.svg"}
                                     alt="Registration"
                                   />
-                                </button>
-                                {/* <button
+                                </button> */}
+                                <button
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarPollingForm(e, item);
@@ -840,13 +843,13 @@ const NewEventCreate = () => {
                                     src={path_image + "polling-icon.svg"}
                                     alt="Polls"
                                   />
-                                </button> */}
+                                </button>
                                 <button
                                   className="btn-webinar"
-                                  // onClick={(e) => {
-                                  //   webinarRegistrationForm(e, item);
-                                  //   e.stopPropagation();
-                                  // }}
+                                  onClick={(e) => {
+                                    liveStream();
+                                    e.stopPropagation();
+                                  }}
                                 >
                                   <img
                                     title="Live Stream"
