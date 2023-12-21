@@ -321,6 +321,21 @@ const NewEventCreate = () => {
     console.log("HERE");
   };
 
+  // const handleOnFilterChange = (e, item, index, key, currentFilter) => {
+  //   const updatedFilter = { ...otherFilter };
+  //   if (e.target.type === "checkbox") {
+  //     if (updatedFilter[key]?.includes(item)) {
+  //       updatedFilter[key] = updatedFilter[key].filter((value) => value !== item);
+  //     } else {
+  //       updatedFilter[key] = [...updatedFilter[key], item];
+  //     }
+  //   } else if (e.target.type === "radio") {
+  //     updatedFilter[key] = [item];
+  //   }
+  //   setOtherFilter(updatedFilter);
+  // };
+  
+
   const formatDate = (eventDate) => {
     const months = [
       "Jan",
@@ -403,7 +418,7 @@ const NewEventCreate = () => {
                   </form>
                 </div>
 
-                {/* <div
+                 <div
                   className="filter-by nav-item dropdown"
                 >
                   <button
@@ -573,11 +588,11 @@ const NewEventCreate = () => {
                         </div>
                       ) 
                     }  
-                </div> */}
+                </div> 
 
                 {isData != "undefined" && isData?.length > 0 ? (
                   <>
-                    <div className="hcp-sort">
+                    {/* <div className="hcp-sort">
                       {sortingCreateCount == 0 ? (
                         <>
                           <button
@@ -652,7 +667,7 @@ const NewEventCreate = () => {
                           </button>
                         </>
                       )}
-                    </div>
+                    </div> */}
                     <div className="clear-search">
                       {editstatus ? (
                         <button
@@ -767,9 +782,8 @@ const NewEventCreate = () => {
               <div className="col email-result-block">
                 <div
                   className="email_box_block add-webinar"
-                  onClick={(e) => handleAddEventClick(e)}
                 >
-                  <div className="email-block-add">
+                  <div className="email-block-add" onClick={(e) => handleAddEventClick(e)}>
                     <img src={path_image + "add-button.svg"} alt="" />
                     <p>Create New Webinar/Event</p>
                   </div>
@@ -779,18 +793,18 @@ const NewEventCreate = () => {
                     {isData?.map((item, index) => {
                       return (
                         <div className="email_box_block" key={index}
-                          onClick={() => handleCardClick(item)}>
+                          >
                           <div className="email_box">
-                            <div className="mail-box-content">
+                            <div className="mail-box-content" onClick={() => handleCardClick(item)}>
                               <div 
                               className="action_btn text-end"
                               // className={`action_btn text-end ${differenceDays(item?.dateStart) > 0 ? 'coming' : differenceDays(item?.dateStart) < 0 ? 'ended' : ''}`}
                               >
                                 {differenceDays(item?.dateStart) == 0
-                                  ? <div className="live">Event Live</div>
+                                  ? <div className="action-status live">Event Live</div>
                                   : differenceDays(item?.dateStart) > 0
-                                    ? <div className="coming">Coming Soon</div>
-                                    : <div className="end">Has Ended</div>
+                                    ? <div className="action-status coming">Coming Soon</div>
+                                    : <div className="action-status end">Has Ended</div>
                                     }
                                 {/* <button
                                   className="btn-edit"
@@ -860,14 +874,19 @@ const NewEventCreate = () => {
                               </div>
                               <div className="event-title">{item?.title}</div>
                               <div className="speaker-name"><span>Speaker</span> {(speakerName[index])?.map((item, i) => (item?.speakerName)).join(" , ")}</div>
-                              <div className="event-details d-flex justify-content-between">
+                              <div className="event-details d-flex justify-content-end align-items-center">
                                 <div className="time-left">
                                   {differenceDays(item?.dateStart) == 0
                                     ? "Event Live"
                                     : differenceDays(item?.dateStart) > 0
-                                      ? differenceDays(item?.dateStart) +
-                                      " Days Left"
+                                      ? 
+                                      // differenceDays(item?.dateStart) +
+                                      <>
+                                      <span className="days-left">{differenceDays(item?.dateStart)}</span>Days Left</>
+                                      // " Days Left"
                                       : ""}
+
+
                                 </div>
                                 <div className="event-date">
                                   {formatDate(item?.dateStart)} |{" "}
@@ -876,7 +895,8 @@ const NewEventCreate = () => {
                                     : item?.dateStartMin
                                     } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
                                 </div>
-                                <div className="country-timezone">{item?.country_timezone}</div>
+                                {/* <div className="country-timezone">{item?.country_timezone}</div> */}
+                                <div className="country-timezone">{item?.timezone}</div>
                               </div>
 
                               {editstatus ? (<div className="dlt_btn">
