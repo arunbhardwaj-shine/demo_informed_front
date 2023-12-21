@@ -317,23 +317,42 @@ const NewEventCreate = () => {
     setConfirmationPopup(false);
   };
 
-  const handleOnFilterChange = (e, item, index, key, data = []) => {
-    console.log("HERE");
+  // const handleOnFilterChange = (e, item, index, key, data = []) => {
+  //   console.log("HERE");
+  // };
+
+
+  const handleOnFilterChange = (e, item, index, key, data = {}) => {
+    const updatedFilter = { ...data };
+    
+    if (e.target.type === "checkbox") {
+      if (updatedFilter[key]) {
+      
+        updatedFilter[key] = updatedFilter[key].includes(item)
+          ? updatedFilter[key].filter((value) => value !== item)
+          : [...updatedFilter[key], item];
+      } else {
+      
+        updatedFilter[key] = [item];
+      }
+    } else if (e.target.type === "radio") {
+     
+      updatedFilter[key] = [item];
+    }
+  
+    setOtherFilter(updatedFilter);
+    console.log(updatedFilter,'===>updatedFilter')
   };
 
-  // const handleOnFilterChange = (e, item, index, key, currentFilter) => {
-  //   const updatedFilter = { ...otherFilter };
-  //   if (e.target.type === "checkbox") {
-  //     if (updatedFilter[key]?.includes(item)) {
-  //       updatedFilter[key] = updatedFilter[key].filter((value) => value !== item);
-  //     } else {
-  //       updatedFilter[key] = [...updatedFilter[key], item];
-  //     }
-  //   } else if (e.target.type === "radio") {
-  //     updatedFilter[key] = [item];
-  //   }
-  //   setOtherFilter(updatedFilter);
-  // };
+  const applyFilter = () => {
+    console.log("Filters Applied:", otherFilter);
+    setShowFilter(false)
+  };
+  
+  const clearFilter = () => {
+    setOtherFilter({}); 
+  };
+  
   
 
   const formatDate = (eventDate) => {
@@ -540,13 +559,14 @@ const NewEventCreate = () => {
                                                             : false
                                                         }
                                                         onChange={(e) =>
-                                                          handleOnFilterChange(
-                                                            e,
-                                                            item,
-                                                            index,
-                                                            key,
-                                                            [...filterdata[key]]
-                                                          )
+                                                          // handleOnFilterChange(
+                                                          //   e,
+                                                          //   item,
+                                                          //   index,
+                                                          //   key,
+                                                          //   [...filterdata[key]]
+                                                          // )
+                                                          handleOnFilterChange(e, item, index, key, otherFilter)
                                                         }
                                                       />
 
@@ -575,12 +595,12 @@ const NewEventCreate = () => {
 
                           <div className="filter-footer">
                             <button
-                              className="btn btn-primary btn-bordered"
+                              className="btn btn-primary btn-bordered" onClick={clearFilter}
                             >
                               Clear
                             </button>
                             <button
-                              className="btn btn-primary btn-filled"
+                              className="btn btn-primary btn-filled" onClick={applyFilter}
                             >
                               Apply
                             </button>
