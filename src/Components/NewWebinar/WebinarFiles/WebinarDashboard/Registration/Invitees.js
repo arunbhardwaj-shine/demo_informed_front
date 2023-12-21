@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Col } from "react-bootstrap";
+import { Button, Col, Modal } from "react-bootstrap";
 import Select from "react-select";
 
 const Invitees = () => {
