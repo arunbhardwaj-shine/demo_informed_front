@@ -310,7 +310,7 @@ const Invitees = () => {
                             </svg>
                           </button>
                         </th>
-                        <th scope="col" className="registred">Registered  
+                        <th scope="col">Registered
                           <button
                             className={`event_sort_btn ${isActive == "dec"
                               ? "svg_active"

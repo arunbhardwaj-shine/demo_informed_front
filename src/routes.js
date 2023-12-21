@@ -543,10 +543,8 @@ const Routing = () => {
           element={<LoginLayout component={RegistrationPage} />}
         /> */}
         <Route path="/event-registration" element={<RegistrationPage />} />
-        {/* <Route
-          path="/event-listing"
-          element={<NewEventCreate />}
-        /> */}
+     
+        {/* <Route path="/event-listing" element={<SetLayout component={NewEventCreate} />} /> */}
         <Route
           path="/contact-form"
           element={<LoginLayout component={ContactForm} />}
