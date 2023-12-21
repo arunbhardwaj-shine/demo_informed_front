@@ -378,12 +378,10 @@ const NewEventCreate = () => {
         updatedFilter[key] = [item];
       }
     } else if (e.target.type === "radio") {
-
       updatedFilter[key] = [item];
     }
 
     setOtherFilter(updatedFilter);
-    console.log(updatedFilter, '===>updatedFilter')
   };
 
   const applyFilter = () => {
@@ -392,11 +390,10 @@ const NewEventCreate = () => {
   };
 
   const clearFilter = () => {
-    setOtherFilter({});
+    setOtherFilter({}); 
+    setShowFilter(false)
   };
-
-
-
+  
   const formatDate = (eventDate) => {
     const months = [
       "Jan",
