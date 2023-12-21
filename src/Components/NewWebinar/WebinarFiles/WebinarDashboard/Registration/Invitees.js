@@ -15,6 +15,7 @@ const Invitees = () => {
   ])
 
   const [userData, setUserData] = useState()
+  const [originalUserData, setOriginalUserData] = useState()
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [clickUserId, setClickUserId] = useState(0);
   const [sortNameDirection, setSortNameDirection] = useState(0);
@@ -41,6 +42,7 @@ const Invitees = () => {
     try {
       loader("show")
       setUserData(tableData)
+      setOriginalUserData(tableData)
       setApiStatus(true);
     } catch (err) {
       console.log("---err", err)
@@ -97,12 +99,13 @@ const Invitees = () => {
   ];
 
   const searchChange = (e) => {
+    setSearch(e?.target?.value?.trim());
     setIsLoaded(false);
     setNoData(false);
     setSearch(e?.target?.value);
     if (e?.target?.value === "") {
-      setUserData([]);
-      getWebinarData();
+      setUserData(originalUserData)
+
     }
   };
 
