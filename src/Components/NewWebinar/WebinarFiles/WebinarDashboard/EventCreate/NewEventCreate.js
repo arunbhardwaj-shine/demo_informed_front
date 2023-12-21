@@ -802,9 +802,8 @@ const NewEventCreate = () => {
               <div className="col email-result-block">
                 <div
                   className="email_box_block add-webinar"
-                  onClick={(e) => handleAddEventClick(e)}
                 >
-                  <div className="email-block-add">
+                  <div className="email-block-add" onClick={(e) => handleAddEventClick(e)}>
                     <img src={path_image + "add-button.svg"} alt="" />
                     <p>Create New Webinar/Event</p>
                   </div>
@@ -814,9 +813,9 @@ const NewEventCreate = () => {
                     {isData?.map((item, index) => {
                       return (
                         <div className="email_box_block" key={index}
-                          onClick={() => handleCardClick(item)}>
+                          >
                           <div className="email_box">
-                            <div className="mail-box-content">
+                            <div className="mail-box-content" onClick={() => handleCardClick(item)}>
                               <div 
                               className="action_btn text-end"
                               // className={`action_btn text-end ${differenceDays(item?.dateStart) > 0 ? 'coming' : differenceDays(item?.dateStart) < 0 ? 'ended' : ''}`}
@@ -895,7 +894,7 @@ const NewEventCreate = () => {
                               </div>
                               <div className="event-title">{item?.title}</div>
                               <div className="speaker-name"><span>Speaker</span> {(speakerName[index])?.map((item, i) => (item?.speakerName)).join(" , ")}</div>
-                              <div className="event-details d-flex justify-content-between">
+                              <div className="event-details d-flex justify-content-end align-items-center">
                                 <div className="time-left">
                                   {differenceDays(item?.dateStart) == 0
                                     ? "Event Live"
@@ -903,7 +902,7 @@ const NewEventCreate = () => {
                                       ? 
                                       // differenceDays(item?.dateStart) +
                                       <>
-                                      <span className="days-left">{differenceDays(item?.dateStart)}</span><span>Days Left</span></>
+                                      <span className="days-left">{differenceDays(item?.dateStart)}</span>Days Left</>
                                       // " Days Left"
                                       : ""}
 
