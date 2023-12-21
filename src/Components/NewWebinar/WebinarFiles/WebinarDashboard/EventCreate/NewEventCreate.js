@@ -126,7 +126,6 @@ const NewEventCreate = () => {
         }
 
       }
-      // setApiStatus(true);
       loader("hide");
 
     } catch (err) {
@@ -158,9 +157,7 @@ const NewEventCreate = () => {
     }
   };
   const submitSearchHandler = (event) => {
-    console.log("search handler--->",apiStatus)
     event.preventDefault();
-
     const filteredData = apiData?.filter((item) =>
       item?.title?.toLowerCase().includes(search?.toLowerCase())
     );
@@ -359,15 +356,10 @@ const NewEventCreate = () => {
     setConfirmationPopup(false);
   };
 
-  // const handleOnFilterChange = (e, item, index, key, data = []) => {
-  //   console.log("HERE");
-  // };
-
-
   const handleOnFilterChange = (e, item, index, key, data = {}) => {
     const updatedFilter = { ...data };
 
-    if (e.target.type === "checkbox") {
+    if (e?.target?.type === "checkbox") {
       if (updatedFilter[key]) {
 
         updatedFilter[key] = updatedFilter[key].includes(item)
@@ -377,9 +369,7 @@ const NewEventCreate = () => {
 
         updatedFilter[key] = [item];
       }
-    } else if (e.target.type === "radio") {
-      updatedFilter[key] = [item];
-    }
+    } 
 
     setOtherFilter(updatedFilter);
   };
@@ -390,10 +380,10 @@ const NewEventCreate = () => {
   };
 
   const clearFilter = () => {
-    setOtherFilter({}); 
+    setOtherFilter({});
     setShowFilter(false)
   };
-  
+
   const formatDate = (eventDate) => {
     const months = [
       "Jan",
@@ -566,27 +556,8 @@ const NewEventCreate = () => {
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
-                                                      type={
-                                                        key == "draft" ||
-                                                          key == "ibu" ||
-                                                          key ==
-                                                          "Selected By Articles" ||
-                                                          key ==
-                                                          "SPC Included" ||
-                                                          key == "Blinded" ||
-                                                          key == "Mandatory" ||
-                                                          key == "List" ||
-                                                          key == "language" ||
-                                                          key ==
-                                                          "IRT mandatory training" ||
-                                                          key ==
-                                                          "Business Unit" ||
-                                                          key ==
-                                                          "Content Owners" ||
-                                                          key == "Platform"
-                                                          ? "radio"
-                                                          : "checkbox"
-                                                      }
+                                                      type="checkbox"
+                                                      
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
                                                       name={key}
@@ -598,13 +569,6 @@ const NewEventCreate = () => {
                                                           : false
                                                       }
                                                       onChange={(e) =>
-                                                        // handleOnFilterChange(
-                                                        //   e,
-                                                        //   item,
-                                                        //   index,
-                                                        //   key,
-                                                        //   [...filterdata[key]]
-                                                        // )
                                                         handleOnFilterChange(e, item, index, key, otherFilter)
                                                       }
                                                     />
@@ -845,7 +809,7 @@ const NewEventCreate = () => {
                     <p>Create New Webinar/Event</p>
                   </div>
                 </div>
-                {console.log("api status--->", apiStatus)}
+
                 {isData?.length > 0 ? (
                   <>
                     {isData?.map((item, index) => {
