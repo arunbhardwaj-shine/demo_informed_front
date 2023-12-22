@@ -30,8 +30,8 @@ const Invitees = () => {
   const [apiStatus, setApiStatus] = useState(false);
   const [showfilter, setShowFilter] = useState(false);
   const [filterdata, setFilterData] = useState({
-    "User type ": ["HCP", "Staff user", "Test user"],
-    "User ": ["Registered", "Blocked"]
+    // "User type ": ["HCP", "Staff user", "Test user"],
+    // "User ": ["Registered", "Blocked"]
   });
   const [otherFilter, setOtherFilter] = useState({});
   const [page, setPage] = useState(1)
@@ -56,6 +56,7 @@ const Invitees = () => {
         return { label: item, value: item }
 
       })
+      setFilterData(response?.data?.data?.filterData)
       setUserTypeOptions(userType)
       if (response?.data?.data?.totalReaders > ((userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)) {
         console.log("in is loaded")
@@ -69,6 +70,7 @@ const Invitees = () => {
       } else {
         setUserData((oldArray) => [...oldArray, ...response?.data?.data?.data]);
       }
+      console.log("filters--->", response?.data?.data?.filterData)
 
       setApiStatus(true);
 
