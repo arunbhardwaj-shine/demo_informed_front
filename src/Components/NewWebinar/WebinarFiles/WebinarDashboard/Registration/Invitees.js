@@ -57,9 +57,20 @@ const Invitees = () => {
 
       })
       setUserTypeOptions(userType)
-      setUserData(response?.data?.data?.data)
-      setOriginalUserData(response?.data?.data?.data)
+      if (response?.data?.data?.totalReaders > ((userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)) {
+        console.log("in is loaded")
+        setIsLoaded(true)
+      } else {
+        setIsLoaded(false)
+      }
+      if (page == 1) {
+        setUserData(response?.data?.data?.data)
+      } else {
+        setUserData((oldArray) => [...oldArray, ...response?.data?.data?.data]);
+      }
+
       setApiStatus(true);
+
     } catch (err) {
       console.log("---err", err)
       setApiStatus(true);
@@ -267,23 +278,9 @@ const Invitees = () => {
     setShowFilter(false)
   };
   const loadMoreClicked = () => {
-    loader("show");
     let sp = page + 1;
-    // let totalRecord = loadData.limit * sp;
-    let newData = [];
-
-    // if (userData?.length >= totalReaders) {
-    //   newData = totalLibraryRecord.slice(loadData.nextLimit, totalRecord);
-    //   setLoadData({ ...loadData, nextLimit: totalRecord });
-    // } else {
-    //   newData = totalLibraryRecord.slice(loadData.nextLimit);
-    //   setIsLoaded(false);
-    // }
-
-    // setLibraryData((oldArray) => [...oldArray, ...newData]);
     setPage(sp);
-
-    loader("hide");
+    getWebinarData(sp)
   };
 
   return (
@@ -791,7 +788,7 @@ const Invitees = () => {
               {isLoaded == true ? (
                 <Button
                   className="btn btn-primary btn-filled"
-                // onClick={loadMoreClicked}
+                  onClick={loadMoreClicked}
                 >
                   Load More
                 </Button>
