@@ -369,7 +369,7 @@ const NewEventCreate = () => {
 
         updatedFilter[key] = [item];
       }
-    } 
+    }
 
     setOtherFilter(updatedFilter);
   };
@@ -426,7 +426,9 @@ const NewEventCreate = () => {
   };
 
   const handleCardClick = (item) => {
-    navigate("/invitees");
+    console.log("item--->", item?.id)
+    navigate("/invitees", { state: { eventId: item?.id } });
+
   };
 
   return (
@@ -557,7 +559,7 @@ const NewEventCreate = () => {
                                                   <label className="select-multiple-option">
                                                     <input
                                                       type="checkbox"
-                                                      
+
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
                                                       name={key}
