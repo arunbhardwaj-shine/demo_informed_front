@@ -9,7 +9,8 @@ import { useLocation } from "react-router-dom";
 import { getData, postData, deleteMethod } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import moment from "moment";
-import dateFormat from 'dateformat';
+import { Spinner } from "react-activity";
+
 
 const Invitees = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -36,6 +37,7 @@ const Invitees = () => {
   const [page, setPage] = useState(1)
   const [totalReaders, setTotalReaders] = useState()
   const [totalPage, setTotalPage] = useState()
+  const [pageAll, setPageAll] = useState(false);
 
   useEffect(() => {
     getWebinarData(page);
@@ -48,7 +50,6 @@ const Invitees = () => {
         "search": search, "Country": [], "UserType": [], "Type": []
       }
       const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page},${payload}`)
-      console.log("res-->", response?.data?.data)
       setTotalReaders(response?.data?.data?.totalReaders)
       setTotalPage(response?.data?.data?.totalPage)
       let userType = response?.data?.data?.filterData?.UserType?.map((item) => {
@@ -67,8 +68,6 @@ const Invitees = () => {
     }
 
   }
-
-
   const searchChange = (e) => {
     setSearch(e?.target?.value?.trim());
     setIsLoaded(false);
@@ -81,7 +80,7 @@ const Invitees = () => {
   };
 
   const handleChange = (e, user, index) => {
-    let updateUserData = [...userData]
+    let updateUserData = JSON.parse(JSON.stringify([...userData]))
     let updateUser = { ...updateUserData[index] }
     updateUser.hcp_status = e?.value
     updateUserData[index] = updateUser
@@ -89,7 +88,6 @@ const Invitees = () => {
   }
 
   const saveUserClicked = async (e, user) => {
-    console.log("save user--->", user?.user_id)
     try {
       loader("show")
       let data = {
@@ -113,8 +111,23 @@ const Invitees = () => {
     console.log("email clicked-->", user?.Email)
   }
 
-  const userBlockedClicked = (e, user) => {
-    console.log("user blocked--->", user)
+  const userBlockedClicked = async (e, user, index) => {
+    try {
+      loader("show")
+      let data = {
+        "eventId": state?.eventId, "user_id": user?.user_id, "is_blocked": user?.is_blocked == 0 ? 1 : 0
+      }
+      const response = await postData(ENDPOINT.WEBINAR_BLOCK_UNBLOCK_USER, data)
+      let updateUserData = JSON.parse(JSON.stringify([...userData]))
+      let updateUser = { ...updateUserData[index] }
+      updateUser.is_blocked = user?.is_blocked == 0 ? 1 : 0
+      updateUserData[index] = updateUser
+      setUserData(updateUserData)
+    } catch (err) {
+      console.log("--err", err)
+    } finally {
+      loader("hide")
+    }
   }
 
   const handleConfirmModel = async (id) => {
@@ -252,6 +265,25 @@ const Invitees = () => {
   const clearFilter = () => {
     setOtherFilter({});
     setShowFilter(false)
+  };
+  const loadMoreClicked = () => {
+    loader("show");
+    let sp = page + 1;
+    // let totalRecord = loadData.limit * sp;
+    let newData = [];
+
+    // if (userData?.length >= totalReaders) {
+    //   newData = totalLibraryRecord.slice(loadData.nextLimit, totalRecord);
+    //   setLoadData({ ...loadData, nextLimit: totalRecord });
+    // } else {
+    //   newData = totalLibraryRecord.slice(loadData.nextLimit);
+    //   setIsLoaded(false);
+    // }
+
+    // setLibraryData((oldArray) => [...oldArray, ...newData]);
+    setPage(sp);
+
+    loader("hide");
   };
 
   return (
@@ -687,7 +719,7 @@ const Invitees = () => {
                                 <button
                                   // style={{ marginLeft: "10px" }}
                                   className="btn-webinar"
-                                  onClick={(e) => userBlockedClicked(e, user)}
+                                  onClick={(e) => userBlockedClicked(e, user, index)}
                                 >
                                   <img
                                     title="Email"
@@ -755,6 +787,33 @@ const Invitees = () => {
                 ""
               )
             }
+            <div className="load_more">
+              {isLoaded == true ? (
+                <Button
+                  className="btn btn-primary btn-filled"
+                // onClick={loadMoreClicked}
+                >
+                  Load More
+                </Button>
+              ) : null}
+            </div>
+            {pageAll == true ? (
+              <div
+                className="load_more"
+                style={{
+                  margin: "0 auto",
+                  justifyContent: "center",
+                  display: "flex",
+                }}
+              >
+                <Spinner
+                  color="#53aff4"
+                  size={32}
+                  speed={1}
+                  animating={true}
+                />
+              </div>
+            ) : null}
 
           </div>
         </div>

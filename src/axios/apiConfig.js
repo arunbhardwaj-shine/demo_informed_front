@@ -153,4 +153,5 @@ export const ENDPOINT = {
   WEBINAR_GET_EVENT_REGISTRATION: "/webinar/getEventRegistrations",
   WEBINAR_UPDATE_HCP_STATUS: "/webinar/update-hcp-status",
   WEBINAR_DELETE_USER: "/webinar/delete-user",
+  WEBINAR_BLOCK_UNBLOCK_USER: "/webinar/block-unblock-user",
 };
