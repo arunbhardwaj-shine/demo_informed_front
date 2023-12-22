@@ -59,6 +59,7 @@ const Invitees = () => {
       setUserTypeOptions(userType)
       if (response?.data?.data?.totalReaders > ((userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)) {
         console.log("in is loaded")
+        console.log("count--->", (userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)
         setIsLoaded(true)
       } else {
         setIsLoaded(false)
@@ -667,7 +668,7 @@ const Invitees = () => {
                       <tr key={index}>
                         <td>{user?.name}</td>
                         <td>{user?.email}</td>
-                        <td>{user?.country}</td>
+                        <td>{user?.province}</td>
                         <td className="registred">
                           {user?.is_blocked == 0 ?
                             moment(user?.register_time).format('DD MMMM YYYY | hh:mm:ss A') : "Blocked"}
