@@ -47,9 +47,12 @@ const Invitees = () => {
     try {
       loader("show")
       let payload = {
-        "search": search, "Country": [], "UserType": [], "Type": []
+        "search": search,
+        "Country": otherFilter?.Country ? otherFilter?.Country : "",
+        "UserType": otherFilter?.UserType ? otherFilter?.UserType : "",
+        "Type": otherFilter?.Type ? otherFilter?.Type : ""
       }
-      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page},${payload}`)
+      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload)
       setTotalReaders(response?.data?.data?.totalReaders)
       setTotalPage(response?.data?.data?.totalPage)
       let userType = response?.data?.data?.filterData?.UserType?.map((item) => {
@@ -267,11 +270,12 @@ const Invitees = () => {
         updatedFilter[key] = [item];
       }
     }
-
     setOtherFilter(updatedFilter);
   };
-  const applyFilter = () => {
+  const applyFilter = async () => {
     console.log("Filters Applied:", otherFilter);
+    let page = 1
+    getWebinarData(page, otherFilter)
     setShowFilter(false)
   };
 
