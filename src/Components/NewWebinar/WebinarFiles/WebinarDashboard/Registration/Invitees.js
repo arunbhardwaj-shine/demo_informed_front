@@ -6,7 +6,7 @@ import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { popup_alert } from "../../../../../popup_alert";
 import { loader } from "../../../../../loader";
 import { useLocation } from "react-router-dom";
-import { getData, postData } from "../../../../../axios/apiHelper";
+import { getData, postData, deleteMethod } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import moment from "moment";
 import dateFormat from 'dateformat';
@@ -34,18 +34,24 @@ const Invitees = () => {
   });
   const [otherFilter, setOtherFilter] = useState({});
   const [page, setPage] = useState(1)
+  const [totalReaders, setTotalReaders] = useState()
+  const [totalPage, setTotalPage] = useState()
 
   useEffect(() => {
-    console.log("state--->", state)
-    getWebinarData(state, page);
+    getWebinarData(page);
   }, [])
 
-  const getWebinarData = async (state, page) => {
+  const getWebinarData = async (page) => {
     try {
       loader("show")
-      const response = await getData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`)
-      console.log("res-->", response?.data?.data?.filterData?.userType)
-      let userType = response?.data?.data?.filterData?.userType?.map((item) => {
+      let payload = {
+        "search": search, "Country": [], "UserType": [], "Type": []
+      }
+      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page},${payload}`)
+      console.log("res-->", response?.data?.data)
+      setTotalReaders(response?.data?.data?.totalReaders)
+      setTotalPage(response?.data?.data?.totalPage)
+      let userType = response?.data?.data?.filterData?.UserType?.map((item) => {
         return { label: item, value: item }
 
       })
@@ -112,15 +118,17 @@ const Invitees = () => {
   }
 
   const handleConfirmModel = async (id) => {
-    console.log("delete-->", id)
     setConfirmationPopup(false);
 
     try {
       loader("show");
-      // await deleteMethod(`${ENDPOINT.SPC_PRO_DELETE}${id}`);
+      const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${state?.eventId}`);
+      setTotalReaders(res?.data?.data?.totalReaders)
+      let updatedUserData = userData
+      updatedUserData = updatedUserData?.filter((item) => item?.user_id != id)
+      setUserData(updatedUserData)
       loader("hide");
       setClickUserId(0);
-      getWebinarData();
       popup_alert({
         visible: "show",
         message: "Your user has been deleted <br />successfully !",
@@ -260,7 +268,7 @@ const Invitees = () => {
             <div className="page-top-nav smart_list_names sticky">
               <div className="d-flex justify-content-between align-items-center">
                 <div className="table-title">
-                  <h4>Total Registrations | {userData?.length}</h4>
+                  <h4>Total Registrations | {totalReaders}</h4>
                 </div>
                 <div className="search-bar">
                   <form
@@ -693,7 +701,7 @@ const Invitees = () => {
                                   className="btn btn-outline-primary"
                                   onClick={() => {
                                     setConfirmationPopup(true);
-                                    setClickUserId(index);
+                                    setClickUserId(user?.user_id);
                                   }}
                                 >
                                   <svg
