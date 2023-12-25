@@ -486,7 +486,9 @@ const NewEventCreate = () => {
   };
 
   const handleCardClick = (item) => {
-    navigate("/invitees");
+    console.log("item--->", item?.id)
+    navigate("/invitees", { state: { eventId: item?.id } });
+
   };
 
   return (
