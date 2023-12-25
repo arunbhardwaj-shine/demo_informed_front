@@ -7099,7 +7099,8 @@ header.top-0~div .custom-change .search-hcp table#table-to-xls thead.sticky-head
   align-items: center;
   justify-content: center;
   content: "";
-  background-image: url(../images/play-icon.svg) no-repeat;
+  background-image: url(../images/play-icon.svg);
+  background-repeat: no-repeat;
   background-position: 55% 50%;
 }
 
