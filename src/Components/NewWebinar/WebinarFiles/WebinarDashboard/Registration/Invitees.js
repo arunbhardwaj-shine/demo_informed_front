@@ -45,54 +45,78 @@ const Invitees = () => {
 
   const getWebinarData = async (page) => {
     try {
-      loader("show")
+      loader("show");
       let payload = {
         "search": search,
         "Country": otherFilter?.Country ? otherFilter?.Country : "",
         "UserType": otherFilter?.UserType ? otherFilter?.UserType : "",
-        "Type": otherFilter?.Type ? otherFilter?.Type : ""
-      }
-      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload)
-      setTotalReaders(response?.data?.data?.totalReaders)
-      setTotalPage(response?.data?.data?.totalPage)
+        "Type": otherFilter?.Type ? otherFilter?.Type : "",
+        "id": state?.eventId
+      };
+  
+      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${161}?page=${page}`, payload);
+      setTotalReaders(response?.data?.data?.totalReaders);
+      setTotalPage(response?.data?.data?.totalPage);
+  
       let userType = response?.data?.data?.filterData?.UserType?.map((item) => {
-        return { label: item, value: item }
-
-      })
-      setFilterData(response?.data?.data?.filterData)
-      setUserTypeOptions(userType)
+        return { label: item, value: item };
+      });
+  
+      setFilterData(response?.data?.data?.filterData);
+      setUserTypeOptions(userType);
+  
       if (response?.data?.data?.totalReaders > ((userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)) {
-        console.log("in is loaded")
-        console.log("count--->", (userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)
-        setIsLoaded(true)
+        setIsLoaded(true);
       } else {
-        setIsLoaded(false)
+        setIsLoaded(false);
       }
-      if (page == 1) {
-        setUserData(response?.data?.data?.data)
+  
+      if (page === 1) {
+        setUserData(response?.data?.data?.data);
       } else {
         setUserData((oldArray) => [...oldArray, ...response?.data?.data?.data]);
       }
-      console.log("filters--->", response?.data?.data?.filterData)
-
+  
       setApiStatus(true);
-
+  
+      return response; 
     } catch (err) {
-      console.log("---err", err)
+      console.log("---err", err);
       setApiStatus(true);
+      throw err; 
     } finally {
-      loader("hide")
+      loader("hide");
     }
+  };
 
-  }
-  const searchChange = (e) => {
-    setSearch(e?.target?.value?.trim());
-    setIsLoaded(false);
-    setNoData(false);
-    setSearch(e?.target?.value);
-    if (e?.target?.value === "") {
-      setUserData(originalUserData)
-
+  const searchChange = async (e) => {
+    try {
+      setSearch(e?.target?.value?.trim());
+      setIsLoaded(false);
+      setNoData(false);
+  
+      if (!e?.target?.value) {
+        await getWebinarData(1);
+      }
+    } catch (error) {
+      console.error('Error in searchChange:', error);
+    }
+  };
+  
+  const submitSearchHandler = async (event) => {
+    try {
+      event.preventDefault();
+      setNoData(false);
+      setIsLoaded(false);
+  
+      if (!search) {
+        await getWebinarData(1);
+      } else {
+        const response = await getWebinarData(1);
+        console.log(response, '===>user1');
+      }
+    } catch (error) {
+      console.error('Error in submitSearchHandler:', error);
     }
   };
 
@@ -147,16 +171,43 @@ const Invitees = () => {
     }
   }
 
+  // const handleConfirmModel = async (id) => {
+  //   setConfirmationPopup(false);
+
+  //   try {
+  //     loader("show");
+  //     const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${state?.eventId}`);
+  //     setTotalReaders(res?.data?.data?.totalReaders)
+  //     let updatedUserData = userData
+  //     updatedUserData = updatedUserData?.filter((item) => item?.user_id != id)
+  //     setUserData(updatedUserData)
+  //     loader("hide");
+  //     setClickUserId(0);
+  //     popup_alert({
+  //       visible: "show",
+  //       message: "Your user has been deleted <br />successfully !",
+  //       type: "success",
+  //       redirect: "",
+  //     });
+  //   } catch (err) {
+  //     console.log("--err", err);
+  //     loader("hide");
+  //   }
+  // };
+
+
   const handleConfirmModel = async (id) => {
     setConfirmationPopup(false);
-
+  
     try {
       loader("show");
       const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${state?.eventId}`);
-      setTotalReaders(res?.data?.data?.totalReaders)
-      let updatedUserData = userData
-      updatedUserData = updatedUserData?.filter((item) => item?.user_id != id)
-      setUserData(updatedUserData)
+      let updatedUserData = userData.filter((item) => item?.user_id !== id);
+      setUserData(updatedUserData);
+  
+      const updatedTotalReaders = updatedUserData.length;
+      setTotalReaders(updatedTotalReaders);
+  
       loader("hide");
       setClickUserId(0);
       popup_alert({
@@ -170,6 +221,7 @@ const Invitees = () => {
       loader("hide");
     }
   };
+  
 
   // const userSort = (e, type) => {
   //   const sortedIsData = [...userData].sort((a, b) => {
@@ -226,36 +278,42 @@ const Invitees = () => {
     setSortingCount(sortingCount + 1);
   };
 
-  const getDownloadData = async (page, obj, search) => {
-    // try {
-    //   loader("show");
-    //   let data = {
-    //     user_id: localStorage.getItem("user_id"),
-    //     userType: 5,
-    //     search: search,
-    //     type: "",
-    //     page: 1,
-    //   };
 
-    //   let payload = { ...data, ...filterObject };
-    //   const res = await postFormData(
-    //     ENDPOINT.MARKETING_READER_DOWNLOAD,
-    //     payload,
-    //     {
-    //       responseType: "blob",
-    //     }
-    //   );
-    //   const link = document.createElement("a");
-    //   const url = URL.createObjectURL(res?.data);
-    //   link.href = url;
-    //   link.download = "readers.xlsx";
-    //   link.click();
-    //   loader("hide");
-    // } catch (err) {
-    //   console.log(err);
-    //   loader("hide");
-    // }
-  }
+  const getDownloadData = async () => {
+    try {
+      loader("show");
+  
+      let payload = {
+        "search": search,
+        "Country": otherFilter?.Country ? otherFilter?.Country : "",
+        "UserType": otherFilter?.UserType ? otherFilter?.UserType : "",
+        "Type": otherFilter?.Type ? otherFilter?.Type : "",
+        "id": state?.eventId,
+        "is_download": true,
+      };
+  
+      // const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/download`, payload, {
+      //   responseType: "text", 
+      // });
+      const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${161}?page=${page}`, payload, {
+        responseType: "text", 
+      });
+      console.log("Server Response:", res);
+  
+      const blob = new Blob([res?.data?.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.href = url;
+      link.download = "readers.xlsx";
+      link.click();
+      loader("hide");
+    } catch (err) {
+      console.error(err);
+      loader("hide");
+    }
+  }; 
+  
   const handleOnFilterChange = (e, item, index, key, data = {}) => {
     const updatedFilter = { ...data };
 
@@ -272,6 +330,7 @@ const Invitees = () => {
     }
     setOtherFilter(updatedFilter);
   };
+
   const applyFilter = async () => {
     console.log("Filters Applied:", otherFilter);
     let page = 1
@@ -279,11 +338,29 @@ const Invitees = () => {
     setShowFilter(false)
   };
 
-
+  
   const clearFilter = () => {
+    setUserData(originalUserData)
     setOtherFilter({});
     setShowFilter(false)
+    setSearch(""); 
+    console.log(originalUserData,'===>originalUserData')
   };
+
+  // const clearFilter = async () => {
+  //   try {
+  //     setOtherFilter({});
+  //     setSearch(""); 
+  //     setShowFilter(false);
+  
+    
+  //     const response = await getWebinarData(1);
+  //     console.log("Cleared Filter - Data:", response);
+  //   } catch (error) {
+  //     console.error('Error in clearFilter:', error);
+  //   }
+  // };
+  
   const loadMoreClicked = () => {
     let sp = page + 1;
     setPage(sp);
@@ -309,7 +386,7 @@ const Invitees = () => {
                 <div className="search-bar">
                   <form
                     className="d-flex"
-                  // onSubmit={(e) => submitSearchHandler(e)}
+                  onSubmit={(e) => submitSearchHandler(e)}
                   >
                     <input
                       className="form-control me-2"
@@ -317,7 +394,7 @@ const Invitees = () => {
                       placeholder="Search by title"
                       aria-label="Search"
                       id="email_search"
-                    //   onChange={(e) => searchChange(e)}
+                      onChange={(e) => searchChange(e)}
                     />
                     <button className="btn-outline-success" type="submit">
                       <svg
@@ -339,9 +416,9 @@ const Invitees = () => {
                   <button
                     className="btn print"
                     title="Download stats"
-                  // onClick={() => {
-                  //   getDownloadData(page, obj, search);
-                  // }}
+                  onClick={() => {
+                    getDownloadData(search);
+                  }}
                   >
                     <svg
                       width="20"
