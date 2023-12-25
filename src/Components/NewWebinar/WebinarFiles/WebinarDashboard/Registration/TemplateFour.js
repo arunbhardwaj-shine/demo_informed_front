@@ -37,15 +37,17 @@ export default function TemplateFour({ children, formData }) {
     )}`;
   }
 
-  const eventStartTime = eventDataSample?.eventStartTime?.value ?? "00:00";
-  const eventEndTime = eventDataSample?.eventEndTime?.value ?? "00:00";
+  const eventStartTime = eventDataSample?.eventStartTime?.value ?? `${eventData?.dateStartHour  }:${eventData?.dateStartMin}`?? "00:00";
+  const eventEndTime = eventDataSample?.eventEndTime?.value ?? `${eventData?.dateEndHour  }:${eventData?.dateEndMin}` ?? "00:00";
+
+
   function convertTo12HourFormat(time) {
     const [hours, minutes] = time.split(":");
     const formattedTime = new Date(`2000-01-01T${time}:00`);
     return formattedTime.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
-      hour12: true,
+      hour12: false,
     });
   }
   const convertedStartTime = convertTo12HourFormat(eventStartTime);
@@ -143,55 +145,63 @@ export default function TemplateFour({ children, formData }) {
               </h4>
             </div>
 
-            <h4 style={{ color: eventDataSample?.eventStartDate?.color }}>
+            {/* <h4 style={{ color: eventDataSample?.eventStartDate?.color }}>
               {formattedDateRange}
-            </h4>
+            </h4> */}
 
-            <h4>
-              {/* {formData?.content?.eventDetails?.eventStartTime?.value} */}
-              {timeRange}({eventData?.countryTimezone}) online in One Source
-            </h4>
+<h4 dangerouslySetInnerHTML={{
+  __html: `${formData?.content?.eventDetails?.eventDateDetails?.value?formData?.content?.eventDetails?.eventDateDetails?.value:"31st January 2024 <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source"}`
+}}>
+</h4>
+{/* <h4 dangerouslySetInnerHTML={{
+  __html: `${formData?.content?.eventDetails?.eventDateDetails?.value} (${eventData?.countryTimezone})<br/>Online in One Source`
+}}>
+</h4> */}
 
-            {/*  */}
-{formData?.content?.eventDetails?.SubHeading?.value?
- <p class="speaker-specialization"
- dangerouslySetInnerHTML={{
-   __html:
-     formData?.content?.eventDetails?.SubHeading?.value,
- }}/>:<p class="speaker-specialization">
- If you already have a One Source account you can register to the
- clinical practice session using the same login details.
-</p>
-}
-           
 
             {/*  */}
-{
-   formData?.content?.eventDetails?.SubText?.value?
-   <p class="speaker-specialization"
-   dangerouslySetInnerHTML={{
-     __html:
-       formData?.content?.eventDetails?.SubText?.value,
-   }}/>:<p class="speaker-specialization">
-   If you do not yet have a One Source account, by registering to a
-   Clinical Practice session an automatic account will be generated
-   and you will gain access to this content in accordance with the
-   data privacy policy of{" "}
-   <a href="/octapharma-privacy" target="_blank">
-     Octapharma AG
-   </a>{" "}
-   and{" "}
-   <a
-     href="https://albert.docintel.app/privacy_policy/"
-     target="_blank"
-   >
-     Docintel.app
-   </a>{" "}
-   operating this page.
- </p>
-}
-          
-            
+            {formData?.content?.eventDetails?.SubHeading?.value ? (
+              <p
+                class="speaker-specialization"
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.SubHeading?.value,
+                }}
+              />
+            ) : (
+              <p class="speaker-specialization">
+                If you already have a One Source account you can register to the
+                clinical practice session using the same login details.
+              </p>
+            )}
+
+            {/*  */}
+            {formData?.content?.eventDetails?.SubText?.value ? (
+              <p
+                class="speaker-specialization"
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.SubText?.value,
+                }}
+              />
+            ) : (
+              <p class="speaker-specialization">
+                If you do not yet have a One Source account, by registering to a
+                Clinical Practice session an automatic account will be generated
+                and you will gain access to this content in accordance with the
+                data privacy policy of{" "}
+                <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">
+                  Octapharma AG
+                </a>{" "}
+                and{" "}
+                <a
+                  href="https://albert.docintel.app/privacy_policy/"
+                  target="_blank"
+                >
+                  Docintel.app
+                </a>{" "}
+                operating this page.
+              </p>
+            )}
+
             <div className="octapharma_event_form">{children}</div>
           </div>
           <div className="footer">
@@ -199,9 +209,11 @@ export default function TemplateFour({ children, formData }) {
               <Row>
                 <Col md={8}>
                   <p>
-                    <Link to="https://onesource.octapharma.com/">
-                      Visit One Source,
-                    </Link>{" "}
+                  To visit One Source &nbsp; 
+                    <Link  target="_blank" to="https://onesource.octapharma.com/" style={{textDecoration:"underline"}}>
+                     Click Here
+                    </Link>{" "}.
+                    <br/>
                     Octapharma’s online haematology platform for healthcare
                     professionals, to be up to date with the latest news and
                     events, and to hear leading experts share their opinions
@@ -213,11 +225,12 @@ export default function TemplateFour({ children, formData }) {
                 </Col>
                 <Col md={4}>
                   <div className="footer-logo">
+                    <a target="_blank" href="https://onesource.octapharma.com">
                     <img
-                      // src={path_image + "one_source_blue.svg"}
                       src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
                       alt="Logo image"
                     />
+                    </a>
                   </div>
                 </Col>
               </Row>

@@ -506,8 +506,8 @@
     "bodyText": "",
     "headerImageUrl": "",
     "footerImageUrl": "",
-    "labelColor": "#2068B3",
-    "optionColor": "#2068B3",
+    "labelColor": "#001489",
+    "optionColor": "#001489",
     "typedTextColor":"#2068B3",
     "placeholderTextColor":"#2068B3",
     "dropdownOptionColor": "#2068B3",
@@ -532,7 +532,14 @@
         "speakerName": {
             "title": "Speaker Name",
             "type": "text",
-            "value": "",
+            "value": "Guy Young ",
+            "color": "#001489"
+        },
+        
+        "eventDateDetails": {
+            "title": "Event Date Details",
+            "type": "text",
+            "value": "31st January 2024 <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source",
             "color": "#001489"
         },
         "pageTitle": {
@@ -544,7 +551,7 @@
         "SubTitle": {
             "title": "Sub Title",
             "type": "text",
-            "value": "Surgery using FVIII in a HA PUP on emicizumab prophylaxis",
+            "value": "Use of FVIII during surgery in a previously untreated haemophilia A patient on emicizumab prophylaxis",
             "color": "#33baa8"
         },
         "SubHeading": {
@@ -556,19 +563,19 @@
         "SubText": {
             "title": "Sub Text",
             "type": "text",
-            "value": "If you do not yet have a One Source account, by registering to a Clinical Practice session, an automatic account will be generated, and you will gain access to this content in accordance with the data privacy policy of <a href='/octapharma-privacy' target='_blank'>Octapharma AG</a> and <a href='https://albert.docintel.app/privacy_policy/' target='_blank'>Docintel.app</a> operating this page.",
+            "value": "If you do not yet have a One Source account, by registering to a Clinical Practice session, an automatic account will be generated, and you will gain access to this content in accordance with the data privacy policy of <a href='https://onesource.octapharma.com/octapharma-privacy' target='_blank'>Octapharma AG</a> and <a href='https://albert.docintel.app/privacy_policy/' target='_blank'>Docintel.app</a> operating this page.",
             "color": "#33baa8"
         },
         "Specialization": {
             "title": "Specialization",
             "type": "text",
-            "value": "",
+            "value": "Children's Hospital Los Angeles",
             "color": "#001489"
         },
         "Message": {
             "title": "Modal Message",
             "type": "text",
-            "value": "Thank you for registering!",
+            "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
             "color":  "#001489"
         }
     },

@@ -220,7 +220,7 @@ const RegistrationPage = ({ prevData }) => {
             companyEmail: raw?.speaker_email,
             virtual_or_live: raw?.meeting_type,
             websiteFolder: "new_webinar",
-            consent: formFieldData.consent.join("~") || "",
+            consent: formFieldData.consent?formFieldData.consent.join("~") :formFieldData.onesource_consent?formFieldData.onesource_consent.join("~"): "",
           }
         );
         if (response?.data?.status === 1) {
@@ -646,7 +646,7 @@ const RegistrationPage = ({ prevData }) => {
       )}
 
       <Modal
-        className="modal send-confirm"
+        className="modal send-confirm registration-popup"
         show={modalIsOpen}
         centered
         size="lg"
@@ -662,11 +662,12 @@ const RegistrationPage = ({ prevData }) => {
         </Modal.Header>
         <Modal.Body>
           <>
-            {formData?.content?.eventDetails?.Message?.value ? (
-              <h4>{formData.content.eventDetails.Message.value}</h4>
-            ) : (
-              <h4>Thank you for registering!</h4>
-            )}
+       
+              <h4   dangerouslySetInnerHTML={{
+                __html:
+                formData?.content?.eventDetails?.Message?.value?formData.content.eventDetails.Message.value:"Thank you for registering!"
+              }} />
+            
 
             <div className="modal-buttons">
               <button
@@ -1402,18 +1403,18 @@ const FormField4 = ({
             checkboxes[3].checked = false;
 
             newData[label] = [];
-            newData[label] = [options[0]];
+            newData[label] = [ options[0?.optionLabel]];
             if (checkboxes[1].checked) {
-              newData[label] = [...newData[label], options[1]];
-              newData[label] = [...newData[label], options[2]];
+              newData[label] = [...newData[label], options[1]?.optionLabel];
+              newData[label] = [...newData[label], options[2]?.optionLabel];
             }
           } else if (e.target.id == "onesource_consent1") {
             checkboxes[1].checked = true;
             newData[label] = [];
-            newData[label] = [options[1]];
+            newData[label] = [ options[1]?.optionLabel];
             if (checkboxes[0].checked) {
-              newData[label] = [...newData[label], options[0]];
-              newData[label] = [...newData[label], options[2]];
+              newData[label] = [...newData[label], options[0]?.optionLabel];
+              newData[label] = [...newData[label], options[2]?.optionLabel];
             }
             checkboxes[2].checked = checkboxes[0].checked ? true : false;
             checkboxes[3].checked = false;
@@ -1423,15 +1424,15 @@ const FormField4 = ({
             checkboxes[2].checked = true;
             checkboxes[3].checked = false;
             newData[label] = [];
-            newData[label] = [...newData[label], options[0]];
-            newData[label] = [...newData[label], options[1]];
-            newData[label] = [...newData[label], options[2]];
+            newData[label] = [...newData[label], options[0]?.optionLabel];
+            newData[label] = [...newData[label], options[1]?.optionLabel];
+            newData[label] = [...newData[label], options[2]?.optionLabel];
           } else if (e.target.id == "onesource_consent3") {
             checkboxes[0].checked = false;
             checkboxes[1].checked = false;
             checkboxes[2].checked = false;
             checkboxes[3].checked = true;
-            newData[label] = [options[3]];
+            newData[label] = [options[3]?.optionLabel];
           }
 
           // checkbox.checked = !checkbox.checked;
@@ -1682,7 +1683,7 @@ const FormField4 = ({
       className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
-      <label
+    <label
         style={{
           color: pageColors?.labelColor,
         }}
