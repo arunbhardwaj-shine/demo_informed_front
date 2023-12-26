@@ -174,14 +174,15 @@ const Sidebar = () => {
         window.location.pathname == "/live-stream" ||
         window.location.pathname == "/analytics" ?(
           <>
+          
+           <button className="toggle_btn" onClick={() => toggleClassToBody()}>
+            <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
+          </button>
           {/* <button className="toggle_btn"  onClick={() => {
             eventList();
           }}>
             <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
           </button> */}
-           <button className="toggle_btn" onClick={() => toggleClassToBody()}>
-            <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
-          </button>
           <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span>
           </>
         ) : null}
