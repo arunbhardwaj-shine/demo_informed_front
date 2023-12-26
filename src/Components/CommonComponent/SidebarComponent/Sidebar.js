@@ -79,9 +79,9 @@ const Sidebar = () => {
   
 
 
-  // const eventList = () => {
-  //   navigate("/event-listing");
-  // };
+  const eventList = () => {
+    navigate("/event-listing");
+  };
 
   // if (
   //   location.pathname != "/EmailList" &&
