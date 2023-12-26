@@ -35,13 +35,28 @@ const Sidebar = () => {
   };
 
 
-  const activeSublinksElements = document.querySelectorAll(".active.sub-links");
+  // const activeSublinksElements = document.querySelectorAll(".active.sub-links");
 
-  if (activeSublinksElements.length > 0) {
-    document.body.classList.add('active-subLink');
-  } else {
-    document.body.classList.remove('active-subLink');
-  }
+  // if (activeSublinksElements.length > 0) {
+  //   document.body.classList.add('active-subLink');
+  // } else {
+  //   document.body.classList.remove('active-subLink');
+  // }
+
+    useEffect(() => {
+    const activeSublinksElements = document.querySelectorAll(".active.sub-links");
+ 
+    if (activeSublinksElements?.length > 0) {
+      document.body.classList.add('active-subLink');
+      
+    } else {
+      document.body.classList.remove('active-subLink');
+    }
+ 
+    return () => {
+      document.body.classList.remove('active-subLink');
+    };
+  }, [location?.pathname]);
   
   const eventList = () => {
     navigate("/event-listing");
@@ -1094,7 +1109,7 @@ const Sidebar = () => {
                   </svg>
                     <p>Live Stream</p>
                   </Link>
-                  <div className="left-sidebar">
+                  {/* <div className="left-sidebar">
                     <div className="sidebar-menu">
                       <ul>
                         <li>sdfsdfsdf</li>
@@ -1102,7 +1117,7 @@ const Sidebar = () => {
                         <li>234234324324</li>
                       </ul>
                     </div>
-                  </div>
+                  </div> */}
                 </li>
                 <li
                   className={
