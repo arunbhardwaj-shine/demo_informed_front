@@ -35,50 +35,14 @@ const Sidebar = () => {
   };
 
 
-  // const activeSublinksElements = document.querySelectorAll(".active.sub-links");
+  const activeSublinksElements = document.querySelectorAll(".active.sub-links");
 
-  // if (activeSublinksElements.length > 0) {
-  //   document.body.classList.add('active-subLink');
-  //   console.log(activeSublinksElements, 'activeSublinksElement1');
-  // } else {
-  //   document.body.classList.remove('active-subLink');
-  //   console.log(activeSublinksElements, 'activeSublinksElement2');
-  // }
+  if (activeSublinksElements.length > 0) {
+    document.body.classList.add('active-subLink');
+  } else {
+    document.body.classList.remove('active-subLink');
+  }
   
-
-  useEffect(() => {
-    const activeSublinksElements = document.querySelectorAll(".active.sub-links");
-  
-    console.log("Number of matching elements:", activeSublinksElements.length);
-  
-    if (activeSublinksElements?.length > 0) {
-      document.body.classList.add('active-subLink');
-    } else {
-      document.body.classList.remove('active-subLink');
-    }
-  
-    return () => {
-      document.body.classList.remove('active-subLink');
-    };
-  }, [location?.pathname]);
-
-  // useEffect(() => {
-  //   const liElement = document.querySelector(".active.sub-links");
-  //   const isLiveStreamPath = location.pathname === "/live-stream";
-  
-  //   if (isLiveStreamPath || liElement) {
-  //     document.body.classList.add("active-subLink");
-  //   } else {
-  //     document.body.classList.remove("active-subLink");
-  //   }
-  
-  //   return () => {
-  //     document.body.classList.remove("active-subLink");
-  //   };
-  // }, [location.pathname]);
-  
-
-
   const eventList = () => {
     navigate("/event-listing");
   };
@@ -1122,6 +1086,7 @@ const Sidebar = () => {
                       ? "active sub-links"
                       : "side_li sub-links"
                   }
+                  // className="active sub-links"
                 >
                   <Link to={"/live-stream"}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="512" height="480" viewBox="0 0 512 480">
