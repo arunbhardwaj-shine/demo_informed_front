@@ -35,32 +35,53 @@ const Sidebar = () => {
   };
 
 
-  // const activeSublinksElement = document.querySelector(".active.sub-links");
+  // const activeSublinksElements = document.querySelectorAll(".active.sub-links");
 
-  // if (activeSublinksElement) {
+  // if (activeSublinksElements.length > 0) {
   //   document.body.classList.add('active-subLink');
+  //   console.log(activeSublinksElements, 'activeSublinksElement1');
   // } else {
   //   document.body.classList.remove('active-subLink');
+  //   console.log(activeSublinksElements, 'activeSublinksElement2');
   // }
+  
 
   useEffect(() => {
-    const activeSublinksElement = document.querySelectorAll(".active.sub-links");
+    const activeSublinksElements = document.querySelectorAll(".active.sub-links");
   
-    if (activeSublinksElement) {
+    console.log("Number of matching elements:", activeSublinksElements.length);
+  
+    if (activeSublinksElements?.length > 0) {
       document.body.classList.add('active-subLink');
     } else {
       document.body.classList.remove('active-subLink');
     }
   
-    
     return () => {
       document.body.classList.remove('active-subLink');
     };
-  }, [location.pathname]);
+  }, [location?.pathname]);
 
-  const eventList = () => {
-    navigate("/event-listing");
-  };
+  // useEffect(() => {
+  //   const liElement = document.querySelector(".active.sub-links");
+  //   const isLiveStreamPath = location.pathname === "/live-stream";
+  
+  //   if (isLiveStreamPath || liElement) {
+  //     document.body.classList.add("active-subLink");
+  //   } else {
+  //     document.body.classList.remove("active-subLink");
+  //   }
+  
+  //   return () => {
+  //     document.body.classList.remove("active-subLink");
+  //   };
+  // }, [location.pathname]);
+  
+
+
+  // const eventList = () => {
+  //   navigate("/event-listing");
+  // };
 
   // if (
   //   location.pathname != "/EmailList" &&

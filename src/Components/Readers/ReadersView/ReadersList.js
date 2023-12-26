@@ -405,7 +405,6 @@ const NewReaders = () => {
       const res = await postFormData(ENDPOINT.READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
-      console.log("Server Response:", res);
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
