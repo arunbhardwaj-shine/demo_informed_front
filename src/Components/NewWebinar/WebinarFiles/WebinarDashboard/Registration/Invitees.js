@@ -43,18 +43,66 @@ const Invitees = () => {
     getWebinarData(page);
   }, [])
 
-  const getWebinarData = async (page) => {
+  // const getWebinarData = async (page) => {
+  //   try {
+  //     loader("show");
+  //     let payload = {
+  //       "search": search,
+  //       "Country": otherFilter?.Country ? otherFilter?.Country : "",
+  //       "UserType": otherFilter?.UserType ? otherFilter?.UserType : "",
+  //       "Type": otherFilter?.Type ? otherFilter?.Type : "",
+  //       "id": state?.eventId
+  //     };
+  
+  //     const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload);
+  //     setTotalReaders(response?.data?.data?.totalReaders);
+  //     setTotalPage(response?.data?.data?.totalPage);
+  
+  //     let userType = response?.data?.data?.filterData?.UserType?.map((item) => {
+  //       return { label: item, value: item };
+  //     });
+  
+  //     setFilterData(response?.data?.data?.filterData);
+  //     setUserTypeOptions(userType);
+  
+  //     if (response?.data?.data?.totalReaders > ((userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)) {
+  //       setIsLoaded(true);
+  //     } else {
+  //       setIsLoaded(false);
+  //     }
+  
+  //     if (page === 1) {
+  //       setUserData(response?.data?.data?.data);
+  //     } else {
+  //       setUserData((oldArray) => [...oldArray, ...response?.data?.data?.data]);
+  //     }
+  
+  //     setApiStatus(true);
+  
+  //     return response; 
+  //   } catch (err) {
+  //     console.log("---err", err);
+  //     setApiStatus(true);
+  //     throw err; 
+  //   } finally {
+  //     loader("hide");
+  //   }
+  // };
+
+  const getWebinarData = async (page, filter) => {
+    console.log('clear',search)
     try {
       loader("show");
       let payload = {
-        "search": search,
-        "Country": otherFilter?.Country ? otherFilter?.Country : "",
-        "UserType": otherFilter?.UserType ? otherFilter?.UserType : "",
-        "Type": otherFilter?.Type ? otherFilter?.Type : "",
+        "search": search? search : "",
+        "Country": filter?.Country ? filter?.Country : "",
+        "UserType": filter?.UserType ? filter?.UserType : "",
+        "Type": filter?.Type ? filter?.Type : "",
         "id": state?.eventId
       };
   
-      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${161}?page=${page}`, payload);
+      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload);
+      
       setTotalReaders(response?.data?.data?.totalReaders);
       setTotalPage(response?.data?.data?.totalPage);
   
@@ -79,47 +127,60 @@ const Invitees = () => {
   
       setApiStatus(true);
   
-      return response; 
+      return response;
     } catch (err) {
       console.log("---err", err);
       setApiStatus(true);
-      throw err; 
+      throw err;
     } finally {
       loader("hide");
     }
   };
 
-  const searchChange = async (e) => {
+
+  const searchChange = (e) => {
     try {
       setSearch(e?.target?.value?.trim());
       setIsLoaded(false);
       setNoData(false);
   
-      if (!e?.target?.value) {
-        await getWebinarData(1);
+      let sp = 1;
+  
+      if (e?.target?.value == "" || e?.target?.value == null ) {
+        let searched = e?.target?.value 
+        setPage(sp)
+        setUserData()
+        setSearch(searched)
+        getWebinarData(sp);
       }
+      console.log(e?.target?.value,'===>eee')
     } catch (error) {
       console.error('Error in searchChange:', error);
     }
   };
-  
-  const submitSearchHandler = async (event) => {
+
+
+  const submitSearchHandler = (event) => {
     try {
       event.preventDefault();
       setNoData(false);
       setIsLoaded(false);
   
+      let sp = 1;
+  
       if (!search) {
-        await getWebinarData(1);
+        getWebinarData(sp);
       } else {
-        const response = await getWebinarData(1);
-        console.log(response, '===>user1');
+        setUserData()
+        setSearch("")
+        getWebinarData(sp);
       }
+      console.log(!search,'===>seactfh')
     } catch (error) {
       console.error('Error in submitSearchHandler:', error);
     }
   };
-
+  
   const handleChange = (e, user, index) => {
     let updateUserData = JSON.parse(JSON.stringify([...userData]))
     let updateUser = { ...updateUserData[index] }
@@ -279,7 +340,7 @@ const Invitees = () => {
   };
 
 
-  const getDownloadData = async () => {
+  const getDownloadData = async (search) => {
     try {
       loader("show");
   
@@ -292,10 +353,7 @@ const Invitees = () => {
         "is_download": true,
       };
   
-      // const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/download`, payload, {
-      //   responseType: "text", 
-      // });
-      const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${161}?page=${page}`, payload, {
+      const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload, {
         responseType: "text", 
       });
       console.log("Server Response:", res);
@@ -313,7 +371,7 @@ const Invitees = () => {
       loader("hide");
     }
   }; 
-  
+
   const handleOnFilterChange = (e, item, index, key, data = {}) => {
     const updatedFilter = { ...data };
 
@@ -338,28 +396,19 @@ const Invitees = () => {
     setShowFilter(false)
   };
 
-  
-  const clearFilter = () => {
-    setUserData(originalUserData)
-    setOtherFilter({});
-    setShowFilter(false)
-    setSearch(""); 
-    console.log(originalUserData,'===>originalUserData')
+  const clearFilter = async () => {
+    try {
+      let sp = 1;
+      setPage(sp);
+      setOtherFilter({});
+      setSearch("");
+      setShowFilter(false);
+      setUserData(); 
+      getWebinarData(sp);
+    } catch (error) {
+      console.error('Error in clearFilter:', error);
+    }
   };
-
-  // const clearFilter = async () => {
-  //   try {
-  //     setOtherFilter({});
-  //     setSearch(""); 
-  //     setShowFilter(false);
-  
-    
-  //     const response = await getWebinarData(1);
-  //     console.log("Cleared Filter - Data:", response);
-  //   } catch (error) {
-  //     console.error('Error in clearFilter:', error);
-  //   }
-  // };
   
   const loadMoreClicked = () => {
     let sp = page + 1;

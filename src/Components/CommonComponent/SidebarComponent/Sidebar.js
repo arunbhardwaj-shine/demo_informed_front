@@ -33,6 +33,16 @@ const Sidebar = () => {
   const toggleClassToBody = () => {
     document.body.classList.toggle("toggle_sidebar");
   };
+
+
+  const activeSublinksElement = document.querySelector(".active.sub-links");
+
+  if (activeSublinksElement) {
+    document.body.classList.add('active-subLink');
+  } else {
+    document.body.classList.remove('active-subLink');
+  }
+
   const eventList = () => {
     navigate("/event-listing");
   };
@@ -175,21 +185,21 @@ const Sidebar = () => {
         window.location.pathname == "/analytics" ?(
           <>
           
-           <button className="toggle_btn" onClick={() => toggleClassToBody()}>
+           {/* <button className="toggle_btn" onClick={() => toggleClassToBody()}>
             <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
-          </button>
-          {/* <button className="toggle_btn"  onClick={() => {
+          </button> */}
+          <button className="toggle_btn"  onClick={() => {
             eventList();
           }}>
             <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
-          </button> */}
+          </button>
           <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span>
           </>
         ) : null}
 
-          <button className="toggle_btn" onClick={() => toggleClassToBody()}>
+          {/* <button className="toggle_btn" onClick={() => toggleClassToBody()}>
             <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
-          </button>
+          </button> */}
           {window.location.pathname == "/SmartList" ||
           window.location.pathname == "/EditList" ||
           window.location.pathname == "/CreateSmartList" ||
