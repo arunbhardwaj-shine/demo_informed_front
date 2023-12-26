@@ -39,17 +39,29 @@ const ContactDM = () => {
     }
 
     const handleOnFilterChange = (e, item, index, key, data = {}) => {
-        const updatedFilter = { ...data };
+        const updatedFilter = JSON.parse(JSON.stringify({ ...data }));
+        if (e?.target?.checked == true) {
+            if (e?.target?.type === "checkbox") {
 
-        if (e?.target?.type === "checkbox") {
-            if (updatedFilter[key]) {
+                if (updatedFilter[key]) {
 
-                updatedFilter[key] = updatedFilter[key].includes(item)
-                    ? updatedFilter[key].filter((value) => value !== item)
-                    : [...updatedFilter[key], item];
-            } else {
+                    updatedFilter[key] = updatedFilter[key].includes(item)
+                        ? updatedFilter[key].filter((value) => value !== item)
+                        : [...updatedFilter[key], item];
+                } else {
 
-                updatedFilter[key] = [item];
+                    updatedFilter[key] = [item];
+                }
+            }
+        } else if (e?.target?.checked == false) {
+            if (e?.target?.type == "checkbox") {
+                let index = updatedFilter[key]?.indexOf(item)
+                if (index > -1) {
+                    updatedFilter[key]?.splice(index, 1)
+                }
+                if (updatedFilter[key]?.length == 0) {
+                    delete updatedFilter[key]
+                }
             }
         }
         setOtherFilter(updatedFilter);
@@ -82,12 +94,14 @@ const ContactDM = () => {
 
     const applyFilter = () => {
         setSearch("");
+
         let filterData = originalUserData?.filter((item) => {
             const data = Object.entries(otherFilter)?.every(([key, values]) => {
                 return !values || values?.includes(item[key?.toLowerCase()])
             })
             return data;
         })
+        console.log("other filter--->", otherFilter)
         setAppliedFilter(otherFilter)
         setUserData(filterData)
         setShowFilter(false)
@@ -357,7 +371,8 @@ const ContactDM = () => {
                                     }
                                 </div>
                             </div>
-                            {Object.keys(appliedFilter)?.length ? (
+                            {console.log("filter wrap---->", Object.keys(appliedFilter)?.length)}
+                            {Object.keys(appliedFilter)?.length > 0 ? (
                                 <div className="apply-filter">
                                     <div className="filter-block">
                                         <div className="filter-block-left full">

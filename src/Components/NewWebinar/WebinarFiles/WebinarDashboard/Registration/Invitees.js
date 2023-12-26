@@ -38,6 +38,7 @@ const Invitees = () => {
   const [totalReaders, setTotalReaders] = useState()
   const [totalPage, setTotalPage] = useState()
   const [pageAll, setPageAll] = useState(false);
+  const [appliedFilter, setAppliedFilter] = useState({})
 
   useEffect(() => {
     getWebinarData(page);
@@ -53,32 +54,32 @@ const Invitees = () => {
   //       "Type": otherFilter?.Type ? otherFilter?.Type : "",
   //       "id": state?.eventId
   //     };
-  
+
   //     const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload);
   //     setTotalReaders(response?.data?.data?.totalReaders);
   //     setTotalPage(response?.data?.data?.totalPage);
-  
+
   //     let userType = response?.data?.data?.filterData?.UserType?.map((item) => {
   //       return { label: item, value: item };
   //     });
-  
+
   //     setFilterData(response?.data?.data?.filterData);
   //     setUserTypeOptions(userType);
-  
+
   //     if (response?.data?.data?.totalReaders > ((userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)) {
   //       setIsLoaded(true);
   //     } else {
   //       setIsLoaded(false);
   //     }
-  
+
   //     if (page === 1) {
   //       setUserData(response?.data?.data?.data);
   //     } else {
   //       setUserData((oldArray) => [...oldArray, ...response?.data?.data?.data]);
   //     }
-  
+
   //     setApiStatus(true);
-  
+
   //     return response; 
   //   } catch (err) {
   //     console.log("---err", err);
@@ -93,39 +94,39 @@ const Invitees = () => {
     try {
       loader("show");
       let payload = {
-        "search": search? search : "",
+        "search": search ? search : "",
         "Country": filter?.Country ? filter?.Country : "",
         "UserType": filter?.UserType ? filter?.UserType : "",
         "Type": filter?.Type ? filter?.Type : "",
         "id": state?.eventId
       };
-  
+
       const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload);
-      
+
       setTotalReaders(response?.data?.data?.totalReaders);
       setTotalPage(response?.data?.data?.totalPage);
-  
+
       let userType = response?.data?.data?.filterData?.UserType?.map((item) => {
         return { label: item, value: item };
       });
-  
+
       setFilterData(response?.data?.data?.filterData);
       setUserTypeOptions(userType);
-  
+
       if (response?.data?.data?.totalReaders > ((userData?.length ? userData?.length : 0) + response?.data?.data?.data?.length)) {
         setIsLoaded(true);
       } else {
         setIsLoaded(false);
       }
-  
+
       if (page === 1) {
         setUserData(response?.data?.data?.data);
       } else {
         setUserData((oldArray) => [...oldArray, ...response?.data?.data?.data]);
       }
-  
+
       setApiStatus(true);
-  
+
       return response;
     } catch (err) {
       console.log("---err", err);
@@ -142,11 +143,11 @@ const Invitees = () => {
       setSearch(e?.target?.value?.trim());
       setIsLoaded(false);
       setNoData(false);
-  
+
       let sp = 1;
-  
-      if (e?.target?.value == "" || e?.target?.value == null ) {
-        let searched = e?.target?.value 
+
+      if (e?.target?.value == "" || e?.target?.value == null) {
+        let searched = e?.target?.value
         setPage(sp)
         setUserData()
         setSearch(searched)
@@ -163,9 +164,9 @@ const Invitees = () => {
       event.preventDefault();
       setNoData(false);
       setIsLoaded(false);
-  
+
       let sp = 1;
-  
+      setPage(sp)
       if (!search) {
         getWebinarData(sp);
       } else {
@@ -177,7 +178,7 @@ const Invitees = () => {
       console.error('Error in submitSearchHandler:', error);
     }
   };
-  
+
   const handleChange = (e, user, index) => {
     let updateUserData = JSON.parse(JSON.stringify([...userData]))
     let updateUser = { ...updateUserData[index] }
@@ -256,16 +257,16 @@ const Invitees = () => {
 
   const handleConfirmModel = async (id) => {
     setConfirmationPopup(false);
-  
+
     try {
       loader("show");
       const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${state?.eventId}`);
       let updatedUserData = userData.filter((item) => item?.user_id !== id);
       setUserData(updatedUserData);
-  
+
       const updatedTotalReaders = updatedUserData.length;
       setTotalReaders(updatedTotalReaders);
-  
+
       loader("hide");
       setClickUserId(0);
       popup_alert({
@@ -279,7 +280,7 @@ const Invitees = () => {
       loader("hide");
     }
   };
-  
+
 
   // const userSort = (e, type) => {
   //   const sortedIsData = [...userData].sort((a, b) => {
@@ -340,7 +341,7 @@ const Invitees = () => {
   // const getDownloadData = async (search) => {
   //   try {
   //     loader("show");
-  
+
   //     let payload = {
   //       search: search? search : "",
   //       Country: otherFilter?.Country ? otherFilter?.Country : "",
@@ -349,19 +350,19 @@ const Invitees = () => {
   //       id: state?.eventId,
   //       is_download: true,
   //     };
-  
+
   //     const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload, {
   //       responseType: "blob",
   //     });
-  
+
   //     console.log("Server Response:", res);
-  
+
   //     const link = document.createElement("a");
   //     const url = URL.createObjectURL(res);
   //     link.href = url;
   //     link.download = "readers.xlsx";
   //     link.click();
-  
+
   //     loader("hide");
   //   } catch (err) {
   //     console.error(err);
@@ -372,7 +373,7 @@ const Invitees = () => {
   const getDownloadData = async (search) => {
     try {
       loader("show");
-  
+
       let payload = {
         search: search ? search : "",
         Country: otherFilter?.Country ? otherFilter?.Country : "",
@@ -381,66 +382,104 @@ const Invitees = () => {
         id: state?.eventId,
         is_download: true,
       };
-  
+
       const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload, {
         responseType: "blob",
       });
-  
+
       console.log("Server Response:", res);
-  
+
       const blob = new Blob([res?.data?.data?.data], { type: res?.headers['content-type'] });
       const url = URL.createObjectURL(blob);
-  
+
       const link = document.createElement("a");
       link.href = url;
       link.download = "readers.xlsx";
       link.click();
-  
+
       loader("hide");
     } catch (err) {
       console.error(err);
       loader("hide");
     }
   };
-  
 
   const handleOnFilterChange = (e, item, index, key, data = {}) => {
-    const updatedFilter = { ...data };
+    const updatedFilter = JSON.parse(JSON.stringify({ ...data }));
+    if (e?.target?.checked == true) {
+      if (e?.target?.type === "checkbox") {
 
-    if (e?.target?.type === "checkbox") {
-      if (updatedFilter[key]) {
+        if (updatedFilter[key]) {
 
-        updatedFilter[key] = updatedFilter[key].includes(item)
-          ? updatedFilter[key].filter((value) => value !== item)
-          : [...updatedFilter[key], item];
-      } else {
+          updatedFilter[key] = updatedFilter[key].includes(item)
+            ? updatedFilter[key].filter((value) => value !== item)
+            : [...updatedFilter[key], item];
+        } else {
 
-        updatedFilter[key] = [item];
+          updatedFilter[key] = [item];
+        }
+      } else if (e?.target?.type == "radio") {
+        updatedFilter[key] = []
+        updatedFilter[key]?.push(item)
+      }
+    } else if (e?.target?.checked == false) {
+      if (e?.target?.type == "checkbox") {
+        let index = updatedFilter[key]?.indexOf(item)
+        if (index > -1) {
+          updatedFilter[key]?.splice(index, 1)
+        }
+        if (updatedFilter[key]?.length == 0) {
+          delete updatedFilter[key]
+        }
       }
     }
     setOtherFilter(updatedFilter);
   };
 
   const applyFilter = async () => {
-    let page = 1
-    getWebinarData(page, otherFilter)
+    let sp = 1
+    setPage(sp)
+    setApiStatus(false)
+    setUserData()
+    getWebinarData(sp, otherFilter)
+    setAppliedFilter(otherFilter)
     setShowFilter(false)
   };
 
+  const removeindividualfilter = (key, item) => {
+    let updatedFilter = JSON.parse(JSON.stringify(appliedFilter))
+    let index = updatedFilter[key]?.indexOf(item)
+    if (index > -1) {
+      updatedFilter[key]?.splice(index, 1)
+      if (updatedFilter[key]?.length == 0) {
+        delete updatedFilter[key]
+      }
+    }
+    let sp = 1;
+    setPage(sp)
+    setApiStatus(false)
+    setUserData()
+    getWebinarData(sp, updatedFilter)
+    setAppliedFilter(updatedFilter)
+    setOtherFilter(updatedFilter)
+  }
+
   const clearFilter = async () => {
     try {
+      setApiStatus(false)
       let sp = 1;
       setPage(sp);
       setOtherFilter({});
+      setAppliedFilter({})
       setSearch("");
       setShowFilter(false);
-      setUserData(); 
+      setUserData();
       getWebinarData(sp);
     } catch (error) {
       console.error('Error in clearFilter:', error);
     }
   };
-  
+
   const loadMoreClicked = () => {
     let sp = page + 1;
     setPage(sp);
@@ -466,7 +505,7 @@ const Invitees = () => {
                 <div className="search-bar">
                   <form
                     className="d-flex"
-                  onSubmit={(e) => submitSearchHandler(e)}
+                    onSubmit={(e) => submitSearchHandler(e)}
                   >
                     <input
                       className="form-control me-2"
@@ -496,9 +535,9 @@ const Invitees = () => {
                   <button
                     className="btn print"
                     title="Download stats"
-                  onClick={() => {
-                    getDownloadData(search);
-                  }}
+                    onClick={() => {
+                      getDownloadData(search);
+                    }}
                   >
                     <svg
                       width="20"
@@ -608,7 +647,7 @@ const Invitees = () => {
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
-                                                      type="checkbox"
+                                                      type={key == "Type" ? "radio" : "checkbox"}
 
                                                       id={`custom-checkbox-tags-${index}`}
                                                       value={item}
@@ -625,13 +664,7 @@ const Invitees = () => {
                                                       }
                                                     />
 
-                                                    {key == "draft" &&
-                                                      item == "0"
-                                                      ? "live"
-                                                      : key == "draft" &&
-                                                        item == "1"
-                                                        ? "draft"
-                                                        : item}
+                                                    {item}
                                                     <span className="checkmark"></span>
                                                   </label>
                                                 ) : null}
@@ -665,6 +698,52 @@ const Invitees = () => {
                   }
                 </div>
               </div>
+              {Object.keys(appliedFilter)?.length > 0 ? (
+                <div className="apply-filter">
+                  <div className="filter-block">
+                    <div className="filter-block-left full">
+                      {Object.keys(appliedFilter)?.map((key, index) => {
+                        return (<>
+                          {appliedFilter[key]?.length ? (
+                            <div className="filter-div">
+                              <div className="filter-div-title">
+                                <span>{key} |</span>
+                              </div>
+                              <div className="filter-div-list">
+                                {appliedFilter[key]?.map((item, index) => (
+                                  <div className="filter-result"
+                                    id={item}
+                                    rt={index} >
+                                    {item}
+                                    <img
+                                      src={
+                                        path_image + "filter-close.svg"
+                                      }
+                                      onClick={(event) => {
+                                        removeindividualfilter(key, item);
+                                      }}
+                                      alt="Close-filter"
+                                    />
+                                  </div>
+
+                                ))}
+                              </div>
+                            </div>
+                          ) : ""}
+                        </>)
+                      })}
+                    </div>
+                    <div className="clear-filter">
+                      <Button
+                        className="btn btn-outline-primary btn-bordered"
+                        onClick={clearFilter}
+                      >
+                        Remove All
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ) : ""}
             </div>
             {userData != "undefined" && userData?.length > 0 ?
               (<div className="invitee">
@@ -874,10 +953,10 @@ const Invitees = () => {
                                     src={path_image + "email-icon1.svg"}
                                     alt="Email"
                                   /> */}
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="27" viewBox="0 0 36 27" fill="none">
-                                    <path d="M35.88 3.82764L19.2686 13.7019C18.8849 13.9214 18.4506 14.0369 18.0086 14.0369C17.5666 14.0369 17.1322 13.9214 16.7486 13.7019L0.12 3.82764C0.0405137 4.17054 0.000255503 4.52136 0 4.87335V21.6391C0 22.8257 0.471397 23.9638 1.31049 24.8029C2.14958 25.642 3.28763 26.1133 4.47429 26.1133H31.5257C32.7124 26.1133 33.8504 25.642 34.6895 24.8029C35.5286 23.9638 36 22.8257 36 21.6391V4.87335C35.9997 4.52136 35.9595 4.17054 35.88 3.82764Z" fill="#0066BE"/>
-                                    <path d="M18.4089 12.2799L35.1746 2.30276C34.7628 1.71638 34.2162 1.23748 33.5808 0.906347C32.9454 0.575211 32.2397 0.401525 31.5232 0.399902H4.47174C3.75521 0.401525 3.04956 0.575211 2.41413 0.906347C1.77871 1.23748 1.23211 1.71638 0.820312 2.30276L17.6032 12.2799C17.7267 12.3474 17.8652 12.3828 18.006 12.3828C18.1468 12.3828 18.2853 12.3474 18.4089 12.2799Z" fill="#0066BE"/>
-                                    </svg>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="27" viewBox="0 0 36 27" fill="none">
+                                    <path d="M35.88 3.82764L19.2686 13.7019C18.8849 13.9214 18.4506 14.0369 18.0086 14.0369C17.5666 14.0369 17.1322 13.9214 16.7486 13.7019L0.12 3.82764C0.0405137 4.17054 0.000255503 4.52136 0 4.87335V21.6391C0 22.8257 0.471397 23.9638 1.31049 24.8029C2.14958 25.642 3.28763 26.1133 4.47429 26.1133H31.5257C32.7124 26.1133 33.8504 25.642 34.6895 24.8029C35.5286 23.9638 36 22.8257 36 21.6391V4.87335C35.9997 4.52136 35.9595 4.17054 35.88 3.82764Z" fill="#0066BE" />
+                                    <path d="M18.4089 12.2799L35.1746 2.30276C34.7628 1.71638 34.2162 1.23748 33.5808 0.906347C32.9454 0.575211 32.2397 0.401525 31.5232 0.399902H4.47174C3.75521 0.401525 3.04956 0.575211 2.41413 0.906347C1.77871 1.23748 1.23211 1.71638 0.820312 2.30276L17.6032 12.2799C17.7267 12.3474 17.8652 12.3828 18.006 12.3828C18.1468 12.3828 18.2853 12.3474 18.4089 12.2799Z" fill="#0066BE" />
+                                  </svg>
                                 </button>
                               </div>
                               <div className="clear-search">
@@ -892,9 +971,9 @@ const Invitees = () => {
                                     alt="Email"
                                   /> */}
                                   <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="none">
-                                  <path d="M8.28065 9.71449C10.9636 9.71449 13.1381 7.53955 13.1381 4.85704C13.1381 2.17453 10.9632 0 8.28065 0C5.59814 0 3.42237 2.17494 3.42237 4.85745C3.42237 7.53996 5.59814 9.71449 8.28065 9.71449Z" fill="#0066BE"/>
-                                  <path d="M10.3411 10.0456H6.21938C2.78998 10.0456 0 12.836 0 16.2654V21.3059L0.0128133 21.3849L0.360011 21.4936C3.63276 22.5161 6.47605 22.8571 8.81633 22.8571C9.95143 22.8571 10.968 22.7768 11.8575 22.6547C10.8757 21.4683 10.2857 19.9459 10.2857 18.2857C10.2857 15.3472 12.1341 12.8403 14.7317 11.8645C13.6061 10.7411 12.0533 10.0456 10.3411 10.0456Z" fill="#0066BE"/>
-                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M13.5579 22.7358C13.506 22.694 13.4548 22.6512 13.4044 22.6076C13.2963 22.5139 13.1917 22.4163 13.0909 22.315C12.9425 22.1657 12.8023 22.0084 12.671 21.8436C11.8933 20.8674 11.4286 19.6308 11.4286 18.2857C11.4286 15.1298 13.9869 12.5714 17.1429 12.5714C18.3464 12.5714 19.4631 12.9435 20.3841 13.5789C20.5576 13.6987 20.7242 13.8278 20.8831 13.9655C20.99 14.0581 21.0934 14.1546 21.1931 14.2547C21.2413 14.3032 21.2886 14.3524 21.335 14.4025C22.2797 15.4219 22.8571 16.7864 22.8571 18.2857C22.8571 21.4416 20.2988 24 17.1429 24C15.7853 24 14.5383 23.5266 13.5579 22.7358ZM17.1429 22.7429C16.1164 22.7429 15.1723 22.397 14.4185 21.8137L20.4744 15.3247C21.1758 16.1129 21.6 17.1492 21.6 18.2857C21.6 20.7473 19.6045 22.7429 17.1429 22.7429ZM13.5408 20.9116L19.5143 14.5109C18.8276 14.0783 18.0153 13.8286 17.1429 13.8286C14.6812 13.8286 12.6857 15.8241 12.6857 18.2857C12.6857 19.268 13.0024 20.1748 13.5408 20.9116Z" fill="#0066BE"/>
+                                    <path d="M8.28065 9.71449C10.9636 9.71449 13.1381 7.53955 13.1381 4.85704C13.1381 2.17453 10.9632 0 8.28065 0C5.59814 0 3.42237 2.17494 3.42237 4.85745C3.42237 7.53996 5.59814 9.71449 8.28065 9.71449Z" fill="#0066BE" />
+                                    <path d="M10.3411 10.0456H6.21938C2.78998 10.0456 0 12.836 0 16.2654V21.3059L0.0128133 21.3849L0.360011 21.4936C3.63276 22.5161 6.47605 22.8571 8.81633 22.8571C9.95143 22.8571 10.968 22.7768 11.8575 22.6547C10.8757 21.4683 10.2857 19.9459 10.2857 18.2857C10.2857 15.3472 12.1341 12.8403 14.7317 11.8645C13.6061 10.7411 12.0533 10.0456 10.3411 10.0456Z" fill="#0066BE" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.5579 22.7358C13.506 22.694 13.4548 22.6512 13.4044 22.6076C13.2963 22.5139 13.1917 22.4163 13.0909 22.315C12.9425 22.1657 12.8023 22.0084 12.671 21.8436C11.8933 20.8674 11.4286 19.6308 11.4286 18.2857C11.4286 15.1298 13.9869 12.5714 17.1429 12.5714C18.3464 12.5714 19.4631 12.9435 20.3841 13.5789C20.5576 13.6987 20.7242 13.8278 20.8831 13.9655C20.99 14.0581 21.0934 14.1546 21.1931 14.2547C21.2413 14.3032 21.2886 14.3524 21.335 14.4025C22.2797 15.4219 22.8571 16.7864 22.8571 18.2857C22.8571 21.4416 20.2988 24 17.1429 24C15.7853 24 14.5383 23.5266 13.5579 22.7358ZM17.1429 22.7429C16.1164 22.7429 15.1723 22.397 14.4185 21.8137L20.4744 15.3247C21.1758 16.1129 21.6 17.1492 21.6 18.2857C21.6 20.7473 19.6045 22.7429 17.1429 22.7429ZM13.5408 20.9116L19.5143 14.5109C18.8276 14.0783 18.0153 13.8286 17.1429 13.8286C14.6812 13.8286 12.6857 15.8241 12.6857 18.2857C12.6857 19.268 13.0024 20.1748 13.5408 20.9116Z" fill="#0066BE" />
                                   </svg>
                                 </button>
                               </div>
