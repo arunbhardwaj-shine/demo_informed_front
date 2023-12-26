@@ -197,9 +197,9 @@ const Sidebar = () => {
           </>
         ) : null}
 
-          {/* <button className="toggle_btn" onClick={() => toggleClassToBody()}>
+          <button className="toggle_btn" onClick={() => toggleClassToBody()}>
             <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
-          </button> */}
+          </button>
           {window.location.pathname == "/SmartList" ||
           window.location.pathname == "/EditList" ||
           window.location.pathname == "/CreateSmartList" ||
@@ -225,6 +225,7 @@ const Sidebar = () => {
           window.location.pathname == "/EmailStatss" ||
           window.location.pathname == "/bounced-email" ||
           window.location.pathname == "/get-details" ? (
+            
             <ul>
               <li
                 className={

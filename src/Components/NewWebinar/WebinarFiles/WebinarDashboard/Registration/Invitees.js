@@ -90,7 +90,6 @@ const Invitees = () => {
   // };
 
   const getWebinarData = async (page, filter) => {
-    console.log('clear',search)
     try {
       loader("show");
       let payload = {
@@ -153,7 +152,6 @@ const Invitees = () => {
         setSearch(searched)
         getWebinarData(sp);
       }
-      console.log(e?.target?.value,'===>eee')
     } catch (error) {
       console.error('Error in searchChange:', error);
     }
@@ -175,7 +173,6 @@ const Invitees = () => {
         setSearch("")
         getWebinarData(sp);
       }
-      console.log(!search,'===>seactfh')
     } catch (error) {
       console.error('Error in submitSearchHandler:', error);
     }
@@ -340,37 +337,72 @@ const Invitees = () => {
   };
 
 
+  // const getDownloadData = async (search) => {
+  //   try {
+  //     loader("show");
+  
+  //     let payload = {
+  //       search: search? search : "",
+  //       Country: otherFilter?.Country ? otherFilter?.Country : "",
+  //       UserType: otherFilter?.UserType ? otherFilter?.UserType : "",
+  //       Type: otherFilter?.Type ? otherFilter?.Type : "",
+  //       id: state?.eventId,
+  //       is_download: true,
+  //     };
+  
+  //     const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload, {
+  //       responseType: "blob",
+  //     });
+  
+  //     console.log("Server Response:", res);
+  
+  //     const link = document.createElement("a");
+  //     const url = URL.createObjectURL(res);
+  //     link.href = url;
+  //     link.download = "readers.xlsx";
+  //     link.click();
+  
+  //     loader("hide");
+  //   } catch (err) {
+  //     console.error(err);
+  //     loader("hide");
+  //   }
+  // }; 
+
   const getDownloadData = async (search) => {
     try {
       loader("show");
   
       let payload = {
-        "search": search,
-        "Country": otherFilter?.Country ? otherFilter?.Country : "",
-        "UserType": otherFilter?.UserType ? otherFilter?.UserType : "",
-        "Type": otherFilter?.Type ? otherFilter?.Type : "",
-        "id": state?.eventId,
-        "is_download": true,
+        search: search ? search : "",
+        Country: otherFilter?.Country ? otherFilter?.Country : "",
+        UserType: otherFilter?.UserType ? otherFilter?.UserType : "",
+        Type: otherFilter?.Type ? otherFilter?.Type : "",
+        id: state?.eventId,
+        is_download: true,
       };
   
       const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload, {
-        responseType: "text", 
+        responseType: "blob",
       });
+  
       console.log("Server Response:", res);
   
-      const blob = new Blob([res?.data?.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+      const blob = new Blob([res.data], { type: res.headers['content-type'] });
+      const url = URL.createObjectURL(blob);
   
       const link = document.createElement("a");
-      const url = URL.createObjectURL(blob);
       link.href = url;
       link.download = "readers.xlsx";
       link.click();
+  
       loader("hide");
     } catch (err) {
       console.error(err);
       loader("hide");
     }
-  }; 
+  };
+  
 
   const handleOnFilterChange = (e, item, index, key, data = {}) => {
     const updatedFilter = { ...data };
@@ -390,7 +422,6 @@ const Invitees = () => {
   };
 
   const applyFilter = async () => {
-    console.log("Filters Applied:", otherFilter);
     let page = 1
     getWebinarData(page, otherFilter)
     setShowFilter(false)
