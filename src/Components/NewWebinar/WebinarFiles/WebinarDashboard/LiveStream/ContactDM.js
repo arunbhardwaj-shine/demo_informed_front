@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Col, Accordion } from 'react-bootstrap'
+import { Col, Accordion, Button } from 'react-bootstrap'
 import { loader } from '../../../../../loader'
 import { getData } from '../../../../../axios/apiHelper'
 import { ENDPOINT } from '../../../../../axios/apiConfig'
@@ -295,7 +295,7 @@ const ContactDM = () => {
                                                                             {key}
                                                                         </Accordion.Header>
                                                                         <Accordion.Body className="card-body">
-                                                                            {console.log("filter data--->", filterData)}
+
                                                                             <ul>
                                                                                 {filterData[key]?.length
                                                                                     ? filterData[key]?.map(
@@ -321,13 +321,7 @@ const ContactDM = () => {
                                                                                                             }
                                                                                                         />
 
-                                                                                                        {key == "draft" &&
-                                                                                                            item == "0"
-                                                                                                            ? "live"
-                                                                                                            : key == "draft" &&
-                                                                                                                item == "1"
-                                                                                                                ? "draft"
-                                                                                                                : item}
+                                                                                                        {item}
                                                                                                         <span className="checkmark"></span>
                                                                                                     </label>
                                                                                                 ) : null}
@@ -397,6 +391,14 @@ const ContactDM = () => {
                                                     ) : ""}
                                                 </>)
                                             })}
+                                        </div>
+                                        <div className="clear-filter">
+                                            <Button
+                                                className="btn btn-outline-primary btn-bordered"
+                                                onClick={clearFilter}
+                                            >
+                                                Remove All
+                                            </Button>
                                         </div>
                                     </div>
                                 </div>
