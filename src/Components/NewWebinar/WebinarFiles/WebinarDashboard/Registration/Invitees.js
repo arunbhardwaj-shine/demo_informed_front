@@ -388,7 +388,7 @@ const Invitees = () => {
   
       console.log("Server Response:", res);
   
-      const blob = new Blob([res.data], { type: res.headers['content-type'] });
+      const blob = new Blob([res?.data?.data?.data], { type: res?.headers['content-type'] });
       const url = URL.createObjectURL(blob);
   
       const link = document.createElement("a");

@@ -35,13 +35,28 @@ const Sidebar = () => {
   };
 
 
-  const activeSublinksElement = document.querySelector(".active.sub-links");
+  // const activeSublinksElement = document.querySelector(".active.sub-links");
 
-  if (activeSublinksElement) {
-    document.body.classList.add('active-subLink');
-  } else {
-    document.body.classList.remove('active-subLink');
-  }
+  // if (activeSublinksElement) {
+  //   document.body.classList.add('active-subLink');
+  // } else {
+  //   document.body.classList.remove('active-subLink');
+  // }
+
+  useEffect(() => {
+    const activeSublinksElement = document.querySelectorAll(".active.sub-links");
+  
+    if (activeSublinksElement) {
+      document.body.classList.add('active-subLink');
+    } else {
+      document.body.classList.remove('active-subLink');
+    }
+  
+    
+    return () => {
+      document.body.classList.remove('active-subLink');
+    };
+  }, [location.pathname]);
 
   const eventList = () => {
     navigate("/event-listing");
@@ -197,9 +212,19 @@ const Sidebar = () => {
           </>
         ) : null}
 
-          <button className="toggle_btn" onClick={() => toggleClassToBody()}>
+          {/* <button className="toggle_btn" onClick={() => toggleClassToBody()}>
             <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
-          </button>
+          </button> */}
+
+          {!(window.location.pathname === "/invitees" || 
+            window.location.pathname === "/webinar-registration" ||
+            window.location.pathname === "/email" ||
+            window.location.pathname === "/live-stream" ||
+            window.location.pathname === "/analytics") && (
+            <button className="toggle_btn" onClick={() => toggleClassToBody()}>
+              <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
+            </button>
+          )}
           {window.location.pathname == "/SmartList" ||
           window.location.pathname == "/EditList" ||
           window.location.pathname == "/CreateSmartList" ||
