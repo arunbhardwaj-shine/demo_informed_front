@@ -45,6 +45,7 @@ const NewEventCreate = () => {
     footerButton: "",
   });
   const [showfilter, setShowFilter] = useState(false);
+  const [showFilterSection, setShowFilterSection] = useState(false);
   // const [filterdata, setFilterData] = useState({
   //   "Sort By Event": ["Asc", "Desc"],
   //   "Sort By Created": ["Asc", "Desc"],
@@ -53,6 +54,8 @@ const NewEventCreate = () => {
   const [filterdata, setFilterData] = useState({
     Event: ["Live", "Coming", "End"],
   });
+
+  const [appliedFilter, setAppliedFilter] = useState({});
 
   const [otherFilter, setOtherFilter] = useState({});
   const [sortingCount, setSortingCount] = useState(0);
@@ -106,9 +109,10 @@ const NewEventCreate = () => {
         setRawDescription(raw_description);
         let data = response?.data?.data?.data;
         data = data?.map((item, element) => {
+          let status=differenceDays(item?.dateStart)
           return {
             ...item,
-            eventStatus: differenceDays(item?.dateStart),
+            eventStatus: status,
           };
         });
         // console.log(data);
@@ -195,6 +199,7 @@ const NewEventCreate = () => {
     setIsData(result);
     setIsLoaded(false);
     setApiStatus(true);
+  
   };
 
   const getFilterKey = (item) => {
@@ -391,57 +396,87 @@ const NewEventCreate = () => {
     setOtherFilter(updatedFilter);
   };
 
-  const applyFilter = () => {
-    let filterData = [];
-  
+  const applyFilter = (e="",flag=0) => {
+    let liveEvents = [];
+    let comingEvents = [];
+    let endEvents = [];
+  // console.log(otherFilter,"otherFilterotherFilter");
     if (otherFilter.Event?.length > 0) {
       otherFilter.Event.forEach((filter) => {
-        let filteredItems = [];
-  
         switch (filter) {
           case "Live":
-            filteredItems = apiData.filter((item) => item?.eventStatus === 0);
+            liveEvents = [...liveEvents, ...apiData.filter((item) => item?.eventStatus === 0)];
             break;
           case "Coming":
-            filteredItems = apiData.filter((item) => item?.eventStatus > 0);
+            comingEvents = [...comingEvents, ...apiData.filter((item) => item?.eventStatus > 0)];
             break;
           case "End":
-            filteredItems = apiData.filter((item) => item?.eventStatus < 0);
+            endEvents = [...endEvents, ...apiData.filter((item) => item?.eventStatus < 0)];
             break;
           default:
-            filteredItems = apiData;
+            break;
         }
-  
-        filterData = [...filterData, ...filteredItems];
       });
     } else {
-      filterData = [...apiData];
+      liveEvents = [...apiData.filter((item) => item?.eventStatus === 0)];
+      comingEvents = [...apiData.filter((item) => item?.eventStatus > 0)];
+      endEvents = [...apiData.filter((item) => item?.eventStatus < 0)];
     }
   
-    // Remove duplicates if multiple filters resulted in the same item
-    filterData = [...new Set(filterData)];
-  
-    // Sort the filterData based on eventStatus
-    filterData.sort((a, b) => {
-      if (a.eventStatus === b.eventStatus) {
-        return 0;
-      } else if (a.eventStatus === 0) {
-        return -1; // "Live" comes first
-      } else if (a.eventStatus > 0) {
-        return a.eventStatus - b.eventStatus; // Sort "Coming"
-      } else {
-        return a.eventStatus - b.eventStatus; // Sort "End"
-      }
-    });
-  
+    const filterData = [...liveEvents, ...comingEvents, ...endEvents];
+    let filterForEvent=[]
+    if(liveEvents?.length){
+      filterForEvent.push("Live")
+    }
+    if(comingEvents?.length){
+      filterForEvent.push("Coming")
+    }
+    if(endEvents?.length){
+      filterForEvent.push("End")
+    }
+    setAppliedFilter({
+      Event: filterForEvent,
+
+    })
     setIsData(filterData);
     setShowFilter(false);
+    // console.log(flag);
+    if(flag){
+
+      setShowFilterSection(false);
+    }else{
+      setShowFilterSection(true);
+
+    }
   };
-  
+  const removeindividualfilter=(tag,index)=>{
+    let appliedFilterSample={...otherFilter}
+    appliedFilterSample=appliedFilterSample[tag]
+    if (index !== -1) {
+      appliedFilterSample.splice(index, 1);
+    }  
+    setOtherFilter({
+      [tag]:appliedFilterSample
+    })
+    
+// console.log(appliedFilterSample?.length);
+    if(!appliedFilterSample.length){
+      setShowFilterSection(false);
+      applyFilter("",1)
+
+    }
+    else{
+    applyFilter("",0)
+
+    }
+
+  }
   const clearFilter = () => {
     setIsData(apiData);
     setOtherFilter({});
     setShowFilter(false);
+    setShowFilterSection(false);
+
   };
 
   const formatDate = (eventDate) => {
@@ -870,8 +905,59 @@ const NewEventCreate = () => {
                               />
                             </svg>
                           </button> */}
+                          
               </div>
             </div>
+            {    showFilterSection && 
+
+   <div className="apply-filter">
+   <h6>Applied filters</h6>
+   <div className="filter-block">
+     <div className="filter-block-left full">
+       {Object.keys(otherFilter)?.length > 0 && (
+         <div className="filter-div">
+           <div className="filter-div-title">
+             <span>Event |</span>
+           </div>
+           {Object.keys(otherFilter)?.map(( item) => (
+           <div className="filter-div-list">
+             {/* Mapping over filtertags */}
+             {otherFilter[item]?.map(( element,index) => (
+               <div
+                 className="filter-result"
+                 onClick={(event) => removeindividualfilter(item, index)}
+               >
+                
+               
+                 {element}
+                 <img
+                   src={path_image + "filter-close.svg"}
+                   on
+                   alt="Close-filter"
+                 />
+               </div>
+               ))}
+           </div>
+           ))}
+         </div>
+       )}
+ 
+    
+     </div>
+     <div className="clear-filter">
+       {/* Button to clear filters */}
+       <button
+         className="btn btn-outline-primary btn-bordered"
+         onClick={clearFilter}
+       >
+         Remove All
+       </button>
+     </div>
+   </div>
+ </div>
+            }
+         
+
             <section className="search-hcp smart-list-view event_listing">
               <div className="col email-result-block">
                 <div className="email_box_block add-webinar">

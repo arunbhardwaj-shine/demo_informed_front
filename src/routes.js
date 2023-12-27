@@ -171,7 +171,7 @@ import Invitees from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Regi
 import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
 import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
 import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
-import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/LiveStream";
+import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LiveStream";
 import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
 
 let platform = 0;
