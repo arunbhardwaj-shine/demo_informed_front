@@ -172,6 +172,7 @@ import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmart
 import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
 import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
 import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/LiveStream";
+import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
 
 let platform = 0;
 let show = 0;
@@ -543,7 +544,7 @@ const Routing = () => {
           element={<LoginLayout component={RegistrationPage} />}
         /> */}
         <Route path="/event-registration" element={<RegistrationPage />} />
-     
+
         {/* <Route path="/event-listing" element={<SetLayout component={NewEventCreate} />} /> */}
         <Route
           path="/contact-form"
@@ -569,9 +570,13 @@ const Routing = () => {
           path="/event-listing"
           element={<LoginLayout component={NewEventCreate} />}
         />
-         <Route
+        <Route
           path="/invitees"
           element={<LoginLayout component={Invitees} />}
+        />
+        <Route
+          path="/contact-dm"
+          element={<LoginLayout component={ContactDM} />}
         />
         <Route
           path="/live-stream"
