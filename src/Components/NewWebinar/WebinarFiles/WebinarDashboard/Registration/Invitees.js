@@ -144,6 +144,7 @@ const Invitees = () => {
       setIsLoaded(false);
       setNoData(false);
 
+
       let sp = 1;
 
       if (e?.target?.value == "" || e?.target?.value == null) {
@@ -164,6 +165,9 @@ const Invitees = () => {
       event.preventDefault();
       setNoData(false);
       setIsLoaded(false);
+      setApiStatus(false)
+      setUserData()
+
 
       let sp = 1;
       setPage(sp)
