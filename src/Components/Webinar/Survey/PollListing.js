@@ -26,6 +26,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import PreviewModal from "./PreviewModal";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const settings = {
@@ -82,7 +83,8 @@ export default function PollListing() {
   const [selectedQuestion, setSelectedQuestion] = useState(
     questions[currentIndex]
   );
-
+  const [isPrevClicked, setIsPrevClicked] = useState(false);
+ 
   useEffect(() => {
     // if (!event_code) {
         getAllEvents();
@@ -102,7 +104,7 @@ export default function PollListing() {
     //   getApiData(event_code);
     // }
   }, []);
-
+ 
   const getApiData = async (event_code) => {
     try {
       loader("show");
@@ -171,6 +173,7 @@ export default function PollListing() {
     setSelectedItem(event);
     setApiStatus(true);
   };
+
   const getListingData = async (id) => {
     try {
       loader("show");
@@ -229,6 +232,7 @@ export default function PollListing() {
       throw error;
     }
   };
+
   const handleQuestionChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.question = e.target.value;
@@ -646,6 +650,14 @@ if(!questionObj){
   const handleAfterChange = (current) => {
     setCurrentIndex(Math.abs(current));
   };
+
+  const handlePreview = (e, index) => {
+    setIsPrevClicked(true);
+  }
+
+  const handleClose = () => {
+    setIsPrevClicked(false);
+  };
   return (
     <>
       <Col className="col right-sidebar">
@@ -690,6 +702,9 @@ if(!questionObj){
                         value={selectedItem}
                       />
                     </div>
+                    <Button onClick={handlePreview}>Preview All
+                    </Button>
+
                     {/* <Button
                   className="align-right btn-bordered btn-voilet"
                   onClick={() => {
@@ -862,6 +877,76 @@ if(!questionObj){
           </div>
         </div>
       </Col>
+
+      {/* {isPrevClicked && (
+        <Modal
+          show={isPrevClicked}
+          onHide={handleClose}
+          id="add_hcp"
+          className="event_edit"
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Preview{" "}
+              </h5>
+              <button
+                type="button"
+                onClick={handleClose}
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <>
+              <div className="webinar-popup">
+               <PreviewModal/>
+              </div>
+            </>
+          </Modal.Body>
+        </Modal>
+      )} */}
+
+      {isPrevClicked && (
+        <Modal
+          show={isPrevClicked}
+          onHide={handleClose}
+          id="add_hcp"
+          className="event_edit"
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Preview{' '}
+              </h5>
+              <button
+                type="button"
+                onClick={handleClose}
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <>
+              <div className="webinar-popup">
+                <PreviewModal questions={questions} onClose={handleClose} />
+              </div>
+            </>
+          </Modal.Body>
+        </Modal>
+      )}
+
+
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}

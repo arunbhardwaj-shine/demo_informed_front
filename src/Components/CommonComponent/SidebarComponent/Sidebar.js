@@ -20,6 +20,7 @@ const Sidebar = () => {
   const [getHideShowSideContent, setHideShowSideContent] = useState(false);
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
   const [get_user_id, set_user_id] = useState();
+  const [isSidebarHidden, setIsSidebarHidden] = useState(false);
 
   const { selectedItem } = useSidebar();
 
@@ -189,9 +190,34 @@ const Sidebar = () => {
     video_poster = "/componentAssets/images/create-content.png";
   }
 
+
+  // useEffect(() => {
+  //   const currentLocation = window.location.pathname;
+  //   setIsSidebarHidden(currentLocation === '/event-listing');
+  // }, []);
+
+  useEffect(() => {
+    const currentLocation = window.location.pathname;
+    const divElement = document.querySelector('.left-sidebar');
+ 
+    if (currentLocation === '/event-listing') {
+      divElement?.classList.add('hideSideBar');
+    } else {
+      divElement?.classList.remove('hideSideBar');
+    }
+ 
+    return () => {
+      divElement?.classList.remove('hideSideBar');
+    };
+  }, []);
+
+
   return (
     <>
-      <div className="left-sidebar">
+      <div 
+      // className={`left-sidebar ${isSidebarHidden ? 'hideSideBar' : ''}`}
+      className="left-sidebar"
+      >
         <div className="sidebar-menu">
         {window.location.pathname === "/invitees" || 
         window.location.pathname == "/webinar-registration" ||
