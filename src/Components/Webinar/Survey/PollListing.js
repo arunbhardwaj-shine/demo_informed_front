@@ -943,6 +943,9 @@ if(!questionObj){
               </div>
             </>
           </Modal.Body>
+          <Modal.Footer>
+            <Button>Save</Button>
+          </Modal.Footer>
         </Modal>
       )}
 
