@@ -90,9 +90,15 @@ const Invitees = () => {
   //   }
   // };
 
-  const getWebinarData = async (page, filter) => {
+  const getWebinarData = async (page, filter, loadMore = 0) => {
     try {
-      loader("show");
+      setIsLoaded(false)
+      if (loadMore == 0) {
+        loader("show");
+      } else {
+        setPageAll(true)
+      }
+
       setShowFilter(false)
       let payload = {
         "search": search ? search : "",
@@ -127,7 +133,7 @@ const Invitees = () => {
       }
 
       setApiStatus(true);
-
+      setPageAll(false)
       return response;
     } catch (err) {
       console.log("---err", err);
@@ -457,7 +463,7 @@ const Invitees = () => {
     }
     let sp = 1;
     setPage(sp)
-    
+
     setApiStatus(false)
     setUserData()
     getWebinarData(sp, updatedFilter)
@@ -484,7 +490,7 @@ const Invitees = () => {
   const loadMoreClicked = () => {
     let sp = page + 1;
     setPage(sp);
-    getWebinarData(sp)
+    getWebinarData(sp, appliedFilter, 1)
   };
 
   return (
