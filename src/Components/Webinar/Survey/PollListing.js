@@ -658,6 +658,10 @@ if(!questionObj){
   const handleClose = () => {
     setIsPrevClicked(false);
   };
+
+  const handleQuestionOrderChange = (updatedQuestions) => {
+    setQuestions(updatedQuestions);
+  };
   return (
     <>
       <Col className="col right-sidebar">
@@ -878,40 +882,6 @@ if(!questionObj){
         </div>
       </Col>
 
-      {/* {isPrevClicked && (
-        <Modal
-          show={isPrevClicked}
-          onHide={handleClose}
-          id="add_hcp"
-          className="event_edit"
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel">
-                Preview{" "}
-              </h5>
-              <button
-                type="button"
-                onClick={handleClose}
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            <>
-              <div className="webinar-popup">
-               <PreviewModal/>
-              </div>
-            </>
-          </Modal.Body>
-        </Modal>
-      )} */}
-
       {isPrevClicked && (
         <Modal
           show={isPrevClicked}
@@ -939,12 +909,12 @@ if(!questionObj){
           <Modal.Body>
             <>
               <div className="webinar-popup">
-                <PreviewModal questions={questions} onClose={handleClose} />
+                <PreviewModal questions={questions} onQuestionOrderChange={handleQuestionOrderChange} onClose={handleClose} />
               </div>
             </>
           </Modal.Body>
           <Modal.Footer>
-            <Button>Save</Button>
+            <Button onClick={() => console.log('Saving questions:', questions)}>Save</Button>
           </Modal.Footer>
         </Modal>
       )}

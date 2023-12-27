@@ -196,10 +196,10 @@ const Sidebar = () => {
  
     if (currentLocation === '/event-listing') {
       divElement?.classList.add('hideSideBar');
-      console.log(divElement,'===>div1')
+      // console.log(divElement,'===>div1')
     } else {
       divElement?.classList.remove('hideSideBar');
-      console.log(divElement,'===>div2')
+      // console.log(divElement,'===>div2')
     }
  
     return () => {
