@@ -80,11 +80,11 @@ const ContactDM = () => {
         e.preventDefault()
         let searchData = userData?.filter((item) => {
             if (item?.name) {
-                return item?.name?.toLowerCase() == search?.toLowerCase() || item?.email == search?.toLowerCase()
+                return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
             } else if (item?.username) {
-                return item?.username?.toLowerCase() == search?.toLowerCase() || item?.email == search?.toLowerCase()
+                return item?.username?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
             } else {
-                return item?.name?.toLowerCase() == search?.toLowerCase() || item?.email == search?.toLowerCase()
+                return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
             }
 
         })
@@ -101,7 +101,6 @@ const ContactDM = () => {
             })
             return data;
         })
-        console.log("other filter--->", otherFilter)
         setAppliedFilter(otherFilter)
         setUserData(filterData)
         setShowFilter(false)
