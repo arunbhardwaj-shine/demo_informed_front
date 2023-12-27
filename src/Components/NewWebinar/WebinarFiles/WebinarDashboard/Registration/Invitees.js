@@ -155,6 +155,7 @@ const Invitees = () => {
         let searched = e?.target?.value
         setPage(sp)
         setUserData()
+        setApiStatus(false)
         setSearch(searched)
         getWebinarData(sp);
       }
