@@ -286,8 +286,10 @@ const GetMedpakDetails = () => {
 
     const saveReminderMail = async () => {
         try {
+            // console.log(reminderChecked,"reminderChecked");
            loader('show');
-           if (Object.values(reminderChecked).some((value) => value)) {
+        //    Object.values(reminderChecked).some((value) => value)
+            if (Object.keys(reminderChecked).length !== 0) {
               let data = {
                  distribute_id: distributeData?.distribute_id,
                  compaign_id: distributeData?.campaign_id,
