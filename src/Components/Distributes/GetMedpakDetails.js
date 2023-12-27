@@ -286,7 +286,7 @@ const GetMedpakDetails = () => {
 
     const saveReminderMail = async () => {
         try {
-            console.log(reminderChecked,"reminderChecked");
+            // console.log(reminderChecked,"reminderChecked");
            loader('show');
         //    Object.values(reminderChecked).some((value) => value)
             if (Object.keys(reminderChecked).length !== 0) {
