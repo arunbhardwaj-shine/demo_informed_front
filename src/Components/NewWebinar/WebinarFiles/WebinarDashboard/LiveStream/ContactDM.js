@@ -108,6 +108,7 @@ const ContactDM = () => {
     }
 
     const removeindividualfilter = (key, item) => {
+        setShowFilter(false)
         let updateFilter = otherFilter
         let index = updateFilter[key]?.indexOf(item)
         if (index > -1) {
@@ -131,6 +132,7 @@ const ContactDM = () => {
     const Refresh = async () => {
         try {
             setSearch("")
+            setShowFilter(false)
             setRefreshFlag(true)
             const response = await getData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}/${401}`)
             setUserData(response?.data?.data?.data)

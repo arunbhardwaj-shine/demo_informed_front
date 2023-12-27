@@ -93,6 +93,7 @@ const Invitees = () => {
   const getWebinarData = async (page, filter) => {
     try {
       loader("show");
+      setShowFilter(false)
       let payload = {
         "search": search ? search : "",
         "Country": filter?.Country ? filter?.Country : "",
@@ -143,10 +144,7 @@ const Invitees = () => {
       setSearch(e?.target?.value?.trim());
       setIsLoaded(false);
       setNoData(false);
-
-
       let sp = 1;
-
       if (e?.target?.value == "" || e?.target?.value == null) {
         let searched = e?.target?.value
         setPage(sp)
@@ -167,8 +165,6 @@ const Invitees = () => {
       setIsLoaded(false);
       setApiStatus(false)
       setUserData()
-
-
       let sp = 1;
       setPage(sp)
       if (!search) {
@@ -461,6 +457,7 @@ const Invitees = () => {
     }
     let sp = 1;
     setPage(sp)
+    
     setApiStatus(false)
     setUserData()
     getWebinarData(sp, updatedFilter)
