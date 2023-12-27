@@ -173,6 +173,8 @@ import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
 import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
 import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LiveStream";
 import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
+import LivePolls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LivePolls";
+import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/PollsLayout";
 
 let platform = 0;
 let show = 0;
@@ -581,6 +583,10 @@ const Routing = () => {
         <Route
           path="/live-stream"
           element={<LoginLayout component={LiveStream} />}
+        />
+        <Route
+          path="/polls-layout"
+          element={<LoginLayout component={PollsLayout} />}
         />
         <Route
           path="/webinar-registration"
