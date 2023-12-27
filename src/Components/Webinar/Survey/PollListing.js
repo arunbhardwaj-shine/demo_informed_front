@@ -908,7 +908,7 @@ if(!questionObj){
           </Modal.Header>
           <Modal.Body>
             <>
-              <div className="webinar-popup">
+              <div className="webinar-popup polls-preview">
                 <PreviewModal questions={questions} onQuestionOrderChange={handleQuestionOrderChange} onClose={handleClose} />
               </div>
             </>
