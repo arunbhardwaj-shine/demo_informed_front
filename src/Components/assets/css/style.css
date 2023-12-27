@@ -2537,9 +2537,33 @@ h5 {
   border: 0;
   box-shadow: none;
   border-radius: 9px;
-  padding: 22px 16px;
+  padding: 22px 50px 22px 16px;
+  display: flex;
+    justify-content: space-between;
+}
+.accordion-header .mail-resend svg {
+  width: 28px;
 }
 
+.accordion-header .mail-resend {
+  margin: 0 0 0 4px;
+  position: relative;
+}
+
+.mail-resend span {
+  background: #dc3545;
+  font-size: 10px;
+  color: #fff;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: -4px;
+  top: -7px;
+}
 .search-hcp .accordion .accordion-item .accordion-body {
   border-top: .5px dashed #97b6cf;
   padding: 10px 20px;
@@ -2549,13 +2573,39 @@ h5 {
   background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
   background-position: center;
   margin-right: 10px;
+  position: absolute;
+  right: 8px;
 }
-
+.search-hcp .accordion .accordion-item .last-activity-date  {
+  background: rgb(0 102 190);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px 2px;
+  border-radius: 20px;
+  line-height: 1.1;
+}
+.accordion-item .last-activity  {
+  display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 0 5px;
+    flex-direction: row-reverse;
+}
 .search-hcp .deleted.accordion .accordion-header button.accordion-button,
 .result-hcp-table .table tbody tr.hcps-deleted {
   box-shadow: 0px 0px 10px #b91b68;
 }
+.smart-list-view .selected-hcp-list#analytics-hcp-table {
+  margin-top: 25px;
+}
 
+.smart-list-view .selected-hcp-list#analytics-hcp-table .accordion {
+  margin: 0;
+  padding: 8px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 66vh;
+}
 .result-hcp-table .table tbody tr.hcps-deleted {
   position: relative;
 }
@@ -7800,9 +7850,23 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 #analytics-hcp-table .load_more {
-  margin-top: 20px;
+  margin-top: 20px!important;
+}
+.selected-hcp-list table tr td .mail-resend {
+  position: relative;
+  /* float: right; */
+  display: inline-table;
+  margin: 0 0 0 8px;
 }
 
+.selected-hcp-list table tr td .mail-resend svg {
+  width: 22px;
+}
+
+.selected-hcp-list table tr td .mail-resend span {
+  top: -8px;
+  color: #fff;
+}
 /** Auto Mail **/
 
 .mail_trigger_left h4 {
