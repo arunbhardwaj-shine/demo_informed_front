@@ -1076,11 +1076,11 @@ const RDAnalytics = () => {
                               </tr>
                               {individualCompletionShow == index ? (
                                 <tr className={"fold show"}>
-                                  <td colspan="6">
+                                  <td colspan="7">
                                     <div className="fold-content">
                                       {
                                         trainingDropdownData?.length == 0 ?
-                                          <p>No Data Found</p>
+                                          <p className="not_found">No Data Found</p>
                                         :
                                           <p>
                                             Completed Contents |{" "}
