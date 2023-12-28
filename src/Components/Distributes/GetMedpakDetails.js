@@ -622,7 +622,7 @@ const GetMedpakDetails = () => {
                                                         ) : (
                                                             ""
                                                         )}
-                                                        <th scope="col">Reminder</th>
+                                                        <th scope="col">Block Reminder</th>
                                                     </>
                                                 </tr>
                                             </thead>

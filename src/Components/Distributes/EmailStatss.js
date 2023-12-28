@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { useCallback } from "react";
 import { loader } from "../../loader";
+import Accordion from "react-bootstrap/Accordion";
 
 import {
   getDraftData,
@@ -53,10 +54,10 @@ const EmailStats = (props) => {
     };
     loader("show");
     await axios
-      .post(`distributes/get_send_campaign_list`, body)
+      .post(`distributes/get_send_campaign_list_new`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
-          console.log(res);
+          // console.log(res);
           setShowLoader(1);
 
           setData((oldArray) => [...oldArray, ...res.data.response.data]);
@@ -242,7 +243,7 @@ const EmailStats = (props) => {
                         <input
                           className="form-control me-2"
                           type="search"
-                          placeholder="Search"
+                          placeholder="Search Campaign"
                           aria-label="Search"
                           onChange={(e) => searchChange(e)}
                         />
@@ -272,178 +273,212 @@ const EmailStats = (props) => {
               className="selected-hcp-list search_view"
               id="analytics-hcp-table"
             >
-              <div className="table_xls search_view">
+              {/* <div className="table_xls search_view">
                 <div className="smart-list-btns">
                   <div className="top-right-action">
 
                   </div>
                 </div>
-              </div>
-              <div className="table_xls">
-                <table className="table">
-                  <thead className="sticky-header">
-                    <tr>
-                      <th scope="col">Campaign ID</th>
-                      <th scope="col">
-                        Date{" "}
-                        <div className="hcp-sort">
-                          {sortingCountDate == 0 ? (
-                            <>
-                              <button
-                                className="btn btn-outline-primary"
-                                onClick={sortDate}
-                              >
-                                <img
-                                  src={path_image + "sort.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          ) : sortDatee == 0 ? (
-                            <>
-                              <button
-                                className="btn btn-outline-primary desc"
-                                onClick={sortDate}
-                              >
-                                <img
-                                  src={path_image + "sort-decending.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          ) : (
-                            <>
-                              <button
-                                className="btn btn-outline-primary asc"
-                                onClick={sortDate}
-                              >
-                                <img
-                                  src={path_image + "sort-assending.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          )}
-                        </div>
-                      </th>
-                      <th scope="col">Subject</th>
-                      <th scope="col">
-                        Article title{" "}
-                        <div className="hcp-sort">
-                          {sortingCount == 0 ? (
-                            <>
-                              <button
-                                className="btn btn-outline-primary"
-                                onClick={sortTitle}
-                              >
-                                <img
-                                  src={path_image + "sort.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          ) : sorting == 0 ? (
-                            <>
-                              <button
-                                className="btn btn-outline-primary desc"
-                                onClick={sortTitle}
-                              >
-                                <img
-                                  src={path_image + "sort-decending.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          ) : (
-                            <>
-                              <button
-                                className="btn btn-outline-primary asc"
-                                onClick={sortTitle}
-                              >
-                                <img
-                                  src={path_image + "sort-assending.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          )}
-                        </div>
-                      </th>
-
-                      <th className="smartlistth" scope="col">
-                        Smart list
-                      </th>
-                      <th scope="col">Total mail sent</th>
-                      <th scope="col">Email read</th>
-                      <th scope="col">Pending read email</th>
-
-                      <th scope="col">Bounce count</th>
-                      <th scope="col">Details</th>
-                      <th scope="col">Sent to pending</th>
-                      <th scope="col">Sent to all</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {typeof campaignData !== "undefined" &&
-                    campaignData.length > 0 ? (
-                      campaignData.map((item, index) => (
-                        <>
-                          <tr className={item?.campaign_status == 5 ? "queue_row" : "campaign_row"} key={index}>
-                            <td> {item.c_id}</td>
-                            <td> {item.sent_data}</td>
-                            <td className="smartlistth"> {item.subject}</td>
-                            <td className="smartlistth"> {item.pdf_title}</td>
-                            <td className="smartlistth"> {item.list}</td>
-                            <td> {item.total_sent_count}</td>
-                            <td> {item.total_read_count}</td>
-                            <td> {item.total_pending_count}</td>
-
-                            <td> {item.total_bouns_count}</td>
-                            <td>
-                              <button
-                                type="button"
-                                className={item?.campaign_status == 5 ? "btn btn-primary btn-bordered disabled" : "btn btn-primary btn-bordered" }
-                                onClick={(e) => getDetails(item.distribute_id)}
-                              >
-                                Details
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className={item?.campaign_status == 5 ? "btn btn-primary btn-bordered disabled" : "btn btn-primary btn-bordered" }
-                                onClick={(e) =>
-                                  sendCampaign(item.distribute_id, 2)
+              </div> */}
+              <Accordion defaultActiveKey="0">
+                {
+                  typeof campaignData !== "undefined" && campaignData.length > 0 ?
+                  campaignData.map((campaignItem, index) => {
+                    return(
+                      <>
+                          <Accordion.Item eventKey={index}>
+                            <Accordion.Header>
+                                {campaignItem?.title}
+                                <div className="last-activity">
+                                <span className="last-activity-date ">{campaignItem?.lastactivity}</span>
+                                {
+                                campaignItem?.campaignSend && campaignItem?.campaignSend.length > 1 ?
+                                  <div className="mail-resend" title="Resend Emails">
+                                    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be" /><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be" /></g></g></svg>
+                                    <span>{campaignItem?.campaignSend.length - 1}</span>
+                                  </div>
+                                  : null
                                 }
-                              >
-                                Send pending
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className={item?.campaign_status == 5 ? "btn btn-primary btn-bordered disabled" : "btn btn-primary btn-bordered" }
-                                onClick={(e) =>
-                                  sendCampaign(item.distribute_id, 1)
-                                }
-                              >
-                                Send all
-                              </button>
-                            </td>
-                          </tr>
-                        </>
-                      ))
-                    ) : (
-                      <tr className="data-not-found">
-                        <td colspan="12">
-                          <h4>No Data Found</h4>
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                                </div>
+                                
+                            </Accordion.Header>
+                            <Accordion.Body className="card-body">
+                              <>
+                              <div className="table_xls">
+                                <table className="table">
+                                  <thead className="sticky-header">
+                                    <tr>
+                                      <th scope="col">Campaign ID</th>
+                                      <th scope="col">
+                                        Date{" "}
+                                        {/* <div className="hcp-sort">
+                                          {sortingCountDate == 0 ? (
+                                            <>
+                                              <button
+                                                className="btn btn-outline-primary"
+                                                onClick={sortDate}
+                                              >
+                                                <img
+                                                  src={path_image + "sort.svg"}
+                                                  alt="Shorting"
+                                                />
+                                              </button>
+                                            </>
+                                          ) : sortDatee == 0 ? (
+                                            <>
+                                              <button
+                                                className="btn btn-outline-primary desc"
+                                                onClick={sortDate}
+                                              >
+                                                <img
+                                                  src={path_image + "sort-decending.svg"}
+                                                  alt="Shorting"
+                                                />
+                                              </button>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <button
+                                                className="btn btn-outline-primary asc"
+                                                onClick={sortDate}
+                                              >
+                                                <img
+                                                  src={path_image + "sort-assending.svg"}
+                                                  alt="Shorting"
+                                                />
+                                              </button>
+                                            </>
+                                          )}
+                                        </div> */}
+                                      </th>
+                                      <th scope="col">Subject</th>
+                                      <th scope="col">
+                                        Article title{" "}
+                                        <div className="hcp-sort">
+                                          {/* {sortingCount == 0 ? (
+                                            <>
+                                              <button
+                                                className="btn btn-outline-primary"
+                                                onClick={sortTitle}
+                                              >
+                                                <img
+                                                  src={path_image + "sort.svg"}
+                                                  alt="Shorting"
+                                                />
+                                              </button>
+                                            </>
+                                          ) : sorting == 0 ? (
+                                            <>
+                                              <button
+                                                className="btn btn-outline-primary desc"
+                                                onClick={sortTitle}
+                                              >
+                                                <img
+                                                  src={path_image + "sort-decending.svg"}
+                                                  alt="Shorting"
+                                                />
+                                              </button>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <button
+                                                className="btn btn-outline-primary asc"
+                                                onClick={sortTitle}
+                                              >
+                                                <img
+                                                  src={path_image + "sort-assending.svg"}
+                                                  alt="Shorting"
+                                                />
+                                              </button>
+                                            </>
+                                          )} */}
+                                        </div>
+                                      </th>
+
+                                      <th className="smartlistth" scope="col">
+                                        Smart list
+                                      </th>
+                                      <th scope="col">Total mail sent</th>
+                                      <th scope="col">Email read</th>
+                                      <th scope="col">Pending read email</th>
+
+                                      <th scope="col">Bounce count</th>
+                                      <th scope="col">Details</th>
+                                      <th scope="col">Sent to pending</th>
+                                      <th scope="col">Sent to all</th>
+                                    </tr>
+                                  </thead>
+
+                                  <tbody>
+                                    {typeof campaignItem?.campaignSend !== "undefined" &&
+                                    campaignItem?.campaignSend.length > 0 ? (
+                                      campaignItem?.campaignSend.map((item, index) => (
+                                        <>
+                                          <tr className={item?.campaign_status == 5 ? "queue_row" : "campaign_row"} key={index}>
+                                            <td> {item.c_id}</td>
+                                            <td> {item.sent_data}</td>
+                                            <td className="smartlistth"> {item.subject}</td>
+                                            <td className="smartlistth"> {item.pdf_title}</td>
+                                            <td className="smartlistth"> {item.list}</td>
+                                            <td> {item.total_sent_count}</td>
+                                            <td> {item.total_read_count}</td>
+                                            <td> {item.total_pending_count}</td>
+
+                                            <td> {item.total_bouns_count}</td>
+                                            <td>
+                                              <button
+                                                type="button"
+                                                className={item?.campaign_status == 5 ? "btn btn-primary btn-bordered disabled" : "btn btn-primary btn-bordered" }
+                                                onClick={(e) => getDetails(item.distribute_id)}
+                                              >
+                                                Details
+                                              </button>
+                                            </td>
+                                            <td>
+                                              <button
+                                                type="button"
+                                                className={item?.campaign_status == 5 ? "btn btn-primary btn-bordered disabled" : "btn btn-primary btn-bordered" }
+                                                onClick={(e) =>
+                                                  sendCampaign(item.distribute_id, 2)
+                                                }
+                                              >
+                                                Send pending
+                                              </button>
+                                            </td>
+                                            <td>
+                                              <button
+                                                type="button"
+                                                className={item?.campaign_status == 5 ? "btn btn-primary btn-bordered disabled" : "btn btn-primary btn-bordered" }
+                                                onClick={(e) =>
+                                                  sendCampaign(item.distribute_id, 1)
+                                                }
+                                              >
+                                                Send all
+                                              </button>
+                                            </td>
+                                          </tr>
+                                        </>
+                                      ))
+                                    ) : (
+                                      <tr className="data-not-found">
+                                        <td colspan="12">
+                                          <h4>No Data Found</h4>
+                                        </td>
+                                      </tr>
+                                    )}
+                                  </tbody>
+                                </table>
+                              </div>
+                              </>
+                            </Accordion.Body>
+                          </Accordion.Item>
+                      </>
+                    )
+                  })
+                  : <div className="no_found"><p>No Data Found</p></div>
+                }
+              </Accordion>
+              
               {typeof campaignData !== "undefined" &&
               currentPage !== lastPage &&
               showLoader ? (

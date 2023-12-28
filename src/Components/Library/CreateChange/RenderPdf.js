@@ -133,7 +133,8 @@ const RenderPdf = ({
 
   const scrollEve = (event) => {
     const target = event.target;
-    if (target.scrollHeight - target.scrollTop === target.clientHeight) {
+    // if (target.scrollHeight - target.scrollTop  === target.clientHeight) {
+    if (target.scrollHeight - target.scrollTop  <= target.clientHeight + 70) {
       if (numPages == 1) {
         optimizeSinglePagePdf();
       }

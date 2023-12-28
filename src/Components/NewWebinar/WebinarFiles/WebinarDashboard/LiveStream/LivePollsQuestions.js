@@ -37,6 +37,63 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
     const slickRef = useRef("");
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    let answerData = {
+        "message": "Data get successfully",
+        "data": [
+            {
+                "pollQuestionId": 1542,
+                "y": 2,
+                "drilldown": "Question_0",
+                "name": "Quality and interest of the data presented",
+                "drillDownData": [
+                    {
+                        "answerId": 2487,
+                        "color": "#ff5366",
+                        "name": "Excellent",
+                        "total": 1,
+                        "id": "Question_0"
+                    },
+                    {
+                        "answerId": 2488,
+                        "color": "#0053a0",
+                        "name": "Good",
+                        "total": 0,
+                        "id": "Question_0"
+                    },
+                    {
+                        "answerId": 2489,
+                        "color": "#ff8649",
+                        "name": "Satisfactory",
+                        "total": 1,
+                        "id": "Question_0"
+                    },
+                    {
+                        "answerId": 2490,
+                        "color": "#89A550",
+                        "name": "Fair",
+                        "total": 0,
+                        "id": "Question_0"
+                    },
+                    {
+                        "answerId": 2491,
+                        "color": "#4098B7",
+                        "name": "Poor",
+                        "total": 0,
+                        "id": "Question_0"
+                    }
+                ]
+            },
+          
+         
+         
+          
+           
+           
+        ],
+        "totalReader": 3,
+        "custom_answer": 0
+    }
+
 
     useEffect(() => {
         // slickRef.current.slickGoTo(0);
@@ -120,10 +177,10 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
 
             const result = await postData(ENDPOINT.POLL_ANSWER, {
                 companyId: questionId,
-                eventId: eventId?.id,
+                eventId: eventId,
             });
 
-            console.log("")
+            console.log("result--->", result)
 
         } catch (err) {
             console.log("--err", err)
