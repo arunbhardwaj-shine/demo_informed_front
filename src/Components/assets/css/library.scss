@@ -11887,6 +11887,7 @@ img.change-password-image {
 
     table {
       margin: 12px 0 0;
+      background: #ffffff;
 
       thead {
         tr {
@@ -12091,6 +12092,9 @@ img.change-password-image {
         }
 
         .fold {
+          &.show{
+            border-radius: 0 0;
+          }
           td {
             border-radius: 0 0 9px 9px;
             border-top: 0.5px dashed $light-gray;
@@ -12134,6 +12138,7 @@ img.change-password-image {
             font-size: 16px;
             line-height: 19px;
             color: $primary-color;
+            // text-align: center;
 
             span {
               color: $primary-color;
