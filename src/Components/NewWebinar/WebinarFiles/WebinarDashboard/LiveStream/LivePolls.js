@@ -7,16 +7,18 @@ import LivePollsQuestion from './LivePollsQuestions'
 
 const LivePolls = ({ location }) => {
     const [eventId, setEvent] = useState({
-        id: location?.state?.eventId ? location?.state?.eventId : "",
+        id: location?.state?.event_id ? location?.state?.event_id : "",
         companyId: location?.state?.companyId ? location?.state?.companyId : "",
     });
     const [data, setData] = useState()
 
     useEffect(() => {
+        console.log("in Live Polls event id-->", eventId)
         getEventQuestion()
     }, [])
 
     const getEventQuestion = async () => {
+        console.log("get question-->", eventId)
         try {
             loader("show")
             const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
@@ -36,7 +38,7 @@ const LivePolls = ({ location }) => {
         <Col className="right-sidebar custom-change">
             <div className="custom-container">
                 <div className="row">
-                    <LivePollsQuestion />
+                    <LivePollsQuestion questionData={data} eventId={eventId?.id} />
 
                 </div>
             </div>
