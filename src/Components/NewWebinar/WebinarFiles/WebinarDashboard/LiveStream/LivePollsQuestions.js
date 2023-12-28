@@ -1,145 +1,278 @@
 import { color } from 'highcharts'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { Button } from 'react-bootstrap';
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-
-const LivePollsQuestion = () => {
-    const [questionData, setQuestionData] = useState()
+import Slider from 'react-slick'
+import { postData } from '../../../../../axios/apiHelper';
+import { ENDPOINT } from '../../../../../axios/apiConfig';
+const settings = {
+    infinite: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    arrows: false,
+    centerMode: false,
+    // centerPadding: "5%",
+    speed: 1500,
+    vertical: true,
+    verticalScrolling: true,
+    swipe: false,
+    touchMove: false,
+    responsive: [
+        {
+            breakpoint: 558,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: true,
+                arrows: true,
+            },
+        },
+    ],
+};
+const LivePollsQuestion = ({ questionData, eventId }) => {
+    const [question, setQuestion] = useState()
     const [chartOptions, setChartOptions] = useState();
+    const slickRef = useRef("");
+    const [currentIndex, setCurrentIndex] = useState(0);
 
-    let data = [{
-        question: "Which one is your favorite city", answerOption: [{ id: 1, answer: "Chandigarh" },
-        { id: 2, answer: "Mohali" }], speakerName: "Gagan"
-    }]
-    useEffect(() => {
-        setQuestionData(data)
-        setChartOptions((prevOptions) => ({
-            ...prevOptions,
-            chart_data: {
-                chart: {
-                    type: "pie",
-                    height: 300,
-                },
-                title: {
-                    text: "",
-                },
-                subtitle: {
-                    text: `<p>Device</p></br></br></br><span >${5}</span>`,
-
-                    verticalAlign: "middle",
-
-                    y: 15,
-                },
-
-                exporting: {
-                    enabled: false,
-                },
-
-                plotOptions: {
-                    pie: {
-                        innerSize: "70%",
-
-                        dataLabels: {
-                            enabled: true,
-
-                            format: "{point.y}",
-
-                            style: {
-                                fontWeight: "bold",
-
-                                color: "white",
-
-                                textOutline: "none",
-
-                                fontSize: "12px",
-                            },
-
-                            distance: -20, // Adjust the distance of the data labels from the center
-                        },
-
-                        animation: {
-                            duration: 1000,
-                        },
-
-                        enableMouseTracking: false, // Disable hover functionality
-                    },
-                },
-
-                series: [
+    let answerData = {
+        "message": "Data get successfully",
+        "data": [
+            {
+                "pollQuestionId": 1542,
+                "y": 2,
+                "drilldown": "Question_0",
+                "name": "Quality and interest of the data presented",
+                "drillDownData": [
                     {
-                        name: 'Percentage',
-                        colorByPoint: true,
-                        data: [
-                            {
-                                name: 'Water',
-                                y: 55.02
-                            },
-                            {
-                                name: 'Fat',
-                                sliced: true,
-                                selected: true,
-                                y: 26.71
-                            },
-                            {
-                                name: 'Carbohydrates',
-                                y: 1.09
-                            },
-                            {
-                                name: 'Protein',
-                                y: 15.5
-                            },
-                            {
-                                name: 'Ash',
-                                y: 1.68
-                            }
-                        ]
+                        "answerId": 2487,
+                        "color": "#ff5366",
+                        "name": "Excellent",
+                        "total": 1,
+                        "id": "Question_0"
                     },
-                ],
+                    {
+                        "answerId": 2488,
+                        "color": "#0053a0",
+                        "name": "Good",
+                        "total": 0,
+                        "id": "Question_0"
+                    },
+                    {
+                        "answerId": 2489,
+                        "color": "#ff8649",
+                        "name": "Satisfactory",
+                        "total": 1,
+                        "id": "Question_0"
+                    },
+                    {
+                        "answerId": 2490,
+                        "color": "#89A550",
+                        "name": "Fair",
+                        "total": 0,
+                        "id": "Question_0"
+                    },
+                    {
+                        "answerId": 2491,
+                        "color": "#4098B7",
+                        "name": "Poor",
+                        "total": 0,
+                        "id": "Question_0"
+                    }
+                ]
+            },
+          
+         
+         
+          
+           
+           
+        ],
+        "totalReader": 3,
+        "custom_answer": 0
+    }
 
 
-            }
-        }));
-    }, [])
+    useEffect(() => {
+        slickRef.current.slickGoTo(0);
+        console.log("question data--->", questionData)
+        setQuestion(questionData?.data?.data)
+
+        // setChartOptions(
+        //     {
+        //         chart: {
+        //             type: 'pie'
+        //         },
+        //         title: {
+        //             text: 'Egg Yolk Composition'
+        //         },
+        //         tooltip: {
+        //             valueSuffix: '%'
+        //         },
+
+        //         plotOptions: {
+        //             series: {
+        //                 allowPointSelect: true,
+        //                 cursor: 'pointer',
+        //                 dataLabels: [{
+        //                     enabled: true,
+        //                     distance: 20
+        //                 }, {
+        //                     enabled: true,
+        //                     distance: -40,
+        //                     format: '{point.percentage:.1f}%',
+        //                     style: {
+        //                         fontSize: '1.2em',
+        //                         textOutline: 'none',
+        //                         opacity: 0.7
+        //                     },
+        //                     // filter: {
+        //                     //     operator: '>',
+        //                     //     property: 'percentage',
+        //                     //     value: 10
+        //                     // }
+        //                 }]
+        //             }
+        //         },
+        //         series: [
+        //             {
+        //                 name: 'Percentage',
+        //                 colorByPoint: true,
+        //                 data: [
+        //                     {
+        //                         name: 'Water',
+        //                         y: 55.02
+        //                     },
+        //                     {
+        //                         name: 'Fat',
+        //                         sliced: true,
+        //                         selected: true,
+        //                         y: 26.71
+        //                     },
+        //                     {
+        //                         name: 'Carbohydrates',
+        //                         y: 1.09
+        //                     },
+        //                     {
+        //                         name: 'Protein',
+        //                         y: 15.5
+        //                     },
+        //                     {
+        //                         name: 'Ash',
+        //                         y: 1.68
+        //                     }
+        //                 ]
+        //             }
+        //         ]
+        //     })
+    }, [questionData])
+    const handleAfterChange = async (current) => {
+        try {
+            let questionId = question[current]?.questionId
+
+            console.log("current id-->", questionId)
+            setCurrentIndex(Math.abs(current));
+
+            const result = await postData(ENDPOINT.POLL_ANSWER, {
+                companyId: questionId,
+                eventId: eventId,
+            });
+
+            console.log("result--->", result)
+
+        } catch (err) {
+            console.log("--err", err)
+        }
+
+    };
     return (<>
-        <div className='outer-layout'>
-            <div className='question-outer-layout' style={{ margin: "20px", backgroundColor: "lightblue" }}>
-                {questionData?.length ?
-                    questionData?.map((item, index) => {
-                        return (<>
-                            <div className='question-listing' style={{ backgroundColor: "white" }} key={index} >
+        <div className='outer-layout '>
+            <div className='question-outer-layout ' style={{ margin: "20px", backgroundColor: "lightblue" }}>
+                <Slider
+                    {...settings}
+                    ref={slickRef}
+                    afterChange={(e) => handleAfterChange(e)}
+                >
+                    {question?.length ?
+                        question?.map((item, index) => {
+                            return (<>
+                                <div className='question-listing' style={{ backgroundColor: "white" }} key={index} >
 
-                                <h4>Q{index + 1}</h4>
-                                <div className='question' style={{ marginTop: "20px" }}>
-                                    Question
-                                    <h4 style={{ marginTop: "10px" }}> {item?.question}</h4>
+                                    <h4>Q{index + 1}</h4>
+                                    <div className='question' style={{ marginTop: "20px" }}>
+                                        Question
+                                        <h4 style={{ marginTop: "10px" }}> {item?.question}</h4>
+                                    </div>
+                                    <div className='answer-options' style={{ marginTop: "20px" }}>
+                                        Answers
+                                        {item?.answerOption?.length ?
+                                            item?.answerOption?.map((answer, i) => {
+                                                return (<>
+                                                    <div className='answer' key={i} style={{ marginTop: "10px" }}>{answer?.answer}</div>
+                                                </>)
+                                            })
+                                            : ""}
+                                    </div>
+                                    <div className='speaker' style={{ marginTop: "20px" }}>
+                                        Speaker
+                                        <h6>{item?.speakerName}</h6>
+                                    </div>
                                 </div>
-                                <div className='answer-options' style={{ marginTop: "20px" }}>
-                                    Answers
-                                    {item?.answerOption?.length ?
-                                        item?.answerOption?.map((answer, i) => {
-                                            return (<>
-                                                <div className='answer' key={i} style={{ marginTop: "10px" }}>{answer?.answer}</div>
-                                            </>)
-                                        })
-                                        : ""}
-                                </div>
-                                <div className='speaker' style={{ marginTop: "20px" }}>
-                                    Speaker
-                                    <h6>{item?.speakerName}</h6>
-                                </div>
-                            </div>
 
-                        </>)
-                    })
-                    : ""}
+                            </>)
+                        })
+                        : ""}
+                </Slider>
             </div>
-            <div className='pie-chart-outer-layout'>
-                {console.log("options--->", chartOptions)}
+            <div className="question-action">
+                <Button
+                    className={`btn-bordered question-prev ${currentIndex == 0 ? "disabled" : ""
+                        } `}
+                    // disabled={index == 0 ? true : false}
+                    onClick={() => slickRef.current.slickPrev()}
+                >
+                    <svg
+                        width="19"
+                        height="11"
+                        viewBox="0 0 19 11"
+                        fill="none"
+                    >
+                        <path
+                            d="M9.27902 3.61976L2.56094 10.3378C1.97509 10.9236 1.02524 10.9236 0.439388 10.3378C-0.146462 9.75196 -0.146463 8.80211 0.439387 8.21626L8.21496 0.440724C8.41288 0.242814 8.65233 0.111762 8.90525 0.0475674C9.4024 -0.0805243 9.95244 0.0500824 10.3417 0.439387L18.1173 8.21496C18.7031 8.80081 18.7031 9.75066 18.1173 10.3365C17.5314 10.9224 16.5816 10.9224 15.9957 10.3365L9.27902 3.61976Z"
+                            fill="#0066BE"
+                        />
+                    </svg>
+                </Button>
+                <Button
+                    className={`btn-bordered question-next 
+                    ${currentIndex == question?.length - 1 ? "disabled" : ""
+                        }
+                        `}
+                    onClick={() => {
+                        slickRef.current.slickNext();
+                        // console.log(slickRef.current);
+                    }}
+                >
+                    <svg
+                        width="19"
+                        height="11"
+                        viewBox="0 0 19 11"
+                        fill="none"
+                    >
+                        <path
+                            d="M9.27853 7.15662L2.56206 0.442137C1.97595 -0.143796 1.02569 -0.143796 0.43958 0.442137C-0.146527 1.02807 -0.146527 1.97806 0.43958 2.56399L8.21954 10.3416C8.80565 10.9276 9.75591 10.9276 10.342 10.3416C10.3643 10.3194 10.3858 10.2965 10.4064 10.2732L18.1204 2.56155C18.7065 1.97556 18.7065 1.02548 18.1204 0.439493C17.5342 -0.146497 16.5838 -0.146498 15.9977 0.439493L9.27853 7.15662Z"
+                            fill="#0066BE"
+                        />
+                    </svg>
+                </Button>
+            </div>
+            <div className='pie-chart-outer-layout' >
+
                 <HighchartsReact
                     highcharts={Highcharts}
-                    options={
-                        chartOptions
-                    }
+                    options={chartOptions}
                 />
             </div>
         </div>
