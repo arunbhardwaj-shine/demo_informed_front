@@ -167,8 +167,14 @@ import PollListing from "./Components/Webinar/Survey/PollListing";
 import AutoLogout from "./Components/Login/AutoLogout";
 import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
 import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/RegistrationPage";
+import Invitees from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Invitees"
 import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
 import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
+import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
+import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LiveStream";
+import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
+import LivePolls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LivePolls";
+import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/PollsLayout";
 
 let platform = 0;
 let show = 0;
@@ -531,12 +537,17 @@ const Routing = () => {
           path="/poll-listing"
           element={<LoginLayout component={PollListing} />}
         />
+        <Route
+          path="/polls"
+          element={<LoginLayout component={Polls} />}
+        />
         {/* <Route
           path="/event-registration"
           element={<LoginLayout component={RegistrationPage} />}
         /> */}
         <Route path="/event-registration" element={<RegistrationPage />} />
 
+        {/* <Route path="/event-listing" element={<SetLayout component={NewEventCreate} />} /> */}
         <Route
           path="/contact-form"
           element={<LoginLayout component={ContactForm} />}
@@ -560,6 +571,22 @@ const Routing = () => {
         <Route
           path="/event-listing"
           element={<LoginLayout component={NewEventCreate} />}
+        />
+        <Route
+          path="/invitees"
+          element={<LoginLayout component={Invitees} />}
+        />
+        <Route
+          path="/contact-dm"
+          element={<LoginLayout component={ContactDM} />}
+        />
+        <Route
+          path="/live-stream"
+          element={<LoginLayout component={LiveStream} />}
+        />
+        <Route
+          path="/polls-layout"
+          element={<LoginLayout component={PollsLayout} />}
         />
         <Route
           path="/webinar-registration"

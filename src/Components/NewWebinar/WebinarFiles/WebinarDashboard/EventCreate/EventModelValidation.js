@@ -1,5 +1,4 @@
 const EventModelValidation = (data) => {
-  console.log("data---->", data)
   let error = {};
   const regemail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -11,9 +10,9 @@ const EventModelValidation = (data) => {
     error.location = "Please enter location";
   }
 
-  // if (!data?.timezone) {
-  //   error.timezone = "Please select time zone";
-  // }
+  if (!data?.timezone) {
+    error.timezone = "Please select time zone";
+  }
   if (!data?.country_timezone) {
     error.country_timezone = "Please select country time zone";
   }
@@ -40,8 +39,15 @@ const EventModelValidation = (data) => {
   if (!data?.event_code) {
     error.event_code = "Please select event code";
   }
-  if (!data?.speaker_name) {
-    error.speaker_name = "Please enter speaker name";
+  if ((data?.speaker_name)?.length) {
+    let index = (data?.speaker_name)?.findIndex(
+      (item, index) => item?.speakerName?.trim() == ""
+    );
+    if (index > -1) {
+      error.speaker_name = "Please enter speaker name";
+      error.index = index;
+    }
+
   }
   // if (!data?.speaker_email) {
   //   error.speaker_email = "Please enter speaker email";

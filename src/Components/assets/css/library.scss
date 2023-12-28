@@ -5616,6 +5616,10 @@ input.viewer-toolbar-current-page-input {
   transition-delay: 0.1s;
 }
 
+.top-header.regi-web.sticky {
+  padding-top: 35px;
+}
+
 .custom-change {
   padding-top: 0px;
 
@@ -5648,7 +5652,7 @@ input.viewer-toolbar-current-page-input {
       padding: 20px 8px 15px;
       position: sticky;
       top: 84px;
-      z-index: 6;
+      z-index: 5;
       background: #fbfcfd;
       margin: 0 0 15px;
       transition: 0.3s linear;
@@ -11887,6 +11891,7 @@ img.change-password-image {
 
     table {
       margin: 12px 0 0;
+      background: #ffffff;
 
       thead {
         tr {
@@ -12091,6 +12096,9 @@ img.change-password-image {
         }
 
         .fold {
+          &.show{
+            border-radius: 0 0;
+          }
           td {
             border-radius: 0 0 9px 9px;
             border-top: 0.5px dashed $light-gray;
@@ -12134,6 +12142,7 @@ img.change-password-image {
             font-size: 16px;
             line-height: 19px;
             color: $primary-color;
+            // text-align: center;
 
             span {
               color: $primary-color;

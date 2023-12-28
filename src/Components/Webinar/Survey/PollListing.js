@@ -26,6 +26,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import PreviewModal from "./PreviewModal";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const settings = {
@@ -61,7 +62,7 @@ export default function PollListing() {
   const slickRef = useRef("");
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [apiStatus, setApiStatus] = useState(false);
   const [resetDataId, setResetDataId] = useState();
 
@@ -82,22 +83,24 @@ export default function PollListing() {
   const [selectedQuestion, setSelectedQuestion] = useState(
     questions[currentIndex]
   );
+  const [isPrevClicked, setIsPrevClicked] = useState(false);
 
   useEffect(() => {
+    console.log("in poll listing  event code--->", event_code)
     // if (!event_code) {
-        getAllEvents();
-        //get all events listing
+    getAllEvents();
+    //get all events listing
 
-      // toast.warning("Event Not Found", {
-      //   position: "top-right",
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      // });
-      // navigate("/event-listing");
+    // toast.warning("Event Not Found", {
+    //   position: "top-right",
+    //   autoClose: 5000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    // });
+    // navigate("/event-listing");
     // }else{
     //   getApiData(event_code);
     // }
@@ -127,30 +130,30 @@ export default function PollListing() {
   };
 
   const getAllEvents = async () => {
-    try{
+    try {
       loader("show");
       const response = await getData(`${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`);
       const allevents = response?.data?.data?.data;
-      if(allevents?.length > 0){
-          let dropDownDataTemp = allevents?.map((item) => ({
-            value: item?.id,
-            label: item?.title,
-          }));
-          setDropDownData(dropDownDataTemp);
-          let index = 0;
-          if (event_code != '') {
-             index = dropDownDataTemp.findIndex(obj => obj.value === event_code);
-          }
-          console.log(index,"Selected index");
-          let selectedData = dropDownDataTemp.length
-              ? dropDownDataTemp?.[index]
-              : { value: "", label: "" };
-            setSelectedItem(selectedData);
-            if (selectedData) {
-              getApiData(selectedData.value);
-            }
+      if (allevents?.length > 0) {
+        let dropDownDataTemp = allevents?.map((item) => ({
+          value: item?.id,
+          label: item?.title,
+        }));
+        setDropDownData(dropDownDataTemp);
+        let index = 0;
+        if (event_code != '') {
+          index = dropDownDataTemp.findIndex(obj => obj.value === event_code);
+        }
+        // console.log(index,"Selected index");
+        let selectedData = dropDownDataTemp.length
+          ? dropDownDataTemp?.[index]
+          : { value: "", label: "" };
+        setSelectedItem(selectedData);
+        if (selectedData) {
+          getApiData(selectedData.value);
+        }
       }
-    }catch(err){
+    } catch (err) {
       loader("hide");
       console.log(err);
     }
@@ -171,6 +174,7 @@ export default function PollListing() {
     setSelectedItem(event);
     setApiStatus(true);
   };
+
   const getListingData = async (id) => {
     try {
       loader("show");
@@ -196,28 +200,28 @@ export default function PollListing() {
       });
       // console.log(data);
       // setQuestions(data)
-      console.log(data,'');
-      setQuestionFlag(data?.length<=0?true:false)
+      // console.log(data,'');
+      setQuestionFlag(data?.length <= 0 ? true : false)
       data = data?.length
         ? data
         : [
-            {
-              questionData: {
-                question: "",
-                speakerName: "",
-                answerOption: [{ answer: "", color: "#000000" }],
-                answerType: "MULTIPLE",
+          {
+            questionData: {
+              question: "",
+              speakerName: "",
+              answerOption: [{ answer: "", color: "#000000" }],
+              answerType: "MULTIPLE",
 
-                graphType: "bar",
-              },
-              questionDataErrors: {
-                questionError: "",
-                speakerNameError: "",
-                answerOptionError: [{ answerError: "", colorError: "#000000" }],
-                answerTypeError: "",
-              },
+              graphType: "bar",
             },
-          ];
+            questionDataErrors: {
+              questionError: "",
+              speakerNameError: "",
+              answerOptionError: [{ answerError: "", colorError: "#000000" }],
+              answerTypeError: "",
+            },
+          },
+        ];
       loader("hide");
       const deepCopyApiData = JSON.parse(JSON.stringify(data));
 
@@ -229,6 +233,7 @@ export default function PollListing() {
       throw error;
     }
   };
+
   const handleQuestionChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.question = e.target.value;
@@ -445,10 +450,10 @@ export default function PollListing() {
     let isValid = true;
     const updatedQuestions = [...questions];
     let questionObj = updatedQuestions[index];
-if(!questionObj){
- setCurrentIndex(Math.abs(currentIndex-1))
- return
-}
+    if (!questionObj) {
+      setCurrentIndex(Math.abs(currentIndex - 1))
+      return
+    }
     const question = questionObj.questionData.question;
     const speakerName = questionObj.questionData.speakerName;
     const answerType = questionObj.questionData.answerType;
@@ -598,8 +603,8 @@ if(!questionObj){
       } else if (questions.length == 2) {
         setCurrentIndex(0);
       }
-      else if(currentIndex>=questions?.length-1){
-        setCurrentIndex(Math.abs(currentIndex-1));
+      else if (currentIndex >= questions?.length - 1) {
+        setCurrentIndex(Math.abs(currentIndex - 1));
 
       }
 
@@ -646,6 +651,18 @@ if(!questionObj){
   const handleAfterChange = (current) => {
     setCurrentIndex(Math.abs(current));
   };
+
+  const handlePreview = (e, index) => {
+    setIsPrevClicked(true);
+  }
+
+  const handleClose = () => {
+    setIsPrevClicked(false);
+  };
+
+  const handleQuestionOrderChange = (updatedQuestions) => {
+    setQuestions(updatedQuestions);
+  };
   return (
     <>
       <Col className="col right-sidebar">
@@ -656,23 +673,23 @@ if(!questionObj){
                 <div className="create-change-content question-listing">
                   <div className="top-header reader_list">
                     <div className="page-title">
-                    <Link
-                  className="btn btn-primary btn-bordered back-btn"
-                  to="/event-listing"
-                >
-                  <svg
-                    width="14"
-                    height="24"
-                    viewBox="0 0 14 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                      fill="#97B6CF"
-                    />
-                  </svg>
-                </Link>
+                      <Link
+                        className="btn btn-primary btn-bordered back-btn"
+                        to="/event-listing"
+                      >
+                        <svg
+                          width="14"
+                          height="24"
+                          viewBox="0 0 14 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                            fill="#97B6CF"
+                          />
+                        </svg>
+                      </Link>
                       <h2>Polls</h2>
                     </div>
                   </div>
@@ -690,6 +707,9 @@ if(!questionObj){
                         value={selectedItem}
                       />
                     </div>
+                    <Button onClick={handlePreview}>Preview All
+                    </Button>
+
                     {/* <Button
                   className="align-right btn-bordered btn-voilet"
                   onClick={() => {
@@ -713,9 +733,8 @@ if(!questionObj){
                   </div>
                   <div className="question-action">
                     <Button
-                      className={`btn-bordered question-prev ${
-                        currentIndex == 0 ? "disabled" : ""
-                      } `}
+                      className={`btn-bordered question-prev ${currentIndex == 0 ? "disabled" : ""
+                        } `}
                       // disabled={index == 0 ? true : false}
                       onClick={() => slickRef.current.slickPrev()}
                     >
@@ -732,9 +751,8 @@ if(!questionObj){
                       </svg>
                     </Button>
                     <Button
-                      className={`btn-bordered question-next ${
-                        currentIndex == questions.length - 1 ? "disabled" : ""
-                      }`}
+                      className={`btn-bordered question-next ${currentIndex == questions.length - 1 ? "disabled" : ""
+                        }`}
                       onClick={() => {
                         slickRef.current.slickNext();
                         // console.log(slickRef.current);
@@ -763,7 +781,7 @@ if(!questionObj){
                         setConfirmationPopup(true);
                         setResetDataId(currentIndex);
                       }}
-                      // onClick={handleDelete}
+                    // onClick={handleDelete}
                     >
                       <svg
                         width="24"
@@ -799,9 +817,8 @@ if(!questionObj){
                       </svg>
                     </Button>
                     <Button
-                      className={`add-question btn-bordered ${
-                        questionFlag ? "disabled" : ""
-                      }`}
+                      className={`add-question btn-bordered ${questionFlag ? "disabled" : ""
+                        }`}
                       onClick={handleAddQuestion}
                     >
                       Add Question +
@@ -862,6 +879,45 @@ if(!questionObj){
           </div>
         </div>
       </Col>
+
+      {isPrevClicked && (
+        <Modal
+          show={isPrevClicked}
+          onHide={handleClose}
+          id="preview-poll"
+          className="event_edit"
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Preview{' '}
+              </h5>
+              <button
+                type="button"
+                onClick={handleClose}
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <>
+              <div className="webinar-popup polls-preview">
+                <PreviewModal questions={questions} onQuestionOrderChange={handleQuestionOrderChange} onClose={handleClose} />
+              </div>
+            </>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => console.log('Saving questions:', questions)}>Save</Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+
+
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}

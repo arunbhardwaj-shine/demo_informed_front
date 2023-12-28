@@ -349,7 +349,7 @@ const RDRegister = () => {
                     alt="text-img"
                   />
                   in patients with acute major bleeding on DOAC therapy with
-                  factor xa inhibitor
+                  factor Xa inhibitor
                 </p>
               </div>
             </div>

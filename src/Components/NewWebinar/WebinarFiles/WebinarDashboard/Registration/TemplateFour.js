@@ -37,15 +37,17 @@ export default function TemplateFour({ children, formData }) {
     )}`;
   }
 
-  const eventStartTime = eventDataSample?.eventStartTime?.value ?? "00:00";
-  const eventEndTime = eventDataSample?.eventEndTime?.value ?? "00:00";
+  const eventStartTime = eventDataSample?.eventStartTime?.value ?? `${eventData?.dateStartHour  }:${eventData?.dateStartMin}`?? "00:00";
+  const eventEndTime = eventDataSample?.eventEndTime?.value ?? `${eventData?.dateEndHour  }:${eventData?.dateEndMin}` ?? "00:00";
+
+
   function convertTo12HourFormat(time) {
     const [hours, minutes] = time.split(":");
     const formattedTime = new Date(`2000-01-01T${time}:00`);
     return formattedTime.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
-      hour12: true,
+      hour12: false,
     });
   }
   const convertedStartTime = convertTo12HourFormat(eventStartTime);
@@ -143,14 +145,19 @@ export default function TemplateFour({ children, formData }) {
               </h4>
             </div>
 
-            <h4 style={{ color: eventDataSample?.eventStartDate?.color }}>
+            {/* <h4 style={{ color: eventDataSample?.eventStartDate?.color }}>
               {formattedDateRange}
-            </h4>
+            </h4> */}
 
-            <h4>
-              {/* {formData?.content?.eventDetails?.eventStartTime?.value} */}
-              {timeRange}({eventData?.countryTimezone}) online in One Source
-            </h4>
+<h4 dangerouslySetInnerHTML={{
+  __html: `${formData?.content?.eventDetails?.eventDateDetails?.value?formData?.content?.eventDetails?.eventDateDetails?.value:"31st January 2024 <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source"}`
+}}>
+</h4>
+{/* <h4 dangerouslySetInnerHTML={{
+  __html: `${formData?.content?.eventDetails?.eventDateDetails?.value} (${eventData?.countryTimezone})<br/>Online in One Source`
+}}>
+</h4> */}
+
 
             {/*  */}
             {formData?.content?.eventDetails?.SubHeading?.value ? (
@@ -202,9 +209,11 @@ export default function TemplateFour({ children, formData }) {
               <Row>
                 <Col md={8}>
                   <p>
-                    <Link to="https://onesource.octapharma.com/">
-                      Visit One Source,
-                    </Link>{" "}
+                  To visit One Source &nbsp; 
+                    <Link  target="_blank" to="https://onesource.octapharma.com/" style={{textDecoration:"underline"}}>
+                     Click Here
+                    </Link>{" "}.
+                    <br/>
                     Octapharma’s online haematology platform for healthcare
                     professionals, to be up to date with the latest news and
                     events, and to hear leading experts share their opinions
@@ -218,7 +227,6 @@ export default function TemplateFour({ children, formData }) {
                   <div className="footer-logo">
                     <a target="_blank" href="https://onesource.octapharma.com/octapharma-privacy">
                     <img
-                      // src={path_image + "one_source_blue.svg"}
                       src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
                       alt="Logo image"
                     />

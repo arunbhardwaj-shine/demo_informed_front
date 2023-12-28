@@ -506,8 +506,13 @@
     "bodyText": "",
     "headerImageUrl": "",
     "footerImageUrl": "",
-    "labelColor": "#2068B3",
-    "optionColor": "#2068B3",
+    "labelColor": "#001489",
+    "optionColor": "#001489",
+    "typedTextColor":"#2068B3",
+    "placeholderTextColor":"#2068B3",
+    "dropdownOptionColor": "#2068B3",
+    "dropdownHoveringColor":"#2068B3",
+    "selectedTextColor":"#2068B3",
     "backgroundColor": "",
     "eventDetails": {
         "eventStartDate": {
@@ -527,7 +532,14 @@
         "speakerName": {
             "title": "Speaker Name",
             "type": "text",
-            "value": "",
+            "value": "Guy Young ",
+            "color": "#001489"
+        },
+        
+        "eventDateDetails": {
+            "title": "Event Date Details",
+            "type": "text",
+            "value": "31st January 2024 <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source",
             "color": "#001489"
         },
         "pageTitle": {
@@ -539,7 +551,7 @@
         "SubTitle": {
             "title": "Sub Title",
             "type": "text",
-            "value": "Surgery using FVIII in a HA PUP on emicizumab prophylaxis",
+            "value": "Use of FVIII during surgery in a previously untreated haemophilia A patient on emicizumab prophylaxis",
             "color": "#33baa8"
         },
         "SubHeading": {
@@ -557,13 +569,13 @@
         "Specialization": {
             "title": "Specialization",
             "type": "text",
-            "value": "",
+            "value": "Children's Hospital Los Angeles",
             "color": "#001489"
         },
         "Message": {
             "title": "Modal Message",
             "type": "text",
-            "value": "Thank you for registering!",
+            "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
             "color":  "#001489"
         }
     },

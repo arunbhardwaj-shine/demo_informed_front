@@ -1,7 +1,6 @@
 const AddQuestionValidation = (formData, formLabel, fieldData) => {
 
   let error = {};
-  console.log(formData?.label);
   if (!formData?.inputType) {
     error.inputType = "Please select the input type";
   }
@@ -9,7 +8,7 @@ const AddQuestionValidation = (formData, formLabel, fieldData) => {
     (formData?.inputType == "checkbox" ||
       formData?.inputType == "radio" ||
       formData?.inputType == "selection") &&
-    (!formData?.option?.length &&  formData?.name != "country" &&  formData?.name != "state")
+    (!formData?.option?.length && formData?.name != "country" && formData?.name != "state")
   ) {
     error.option = "Please add options";
   }
