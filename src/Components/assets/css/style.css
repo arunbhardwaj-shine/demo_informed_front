@@ -185,7 +185,19 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   border-radius: 28.5107px;
   margin-right: 10px;
 }
-
+.left-sidebar.hidesidebar{
+width: 0;
+display: none;
+}
+.left-sidebar.hidesidebar +.right-sidebar {
+  border-radius: 0px;
+}
+.left-sidebar.hidesidebar+.right-sidebar {
+  border-radius: 0px;
+  background: rgba(255, 255, 255, 0.83) url(../images/informed-symbol.svg) no-repeat;
+  background-size: 180px;
+  background-position: bottom left;
+}
 .toggle_sidebar .left-sidebar .sidebar-menu {
   max-width: 82px;
 }
@@ -217,7 +229,9 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   background-image: url(../images/menu-icon2.png);
   top: -31px;
 }
-
+/* .sidebar-menu ul li.active:before{
+  background-image: url(../images/side-layer1.svg);
+} */
 .sidebar-menu ul li.active:before,
 .sidebar-menu ul li.active:after {
   content: "";
@@ -237,17 +251,17 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   transform: rotateX(180deg);
 }
 
-.sidebar-menu ul li.active a {
+.sidebar-menu ul li.active a, .sidebar-menu ul li.active a p, .sidebar-menu ul li:hover a {
   color: var(--light-blue);
 }
 
-.sidebar-menu ul li:hover a {
+/* .sidebar-menu ul li:hover a {
   color: var(--light-blue);
 }
 
 .sidebar-menu ul li.active a p {
   color: var(--light-blue);
-}
+} */
 
 .sidebar-menu ul li a {
   white-space: nowrap;
@@ -1196,18 +1210,21 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 .active.sub-links .left-sidebar-secondary {
   display: block;
 }
-.active-subLink .right-sidebar {
+/* .active-subLink .right-sidebar {
   position: relative;
   z-index: 3;
+} */
+.active-subLink .sidebar-menu ul li.side_li.active {
+  margin-right: -19px;
 }
 .active.sub-links .left-sidebar-secondary {
   display: block;
   transition: 0.5s linear;
-  width: 220px;
+  width: 175px;
   padding: 0;
   height: 100%;
   background: var(--light-skyblue);
-  border-radius: 28.5107px;
+  border-radius: 28.5107px 0 0;
   margin-right: 10px;
   position: fixed;
   top: 83px;
@@ -1235,11 +1252,20 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   left: 0;
   width: 100%;
   z-index: 3;
-  padding-right: 0px;
-  background: #f3f7fb;
+padding-right: 0px;
+  background: linear-gradient(90deg, #f3f7fb, #e4edf5);
   border-radius: 25px 0 0 0;
 }
+.active-subLink .sidebar-menu ul li.active {
+  background: #ffffff;
+  z-index: 5;
+  position: relative;
+}
 
+.active-subLink .sidebar-menu ul li.active>a {
+  background: #fbfcfd;
+  border-radius: 47px 0 0 47px;
+}
 .active-subLink .left-sidebar .left-sidebar-secondary ul a p {
   opacity: 1;
   font-size: 16px;
