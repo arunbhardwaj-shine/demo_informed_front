@@ -884,7 +884,7 @@ export default function PollListing() {
         <Modal
           show={isPrevClicked}
           onHide={handleClose}
-          id="add_hcp"
+          id="preview-poll"
           className="event_edit"
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
