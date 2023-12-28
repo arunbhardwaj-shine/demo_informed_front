@@ -35,14 +35,9 @@ const LivePolls = ({ location }) => {
     }
 
     return (<>
-        <Col className="right-sidebar custom-change">
-            <div className="custom-container">
-                <div className="row">
-                    <LivePollsQuestion questionData={data} eventId={eventId?.id} />
 
-                </div>
-            </div>
-        </Col>
+        <LivePollsQuestion questionData={data} eventId={eventId?.id} />
+
     </>)
 }
 export default LivePolls

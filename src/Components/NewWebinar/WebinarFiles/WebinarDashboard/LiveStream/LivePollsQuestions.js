@@ -39,77 +39,77 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
 
 
     useEffect(() => {
-        slickRef.current.slickGoTo(0);
+        // slickRef.current.slickGoTo(0);
         console.log("question data--->", questionData)
         setQuestion(questionData?.data?.data)
 
-        // setChartOptions(
-        //     {
-        //         chart: {
-        //             type: 'pie'
-        //         },
-        //         title: {
-        //             text: 'Egg Yolk Composition'
-        //         },
-        //         tooltip: {
-        //             valueSuffix: '%'
-        //         },
+        setChartOptions(
+            {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Egg Yolk Composition'
+                },
+                tooltip: {
+                    valueSuffix: '%'
+                },
 
-        //         plotOptions: {
-        //             series: {
-        //                 allowPointSelect: true,
-        //                 cursor: 'pointer',
-        //                 dataLabels: [{
-        //                     enabled: true,
-        //                     distance: 20
-        //                 }, {
-        //                     enabled: true,
-        //                     distance: -40,
-        //                     format: '{point.percentage:.1f}%',
-        //                     style: {
-        //                         fontSize: '1.2em',
-        //                         textOutline: 'none',
-        //                         opacity: 0.7
-        //                     },
-        //                     // filter: {
-        //                     //     operator: '>',
-        //                     //     property: 'percentage',
-        //                     //     value: 10
-        //                     // }
-        //                 }]
-        //             }
-        //         },
-        //         series: [
-        //             {
-        //                 name: 'Percentage',
-        //                 colorByPoint: true,
-        //                 data: [
-        //                     {
-        //                         name: 'Water',
-        //                         y: 55.02
-        //                     },
-        //                     {
-        //                         name: 'Fat',
-        //                         sliced: true,
-        //                         selected: true,
-        //                         y: 26.71
-        //                     },
-        //                     {
-        //                         name: 'Carbohydrates',
-        //                         y: 1.09
-        //                     },
-        //                     {
-        //                         name: 'Protein',
-        //                         y: 15.5
-        //                     },
-        //                     {
-        //                         name: 'Ash',
-        //                         y: 1.68
-        //                     }
-        //                 ]
-        //             }
-        //         ]
-        //     })
+                plotOptions: {
+                    series: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: [{
+                            enabled: true,
+                            distance: 20
+                        }, {
+                            enabled: true,
+                            distance: -40,
+                            format: '{point.percentage:.1f}%',
+                            style: {
+                                fontSize: '1.2em',
+                                textOutline: 'none',
+                                opacity: 0.7
+                            },
+                            // filter: {
+                            //     operator: '>',
+                            //     property: 'percentage',
+                            //     value: 10
+                            // }
+                        }]
+                    }
+                },
+                series: [
+                    {
+                        name: 'Percentage',
+                        colorByPoint: true,
+                        data: [
+                            {
+                                name: 'Water',
+                                y: 55.02
+                            },
+                            {
+                                name: 'Fat',
+                                sliced: true,
+                                selected: true,
+                                y: 26.71
+                            },
+                            {
+                                name: 'Carbohydrates',
+                                y: 1.09
+                            },
+                            {
+                                name: 'Protein',
+                                y: 15.5
+                            },
+                            {
+                                name: 'Ash',
+                                y: 1.68
+                            }
+                        ]
+                    }
+                ]
+            })
     }, [questionData])
     const handleAfterChange = async (current) => {
         try {
@@ -131,50 +131,98 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
 
     };
     return (<>
-        <div className='outer-layout '>
-            <div className='question-outer-layout ' style={{ margin: "20px", backgroundColor: "lightblue" }}>
-                <Slider
+        <div className='outer-layout'>
+            <div className='question-outer-layout'>
+                <div className='question-outer-inset'>
+                {/* <Slider
                     {...settings}
                     ref={slickRef}
                     afterChange={(e) => handleAfterChange(e)}
                 >
                     {question?.length ?
-                        question?.map((item, index) => {
+                        question?.map((item, index) => { */}
+                        <div className=''>
+                            {question?.length ?
+                             question?.map((item, index) => {
                             return (<>
-                                <div className='question-listing' style={{ backgroundColor: "white" }} key={index} >
-
-                                    <h4>Q{index + 1}</h4>
-                                    <div className='question' style={{ marginTop: "20px" }}>
-                                        Question
-                                        <h4 style={{ marginTop: "10px" }}> {item?.question}</h4>
+                                <div className='question-listing' 
+                                key={index} 
+                                >
+                                    <div className='d-flex justify-content-between question-list-number align-items-center'>
+                                        <h4>Q{index + 1}</h4>
+                                        <div className='question-status not-display'>
+                                            <span>Not displayed yet</span>
+                                        </div>
                                     </div>
-                                    <div className='answer-options' style={{ marginTop: "20px" }}>
-                                        Answers
-                                        {item?.answerOption?.length ?
-                                            item?.answerOption?.map((answer, i) => {
-                                                return (<>
-                                                    <div className='answer' key={i} style={{ marginTop: "10px" }}>{answer?.answer}</div>
-                                                </>)
-                                            })
-                                            : ""}
+                                    <div className='question-display'>
+                                        <div className='question'>
+                                            Question
+                                            <h4> {item?.question}</h4>
+                                        </div>
+                                        <div className='answer-options'>
+                                            Answers
+                                             <div className='answer'>
+                                                <div>
+                                                 <span>A.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudol
+                                                </div>
+                                                <div><span>B.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment</div> 
+                                                <div><span>C.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcu</div>
+                                                <div><span>D.</span> masuismod phartra donec faucibus </div>
+                                            </div>
+                                            {/* {item?.answerOption?.length ?
+                                                item?.answerOption?.map((answer, i) => {
+                                                    return (<>
+                                                        <div className='answer' key={i}>{answer?.answer}
+                                                            <span>A.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudol
+                                                            <span>B.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment 
+                                                            <span>C.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcu
+                                                            <span>D.</span> masuismod phartra donec faucibus 
+                                                        </div>
+                                                    </>)
+                                                })
+                                                : ""} */}
+                                        </div>
+                                        <div className='speaker'>
+                                            Speaker
+                                            <h6>{item?.speakerName}</h6>
+                                        </div>
                                     </div>
-                                    <div className='speaker' style={{ marginTop: "20px" }}>
-                                        Speaker
-                                        <h6>{item?.speakerName}</h6>
+                                    <div className='question-status d-flex justify-content-between'>
+                                        <div className='question-status-live'>
+                                            <div className='question-live'>
+                                                <label>Total (Live)</label>
+                                                <p>-</p>
+                                            </div>
+                                            <div className='question-answered'>
+                                                <label>Answered</label>
+                                                <p>0</p>
+                                            </div>
+                                        </div>
+                                        <div className='btn-group'>
+                                           <label>Display:</label> 
+                                           <div className='btn-group-add'>
+                                            <Button className='quest'>Question</Button>
+                                            <Button className='answer'>Answer</Button>
+                                            <Button className='close active'>Closed</Button>
+                                           </div>
+                                        </div>
                                     </div>
                                 </div>
 
                             </>)
-                        })
+                        {/* })
                         : ""}
-                </Slider>
+                </Slider> */}
+                })
+                : ""}
+                </div>
             </div>
             <div className="question-action">
                 <Button
                     className={`btn-bordered question-prev ${currentIndex == 0 ? "disabled" : ""
                         } `}
                     // disabled={index == 0 ? true : false}
-                    onClick={() => slickRef.current.slickPrev()}
+                    // onClick={() => slickRef.current.slickPrev()}
                 >
                     <svg
                         width="19"
@@ -194,7 +242,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                         }
                         `}
                     onClick={() => {
-                        slickRef.current.slickNext();
+                        // slickRef.current.slickNext();
                         // console.log(slickRef.current);
                     }}
                 >
@@ -210,6 +258,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                         />
                     </svg>
                 </Button>
+            </div>
             </div>
             <div className='pie-chart-outer-layout' >
 
