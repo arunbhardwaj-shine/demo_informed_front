@@ -62,6 +62,9 @@ function Question(props) {
     isRequired,
     graphType,
   } = questionData;
+
+  const [questionDataSample,setquestionDataSample]=useState(questionData)
+  // console.log(questionData,'===>question')
   const [selectedItem, setSelectedItem] = useState(
     answerType ? { value: answerType, label: dropdownData[answerType] } : ""
   );
@@ -166,6 +169,7 @@ function Question(props) {
                               type="text"
                               value={choice.answer}
                               onChange={(e) => onChoiceChange(e, index)}
+                              disabled
                             />
                           </Form.Group>
                           </div>
@@ -357,7 +361,7 @@ function Question(props) {
           <Modal.Body>
             <>
               <div className="webinar-popup polls-preview">
-                <PreviewGraphModal  onClose={handleClose} graphType={graphType} />
+                <PreviewGraphModal  onClose={handleClose} graphType={graphType} answerOption={answerOption}/>
               </div>
             </>
           </Modal.Body>
