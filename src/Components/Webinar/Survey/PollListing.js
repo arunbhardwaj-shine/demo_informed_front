@@ -100,7 +100,7 @@ export default function PollListing() {
     //   draggable: true,
     //   progress: undefined,
     // });
-    // navigate("/event-listing");
+    // navigate("/webinar/event-listing");
     // }else{
     //   getApiData(event_code);
     // }
@@ -675,7 +675,7 @@ export default function PollListing() {
                     <div className="page-title">
                       <Link
                         className="btn btn-primary btn-bordered back-btn"
-                        to="/event-listing"
+                        to="/webinar/event-listing"
                       >
                         <svg
                           width="14"

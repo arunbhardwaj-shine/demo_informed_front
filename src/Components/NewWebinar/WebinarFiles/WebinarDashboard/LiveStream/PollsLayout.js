@@ -7,9 +7,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const PollsLayout = () => {
     const location=useLocation()
     return (<>
-        <Col className="right-sidebar custom-change">
+        <Col className="right-sidebar custom-change full-width">
             <div className="custom-container">
                 <div className="row">
+                    <div className='poll-creation'>
                     <Tabs
                         defaultActiveKey="livepolls"
                         fill
@@ -32,7 +33,7 @@ const PollsLayout = () => {
 
                         </Tab>
                     </Tabs>
-
+                    </div>
                 </div>
             </div>
         </Col>

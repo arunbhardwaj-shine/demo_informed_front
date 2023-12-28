@@ -237,12 +237,12 @@ const NewEventCreate = () => {
     });
   };
   const liveStream = () => {
-    navigate("/live-stream");
+    navigate("/webinar/live-stream");
   };
   const webinarPollingForm = (e, item) => {
-    
-    navigate("/polls-layout", {
-      state: { event_id: item?.id,companyId:item?.user_id },
+
+    navigate("/webinar/polls-layout", {
+      state: { event_id: item?.id, companyId: item?.user_id },
     });
   };
 
@@ -523,7 +523,7 @@ const NewEventCreate = () => {
 
   const handleCardClick = (item) => {
     console.log("item--->", item?.id)
-    navigate("/invitees", { state: { eventId: item?.id } });
+    navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
   };
 
