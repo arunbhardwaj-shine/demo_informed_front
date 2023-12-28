@@ -278,7 +278,7 @@ const Invitees = () => {
       setClickUserId(0);
       popup_alert({
         visible: "show",
-        message: "Your user has been deleted <br />successfully !",
+        message: "The user has been deleted <br />successfully !",
         type: "success",
         redirect: "",
       });
@@ -1047,8 +1047,8 @@ const Invitees = () => {
         fun={handleConfirmModel}
         resetDataId={clickUserId}
         popupMessage={{
-          message1: "You are about to remove this user forever.",
-          message2: "Are you sure you want to do this?",
+          message1: "The deleted user will no longer have access to One Source",
+          message2: "Are you sure you want to delete it?",
           footerButton: " Yes please!",
         }}
         path_image={path_image}
