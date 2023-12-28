@@ -38,13 +38,14 @@ const NewEventCreate = () => {
   const [resetDataId, setResetDataId] = useState();
   const [rawDescription, setRawDescription] = useState();
   const [speakerName, setSpeakerName] = useState();
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
     footerButton: "",
   });
   const [showfilter, setShowFilter] = useState(false);
+  const [showFilterSection, setShowFilterSection] = useState(false);
   // const [filterdata, setFilterData] = useState({
   //   "Sort By Event": ["Asc", "Desc"],
   //   "Sort By Created": ["Asc", "Desc"],
@@ -53,6 +54,8 @@ const NewEventCreate = () => {
   const [filterdata, setFilterData] = useState({
     Event: ["Live", "Coming", "End"],
   });
+
+  const [appliedFilter, setAppliedFilter] = useState({});
 
   const [otherFilter, setOtherFilter] = useState({});
   const [sortingCount, setSortingCount] = useState(0);
@@ -106,9 +109,10 @@ const NewEventCreate = () => {
         setRawDescription(raw_description);
         let data = response?.data?.data?.data;
         data = data?.map((item, element) => {
+          let status = differenceDays(item?.dateStart)
           return {
             ...item,
-            eventStatus: differenceDays(item?.dateStart),
+            eventStatus: status,
           };
         });
         // console.log(data);
@@ -195,6 +199,7 @@ const NewEventCreate = () => {
     setIsData(result);
     setIsLoaded(false);
     setApiStatus(true);
+
   };
 
   const getFilterKey = (item) => {
@@ -202,18 +207,18 @@ const NewEventCreate = () => {
     return eventStatus === "Live"
       ? "Live"
       : eventStatus === "Coming Soon"
-      ? "Coming"
-      : eventStatus === "Has Ended"
-      ? "End"
-      : "Other";
+        ? "Coming"
+        : eventStatus === "Has Ended"
+          ? "End"
+          : "Other";
   };
 
   const getEventStatus = (item) => {
     return differenceDays(item?.dateStart) === 0
       ? "Live"
       : differenceDays(item?.dateStart) > 0
-      ? "Coming Soon"
-      : "Has Ended";
+        ? "Coming Soon"
+        : "Has Ended";
   };
 
   const handleAddEventClick = (e, item) => {
@@ -235,8 +240,9 @@ const NewEventCreate = () => {
     navigate("/live-stream");
   };
   const webinarPollingForm = (e, item) => {
-    navigate("/poll-listing", {
-      state: { event_id: item?.id },
+    
+    navigate("/polls-layout", {
+      state: { event_id: item?.id,companyId:item?.user_id },
     });
   };
 
@@ -391,57 +397,87 @@ const NewEventCreate = () => {
     setOtherFilter(updatedFilter);
   };
 
-  const applyFilter = () => {
-    let filterData = [];
-  
+  const applyFilter = (e = "", flag = 0) => {
+    let liveEvents = [];
+    let comingEvents = [];
+    let endEvents = [];
+    // console.log(otherFilter,"otherFilterotherFilter");
     if (otherFilter.Event?.length > 0) {
       otherFilter.Event.forEach((filter) => {
-        let filteredItems = [];
-  
         switch (filter) {
           case "Live":
-            filteredItems = apiData.filter((item) => item?.eventStatus === 0);
+            liveEvents = [...liveEvents, ...apiData.filter((item) => item?.eventStatus === 0)];
             break;
           case "Coming":
-            filteredItems = apiData.filter((item) => item?.eventStatus > 0);
+            comingEvents = [...comingEvents, ...apiData.filter((item) => item?.eventStatus > 0)];
             break;
           case "End":
-            filteredItems = apiData.filter((item) => item?.eventStatus < 0);
+            endEvents = [...endEvents, ...apiData.filter((item) => item?.eventStatus < 0)];
             break;
           default:
-            filteredItems = apiData;
+            break;
         }
-  
-        filterData = [...filterData, ...filteredItems];
       });
     } else {
-      filterData = [...apiData];
+      liveEvents = [...apiData.filter((item) => item?.eventStatus === 0)];
+      comingEvents = [...apiData.filter((item) => item?.eventStatus > 0)];
+      endEvents = [...apiData.filter((item) => item?.eventStatus < 0)];
     }
-  
-    // Remove duplicates if multiple filters resulted in the same item
-    filterData = [...new Set(filterData)];
-  
-    // Sort the filterData based on eventStatus
-    filterData.sort((a, b) => {
-      if (a.eventStatus === b.eventStatus) {
-        return 0;
-      } else if (a.eventStatus === 0) {
-        return -1; // "Live" comes first
-      } else if (a.eventStatus > 0) {
-        return a.eventStatus - b.eventStatus; // Sort "Coming"
-      } else {
-        return a.eventStatus - b.eventStatus; // Sort "End"
-      }
-    });
-  
+
+    const filterData = [...liveEvents, ...comingEvents, ...endEvents];
+    let filterForEvent = []
+    if (liveEvents?.length) {
+      filterForEvent.push("Live")
+    }
+    if (comingEvents?.length) {
+      filterForEvent.push("Coming")
+    }
+    if (endEvents?.length) {
+      filterForEvent.push("End")
+    }
+    setAppliedFilter({
+      Event: filterForEvent,
+
+    })
     setIsData(filterData);
     setShowFilter(false);
+    // console.log(flag);
+    if (flag) {
+
+      setShowFilterSection(false);
+    } else {
+      setShowFilterSection(true);
+
+    }
   };
-  
+  const removeindividualfilter = (tag, index) => {
+    let appliedFilterSample = { ...otherFilter }
+    appliedFilterSample = appliedFilterSample[tag]
+    if (index !== -1) {
+      appliedFilterSample.splice(index, 1);
+    }
+    setOtherFilter({
+      [tag]: appliedFilterSample
+    })
+
+    // console.log(appliedFilterSample?.length);
+    if (!appliedFilterSample.length) {
+      setShowFilterSection(false);
+      applyFilter("", 1)
+
+    }
+    else {
+      applyFilter("", 0)
+
+    }
+
+  }
   const clearFilter = () => {
     setIsData(apiData);
     setOtherFilter({});
     setShowFilter(false);
+    setShowFilterSection(false);
+
   };
 
   const formatDate = (eventDate) => {
@@ -608,46 +644,46 @@ const NewEventCreate = () => {
                                     <ul>
                                       {filterdata[key]?.length
                                         ? filterdata[key]?.map(
-                                            (item, index) => (
-                                              <li>
-                                                {item != "" ? (
-                                                  <label className="select-multiple-option">
-                                                    <input
-                                                      type="checkbox"
-                                                      id={`custom-checkbox-tags-${index}`}
-                                                      value={item}
-                                                      name={key}
-                                                      checked={
-                                                        otherFilter[
-                                                          key
-                                                        ]?.includes(item)
-                                                          ? true
-                                                          : false
-                                                      }
-                                                      onChange={(e) =>
-                                                        handleOnFilterChange(
-                                                          e,
-                                                          item,
-                                                          index,
-                                                          key,
-                                                          otherFilter
-                                                        )
-                                                      }
-                                                    />
+                                          (item, index) => (
+                                            <li>
+                                              {item != "" ? (
+                                                <label className="select-multiple-option">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-tags-${index}`}
+                                                    value={item}
+                                                    name={key}
+                                                    checked={
+                                                      otherFilter[
+                                                        key
+                                                      ]?.includes(item)
+                                                        ? true
+                                                        : false
+                                                    }
+                                                    onChange={(e) =>
+                                                      handleOnFilterChange(
+                                                        e,
+                                                        item,
+                                                        index,
+                                                        key,
+                                                        otherFilter
+                                                      )
+                                                    }
+                                                  />
 
-                                                    {key == "draft" &&
+                                                  {key == "draft" &&
                                                     item == "0"
-                                                      ? "live"
-                                                      : key == "draft" &&
-                                                        item == "1"
+                                                    ? "live"
+                                                    : key == "draft" &&
+                                                      item == "1"
                                                       ? "draft"
                                                       : item}
-                                                    <span className="checkmark"></span>
-                                                  </label>
-                                                ) : null}
-                                              </li>
-                                            )
+                                                  <span className="checkmark"></span>
+                                                </label>
+                                              ) : null}
+                                            </li>
                                           )
+                                        )
                                         : null}
                                     </ul>
                                   </Accordion.Body>
@@ -870,8 +906,59 @@ const NewEventCreate = () => {
                               />
                             </svg>
                           </button> */}
+
               </div>
             </div>
+            {showFilterSection &&
+
+              <div className="apply-filter">
+                <h6>Applied filters</h6>
+                <div className="filter-block">
+                  <div className="filter-block-left full">
+                    {Object.keys(otherFilter)?.length > 0 && (
+                      <div className="filter-div">
+                        <div className="filter-div-title">
+                          <span>Event |</span>
+                        </div>
+                        {Object.keys(otherFilter)?.map((item) => (
+                          <div className="filter-div-list">
+                            {/* Mapping over filtertags */}
+                            {otherFilter[item]?.map((element, index) => (
+                              <div
+                                className="filter-result"
+                                onClick={(event) => removeindividualfilter(item, index)}
+                              >
+
+
+                                {element}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  on
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+
+                  </div>
+                  <div className="clear-filter">
+                    {/* Button to clear filters */}
+                    <button
+                      className="btn btn-outline-primary btn-bordered"
+                      onClick={clearFilter}
+                    >
+                      Remove All
+                    </button>
+                  </div>
+                </div>
+              </div>
+            }
+
+
             <section className="search-hcp smart-list-view event_listing">
               <div className="col email-result-block">
                 <div className="email_box_block add-webinar">
@@ -896,7 +983,7 @@ const NewEventCreate = () => {
                             >
                               <div
                                 className="action_btn text-end"
-                                // className={`action_btn text-end ${differenceDays(item?.dateStart) > 0 ? 'coming' : differenceDays(item?.dateStart) < 0 ? 'ended' : ''}`}
+                              // className={`action_btn text-end ${differenceDays(item?.dateStart) > 0 ? 'coming' : differenceDays(item?.dateStart) < 0 ? 'ended' : ''}`}
                               >
                                 {item?.eventStatus == 0 ? (
                                   <div className="action-status live">
@@ -926,10 +1013,10 @@ const NewEventCreate = () => {
                                 </button> */}
                                 <button
                                   className="btn-webinar"
-                                  // onClick={(e) => {
-                                  //   webinarRegistrationForm(e, item);
-                                  //   e.stopPropagation();
-                                  // }}
+                                // onClick={(e) => {
+                                //   webinarRegistrationForm(e, item);
+                                //   e.stopPropagation();
+                                // }}
                                 >
                                   <img
                                     title="Email"
@@ -1006,11 +1093,10 @@ const NewEventCreate = () => {
                                 </div>
                                 <div className="event-date">
                                   {formatDate(item?.dateStart)} |{" "}
-                                  {`${item?.dateStartHour}:${
-                                    item?.dateStartMin.length == 1
-                                      ? "0" + item?.dateStartMin
-                                      : item?.dateStartMin
-                                  } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
+                                  {`${item?.dateStartHour}:${item?.dateStartMin.length == 1
+                                    ? "0" + item?.dateStartMin
+                                    : item?.dateStartMin
+                                    } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
                                 </div>
                                 {/* <div className="country-timezone">{item?.country_timezone}</div> */}
                                 <div className="country-timezone">
