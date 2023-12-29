@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-const QuestionPollsPieChart = () => {
+const QuestionPollsPieChart = ({ data }) => {
     const [pieOptions, setPieOptions] = useState({
         chart: {
             plotBackgroundColor: null,
@@ -17,6 +17,7 @@ const QuestionPollsPieChart = () => {
             formatter: function () {
                 return this.point.name + ' : <b>' + this.point.y + '</b>';
             },
+            valueSuffix: '%'
         },
         accessibility: {
             point: {
@@ -24,52 +25,57 @@ const QuestionPollsPieChart = () => {
             }
         },
         legend: {
+            verticalAlign: "bottom",
             labelFormat: '{name} ({percentage:.2f}%) ',
         },
+
         plotOptions: {
-            pie: {
+            series: {
                 allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: false
-                },
+                cursor: "pointer",
+                dataLabels: [
+                    {
+                        enabled: true,
+                        distance: 20,
+                    },
+                    {
+                        enabled: true,
+                        distance: -40,
+                        format: "{point.percentage:.1f}%",
+                        style: {
+                            fontSize: "1.2em",
+                            textOutline: "none",
+                            opacity: 0.7,
+                        },
+                    },
+                ],
+            },
+            pie:{
                 showInLegend: true
             }
+           
         },
         series: [
 
             {
                 name: 'Questions',
                 colorByPoint: true,
-                data: [
-                    {
-                        name: 'Water',
-                        y: 55.02
-                    },
-                    {
-                        name: 'Fat',
-                        sliced: true,
-                        selected: true,
-                        y: 26.71
-                    },
-                    {
-                        name: 'Carbohydrates',
-                        y: 1.09
-                    },
-                    {
-                        name: 'Protein',
-                        y: 15.5
-                    },
-                    {
-                        name: 'Ash',
-                        y: 1.68
-                    }
-                ]
+                data: []
+
             }
         ],
 
     }
     );
+    useEffect(() => {
+        const seriesData = data?.map((item, index) => ({
+            name: item?.name,
+            y: item?.total,
+            color: item?.color
+
+        }))
+        setPieOptions({ ...pieOptions, series: [{ ...pieOptions?.series[0], data: seriesData }] })
+    }, [data])
 
     return (<>
         <div className="graph-box">

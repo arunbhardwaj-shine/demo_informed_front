@@ -34,94 +34,130 @@ const settings = {
 };
 const LivePollsQuestion = ({ questionData, eventId }) => {
     const [question, setQuestion] = useState()
-
     const slickRef = useRef("");
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [questionIdIndex, setQuestionIdIndex] = useState([])
+    const [pieChartData, setPieChartData] = useState()
     let path_image = "../" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-    let answerData = {
-        "message": "Data get successfully",
-        "data": [
-            {
-                "pollQuestionId": 1542,
-                "y": 2,
-                "drilldown": "Question_0",
-                "name": "Quality and interest of the data presented",
-                "drillDownData": [
-                    {
-                        "answerId": 2487,
-                        "color": "#ff5366",
-                        "name": "Excellent",
-                        "total": 1,
-                        "id": "Question_0"
-                    },
-                    {
-                        "answerId": 2488,
-                        "color": "#0053a0",
-                        "name": "Good",
-                        "total": 0,
-                        "id": "Question_0"
-                    },
-                    {
-                        "answerId": 2489,
-                        "color": "#ff8649",
-                        "name": "Satisfactory",
-                        "total": 1,
-                        "id": "Question_0"
-                    },
-                    {
-                        "answerId": 2490,
-                        "color": "#89A550",
-                        "name": "Fair",
-                        "total": 0,
-                        "id": "Question_0"
-                    },
-                    {
-                        "answerId": 2491,
-                        "color": "#4098B7",
-                        "name": "Poor",
-                        "total": 0,
-                        "id": "Question_0"
-                    }
-                ]
-            },
+    let answerData = [
+        {
+            "answerId": 2487,
+            "color": "#ff5366",
+            "name": "Excellent",
+            "total": 1,
+            "id": "Question_0"
+        },
+        {
+            "answerId": 2488,
+            "color": "#0053a0",
+            "name": "Good",
+            "total": 0,
+            "id": "Question_0"
+        },
+        {
+            "answerId": 2489,
+            "color": "#ff8649",
+            "name": "Satisfactory",
+            "total": 1,
+            "id": "Question_0"
+        },
+        {
+            "answerId": 2490,
+            "color": "#89A550",
+            "name": "Fair",
+            "total": 0,
+            "id": "Question_0"
+        },
+        {
+            "answerId": 2491,
+            "color": "#4098B7",
+            "name": "Poor",
+            "total": 0,
+            "id": "Question_0"
+        }
+    ]
 
-
-
-
-
-
-        ],
-        "totalReader": 3,
-        "custom_answer": 0
-    }
-
+    let answerData1 = [
+        {
+            "answerId": 2487,
+            "color": "#ff5366",
+            "name": "Excellent",
+            "total": 5,
+            "id": "Question_0"
+        },
+        {
+            "answerId": 2488,
+            "color": "#0053a0",
+            "name": "Good",
+            "total": 3,
+            "id": "Question_0"
+        },
+        {
+            "answerId": 2489,
+            "color": "#ff8649",
+            "name": "Satisfactory",
+            "total": 1,
+            "id": "Question_0"
+        },
+        {
+            "answerId": 2490,
+            "color": "#89A550",
+            "name": "Fair",
+            "total": 2,
+            "id": "Question_0"
+        },
+        {
+            "answerId": 2491,
+            "color": "#4098B7",
+            "name": "Poor",
+            "total": 6,
+            "id": "Question_0"
+        }
+    ]
 
     useEffect(() => {
         slickRef.current.slickGoTo(0);
-        console.log("question data--->", questionData)
         setQuestion(questionData?.data?.data)
-
-
+        let updateQuestionId = []
+        updateQuestionId?.push(questionData?.data?.data?.[0]?.questionId)
+        setQuestionIdIndex(updateQuestionId)
+        setPieChartData(answerData)
     }, [questionData])
     const handleAfterChange = async (current) => {
         try {
             let questionId = question[current]?.questionId
 
-            console.log("current id-->", questionId)
             setCurrentIndex(Math.abs(current));
-
+            let updateQuestionId = questionIdIndex
+            if (!updateQuestionId?.includes(questionId)) {
+                updateQuestionId?.push(questionId)
+                setQuestionIdIndex(updateQuestionId)
+            }
             const result = await postData(ENDPOINT.POLL_ANSWER, {
                 companyId: questionId,
                 eventId: eventId,
             });
-
-            console.log("result--->", result)
+            if (current == 0) {
+                setPieChartData(answerData)
+            } else {
+                setPieChartData(answerData1)
+            }
 
         } catch (err) {
             console.log("--err", err)
         }
-
     };
+
+    const questionClicked = (e, id) => {
+        console.log("question clicked--->", id)
+    }
+    const answerClicked = (e, id) => {
+        console.log("answer clicked--->", id)
+    }
+
+    const closedClicked = (e, id) => {
+        console.log("closed clicked--->", id)
+    }
     return (<>
         <div className='outer-layout'>
             <div className='question-outer-layout'>
@@ -133,9 +169,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                     >
                         {question?.length ?
                             question?.map((item, index) => {
-                                // <div className='question-boxed'>
-                                //     {question?.length ?
-                                //      question?.map((item, index) => {
+
                                 return (<>
                                     <div className='question-boxed'>
                                         <div className='question-listing'
@@ -154,26 +188,17 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                                 </div>
                                                 <div className='answer-options'>
                                                     Answers
-                                                    <div className='answer'>
-                                                        <div>
-                                                            <span>A.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudol
-                                                        </div>
-                                                        <div><span>B.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment</div>
-                                                        <div><span>C.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcu</div>
-                                                        <div><span>D.</span> masuismod phartra donec faucibus </div>
-                                                    </div>
-                                                    {/* {item?.answerOption?.length ?
-                                                item?.answerOption?.map((answer, i) => {
-                                                    return (<>
-                                                        <div className='answer' key={i}>{answer?.answer}
-                                                            <span>A.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudol
-                                                            <span>B.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment 
-                                                            <span>C.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcu
-                                                            <span>D.</span> masuismod phartra donec faucibus 
-                                                        </div>
-                                                    </>)
-                                                })
-                                                : ""} */}
+
+                                                    {item?.answerOptions?.length ?
+                                                        item?.answerOptions?.map((answer, i) => {
+                                                            return (<>
+                                                                <div className='answer' key={i}>
+                                                                    <div><span>{String.fromCharCode(65 + i)}.</span>{answer?.answer}</div>
+
+                                                                </div>
+                                                            </>)
+                                                        })
+                                                        : ""}
                                                 </div>
                                                 <div className='speaker'>
                                                     Speaker
@@ -194,9 +219,9 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                                 <div className='btn-group'>
                                                     <label>Display:</label>
                                                     <div className='btn-group-add'>
-                                                        <Button className='quest'>Question</Button>
-                                                        <Button className='answer'>Answer</Button>
-                                                        <Button className='close active'>Closed</Button>
+                                                        <Button className='quest' onClick={(e) => questionClicked(e, item?.questionId)}>Question</Button>
+                                                        <Button className='answer' onClick={(e) => answerClicked(e, item?.questionId)}>Answer</Button>
+                                                        <Button className='close active' onClick={(e) => closedClicked(e,item?.questionId)}>Closed</Button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -211,7 +236,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                     <Button
                         className={`btn-bordered question-prev ${currentIndex == 0 ? "disabled" : ""
                             } `}
-                        // disabled={index == 0 ? true : false}
+                        disabled={currentIndex == 0 ? true : false}
                         onClick={() => slickRef.current.slickPrev()}
                     >
                         <svg
@@ -227,37 +252,31 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                         </svg>
                     </Button>
                     <div className="question-listing-link-box">
-                        <div className="question-listing-links">
-                            <div className='question-links-number'>
-                                Q1
-                            </div>
-                            <div className='question-links-screen'>
-                                <img src={path_image + "screen-options.svg"} alt="" />
-                            </div>
-                            <div className='question-links-status'>
-                                <img src={path_image + "status-approved.svg"} alt="" />
-                            </div>
-                        </div>
-                        <div className="question-listing-links">
-                            <div className='question-links-number active'>
-                                Q2
-                            </div>
-                            <div className='question-links-screen'>
-                                <img src={path_image + "screen-options.svg"} alt="" />
-                            </div>
-                            <div className='question-links-status'>
-                                <img src={path_image + "status-approved.svg"} alt="" />
-                            </div>
-                        </div>
+                        {question?.length ?
+                            question?.map((item, index) => (
+                                <div className="question-listing-links">
+                                    <div className='question-links-number'>
+                                        Q{index + 1}
+                                    </div>
+                                    <div className='question-links-screen'>
+                                        <img src={path_image + `${currentIndex == index ? "screen-active.svg" : "screen-options.svg"} `} alt="" />
+                                    </div>
+                                    <div className='question-links-status'>
+                                        {questionIdIndex?.includes(item?.questionId) ? <img src={path_image + "status-approved.svg"} alt="" /> : ""}
+                                    </div>
+                                </div>
+                            )) : ""}
+
+
                     </div>
                     <Button
                         className={`btn-bordered question-next 
                     ${currentIndex == question?.length - 1 ? "disabled" : ""
                             }
                         `}
+                        disabled={currentIndex == question?.length - 1 ? true : false}
                         onClick={() => {
                             slickRef.current.slickNext();
-                            console.log(slickRef.current);
                         }}
                     >
                         <svg
@@ -276,12 +295,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
             </div>
 
             <div className='pie-chart-outer-layout' >
-                <QuestionPollsPieChart />
-
-                {/* <HighchartsReact
-                    highcharts={Highcharts}
-                    options={chartOptions}
-                /> */}
+                <QuestionPollsPieChart data={pieChartData} />
             </div>
         </div>
 

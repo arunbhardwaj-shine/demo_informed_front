@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Tabs, Tab } from 'react-bootstrap'
+import { Col, Tabs, Tab, Button } from 'react-bootstrap'
 import LivePolls from './LivePolls'
 import PollListing from '../../../../Webinar/Survey/PollListing'
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -21,6 +21,7 @@ const PollsLayout = () => {
                             className="flex-column justify-content-between"
                         >
                             <LivePolls location={location} />
+                           
 
                         </Tab>
 
