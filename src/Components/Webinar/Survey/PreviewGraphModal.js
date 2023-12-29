@@ -1,0 +1,117 @@
+import React, { useState, useEffect } from "react";
+import HighchartsReact from "highcharts-react-official";
+import Highcharts from "highcharts";
+
+const PreviewGraphModal = ({ graphType, answerOption }) => {
+  const [chartPieOptions, setPieChartOptions] = useState();
+  const [chartBarOptions, setBarChartOptions] = useState();
+ 
+  useEffect(() => {
+    let percentage = parseInt(100 / answerOption?.length);
+  
+    // Create seriesData for Pie Chart
+    let pieSeriesData = answerOption.map((item, index) => ({
+      name: item?.answer,
+      y: percentage,
+      // color: item?.color,
+      colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
+    }));
+  
+    // Create seriesData for Bar Chart
+    let barSeriesData = answerOption.map((item, index) => ({
+      name: item?.answer,
+      y: percentage,
+      // color: item?.color,
+      colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
+    }));
+  
+    setPieChartOptions({
+      chart: {
+        type: "pie",
+      },
+      tooltip: {
+        valueSuffix: "%",
+      },
+      plotOptions: {
+        series: {
+          allowPointSelect: true,
+          cursor: "pointer",
+          dataLabels: [
+            {
+              enabled: true,
+              distance: 20,
+            },
+            {
+              enabled: true,
+              distance: -40,
+              format: "{point.percentage:.1f}%",
+              style: {
+                fontSize: "1.2em",
+                textOutline: "none",
+                opacity: 0.7,
+              },
+            },
+          ],
+        },
+      },
+      series: [
+        {
+          name: "Percentage",
+          colorByPoint: true,
+          data: pieSeriesData,
+        },
+      ],
+    });
+  
+    setBarChartOptions({
+      chart: {
+        type: "bar",
+      },
+      tooltip: {
+        valueSuffix: "%",
+      },
+      plotOptions: {
+        series: {
+          allowPointSelect: true,
+          cursor: "pointer",
+          dataLabels: [
+            {
+              enabled: true,
+              distance: 20,
+            },
+            {
+              enabled: true,
+              distance: -40,
+              format: "{point.percentage:.1f}%",
+              style: {
+                fontSize: "1.2em",
+                textOutline: "none",
+                opacity: 0.7,
+              },
+            },
+          ],
+        },
+      },
+      series: [
+        {
+          name: "Percentage",
+          colorByPoint: true,
+          data: barSeriesData,
+        },
+      ],
+    });
+  }, [answerOption]);
+  
+  return (
+    <>
+      <div className="pie-chart-outer-layout">
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={graphType === "pie" ? chartPieOptions : chartBarOptions}
+        />
+      </div>
+    </>
+  );
+};
+
+export default PreviewGraphModal;

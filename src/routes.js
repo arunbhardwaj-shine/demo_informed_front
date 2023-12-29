@@ -569,23 +569,23 @@ const Routing = () => {
           element={<LoginLayout component={EventCreate} />}
         />
         <Route
-          path="/event-listing"
+          path="/webinar/event-listing"
           element={<LoginLayout component={NewEventCreate} />}
         />
         <Route
-          path="/invitees"
+          path="/webinar/invitees"
           element={<LoginLayout component={Invitees} />}
         />
         <Route
-          path="/contact-dm"
+          path="/webinar/contact-dm"
           element={<LoginLayout component={ContactDM} />}
         />
         <Route
-          path="/live-stream"
+          path="/webinar/live-stream"
           element={<LoginLayout component={LiveStream} />}
         />
         <Route
-          path="/polls-layout"
+          path="/webinar/polls-layout"
           element={<LoginLayout component={PollsLayout} />}
         />
         <Route
