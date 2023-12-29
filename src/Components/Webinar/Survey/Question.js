@@ -6,7 +6,9 @@ import PreviewGraphModal from "./PreviewGraphModal";
 // import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
-let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+// let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 let dropdownData = {
   INPUT: "User Input",
@@ -253,14 +255,14 @@ function Question(props) {
                                     </svg>
                                   </Button>
                                 )}
-                              <div className="color-pick">
+                              <div className="color-pick" >
                                 <img
                                   src={path_image + "color-picker.svg"}
                                   alt=""
                                 />
                                 <input
                                   type="color"
-                                  title="Choose your color"
+                                  title="This is the answer's color in the graph result"
                                   onChange={(e) =>
                                     onChoiceColorChange(e, index)
                                   }
