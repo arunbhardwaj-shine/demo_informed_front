@@ -9,7 +9,6 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
   useEffect(() => {
     let percentage = parseInt(100 / answerOption?.length);
   
-    // Create seriesData for Pie Chart
     let pieSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
       y: percentage,
@@ -17,7 +16,6 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
   
-    // Create seriesData for Bar Chart
     let barSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
       y: percentage,
@@ -27,8 +25,9 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
   
     setPieChartOptions({
       chart: {
-        type: "pie",
+        type: "pie", 
       },
+      title: null,
       tooltip: {
         valueSuffix: "%",
       },
@@ -67,6 +66,7 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       chart: {
         type: "bar",
       },
+      title: null,
       tooltip: {
         valueSuffix: "%",
       },
