@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Modal } from "react-bootstrap";
 import Select from "react-select";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+import PreviewGraphModal from "./PreviewGraphModal";
 // import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
@@ -9,14 +10,14 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 let dropdownData = {
   INPUT: "User Input",
-  RADIO: "Single Choice",
-  CHECKBOX: "Multiple Choice",
+  RADIO: "Multiple Choices(One Answer)",
+  CHECKBOX: "Multiple Choices(Multiple Answer)",
 };
 function Question(props) {
   const [dropDownOptions, setDropDownOptions] = useState([
     { label: "User Input", value: "INPUT" },
-    { label: "Single Choice", value: "RADIO" },
-    { label: "Multiple Choice", value: "CHECKBOX" },
+    { label: "Multiple Choices(One Answer)", value: "RADIO" },
+    { label: "Multiple Choices(Multiple Answer)", value: "CHECKBOX" },
   ]);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
@@ -48,9 +49,9 @@ function Question(props) {
     lastQuestionIndex,
   } = props;
   const checkBoxOptions = [
-    { id: "YesNo", label: "Yes OR No" },
-    { id: "RADIO", label: "Single Choice" },
-    { id: "MULTIPLE", label: "Multiple choices" },
+    // { id: "YesNo", label: "Yes OR No" },
+    { id: "RADIO", label: "Multiple Choices(One Answer)" },
+    { id: "MULTIPLE", label: "Multiple Choices(Multiple Answer)" },
     { id: "INPUT", label: "Free Text" },
   ];
   const {
@@ -61,10 +62,14 @@ function Question(props) {
     isRequired,
     graphType,
   } = questionData;
+
+  const [questionDataSample,setquestionDataSample]=useState(questionData)
+  // console.log(questionData,'===>question')
   const [selectedItem, setSelectedItem] = useState(
     answerType ? { value: answerType, label: dropdownData[answerType] } : ""
   );
   const [confirmOptionDelete, setConfirmOptionDelete] = useState({});
+  const [isPrevClicked, setIsPrevClicked] = useState(false);
   const handleDelete = () => {
     onDelete();
   };
@@ -106,6 +111,13 @@ function Question(props) {
   //     },
   //   ],
   // };
+  const handlePreview = (e, index) => {
+    setIsPrevClicked(true);
+  }
+
+  const handleClose = () => {
+    setIsPrevClicked(false);
+  };
   return (
     <>
     
@@ -144,9 +156,38 @@ function Question(props) {
                   />
                 ))}
 
+
+                {(answerType === "INPUT") && (
+                  <div className="answer-option">
+                    
+                      {answerOption.map((choice, index) => (
+                        <>
+                        <div className="options" key={index}>
+                          <Form.Group as={Row} className="mb-3">
+                            <Form.Label>Free Text</Form.Label>
+                            <Form.Control
+                              type="text"
+                              value={choice.answer}
+                              onChange={(e) => onChoiceChange(e, index)}
+                              disabled
+                            />
+                          </Form.Group>
+                          </div>
+                           <div className="login-validation">
+                          {
+                            questionDataErrors?.answerOptionError[index]
+                              ?.answerError
+                          }
+                        </div>
+                        </>
+                      ))}
+                  </div>
+                )}
+
                 {(answerType === "RADIO" ||
-                  answerType === "MULTIPLE" ||
-                  answerType === "YesNo") && (
+                  answerType === "MULTIPLE"
+                  // answerType === "YesNo"
+                  ) && (
                   <div className="answer-option">
                     
                       {answerOption.map((choice, index) => (
@@ -162,7 +203,8 @@ function Question(props) {
                             
                             <div className="option-action">
                               {answerOption?.length > 1 &&
-                                answerType != "YesNo" && (
+                                // answerType != "YesNo" &&
+                                 (
                                   <Button
                                     className="dl_btn"
                                     onClick={() => {
@@ -237,12 +279,12 @@ function Question(props) {
                         </>
                       ))}
                   
-                    {answerType != "YesNo" && (
+                    {/* {answerType != "YesNo" && ( */}
                       <Button className="add-choice" onClick={onAddChoice}>
                         Add Choice{" "}
                         <img src={path_image + "add-choice.svg"} alt="" />
                       </Button>
-                    )}
+                    {/* )} */}
                   </div>
                 )}
               </Form.Group>
@@ -282,6 +324,7 @@ function Question(props) {
                         <a className="btn"></a>
                       </label>
                     </div>
+                    <Button  onClick={handlePreview}>Preview</Button>
                   </Form.Group>
                 </div>
               </div>
@@ -290,6 +333,40 @@ function Question(props) {
         </div>
         
         {/* </Slider> */}
+
+        {isPrevClicked && (
+        <Modal
+          show={isPrevClicked}
+          onHide={handleClose}
+          id="preview-poll"
+          className="event_edit"
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Preview{' '}
+              </h5>
+              <button
+                type="button"
+                onClick={handleClose}
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <>
+              <div className="webinar-popup polls-preview">
+                <PreviewGraphModal  onClose={handleClose} graphType={graphType} answerOption={answerOption}/>
+              </div>
+            </>
+          </Modal.Body>
+        </Modal>
+      )}
       
       <CommonConfirmModel
         show={confirmationpopup}
