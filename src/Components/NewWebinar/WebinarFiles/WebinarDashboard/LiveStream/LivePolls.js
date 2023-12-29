@@ -13,19 +13,16 @@ const LivePolls = ({ location }) => {
     const [data, setData] = useState()
 
     useEffect(() => {
-        console.log("in Live Polls event id-->", eventId)
         getEventQuestion()
     }, [])
 
     const getEventQuestion = async () => {
-        console.log("get question-->", eventId)
         try {
             loader("show")
             const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
                 companyId: eventId?.companyId,
                 eventId: eventId?.id,
             });
-            console.log("result---->", result)
             setData(result)
         } catch (err) {
             console.log("--err", err)
