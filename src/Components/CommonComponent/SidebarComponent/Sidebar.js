@@ -205,6 +205,9 @@ const Sidebar = () => {
     };
   }, [location?.pathname]);
 
+  const isActive = location.pathname === '/webinar/live-stream' 
+  const isActivePolls =  location.pathname === '/webinar/polls-layout'
+  const isActiveContact = location.pathname === '/webinar/contact-dm'
 
   return (
     <>
@@ -241,7 +244,7 @@ const Sidebar = () => {
             window.location.pathname === "/webinar/email" ||
             window.location.pathname === "/webinar/live-stream" ||
             window.location.pathname == "/webinar/polls-layout" ||
-            window.location.pathname === "/webinar/analytics") && (
+            window.location.pathname === "/webinar/analytics" || window.location.pathname === "/webinar/contact-dm") && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
               </button>
@@ -1067,7 +1070,9 @@ const Sidebar = () => {
           window.location.pathname == "/webinar/invitees" ||
               window.location.pathname == "/webinar-registration" ||
               window.location.pathname == "/webinar/email" ||
-              window.location.pathname == "/webinar/live-stream" ||
+              window.location.pathname == "/webinar/live-stream" || 
+               window.location.pathname == "/webinar/polls-layout" ||  
+               window.location.pathname == "/webinar/contact-dm" ||
               window.location.pathname == "/webinar/analytics" ?
            (
             <ul>
@@ -1116,9 +1121,10 @@ const Sidebar = () => {
                     <p>Email</p>
                   </Link>
                 </li>
+
                 <li
                   className={
-                    location.pathname == "/webinar/live-stream"
+                    location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/polls-layout" ||  window.location.pathname == "/webinar/contact-dm"
                       ? "active sub-links"
                       : "side_li sub-links"
                   }
@@ -1144,8 +1150,18 @@ const Sidebar = () => {
                   </Link>
                   <div className="left-sidebar-secondary">
                     <div className="sidebar-menu-secondary">
+                    <div className="sidebar_txt">
+                      <button className="toggle_btn" onClick={() => {
+                        eventList();
+                      }}>
+                        <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
+                      </button>
+                      <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span>
+                    </div>
                       <ul>
-                        <li className="side_li">
+                        <li className={isActive ? 'active' : 'side_li'}
+                        // className="side_li"
+                        >
                           <a href="/webinar/live-stream">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <g clip-path="url(#clip0_3798_1070)">
@@ -1180,8 +1196,10 @@ const Sidebar = () => {
                             <p>Speaker Zone</p>
                           </a>
                         </li>
-                        <li className="side_li">
-                          <a href="/webinar/live-stream">
+                        <li className={isActivePolls ? 'active' : 'side_li'}
+                        // className="side_li"
+                        >
+                          <a href="/webinar/polls-layout">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                               <g clip-path="url(#clip0_3761_88)">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499864 0L1 3.9837e-06H1.50015C1.7763 3.9837e-06 2 0.223861 2 0.500003V0.999988H16.3937C16.7272 0.999988 17 1.24225 17 1.53835V4.46163C17 4.76311 16.7272 4.99999 16.3937 4.99999H2V9.99999H14.3207C14.7011 9.99999 15 10.2369 15 10.5383V13.4616C15 13.7577 14.7011 14 14.3207 14H2V19H11.273C11.6728 19 12 19.2419 12 19.5376V22.4624C12 22.7581 11.6728 23 11.273 23H2V23.5C2 23.7761 1.7763 24 1.50015 24H1H0.499847C0.223704 24 0 23.7761 0 23.5V0.500006C0 0.223857 0.223715 -4.27361e-06 0.499864 0Z" fill="#0066BE" fill-opacity="0.6"/>
@@ -1198,8 +1216,10 @@ const Sidebar = () => {
                             <p>Polls</p>
                           </a>
                         </li>
-                        <li className="side_li">
-                          <a href="/webinar/live-stream">
+                        <li className={isActiveContact ? 'active' : 'side_li'}
+                        // className="side_li"
+                        > 
+                          <a href="/webinar/contact-dm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                               <g clip-path="url(#clip0_3761_84)">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 11C8.53757 11 11 8.53757 11 5.5C11 2.46243 8.53757 0 5.5 0C2.46243 0 0 2.46243 0 5.5C0 8.53757 2.46243 11 5.5 11ZM6.80506 3.72185C6.80506 4.39667 6.25803 4.9438 5.5831 4.9438C4.90828 4.9438 4.36094 4.39677 4.36094 3.72195C4.36094 3.04713 4.90828 2.5 5.5831 2.5C6.25792 2.5 6.80506 3.04703 6.80506 3.72185ZM5.06456 5.02709H6.10143C6.96414 5.02709 7.666 5.72905 7.66568 6.59175V7.85998H7.65695L7.57533 7.90126C7.53426 7.92216 6.86775 8.25 5.71786 8.25C5.12913 8.25 4.41387 8.16422 3.59057 7.90698L3.50322 7.87963L3.5 7.85977V6.59175C3.5 5.72905 4.20185 5.02709 5.06456 5.02709Z" fill="#0066BE" fill-opacity="0.6"/>
@@ -1230,6 +1250,7 @@ const Sidebar = () => {
                     </div>
                   </div>
                 </li>
+
                 <li
                   className={
                     location.pathname == "/webinar/analytics"
@@ -1306,9 +1327,10 @@ const Sidebar = () => {
                       <p>Email</p>
                     </Link>
                   </li>
-                  <li
+
+                  {/* <li
                     className={
-                      location.pathname == "/webinar/live-stream"
+                      location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/polls-layout"
                         ? "active sub-links"
                         : "side_li sub-links"
                     }
@@ -1370,8 +1392,10 @@ const Sidebar = () => {
                               <p>Speaker Zone</p>
                             </a>
                           </li>
-                          <li className="side_li">
-                            <a href="/webinar/live-stream">
+                          <li  className={isActivePolls ? 'active' : 'side_li'}
+                          // className="side_li"
+                          >
+                            <a href="/webinar/polls-layout">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <g clip-path="url(#clip0_3761_88)">
                                   <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499864 0L1 3.9837e-06H1.50015C1.7763 3.9837e-06 2 0.223861 2 0.500003V0.999988H16.3937C16.7272 0.999988 17 1.24225 17 1.53835V4.46163C17 4.76311 16.7272 4.99999 16.3937 4.99999H2V9.99999H14.3207C14.7011 9.99999 15 10.2369 15 10.5383V13.4616C15 13.7577 14.7011 14 14.3207 14H2V19H11.273C11.6728 19 12 19.2419 12 19.5376V22.4624C12 22.7581 11.6728 23 11.273 23H2V23.5C2 23.7761 1.7763 24 1.50015 24H1H0.499847C0.223704 24 0 23.7761 0 23.5V0.500006C0 0.223857 0.223715 -4.27361e-06 0.499864 0Z" fill="#0066BE" fill-opacity="0.6" />
@@ -1388,8 +1412,10 @@ const Sidebar = () => {
                               <p>Polls</p>
                             </a>
                           </li>
-                          <li className="side_li">
-                            <a href="/webinar/live-stream">
+                          <li className={isActiveContact ? 'active' : 'side_li'}
+                          // className="side_li"
+                          >
+                            <a href="/webinar/contact-dm">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <g clip-path="url(#clip0_3761_84)">
                                   <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 11C8.53757 11 11 8.53757 11 5.5C11 2.46243 8.53757 0 5.5 0C2.46243 0 0 2.46243 0 5.5C0 8.53757 2.46243 11 5.5 11ZM6.80506 3.72185C6.80506 4.39667 6.25803 4.9438 5.5831 4.9438C4.90828 4.9438 4.36094 4.39677 4.36094 3.72195C4.36094 3.04713 4.90828 2.5 5.5831 2.5C6.25792 2.5 6.80506 3.04703 6.80506 3.72185ZM5.06456 5.02709H6.10143C6.96414 5.02709 7.666 5.72905 7.66568 6.59175V7.85998H7.65695L7.57533 7.90126C7.53426 7.92216 6.86775 8.25 5.71786 8.25C5.12913 8.25 4.41387 8.16422 3.59057 7.90698L3.50322 7.87963L3.5 7.85977V6.59175C3.5 5.72905 4.20185 5.02709 5.06456 5.02709Z" fill="#0066BE" fill-opacity="0.6" />
@@ -1419,7 +1445,8 @@ const Sidebar = () => {
                         </ul>
                       </div>
                     </div>
-                  </li>
+                  </li>  */}
+
                   <li
                     className={
                       location.pathname == "/analytics"
@@ -1496,9 +1523,10 @@ const Sidebar = () => {
                         <p>Email</p>
                       </Link>
                     </li>
-                    <li
+
+                 {/* <li
                       className={
-                        location.pathname == "/webinar/live-stream"
+                        location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/polls-layout"
                           ? "active sub-links"
                           : "side_li sub-links"
                       }
@@ -1534,8 +1562,10 @@ const Sidebar = () => {
                                 <p>Speaker Zone</p>
                               </a>
                             </li>
-                            <li className="side_li">
-                              <a href="/webinar/live-stream">
+                            <li className={isActivePolls ? 'active' : 'side_li'}
+                            // className="side_li"
+                            >
+                              <a href="/webinar/polls-layout">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                   <g clip-path="url(#clip0_3761_88)">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499864 0L1 3.9837e-06H1.50015C1.7763 3.9837e-06 2 0.223861 2 0.500003V0.999988H16.3937C16.7272 0.999988 17 1.24225 17 1.53835V4.46163C17 4.76311 16.7272 4.99999 16.3937 4.99999H2V9.99999H14.3207C14.7011 9.99999 15 10.2369 15 10.5383V13.4616C15 13.7577 14.7011 14 14.3207 14H2V19H11.273C11.6728 19 12 19.2419 12 19.5376V22.4624C12 22.7581 11.6728 23 11.273 23H2V23.5C2 23.7761 1.7763 24 1.50015 24H1H0.499847C0.223704 24 0 23.7761 0 23.5V0.500006C0 0.223857 0.223715 -4.27361e-06 0.499864 0Z" fill="#0066BE" fill-opacity="0.6" />
@@ -1552,8 +1582,10 @@ const Sidebar = () => {
                                 <p>Polls</p>
                               </a>
                             </li>
-                            <li className="side_li">
-                              <a href="/webinar/live-stream">
+                            <li className={isActiveContact ? 'active' : 'side_li'}
+                            // className="side_li"
+                            >
+                              <a href="/webinar/contact-dm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                   <g clip-path="url(#clip0_3761_84)">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 11C8.53757 11 11 8.53757 11 5.5C11 2.46243 8.53757 0 5.5 0C2.46243 0 0 2.46243 0 5.5C0 8.53757 2.46243 11 5.5 11ZM6.80506 3.72185C6.80506 4.39667 6.25803 4.9438 5.5831 4.9438C4.90828 4.9438 4.36094 4.39677 4.36094 3.72195C4.36094 3.04713 4.90828 2.5 5.5831 2.5C6.25792 2.5 6.80506 3.04703 6.80506 3.72185ZM5.06456 5.02709H6.10143C6.96414 5.02709 7.666 5.72905 7.66568 6.59175V7.85998H7.65695L7.57533 7.90126C7.53426 7.92216 6.86775 8.25 5.71786 8.25C5.12913 8.25 4.41387 8.16422 3.59057 7.90698L3.50322 7.87963L3.5 7.85977V6.59175C3.5 5.72905 4.20185 5.02709 5.06456 5.02709Z" fill="#0066BE" fill-opacity="0.6" />
@@ -1583,9 +1615,9 @@ const Sidebar = () => {
                           </ul>
                         </div>
                       </div>
-                    </li>
+                    </li> 
 
-                    <li
+                     <li
                       className={
                         location.pathname == "/webinar/polls-layout"
                           ? "active sub-links"
@@ -1623,7 +1655,9 @@ const Sidebar = () => {
                                 <p>Speaker Zone</p>
                               </a>
                             </li>
-                            <li className="side_li">
+                            <li className={isActivePolls ? 'active' : 'side_li'}
+                            // className="side_li"
+                            >
                               <a href="/webinar/polls-layout">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                   <g clip-path="url(#clip0_3761_88)">
@@ -1641,8 +1675,10 @@ const Sidebar = () => {
                                 <p>Polls</p>
                               </a>
                             </li>
-                            <li className="side_li">
-                              <a href="/webinar/polls-layout">
+                            <li className={isActiveContact ? 'active' : 'side_li'}
+                            // className="side_li"
+                            >
+                              <a href="/webinar/contact-dm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                   <g clip-path="url(#clip0_3761_84)">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 11C8.53757 11 11 8.53757 11 5.5C11 2.46243 8.53757 0 5.5 0C2.46243 0 0 2.46243 0 5.5C0 8.53757 2.46243 11 5.5 11ZM6.80506 3.72185C6.80506 4.39667 6.25803 4.9438 5.5831 4.9438C4.90828 4.9438 4.36094 4.39677 4.36094 3.72195C4.36094 3.04713 4.90828 2.5 5.5831 2.5C6.25792 2.5 6.80506 3.04703 6.80506 3.72185ZM5.06456 5.02709H6.10143C6.96414 5.02709 7.666 5.72905 7.66568 6.59175V7.85998H7.65695L7.57533 7.90126C7.53426 7.92216 6.86775 8.25 5.71786 8.25C5.12913 8.25 4.41387 8.16422 3.59057 7.90698L3.50322 7.87963L3.5 7.85977V6.59175C3.5 5.72905 4.20185 5.02709 5.06456 5.02709Z" fill="#0066BE" fill-opacity="0.6" />
@@ -1672,7 +1708,8 @@ const Sidebar = () => {
                           </ul>
                         </div>
                       </div>
-                    </li>
+                    </li>  */}
+
                     <li
                       className={
                         location.pathname == "/analytics"

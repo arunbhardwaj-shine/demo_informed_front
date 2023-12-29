@@ -9450,9 +9450,9 @@ html {
 .preview-answers .answer-section.active .answer-section-heading p {
   margin-top: 16px;
 }
-.polls-preview svg path {
+/* .polls-preview svg path {
   fill: #97B6CF;
-}
+} */
 .polls-preview .question-action {
   gap: 16px;
   display: flex;
