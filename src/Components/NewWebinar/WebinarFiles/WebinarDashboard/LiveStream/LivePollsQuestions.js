@@ -36,6 +36,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
     const [question, setQuestion] = useState()
     const slickRef = useRef("");
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [questionIdIndex, setQuestionIdIndex] = useState([])
     const [pieChartData, setPieChartData] = useState()
     let path_image = "../" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     let answerData = [
@@ -116,14 +117,22 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
 
     useEffect(() => {
         slickRef.current.slickGoTo(0);
-
         setQuestion(questionData?.data?.data)
+        let updateQuestionId = []
+        updateQuestionId?.push(questionData?.data?.data?.[0]?.questionId)
+        setQuestionIdIndex(updateQuestionId)
         setPieChartData(answerData)
     }, [questionData])
     const handleAfterChange = async (current) => {
         try {
             let questionId = question[current]?.questionId
+
             setCurrentIndex(Math.abs(current));
+            let updateQuestionId = questionIdIndex
+            if (!updateQuestionId?.includes(questionId)) {
+                updateQuestionId?.push(questionId)
+                setQuestionIdIndex(updateQuestionId)
+            }
             const result = await postData(ENDPOINT.POLL_ANSWER, {
                 companyId: questionId,
                 eventId: eventId,
@@ -242,18 +251,22 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                         </svg>
                     </Button>
                     <div className="question-listing-link-box">
-                        <div className="question-listing-links">
-                            <div className='question-links-number'>
-                                Q1
-                            </div>
-                            <div className='question-links-screen'>
-                                <img src={path_image + "screen-options.svg"} alt="" />
-                            </div>
-                            <div className='question-links-status'>
-                                <img src={path_image + "status-approved.svg"} alt="" />
-                            </div>
-                        </div>
-                        <div className="question-listing-links">
+                        {question?.length ?
+                            question?.map((item, index) => (
+                                <div className="question-listing-links">
+                                    <div className='question-links-number'>
+                                        Q{index + 1}
+                                    </div>
+                                    <div className='question-links-screen'>
+                                        <img src={path_image + `${currentIndex == index ? "screen-active.svg" : "screen-options.svg"} `} alt="" />
+                                    </div>
+                                    <div className='question-links-status'>
+                                        {questionIdIndex?.includes(item?.questionId) ? <img src={path_image + "status-approved.svg"} alt="" /> : ""}
+                                    </div>
+                                </div>
+                            )) : ""}
+
+                        {/* <div className="question-listing-links">
                             <div className='question-links-number active'>
                                 Q2
                             </div>
@@ -263,7 +276,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                             <div className='question-links-status'>
                                 <img src={path_image + "status-approved.svg"} alt="" />
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <Button
                         className={`btn-bordered question-next 
