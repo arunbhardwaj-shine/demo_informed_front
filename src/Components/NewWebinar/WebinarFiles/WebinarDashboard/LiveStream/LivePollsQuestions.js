@@ -146,8 +146,18 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
         } catch (err) {
             console.log("--err", err)
         }
-
     };
+
+    const questionClicked = (e, id) => {
+        console.log("question clicked--->", id)
+    }
+    const answerClicked = (e, id) => {
+        console.log("answer clicked--->", id)
+    }
+
+    const closedClicked = (e, id) => {
+        console.log("closed clicked--->", id)
+    }
     return (<>
         <div className='outer-layout'>
             <div className='question-outer-layout'>
@@ -159,9 +169,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                     >
                         {question?.length ?
                             question?.map((item, index) => {
-                                // <div className='question-boxed'>
-                                //     {question?.length ?
-                                //      question?.map((item, index) => {
+
                                 return (<>
                                     <div className='question-boxed'>
                                         <div className='question-listing'
@@ -180,14 +188,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                                 </div>
                                                 <div className='answer-options'>
                                                     Answers
-                                                    {/* <div className='answer'>
-                                                        <div>
-                                                            <span>A.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudol
-                                                        </div>
-                                                        <div><span>B.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment</div>
-                                                        <div><span>C.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcu</div>
-                                                        <div><span>D.</span> masuismod phartra donec faucibus </div>
-                                                    </div> */}
+
                                                     {item?.answerOptions?.length ?
                                                         item?.answerOptions?.map((answer, i) => {
                                                             return (<>
@@ -218,9 +219,9 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                                 <div className='btn-group'>
                                                     <label>Display:</label>
                                                     <div className='btn-group-add'>
-                                                        <Button className='quest'>Question</Button>
-                                                        <Button className='answer'>Answer</Button>
-                                                        <Button className='close active'>Closed</Button>
+                                                        <Button className='quest' onClick={(e) => questionClicked(e, item?.questionId)}>Question</Button>
+                                                        <Button className='answer' onClick={(e) => answerClicked(e, item?.questionId)}>Answer</Button>
+                                                        <Button className='close active' onClick={(e) => closedClicked(e,item?.questionId)}>Closed</Button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,17 +267,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                 </div>
                             )) : ""}
 
-                        {/* <div className="question-listing-links">
-                            <div className='question-links-number active'>
-                                Q2
-                            </div>
-                            <div className='question-links-screen'>
-                                <img src={path_image + "screen-options.svg"} alt="" />
-                            </div>
-                            <div className='question-links-status'>
-                                <img src={path_image + "status-approved.svg"} alt="" />
-                            </div>
-                        </div> */}
+
                     </div>
                     <Button
                         className={`btn-bordered question-next 
