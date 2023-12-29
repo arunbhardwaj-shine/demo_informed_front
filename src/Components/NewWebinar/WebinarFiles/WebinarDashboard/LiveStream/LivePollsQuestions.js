@@ -171,26 +171,24 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                                 </div>
                                                 <div className='answer-options'>
                                                     Answers
-                                                    <div className='answer'>
+                                                    {/* <div className='answer'>
                                                         <div>
                                                             <span>A.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudol
                                                         </div>
                                                         <div><span>B.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment</div>
                                                         <div><span>C.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcu</div>
                                                         <div><span>D.</span> masuismod phartra donec faucibus </div>
-                                                    </div>
-                                                    {/* {item?.answerOption?.length ?
-                                                item?.answerOption?.map((answer, i) => {
-                                                    return (<>
-                                                        <div className='answer' key={i}>{answer?.answer}
-                                                            <span>A.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudol
-                                                            <span>B.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment 
-                                                            <span>C.</span> masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcu
-                                                            <span>D.</span> masuismod phartra donec faucibus 
-                                                        </div>
-                                                    </>)
-                                                })
-                                                : ""} */}
+                                                    </div> */}
+                                                    {item?.answerOptions?.length ?
+                                                        item?.answerOptions?.map((answer, i) => {
+                                                            return (<>
+                                                                <div className='answer' key={i}>
+                                                                    <div><span>{String.fromCharCode(65 + i)}.</span>{answer?.answer}</div>
+
+                                                                </div>
+                                                            </>)
+                                                        })
+                                                        : ""}
                                                 </div>
                                                 <div className='speaker'>
                                                     Speaker
