@@ -189,8 +189,8 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                                 <div className='answer-options'>
                                                     Answers
 
-                                                    {item?.answerOptions?.length ?
-                                                        item?.answerOptions?.map((answer, i) => {
+                                                    {item?.answerOption?.length ?
+                                                        item?.answerOption?.map((answer, i) => {
                                                             return (<>
                                                                 <div className='answer' key={i}>
                                                                     <div><span>{String.fromCharCode(65 + i)}.</span>{answer?.answer}</div>
@@ -221,7 +221,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                                     <div className='btn-group-add'>
                                                         <Button className='quest' onClick={(e) => questionClicked(e, item?.questionId)}>Question</Button>
                                                         <Button className='answer' onClick={(e) => answerClicked(e, item?.questionId)}>Answer</Button>
-                                                        <Button className='close active' onClick={(e) => closedClicked(e,item?.questionId)}>Closed</Button>
+                                                        <Button className='close active' onClick={(e) => closedClicked(e, item?.questionId)}>Closed</Button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,7 +295,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
             </div>
 
             <div className='pie-chart-outer-layout' >
-                <QuestionPollsPieChart data={pieChartData} />
+                <QuestionPollsPieChart data={pieChartData} graphType={"bar"} />
             </div>
         </div>
 
