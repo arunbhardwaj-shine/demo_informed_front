@@ -12,8 +12,8 @@ const settings = {
     slidesToScroll: 1,
     dots: false,
     arrows: false,
-    centerMode: false,
-    // centerPadding: "5%",
+    centerMode: true,
+    centerPadding: "0px",
     speed: 1500,
     vertical: true,
     verticalScrolling: true,
@@ -36,7 +36,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
     const [chartOptions, setChartOptions] = useState();
     const slickRef = useRef("");
     const [currentIndex, setCurrentIndex] = useState(0);
-
+    let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     let answerData = {
         "message": "Data get successfully",
         "data": [
@@ -96,7 +96,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
 
 
     useEffect(() => {
-        // slickRef.current.slickGoTo(0);
+        slickRef.current.slickGoTo(0);
         console.log("question data--->", questionData)
         setQuestion(questionData?.data?.data)
 
@@ -191,17 +191,18 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
         <div className='outer-layout'>
             <div className='question-outer-layout'>
                 <div className='question-outer-inset'>
-                {/* <Slider
+                <Slider
                     {...settings}
                     ref={slickRef}
                     afterChange={(e) => handleAfterChange(e)}
                 >
                     {question?.length ?
-                        question?.map((item, index) => { */}
-                        <div className=''>
-                            {question?.length ?
-                             question?.map((item, index) => {
+                        question?.map((item, index) => {
+                        // <div className='question-boxed'>
+                        //     {question?.length ?
+                        //      question?.map((item, index) => {
                             return (<>
+                            <div className='question-boxed'>
                                 <div className='question-listing' 
                                 key={index} 
                                 >
@@ -265,21 +266,18 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                         </div>
                                     </div>
                                 </div>
-
+                            </div>                            
                             </>)
-                        {/* })
+                         })
                         : ""}
-                </Slider> */}
-                })
-                : ""}
+                </Slider>
                 </div>
-            </div>
             <div className="question-action">
                 <Button
                     className={`btn-bordered question-prev ${currentIndex == 0 ? "disabled" : ""
                         } `}
                     // disabled={index == 0 ? true : false}
-                    // onClick={() => slickRef.current.slickPrev()}
+                    onClick={() => slickRef.current.slickPrev()}
                 >
                     <svg
                         width="19"
@@ -293,14 +291,38 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                         />
                     </svg>
                 </Button>
+                <div className="question-listing-link-box">
+                <div className="question-listing-links">
+                    <div className='question-links-number'>
+                        Q1
+                    </div>
+                    <div className='question-links-screen'>
+                        <img src={path_image + "screen-options.svg"} alt=""/>
+                    </div>
+                    <div className='question-links-status'>
+                        <img src={path_image + "status-approved.svg"} alt=""/>
+                    </div>
+                </div>
+                <div className="question-listing-links">
+                    <div className='question-links-number active'>
+                        Q2
+                    </div>
+                    <div className='question-links-screen'>
+                        <img src={path_image + "screen-options.svg"} alt=""/>
+                    </div>
+                    <div className='question-links-status'>
+                        <img src={path_image + "status-approved.svg"} alt=""/>
+                    </div>
+                </div>
+                </div>
                 <Button
                     className={`btn-bordered question-next 
                     ${currentIndex == question?.length - 1 ? "disabled" : ""
                         }
                         `}
                     onClick={() => {
-                        // slickRef.current.slickNext();
-                        // console.log(slickRef.current);
+                            slickRef.current.slickNext();
+                        console.log(slickRef.current);
                     }}
                 >
                     <svg
@@ -317,6 +339,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                 </Button>
             </div>
             </div>
+            
             <div className='pie-chart-outer-layout' >
 
                 <HighchartsReact
@@ -324,7 +347,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                     options={chartOptions}
                 />
             </div>
-        </div>
+        </div> 
 
     </>)
 
