@@ -41,30 +41,30 @@ const QuestionPollsPieChart = () => {
             {
                 name: 'Questions',
                 colorByPoint: true,
-                // data: [
-                //     {
-                //         name: 'Water',
-                //         y: 55.02
-                //     },
-                //     {
-                //         name: 'Fat',
-                //         sliced: true,
-                //         selected: true,
-                //         y: 26.71
-                //     },
-                //     {
-                //         name: 'Carbohydrates',
-                //         y: 1.09
-                //     },
-                //     {
-                //         name: 'Protein',
-                //         y: 15.5
-                //     },
-                //     {
-                //         name: 'Ash',
-                //         y: 1.68
-                //     }
-                // ]
+                data: [
+                    {
+                        name: 'Water',
+                        y: 55.02
+                    },
+                    {
+                        name: 'Fat',
+                        sliced: true,
+                        selected: true,
+                        y: 26.71
+                    },
+                    {
+                        name: 'Carbohydrates',
+                        y: 1.09
+                    },
+                    {
+                        name: 'Protein',
+                        y: 15.5
+                    },
+                    {
+                        name: 'Ash',
+                        y: 1.68
+                    }
+                ]
             }
         ],
 
