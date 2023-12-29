@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-const QuestionPollsPieChart = ({ data }) => {
-    const [pieOptions, setPieOptions] = useState({
+const QuestionPollsPieChart = ({ data, graphType }) => {
+    const [pieChartOptions, setPieChartOptions] = useState({
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -50,10 +50,10 @@ const QuestionPollsPieChart = ({ data }) => {
                     },
                 ],
             },
-            pie:{
+            pie: {
                 showInLegend: true
             }
-           
+
         },
         series: [
 
@@ -67,6 +67,48 @@ const QuestionPollsPieChart = ({ data }) => {
 
     }
     );
+
+
+    const [barChartOptions, setBarChartOptions] = useState({
+        chart: {
+            type: "bar",
+        },
+        title: null,
+        tooltip: {
+            valueSuffix: "%",
+        },
+        plotOptions: {
+            series: {
+                allowPointSelect: true,
+                cursor: "pointer",
+                dataLabels: [
+                    {
+                        enabled: true,
+                        distance: 20,
+                    },
+                    {
+                        enabled: true,
+                        distance: -40,
+                        format: "{point.percentage:.1f}%",
+                        style: {
+                            fontSize: "1.2em",
+                            textOutline: "none",
+                            opacity: 0.7,
+                        },
+                    },
+                ],
+            },
+        },
+        series: [
+            {
+                name: "Questions",
+                colorByPoint: true,
+                data: [],
+            },
+        ],
+    });
+
+
     useEffect(() => {
         const seriesData = data?.map((item, index) => ({
             name: item?.name,
@@ -74,14 +116,16 @@ const QuestionPollsPieChart = ({ data }) => {
             color: item?.color
 
         }))
-        setPieOptions({ ...pieOptions, series: [{ ...pieOptions?.series[0], data: seriesData }] })
+
+        setPieChartOptions({ ...pieChartOptions, series: [{ ...pieChartOptions?.series[0], data: seriesData }] })
+        setBarChartOptions({ ...barChartOptions, series: [{ ...barChartOptions?.series[0], data: seriesData }] })
     }, [data])
 
     return (<>
         <div className="graph-box">
             <HighchartsReact
                 highcharts={Highcharts}
-                options={pieOptions}
+                options={graphType == "bar" ? barChartOptions : pieChartOptions}
             />
         </div>
 
