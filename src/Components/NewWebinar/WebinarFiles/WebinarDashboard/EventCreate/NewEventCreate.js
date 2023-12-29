@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { filter } from "@amcharts/amcharts4/.internal/core/utils/Iterator";
 
-let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
   let params = useParams();
   let navigate = useNavigate();
