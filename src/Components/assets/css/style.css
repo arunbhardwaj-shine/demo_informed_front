@@ -9577,11 +9577,13 @@ html {
 /**double-sidebar end**/
 
 /***polls-layout***/
+
 .right-sidebar.full-width {
   width: calc(100% - 260px);
   padding: 16px;
   flex:1 1;
 }
+
 .poll-creation {
   padding: 0;
   background: #fff;
@@ -9598,13 +9600,17 @@ html {
   border: 0;
   background: transparent;
   color: rgba(0, 102, 190, 0.50);
-    font-size: 20px;
-    text-align: center;
-    font-weight: 500;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
 }
 
 .poll-creation .nav li button.active {
   color: #0066BE;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
 }
 .poll-creation .outer-layout {
   display: flex;
@@ -9618,8 +9624,11 @@ html {
   border-radius: 13px;
   background: #FFF;
   box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
-      width: 50%;
-      overflow: hidden;
+  width: 50%;
+  overflow: hidden;
+  justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .poll-creation .outer-layout .question-outer-layout {
@@ -9628,7 +9637,7 @@ html {
   width: 50%;
   padding: 16px 0px 16px 16px;
   display: flex;
-    align-items: center;
+  align-items: center;
 }
 .poll-creation .question-outer-inset {
   width: 100%;
