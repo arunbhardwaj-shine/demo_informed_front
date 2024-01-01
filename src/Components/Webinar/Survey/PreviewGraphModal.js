@@ -60,6 +60,11 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
           data: pieSeriesData,
         },
       ],
+      
+      exporting: {
+        enabled: false,
+      },
+
     });
   
     setBarChartOptions({
@@ -99,6 +104,11 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
           data: barSeriesData,
         },
       ],
+      
+      exporting: {
+        enabled: false,
+      },
+
     });
   }, [answerOption]);
   

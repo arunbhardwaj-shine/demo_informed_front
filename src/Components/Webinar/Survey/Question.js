@@ -345,6 +345,7 @@ function Question(props) {
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
+          backdrop="static"
         >
           <Modal.Header>
             <div className="modal-header">

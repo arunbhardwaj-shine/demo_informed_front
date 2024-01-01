@@ -21,7 +21,8 @@ const Sidebar = () => {
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
   const [get_user_id, set_user_id] = useState();
 
-  const { selectedItem } = useSidebar();
+  const { selectedItem,eventIdContext } = useSidebar();
+  console.log(eventIdContext);
 
   useEffect(() => {
     let user_id = localStorage.getItem("user_id");
@@ -1289,7 +1290,7 @@ const Sidebar = () => {
                 window.location.pathname == "/webinar-registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
-                window.location.pathname == "/webinar/polls-layout" ||
+                window.location.pathname == "/webinar/live-stream/polls-layout" ||
                 window.location.pathname == "/webinar/analytics" ?
               (
                 <ul>
@@ -1485,7 +1486,7 @@ const Sidebar = () => {
                 window.location.pathname == "/webinar-registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
-                window.location.pathname == "/webinar/polls-layout" ||
+                window.location.pathname == "/webinar/live-stream/polls-layout" ||
                 window.location.pathname == "/webinar/analytics" ?
                 (
                   <ul>

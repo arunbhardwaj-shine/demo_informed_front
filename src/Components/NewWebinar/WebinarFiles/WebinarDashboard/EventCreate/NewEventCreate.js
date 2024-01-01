@@ -11,9 +11,12 @@ import { Spinner } from "react-activity";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { filter } from "@amcharts/amcharts4/.internal/core/utils/Iterator";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
   let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
+  const { selectedItem,eventIdContext ,handleEventId} = useSidebar();
+console.log(eventIdContext,"eventIdContexteventIdContext");
   let params = useParams();
   let navigate = useNavigate();
   const [isData, setIsData] = useState([]);
@@ -241,7 +244,7 @@ const NewEventCreate = () => {
   };
   const webinarPollingForm = (e, item) => {
 
-    navigate("/webinar/polls-layout", {
+    navigate("/webinar/live-stream/polls-layout", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });
   };
@@ -522,6 +525,7 @@ const NewEventCreate = () => {
   };
 
   const handleCardClick = (item) => {
+    handleEventId(item?.id)
     console.log("item--->", item?.id)
     navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
