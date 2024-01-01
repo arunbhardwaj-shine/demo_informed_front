@@ -206,8 +206,10 @@ const Sidebar = () => {
   }, [location?.pathname]);
 
   const isActive = location.pathname === '/webinar/live-stream' 
-  const isActivePolls =  location.pathname === '/webinar/polls-layout'
-  const isActiveContact = location.pathname === '/webinar/contact-dm'
+  const isActivePolls =  location.pathname === '/webinar/live-stream/polls-layout'
+  const isActiveContact = location.pathname === '/webinar/live-stream/contact-dm'
+  const isActiveSpeaker = location.pathname === '/webinar/live-stream/speaker-zone'
+  const isActiveSettings = location.pathname === '/webinar/live-stream/settings'
 
   return (
     <>
@@ -217,8 +219,9 @@ const Sidebar = () => {
             window.location.pathname == "/webinar-registration" ||
             window.location.pathname == "/webinar/email" ||
             window.location.pathname == "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/polls-layout" ||
-            window.location.pathname == "/webinar/analytics" ? (
+            window.location.pathname == "/webinar/live-stream/polls-layout" ||
+            window.location.pathname == "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/settings"
+            || window.location.pathname === "/webinar/live-stream/speaker-zone" ? (
             <>
 
               {/* <button className="toggle_btn" onClick={() => toggleClassToBody()}>
@@ -243,8 +246,9 @@ const Sidebar = () => {
             window.location.pathname === "/webinar-registration" ||
             window.location.pathname === "/webinar/email" ||
             window.location.pathname === "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/polls-layout" ||
-            window.location.pathname === "/webinar/analytics" || window.location.pathname === "/webinar/contact-dm") && (
+            window.location.pathname == "/webinar/live-stream/polls-layout" ||
+            window.location.pathname === "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/contact-dm" || window.location.pathname === "/webinar/live-stream/settings" 
+            || window.location.pathname === "/webinar/live-stream/speaker-zone") && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
               </button>
@@ -1071,8 +1075,10 @@ const Sidebar = () => {
               window.location.pathname == "/webinar-registration" ||
               window.location.pathname == "/webinar/email" ||
               window.location.pathname == "/webinar/live-stream" || 
-               window.location.pathname == "/webinar/polls-layout" ||  
-               window.location.pathname == "/webinar/contact-dm" ||
+               window.location.pathname == "/webinar/live-stream/polls-layout" ||  
+               window.location.pathname == "/webinar/live-stream/contact-dm" || 
+                window.location.pathname === "/webinar/live-stream/settings" ||
+                 window.location.pathname === "/webinar/live-stream/speaker-zone" ||
               window.location.pathname == "/webinar/analytics" ?
            (
             <ul>
@@ -1124,7 +1130,8 @@ const Sidebar = () => {
 
                 <li
                   className={
-                    location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/polls-layout" ||  window.location.pathname == "/webinar/contact-dm"
+                    location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/webinar/live-stream/contact-dm" 
+                    || window.location.pathname === "/webinar/live-stream/settings" || window.location.pathname === "/webinar/live-stream/speaker-zone"
                       ? "active sub-links"
                       : "side_li sub-links"
                   }
@@ -1181,8 +1188,10 @@ const Sidebar = () => {
                             <p>Live Stream</p>
                           </a>
                         </li>
-                        <li className="side_li">
-                          <a href="/webinar/live-stream">
+                        <li className={isActiveSpeaker ? 'active' : 'side_li'}
+                        // className="side_li"
+                        >
+                          <a href="/webinar/live-stream/speaker-zone">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                               <g clip-path="url(#clip0_3765_722)">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M21.7219 5.36932C23.0133 7.3423 23.6998 9.65809 23.695 12.0253L23.6973 24H11.6777C9.34088 23.9661 7.06621 23.2328 5.13982 21.8926C3.21344 20.5524 1.72141 18.6649 0.851458 16.4679C-0.0184992 14.2708 -0.22752 11.8621 0.250693 9.54499C0.728906 7.22785 1.87299 5.10574 3.539 3.44564C5.20501 1.78553 7.31853 0.661605 9.61363 0.215259C11.9087 -0.231086 14.2829 0.0200908 16.4374 0.937188C18.5919 1.85429 20.4305 3.39633 21.7219 5.36932ZM6.55671 3.89894C8.1393 2.82781 9.99993 2.2561 11.9033 2.2561C14.4556 2.2561 16.9035 3.28312 18.7082 5.11123C20.513 6.93933 21.5269 9.41877 21.5269 12.0041C21.5269 13.9321 20.9625 15.8167 19.905 17.4198C18.8476 19.0228 17.3446 20.2723 15.5861 21.0101C13.8276 21.7479 11.8926 21.9409 10.0258 21.5648C8.15903 21.1887 6.44427 20.2603 5.09838 18.897C3.75249 17.5337 2.83593 15.7968 2.4646 13.9058C2.09327 12.0149 2.28385 10.0549 3.01224 8.2737C3.74063 6.49249 4.97411 4.97006 6.55671 3.89894ZM17.6328 17.4189C16.2937 18.8781 14.4602 19.7718 12.4988 19.9213C12.3399 19.932 12.1806 19.9072 12.0323 19.8486C11.8839 19.7899 11.7501 19.6989 11.6404 19.5819C11.1222 19.0334 10.7939 18.3292 10.705 17.5753C10.6161 16.8214 10.7713 16.0587 11.1473 15.4019L12.2895 16.1889L11.552 12.5531L8.21623 13.4391L9.32351 14.146C8.729 15.1445 8.45585 16.3056 8.5419 17.4683C8.59063 18.1308 8.75691 18.779 9.03273 19.3817C8.05419 18.9893 7.16368 18.4014 6.41433 17.6529C5.66498 16.9044 5.07213 16.0107 4.67115 15.0251C4.27017 14.0395 4.06928 12.9822 4.08045 11.9162C4.09163 10.8503 4.31464 9.7975 4.73619 8.82074C4.82188 8.62645 4.95025 8.45455 5.11151 8.31816C5.27277 8.18177 5.46266 8.08449 5.66668 8.03374C6.39415 7.85313 7.15983 7.91624 7.8489 8.21362C8.53797 8.51099 9.11332 9.0266 9.48868 9.68315L8.24414 10.2911L11.7102 11.4692L12.6175 8.09736L11.4543 8.71235C11.0075 7.89252 10.3642 7.19974 9.58369 6.6978C8.80319 6.19585 7.91055 5.90088 6.98798 5.84003C7.82448 5.15808 8.7906 4.65781 9.8262 4.37034C10.8618 4.08287 11.9447 4.01437 13.0076 4.16908C14.0704 4.3238 15.0905 4.69843 16.0043 5.26965C16.918 5.84088 17.706 6.59648 18.319 7.48944C18.4273 7.64535 18.4993 7.82411 18.5295 8.01226C18.5597 8.20041 18.5474 8.39305 18.4935 8.57569C18.2799 9.30248 17.8412 9.94042 17.2422 10.3953C16.6432 10.8501 15.9156 11.0978 15.167 11.1016L15.2694 9.70435L12.5314 12.1525L14.96 14.6337L15.0158 13.3048C15.924 13.324 16.8228 13.1158 17.6324 12.6986C18.442 12.2814 19.1373 11.6681 19.6566 10.9131C19.7076 11.2816 19.7325 11.6533 19.7311 12.0253C19.7356 14.0309 18.9872 15.9632 17.6375 17.4306L17.6328 17.4189Z" fill="#0066BE" fill-opacity="0.6"/>
@@ -1199,7 +1208,7 @@ const Sidebar = () => {
                         <li className={isActivePolls ? 'active' : 'side_li'}
                         // className="side_li"
                         >
-                          <a href="/webinar/polls-layout">
+                          <a href="/webinar/live-stream/polls-layout">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                               <g clip-path="url(#clip0_3761_88)">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499864 0L1 3.9837e-06H1.50015C1.7763 3.9837e-06 2 0.223861 2 0.500003V0.999988H16.3937C16.7272 0.999988 17 1.24225 17 1.53835V4.46163C17 4.76311 16.7272 4.99999 16.3937 4.99999H2V9.99999H14.3207C14.7011 9.99999 15 10.2369 15 10.5383V13.4616C15 13.7577 14.7011 14 14.3207 14H2V19H11.273C11.6728 19 12 19.2419 12 19.5376V22.4624C12 22.7581 11.6728 23 11.273 23H2V23.5C2 23.7761 1.7763 24 1.50015 24H1H0.499847C0.223704 24 0 23.7761 0 23.5V0.500006C0 0.223857 0.223715 -4.27361e-06 0.499864 0Z" fill="#0066BE" fill-opacity="0.6"/>
@@ -1219,7 +1228,7 @@ const Sidebar = () => {
                         <li className={isActiveContact ? 'active' : 'side_li'}
                         // className="side_li"
                         > 
-                          <a href="/webinar/contact-dm">
+                          <a href="/webinar/live-stream/contact-dm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                               <g clip-path="url(#clip0_3761_84)">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 11C8.53757 11 11 8.53757 11 5.5C11 2.46243 8.53757 0 5.5 0C2.46243 0 0 2.46243 0 5.5C0 8.53757 2.46243 11 5.5 11ZM6.80506 3.72185C6.80506 4.39667 6.25803 4.9438 5.5831 4.9438C4.90828 4.9438 4.36094 4.39677 4.36094 3.72195C4.36094 3.04713 4.90828 2.5 5.5831 2.5C6.25792 2.5 6.80506 3.04703 6.80506 3.72185ZM5.06456 5.02709H6.10143C6.96414 5.02709 7.666 5.72905 7.66568 6.59175V7.85998H7.65695L7.57533 7.90126C7.53426 7.92216 6.86775 8.25 5.71786 8.25C5.12913 8.25 4.41387 8.16422 3.59057 7.90698L3.50322 7.87963L3.5 7.85977V6.59175C3.5 5.72905 4.20185 5.02709 5.06456 5.02709Z" fill="#0066BE" fill-opacity="0.6"/>
@@ -1240,8 +1249,10 @@ const Sidebar = () => {
                             <p>Contact DM</p>
                           </a>
                         </li>
-                        <li className="side_li">
-                          <a href="/webinar/live-stream">
+                        <li className={isActiveSettings ? 'active' : 'side_li'}
+                        // className="side_li"
+                        >
+                          <a href="/webinar/live-stream/settings">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M23.92 5.28516L12.8457 11.868C12.5899 12.0144 12.3004 12.0913 12.0057 12.0913C11.711 12.0913 11.4215 12.0144 11.1657 11.868L0.0799999 5.28516C0.0270091 5.51376 0.000170336 5.74764 0 5.9823V17.1594C0 17.9505 0.314264 18.7092 0.873659 19.2686C1.43305 19.828 2.19175 20.1423 2.98286 20.1423H21.0171C21.8082 20.1423 22.5669 19.828 23.1263 19.2686C23.6857 18.7092 24 17.9505 24 17.1594V5.9823C23.9998 5.74764 23.973 5.51376 23.92 5.28516Z" fill="#0066BE" fill-opacity="0.6"></path><path d="M12.2745 10.92L23.4517 4.26857C23.1772 3.87765 22.8128 3.55839 22.3891 3.33763C21.9655 3.11687 21.4951 3.00108 21.0174 3H2.98311C2.50543 3.00108 2.03499 3.11687 1.61138 3.33763C1.18776 3.55839 0.823359 3.87765 0.548828 4.26857L11.7374 10.92C11.8198 10.965 11.9121 10.9886 12.006 10.9886C12.0998 10.9886 12.1922 10.965 12.2745 10.92Z" fill="#0066BE" fill-opacity="0.6"></path></svg>
                             <p>Settings</p>
                           </a>
