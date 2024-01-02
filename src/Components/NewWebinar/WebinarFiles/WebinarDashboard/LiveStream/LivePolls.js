@@ -5,10 +5,10 @@ import { ENDPOINT } from '../../../../../axios/apiConfig'
 import { postData } from '../../../../../axios/apiHelper'
 import LivePollsQuestion from './LivePollsQuestions'
 
-const LivePolls = ({ location }) => {
+const LivePolls = ({ location ,eventIdContext}) => {
     const [eventId, setEvent] = useState({
-        id: location?.state?.event_id ? location?.state?.event_id : "",
-        companyId: location?.state?.companyId ? location?.state?.companyId : "",
+        id: location?.state?.event_id ? location?.state?.event_id :eventIdContext?eventIdContext?.eventId:"",
+        companyId: location?.state?.companyId ? location?.state?.companyId :eventIdContext?eventIdContext?.companyId:"",
     });
     const [data, setData] = useState()
 
