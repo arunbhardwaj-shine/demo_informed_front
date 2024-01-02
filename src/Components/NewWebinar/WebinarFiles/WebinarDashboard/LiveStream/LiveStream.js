@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Tabs, Tab, Button, InputGroup, Form } from 'react-bootstrap';
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
 const LiveStream = () => {
   const [readers, setReaders] = useState([
@@ -12,6 +13,8 @@ const LiveStream = () => {
     { name: "G", email: "g@abc.com" },
     { name: "H", email: "h@abc.com" }
   ])
+  const { eventIdContext } = useSidebar();
+
   let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   return (
     <>
