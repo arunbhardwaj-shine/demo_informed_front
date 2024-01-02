@@ -525,8 +525,8 @@ console.log(eventIdContext,"eventIdContexteventIdContext");
   };
 
   const handleCardClick = (item) => {
-    handleEventId(item?.id)
-    console.log("item--->", item?.id)
+    handleEventId({eventId:item?.id,companyId:item?.user_id})
+    console.log("item--->", item)
     navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
   };

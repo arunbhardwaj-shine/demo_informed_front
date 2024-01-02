@@ -184,7 +184,9 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                             <div className='question-display'>
                                                 <div className='question'>
                                                     Question
-                                                    <h4> {item?.question}</h4>
+                                                    <h4 dangerouslySetInnerHTML={{__html:item?.question}}>
+                                                        
+                                                         </h4>
                                                 </div>
                                                 <div className='answer-options'>
                                                     Answers
@@ -259,6 +261,7 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                         Q{index + 1}
                                     </div>
                                     <div className='question-links-screen'>
+                                        
                                         <img src={path_image + `${currentIndex == index ? "screen-active.svg" : "screen-options.svg"} `} alt="" />
                                     </div>
                                     <div className='question-links-status'>

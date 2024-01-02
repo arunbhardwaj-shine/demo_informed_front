@@ -55,11 +55,11 @@ const settings = {
     },
   ],
 };
-export default function PollListing() {
+export default function PollListing({location,eventIdContext}) {
   let navigate = useNavigate();
 
-  const location = useLocation();
-  const event_code = location?.state?.event_id ? location?.state?.event_id : "";
+  // const location = useLocation();
+  const event_code = location?.state?.event_id ? location?.state?.event_id :eventIdContext?eventIdContext?.eventId:"";
   const slickRef = useRef("");
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);

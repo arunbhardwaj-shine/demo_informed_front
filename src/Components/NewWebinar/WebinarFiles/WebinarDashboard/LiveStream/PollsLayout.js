@@ -22,7 +22,7 @@ const PollsLayout = () => {
                             title="Live Polls "
                             className="flex-column justify-content-between"
                         >
-                            <LivePolls location={location} />
+                            <LivePolls location={location} eventIdContext={eventIdContext} />
                            
 
                         </Tab>
@@ -32,7 +32,7 @@ const PollsLayout = () => {
                             title="Polls Creation "
                             className="flex-column justify-content-between"
                         >
-                            <PollListing location={location}/>
+                            <PollListing location={location} eventIdContext={eventIdContext}/>
 
                         </Tab>
                     </Tabs>

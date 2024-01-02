@@ -41,9 +41,10 @@ const Invitees = () => {
   const [appliedFilter, setAppliedFilter] = useState({})
 
   const {eventIdContext } = useSidebar();
-  const  eventId  = state?.eventId?state?.eventId:eventIdContext;
+  const  eventId  = state?.eventId?state?.eventId:eventIdContext?.eventId;
 
   useEffect(() => {
+    
     getWebinarData(page);
   }, [])
 
@@ -111,7 +112,7 @@ const Invitees = () => {
         "id": eventId
       };
 
-      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId?eventId:eventIdContext}?page=${page}`, payload);
+      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId?eventId:eventIdContext?.eventId}?page=${page}`, payload);
 
       setTotalReaders(response?.data?.data?.totalReaders);
       setTotalPage(response?.data?.data?.totalPage);
