@@ -173,6 +173,8 @@ import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
 import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
 import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LiveStream";
 import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
+import SpeakerZone from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/SpeakerZone";
+import Settings from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/Settings";
 import LivePolls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LivePolls";
 import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/PollsLayout";
 
@@ -547,7 +549,6 @@ const Routing = () => {
         /> */}
         <Route path="/event-registration" element={<RegistrationPage />} />
 
-        {/* <Route path="/event-listing" element={<SetLayout component={NewEventCreate} />} /> */}
         <Route
           path="/contact-form"
           element={<LoginLayout component={ContactForm} />}
@@ -577,15 +578,23 @@ const Routing = () => {
           element={<LoginLayout component={Invitees} />}
         />
         <Route
-          path="/webinar/contact-dm"
+          path="/webinar/live-stream/contact-dm"
           element={<LoginLayout component={ContactDM} />}
+        />
+        <Route
+          path="/webinar/live-stream/speaker-zone"
+          element={<LoginLayout component={SpeakerZone} />}
+        />
+        <Route
+          path="/webinar/live-stream/settings"
+          element={<LoginLayout component={Settings} />}
         />
         <Route
           path="/webinar/live-stream"
           element={<LoginLayout component={LiveStream} />}
         />
         <Route
-          path="/webinar/polls-layout"
+          path="/webinar/live-stream/polls-layout"
           element={<LoginLayout component={PollsLayout} />}
         />
         <Route

@@ -402,9 +402,72 @@ const LiveStream = () => {
             </Col>
             <Col className="col-4">
               <h6>Live HCP's Tracking</h6>
+              <div className='dm-speaker'>
+                <h6>Direct Messaging To The Speaker</h6>
+                <div className='dm-speaker-txt'>
+                  <Form.Group className="mb-3">
+                    <Form.Control as="textarea" placeholder="Type your message for the speaker here... " rows={3} />
+                  </Form.Group>
+                   <Button variant="primary" type="submit">
+                      Send
+                    </Button>
+                </div>
+              </div>
             </Col>
             <Col className="col-4">
               <h6>Attendees</h6>
+              <div className="live-stream-tabs-data">
+              <Tabs
+                defaultActiveKey="online"
+                id=""
+                className="mb-3"
+                fill
+              >
+                <Tab eventKey="online" title="online">
+                   <div className="doc-content-header">
+                        <div className="doc-content d-flex justify-content-between align-items-center">
+                          <h4>HCPs | <span>{"8"}</span></h4>
+                          <div className='btn-refresh'>
+                            <img src={path_image + "refresh-btn.svg"} alt=""/>
+                          </div>
+                        </div>
+                    </div>
+                    <div className="live-stream-ques">
+                      <div className="live-stream-ques-header">
+                        <div className="live-stream-hcp">
+                          <h4>Name of the HCP</h4>
+                        </div>
+                        <div className='d-flex hcp-detail'>
+                          <div className='hcp-detail-list'>
+                              <ul>
+                                <li><span>Email</span>mail@informed.pro</li>
+                                <li><span>Specialty</span>Staff</li>
+                                <li><span>Country</span>United Kingdom</li>
+                              </ul>
+                          </div>
+                          <div className='hcp-activity-status'>
+                              <div className='activity-status online'>
+                                <span>&nbsp;</span> Online
+                              </div>
+                          </div>
+                        </div>
+                        <div className=''>
+                          
+                        </div>
+                      </div>
+                    </div>
+                </Tab>
+                <Tab eventKey="left" title="Left">
+                  Tab content for Profile
+                </Tab>
+                <Tab eventKey="asked-q" title="Asked Q">
+                  Tab content for Loooonger Tab
+                </Tab>
+                <Tab eventKey="all" title="All">
+                  Tab content for Contact
+                </Tab>
+              </Tabs>
+              </div>
             </Col>
           </div>
         </div>

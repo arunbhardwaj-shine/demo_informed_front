@@ -203,6 +203,7 @@ const WebinarRegistration = () => {
   }, []);
 
   const getWebinarData = async (event_code) => {
+    console.log(event_code,'event_code')
     try {
       loader("show");
       setApiStatus(false);

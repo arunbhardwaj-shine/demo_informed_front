@@ -14,12 +14,16 @@ const LoginLayout = ({ component: Component, ...rest }) => {
   const setSelectedPDF = (pdfId) => {
     setSelectedItem(pdfId);
   };
+  const [eventIdContext, setEventIdContext] = useState(null);
 
+  const handleEventId = (pdfId) => {
+    setEventIdContext(pdfId);
+  };
   return (
     <>
       {isAuthenticated ? (
         <>
-          <SidebarContext.Provider value={{ selectedItem, setSelectedPDF }}>
+          <SidebarContext.Provider value={{ selectedItem, setSelectedPDF,eventIdContext,handleEventId }}>
             <Header />
             <div className="warpper">
               <div className="container-fluid">

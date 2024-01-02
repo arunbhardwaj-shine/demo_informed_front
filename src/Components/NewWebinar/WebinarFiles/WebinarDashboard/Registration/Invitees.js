@@ -10,7 +10,7 @@ import { getData, postData, deleteMethod } from "../../../../../axios/apiHelper"
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import moment from "moment";
 import { Spinner } from "react-activity";
-
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
 const Invitees = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -40,6 +40,9 @@ const Invitees = () => {
   const [pageAll, setPageAll] = useState(false);
   const [appliedFilter, setAppliedFilter] = useState({})
 
+  const {eventIdContext } = useSidebar();
+  const  eventId  = state?.eventId?state?.eventId:eventIdContext;
+
   useEffect(() => {
     getWebinarData(page);
   }, [])
@@ -52,10 +55,10 @@ const Invitees = () => {
   //       "Country": otherFilter?.Country ? otherFilter?.Country : "",
   //       "UserType": otherFilter?.UserType ? otherFilter?.UserType : "",
   //       "Type": otherFilter?.Type ? otherFilter?.Type : "",
-  //       "id": state?.eventId
+  //       "id": eventId
   //     };
 
-  //     const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload);
+  //     const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload);
   //     setTotalReaders(response?.data?.data?.totalReaders);
   //     setTotalPage(response?.data?.data?.totalPage);
 
@@ -105,10 +108,10 @@ const Invitees = () => {
         "Country": filter?.Country ? filter?.Country : "",
         "UserType": filter?.UserType ? filter?.UserType : "",
         "Type": filter?.Type ? filter?.Type : "",
-        "id": state?.eventId
+        "id": eventId
       };
 
-      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload);
+      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId?eventId:eventIdContext}?page=${page}`, payload);
 
       setTotalReaders(response?.data?.data?.totalReaders);
       setTotalPage(response?.data?.data?.totalPage);
@@ -198,7 +201,7 @@ const Invitees = () => {
     try {
       loader("show")
       let data = {
-        "eventId": state?.eventId, "user_id": user?.user_id, "hcp_status": user?.hcp_status
+        "eventId": eventId, "user_id": user?.user_id, "hcp_status": user?.hcp_status
       }
       const res = await postData(ENDPOINT.WEBINAR_UPDATE_HCP_STATUS, data)
       popup_alert({
@@ -222,7 +225,7 @@ const Invitees = () => {
     try {
       loader("show")
       let data = {
-        "eventId": state?.eventId, "user_id": user?.user_id, "is_blocked": user?.is_blocked == 0 ? 1 : 0
+        "eventId": eventId, "user_id": user?.user_id, "is_blocked": user?.is_blocked == 0 ? 1 : 0
       }
       const response = await postData(ENDPOINT.WEBINAR_BLOCK_UNBLOCK_USER, data)
       let updateUserData = JSON.parse(JSON.stringify([...userData]))
@@ -242,7 +245,7 @@ const Invitees = () => {
 
   //   try {
   //     loader("show");
-  //     const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${state?.eventId}`);
+  //     const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${eventId}`);
   //     setTotalReaders(res?.data?.data?.totalReaders)
   //     let updatedUserData = userData
   //     updatedUserData = updatedUserData?.filter((item) => item?.user_id != id)
@@ -267,7 +270,7 @@ const Invitees = () => {
 
     try {
       loader("show");
-      const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${state?.eventId}`);
+      const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${eventId}`);
       let updatedUserData = userData.filter((item) => item?.user_id !== id);
       setUserData(updatedUserData);
 
@@ -354,11 +357,11 @@ const Invitees = () => {
   //       Country: otherFilter?.Country ? otherFilter?.Country : "",
   //       UserType: otherFilter?.UserType ? otherFilter?.UserType : "",
   //       Type: otherFilter?.Type ? otherFilter?.Type : "",
-  //       id: state?.eventId,
+  //       id: eventId,
   //       is_download: true,
   //     };
 
-  //     const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload, {
+  //     const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload, {
   //       responseType: "blob",
   //     });
 
@@ -386,11 +389,11 @@ const Invitees = () => {
         Country: otherFilter?.Country ? otherFilter?.Country : "",
         UserType: otherFilter?.UserType ? otherFilter?.UserType : "",
         Type: otherFilter?.Type ? otherFilter?.Type : "",
-        id: state?.eventId,
+        id: eventId,
         is_download: true,
       };
 
-      const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${state?.eventId}?page=${page}`, payload, {
+      const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload, {
         responseType: "blob",
       });
 
