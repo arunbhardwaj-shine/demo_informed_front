@@ -35,7 +35,6 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
         verticalAlign: "bottom",
         labelFormat: '{name} ({percentage:.2f}%) ',
       },
-      // showInLegend: true,
       plotOptions: {
         series: {
           allowPointSelect: true,
@@ -57,6 +56,13 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
             },
           ],
         },
+        pie: {
+          showInLegend: true,
+      //   size:"60%",
+      //   dataLabels: {
+      //     enabled: false, // Disable data labels for the pie chart
+      // },
+      }
       },
       series: [
         {
@@ -105,6 +111,13 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
             },
           ],
         },
+        bar: {
+          showInLegend: true,
+      //   size:"60%",
+      //   dataLabels: {
+      //     enabled: false, // Disable data labels for the pie chart
+      // },
+      }
       },
       series: [
         {
