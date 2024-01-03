@@ -10322,8 +10322,8 @@ html {
 .live-stream-ques-header .hcp-detail {
   width: 100%;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
-
 .live-stream-ques-header .hcp-detail .hcp-activity-status {
   align-items: flex-end;
   display: flex;
@@ -10362,6 +10362,10 @@ html {
 .live-stream-ques-inner {
   position: relative;
   z-index: 1;
+  margin: 0 0 40px;
+}
+.live-stream-ques-inner:last-child{
+  margin-bottom: 0;
 }
 .live-stream-ques-inner .live-stream-hcp {
   margin: 0 0 10px;
@@ -10372,5 +10376,28 @@ html {
 .live-stream-ques-inner .preview-answers .answer-section.active .details-content ul li {
   color: #FFF;
   font-size: 13px;
+}
+
+.live-stream-ques-header .hcp-detail .reader-msg {
+  padding: 8px;
+  border-radius: 14px;
+  background: rgba(0, 102, 190, 0.06);
+  margin-left: -8px;
+  width: calc(100% + 16px);
+  margin-top: 8px;
+}
+.live-stream-ques-header .hcp-detail .reader-msg span {
+  color: rgba(0, 74, 137, 0.55);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.live-stream-ques-header .hcp-detail .reader-msg-show {
+  color: #004A89;
+  font-size: 14px;
+  font-weight: 400;
+}
+.live-stream-ques-header .hcp-detail .hcp-detail-list li:last-child {
+  margin: 0;
 }
 /***Live stream end***/

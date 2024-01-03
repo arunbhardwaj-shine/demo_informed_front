@@ -703,17 +703,8 @@ const LiveStream = () => {
                             <div className="live-stream-ques-inner">
                             <div className="live-stream-ques">
                               <div className="live-stream-ques-header">
-                                <div className="live-stream-hcp">
+                                <div className="live-stream-hcp d-flex align-items-center justify-content-between">
                                   <h4>{item?.name ? item?.name : item?.username}</h4>
-                                </div>
-                                <div className='d-flex hcp-detail'>
-                                  <div className='hcp-detail-list'>
-                                      <ul>
-                                        <li><span>Email</span>{item?.email}</li>
-                                        <li><span>Specialty</span>{item?.hcp_status}</li>
-                                        <li><span>Country</span>{item?.country ? item?.country : item?.province}</li>
-                                      </ul>
-                                  </div>
                                   {
                                     deleteStatus ?   
                                     <div className='clear-search'>
@@ -723,6 +714,16 @@ const LiveStream = () => {
                                     </div>
                                     : null
                                   }
+                                </div>
+                                <div className='d-flex hcp-detail'>
+                                  <div className='hcp-detail-list'>
+                                      <ul>
+                                        <li><span>Email</span>{item?.email}</li>
+                                        <li><span>Specialty</span>{item?.hcp_status}</li>
+                                        <li><span>Country</span>{item?.country ? item?.country : item?.province}</li>
+                                      </ul>
+                                  </div>
+                                  
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
@@ -873,17 +874,8 @@ const LiveStream = () => {
                            <div className="live-stream-ques-inner">
                             <div className="live-stream-ques">
                               <div className="live-stream-ques-header">
-                                <div className="live-stream-hcp">
+                                <div className="live-stream-hcp d-flex align-items-center justify-content-between">
                                   <h4>{item?.name ? item?.name : item?.username}</h4>
-                                </div>
-                                <div className='d-flex hcp-detail'>
-                                  <div className='hcp-detail-list'>
-                                      <ul>
-                                        <li><span>Email</span>{item?.email}</li>
-                                        <li><span>Specialty</span>{item?.hcp_status}</li>
-                                        <li><span>Country</span>{item?.country ? item?.country : item?.province}</li>
-                                      </ul>
-                                  </div>
                                   {
                                     deleteStatus ?   
                                     <div className='clear-search'>
@@ -893,6 +885,16 @@ const LiveStream = () => {
                                     </div>
                                     : null
                                   }
+                                </div>
+                                <div className='d-flex hcp-detail'>
+                                  <div className='hcp-detail-list'>
+                                      <ul>
+                                        <li><span>Email</span>{item?.email}</li>
+                                        <li><span>Specialty</span>{item?.hcp_status}</li>
+                                        <li><span>Country</span>{item?.country ? item?.country : item?.province}</li>
+                                      </ul>
+                                  </div>
+                                  
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
@@ -1040,23 +1042,9 @@ const LiveStream = () => {
                           <div className="live-stream-ques-inner">
                             <div className="live-stream-ques">
                               <div className="live-stream-ques-header">
-                                <div className="live-stream-hcp">
+                                <div className="live-stream-hcp d-flex align-items-center justify-content-between">
                                   <h4>{item?.name ? item?.name : item?.username}</h4>
-                                </div>
-                                <div className='d-flex hcp-detail'>
-                                  <div className='hcp-detail-list'>
-                                      <ul>
-                                        <li><span>Email</span>{item?.email}</li>
-                                        <li><span>Specialty</span>{item?.hcp_status}</li>
-                                        <li><span>Country</span>{item?.country ? item?.country : item?.province}</li>
-                                        <li>
-                                          <span>Question</span>
-                                          <div className='reader-msg-show' dangerouslySetInnerHTML={{ __html: item?.question }}>
-                                          </div>
-                                        </li>
-                                      </ul>
-                                  </div>
-                                  {
+                                   {
                                     deleteStatus ?   
                                     <div className='clear-search'>
                                       <button  onClick={(e) => showAttendeesConfirmationPopup(e,item?.userId)}> 
@@ -1065,15 +1053,35 @@ const LiveStream = () => {
                                     </div>
                                     : null
                                   }
+                                </div>
+                                <div className='d-flex hcp-detail'>
+                                  <div className='hcp-detail-list'>
+                                      <ul>
+                                        <li><span>Email</span>{item?.email}</li>
+                                        <li><span>Specialty</span>{item?.hcp_status}</li>
+                                        <li><span>Country</span>{item?.country ? item?.country : item?.province}</li>
+                                        {/* <li className='reader-msg'>
+                                          <span>Question</span>
+                                          <div className='reader-msg-show' dangerouslySetInnerHTML={{ __html: item?.question }}>
+                                          </div>
+                                        </li> */}
+                                      </ul>
+                                  </div>
+                                 
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
                                       </div>
                                   </div>
+                                  <div className='reader-msg'>
+                                    <span>Question:</span>
+                                    <div className='reader-msg-show' dangerouslySetInnerHTML={{ __html: item?.question }}>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                              <div className='preview-answers'>
+                              {/* <div className='preview-answers'>
                                     <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id)}>
                                     <div className="answer-section-heading">
                                       <p>
@@ -1119,7 +1127,7 @@ const LiveStream = () => {
                                       : null
                                     }
                                     </div>
-                              </div>   
+                              </div>    */}
                             
                           </div>
                           </>
@@ -1249,17 +1257,8 @@ const LiveStream = () => {
                           <div className="live-stream-ques-inner">
                             <div className="live-stream-ques">
                               <div className="live-stream-ques-header">
-                                <div className="live-stream-hcp">
+                                <div className="live-stream-hcp d-flex align-items-center justify-content-between">
                                   <h4>{item?.name ? item?.name : item?.username}</h4>
-                                </div>
-                                <div className='d-flex hcp-detail'>
-                                  <div className='hcp-detail-list'>
-                                      <ul>
-                                        <li><span>Email</span>{item?.email}</li>
-                                        <li><span>Specialty</span>{item?.hcp_status}</li>
-                                        <li><span>Country</span>{item?.country ? item?.country : item?.province}</li>
-                                      </ul>
-                                  </div>
                                   {
                                     deleteStatus ?   
                                     <div className='clear-search'>
@@ -1269,6 +1268,16 @@ const LiveStream = () => {
                                     </div>
                                     : null
                                   }
+                                </div>
+                                <div className='d-flex hcp-detail'>
+                                  <div className='hcp-detail-list'>
+                                      <ul>
+                                        <li><span>Email</span>{item?.email}</li>
+                                        <li><span>Specialty</span>{item?.hcp_status}</li>
+                                        <li><span>Country</span>{item?.country ? item?.country : item?.province}</li>
+                                      </ul>
+                                  </div>
+                                  
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
