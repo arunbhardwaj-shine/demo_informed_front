@@ -24,7 +24,6 @@ const LivePolls = ({ location ,eventIdContext}) => {
                 companyId: eventId?.companyId,
                 eventId: eventId?.id,
             });
-            console.log("result--->",result)
             setData(result)
         } catch (err) {
             console.log("--err", err)

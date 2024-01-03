@@ -46,8 +46,6 @@ const Invitees = () => {
   const navigate=useNavigate()
 
   useEffect(() => {
-    console.log("invitees event id Context--->",eventIdContext)
-    console.log("invitees event id--->",eventId)
     if(eventId){
       getWebinarData(page);
     }else{
