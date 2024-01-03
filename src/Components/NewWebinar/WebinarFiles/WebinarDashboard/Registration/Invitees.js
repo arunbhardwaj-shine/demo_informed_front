@@ -11,6 +11,7 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import moment from "moment";
 import { Spinner } from "react-activity";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import { useNavigate } from "react-router-dom";
 
 const Invitees = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -42,10 +43,17 @@ const Invitees = () => {
 
   const {eventIdContext } = useSidebar();
   const  eventId  = state?.eventId?state?.eventId:eventIdContext?.eventId;
+  const navigate=useNavigate()
 
   useEffect(() => {
-    
-    getWebinarData(page);
+    console.log("invitees event id Context--->",eventIdContext)
+    console.log("invitees event id--->",eventId)
+    if(eventId){
+      getWebinarData(page);
+    }else{
+      navigate("/webinar/event-listing")
+    }
+   
   }, [])
 
   // const getWebinarData = async (page) => {
@@ -397,8 +405,6 @@ const Invitees = () => {
       const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload, {
         responseType: "blob",
       });
-
-      console.log("Server Response:", res);
 
       const blob = new Blob([res?.data?.data?.data], { type: res?.headers['content-type'] });
       const url = URL.createObjectURL(blob);

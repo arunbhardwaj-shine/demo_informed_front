@@ -25,6 +25,7 @@ import RegistrationPage from "./RegistrationPage";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import templateData from "./template.json";
 import moment from "moment";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 let currentDate = new Date(
   moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
 );
@@ -37,6 +38,7 @@ const WebinarRegistration = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPrevClicked, setIsPrevClicked] = useState(false);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
+  const { eventIdContext } = useSidebar();
 
   const responsive = {
     0: { items: 1 },
@@ -50,7 +52,7 @@ const WebinarRegistration = () => {
   let prevData = location?.state;
 
   const [event_code, setEventCode] = useState(
-    location?.state?.event_code ? location?.state?.event_code : ""
+    location?.state?.event_code ? location?.state?.event_code : eventIdContext?eventIdContext?.eventId:""
   );
   const [logo, setLogo] = useState();
   const [file, setFile] = useState();
@@ -199,7 +201,10 @@ const WebinarRegistration = () => {
     //   getWebinarData();
     // }
 
-    getAllEvents();
+    // getAllEvents();
+    getWebinarData(event_code)
+    console.log("event context--->",eventIdContext)
+    console.log("event code--->",event_code)
   }, []);
 
   const getWebinarData = async (event_code) => {
@@ -1161,7 +1166,7 @@ const WebinarRegistration = () => {
             <div className="page-top-nav smart_list_names sticky">
               <div className="d-flex justify-content-between align-items-center add-padding">
                 <div className="d-flex event-select align-items-center">
-                  <label htmlFor="">Select Event</label>
+                  {/* <label htmlFor="">Select Event</label>
                   <Select
                     options={dropDownData}
                     placeholder="Select Event"
@@ -1170,7 +1175,7 @@ const WebinarRegistration = () => {
                     isClearable
                     onChange={handleSelectChange}
                     value={selectedItem}
-                  />
+                  /> */}
                 </div>
                 <div className="top-right-action">
                   <div className="d-flex justify-content-center header_btns">

@@ -16,7 +16,6 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
   let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
   const { selectedItem,eventIdContext ,handleEventId} = useSidebar();
-console.log(eventIdContext,"eventIdContexteventIdContext");
   let params = useParams();
   let navigate = useNavigate();
   const [isData, setIsData] = useState([]);
@@ -526,7 +525,6 @@ console.log(eventIdContext,"eventIdContexteventIdContext");
 
   const handleCardClick = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id})
-    console.log("item--->", item)
     navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
   };
