@@ -11,6 +11,7 @@ const LivePolls = ({ location ,eventIdContext}) => {
         companyId: location?.state?.companyId ? location?.state?.companyId :eventIdContext?eventIdContext?.companyId:"",
     });
     const [data, setData] = useState()
+    const [isdataLoaded,setIsDataLoaded]=useState(false)
 
     useEffect(() => {
         getEventQuestion()
@@ -19,21 +20,23 @@ const LivePolls = ({ location ,eventIdContext}) => {
     const getEventQuestion = async () => {
         try {
             loader("show")
-            const result = await postData(ENDPOINT.WEBINAR_QUESTION_LISTING, {
+            const result = await postData(ENDPOINT.WEBINAR_All_QUESTION_LISTING, {
                 companyId: eventId?.companyId,
                 eventId: eventId?.id,
             });
+            console.log("result--->",result)
             setData(result)
         } catch (err) {
             console.log("--err", err)
         } finally {
+            setIsDataLoaded(true)
             loader("hide")
         }
     }
 
     return (<>
 
-        <LivePollsQuestion questionData={data} eventId={eventId?.id} />
+        <LivePollsQuestion questionData={data} eventId={eventId?.id} isdataLoaded={isdataLoaded}/>
 
     </>)
 }

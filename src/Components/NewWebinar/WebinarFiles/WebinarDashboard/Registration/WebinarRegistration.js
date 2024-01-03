@@ -202,7 +202,10 @@ const WebinarRegistration = () => {
     //   getWebinarData();
     // }
 
-    getAllEvents();
+    // getAllEvents();
+    getWebinarData(event_code)
+    console.log("event context--->",eventIdContext)
+    console.log("event code--->",event_code)
   }, []);
   const getWebinarData = async (event_code) => {
     // console.log(event_code,'event_code')

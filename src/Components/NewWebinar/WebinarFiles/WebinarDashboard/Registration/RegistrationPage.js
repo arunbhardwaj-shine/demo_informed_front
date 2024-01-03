@@ -15,6 +15,7 @@ import TemplateFour from "./TemplateFour";
 import { Modal } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import { options } from "@amcharts/amcharts4/core";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -102,11 +103,13 @@ const RegistrationPage = ({ prevData }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { eventIdContext } = useSidebar();
 
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
-  const event_code = new URLSearchParams(location.search).get("event");
+  // const event_code = new URLSearchParams(location.search).get("event");
+  const event_code=eventIdContext?.eventId
 
   const [formData, setFormData] = useState(prevData || {});
   const [formFieldData, setFormFieldData] = useState({});

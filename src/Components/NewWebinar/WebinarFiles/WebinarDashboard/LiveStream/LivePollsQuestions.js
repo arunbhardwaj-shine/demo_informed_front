@@ -32,88 +32,88 @@ const settings = {
         },
     ],
 };
-const LivePollsQuestion = ({ questionData, eventId }) => {
+const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
     const [question, setQuestion] = useState()
     const slickRef = useRef("");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [questionIdIndex, setQuestionIdIndex] = useState([])
-    const [pieChartData, setPieChartData] = useState()
+    const [pieChartData, setPieChartData] = useState({})
     let path_image = "../" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-    let answerData = [
-        {
-            "answerId": 2487,
-            "color": "#ff5366",
-            "name": "Excellent",
-            "total": 1,
-            "id": "Question_0"
-        },
-        {
-            "answerId": 2488,
-            "color": "#0053a0",
-            "name": "Good",
-            "total": 0,
-            "id": "Question_0"
-        },
-        {
-            "answerId": 2489,
-            "color": "#ff8649",
-            "name": "Satisfactory",
-            "total": 1,
-            "id": "Question_0"
-        },
-        {
-            "answerId": 2490,
-            "color": "#89A550",
-            "name": "Fair",
-            "total": 0,
-            "id": "Question_0"
-        },
-        {
-            "answerId": 2491,
-            "color": "#4098B7",
-            "name": "Poor",
-            "total": 0,
-            "id": "Question_0"
-        }
-    ]
+    // let answerData = [
+    //     {
+    //         "answerId": 2487,
+    //         "color": "#ff5366",
+    //         "name": "Excellent",
+    //         "total": 1,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2488,
+    //         "color": "#0053a0",
+    //         "name": "Good",
+    //         "total": 0,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2489,
+    //         "color": "#ff8649",
+    //         "name": "Satisfactory",
+    //         "total": 1,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2490,
+    //         "color": "#89A550",
+    //         "name": "Fair",
+    //         "total": 0,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2491,
+    //         "color": "#4098B7",
+    //         "name": "Poor",
+    //         "total": 0,
+    //         "id": "Question_0"
+    //     }
+    // ]
 
-    let answerData1 = [
-        {
-            "answerId": 2487,
-            "color": "#ff5366",
-            "name": "Excellent",
-            "total": 5,
-            "id": "Question_0"
-        },
-        {
-            "answerId": 2488,
-            "color": "#0053a0",
-            "name": "Good",
-            "total": 3,
-            "id": "Question_0"
-        },
-        {
-            "answerId": 2489,
-            "color": "#ff8649",
-            "name": "Satisfactory",
-            "total": 1,
-            "id": "Question_0"
-        },
-        {
-            "answerId": 2490,
-            "color": "#89A550",
-            "name": "Fair",
-            "total": 2,
-            "id": "Question_0"
-        },
-        {
-            "answerId": 2491,
-            "color": "#4098B7",
-            "name": "Poor",
-            "total": 6,
-            "id": "Question_0"
-        }
-    ]
+    // let answerData1 = [
+    //     {
+    //         "answerId": 2487,
+    //         "color": "#ff5366",
+    //         "name": "Excellent",
+    //         "total": 5,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2488,
+    //         "color": "#0053a0",
+    //         "name": "Good",
+    //         "total": 3,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2489,
+    //         "color": "#ff8649",
+    //         "name": "Satisfactory",
+    //         "total": 1,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2490,
+    //         "color": "#89A550",
+    //         "name": "Fair",
+    //         "total": 2,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2491,
+    //         "color": "#4098B7",
+    //         "name": "Poor",
+    //         "total": 6,
+    //         "id": "Question_0"
+    //     }
+    // ]
 
     useEffect(() => {
         slickRef.current.slickGoTo(0);
@@ -121,27 +121,21 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
         let updateQuestionId = []
         updateQuestionId?.push(questionData?.data?.data?.[0]?.questionId)
         setQuestionIdIndex(updateQuestionId)
-        setPieChartData(answerData)
+        setPieChartData({graphType:questionData?.data?.data?.[0]?.graphType
+            ,pollAnswers:questionData?.data?.data?.[0]?.pollAnswers})
     }, [questionData])
     const handleAfterChange = async (current) => {
         try {
             let questionId = question[current]?.questionId
-
+            let chartData={graphType:question[current]?.graphType,pollAnswers:question[current]?.pollAnswers}
             setCurrentIndex(Math.abs(current));
+            setPieChartData(chartData)
             let updateQuestionId = questionIdIndex
             if (!updateQuestionId?.includes(questionId)) {
                 updateQuestionId?.push(questionId)
                 setQuestionIdIndex(updateQuestionId)
             }
-            const result = await postData(ENDPOINT.POLL_ANSWER, {
-                companyId: questionId,
-                eventId: eventId,
-            });
-            if (current == 0) {
-                setPieChartData(answerData)
-            } else {
-                setPieChartData(answerData1)
-            }
+           
 
         } catch (err) {
             console.log("--err", err)
@@ -191,11 +185,11 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                                                 <div className='answer-options'>
                                                     Answers
 
-                                                    {item?.answerOption?.length ?
-                                                        item?.answerOption?.map((answer, i) => {
+                                                    {item?.pollAnswers?.length ?
+                                                        item?.pollAnswers?.map((answer, i) => {
                                                             return (<>
                                                                 <div className='answer' key={i}>
-                                                                    <div><span>{String.fromCharCode(65 + i)}.</span>{answer?.answer}</div>
+                                                                    <div><span>{String.fromCharCode(65 + i)}.</span>{answer?.name}</div>
 
                                                                 </div>
                                                             </>)
@@ -297,8 +291,9 @@ const LivePollsQuestion = ({ questionData, eventId }) => {
                 </div>
             </div>
 
-            <div className='pie-chart-outer-layout' >
-                <QuestionPollsPieChart data={pieChartData} graphType={"bar"} />
+            <div className='pie-chart-outer-layout' >                
+                <QuestionPollsPieChart data={pieChartData} isDataLoaded={isDataLoaded}/>
+                
             </div>
         </div>
 
