@@ -34,7 +34,8 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       legend: {
         verticalAlign: "bottom",
         labelFormat: '{name} ({percentage:.2f}%) ',
-      },      
+      },
+      // showInLegend: true,
       plotOptions: {
         series: {
           allowPointSelect: true,

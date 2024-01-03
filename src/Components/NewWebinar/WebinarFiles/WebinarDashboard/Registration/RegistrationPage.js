@@ -202,7 +202,6 @@ const RegistrationPage = ({ prevData }) => {
   };
 
   const handleSubmit = async (e) => {
-    // console.log(formFieldData, "formDataformDataformDataformDataformData");
     e.preventDefault();
     const isValid = ValidateFormData();
 

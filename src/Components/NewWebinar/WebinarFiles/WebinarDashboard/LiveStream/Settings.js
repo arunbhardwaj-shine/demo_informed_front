@@ -29,7 +29,7 @@ const Settings = () => {
       setAskQuestion(ask_question);
       setPosterUrl(poster_url);
       setStreamUrl(stream_url);
-      console.log(response?.data?.data, "===>response");
+      // console.log(response?.data?.data, "===>response");
     } catch (error) {
       console.error("Error fetching settings:", error);
     } finally {
@@ -99,7 +99,7 @@ const Settings = () => {
         stream_url: liveStatus === 2 ? streamUrl : "",
         poster_url: liveStatus === 3 ? posterUrl : "",
       };
-      console.log("====>payload", payload);
+      // console.log("====>payload", payload);
 
       const response = await postData(
         ENDPOINT.WEBINAR_SETTINGS_UPDATE,

@@ -398,16 +398,14 @@ const Invitees = () => {
         responseType: "blob",
       });
 
-      console.log("Server Response:", res);
+      console.log("Response:", res);
 
-      const blob = new Blob([res?.data?.data?.data], { type: res?.headers['content-type'] });
-      const url = URL.createObjectURL(blob);
-
+      // const blob = new Blob([res?.data?.data?.data], { type: res?.headers['content-type'] });
       const link = document.createElement("a");
+      const url = URL.createObjectURL(res?.data);
       link.href = url;
       link.download = "readers.xlsx";
       link.click();
-
       loader("hide");
     } catch (err) {
       console.error(err);
