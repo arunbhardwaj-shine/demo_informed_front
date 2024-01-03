@@ -660,7 +660,7 @@ const RegistrationPage = ({ prevData }) => {
             type="button"
             className="btn-close"
             data-bs-dismiss="modal"
-            onClick={() => setModalIsOpen(false)}
+            onClick={() => {window.location.reload();setModalIsOpen(false)}}
           ></button>
         </Modal.Header>
         <Modal.Body>

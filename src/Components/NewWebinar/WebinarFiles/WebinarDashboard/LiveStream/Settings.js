@@ -8,7 +8,6 @@ import { loader } from "../../../../../loader";
 
 const Settings = () => {
   const { eventIdContext } = useSidebar();
-
   const [liveStatus, setLiveStatus] = useState(0);
   const [askQuestion, setAskQuestion] = useState(0);
   const [streamUrl, setStreamUrl] = useState("");
@@ -214,7 +213,7 @@ const Settings = () => {
 
           {liveStatus === 2 && (
             <div className="stream-url">
-            <Form.Group as={Row} className="mb-3">
+            <Form.Group>
               <Form.Label>Stream URL:</Form.Label>
               <Form.Control
                 type="text"
@@ -227,7 +226,7 @@ const Settings = () => {
 
           {liveStatus === 3 && (
             <div className="poster-url">
-            <Form.Group as={Row} className="mb-3">
+            <Form.Group>
               <Form.Label>Poster URL:</Form.Label>
               <Form.Control
                 type="text"
