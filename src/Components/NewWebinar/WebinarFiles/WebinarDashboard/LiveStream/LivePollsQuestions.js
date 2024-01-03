@@ -225,9 +225,12 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
                                     </div>
                                 </>)
                             })
-                            : ""}
+                            : (<>
+                            <div class="no_found">No Data Found</div>
+                            </>)}
                     </Slider>
                 </div>
+                {question?.length?
                 <div className="question-action">
                     <Button
                         className={`btn-bordered question-prev ${currentIndex == 0 ? "disabled" : ""
@@ -289,6 +292,7 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
                         </svg>
                     </Button>
                 </div>
+                :""}
             </div>
 
             <div className='pie-chart-outer-layout' >                
