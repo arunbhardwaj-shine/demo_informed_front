@@ -126,9 +126,8 @@ const QuestionPollsPieChart = ({ data }) => {
         }))
         if(data?.graphType=="pie"){
             setPieChartOptions({ ...pieChartOptions, series: [{ ...pieChartOptions?.series[0], data: seriesData }] })
-            setBarChartOptions({ ...barChartOptions,chart:{type:"pie"} ,series: [{ ...barChartOptions?.series[0], data: [] }] })
         } else if(data?.graphType=="bar"){
-            setBarChartOptions({ ...barChartOptions,chart:{type:"bar"}, series: [{ ...barChartOptions?.series[0], data: seriesData }] })
+            setBarChartOptions({ ...barChartOptions, series: [{ ...barChartOptions?.series[0], data: seriesData }] })
            
         }
         
@@ -138,11 +137,13 @@ const QuestionPollsPieChart = ({ data }) => {
         <div className="graph-box">
             {(data?.graphType=="pie"&&data?.pollAnswers)?
             <HighchartsReact
+                key={"pie"}
                 highcharts={Highcharts}
                 options={ pieChartOptions }
             />
             :(data?.graphType=="bar" && data?.pollAnswers)?
             <HighchartsReact
+                key={"bar"}
                 highcharts={Highcharts}
                 options={ barChartOptions }
             />:
