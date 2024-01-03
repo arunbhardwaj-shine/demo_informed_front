@@ -374,7 +374,9 @@ const LiveStream = () => {
                                         </div>
                                       </div>
                                       <div className='reader-message'>
-                                        <div className='reader-msg-show' dangerouslySetInnerHTML={{ __html: item?.question }}></div>
+                                        <div className='reader-msg-show'>
+                                          <p dangerouslySetInnerHTML={{ __html: item?.question }}></p>
+                                        </div>
                                         <div className='user-comment'>
                                           <Form.Control size="lg" 
                                             type="text" 
@@ -451,7 +453,9 @@ const LiveStream = () => {
                                       </div>
                                     </div>
                                     <div className='reader-message'>
-                                      <div className='reader-msg-show' dangerouslySetInnerHTML={{ __html: item?.question }}></div>
+                                      <div className='reader-msg-show' >
+                                        <p dangerouslySetInnerHTML={{ __html: item?.question }}></p>
+                                      </div>
                                       {
                                         item?.reply ? 
                                         <div className='user-comment'>
@@ -534,7 +538,8 @@ const LiveStream = () => {
                                       </div>
                                     </div>
                                     <div className='reader-message'>
-                                      <div className='reader-msg-show' dangerouslySetInnerHTML={{ __html: item?.question }}>
+                                      <div className='reader-msg-show'>
+                                        <p dangerouslySetInnerHTML={{ __html: item?.question }}></p>
                                       </div>
                                     </div>
                                     <div className='live-stream-action d-flex justify-content-end align-items-center'>
@@ -610,7 +615,6 @@ const LiveStream = () => {
                 id="attendees_tabs"
                 activeKey={attendeesTab}
                 onSelect={changeAttendeesTab}
-                className="mb-3"
                 fill
               >
                 <Tab eventKey="online" title="online">
@@ -637,10 +641,8 @@ const LiveStream = () => {
                       <div className="doc-content-header">
                           <div className="doc-content d-flex justify-content-between align-items-center">
                             <h4>HCPs | <span>{attendees.length}</span></h4>
-                            <div className="clear-search">
-                              <div className='btn-refresh'>
-                                <img className= {attendeesTab === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
-                              </div>
+                            <div className="clear-search d-flex align-items-center">
+
                               {
                                 attendees.length > 0
                                 ?
@@ -684,6 +686,9 @@ const LiveStream = () => {
                                   </button>
                                 : null
                               }
+                               <div className='btn-refresh'>
+                                <img className= {attendeesTab === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
+                              </div>
                             </div>
                           </div>
                       </div>
@@ -692,6 +697,7 @@ const LiveStream = () => {
                         attendees?.map((item, index) => {
                           return (
                           <>
+                            <div className="live-stream-ques-inner">
                             <div className="live-stream-ques">
                               <div className="live-stream-ques-header">
                                 <div className="live-stream-hcp">
@@ -724,7 +730,7 @@ const LiveStream = () => {
                                   
                                 </div>
                               </div>
-
+                            </div>
                               <div className='preview-answers'>
                                     <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id)}>
                                     <div className="answer-section-heading">
@@ -772,7 +778,7 @@ const LiveStream = () => {
                                     }
                                     </div>
                               </div>
-                            </div>
+                              </div>
                           </>
                           )
                         })
@@ -805,10 +811,8 @@ const LiveStream = () => {
                       <div className="doc-content-header">
                           <div className="doc-content d-flex justify-content-between align-items-center">
                             <h4>HCPs | <span>{attendees.length}</span></h4>
-                            <div className="clear-search">
-                              <div className='btn-refresh'>
-                                <img className= {attendeesTab === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
-                              </div>
+                            <div className="clear-search d-flex align-items-center">
+
                               {
                                 attendees.length > 0
                                 ? 
@@ -852,6 +856,9 @@ const LiveStream = () => {
                                   </button>
                                 : null
                               }
+                              <div className='btn-refresh'>
+                                <img className= {attendeesTab === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
+                              </div>
                             </div>
                           </div>
                       </div>
@@ -860,6 +867,7 @@ const LiveStream = () => {
                         attendees?.map((item, index) => {
                           return (
                           <>
+                           <div className="live-stream-ques-inner">
                             <div className="live-stream-ques">
                               <div className="live-stream-ques-header">
                                 <div className="live-stream-hcp">
@@ -889,6 +897,7 @@ const LiveStream = () => {
                                   </div>
                                 </div>
                               </div>
+                            </div>
                               <div className='preview-answers'>
                                     <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id)}>
                                     <div className="answer-section-heading">
@@ -969,10 +978,8 @@ const LiveStream = () => {
                       <div className="doc-content-header">
                           <div className="doc-content d-flex justify-content-between align-items-center">
                             <h4>HCPs | <span>{attendees.length}</span></h4>
-                            <div className='clear-search'>
-                              <div className='btn-refresh'>
-                                <img className= {attendeesTab === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
-                              </div>
+                            <div className='clear-search d-flex align-items-center'>
+
                               {
                                 attendees.length > 0 ?
                                 <button
@@ -1015,6 +1022,9 @@ const LiveStream = () => {
                                 </button>
                                 : null
                               }
+                              <div className='btn-refresh'>
+                                <img className= {attendeesTab === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
+                              </div>
                             </div>
                           </div>
                       </div>
@@ -1023,6 +1033,7 @@ const LiveStream = () => {
                         attendees?.map((item, index) => {
                           return (
                           <>
+                          <div className="live-stream-ques-inner">
                             <div className="live-stream-ques">
                               <div className="live-stream-ques-header">
                                 <div className="live-stream-hcp">
@@ -1057,6 +1068,7 @@ const LiveStream = () => {
                                   </div>
                                 </div>
                               </div>
+                            </div>
                               <div className='preview-answers'>
                                     <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id)}>
                                     <div className="answer-section-heading">
@@ -1104,7 +1116,8 @@ const LiveStream = () => {
                                     }
                                     </div>
                               </div>   
-                            </div>
+                            
+                          </div>
                           </>
                           )
                         })
@@ -1229,6 +1242,7 @@ const LiveStream = () => {
                         attendees?.map((item, index) => {
                           return (
                           <>
+                          <div className="live-stream-ques-inner">
                             <div className="live-stream-ques">
                               <div className="live-stream-ques-header">
                                 <div className="live-stream-hcp">
@@ -1258,6 +1272,7 @@ const LiveStream = () => {
                                   </div>
                                 </div>
                               </div>
+                            </div>
                               <div className='preview-answers'>
                                     <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id)}>
                                     <div className="answer-section-heading">
@@ -1305,7 +1320,8 @@ const LiveStream = () => {
                                     }
                                     </div>
                               </div>
-                            </div>
+                            
+                          </div>
                           </>
                           )
                         })
