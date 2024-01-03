@@ -524,7 +524,7 @@ const NewEventCreate = () => {
   };
 
   const handleCardClick = (item) => {
-    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code})
+    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     // console.log("item--->", item)
     navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
