@@ -172,6 +172,8 @@ import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmart
 import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
 import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
 import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LiveStream";
+import Emails from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/Emails";
+import Analytics from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/Analytics";
 import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
 import SpeakerZone from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/SpeakerZone";
 import Settings from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/Settings";
@@ -592,6 +594,14 @@ const Routing = () => {
         <Route
           path="/webinar/live-stream"
           element={<LoginLayout component={LiveStream} />}
+        />
+        <Route
+          path="/webinar/email"
+          element={<LoginLayout component={Emails} />}
+        />
+        <Route
+          path="/webinar/analytics"
+          element={<LoginLayout component={Analytics} />}
         />
         <Route
           path="/webinar/live-stream/polls-layout"

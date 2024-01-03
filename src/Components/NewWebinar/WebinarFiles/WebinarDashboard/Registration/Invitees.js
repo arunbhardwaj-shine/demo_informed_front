@@ -6,7 +6,7 @@ import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { popup_alert } from "../../../../../popup_alert";
 import { loader } from "../../../../../loader";
 import { useLocation } from "react-router-dom";
-import { getData, postData, deleteMethod } from "../../../../../axios/apiHelper";
+import { getData, postData, deleteMethod,postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import moment from "moment";
 import { Spinner } from "react-activity";
@@ -401,14 +401,14 @@ const Invitees = () => {
         id: eventId,
         is_download: true,
       };
+      
 
-      const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload, {
+      const res = await postFormData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload, {
         responseType: "blob",
       });
 
       console.log("Response:", res);
 
-      // const blob = new Blob([res?.data?.data?.data], { type: res?.headers['content-type'] });
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
