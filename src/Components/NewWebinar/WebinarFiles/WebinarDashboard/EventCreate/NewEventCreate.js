@@ -524,7 +524,8 @@ const NewEventCreate = () => {
   };
 
   const handleCardClick = (item) => {
-    handleEventId({eventId:item?.id,companyId:item?.user_id})
+    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code})
+    // console.log("item--->", item)
     navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
   };
@@ -1026,7 +1027,7 @@ const NewEventCreate = () => {
                                     alt="Email"
                                   />
                                 </button>
-                                {/* <button
+                               {/* <button
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarRegistrationForm(e, item);
@@ -1038,7 +1039,7 @@ const NewEventCreate = () => {
                                     src={path_image + "webinar-icon.svg"}
                                     alt="Registration"
                                   />
-                                </button> */}
+                                </button>  */}
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {

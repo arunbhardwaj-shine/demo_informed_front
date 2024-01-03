@@ -33,12 +33,12 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
 const WebinarRegistration = () => {
+  const { eventIdContext } = useSidebar();
   const validExtensions = ["png", "jpeg", "jpg"];
   const [templateList, setTemplateList] = useState(templateData);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPrevClicked, setIsPrevClicked] = useState(false);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
-  const { eventIdContext } = useSidebar();
 
   const responsive = {
     0: { items: 1 },
@@ -51,8 +51,9 @@ const WebinarRegistration = () => {
 
   let prevData = location?.state;
 
+// location?.state?.event_code ? location?.state?.event_code : ""
   const [event_code, setEventCode] = useState(
-    location?.state?.event_code ? location?.state?.event_code : eventIdContext?eventIdContext?.eventId:""
+    eventIdContext?.eventCode
   );
   const [logo, setLogo] = useState();
   const [file, setFile] = useState();
@@ -206,9 +207,8 @@ const WebinarRegistration = () => {
     console.log("event context--->",eventIdContext)
     console.log("event code--->",event_code)
   }, []);
-
   const getWebinarData = async (event_code) => {
-    console.log(event_code,'event_code')
+    // console.log(event_code,'event_code')
     try {
       loader("show");
       setApiStatus(false);
@@ -1165,8 +1165,8 @@ const WebinarRegistration = () => {
             </div>
             <div className="page-top-nav smart_list_names sticky">
               <div className="d-flex justify-content-between align-items-center add-padding">
-                <div className="d-flex event-select align-items-center">
-                  {/* <label htmlFor="">Select Event</label>
+                {/* <div className="d-flex event-select align-items-center">
+                  <label htmlFor="">Select Event</label>
                   <Select
                     options={dropDownData}
                     placeholder="Select Event"
@@ -1175,8 +1175,8 @@ const WebinarRegistration = () => {
                     isClearable
                     onChange={handleSelectChange}
                     value={selectedItem}
-                  /> */}
-                </div>
+                  />
+                </div> */}
                 <div className="top-right-action">
                   <div className="d-flex justify-content-center header_btns">
                     <a

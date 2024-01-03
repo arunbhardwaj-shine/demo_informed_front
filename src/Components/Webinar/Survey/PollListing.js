@@ -87,7 +87,7 @@ export default function PollListing({location,eventIdContext}) {
   const [isPrevClicked, setIsPrevClicked] = useState(false);
 
   useEffect(() => {
-    console.log("in poll listing  event code--->", event_code);
+    // console.log("in poll listing  event code--->", event_code);
     // if (!event_code) {
     getAllEvents();
     //get all events listing
