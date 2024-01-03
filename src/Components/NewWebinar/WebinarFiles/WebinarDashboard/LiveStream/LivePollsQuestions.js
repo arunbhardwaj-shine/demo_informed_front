@@ -226,7 +226,7 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
                                 </>)
                             })
                             : (<>
-                            <div class="no_found">No Data Found</div>
+                            <div class="no_found"><p>No Data Found</p></div>
                             </>)}
                     </Slider>
                 </div>

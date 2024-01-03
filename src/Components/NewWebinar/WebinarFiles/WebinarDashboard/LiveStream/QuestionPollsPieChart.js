@@ -102,6 +102,10 @@ const QuestionPollsPieChart = ({ data }) => {
             align: "center",
             verticalAlign: "bottom",
             // labelFormat: '{name} ({percentage:.2f}%) ',
+            labelFormatter: function () {
+                const percentage = this.percentage !== undefined ? this.percentage.toFixed(2) : '';
+                return this.name + ' (' + percentage + '%)';
+            },
             layout: "horizontal",
             x: 0,
             y: 0,
@@ -172,8 +176,10 @@ const QuestionPollsPieChart = ({ data }) => {
                 highcharts={Highcharts}
                 options={ barChartOptions }
             />:
-            <div>
+            <div className="no_found">
+                <p>
                 No Data Found
+                </p>
             </div>
             }
         </div>
