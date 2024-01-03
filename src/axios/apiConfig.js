@@ -158,4 +158,7 @@ export const ENDPOINT = {
   WEBINAR_EVENT_QUESTION_ANSWER:"webinar/event-question-answer",
   WEBINAR_CHANGE_QUESTION_STATUS:"webinar/change-question-status",
   WEBINAR_DELETE_QUESTION_ANSWER:"webinar/delete-question-answer",
+  WEBINAR_SEND_ADMIN_QUESTION:"webinar/send-admin-question",
+  WEBINAR_GET_EVENT_ATTENDEES:"webinar/get-event-attendees",
+  WEBINAR_GET_EVENT_ATTENDEES_DETAILS:"webinar/get-attendees-more-details",
 };
