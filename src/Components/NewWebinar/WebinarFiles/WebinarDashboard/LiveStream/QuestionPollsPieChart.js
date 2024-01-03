@@ -15,7 +15,7 @@ const QuestionPollsPieChart = ({ data }) => {
             },
         },
         title: {
-            text: "User Answers",
+            text: "Poll Answers",
         },
         exporting: {
             enabled: false,
@@ -81,23 +81,44 @@ const QuestionPollsPieChart = ({ data }) => {
         chart: {
             type: "bar",
         },
-        title: null,
+        title: "Poll Answers",
         tooltip: {
             valueSuffix: "%",
         },
+        xAxis: {
+            categories: [], // Add your options/categories here
+           
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: "", // Customize the y-axis label
+            },
+            stackLabels: {
+                enabled: true,
+              },
+        },
+        legend: {
+            align: "center",
+            verticalAlign: "bottom",
+            // labelFormat: '{name} ({percentage:.2f}%) ',
+            layout: "horizontal",
+            x: 0,
+            y: 0,
+        },
         plotOptions: {
+           
             series: {
+                stacking: "normal",
+                pointWidth: 30,
                 allowPointSelect: true,
                 cursor: "pointer",
                 dataLabels: [
+                   
                     {
-                        enabled: true,
-                        distance: 20,
-                    },
-                    {
-                        enabled: true,
+                        // enabled: true,
                         distance: -40,
-                        format: "{point.percentage:.1f}%",
+                        // format: "{point.percentage:.1f}%",
                         style: {
                             fontSize: "1.2em",
                             textOutline: "none",
@@ -118,6 +139,7 @@ const QuestionPollsPieChart = ({ data }) => {
 
 
     useEffect(() => {
+        const options = data?.pollAnswers?.map((item) => item?.name) || [];
         const seriesData = data?.pollAnswers?.map((item, index) => ({
             name: item?.name,
             y: item?.y,
@@ -127,7 +149,10 @@ const QuestionPollsPieChart = ({ data }) => {
         if(data?.graphType=="pie"){
             setPieChartOptions({ ...pieChartOptions, series: [{ ...pieChartOptions?.series[0], data: seriesData }] })
         } else if(data?.graphType=="bar"){
-            setBarChartOptions({ ...barChartOptions, series: [{ ...barChartOptions?.series[0], data: seriesData }] })
+            setBarChartOptions({ ...barChartOptions,xAxis: {
+                ...barChartOptions.xAxis,
+                categories: options,
+            }, series: [{ ...barChartOptions?.series[0], data: seriesData }] })
            
         }
         
