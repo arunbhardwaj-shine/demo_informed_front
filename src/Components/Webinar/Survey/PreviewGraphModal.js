@@ -31,6 +31,11 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       tooltip: {
         valueSuffix: "%",
       },
+      legend: {
+        verticalAlign: "bottom",
+        labelFormat: '{name} ({percentage:.2f}%) ',
+      },
+      // showInLegend: true,
       plotOptions: {
         series: {
           allowPointSelect: true,
@@ -75,6 +80,10 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       tooltip: {
         valueSuffix: "%",
       },
+      legend: {
+        verticalAlign: "bottom",
+        labelFormat: '{name} ({percentage:.2f}%) ',
+      }, 
       plotOptions: {
         series: {
           allowPointSelect: true,

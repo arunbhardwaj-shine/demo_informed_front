@@ -2,17 +2,24 @@ import React, { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-const QuestionPollsPieChart = ({ data, graphType }) => {
+const QuestionPollsPieChart = ({ data }) => {
+    console.log("pie data-->",data)
     const [pieChartOptions, setPieChartOptions] = useState({
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
-            type: 'pie'
+            type: 'pie',
+             animation: {
+                duration: 0 // Set the animation duration to 0
+            },
         },
         title: {
             text: "User Answers",
         },
+        exporting: {
+            enabled: false,
+          },
         tooltip: {
             formatter: function () {
                 return this.point.name + ' : <b>' + this.point.y + '</b>';
@@ -34,10 +41,7 @@ const QuestionPollsPieChart = ({ data, graphType }) => {
                 allowPointSelect: true,
                 cursor: "pointer",
                 dataLabels: [
-                    {
-                        enabled: true,
-                        distance: 20,
-                    },
+                    
                     {
                         enabled: true,
                         distance: -40,
@@ -51,7 +55,11 @@ const QuestionPollsPieChart = ({ data, graphType }) => {
                 ],
             },
             pie: {
-                showInLegend: true
+                showInLegend: true,
+              size:"60%",
+              dataLabels: {
+                enabled: false, // Disable data labels for the pie chart
+            },
             }
 
         },
@@ -110,23 +118,39 @@ const QuestionPollsPieChart = ({ data, graphType }) => {
 
 
     useEffect(() => {
-        const seriesData = data?.map((item, index) => ({
+        const seriesData = data?.pollAnswers?.map((item, index) => ({
             name: item?.name,
-            y: item?.total,
-            color: item?.color
+            y: item?.y,
+            // color: item?.color
 
         }))
-
-        setPieChartOptions({ ...pieChartOptions, series: [{ ...pieChartOptions?.series[0], data: seriesData }] })
-        setBarChartOptions({ ...barChartOptions, series: [{ ...barChartOptions?.series[0], data: seriesData }] })
+        if(data?.graphType=="pie"){
+            setPieChartOptions({ ...pieChartOptions, series: [{ ...pieChartOptions?.series[0], data: seriesData }] })
+        } else if(data?.graphType=="bar"){
+            setBarChartOptions({ ...barChartOptions, series: [{ ...barChartOptions?.series[0], data: seriesData }] })
+           
+        }
+        
     }, [data])
 
     return (<>
         <div className="graph-box">
+            {(data?.graphType=="pie"&&data?.pollAnswers)?
             <HighchartsReact
+                key={"pie"}
                 highcharts={Highcharts}
-                options={graphType == "bar" ? barChartOptions : pieChartOptions}
+                options={ pieChartOptions }
             />
+            :(data?.graphType=="bar" && data?.pollAnswers)?
+            <HighchartsReact
+                key={"bar"}
+                highcharts={Highcharts}
+                options={ barChartOptions }
+            />:
+            <div>
+                No Data Found
+            </div>
+            }
         </div>
 
     </>)

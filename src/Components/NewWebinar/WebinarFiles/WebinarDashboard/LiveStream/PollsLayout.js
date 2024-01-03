@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Col, Tabs, Tab, Button } from 'react-bootstrap'
 import LivePolls from './LivePolls'
 import PollListing from '../../../../Webinar/Survey/PollListing'
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
 const PollsLayout = () => {
     const location=useLocation()
+    const { eventIdContext } = useSidebar();
     return (<>
         <Col className="right-sidebar custom-change full-width">
             <div className="custom-container">
@@ -20,7 +22,7 @@ const PollsLayout = () => {
                             title="Live Polls "
                             className="flex-column justify-content-between"
                         >
-                            <LivePolls location={location} />
+                            <LivePolls location={location} eventIdContext={eventIdContext} />
                            
 
                         </Tab>
@@ -30,7 +32,7 @@ const PollsLayout = () => {
                             title="Polls Creation "
                             className="flex-column justify-content-between"
                         >
-                            <PollListing location={location}/>
+                            <PollListing location={location} eventIdContext={eventIdContext}/>
 
                         </Tab>
                     </Tabs>

@@ -155,6 +155,8 @@ export const ENDPOINT = {
   WEBINAR_DELETE_USER: "/webinar/delete-user",
   WEBINAR_BLOCK_UNBLOCK_USER: "/webinar/block-unblock-user",
   WEBINAR_EVENT_DM_LISTING:"webinar/event-dm-listing",
+  WEBINAR_SETTINGS_UPDATE:"webinar/event-setting",
+  WEBINAR_SETTINGS_GET:"webinar/get-event-setting",
   WEBINAR_EVENT_QUESTION_ANSWER:"webinar/event-question-answer",
   WEBINAR_CHANGE_QUESTION_STATUS:"webinar/change-question-status",
   WEBINAR_DELETE_QUESTION_ANSWER:"webinar/delete-question-answer",

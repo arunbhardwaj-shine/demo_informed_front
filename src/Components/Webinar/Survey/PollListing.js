@@ -55,11 +55,11 @@ const settings = {
     },
   ],
 };
-export default function PollListing() {
+export default function PollListing({location,eventIdContext}) {
   let navigate = useNavigate();
 
-  const location = useLocation();
-  const event_code = location?.state?.event_id ? location?.state?.event_id : "";
+  // const location = useLocation();
+  const event_code = location?.state?.event_id ? location?.state?.event_id :eventIdContext?eventIdContext?.eventId:"";
   const slickRef = useRef("");
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -87,7 +87,7 @@ export default function PollListing() {
   const [isPrevClicked, setIsPrevClicked] = useState(false);
 
   useEffect(() => {
-    console.log("in poll listing  event code--->", event_code);
+    // console.log("in poll listing  event code--->", event_code);
     // if (!event_code) {
     getAllEvents();
     //get all events listing

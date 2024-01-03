@@ -9629,6 +9629,51 @@ html {
   max-height: 62vh;
 }
 
+.settings-card{
+  border-radius: 13px;
+  background: #FFF;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+  width: 35%;
+  overflow: hidden;
+  justify-content: center;
+  /* align-items: center; */
+  display: flex;
+  flex-direction: column;
+  padding: 12px 15px 12px 15px;
+  margin: 24px 0px 45px 0px;
+}
+
+.settings-card  .form-check-inline .form-check-input:checked {
+  background-color: #39cabc;
+  border-color: #39cabc;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+}
+
+.ask-questions  .form-check-inline .form-check-input:checked {
+  background-color: #39cabc;
+  border-color: #39cabc;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+}
+
+
+.ask-questions{
+  display:flex;
+}
+
+.ask-questions h5{
+  color: var(--dark-blue);
+  font-weight: 600;
+  margin-right: 34px;
+}
+
+.ask-questions .yes{
+  margin-right: 30px;
+}
+
+.event-heading{
+  margin-top: 36px;
+}
+
 /**Invitees page end**/
 
 
