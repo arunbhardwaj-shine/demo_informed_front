@@ -242,7 +242,8 @@ const NewEventCreate = () => {
     navigate("/webinar/live-stream");
   };
   const webinarPollingForm = (e, item) => {
-
+    console.log("item--->",item)
+    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code})
     navigate("/webinar/live-stream/polls-layout", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });

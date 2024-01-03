@@ -10081,10 +10081,18 @@ html {
 }
 
 .live-stream-tabs-data .btn-refresh img {
-  width: 32px;
+  width: 38px;
   cursor: pointer;
 }
-
+.live-stream-tabs-data .clear-search button {
+  width: 30px;
+  height: 30px;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+}
+.live-stream-tabs-data .clear-search {
+  margin: 0;
+  gap: 8px;
+}
 .live-stream-tabs-data .doc-content-header {
   margin: 0 0 13px;
 }
@@ -10092,7 +10100,7 @@ html {
   border: 0;
 }
 
-.live-stream-tabs-data .doc-content-main-box .nav-tabs .nav-item button {
+.live-stream-tabs-data .doc-content-main-box .nav-tabs .nav-item button{
   border: 0;
 }
 .live-stream-tabs-data .tab-content {
@@ -10100,7 +10108,7 @@ html {
   background: #ffffff;
   mix-blend-mode: normal;
   box-shadow: 0px -4px 8px rgba(0, 102, 190, 0.07);
-  border-radius: 0 20px 20px 20px;
+  border-radius: 20px 20px 20px 20px;
 }
 .reader-message {
   border-radius: 14px;
@@ -10239,6 +10247,10 @@ html {
   align-items: center;
   justify-content: center;
   margin: 0 0 0 auto;
+  padding: 8px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 96px;
 }
 .question-ignored .reader-message .reader-msg-show {
   background: #39CABC;
@@ -10250,7 +10262,7 @@ html {
 .speaker-send .reader-message .reader-msg-show {
   background: #F58289;
 }
-.doc-content-main-box .nav-tabs .nav-item button.active:before {
+.doc-content-main-box .nav-tabs .nav-item button.active:before, .live-stream-tabs-data .nav-tabs .nav-item button.active:before {
   content: "";
   background: url(../images/box-left-shape.png) no-repeat;
   width: 34px;
@@ -10263,7 +10275,7 @@ html {
   background-size: 34px;
 }
 
-.doc-content-main-box .nav-tabs .nav-item button.active::after {
+.doc-content-main-box .nav-tabs .nav-item button.active::after, .live-stream-tabs-data .nav-tabs .nav-item button.active:after {
   content: "";
   background: url(../images/box-right-shape.png) no-repeat;
   width: 34px;
@@ -10276,17 +10288,89 @@ html {
   background-size: 34px;
 }
 
-.live-stream .doc-content-main-box .nav-tabs .nav-item button {
+.live-stream .doc-content-main-box .nav-tabs .nav-item button , .live-stream-tabs-data .nav-tabs .nav-item button{
   position: relative;
   font-size: 11px;
   font-weight: 500;
+  color: rgba(0, 102, 190, 0.50);
+  border: 0;
 }
-.live-stream .doc-content-main-box .nav-tabs .nav-item button.active {
+.live-stream .doc-content-main-box .nav-tabs .nav-item button.active, .live-stream-tabs-data .nav-tabs .nav-item button.active {
   color: #0066BE;
   background: #ffffff;
-  box-shadow: 0px -5px 7px rgba(0, 102, 190, 0.13);
+  box-shadow: 0px -7px 10px rgba(0, 102, 190, 0.13);
   border-radius: 20px 20px 0 0;
   z-index: 2;
   position: relative;
+}
+
+.doc-content-main-box .nav-tabs .nav-item:first-child button.active:before, .doc-content-main-box .nav-tabs .nav-item:last-child button.active::after,
+.live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before, .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
+  display: none;
+}
+.live-stream-tabs-data .clear-search button {
+  width: 30px;
+  height: 30px;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+}
+
+.live-stream-tabs-data .clear-search {
+  margin: 0;
+  gap: 8px;
+}
+
+.live-stream-ques-header .hcp-detail {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.live-stream-ques-header .hcp-detail .hcp-activity-status {
+  align-items: flex-end;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.live-stream-ques-header .hcp-detail .hcp-detail-list li {
+  color: #004A89;
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
+.live-stream-ques-header .hcp-detail .hcp-detail-list li span {
+  color: rgba(0, 74, 137, 0.55);
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 100px;
+  display: inline-block;
+}
+.hcp-activity-status .activity-status {
+  display: flex;
+  align-items: center;
+  color: #70899E;
+  font-size: 12px;
+}
+
+.hcp-activity-status .activity-status.online span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #39CABC;
+  display: inline-block;
+  margin: 0 5px 0 0;
+}
+.live-stream-ques-inner {
+  position: relative;
+  z-index: 1;
+}
+.live-stream-ques-inner .live-stream-hcp {
+  margin: 0 0 10px;
+}
+.live-stream-ques-inner .live-stream-ques-header {
+  padding-bottom: 0;
+}
+.live-stream-ques-inner .preview-answers .answer-section.active .details-content ul li {
+  color: #FFF;
+  font-size: 13px;
 }
 /***Live stream end***/
