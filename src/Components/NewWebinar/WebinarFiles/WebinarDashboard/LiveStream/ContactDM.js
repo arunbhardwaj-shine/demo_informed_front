@@ -17,10 +17,12 @@ const ContactDM = () => {
     const [appliedFilter, setAppliedFilter] = useState({})
     const [search, setSearch] = useState("")
     const [refreshFlag, setRefreshFlag] = useState(false);
-    const { eventIdContext } = useSidebar();
-
+    const { eventIdContext,handleEventId } = useSidebar();
+    const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     useEffect(() => {
-        console.log("contact DM--->",eventIdContext)
+        // if(!eventIdContext){
+        //     handleEventId(localStorageEvent)
+        // }
         getEventDMListing()
     }, [])
 

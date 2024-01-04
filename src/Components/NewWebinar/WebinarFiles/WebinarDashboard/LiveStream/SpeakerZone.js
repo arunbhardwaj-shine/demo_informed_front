@@ -14,12 +14,13 @@ import {Col,
   } from "react-bootstrap";
 
 const SpeakerZone = () => {
-    const { eventIdContext } = useSidebar();
+    const { eventIdContext,handleEventId } = useSidebar();
+    const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);  
     const [eventId,setEvent] = useState({
-        id:eventIdContext?.eventId,
-        companyId:eventIdContext?.companyId
+        id:eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId,
+        companyId:eventIdContext?.companyId?eventIdContext?.companyId:localStorageEvent?.companyId
     })
     const [count,setCount] = useState(0)
 
@@ -90,7 +91,9 @@ const SpeakerZone = () => {
         }
     }
     useEffect(()=>{
-      console.log("speaker zone --->",eventIdContext)
+      // if(!eventIdContext){
+      //   handleEventId(localStorageEvent)
+      // }
         if(count>0){
             initialFun()
         }
