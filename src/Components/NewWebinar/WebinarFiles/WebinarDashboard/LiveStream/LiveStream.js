@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Col, Tabs, Tab, Button, Form } from 'react-bootstrap';
+import { Col, Tabs, Tab, Button, Form, Image } from 'react-bootstrap';
 import { postData, deleteData, deleteMethod } from '../../../../../axios/apiHelper';
 import { ENDPOINT } from '../../../../../axios/apiConfig';
 import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
@@ -578,6 +578,9 @@ const LiveStream = () => {
             </Col>
             <Col className="col-4">
               <h6>Live HCP's Tracking</h6>
+              <div className='live-hcp-tracking-img'>
+                <Image src={path_image + "live-hcp-tracking.png"} alt="" />
+              </div>
               <div className='dm-speaker'>
                 <h6>Direct Messaging To The Speaker</h6>
                 <div className='dm-speaker-txt'>
@@ -590,30 +593,30 @@ const LiveStream = () => {
                       rows={3}
                      />
                   </Form.Group>
+                  <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "spacebetween",
+                          alignItems: "center",
+                        }}
+                      >
                     {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                     {
                       messageSendStatus ? 
-                        <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          width: "100%",
-                          height: "100%",
-                        }}
-                      >
+                        
                         <Spinner
                           color="#53aff4"
                           size={32}
                           speed={1}
                           animating={true}
                         />
-                      </div>
+                     
                       : null
                     }
                    <Button variant="primary" type="submit" onClick={handleSendMessage} disabled= {messageSendStatus ? "disabled" : false}>
                       Send
                     </Button>
+                  </div>
                 </div>
               </div>
             </Col>
@@ -627,7 +630,7 @@ const LiveStream = () => {
                 onSelect={changeAttendeesTab}
                 fill
               >
-                <Tab eventKey="online" title="online">
+                <Tab eventKey="online" title="Online">
                       <div className="doc-content-header">
                         <div className="doc-content d-flex justify-content-between align-items-center">
                           <h4>HCPs | <span>{attendees.length}</span></h4>
@@ -702,7 +705,7 @@ const LiveStream = () => {
                     </div>
                     :
                     <>
-                      
+                       <div className='live-attendees'>
                       {
                         attendees.length > 0 ?
                         attendees?.map((item, index) => {
@@ -734,7 +737,7 @@ const LiveStream = () => {
                                   
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
-                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
+                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
                                 </div>
@@ -796,6 +799,7 @@ const LiveStream = () => {
                         })
                         : <div className='no_found'><p>No Data found</p></div>
                       }
+                      </div>
                     </>
                   }
                 </Tab>
@@ -874,6 +878,7 @@ const LiveStream = () => {
                     </div>
                     :
                     <>
+                    <div className='live-attendees'>
                       {
                         attendees.length > 0 ?
                         attendees?.map((item, index) => {
@@ -905,7 +910,7 @@ const LiveStream = () => {
                                   
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
-                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
+                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
                                 </div>
@@ -964,6 +969,7 @@ const LiveStream = () => {
                         })
                         : <div className='no_found'><p>No Data found</p></div>
                       }
+                      </div>
                     </>
                   }
                 </Tab>
@@ -1041,7 +1047,7 @@ const LiveStream = () => {
                     </div>
                     :
                     <>
-                      
+                      <div className='live-attendees'>
                       {
                         attendees.length > 0 ?
                         attendees?.map((item, index) => {
@@ -1078,7 +1084,7 @@ const LiveStream = () => {
                                  
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
-                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
+                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
                                   <div className='reader-msg'>
@@ -1143,6 +1149,7 @@ const LiveStream = () => {
                         })
                         : <div className='no_found'><p>No Data found</p></div>
                       }
+                      </div>
                     </>
                   }
                 </Tab>
@@ -1150,7 +1157,7 @@ const LiveStream = () => {
                       <div className="doc-content-header">
                           <div className="doc-content d-flex justify-content-between align-items-center">
                             <h4>HCPs | <span>{attendees.length}</span></h4>
-                            <div className='clear-seach'>
+                            <div className='clear-search d-flex justify-content-end align-items-center'>
                               {/* {
                                 attendees.length > 0
                                 ? */}
@@ -1158,7 +1165,7 @@ const LiveStream = () => {
                                     <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                                       <input
                                         className="form-control me-2"
-                                        type="text"
+                                        type="search"
                                         placeholder="Search by email or name"
                                         aria-label="Search"
                                         id="email_search"
@@ -1257,6 +1264,7 @@ const LiveStream = () => {
                     </div>
                     :
                     <>
+                     <div className='live-attendees'>
                       {
                         attendees.length > 0 ?
                         attendees?.map((item, index) => {
@@ -1288,7 +1296,7 @@ const LiveStream = () => {
                                   
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
-                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
+                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
                                 </div>
@@ -1348,6 +1356,7 @@ const LiveStream = () => {
                         })
                         : <div className='no_found'><p>No Data found</p></div>
                       }
+                      </div>
                     </>
                   }
                 </Tab>
