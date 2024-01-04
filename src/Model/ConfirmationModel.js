@@ -10,7 +10,7 @@ const ConfirmationModal = ({ show, onClose, popupMessage, path_image }) => {
         show={show}
         onHide={() => onClose(false)}
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <button
             type="button"
             className="btn-close"
