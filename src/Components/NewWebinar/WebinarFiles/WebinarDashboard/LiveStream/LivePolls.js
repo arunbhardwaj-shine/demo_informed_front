@@ -14,6 +14,7 @@ const LivePolls = ({ location ,eventIdContext}) => {
     const [isdataLoaded,setIsDataLoaded]=useState(false)
 
     useEffect(() => {
+        console.log("Live polls-->",eventIdContext)
         getEventQuestion()
     }, [])
 
