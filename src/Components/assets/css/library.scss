@@ -5616,6 +5616,10 @@ input.viewer-toolbar-current-page-input {
   transition-delay: 0.1s;
 }
 
+.top-header.regi-web.sticky {
+  padding-top: 35px;
+}
+
 .custom-change {
   padding-top: 0px;
 
@@ -5648,7 +5652,7 @@ input.viewer-toolbar-current-page-input {
       padding: 20px 8px 15px;
       position: sticky;
       top: 84px;
-      z-index: 6;
+      z-index: 5;
       background: #fbfcfd;
       margin: 0 0 15px;
       transition: 0.3s linear;

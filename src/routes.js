@@ -167,8 +167,18 @@ import PollListing from "./Components/Webinar/Survey/PollListing";
 import AutoLogout from "./Components/Login/AutoLogout";
 import EditWebinarRegistration from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/EditWebinarRegistration";
 import RegistrationPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/RegistrationPage";
+import Invitees from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Invitees"
 import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmartListUsersLayout";
 import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
+import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
+import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LiveStream";
+import Emails from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/Emails";
+import Analytics from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/Analytics";
+import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
+import SpeakerZone from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/SpeakerZone";
+import Settings from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/Settings";
+import LivePolls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LivePolls";
+import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/PollsLayout";
 
 let platform = 0;
 let show = 0;
@@ -531,6 +541,10 @@ const Routing = () => {
           path="/poll-listing"
           element={<LoginLayout component={PollListing} />}
         />
+        <Route
+          path="/polls"
+          element={<LoginLayout component={Polls} />}
+        />
         {/* <Route
           path="/event-registration"
           element={<LoginLayout component={RegistrationPage} />}
@@ -558,8 +572,40 @@ const Routing = () => {
           element={<LoginLayout component={EventCreate} />}
         />
         <Route
-          path="/event-listing"
+          path="/webinar/event-listing"
           element={<LoginLayout component={NewEventCreate} />}
+        />
+        <Route
+          path="/webinar/invitees"
+          element={<LoginLayout component={Invitees} />}
+        />
+        <Route
+          path="/webinar/live-stream/contact-dm"
+          element={<LoginLayout component={ContactDM} />}
+        />
+        <Route
+          path="/webinar/live-stream/speaker-zone"
+          element={<LoginLayout component={SpeakerZone} />}
+        />
+        <Route
+          path="/webinar/live-stream/settings"
+          element={<LoginLayout component={Settings} />}
+        />
+        <Route
+          path="/webinar/live-stream"
+          element={<LoginLayout component={LiveStream} />}
+        />
+        <Route
+          path="/webinar/email"
+          element={<LoginLayout component={Emails} />}
+        />
+        <Route
+          path="/webinar/analytics"
+          element={<LoginLayout component={Analytics} />}
+        />
+        <Route
+          path="/webinar/live-stream/polls-layout"
+          element={<LoginLayout component={PollsLayout} />}
         />
         <Route
           path="/webinar-registration"
