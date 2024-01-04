@@ -38,7 +38,7 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [questionIdIndex, setQuestionIdIndex] = useState([])
     const [pieChartData, setPieChartData] = useState({})
-    let path_image = "../" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     // let answerData = [
     //     {
     //         "answerId": 2487,
@@ -227,7 +227,7 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
                                 </>)
                             })
                             : (<>
-                            <div class="no_found"><p>No Data Found</p></div>
+                            <div class="no_polls"><h3>No Polls Created yet!</h3></div>
                             </>)}
                     </Slider>
                 </div>

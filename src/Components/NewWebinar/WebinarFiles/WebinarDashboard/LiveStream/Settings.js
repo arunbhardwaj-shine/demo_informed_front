@@ -121,7 +121,7 @@ const Settings = () => {
       loader("hide");
     }
   };
-
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -131,7 +131,7 @@ const Settings = () => {
               <div className="page-title">
                 <h2>Settings</h2>
               </div>
-              <Button onClick={handleSave}>Save</Button>
+              <Button className="save-btn" onClick={handleSave}>Save</Button>
             </div>
           </div>
           <div className="page-title event-heading">
@@ -139,7 +139,7 @@ const Settings = () => {
           </div>
 
           <div className="settings-card">
-            <div className="offline">
+            <div className="settings-status">
               <Form.Check
                 inline
                 type="radio"
@@ -151,9 +151,16 @@ const Settings = () => {
                   setPosterUrl("");
                 }}
               />
-              Offline
+               <div className="event-status-img">
+                <img src={path_image + "offline-status.png"} alt=""/> 
+              </div>
+              <div className="event-status-msg">
+                <p className="event-status-set">Offline</p>
+                <p>means events has not started so video runnig or image stating that it will start soon</p>
+              </div>
+             
             </div>
-            <div className="start-timer">
+            <div className="settings-status">
               <Form.Check
                 inline
                 type="radio"
@@ -164,9 +171,15 @@ const Settings = () => {
                   setPosterUrl("");
                 }}
               />
-              Start Timer
+               <div className="event-status-img">
+                <img src={path_image + "start-time.png"} alt=""/> 
+              </div> 
+             <div className="event-status-msg">
+                <p className="event-status-set">Start Timer</p>
+                <p>If they want to start 30 min or 1 hour timer before event</p>
+              </div>
             </div>
-            <div className="stream-live">
+            <div className="settings-status">
               <Form.Check
                 inline
                 type="radio"
@@ -176,9 +189,16 @@ const Settings = () => {
                   setPosterUrl("");
                 }}
               />
-              Set Stream Live
+               <div className="event-status-img">
+                <img src={path_image + "live-status.png"} alt=""/> 
+              </div>
+              
+              <div className="event-status-msg">
+                <p className="event-status-set">Set Stream Live</p>
+                <p>Starting the live streaming</p>
+              </div>
             </div>
-            <div className="set-poster">
+            <div className="settings-status">
               <Form.Check
                 inline
                 type="radio"
@@ -188,7 +208,14 @@ const Settings = () => {
                   setStreamUrl("");
                 }}
               />
-              Set Poster
+              <div className="event-status-img">
+                <img src={path_image + "message-to attendeed.png"} alt=""/> 
+              </div>
+              <div className="event-status-msg">
+                <p className="event-status-set">Set Poster</p>
+                <p>Message showing (image) Thank you for watching, we will be back, event has ended etc...</p>
+              </div>
+              
             </div>
           </div>
 
@@ -203,6 +230,7 @@ const Settings = () => {
             />
             Yes
             </div>
+             <div className="no">
             <Form.Check
               inline
               type="radio"
@@ -210,6 +238,7 @@ const Settings = () => {
               onChange={() => setAskQuestion(0)}
             />
             No
+          </div>
           </div>
 
           {liveStatus === 2 && (
