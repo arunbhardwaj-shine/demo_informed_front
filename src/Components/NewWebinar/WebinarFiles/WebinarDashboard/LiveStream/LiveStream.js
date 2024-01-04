@@ -233,17 +233,17 @@ const LiveStream = () => {
         setErrorMessage('Message is required.');
       } else {
         setMessageSendStatus(true);
-        let body = {
-          "eventId"  : 401,
-          "question" : adminMessage
-        };
-        const response = await postData(ENDPOINT.WEBINAR_SEND_ADMIN_QUESTION,body);
-        setAdminMessage('');
-        setErrorMessage('');
-        setMessageSendStatus(false);
-        setActiveTab("sent");
-        toast.success("Message send successfully.");
-        getQuestions();
+        // let body = {
+        //   "eventId"  : 401,
+        //   "question" : adminMessage
+        // };
+        // const response = await postData(ENDPOINT.WEBINAR_SEND_ADMIN_QUESTION,body);
+        // setAdminMessage('');
+        // setErrorMessage('');
+        // setMessageSendStatus(false);
+        // setActiveTab("sent");
+        // toast.success("Message send successfully.");
+        // getQuestions();
       }
     }catch(err){
       setMessageSendStatus(false);
@@ -583,30 +583,30 @@ const LiveStream = () => {
                       rows={3}
                      />
                   </Form.Group>
+                  <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "spacebetween",
+                          alignItems: "center",
+                        }}
+                      >
                     {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                     {
                       messageSendStatus ? 
-                        <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          width: "100%",
-                          height: "100%",
-                        }}
-                      >
+                        
                         <Spinner
                           color="#53aff4"
                           size={32}
                           speed={1}
                           animating={true}
                         />
-                      </div>
+                     
                       : null
                     }
                    <Button variant="primary" type="submit" onClick={handleSendMessage} disabled= {messageSendStatus ? "disabled" : false}>
                       Send
                     </Button>
+                  </div>
                 </div>
               </div>
             </Col>
@@ -841,7 +841,7 @@ const LiveStream = () => {
                                 : null
                               }
                               <div className='btn-refresh'>
-                                <img className= {attendeesTab === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
+                                <img className= {attendeesTab === "left" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
                               </div>
                             </div>
                           </div>
@@ -1008,7 +1008,7 @@ const LiveStream = () => {
                                 : null
                               }
                               <div className='btn-refresh'>
-                                <img className= {attendeesTab === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
+                                <img className= {attendeesTab === "question_ask" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
                               </div>
                             </div>
                           </div>
@@ -1142,7 +1142,7 @@ const LiveStream = () => {
                       <div className="doc-content-header">
                           <div className="doc-content d-flex justify-content-between align-items-center">
                             <h4>HCPs | <span>{attendees.length}</span></h4>
-                            <div className='clear-seach'>
+                            <div className='clear-search d-flex justify-content-end align-items-center'>
                               {/* {
                                 attendees.length > 0
                                 ? */}
@@ -1150,7 +1150,7 @@ const LiveStream = () => {
                                     <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                                       <input
                                         className="form-control me-2"
-                                        type="text"
+                                        type="search"
                                         placeholder="Search by email or name"
                                         aria-label="Search"
                                         id="email_search"
@@ -1181,7 +1181,7 @@ const LiveStream = () => {
                                   {/* : null
                               } */}
                               <div className='btn-refresh'>
-                                <img className= {attendeesTab === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
+                                <img className= {attendeesTab == "all" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
                               </div>
                               {
                                 attendees.length > 0
