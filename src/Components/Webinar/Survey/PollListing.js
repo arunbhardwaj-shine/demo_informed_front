@@ -29,7 +29,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import PreviewModal from "./PreviewModal";
 
 // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const settings = {
   infinite: false,
   slidesToShow: 1,
