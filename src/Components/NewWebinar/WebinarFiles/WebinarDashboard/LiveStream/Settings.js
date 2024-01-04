@@ -15,13 +15,13 @@ const Settings = () => {
 
   useEffect(() => {
     fetchSettings();
-  }, [eventIdContext]);
+  }, []);
 
   const fetchSettings = async () => {
     try {
       loader("show");
       const response = await getData(
-        `${ENDPOINT.WEBINAR_SETTINGS_GET}/${eventIdContext}`
+        `${ENDPOINT.WEBINAR_SETTINGS_GET}/${eventIdContext?.eventId}`
       );
       const { live_status, ask_question, poster_url, stream_url } =
         response?.data?.data;
@@ -93,7 +93,7 @@ const Settings = () => {
       }
 
       const payload = {
-        eventId: eventIdContext,
+        eventId: eventIdContext?.eventId,
         live_status: liveStatus,
         ask_question: askQuestion,
         stream_url: liveStatus === 2 ? streamUrl : "",
