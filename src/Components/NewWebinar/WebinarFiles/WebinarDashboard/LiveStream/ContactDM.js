@@ -3,6 +3,7 @@ import { Col, Accordion, Button } from 'react-bootstrap'
 import { loader } from '../../../../../loader'
 import { getData } from '../../../../../axios/apiHelper'
 import { ENDPOINT } from '../../../../../axios/apiConfig'
+import { useSidebar } from '../../../../CommonComponent/LoginLayout'
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const ContactDM = () => {
@@ -16,8 +17,10 @@ const ContactDM = () => {
     const [appliedFilter, setAppliedFilter] = useState({})
     const [search, setSearch] = useState("")
     const [refreshFlag, setRefreshFlag] = useState(false);
+    const { eventIdContext } = useSidebar();
 
     useEffect(() => {
+        console.log("contact DM--->",eventIdContext)
         getEventDMListing()
     }, [])
 

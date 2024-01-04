@@ -90,6 +90,7 @@ const SpeakerZone = () => {
         }
     }
     useEffect(()=>{
+      console.log("speaker zone --->",eventIdContext)
         if(count>0){
             initialFun()
         }

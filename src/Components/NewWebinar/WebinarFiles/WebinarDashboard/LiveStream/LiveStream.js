@@ -38,6 +38,7 @@ const LiveStream = () => {
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
 
   useEffect(() => {
+    console.log("Live stream--->",eventIdContext)
       getQuestions();
   }, []);
 
