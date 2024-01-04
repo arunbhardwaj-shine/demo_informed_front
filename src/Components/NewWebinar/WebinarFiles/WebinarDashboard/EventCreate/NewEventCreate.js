@@ -208,9 +208,9 @@ const NewEventCreate = () => {
     const eventStatus = getEventStatus(item);
     return eventStatus === "Live"
       ? "Live"
-      : eventStatus === "Coming Soon"
+      : eventStatus === "Coming soon"
         ? "Coming"
-        : eventStatus === "Has Ended"
+        : eventStatus === "Has ended"
           ? "End"
           : "Other";
   };
@@ -219,8 +219,8 @@ const NewEventCreate = () => {
     return differenceDays(item?.dateStart) === 0
       ? "Live"
       : differenceDays(item?.dateStart) > 0
-        ? "Coming Soon"
-        : "Has Ended";
+        ? "Coming soon"
+        : "Has ended";
   };
 
   const handleAddEventClick = (e, item) => {
@@ -996,15 +996,15 @@ const NewEventCreate = () => {
                               >
                                 {item?.eventStatus == 0 ? (
                                   <div className="action-status live">
-                                    Event Live
+                                    Event live
                                   </div>
                                 ) : item?.eventStatus > 0 ? (
                                   <div className="action-status coming">
-                                    Coming Soon
+                                    Coming soon
                                   </div>
                                 ) : (
                                   <div className="action-status end">
-                                    Has Ended
+                                    Has ended
                                   </div>
                                 )}
                                 {/* <button
