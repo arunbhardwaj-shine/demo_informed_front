@@ -135,6 +135,7 @@ const SpeakerZone = () => {
                           <h4>Questions | <span>{data?.question?.length}</span></h4>
                       </div>
                   </div>
+                  <div className="speaker-zone-listed">
                   {
                     data?.question.length?data.question.map((item,index) =>{
                                             return (
@@ -163,6 +164,7 @@ const SpeakerZone = () => {
                         )
                     }):<div className="no-found"><p>No Records Found</p></div>
                   }
+                  </div>
                 </div>
                 <div className="speaker_zone_right_div">
                   <div className="answered">
@@ -174,6 +176,7 @@ const SpeakerZone = () => {
                           <span class="btn default-side-buttons">{data?.answer?.length}</span>                                                             
                       </div> */}
                     </div>
+                     <div className="speaker-zone-listed">
                     {
                       data?.answer.length?data?.answer.map((item,index) =>{
                           return (
@@ -200,6 +203,7 @@ const SpeakerZone = () => {
                           )
                       }):<div className="no-found"><p>No Records Found</p></div>
                     }
+                    </div>
                   </div>
                   <div className="ignored">
                     <div class="webinar-top-sec d-flex justify-content-between align-center">
@@ -210,6 +214,7 @@ const SpeakerZone = () => {
                             <span class="btn default-side-buttons">{data?.ignre?.length}</span>                                                             
                         </div> */}
                     </div>
+                     <div className="speaker-zone-listed">
                     {
                       data?.ignre.length?data?.ignre.map((item,index) =>{
                           return (
@@ -236,6 +241,7 @@ const SpeakerZone = () => {
                           )
                       }):<div className="no-found"><p>No Records Found</p></div>
                     }
+                    </div>
                   </div>
                 </div>
             </div>
