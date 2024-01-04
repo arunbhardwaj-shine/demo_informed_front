@@ -162,7 +162,7 @@ const SpeakerZone = () => {
                         </div>
                             
                         )
-                    }):<div className="no-found"><p>No Records Found</p></div>
+                    }):<div className="no_found"><p>No Records Found</p></div>
                   }
                   </div>
                 </div>
@@ -201,7 +201,7 @@ const SpeakerZone = () => {
                                   </div>
                           </div>
                           )
-                      }):<div className="no-found"><p>No Records Found</p></div>
+                      }):<div className="no_found"><p>No Records Found</p></div>
                     }
                     </div>
                   </div>
@@ -239,7 +239,7 @@ const SpeakerZone = () => {
                                   </div>
                           </div>
                           )
-                      }):<div className="no-found"><p>No Records Found</p></div>
+                      }):<div className="no_found"><p>No Records Found</p></div>
                     }
                     </div>
                   </div>
