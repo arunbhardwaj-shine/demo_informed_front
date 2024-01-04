@@ -167,11 +167,19 @@ function Question(props) {
                         <div className="options" key={index}>
                           <Form.Group as={Row} className="mb-3">
                             <Form.Label>Free Text</Form.Label>
-                            <Form.Control
+                            {/* <Form.Control 
+                              className="disabled"
                               type="text"
                               value={choice.answer}
                               onChange={(e) => onChoiceChange(e, index)}
                               disabled
+                            /> */}
+                             <Form.Control as="textarea" 
+                              className="disabled"
+                              value={choice.answer}
+                              onChange={(e) => onChoiceChange(e, index)}
+                              disabled
+                              rows={3}
                             />
                           </Form.Group>
                           </div>

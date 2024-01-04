@@ -1143,7 +1143,7 @@ const WebinarRegistration = () => {
           <div className="row">
             <div className="top-header regi-web">
               <div className="page-title">
-                <Link
+                {/* <Link
                   className="btn btn-primary btn-bordered back-btn"
                   to="/webinar/event-listing"
                 >
@@ -1159,7 +1159,7 @@ const WebinarRegistration = () => {
                       fill="#97B6CF"
                     />
                   </svg>
-                </Link>
+                </Link> */}
                 <h2>Registration Page</h2>
               </div>
             </div>
