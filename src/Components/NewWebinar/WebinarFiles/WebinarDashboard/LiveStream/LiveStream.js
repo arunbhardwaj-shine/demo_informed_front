@@ -624,7 +624,7 @@ const LiveStream = () => {
                 onSelect={changeAttendeesTab}
                 fill
               >
-                <Tab eventKey="online" title="online">
+                <Tab eventKey="online" title="Online">
                       <div className="doc-content-header">
                         <div className="doc-content d-flex justify-content-between align-items-center">
                           <h4>HCPs | <span>{attendees.length}</span></h4>

@@ -675,7 +675,10 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   fill: var(--light-blue);
   fill-opacity: 1;
 }
-
+.sidebar-menu ul li.active svg path, .sidebar-menu ul li:hover svg path {
+  fill-opacity: 1;
+  fill: var(--light-blue);
+}
 .email_box {
   max-width: 430px;
   flex: 0 0 430px;
