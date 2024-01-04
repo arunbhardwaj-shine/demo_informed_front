@@ -53,7 +53,7 @@ const WebinarRegistration = () => {
 
 // location?.state?.event_code ? location?.state?.event_code : ""
   const [event_code, setEventCode] = useState(
-    eventIdContext?.eventCode
+    eventIdContext?.eventCode?eventIdContext?.eventCode:""
   );
   const [logo, setLogo] = useState();
   const [file, setFile] = useState();
@@ -114,8 +114,8 @@ const WebinarRegistration = () => {
   });
 
   const [eventData, setEventData] = useState({
-    event_id: location?.state?.id,
-    company_id: location?.state?.user_id,
+    event_id:eventIdContext?.eventId?eventIdContext?.eventId: location?.state?.id?location?.state?.id:"",
+    company_id:eventIdContext?.companyId?eventIdContext?.companyId: location?.state?.user_id?location?.state?.user_id:"",
   });
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
@@ -204,8 +204,8 @@ const WebinarRegistration = () => {
 
     // getAllEvents();
     getWebinarData(event_code)
-    console.log("event context--->",eventIdContext)
-    console.log("event code--->",event_code)
+    console.log("Registration event context--->",eventIdContext)
+    
   }, []);
   const getWebinarData = async (event_code) => {
     // console.log(event_code,'event_code')

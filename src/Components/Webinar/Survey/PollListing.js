@@ -29,7 +29,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import PreviewModal from "./PreviewModal";
 
 // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const settings = {
   infinite: false,
   slidesToShow: 1,
@@ -87,6 +87,7 @@ export default function PollListing({location,eventIdContext}) {
   const [isPrevClicked, setIsPrevClicked] = useState(false);
 
   useEffect(() => {
+    console.log("Polls Listing--->",eventIdContext)
     // console.log("in poll listing  event code--->", event_code);
     // if (!event_code) {
     getAllEvents();

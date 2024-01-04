@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { filter } from "@amcharts/amcharts4/.internal/core/utils/Iterator";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
-  let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
   const { selectedItem,eventIdContext ,handleEventId} = useSidebar();
   let params = useParams();

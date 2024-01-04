@@ -14,6 +14,7 @@ const Settings = () => {
   const [posterUrl, setPosterUrl] = useState("");
 
   useEffect(() => {
+    console.log("Settings--->",eventIdContext)
     fetchSettings();
   }, []);
 

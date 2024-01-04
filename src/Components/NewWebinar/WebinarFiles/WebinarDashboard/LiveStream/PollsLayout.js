@@ -8,6 +8,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 const PollsLayout = () => {
     const location=useLocation()
     const { eventIdContext } = useSidebar();
+    console.log("polls Layout--->",eventIdContext)
     return (<>
         <Col className="right-sidebar custom-change full-width">
             <div className="custom-container">
