@@ -15,6 +15,7 @@ import TemplateFour from "./TemplateFour";
 import { Modal } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import { options } from "@amcharts/amcharts4/core";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -102,11 +103,13 @@ const RegistrationPage = ({ prevData }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { eventIdContext } = useSidebar();
 
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
-  const event_code = new URLSearchParams(location.search).get("event");
+  // const event_code = new URLSearchParams(location.search).get("event");
+  const event_code=eventIdContext?.eventId
 
   const [formData, setFormData] = useState(prevData || {});
   const [formFieldData, setFormFieldData] = useState({});
@@ -114,14 +117,19 @@ const RegistrationPage = ({ prevData }) => {
   const [pageColors, setPageColors] = useState(
     prevData
       ? {
-          labelColor: prevData?.content?.labelColor,
-          // typedTextColor:prevData?.content?.typedTextColor,
-          background: prevData?.content?.backgroundColor,
-          optionColor: prevData?.content?.optionColor,
-        }
-      : { labelColor: "#fff000", background: "#000", optionColor: "#000",
-      // typedTextColor:"#fff000" 
-    }
+        labelColor: prevData?.content?.labelColor,
+        typedTextColor: prevData?.content?.typedTextColor,
+        placeholderTextColor: prevData?.content?.placeholderTextColor,
+        dropdownOptionColor: prevData?.content?.dropdownOptionColor,
+        dropdownHoveringColor: prevData?.content?.dropdownHoveringColor,
+        selectedTextColor: prevData?.content?.selectedTextColor,
+        background: prevData?.content?.backgroundColor,
+        optionColor: prevData?.content?.optionColor,
+      }
+      : {
+        labelColor: "#fff000", background: "#000", optionColor: "#000",
+        typedTextColor: "#000", placeholderTextColor: "#000", dropdownOptionColor: "#000", dropdownHoveringColor: "#000", selectedTextColor: "#000"
+      }
   );
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -137,8 +145,7 @@ const RegistrationPage = ({ prevData }) => {
       loader("show");
 
       const response = await getData(
-        `${ENDPOINT.GET_REGISTRATION_FORM}/${
-          prevData?.eventCode ? prevData?.eventCode : event_code
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${prevData?.eventCode ? prevData?.eventCode : event_code
         }`
       );
       let hadData = {};
@@ -154,24 +161,24 @@ const RegistrationPage = ({ prevData }) => {
         let raw = response?.data?.data?.raw_description
           ? JSON.parse(response?.data?.data?.raw_description)
           : {
-              title: "",
-              location: "",
-              type: "",
-              timezone: "",
-              countryTimezone: "",
-              isClientStream: 0,
-              clientStreamUrl: "",
-              dateStart: "",
-              dateStartHour: "",
-              dateStartMin: "",
-              dateEndHour: "",
-              dateEndMin: "",
-              eventCode: "",
-              description: "",
-              speaker_name: "",
-              speaker_email: "",
-              meeting_type: "",
-            };
+            title: "",
+            location: "",
+            type: "",
+            timezone: "",
+            countryTimezone: "",
+            isClientStream: 0,
+            clientStreamUrl: "",
+            dateStart: "",
+            dateStartHour: "",
+            dateStartMin: "",
+            dateEndHour: "",
+            dateEndMin: "",
+            eventCode: "",
+            description: "",
+            speaker_name: "",
+            speaker_email: "",
+            meeting_type: "",
+          };
 
         hadData = {
           ...response?.data?.data,
@@ -182,7 +189,11 @@ const RegistrationPage = ({ prevData }) => {
       setFormData(hadData);
       setPageColors({
         labelColor: hadData?.content?.labelColor,
-        // typedTextColor: hadData?.content?.typedTextColor,
+        typedTextColor: hadData?.content?.typedTextColor,
+        placeholderTextColor: hadData?.content?.placeholderTextColor,
+        dropdownOptionColor: hadData?.content?.dropdownOptionColor,
+        dropdownHoveringColor: hadData?.content?.dropdownHoveringColor,
+        selectedTextColor: hadData?.content?.selectedTextColor,
         background: hadData?.content?.backgroundColor,
         optionColor: hadData?.content?.optionColor,
       });
@@ -194,7 +205,6 @@ const RegistrationPage = ({ prevData }) => {
   };
 
   const handleSubmit = async (e) => {
-    // console.log(formFieldData, "formDataformDataformDataformDataformData");
     e.preventDefault();
     const isValid = ValidateFormData();
 
@@ -212,7 +222,7 @@ const RegistrationPage = ({ prevData }) => {
             companyEmail: raw?.speaker_email,
             virtual_or_live: raw?.meeting_type,
             websiteFolder: "new_webinar",
-            consent: formFieldData.consent?formFieldData.consent.join("~") :formFieldData.onesource_consent?formFieldData.onesource_consent.join("~"): "",
+            consent: formFieldData.consent ? formFieldData.consent.join("~") : formFieldData.onesource_consent ? formFieldData.onesource_consent.join("~") : "",
           }
         );
         if (response?.data?.status === 1) {
@@ -260,7 +270,7 @@ const RegistrationPage = ({ prevData }) => {
         }
       }
     });
-    console.log(errors);
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -630,8 +640,8 @@ const RegistrationPage = ({ prevData }) => {
 
       {(formData?.content?.templateId === 3 ||
         formData?.content?.templateId <= 0) && (
-        <TemplateThree formData={formData}>{myContent3}</TemplateThree>
-      )}
+          <TemplateThree formData={formData}>{myContent3}</TemplateThree>
+        )}
 
       {formData?.content?.templateId === 4 && (
         <TemplateFour formData={formData}>{myContent4}</TemplateFour>
@@ -649,17 +659,17 @@ const RegistrationPage = ({ prevData }) => {
             type="button"
             className="btn-close"
             data-bs-dismiss="modal"
-            onClick={() => setModalIsOpen(false)}
+            onClick={() => {window.location.reload();setModalIsOpen(false)}}
           ></button>
         </Modal.Header>
         <Modal.Body>
           <>
-       
-              <h4   dangerouslySetInnerHTML={{
-                __html:
-                formData?.content?.eventDetails?.Message?.value?formData.content.eventDetails.Message.value:"Thank you for registering!"
-              }} />
-            
+
+            <h4 dangerouslySetInnerHTML={{
+              __html:
+                formData?.content?.eventDetails?.Message?.value ? formData.content.eventDetails.Message.value : "Thank you for registering!"
+            }} />
+
 
             <div className="modal-buttons">
               <button
@@ -750,8 +760,8 @@ const FormField1 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         placeholder={form.placeholder ? form.placeholder : "Select"}
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
@@ -973,8 +983,8 @@ const FormField2 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
@@ -1112,11 +1122,10 @@ const FormField2 = ({
 
   return (
     <div
-      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${
-        label?.includes("country") || label?.includes("Country")
-          ? "country"
-          : ""
-      }`}
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${label?.includes("country") || label?.includes("Country")
+        ? "country"
+        : ""
+        }`}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
       {form.inputType != "text" && form.inputType != "email" ? (
@@ -1205,8 +1214,8 @@ const FormField3 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
@@ -1396,7 +1405,7 @@ const FormField4 = ({
             checkboxes[3].checked = false;
 
             newData[label] = [];
-            newData[label] = [ options[0?.optionLabel]];
+            newData[label] = [options[0?.optionLabel]];
             if (checkboxes[1].checked) {
               newData[label] = [...newData[label], options[1]?.optionLabel];
               newData[label] = [...newData[label], options[2]?.optionLabel];
@@ -1404,7 +1413,7 @@ const FormField4 = ({
           } else if (e.target.id == "onesource_consent1") {
             checkboxes[1].checked = true;
             newData[label] = [];
-            newData[label] = [ options[1]?.optionLabel];
+            newData[label] = [options[1]?.optionLabel];
             if (checkboxes[0].checked) {
               newData[label] = [...newData[label], options[0]?.optionLabel];
               newData[label] = [...newData[label], options[2]?.optionLabel];
@@ -1435,57 +1444,56 @@ const FormField4 = ({
       } else {
         if (label == "onesource_consent") {
 
-        let options = form?.option;
+          let options = form?.option;
 
-        const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
-        // console.dir(checkboxes,'checkboxes');
-        // console.log(e ,'checkboxes');
-        for (const checkbox of checkboxes) {
-          if (e.target.id == "onesource_consent0") {
-            checkboxes[0].checked = false;
-            // checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            checkboxes[3].checked = false;
-            newData[label] = [];
-            if (checkboxes[1].checked) {
-              newData[label] = [ options[1]?.optionLabel];
+          const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
+          // console.dir(checkboxes,'checkboxes');
+          // console.log(e ,'checkboxes');
+          for (const checkbox of checkboxes) {
+            if (e.target.id == "onesource_consent0") {
+              checkboxes[0].checked = false;
+              // checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              checkboxes[3].checked = false;
+              newData[label] = [];
+              if (checkboxes[1].checked) {
+                newData[label] = [options[1]?.optionLabel];
+              }
+
+
+            } else if (e.target.id == "onesource_consent1") {
+              // checkboxes[0].checked = false;
+              checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              checkboxes[3].checked = false;
+              newData[label] = [];
+              newData[label] = [];
+              if (checkboxes[0].checked) {
+                newData[label] = [options[0]?.optionLabel];
+              }
+
+
+            } else if (e.target.id == "onesource_consent2") {
+              checkboxes[0].checked = false;
+              checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              checkboxes[3].checked = false;
+              newData[label] = [];
+            } else if (e.target.id == "onesource_consent3") {
+              checkboxes[0].checked = false;
+              checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              checkboxes[3].checked = false;
+              newData[label] = [];
+
+              newData[label] = [];
             }
-
-
-          } else if (e.target.id == "onesource_consent1") {
-            // checkboxes[0].checked = false;
-            checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            checkboxes[3].checked = false;
-            newData[label] = [];
-            newData[label] = [];
-            if (checkboxes[0].checked) {
-              newData[label] = [ options[0]?.optionLabel];
-            }
-
-            
-          } else if (e.target.id == "onesource_consent2") {
-            checkboxes[0].checked = false;
-            checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            checkboxes[3].checked = false;
-            newData[label] = [];
-          } else if (e.target.id == "onesource_consent3") {
-            checkboxes[0].checked = false;
-            checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            checkboxes[3].checked = false;
-            newData[label] = [];
-
-            newData[label] = [];
           }
-          // checkbox.checked = !checkbox.checked;
         }
-      }
-      else{
+        else {
 
-        newData[label] = newData[label].filter((item) => item !== value);
-      } 
+          newData[label] = newData[label].filter((item) => item !== value);
+        }
       }
     } else {
       newData[label] = value;
@@ -1511,6 +1519,9 @@ const FormField4 = ({
         cols="40"
         rows="4"
         onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
       ></textarea>
     );
   } else if (
@@ -1529,13 +1540,16 @@ const FormField4 = ({
           form.inputType === "selection-country"
             ? countryList
             : form.inputType === "selection-state"
-            ? stateOptions
-            : options
+              ? stateOptions
+              : options
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
         placeholder={form.placeholder ? form.placeholder : "Select"}
+        style={{
+          color: pageColors?.dropdownOptionColor,
+        }}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1658,6 +1672,9 @@ const FormField4 = ({
         id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
         placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
       />
     );
   }
@@ -1667,7 +1684,7 @@ const FormField4 = ({
       className={`col-sm-12 col-md-12 consent-form-list attend-sec ${consentFieldClass}`}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
-    <label
+      <label
         style={{
           color: pageColors?.labelColor,
         }}
@@ -1676,9 +1693,6 @@ const FormField4 = ({
         {isRequired ? "*" : ""}
       </label>
       {fieldInput}
-      {/* <div  style={{
-          color: pageColors?.typedTextColor,
-        }}>{fieldInput}</div> */}
       <div className="help-block">{formErrors[label]}</div>
     </div>
   );

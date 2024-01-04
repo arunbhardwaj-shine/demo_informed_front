@@ -225,7 +225,7 @@ export default function TemplateFour({ children, formData }) {
                 </Col>
                 <Col md={4}>
                   <div className="footer-logo">
-                    <a target="_blank" href="https://onesource.octapharma.com">
+                    <a target="_blank" href="https://onesource.octapharma.com/octapharma-privacy">
                     <img
                       src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
                       alt="Logo image"

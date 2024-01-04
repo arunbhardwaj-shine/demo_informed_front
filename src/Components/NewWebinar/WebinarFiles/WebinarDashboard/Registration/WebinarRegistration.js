@@ -25,6 +25,7 @@ import RegistrationPage from "./RegistrationPage";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import templateData from "./template.json";
 import moment from "moment";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 let currentDate = new Date(
   moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
 );
@@ -32,6 +33,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
 const WebinarRegistration = () => {
+  const { eventIdContext } = useSidebar();
   const validExtensions = ["png", "jpeg", "jpg"];
   const [templateList, setTemplateList] = useState(templateData);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -49,8 +51,9 @@ const WebinarRegistration = () => {
 
   let prevData = location?.state;
 
+// location?.state?.event_code ? location?.state?.event_code : ""
   const [event_code, setEventCode] = useState(
-    location?.state?.event_code ? location?.state?.event_code : ""
+    eventIdContext?.eventCode
   );
   const [logo, setLogo] = useState();
   const [file, setFile] = useState();
@@ -62,7 +65,7 @@ const WebinarRegistration = () => {
   const [save, setSave] = useState();
   const [isSavedClicked, setIsSavedClicked] = useState(false);
   const [rawData, setRawData] = useState({});
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -79,7 +82,11 @@ const WebinarRegistration = () => {
     headerImageUrl: "",
     body: [],
     footerImageUrl: "",
-    // typedTextColor:"",
+    typedTextColor: "",
+    placeholderTextColor: "",
+    dropdownOptionColor: "",
+    dropdownHoveringColor: "",
+    selectedTextColor: "",
     labelColor: "",
     optionColor: "",
     backgroundColor: "",
@@ -95,7 +102,11 @@ const WebinarRegistration = () => {
     body: [],
     footerImageUrl: "",
     labelColor: "",
-    // typedTextColor:"",
+    typedTextColor: "",
+    placeholderTextColor: "",
+    dropdownOptionColor: "",
+    dropdownHoveringColor: "",
+    selectedTextColor: "",
     optionColor: "",
     backgroundColor: "",
     totalFieldNo: 0,
@@ -191,10 +202,13 @@ const WebinarRegistration = () => {
     //   getWebinarData();
     // }
 
-    getAllEvents();
+    // getAllEvents();
+    getWebinarData(event_code)
+    console.log("Registration event context--->",eventIdContext)
+    
   }, []);
-
   const getWebinarData = async (event_code) => {
+    // console.log(event_code,'event_code')
     try {
       loader("show");
       setApiStatus(false);
@@ -205,7 +219,15 @@ const WebinarRegistration = () => {
       let raw = hadData?.raw_description
         ? JSON.parse(hadData?.raw_description)
         : {};
-      setRawData(raw);
+      let parseSpeakerName = ""
+      try {
+        parseSpeakerName = JSON.parse(raw?.speaker_name)
+      }
+      catch {
+        parseSpeakerName = raw?.speaker_name ? [{ speakerName: raw?.speaker_name }] : [{ speakerName: "" }]
+      }
+      parseSpeakerName = parseSpeakerName?.map((item) => (item?.speakerName)).join(" , ")
+      setRawData({ ...raw, speaker_name: parseSpeakerName });
       if (hadData?.event_id != undefined && hadData?.company_id != undefined) {
         setEventData({
           ...eventData,
@@ -276,9 +298,11 @@ const WebinarRegistration = () => {
           }
 
           if (
+
             newFormData.eventDetails.speakerName?.value == "" &&
             newFormData.eventDetails.speakerName?.value != undefined
           ) {
+
             newFormData.eventDetails.speakerName.value = `${raw?.speaker_name}`;
           }
         }
@@ -560,9 +584,8 @@ const WebinarRegistration = () => {
             label: isSelectedName == "userEmail" ? "Email" : "Name",
             name: isSelectedName,
             inputType: isSelectedName == "userEmail" ? "email" : "text",
-            placeholder: `Please enter ${
-              isSelectedName == "userEmail" ? "Email" : "Name"
-            }`,
+            placeholder: `Please enter ${isSelectedName == "userEmail" ? "Email" : "Name"
+              }`,
             option: [],
             required: "yes",
             addSpace: 10,
@@ -880,7 +903,7 @@ const WebinarRegistration = () => {
       loader("hide");
     }
     if (e) {
-      // navigate("/event-listing");
+      // navigate("/webinar/event-listing");
       // setIsSavedClicked(true)
       toast.success("Your changes has been saved successfully !");
     } else {
@@ -947,9 +970,21 @@ const WebinarRegistration = () => {
     if (isSelectedName == "labelColor") {
       setFormData({ ...formData, labelColor: e?.target?.value });
     }
-    //  else if (isSelectedName == "typedTextColor") {
-    //   setFormData({ ...formData, typedTextColor: e?.target?.value });
-    // }
+    else if (isSelectedName == "typedTextColor") {
+      setFormData({ ...formData, typedTextColor: e?.target?.value });
+    }
+    else if (isSelectedName == "placeholderTextColor") {
+      setFormData({ ...formData, placeholderTextColor: e?.target?.value });
+    }
+    else if (isSelectedName == "dropdownOptionColor") {
+      setFormData({ ...formData, dropdownOptionColor: e?.target?.value });
+    }
+    else if (isSelectedName == "dropdownHoveringColor") {
+      setFormData({ ...formData, dropdownHoveringColor: e?.target?.value });
+    }
+    else if (isSelectedName == "selectedTextColor") {
+      setFormData({ ...formData, selectedTextColor: e?.target?.value });
+    }
     else if (isSelectedName == "backgroundColor") {
       setFormData({ ...formData, backgroundColor: e?.target?.value });
     } else if (isSelectedName == "OptionColor") {
@@ -1110,7 +1145,7 @@ const WebinarRegistration = () => {
               <div className="page-title">
                 <Link
                   className="btn btn-primary btn-bordered back-btn"
-                  to="/event-listing"
+                  to="/webinar/event-listing"
                 >
                   <svg
                     width="14"
@@ -1130,7 +1165,7 @@ const WebinarRegistration = () => {
             </div>
             <div className="page-top-nav smart_list_names sticky">
               <div className="d-flex justify-content-between align-items-center add-padding">
-                <div className="d-flex event-select align-items-center">
+                {/* <div className="d-flex event-select align-items-center">
                   <label htmlFor="">Select Event</label>
                   <Select
                     options={dropDownData}
@@ -1141,13 +1176,12 @@ const WebinarRegistration = () => {
                     onChange={handleSelectChange}
                     value={selectedItem}
                   />
-                </div>
+                </div> */}
                 <div className="top-right-action">
                   <div className="d-flex justify-content-center header_btns">
                     <a
-                      className={`copy_link btn-voilet ${
-                        !isDataSaved ? "disabled" : ""
-                      }`}
+                      className={`copy_link btn-voilet ${!isDataSaved ? "disabled" : ""
+                        }`}
                       href={`event-registration?event=${event_code}`}
                       onClick={(e) => {
                         e.preventDefault();
@@ -1155,9 +1189,8 @@ const WebinarRegistration = () => {
                           return;
                         }
                         console.dir();
-                        let newLink = `${
-                          e.currentTarget.host
-                        }/${e.currentTarget.getAttribute("href")}`;
+                        let newLink = `${e.currentTarget.host
+                          }/${e.currentTarget.getAttribute("href")}`;
                         copyToClipboard(newLink);
                       }}
                     >
@@ -1206,7 +1239,7 @@ const WebinarRegistration = () => {
                               alt=""
                               className={
                                 typeof activeIndex !== "undefined" &&
-                                activeIndex == template?.templateId
+                                  activeIndex == template?.templateId
                                   ? "select_mm"
                                   : ""
                               }
@@ -1252,13 +1285,13 @@ const WebinarRegistration = () => {
                                       minDate={
                                         key == "eventEndDate"
                                           ? new Date(
-                                              formData?.eventDetails?.eventStartDate?.value
-                                            )
+                                            formData?.eventDetails?.eventStartDate?.value
+                                          )
                                           : currentDate
                                       }
                                       selected={
                                         field.value &&
-                                        field.value >= currentDate
+                                          field.value >= currentDate
                                           ? new Date(field.value)
                                           : currentDate
                                       }
@@ -1305,26 +1338,25 @@ const WebinarRegistration = () => {
                                       value={field.value}
                                       readOnly={
                                         key == "eventEndTime" ||
-                                        key == "eventStartTime"
+                                          key == "eventStartTime"
                                           ? true
                                           : false
                                       }
                                       disabled={
                                         key == "eventEndTime" ||
-                                        key == "eventStartTime"
+                                          key == "eventStartTime"
                                           ? true
                                           : false
                                       }
-                                      className={`form-control ${
-                                        key == "eventEndTime" ||
-                                        key == "eventStartTime"
+                                      className={`form-control ${key == "eventEndTime" ||
+                                          key == "eventStartTime"
                                           ? "disabled"
                                           : ""
-                                      }`}
+                                        }`}
                                       // className="form-control"
                                       onChange={handleChange}
-                                      // disabled
-                                      // readOnly={true}
+                                    // disabled
+                                    // readOnly={true}
                                     />
                                     {isEventEndTime ? (
                                       <div className="event-endTime"></div>
@@ -1524,7 +1556,7 @@ const WebinarRegistration = () => {
                                   <div className="row">
                                     <div id="registration-form">
                                       {formData &&
-                                      Object.keys(formData)?.length ? (
+                                        Object.keys(formData)?.length ? (
                                         <div>
                                           <div className="center-align-form">
                                             <div>
@@ -1546,20 +1578,20 @@ const WebinarRegistration = () => {
                                                       <label htmlFor="">
                                                         {data?.label
                                                           ? data?.label
-                                                              ?.charAt(0)
-                                                              .toUpperCase() +
-                                                            data?.label
-                                                              ?.slice(1)
-                                                              ?.toLowerCase()
+                                                            ?.charAt(0)
+                                                            .toUpperCase() +
+                                                          data?.label
+                                                            ?.slice(1)
+                                                            ?.toLowerCase()
                                                           : ""}
                                                         {data?.required ===
                                                           "yes" && (
-                                                          <span>*</span>
-                                                        )}
+                                                            <span>*</span>
+                                                          )}
                                                       </label>
 
                                                       {data?.inputType ===
-                                                      "radio" ? (
+                                                        "radio" ? (
                                                         <div className="btn-container">
                                                           {data?.option?.map(
                                                             (
@@ -1574,12 +1606,11 @@ const WebinarRegistration = () => {
                                                                   type={
                                                                     data?.inputType
                                                                   }
-                                                                  name={`${
-                                                                    data?.name
+                                                                  name={`${data?.name
                                                                       ? data?.name
                                                                       : "dynamic_" +
-                                                                        dynamicFieldNo
-                                                                  }`}
+                                                                      dynamicFieldNo
+                                                                    }`}
                                                                   value={
                                                                     item?.optionValue
                                                                   }
@@ -1597,7 +1628,7 @@ const WebinarRegistration = () => {
                                                                   }
                                                                 </label>
                                                                 {data?.extension ==
-                                                                true ? (
+                                                                  true ? (
                                                                   <span
                                                                     className="add-choice"
                                                                     onClick={(
@@ -1630,7 +1661,7 @@ const WebinarRegistration = () => {
                                                                 true ?  */}
                                                                 {item?.extension
                                                                   ?.length >
-                                                                0 ? (
+                                                                  0 ? (
                                                                   <div className="extension">
                                                                     {item?.extension?.map(
                                                                       (
@@ -1644,7 +1675,7 @@ const WebinarRegistration = () => {
                                                                           }
                                                                         >
                                                                           {extItem?.inputType ==
-                                                                          "text" ? (
+                                                                            "text" ? (
                                                                             <div className="extOption">
                                                                               <label
                                                                                 htmlFor={
@@ -1660,12 +1691,11 @@ const WebinarRegistration = () => {
                                                                                   extItem?.inputType
                                                                                 }
                                                                                 className="form-control disabled"
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 placeholder={
                                                                                   extItem?.placeholder
                                                                                 }
@@ -1699,12 +1729,11 @@ const WebinarRegistration = () => {
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${
-                                                                                        extItem?.name
+                                                                                      name={`${extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                            dynamicFieldNo
-                                                                                      }`}
+                                                                                          dynamicFieldNo
+                                                                                        }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -1739,12 +1768,11 @@ const WebinarRegistration = () => {
                                                                                 }
                                                                               </label>
                                                                               <DatePicker
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 dateFormat="dd/MM/yyyy"
                                                                                 className="form-control disabled"
                                                                                 placeholderText="Select date"
@@ -1779,12 +1807,11 @@ const WebinarRegistration = () => {
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${
-                                                                                        extItem?.name
+                                                                                      name={`${extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                            dynamicFieldNo
-                                                                                      }`}
+                                                                                          dynamicFieldNo
+                                                                                        }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -1819,28 +1846,27 @@ const WebinarRegistration = () => {
                                                                               </label>
                                                                               <Select
                                                                                 className="dropdown-basic-button split-button-dropup webinar-select disabled"
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 options={
                                                                                   extItem?.label?.includes(
                                                                                     "country"
                                                                                   ) ||
-                                                                                  extItem?.label?.includes(
-                                                                                    "Country"
-                                                                                  )
+                                                                                    extItem?.label?.includes(
+                                                                                      "Country"
+                                                                                    )
                                                                                     ? countryList
                                                                                     : extItem?.label?.includes(
-                                                                                        "state"
-                                                                                      ) ||
+                                                                                      "state"
+                                                                                    ) ||
                                                                                       extItem?.label?.includes(
                                                                                         "State"
                                                                                       )
-                                                                                    ? stateOptions
-                                                                                    : extItem?.option?.map(
+                                                                                      ? stateOptions
+                                                                                      : extItem?.option?.map(
                                                                                         (
                                                                                           item
                                                                                         ) => ({
@@ -1876,12 +1902,11 @@ const WebinarRegistration = () => {
 
                                                                               <textarea
                                                                                 className="form-control disabled"
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 type={
                                                                                   extItem?.inputType
                                                                                 }
@@ -1991,12 +2016,11 @@ const WebinarRegistration = () => {
                                                                   type={
                                                                     data?.inputType
                                                                   }
-                                                                  name={`${
-                                                                    data?.name
+                                                                  name={`${data?.name
                                                                       ? data?.name
                                                                       : "dynamic_" +
-                                                                        dynamicFieldNo
-                                                                  }`}
+                                                                      dynamicFieldNo
+                                                                    }`}
                                                                   checked={
                                                                     item?.checked
                                                                   }
@@ -2007,7 +2031,7 @@ const WebinarRegistration = () => {
                                                                   }
                                                                 </label>
                                                                 {data?.extension ==
-                                                                true ? (
+                                                                  true ? (
                                                                   <span
                                                                     className="add-choice"
                                                                     onClick={(
@@ -2040,7 +2064,7 @@ const WebinarRegistration = () => {
                                                                 true ? */}
                                                                 {item?.extension
                                                                   ?.length >
-                                                                0 ? (
+                                                                  0 ? (
                                                                   <div className="extension">
                                                                     {item?.extension?.map(
                                                                       (
@@ -2049,7 +2073,7 @@ const WebinarRegistration = () => {
                                                                       ) => (
                                                                         <div className="extItem">
                                                                           {extItem?.inputType ==
-                                                                          "text" ? (
+                                                                            "text" ? (
                                                                             <div className="extOption">
                                                                               <label
                                                                                 htmlFor={
@@ -2065,12 +2089,11 @@ const WebinarRegistration = () => {
                                                                                   extItem?.inputType
                                                                                 }
                                                                                 className="form-control disabled"
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 placeholder={
                                                                                   extItem?.placeholder
                                                                                 }
@@ -2104,12 +2127,11 @@ const WebinarRegistration = () => {
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${
-                                                                                        extItem?.name
+                                                                                      name={`${extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                            dynamicFieldNo
-                                                                                      }`}
+                                                                                          dynamicFieldNo
+                                                                                        }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -2144,12 +2166,11 @@ const WebinarRegistration = () => {
                                                                                 }
                                                                               </label>
                                                                               <DatePicker
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 dateFormat="dd/MM/yyyy"
                                                                                 className="form-control disabled"
                                                                                 placeholderText="Select date"
@@ -2185,12 +2206,11 @@ const WebinarRegistration = () => {
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${
-                                                                                        extItem?.name
+                                                                                      name={`${extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                            dynamicFieldNo
-                                                                                      }`}
+                                                                                          dynamicFieldNo
+                                                                                        }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -2224,29 +2244,28 @@ const WebinarRegistration = () => {
                                                                                 }
                                                                               </label>
                                                                               <Select
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                                                 options={
                                                                                   extItem?.label?.includes(
                                                                                     "country"
                                                                                   ) ||
-                                                                                  extItem?.label?.includes(
-                                                                                    "Country"
-                                                                                  )
+                                                                                    extItem?.label?.includes(
+                                                                                      "Country"
+                                                                                    )
                                                                                     ? countryList
                                                                                     : extItem?.label?.includes(
-                                                                                        "state"
-                                                                                      ) ||
+                                                                                      "state"
+                                                                                    ) ||
                                                                                       extItem?.label?.includes(
                                                                                         "State"
                                                                                       )
-                                                                                    ? stateOptions
-                                                                                    : extItem?.option?.map(
+                                                                                      ? stateOptions
+                                                                                      : extItem?.option?.map(
                                                                                         (
                                                                                           item
                                                                                         ) => ({
@@ -2282,12 +2301,11 @@ const WebinarRegistration = () => {
 
                                                                               <textarea
                                                                                 className="form-control disabled"
-                                                                                name={`${
-                                                                                  extItem?.name
+                                                                                name={`${extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                      dynamicFieldNo
-                                                                                }`}
+                                                                                    dynamicFieldNo
+                                                                                  }`}
                                                                                 type={
                                                                                   extItem?.inputType
                                                                                 }
@@ -2389,25 +2407,24 @@ const WebinarRegistration = () => {
                                                         >
                                                           <Select
                                                             className="dropdown-basic-button split-button-dropup webinar-select disabled"
-                                                            name={`${
-                                                              data?.name
+                                                            name={`${data?.name
                                                                 ? data?.name
                                                                 : "dynamic_" +
-                                                                  dynamicFieldNo
-                                                            }`}
+                                                                dynamicFieldNo
+                                                              }`}
                                                             options={
                                                               data?.label?.includes(
                                                                 "country"
                                                               ) ||
-                                                              data?.label?.includes(
-                                                                "Country"
-                                                              )
+                                                                data?.label?.includes(
+                                                                  "Country"
+                                                                )
                                                                 ? countryList
                                                                 : data?.label?.includes(
-                                                                    "state (us)"
-                                                                  )
-                                                                ? stateOptions
-                                                                : data?.option?.map(
+                                                                  "state (us)"
+                                                                )
+                                                                  ? stateOptions
+                                                                  : data?.option?.map(
                                                                     (item) => ({
                                                                       label:
                                                                         item?.optionLabel,
@@ -2433,12 +2450,11 @@ const WebinarRegistration = () => {
                                                         >
                                                           <textarea
                                                             className="form-control disabled"
-                                                            name={`${
-                                                              data?.name
+                                                            name={`${data?.name
                                                                 ? data?.name
                                                                 : "dynamic_" +
-                                                                  dynamicFieldNo
-                                                            }`}
+                                                                dynamicFieldNo
+                                                              }`}
                                                             type={
                                                               data?.inputType
                                                             }
@@ -2450,12 +2466,11 @@ const WebinarRegistration = () => {
                                                         </div>
                                                       ) : (
                                                         <input
-                                                          name={`${
-                                                            data?.name
+                                                          name={`${data?.name
                                                               ? data?.name
                                                               : "dynamic_" +
-                                                                dynamicFieldNo
-                                                          }`}
+                                                              dynamicFieldNo
+                                                            }`}
                                                           className="form-control disabled"
                                                           type={data?.inputType}
                                                           placeholder={
@@ -2534,83 +2549,111 @@ const WebinarRegistration = () => {
                                         </div>
                                       ) : null}
                                     </div>
-                                    <div className="d-flex align-items-center reg-color-set">
-                                      <div className="form-group">
-                                        <label>Select label color</label>
-                                        <div className="option-action">
-                                          <div className="color-pick">
-                                            <img
-                                              src={
-                                                path_image + "color-picker.svg"
-                                              }
-                                              alt=""
-                                            />
-                                            <input
-                                              type="color"
-                                              title="Choose your color"
-                                              onChange={(e) =>
-                                                onColorChange(e, "labelColor")
-                                              }
-                                              value={
-                                                formData?.labelColor
-                                                  ? formData?.labelColor
-                                                  : ""
-                                              }
-                                            />
+                                    <div>
+                                      Select color of:
+                                      <div className="d-flex align-items-center reg-color-set">
+                                        <div className="form-group">
+                                          <label>Typed Text</label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image + "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(e, "typedTextColor")
+                                                }
+                                                value={
+                                                  formData?.typedTextColor
+                                                    ? formData?.typedTextColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                      {/* <div className="form-group">
-                                        <label>Typed Text</label>
-                                        <div className="option-action">
-                                          <div className="color-pick">
-                                            <img
-                                              src={
-                                                path_image + "color-picker.svg"
-                                              }
-                                              alt=""
-                                            />
-                                            <input
-                                              type="color"
-                                              title="Choose your color"
-                                              onChange={(e) =>
-                                                onColorChange(e, "typedTextColor")
-                                              }
-                                              value={
-                                                formData?.typedTextColor
-                                                  ? formData?.typedTextColor
-                                                  : ""
-                                              }
-                                            />
+                                        <div className="form-group">
+                                          <label>Placeholder Text</label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image + "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(e, "placeholderTextColor")
+                                                }
+                                                value={
+                                                  formData?.placeholderTextColor
+                                                    ? formData?.placeholderTextColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
                                           </div>
                                         </div>
-                                      </div> */}
-                                      <div className="form-group">
-                                        <label>Select Option color</label>
-                                        <div className="option-action">
-                                          <div className="color-pick">
-                                            <img
-                                              src={
-                                                path_image + "color-picker.svg"
-                                              }
-                                              alt=""
-                                            />
-                                            <input
-                                              type="color"
-                                              title="Choose your color"
-                                              onChange={(e) =>
-                                                onColorChange(e, "OptionColor")
-                                              }
-                                              value={
-                                                formData?.optionColor
-                                                  ? formData?.optionColor
-                                                  : ""
-                                              }
-                                            />
+                                        <div className="form-group">
+                                          <label> Label </label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image + "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(e, "labelColor")
+                                                }
+                                                value={
+                                                  formData?.labelColor
+                                                    ? formData?.labelColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                      <div className="form-group">
+                                        <div className="form-group">
+                                          <label>Select Option color</label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image + "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(e, "OptionColor")
+                                                }
+                                                value={
+                                                  formData?.optionColor
+                                                    ? formData?.optionColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        {/* <div className="form-group">
                                         <label>Select background color</label>
                                         <div className="option-action">
                                           <div className="color-pick">
@@ -2635,6 +2678,87 @@ const WebinarRegistration = () => {
                                                   : ""
                                               }
                                             />
+                                          </div>
+                                        </div>
+                                      </div> */}
+                                      </div>
+                                    </div>
+                                    <div>
+                                      Select color of dropdown list:
+                                      <div className="d-flex align-items-center reg-color-set">
+                                        <div className="form-group">
+                                          <label>Options Text color</label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image + "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(e, "dropdownOptionColor")
+                                                }
+                                                value={
+                                                  formData?.dropdownOptionColor
+                                                    ? formData?.dropdownOptionColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="form-group">
+                                          <label>Hovering Bar</label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image + "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(e, "dropdownHoveringColor")
+                                                }
+                                                value={
+                                                  formData?.dropdownHoveringColor
+                                                    ? formData?.dropdownHoveringColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="form-group">
+                                          <label>Selected Text</label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image + "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(e, "selectedTextColor")
+                                                }
+                                                value={
+                                                  formData?.selectedTextColor
+                                                    ? formData?.selectedTextColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
@@ -2663,7 +2787,7 @@ const WebinarRegistration = () => {
                       Upload Logo
                       <div
                         className="logo-section header-section"
-                        // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
                       >
                         {!logo && (
                           <>
@@ -2671,15 +2795,10 @@ const WebinarRegistration = () => {
                               <h5>Upload your file</h5>
                               <h6>(Recommended size 000 x 000)</h6>
                             </div>
-                            <Button
-                              onClick={(e) =>
-                                handleFileSelect(e, "logoImageUrl")
-                              }
-                            >
-                              Choose Your File
-                            </Button>
+                            <Button onClick={(e) => handleFileSelect(e, "logoImageUrl")}>Choose Your File</Button>
                           </>
                         )}
+
 
                         <img className="logo-img" src={logo} />
                         <div className="logo-text header-text">
@@ -2719,7 +2838,7 @@ const WebinarRegistration = () => {
                       Upload Header
                       <div
                         className="header-section"
-                        // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+                      // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
                       >
                         {!file && (
                           <>
@@ -2727,13 +2846,7 @@ const WebinarRegistration = () => {
                               <h5>Upload your file</h5>
                               <h6>(Recommended size 000 x 000)</h6>
                             </div>
-                            <Button
-                              onClick={(e) =>
-                                handleFileSelect(e, "headerImageUrl")
-                              }
-                            >
-                              Choose Your File
-                            </Button>
+                            <Button onClick={(e) => handleFileSelect(e, "headerImageUrl")}>Choose Your File</Button>
                           </>
                         )}
 
@@ -2775,7 +2888,7 @@ const WebinarRegistration = () => {
                       Upload Footer
                       <div
                         className="footer-section"
-                        // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                      // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
                       >
                         {!foot && (
                           <>
@@ -2783,13 +2896,7 @@ const WebinarRegistration = () => {
                               <h5>Upload your file</h5>
                               <h6>(Recommended size 000 x 000)</h6>
                             </div>
-                            <Button
-                              onClick={(e) =>
-                                handleFileSelect(e, "footerImageUrl")
-                              }
-                            >
-                              Choose Your File
-                            </Button>
+                            <Button onClick={(e) => handleFileSelect(e, "footerImageUrl")}>Choose Your File</Button>
                           </>
                         )}
 
