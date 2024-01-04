@@ -1,0 +1,43 @@
+{   
+    "logoImageUrl":{
+        "title": "Logo",
+        "type": "file",
+        "value": ""
+    },
+    "Heading": {
+        "title": "Modal heading",
+        "type": "text",
+        "value": "Write your question here!"
+    },
+    "nameLabel": {
+        "title": "Name Label",
+        "type": "text",
+        "value": "Name"
+    },
+    "namePlaceholder": {
+        "title": "Name Placeholder",
+        "type": "text",
+        "value": "Write Your Name"
+    },
+    "questionLabel": {
+        "title": "Question Label",
+        "type": "text",
+        "value": "Your question"
+    },
+    "questionPlaceholder": {
+        "title": "Question Placeholder",
+        "type": "text",
+        "value": "Write your question"
+    },
+    "buttonText": {
+        "title": "Button Text",
+        "type": "text",
+        "value": "SEND"
+    },
+    "footerText": {
+        "title": "Footer Text",
+        "type": "text",
+        "value": "Preparation date: xx xxx 2024"
+    }
+
+}

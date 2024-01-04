@@ -1036,7 +1036,7 @@ const NewEventCreate = () => {
                                     alt="Email"
                                   />
                                 </button>
-                               {/* <button
+                               <button
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarRegistrationForm(e, item);
@@ -1048,7 +1048,7 @@ const NewEventCreate = () => {
                                     src={path_image + "webinar-icon.svg"}
                                     alt="Registration"
                                   />
-                                </button>  */}
+                                </button> 
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
