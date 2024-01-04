@@ -8,7 +8,7 @@ import PreviewGraphModal from "./PreviewGraphModal";
 // import "slick-carousel/slick/slick-theme.css";
 
 // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 let dropdownData = {
   INPUT: "User Input",

@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { db } from "../../../../../config/firebaseConfig";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import moment from "moment"
 import { collection, query, where, onSnapshot,orderBy,limit } from "firebase/firestore";
 import {Col,
@@ -13,12 +14,12 @@ import {Col,
   } from "react-bootstrap";
 
 const SpeakerZone = () => {
-
+    const { eventIdContext } = useSidebar();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);  
     const [eventId,setEvent] = useState({
-        id:401,
-        companyId:18207
+        id:eventIdContext?.eventId,
+        companyId:eventIdContext?.companyId
     })
     const [count,setCount] = useState(0)
 
@@ -92,8 +93,6 @@ const SpeakerZone = () => {
         if(count>0){
             initialFun()
         }
-           
-        
     },[count])
 
 
