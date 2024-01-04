@@ -234,7 +234,7 @@ const NewEventCreate = () => {
   };
 
   const webinarRegistrationForm = (e, item) => {
-    navigate("/webinar-registration", {
+    navigate("/webinar/registration", {
       state: item,
     });
   };
