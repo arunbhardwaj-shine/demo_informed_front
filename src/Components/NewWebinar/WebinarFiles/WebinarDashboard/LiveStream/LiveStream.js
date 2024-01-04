@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Col, Tabs, Tab, Button, Form } from 'react-bootstrap';
+import { Col, Tabs, Tab, Button, Form, Image } from 'react-bootstrap';
 import { postData, deleteData, deleteMethod } from '../../../../../axios/apiHelper';
 import { ENDPOINT } from '../../../../../axios/apiConfig';
 import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
@@ -575,6 +575,9 @@ const LiveStream = () => {
             </Col>
             <Col className="col-4">
               <h6>Live HCP's Tracking</h6>
+              <div className='live-hcp-tracking-img'>
+                <Image src={path_image + "live-hcp-tracking.png"} alt="" />
+              </div>
               <div className='dm-speaker'>
                 <h6>Direct Messaging To The Speaker</h6>
                 <div className='dm-speaker-txt'>
@@ -699,7 +702,7 @@ const LiveStream = () => {
                     </div>
                     :
                     <>
-                      
+                       <div className='live-attendees'>
                       {
                         attendees.length > 0 ?
                         attendees?.map((item, index) => {
@@ -731,7 +734,7 @@ const LiveStream = () => {
                                   
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
-                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
+                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
                                 </div>
@@ -793,6 +796,7 @@ const LiveStream = () => {
                         })
                         : <div className='no_found'><p>No Data found</p></div>
                       }
+                      </div>
                     </>
                   }
                 </Tab>
@@ -871,6 +875,7 @@ const LiveStream = () => {
                     </div>
                     :
                     <>
+                    <div className='live-attendees'>
                       {
                         attendees.length > 0 ?
                         attendees?.map((item, index) => {
@@ -902,7 +907,7 @@ const LiveStream = () => {
                                   
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
-                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
+                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
                                 </div>
@@ -961,6 +966,7 @@ const LiveStream = () => {
                         })
                         : <div className='no_found'><p>No Data found</p></div>
                       }
+                      </div>
                     </>
                   }
                 </Tab>
@@ -1038,7 +1044,7 @@ const LiveStream = () => {
                     </div>
                     :
                     <>
-                      
+                      <div className='live-attendees'>
                       {
                         attendees.length > 0 ?
                         attendees?.map((item, index) => {
@@ -1075,7 +1081,7 @@ const LiveStream = () => {
                                  
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
-                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
+                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
                                   <div className='reader-msg'>
@@ -1140,6 +1146,7 @@ const LiveStream = () => {
                         })
                         : <div className='no_found'><p>No Data found</p></div>
                       }
+                      </div>
                     </>
                   }
                 </Tab>
@@ -1254,6 +1261,7 @@ const LiveStream = () => {
                     </div>
                     :
                     <>
+                     <div className='live-attendees'>
                       {
                         attendees.length > 0 ?
                         attendees?.map((item, index) => {
@@ -1285,7 +1293,7 @@ const LiveStream = () => {
                                   
                                   <div className='hcp-activity-status'>
                                       <div className='activity-status online'>
-                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "offline"}
+                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
                                 </div>
@@ -1345,6 +1353,7 @@ const LiveStream = () => {
                         })
                         : <div className='no_found'><p>No Data found</p></div>
                       }
+                      </div>
                     </>
                   }
                 </Tab>
