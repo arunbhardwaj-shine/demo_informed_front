@@ -4,11 +4,13 @@ import { postData, deleteData, deleteMethod } from '../../../../../axios/apiHelp
 import { ENDPOINT } from '../../../../../axios/apiConfig';
 import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
 import { popup_alert } from '../../../../../popup_alert';
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { Spinner } from 'react-activity';
 import { toast } from "react-toastify";
-let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LiveStream = () => {
+  const { eventIdContext } = useSidebar();
   const [questions, setQuestions] = useState([]);
   const [attendees, setAttendees] = useState([]);
   const [attendeesDetails, setAttendeesDetails] = useState();
@@ -21,6 +23,7 @@ const LiveStream = () => {
   });
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState('new');
+  const [eventId, setEventId] = useState(eventIdContext?.eventId ? eventIdContext?.eventId : 401);
   const [moreDetailsStatus, setMoreDetailsStatus] = useState(false);
   const [adminMessage, setAdminMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
@@ -35,6 +38,7 @@ const LiveStream = () => {
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
 
   useEffect(() => {
+    console.log("Live stream--->",eventIdContext)
       getQuestions();
   }, []);
 
@@ -46,7 +50,7 @@ const LiveStream = () => {
   const getQuestions = async() => {    
     try{
       let body = {
-        "eventId": 401
+        "eventId": eventId
       };
       const response = await postData(ENDPOINT.WEBINAR_EVENT_QUESTION_ANSWER,body);
       setQuestions(response?.data?.data);
@@ -61,7 +65,7 @@ const LiveStream = () => {
   const getEventRegisterReaders = async(searchVal="") => {
     try{
       let body = {
-        "eventId": 401,
+        "eventId": eventId,
         "type" : attendeesTab,
         "search" : searchVal
       };
@@ -91,7 +95,7 @@ const LiveStream = () => {
       e.preventDefault();
       setApiCallStatus(true);
       let body = {
-        "eventId" : 401,
+        "eventId" : eventId,
         "questionId" : question_id,
         "status" : status
       };
@@ -203,7 +207,7 @@ const LiveStream = () => {
   const deleteRegisterUser = async (id) => {
     setAttendeesApiCallStatus(true);
     try {
-      let eventId = 401;
+      let eventId = eventId;
       const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${eventId}`);
       let updatedUserData = attendees.filter((item) => item?.userId !== id);
       setAttendees(updatedUserData);
@@ -237,7 +241,7 @@ const LiveStream = () => {
       } else {
         setMessageSendStatus(true);
         let body = {
-          "eventId"  : 401,
+          "eventId"  : eventId,
           "question" : adminMessage
         };
         const response = await postData(ENDPOINT.WEBINAR_SEND_ADMIN_QUESTION,body);
@@ -283,7 +287,7 @@ const LiveStream = () => {
       if(accordionOpen !== id){
         setMoreDetailsStatus(true);
         let body = {
-            "eventId": 401,
+            "eventId": eventId,
             "userId": id
         };
         const response = await postData(ENDPOINT.WEBINAR_GET_EVENT_ATTENDEES_DETAILS,body);

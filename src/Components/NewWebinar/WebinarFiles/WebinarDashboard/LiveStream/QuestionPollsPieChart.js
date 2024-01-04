@@ -99,16 +99,9 @@ const QuestionPollsPieChart = ({ data }) => {
         },
         legend: {
             enabled:true,
-            // align: "center",
-            // verticalAlign: "bottom",
+            verticalAlign: "bottom",
             // labelFormat: '{name} ({percentage:.2f}%) ',
-            // labelFormatter: function () {
-            //     const percentage = this.percentage !== undefined ? this.percentage.toFixed(2) : '';
-            //     return this.name + ' (' + percentage + '%)';
-            // },
-            // layout: "horizontal",
-            // x: 0,
-            // y: 0,
+           
         },
         plotOptions: {
            

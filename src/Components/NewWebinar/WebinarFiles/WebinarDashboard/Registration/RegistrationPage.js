@@ -276,7 +276,7 @@ const RegistrationPage = ({ prevData }) => {
   };
 
   const handleBackClicked = () => {
-    navigate("/webinar-registration", { state: prevData });
+    navigate("/webinar/registration", { state: prevData });
   };
   const handleSubmit1 = (event) => {
     event.preventDefault();

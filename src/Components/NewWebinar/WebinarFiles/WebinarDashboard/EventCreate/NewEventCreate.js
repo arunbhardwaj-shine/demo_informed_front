@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { filter } from "@amcharts/amcharts4/.internal/core/utils/Iterator";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
-  let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
   const { selectedItem,eventIdContext ,handleEventId} = useSidebar();
   let params = useParams();
@@ -208,9 +208,9 @@ const NewEventCreate = () => {
     const eventStatus = getEventStatus(item);
     return eventStatus === "Live"
       ? "Live"
-      : eventStatus === "Coming Soon"
+      : eventStatus === "Coming soon"
         ? "Coming"
-        : eventStatus === "Has Ended"
+        : eventStatus === "Has ended"
           ? "End"
           : "Other";
   };
@@ -219,8 +219,8 @@ const NewEventCreate = () => {
     return differenceDays(item?.dateStart) === 0
       ? "Live"
       : differenceDays(item?.dateStart) > 0
-        ? "Coming Soon"
-        : "Has Ended";
+        ? "Coming soon"
+        : "Has ended";
   };
 
   const handleAddEventClick = (e, item) => {
@@ -234,7 +234,7 @@ const NewEventCreate = () => {
   };
 
   const webinarRegistrationForm = (e, item) => {
-    navigate("/webinar-registration", {
+    navigate("/webinar/registration", {
       state: item,
     });
   };
@@ -996,15 +996,15 @@ const NewEventCreate = () => {
                               >
                                 {item?.eventStatus == 0 ? (
                                   <div className="action-status live">
-                                    Event Live
+                                    Event live
                                   </div>
                                 ) : item?.eventStatus > 0 ? (
                                   <div className="action-status coming">
-                                    Coming Soon
+                                    Coming soon
                                   </div>
                                 ) : (
                                   <div className="action-status end">
-                                    Has Ended
+                                    Has ended
                                   </div>
                                 )}
                                 {/* <button
@@ -1033,7 +1033,7 @@ const NewEventCreate = () => {
                                     alt="Email"
                                   />
                                 </button>
-                               {/* <button
+                               <button
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarRegistrationForm(e, item);
@@ -1045,7 +1045,7 @@ const NewEventCreate = () => {
                                     src={path_image + "webinar-icon.svg"}
                                     alt="Registration"
                                   />
-                                </button>  */}
+                                </button> 
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {

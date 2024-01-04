@@ -219,7 +219,7 @@ const Sidebar = () => {
       <div className="left-sidebar">
         <div className="sidebar-menu">
           {window.location.pathname === "/webinar/invitees" ||
-            window.location.pathname == "/webinar-registration" ||
+            window.location.pathname == "/webinar/registration" ||
             window.location.pathname == "/webinar/email" ||
             window.location.pathname == "/webinar/live-stream" ||
             window.location.pathname == "/webinar/live-stream/polls-layout" ||
@@ -247,7 +247,7 @@ const Sidebar = () => {
           </button> */}
 
           {!(window.location.pathname === "/webinar/invitees" ||
-            window.location.pathname === "/webinar-registration" ||
+            window.location.pathname === "/webinar/registration" ||
             window.location.pathname === "/webinar/email" ||
             window.location.pathname === "/webinar/live-stream" ||
             window.location.pathname == "/webinar/live-stream/polls-layout" ||
@@ -1076,7 +1076,7 @@ const Sidebar = () => {
             </ul>
           ) : 
           window.location.pathname == "/webinar/invitees" ||
-              window.location.pathname == "/webinar-registration" ||
+              window.location.pathname == "/webinar/registration" ||
               window.location.pathname == "/webinar/email" ||
               window.location.pathname == "/webinar/live-stream" || 
                window.location.pathname == "/webinar/live-stream/polls-layout" ||  
@@ -1102,12 +1102,12 @@ const Sidebar = () => {
                 </li>
                 <li
                   className={
-                    location.pathname == "/webinar-registration"
+                    location.pathname == "/webinar/registration"
                       ? "active"
                       : "side_li"
                   }
                 >
-                  <Link to={"/webinar-registration"}>
+                  <Link to={"/webinar/registration"}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <path d="M13.3806 5.37989C13.3806 5.86588 12.9866 6.25991 12.5006 6.25991C12.0146 6.25991 11.6204 5.86595 11.6204 5.37997C11.6204 4.89398 12.0146 4.49995 12.5006 4.49995C12.9865 4.49995 13.3806 4.89391 13.3806 5.37989Z" fill="#0066BE"/>
                       <path d="M12.1271 6.31989H12.8738C13.4951 6.31989 14.0006 6.82542 14.0004 7.44671V8.36005H13.9941L13.9353 8.38978C13.9057 8.40483 13.4257 8.64093 12.5976 8.64093C12.1736 8.64093 11.6585 8.57915 11.0656 8.3939L11.0027 8.3742L11.0004 8.3599V7.44671C11.0004 6.82542 11.5058 6.31989 12.1271 6.31989Z" fill="#0066BE"/>
@@ -1304,7 +1304,7 @@ const Sidebar = () => {
               </ul>
           ) :
           window.location.pathname == "/webinar/invitees" ||
-                window.location.pathname == "/webinar-registration" ||
+                window.location.pathname == "/webinar/registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
                 window.location.pathname == "/webinar/live-stream/polls-layout" ||
@@ -1327,12 +1327,12 @@ const Sidebar = () => {
                   </li>
                   <li
                     className={
-                      location.pathname == "/webinar-registration"
+                      location.pathname == "/webinar/registration"
                         ? "active"
                         : "side_li"
                     }
                   >
-                    <Link to={"/webinar-registration"}>
+                    <Link to={"/webinar/registration"}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path d="M13.3806 5.37989C13.3806 5.86588 12.9866 6.25991 12.5006 6.25991C12.0146 6.25991 11.6204 5.86595 11.6204 5.37997C11.6204 4.89398 12.0146 4.49995 12.5006 4.49995C12.9865 4.49995 13.3806 4.89391 13.3806 5.37989Z" fill="#0066BE" />
                         <path d="M12.1271 6.31989H12.8738C13.4951 6.31989 14.0006 6.82542 14.0004 7.44671V8.36005H13.9941L13.9353 8.38978C13.9057 8.40483 13.4257 8.64093 12.5976 8.64093C12.1736 8.64093 11.6585 8.57915 11.0656 8.3939L11.0027 8.3742L11.0004 8.3599V7.44671C11.0004 6.82542 11.5058 6.31989 12.1271 6.31989Z" fill="#0066BE" />
@@ -1500,7 +1500,7 @@ const Sidebar = () => {
                 </ul>
               ) :
               window.location.pathname == "/webinar/invitees" ||
-                window.location.pathname == "/webinar-registration" ||
+                window.location.pathname == "/webinar/registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
                 window.location.pathname == "/webinar/live-stream/polls-layout" ||
@@ -1523,12 +1523,12 @@ const Sidebar = () => {
                     </li>
                     <li
                       className={
-                        location.pathname == "/webinar-registration"
+                        location.pathname == "/webinar/registration"
                           ? "active"
                           : "side_li"
                       }
                     >
-                      <Link to={"/webinar-registration"}>
+                      <Link to={"/webinar/registration"}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                           <path d="M13.3806 5.37989C13.3806 5.86588 12.9866 6.25991 12.5006 6.25991C12.0146 6.25991 11.6204 5.86595 11.6204 5.37997C11.6204 4.89398 12.0146 4.49995 12.5006 4.49995C12.9865 4.49995 13.3806 4.89391 13.3806 5.37989Z" fill="#0066BE" />
                           <path d="M12.1271 6.31989H12.8738C13.4951 6.31989 14.0006 6.82542 14.0004 7.44671V8.36005H13.9941L13.9353 8.38978C13.9057 8.40483 13.4257 8.64093 12.5976 8.64093C12.1736 8.64093 11.6585 8.57915 11.0656 8.3939L11.0027 8.3742L11.0004 8.3599V7.44671C11.0004 6.82542 11.5058 6.31989 12.1271 6.31989Z" fill="#0066BE" />
@@ -1763,7 +1763,7 @@ const Sidebar = () => {
                   </ul>
                 ) :
                 window.location.pathname == "/webinar/event-listing" ||
-                  window.location.pathname == "/webinar-registration" ||
+                  window.location.pathname == "/webinar/registration" ||
                   window.location.pathname == "/poll-listing"
                   ? (
                     // <ul>

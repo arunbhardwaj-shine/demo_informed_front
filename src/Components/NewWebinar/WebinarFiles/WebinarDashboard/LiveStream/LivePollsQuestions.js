@@ -116,6 +116,7 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
     // ]
 
     useEffect(() => {
+        console.log("Live polls question--->",eventId)
         slickRef.current.slickGoTo(0);
         setQuestion(questionData?.data?.data)
         let updateQuestionId = []

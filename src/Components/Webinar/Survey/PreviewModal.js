@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
 const PreviewModal = ({ questions, onQuestionOrderChange }) => {
-  let path_image = "../"+process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const filteredQuestions = questions.filter(
     (question) => question?.questionData && question?.questionData.id
