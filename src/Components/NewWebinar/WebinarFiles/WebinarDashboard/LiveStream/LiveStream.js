@@ -30,6 +30,7 @@ const LiveStream = () => {
   const [attendeesTab, setAttendeesTab] = useState('online');
   const [messageSendStatus, setMessageSendStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [refreshAttendeesFlag, setRefreshAttendeesFlag] = useState("");
   const [attendeesApiCallStatus, setAttendeesApiCallStatus] = useState(true);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
 
@@ -67,7 +68,9 @@ const LiveStream = () => {
       const response = await postData(ENDPOINT.WEBINAR_GET_EVENT_ATTENDEES,body);
       setAttendees(response?.data?.data);
       setAttendeesApiCallStatus(false);
+      setRefreshAttendeesFlag('');
     }catch(err){
+      setRefreshAttendeesFlag('');
       setAttendeesApiCallStatus(false);
       console.log(err);
     }
@@ -263,8 +266,9 @@ const LiveStream = () => {
     setAttendeesTab(selectedTab);
   }
 
-  const refreshAttendees = async(e) => {
+  const refreshAttendees = async(type) => {
     try{
+      setRefreshAttendeesFlag(type);
       setDeleteStatus(false);
       setAccordionOpen(false);
       setAttendeesApiCallStatus(true);
@@ -612,6 +616,7 @@ const LiveStream = () => {
             </Col>
             <Col className="col-4">
               <h6>Attendees</h6>
+              
               <div className="live-stream-tabs-data">
               <Tabs
                 id="attendees_tabs"
@@ -669,7 +674,7 @@ const LiveStream = () => {
                               : null
                             }
                               <div className='btn-refresh'>
-                              <img className= {attendeesTab === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
+                              <img className= {refreshAttendeesFlag === "online" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees('online')}/>
                             </div>
                           </div>
                         </div>
@@ -841,7 +846,7 @@ const LiveStream = () => {
                                 : null
                               }
                               <div className='btn-refresh'>
-                                <img className= {attendeesTab === "left" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
+                                <img className= {refreshAttendeesFlag === "left" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees('left')}/>
                               </div>
                             </div>
                           </div>
@@ -1008,7 +1013,7 @@ const LiveStream = () => {
                                 : null
                               }
                               <div className='btn-refresh'>
-                                <img className= {attendeesTab === "question_ask" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
+                                <img className= {refreshAttendeesFlag === "question_ask" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees('question_ask')}/>
                               </div>
                             </div>
                           </div>
@@ -1181,7 +1186,7 @@ const LiveStream = () => {
                                   {/* : null
                               } */}
                               <div className='btn-refresh'>
-                                <img className= {attendeesTab == "all" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees(e)}/>
+                                <img className= {refreshAttendeesFlag === "all" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees('all')}/>
                               </div>
                               {
                                 attendees.length > 0

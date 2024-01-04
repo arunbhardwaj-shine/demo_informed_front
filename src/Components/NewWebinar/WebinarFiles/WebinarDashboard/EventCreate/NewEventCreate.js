@@ -238,15 +238,20 @@ const NewEventCreate = () => {
       state: item,
     });
   };
-  const liveStream = () => {
+  const liveStream = (item) => {
+    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream");
   };
   const webinarPollingForm = (e, item) => {
-    console.log("item--->",item)
-    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code})
+    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream/polls-layout", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });
+  };
+
+  const webinarEmailForm = (item) => {
+    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    navigate("/webinar/email");
   };
 
   const handleAddModalSubmit = (e) => {
@@ -525,7 +530,7 @@ const NewEventCreate = () => {
   };
 
   const handleCardClick = (item) => {
-    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code})
+    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     // console.log("item--->", item)
     navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
@@ -1017,10 +1022,10 @@ const NewEventCreate = () => {
                                 </button> */}
                                 <button
                                   className="btn-webinar"
-                                // onClick={(e) => {
-                                //   webinarRegistrationForm(e, item);
-                                //   e.stopPropagation();
-                                // }}
+                                  onClick={(e) => {
+                                    webinarEmailForm(e, item);
+                                    e.stopPropagation();
+                                  }}
                                 >
                                   <img
                                     title="Email"
@@ -1057,7 +1062,7 @@ const NewEventCreate = () => {
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
-                                    liveStream();
+                                    liveStream(item);
                                     e.stopPropagation();
                                   }}
                                 >

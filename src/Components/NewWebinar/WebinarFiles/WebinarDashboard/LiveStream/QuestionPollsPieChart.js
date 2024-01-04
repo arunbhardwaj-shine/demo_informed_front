@@ -3,7 +3,6 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 const QuestionPollsPieChart = ({ data }) => {
-    console.log("pie data-->",data)
     const [pieChartOptions, setPieChartOptions] = useState({
         chart: {
             plotBackgroundColor: null,
@@ -99,12 +98,17 @@ const QuestionPollsPieChart = ({ data }) => {
               },
         },
         legend: {
-            align: "center",
-            verticalAlign: "bottom",
+            enabled:true,
+            // align: "center",
+            // verticalAlign: "bottom",
             // labelFormat: '{name} ({percentage:.2f}%) ',
-            layout: "horizontal",
-            x: 0,
-            y: 0,
+            // labelFormatter: function () {
+            //     const percentage = this.percentage !== undefined ? this.percentage.toFixed(2) : '';
+            //     return this.name + ' (' + percentage + '%)';
+            // },
+            // layout: "horizontal",
+            // x: 0,
+            // y: 0,
         },
         plotOptions: {
            
@@ -172,8 +176,10 @@ const QuestionPollsPieChart = ({ data }) => {
                 highcharts={Highcharts}
                 options={ barChartOptions }
             />:
-            <div>
+            <div className="no_found">
+                <p>
                 No Data Found
+                </p>
             </div>
             }
         </div>
