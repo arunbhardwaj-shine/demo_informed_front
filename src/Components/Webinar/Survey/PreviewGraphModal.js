@@ -5,22 +5,28 @@ import Highcharts from "highcharts";
 const PreviewGraphModal = ({ graphType, answerOption }) => {
   const [chartPieOptions, setPieChartOptions] = useState();
   const [chartBarOptions, setBarChartOptions] = useState();
+
  
   useEffect(() => {
-    let percentage = parseInt(100 / answerOption?.length);
+    console.log(answerOption,'answerOption')
+    let filteredAnswerOption = answerOption.filter(item => item?.answer !== "");
+    console.log(filteredAnswerOption,'filteredAnswerOption')
+    let percentage = filteredAnswerOption?.length > 0 ? parseInt(100 / filteredAnswerOption?.length) : 0;
+    
+    // let percentage = parseInt(100 / answerOption?.length);
   
     let pieSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
       y: percentage,
-      // color: item?.color,
-      colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
+      color: item?.color,
+      // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
   
     let barSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
       y: percentage,
-      // color: item?.color,
-      colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
+      color: item?.color,
+      // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
   
     setPieChartOptions({
@@ -139,12 +145,30 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
   
   return (
     <>
-      <div className="pie-chart-outer-layout">
+      {/* <div className="pie-chart-outer-layout">
         <HighchartsReact
           highcharts={Highcharts}
           options={graphType === "pie" ? chartPieOptions : chartBarOptions}
         />
-      </div>
+      </div> */}
+
+          {answerOption.length > 0 ? (
+            answerOption.map((item, index) => (
+              item?.answer !== "" ? (
+                <div key={index} className="pie-chart-outer-layout">
+                  <HighchartsReact
+                    key={index}
+                    highcharts={Highcharts}
+                    options={graphType === "pie" ? chartPieOptions : chartBarOptions}
+                  />
+                </div>
+              ) : <div className="email_box_block no_found">No graph found</div>
+            ))
+          ) : (
+            <div className="email_box_block no_found">No graph found</div>
+          )}
+
+
     </>
   );
 };
