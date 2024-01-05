@@ -33,7 +33,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
 const WebinarRegistration = () => {
-  const { eventIdContext } = useSidebar();
+  const { eventIdContext,handleEventId } = useSidebar();
   const validExtensions = ["png", "jpeg", "jpg"];
   const [templateList, setTemplateList] = useState(templateData);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -53,7 +53,7 @@ const WebinarRegistration = () => {
 
 // location?.state?.event_code ? location?.state?.event_code : ""
   const [event_code, setEventCode] = useState(
-    eventIdContext?.eventCode?eventIdContext?.eventCode:""
+    eventIdContext?.eventCode?eventIdContext?.eventCode:JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode
   );
   const [logo, setLogo] = useState();
   const [file, setFile] = useState();
@@ -112,10 +112,10 @@ const WebinarRegistration = () => {
     totalFieldNo: 0,
     templateId: 0,
   });
-
+const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventData, setEventData] = useState({
-    event_id:eventIdContext?.eventId?eventIdContext?.eventId: location?.state?.id?location?.state?.id:"",
-    company_id:eventIdContext?.companyId?eventIdContext?.companyId: location?.state?.user_id?location?.state?.user_id:"",
+    event_id:eventIdContext?.eventId?eventIdContext?.eventId: location?.state?.id?location?.state?.id:localStorageEvent?.eventId,
+    company_id:eventIdContext?.companyId?eventIdContext?.companyId: location?.state?.user_id?location?.state?.user_id:localStorageEvent?.companyId,
   });
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
@@ -203,8 +203,14 @@ const WebinarRegistration = () => {
     // }
 
     // getAllEvents();
-    getWebinarData(event_code)
-    console.log("Registration event context--->",eventIdContext)
+    
+    // if(!eventIdContext){
+    //   handleEventId(localStorageEvent)
+    // }
+    if(event_code){
+      getWebinarData(event_code)
+    }
+     
     
   }, []);
   const getWebinarData = async (event_code) => {

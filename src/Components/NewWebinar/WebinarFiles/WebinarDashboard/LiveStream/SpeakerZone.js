@@ -16,7 +16,8 @@ import {Col,
   } from "react-bootstrap";
 
 const SpeakerZone = () => {
-    const { eventIdContext } = useSidebar();
+    const { eventIdContext,handleEventId } = useSidebar();
+    const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const location = useLocation();
     const [apiCallStatus, setApiCallStatus] = useState({
       "question": false,
@@ -25,10 +26,9 @@ const SpeakerZone = () => {
     });
     const queryParams = new URLSearchParams(location.search);  
     const [eventId,setEvent] = useState({
-        // id:eventIdContext?.eventId,
-        // companyId:eventIdContext?.companyId
-        id:401,
-        companyId:18207
+        id:eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId,
+        companyId:eventIdContext?.companyId?eventIdContext?.companyId:localStorageEvent?.companyId,
+        eventCode:eventIdContext?.eventCode?eventIdContext?.eventCode:localStorageEvent?.eventCode
     })
     const [count,setCount] = useState(0)
 
@@ -152,15 +152,16 @@ const SpeakerZone = () => {
         }
     }
     useEffect(()=>{
-      console.log("speaker zone --->",eventIdContext)
+      // if(!eventIdContext){
+      //   handleEventId(localStorageEvent)
+      // }
         if(count>0){
             initialFun()
         }
     },[count])
 
     const copyToClipboard = () => {
-      console.log(eventIdContext);
-      let content = "https://informed.pro/Webinar/question-list?evnt="+eventIdContext?.eventCode
+      let content = "https://informed.pro/Webinar/question-list?evnt="+eventId?.eventCode
       if (window.isSecureContext && navigator.clipboard) {
         navigator.clipboard.writeText(content);
         toast.success("content copied to the clipboard!");
