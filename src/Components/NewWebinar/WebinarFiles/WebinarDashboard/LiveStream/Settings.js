@@ -7,14 +7,19 @@ import { toast } from "react-toastify";
 import { loader } from "../../../../../loader";
 
 const Settings = () => {
-  const { eventIdContext } = useSidebar();
+  const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
+  const { eventIdContext,handleEventId } = useSidebar();
   const [liveStatus, setLiveStatus] = useState(0);
   const [askQuestion, setAskQuestion] = useState(0);
   const [streamUrl, setStreamUrl] = useState("");
   const [posterUrl, setPosterUrl] = useState("");
+  const [eventId,setEventId]=useState(eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId)
 
   useEffect(() => {
-    console.log("Settings--->",eventIdContext)
+   
+    // if(!eventIdContext){
+    //   handleEventId(localStorageEvent)
+    // }
     fetchSettings();
   }, []);
 
@@ -22,7 +27,7 @@ const Settings = () => {
     try {
       loader("show");
       const response = await getData(
-        `${ENDPOINT.WEBINAR_SETTINGS_GET}/${eventIdContext?.eventId}`
+        `${ENDPOINT.WEBINAR_SETTINGS_GET}/${eventId}`
       );
       const { live_status, ask_question, poster_url, stream_url } =
         response?.data?.data;
@@ -94,7 +99,7 @@ const Settings = () => {
       }
 
       const payload = {
-        eventId: eventIdContext?.eventId,
+        eventId: eventId,
         live_status: liveStatus,
         ask_question: askQuestion,
         stream_url: liveStatus === 2 ? streamUrl : "",

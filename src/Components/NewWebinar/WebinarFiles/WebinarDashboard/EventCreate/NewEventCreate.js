@@ -240,10 +240,12 @@ const NewEventCreate = () => {
   };
   const liveStream = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream");
   };
   const webinarPollingForm = (e, item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream/polls-layout", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });
@@ -251,6 +253,7 @@ const NewEventCreate = () => {
 
   const webinarEmailForm = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/email");
   };
 
@@ -531,7 +534,7 @@ const NewEventCreate = () => {
 
   const handleCardClick = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    // console.log("item--->", item)
+   localStorage.setItem("EventIdContext",JSON.stringify({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title}))
     navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
   };

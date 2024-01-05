@@ -7,6 +7,7 @@ import Slider from 'react-slick'
 import { postData } from '../../../../../axios/apiHelper';
 import { ENDPOINT } from '../../../../../axios/apiConfig';
 import QuestionPollsPieChart from './QuestionPollsPieChart';
+import { useSidebar } from '../../../../CommonComponent/LoginLayout';
 const settings = {
     infinite: false,
     slidesToShow: 1,
@@ -32,7 +33,9 @@ const settings = {
         },
     ],
 };
-const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
+const LivePollsQuestion = ({ questionData }) => {
+    const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
+    const {eventIdContext,handleEventId}=useSidebar()
     const [question, setQuestion] = useState()
     const slickRef = useRef("");
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -116,7 +119,6 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
     // ]
 
     useEffect(() => {
-        console.log("Live polls question--->",eventId)
         if(slickRef.current){
 
             slickRef.current.slickGoTo(0);
@@ -302,7 +304,7 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
             </div>
 
             <div className='pie-chart-outer-layout' >                
-                <QuestionPollsPieChart data={pieChartData} isDataLoaded={isDataLoaded}/>
+                <QuestionPollsPieChart data={pieChartData} />
                 
             </div>
         </div>

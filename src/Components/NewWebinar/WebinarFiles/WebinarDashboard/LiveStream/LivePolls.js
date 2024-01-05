@@ -4,17 +4,22 @@ import { loader } from '../../../../../loader'
 import { ENDPOINT } from '../../../../../axios/apiConfig'
 import { postData } from '../../../../../axios/apiHelper'
 import LivePollsQuestion from './LivePollsQuestions'
-
-const LivePolls = ({ location ,eventIdContext}) => {
+import { useSidebar } from '../../../../CommonComponent/LoginLayout'
+const LivePolls = ({ location }) => {
+    const {eventIdContext,handleEventId}=useSidebar()
+    const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEvent] = useState({
-        id: location?.state?.event_id ? location?.state?.event_id :eventIdContext?eventIdContext?.eventId:"",
-        companyId: location?.state?.companyId ? location?.state?.companyId :eventIdContext?eventIdContext?.companyId:"",
+        id: location?.state?.event_id ? location?.state?.event_id :eventIdContext?eventIdContext?.eventId:localStorageEvent?.eventId,
+        companyId: location?.state?.companyId ? location?.state?.companyId :eventIdContext?eventIdContext?.companyId:localStorageEvent?.companyId,
     });
     const [data, setData] = useState()
     const [isdataLoaded,setIsDataLoaded]=useState(false)
 
     useEffect(() => {
-        console.log("Live polls-->",eventIdContext)
+       
+        // if(!eventIdContext){
+        //     handleEventId(localStorageEvent)
+        // }
         getEventQuestion()
     }, [])
 
