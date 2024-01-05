@@ -14,7 +14,8 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 const validExtensions = ["png", "jpeg", "jpg"];
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const Event = () => {
+
+const ChatLinkPage = () => {
   const { eventIdContext, handleEventId } = useSidebar();
 
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
@@ -185,6 +186,34 @@ const Event = () => {
       loader("hide");
     }
   };
+
+//   const handleSubmitForm = async () => {
+//     try {
+//       loader("show");
+//       const payload = {
+//         ...dynamicContent,
+//         eventId: eventData?.eventId,
+//         companyId: eventData?.companyId,
+//       };
+  
+//       console.log(payload, "====>payload");
+//       const response = await postData(
+//         // ENDPOINT.WEBINAR_SETTINGS_UPDATE,
+//         payload
+//       );
+  
+//       // Update the dynamicContent state with the new data
+//       setDynamicContent((prevContent) => ({
+//         ...prevContent,
+//         ...response?.data, // Assuming your API response contains the updated data
+//       }));
+//     } catch (error) {
+//       console.error("Error:", error);
+//     } finally {
+//       loader("hide");
+//     }
+//   };
+  
 
   return (
     <>
@@ -544,4 +573,4 @@ const Event = () => {
     </>
   );
 };
-export default Event;
+export default ChatLinkPage;
