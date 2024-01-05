@@ -103,14 +103,10 @@ const RegistrationPage = ({ prevData }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { eventIdContext } = useSidebar();
-
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
-  // const event_code = new URLSearchParams(location.search).get("event");
-  const event_code=eventIdContext?.eventId
-
+  const event_code = new URLSearchParams(location.search).get("event");
   const [formData, setFormData] = useState(prevData || {});
   const [formFieldData, setFormFieldData] = useState({});
   const [formErrors, setFormErrors] = useState({});
