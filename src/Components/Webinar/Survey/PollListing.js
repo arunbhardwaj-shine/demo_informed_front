@@ -111,7 +111,7 @@ export default function PollListing({location,eventIdContext}) {
 
   const getApiData = async (event_code) => {
     try {
-      loader("show");
+      // loader("show");
 
       let apiData = await getListingData(event_code);
 
@@ -134,7 +134,7 @@ export default function PollListing({location,eventIdContext}) {
 
   const getAllEvents = async () => {
     try {
-      loader("show");
+      // loader("show");
       const response = await getData(
         `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`
       );
@@ -165,7 +165,7 @@ export default function PollListing({location,eventIdContext}) {
   };
 
   const handleSelectChange = async (event) => {
-    loader("show");
+    // loader("show");
     setApiStatus(() => false);
     setQuestions(() => {
       let data = [];
@@ -182,7 +182,7 @@ export default function PollListing({location,eventIdContext}) {
 
   const getListingData = async (id) => {
     try {
-      loader("show");
+      // loader("show");
       const apiData = await getData(`/webinar/getQuestionByEventId/${id}`);
       let data = apiData.data.data;
 
@@ -396,7 +396,7 @@ export default function PollListing({location,eventIdContext}) {
       return;
     }
 
-    loader("show");
+    // loader("show");
 
     const surveyData = questions[currentIndex].questionData;
     // setSurveyData(surveyData);
@@ -568,7 +568,7 @@ export default function PollListing({location,eventIdContext}) {
   };
   const finalHandleDelete = async (key) => {
     try {
-      loader("show");
+      // loader("show");
       if (key == questions?.length - 1) {
         setQuestionFlag(false);
       }
