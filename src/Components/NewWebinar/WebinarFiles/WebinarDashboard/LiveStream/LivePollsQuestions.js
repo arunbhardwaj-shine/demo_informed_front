@@ -162,6 +162,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         
             <div className='outer-layout'>
                 <div className='question-outer-layout'>
+                    <Button className='disabled reset'>Reset All</Button>
                     <div className='question-outer-inset'>
                         {question?.length ?
                         <Slider
