@@ -8,12 +8,12 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
 
  
   useEffect(() => {
-    console.log(answerOption,'answerOption')
-    let filteredAnswerOption = answerOption.filter(item => item?.answer !== "");
-    console.log(filteredAnswerOption,'filteredAnswerOption')
-    let percentage = filteredAnswerOption?.length > 0 ? parseInt(100 / filteredAnswerOption?.length) : 0;
+    // console.log(answerOption,'answerOption')
+    // let filteredAnswerOption = answerOption.filter(item => item?.answer !== "");
+    // console.log(filteredAnswerOption,'filteredAnswerOption')
+    // let percentage = filteredAnswerOption?.length > 0 ? parseInt(100 / filteredAnswerOption?.length) : 0;
     
-    // let percentage = parseInt(100 / answerOption?.length);
+    let percentage = parseInt(100 / answerOption?.length);
   
     let pieSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
@@ -83,19 +83,22 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       },
 
     });
-  
+
     setBarChartOptions({
       chart: {
-        type: "bar",
+        // type: "bar",
+        type: "column",
       },
       title: null,
       tooltip: {
         valueSuffix: "%",
       },
       legend: {
+        enabled:true,
         verticalAlign: "bottom",
-        labelFormat: '{name} ({percentage:.2f}%) ',
-      }, 
+        // labelFormat: '{name} ({percentage:.2f}%) ',
+       
+    }, 
       plotOptions: {
         series: {
           allowPointSelect: true,
@@ -128,6 +131,15 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       xAxis: {
         categories: answerOption.map(item => item?.answer),
       },
+      yAxis: {
+                min: 0,
+                title: {
+                    text: "", // Customize the y-axis label
+                },
+                stackLabels: {
+                    enabled: true,
+                  },
+            },
       series: [
         {
           name: "Percentage",
@@ -145,14 +157,14 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
   
   return (
     <>
-      {/* <div className="pie-chart-outer-layout">
+      <div className="pie-chart-outer-layout">
         <HighchartsReact
           highcharts={Highcharts}
           options={graphType === "pie" ? chartPieOptions : chartBarOptions}
         />
-      </div> */}
+      </div>
 
-          {answerOption.length > 0 ? (
+          {/* {answerOption.length > 0 ? (
             answerOption.map((item, index) => (
               item?.answer !== "" ? (
                 <div key={index} className="pie-chart-outer-layout">
@@ -166,7 +178,7 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
             ))
           ) : (
             <div className="email_box_block no_found">No graph found</div>
-          )}
+          )} */}
 
 
     </>
