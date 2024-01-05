@@ -169,7 +169,7 @@ const ContactDM = () => {
                                     >
                                         <input
                                             className="form-control me-2"
-                                            type="text"
+                                            type="search"
                                             placeholder="Search by email or name"
                                             aria-label="Search"
                                             id="email_search"
