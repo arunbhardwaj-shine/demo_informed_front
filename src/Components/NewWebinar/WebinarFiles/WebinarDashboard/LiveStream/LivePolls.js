@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { loader } from '../../../../../loader'
 import { ENDPOINT } from '../../../../../axios/apiConfig'
 import { postData } from '../../../../../axios/apiHelper'
 import LivePollsQuestion from './LivePollsQuestions'
@@ -17,26 +16,22 @@ const LivePolls = ({ location }) => {
     const [isdataLoaded,setIsDataLoaded]=useState(false)
 
     useEffect(() => {
-       
-        // if(!eventIdContext){
-        //     handleEventId(localStorageEvent)
-        // }
         getEventQuestion()
     }, [])
 
     const getEventQuestion = async () => {
         try {
-            loader("show")
+            setIsDataLoaded(true);
             const result = await postData(ENDPOINT.WEBINAR_All_QUESTION_LISTING, {
                 companyId: eventId?.companyId,
                 eventId: eventId?.id,
             });
             setData(result)
         } catch (err) {
+            setIsDataLoaded(false);
             console.log("--err", err)
         } finally {
-            setIsDataLoaded(true)
-            loader("hide")
+            setIsDataLoaded(false);
         }
     }
 
