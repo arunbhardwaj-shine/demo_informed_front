@@ -117,7 +117,10 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
 
     useEffect(() => {
         console.log("Live polls question--->",eventId)
-        slickRef.current.slickGoTo(0);
+        if(slickRef.current){
+
+            slickRef.current.slickGoTo(0);
+        }
         setQuestion(questionData?.data?.data)
         let updateQuestionId = []
         updateQuestionId?.push(questionData?.data?.data?.[0]?.questionId)
@@ -157,12 +160,13 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
         <div className='outer-layout'>
             <div className='question-outer-layout'>
                 <div className='question-outer-inset'>
+                    {question?.length ?
                     <Slider
                         {...settings}
                         ref={slickRef}
                         afterChange={(e) => handleAfterChange(e)}
                     >
-                        {question?.length ?
+                        {
                             question?.map((item, index) => {
 
                                 return (<>
@@ -226,10 +230,11 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
                                     </div>
                                 </>)
                             })
-                            : (<>
+                        }
+                    </Slider>
+                    : (<>
                             <div class="no_polls"><h3>No Polls Created yet!</h3></div>
                             </>)}
-                    </Slider>
                 </div>
                 {question?.length?
                 <div className="question-action">
