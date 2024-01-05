@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Tabs, Tab } from 'react-bootstrap'
 import { loader } from '../../../../../loader'
 import { ENDPOINT } from '../../../../../axios/apiConfig'
 import { postData } from '../../../../../axios/apiHelper'
 import LivePollsQuestion from './LivePollsQuestions'
 import { useSidebar } from '../../../../CommonComponent/LoginLayout'
+
+
 const LivePolls = ({ location }) => {
     const {eventIdContext,handleEventId}=useSidebar()
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
@@ -41,7 +42,7 @@ const LivePolls = ({ location }) => {
 
     return (<>
 
-        <LivePollsQuestion questionData={data} eventId={eventId?.id} isdataLoaded={isdataLoaded}/>
+        <LivePollsQuestion questionData={data} eventData={eventId} isdataLoaded={isdataLoaded} getQuestions={getEventQuestion}/>
 
     </>)
 }
