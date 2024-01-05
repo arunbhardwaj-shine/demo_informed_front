@@ -608,7 +608,7 @@ const Routing = () => {
           element={<LoginLayout component={PollsLayout} />}
         />
         <Route
-          path="/webinar-registration"
+          path="/webinar/registration"
           element={<LoginLayout component={WebinarRegistration} />}
         />
         <Route

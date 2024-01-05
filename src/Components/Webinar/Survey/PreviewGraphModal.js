@@ -119,6 +119,9 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       // },
       }
       },
+      xAxis: {
+        categories: answerOption.map(item => item?.answer),
+      },
       series: [
         {
           name: "Percentage",

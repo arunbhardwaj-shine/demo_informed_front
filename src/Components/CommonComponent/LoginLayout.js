@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import Header from "./HeaderComponent/Header";
 import Sidebar from "./SidebarComponent/Sidebar";
-import { Route, Navigate,useLocation } from "react-router-dom";
+import { Route, Navigate,useLocation, useNavigate } from "react-router-dom";
 
 const SidebarContext = createContext();
 
@@ -12,27 +12,39 @@ const LoginLayout = ({ component: Component, ...rest }) => {
   const location=useLocation()
   const currentPath = location.pathname;
   const pathParts = currentPath.split('/');
-  const routeName = pathParts[pathParts.length - 1];
-  console.log("login layout pathParts--->",pathParts)
-  console.log("login layout routeName--->",routeName)
-
+  const routeName =pathParts[1];
+  const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
   const [selectedItem, setSelectedItem] = useState(null);
 
   const setSelectedPDF = (pdfId) => {
     setSelectedItem(pdfId);
   };
-  const [eventIdContext, setEventIdContext] = useState(null);
+  const [eventIdContext, setEventIdContext] = useState(null );
+  const navigate=useNavigate()
 
   const handleEventId = (pdfId) => {
-    setEventIdContext(pdfId);
-    // if(pathParts?.include==="webinar"){
-    //   setEventIdContext(pdfId);
-    // }else{
-    //   setEventIdContext(null);
-    // }
-   
-
+    if(routeName=="webinar"){
+      setEventIdContext(pdfId);
+      localStorage.setItem("EventIdContext",JSON.stringify(pdfId))
+     
+    }else{
+      setEventIdContext(null);
+      localStorage.removeItem("EventIdContext")
+    }
   };
+  
+ 
+  useEffect(()=>{
+    console.log("route name--->",routeName)
+  if(routeName!="webinar"){
+    setEventIdContext(null);
+    localStorage.removeItem("EventIdContext")
+  }
+ 
+ if(!localStorageEvent&&routeName=="webinar"){
+  navigate("/webinar/event-listing")
+  }
+  },[routeName])
   return (
     <>
       {isAuthenticated ? (

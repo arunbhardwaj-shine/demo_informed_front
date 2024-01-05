@@ -41,18 +41,22 @@ const Invitees = () => {
   const [pageAll, setPageAll] = useState(false);
   const [appliedFilter, setAppliedFilter] = useState({})
 
-  const {eventIdContext } = useSidebar();
-  const  eventId  = state?.eventId?state?.eventId:eventIdContext?.eventId;
+  const {eventIdContext,handleEventId } = useSidebar();
+  const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
+  
+  const  [eventId,setEventId]  = useState(state?.eventId?state?.eventId:eventIdContext?.eventId?eventIdContext?.eventId:JSON.parse(localStorage.getItem("EventIdContext"))?.eventId);
   const navigate=useNavigate()
 
-  useEffect(() => {
-    console.log("invitees eventIdContext---->",eventIdContext)
-    if(eventId){
-      getWebinarData(page);
-    }else{
-      navigate("/webinar/event-listing")
-    }
+  useEffect(() => { 
+    // if(!eventIdContext){
+    //   handleEventId(localStorageEvent)
+    // }  
+   if(eventId){
+    getWebinarData(page);
+   }
+      
    
+       
   }, [])
 
   // const getWebinarData = async (page) => {
@@ -111,6 +115,7 @@ const Invitees = () => {
       }
 
       setShowFilter(false)
+      
       let payload = {
         "search": search ? search : "",
         "Country": filter?.Country ? filter?.Country : "",
@@ -119,7 +124,7 @@ const Invitees = () => {
         "id": eventId
       };
 
-      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId?eventId:eventIdContext?.eventId}?page=${page}`, payload);
+      const response = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload);
 
       setTotalReaders(response?.data?.data?.totalReaders);
       setTotalPage(response?.data?.data?.totalPage);
