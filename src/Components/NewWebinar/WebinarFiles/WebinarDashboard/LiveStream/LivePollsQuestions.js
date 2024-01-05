@@ -41,15 +41,88 @@ const LivePollsQuestion = ({ questionData }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [questionIdIndex, setQuestionIdIndex] = useState([])
     const [pieChartData, setPieChartData] = useState({})
-    let path_image = "../" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-   
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+    // let answerData = [
+    //     {
+    //         "answerId": 2487,
+    //         "color": "#ff5366",
+    //         "name": "Excellent",
+    //         "total": 1,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2488,
+    //         "color": "#0053a0",
+    //         "name": "Good",
+    //         "total": 0,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2489,
+    //         "color": "#ff8649",
+    //         "name": "Satisfactory",
+    //         "total": 1,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2490,
+    //         "color": "#89A550",
+    //         "name": "Fair",
+    //         "total": 0,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2491,
+    //         "color": "#4098B7",
+    //         "name": "Poor",
+    //         "total": 0,
+    //         "id": "Question_0"
+    //     }
+    // ]
+
+    // let answerData1 = [
+    //     {
+    //         "answerId": 2487,
+    //         "color": "#ff5366",
+    //         "name": "Excellent",
+    //         "total": 5,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2488,
+    //         "color": "#0053a0",
+    //         "name": "Good",
+    //         "total": 3,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2489,
+    //         "color": "#ff8649",
+    //         "name": "Satisfactory",
+    //         "total": 1,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2490,
+    //         "color": "#89A550",
+    //         "name": "Fair",
+    //         "total": 2,
+    //         "id": "Question_0"
+    //     },
+    //     {
+    //         "answerId": 2491,
+    //         "color": "#4098B7",
+    //         "name": "Poor",
+    //         "total": 6,
+    //         "id": "Question_0"
+    //     }
+    // ]
 
     useEffect(() => {
-        
-        // if(!eventIdContext){
-        //     handleEventId(localStorageEvent)
-        // }
-        slickRef.current.slickGoTo(0);
+        if(slickRef.current){
+
+            slickRef.current.slickGoTo(0);
+        }
         setQuestion(questionData?.data?.data)
         let updateQuestionId = []
         updateQuestionId?.push(questionData?.data?.data?.[0]?.questionId)
@@ -89,12 +162,13 @@ const LivePollsQuestion = ({ questionData }) => {
         <div className='outer-layout'>
             <div className='question-outer-layout'>
                 <div className='question-outer-inset'>
+                    {question?.length ?
                     <Slider
                         {...settings}
                         ref={slickRef}
                         afterChange={(e) => handleAfterChange(e)}
                     >
-                        {question?.length ?
+                        {
                             question?.map((item, index) => {
 
                                 return (<>
@@ -158,10 +232,11 @@ const LivePollsQuestion = ({ questionData }) => {
                                     </div>
                                 </>)
                             })
-                            : (<>
-                            <div class="no_found"><p>No Data Found</p></div>
-                            </>)}
+                        }
                     </Slider>
+                    : (<>
+                            <div class="no_polls"><h3>No Polls Created yet!</h3></div>
+                            </>)}
                 </div>
                 {question?.length?
                 <div className="question-action">

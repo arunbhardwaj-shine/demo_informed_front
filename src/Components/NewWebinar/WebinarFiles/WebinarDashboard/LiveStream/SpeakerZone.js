@@ -190,7 +190,7 @@ const SpeakerZone = () => {
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <div className="row">
-            <div className="top-header regi-web sticky">
+            <div className="top-header regi-web sticky speaker_zone">
               <div className="page-title">
                 <h2>Speaker Zone</h2>
               </div>
