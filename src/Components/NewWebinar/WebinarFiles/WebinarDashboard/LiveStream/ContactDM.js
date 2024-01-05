@@ -19,6 +19,7 @@ const ContactDM = () => {
     const [refreshFlag, setRefreshFlag] = useState(false);
     const { eventIdContext,handleEventId } = useSidebar();
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
+    const [eventId,setEventId]=useState(eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId)
     useEffect(() => {
         // if(!eventIdContext){
         //     handleEventId(localStorageEvent)
@@ -29,7 +30,7 @@ const ContactDM = () => {
     const getEventDMListing = async () => {
         try {
             loader("show")
-            const response = await getData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}/${401}`)
+            const response = await getData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}/${eventId}`)
             setUserData(response?.data?.data?.data)
             setOriginalUserData(response?.data?.data?.data)
             setFilterData(response?.data?.data?.filterData)

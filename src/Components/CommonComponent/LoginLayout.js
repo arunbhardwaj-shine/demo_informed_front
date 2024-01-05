@@ -35,13 +35,12 @@ const LoginLayout = ({ component: Component, ...rest }) => {
   
  
   useEffect(()=>{
+    console.log("route name--->",routeName)
   if(routeName!="webinar"){
     setEventIdContext(null);
     localStorage.removeItem("EventIdContext")
   }
-  // else{
-  //   setEventIdContext(localStorage.getItem("EventIdContext"))
-  // }
+ 
  if(!localStorageEvent&&routeName=="webinar"){
   navigate("/webinar/event-listing")
   }
