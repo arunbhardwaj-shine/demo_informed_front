@@ -1,4 +1,5 @@
 const EventModelValidation = (data) => {
+ 
   let error = {};
   const regemail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -8,6 +9,9 @@ const EventModelValidation = (data) => {
   }
   if (!data?.location) {
     error.location = "Please enter location";
+  }
+  if(!data?.event_type){
+    error.event_type="Please select event"
   }
 
   if (!data?.timezone) {
@@ -33,7 +37,7 @@ const EventModelValidation = (data) => {
   if (!data?.dateStartHour || !data?.dateStartMin?.toString() || data?.dateStartHour == "Hour" || data?.dateStartMin == "Min") {
     error.dateStartHour = "Please select event start time";
   }
-  if (!data?.dateEndHour || !data?.dateEndMin?.toString() || data?.dateEndHour == "Hour" || !data?.dateEndMin == "Min") {
+  if (!data?.dateEndHour || !data?.dateEndMin?.toString() || data?.dateEndHour == "Hour" || data?.dateEndMin == "Min") {
     error.dateEndHour = "Please select event end time";
   }
   if (!data?.event_code) {

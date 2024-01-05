@@ -114,8 +114,8 @@ const WebinarRegistration = () => {
   });
 const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventData, setEventData] = useState({
-    event_id:eventIdContext?.eventId?eventIdContext?.eventId: location?.state?.id?location?.state?.id:localStorageEvent?.eventId,
-    company_id:eventIdContext?.companyId?eventIdContext?.companyId: location?.state?.user_id?location?.state?.user_id:localStorageEvent?.companyId,
+    event_id: location?.state?.eventId?location?.state?.eventId:eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId,
+    company_id:location?.state?.companyId?location?.state?.companyId:eventIdContext?.companyId?eventIdContext?.companyId :localStorageEvent?.companyId,
   });
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
