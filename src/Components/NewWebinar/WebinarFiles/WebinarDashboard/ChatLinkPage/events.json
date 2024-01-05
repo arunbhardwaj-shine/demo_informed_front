@@ -1,10 +1,10 @@
-{   
+{  
     "logoImageUrl":{
         "title": "Logo",
         "type": "file",
-        "value": ""
+        "value": "http://localhost:3000/componentAssets/images/FVIII_logo.png"
     },
-    "Heading": {
+    "heading": {
         "title": "Modal heading",
         "type": "text",
         "value": "Write your question here!"
