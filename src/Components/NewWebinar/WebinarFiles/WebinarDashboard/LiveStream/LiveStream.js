@@ -747,7 +747,7 @@ const LiveStream = () => {
                                   </div>
                                   
                                   <div className='hcp-activity-status'>
-                                      <div className='activity-status online'>
+                                      <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
@@ -920,7 +920,7 @@ const LiveStream = () => {
                                   </div>
                                   
                                   <div className='hcp-activity-status'>
-                                      <div className='activity-status online'>
+                                      <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
@@ -1094,7 +1094,7 @@ const LiveStream = () => {
                                   </div>
                                  
                                   <div className='hcp-activity-status'>
-                                      <div className='activity-status online'>
+                                      <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>
@@ -1306,7 +1306,7 @@ const LiveStream = () => {
                                   </div>
                                   
                                   <div className='hcp-activity-status'>
-                                      <div className='activity-status online'>
+                                      <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
                                   </div>

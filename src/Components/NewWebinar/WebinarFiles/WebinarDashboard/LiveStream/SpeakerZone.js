@@ -5,6 +5,8 @@ import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { db } from "../../../../../config/firebaseConfig";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import { Spinner } from "react-activity";
+import { toast } from "react-toastify";
 import moment from "moment"
 import { collection, query, where, onSnapshot,orderBy,limit } from "firebase/firestore";
 import {Col,
@@ -17,10 +19,16 @@ const SpeakerZone = () => {
     const { eventIdContext,handleEventId } = useSidebar();
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const location = useLocation();
+    const [apiCallStatus, setApiCallStatus] = useState({
+      "question": false,
+      "answer": false,
+      "ignored": false,
+    });
     const queryParams = new URLSearchParams(location.search);  
     const [eventId,setEvent] = useState({
         id:eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId,
-        companyId:eventIdContext?.companyId?eventIdContext?.companyId:localStorageEvent?.companyId
+        companyId:eventIdContext?.companyId?eventIdContext?.companyId:localStorageEvent?.companyId,
+        eventCode:eventIdContext?.eventCode?eventIdContext?.eventCode:localStorageEvent?.eventCode
     })
     const [count,setCount] = useState(0)
 
@@ -59,7 +67,11 @@ const SpeakerZone = () => {
      })
     const initialFun = async() =>{
         try{
-        //    loader("show")
+          setApiCallStatus({
+            "question": true,
+            "answer": true,
+            "ignored": true,
+          });
           const result = await postData(ENDPOINT.QUESTION_ANSWER,{
                 "companyId":eventId?.companyId,
                 "eventId":eventId?.id
@@ -69,24 +81,73 @@ const SpeakerZone = () => {
                 answer:result?.data?.data?.answer,
                 ignre:result?.data?.data?.ignore 
              })
-            //  loader("hide")
+             setApiCallStatus({
+              "question": false,
+              "answer": false,
+              "ignored": false,
+            });
+            
         }catch(err){
-            // loader("hide")
+          setApiCallStatus({
+            "question": false,
+            "answer": false,
+            "ignored": false,
+          });
             console.log("-er",err)
         }
     }
-    const submitFun = async(data,id) =>{
+    const submitFun = async(data,id,type) =>{
         try{
-            loader("show")
+            setApiCallStatus({
+              "question": true,
+              "answer": true,
+              "ignored": true,
+            });
+            // if(data == 0){
+            //   setApiCallStatus({
+            //     "question": true,
+            //     "answer": false,
+            //     "ignored": true,
+            //   });
+            // }else if(data == 2){
+            //   setApiCallStatus({
+            //     "question": true,
+            //     "answer": true,
+            //     "ignored": false,
+            //   });
+            // }else{
+            //   if(type == "answer"){
+            //     setApiCallStatus({
+            //       "question": true,
+            //       "answer": true,
+            //       "ignored": false,
+            //     });
+            //   }else{
+            //     setApiCallStatus({
+            //       "question": true,
+            //       "answer": false,
+            //       "ignored": true,
+            //     });
+            //   }
+            // }
             await postData(ENDPOINT.QUESTION_UPDATE,{
                 "userAnswer":data,
                 "id":id,
                 "eventId":eventId?.id,
                 "companyId":eventId?.companyId
              })
-             loader("hide")
+
+            //  setApiCallStatus({
+            //   "question": false,
+            //   "answer": false,
+            //   "ignored": false,
+            // });
         }catch(err){
-            loader("hide")
+            setApiCallStatus({
+              "question": false,
+              "answer": false,
+              "ignored": false,
+            });
             console.log("-err",err)
         }
     }
@@ -99,6 +160,30 @@ const SpeakerZone = () => {
         }
     },[count])
 
+    const copyToClipboard = () => {
+      let content = "https://informed.pro/Webinar/question-list?evnt="+eventId?.eventCode
+      if (window.isSecureContext && navigator.clipboard) {
+        navigator.clipboard.writeText(content);
+        toast.success("content copied to the clipboard!");
+      } else {
+        unsecuredCopyToClipboard(content);
+      }
+    }
+
+    const unsecuredCopyToClipboard = (text) => {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand("copy");
+        toast.success("content copied to the clipboard!");
+      } catch (err) {
+        console.error("Unable to copy to clipboard", err);
+      }
+      document.body.removeChild(textArea);
+    };
+
 
   return (
     <>
@@ -110,7 +195,7 @@ const SpeakerZone = () => {
                 <h2>Speaker Zone</h2>
               </div>
               <div className="top-right-action">
-                <Button className="btn-filled">Copy Link
+                <Button className="btn-filled" onClick={() => {copyToClipboard()}}>Copy Link
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
                   <g clip-path="url(#clip0_3765_757)">
                     <path d="M9.59862 1.59837L6.34653 4.85044C6.34025 4.85669 6.33634 4.86428 6.33009 4.87059C7.13125 4.75391 7.95428 4.83391 8.71722 5.13141L10.9244 2.92422C11.6556 2.193 12.8448 2.193 13.5761 2.92422C14.3073 3.65537 14.3073 4.84466 13.5761 5.57581C13.4514 5.70056 10.136 9.01597 10.324 8.82787C9.587 9.56494 8.37787 9.5334 7.67234 8.82787C7.30694 8.46247 6.712 8.46247 6.34653 8.82787L5.77734 9.39706C5.93522 9.66531 6.11622 9.92344 6.34653 10.1537C7.73528 11.5425 10.1257 11.6534 11.6297 10.1702C11.636 10.1639 11.6435 10.16 11.6498 10.1537L14.9019 6.90169C16.3663 5.43719 16.3663 3.06287 14.9019 1.59837C13.4374 0.133875 11.0631 0.133875 9.59862 1.59837Z" fill="white"/>
@@ -139,34 +224,56 @@ const SpeakerZone = () => {
                       </div>
                   </div>
                   <div className="speaker-zone-listed">
-                  {
-                    data?.question.length?data.question.map((item,index) =>{
-                                            return (
-                        <div className="reader_list" key={index}>
-                            <div className="detail-box">  
-                            <div class="d-flex justify-content-between align-items-center">
-                                <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
-                                 <div className="specialty">Specialty</div>
-                              </div>
-                                <div className="user-question">
-                                    <p>{item?.question}</p>
-                                </div>
-                                <div className="reader_list_footer d-flex justify-content-between align-items-center" >
-                                    <div className="question-post-time">
-                                        {/* <small>{moment(item?.created).format("YYYY-MM-DD")}</small><br /> */}
-                                        <small>{moment(item?.created).format("hh:mm a")}</small>
+                    {
+                      apiCallStatus?.question ?
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      >
+                        <Spinner
+                          color="#53aff4"
+                          size={32}
+                          speed={1}
+                          animating={true}
+                        />
+                      </div>
+                      :
+                      <>
+                          {
+                            data?.question.length?data.question.map((item,index) =>{
+                                                    return (
+                                <div className="reader_list" key={index}>
+                                    <div className="detail-box">  
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
+                                        <div className="specialty">Specialty</div>
+                                      </div>
+                                        <div className="user-question">
+                                            <p>{item?.question}</p>
+                                        </div>
+                                        <div className="reader_list_footer d-flex justify-content-between align-items-center" >
+                                            <div className="question-post-time">
+                                                {/* <small>{moment(item?.created).format("YYYY-MM-DD")}</small><br /> */}
+                                                <small>{moment(item?.created).format("hh:mm a")}</small>
+                                            </div>
+                                            <div className="reader_list_footer_btns">
+                                                <Button className="ignored" onClick={()=>submitFun(0,item?.id,"question")}>Ignore</Button>
+                                                <Button className="answer" onClick={()=>submitFun(2,item?.id,"question")}>Answer</Button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="reader_list_footer_btns">
-                                        <Button className="ignored" onClick={()=>submitFun(0,item?.id)}>Ignore</Button>
-                                        <Button className="answer" onClick={()=>submitFun(2,item?.id)}>Answer</Button>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                            
-                        )
-                    }):<div className="no_found"><p>No Records Found</p></div>
-                  }
+                                    
+                                )
+                            }):<div className="no_found"><p>No Records Found</p></div>
+                          }
+                      </>
+                    }
                   </div>
                 </div>
                 <div className="speaker_zone_right_div">
@@ -180,32 +287,54 @@ const SpeakerZone = () => {
                       </div> */}
                     </div>
                      <div className="speaker-zone-listed">
-                    {
-                      data?.answer.length?data?.answer.map((item,index) =>{
-                          return (
-                              <div className="reader_list" key={index}>
-                                  <div className="detail-box">  
-                                    <div class="d-flex justify-content-between align-items-center">
-                                      <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
-                                      <div className="specialty">Specialty</div>
-                                      </div>
-                                      <div className="user-question">
-                                          <p>{item?.question}</p>
-                                      </div>
-                                      <div className="reader_list_footer d-flex justify-content-between align-items-center answer-footer" >
-                                          <div className="question-post-time">
-                                            {/* <small>{moment(item?.updated).format("YYYY-MM-DD")}</small><br/> */}
-                                              <small>{moment(item?.updated).format("hh:mm a")}</small>
-                                          </div>
-                                          <div className="reader_list_footer_btns">
-                                              <Button onClick={()=>submitFun(1,item?.id)}>Undo</Button>
-                                          </div>
-                                      </div>
-                                  </div>
-                          </div>
-                          )
-                      }):<div className="no_found"><p>No Records Found</p></div>
-                    }
+                      {
+                        apiCallStatus?.answer ?
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                            height: "100%",
+                          }}
+                        >
+                          <Spinner
+                            color="#53aff4"
+                            size={32}
+                            speed={1}
+                            animating={true}
+                          />
+                        </div>
+                        :
+                        <>
+                          {
+                            data?.answer.length?data?.answer.map((item,index) =>{
+                                return (
+                                    <div className="reader_list" key={index}>
+                                        <div className="detail-box">  
+                                          <div class="d-flex justify-content-between align-items-center">
+                                            <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
+                                            <div className="specialty">Specialty</div>
+                                            </div>
+                                            <div className="user-question">
+                                                <p>{item?.question}</p>
+                                            </div>
+                                            <div className="reader_list_footer d-flex justify-content-between align-items-center answer-footer" >
+                                                <div className="question-post-time">
+                                                  {/* <small>{moment(item?.updated).format("YYYY-MM-DD")}</small><br/> */}
+                                                    <small>{moment(item?.updated).format("hh:mm a")}</small>
+                                                </div>
+                                                <div className="reader_list_footer_btns">
+                                                    <Button onClick={()=>submitFun(1,item?.id,"answer")}>Undo</Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                )
+                            }):<div className="no_found"><p>No Records Found</p></div>
+                          }
+                        </>
+                      }
                     </div>
                   </div>
                   <div className="ignored">
@@ -218,32 +347,54 @@ const SpeakerZone = () => {
                         </div> */}
                     </div>
                      <div className="speaker-zone-listed">
-                    {
-                      data?.ignre.length?data?.ignre.map((item,index) =>{
-                          return (
-                              <div className="reader_list"  key={index}>
-                                  <div className="detail-box">  
-                                      <div class="d-flex justify-content-between align-items-center">
-                                        <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
-                                        <div className="specialty">Specialty</div>
+                      {
+                        apiCallStatus?.ignored ?
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                            height: "100%",
+                          }}
+                        >
+                          <Spinner
+                            color="#53aff4"
+                            size={32}
+                            speed={1}
+                            animating={true}
+                          />
+                        </div>
+                        : 
+                        <>
+                          {
+                            data?.ignre.length?data?.ignre.map((item,index) =>{
+                                return (
+                                    <div className="reader_list"  key={index}>
+                                        <div className="detail-box">  
+                                            <div class="d-flex justify-content-between align-items-center">
+                                              <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
+                                              <div className="specialty">Specialty</div>
+                                              </div>
+                                            <div className="user-question">
+                                            <p>{item?.question}</p>
+                                            </div>
+                                            <div className="reader_list_footer d-flex justify-content-between align-items-center ignore-footer" >
+                                                <div className="question-post-time">
+                                                  {/* <small>{moment(item?.updated).format("YYYY-MM-DD")}</small><br/> */}
+                                                  <small>{moment(item?.updated).format("hh:mm a")}</small>
+                                                </div>
+                                                <div className="reader_list_footer_btns">
+                                                    <Button onClick={()=>submitFun(1,item?.id,"ignore")}>Undo</Button>
+                                                </div>
+                                            </div>
                                         </div>
-                                      <div className="user-question">
-                                      <p>{item?.question}</p>
-                                      </div>
-                                      <div className="reader_list_footer d-flex justify-content-between align-items-center ignore-footer" >
-                                          <div className="question-post-time">
-                                            {/* <small>{moment(item?.updated).format("YYYY-MM-DD")}</small><br/> */}
-                                            <small>{moment(item?.updated).format("hh:mm a")}</small>
-                                          </div>
-                                          <div className="reader_list_footer_btns">
-                                              <Button onClick={()=>submitFun(1,item?.id)}>Undo</Button>
-                                          </div>
-                                      </div>
-                                  </div>
-                          </div>
-                          )
-                      }):<div className="no_found"><p>No Records Found</p></div>
-                    }
+                                </div>
+                                )
+                            }):<div className="no_found"><p>No Records Found</p></div>
+                          }
+                        </>
+                      }
                     </div>
                   </div>
                 </div>
