@@ -179,6 +179,7 @@ import SpeakerZone from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/L
 import Settings from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/Settings";
 import LivePolls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LivePolls";
 import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/PollsLayout";
+import ChatLinkPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/ChatLinkPage/ChatLinkPage";
 
 let platform = 0;
 let show = 0;
@@ -575,6 +576,10 @@ const Routing = () => {
           path="/webinar/event-listing"
           element={<LoginLayout component={NewEventCreate} />}
         />
+         <Route
+          path="/webinar/chat-link"
+          element={<LoginLayout component={ChatLinkPage} />}
+        />
         <Route
           path="/webinar/invitees"
           element={<LoginLayout component={Invitees} />}
@@ -607,6 +612,7 @@ const Routing = () => {
           path="/webinar/live-stream/polls-layout"
           element={<LoginLayout component={PollsLayout} />}
         />
+        
         <Route
           path="/webinar/registration"
           element={<LoginLayout component={WebinarRegistration} />}
