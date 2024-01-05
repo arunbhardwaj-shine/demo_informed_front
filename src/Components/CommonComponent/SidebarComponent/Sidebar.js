@@ -197,7 +197,22 @@ const Sidebar = () => {
     const currentLocation = window.location.pathname;
     const divElement = document.querySelector('.left-sidebar');
 
-    if (currentLocation === '/webinar/event-listing' ) {
+    if (currentLocation === '/webinar/event-listing') {
+      divElement?.classList.add('hidesidebar');
+    } else {
+      divElement?.classList.remove('hidesidebar');
+    }
+
+    return () => {
+      divElement?.classList.remove('hidesidebar');
+    };
+  }, [location?.pathname]);
+
+  useEffect(() => {
+    const currentLocation = window.location.pathname;
+    const divElement = document.querySelector('.left-sidebar');
+
+    if (currentLocation === '/webinar/chat-link') {
       divElement?.classList.add('hidesidebar');
     } else {
       divElement?.classList.remove('hidesidebar');
