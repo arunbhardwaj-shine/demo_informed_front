@@ -45,7 +45,7 @@ const settings = {
         },
     ],
 };
-const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
+const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded }) => {    
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const {eventIdContext,handleEventId}=useSidebar()
     const [question, setQuestion] = useState()
@@ -63,6 +63,10 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
         orderBy("date", "desc"),
         limit(1)
       );
+    
+    useEffect(() => {
+        setApiCallStatus(isdataLoaded);
+    }, [isdataLoaded]);  
     
     useEffect(() => {
         let currentIndex = 0;
@@ -149,11 +153,9 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
     });
 
     useEffect(() => {
-    if (count) {
-        console.log("Call Function random")
-        getQuestions();
-    //   fireBaseFun();
-    }
+        if (count) {
+            getQuestions();
+        }
     }, [count]);
 
     return (<>
@@ -235,7 +237,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                             }
                         </Slider>
                         : (<>
-                                <div class="no_polls"><h3>No Polls Created yet!</h3></div>
+                                <div className="no_polls"><h3>No Polls Created yet!</h3></div>
                                 </>)}
                     </div>
                     {question?.length?
@@ -306,8 +308,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
 
                 <div className='pie-chart-outer-layout' >                
                     <QuestionPollsPieChart data={pieChartData} />
-                </div>
-
+                </div>           
                  {
                     apiCallStatus ? 
                     <div
