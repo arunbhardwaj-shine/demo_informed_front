@@ -47,7 +47,6 @@ useEffect(()=>{
 },[])
   const initiFun = async () => {
     try {
-
       loader("show")
       const result = await postData(ENDPOINT.WEBINAR_All_QUESTION_LISTING, {
         companyId: eventId?.companyId,
@@ -65,7 +64,7 @@ useEffect(()=>{
             drilldown: question.drilldown,
             color:colors[index],
           }));
-          const drilldownData = value?.pollAnswers?.filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
+          const drilldownData = value?.pollAnswers?.filter(question => question?.drillDownData?.length > 0) // Exclude questions with empty drillDownData
           .map(question => ({
             id: question.drilldown,
             name: question.name,
