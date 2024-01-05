@@ -403,10 +403,12 @@ const Event = () => {
 
   return (
     <>
-      <div>
+    <div className="row">
+      <div className="col-md-8 col-sm-7">
+        <div className="register-page-left">
         {Object.entries(dynamicEventData).map(([field, value]) => (
-          <div key={field} className="section">
-            <h5> {value.title}</h5>
+          <div key={field} className="form-group d-flex align-items-center">
+            <label> {value.title}</label>
             {value.type === "file" ? (
               <div className="logo-section header-section">
                 {!logo && (
@@ -459,8 +461,9 @@ const Event = () => {
               <input
                 type="text"
                 onChange={(e) => handleDynamicChange(field, e.target.value)}
-                className={value.type === "text" ? "top-title" : "form-control"}
+                className= "form-control"
                 value={dynamicContent[field]}
+                
               />
             )}
           </div>
@@ -473,6 +476,8 @@ const Event = () => {
         >
           Preview
         </Button>
+        </div>
+      </div>
       </div>
 
       {isPrevClicked && (
@@ -553,10 +558,14 @@ const Event = () => {
                                 </div>
                               </div>
                             ) : (
-                              <h2 className="top-title">
-                                {/* Write your question here! */}
-                                {dynamicContent?.Heading}
-                              </h2>
+                              // <h2 className="top-title">
+                              //   {/* Write your question here! */}
+                              //   {dynamicContent?.Heading}
+                               
+                              // </h2>
+
+                          <h2 className="top-title" dangerouslySetInnerHTML={{ __html: dynamicContent?.Heading }}></h2>
+
                             )}
                             {/*<div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div>
              <div className="head_desc">
@@ -582,13 +591,19 @@ const Event = () => {
 
                           <div className="row">
                             <div className="col-md-12">
-                              <label htmlFor="fname" className="form-label">
-                                {/* Name{" "} */}
-                                {dynamicContent?.nameLabel}
+                              {/* <label htmlFor="fname" className="form-label">
+                                Name{" "}
+                               
                                 <i>
                                   <small>(Optional)</small>
                                 </i>
-                              </label>
+                              </label> */}
+                              <label htmlFor="fname" className="form-label" dangerouslySetInnerHTML={{ __html: dynamicContent?.nameLabel }}
+                                // <i>
+                                //   <small>(Optional)</small>
+                                // </i>
+                              />
+
                               <input
                                 type="text"
                                 id="name"
@@ -597,11 +612,12 @@ const Event = () => {
                                 placeholder={
                                   parms?.includes("eahad_2024")
                                     ? "Type your name"
-                                    : dynamicContent?.nameLabel
+                                    : dynamicContent?.namePlaceholder
                                 }
                                 name="name"
                                 value={user?.name}
-                              />
+                              />  
+   
                               <input
                                 type="hidden"
                                 className="form-control"
@@ -622,11 +638,14 @@ const Event = () => {
                               />
                             </div>
                             <div className="col-md-12">
-                              <label htmlFor="question" className="form-label">
-                                {/* Your question */}
-                                {dynamicContent?.questionLabel}
+                              {/* <label htmlFor="question" className="form-label">
+                                Your question
+                    
                                 <sup>*</sup>
-                              </label>
+                              </label> */}
+                              <label htmlFor="fname" className="form-label" dangerouslySetInnerHTML={{ __html: dynamicContent?.questionLabel }}
+                                // <sup>*</sup>
+                              />
                               <textarea
                                 name="question"
                                 id="question"
@@ -651,7 +670,7 @@ const Event = () => {
                             </div>
 
                             <div className="col-md-12">
-                              <input
+                              {/* <input
                                 type="submit"
                                 className="btn btn-success"
                                 value={
@@ -659,7 +678,9 @@ const Event = () => {
                                     ? "SUBMIT"
                                     : dynamicContent?.buttonText
                                 }
-                              />
+                              /> */}
+
+                              <Button type ="submit" className="btn btn-success" dangerouslySetInnerHTML={{ __html: dynamicContent?.buttonText }}></Button>
                             </div>
 
                             {parms?.includes("eahad_2024") && (
@@ -712,10 +733,15 @@ const Event = () => {
                           </div>
                         ) : (
                           <div className="copy-right-bottom-text">
-                            <p>
-                              {dynamicContent?.footerText}
-                              {/* Preparation date: 7-8 December 2023 */}
-                            </p>
+                            {/* <p>
+                             
+                              Preparation date: 7-8 December 2023
+                            </p> */}
+                            <p
+                            dangerouslySetInnerHTML={{
+                              __html: dynamicContent?.footerText
+                            }}
+                          />
                           </div>
                         )}
 
