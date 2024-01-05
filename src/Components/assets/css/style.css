@@ -9932,6 +9932,7 @@ html {
   padding: 0px 16px 2px;
   border-radius: 3px;
   line-height: 1;
+  min-width: 74px;
 }
 
 .question-list-number .question-status span {
@@ -9943,6 +9944,9 @@ html {
 
 .question-list-number .question-status.not-display {
   background: #97B6CF;
+}
+.question-list-number .question-status.display {
+  background:#39CABC;
 }
 
 .question-boxed .question-listing {
@@ -10092,8 +10096,8 @@ html {
   align-items: center;
   justify-content: center;
   flex: 0 0 95px;
+  gap: 80px;
 }
-
 .question-outer-layout .question-action button {
   width: 32px;
   height: 32px;
@@ -10840,6 +10844,7 @@ html {
   align-items: center;
   justify-content: center;
 }
+
 .graph-box .no_found {
   min-height: 50vh;
 }
@@ -10850,25 +10855,114 @@ html {
 }
 
 .speaker-name button {
-    background: #fff;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
-    padding: 3px;
-    margin-left: 10px;
+  background: #fff;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+  padding: 3px;
+  margin-left: 10px;
 }
+
 .speaker-name button:hover {
   background: var(--light-blue);
 }
+
 .speaker-name button svg {
   width: 18px;
   height: 18px;
 }
-.speaker-name button:hover svg path{
-  fill:#fff;
+
+.speaker-name button:hover svg path {
+  fill: #fff;
 }
+
 .event_edit #add_hcp .modal-body .hcp-add-form form#add_hcp_form .form-group label {
   padding: 0;
 }
+
 /**Speaker Zone End**/
+
+
+/**Chat Link**/
+.chatlink-left .logo-section {
+  margin: 0 auto;
+  text-align: center;
+  padding: 50px 20px 80px;
+  width: auto;
+  flex: 1 1;
+  border: 1px dashed #97B6CF;
+  position: relative;
+}
+
+.chatlink-left .logo-section .logo-img {
+  max-width: 260px;
+}
+
+.chatlink-left .logo-section .header-text {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  gap: 0 15px;
+  background: rgb(230 240 249);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.chatlink-left .logo-section .header-text button {
+  width: 35px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 30px;
+  box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.15);
+  border: 0;
+  padding: 6px;
+  height: 35px;
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.custom-change .create-change-content.chatlink {
+  padding: 80px 0 40px;
+}
+.create-change-content.register-page.chatlink .form-group label {
+  flex: 0 0 180px;
+  align-self: center;
+  padding: 0;
+  font-size: 16px;
+}
+.chatlink .webinar-popup .octa_events {
+  border-radius: 15px;
+  background: #FFF;
+  box-shadow: 0px 1px 8px 0px rgba(0, 102, 190, 0.24);
+  padding: 24px 12px;
+    max-width: 680px;
+      width: 90%;
+}
+.chatlink .webinar-popup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.chatlink-left .form-group:first-child {
+  margin-top: 0;
+}
+.chatlink .question-block {
+  justify-content: flex-start;
+  min-height: initial;
+}
+.chatlink-left button {
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+}
+.question-block-form form .btn.btn-success {
+  width: 100%;
+  border-radius: 4px;
+  background: #64b8b0;
+  border-color: #64b8b0;
+}
+/**Chat link**/
