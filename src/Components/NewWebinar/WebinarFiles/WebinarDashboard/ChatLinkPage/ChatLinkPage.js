@@ -171,9 +171,9 @@ const ChatLinkPage = () => {
     try {
       loader("show");
       const payload = {
-        ...dynamicContent,
-        eventId: eventData?.eventId,
-        companyId: eventData?.companyId,
+        chatLinkData: dynamicContent,
+        eventId:eventData?.eventId,
+        companyId:eventData?.companyId,
       };
       console.log(payload, "====>payload");
       const response = await postData(
@@ -190,11 +190,11 @@ const ChatLinkPage = () => {
 //   const handleSubmitForm = async () => {
 //     try {
 //       loader("show");
-//       const payload = {
-//         ...dynamicContent,
-//         eventId: eventData?.eventId,
-//         companyId: eventData?.companyId,
-//       };
+//         const payload = {
+//             chatLinkData: dynamicContent,
+//             eventId:eventData?.eventId,
+//             companyId:eventData?.companyId,
+//         };
   
 //       console.log(payload, "====>payload");
 //       const response = await postData(
@@ -218,10 +218,10 @@ const ChatLinkPage = () => {
   return (
     <>
       <Col className="right-sidebar custom-change">
-        <div className="custom-container">
-          <div className="row register-page create-change-content">
-            <div className="col-md-4 col-sm-5">
-              <div className="register-page-left">
+        <div className="custom-container register-page create-change-content chatlink">
+          <div className="row ">
+            <div className="col-md-6 col-sm-6">
+              <div className="chatlink-left">
                 {Object.entries(dynamicEventData).map(([field, value]) => (
                   <div
                     key={field}
@@ -293,19 +293,14 @@ const ChatLinkPage = () => {
               </div>
             </div>
 
-            <div className="col-md-8 col-sm-7">
+            <div className="col-md-6 col-sm-6">
               <div className="webinar-popup">
                 <div className="loader" id="custom_loader">
                   <div className="loader_show">
                     <span className="loader-view"> </span>
                   </div>
                 </div>
-                <meta
-                  name="viewport"
-                  content="width=device-width, initial-scale=1"
-                />
                 <div className={`octa_events`}>
-                  <div className="container">
                     <div className="question-block">
                       <div className="header-logo">
                         <div>
@@ -495,75 +490,6 @@ const ChatLinkPage = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="modal fade" id="pollModel" role="dialog">
-                    <div className="modal-dialog modal-dialog-centered">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <img
-                            src="../webinar-assets/images/octa-logo.svg"
-                            className="modal-title"
-                            width="210"
-                          />
-                          <button
-                            type="button"
-                            className="close"
-                            data-dismiss="modal"
-                          >
-                            &times;
-                          </button>
-                        </div>
-                        <div className="modal-body" id="poll-content"></div>
-                        <div className="modal-footer">
-                          <button
-                            type="submit"
-                            name="cpd_tab"
-                            id="submitPollAnswerGuest"
-                            className="submit_btn btn-primary"
-                            title="Submit"
-                          >
-                            Submit
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    className="modal fade"
-                    id="pollAnswerModel"
-                    role="dialog"
-                  >
-                    <div className="modal-dialog modal-dialog-centered">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <img
-                            src="../webinar-assets/images/octa-logo.svg"
-                            className="modal-title"
-                            width="210"
-                          />
-                          <button
-                            type="button"
-                            className="close"
-                            onclick="closeAnswerModel()"
-                          >
-                            &times;
-                          </button>
-                        </div>
-                        <div className="modal-body" id="poll-answer-content">
-                          <div className="row">
-                            <div className="col-md-12 col-sm-12">
-                              <div className="detail-box form_box">
-                                <p id="questionText"></p>
-                                <div id="container1"></div>
-                                <p id="totalCountText"></p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

@@ -4498,7 +4498,7 @@ input[type="number"] {
 
 .top-header.regi-web {
   padding-top: 20px;
-  padding-bottom:6px;
+  padding-bottom: 6px;
 }
 
 .event-select label {
@@ -12097,9 +12097,10 @@ img.change-password-image {
         }
 
         .fold {
-          &.show{
+          &.show {
             border-radius: 0 0;
           }
+
           td {
             border-radius: 0 0 9px 9px;
             border-top: 0.5px dashed $light-gray;
@@ -17718,7 +17719,7 @@ img.change-password-image {
   }
 
   .header-text,
-  .footer-text {
+  .footer-text{
     position: absolute;
     bottom: 0;
     display: flex;
