@@ -208,6 +208,21 @@ const Sidebar = () => {
     };
   }, [location?.pathname]);
 
+  useEffect(() => {
+    const currentLocation = window.location.pathname;
+    const divElement = document.querySelector('.left-sidebar');
+
+    if (currentLocation === '/webinar/chat-link') {
+      divElement?.classList.add('hidesidebar');
+    } else {
+      divElement?.classList.remove('hidesidebar');
+    }
+
+    return () => {
+      divElement?.classList.remove('hidesidebar');
+    };
+  }, [location?.pathname]);
+
   const isActive = location.pathname === '/webinar/live-stream' 
   const isActivePolls =  location.pathname === '/webinar/live-stream/polls-layout'
   const isActiveContact = location.pathname === '/webinar/live-stream/contact-dm'
