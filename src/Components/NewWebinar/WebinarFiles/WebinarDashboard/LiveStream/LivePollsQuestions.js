@@ -7,6 +7,7 @@ import Slider from 'react-slick'
 import { postData } from '../../../../../axios/apiHelper';
 import { ENDPOINT } from '../../../../../axios/apiConfig';
 import QuestionPollsPieChart from './QuestionPollsPieChart';
+import { useSidebar } from '../../../../CommonComponent/LoginLayout';
 const settings = {
     infinite: false,
     slidesToShow: 1,
@@ -32,90 +33,22 @@ const settings = {
         },
     ],
 };
-const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
+const LivePollsQuestion = ({ questionData }) => {
+    const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
+    const {eventIdContext,handleEventId}=useSidebar()
     const [question, setQuestion] = useState()
     const slickRef = useRef("");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [questionIdIndex, setQuestionIdIndex] = useState([])
     const [pieChartData, setPieChartData] = useState({})
     let path_image = "../" + process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-    // let answerData = [
-    //     {
-    //         "answerId": 2487,
-    //         "color": "#ff5366",
-    //         "name": "Excellent",
-    //         "total": 1,
-    //         "id": "Question_0"
-    //     },
-    //     {
-    //         "answerId": 2488,
-    //         "color": "#0053a0",
-    //         "name": "Good",
-    //         "total": 0,
-    //         "id": "Question_0"
-    //     },
-    //     {
-    //         "answerId": 2489,
-    //         "color": "#ff8649",
-    //         "name": "Satisfactory",
-    //         "total": 1,
-    //         "id": "Question_0"
-    //     },
-    //     {
-    //         "answerId": 2490,
-    //         "color": "#89A550",
-    //         "name": "Fair",
-    //         "total": 0,
-    //         "id": "Question_0"
-    //     },
-    //     {
-    //         "answerId": 2491,
-    //         "color": "#4098B7",
-    //         "name": "Poor",
-    //         "total": 0,
-    //         "id": "Question_0"
-    //     }
-    // ]
-
-    // let answerData1 = [
-    //     {
-    //         "answerId": 2487,
-    //         "color": "#ff5366",
-    //         "name": "Excellent",
-    //         "total": 5,
-    //         "id": "Question_0"
-    //     },
-    //     {
-    //         "answerId": 2488,
-    //         "color": "#0053a0",
-    //         "name": "Good",
-    //         "total": 3,
-    //         "id": "Question_0"
-    //     },
-    //     {
-    //         "answerId": 2489,
-    //         "color": "#ff8649",
-    //         "name": "Satisfactory",
-    //         "total": 1,
-    //         "id": "Question_0"
-    //     },
-    //     {
-    //         "answerId": 2490,
-    //         "color": "#89A550",
-    //         "name": "Fair",
-    //         "total": 2,
-    //         "id": "Question_0"
-    //     },
-    //     {
-    //         "answerId": 2491,
-    //         "color": "#4098B7",
-    //         "name": "Poor",
-    //         "total": 6,
-    //         "id": "Question_0"
-    //     }
-    // ]
+   
 
     useEffect(() => {
+        
+        // if(!eventIdContext){
+        //     handleEventId(localStorageEvent)
+        // }
         slickRef.current.slickGoTo(0);
         setQuestion(questionData?.data?.data)
         let updateQuestionId = []
@@ -296,7 +229,7 @@ const LivePollsQuestion = ({ questionData, eventId,isDataLoaded }) => {
             </div>
 
             <div className='pie-chart-outer-layout' >                
-                <QuestionPollsPieChart data={pieChartData} isDataLoaded={isDataLoaded}/>
+                <QuestionPollsPieChart data={pieChartData} />
                 
             </div>
         </div>

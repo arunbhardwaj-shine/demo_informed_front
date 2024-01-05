@@ -27,6 +27,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import PreviewModal from "./PreviewModal";
+import { useSidebar } from "../../CommonComponent/LoginLayout";
 
 // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -56,10 +57,12 @@ const settings = {
   ],
 };
 export default function PollListing({location,eventIdContext}) {
+  
   let navigate = useNavigate();
+  const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
 
   // const location = useLocation();
-  const event_code = location?.state?.event_id ? location?.state?.event_id :eventIdContext?eventIdContext?.eventId:"";
+  const event_code = location?.state?.event_id ? location?.state?.event_id :eventIdContext?eventIdContext?.eventId:localStorageEvent?.eventCode;
   const slickRef = useRef("");
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -87,8 +90,7 @@ export default function PollListing({location,eventIdContext}) {
   const [isPrevClicked, setIsPrevClicked] = useState(false);
 
   useEffect(() => {
-    // console.log("in poll listing  event code--->", event_code);
-    // if (!event_code) {
+
     getAllEvents();
     //get all events listing
 

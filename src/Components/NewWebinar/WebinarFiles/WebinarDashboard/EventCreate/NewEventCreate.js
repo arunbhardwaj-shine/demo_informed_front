@@ -208,9 +208,9 @@ const NewEventCreate = () => {
     const eventStatus = getEventStatus(item);
     return eventStatus === "Live"
       ? "Live"
-      : eventStatus === "Coming Soon"
+      : eventStatus === "Coming soon"
         ? "Coming"
-        : eventStatus === "Has Ended"
+        : eventStatus === "Has ended"
           ? "End"
           : "Other";
   };
@@ -219,8 +219,8 @@ const NewEventCreate = () => {
     return differenceDays(item?.dateStart) === 0
       ? "Live"
       : differenceDays(item?.dateStart) > 0
-        ? "Coming Soon"
-        : "Has Ended";
+        ? "Coming soon"
+        : "Has ended";
   };
 
   const handleAddEventClick = (e, item) => {
@@ -234,16 +234,18 @@ const NewEventCreate = () => {
   };
 
   const webinarRegistrationForm = (e, item) => {
-    navigate("/webinar-registration", {
+    navigate("/webinar/registration", {
       state: item,
     });
   };
   const liveStream = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream");
   };
   const webinarPollingForm = (e, item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream/polls-layout", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });
@@ -251,6 +253,7 @@ const NewEventCreate = () => {
 
   const webinarEmailForm = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/email");
   };
 
@@ -531,7 +534,7 @@ const NewEventCreate = () => {
 
   const handleCardClick = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    // console.log("item--->", item)
+   localStorage.setItem("EventIdContext",JSON.stringify({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title}))
     navigate("/webinar/invitees", { state: { eventId: item?.id } });
 
   };
@@ -996,15 +999,15 @@ const NewEventCreate = () => {
                               >
                                 {item?.eventStatus == 0 ? (
                                   <div className="action-status live">
-                                    Event Live
+                                    Event live
                                   </div>
                                 ) : item?.eventStatus > 0 ? (
                                   <div className="action-status coming">
-                                    Coming Soon
+                                    Coming soon
                                   </div>
                                 ) : (
                                   <div className="action-status end">
-                                    Has Ended
+                                    Has ended
                                   </div>
                                 )}
                                 {/* <button
@@ -1033,7 +1036,7 @@ const NewEventCreate = () => {
                                     alt="Email"
                                   />
                                 </button>
-                               {/* <button
+                               <button
                                   className="btn-webinar"
                                   onClick={(e) => {
                                     webinarRegistrationForm(e, item);
@@ -1045,7 +1048,7 @@ const NewEventCreate = () => {
                                     src={path_image + "webinar-icon.svg"}
                                     alt="Registration"
                                   />
-                                </button>  */}
+                                </button> 
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
