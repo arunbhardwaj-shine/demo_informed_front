@@ -171,9 +171,9 @@ const ChatLinkPage = () => {
     try {
       loader("show");
       const payload = {
-        ...dynamicContent,
-        eventId: eventData?.eventId,
-        companyId: eventData?.companyId,
+        chatLinkData: dynamicContent,
+        eventId:eventData?.eventId,
+        companyId:eventData?.companyId,
       };
       console.log(payload, "====>payload");
       const response = await postData(
@@ -190,11 +190,11 @@ const ChatLinkPage = () => {
 //   const handleSubmitForm = async () => {
 //     try {
 //       loader("show");
-//       const payload = {
-//         ...dynamicContent,
-//         eventId: eventData?.eventId,
-//         companyId: eventData?.companyId,
-//       };
+//         const payload = {
+//             chatLinkData: dynamicContent,
+//             eventId:eventData?.eventId,
+//             companyId:eventData?.companyId,
+//         };
   
 //       console.log(payload, "====>payload");
 //       const response = await postData(
