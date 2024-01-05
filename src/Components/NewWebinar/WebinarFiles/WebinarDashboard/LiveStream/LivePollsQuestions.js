@@ -177,8 +177,8 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                                             >
                                                 <div className='d-flex justify-content-between question-list-number align-items-center'>
                                                     <h4>Q{index + 1}</h4>
-                                                    <div className={item?.totalUser > 0 ? 'question-status display':'question-status not-display'}>
-                                                        <span>{item?.totalUser > 0 ? "Done" : "Not displayed yet"}</span>
+                                                    <div className={item?.showQuestionToUser == 1 ? 'question-status display':'question-status not-display'}>
+                                                        <span>{item?.showQuestionToUser == 1 ? "Done" : "Not displayed yet"}</span>
                                                     </div>
                                                 </div>
                                                 <div className='question-display'>
@@ -188,7 +188,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                                                             
                                                             </h4>
                                                     </div>
-                                                    {/* <div className='answer-options'>
+                                                    <div className='answer-options'>
                                                         Answers
 
                                                         {item?.pollAnswers?.length ?
@@ -201,7 +201,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                                                                 </>)
                                                             })
                                                             : ""}
-                                                    </div> */}
+                                                    </div>
                                                     <div className='speaker'>
                                                         Speaker
                                                         <h6>{item?.speakerName}</h6>
