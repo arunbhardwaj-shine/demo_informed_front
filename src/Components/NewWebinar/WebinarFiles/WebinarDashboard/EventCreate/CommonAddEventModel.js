@@ -102,6 +102,7 @@ const CommonAddEventModel = ({
     meeting_type: "",
   });
   useEffect(() => {
+    console.log("data--->",data)
     setCountryTimezone(webinarDetail?.countryTimezone);
     setIBUOptions(webinarDetail?.ibu);
     setTimezoneOptions(webinarDetail?.timezoneName);
@@ -132,8 +133,8 @@ const CommonAddEventModel = ({
           : "",
         dateStart: data?.dateStart,
         dateEnd: data?.dateEnd,
-        dateStartHour: data?.dateStartHour,
-        dateStartMin: data?.dateStartMin,
+        dateStartHour: data?.dateStartHour?data?.dateStartHour:"",
+        dateStartMin: data?.dateStartMin?data?.dateStartMin:"",
         dateEndHour: data?.dateEndHour ? data?.dateEndHour : "",
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
@@ -387,7 +388,7 @@ const CommonAddEventModel = ({
                       <div className="form_action">
                         <div className="row">
                           <div className="col-12 col-md-12">
-                            <div className="form-group">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
                                 Event Title <span> *</span>
                               </label>
@@ -406,7 +407,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
                           <div className="col-12 col-md-12">
-                            <div className="form-group">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
                                 Event Location <span> *</span>
                               </label>
@@ -435,7 +436,7 @@ const CommonAddEventModel = ({
                           </div>
 
                           <div className="col-12 col-md-12">
-                            <div className="form-group">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
                                 Event Type
                               </label>
@@ -481,7 +482,7 @@ const CommonAddEventModel = ({
                             <div className="row">
                               <div className="col-12 col-md-6">
                                 {Object.keys(eventInputs?.speaker_name)?.map((item, index) => (
-                                  <div className="form-group">
+                                  <div className="form-group d-flex align-items-center">
                                     <label htmlFor="">
                                       {`Speaker's name ${index + 1
                                         }`} <span> *</span>
@@ -627,7 +628,7 @@ const CommonAddEventModel = ({
                           </div> */}
 
                           <div className="col-12 col-md-12">
-                            <div className="form-group">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="">IBU</label>
 
                               <Select
@@ -707,7 +708,7 @@ const CommonAddEventModel = ({
                           </div> */}
 
                           <div className="col-12 col-md-12">
-                            <div className="form-group">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
                                 {" "}
                                 Timezone<span>*</span>
@@ -792,7 +793,7 @@ const CommonAddEventModel = ({
                           </div> */}
                           {eventInputs?.is_client_stream == "Yes" ? (
                             <div className="col-12 col-md-12">
-                              <div className="form-group">
+                              <div className="form-group d-flex align-items-center">
                                 <label htmlFor="">
                                   Client Stream URL <span> *</span>
                                 </label>
@@ -823,7 +824,7 @@ const CommonAddEventModel = ({
                             ""
                           )}
                           <div className="col-12 col-md-12">
-                            <div className="form-group">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
                                 Event Start Date <span> *</span>
                               </label>
@@ -859,7 +860,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
                           <div className="col-12 col-md-12">
-                            <div className="form-group">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
                                 Event End Date <span> *</span>
                               </label>
@@ -896,7 +897,7 @@ const CommonAddEventModel = ({
                           </div>
 
                           <div className="col-12 col-md-12">
-                            <div className="form-group double-select">
+                            <div className="form-group double-select d-flex align-items-center">
                               <label htmlFor="">
                                 Event Start Time <span> *</span>
                               </label>
@@ -964,7 +965,7 @@ const CommonAddEventModel = ({
                           </div>
 
                           <div className="col-12 col-md-12">
-                            <div className="form-group double-select">
+                            <div className="form-group double-select d-flex align-items-center">
                               <label htmlFor="">
                                 {" "}
                                 Event End Time <span> *</span>
@@ -1032,7 +1033,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
                           <div className="col-12 col-md-12">
-                            <div className="form-group">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
                                 Event Code <span>*</span>
                               </label>

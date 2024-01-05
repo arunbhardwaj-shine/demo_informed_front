@@ -558,7 +558,7 @@ const NewEventCreate = () => {
                   >
                     <input
                       className="form-control me-2"
-                      type="text"
+                      type="search"
                       placeholder="Search by title"
                       aria-label="Search"
                       id="email_search"
