@@ -162,6 +162,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         
             <div className='outer-layout'>
                 <div className='question-outer-layout'>
+                    <Button className='disabled reset'>Reset All</Button>
                     <div className='question-outer-inset'>
                         {question?.length ?
                         <Slider
@@ -192,17 +193,38 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                                     </div>
                                                     <div className='answer-options'>
                                                         Answers
+                                                        {
+                                                            item?.canCustomAnswer == 1
+                                                            ?
+                                                                <div>Not have any possible answers</div>
+                                                            :
+                                                            <>
+                                                                {item?.pollAnswers?.length ?
+                                                                    item?.pollAnswers?.map((answer, i) => {
+                                                                        return (<>
+                                                                            <div className='answer' key={i}>
+                                                                                <span>{String.fromCharCode(65 + i)}.</span>
+                                                                                <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
 
-                                                        {item?.pollAnswers?.length ?
-                                                            item?.pollAnswers?.map((answer, i) => {
-                                                                return (<>
-                                                                    <div className='answer' key={i}>
-                                                                        <div><span>{String.fromCharCode(65 + i)}.</span>{answer?.name}</div>
+                                                                            </div>
+                                                                        </>)
+                                                                    })
+                                                                    : 
+                                                                    item?.allUserAnswers?.length ?
+                                                                        item?.allUserAnswers?.map((answer, i) => {
+                                                                            return (<>
+                                                                                <div className='answer' key={i}>
+                                                                                    <span>{String.fromCharCode(65 + i)}.</span>
+                                                                                    <div dangerouslySetInnerHTML={{ __html: answer }}></div>
 
-                                                                    </div>
-                                                                </>)
-                                                            })
-                                                            : ""}
+                                                                                </div>
+                                                                            </>)
+                                                                        })
+                                                                    :
+                                                                    null
+                                                                }
+                                                            </>
+                                                        }
                                                     </div>
                                                     <div className='speaker'>
                                                         Speaker
