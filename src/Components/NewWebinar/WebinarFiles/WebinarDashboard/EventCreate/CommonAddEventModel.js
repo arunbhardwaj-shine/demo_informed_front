@@ -102,6 +102,7 @@ const CommonAddEventModel = ({
     meeting_type: "",
   });
   useEffect(() => {
+    console.log("data--->",data)
     setCountryTimezone(webinarDetail?.countryTimezone);
     setIBUOptions(webinarDetail?.ibu);
     setTimezoneOptions(webinarDetail?.timezoneName);
@@ -132,8 +133,8 @@ const CommonAddEventModel = ({
           : "",
         dateStart: data?.dateStart,
         dateEnd: data?.dateEnd,
-        dateStartHour: data?.dateStartHour,
-        dateStartMin: data?.dateStartMin,
+        dateStartHour: data?.dateStartHour?data?.dateStartHour:"",
+        dateStartMin: data?.dateStartMin?data?.dateStartMin:"",
         dateEndHour: data?.dateEndHour ? data?.dateEndHour : "",
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
