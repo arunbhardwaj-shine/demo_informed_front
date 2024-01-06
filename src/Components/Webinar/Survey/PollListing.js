@@ -213,6 +213,8 @@ export default function PollListing({location,eventIdContext}) {
             {
               questionData: {
                 question: "",
+                questionColor: "#000000",
+                answerColor: "#000000",
                 speakerName: "",
                 answerOption: [{ answer: "", color: "#000000" }],
                 answerType: "MULTIPLE",
@@ -242,6 +244,16 @@ export default function PollListing({location,eventIdContext}) {
   const handleQuestionChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.question = e.target.value;
+    setQuestions(updatedQuestions);
+  };
+  const handleQuestionColorChange = (e, key) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[key].questionData.questionColor = e.target.value;
+    setQuestions(updatedQuestions);
+  };
+  const handleAnswerColorChange = (e, key) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[key].questionData.answerColor = e.target.value;
     setQuestions(updatedQuestions);
   };
   const handleTypeChange = (e, key) => {
@@ -538,6 +550,8 @@ export default function PollListing({location,eventIdContext}) {
     let newQuestion = {
       questionData: {
         question: "",
+        questionColor: "#000000",
+        answerColor: "#000000",
         speakerName: "",
         answerOption: [{ answer: "", color: "#000000" }],
         answerType: "MULTIPLE",
@@ -588,6 +602,8 @@ export default function PollListing({location,eventIdContext}) {
         updatedQuestions[0] = {
           questionData: {
             question: "",
+            questionColor: "#000000",
+            answerColor: "#000000",
             speakerName: "",
             answerOption: [{ answer: "", color: "#000000" }],
             answerType: "MULTIPLE",
@@ -959,6 +975,8 @@ export default function PollListing({location,eventIdContext}) {
                     questionData={questionObj.questionData}
                     questionDataErrors={questionObj.questionDataErrors}
                     onQuestionChange={(e) => handleQuestionChange(e, index)}
+                    onQuestionColorChange={(e) => handleQuestionColorChange(e, index)}
+                    onAnswerColorChange={(e) => handleAnswerColorChange(e, index)}
                     // onHandleIsRequiredChange={(e) =>
                     //   handleIsRequiredChange(e, index)
                     // }
