@@ -165,4 +165,5 @@ export const ENDPOINT = {
   WEBINAR_GET_EVENT_ATTENDEES_DETAILS:"webinar/get-attendees-more-details",
   STORECHATLINKDATA:"webinar/store-chat-link-data",
   GETCHATLINKDATA:"webinar/get-chat-link-data",
+  CHANGEPOLLSORDER:"webinar/change-polls-order",
 };

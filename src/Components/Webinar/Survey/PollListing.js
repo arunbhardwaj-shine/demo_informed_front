@@ -667,32 +667,41 @@ export default function PollListing({location,eventIdContext}) {
   };
 
   const handleSave = async () => {
-    // try {
-    //   loader("show");
+    try {
+      loader("show");
+      let payloadOrder = questions.map((item, index) => ({
+        index: index + 1,
+        id: item?.questionData?.id
+      }));
+      const payload = {
 
-    //   const payload = {
-    //   };
-    //   console.log("====>payload", payload);
+        eventId:event_code,
+        pollsData:payloadOrder
+      };
+      console.log("====>payload", payload);
 
-    //   const response = await postData(
-    //     ENDPOINT.WEBINAR_SETTINGS_UPDATE,
-    //     payload
-    //   );
-    //   setIsPrevClicked(false);
-    //   toast.success("Questions Updated Successfully", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    // } catch (error) {
-    //   console.error("Error updating settings:", error);
-    // } finally {
-    //   loader("hide");
-    // }
+      const response = await postData(
+        ENDPOINT.CHANGEPOLLSORDER,
+        payload
+      );
+      setIsPrevClicked(false);
+    
+            // console.log(response?.data.message);
+      // // setIsPrevClicked(false);
+      toast.success(response?.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } catch (error) {
+      console.error("Error updating settings:", error);
+    } finally {
+      loader("hide");
+    }
     console.log("Saving questions:", questions)
   };
   return (
