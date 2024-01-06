@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useLocation,useSearchParams } from "react-router-dom";
-import { postData } from "../../../../../axios/apiHelper";
+import { postData ,getData} from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 // import "./custom.css";
 import { loader } from "../../../../../loader";
@@ -36,6 +36,13 @@ const ChatLinkPage = () => {
     });
     return initialState;
   });
+   const [formData, setFormData] = useState(() => {
+    const initialState = {};
+    Object.entries(dynamicEventData).forEach(([field, value]) => {
+      initialState[field] = value?.value;
+    });
+    return initialState;
+  });
 
   useEffect(() => {
     const initialState = {};
@@ -43,25 +50,31 @@ const ChatLinkPage = () => {
       initialState[field] = value?.value;
     });
     setLogo(initialState?.logoImageUrl);
-    fetchSettings();
+    fetchApiData();
   }, []);
-
-
-  const fetchSettings = async () => {
+  const fetchApiData = async () => {
     try {
       loader("show");
-      //   const response = await getData(
-      //     `${ENDPOINT.WEBINAR_SETTINGS_GET}/${eventId}`
-      //   );
-      //   const { dynamicContent } = response?.data?.data;
-      setDynamicContent(dynamicContent);
-      // console.log(response?.data?.data, "===>response");
+      const response = await getData(
+        `${ENDPOINT.GETCHATLINKDATA}/${eventData?.eventId}`
+      );
+      const { chatLinkData } = response?.data?.data;
+  
+      if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
+        setDynamicContent(chatLinkData);
+        setFormData(chatLinkData);
+        // console.log(response?.data?.data, "===>response");
+      } else {
+        console.log("Chat link data is empty or undefined.");
+        // Handle the case when chatLinkData is empty or undefined
+      }
     } catch (error) {
       console.error("Error fetching settings:", error);
     } finally {
       loader("hide");
     }
   };
+  
 
   const handleFileSelect = async (e, isSelectedName) => {
     const fileInput = document.createElement("input");
@@ -177,9 +190,11 @@ const ChatLinkPage = () => {
       };
       console.log(payload, "====>payload");
       const response = await postData(
-        // ENDPOINT.WEBINAR_SETTINGS_UPDATE,
+        ENDPOINT.STORECHATLINKDATA,
         payload
       );
+      setFormData(dynamicContent);
+
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -306,7 +321,7 @@ const ChatLinkPage = () => {
                         <div>
                           <img
                             src={
-                              dynamicContent?.logoImageUrl
+                              formData?.logoImageUrl
                               // : path_image + "FVIII_logo.png"
                             }
                             alt="Factor logo"
@@ -319,7 +334,7 @@ const ChatLinkPage = () => {
                             <h2
                               className="top-title"
                               dangerouslySetInnerHTML={{
-                                __html: dynamicContent?.heading,
+                                __html: formData?.heading,
                               }}
                             ></h2>
                           </div>
@@ -347,7 +362,7 @@ const ChatLinkPage = () => {
                                 htmlFor="fname"
                                 className="form-label"
                                 dangerouslySetInnerHTML={{
-                                  __html: dynamicContent?.nameLabel,
+                                  __html: formData?.nameLabel,
                                 }}
                                 // <i>
                                 //   <small>(Optional)</small>
@@ -358,7 +373,7 @@ const ChatLinkPage = () => {
                                 type="text"
                                 id="name"
                                 className="form-control "
-                                placeholder={dynamicContent?.namePlaceholder}
+                                placeholder={formData?.namePlaceholder}
                                 name="name"
                                 // value={user?.name}
                               />
@@ -392,7 +407,7 @@ const ChatLinkPage = () => {
                                 htmlFor="fname"
                                 className="form-label"
                                 dangerouslySetInnerHTML={{
-                                  __html: dynamicContent?.questionLabel,
+                                  __html: formData?.questionLabel,
                                 }}
                                 // <sup>*</sup>
                               />
@@ -401,7 +416,7 @@ const ChatLinkPage = () => {
                                 id="question"
                                 className="form-control"
                                 placeholder={
-                                  dynamicContent?.questionPlaceholder
+                                  formData?.questionPlaceholder
                                 }
                                 cols="40"
                                 rows="4"
@@ -431,7 +446,7 @@ const ChatLinkPage = () => {
                                 // type="submit"
                                 className="btn btn-success"
                                 dangerouslySetInnerHTML={{
-                                  __html: dynamicContent?.buttonText,
+                                  __html: formData?.buttonText,
                                 }}
                               ></Button>
                             </div>
@@ -484,7 +499,7 @@ const ChatLinkPage = () => {
                             </p> */}
                           <p
                             dangerouslySetInnerHTML={{
-                              __html: dynamicContent?.footerText,
+                              __html: formData?.footerText,
                             }}
                           />
                         </div>

@@ -163,4 +163,6 @@ export const ENDPOINT = {
   WEBINAR_SEND_ADMIN_QUESTION:"webinar/send-admin-question",
   WEBINAR_GET_EVENT_ATTENDEES:"webinar/get-event-attendees",
   WEBINAR_GET_EVENT_ATTENDEES_DETAILS:"webinar/get-attendees-more-details",
+  STORECHATLINKDATA:"webinar/store-chat-link-data",
+  GETCHATLINKDATA:"webinar/get-chat-link-data",
 };
