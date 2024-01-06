@@ -235,12 +235,11 @@ const NewEventCreate = () => {
 
   const webinarRegistrationForm = (e, item) => {
     navigate("/webinar/registration", {
-      state: item,
+      state: {eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title},
     });
   };
   const liveStream = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream");
   };
   const webinarPollingForm = (e, item) => {
@@ -249,7 +248,6 @@ const NewEventCreate = () => {
     //   navigate('/webinar/chat-link')
     // }else{
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream/polls-layout", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });
@@ -258,7 +256,6 @@ const NewEventCreate = () => {
 
   const webinarEmailForm = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/email");
   };
 

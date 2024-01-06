@@ -53,7 +53,7 @@ const WebinarRegistration = () => {
 
 // location?.state?.event_code ? location?.state?.event_code : ""
   const [event_code, setEventCode] = useState(
-    eventIdContext?.eventCode?eventIdContext?.eventCode:JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode
+    location?.state?.eventCode?location?.state?.eventCode:eventIdContext?.eventCode?eventIdContext?.eventCode:JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode
   );
   const [logo, setLogo] = useState();
   const [file, setFile] = useState();
@@ -114,8 +114,8 @@ const WebinarRegistration = () => {
   });
 const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventData, setEventData] = useState({
-    event_id:eventIdContext?.eventId?eventIdContext?.eventId: location?.state?.id?location?.state?.id:localStorageEvent?.eventId,
-    company_id:eventIdContext?.companyId?eventIdContext?.companyId: location?.state?.user_id?location?.state?.user_id:localStorageEvent?.companyId,
+    event_id: location?.state?.eventId?location?.state?.eventId:eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId,
+    company_id:location?.state?.companyId?location?.state?.companyId:eventIdContext?.companyId?eventIdContext?.companyId :localStorageEvent?.companyId,
   });
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
@@ -935,6 +935,22 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     };
     // navigate("/event-registration", { state: prevObj });
   };
+  const handlePreviewInNewTab =async (e, newLink) => {
+    e.preventDefault()
+    if (!formData?.templateId) {
+      setShowModalPreview(true);
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}/event-registration?event=${event_code}`);
+
+      // Open link in a new tab
+      window.open(`${window.location.origin}/event-registration?event=${event_code}`, '_blank');
+    } catch (error) {
+      console.error('Error preview in new window:', error);
+    }
+  };
 
   const handleClose = () => {
     setIsPrevClicked(false);
@@ -1205,10 +1221,11 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                     <Button
                       type="button"
                       className="save btn-bordered"
-                      onClick={handlePreview}
+                      onClick={(e)=>{handlePreviewInNewTab(e)}}
                     >
                       Preview In New Tab
                     </Button>
+
                     {/* <Button onClick={(e) => saveClicked(e)} className="save">
                       Save
                     </Button> */}

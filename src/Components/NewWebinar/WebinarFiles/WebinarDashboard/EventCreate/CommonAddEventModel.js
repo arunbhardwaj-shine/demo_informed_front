@@ -10,6 +10,7 @@ import { loader } from "../../../../../loader";
 import { postData, updateConsent } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { object } from "@amcharts/amcharts4/core";
+import {debounce} from 'lodash'
 
 const CommonAddEventModel = ({
   show,
@@ -96,14 +97,14 @@ const CommonAddEventModel = ({
     dateEndHour: "",
     dateEndMin: "",
     event_code: "",
+    event_type:"",
     description: "",
     speaker_name: [{ speakerName: "" }],
     speaker_email: "",
     meeting_type: "",
   });
   useEffect(() => {
-    console.log("data--->",data)
-    setCountryTimezone(webinarDetail?.countryTimezone);
+   
     setIBUOptions(webinarDetail?.ibu);
     setTimezoneOptions(webinarDetail?.timezoneName);
     if (data?.id) {
@@ -138,6 +139,7 @@ const CommonAddEventModel = ({
         dateEndHour: data?.dateEndHour ? data?.dateEndHour : "",
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
+        event_type:data?.event_type,
         description: data?.description ? data?.description : "",
         // speaker_name: JSON.parse(speaker_name),
         speaker_name: speaker_name,
@@ -162,6 +164,7 @@ const CommonAddEventModel = ({
         dateEndHour: "",
         dateEndMin: "",
         event_code: "",
+        event_type:"",
         description: "",
         speaker_name: [{ speakerName: "" }],
         speaker_email: "",
@@ -181,9 +184,9 @@ const CommonAddEventModel = ({
     });
     onClose(false);
   };
+
+  
   const handleChange = (e, isSelectedName, index) => {
-
-
     const { name, value } = e?.target || {};
     if (isSelectedName == "speaker_name") {
       let updateOption = eventInputs?.speaker_name;
@@ -195,9 +198,12 @@ const CommonAddEventModel = ({
         ...eventInputs,
         [isSelectedName || name]: isSelectedName ? e : value?.trim(),
       });
+      handleDebouncedChange(value);
     } else if (isSelectedName == "timezone") {
 
-      setEventInputs({ ...eventInputs, timezone: e?.label, country_timezone: e?.value })
+      let countryTimeZoneOptions=timezoneOptions?.map((item)=>(item?.label==e?.label?{label:item?.value,value:item?.value}:null)).filter(Boolean);
+        setCountryTimezone(countryTimeZoneOptions)
+      setEventInputs({ ...eventInputs, timezone: e?.label })
     }
 
     else {
@@ -211,11 +217,18 @@ const CommonAddEventModel = ({
       }
       setEventInputs(updatedInputs);
 
-
-
-
     }
   };
+
+  const handleDebouncedChange=debounce(async (value)=>{
+try{
+// const response=await postData(ENDPOINT.MATCH_EVENT_CODE,value)
+console.log("debaounce--->",value)
+}
+catch(err){
+  console.log("--err",err)
+}
+},1000)
 
   const addNewSpeakerClicked = (e, isSelectedName) => {
     let speakerObj = {
@@ -344,6 +357,11 @@ const CommonAddEventModel = ({
       }
     } catch (err) {
       console.log("--err", err);
+      if(err?.response?.data?.message=="Event code already exist"){
+        let error={}
+        error.event_code=err?.response?.data?.message
+        setError(error)
+      }
     } finally {
       loader("hide");
     }
@@ -438,7 +456,7 @@ const CommonAddEventModel = ({
                           <div className="col-12 col-md-12">
                             <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
-                                Event Type
+                                Event Type <span>*</span>
                               </label>
 
                               <Select
@@ -626,7 +644,7 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div> */}
-
+                      {localStorage.getItem("user_id")=="B7SHpAc XDXSH NXkN0rdQ=="?
                           <div className="col-12 col-md-12">
                             <div className="form-group d-flex align-items-center">
                               <label htmlFor="">IBU</label>
@@ -664,48 +682,9 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
+                          :""}
 
-                          {/* <div className="col-12 col-md-12">
-                            <div className="form-group">
-                              <label htmlFor="">
-                                Country Timezone <span> *</span>
-                              </label>
-                              <Select
-                                options={countryTimezone}
-                                className={
-                                  error?.country_timezone
-                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                }
-                                onChange={(e) =>
-                                  handleChange(e?.value, "country_timezone")
-                                }
-                                placeholder="Select country timezone"
-                                value={
-                                  timezoneOptions
-                                    ? timezoneOptions.findIndex(
-                                      (item) =>
-                                        item?.value == eventInputs?.country_timezone
-                                    ) != -1
-                                      ? timezoneOptions[
-                                      timezoneOptions.findIndex(
-                                        (item) =>
-                                          item?.value ==
-                                          eventInputs?.country_timezone
-                                      )
-                                      ]
-                                      : ""
-                                    : ""
-                                }
-                                isClearable
-                              />
-                              {error?.country_timezone ? (
-                                <div className="login-validation">
-                                  {error?.country_timezone}
-                                </div>
-                              ) : null}
-                            </div>
-                          </div> */}
+                        
 
                           <div className="col-12 col-md-12">
                             <div className="form-group d-flex align-items-center">
@@ -746,6 +725,48 @@ const CommonAddEventModel = ({
                               {error?.timezone ? (
                                 <div className="login-validation">
                                   {error?.timezone}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+
+                            <div className="col-12 col-md-12">
+                            <div className="form-group">
+                              <label htmlFor="">
+                                Country Timezone <span> *</span>
+                              </label>
+                              <Select
+                                options={countryTimezone}
+                                className={
+                                  error?.country_timezone
+                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                }
+                                onChange={(e) =>
+                                  handleChange(e?.value, "country_timezone")
+                                }
+                                placeholder="Select country timezone"
+                                value={
+                                  countryTimezone
+                                    ? countryTimezone?.findIndex(
+                                      (item) =>
+                                        item?.value == eventInputs?.country_timezone
+                                    ) != -1
+                                      ? countryTimezone[
+                                        countryTimezone?.findIndex(
+                                        (item) =>
+                                          item?.value ==
+                                          eventInputs?.country_timezone
+                                      )
+                                      ]
+                                      : ""
+                                    : ""
+                                }
+                                isClearable
+                              />
+                              {error?.country_timezone ? (
+                                <div className="login-validation">
+                                  {error?.country_timezone}
                                 </div>
                               ) : null}
                             </div>
@@ -1041,12 +1062,16 @@ const CommonAddEventModel = ({
                                 type="text"
                                 name="event_code"
                                 placeholder="Event code"
-                                className={
-                                  error?.event_code
-                                    ? "form-control error"
-                                    : "form-control"
-                                }
+                                className={error?.event_code? "form-control error":"form-control"}
+                                // className={
+                                //   error?.event_code
+                                //     ? "form-control error"
+                                //     : data?.id? "form-control disabled":"form-control"
+                                // }
+                                // readOnly={data?.id?true:false}
+                                // disabled={data?.id?true:false}
                                 onChange={(e) => handleChange(e)}
+                               
                                 value={
                                   eventInputs?.event_code
                                     ? eventInputs?.event_code

@@ -9863,8 +9863,9 @@ html {
   display: flex;
   flex-direction: row;
   gap: 32px;
-  padding: 16px;
+  padding: 4px;
   min-height: 80vh;
+  position: relative;
 }
 
 .poll-creation .outer-layout .pie-chart-outer-layout {
@@ -9885,6 +9886,22 @@ html {
   padding: 16px 0px 16px 16px;
   display: flex;
   align-items: center;
+  position: relative;
+}
+.poll-creation .outer-layout .question-outer-layout button.reset {
+  position: absolute;
+  top: -51px;
+  right: 28px;
+  font-size: 16px;
+  padding: 8px;
+  min-width: 96px;
+  border: 0;
+  z-index: 2;
+  background: #8A4E9C;
+}
+.poll-creation .outer-layout .question-outer-layout button.disabled {
+  background: #97B6CF;
+  pointer-events: none;
 }
 
 .poll-creation .question-outer-inset {
@@ -9919,6 +9936,12 @@ html {
   display: flex;
   flex-direction: column;
 } */
+/* .question-outer-layout .slick-slider .slick-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+} */
 .question-list-number {
   padding: 0px 0px 12px 8px;
 }
@@ -9933,6 +9956,7 @@ html {
   border-radius: 3px;
   line-height: 1;
   min-width: 74px;
+  text-align: center;
 }
 
 .question-list-number .question-status span {
@@ -10083,7 +10107,9 @@ html {
   background: #0066BE;
   color: #fff;
 }
-
+.question-listing .question-status .btn-group .btn-group-add button.visited {
+  color: #39CABC;
+}
 .question-listing .question-status .btn-group .btn-group-add button.quest.active,
 .question-listing .question-status .btn-group .btn-group-add button.answer.active {
   background: #39CABC;
@@ -10106,11 +10132,16 @@ html {
   border: 0;
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.20);
 }
-
+.question-outer-layout .question-action button:hover {
+border:0;
+}
 .question-outer-layout .question-action button svg path {
   fill: #97B6CF;
 }
-
+.question-outer-layout .question-action button:hover svg path {
+  fill: #fff;
+  border: 0;
+}
 .question-outer-layout .outer-layout {
   min-height: 80vh;
 }
@@ -10880,7 +10911,15 @@ html {
 .event_edit #add_hcp .modal-body .hcp-add-form form#add_hcp_form .form-group label {
   padding: 0;
 }
-
+.poll_question_loader {
+  position: absolute;
+  background: rgb(0 102 190 / 10%);
+  left: 0;
+  right: 0;
+  border-radius: 20px;
+  top: 0;
+  backdrop-filter: blur(3px);
+}
 /**Speaker Zone End**/
 
 

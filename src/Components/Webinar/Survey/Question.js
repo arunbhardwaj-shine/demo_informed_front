@@ -114,7 +114,14 @@ function Question(props) {
   //   ],
   // };
   const handlePreview = (e, index) => {
+   
+    // let valid=answerOption?.every((item)=>item?.answer!=="")
+    
+    // if(valid){
+    //   setIsPrevClicked(true);
+    // }
     setIsPrevClicked(true);
+   
   }
 
   const handleClose = () => {
