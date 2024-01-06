@@ -99,7 +99,7 @@ const stateOptions = [
   { label: "Virginia", value: "Virginia" },
 ];
 
-const RegistrationPage = ({ prevData }) => {
+const RegistrationPage = ({ prevData,type }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -614,6 +614,7 @@ const RegistrationPage = ({ prevData }) => {
           <span className="loader-view"> </span>
         </div>
       </div>
+      { type !="preview" && 
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -624,7 +625,7 @@ const RegistrationPage = ({ prevData }) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      />
+      />}
 
       {formData?.content?.templateId === 1 && (
         <TemplateOne formData={formData}>{myContent1}</TemplateOne>
