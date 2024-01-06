@@ -234,6 +234,7 @@ const NewEventCreate = () => {
   };
 
   const webinarRegistrationForm = (e, item) => {
+    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/registration", {
       state: {eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title},
     });
