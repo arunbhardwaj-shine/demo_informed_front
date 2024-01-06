@@ -996,7 +996,7 @@ const NewEventCreate = () => {
                           <div className="email_box">
                             <div
                               className="mail-box-content"
-                              onClick={() => handleCardClick(item)}
+                              // onClick={() => handleCardClick(item)}
                             >
                               <div
                                 className="action_btn text-end"
@@ -1081,7 +1081,7 @@ const NewEventCreate = () => {
                                   />
                                 </button>
                               </div>
-                              <div className="event-title">{item?.title}</div>
+                              <div className="event-title" onClick={() => handleCardClick(item)}>{item?.title}</div>
                               <div className="speaker-name">
                                 <span>Speaker</span>{" "}
                                 {speakerName[index]

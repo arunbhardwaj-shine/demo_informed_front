@@ -665,6 +665,36 @@ export default function PollListing({location,eventIdContext}) {
   const handleQuestionOrderChange = (updatedQuestions) => {
     setQuestions(updatedQuestions);
   };
+
+  const handleSave = async () => {
+    // try {
+    //   loader("show");
+
+    //   const payload = {
+    //   };
+    //   console.log("====>payload", payload);
+
+    //   const response = await postData(
+    //     ENDPOINT.WEBINAR_SETTINGS_UPDATE,
+    //     payload
+    //   );
+    //   setIsPrevClicked(false);
+    //   toast.success("Questions Updated Successfully", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    // } catch (error) {
+    //   console.error("Error updating settings:", error);
+    // } finally {
+    //   loader("hide");
+    // }
+    console.log("Saving questions:", questions)
+  };
   return (
     <>
       <Col className="col right-sidebar">
@@ -1073,7 +1103,7 @@ export default function PollListing({location,eventIdContext}) {
             </>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => console.log("Saving questions:", questions)}>
+            <Button onClick={handleSave}>
               Save
             </Button>
           </Modal.Footer>
