@@ -49,6 +49,7 @@ function Question(props) {
     onHandleDelete,
     onHandleIncrementChange,
     lastQuestionIndex,
+    checkValidation,
   } = props;
   const checkBoxOptions = [
     // { id: "YesNo", label: "Yes OR No" },
@@ -117,10 +118,9 @@ function Question(props) {
    
     // let valid=answerOption?.every((item)=>item?.answer!=="")
     
-    // if(valid){
-    //   setIsPrevClicked(true);
-    // }
-    setIsPrevClicked(true);
+    if(checkValidation()){
+      setIsPrevClicked(true);
+    }
    
   }
 

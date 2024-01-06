@@ -985,6 +985,7 @@ export default function PollListing({location,eventIdContext}) {
                     onHandleDelete={handleDelete}
                     onHandleIncrementChange={handleIncrementChange}
                     lastQuestionIndex={questions.length}
+                    checkValidation={()=>validateQuestions(index)}
                   />
                 ))}
               </Slider>
