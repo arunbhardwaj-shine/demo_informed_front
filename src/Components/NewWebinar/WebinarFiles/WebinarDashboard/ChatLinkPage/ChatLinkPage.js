@@ -27,7 +27,7 @@ const ChatLinkPage = () => {
   const [searchParams] = useSearchParams();
   const [error, setError] = useState({});
   const [errorMsg, setErrorMsg] = useState("");
-  const [logo, setLogo] = useState();
+  const [logo, setLogo] = useState("");
   const [defaultLogo, setDefaultLogo] = useState();
   const [dynamicContent, setDynamicContent] = useState(() => {
     const initialState = {};
@@ -66,12 +66,13 @@ const fetchApiData = async () => {
       
       // console.log(response?.data?.data, "===>response");
     } else {
-      // console.log("Chat link data is empty or undefined.");
+      console.log("Chat link data is empty or undefined.");
     setLogo(dynamicContent?.logoImageUrl);
 
-      // Handle the case when chatLinkData is empty or undefined
     }
   } catch (error) {
+    setLogo(dynamicContent?.logoImageUrl);
+
     console.error("Error fetching settings:", error);
   } finally {
     loader("hide");
