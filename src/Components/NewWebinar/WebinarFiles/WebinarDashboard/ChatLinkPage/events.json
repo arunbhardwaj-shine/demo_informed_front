@@ -2,7 +2,7 @@
     "logoImageUrl":{
         "title": "Logo",
         "type": "file",
-        "value": "http://localhost:3000/componentAssets/images/FVIII_logo.png"
+        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/hk6WaR7slLbF4OegY43MLxZkJduqoNarIPxs42yy.png"
     },
     "heading": {
         "title": "Modal heading",

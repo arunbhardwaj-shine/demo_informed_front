@@ -49,32 +49,35 @@ const ChatLinkPage = () => {
     Object.entries(dynamicEventData).forEach(([field, value]) => {
       initialState[field] = value?.value;
     });
-    setLogo(initialState?.logoImageUrl);
     fetchApiData();
   }, []);
-  const fetchApiData = async () => {
-    try {
-      loader("show");
-      const response = await getData(
-        `${ENDPOINT.GETCHATLINKDATA}/${eventData?.eventId}`
-      );
-      const { chatLinkData } = response?.data?.data;
-  
-      if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
-        setDynamicContent(chatLinkData);
-        setFormData(chatLinkData);
-        // console.log(response?.data?.data, "===>response");
-      } else {
-        console.log("Chat link data is empty or undefined.");
-        // Handle the case when chatLinkData is empty or undefined
-      }
-    } catch (error) {
-      console.error("Error fetching settings:", error);
-    } finally {
-      loader("hide");
+const fetchApiData = async () => {
+  try {
+    loader("show");
+    const response = await getData(
+      `${ENDPOINT.GETCHATLINKDATA}/${eventData?.eventId}`
+    );
+    const { chatLinkData } = response?.data?.data;
+
+    if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
+      setDynamicContent(chatLinkData);
+      setFormData(chatLinkData);
+    setLogo(chatLinkData?.logoImageUrl);
+      
+      // console.log(response?.data?.data, "===>response");
+    } else {
+      // console.log("Chat link data is empty or undefined.");
+    setLogo(dynamicContent?.logoImageUrl);
+
+      // Handle the case when chatLinkData is empty or undefined
     }
-  };
-  
+  } catch (error) {
+    console.error("Error fetching settings:", error);
+  } finally {
+    loader("hide");
+  }
+};
+
 
   const handleFileSelect = async (e, isSelectedName) => {
     const fileInput = document.createElement("input");
