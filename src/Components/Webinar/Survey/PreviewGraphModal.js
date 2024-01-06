@@ -92,7 +92,7 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       legend: {
         enabled:true,
         verticalAlign: "bottom",
-        // labelFormat: '{name} ({percentage:.2f}%) ',
+        labelFormat: '{name} ({percentage:.2f}%) ',
        
     }, 
       plotOptions: {
