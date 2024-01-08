@@ -104,13 +104,14 @@ const CommonAddEventModel = ({
     meeting_type: "",
   });
   useEffect(() => {
-   
     setIBUOptions(webinarDetail?.ibu);
     setTimezoneOptions(webinarDetail?.timezoneName);
     if (data?.id) {
       let speaker_name = "";
       let speaker_email = "";
       let meeting_type = "";
+      let event_type="";
+      let countryTimeZoneOptions=[]
       if (data?.raw_description) {
         let parseData = JSON.parse(data?.raw_description);
         try {
@@ -120,7 +121,11 @@ const CommonAddEventModel = ({
 
         speaker_email = parseData?.speaker_email;
         meeting_type = parseData?.meeting_type;
+        event_type=parseData?.event_type;
       }
+       countryTimeZoneOptions=webinarDetail?.timezoneName?.map((item)=>(item?.label==data?.timezone?{label:item?.value,value:item?.value}:null)).filter(Boolean);
+
+      setCountryTimezone(countryTimeZoneOptions)
       setEventInputs({
         ...data,
         title: data?.title,
@@ -139,7 +144,7 @@ const CommonAddEventModel = ({
         dateEndHour: data?.dateEndHour ? data?.dateEndHour : "",
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
-        event_type:data?.event_type,
+        event_type:event_type,
         description: data?.description ? data?.description : "",
         // speaker_name: JSON.parse(speaker_name),
         speaker_name: speaker_name,
@@ -147,6 +152,7 @@ const CommonAddEventModel = ({
         meeting_type: meeting_type,
       });
     } else {
+      setCountryTimezone([])
       setEventInputs({
         dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
         dateEnd: new Date(
@@ -169,6 +175,7 @@ const CommonAddEventModel = ({
         speaker_name: [{ speakerName: "" }],
         speaker_email: "",
         meeting_type: "",
+        
       });
     }
   }, [show]);
@@ -222,13 +229,21 @@ const CommonAddEventModel = ({
 
   const handleDebouncedChange=debounce(async (value)=>{
 try{
-// const response=await postData(ENDPOINT.MATCH_EVENT_CODE,value)
-console.log("debaounce--->",value)
+  let error={}
+  let eventCode=value;
+const response=await postData(ENDPOINT.EVENT_ID,{eventCode})
+if(response?.data?.data?.id){
+  error.event_code="Event code already exist"
+  setError(error)
+  return
+}else{
+  setError(error)
+}
 }
 catch(err){
   console.log("--err",err)
 }
-},1000)
+},500)
 
   const addNewSpeakerClicked = (e, isSelectedName) => {
     let speakerObj = {
