@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Accordion, Button } from 'react-bootstrap'
 import { loader } from '../../../../../loader'
-import { getData } from '../../../../../axios/apiHelper'
+import { postData } from '../../../../../axios/apiHelper'
 import { ENDPOINT } from '../../../../../axios/apiConfig'
 import { useSidebar } from '../../../../CommonComponent/LoginLayout'
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -12,7 +12,7 @@ const ContactDM = () => {
     const [showFilter, setShowFilter] = useState(false)
     const [userData, setUserData] = useState([])
     const [originalUserData, setOriginalUserData] = useState([])
-    const [filterData, setFilterData] = useState({})
+    const [filterData, setFilterData] = useState({filters:['All','Current']})
     const [otherFilter, setOtherFilter] = useState({});
     const [appliedFilter, setAppliedFilter] = useState({})
     const [search, setSearch] = useState("")
@@ -27,19 +27,33 @@ const ContactDM = () => {
         getEventDMListing()
     }, [])
 
-    const getEventDMListing = async () => {
+    const getEventDMListing = async (search="",filter="",load=0) => {
+       
         try {
-            loader("show")
-            const response = await getData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}/${eventId}`)
-            setUserData(response?.data?.data?.data)
-            setOriginalUserData(response?.data?.data?.data)
-            setFilterData(response?.data?.data?.filterData)
-            setApiStatus(true)
+            if(load==0){
+                loader("show")
+            }else{
+                setRefreshFlag(true)
+            }
+            
+            setApiStatus(false)
+            let event=filter?.filters?.includes("All")?0:eventId
+            let data={
+                event_id:event,
+                search:search,
+                
+            }
+            // const response = await postData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}`,{event_id:eventId})
+            const response=await postData("http://192.168.0.162:5000/api/get-contact-us-data",data)
+            setUserData(response?.data?.data)
+            setOriginalUserData(response?.data?.data)           
 
         } catch (err) {
             console.log("--err", err)
         }
         finally {
+            setApiStatus(true)
+            setRefreshFlag(false)
             loader("hide")
         }
     }
@@ -47,68 +61,81 @@ const ContactDM = () => {
     const handleOnFilterChange = (e, item, index, key, data = {}) => {
         const updatedFilter = JSON.parse(JSON.stringify({ ...data }));
         if (e?.target?.checked == true) {
-            if (e?.target?.type === "checkbox") {
+           
+             updatedFilter[key]=[];
+             updatedFilter[key]?.push(item)
+                // if (updatedFilter[key]) {
 
-                if (updatedFilter[key]) {
+                //     updatedFilter[key] = updatedFilter[key].includes(item)
+                //         ? updatedFilter[key].filter((value) => value !== item)
+                //         : [...updatedFilter[key], item];
+                // } else {
 
-                    updatedFilter[key] = updatedFilter[key].includes(item)
-                        ? updatedFilter[key].filter((value) => value !== item)
-                        : [...updatedFilter[key], item];
-                } else {
-
-                    updatedFilter[key] = [item];
-                }
-            }
-        } else if (e?.target?.checked == false) {
-            if (e?.target?.type == "checkbox") {
-                let index = updatedFilter[key]?.indexOf(item)
-                if (index > -1) {
-                    updatedFilter[key]?.splice(index, 1)
-                }
-                if (updatedFilter[key]?.length == 0) {
-                    delete updatedFilter[key]
-                }
-            }
-        }
+                //     updatedFilter[key] = [item];
+                // }
+           
+        } 
+        // else if (e?.target?.checked == false) {
+           
+        //         let index = updatedFilter[key]?.indexOf(item)
+        //         if (index > -1) {
+        //             updatedFilter[key]?.splice(index, 1)
+        //         }
+        //         if (updatedFilter[key]?.length == 0) {
+        //             delete updatedFilter[key]
+        //         }
+        //     }
+        
         setOtherFilter(updatedFilter);
     };
 
     const searchChange = (e) => {
         setSearch(e?.target?.value?.trim())
-        if (e?.target?.value == "") {
-            setUserData(originalUserData)
+        if (e?.target?.value == ""||e?.target?.value==null) {
+            let searched=e?.target?.value;
+            setUserData()
+            setSearch(searched)
+            getEventDMListing(searched,otherFilter)
             setOtherFilter({})
         }
 
     }
 
-    const submitSearchHandler = (e) => {
+    const submitSearchHandler=(e)=>{
         e.preventDefault()
-        let searchData = userData?.filter((item) => {
-            if (item?.name) {
-                return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
-            } else if (item?.username) {
-                return item?.username?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
-            } else {
-                return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
-            }
-
-        })
-        setUserData(searchData)
-
+        setUserData()
+       getEventDMListing(search,otherFilter)
+       
     }
 
-    const applyFilter = () => {
-        setSearch("");
+    // const submitSearchHandler = (e) => {
+    //     e.preventDefault()
+    //     let searchData = userData?.filter((item) => {
+    //         if (item?.name) {
+    //             return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
+    //         } else if (item?.username) {
+    //             return item?.username?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
+    //         } else {
+    //             return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
+    //         }
 
-        let filterData = originalUserData?.filter((item) => {
-            const data = Object.entries(otherFilter)?.every(([key, values]) => {
-                return !values || values?.includes(item[key?.toLowerCase()])
-            })
-            return data;
-        })
-        setAppliedFilter(otherFilter)
-        setUserData(filterData)
+    //     })
+    //     setUserData(searchData)
+
+    // }
+
+    const applyFilter = () => {
+        // setSearch("");
+
+        // let filterData = originalUserData?.filter((item) => {
+        //     const data = Object.entries(otherFilter)?.every(([key, values]) => {
+        //         return !values || values?.includes(item[key?.toLowerCase()])
+        //     })
+        //     return data;
+        // })
+        setUserData()
+        getEventDMListing(search,otherFilter)
+        setAppliedFilter(otherFilter)      
         setShowFilter(false)
 
     }
@@ -127,29 +154,21 @@ const ContactDM = () => {
         applyFilter()
     }
 
-    const clearFilter = () => {
-        setUserData(originalUserData)
+    const clearFilter = () => {  
+        setUserData()
+        getEventDMListing(search,"")
         setOtherFilter({})
         setAppliedFilter({})
         setShowFilter(false)
-        setSearch("");
+       
     }
 
     const Refresh = async () => {
-        try {
-            setSearch("")
+        
+            let load=1;
             setShowFilter(false)
-            setRefreshFlag(true)
-            const response = await getData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}/${401}`)
-            setUserData(response?.data?.data?.data)
-            setOriginalUserData(response?.data?.data?.data)
-            setFilterData(response?.data?.data?.filterData)
-            setApiStatus(true)
-            setRefreshFlag(false)
-        } catch (err) {
-            console.log("--err", err)
-            setRefreshFlag(false)
-        }
+            getEventDMListing(search,"",load)
+           
     }
 
     return (
@@ -284,7 +303,7 @@ const ContactDM = () => {
                                                                                                 {item != "" ? (
                                                                                                     <label className="select-multiple-option">
                                                                                                         <input
-                                                                                                            type="checkbox"
+                                                                                                            type="radio"
 
                                                                                                             id={`custom-checkbox-tags-${index}`}
                                                                                                             value={item}
@@ -381,7 +400,7 @@ const ContactDM = () => {
                                 </div>
 
                             </div>
-                            {console.log("filter wrap---->", Object.keys(appliedFilter)?.length)}
+                            
                             {Object.keys(appliedFilter)?.length > 0 ? (
                                 <div className="apply-filter">
                                     <div className="filter-block">
@@ -429,6 +448,7 @@ const ContactDM = () => {
                                 </div>
                             ) : ""}
                         </div>
+                       
                         {userData != "undefined" && userData?.length > 0 ?
                             (
                                 <div className="invitee">
@@ -456,7 +476,7 @@ const ContactDM = () => {
                                                     <td>{user?.email ? user?.email : "N/A"}</td>
                                                     <td>{user?.country ? user?.country : "N/A"}</td>
                                                     <td>{user?.phone ? user?.phone : "N/A"}</td>
-                                                    <td><div>{user?.question ? user?.question : "N/A"}</div></td>
+                                                    <td><div dangerouslySetInnerHTML={{__html:user?.question ? user?.question : "N/A"}}></div></td>
 
                                                 </tr>
                                             ))}

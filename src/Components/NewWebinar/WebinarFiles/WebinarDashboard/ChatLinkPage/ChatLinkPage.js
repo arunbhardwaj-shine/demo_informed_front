@@ -1,15 +1,13 @@
-
 import { useEffect, useState } from "react";
-import { useLocation,useSearchParams } from "react-router-dom";
-import { postData ,getData} from "../../../../../axios/apiHelper";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { postData, getData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
-// import "./custom.css";
 import { loader } from "../../../../../loader";
-// import "./style.css";
 import axios from "axios";
 import { Button, Col } from "react-bootstrap";
 import dynamicEventData from "./events.json";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import { toast } from "react-toastify";
 
 const validExtensions = ["png", "jpeg", "jpg"];
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -29,6 +27,8 @@ const ChatLinkPage = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [logo, setLogo] = useState("");
   const [defaultLogo, setDefaultLogo] = useState();
+  const [isDataSaved, setIsDataSaved] = useState(false);
+
   const [dynamicContent, setDynamicContent] = useState(() => {
     const initialState = {};
     Object.entries(dynamicEventData).forEach(([field, value]) => {
@@ -36,7 +36,7 @@ const ChatLinkPage = () => {
     });
     return initialState;
   });
-   const [formData, setFormData] = useState(() => {
+  const [formData, setFormData] = useState(() => {
     const initialState = {};
     Object.entries(dynamicEventData).forEach(([field, value]) => {
       initialState[field] = value?.value;
@@ -51,34 +51,31 @@ const ChatLinkPage = () => {
     });
     fetchApiData();
   }, []);
-const fetchApiData = async () => {
-  try {
-    loader("show");
-    const response = await getData(
-      `${ENDPOINT.GETCHATLINKDATA}/${eventData?.eventId}`
-    );
-    const { chatLinkData } = response?.data?.data;
 
-    if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
-      setDynamicContent(chatLinkData);
-      setFormData(chatLinkData);
-    setLogo(chatLinkData?.logoImageUrl);
-      
-      // console.log(response?.data?.data, "===>response");
-    } else {
-      console.log("Chat link data is empty or undefined.");
-    setLogo(dynamicContent?.logoImageUrl);
+  const fetchApiData = async () => {
+    try {
+      loader("show");
+      const response = await getData(
+        `${ENDPOINT.GETCHATLINKDATA}/${eventData?.eventId}`
+      );
+      const { chatLinkData } = response?.data?.data;
 
+      if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
+        setDynamicContent(chatLinkData);
+        setFormData(chatLinkData);
+        setLogo(chatLinkData?.logoImageUrl);
+      } else {
+        console.log("Chat link data is empty or undefined.");
+        setLogo(dynamicContent?.logoImageUrl);
+      }
+    } catch (error) {
+      setLogo(dynamicContent?.logoImageUrl);
+
+      console.error("Error fetching settings:", error);
+    } finally {
+      loader("hide");
     }
-  } catch (error) {
-    setLogo(dynamicContent?.logoImageUrl);
-
-    console.error("Error fetching settings:", error);
-  } finally {
-    loader("hide");
-  }
-};
-
+  };
 
   const handleFileSelect = async (e, isSelectedName) => {
     const fileInput = document.createElement("input");
@@ -183,22 +180,41 @@ const fetchApiData = async () => {
     }));
   };
 
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
+  };
 
   const handleSubmitForm = async () => {
     try {
       loader("show");
       const payload = {
         chatLinkData: dynamicContent,
-        eventId:eventData?.eventId,
-        companyId:eventData?.companyId,
+        eventId: eventData?.eventId,
+        companyId: eventData?.companyId,
       };
       console.log(payload, "====>payload");
-      const response = await postData(
-        ENDPOINT.STORECHATLINKDATA,
-        payload
-      );
+      const response = await postData(ENDPOINT.STORECHATLINKDATA, payload);
       setFormData(dynamicContent);
-
+      setIsDataSaved(true);
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -206,38 +222,30 @@ const fetchApiData = async () => {
     }
   };
 
-//   const handleSubmitForm = async () => {
-//     try {
-//       loader("show");
-//         const payload = {
-//             chatLinkData: dynamicContent,
-//             eventId:eventData?.eventId,
-//             companyId:eventData?.companyId,
-//         };
-  
-//       console.log(payload, "====>payload");
-//       const response = await postData(
-//         // ENDPOINT.WEBINAR_SETTINGS_UPDATE,
-//         payload
-//       );
-  
-//       // Update the dynamicContent state with the new data
-//       setDynamicContent((prevContent) => ({
-//         ...prevContent,
-//         ...response?.data, // Assuming your API response contains the updated data
-//       }));
-//     } catch (error) {
-//       console.error("Error:", error);
-//     } finally {
-//       loader("hide");
-//     }
-//   };
-  
-
   return (
     <>
       <Col className="right-sidebar custom-change">
-        <div className="register-page create-change-content chatlink">
+        <div className="custom-container register-page create-change-content chatlink">
+          <Button>Open Link</Button>
+
+          <a
+            className={`copy_link btn-voilet`}
+            href={`localhost:3000/event?=${eventData?.eventId}`}
+            onClick={(e) => {
+              e.preventDefault();
+              // if (!isDataSaved) {
+              //   return;
+              // }
+              console.dir();
+              let newLink = `${
+                e.currentTarget.host
+              }/${e.currentTarget.getAttribute("href")}`;
+              copyToClipboard(newLink);
+            }}
+          >
+            Copy Link
+          </a>
+
           <div className="row ">
             <div className="col-md-6 col-sm-6">
               <div className="chatlink-left">
@@ -248,57 +256,77 @@ const fetchApiData = async () => {
                   >
                     <label> {value.title}</label>
                     {value.type === "file" ? (
-                      <div className="logo-section header-section">
-                        {!logo && (
-                          <>
-                            <div>
-                              <h5>Upload your file</h5>
-                            </div>
-                            <Button onClick={(e) => handleFileSelect(e, field)}>
-                              Choose Your File
-                            </Button>
-                          </>
-                        )}
+                      <>
+                        <div className="logo-section header-section">
+                          {!logo && (
+                            <>
+                              <div>
+                                <h5>Upload your file</h5>
+                              </div>
+                              <Button
+                                onClick={(e) => handleFileSelect(e, field)}
+                              >
+                                Choose Your File
+                              </Button>
+                            </>
+                          )}
 
-                        <img className="logo-img" src={logo} />
+                          <img className="logo-img" src={logo} />
 
-                        <div className="logo-text header-text">
-                          {logo && (
-                            <button
-                              className="btn btn-outline-primary"
-                              title="Edit user"
-                            >
-                              <img
-                                src={path + "edit-button.svg"}
-                                alt="Edit"
+                          <div className="logo-text header-text">
+                            {logo && (
+                              <button
+                                className="btn btn-outline-primary"
+                                title="Edit user"
+                              >
+                                <img
+                                  src={path + "edit-button.svg"}
+                                  alt="Edit"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleFileSelect(e, field);
+                                  }}
+                                />
+                              </button>
+                            )}
+
+                            {logo && (
+                              <button
+                                className="dlt_btn_event btn-voilet"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleFileSelect(e, field);
+                                  handleDeleteLogoImage(e, field);
                                 }}
-                              />
-                            </button>
-                          )}
-
-                          {logo && (
-                            <button
-                              className="dlt_btn_event btn-voilet"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteLogoImage(e, field);
-                              }}
-                            >
-                              <img
-                                title="Delete"
-                                src={path_image + "delete-icon.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          )}
+                              >
+                                <img
+                                  title="Delete"
+                                  src={path_image + "delete-icon.svg"}
+                                  alt="Delete Row"
+                                />
+                              </button>
+                            )}
+                          </div>
                         </div>
-                      </div>
+                      </>
+                    ) : value.type == "color" ? (
+                      <>
+                        <div className="color-pick">
+                          <img src={path_image + "color-picker.svg"} alt="" />
+                          <input
+                            type="color"
+                            title="Choose Your Color"
+                            onChange={(e) =>
+                              handleDynamicChange(field, e.target.value)
+                            }
+                            // defaultValue={dynamicEventData?.textColor?.value}
+                            defaultValue={dynamicContent[field]}
+                            value={dynamicContent[field]}
+                          />
+                        </div>
+                      </>
                     ) : (
                       <input
-                        type="text"
+                        type={value.type}
                         onChange={(e) =>
                           handleDynamicChange(field, e.target.value)
                         }
@@ -320,123 +348,130 @@ const fetchApiData = async () => {
                   </div>
                 </div>
                 <div className={`octa_events`}>
-                    <div className="question-block">
-                      <div className="header-logo">
-                        <div>
-                          <img
-                            src={
-                              formData?.logoImageUrl
-                              // : path_image + "FVIII_logo.png"
-                            }
-                            alt="Factor logo"
-                          />
+                  <div className="question-block">
+                    <div className="header-logo">
+                      <div>
+                        <img
+                          src={
+                            formData?.logoImageUrl
+                            // : path_image + "FVIII_logo.png"
+                          }
+                          alt="Factor logo"
+                        />
+                      </div>
+                    </div>
+                    <div className="question-block-form">
+                      <div className="log-inner">
+                        <div
+                          className="head-sec"
+                          style={{
+                            background: formData?.headerBackgroundColor,
+                            borderBottomColor: formData?.buttonColor,
+                          }}
+                        >
+                          <h2
+                            style={{ color: formData?.textColor }}
+                            className="top-title"
+                            dangerouslySetInnerHTML={{
+                              __html: formData?.heading,
+                            }}
+                          ></h2>
                         </div>
                       </div>
-                      <div className="question-block-form">
-                        <div className="log-inner">
-                          <div className="head-sec">
-                            <h2
-                              className="top-title"
-                              dangerouslySetInnerHTML={{
-                                __html: formData?.heading,
-                              }}
-                            ></h2>
-                          </div>
-                        </div>
 
-                        <form>
-                          <input
-                            type="hidden"
-                            className="form-control"
-                            id="guest_id"
-                            name="guest_id"
-                            value="lji3sjpsdc21tux2st"
-                          />
+                      <form>
+                        <input
+                          type="hidden"
+                          className="form-control"
+                          id="guest_id"
+                          name="guest_id"
+                          value="lji3sjpsdc21tux2st"
+                        />
 
-                          <div className="row">
-                            <div className="col-md-12">
-                              {/* <label htmlFor="fname" className="form-label">
+                        <div className="row">
+                          <div className="col-md-12">
+                            {/* <label htmlFor="fname" className="form-label">
                                 Name{" "}
                                
                                 <i>
                                   <small>(Optional)</small>
                                 </i>
                               </label> */}
-                              <label
-                                htmlFor="fname"
-                                className="form-label"
-                                dangerouslySetInnerHTML={{
-                                  __html: formData?.nameLabel,
-                                }}
-                                // <i>
-                                //   <small>(Optional)</small>
-                                // </i>
-                              />
+                            <label
+                              htmlFor="fname"
+                              className="form-label"
+                              style={{ color: formData?.textColor }}
+                              dangerouslySetInnerHTML={{
+                                __html: formData?.nameLabel,
+                              }}
+                              // <i>
+                              //   <small>(Optional)</small>
+                              // </i>
+                            />
 
-                              <input
-                                type="text"
-                                id="name"
-                                className="form-control "
-                                placeholder={formData?.namePlaceholder}
-                                name="name"
-                                // value={user?.name}
-                              />
+                            <input
+                              type="text"
+                              id="name"
+                              className="form-control "
+                              placeholder={formData?.namePlaceholder}
+                              name="name"
+                              // value={user?.name}
+                            />
 
-                              <input
-                                type="hidden"
-                                className="form-control"
-                                value="Question submitted successfully"
-                                name="succ_message"
-                              />
-                              <input
-                                type="hidden"
-                                className="form-control"
-                                value="Please enter message"
-                                name="err_message"
-                              />
-                              <input
-                                type="hidden"
-                                className="form-control"
-                                value="index.php?evnt=octa-academy-2023"
-                                name="page"
-                              />
-                            </div>
-                            <div className="col-md-12">
-                              {/* <label htmlFor="question" className="form-label">
+                            <input
+                              type="hidden"
+                              className="form-control"
+                              value="Question submitted successfully"
+                              name="succ_message"
+                            />
+                            <input
+                              type="hidden"
+                              className="form-control"
+                              value="Please enter message"
+                              name="err_message"
+                            />
+                            <input
+                              type="hidden"
+                              className="form-control"
+                              value="index.php?evnt=octa-academy-2023"
+                              name="page"
+                            />
+                          </div>
+                          <div className="col-md-12">
+                            {/* <label htmlFor="question" className="form-label">
                                 Your question
                     
                                 <sup>*</sup>
                               </label> */}
-                              <label
-                                htmlFor="fname"
-                                className="form-label"
-                                dangerouslySetInnerHTML={{
-                                  __html: formData?.questionLabel,
-                                }}
-                                // <sup>*</sup>
-                              />
-                              <textarea
-                                name="question"
-                                id="question"
-                                className="form-control"
-                                placeholder={
-                                  formData?.questionPlaceholder
-                                }
-                                cols="40"
-                                rows="4"
-                                // value={user?.question}
-                              ></textarea>
-                              {error?.question ? (
-                                <span className="event-validation">
-                                  {error?.question}
-                                </span>
-                              ) : (
-                                ""
-                              )}
-                            </div>
+                            <label
+                              htmlFor="fname"
+                              className="form-label"
+                              style={{ color: formData?.textColor }}
+                              dangerouslySetInnerHTML={{
+                                __html: formData?.questionLabel,
+                              }}
+                              // <sup>*</sup>
+                            />
+                            <textarea
+                              name="question"
+                              id="question"
+                              className="form-control"
+                              placeholder={formData?.questionPlaceholder}
+                              cols="40"
+                              rows="4"
+                              // value={user?.question}
+                            ></textarea>
+                            {error?.question ? (
+                              <span className="event-validation">
+                                {error?.question}
+                              </span>
+                            ) : (
+                              ""
+                            )}
+                          </div>
 
-                            <div className="col-md-12">
-                              {/* <input
+                          <div className="col-md-12">
+                            {/* <input
                                 type="submit"
                                 className="btn btn-success"
                                 value={
@@ -446,16 +481,20 @@ const fetchApiData = async () => {
                                 }
                               /> */}
 
-                              <Button
-                                // type="submit"
-                                className="btn btn-success"
-                                dangerouslySetInnerHTML={{
-                                  __html: formData?.buttonText,
-                                }}
-                              ></Button>
-                            </div>
+                            <Button
+                              // type="submit"
+                              className="btn btn-success"
+                              style={{
+                                background: formData?.buttonColor,
+                                borderColor: formData?.buttonColor,
+                              }}
+                              dangerouslySetInnerHTML={{
+                                __html: formData?.buttonText,
+                              }}
+                            ></Button>
+                          </div>
 
-                            {/* {parms?.includes("eahad_2024") && (
+                          {/* {parms?.includes("eahad_2024") && (
                               <div className="eahad-footer">
                                 <img
                                   src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
@@ -493,22 +532,22 @@ const fetchApiData = async () => {
                                 </div>
                               </div>
                             )} */}
-                          </div>
-                        </form>
+                        </div>
+                      </form>
 
-                        <div className="copy-right-bottom-text">
-                          {/* <p>
+                      <div className="copy-right-bottom-text">
+                        {/* <p>
                              
                               Preparation date: 7-8 December 2023
                             </p> */}
-                          <p
-                            dangerouslySetInnerHTML={{
-                              __html: formData?.footerText,
-                            }}
-                          />
-                        </div>
+                        <p  style={{ color: formData?.textColor }}
+                          dangerouslySetInnerHTML={{
+                            __html: formData?.footerText,
+                          }}
+                        />
                       </div>
                     </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -88,6 +88,7 @@ export default function PollListing({location,eventIdContext}) {
     questions[currentIndex]
   );
   const [isPrevClicked, setIsPrevClicked] = useState(false);
+  const [questionsOrder,setQuestionsOrder] = useState([])
 
   useEffect(() => {
 
@@ -672,20 +673,24 @@ export default function PollListing({location,eventIdContext}) {
 
   const handlePreview = (e, index) => {
     setIsPrevClicked(true);
+    setQuestionsOrder(JSON.parse(JSON.stringify(questions)))
+    console.log(questionsOrder,'===>order1')
   };
 
   const handleClose = () => {
     setIsPrevClicked(false);
   };
 
-  const handleQuestionOrderChange = (updatedQuestions) => {
-    setQuestions(updatedQuestions);
+  const handleQuestionOrderChange = (questionsOrder) => {
+    // setQuestions(updatedQuestions);
+    setQuestionsOrder(questionsOrder)
+    console.log(questionsOrder,'===>order2')
   };
 
   const handleSave = async () => {
     try {
       loader("show");
-      let payloadOrder = questions.map((item, index) => ({
+      let payloadOrder = questionsOrder.map((item, index) => ({
         index: index + 1,
         id: item?.questionData?.id
       }));
@@ -701,6 +706,7 @@ export default function PollListing({location,eventIdContext}) {
         payload
       );
       setIsPrevClicked(false);
+      setQuestions(questionsOrder)
     
             // console.log(response?.data.message);
       // // setIsPrevClicked(false);
@@ -718,8 +724,9 @@ export default function PollListing({location,eventIdContext}) {
     } finally {
       loader("hide");
     }
-    console.log("Saving questions:", questions)
+    console.log("Saving questions:", questionsOrder)
   };
+
   return (
     <>
                 <div className="question-listing">
@@ -1116,7 +1123,7 @@ export default function PollListing({location,eventIdContext}) {
             <>
               <div className="webinar-popup polls-preview">
                 <PreviewModal
-                  questions={questions}
+                  questions={questionsOrder}
                   onQuestionOrderChange={handleQuestionOrderChange}
                   onClose={handleClose}
                 />
