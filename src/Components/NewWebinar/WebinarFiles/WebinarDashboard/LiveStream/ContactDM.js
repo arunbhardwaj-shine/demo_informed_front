@@ -27,9 +27,15 @@ const ContactDM = () => {
         getEventDMListing()
     }, [])
 
-    const getEventDMListing = async (search="",filter="") => {
+    const getEventDMListing = async (search="",filter="",load=0) => {
+       
         try {
-            loader("show")
+            if(load==0){
+                loader("show")
+            }else{
+                setRefreshFlag(true)
+            }
+            
             setApiStatus(false)
             let event=filter?.filters?.includes("All")?0:eventId
             let data={
@@ -47,6 +53,7 @@ const ContactDM = () => {
         }
         finally {
             setApiStatus(true)
+            setRefreshFlag(false)
             loader("hide")
         }
     }
@@ -126,9 +133,9 @@ const ContactDM = () => {
         //     })
         //     return data;
         // })
-        getEventDMListing("",otherFilter)
-        setAppliedFilter(otherFilter)
-       
+        setUserData()
+        getEventDMListing(search,otherFilter)
+        setAppliedFilter(otherFilter)      
         setShowFilter(false)
 
     }
@@ -147,30 +154,21 @@ const ContactDM = () => {
         applyFilter()
     }
 
-    const clearFilter = () => {
-        // setUserData(originalUserData)
+    const clearFilter = () => {  
+        setUserData()
         getEventDMListing(search,"")
         setOtherFilter({})
         setAppliedFilter({})
         setShowFilter(false)
-        // setSearch("");
+       
     }
 
     const Refresh = async () => {
-        try {
-          
-            setSearch("")
+        
+            let load=1;
             setShowFilter(false)
-            setRefreshFlag(true)
-            const response = await postData("http://192.168.0.162:5000/api/get-contact-us-data",{event_id:15})
-            setUserData(response?.data?.data)
-            setOriginalUserData(response?.data?.data)
-            setApiStatus(true)
-            setRefreshFlag(false)
-        } catch (err) {
-            console.log("--err", err)
-            setRefreshFlag(false)
-        }
+            getEventDMListing(search,"",load)
+           
     }
 
     return (
