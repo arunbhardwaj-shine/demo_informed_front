@@ -12,7 +12,7 @@ const ContactDM = () => {
     const [showFilter, setShowFilter] = useState(false)
     const [userData, setUserData] = useState([])
     const [originalUserData, setOriginalUserData] = useState([])
-    const [filterData, setFilterData] = useState({})
+    const [filterData, setFilterData] = useState({filters:['All','Current']})
     const [otherFilter, setOtherFilter] = useState({});
     const [appliedFilter, setAppliedFilter] = useState({})
     const [search, setSearch] = useState("")
@@ -27,13 +27,15 @@ const ContactDM = () => {
         getEventDMListing()
     }, [])
 
-    const getEventDMListing = async (search="") => {
+    const getEventDMListing = async (search="",filter="") => {
         try {
             loader("show")
             setApiStatus(false)
+            let event=filter?.filters?.includes("All")?0:eventId
             let data={
-                event_id:15,
-                search:search
+                event_id:event,
+                search:search,
+                
             }
             // const response = await postData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}`,{event_id:eventId})
             const response=await postData("http://192.168.0.162:5000/api/get-contact-us-data",data)
@@ -52,29 +54,31 @@ const ContactDM = () => {
     const handleOnFilterChange = (e, item, index, key, data = {}) => {
         const updatedFilter = JSON.parse(JSON.stringify({ ...data }));
         if (e?.target?.checked == true) {
-            if (e?.target?.type === "checkbox") {
+           
+             updatedFilter[key]=[];
+             updatedFilter[key]?.push(item)
+                // if (updatedFilter[key]) {
 
-                if (updatedFilter[key]) {
+                //     updatedFilter[key] = updatedFilter[key].includes(item)
+                //         ? updatedFilter[key].filter((value) => value !== item)
+                //         : [...updatedFilter[key], item];
+                // } else {
 
-                    updatedFilter[key] = updatedFilter[key].includes(item)
-                        ? updatedFilter[key].filter((value) => value !== item)
-                        : [...updatedFilter[key], item];
-                } else {
-
-                    updatedFilter[key] = [item];
-                }
-            }
-        } else if (e?.target?.checked == false) {
-            if (e?.target?.type == "checkbox") {
-                let index = updatedFilter[key]?.indexOf(item)
-                if (index > -1) {
-                    updatedFilter[key]?.splice(index, 1)
-                }
-                if (updatedFilter[key]?.length == 0) {
-                    delete updatedFilter[key]
-                }
-            }
-        }
+                //     updatedFilter[key] = [item];
+                // }
+           
+        } 
+        // else if (e?.target?.checked == false) {
+           
+        //         let index = updatedFilter[key]?.indexOf(item)
+        //         if (index > -1) {
+        //             updatedFilter[key]?.splice(index, 1)
+        //         }
+        //         if (updatedFilter[key]?.length == 0) {
+        //             delete updatedFilter[key]
+        //         }
+        //     }
+        
         setOtherFilter(updatedFilter);
     };
 
@@ -84,7 +88,7 @@ const ContactDM = () => {
             let searched=e?.target?.value;
             setUserData()
             setSearch(searched)
-            getEventDMListing(searched)
+            getEventDMListing(searched,otherFilter)
             setOtherFilter({})
         }
 
@@ -93,7 +97,7 @@ const ContactDM = () => {
     const submitSearchHandler=(e)=>{
         e.preventDefault()
         setUserData()
-       getEventDMListing(search)
+       getEventDMListing(search,otherFilter)
        
     }
 
@@ -114,16 +118,17 @@ const ContactDM = () => {
     // }
 
     const applyFilter = () => {
-        setSearch("");
+        // setSearch("");
 
-        let filterData = originalUserData?.filter((item) => {
-            const data = Object.entries(otherFilter)?.every(([key, values]) => {
-                return !values || values?.includes(item[key?.toLowerCase()])
-            })
-            return data;
-        })
+        // let filterData = originalUserData?.filter((item) => {
+        //     const data = Object.entries(otherFilter)?.every(([key, values]) => {
+        //         return !values || values?.includes(item[key?.toLowerCase()])
+        //     })
+        //     return data;
+        // })
+        getEventDMListing("",otherFilter)
         setAppliedFilter(otherFilter)
-        setUserData(filterData)
+       
         setShowFilter(false)
 
     }
@@ -143,11 +148,12 @@ const ContactDM = () => {
     }
 
     const clearFilter = () => {
-        setUserData(originalUserData)
+        // setUserData(originalUserData)
+        getEventDMListing(search,"")
         setOtherFilter({})
         setAppliedFilter({})
         setShowFilter(false)
-        setSearch("");
+        // setSearch("");
     }
 
     const Refresh = async () => {
@@ -156,10 +162,9 @@ const ContactDM = () => {
             setSearch("")
             setShowFilter(false)
             setRefreshFlag(true)
-            const response = await postData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}`,{event_id:eventId})
-            setUserData(response?.data?.data?.data)
-            setOriginalUserData(response?.data?.data?.data)
-            setFilterData(response?.data?.data?.filterData)
+            const response = await postData("http://192.168.0.162:5000/api/get-contact-us-data",{event_id:15})
+            setUserData(response?.data?.data)
+            setOriginalUserData(response?.data?.data)
             setApiStatus(true)
             setRefreshFlag(false)
         } catch (err) {
@@ -300,7 +305,7 @@ const ContactDM = () => {
                                                                                                 {item != "" ? (
                                                                                                     <label className="select-multiple-option">
                                                                                                         <input
-                                                                                                            type="checkbox"
+                                                                                                            type="radio"
 
                                                                                                             id={`custom-checkbox-tags-${index}`}
                                                                                                             value={item}
@@ -445,7 +450,7 @@ const ContactDM = () => {
                                 </div>
                             ) : ""}
                         </div>
-                        {console.log("api status--->",apiStatus)}
+                       
                         {userData != "undefined" && userData?.length > 0 ?
                             (
                                 <div className="invitee">
