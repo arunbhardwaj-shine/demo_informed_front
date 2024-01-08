@@ -88,7 +88,7 @@ export default function PollListing({location,eventIdContext}) {
     questions[currentIndex]
   );
   const [isPrevClicked, setIsPrevClicked] = useState(false);
-  const [questionsOrder,setQuestionsOrder] = useState()
+  const [questionsOrder,setQuestionsOrder] = useState([])
 
   useEffect(() => {
 
@@ -674,15 +674,17 @@ export default function PollListing({location,eventIdContext}) {
   const handlePreview = (e, index) => {
     setIsPrevClicked(true);
     setQuestionsOrder(JSON.parse(JSON.stringify(questions)))
+    console.log(questionsOrder,'===>order1')
   };
 
   const handleClose = () => {
     setIsPrevClicked(false);
   };
 
-  const handleQuestionOrderChange = () => {
+  const handleQuestionOrderChange = (questionsOrder) => {
     // setQuestions(updatedQuestions);
     setQuestionsOrder(questionsOrder)
+    console.log(questionsOrder,'===>order2')
   };
 
   const handleSave = async () => {
@@ -722,7 +724,7 @@ export default function PollListing({location,eventIdContext}) {
     } finally {
       loader("hide");
     }
-    console.log("Saving questions:", questions)
+    console.log("Saving questions:", questionsOrder)
   };
 
   return (
@@ -1123,7 +1125,6 @@ export default function PollListing({location,eventIdContext}) {
                 <PreviewModal
                   questions={questionsOrder}
                   onQuestionOrderChange={handleQuestionOrderChange}
-
                   onClose={handleClose}
                 />
               </div>
