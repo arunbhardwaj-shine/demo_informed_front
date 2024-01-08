@@ -11006,18 +11006,33 @@ img.change-password-image {
   // }
 
   .poll-question-selection {
+
+    // display: flex;
+    // flex-direction: row;
+    // position: absolute;
+    // transform: rotate(90deg) scaleX(1);
+    // transform-origin: top left;
+    // right: 52px;
+    // top: 0;
+    // justify-content: space-between;
+    // align-items: center;
+    // width: 100%;
+    // max-width: 570px;
+    // z-index: 2;
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
     position: absolute;
-    transform: rotate(90deg) scaleX(1);
-    transform-origin: top left;
-    left: 52px;
-    top: 0;
+    transform: rotate(270deg) scaleX(1);
+    /* transform-origin: top right; */
+    right: -25px;
+    top: 30px;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 570px;
+    /* width: 100%; */
+    /* max-width: 18px; */
     z-index: 2;
+    height: auto;
+
 
     .question-number {
       -moz-transform: rotate(-180deg);
@@ -11035,6 +11050,7 @@ img.change-password-image {
     .question-action {
       gap: 12px;
       display: flex;
+      flex-direction: row-reverse;
 
       button {
         min-width: 48px;
@@ -11049,9 +11065,9 @@ img.change-password-image {
 
         &.question-next,
         &.question-prev {
-          -moz-transform: rotate(-90deg);
-          -webkit-transform: rotate(-90deg);
-          transform: rotate(-90deg);
+          -moz-transform: rotate(90deg);
+          -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
           // opacity: 0;
           // visibility: hidden;
         }
@@ -11080,14 +11096,16 @@ img.change-password-image {
 
   .poll-question-option {
     padding: 4px 5px 4px 0;
-    border: 1px dashed $primary-color;
-    border-radius: 15px;
-    margin: 0px 0 0 60px;
+    border-radius: 12px;
+    margin: 0px 60px 0 0px;
+    background: rgba(0, 102, 190, 0.03);
+    stroke-width: 1px;
+    border: 1px solid rgba(151, 182, 207, 0.10);
 
   }
 
   .poll-question-create {
-    padding: 20px 30px 20px 35px;
+    padding: 10px 20px 20px 24px;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -11104,38 +11122,37 @@ img.change-password-image {
 
     label {
       &.h5 {
-        font-size: 22px;
+        font-size: 18px;
         line-height: 25px;
         color: $dark-blue;
         width: 100%;
-        margin: 0 0 15px;
+        margin: 0 0 10px;
+        font-weight: 400;
       }
     }
 
     textarea {
-      padding: 10px 25px;
+      padding: 12px 16px 6px 24px;
       font-size: 16px;
       line-height: 20px;
-      box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-      border-radius: 30px;
+      box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+      border-radius: 14px;
       resize: none;
       border: 0;
       color: $primary-color;
     }
 
     .form-check-inline {
-      min-width: 255px;
-      border-radius: 50px;
-      box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-      padding: 16px 24px;
       display: inline-flex;
       flex-direction: row-reverse;
       align-items: center;
       justify-content: space-between;
+      gap: 24px;
+      margin-right: 50px;
 
       label {
         font-size: 16px;
-        line-height: 19px;
+        line-height: 25px;
         color: #70899E;
       }
 
@@ -11163,9 +11180,10 @@ img.change-password-image {
     }
 
     .answer-option {
-      margin-top: 47px;
-      padding-top: 26px;
+      margin-top: 30px;
+      padding-top: 32px;
       position: relative;
+      flex: 0 0 100%;
 
       &:before {
         position: absolute;
@@ -11188,8 +11206,8 @@ img.change-password-image {
           align-items: center;
 
           .form-label {
-            flex: 0 0 128px;
-            max-width: 128px;
+            flex: 0 0 108px;
+            max-width: 108px;
             color: $dark-blue;
             margin: 0;
             font-size: 18px;
@@ -11199,9 +11217,9 @@ img.change-password-image {
           .form-control {
             flex: 1 1;
             background: $white;
-            border-radius: 30px;
+            border-radius: 14px;
             border: 0;
-            padding: 12px 27px;
+            padding: 12px 16px 6px 24px;
             width: 100%;
             color: $primary-color;
             margin-right: 24px;
@@ -11209,7 +11227,7 @@ img.change-password-image {
 
           .option-action {
             width: 100%;
-            max-width: 205px;
+            max-width: 180px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
@@ -11221,9 +11239,9 @@ img.change-password-image {
               box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
               border: 0;
               padding: 6px;
-              width: 48px;
-              min-width: 48px;
-              height: 48px;
+              width: 40px;
+              min-width: 40px;
+              height: 40px;
               display: flex;
               align-items: center;
               justify-content: center;
@@ -11231,22 +11249,25 @@ img.change-password-image {
 
             .color-pick {
               border-radius: 30px;
-              background: #EEE;
+              background: rgba(151, 182, 207, 0.15);
               width: 100%;
-              padding: 6px 12px;
+              padding: 4px;
               height: 48px;
               display: flex;
               align-items: center;
               max-width: 130px;
+              flex-direction: row-reverse;
+              gap: 8px;
 
               input[type="color"] {
                 border-radius: 30px;
                 -webkit-appearance: none;
                 appearance: none;
-                width: 108px;
-                margin-left: -34px;
+                width: 64px;
+                margin-left: 0px;
                 cursor: pointer;
-                padding-left: 40px;
+                padding-left: 0px;
+                height: 100%;
 
                 &::-webkit-color-swatch {
                   border: none;
@@ -11262,9 +11283,14 @@ img.change-password-image {
               }
 
               img {
-                max-width: 24px;
+                max-width: 40px;
                 position: relative;
-                pointer-events: none
+                pointer-events: none;
+                border-radius: 30px;
+                background: #ffffff;
+                padding: 9px;
+                width: 100%;
+                cursor: pointer;
               }
             }
           }
@@ -11274,27 +11300,27 @@ img.change-password-image {
       .add-choice {
         background: transparent;
         border: 0;
-        color: #004A89;
+        color: #8A4E9C;
         padding: 0;
         font-size: 14px;
         margin-left: auto;
         display: flex;
         align-items: center;
-        margin-right: 225px;
+        margin-right: 205px;
 
         img {
-          margin-left: 6px;
+          margin-left: 8px;
         }
       }
 
     }
 
     .switch6 {
-      max-width: 100px;
-      background: rgba(0, 102, 190, 0.2);
+      max-width: 96px;
+      background: rgba(0, 102, 190, 0.16);
       border-radius: 26px;
-      padding: 6px;
-      width: 100px;
+      padding: 4px;
+      width: 96px;
 
       .switch6-light {
         height: 36px;
@@ -11361,7 +11387,7 @@ img.change-password-image {
       &:before {
         position: absolute;
         content: "";
-        border-top: 1px solid $primary-color;
+        border-top: 1px solid rgba(0, 102, 190, 0.10);
         top: 0;
         width: calc(100% + 80px);
         left: -40px;
@@ -11379,14 +11405,24 @@ img.change-password-image {
         //   right: 0px;
         //   top: -24px;
         //   height: calc(100% + 48px);
-        // }
+        //}
+        &:before {
+          content: "";
+          border-right: 1px solid rgba(0, 102, 190, 0.20);
+          right: 0;
+          width: 1px;
+          height: 77px;
+          position: absolute;
+          top: -13px;
+
+        }
 
         &>div {
           display: flex;
           align-items: center;
 
           label {
-            flex: 0 0 128px;
+            flex: 0 0 148px;
             padding-right: 6px;
             margin: 0;
             color: #004A89;
@@ -11417,6 +11453,7 @@ img.change-password-image {
 
       .display-result {
         width: 45%;
+        padding-left: 70px;
 
         &>div {
           display: flex;
@@ -11430,6 +11467,12 @@ img.change-password-image {
             color: #004A89;
             margin: 0;
             font-size: 18px;
+          }
+
+          button {
+            margin-left: auto;
+            filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.20));
+            min-width: 140px;
           }
         }
       }
@@ -17719,7 +17762,7 @@ img.change-password-image {
   }
 
   .header-text,
-  .footer-text{
+  .footer-text {
     position: absolute;
     bottom: 0;
     display: flex;
