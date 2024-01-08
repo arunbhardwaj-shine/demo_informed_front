@@ -4,6 +4,16 @@
         "type": "file",
         "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/hk6WaR7slLbF4OegY43MLxZkJduqoNarIPxs42yy.png"
     },
+    "textColor": {
+        "title": "Text Color",
+        "type": "color",
+        "value": "#233c7a"  
+    },
+    "headerBackgroundColor": {
+        "title": "Header Background Color",
+        "type": "color",
+        "value": "#9dd2cd"  
+    },
     "heading": {
         "title": "Modal heading",
         "type": "text",
@@ -33,6 +43,11 @@
         "title": "Button Text",
         "type": "text",
         "value": "SEND"
+    },
+    "buttonColor": {
+        "title": "Button Color",
+        "type": "color",
+        "value": "#64b8b0"
     },
     "footerText": {
         "title": "Footer Text",
