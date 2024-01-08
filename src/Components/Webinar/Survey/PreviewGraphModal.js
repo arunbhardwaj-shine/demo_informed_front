@@ -5,22 +5,24 @@ import Highcharts from "highcharts";
 const PreviewGraphModal = ({ graphType, answerOption }) => {
   const [chartPieOptions, setPieChartOptions] = useState();
   const [chartBarOptions, setBarChartOptions] = useState();
+
  
   useEffect(() => {
+    // console.log(answerOption,'answerOption')
     let percentage = parseInt(100 / answerOption?.length);
   
     let pieSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
       y: percentage,
-      // color: item?.color,
-      colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
+      color: item?.color,
+      // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
   
     let barSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
       y: percentage,
-      // color: item?.color,
-      colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
+      color: item?.color,
+      // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
   
     setPieChartOptions({
@@ -77,19 +79,22 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       },
 
     });
-  
+
     setBarChartOptions({
       chart: {
-        type: "bar",
+        // type: "bar",
+        type: "column",
       },
       title: null,
       tooltip: {
         valueSuffix: "%",
       },
       legend: {
+        enabled:true,
         verticalAlign: "bottom",
         labelFormat: '{name} ({percentage:.2f}%) ',
-      }, 
+       
+    }, 
       plotOptions: {
         series: {
           allowPointSelect: true,
@@ -122,6 +127,15 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       xAxis: {
         categories: answerOption.map(item => item?.answer),
       },
+      yAxis: {
+                min: 0,
+                title: {
+                    text: "", // Customize the y-axis label
+                },
+                stackLabels: {
+                    enabled: true,
+                  },
+            },
       series: [
         {
           name: "Percentage",

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const QuestionPollsPieChart = ({ data }) => {
     const [pieChartOptions, setPieChartOptions] = useState({
         chart: {
@@ -78,7 +78,7 @@ const QuestionPollsPieChart = ({ data }) => {
 
     const [barChartOptions, setBarChartOptions] = useState({
         chart: {
-            type: "bar",
+            type: "column",
         },
         title: "Poll Answers",
         tooltip: {
@@ -170,9 +170,7 @@ const QuestionPollsPieChart = ({ data }) => {
                 options={ barChartOptions }
             />:
             <div className="no_found">
-                <p>
-                No Data Found
-                </p>
+                <img src={path_image + "default-bar-chart.png"} alt="" />
             </div>
             }
         </div>
