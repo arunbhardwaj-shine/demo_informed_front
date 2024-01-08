@@ -9,10 +9,6 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
  
   useEffect(() => {
     // console.log(answerOption,'answerOption')
-    // let filteredAnswerOption = answerOption.filter(item => item?.answer !== "");
-    // console.log(filteredAnswerOption,'filteredAnswerOption')
-    // let percentage = filteredAnswerOption?.length > 0 ? parseInt(100 / filteredAnswerOption?.length) : 0;
-    
     let percentage = parseInt(100 / answerOption?.length);
   
     let pieSeriesData = answerOption.map((item, index) => ({
@@ -96,7 +92,7 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       legend: {
         enabled:true,
         verticalAlign: "bottom",
-        // labelFormat: '{name} ({percentage:.2f}%) ',
+        labelFormat: '{name} ({percentage:.2f}%) ',
        
     }, 
       plotOptions: {
@@ -163,24 +159,6 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
           options={graphType === "pie" ? chartPieOptions : chartBarOptions}
         />
       </div>
-
-          {/* {answerOption.length > 0 ? (
-            answerOption.map((item, index) => (
-              item?.answer !== "" ? (
-                <div key={index} className="pie-chart-outer-layout">
-                  <HighchartsReact
-                    key={index}
-                    highcharts={Highcharts}
-                    options={graphType === "pie" ? chartPieOptions : chartBarOptions}
-                  />
-                </div>
-              ) : <div className="email_box_block no_found">No graph found</div>
-            ))
-          ) : (
-            <div className="email_box_block no_found">No graph found</div>
-          )} */}
-
-
     </>
   );
 };

@@ -213,6 +213,8 @@ export default function PollListing({location,eventIdContext}) {
             {
               questionData: {
                 question: "",
+                questionColor: "#000000",
+                answerColor: "#000000",
                 speakerName: "",
                 answerOption: [{ answer: "", color: "#000000" }],
                 answerType: "MULTIPLE",
@@ -242,6 +244,16 @@ export default function PollListing({location,eventIdContext}) {
   const handleQuestionChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.question = e.target.value;
+    setQuestions(updatedQuestions);
+  };
+  const handleQuestionColorChange = (e, key) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[key].questionData.questionColor = e.target.value;
+    setQuestions(updatedQuestions);
+  };
+  const handleAnswerColorChange = (e, key) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[key].questionData.answerColor = e.target.value;
     setQuestions(updatedQuestions);
   };
   const handleTypeChange = (e, key) => {
@@ -538,6 +550,8 @@ export default function PollListing({location,eventIdContext}) {
     let newQuestion = {
       questionData: {
         question: "",
+        questionColor: "#000000",
+        answerColor: "#000000",
         speakerName: "",
         answerOption: [{ answer: "", color: "#000000" }],
         answerType: "MULTIPLE",
@@ -588,6 +602,8 @@ export default function PollListing({location,eventIdContext}) {
         updatedQuestions[0] = {
           questionData: {
             question: "",
+            questionColor: "#000000",
+            answerColor: "#000000",
             speakerName: "",
             answerOption: [{ answer: "", color: "#000000" }],
             answerType: "MULTIPLE",
@@ -664,6 +680,45 @@ export default function PollListing({location,eventIdContext}) {
 
   const handleQuestionOrderChange = (updatedQuestions) => {
     setQuestions(updatedQuestions);
+  };
+
+  const handleSave = async () => {
+    try {
+      loader("show");
+      let payloadOrder = questions.map((item, index) => ({
+        index: index + 1,
+        id: item?.questionData?.id
+      }));
+      const payload = {
+
+        eventId:event_code,
+        pollsData:payloadOrder
+      };
+      console.log("====>payload", payload);
+
+      const response = await postData(
+        ENDPOINT.CHANGEPOLLSORDER,
+        payload
+      );
+      setIsPrevClicked(false);
+    
+            // console.log(response?.data.message);
+      // // setIsPrevClicked(false);
+      toast.success(response?.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } catch (error) {
+      console.error("Error updating settings:", error);
+    } finally {
+      loader("hide");
+    }
+    console.log("Saving questions:", questions)
   };
   return (
     <>
@@ -920,6 +975,8 @@ export default function PollListing({location,eventIdContext}) {
                     questionData={questionObj.questionData}
                     questionDataErrors={questionObj.questionDataErrors}
                     onQuestionChange={(e) => handleQuestionChange(e, index)}
+                    onQuestionColorChange={(e) => handleQuestionColorChange(e, index)}
+                    onAnswerColorChange={(e) => handleAnswerColorChange(e, index)}
                     // onHandleIsRequiredChange={(e) =>
                     //   handleIsRequiredChange(e, index)
                     // }
@@ -946,6 +1003,7 @@ export default function PollListing({location,eventIdContext}) {
                     onHandleDelete={handleDelete}
                     onHandleIncrementChange={handleIncrementChange}
                     lastQuestionIndex={questions.length}
+                    checkValidation={()=>validateQuestions(index)}
                   />
                 ))}
               </Slider>
@@ -1073,7 +1131,7 @@ export default function PollListing({location,eventIdContext}) {
             </>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => console.log("Saving questions:", questions)}>
+            <Button onClick={handleSave}>
               Save
             </Button>
           </Modal.Footer>

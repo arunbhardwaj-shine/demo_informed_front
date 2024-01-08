@@ -824,7 +824,6 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 .event_listing .email-result-block .mail-box-content {
   height: 100%;
   padding: 16px 16px 20px 24px;
-  cursor: pointer;
 }
 
 .event_listing .email-result-block .mail-box-content .action_btn {
@@ -928,6 +927,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   line-clamp: 2;
   -webkit-box-orient: vertical;
   line-height: normal;
+  cursor: pointer;
 }
 
 .event_listing .action_btn button {

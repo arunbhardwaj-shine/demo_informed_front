@@ -49,6 +49,9 @@ function Question(props) {
     onHandleDelete,
     onHandleIncrementChange,
     lastQuestionIndex,
+    checkValidation,
+    onQuestionColorChange,
+    onAnswerColorChange
   } = props;
   const checkBoxOptions = [
     // { id: "YesNo", label: "Yes OR No" },
@@ -114,7 +117,13 @@ function Question(props) {
   //   ],
   // };
   const handlePreview = (e, index) => {
-    setIsPrevClicked(true);
+   
+    // let valid=answerOption?.every((item)=>item?.answer!=="")
+    
+    if(checkValidation()){
+      setIsPrevClicked(true);
+    }
+   
   }
 
   const handleClose = () => {
@@ -127,6 +136,45 @@ function Question(props) {
         <div className="poll-question-option">
           <div className="poll-question-create">
             <Form>
+            <Form.Group className="mb-4 name_added">
+
+            <h5>Question Color</h5>
+
+            <div className="color-pick" >
+
+                                <img
+                                  src={path_image + "color-picker.svg"}
+                                  alt=""
+                                />
+
+                                <input
+                                  type="color"
+                                  title="Choose Your Color"
+                                  onChange={(e) =>
+                                    onQuestionColorChange(e, index)
+                                  }
+                                  defaultValue={questionData?.questionColor}
+                                />
+                              </div>
+                              <h5>Answer Color</h5>
+
+                              <div className="color-pick" >
+                                <img
+                                  src={path_image + "color-picker.svg"}
+                                  alt=""
+                                />
+
+                                <input
+                                  type="color"
+                                  title="Choose Your Color"
+                                  onChange={(e) =>
+                                    onAnswerColorChange(e, index)
+                                  }
+                                  defaultValue={questionData?.answerColor}
+                                />
+                              </div>
+                                        </Form.Group>
+
               <Form.Group className="mb-4 name_added">
                 <Form.Label className="h5">Enter your question:</Form.Label>
                 <Form.Control

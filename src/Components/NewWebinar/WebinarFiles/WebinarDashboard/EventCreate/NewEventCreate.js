@@ -234,31 +234,29 @@ const NewEventCreate = () => {
   };
 
   const webinarRegistrationForm = (e, item) => {
+    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/registration", {
-      state: item,
+      state: {eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title},
     });
   };
   const liveStream = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream");
   };
   const webinarPollingForm = (e, item) => {
-    console.log(item)
-    // if(item?.is_chat_link_created === 0){
-    //   navigate('/webinar/chat-link')
-    // }else{
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    console.log(item)
+    if(item?.is_chat_link_created === 0){
+      navigate('/webinar/chat-link')
+    }else{
     navigate("/webinar/live-stream/polls-layout", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });
-  // }
+  }
   };
 
   const webinarEmailForm = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    // localStorage.setItem("EventIdContext",{eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/email");
   };
 
@@ -996,7 +994,7 @@ const NewEventCreate = () => {
                           <div className="email_box">
                             <div
                               className="mail-box-content"
-                              onClick={() => handleCardClick(item)}
+                              // onClick={() => handleCardClick(item)}
                             >
                               <div
                                 className="action_btn text-end"
@@ -1081,7 +1079,7 @@ const NewEventCreate = () => {
                                   />
                                 </button>
                               </div>
-                              <div className="event-title">{item?.title}</div>
+                              <div className="event-title" onClick={() => handleCardClick(item)}>{item?.title}</div>
                               <div className="speaker-name">
                                 <span>Speaker</span>{" "}
                                 {speakerName[index]
