@@ -213,8 +213,7 @@ const Sidebar = () => {
     const divElement = document.querySelector('.left-sidebar');
     
     if (
-      currentLocation === '/webinar/event-listing' ||
-      currentLocation === '/webinar/chat-link'
+      currentLocation === '/webinar/event-listing'
     ) {
       divElement?.classList.add('hidesidebar');
     } else {
@@ -237,7 +236,7 @@ const Sidebar = () => {
     <>
       <div className="left-sidebar">
         <div className="sidebar-menu">
-          {window.location.pathname === "/webinar/invitees" ||
+          {window.location.pathname === "/webinar/invitees" || window.location.pathname === "/webinar/chat-link" ||
             window.location.pathname == "/webinar/registration" ||
             window.location.pathname == "/webinar/email" ||
             window.location.pathname == "/webinar/live-stream" ||
@@ -265,7 +264,7 @@ const Sidebar = () => {
             <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
           </button> */}
 
-          {!(window.location.pathname === "/webinar/invitees" ||
+          {!(window.location.pathname === "/webinar/invitees" || window.location.pathname === "/webinar/chat-link" ||
             window.location.pathname === "/webinar/registration" ||
             window.location.pathname === "/webinar/email" ||
             window.location.pathname === "/webinar/live-stream" ||
@@ -1094,7 +1093,7 @@ const Sidebar = () => {
               ) : null}
             </ul>
           ) : 
-          window.location.pathname == "/webinar/invitees" ||
+          window.location.pathname == "/webinar/invitees" || window.location.pathname === "/webinar/chat-link" ||
               window.location.pathname == "/webinar/registration" ||
               window.location.pathname == "/webinar/email" ||
               window.location.pathname == "/webinar/live-stream" || 
@@ -1105,6 +1104,20 @@ const Sidebar = () => {
               window.location.pathname == "/webinar/analytics" ?
            (
             <ul>
+              <li
+                  className={
+                    location.pathname == "/webinar/chat-link"
+                      ? "active"
+                      : "side_li"
+                  }
+                >
+                  <Link to={"/webinar/chat-link"}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                    <path d="M14.483 4.36793C15.5927 5.0637 16.3708 6.24109 16.5125 7.60777C16.965 7.81923 17.4673 7.94083 17.9999 7.94083C19.944 7.94083 21.5197 6.36509 21.5197 4.42125C21.5197 2.47711 19.944 0.901367 17.9999 0.901367C16.0743 0.901966 14.5123 2.44955 14.483 4.36793ZM12.177 11.5748C14.1212 11.5748 15.6969 9.99878 15.6969 8.05494C15.6969 6.1111 14.1209 4.53536 12.177 4.53536C10.2332 4.53536 8.65653 6.1114 8.65653 8.05524C8.65653 9.99908 10.2332 11.5748 12.177 11.5748ZM13.6701 11.8147H10.6833C8.19828 11.8147 6.17656 13.8367 6.17656 16.3218V19.9744L6.18585 20.0316L6.43744 20.1104C8.80899 20.8513 10.8693 21.0984 12.5652 21.0984C15.8775 21.0984 17.7974 20.1541 17.9157 20.0939L18.1508 19.975H18.176V16.3218C18.1769 13.8367 16.1551 11.8147 13.6701 11.8147ZM19.4935 8.18104H16.5298C16.4978 9.36681 15.9916 10.4346 15.191 11.2025C17.3999 11.8594 19.0161 13.9077 19.0161 16.3272V17.4528C21.9423 17.3455 23.6286 16.5162 23.7397 16.4605L23.9748 16.3413H24V12.6875C24 10.2028 21.9783 8.18104 19.4935 8.18104ZM6.00075 7.94143C6.68933 7.94143 7.32999 7.74045 7.87271 7.39811C8.04523 6.27284 8.64845 5.28954 9.51015 4.61982C9.51374 4.55393 9.52003 4.48864 9.52003 4.42215C9.52003 2.47801 7.94399 0.902266 6.00075 0.902266C4.05631 0.902266 2.48087 2.47801 2.48087 4.42215C2.48087 6.36539 4.05631 7.94143 6.00075 7.94143ZM9.16181 11.2025C8.36511 10.4385 7.86073 9.3764 7.82389 8.19781C7.71396 8.18972 7.60524 8.18104 7.49322 8.18104H4.50678C2.02171 8.18104 0 10.2028 0 12.6875V16.3407L0.00928491 16.397L0.260876 16.4764C2.16338 17.0703 3.86133 17.344 5.33613 17.4303V16.3272C5.33673 13.9077 6.9523 11.86 9.16181 11.2025Z" fill="#0066BE" fill-opacity="0.6"/>
+                  </svg>
+                    <p>Chat Link Page</p>
+                  </Link>
+                </li>
                 <li
                   className={
                     location.pathname == "/webinar/invitees"
@@ -1119,6 +1132,7 @@ const Sidebar = () => {
                     <p>Invitees</p>
                   </Link>
                 </li>
+                
                 <li
                   className={
                     location.pathname == "/webinar/registration"
@@ -1322,7 +1336,7 @@ const Sidebar = () => {
                 </li>
               </ul>
           ) :
-          window.location.pathname == "/webinar/invitees" ||
+          window.location.pathname == "/webinar/invitees" ||  window.location.pathname == "/webinar/chat-link" ||
                 window.location.pathname == "/webinar/registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
@@ -1330,6 +1344,20 @@ const Sidebar = () => {
                 window.location.pathname == "/webinar/analytics" ?
               (
                 <ul>
+                  <li
+                    className={
+                      location.pathname == "/webinar/chat-link"
+                        ? "active"
+                        : "side_li"
+                    }
+                  >
+                    <Link to={"/webinar/chat-link"}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                        <path d="M14.483 4.36793C15.5927 5.0637 16.3708 6.24109 16.5125 7.60777C16.965 7.81923 17.4673 7.94083 17.9999 7.94083C19.944 7.94083 21.5197 6.36509 21.5197 4.42125C21.5197 2.47711 19.944 0.901367 17.9999 0.901367C16.0743 0.901966 14.5123 2.44955 14.483 4.36793ZM12.177 11.5748C14.1212 11.5748 15.6969 9.99878 15.6969 8.05494C15.6969 6.1111 14.1209 4.53536 12.177 4.53536C10.2332 4.53536 8.65653 6.1114 8.65653 8.05524C8.65653 9.99908 10.2332 11.5748 12.177 11.5748ZM13.6701 11.8147H10.6833C8.19828 11.8147 6.17656 13.8367 6.17656 16.3218V19.9744L6.18585 20.0316L6.43744 20.1104C8.80899 20.8513 10.8693 21.0984 12.5652 21.0984C15.8775 21.0984 17.7974 20.1541 17.9157 20.0939L18.1508 19.975H18.176V16.3218C18.1769 13.8367 16.1551 11.8147 13.6701 11.8147ZM19.4935 8.18104H16.5298C16.4978 9.36681 15.9916 10.4346 15.191 11.2025C17.3999 11.8594 19.0161 13.9077 19.0161 16.3272V17.4528C21.9423 17.3455 23.6286 16.5162 23.7397 16.4605L23.9748 16.3413H24V12.6875C24 10.2028 21.9783 8.18104 19.4935 8.18104ZM6.00075 7.94143C6.68933 7.94143 7.32999 7.74045 7.87271 7.39811C8.04523 6.27284 8.64845 5.28954 9.51015 4.61982C9.51374 4.55393 9.52003 4.48864 9.52003 4.42215C9.52003 2.47801 7.94399 0.902266 6.00075 0.902266C4.05631 0.902266 2.48087 2.47801 2.48087 4.42215C2.48087 6.36539 4.05631 7.94143 6.00075 7.94143ZM9.16181 11.2025C8.36511 10.4385 7.86073 9.3764 7.82389 8.19781C7.71396 8.18972 7.60524 8.18104 7.49322 8.18104H4.50678C2.02171 8.18104 0 10.2028 0 12.6875V16.3407L0.00928491 16.397L0.260876 16.4764C2.16338 17.0703 3.86133 17.344 5.33613 17.4303V16.3272C5.33673 13.9077 6.9523 11.86 9.16181 11.2025Z" fill="#0066BE" fill-opacity="0.6" />
+                      </svg>
+                      <p>Chat Link Page</p>
+                    </Link>
+                  </li>
                   <li
                     className={
                       location.pathname == "/webinar/invitees"
@@ -1344,6 +1372,7 @@ const Sidebar = () => {
                       <p>Invitees</p>
                     </Link>
                   </li>
+                  
                   <li
                     className={
                       location.pathname == "/webinar/registration"
@@ -1518,7 +1547,7 @@ const Sidebar = () => {
                   </li>
                 </ul>
               ) :
-              window.location.pathname == "/webinar/invitees" ||
+              window.location.pathname == "/webinar/invitees" || window.location.pathname == "/webinar/chat-link" ||
                 window.location.pathname == "/webinar/registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
@@ -1526,6 +1555,20 @@ const Sidebar = () => {
                 window.location.pathname == "/webinar/analytics" ?
                 (
                   <ul>
+                      <li
+                      className={
+                        location.pathname == "/webinar/chat-lnk"
+                          ? "active"
+                          : "side_li"
+                      }
+                    >
+                      <Link to={"/webinar/chat-link"}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                          <path d="M14.483 4.36793C15.5927 5.0637 16.3708 6.24109 16.5125 7.60777C16.965 7.81923 17.4673 7.94083 17.9999 7.94083C19.944 7.94083 21.5197 6.36509 21.5197 4.42125C21.5197 2.47711 19.944 0.901367 17.9999 0.901367C16.0743 0.901966 14.5123 2.44955 14.483 4.36793ZM12.177 11.5748C14.1212 11.5748 15.6969 9.99878 15.6969 8.05494C15.6969 6.1111 14.1209 4.53536 12.177 4.53536C10.2332 4.53536 8.65653 6.1114 8.65653 8.05524C8.65653 9.99908 10.2332 11.5748 12.177 11.5748ZM13.6701 11.8147H10.6833C8.19828 11.8147 6.17656 13.8367 6.17656 16.3218V19.9744L6.18585 20.0316L6.43744 20.1104C8.80899 20.8513 10.8693 21.0984 12.5652 21.0984C15.8775 21.0984 17.7974 20.1541 17.9157 20.0939L18.1508 19.975H18.176V16.3218C18.1769 13.8367 16.1551 11.8147 13.6701 11.8147ZM19.4935 8.18104H16.5298C16.4978 9.36681 15.9916 10.4346 15.191 11.2025C17.3999 11.8594 19.0161 13.9077 19.0161 16.3272V17.4528C21.9423 17.3455 23.6286 16.5162 23.7397 16.4605L23.9748 16.3413H24V12.6875C24 10.2028 21.9783 8.18104 19.4935 8.18104ZM6.00075 7.94143C6.68933 7.94143 7.32999 7.74045 7.87271 7.39811C8.04523 6.27284 8.64845 5.28954 9.51015 4.61982C9.51374 4.55393 9.52003 4.48864 9.52003 4.42215C9.52003 2.47801 7.94399 0.902266 6.00075 0.902266C4.05631 0.902266 2.48087 2.47801 2.48087 4.42215C2.48087 6.36539 4.05631 7.94143 6.00075 7.94143ZM9.16181 11.2025C8.36511 10.4385 7.86073 9.3764 7.82389 8.19781C7.71396 8.18972 7.60524 8.18104 7.49322 8.18104H4.50678C2.02171 8.18104 0 10.2028 0 12.6875V16.3407L0.00928491 16.397L0.260876 16.4764C2.16338 17.0703 3.86133 17.344 5.33613 17.4303V16.3272C5.33673 13.9077 6.9523 11.86 9.16181 11.2025Z" fill="#0066BE" fill-opacity="0.6" />
+                        </svg>
+                        <p>Chat Link Page</p>
+                      </Link>
+                    </li>
                     <li
                       className={
                         location.pathname == "/webinar/invitees"

@@ -720,6 +720,47 @@ export default function PollListing({location,eventIdContext}) {
     }
     console.log("Saving questions:", questions)
   };
+
+  // const handleSave = async () => {
+  //   try {
+  //     loader("show");
+  //     let payloadOrder = questions.map((item, index) => ({
+  //       index: index + 1,
+  //       id: item?.questionData?.id
+  //     }));
+  //     const payload = {
+  //       eventId: event_code,
+  //       pollsData: payloadOrder
+  //     };
+
+  //     const response = await postData(
+  //       ENDPOINT.CHANGEPOLLSORDER,
+  //       payload
+  //     );
+
+  //     // Notify the parent component (poll listing page) about the successful save
+  //     onSaveSuccess();
+      
+  //     toast.success(response?.data.message, {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //     });
+  //   } catch (error) {
+  //     console.error("Error updating settings:", error);
+  //   } finally {
+  //     loader("hide");
+  //   }
+  // };
+  // const onSaveSuccess = () => {
+  //   // Assuming you have a state variable named "questions" and a corresponding setter function "setQuestions"
+  //   // Update the order of questions and trigger a re-render of the Slider component
+  //   setQuestions(updatedQuestions); // Use the updatedQuestions received from the onSaveSuccess callback
+  // };
   return (
     <>
       <Col className="col right-sidebar">
