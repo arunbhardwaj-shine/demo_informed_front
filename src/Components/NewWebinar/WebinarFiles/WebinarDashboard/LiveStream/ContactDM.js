@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Accordion, Button } from 'react-bootstrap'
 import { loader } from '../../../../../loader'
-import { getData } from '../../../../../axios/apiHelper'
+import { postData } from '../../../../../axios/apiHelper'
 import { ENDPOINT } from '../../../../../axios/apiConfig'
 import { useSidebar } from '../../../../CommonComponent/LoginLayout'
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -27,19 +27,24 @@ const ContactDM = () => {
         getEventDMListing()
     }, [])
 
-    const getEventDMListing = async () => {
+    const getEventDMListing = async (search="") => {
         try {
             loader("show")
-            const response = await getData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}/${eventId}`)
-            setUserData(response?.data?.data?.data)
-            setOriginalUserData(response?.data?.data?.data)
-            setFilterData(response?.data?.data?.filterData)
-            setApiStatus(true)
+            setApiStatus(false)
+            let data={
+                event_id:15,
+                search:search
+            }
+            // const response = await postData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}`,{event_id:eventId})
+            const response=await postData("http://192.168.0.162:5000/api/get-contact-us-data",data)
+            setUserData(response?.data?.data)
+            setOriginalUserData(response?.data?.data)           
 
         } catch (err) {
             console.log("--err", err)
         }
         finally {
+            setApiStatus(true)
             loader("hide")
         }
     }
@@ -75,28 +80,38 @@ const ContactDM = () => {
 
     const searchChange = (e) => {
         setSearch(e?.target?.value?.trim())
-        if (e?.target?.value == "") {
-            setUserData(originalUserData)
+        if (e?.target?.value == ""||e?.target?.value==null) {
+            let searched=e?.target?.value;
+            setUserData()
+            setSearch(searched)
+            getEventDMListing(searched)
             setOtherFilter({})
         }
 
     }
 
-    const submitSearchHandler = (e) => {
+    const submitSearchHandler=(e)=>{
         e.preventDefault()
-        let searchData = userData?.filter((item) => {
-            if (item?.name) {
-                return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
-            } else if (item?.username) {
-                return item?.username?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
-            } else {
-                return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
-            }
-
-        })
-        setUserData(searchData)
-
+        setUserData()
+       getEventDMListing(search)
+       
     }
+
+    // const submitSearchHandler = (e) => {
+    //     e.preventDefault()
+    //     let searchData = userData?.filter((item) => {
+    //         if (item?.name) {
+    //             return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
+    //         } else if (item?.username) {
+    //             return item?.username?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
+    //         } else {
+    //             return item?.name?.toLowerCase()?.includes(search?.toLowerCase()) || item?.email?.toLowerCase()?.includes(search?.toLowerCase())
+    //         }
+
+    //     })
+    //     setUserData(searchData)
+
+    // }
 
     const applyFilter = () => {
         setSearch("");
@@ -137,10 +152,11 @@ const ContactDM = () => {
 
     const Refresh = async () => {
         try {
+          
             setSearch("")
             setShowFilter(false)
             setRefreshFlag(true)
-            const response = await getData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}/${401}`)
+            const response = await postData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}`,{event_id:eventId})
             setUserData(response?.data?.data?.data)
             setOriginalUserData(response?.data?.data?.data)
             setFilterData(response?.data?.data?.filterData)
@@ -381,7 +397,7 @@ const ContactDM = () => {
                                 </div>
 
                             </div>
-                            {console.log("filter wrap---->", Object.keys(appliedFilter)?.length)}
+                            
                             {Object.keys(appliedFilter)?.length > 0 ? (
                                 <div className="apply-filter">
                                     <div className="filter-block">
@@ -429,6 +445,7 @@ const ContactDM = () => {
                                 </div>
                             ) : ""}
                         </div>
+                        {console.log("api status--->",apiStatus)}
                         {userData != "undefined" && userData?.length > 0 ?
                             (
                                 <div className="invitee">
