@@ -476,7 +476,7 @@ const ContactDM = () => {
                                                     <td>{user?.email ? user?.email : "N/A"}</td>
                                                     <td>{user?.country ? user?.country : "N/A"}</td>
                                                     <td>{user?.phone ? user?.phone : "N/A"}</td>
-                                                    <td><div>{user?.question ? user?.question : "N/A"}</div></td>
+                                                    <td><div dangerouslySetInnerHTML={{__html:user?.question ? user?.question : "N/A"}}></div></td>
 
                                                 </tr>
                                             ))}
