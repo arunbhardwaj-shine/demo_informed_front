@@ -1,15 +1,14 @@
-import { color } from 'highcharts'
-import React, { useState, useEffect, useRef } from 'react'
-import { Button } from 'react-bootstrap';
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
 import Slider from 'react-slick';
+import { Button } from 'react-bootstrap';
 import { Spinner } from 'react-activity';
-import { postData } from '../../../../../axios/apiHelper';
+import { postData, getData } from '../../../../../axios/apiHelper';
 import { ENDPOINT } from '../../../../../axios/apiConfig';
-import QuestionPollsPieChart from './QuestionPollsPieChart';
 import { db } from '../../../../../config/firebaseConfig';
+import React, { useState, useEffect, useRef } from 'react';
+import QuestionPollsPieChart from './QuestionPollsPieChart';
 import { useSidebar } from '../../../../CommonComponent/LoginLayout';
+import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
+
 import {
     collection,
     query,
@@ -52,9 +51,19 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
     const slickRef = useRef("");
     const [count, setCount] = useState(0);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [pollAnsExist, setPollAnsExist] = useState(0);
     const [questionIdIndex, setQuestionIdIndex] = useState([])
     const [pieChartData, setPieChartData] = useState({})
     const [apiCallStatus, setApiCallStatus] = useState(false);
+    const [confirmationpopup, setConfirmationPopup] = useState(false);
+    const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+    const [popupMessage, setPopupMessage] = useState({
+        message1: "",
+        message2: "",
+        footerButton: "",
+      });
+
+
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
     const q = query(
@@ -70,16 +79,20 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
     
     useEffect(() => {
         let currentIndex = 0;
-        const index = questionData?.data?.data.findIndex(item => item.triggered === 1);
+        const index = questionData?.data?.data.findIndex(item => item?.triggered === 1);
         if (index !== -1) {
             currentIndex = index;
         }else{
-            const showAnswerIndex = questionData?.data?.data.findIndex(item => item.showAnswerToUser === 1);
+            const showAnswerIndex = questionData?.data?.data.findIndex(item => item?.showAnswerToUser === 1);
             currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : 0
         }
         if(slickRef.current){
             slickRef.current.slickGoTo(currentIndex);
         }
+
+        const checkAnsExist = questionData?.data?.data?.some(obj => obj?.pollAnswers && obj?.pollAnswers?.length > 0);
+        setPollAnsExist(checkAnsExist);
+
         setCurrentIndex(currentIndex);
         setQuestion(questionData?.data?.data)
         let updateQuestionId = []
@@ -152,6 +165,40 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         });
     });
 
+    const showConfirmationPopup = () => {
+        try{
+            setCommonConfirmModelFun(() => resetPolls);
+            setPopupMessage({
+                message1: "You are about to reset this poll.",
+                message2: "Are you sure you want to do this?",
+                footerButton: "Yes please!",
+            });
+            if (confirmationpopup) {
+                setConfirmationPopup(false);
+            } else {
+                setConfirmationPopup(true);
+            }
+        }catch(err){
+            console.log(err);
+        }
+    };
+    
+
+    const resetPolls = async() => {
+        try{
+            setApiCallStatus(true);
+            setPollAnsExist(false);
+            const resetData = getData(ENDPOINT.RESETPOLL+"/"+eventData?.id);
+        }catch(err){
+            console.log(err);
+        }
+        hideConfirmationModal();
+    }
+
+    const hideConfirmationModal = () => {
+        setConfirmationPopup(false);
+    };
+
     useEffect(() => {
         if (count) {
             getQuestions();
@@ -162,7 +209,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         
             <div className='outer-layout'>
                 <div className='question-outer-layout'>
-                    <Button className='disabled reset'>Reset All</Button>
+                    <Button className={pollAnsExist ?'reset':'disabled reset'} onClick={showConfirmationPopup}>Reset All</Button>
                     <div className='question-outer-inset'>
                         {question?.length ?
                         <Slider
@@ -356,6 +403,17 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
            
             </div>
       
+        <CommonConfirmModel
+            show={confirmationpopup}
+            onClose={hideConfirmationModal}
+            fun={commonConfirmModelFun}
+            popupMessage={popupMessage}
+            path_image={path_image}
+            resetDataId=""
+            onCloseCross={() => {
+            hideConfirmationModal();
+            }}
+        />
 
     </>)
 

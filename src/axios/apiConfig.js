@@ -167,4 +167,5 @@ export const ENDPOINT = {
   STORECHATLINKDATA:"webinar/store-chat-link-data",
   GETCHATLINKDATA:"webinar/get-chat-link-data",
   CHANGEPOLLSORDER:"webinar/change-polls-order",
+  RESETPOLL:"webinar/reset-polls",
 };
