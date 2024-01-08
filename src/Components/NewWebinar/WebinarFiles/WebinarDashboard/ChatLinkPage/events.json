@@ -1,10 +1,10 @@
-{   
+{  
     "logoImageUrl":{
         "title": "Logo",
         "type": "file",
-        "value": ""
+        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/hk6WaR7slLbF4OegY43MLxZkJduqoNarIPxs42yy.png"
     },
-    "Heading": {
+    "heading": {
         "title": "Modal heading",
         "type": "text",
         "value": "Write your question here!"

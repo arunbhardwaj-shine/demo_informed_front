@@ -71,14 +71,17 @@ const PreviewModal = ({ questions, onQuestionOrderChange }) => {
       <div className="polls-preview-lists">
         {questionsList.map((question, index) => (
           <>
-          <div className="polls-preview-list-box">
+          <div className="polls-preview-list-box" draggable
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDrop={(e) => handleDrop(e, index)}
+              onDragOver={allowDrop}>
             <div className="polls-preview-list-question">
             <ul
               key={question.id}
-              draggable
-              onDragStart={(e) => handleDragStart(e, index)}
-              onDrop={(e) => handleDrop(e, index)}
-              onDragOver={allowDrop}
+              // draggable
+              // onDragStart={(e) => handleDragStart(e, index)}
+              // onDrop={(e) => handleDrop(e, index)}
+              // onDragOver={allowDrop}
             >
               <li>{index + 1}</li>
               <li>{question?.questionData?.question}</li>

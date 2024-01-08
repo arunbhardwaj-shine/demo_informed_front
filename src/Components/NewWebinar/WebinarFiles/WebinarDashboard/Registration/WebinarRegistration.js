@@ -33,7 +33,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
 const WebinarRegistration = () => {
-  const { eventIdContext,handleEventId } = useSidebar();
+  const { eventIdContext, handleEventId } = useSidebar();
   const validExtensions = ["png", "jpeg", "jpg"];
   const [templateList, setTemplateList] = useState(templateData);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -51,9 +51,13 @@ const WebinarRegistration = () => {
 
   let prevData = location?.state;
 
-// location?.state?.event_code ? location?.state?.event_code : ""
+  // location?.state?.event_code ? location?.state?.event_code : ""
   const [event_code, setEventCode] = useState(
-    eventIdContext?.eventCode?eventIdContext?.eventCode:JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode
+    location?.state?.eventCode
+      ? location?.state?.eventCode
+      : eventIdContext?.eventCode
+      ? eventIdContext?.eventCode
+      : JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode
   );
   const [logo, setLogo] = useState();
   const [file, setFile] = useState();
@@ -65,7 +69,7 @@ const WebinarRegistration = () => {
   const [save, setSave] = useState();
   const [isSavedClicked, setIsSavedClicked] = useState(false);
   const [rawData, setRawData] = useState({});
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -112,10 +116,18 @@ const WebinarRegistration = () => {
     totalFieldNo: 0,
     templateId: 0,
   });
-const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventData, setEventData] = useState({
-    event_id:eventIdContext?.eventId?eventIdContext?.eventId: location?.state?.id?location?.state?.id:localStorageEvent?.eventId,
-    company_id:eventIdContext?.companyId?eventIdContext?.companyId: location?.state?.user_id?location?.state?.user_id:localStorageEvent?.companyId,
+    event_id: location?.state?.eventId
+      ? location?.state?.eventId
+      : eventIdContext?.eventId
+      ? eventIdContext?.eventId
+      : localStorageEvent?.eventId,
+    company_id: location?.state?.companyId
+      ? location?.state?.companyId
+      : eventIdContext?.companyId
+      ? eventIdContext?.companyId
+      : localStorageEvent?.companyId,
   });
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState(CountryList);
@@ -203,15 +215,13 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     // }
 
     // getAllEvents();
-    
+
     // if(!eventIdContext){
     //   handleEventId(localStorageEvent)
     // }
-    if(event_code){
-      getWebinarData(event_code)
+    if (event_code) {
+      getWebinarData(event_code);
     }
-     
-    
   }, []);
   const getWebinarData = async (event_code) => {
     // console.log(event_code,'event_code')
@@ -225,14 +235,17 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
       let raw = hadData?.raw_description
         ? JSON.parse(hadData?.raw_description)
         : {};
-      let parseSpeakerName = ""
+      let parseSpeakerName = "";
       try {
-        parseSpeakerName = JSON.parse(raw?.speaker_name)
+        parseSpeakerName = JSON.parse(raw?.speaker_name);
+      } catch {
+        parseSpeakerName = raw?.speaker_name
+          ? [{ speakerName: raw?.speaker_name }]
+          : [{ speakerName: "" }];
       }
-      catch {
-        parseSpeakerName = raw?.speaker_name ? [{ speakerName: raw?.speaker_name }] : [{ speakerName: "" }]
-      }
-      parseSpeakerName = parseSpeakerName?.map((item) => (item?.speakerName)).join(" , ")
+      parseSpeakerName = parseSpeakerName
+        ?.map((item) => item?.speakerName)
+        .join(" , ");
       setRawData({ ...raw, speaker_name: parseSpeakerName });
       if (hadData?.event_id != undefined && hadData?.company_id != undefined) {
         setEventData({
@@ -304,11 +317,9 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
           }
 
           if (
-
             newFormData.eventDetails.speakerName?.value == "" &&
             newFormData.eventDetails.speakerName?.value != undefined
           ) {
-
             newFormData.eventDetails.speakerName.value = `${raw?.speaker_name}`;
           }
         }
@@ -590,8 +601,9 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
             label: isSelectedName == "userEmail" ? "Email" : "Name",
             name: isSelectedName,
             inputType: isSelectedName == "userEmail" ? "email" : "text",
-            placeholder: `Please enter ${isSelectedName == "userEmail" ? "Email" : "Name"
-              }`,
+            placeholder: `Please enter ${
+              isSelectedName == "userEmail" ? "Email" : "Name"
+            }`,
             option: [],
             required: "yes",
             addSpace: 10,
@@ -935,6 +947,27 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     };
     // navigate("/event-registration", { state: prevObj });
   };
+  const handlePreviewInNewTab = async (e, newLink) => {
+    e.preventDefault();
+    if (!formData?.templateId) {
+      setShowModalPreview(true);
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(
+        `${window.location.origin}/event-registration?event=${event_code}`
+      );
+
+      // Open link in a new tab
+      window.open(
+        `${window.location.origin}/event-registration?event=${event_code}`,
+        "_blank"
+      );
+    } catch (error) {
+      console.error("Error preview in new window:", error);
+    }
+  };
 
   const handleClose = () => {
     setIsPrevClicked(false);
@@ -975,23 +1008,17 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
   const onColorChange = (e, isSelectedName) => {
     if (isSelectedName == "labelColor") {
       setFormData({ ...formData, labelColor: e?.target?.value });
-    }
-    else if (isSelectedName == "typedTextColor") {
+    } else if (isSelectedName == "typedTextColor") {
       setFormData({ ...formData, typedTextColor: e?.target?.value });
-    }
-    else if (isSelectedName == "placeholderTextColor") {
+    } else if (isSelectedName == "placeholderTextColor") {
       setFormData({ ...formData, placeholderTextColor: e?.target?.value });
-    }
-    else if (isSelectedName == "dropdownOptionColor") {
+    } else if (isSelectedName == "dropdownOptionColor") {
       setFormData({ ...formData, dropdownOptionColor: e?.target?.value });
-    }
-    else if (isSelectedName == "dropdownHoveringColor") {
+    } else if (isSelectedName == "dropdownHoveringColor") {
       setFormData({ ...formData, dropdownHoveringColor: e?.target?.value });
-    }
-    else if (isSelectedName == "selectedTextColor") {
+    } else if (isSelectedName == "selectedTextColor") {
       setFormData({ ...formData, selectedTextColor: e?.target?.value });
-    }
-    else if (isSelectedName == "backgroundColor") {
+    } else if (isSelectedName == "backgroundColor") {
       setFormData({ ...formData, backgroundColor: e?.target?.value });
     } else if (isSelectedName == "OptionColor") {
       setFormData({ ...formData, optionColor: e?.target?.value });
@@ -1186,8 +1213,9 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                 <div className="top-right-action">
                   <div className="d-flex justify-content-center header_btns">
                     <a
-                      className={`copy_link btn-voilet ${!isDataSaved ? "disabled" : ""
-                        }`}
+                      className={`copy_link btn-voilet ${
+                        !isDataSaved ? "disabled" : ""
+                      }`}
                       href={`event-registration?event=${event_code}`}
                       onClick={(e) => {
                         e.preventDefault();
@@ -1195,8 +1223,9 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                           return;
                         }
                         console.dir();
-                        let newLink = `${e.currentTarget.host
-                          }/${e.currentTarget.getAttribute("href")}`;
+                        let newLink = `${
+                          e.currentTarget.host
+                        }/${e.currentTarget.getAttribute("href")}`;
                         copyToClipboard(newLink);
                       }}
                     >
@@ -1205,10 +1234,13 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                     <Button
                       type="button"
                       className="save btn-bordered"
-                      onClick={handlePreview}
+                      onClick={(e) => {
+                        handlePreviewInNewTab(e);
+                      }}
                     >
                       Preview In New Tab
                     </Button>
+
                     {/* <Button onClick={(e) => saveClicked(e)} className="save">
                       Save
                     </Button> */}
@@ -1245,7 +1277,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                               alt=""
                               className={
                                 typeof activeIndex !== "undefined" &&
-                                  activeIndex == template?.templateId
+                                activeIndex == template?.templateId
                                   ? "select_mm"
                                   : ""
                               }
@@ -1291,13 +1323,13 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                       minDate={
                                         key == "eventEndDate"
                                           ? new Date(
-                                            formData?.eventDetails?.eventStartDate?.value
-                                          )
+                                              formData?.eventDetails?.eventStartDate?.value
+                                            )
                                           : currentDate
                                       }
                                       selected={
                                         field.value &&
-                                          field.value >= currentDate
+                                        field.value >= currentDate
                                           ? new Date(field.value)
                                           : currentDate
                                       }
@@ -1344,25 +1376,26 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                       value={field.value}
                                       readOnly={
                                         key == "eventEndTime" ||
-                                          key == "eventStartTime"
+                                        key == "eventStartTime"
                                           ? true
                                           : false
                                       }
                                       disabled={
                                         key == "eventEndTime" ||
-                                          key == "eventStartTime"
+                                        key == "eventStartTime"
                                           ? true
                                           : false
                                       }
-                                      className={`form-control ${key == "eventEndTime" ||
-                                          key == "eventStartTime"
+                                      className={`form-control ${
+                                        key == "eventEndTime" ||
+                                        key == "eventStartTime"
                                           ? "disabled"
                                           : ""
-                                        }`}
+                                      }`}
                                       // className="form-control"
                                       onChange={handleChange}
-                                    // disabled
-                                    // readOnly={true}
+                                      // disabled
+                                      // readOnly={true}
                                     />
                                     {isEventEndTime ? (
                                       <div className="event-endTime"></div>
@@ -1562,7 +1595,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                   <div className="row">
                                     <div id="registration-form">
                                       {formData &&
-                                        Object.keys(formData)?.length ? (
+                                      Object.keys(formData)?.length ? (
                                         <div>
                                           <div className="center-align-form">
                                             <div>
@@ -1584,20 +1617,20 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                       <label htmlFor="">
                                                         {data?.label
                                                           ? data?.label
-                                                            ?.charAt(0)
-                                                            .toUpperCase() +
-                                                          data?.label
-                                                            ?.slice(1)
-                                                            ?.toLowerCase()
+                                                              ?.charAt(0)
+                                                              .toUpperCase() +
+                                                            data?.label
+                                                              ?.slice(1)
+                                                              ?.toLowerCase()
                                                           : ""}
                                                         {data?.required ===
                                                           "yes" && (
-                                                            <span>*</span>
-                                                          )}
+                                                          <span>*</span>
+                                                        )}
                                                       </label>
 
                                                       {data?.inputType ===
-                                                        "radio" ? (
+                                                      "radio" ? (
                                                         <div className="btn-container">
                                                           {data?.option?.map(
                                                             (
@@ -1612,11 +1645,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                   type={
                                                                     data?.inputType
                                                                   }
-                                                                  name={`${data?.name
+                                                                  name={`${
+                                                                    data?.name
                                                                       ? data?.name
                                                                       : "dynamic_" +
-                                                                      dynamicFieldNo
-                                                                    }`}
+                                                                        dynamicFieldNo
+                                                                  }`}
                                                                   value={
                                                                     item?.optionValue
                                                                   }
@@ -1634,7 +1668,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                   }
                                                                 </label>
                                                                 {data?.extension ==
-                                                                  true ? (
+                                                                true ? (
                                                                   <span
                                                                     className="add-choice"
                                                                     onClick={(
@@ -1667,7 +1701,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                 true ?  */}
                                                                 {item?.extension
                                                                   ?.length >
-                                                                  0 ? (
+                                                                0 ? (
                                                                   <div className="extension">
                                                                     {item?.extension?.map(
                                                                       (
@@ -1681,7 +1715,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                           }
                                                                         >
                                                                           {extItem?.inputType ==
-                                                                            "text" ? (
+                                                                          "text" ? (
                                                                             <div className="extOption">
                                                                               <label
                                                                                 htmlFor={
@@ -1697,11 +1731,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                                   extItem?.inputType
                                                                                 }
                                                                                 className="form-control disabled"
-                                                                                name={`${extItem?.name
+                                                                                name={`${
+                                                                                  extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                    dynamicFieldNo
-                                                                                  }`}
+                                                                                      dynamicFieldNo
+                                                                                }`}
                                                                                 placeholder={
                                                                                   extItem?.placeholder
                                                                                 }
@@ -1735,11 +1770,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${extItem?.name
+                                                                                      name={`${
+                                                                                        extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                          dynamicFieldNo
-                                                                                        }`}
+                                                                                            dynamicFieldNo
+                                                                                      }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -1774,11 +1810,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                                 }
                                                                               </label>
                                                                               <DatePicker
-                                                                                name={`${extItem?.name
+                                                                                name={`${
+                                                                                  extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                    dynamicFieldNo
-                                                                                  }`}
+                                                                                      dynamicFieldNo
+                                                                                }`}
                                                                                 dateFormat="dd/MM/yyyy"
                                                                                 className="form-control disabled"
                                                                                 placeholderText="Select date"
@@ -1813,11 +1850,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${extItem?.name
+                                                                                      name={`${
+                                                                                        extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                          dynamicFieldNo
-                                                                                        }`}
+                                                                                            dynamicFieldNo
+                                                                                      }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -1852,27 +1890,28 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                               </label>
                                                                               <Select
                                                                                 className="dropdown-basic-button split-button-dropup webinar-select disabled"
-                                                                                name={`${extItem?.name
+                                                                                name={`${
+                                                                                  extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                    dynamicFieldNo
-                                                                                  }`}
+                                                                                      dynamicFieldNo
+                                                                                }`}
                                                                                 options={
                                                                                   extItem?.label?.includes(
                                                                                     "country"
                                                                                   ) ||
-                                                                                    extItem?.label?.includes(
-                                                                                      "Country"
-                                                                                    )
+                                                                                  extItem?.label?.includes(
+                                                                                    "Country"
+                                                                                  )
                                                                                     ? countryList
                                                                                     : extItem?.label?.includes(
-                                                                                      "state"
-                                                                                    ) ||
+                                                                                        "state"
+                                                                                      ) ||
                                                                                       extItem?.label?.includes(
                                                                                         "State"
                                                                                       )
-                                                                                      ? stateOptions
-                                                                                      : extItem?.option?.map(
+                                                                                    ? stateOptions
+                                                                                    : extItem?.option?.map(
                                                                                         (
                                                                                           item
                                                                                         ) => ({
@@ -1908,11 +1947,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
 
                                                                               <textarea
                                                                                 className="form-control disabled"
-                                                                                name={`${extItem?.name
+                                                                                name={`${
+                                                                                  extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                    dynamicFieldNo
-                                                                                  }`}
+                                                                                      dynamicFieldNo
+                                                                                }`}
                                                                                 type={
                                                                                   extItem?.inputType
                                                                                 }
@@ -2022,11 +2062,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                   type={
                                                                     data?.inputType
                                                                   }
-                                                                  name={`${data?.name
+                                                                  name={`${
+                                                                    data?.name
                                                                       ? data?.name
                                                                       : "dynamic_" +
-                                                                      dynamicFieldNo
-                                                                    }`}
+                                                                        dynamicFieldNo
+                                                                  }`}
                                                                   checked={
                                                                     item?.checked
                                                                   }
@@ -2037,7 +2078,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                   }
                                                                 </label>
                                                                 {data?.extension ==
-                                                                  true ? (
+                                                                true ? (
                                                                   <span
                                                                     className="add-choice"
                                                                     onClick={(
@@ -2070,7 +2111,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                 true ? */}
                                                                 {item?.extension
                                                                   ?.length >
-                                                                  0 ? (
+                                                                0 ? (
                                                                   <div className="extension">
                                                                     {item?.extension?.map(
                                                                       (
@@ -2079,7 +2120,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                       ) => (
                                                                         <div className="extItem">
                                                                           {extItem?.inputType ==
-                                                                            "text" ? (
+                                                                          "text" ? (
                                                                             <div className="extOption">
                                                                               <label
                                                                                 htmlFor={
@@ -2095,11 +2136,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                                   extItem?.inputType
                                                                                 }
                                                                                 className="form-control disabled"
-                                                                                name={`${extItem?.name
+                                                                                name={`${
+                                                                                  extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                    dynamicFieldNo
-                                                                                  }`}
+                                                                                      dynamicFieldNo
+                                                                                }`}
                                                                                 placeholder={
                                                                                   extItem?.placeholder
                                                                                 }
@@ -2133,11 +2175,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${extItem?.name
+                                                                                      name={`${
+                                                                                        extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                          dynamicFieldNo
-                                                                                        }`}
+                                                                                            dynamicFieldNo
+                                                                                      }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -2172,11 +2215,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                                 }
                                                                               </label>
                                                                               <DatePicker
-                                                                                name={`${extItem?.name
+                                                                                name={`${
+                                                                                  extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                    dynamicFieldNo
-                                                                                  }`}
+                                                                                      dynamicFieldNo
+                                                                                }`}
                                                                                 dateFormat="dd/MM/yyyy"
                                                                                 className="form-control disabled"
                                                                                 placeholderText="Select date"
@@ -2212,11 +2256,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                                       type={
                                                                                         extItem?.inputType
                                                                                       }
-                                                                                      name={`${extItem?.name
+                                                                                      name={`${
+                                                                                        extItem?.name
                                                                                           ? extItem?.name
                                                                                           : "dynamic_" +
-                                                                                          dynamicFieldNo
-                                                                                        }`}
+                                                                                            dynamicFieldNo
+                                                                                      }`}
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
@@ -2250,28 +2295,29 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                                                 }
                                                                               </label>
                                                                               <Select
-                                                                                name={`${extItem?.name
+                                                                                name={`${
+                                                                                  extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                    dynamicFieldNo
-                                                                                  }`}
+                                                                                      dynamicFieldNo
+                                                                                }`}
                                                                                 className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                                                 options={
                                                                                   extItem?.label?.includes(
                                                                                     "country"
                                                                                   ) ||
-                                                                                    extItem?.label?.includes(
-                                                                                      "Country"
-                                                                                    )
+                                                                                  extItem?.label?.includes(
+                                                                                    "Country"
+                                                                                  )
                                                                                     ? countryList
                                                                                     : extItem?.label?.includes(
-                                                                                      "state"
-                                                                                    ) ||
+                                                                                        "state"
+                                                                                      ) ||
                                                                                       extItem?.label?.includes(
                                                                                         "State"
                                                                                       )
-                                                                                      ? stateOptions
-                                                                                      : extItem?.option?.map(
+                                                                                    ? stateOptions
+                                                                                    : extItem?.option?.map(
                                                                                         (
                                                                                           item
                                                                                         ) => ({
@@ -2307,11 +2353,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
 
                                                                               <textarea
                                                                                 className="form-control disabled"
-                                                                                name={`${extItem?.name
+                                                                                name={`${
+                                                                                  extItem?.name
                                                                                     ? extItem?.name
                                                                                     : "dynamic_" +
-                                                                                    dynamicFieldNo
-                                                                                  }`}
+                                                                                      dynamicFieldNo
+                                                                                }`}
                                                                                 type={
                                                                                   extItem?.inputType
                                                                                 }
@@ -2413,24 +2460,25 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                         >
                                                           <Select
                                                             className="dropdown-basic-button split-button-dropup webinar-select disabled"
-                                                            name={`${data?.name
+                                                            name={`${
+                                                              data?.name
                                                                 ? data?.name
                                                                 : "dynamic_" +
-                                                                dynamicFieldNo
-                                                              }`}
+                                                                  dynamicFieldNo
+                                                            }`}
                                                             options={
                                                               data?.label?.includes(
                                                                 "country"
                                                               ) ||
-                                                                data?.label?.includes(
-                                                                  "Country"
-                                                                )
+                                                              data?.label?.includes(
+                                                                "Country"
+                                                              )
                                                                 ? countryList
                                                                 : data?.label?.includes(
-                                                                  "state (us)"
-                                                                )
-                                                                  ? stateOptions
-                                                                  : data?.option?.map(
+                                                                    "state (us)"
+                                                                  )
+                                                                ? stateOptions
+                                                                : data?.option?.map(
                                                                     (item) => ({
                                                                       label:
                                                                         item?.optionLabel,
@@ -2456,11 +2504,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                         >
                                                           <textarea
                                                             className="form-control disabled"
-                                                            name={`${data?.name
+                                                            name={`${
+                                                              data?.name
                                                                 ? data?.name
                                                                 : "dynamic_" +
-                                                                dynamicFieldNo
-                                                              }`}
+                                                                  dynamicFieldNo
+                                                            }`}
                                                             type={
                                                               data?.inputType
                                                             }
@@ -2472,11 +2521,12 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                         </div>
                                                       ) : (
                                                         <input
-                                                          name={`${data?.name
+                                                          name={`${
+                                                            data?.name
                                                               ? data?.name
                                                               : "dynamic_" +
-                                                              dynamicFieldNo
-                                                            }`}
+                                                                dynamicFieldNo
+                                                          }`}
                                                           className="form-control disabled"
                                                           type={data?.inputType}
                                                           placeholder={
@@ -2564,7 +2614,8 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                             <div className="color-pick">
                                               <img
                                                 src={
-                                                  path_image + "color-picker.svg"
+                                                  path_image +
+                                                  "color-picker.svg"
                                                 }
                                                 alt=""
                                               />
@@ -2572,7 +2623,10 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                 type="color"
                                                 title="Choose your color"
                                                 onChange={(e) =>
-                                                  onColorChange(e, "typedTextColor")
+                                                  onColorChange(
+                                                    e,
+                                                    "typedTextColor"
+                                                  )
                                                 }
                                                 value={
                                                   formData?.typedTextColor
@@ -2589,7 +2643,8 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                             <div className="color-pick">
                                               <img
                                                 src={
-                                                  path_image + "color-picker.svg"
+                                                  path_image +
+                                                  "color-picker.svg"
                                                 }
                                                 alt=""
                                               />
@@ -2597,7 +2652,10 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                 type="color"
                                                 title="Choose your color"
                                                 onChange={(e) =>
-                                                  onColorChange(e, "placeholderTextColor")
+                                                  onColorChange(
+                                                    e,
+                                                    "placeholderTextColor"
+                                                  )
                                                 }
                                                 value={
                                                   formData?.placeholderTextColor
@@ -2614,7 +2672,8 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                             <div className="color-pick">
                                               <img
                                                 src={
-                                                  path_image + "color-picker.svg"
+                                                  path_image +
+                                                  "color-picker.svg"
                                                 }
                                                 alt=""
                                               />
@@ -2639,7 +2698,8 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                             <div className="color-pick">
                                               <img
                                                 src={
-                                                  path_image + "color-picker.svg"
+                                                  path_image +
+                                                  "color-picker.svg"
                                                 }
                                                 alt=""
                                               />
@@ -2647,7 +2707,10 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                 type="color"
                                                 title="Choose your color"
                                                 onChange={(e) =>
-                                                  onColorChange(e, "OptionColor")
+                                                  onColorChange(
+                                                    e,
+                                                    "OptionColor"
+                                                  )
                                                 }
                                                 value={
                                                   formData?.optionColor
@@ -2698,7 +2761,8 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                             <div className="color-pick">
                                               <img
                                                 src={
-                                                  path_image + "color-picker.svg"
+                                                  path_image +
+                                                  "color-picker.svg"
                                                 }
                                                 alt=""
                                               />
@@ -2706,7 +2770,10 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                 type="color"
                                                 title="Choose your color"
                                                 onChange={(e) =>
-                                                  onColorChange(e, "dropdownOptionColor")
+                                                  onColorChange(
+                                                    e,
+                                                    "dropdownOptionColor"
+                                                  )
                                                 }
                                                 value={
                                                   formData?.dropdownOptionColor
@@ -2723,7 +2790,8 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                             <div className="color-pick">
                                               <img
                                                 src={
-                                                  path_image + "color-picker.svg"
+                                                  path_image +
+                                                  "color-picker.svg"
                                                 }
                                                 alt=""
                                               />
@@ -2731,7 +2799,10 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                 type="color"
                                                 title="Choose your color"
                                                 onChange={(e) =>
-                                                  onColorChange(e, "dropdownHoveringColor")
+                                                  onColorChange(
+                                                    e,
+                                                    "dropdownHoveringColor"
+                                                  )
                                                 }
                                                 value={
                                                   formData?.dropdownHoveringColor
@@ -2748,7 +2819,8 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                             <div className="color-pick">
                                               <img
                                                 src={
-                                                  path_image + "color-picker.svg"
+                                                  path_image +
+                                                  "color-picker.svg"
                                                 }
                                                 alt=""
                                               />
@@ -2756,7 +2828,10 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                                                 type="color"
                                                 title="Choose your color"
                                                 onChange={(e) =>
-                                                  onColorChange(e, "selectedTextColor")
+                                                  onColorChange(
+                                                    e,
+                                                    "selectedTextColor"
+                                                  )
                                                 }
                                                 value={
                                                   formData?.selectedTextColor
@@ -2793,7 +2868,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                       Upload Logo
                       <div
                         className="logo-section header-section"
-                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                        // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
                       >
                         {!logo && (
                           <>
@@ -2801,10 +2876,15 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                               <h5>Upload your file</h5>
                               <h6>(Recommended size 000 x 000)</h6>
                             </div>
-                            <Button onClick={(e) => handleFileSelect(e, "logoImageUrl")}>Choose Your File</Button>
+                            <Button
+                              onClick={(e) =>
+                                handleFileSelect(e, "logoImageUrl")
+                              }
+                            >
+                              Choose Your File
+                            </Button>
                           </>
                         )}
-
 
                         <img className="logo-img" src={logo} />
                         <div className="logo-text header-text">
@@ -2844,7 +2924,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                       Upload Header
                       <div
                         className="header-section"
-                      // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+                        // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
                       >
                         {!file && (
                           <>
@@ -2852,7 +2932,13 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                               <h5>Upload your file</h5>
                               <h6>(Recommended size 000 x 000)</h6>
                             </div>
-                            <Button onClick={(e) => handleFileSelect(e, "headerImageUrl")}>Choose Your File</Button>
+                            <Button
+                              onClick={(e) =>
+                                handleFileSelect(e, "headerImageUrl")
+                              }
+                            >
+                              Choose Your File
+                            </Button>
                           </>
                         )}
 
@@ -2894,7 +2980,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                       Upload Footer
                       <div
                         className="footer-section"
-                      // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                        // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
                       >
                         {!foot && (
                           <>
@@ -2902,7 +2988,13 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                               <h5>Upload your file</h5>
                               <h6>(Recommended size 000 x 000)</h6>
                             </div>
-                            <Button onClick={(e) => handleFileSelect(e, "footerImageUrl")}>Choose Your File</Button>
+                            <Button
+                              onClick={(e) =>
+                                handleFileSelect(e, "footerImageUrl")
+                              }
+                            >
+                              Choose Your File
+                            </Button>
                           </>
                         )}
 
@@ -2954,6 +3046,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
                     </Button>
                     <div className="webinar-popup">
                       <RegistrationPage
+                        type="preview"
                         prevData={{
                           eventId: eventData?.event_id,
                           companyId: eventData?.company_id,
@@ -3040,6 +3133,7 @@ const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
               /> */}
               <div className="webinar-popup">
                 <RegistrationPage
+                  type="preview"
                   prevData={{
                     eventId: eventData?.event_id,
                     companyId: eventData?.company_id,

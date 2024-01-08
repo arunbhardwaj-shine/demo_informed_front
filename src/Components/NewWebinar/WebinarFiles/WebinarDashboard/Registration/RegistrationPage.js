@@ -99,18 +99,14 @@ const stateOptions = [
   { label: "Virginia", value: "Virginia" },
 ];
 
-const RegistrationPage = ({ prevData }) => {
+const RegistrationPage = ({ prevData,type }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { eventIdContext } = useSidebar();
-
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
-  // const event_code = new URLSearchParams(location.search).get("event");
-  const event_code=eventIdContext?.eventId
-
+  const event_code = new URLSearchParams(location.search).get("event");
   const [formData, setFormData] = useState(prevData || {});
   const [formFieldData, setFormFieldData] = useState({});
   const [formErrors, setFormErrors] = useState({});
@@ -618,6 +614,7 @@ const RegistrationPage = ({ prevData }) => {
           <span className="loader-view"> </span>
         </div>
       </div>
+      { type !="preview" && 
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -628,7 +625,7 @@ const RegistrationPage = ({ prevData }) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      />
+      />}
 
       {formData?.content?.templateId === 1 && (
         <TemplateOne formData={formData}>{myContent1}</TemplateOne>
