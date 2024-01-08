@@ -237,7 +237,7 @@ const fetchApiData = async () => {
   return (
     <>
       <Col className="right-sidebar custom-change">
-        <div className="custom-container register-page create-change-content chatlink">
+        <div className="register-page create-change-content chatlink">
           <div className="row ">
             <div className="col-md-6 col-sm-6">
               <div className="chatlink-left">

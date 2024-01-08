@@ -136,43 +136,42 @@ function Question(props) {
         <div className="poll-question-option">
           <div className="poll-question-create">
             <Form>
-            <Form.Group className="mb-4 name_added">
-
-            <h5>Question Color</h5>
-
+            <Form.Group className="question-color">
+            <div>
+            <h5>Question Color</h5> 
             <div className="color-pick" >
+              <img
+                src={path_image + "color-picker.svg"}
+                alt=""/>
+                <input
+                  type="color"
+                  title="Choose Your Color"
+                  onChange={(e) =>
+                    onQuestionColorChange(e, index)
+                  }
+                  defaultValue={questionData?.questionColor}
+                />
+              </div>
+              </div>
+              <div>
+                <h5>Answer Color</h5>
 
-                                <img
-                                  src={path_image + "color-picker.svg"}
-                                  alt=""
-                                />
+                <div className="color-pick" >
+                  <img
+                    src={path_image + "color-picker.svg"}
+                    alt=""
+                  />
 
-                                <input
-                                  type="color"
-                                  title="Choose Your Color"
-                                  onChange={(e) =>
-                                    onQuestionColorChange(e, index)
-                                  }
-                                  defaultValue={questionData?.questionColor}
-                                />
-                              </div>
-                              <h5>Answer Color</h5>
-
-                              <div className="color-pick" >
-                                <img
-                                  src={path_image + "color-picker.svg"}
-                                  alt=""
-                                />
-
-                                <input
-                                  type="color"
-                                  title="Choose Your Color"
-                                  onChange={(e) =>
-                                    onAnswerColorChange(e, index)
-                                  }
-                                  defaultValue={questionData?.answerColor}
-                                />
-                              </div>
+                  <input
+                    type="color"
+                    title="Choose Your Color"
+                    onChange={(e) =>
+                      onAnswerColorChange(e, index)
+                    }
+                    defaultValue={questionData?.answerColor}
+                  />
+                </div>
+              </div>
                                         </Form.Group>
 
               <Form.Group className="mb-4 name_added">
@@ -188,7 +187,7 @@ function Question(props) {
                   {questionDataErrors?.questionError}
                 </div>
               </Form.Group>
-              <Form.Group className="mb-4">
+              <Form.Group className="mb-4 d-flex align-items-center flex-wrap">
                 <Form.Label className="h5">
                   Select the type of your answer:
                 </Form.Label>
@@ -340,7 +339,7 @@ function Question(props) {
                     {/* {answerType != "YesNo" && ( */}
                       <Button className="add-choice" onClick={onAddChoice}>
                         Add Choice{" "}
-                        <img src={path_image + "add-choice.svg"} alt="" />
+                        <img src={path_image + "add-choice-voilet.svg"} alt="" />
                       </Button>
                     {/* )} */}
                   </div>
