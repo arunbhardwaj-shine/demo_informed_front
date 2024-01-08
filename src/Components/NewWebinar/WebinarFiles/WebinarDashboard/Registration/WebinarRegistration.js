@@ -1235,6 +1235,7 @@ const WebinarRegistration = () => {
                       type="button"
                       // className="save btn-bordered"
                       className={`save btn-bordered ${!isDataSaved? "disabled":""}`}
+                      disabled={isDataSaved?false:true}
                       onClick={(e) => {
                         handlePreviewInNewTab(e);
                       }}
