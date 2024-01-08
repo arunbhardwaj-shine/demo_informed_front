@@ -10008,6 +10008,7 @@ html {
   font-size: 14px;
   font-weight: 400;
   line-height: 183.984%;
+  display: flex;
 }
 
 .question-listing .question-display .answer-options {
@@ -10019,6 +10020,7 @@ html {
   font-size: 14px;
   font-weight: 500;
   line-height: 183.984%;
+  margin-right:3px;
 }
 
 .question-listing .question-display .speaker {
