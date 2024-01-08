@@ -251,7 +251,7 @@ const NewEventCreate = () => {
       state: {eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title},
     });
   };
-  const liveStream = (item) => {
+  const liveStream = (e,item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream");
   };
@@ -266,7 +266,7 @@ const NewEventCreate = () => {
   }
   };
 
-  const webinarEmailForm = (item) => {
+  const webinarEmailForm = (e,item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/email");
   };
@@ -1074,7 +1074,7 @@ const NewEventCreate = () => {
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
-                                    liveStream(item);
+                                    liveStream(e,item);
                                     e.stopPropagation();
                                   }}
                                 >
