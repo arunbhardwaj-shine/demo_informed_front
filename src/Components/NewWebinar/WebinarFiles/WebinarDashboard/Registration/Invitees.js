@@ -231,7 +231,8 @@ const Invitees = () => {
   }
 
   const userEmailClicked = (e, user) => {
-    console.log("email clicked-->", user?.Email)
+    navigate("/EmailList");
+    // console.log("email clicked-->", user?.Email)
   }
 
   const userBlockedClicked = async (e, user, index) => {
@@ -933,7 +934,7 @@ const Invitees = () => {
                               <div className="clear-search">
                                 <button
                                   // style={{ marginLeft: "10px" }}
-                                  className="disabled btn-webinar"
+                                  className="btn-webinar"
                                   onClick={(e) => userEmailClicked(e, user)}
                                 >
                                   {/* <img
