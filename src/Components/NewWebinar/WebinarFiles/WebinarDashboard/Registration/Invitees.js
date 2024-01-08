@@ -219,7 +219,7 @@ const Invitees = () => {
       const res = await postData(ENDPOINT.WEBINAR_UPDATE_HCP_STATUS, data)
       popup_alert({
         visible: "show",
-        message: "Your user has been updated <br />successfully !",
+        message: "The user has been updated <br />successfully !",
         type: "success",
         redirect: "",
       });
@@ -526,7 +526,7 @@ const Invitees = () => {
                     <input
                       className="form-control me-2"
                       type="search"
-                      placeholder="Search by title"
+                      placeholder="Search by name or email"
                       aria-label="Search"
                       id="email_search"
                       onChange={(e) => searchChange(e)}
@@ -898,7 +898,7 @@ const Invitees = () => {
                         <td>{user?.name}</td>
                         <td>{user?.email}</td>
                         <td>{user?.province}</td>
-                        <td className="registred">
+                        <td className={user?.is_blocked == 0 ? "registred" : "registred block"}>
                           {user?.is_blocked == 0 ?
                             moment(user?.register_time).format('DD MMMM YYYY | hh:mm:ss A') : "Blocked"}
                         </td>
@@ -932,7 +932,7 @@ const Invitees = () => {
                               <div className="clear-search">
                                 <button
                                   // style={{ marginLeft: "10px" }}
-                                  className="btn-webinar"
+                                  className="disabled btn-webinar"
                                   onClick={(e) => userEmailClicked(e, user)}
                                 >
                                   {/* <img
@@ -948,15 +948,9 @@ const Invitees = () => {
                               </div>
                               <div className="clear-search">
                                 <button
-                                  // style={{ marginLeft: "10px" }}
-                                  className="btn-webinar"
+                                  className={user?.is_blocked == 0 ? "btn-webinar" : "btn-webinar block"}
                                   onClick={(e) => userBlockedClicked(e, user, index)}
                                 >
-                                  {/* <img
-                                    title="Email"
-                                    src={path_image + "user-blocked.svg"}
-                                    alt="Email"
-                                  /> */}
                                   <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="none">
                                     <path d="M8.28065 9.71449C10.9636 9.71449 13.1381 7.53955 13.1381 4.85704C13.1381 2.17453 10.9632 0 8.28065 0C5.59814 0 3.42237 2.17494 3.42237 4.85745C3.42237 7.53996 5.59814 9.71449 8.28065 9.71449Z" fill="#0066BE" />
                                     <path d="M10.3411 10.0456H6.21938C2.78998 10.0456 0 12.836 0 16.2654V21.3059L0.0128133 21.3849L0.360011 21.4936C3.63276 22.5161 6.47605 22.8571 8.81633 22.8571C9.95143 22.8571 10.968 22.7768 11.8575 22.6547C10.8757 21.4683 10.2857 19.9459 10.2857 18.2857C10.2857 15.3472 12.1341 12.8403 14.7317 11.8645C13.6061 10.7411 12.0533 10.0456 10.3411 10.0456Z" fill="#0066BE" />
@@ -1061,7 +1055,7 @@ const Invitees = () => {
         fun={handleConfirmModel}
         resetDataId={clickUserId}
         popupMessage={{
-          message1: "The deleted user will no longer have access to One Source",
+          message1: "The deleted user will no longer have access <br> to <b>One Source</b>",
           message2: "Are you sure you want to delete it?",
           footerButton: " Yes please!",
         }}

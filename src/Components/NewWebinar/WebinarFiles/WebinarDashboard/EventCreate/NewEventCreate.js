@@ -103,10 +103,9 @@ const NewEventCreate = () => {
           } catch (e) {
             return item?.speaker_name
               ? [{ speakerName: item?.speaker_name }]
-              : [{ speakerName: "" }];
+              : [{ speakerName: "N/A" }];
           }
         });
-
         setSpeakerName(speakerName);
 
      
@@ -1086,11 +1085,17 @@ const NewEventCreate = () => {
                                 </button>
                               </div>
                               <div className="event-title" onClick={() => handleCardClick(item)}>{item?.title}</div>
-                              <div className="speaker-name">
-                                <span>Speaker</span>{" "}
-                                {speakerName[index]
-                                  ?.map((item, i) => item?.speakerName)
-                                  .join(" , ")}
+                              <div>
+                                <div className="speaker-name">
+                                  <span>Speaker</span>{" "}
+                                  {speakerName[index]
+                                    ?.map((item, i) => item?.speakerName)
+                                    .join(" , ")}
+                                </div>
+                                <div className="speaker-name">
+                                  <span>Owner</span>{" "}
+                                  {localStorage.getItem("name") != "" ? localStorage.getItem("name") : ""}
+                                </div>
                               </div>
                               <div className="event-details d-flex justify-content-end align-items-center">
                                 <div className="time-left">
@@ -1104,7 +1109,7 @@ const NewEventCreate = () => {
                                         <span className="days-left">
                                           {differenceDays(item?.dateStart)}
                                         </span>
-                                        Days Left
+                                        Days left
                                       </>
                                     ) : (
                                       // " Days Left"
@@ -1114,7 +1119,7 @@ const NewEventCreate = () => {
                                 </div>
                                 <div className="event-date">
                                   {formatDate(item?.dateStart)} |{" "}
-                                  {`${item?.dateStartHour}:${item?.dateStartMin.length == 1
+                                  {`${item?.dateStartHour > 12 ? parseInt(item?.dateStartHour) - 12 : item?.dateStartHour}:${item?.dateStartMin.length == 1
                                     ? "0" + item?.dateStartMin
                                     : item?.dateStartMin
                                     } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
@@ -1183,7 +1188,7 @@ const NewEventCreate = () => {
                     })}
                   </>
                 ) : apiStatus == true ? (
-                  <div class="email_box_block no_found">
+                  <div className="email_box_block no_found">
                     <p>No Data Found</p>
                   </div>
                 ) : (
