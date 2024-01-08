@@ -172,7 +172,7 @@ function Question(props) {
                   />
                 </div>
               </div>
-                                        </Form.Group>
+              </Form.Group>
 
               <Form.Group className="mb-4 name_added">
                 <Form.Label className="h5">Enter your question:</Form.Label>

@@ -382,7 +382,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 
 .clear-search button:active,
 .clear-search button:focus {
-  background: var(--white);
+  /* background: var(--white); */
   box-shadow: 0px 2px 10px 0px rgb(0 102 190 / 15%);
 }
 
@@ -5287,9 +5287,10 @@ h2 {
 
 .select-mail-template .alice-carousel {
   background: var(--white);
-  box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.23);
+  box-shadow: 0px 0px 15px 0px rgba(0, 102, 190, 0.23) inset;
   border-radius: 15px;
   padding: 5px 23px;
+  border: 0.5px solid #97B6CF;
 }
 
 .select-mail-template .alice-carousel .item {
@@ -9888,6 +9889,7 @@ html {
   align-items: center;
   position: relative;
 }
+
 .poll-creation .outer-layout .question-outer-layout button.reset {
   position: absolute;
   top: -51px;
@@ -9899,6 +9901,7 @@ html {
   z-index: 2;
   background: #8A4E9C;
 }
+
 .poll-creation .outer-layout .question-outer-layout button.disabled {
   background: #97B6CF;
   pointer-events: none;
@@ -9913,6 +9916,7 @@ html {
   flex-direction: column;
     justify-content: center; */
 }
+
 /* .poll-creation .question-outer-inset .slick-slider {
   min-height: 500px;
   align-items: center;
@@ -9978,8 +9982,9 @@ html {
 .question-list-number .question-status.not-display {
   background: #97B6CF;
 }
+
 .question-list-number .question-status.display {
-  background:#39CABC;
+  background: #39CABC;
 }
 
 .question-boxed .question-listing {
@@ -10029,7 +10034,7 @@ html {
   font-size: 14px;
   font-weight: 500;
   line-height: 183.984%;
-  margin-right:3px;
+  margin-right: 3px;
 }
 
 .question-listing .question-display .speaker {
@@ -10118,9 +10123,11 @@ html {
   background: #0066BE;
   color: #fff;
 }
+
 .question-listing .question-status .btn-group .btn-group-add button.visited {
   color: #39CABC;
 }
+
 .question-listing .question-status .btn-group .btn-group-add button.quest.active,
 .question-listing .question-status .btn-group .btn-group-add button.answer.active {
   background: #39CABC;
@@ -10135,6 +10142,7 @@ html {
   flex: 0 0 95px;
   gap: 80px;
 }
+
 .question-outer-layout .question-action button {
   width: 32px;
   height: 32px;
@@ -10143,16 +10151,20 @@ html {
   border: 0;
   box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.20);
 }
+
 .question-outer-layout .question-action button:hover {
-border:0;
+  border: 0;
 }
+
 .question-outer-layout .question-action button svg path {
   fill: #97B6CF;
 }
+
 .question-outer-layout .question-action button:hover svg path {
   fill: #fff;
   border: 0;
 }
+
 .question-outer-layout .outer-layout {
   min-height: 80vh;
 }
@@ -10517,17 +10529,21 @@ border:0;
 .poll-creation .nav-tabs .nav-item:first-child button.active:before {
   display: none;
 }
-.poll-creation .nav-tabs .nav-item:first-child button.active:before, .poll-creation .nav-tabs .nav-item:last-child button.active:after {
-  display:block;
+
+.poll-creation .nav-tabs .nav-item:first-child button.active:before,
+.poll-creation .nav-tabs .nav-item:last-child button.active:after {
+  display: block;
   background: #fff;
   left: 0;
   top: 32px;
   height: 25px;
 }
-.poll-creation .nav-tabs .nav-item:last-child button.active:after{
-  right:0;
-  left:auto;
+
+.poll-creation .nav-tabs .nav-item:last-child button.active:after {
+  right: 0;
+  left: auto;
 }
+
 .live-stream-tabs-data .clear-search button {
   width: 30px;
   height: 30px;
@@ -10933,6 +10949,7 @@ border:0;
 .event_edit #add_hcp .modal-body .hcp-add-form form#add_hcp_form .form-group label {
   padding: 0;
 }
+
 .poll_question_loader {
   position: absolute;
   background: rgb(0 102 190 / 10%);
@@ -10942,6 +10959,7 @@ border:0;
   top: 0;
   backdrop-filter: blur(3px);
 }
+
 /**Speaker Zone End**/
 
 
@@ -10986,6 +11004,7 @@ border:0;
   align-items: center;
   justify-content: center;
 }
+
 .custom-change .create-change-content.chatlink {
   padding: 80px 0 40px;
 }
@@ -10996,47 +11015,56 @@ border:0;
   padding: 0;
   font-size: 16px;
 }
+
 .chatlink .webinar-popup .octa_events {
   border-radius: 15px;
   background: #FFF;
   box-shadow: 0px 1px 8px 0px rgba(0, 102, 190, 0.24);
   padding: 24px 22px;
-    max-width: 700px;
-      width: 90%;
+  max-width: 700px;
+  width: 90%;
 }
+
 .chatlink .webinar-popup {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
+
 .chatlink-left .form-group:first-child {
   margin-top: 0;
 }
+
 .chatlink .question-block {
   justify-content: flex-start;
   min-height: initial;
 }
+
 .chatlink-left button {
   margin-left: auto;
   display: flex;
   justify-content: center;
 }
+
 .question-block-form form .btn.btn-success {
   width: 100%;
   border-radius: 4px;
   background: #64b8b0;
   border-color: #64b8b0;
 }
+
 /**Chat link**/
 /**Poll creation**/
 .question-listing form.product-unit {
   padding: 0px 72px 0px 40px;
 }
+
 .question-listing-block {
   max-width: 1365px;
   width: 90%;
   margin: 0 auto;
 }
+
 .question-listing-action .question-number span {
   color: rgba(0, 102, 190, 0.12);
   font-size: 40px;
@@ -11059,9 +11087,11 @@ border:0;
   width: 20px;
   height: 20px;
 }
-.question-listing-action .question-action button.dl_btn:hover svg path{
-fill: #fff;
+
+.question-listing-action .question-action button.dl_btn:hover svg path {
+  fill: #fff;
 }
+
 .question-listing-action .question-action button {
   font-size: 16px;
   font-weight: 500;
@@ -11073,73 +11103,157 @@ fill: #fff;
   color: #8A4E9C;
   border-color: #8A4E9C;
 }
+
 .question-listing-action .question-action button.add-question:hover {
   color: #fff;
   background-color: #8A4E9C;
 }
+
 .question-listing-action .question-action {
   gap: 24px;
 }
+
 .poll-question .poll-question-create .d-flex label.h5 {
   width: auto;
-  margin:0;
-}
-.poll-question-create .question-color {
-    display: flex;
-    gap: 40px;
-    position: relative;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-}
-.poll-question-create .question-color:after{position: absolute;
-content: "";
-border-bottom: 1px dashed #0066BE;
-bottom: 0;
-width: calc(100% + 80px);
-left: -40px;
-}
-.poll-question-create .question-color > div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  margin: 0;
 }
 
-.poll-question-create .question-color > div h5 {
-    font-size: 18px;
-    line-height: 25px;
-    color: #004A89;
-    font-weight: 400;
-        min-width: 120px;
+.poll-question-create .question-color {
+  display: flex;
+  gap: 40px;
+  position: relative;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
 }
+
+.poll-question-create .question-color:after {
+  position: absolute;
+  content: "";
+  border-bottom: 1px dashed #0066BE;
+  bottom: 0;
+  width: calc(100% + 80px);
+  left: -40px;
+}
+
+/* .invitee table  .invitess-tbl .clear-search button:focus {
+    background: var(--light-blue);
+} */
+.poll-question-create .question-color>div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.poll-question-create .question-color>div h5 {
+  font-size: 18px;
+  line-height: 25px;
+  color: #004A89;
+  font-weight: 400;
+  min-width: 120px;
+}
+
 .poll-question-create .question-color .color-pick {
-    border-radius: 30px;
-    background: rgba(151, 182, 207, 0.15);
-    width: 100%;
-    padding: 4px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    max-width: 121px;
-    flex-direction: row-reverse;
-    gap: 8px;
+  border-radius: 30px;
+  background: rgba(151, 182, 207, 0.15);
+  width: 100%;
+  padding: 4px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  max-width: 121px;
+  flex-direction: row-reverse;
+  gap: 8px;
 }
+
 .poll-question-create .question-color .color-pick input[type=color] {
-    border-radius: 30px;
-    appearance: none;
-    width: 64px;
-    margin-left: 0px;
-    cursor: pointer;
-    padding-left: 0px;
-    height: 100%;
+  border-radius: 30px;
+  appearance: none;
+  width: 64px;
+  margin-left: 0px;
+  cursor: pointer;
+  padding-left: 0px;
+  height: 100%;
 }
+
 .poll-question-create .question-color .color-pick img {
-    max-width: 40px;
-    position: relative;
-    pointer-events: none;
-    border-radius: 30px;
-    background: #ffffff;
-    padding: 9px;
-    width: 100%;
-    cursor: pointer;
+  max-width: 40px;
+  position: relative;
+  pointer-events: none;
+  border-radius: 30px;
+  background: #ffffff;
+  padding: 9px;
+  width: 100%;
+  cursor: pointer;
+}
+.register-page-right-view {
+  max-width: 500px;
+  width: 100%;
+  margin-left: auto;
+}
+
+.register-popup {
+  padding: 12px;
+  border-radius: 15px;
+  background: #FFF;
+  box-shadow: 0px 1px 8px 0px rgba(0, 102, 190, 0.24);
+}
+
+.register-popup .register-popup-view {
+  border-radius: 3px;
+  box-shadow: 0px 0px 8px 0px rgba(0, 102, 190, 0.20);
+  padding: 25px;
+}
+
+.register-popup .register-popup-view .wrapper.eahad {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.register-popup .register-popup-view .wrapper.eahad .octapharma_event {
+  width: 100%;
+}
+.register-page-action p {
+  color: #004A89;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.register-page-action p span {
+  color: rgba(0, 74, 137, 0.55);
+  font-size: 14px;
+}
+.register-page-action button.btn {
+  padding: 7px;
+}
+.register-page-action {
+  margin: 0 0 10px;
+}
+
+.create-change-content.register-page .form-group .logo-section, .create-change-content.register-page .form-group .header-section, .create-change-content.register-page .form-group .footer-section {
+  border-radius: 15px;
+  border: 1px dashed #97B6CF;
+  flex: 1 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 212px;
+}
+.header-section h5, .logo-section h5, .footer-section h5 {
+  font-size: 16px;
+  color: #97B6CF;
+  font-weight: 400;
+}
+.header-section h6, .logo-section h6,
+.footer-section h6 {
+  color: #97B6CF;
+  font-weight: 400;
+  font-size: 14px;
+}
+.register-page .form-group .header-section, .register-page .form-group .footer-section, .register-page .form-group .logo-section {
+  gap: 37px;
+  display: flex;
+  flex-wrap: wrap;
 }
 /**Poll creation End**/

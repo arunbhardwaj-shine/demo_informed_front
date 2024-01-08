@@ -1176,44 +1176,12 @@ const WebinarRegistration = () => {
           <div className="row">
             <div className="top-header regi-web">
               <div className="page-title">
-                {/* <Link
-                  className="btn btn-primary btn-bordered back-btn"
-                  to="/webinar/event-listing"
-                >
-                  <svg
-                    width="14"
-                    height="24"
-                    viewBox="0 0 14 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                      fill="#97B6CF"
-                    />
-                  </svg>
-                </Link> */}
                 <h2>Registration Page</h2>
               </div>
-            </div>
-            <div className="page-top-nav smart_list_names sticky">
-              <div className="d-flex justify-content-between align-items-center add-padding">
-                {/* <div className="d-flex event-select align-items-center">
-                  <label htmlFor="">Select Event</label>
-                  <Select
-                    options={dropDownData}
-                    placeholder="Select Event"
-                    name="province"
-                    className="dropdown-basic-button split-button-dropup"
-                    isClearable
-                    onChange={handleSelectChange}
-                    value={selectedItem}
-                  />
-                </div> */}
-                <div className="top-right-action">
+              <div className="top-right-action">
                   <div className="d-flex justify-content-center header_btns">
                     <a
-                      className={`copy_link btn-voilet ${
+                      className={`copy_link btn-bordered ${
                         !isDataSaved ? "disabled" : ""
                       }`}
                       href={`event-registration?event=${event_code}`}
@@ -1233,8 +1201,7 @@ const WebinarRegistration = () => {
                     </a>
                     <Button
                       type="button"
-                      // className="save btn-bordered"
-                      className={`save btn-bordered ${!isDataSaved? "disabled":""}`}
+                      className={`save btn-filled ${!isDataSaved? "disabled":""}`}
                       disabled={isDataSaved?false:true}
                       onClick={(e) => {
                         handlePreviewInNewTab(e);
@@ -1242,20 +1209,14 @@ const WebinarRegistration = () => {
                     >
                       Preview In New Tab
                     </Button>
-
-                    {/* <Button onClick={(e) => saveClicked(e)} className="save">
-                      Save
-                    </Button> */}
                   </div>
-                </div>
-              </div>
             </div>
-
+          </div>
             <section className="select-mail-template library-consent create-change-content">
               <div className="custom-container">
                 <Row>
                   <div className="page-title">
-                    <h4>Select Template</h4>
+                    <h6>Select Template</h6>
                   </div>
 
                   <AliceCarousel
@@ -1297,7 +1258,7 @@ const WebinarRegistration = () => {
             {formData?.templateId ? (
               <div className="register-page create-change-content">
                 <Row>
-                  <Col md={8} sm={7}>
+                  <Col md={7} sm={7}>
                     <div className="register-page-left">
                       <Form>
                         <div>
@@ -2864,12 +2825,12 @@ const WebinarRegistration = () => {
                             Save
                           </Button>
                         </div> */}
-                      </Form>
-                    </div>
-                    <div className="registration-right">
-                      Upload Logo
+                     
+                    
+                      <div className="form-group d-flex align-items-center">
+                      <label>Upload Logo</label>
                       <div
-                        className="logo-section header-section"
+                        className="logo-section"
                         // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
                       >
                         {!logo && (
@@ -2923,7 +2884,9 @@ const WebinarRegistration = () => {
                           )}
                         </div>
                       </div>
-                      Upload Header
+                      </div>
+                      <div className="form-group d-flex align-items-center">
+                      <label>Upload Header</label>
                       <div
                         className="header-section"
                         // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
@@ -2979,7 +2942,9 @@ const WebinarRegistration = () => {
                           )}
                         </div>
                       </div>
-                      Upload Footer
+                      </div>
+                      <div className="form-group d-flex align-items-center">
+                        <label>Upload Footer</label>
                       <div
                         className="footer-section"
                         // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
@@ -3034,29 +2999,38 @@ const WebinarRegistration = () => {
                           )}
                         </div>
                       </div>
+                      </div>
                       {/* <div className="registration-preview">
                             <div className="registration-form-view">
 
                             </div>
                     </div> */}
+                     </Form>
                     </div>
                   </Col>
-                  <Col md={4} sm={5}>
-                    Preview (save it to see the changes)
-                    <Button onClick={(e) => saveClicked(e)} className="save">
-                      Save
-                    </Button>
-                    <div className="webinar-popup">
-                      <RegistrationPage
-                        type="preview"
-                        prevData={{
-                          eventId: eventData?.event_id,
-                          companyId: eventData?.company_id,
-                          content: JSON.stringify(formData),
-                          eventCode: event_code,
-                          isDataSaved: save,
-                        }}
-                      />
+                  <Col md={5} sm={5}>
+                    <div className="register-page-right-view">
+                      <div className="register-page-action d-flex align-items-center justify-content-between">
+                          <p>Preview <span>(save it to see the changes)</span></p>
+                          <Button onClick={(e) => saveClicked(e)} className="save">
+                            Save
+                          </Button>
+                      </div>
+                   
+                      <div className="register-popup">
+                        <div className="register-popup-view">
+                        <RegistrationPage
+                          type="preview"
+                          prevData={{
+                            eventId: eventData?.event_id,
+                            companyId: eventData?.company_id,
+                            content: JSON.stringify(formData),
+                            eventCode: event_code,
+                            isDataSaved: save,
+                          }}
+                        />
+                        </div>
+                      </div>
                     </div>
                   </Col>
                 </Row>
@@ -3068,8 +3042,8 @@ const WebinarRegistration = () => {
             ) : (
               ""
             )}
-          </div>
-        </div>
+              </div>
+            </div>
       </Col>
       <CommonAddQuestionModal
         show={showModal}
