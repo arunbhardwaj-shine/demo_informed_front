@@ -868,7 +868,7 @@ const Invitees = () => {
                         </button>
                       </th>
                       <th scope="col">Last Email
-                        <button
+                        {/* <button
                           className={`event_sort_btn ${isActive == "dec"
                             ? "svg_active"
                             : isActive == "asc"
@@ -887,7 +887,7 @@ const Invitees = () => {
                             </clipPath>
                           </defs>
                         </svg>
-                        </button>
+                        </button> */}
 
                       </th>
                       <th scope="col">User Type</th>
