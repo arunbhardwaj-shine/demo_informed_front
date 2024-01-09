@@ -6,7 +6,7 @@ import { useSidebar } from '../../../../CommonComponent/LoginLayout'
 import { loader } from '../../../../../loader'
 
 
-const LivePolls = ({ location }) => {
+const LivePolls = ({ location, flag }) => {
     const {eventIdContext,handleEventId}=useSidebar()
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEvent] = useState({
@@ -19,7 +19,7 @@ const LivePolls = ({ location }) => {
     useEffect(() => {
         loader("show");
         getEventQuestion()
-    }, [])
+    }, [flag])
 
     const getEventQuestion = async () => {
         try {
