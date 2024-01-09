@@ -32,6 +32,12 @@ let currentDate = new Date(
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
+const template = {
+  1:["logo","header"],
+  2:['logo'],
+  3:['logo','header','footer'],
+  4:[]
+}
 const WebinarRegistration = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const validExtensions = ["png", "jpeg", "jpg"];
@@ -2826,66 +2832,69 @@ const WebinarRegistration = () => {
                           </Button>
                         </div> */}
                      
-                    
-                      <div className="form-group d-flex align-items-center less-spacer">
-                      <label>Upload Logo</label>
-                      <div
-                        className="logo-section"
-                        // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
-                      >
-                        {!logo && (
-                          <>
-                            <div>
-                              <h5>Upload your file</h5>
-                              <h6>(Recommended size 300 x 140)</h6>
-                            </div>
-                            <Button className="upload-img"
-                              onClick={(e) =>
-                                handleFileSelect(e, "logoImageUrl")
-                              }
-                            >
-                              Choose Your File
-                            </Button>
-                          </>
-                        )}
+                    {template[formData?.templateId]?.includes("logo")?
+                    <div className="form-group d-flex align-items-center less-spacer">
+                    <label>Upload Logo</label>
+                    <div
+                      className="logo-section"
+                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                    >
+                      {!logo && (
+                        <>
+                          <div>
+                            <h5>Upload your file</h5>
+                            <h6>(Recommended size 300 x 140)</h6>
+                          </div>
+                          <Button className="upload-img"
+                            onClick={(e) =>
+                              handleFileSelect(e, "logoImageUrl")
+                            }
+                          >
+                            Choose Your File
+                          </Button>
+                        </>
+                      )}
 
-                        <img className="logo-img" src={logo} />
-                        <div className="logo-text header-text">
-                          {logo && (
-                            <button
-                              className="btn btn-outline-primary"
-                              title="Edit user"
-                            >
-                              <img
-                                src={path + "edit-button.svg"}
-                                alt="Edit"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleFileSelect(e, "logoImageUrl");
-                                }}
-                              />
-                            </button>
-                          )}
-
-                          {logo && (
-                            <button
-                              className="dlt_btn_event btn-voilet"
+                      <img className="logo-img" src={logo} />
+                      <div className="logo-text header-text">
+                        {logo && (
+                          <button
+                            className="btn btn-outline-primary"
+                            title="Edit user"
+                          >
+                            <img
+                              src={path + "edit-button.svg"}
+                              alt="Edit"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleDeleteLogoImage(e, "logoImageUrl");
+                                handleFileSelect(e, "logoImageUrl");
                               }}
-                            >
-                              <img
-                                title="Delete"
-                                src={path_image + "delete-icon.svg"}
-                                alt="Delete Row"
-                              />
-                            </button>
-                          )}
-                        </div>
+                            />
+                          </button>
+                        )}
+
+                        {logo && (
+                          <button
+                            className="dlt_btn_event btn-voilet"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteLogoImage(e, "logoImageUrl");
+                            }}
+                          >
+                            <img
+                              title="Delete"
+                              src={path_image + "delete-icon.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
+                        )}
                       </div>
-                      </div>
-                      <div className="form-group d-flex align-items-center less-spacer">
+                    </div>
+                    </div>
+                    :''}
+                      
+
+                      {template[formData?.templateId]?.includes("header") ? <div className="form-group d-flex align-items-center less-spacer">
                       <label>Upload Header</label>
                       <div
                         className="header-section"
@@ -2895,7 +2904,7 @@ const WebinarRegistration = () => {
                           <>
                             <div>
                               <h5>Upload your file</h5>
-                              <h6>(Recommended size 000 x 000)</h6>
+                              <h6>(Recommended size 1170 x 323)</h6>
                             </div>
                             <Button className="upload-img"
                               onClick={(e) =>
@@ -2942,8 +2951,70 @@ const WebinarRegistration = () => {
                           )}
                         </div>
                       </div>
-                      </div>
+                      </div> : 
+                      ''
+                       }
+
+                      {template[formData?.templateId]?.includes("footer")?
                       <div className="form-group d-flex align-items-center less-spacer">
+                        <label>Upload Footer</label>
+                      <div
+                        className="footer-section"
+                        // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                      >
+                        {!foot && (
+                          <>
+                            <div>
+                              <h5>Upload your file</h5>
+                              <h6>(Recommended size 1170 x 300)</h6>
+                            </div>
+                            <Button className="upload-img"
+                              onClick={(e) =>
+                                handleFileSelect(e, "footerImageUrl")
+                              }
+                            >
+                              Choose Your File
+                            </Button>
+                          </>
+                        )}
+
+                        <img className="footer-img" src={foot} />
+                        <div className="footer-text">
+                          {foot && (
+                            <button
+                              className="btn btn-outline-primary"
+                              title="Edit user"
+                            >
+                              <img
+                                src={path + "edit-button.svg"}
+                                alt="Edit"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleFileSelect(e, "footerImageUrl");
+                                }}
+                              />
+                            </button>
+                          )}
+                          {foot && (
+                            <button
+                              className="dlt_btn_event btn-voilet"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteFooterImage(e, "footerImageUrl");
+                              }}
+                            >
+                              <img
+                                title="Delete"
+                                src={path_image + "delete-icon.svg"}
+                                alt="Delete Row"
+                              />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      </div>:''}
+
+                      {/* <div className="form-group d-flex align-items-center less-spacer">
                         <label>Upload Footer</label>
                       <div
                         className="footer-section"
@@ -2999,7 +3070,8 @@ const WebinarRegistration = () => {
                           )}
                         </div>
                       </div>
-                      </div>
+                      </div> */}
+
                       {/* <div className="registration-preview">
                             <div className="registration-form-view">
 
