@@ -610,7 +610,7 @@ const Event = () => {
                 // </div>
                 <p  style={{ color: formData?.textColor }}
                 dangerouslySetInnerHTML={{
-                  __html: formData?.footerText,
+                  __html: formData?.footerText.includes('xxx') ? "Preparation date:  "+eventId?.eventDate : formData?.footerText,
                 }}
               />
               )}
