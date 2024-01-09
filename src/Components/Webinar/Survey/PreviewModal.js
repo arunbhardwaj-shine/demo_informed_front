@@ -12,6 +12,8 @@ const PreviewModal = ({ questions, onQuestionOrderChange }) => {
   // const [questionsList, setQuestionsList] = useState(questions);
   const [questionsList, setQuestionsList] = useState(filteredQuestions);
 
+  console.log(filteredQuestions,'filteredQuestions')
+
   const toggleAccordion = (index) => {
     setAccordionOpen((prevIndex) => (prevIndex === index ? null : index));
   };
