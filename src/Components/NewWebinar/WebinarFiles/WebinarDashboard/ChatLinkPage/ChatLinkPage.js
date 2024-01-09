@@ -246,6 +246,9 @@ const ChatLinkPage = () => {
     <>
       <Col className="right-sidebar custom-change">
         <div className="custom-container register-page create-change-content chatlink">
+          
+
+          <div className="d-flex justify-content-end header_btns">
           <Button
             onClick={(e) => {
               handlePreviewInNewTab(e);
@@ -253,8 +256,6 @@ const ChatLinkPage = () => {
           >
             Open Link
           </Button>
-
-          <div className="d-flex justify-content-center header_btns">
           <a
             // className={`copy_link btn-voilet`}
             className={`copy_link btn-voilet ${
@@ -271,14 +272,14 @@ const ChatLinkPage = () => {
               copyToClipboard(newLink);
             }}
           >
-            Copy Link
+            Copy Chat Link
           </a>
           </div>
-
-
+          
           <div className="row ">
             <div className="col-md-6 col-sm-6">
               <div className="chatlink-left">
+              <h6>(Recommended size 300 x 140)</h6>
                 {Object.entries(dynamicEventData).map(([field, value]) => (
                   <div
                     key={field}

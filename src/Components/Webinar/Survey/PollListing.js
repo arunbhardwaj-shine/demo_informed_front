@@ -110,10 +110,10 @@ export default function PollListing({location,eventIdContext}) {
     // }
   }, []);
 
-  useEffect(() => {
-    setQuestions(questionsOrder);
-    console.log("Saving questions:", questionsOrder);
-  }, [questionsOrder]);
+  // useEffect(() => {
+  //   setQuestions(questionsOrder);
+  //   console.log("Saving questions:", questionsOrder);
+  // }, [questionsOrder]);
 
   const getApiData = async (event_code) => {
     try {
@@ -692,7 +692,7 @@ export default function PollListing({location,eventIdContext}) {
   const handlePreview = (e, index) => {
     setIsPrevClicked(true);
     let ques=JSON.parse(JSON.stringify(questions))
-    setQuestionsOrder(JSON.parse(ques))
+    setQuestionsOrder(ques)
     // console.log(questionsOrder,'===>order1')
   };
 

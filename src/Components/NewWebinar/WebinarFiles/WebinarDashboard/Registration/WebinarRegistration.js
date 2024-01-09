@@ -2715,7 +2715,7 @@ const WebinarRegistration = () => {
                                       </div> */}
                                       </div>
                                     </div>
-                                    <div className="dropdown-style">
+                                    {/* <div className="dropdown-style">
                                       <h5>Select color of dropdown list:</h5>
                                       <div className="d-flex align-items-center reg-color-set">
                                         <div className="form-group d-flex align-items-center">
@@ -2806,7 +2806,7 @@ const WebinarRegistration = () => {
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
+                                    </div> */}
                                   </div>
                                 </div>
                               </div>
@@ -2837,7 +2837,7 @@ const WebinarRegistration = () => {
                           <>
                             <div>
                               <h5>Upload your file</h5>
-                              <h6>(Recommended size 000 x 000)</h6>
+                              <h6>(Recommended size 300 x 140)</h6>
                             </div>
                             <Button className="upload-img"
                               onClick={(e) =>
