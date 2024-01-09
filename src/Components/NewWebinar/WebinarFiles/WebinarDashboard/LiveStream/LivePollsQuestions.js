@@ -8,6 +8,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import QuestionPollsPieChart from './QuestionPollsPieChart';
 import { useSidebar } from '../../../../CommonComponent/LoginLayout';
 import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
+import { loader } from '../../../../../loader';
 
 import {
     collection,
@@ -83,8 +84,8 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         if (index !== -1) {
             currentIndex = index;
         }else{
-            const showAnswerIndex = questionData?.data?.data.findIndex(item => item?.showAnswerToUser === 1);
-            currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : 0
+            const showAnswerIndex = questionData?.data?.data.findIndex(item => item?.showQuestionToUser === 0);
+            currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : questionData?.data?.data?.length - 1;
         }
         if(slickRef.current){
             slickRef.current.slickGoTo(currentIndex);
@@ -185,14 +186,16 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
     
 
     const resetPolls = async() => {
+        hideConfirmationModal();
         try{
-            setApiCallStatus(true);
+            // setApiCallStatus(true);
+            loader("show");
             setPollAnsExist(false);
             const resetData = getData(ENDPOINT.RESETPOLL+"/"+eventData?.id);
         }catch(err){
+            loader("hide");
             console.log(err);
         }
-        hideConfirmationModal();
     }
 
     const hideConfirmationModal = () => {
@@ -246,17 +249,18 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                                                 <div>Not have any possible answers</div>
                                                             :
                                                             <>
-                                                                {item?.pollAnswers?.length ?
-                                                                    item?.pollAnswers?.map((answer, i) => {
-                                                                        return (<>
-                                                                            <div className='answer' key={i}>
-                                                                                <span>{String.fromCharCode(65 + i)}.</span>
-                                                                                <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
+                                                                {
+                                                                    // item?.pollAnswers?.length ?
+                                                                    //     item?.pollAnswers?.map((answer, i) => {
+                                                                    //         return (<>
+                                                                    //             <div className='answer' key={i}>
+                                                                    //                 <span>{String.fromCharCode(65 + i)}.</span>
+                                                                    //                 <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
 
-                                                                            </div>
-                                                                        </>)
-                                                                    })
-                                                                    : 
+                                                                    //             </div>
+                                                                    //         </>)
+                                                                    //     })
+                                                                    // : 
                                                                     item?.allUserAnswers?.length ?
                                                                         item?.allUserAnswers?.map((answer, i) => {
                                                                             return (<>
