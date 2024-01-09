@@ -294,16 +294,16 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                                              apiCallStatus ? 
                                                              <div class="inner-loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
                                                             :
-                                                            <div class="inner-loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
-                                                            // <div className='btn-group'>
-                                                            //     <label>Display:</label>
-                                                            //     <div className='btn-group-add'>
+                                                            // <div class="inner-loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
+                                                            <div className='btn-group'>
+                                                                <label>Display:</label>
+                                                                <div className='btn-group-add'>
                                                                     
-                                                            //         <Button className={item?.showQuestionToUser == 1 ? 'active quest' : item?.showQuestionToUser == 2 ? "visited quest" : "quest"} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"submit")}>Question</Button>
-                                                            //         <Button className={item?.showAnswerToUser == 1 ? 'active answer' : item?.showAnswerToUser == 2  ? 'visited answer' : 'answer'} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"answer")}>Answers</Button>
-                                                            //         <Button className={(item?.triggered == 1 || item?.showAnswerToUser == 1) ? 'close'  : 'close active'} onClick={(e) => closedClicked(e)}>Closed</Button>
-                                                            //     </div>
-                                                            // </div>
+                                                                    <Button className={item?.showQuestionToUser == 1 ? 'active quest' : item?.showQuestionToUser == 2 ? "visited quest" : "quest"} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"submit")}>Question</Button>
+                                                                    <Button className={item?.showAnswerToUser == 1 ? 'active answer' : item?.showAnswerToUser == 2  ? 'visited answer' : 'answer'} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"answer")}>Answers</Button>
+                                                                    <Button className={(item?.triggered == 1 || item?.showAnswerToUser == 1) ? 'close'  : 'close active'} onClick={(e) => closedClicked(e)}>Closed</Button>
+                                                                </div>
+                                                            </div>
                                                         }
                                                     </div>
                                             </div>
