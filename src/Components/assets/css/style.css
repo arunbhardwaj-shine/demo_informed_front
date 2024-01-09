@@ -11277,7 +11277,7 @@ html {
 }
 .create-change-content.register-page .form-group .logo-section img, .create-change-content.register-page .form-group .header-section img, .create-change-content.register-page .form-group .footer-section img{
 max-width: 300px;
-max-height:400px
+max-height:140px
 }
 
 .header-section h5, .logo-section h5, .footer-section h5 {
@@ -11309,7 +11309,9 @@ max-height:400px
   position: relative;
   margin-bottom: 20px;
 }
-
+.top-header.regi-web .header_btns {
+  gap: 16px;
+}
 .add_hcp_boxes #registration-form:after {
   border-bottom: 1px dashed #97B6CF;
   content: "";
@@ -11329,5 +11331,48 @@ max-height:400px
 .create-change-content.register-page .form-group.less-spacer label {
   flex: 0 0 155px;
   font-size: 18px;
+}
+.register-page-right-view .octapharma_event_content {
+  padding: 0 30px;
+}
+.register-page-right-view .octapharma_event_content h3 {
+  font-size: 20px;
+}
+.register-page-right-view .octapharma_event_content h4 {
+  font-size: 16px;
+}
+.register-page-right-view .eahad .header .header-text h3 {
+  font-size: 20px;
+}
+.register-page-right-view .eahad p.speaker-specialization {
+  margin: 16px 0 0;
+  font-size: 15px;
+}
+.register-page-right-view .eahad .octapharma_event .octapharma_event_form {
+  margin: 20px 0;
+}
+.register-page-right-view .eahad .octapharma_event .octapharma_event_form label {
+  font-size: 15px;
+}
+.register-page-right-view .eahad .consent-form .split-button-dropup>div:nth-child(3) {
+  padding: 2px 50px 2px 5px;
+  font-size: 15px;
+}
+.register-page-right-view .eahad .form-control {
+  padding: 7px 15px;
+  font-size: 15px;
+}
+.register-page-right-view .eahad .footer {
+  margin: 10px 0 0;
+  padding: 30px 30px 20px;
+}
+.eahad .footer-inner p {
+  font-size: 14px;
+  padding-right: 15px;
+}
+.eahad .footer-inner p.health-professional {
+  padding-top: 10px;
+  padding-right: 10px;
+  text-align: left;
 }
 /**Registration page end**/
