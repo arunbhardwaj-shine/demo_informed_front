@@ -192,7 +192,9 @@ export default function PollListing({location,eventIdContext}) {
       loader("show");
       const apiData = await getData(`/webinar/getQuestionByEventId/${id}`);
       let data = apiData.data.data;
-
+      if(data?.length == 0){
+        loader("hide");
+      }
       data = data.map((d) => {
         const answerOptionError = d?.answerOption?.map((data) => {
           return {
@@ -236,7 +238,7 @@ export default function PollListing({location,eventIdContext}) {
               },
             },
           ];
-      // loader("hide");
+      
       const deepCopyApiData = JSON.parse(JSON.stringify(data));
 
       setOriginalQuestions(deepCopyApiData);
