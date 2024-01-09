@@ -231,16 +231,17 @@ const Sidebar = () => {
   const isActiveContact = location.pathname === '/webinar/live-stream/contact-dm'
   const isActiveSpeaker = location.pathname === '/webinar/live-stream/speaker-zone'
   const isActiveSettings = location.pathname === '/webinar/live-stream/settings'
+  const isActiveChatPage = location.pathname === '/webinar/live-stream/chat-link'
 
   return (
     <>
       <div className="left-sidebar">
         <div className="sidebar-menu">
-          {window.location.pathname === "/webinar/invitees" || window.location.pathname === "/webinar/chat-link" ||
+          {window.location.pathname === "/webinar/invitees" ||
             window.location.pathname == "/webinar/registration" ||
             window.location.pathname == "/webinar/email" ||
             window.location.pathname == "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/live-stream/polls-layout" ||
+            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/webinar/live-stream/chat-link" || 
             window.location.pathname == "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/settings"
             || window.location.pathname === "/webinar/live-stream/speaker-zone" ? (
             <>
@@ -264,11 +265,11 @@ const Sidebar = () => {
             <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
           </button> */}
 
-          {!(window.location.pathname === "/webinar/invitees" || window.location.pathname === "/webinar/chat-link" ||
+          {!(window.location.pathname === "/webinar/invitees" ||
             window.location.pathname === "/webinar/registration" ||
             window.location.pathname === "/webinar/email" ||
             window.location.pathname === "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/live-stream/polls-layout" ||
+            window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/webinar/live-stream/chat-link" ||
             window.location.pathname === "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/contact-dm" || window.location.pathname === "/webinar/live-stream/settings" 
             || window.location.pathname === "/webinar/live-stream/speaker-zone") && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
@@ -1093,31 +1094,17 @@ const Sidebar = () => {
               ) : null}
             </ul>
           ) : 
-          window.location.pathname == "/webinar/invitees" || window.location.pathname === "/webinar/chat-link" ||
+          window.location.pathname == "/webinar/invitees" ||
               window.location.pathname == "/webinar/registration" ||
               window.location.pathname == "/webinar/email" ||
               window.location.pathname == "/webinar/live-stream" || 
-               window.location.pathname == "/webinar/live-stream/polls-layout" ||  
+               window.location.pathname == "/webinar/live-stream/polls-layout" ||    window.location.pathname == "/webinar/live-stream/chat-link" ||  
                window.location.pathname == "/webinar/live-stream/contact-dm" || 
                 window.location.pathname === "/webinar/live-stream/settings" ||
                  window.location.pathname === "/webinar/live-stream/speaker-zone" ||
               window.location.pathname == "/webinar/analytics" ?
            (
             <ul>
-              <li
-                  className={
-                    location.pathname == "/webinar/chat-link"
-                      ? "active"
-                      : "side_li"
-                  }
-                >
-                  <Link to={"/webinar/chat-link"}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
-                    <path d="M14.483 4.36793C15.5927 5.0637 16.3708 6.24109 16.5125 7.60777C16.965 7.81923 17.4673 7.94083 17.9999 7.94083C19.944 7.94083 21.5197 6.36509 21.5197 4.42125C21.5197 2.47711 19.944 0.901367 17.9999 0.901367C16.0743 0.901966 14.5123 2.44955 14.483 4.36793ZM12.177 11.5748C14.1212 11.5748 15.6969 9.99878 15.6969 8.05494C15.6969 6.1111 14.1209 4.53536 12.177 4.53536C10.2332 4.53536 8.65653 6.1114 8.65653 8.05524C8.65653 9.99908 10.2332 11.5748 12.177 11.5748ZM13.6701 11.8147H10.6833C8.19828 11.8147 6.17656 13.8367 6.17656 16.3218V19.9744L6.18585 20.0316L6.43744 20.1104C8.80899 20.8513 10.8693 21.0984 12.5652 21.0984C15.8775 21.0984 17.7974 20.1541 17.9157 20.0939L18.1508 19.975H18.176V16.3218C18.1769 13.8367 16.1551 11.8147 13.6701 11.8147ZM19.4935 8.18104H16.5298C16.4978 9.36681 15.9916 10.4346 15.191 11.2025C17.3999 11.8594 19.0161 13.9077 19.0161 16.3272V17.4528C21.9423 17.3455 23.6286 16.5162 23.7397 16.4605L23.9748 16.3413H24V12.6875C24 10.2028 21.9783 8.18104 19.4935 8.18104ZM6.00075 7.94143C6.68933 7.94143 7.32999 7.74045 7.87271 7.39811C8.04523 6.27284 8.64845 5.28954 9.51015 4.61982C9.51374 4.55393 9.52003 4.48864 9.52003 4.42215C9.52003 2.47801 7.94399 0.902266 6.00075 0.902266C4.05631 0.902266 2.48087 2.47801 2.48087 4.42215C2.48087 6.36539 4.05631 7.94143 6.00075 7.94143ZM9.16181 11.2025C8.36511 10.4385 7.86073 9.3764 7.82389 8.19781C7.71396 8.18972 7.60524 8.18104 7.49322 8.18104H4.50678C2.02171 8.18104 0 10.2028 0 12.6875V16.3407L0.00928491 16.397L0.260876 16.4764C2.16338 17.0703 3.86133 17.344 5.33613 17.4303V16.3272C5.33673 13.9077 6.9523 11.86 9.16181 11.2025Z" fill="#0066BE" fill-opacity="0.6"/>
-                  </svg>
-                    <p>Chat Link Page</p>
-                  </Link>
-                </li>
                 <li
                   className={
                     location.pathname == "/webinar/invitees"
@@ -1167,7 +1154,7 @@ const Sidebar = () => {
 
                 <li
                   className={
-                    location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/webinar/live-stream/contact-dm" 
+                    location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/webinar/live-stream/contact-dm" || location.pathname == "/webinar/live-stream/chat-link"
                     || window.location.pathname === "/webinar/live-stream/settings" || window.location.pathname === "/webinar/live-stream/speaker-zone"
                       ? "active sub-links"
                       : "side_li sub-links"
@@ -1241,6 +1228,26 @@ const Sidebar = () => {
                               </defs>
                             </svg>
                             <p>Speaker Zone</p>
+                          </Link>
+                        </li>
+                        <li className={isActiveChatPage ? 'active' : 'side_li'}
+                        // className="side_li"
+                        >
+                          <Link to="/webinar/live-stream/chat-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <g clip-path="url(#clip0_3761_88)">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499864 0L1 3.9837e-06H1.50015C1.7763 3.9837e-06 2 0.223861 2 0.500003V0.999988H16.3937C16.7272 0.999988 17 1.24225 17 1.53835V4.46163C17 4.76311 16.7272 4.99999 16.3937 4.99999H2V9.99999H14.3207C14.7011 9.99999 15 10.2369 15 10.5383V13.4616C15 13.7577 14.7011 14 14.3207 14H2V19H11.273C11.6728 19 12 19.2419 12 19.5376V22.4624C12 22.7581 11.6728 23 11.273 23H2V23.5C2 23.7761 1.7763 24 1.50015 24H1H0.499847C0.223704 24 0 23.7761 0 23.5V0.500006C0 0.223857 0.223715 -4.27361e-06 0.499864 0Z" fill="#0066BE" fill-opacity="0.6"/>
+                                <path d="M21.3807 2.79292C22.152 2.79292 22.7772 2.16763 22.7772 1.3964C22.7772 0.625179 22.1519 0 21.3807 0C20.6095 0 19.9839 0.625297 19.9839 1.39652C19.9839 2.16775 20.6095 2.79292 21.3807 2.79292ZM21.9731 2.88811H20.7881C19.8021 2.88811 19 3.69035 19 4.6763L19.01 5.55402L19.0137 5.57672L19.1135 5.60797C20.0544 5.90196 20.8719 6 21.5447 6C22.8589 6 23.6206 5.62532 23.6675 5.60144L23.7608 5.55426H23.7708L23.7608 4.6763C23.7611 3.69035 22.959 2.88811 21.9731 2.88811Z" fill="#0066BE" fill-opacity="0.6"/>
+                                <path d="M21.3807 11.7929C22.152 11.7929 22.7772 11.1676 22.7772 10.3964C22.7772 9.62518 22.1519 9 21.3807 9C20.6095 9 19.9839 9.6253 19.9839 10.3965C19.9839 11.1677 20.6095 11.7929 21.3807 11.7929ZM21.9731 11.8881H20.7881C19.8021 11.8881 19 12.6903 19 13.6763L19.01 14.554L19.0137 14.5767L19.1135 14.608C20.0544 14.902 20.8719 15 21.5447 15C22.8589 15 23.6206 14.6253 23.6675 14.6014L23.7608 14.5543H23.7708L23.7608 13.6763C23.7611 12.6903 22.959 11.8881 21.9731 11.8881Z" fill="#0066BE" fill-opacity="0.6"/>
+                                <path d="M21.3807 19.7929C22.152 19.7929 22.7772 19.1676 22.7772 18.3964C22.7772 17.6252 22.1519 17 21.3807 17C20.6095 17 19.9839 17.6253 19.9839 18.3965C19.9839 19.1677 20.6095 19.7929 21.3807 19.7929ZM21.9731 19.8881H20.7881C19.8021 19.8881 19 20.6903 19 21.6763L19.01 22.554L19.0137 22.5767L19.1135 22.608C20.0544 22.902 20.8719 23 21.5447 23C22.8589 23 23.6206 22.6253 23.6675 22.6014L23.7608 22.5543H23.7708L23.7608 21.6763C23.7611 20.6903 22.959 19.8881 21.9731 19.8881Z" fill="#0066BE" fill-opacity="0.6"/>
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3761_88">
+                                  <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                              </defs>
+                            </svg>
+                            <p>Chat Link Page</p>
                           </Link>
                         </li>
                         <li className={isActivePolls ? 'active' : 'side_li'}
@@ -1336,28 +1343,14 @@ const Sidebar = () => {
                 </li>
               </ul>
           ) :
-          window.location.pathname == "/webinar/invitees" ||  window.location.pathname == "/webinar/chat-link" ||
+          window.location.pathname == "/webinar/invitees" ||
                 window.location.pathname == "/webinar/registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
-                window.location.pathname == "/webinar/live-stream/polls-layout" ||
+                window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/webinar/live-stream/chat-link" ||
                 window.location.pathname == "/webinar/analytics" ?
               (
                 <ul>
-                  <li
-                    className={
-                      location.pathname == "/webinar/chat-link"
-                        ? "active"
-                        : "side_li"
-                    }
-                  >
-                    <Link to={"/webinar/chat-link"}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
-                        <path d="M14.483 4.36793C15.5927 5.0637 16.3708 6.24109 16.5125 7.60777C16.965 7.81923 17.4673 7.94083 17.9999 7.94083C19.944 7.94083 21.5197 6.36509 21.5197 4.42125C21.5197 2.47711 19.944 0.901367 17.9999 0.901367C16.0743 0.901966 14.5123 2.44955 14.483 4.36793ZM12.177 11.5748C14.1212 11.5748 15.6969 9.99878 15.6969 8.05494C15.6969 6.1111 14.1209 4.53536 12.177 4.53536C10.2332 4.53536 8.65653 6.1114 8.65653 8.05524C8.65653 9.99908 10.2332 11.5748 12.177 11.5748ZM13.6701 11.8147H10.6833C8.19828 11.8147 6.17656 13.8367 6.17656 16.3218V19.9744L6.18585 20.0316L6.43744 20.1104C8.80899 20.8513 10.8693 21.0984 12.5652 21.0984C15.8775 21.0984 17.7974 20.1541 17.9157 20.0939L18.1508 19.975H18.176V16.3218C18.1769 13.8367 16.1551 11.8147 13.6701 11.8147ZM19.4935 8.18104H16.5298C16.4978 9.36681 15.9916 10.4346 15.191 11.2025C17.3999 11.8594 19.0161 13.9077 19.0161 16.3272V17.4528C21.9423 17.3455 23.6286 16.5162 23.7397 16.4605L23.9748 16.3413H24V12.6875C24 10.2028 21.9783 8.18104 19.4935 8.18104ZM6.00075 7.94143C6.68933 7.94143 7.32999 7.74045 7.87271 7.39811C8.04523 6.27284 8.64845 5.28954 9.51015 4.61982C9.51374 4.55393 9.52003 4.48864 9.52003 4.42215C9.52003 2.47801 7.94399 0.902266 6.00075 0.902266C4.05631 0.902266 2.48087 2.47801 2.48087 4.42215C2.48087 6.36539 4.05631 7.94143 6.00075 7.94143ZM9.16181 11.2025C8.36511 10.4385 7.86073 9.3764 7.82389 8.19781C7.71396 8.18972 7.60524 8.18104 7.49322 8.18104H4.50678C2.02171 8.18104 0 10.2028 0 12.6875V16.3407L0.00928491 16.397L0.260876 16.4764C2.16338 17.0703 3.86133 17.344 5.33613 17.4303V16.3272C5.33673 13.9077 6.9523 11.86 9.16181 11.2025Z" fill="#0066BE" fill-opacity="0.6" />
-                      </svg>
-                      <p>Chat Link Page</p>
-                    </Link>
-                  </li>
                   <li
                     className={
                       location.pathname == "/webinar/invitees"
@@ -1547,28 +1540,14 @@ const Sidebar = () => {
                   </li>
                 </ul>
               ) :
-              window.location.pathname == "/webinar/invitees" || window.location.pathname == "/webinar/chat-link" ||
+              window.location.pathname == "/webinar/invitees" ||
                 window.location.pathname == "/webinar/registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
-                window.location.pathname == "/webinar/live-stream/polls-layout" ||
+                window.location.pathname == "/webinar/live-stream/polls-layout" ||   window.location.pathname == "/webinar/live-stream/chat-link" ||
                 window.location.pathname == "/webinar/analytics" ?
                 (
                   <ul>
-                      <li
-                      className={
-                        location.pathname == "/webinar/chat-lnk"
-                          ? "active"
-                          : "side_li"
-                      }
-                    >
-                      <Link to={"/webinar/chat-link"}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
-                          <path d="M14.483 4.36793C15.5927 5.0637 16.3708 6.24109 16.5125 7.60777C16.965 7.81923 17.4673 7.94083 17.9999 7.94083C19.944 7.94083 21.5197 6.36509 21.5197 4.42125C21.5197 2.47711 19.944 0.901367 17.9999 0.901367C16.0743 0.901966 14.5123 2.44955 14.483 4.36793ZM12.177 11.5748C14.1212 11.5748 15.6969 9.99878 15.6969 8.05494C15.6969 6.1111 14.1209 4.53536 12.177 4.53536C10.2332 4.53536 8.65653 6.1114 8.65653 8.05524C8.65653 9.99908 10.2332 11.5748 12.177 11.5748ZM13.6701 11.8147H10.6833C8.19828 11.8147 6.17656 13.8367 6.17656 16.3218V19.9744L6.18585 20.0316L6.43744 20.1104C8.80899 20.8513 10.8693 21.0984 12.5652 21.0984C15.8775 21.0984 17.7974 20.1541 17.9157 20.0939L18.1508 19.975H18.176V16.3218C18.1769 13.8367 16.1551 11.8147 13.6701 11.8147ZM19.4935 8.18104H16.5298C16.4978 9.36681 15.9916 10.4346 15.191 11.2025C17.3999 11.8594 19.0161 13.9077 19.0161 16.3272V17.4528C21.9423 17.3455 23.6286 16.5162 23.7397 16.4605L23.9748 16.3413H24V12.6875C24 10.2028 21.9783 8.18104 19.4935 8.18104ZM6.00075 7.94143C6.68933 7.94143 7.32999 7.74045 7.87271 7.39811C8.04523 6.27284 8.64845 5.28954 9.51015 4.61982C9.51374 4.55393 9.52003 4.48864 9.52003 4.42215C9.52003 2.47801 7.94399 0.902266 6.00075 0.902266C4.05631 0.902266 2.48087 2.47801 2.48087 4.42215C2.48087 6.36539 4.05631 7.94143 6.00075 7.94143ZM9.16181 11.2025C8.36511 10.4385 7.86073 9.3764 7.82389 8.19781C7.71396 8.18972 7.60524 8.18104 7.49322 8.18104H4.50678C2.02171 8.18104 0 10.2028 0 12.6875V16.3407L0.00928491 16.397L0.260876 16.4764C2.16338 17.0703 3.86133 17.344 5.33613 17.4303V16.3272C5.33673 13.9077 6.9523 11.86 9.16181 11.2025Z" fill="#0066BE" fill-opacity="0.6" />
-                        </svg>
-                        <p>Chat Link Page</p>
-                      </Link>
-                    </li>
                     <li
                       className={
                         location.pathname == "/webinar/invitees"

@@ -9,7 +9,7 @@ import { loader } from "../loader";
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const SessionModel = ({ show, onClose, data, eventData }) => {
+const SessionModel = ({ show, onClose, data, eventData, designData }) => {
   const [searchParams] = useSearchParams();
   let parms=searchParams.get('evnt');
   const [user, setUser] = useState([]);
@@ -130,27 +130,28 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
       className={`session-modal ${shouldAddClass ? "eahad_2024" : ""}`}
       centered
     >
-      <Modal.Header>
+      <Modal.Header style={{ background: designData?.headerBackgroundColor }}>
         <Modal.Title id="contained-modal-title-vcenter">
           {/* <img
             // src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
             src={path_image+'FVIII_logo.png'} 
             alt="logo"
           /> */}
-          <img  src={`${parms?.includes("eahad_2024")?"https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png":path_image+'FVIII_logo.png'}`}alt="Factor logo" />
+          <img  src={designData?.logoImageUrl} alt="logo" />
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="popup-content">
           {user?.map((item, index) => (
             <>
-              {
+              {/* {
                 item?.groupId == 0 && item?.canCustomAnswer == 1 ?
                 <p className="event_sub_heading">Please consider the overall meeting when answering the following questions</p>
                 :
                 <p className="event_sub_heading">Thank you for attending the Factor VIII Relevance Academy. We would be very grateful if you would complete and return this evaluation form. Your feedback will help us in our efforts to provide high-quality scientific meetings in the future.</p>
-              }
+              } */}
               <h4
+                  style={{ color: item?.questionColor }}
                   dangerouslySetInnerHTML={{
                     __html: item?.parentQuestion,
                   }}
@@ -163,6 +164,9 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                   onChange={(e) =>
                     handleChange(item?.parentId, e.target.value, "input")
                   }
+                  style={{
+                    borderColor: item?.answerColor,
+                  }}
                   name="w3review"
                   rows="4"
                   cols="50"
@@ -188,10 +192,15 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                       <div className={item?.hasParent ? "form-group head" : "form-group head no_child"}>
                         <label></label>
                         <div className="check-group">
-                          {value?.answerData?.map((item, index) => {
+                          {value?.answerData?.map((newitem, index) => {
                             return (
                               <>
-                                <span>{item?.answer}</span>
+                                <span
+                                style={{ color: item?.questionColor }}
+                                dangerouslySetInnerHTML={{
+                                  __html: newitem?.answer
+                                }}
+                                ></span>
                               </>
                             );
                           })}
@@ -203,6 +212,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                       {
                         item?.hasParent ? 
                           <label
+                            style={{ color: item?.questionColor }}
                             dangerouslySetInnerHTML={{ __html: value?.question }}
                           />
                         : null  
@@ -220,6 +230,9 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                                     name="w3review"
                                     rows="4"
                                     cols="50"
+                                    style={{
+                                      borderColor: item?.answerColor,
+                                    }}
                                   />
                                 ) : (
                                   <div className="check-values">
@@ -231,10 +244,14 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                                       name={value?.question}
                                       value={childValue?.answer}
                                       id={"ans_"+index}
+                                      
                                     />
-                                    <span className="checkmark"></span>
+                                    <span className="checkmark" style={{
+                                        background: designData?.headerBackgroundColor,
+                                        borderColor: item?.answerColor,
+                                      }}></span>
                                     {
-                                      !item?.hasParent ? <label for={"ans_"+index}>{childValue?.answer}</label> : null
+                                      !item?.hasParent ? <label style={{color: item?.answerColor}} for={"ans_"+index}>{childValue?.answer}</label> : null
                                     }
                                   </div>
                                 )}
@@ -251,6 +268,9 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
                             name="w3review"
                             rows="4"
                             cols="50"
+                            style={{
+                              borderColor: item?.answerColor,
+                            }}
                           />
                         ) : (
                           ""
@@ -271,7 +291,7 @@ const SessionModel = ({ show, onClose, data, eventData }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={handleSubmit}>Submit</Button>
+        <Button onClick={handleSubmit} style={{ background: designData?.buttonColor }}>Submit</Button>
       </Modal.Footer>
     </Modal>
   );

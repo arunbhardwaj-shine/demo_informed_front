@@ -149,7 +149,7 @@ function Question(props) {
                   onChange={(e) =>
                     onQuestionColorChange(e, index)
                   }
-                  defaultValue={questionData?.questionColor}
+                  value={questionData?.questionColor}
                 />
               </div>
               </div>
@@ -168,7 +168,7 @@ function Question(props) {
                     onChange={(e) =>
                       onAnswerColorChange(e, index)
                     }
-                    defaultValue={questionData?.answerColor}
+                    value={questionData?.answerColor}
                   />
                 </div>
               </div>
@@ -321,7 +321,7 @@ function Question(props) {
                                   onChange={(e) =>
                                     onChoiceColorChange(e, index)
                                   }
-                                  defaultValue={choice.color}
+                                  value={choice.color}
                                 />
                               </div>
                             </div>
