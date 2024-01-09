@@ -718,18 +718,12 @@ export default function PollListing({location,eventIdContext}) {
         eventId:event_code,
         pollsData:payloadOrder
       };
-      console.log("====>payload", payload);
-
       const response = await postData(
         ENDPOINT.CHANGEPOLLSORDER,
         payload
       );
       setIsPrevClicked(false);
       setQuestions(JSON.parse(JSON.stringify(questionsOrder)))
-      console.log("questions:", questionsOrder)
-    
-            // console.log(response?.data.message);
-      // // setIsPrevClicked(false);
       toast.success(response?.data.message, {
         position: "top-right",
         autoClose: 5000,
