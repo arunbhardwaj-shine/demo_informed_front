@@ -154,7 +154,8 @@ export const ENDPOINT = {
   WEBINAR_UPDATE_HCP_STATUS: "/webinar/update-hcp-status",
   WEBINAR_DELETE_USER: "/webinar/delete-user",
   WEBINAR_BLOCK_UNBLOCK_USER: "/webinar/block-unblock-user",
-  WEBINAR_EVENT_DM_LISTING:"webinar/event-dm-listing",
+  // WEBINAR_EVENT_DM_LISTING:"webinar/event-dm-listing",
+  WEBINAR_EVENT_DM_LISTING:"api/get-contact-us-data",
   WEBINAR_SETTINGS_UPDATE:"webinar/event-setting",
   WEBINAR_SETTINGS_GET:"webinar/get-event-setting",
   WEBINAR_EVENT_QUESTION_ANSWER:"webinar/event-question-answer",
@@ -166,4 +167,5 @@ export const ENDPOINT = {
   STORECHATLINKDATA:"webinar/store-chat-link-data",
   GETCHATLINKDATA:"webinar/get-chat-link-data",
   CHANGEPOLLSORDER:"webinar/change-polls-order",
+  RESETPOLL:"webinar/reset-polls",
 };

@@ -103,11 +103,12 @@ const NewEventCreate = () => {
           } catch (e) {
             return item?.speaker_name
               ? [{ speakerName: item?.speaker_name }]
-              : [{ speakerName: "" }];
+              : [{ speakerName: "N/A" }];
           }
         });
-
         setSpeakerName(speakerName);
+
+     
         setRawDescription(raw_description);
         let data = response?.data?.data?.data;
         data = data?.map((item, element) => {
@@ -117,9 +118,7 @@ const NewEventCreate = () => {
             eventStatus: status,
           };
         });
-        // console.log(data);
-        // // console.log(response?.data?.data?.data);
-
+       
         setIsData(data);
         setApiData(data);
         if (
@@ -134,6 +133,18 @@ const NewEventCreate = () => {
         let raw_description = response?.data?.data?.data.map((d) =>
           d?.raw_description ? JSON.parse(d?.raw_description) : {}
         );
+
+        let speaker = raw_description?.map((item, index) => {
+          try {
+            return JSON.parse(item?.speaker_name);
+          } catch (e) {
+            return item?.speaker_name
+              ? [{ speaker: item?.speaker_name }]
+              : [{ speaker: "" }];
+          }
+        });
+
+        setSpeakerName([...speakerName,...speaker]);
         setRawDescription(raw_description);
         let data = response?.data?.data?.data;
         data = data?.map((item, element) => {
@@ -239,13 +250,12 @@ const NewEventCreate = () => {
       state: {eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title},
     });
   };
-  const liveStream = (item) => {
+  const liveStream = (e,item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream");
   };
   const webinarPollingForm = (e, item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    console.log(item)
     if(item?.is_chat_link_created === 0){
       navigate('/webinar/chat-link')
     }else{
@@ -255,7 +265,7 @@ const NewEventCreate = () => {
   }
   };
 
-  const webinarEmailForm = (item) => {
+  const webinarEmailForm = (e,item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/email");
   };
@@ -415,7 +425,6 @@ const NewEventCreate = () => {
     let liveEvents = [];
     let comingEvents = [];
     let endEvents = [];
-    // console.log(otherFilter,"otherFilterotherFilter");
     if (otherFilter.Event?.length > 0) {
       otherFilter.Event.forEach((filter) => {
         switch (filter) {
@@ -455,7 +464,6 @@ const NewEventCreate = () => {
     })
     setIsData(filterData);
     setShowFilter(false);
-    // console.log(flag);
     if (flag) {
 
       setShowFilterSection(false);
@@ -473,8 +481,6 @@ const NewEventCreate = () => {
     setOtherFilter({
       [tag]: appliedFilterSample
     })
-
-    // console.log(appliedFilterSample?.length);
     if (!appliedFilterSample.length) {
       setShowFilterSection(false);
       applyFilter("", 1)
@@ -531,7 +537,6 @@ const NewEventCreate = () => {
 
     const timeDifference = date2.getTime() - date1.getTime(); // Get the time difference in milliseconds
     const dayDifference = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
-    // console.log(dayDifference); // Output: 4
     return dayDifference;
   };
 
@@ -1068,7 +1073,7 @@ const NewEventCreate = () => {
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
-                                    liveStream(item);
+                                    liveStream(e,item);
                                     e.stopPropagation();
                                   }}
                                 >
@@ -1080,11 +1085,17 @@ const NewEventCreate = () => {
                                 </button>
                               </div>
                               <div className="event-title" onClick={() => handleCardClick(item)}>{item?.title}</div>
-                              <div className="speaker-name">
-                                <span>Speaker</span>{" "}
-                                {speakerName[index]
-                                  ?.map((item, i) => item?.speakerName)
-                                  .join(" , ")}
+                              <div>
+                                <div className="speaker-name">
+                                  <span>Speaker</span>{" "}
+                                  {speakerName[index]
+                                    ?.map((item, i) => item?.speakerName)
+                                    .join(" , ")}
+                                </div>
+                                <div className="speaker-name">
+                                  <span>Owner</span>{" "}
+                                  {localStorage.getItem("name") != "" ? localStorage.getItem("name") : ""}
+                                </div>
                               </div>
                               <div className="event-details d-flex justify-content-end align-items-center">
                                 <div className="time-left">
@@ -1098,7 +1109,7 @@ const NewEventCreate = () => {
                                         <span className="days-left">
                                           {differenceDays(item?.dateStart)}
                                         </span>
-                                        Days Left
+                                        Days left
                                       </>
                                     ) : (
                                       // " Days Left"
@@ -1108,7 +1119,7 @@ const NewEventCreate = () => {
                                 </div>
                                 <div className="event-date">
                                   {formatDate(item?.dateStart)} |{" "}
-                                  {`${item?.dateStartHour}:${item?.dateStartMin.length == 1
+                                  {`${item?.dateStartHour > 12 ? parseInt(item?.dateStartHour) - 12 : item?.dateStartHour}:${item?.dateStartMin.length == 1
                                     ? "0" + item?.dateStartMin
                                     : item?.dateStartMin
                                     } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
@@ -1177,7 +1188,7 @@ const NewEventCreate = () => {
                     })}
                   </>
                 ) : apiStatus == true ? (
-                  <div class="email_box_block no_found">
+                  <div className="email_box_block no_found">
                     <p>No Data Found</p>
                   </div>
                 ) : (
