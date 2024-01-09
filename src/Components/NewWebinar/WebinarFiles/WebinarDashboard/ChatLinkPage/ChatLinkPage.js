@@ -27,7 +27,7 @@ const ChatLinkPage = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [logo, setLogo] = useState("");
   const [defaultLogo, setDefaultLogo] = useState();
-  const [isDataSaved, setIsDataSaved] = useState(false);
+  const [isDataSaved, setIsDataSaved] = useState(true);
 
   const [dynamicContent, setDynamicContent] = useState(() => {
     const initialState = {};
@@ -59,18 +59,17 @@ const ChatLinkPage = () => {
         `${ENDPOINT.GETCHATLINKDATA}/${eventData?.eventId}`
       );
       const { chatLinkData } = response?.data?.data;
-
+      setIsDataSaved(false);
+      // console.log(isDataSaved,'===>isdata1')
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
         setDynamicContent(chatLinkData);
         setFormData(chatLinkData);
         setLogo(chatLinkData?.logoImageUrl);
       } else {
-        console.log("Chat link data is empty or undefined.");
         setLogo(dynamicContent?.logoImageUrl);
       }
     } catch (error) {
       setLogo(dynamicContent?.logoImageUrl);
-
       console.error("Error fetching settings:", error);
     } finally {
       loader("hide");
@@ -178,6 +177,8 @@ const ChatLinkPage = () => {
       ...prevContent,
       [field]: value,
     }));
+    setIsDataSaved(false);
+    // console.log(isDataSaved,'===>isdata')
   };
 
   const copyToClipboard = (content) => {
@@ -211,10 +212,11 @@ const ChatLinkPage = () => {
         eventId: eventData?.eventId,
         companyId: eventData?.companyId,
       };
-      console.log(payload, "====>payload");
+      // console.log(payload, "====>payload");
       const response = await postData(ENDPOINT.STORECHATLINKDATA, payload);
       setFormData(dynamicContent);
       setIsDataSaved(true);
+      // console.log(isDataSaved,'===>isdata')
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -222,29 +224,57 @@ const ChatLinkPage = () => {
     }
   };
 
+  const handlePreviewInNewTab = async (e, newLink) => {
+    e.preventDefault();
+
+    try {
+      await navigator.clipboard.writeText(
+        `${`https://informed.pro/event?evnt=${eventData?.eventCode}`}`
+      );
+
+      // Open link in a new tab
+      window.open(
+        `${`https://informed.pro/event?evnt=${eventData?.eventCode}`}`,
+        "_blank"
+      );
+    } catch (error) {
+      console.error("Error preview in new window:", error);
+    }
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
         <div className="custom-container register-page create-change-content chatlink">
-          <Button>Open Link</Button>
+          <Button
+            onClick={(e) => {
+              handlePreviewInNewTab(e);
+            }}
+          >
+            Open Link
+          </Button>
 
+          <div className="d-flex justify-content-center header_btns">
           <a
-            className={`copy_link btn-voilet`}
-            href={`localhost:3000/event?=${eventData?.eventId}`}
+            // className={`copy_link btn-voilet`}
+            className={`copy_link btn-voilet ${
+              !isDataSaved ? "disabled" : ""
+            }`}
+            href={`https://informed.pro/event?evnt=${eventData?.eventCode}`}
             onClick={(e) => {
               e.preventDefault();
-              // if (!isDataSaved) {
-              //   return;
-              // }
+              if (!isDataSaved) {
+                return;
+              }
               console.dir();
-              let newLink = `${
-                e.currentTarget.host
-              }/${e.currentTarget.getAttribute("href")}`;
+              let newLink = `${e.currentTarget.getAttribute("href")}`;
               copyToClipboard(newLink);
             }}
           >
             Copy Link
           </a>
+          </div>
+
 
           <div className="row ">
             <div className="col-md-6 col-sm-6">
@@ -540,7 +570,8 @@ const ChatLinkPage = () => {
                              
                               Preparation date: 7-8 December 2023
                             </p> */}
-                        <p  style={{ color: formData?.textColor }}
+                        <p
+                          style={{ color: formData?.textColor }}
                           dangerouslySetInnerHTML={{
                             __html: formData?.footerText,
                           }}

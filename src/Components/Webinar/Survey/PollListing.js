@@ -110,6 +110,11 @@ export default function PollListing({location,eventIdContext}) {
     // }
   }, []);
 
+  useEffect(() => {
+    setQuestions(questionsOrder);
+    console.log("Saving questions:", questionsOrder);
+  }, [questionsOrder]);
+
   const getApiData = async (event_code) => {
     try {
       // loader("show");
@@ -252,11 +257,24 @@ export default function PollListing({location,eventIdContext}) {
     updatedQuestions[key].questionData.questionColor = e.target.value;
     setQuestions(updatedQuestions);
   };
+
+  // const handleQuestionColorChange = (e, key) => {
+  //   const updatedQuestionsOrder = [...questionsOrder];
+  //   updatedQuestionsOrder[key].questionData.questionColor = e.target.value;
+  //   setQuestionsOrder(updatedQuestionsOrder);
+  // };
+
   const handleAnswerColorChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.answerColor = e.target.value;
     setQuestions(updatedQuestions);
   };
+
+  // const handleAnswerColorChange = (e, key) => {
+  //   const updatedQuestionsOrder = [...questionsOrder];
+  //   updatedQuestionsOrder[key].questionData.answerColor = e.target.value;
+  //   setQuestionsOrder(updatedQuestionsOrder);
+  // };
   const handleTypeChange = (e, key) => {
     const updatedQuestions = [...questions];
 
@@ -673,8 +691,9 @@ export default function PollListing({location,eventIdContext}) {
 
   const handlePreview = (e, index) => {
     setIsPrevClicked(true);
-    setQuestionsOrder(JSON.parse(JSON.stringify(questions)))
-    console.log(questionsOrder,'===>order1')
+    let ques=JSON.parse(JSON.stringify(questions))
+    setQuestionsOrder(JSON.parse(ques))
+    // console.log(questionsOrder,'===>order1')
   };
 
   const handleClose = () => {
@@ -695,7 +714,6 @@ export default function PollListing({location,eventIdContext}) {
         id: item?.questionData?.id
       }));
       const payload = {
-
         eventId:event_code,
         pollsData:payloadOrder
       };
@@ -706,7 +724,8 @@ export default function PollListing({location,eventIdContext}) {
         payload
       );
       setIsPrevClicked(false);
-      setQuestions(questionsOrder)
+      setQuestions(JSON.parse(JSON.stringify(questionsOrder)))
+      console.log("questions:", questionsOrder)
     
             // console.log(response?.data.message);
       // // setIsPrevClicked(false);
