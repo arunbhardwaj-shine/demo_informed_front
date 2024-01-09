@@ -8,6 +8,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import QuestionPollsPieChart from './QuestionPollsPieChart';
 import { useSidebar } from '../../../../CommonComponent/LoginLayout';
 import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
+import { loader } from '../../../../../loader';
 
 import {
     collection,
@@ -83,8 +84,8 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         if (index !== -1) {
             currentIndex = index;
         }else{
-            const showAnswerIndex = questionData?.data?.data.findIndex(item => item?.showAnswerToUser === 1);
-            currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : 0
+            const showAnswerIndex = questionData?.data?.data.findIndex(item => item?.showQuestionToUser === 0);
+            currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : questionData?.data?.data?.length - 1;
         }
         if(slickRef.current){
             slickRef.current.slickGoTo(currentIndex);
@@ -185,14 +186,16 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
     
 
     const resetPolls = async() => {
+        hideConfirmationModal();
         try{
-            setApiCallStatus(true);
+            // setApiCallStatus(true);
+            loader("show");
             setPollAnsExist(false);
             const resetData = getData(ENDPOINT.RESETPOLL+"/"+eventData?.id);
         }catch(err){
+            loader("hide");
             console.log(err);
         }
-        hideConfirmationModal();
     }
 
     const hideConfirmationModal = () => {
@@ -246,17 +249,18 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                                                 <div>Not have any possible answers</div>
                                                             :
                                                             <>
-                                                                {item?.pollAnswers?.length ?
-                                                                    item?.pollAnswers?.map((answer, i) => {
-                                                                        return (<>
-                                                                            <div className='answer' key={i}>
-                                                                                <span>{String.fromCharCode(65 + i)}.</span>
-                                                                                <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
+                                                                {
+                                                                    // item?.pollAnswers?.length ?
+                                                                    //     item?.pollAnswers?.map((answer, i) => {
+                                                                    //         return (<>
+                                                                    //             <div className='answer' key={i}>
+                                                                    //                 <span>{String.fromCharCode(65 + i)}.</span>
+                                                                    //                 <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
 
-                                                                            </div>
-                                                                        </>)
-                                                                    })
-                                                                    : 
+                                                                    //             </div>
+                                                                    //         </>)
+                                                                    //     })
+                                                                    // : 
                                                                     item?.allUserAnswers?.length ?
                                                                         item?.allUserAnswers?.map((answer, i) => {
                                                                             return (<>
@@ -278,27 +282,34 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                                         <h6>{item?.speakerName}</h6>
                                                     </div>
                                                 </div>
-                                                <div className='question-status d-flex justify-content-between'>
-                                                    <div className='question-status-live'>
-                                                        <div className='question-live'>
-                                                            <label>Total (Live)</label>
-                                                            <p dangerouslySetInnerHTML={{__html:item?.totalUser}}></p>
+                                                
+                                                    <div className='question-status d-flex justify-content-between'>
+                                                        <div className='question-status-live'>
+                                                            <div className='question-live'>
+                                                                <label>Total (Live)</label>
+                                                                <p dangerouslySetInnerHTML={{__html:item?.totalUser}}></p>
+                                                            </div>
+                                                            <div className='question-answered'>
+                                                                <label>Answered</label>
+                                                                <p dangerouslySetInnerHTML={{__html:item?.totalUser}}></p>
+                                                            </div>
                                                         </div>
-                                                        <div className='question-answered'>
-                                                            <label>Answered</label>
-                                                            <p dangerouslySetInnerHTML={{__html:item?.totalUser}}></p>
-                                                        </div>
+                                                        {
+                                                             apiCallStatus ? 
+                                                             <div class="inner-loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
+                                                            :
+                                                            // <div class="inner-loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
+                                                            <div className='btn-group'>
+                                                                <label>Display:</label>
+                                                                <div className='btn-group-add'>
+                                                                    
+                                                                    <Button className={item?.showQuestionToUser == 1 ? 'active quest' : item?.showQuestionToUser == 2 ? "visited quest" : "quest"} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"submit")}>Question</Button>
+                                                                    <Button className={item?.showAnswerToUser == 1 ? 'active answer' : item?.showAnswerToUser == 2  ? 'visited answer' : 'answer'} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"answer")}>Answers</Button>
+                                                                    <Button className={(item?.triggered == 1 || item?.showAnswerToUser == 1) ? 'close'  : 'close active'} onClick={(e) => closedClicked(e)}>Closed</Button>
+                                                                </div>
+                                                            </div>
+                                                        }
                                                     </div>
-                                                    <div className='btn-group'>
-                                                        <label>Display:</label>
-                                                        <div className='btn-group-add'>
-                                                            
-                                                            <Button className={item?.showQuestionToUser == 1 ? 'active quest' : item?.showQuestionToUser == 2 ? "visited quest" : "quest"} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"submit")}>Question</Button>
-                                                            <Button className={item?.showAnswerToUser == 1 ? 'active answer' : item?.showAnswerToUser == 2  ? 'visited answer' : 'answer'} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"answer")}>Answers</Button>
-                                                            <Button className={(item?.triggered == 1 || item?.showAnswerToUser == 1) ? 'close'  : 'close active'} onClick={(e) => closedClicked(e)}>Closed</Button>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </>)
@@ -380,27 +391,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                 <div className='pie-chart-outer-layout' >                
                     <QuestionPollsPieChart data={pieChartData} />
                 </div>           
-                 {
-                    apiCallStatus ? 
-                    <div
-                        className='poll_question_loader'
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "100%",
-                            height: "100%",
-                        }}
-                        >
-                        <Spinner
-                            color="#53aff4"
-                            size={32}
-                            speed={1}
-                            animating={true}
-                        />
-                    </div>
-                    : null
-                 }           
+                            
                 
            
             </div>
