@@ -406,17 +406,39 @@ const NewEventCreate = () => {
   };
 
   const handleOnFilterChange = (e, item, index, key, data = {}) => {
-    const updatedFilter = { ...data };
+    const updatedFilter = JSON.parse(JSON.stringify ({...data}) );
 
-    if (e?.target?.type === "checkbox") {
-      if (updatedFilter[key]) {
-        updatedFilter[key] = updatedFilter[key].includes(item)
-          ? updatedFilter[key].filter((value) => value !== item)
-          : [...updatedFilter[key], item];
-      } else {
-        updatedFilter[key] = [item];
-      }
-    }
+    // if (e?.target?.type === "checkbox") {
+    //   if (updatedFilter[key]) {
+    //     updatedFilter[key] = updatedFilter[key].includes(item)
+    //       ? updatedFilter[key].filter((value) => value !== item)
+    //       : [...updatedFilter[key], item];
+    //   } else {
+    //     updatedFilter[key] = [item];
+    //   }
+    // }
+    if (e?.target?.checked == true) { 
+         if (updatedFilter[key]) {
+
+             updatedFilter[key] = updatedFilter[key].includes(item)
+                 ? updatedFilter[key].filter((value) => value !== item)
+                 : [...updatedFilter[key], item];
+         } else {
+
+             updatedFilter[key] = [item];
+         }
+    
+ } 
+ else if (e?.target?.checked == false) {
+    
+         let index = updatedFilter[key]?.indexOf(item)
+         if (index > -1) {
+             updatedFilter[key]?.splice(index, 1)
+         }
+         if (updatedFilter[key]?.length == 0) {
+             delete updatedFilter[key]
+         }
+     }
 
     setOtherFilter(updatedFilter);
   };
@@ -448,20 +470,21 @@ const NewEventCreate = () => {
     }
 
     const filterData = [...liveEvents, ...comingEvents, ...endEvents];
-    let filterForEvent = []
-    if (liveEvents?.length) {
-      filterForEvent.push("Live")
-    }
-    if (comingEvents?.length) {
-      filterForEvent.push("Coming")
-    }
-    if (endEvents?.length) {
-      filterForEvent.push("End")
-    }
-    setAppliedFilter({
-      Event: filterForEvent,
+    // let filterForEvent = []
+    // if (liveEvents?.length) {
+    //   filterForEvent.push("Live")
+    // }
+    // if (comingEvents?.length) {
+    //   filterForEvent.push("Coming")
+    // }
+    // if (endEvents?.length) {
+    //   filterForEvent.push("End")
+    // }
+    // setAppliedFilter({
+    //   Event: filterForEvent,
 
-    })
+    // })
+    setAppliedFilter(otherFilter)
     setIsData(filterData);
     setShowFilter(false);
     if (flag) {
@@ -472,24 +495,36 @@ const NewEventCreate = () => {
 
     }
   };
-  const removeindividualfilter = (tag, index) => {
-    let appliedFilterSample = { ...otherFilter }
-    appliedFilterSample = appliedFilterSample[tag]
-    if (index !== -1) {
-      appliedFilterSample.splice(index, 1);
-    }
-    setOtherFilter({
-      [tag]: appliedFilterSample
-    })
-    if (!appliedFilterSample.length) {
-      setShowFilterSection(false);
-      applyFilter("", 1)
+  const removeindividualfilter = (key, item) => {
+    // let appliedFilterSample = { ...otherFilter }
+    // appliedFilterSample = appliedFilterSample[tag]
+    // if (index !== -1) {
+    //   appliedFilterSample.splice(index, 1);
+    // }
+    // setOtherFilter({
+    //   [tag]: appliedFilterSample
+    // })
+    // if (!appliedFilterSample.length) {
+    //   setShowFilterSection(false);
+    //   applyFilter("", 1)
 
-    }
-    else {
-      applyFilter("", 0)
+    // }
+    // else {
+    //   applyFilter("", 0)
 
+    // }
+
+    setShowFilter(false)
+    let updateFilter = otherFilter
+    let index = updateFilter[key]?.indexOf(item)
+    if (index > -1) {
+        updateFilter[key]?.splice(index, 1)
+        if (updateFilter[key]?.length == 0) {
+            delete updateFilter[key]
+        }
     }
+    setOtherFilter(updateFilter)
+    applyFilter()
 
   }
   const clearFilter = () => {
@@ -932,8 +967,8 @@ const NewEventCreate = () => {
             {showFilterSection &&
 
               <div className="apply-filter">
-                <h6>Applied filters</h6>
-                <div className="filter-block">
+                {/* <h6>Applied filters</h6> */}
+                {/* <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(otherFilter)?.length > 0 && (
                       <div className="filter-div">
@@ -942,7 +977,7 @@ const NewEventCreate = () => {
                         </div>
                         {Object.keys(otherFilter)?.map((item) => (
                           <div className="filter-div-list">
-                            {/* Mapping over filtertags */}
+                          
                             {otherFilter[item]?.map((element, index) => (
                               <div
                                 className="filter-result"
@@ -963,10 +998,12 @@ const NewEventCreate = () => {
                       </div>
                     )}
 
+                    
+
 
                   </div>
                   <div className="clear-filter">
-                    {/* Button to clear filters */}
+                 
                     <button
                       className="btn btn-outline-primary btn-bordered"
                       onClick={clearFilter}
@@ -974,7 +1011,54 @@ const NewEventCreate = () => {
                       Remove All
                     </button>
                   </div>
-                </div>
+                </div> */}
+
+{Object.keys(appliedFilter)?.length > 0 ? (
+                                <div className="apply-filter">
+                                    <div className="filter-block">
+                                        <div className="filter-block-left full">
+                                            {Object.keys(appliedFilter)?.map((key, index) => {
+                                                return (<>
+                                                    {appliedFilter[key]?.length ? (
+                                                        <div className="filter-div">
+                                                            <div className="filter-div-title">
+                                                                <span>{key} |</span>
+                                                            </div>
+                                                            <div className="filter-div-list">
+                                                                {appliedFilter[key]?.map((item, index) => (
+                                                                    <div className="filter-result"
+                                                                        id={item}
+                                                                        rt={index} >
+                                                                        {item}
+                                                                        <img
+                                                                            src={
+                                                                                path_image + "filter-close.svg"
+                                                                            }
+                                                                            onClick={(event) => {
+                                                                                removeindividualfilter(key, item);
+                                                                            }}
+                                                                            alt="Close-filter"
+                                                                        />
+                                                                    </div>
+
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    ) : ""}
+                                                </>)
+                                            })}
+                                        </div>
+                                        <div className="clear-filter">
+                                            <Button
+                                                className="btn btn-outline-primary btn-bordered"
+                                                onClick={clearFilter}
+                                            >
+                                                Remove All
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : ""}
               </div>
             }
 
