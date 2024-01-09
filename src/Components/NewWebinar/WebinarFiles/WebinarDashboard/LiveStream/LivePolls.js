@@ -3,9 +3,10 @@ import { ENDPOINT } from '../../../../../axios/apiConfig'
 import { postData } from '../../../../../axios/apiHelper'
 import LivePollsQuestion from './LivePollsQuestions'
 import { useSidebar } from '../../../../CommonComponent/LoginLayout'
+import { loader } from '../../../../../loader'
 
 
-const LivePolls = ({ location }) => {
+const LivePolls = ({ location, flag }) => {
     const {eventIdContext,handleEventId}=useSidebar()
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEvent] = useState({
@@ -16,22 +17,23 @@ const LivePolls = ({ location }) => {
     const [isdataLoaded,setIsDataLoaded]=useState(false)
 
     useEffect(() => {
+        loader("show");
         getEventQuestion()
-    }, [])
+    }, [flag])
 
     const getEventQuestion = async () => {
         try {
-            setIsDataLoaded(true);
+            // setIsDataLoaded(true);
             const result = await postData(ENDPOINT.WEBINAR_All_QUESTION_LISTING, {
                 companyId: eventId?.companyId,
                 eventId: eventId?.id,
             });
             setData(result)
+            loader("hide");
         } catch (err) {
-            setIsDataLoaded(false);
+            loader("hide");
+            // setIsDataLoaded(false);
             console.log("--err", err)
-        } finally {
-            setIsDataLoaded(false);
         }
     }
 

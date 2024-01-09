@@ -10,7 +10,7 @@ import { loader } from "../../../../../loader";
 import { postData, updateConsent } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { object } from "@amcharts/amcharts4/core";
-import {debounce} from 'lodash'
+import { debounce } from 'lodash'
 
 const CommonAddEventModel = ({
   show,
@@ -73,7 +73,7 @@ const CommonAddEventModel = ({
     { label: "No", value: "0" },
   ]);
   const [timezoneOptions, setTimezoneOptions] = useState([]);
-  const [originalTimeZoneOptions,setOriginalTimeZoneOptions]=useState([])
+  const [originalTimeZoneOptions, setOriginalTimeZoneOptions] = useState([])
   const [ibuOptions, setIBUOptions] = useState([]);
   const [meetingOptions, setMeetingOptions] = useState([
     { label: "Live", value: "Live" },
@@ -98,7 +98,7 @@ const CommonAddEventModel = ({
     dateEndHour: "",
     dateEndMin: "",
     event_code: "",
-    event_type:"",
+    event_type: "",
     description: "",
     speaker_name: [{ speakerName: "" }],
     speaker_email: "",
@@ -106,22 +106,22 @@ const CommonAddEventModel = ({
   });
   useEffect(() => {
     setIBUOptions(webinarDetail?.ibu);
-   let uniqueTimeZone=[]
-   let uniqueLabelsSet = [];
-   webinarDetail?.timezoneName?.forEach((item)=>{
-    if (!uniqueLabelsSet?.includes(item?.label)) {
-      uniqueLabelsSet?.push(item?.label);
-      uniqueTimeZone?.push(item);
-    }
-  })   
+    let uniqueTimeZone = []
+    let uniqueLabelsSet = [];
+    webinarDetail?.timezoneName?.forEach((item) => {
+      if (!uniqueLabelsSet?.includes(item?.label)) {
+        uniqueLabelsSet?.push(item?.label);
+        uniqueTimeZone?.push(item);
+      }
+    })
     setTimezoneOptions(uniqueTimeZone);
     setOriginalTimeZoneOptions(webinarDetail?.timezoneName)
     if (data?.id) {
       let speaker_name = "";
       let speaker_email = "";
       let meeting_type = "";
-      let event_type="";
-      let countryTimeZoneOptions=[]
+      let event_type = "";
+      let countryTimeZoneOptions = []
       if (data?.raw_description) {
         let parseData = JSON.parse(data?.raw_description);
         try {
@@ -131,9 +131,9 @@ const CommonAddEventModel = ({
 
         speaker_email = parseData?.speaker_email;
         meeting_type = parseData?.meeting_type;
-        event_type=parseData?.event_type;
+        event_type = parseData?.event_type;
       }
-       countryTimeZoneOptions=webinarDetail?.timezoneName?.map((item)=>(item?.label==data?.timezone?{label:item?.value,value:item?.value}:null)).filter(Boolean);
+      countryTimeZoneOptions = webinarDetail?.timezoneName?.map((item) => (item?.label == data?.timezone ? { label: item?.value, value: item?.value } : null)).filter(Boolean);
       setCountryTimezone(countryTimeZoneOptions)
       setEventInputs({
         ...data,
@@ -148,12 +148,12 @@ const CommonAddEventModel = ({
           : "",
         dateStart: data?.dateStart,
         dateEnd: data?.dateEnd,
-        dateStartHour: data?.dateStartHour?data?.dateStartHour:"",
-        dateStartMin: data?.dateStartMin?data?.dateStartMin:"",
+        dateStartHour: data?.dateStartHour ? data?.dateStartHour : "",
+        dateStartMin: data?.dateStartMin ? data?.dateStartMin : "",
         dateEndHour: data?.dateEndHour ? data?.dateEndHour : "",
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
-        event_type:event_type,
+        event_type: event_type,
         description: data?.description ? data?.description : "",
         // speaker_name: JSON.parse(speaker_name),
         speaker_name: speaker_name,
@@ -179,12 +179,12 @@ const CommonAddEventModel = ({
         dateEndHour: "",
         dateEndMin: "",
         event_code: "",
-        event_type:"",
+        event_type: "",
         description: "",
         speaker_name: [{ speakerName: "" }],
         speaker_email: "",
         meeting_type: "",
-        
+
       });
     }
   }, [show]);
@@ -201,7 +201,7 @@ const CommonAddEventModel = ({
     onClose(false);
   };
 
-  
+
   const handleChange = (e, isSelectedName, index) => {
     const { name, value } = e?.target || {};
     if (isSelectedName == "speaker_name") {
@@ -217,8 +217,8 @@ const CommonAddEventModel = ({
       handleDebouncedChange(value);
     } else if (isSelectedName == "timezone") {
 
-      let countryTimeZoneOptions=originalTimeZoneOptions?.map((item)=>(item?.label==e?.label?{label:item?.value,value:item?.value}:null)).filter(Boolean);
-        setCountryTimezone(countryTimeZoneOptions)
+      let countryTimeZoneOptions = originalTimeZoneOptions?.map((item) => (item?.label == e?.label ? { label: item?.value, value: item?.value } : null)).filter(Boolean);
+      setCountryTimezone(countryTimeZoneOptions)
       setEventInputs({ ...eventInputs, timezone: e?.label })
     }
 
@@ -236,23 +236,26 @@ const CommonAddEventModel = ({
     }
   };
 
-  const handleDebouncedChange=debounce(async (value)=>{
-try{
-  let error={}
-  let eventCode=value;
-const response=await postData(ENDPOINT.EVENT_ID,{eventCode})
-if(response?.data?.data?.id){
-  error.event_code="Event code already exist"
-  setError(error)
-  return
-}else{
-  setError(error)
-}
-}
-catch(err){
-  console.log("--err",err)
-}
-},500)
+  const handleDebouncedChange = debounce(async (value) => {
+    try {
+      let error = {}
+      let eventCode = value;
+      const response = await postData(ENDPOINT.EVENT_ID, { eventCode })
+      if (response?.data?.data?.id) {
+        if (data?.id != response?.data?.data?.id) {
+          error.event_code = "Event code already exist"
+          setError(error)
+          return
+        }
+
+      } else {
+        setError(error)
+      }
+    }
+    catch (err) {
+      console.log("--err", err)
+    }
+  }, 500)
 
   const addNewSpeakerClicked = (e, isSelectedName) => {
     let speakerObj = {
@@ -315,10 +318,14 @@ catch(err){
 
   const saveClicked = async (e) => {
     try {
-      const error = EventModelValidation(eventInputs);
-      if (Object.keys(error)?.length) {
+
+      if (error?.event_code) {
+        return
+      }
+      const errorSaveClicked = EventModelValidation(eventInputs);
+      if (Object.keys(errorSaveClicked)?.length) {
         // toast.error(error[Object.keys(error)[0]]);
-        setError(error);
+        setError(errorSaveClicked);
         return;
       } else {
         loader("show");
@@ -381,9 +388,9 @@ catch(err){
       }
     } catch (err) {
       console.log("--err", err);
-      if(err?.response?.data?.message=="Event code already exist"){
-        let error={}
-        error.event_code=err?.response?.data?.message
+      if (err?.response?.data?.message == "Event code already exist") {
+        let error = {}
+        error.event_code = err?.response?.data?.message
         setError(error)
       }
     } finally {
@@ -668,47 +675,47 @@ catch(err){
                               ) : null}
                             </div>
                           </div> */}
-                      {localStorage.getItem("user_id")=="B7SHpAc XDXSH NXkN0rdQ=="?
-                          <div className="col-12 col-md-12">
-                            <div className="form-group d-flex align-items-center">
-                              <label htmlFor="">IBU</label>
+                          {localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
+                            <div className="col-12 col-md-12">
+                              <div className="form-group d-flex align-items-center">
+                                <label htmlFor="">IBU</label>
 
-                              <Select
-                                options={ibuOptions}
-                                className={
-                                  error?.type
-                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                }
-                                onChange={(e) => handleChange(e?.value, "type")}
-                                placeholder="Select IBU"
-                                value={
-                                  ibuOptions
-                                    ? ibuOptions.findIndex(
-                                      (item) =>
-                                        item?.value == eventInputs?.type
-                                    ) != -1
-                                      ? ibuOptions[
-                                      ibuOptions.findIndex(
+                                <Select
+                                  options={ibuOptions}
+                                  className={
+                                    error?.type
+                                      ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                      : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                  }
+                                  onChange={(e) => handleChange(e?.value, "type")}
+                                  placeholder="Select IBU"
+                                  value={
+                                    ibuOptions
+                                      ? ibuOptions.findIndex(
                                         (item) =>
                                           item?.value == eventInputs?.type
-                                      )
-                                      ]
+                                      ) != -1
+                                        ? ibuOptions[
+                                        ibuOptions.findIndex(
+                                          (item) =>
+                                            item?.value == eventInputs?.type
+                                        )
+                                        ]
+                                        : ""
                                       : ""
-                                    : ""
-                                }
-                                isClearable
-                              />
-                              {error?.type ? (
-                                <div className="login-validation">
-                                  {error?.type}
-                                </div>
-                              ) : null}
+                                  }
+                                  isClearable
+                                />
+                                {error?.type ? (
+                                  <div className="login-validation">
+                                    {error?.type}
+                                  </div>
+                                ) : null}
+                              </div>
                             </div>
-                          </div>
-                          :""}
+                            : ""}
 
-                        
+
 
                           <div className="col-12 col-md-12">
                             <div className="form-group d-flex align-items-center">
@@ -754,7 +761,7 @@ catch(err){
                             </div>
                           </div>
 
-                            <div className="col-12 col-md-12">
+                          <div className="col-12 col-md-12">
                             <div className="form-group">
                               <label htmlFor="">
                                 Country Timezone <span> *</span>
@@ -777,7 +784,7 @@ catch(err){
                                         item?.value == eventInputs?.country_timezone
                                     ) != -1
                                       ? countryTimezone[
-                                        countryTimezone?.findIndex(
+                                      countryTimezone?.findIndex(
                                         (item) =>
                                           item?.value ==
                                           eventInputs?.country_timezone
@@ -905,43 +912,6 @@ catch(err){
                             </div>
                           </div>
                           <div className="col-12 col-md-12">
-                            <div className="form-group d-flex align-items-center">
-                              <label htmlFor="">
-                                Event End Date <span> *</span>
-                              </label>
-
-                              <DatePicker
-                                name="dateEnd"
-                                className={
-                                  error?.dateEnd
-                                    ? "form-control error"
-                                    : "form-control"
-                                }
-                                placeholderText="Event date"
-                                selected={
-                                  eventInputs?.dateEnd
-                                    ? new Date(eventInputs?.dateEnd)
-                                    : new Date(
-                                      moment(new Date(), "MM/DD/YYYY").format(
-                                        "MM/DD/YYYY"
-                                      )
-                                    )
-                                }
-                                onChange={(date) =>
-                                  handleChange(date, "dateEnd")
-                                }
-                                minDate={eventInputs.dateStart || currentDate}
-                                dateFormat="dd/MM/yyyy"
-                              />
-                              {error?.dateEnd ? (
-                                <div className="login-validation">
-                                  {error?.dateEnd}
-                                </div>
-                              ) : null}
-                            </div>
-                          </div>
-
-                          <div className="col-12 col-md-12">
                             <div className="form-group double-select d-flex align-items-center">
                               <label htmlFor="">
                                 Event Start Time <span> *</span>
@@ -1008,6 +978,45 @@ catch(err){
                               ) : null}
                             </div>
                           </div>
+                          
+                          <div className="col-12 col-md-12">
+                            <div className="form-group d-flex align-items-center">
+                              <label htmlFor="">
+                                Event End Date <span> *</span>
+                              </label>
+
+                              <DatePicker
+                                name="dateEnd"
+                                className={
+                                  error?.dateEnd
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                placeholderText="Event date"
+                                selected={
+                                  eventInputs?.dateEnd
+                                    ? new Date(eventInputs?.dateEnd)
+                                    : new Date(
+                                      moment(new Date(), "MM/DD/YYYY").format(
+                                        "MM/DD/YYYY"
+                                      )
+                                    )
+                                }
+                                onChange={(date) =>
+                                  handleChange(date, "dateEnd")
+                                }
+                                minDate={eventInputs.dateStart || currentDate}
+                                dateFormat="dd/MM/yyyy"
+                              />
+                              {error?.dateEnd ? (
+                                <div className="login-validation">
+                                  {error?.dateEnd}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          
 
                           <div className="col-12 col-md-12">
                             <div className="form-group double-select d-flex align-items-center">
@@ -1086,7 +1095,7 @@ catch(err){
                                 type="text"
                                 name="event_code"
                                 placeholder="Event code"
-                                className={error?.event_code? "form-control error":"form-control"}
+                                className={error?.event_code ? "form-control error" : "form-control"}
                                 // className={
                                 //   error?.event_code
                                 //     ? "form-control error"
@@ -1095,7 +1104,7 @@ catch(err){
                                 // readOnly={data?.id?true:false}
                                 // disabled={data?.id?true:false}
                                 onChange={(e) => handleChange(e)}
-                               
+
                                 value={
                                   eventInputs?.event_code
                                     ? eventInputs?.event_code

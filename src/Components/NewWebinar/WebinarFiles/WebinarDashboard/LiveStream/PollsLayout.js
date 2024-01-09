@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Tabs, Tab, Button } from 'react-bootstrap'
 import LivePolls from './LivePolls'
 import PollListing from '../../../../Webinar/Survey/PollListing'
@@ -7,7 +7,8 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
 
 const PollsLayout = () => {
-    const location=useLocation()
+    const location=useLocation();
+    const [flag, setFlag] = useState(1);
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const { eventIdContext,handleEventId } = useSidebar();
     useEffect(()=>{
@@ -15,6 +16,13 @@ const PollsLayout = () => {
             handleEventId(localStorageEvent) 
         }
     },[])
+
+    const handleTabSelect = (key) => {
+        if(key === "livepolls"){
+            setFlag(flag + 1);
+        }
+    };
+
     return (<>
         <Col className="right-sidebar custom-change full-width">
             <div className="custom-container">
@@ -22,6 +30,7 @@ const PollsLayout = () => {
                     <div className='poll-creation'>
                     <Tabs
                         defaultActiveKey="livepolls"
+                        onSelect={handleTabSelect}
                         fill
                     >
                         <Tab
@@ -29,9 +38,8 @@ const PollsLayout = () => {
                             title="Live Polls "
                             className="flex-column justify-content-between"
                         >
-                            <LivePolls location={location} eventIdContext={eventIdContext?eventIdContext:localStorageEvent} />
-                           
-
+                            <LivePolls location={location} eventIdContext={eventIdContext?eventIdContext:localStorageEvent} flag={flag} />
+                            
                         </Tab>
 
                         <Tab

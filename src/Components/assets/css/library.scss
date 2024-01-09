@@ -17414,7 +17414,7 @@ img.change-password-image {
 }
 
 .feilds-section {
-  border: 1px dashed $primary-color;
+  border: 1px dashed #97B6CF;
   border-radius: 12px;
   width: 100%;
   padding: 24px;
@@ -17438,7 +17438,7 @@ img.change-password-image {
     position: relative;
 
     &:after {
-      border-bottom: 1px solid $primary-color;
+      border-bottom: 1px dashed #97B6CF;
       content: "";
       bottom: 0;
       width: calc(100% + 48px);
@@ -17513,13 +17513,9 @@ img.change-password-image {
     gap: 0 15px;
 
     .form-group {
-      justify-content: space-between;
+      flex-wrap: nowrap;
       margin: 0;
-
-      &:first-child {
-        border-right: 1px dashed #0066be;
-        padding-right: 13px;
-      }
+      justify-content: space-between;
 
       label {
         flex: 0 0 auto;
@@ -17552,7 +17548,7 @@ img.change-password-image {
       &>label {
         padding: 17px 5px 0 0;
         align-self: flex-start;
-        flex: 0 0 190px;
+        flex: 0 0 150px;
       }
 
       .slt-opt {
@@ -17666,7 +17662,7 @@ img.change-password-image {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 4px 0 0 15px;
+        margin: 0px;
         background: $white;
 
         &:hover {

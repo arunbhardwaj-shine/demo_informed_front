@@ -110,9 +110,14 @@ export default function PollListing({location,eventIdContext}) {
     // }
   }, []);
 
+  // useEffect(() => {
+  //   setQuestions(questionsOrder);
+  //   console.log("Saving questions:", questionsOrder);
+  // }, [questionsOrder]);
+
   const getApiData = async (event_code) => {
     try {
-      // loader("show");
+      loader("show");
 
       let apiData = await getListingData(event_code);
 
@@ -127,15 +132,16 @@ export default function PollListing({location,eventIdContext}) {
 
       setApiStatus(true);
     } catch (error) {
+      loader("hide");
       console.error("Error fetching data:", error);
     } finally {
-      loader("hide");
+      // loader("hide");
     }
   };
 
   const getAllEvents = async () => {
     try {
-      // loader("show");
+      loader("show");
       const response = await getData(
         `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`
       );
@@ -166,7 +172,7 @@ export default function PollListing({location,eventIdContext}) {
   };
 
   const handleSelectChange = async (event) => {
-    // loader("show");
+    loader("show");
     setApiStatus(() => false);
     setQuestions(() => {
       let data = [];
@@ -183,7 +189,7 @@ export default function PollListing({location,eventIdContext}) {
 
   const getListingData = async (id) => {
     try {
-      // loader("show");
+      loader("show");
       const apiData = await getData(`/webinar/getQuestionByEventId/${id}`);
       let data = apiData.data.data;
 
@@ -230,7 +236,7 @@ export default function PollListing({location,eventIdContext}) {
               },
             },
           ];
-      loader("hide");
+      // loader("hide");
       const deepCopyApiData = JSON.parse(JSON.stringify(data));
 
       setOriginalQuestions(deepCopyApiData);
@@ -258,11 +264,13 @@ export default function PollListing({location,eventIdContext}) {
   //   updatedQuestionsOrder[key].questionData.questionColor = e.target.value;
   //   setQuestionsOrder(updatedQuestionsOrder);
   // };
+
   const handleAnswerColorChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.answerColor = e.target.value;
     setQuestions(updatedQuestions);
   };
+
   // const handleAnswerColorChange = (e, key) => {
   //   const updatedQuestionsOrder = [...questionsOrder];
   //   updatedQuestionsOrder[key].questionData.answerColor = e.target.value;
@@ -420,7 +428,7 @@ export default function PollListing({location,eventIdContext}) {
       return;
     }
 
-    // loader("show");
+    loader("show");
 
     const surveyData = questions[currentIndex].questionData;
     // setSurveyData(surveyData);
@@ -594,7 +602,7 @@ export default function PollListing({location,eventIdContext}) {
   };
   const finalHandleDelete = async (key) => {
     try {
-      // loader("show");
+      loader("show");
       if (key == questions?.length - 1) {
         setQuestionFlag(false);
       }
@@ -684,7 +692,8 @@ export default function PollListing({location,eventIdContext}) {
 
   const handlePreview = (e, index) => {
     setIsPrevClicked(true);
-    setQuestionsOrder(JSON.parse(JSON.stringify(questions)))
+    let ques=JSON.parse(JSON.stringify(questions))
+    setQuestionsOrder(ques)
     // console.log(questionsOrder,'===>order1')
   };
 
@@ -695,7 +704,7 @@ export default function PollListing({location,eventIdContext}) {
   const handleQuestionOrderChange = (questionsOrder) => {
     // setQuestions(updatedQuestions);
     setQuestionsOrder(questionsOrder)
-    // console.log(questionsOrder,'===>order2')
+    console.log(questionsOrder,'===>order2')
   };
 
   const handleSave = async () => {
@@ -706,21 +715,18 @@ export default function PollListing({location,eventIdContext}) {
         id: item?.questionData?.id
       }));
       const payload = {
-
         eventId:event_code,
         pollsData:payloadOrder
       };
-      // console.log("====>payload", payload);
-
       const response = await postData(
         ENDPOINT.CHANGEPOLLSORDER,
         payload
       );
+      const apiData = await getListingData(selectedItem?.value);
+      setQuestionFlag(false);
+      setQuestions(apiData);
       setIsPrevClicked(false);
-      setQuestions(questionsOrder)
-    
-            // console.log(response?.data.message);
-      // // setIsPrevClicked(false);
+      // setQuestions(JSON.parse(JSON.stringify(questionsOrder)))
       toast.success(response?.data.message, {
         position: "top-right",
         autoClose: 5000,
