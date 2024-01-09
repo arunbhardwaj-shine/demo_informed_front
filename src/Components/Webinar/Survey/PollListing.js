@@ -722,8 +722,11 @@ export default function PollListing({location,eventIdContext}) {
         ENDPOINT.CHANGEPOLLSORDER,
         payload
       );
+      const apiData = await getListingData(selectedItem?.value);
+      setQuestionFlag(false);
+      setQuestions(apiData);
       setIsPrevClicked(false);
-      setQuestions(JSON.parse(JSON.stringify(questionsOrder)))
+      // setQuestions(JSON.parse(JSON.stringify(questionsOrder)))
       toast.success(response?.data.message, {
         position: "top-right",
         autoClose: 5000,
