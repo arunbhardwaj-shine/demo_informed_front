@@ -12,7 +12,7 @@
     "headerBackgroundColor": {
         "title": "Header Background Color",
         "type": "color",
-        "value": "#9dd2cd"  
+        "value": "#dbecea"  
     },
     "heading": {
         "title": "Modal heading",

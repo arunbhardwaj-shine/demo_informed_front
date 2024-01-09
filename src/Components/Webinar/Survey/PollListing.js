@@ -252,11 +252,22 @@ export default function PollListing({location,eventIdContext}) {
     updatedQuestions[key].questionData.questionColor = e.target.value;
     setQuestions(updatedQuestions);
   };
+
+  // const handleQuestionColorChange = (e, key) => {
+  //   const updatedQuestionsOrder = [...questionsOrder];
+  //   updatedQuestionsOrder[key].questionData.questionColor = e.target.value;
+  //   setQuestionsOrder(updatedQuestionsOrder);
+  // };
   const handleAnswerColorChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.answerColor = e.target.value;
     setQuestions(updatedQuestions);
   };
+  // const handleAnswerColorChange = (e, key) => {
+  //   const updatedQuestionsOrder = [...questionsOrder];
+  //   updatedQuestionsOrder[key].questionData.answerColor = e.target.value;
+  //   setQuestionsOrder(updatedQuestionsOrder);
+  // };
   const handleTypeChange = (e, key) => {
     const updatedQuestions = [...questions];
 
@@ -674,7 +685,7 @@ export default function PollListing({location,eventIdContext}) {
   const handlePreview = (e, index) => {
     setIsPrevClicked(true);
     setQuestionsOrder(JSON.parse(JSON.stringify(questions)))
-    console.log(questionsOrder,'===>order1')
+    // console.log(questionsOrder,'===>order1')
   };
 
   const handleClose = () => {
@@ -684,7 +695,7 @@ export default function PollListing({location,eventIdContext}) {
   const handleQuestionOrderChange = (questionsOrder) => {
     // setQuestions(updatedQuestions);
     setQuestionsOrder(questionsOrder)
-    console.log(questionsOrder,'===>order2')
+    // console.log(questionsOrder,'===>order2')
   };
 
   const handleSave = async () => {
@@ -699,7 +710,7 @@ export default function PollListing({location,eventIdContext}) {
         eventId:event_code,
         pollsData:payloadOrder
       };
-      console.log("====>payload", payload);
+      // console.log("====>payload", payload);
 
       const response = await postData(
         ENDPOINT.CHANGEPOLLSORDER,

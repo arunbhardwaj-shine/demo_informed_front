@@ -17382,6 +17382,18 @@ img.change-password-image {
       border-radius: 30px;
       padding: 0;
     }
+
+    &::-moz-color-swatch {
+      border: none;
+      border-radius: 30px;
+      padding: 0;
+    }
+
+    &::-moz-color-swatch-wrapper {
+      border: none;
+      border-radius: 30px;
+      padding: 0;
+    }
   }
 
   img {
@@ -17439,9 +17451,9 @@ img.change-password-image {
   .add-choice {
     background: transparent;
     border: 0;
-    color: #004A89;
+    color: #8A4E9C;
     padding: 0;
-    font-size: 16px;
+    font-size: 14px;
     margin-left: auto;
     display: flex;
     align-items: center;

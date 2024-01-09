@@ -1,7 +1,7 @@
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
-import { postData } from "../../axios/apiHelper";
+import { postData,getData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import EventModel from "../../Model/EventModel";
 import SessionModel from "../../Model/SessionModel";
@@ -11,6 +11,7 @@ import "./custom.css";
 import { loader } from "../../loader";
 import "./style.css";
 import { v4 as uuid } from "uuid";
+import dynamicEventData from "../NewWebinar/WebinarFiles/WebinarDashboard/ChatLinkPage/events.json";
 
 import axios from "axios";
 import { db } from "../../config/firebaseConfig";
@@ -45,10 +46,51 @@ const Event = () => {
   const [totalReaders, setTotalReaders] = useState(0);
   const [customAnswer, setCustomAnswer] = useState(0);
 
+  const [dynamicContent, setDynamicContent] = useState(() => {
+    const initialState = {};
+    Object.entries(dynamicEventData).forEach(([field, value]) => {
+      initialState[field] = value?.value;
+    });
+    return initialState;
+  });
+  const [formData, setFormData] = useState(() => {
+    const initialState = {};
+    Object.entries(dynamicEventData).forEach(([field, value]) => {
+      initialState[field] = value?.value;
+    });
+    return initialState;
+  });
+  const [logo, setLogo] = useState("");
+
 
   useEffect(() => {
     EventDataFun();
+    fetchApiData();
   }, []);
+
+  const fetchApiData = async () => {
+    try {
+      loader("show");
+      const response = await getData(
+        `${ENDPOINT.GETCHATLINKDATA}/${parms}`
+      );
+      const { chatLinkData } = response?.data?.data;
+
+      if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
+        setDynamicContent(chatLinkData);
+        setFormData(chatLinkData);
+        setLogo(chatLinkData?.logoImageUrl);
+      } else {
+        setLogo(dynamicContent?.logoImageUrl);
+      }
+    } catch (error) {
+      setLogo(dynamicContent?.logoImageUrl);
+
+      console.error("Error fetching settings:", error);
+    } finally {
+      loader("hide");
+    }
+  };
   const EventDataFun = async () => {
     try {
       loader("show");
@@ -316,7 +358,8 @@ const Event = () => {
                   src={`${
                     parms?.includes("eahad_2024")
                       ? "https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"
-                      : path_image + "FVIII_logo.png"
+                      : formData?.logoImageUrl
+                      // path_image + "FVIII_logo.png"
                   }`}
                   alt="Factor logo"
                 />
@@ -324,7 +367,11 @@ const Event = () => {
             </div>
             <div className="question-block-form">
               <div className="log-inner">
-                <div className="head-sec">
+                <div className="head-sec" 
+                 style={{
+                  background: formData?.headerBackgroundColor,
+                  borderBottomColor: formData?.buttonColor,
+                }}>
                   {parms?.includes("eahad_2024") ? (
                     <div>
                       <img
@@ -340,8 +387,11 @@ const Event = () => {
                       </div>
                     </div>
                   ) : (
-                    <h2 className="top-title">
-                      Write your question here!
+                    <h2 className="top-title"  style={{ color: formData?.textColor }}   dangerouslySetInnerHTML={{
+                      __html: formData?.heading,
+                    }}>
+                      {/* Write your question here! */}
+                    
                     </h2>
                   )}
                   {/*<div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div>
@@ -367,13 +417,24 @@ const Event = () => {
 
                 <div className="row">
                   <div className="col-md-12">
-                    <label htmlFor="fname" className="form-label">
+                    {/* <label htmlFor="fname" className="form-label">
                       Name{" "}
                       <i>
                         <small>(Optional)</small>
                       </i>
-                    </label>
-                    <input
+                    </label> */}
+                    <label
+                              htmlFor="fname"
+                              className="form-label"
+                              style={{ color: formData?.textColor }}
+                              dangerouslySetInnerHTML={{
+                                __html: formData?.nameLabel,
+                              }}
+                              // <i>
+                              //   <small>(Optional)</small>
+                              // </i>
+                            />
+                    {/* <input
                       type="text"
                       id="name"
                       onChange={handleChange}
@@ -385,7 +446,21 @@ const Event = () => {
                       }
                       name="name"
                       value={user?.name}
-                    />
+                    /> */}
+
+                    <input
+                              type="text"
+                              id="name"
+                              onChange={handleChange}
+                              className="form-control "
+                              placeholder={
+                                parms?.includes("eahad_2024")
+                                  ? "Type your name"
+                                  : formData?.namePlaceholder
+                              }
+                              name="name"
+                              value={user?.name}
+                            />
                     <input
                       type="hidden"
                       className="form-control"
@@ -406,10 +481,19 @@ const Event = () => {
                     />
                   </div>
                   <div className="col-md-12">
-                    <label htmlFor="question" className="form-label">
+                    {/* <label htmlFor="question" className="form-label">
                       Your question<sup>*</sup>
-                    </label>
-                    <textarea
+                    </label> */}
+                    <label
+                              htmlFor="fname"
+                              className="form-label"
+                              style={{ color: formData?.textColor }}
+                              dangerouslySetInnerHTML={{
+                                __html: formData?.questionLabel,
+                              }}
+                              // <sup>*</sup>
+                            />
+                    {/* <textarea
                       name="question"
                       id="question"
                       onChange={handleChange}
@@ -422,7 +506,23 @@ const Event = () => {
                       cols="40"
                       rows="4"
                       value={user?.question}
-                    ></textarea>
+                    ></textarea> */}
+
+                      <textarea
+                              name="question"
+                              id="question"
+                              onChange={handleChange}
+                              className="form-control"
+                              placeholder={
+                                parms?.includes("eahad_2024")
+                                  ? "Type your question"
+                                  : formData?.questionPlaceholder
+                              }
+                              cols="40"
+                              rows="4"
+                              value={user?.question}
+                            ></textarea>
+
                     {error?.question ? (
                       <span className="event-validation">
                         {error?.question}
@@ -433,7 +533,7 @@ const Event = () => {
                   </div>
 
                   <div className="col-md-12">
-                    <input
+                    {/* <input
                       type="submit"
                       className="btn btn-success"
                       value={
@@ -441,7 +541,19 @@ const Event = () => {
                           ? "SUBMIT"
                           : "SEND"
                       }
-                    />
+                    /> */}
+
+                          <Button
+                              type="submit"
+                              className="btn btn-success"
+                              style={{
+                                background: formData?.buttonColor,
+                                borderColor: formData?.buttonColor,
+                              }}
+                              dangerouslySetInnerHTML={{
+                                __html: formData?.buttonText,
+                              }}
+                            ></Button>
                   </div>
 
                   {parms?.includes("eahad_2024") && (
@@ -493,9 +605,14 @@ const Event = () => {
                   </p>
                 </div>
               ) : (
-                <div className="copy-right-bottom-text">
-                  <p>Preparation date: 7-8 December 2023</p>
-                </div>
+                // <div className="copy-right-bottom-text">
+                //   <p>Preparation date: 7-8 December 2023</p>
+                // </div>
+                <p  style={{ color: formData?.textColor }}
+                dangerouslySetInnerHTML={{
+                  __html: formData?.footerText,
+                }}
+              />
               )}
 
               {/* <div className="copy-right-bottom-text">
