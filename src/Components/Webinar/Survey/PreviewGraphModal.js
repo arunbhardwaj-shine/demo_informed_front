@@ -2,19 +2,20 @@ import React, { useState, useEffect } from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 
-const PreviewGraphModal = ({ graphType, answerOption }) => {
+const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
   const [chartPieOptions, setPieChartOptions] = useState();
   const [chartBarOptions, setBarChartOptions] = useState();
 
  
   useEffect(() => {
-    // console.log(answerOption,'answerOption')
+    // console.log(question,'answerOption')
     let percentage = parseInt(100 / answerOption?.length);
   
     let pieSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
       y: percentage,
       color: item?.color,
+      title:question,
       // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
   
@@ -22,6 +23,7 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       name: item?.answer,
       y: percentage,
       color: item?.color,
+      title:question,
       // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
   
@@ -29,7 +31,9 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
       chart: {
         type: "pie", 
       },
-      title: null,
+      title: {
+        text: question, 
+    },
       tooltip: {
         valueSuffix: "%",
       },
@@ -80,71 +84,14 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
 
     });
 
-
-  //   const [barChartOptions, setBarChartOptions] = useState({
-  //     chart: {
-  //         type: "column",
-  //     },
-  //     title: "Poll Answers",
-  //     tooltip: {
-  //         valueSuffix: "%",
-  //     },
-  //     xAxis: {
-  //         categories: [], // Add your options/categories here
-         
-  //     },
-  //     yAxis: {
-  //         min: 0,
-  //         title: {
-  //             text: "", // Customize the y-axis label
-  //         },
-  //         stackLabels: {
-  //             enabled: true,
-  //           },
-  //     },
-  //     legend: {
-  //         enabled:true,
-  //         verticalAlign: "bottom",
-  //         // labelFormat: '{name} ({percentage:.2f}%) ',
-         
-  //     },
-  //     plotOptions: {
-         
-  //         series: {
-  //             stacking: "normal",
-  //             pointWidth: 30,
-  //             allowPointSelect: true,
-  //             cursor: "pointer",
-  //             dataLabels: [
-                 
-  //                 {
-  //                     // enabled: true,
-  //                     distance: -40,
-  //                     // format: "{point.percentage:.1f}%",
-  //                     style: {
-  //                         fontSize: "1.2em",
-  //                         textOutline: "none",
-  //                         opacity: 0.7,
-  //                     },
-  //                 },
-  //             ],
-  //         },
-  //     },
-  //     series: [
-  //         {
-  //             name: "Questions",
-  //             colorByPoint: true,
-  //             data: [],
-  //         },
-  //     ],
-  // });
-
     setBarChartOptions({
       chart: {
         type: "column",
       },
 
-      title: null,
+      title: {
+        text: question, 
+    },
 
       tooltip: {
         valueSuffix: "%",
