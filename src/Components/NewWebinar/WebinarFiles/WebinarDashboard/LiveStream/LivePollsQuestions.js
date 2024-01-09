@@ -227,8 +227,8 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                             >
                                                 <div className='d-flex justify-content-between question-list-number align-items-center'>
                                                     <h4>Q{index + 1}</h4>
-                                                    <div className={item?.showQuestionToUser == 1 ? 'question-status display':'question-status not-display'}>
-                                                        <span>{item?.showQuestionToUser == 1 ? "Done" : "Not displayed yet"}</span>
+                                                    <div className={item?.showQuestionToUser == 1 || item?.showQuestionToUser == 2 ? 'question-status display':'question-status not-display'}>
+                                                        <span>{item?.showQuestionToUser == 1 || item?.showQuestionToUser == 2 ? "Done" : "Not displayed yet"}</span>
                                                     </div>
                                                 </div>
                                                 <div className='question-display'>
@@ -337,11 +337,13 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                             Q{index + 1}
                                         </div>
                                         <div className='question-links-screen'>
-                                            <img src={path_image + `${(item?.showQuestionToUser == 0 || item?.showAnswerToUser == 0) ? "screen-options.svg" : "screen-active.svg"} `} alt="" />
+                                            {/* <img src={path_image + `${(item?.showQuestionToUser == 0 || item?.showAnswerToUser == 0) ? "screen-options.svg" : "screen-active.svg"} `} alt="" /> */}
+                                            <img src={path_image + `${(item?.showQuestionToUser == 1) ? "screen-active.svg" : "screen-options.svg"} `} alt="" />
+                                        {/* </div> */}
                                         </div>
                                         <div className='question-links-status'>
                                             {
-                                                item?.showQuestionToUser == 2 ? <img src={path_image + "status-approved.svg"} alt="" /> : null
+                                                (item?.showQuestionToUser == 2 || item?.showQuestionToUser == 1) ? <img src={path_image + "status-approved.svg"} alt="" /> : null
                                             }
                                         </div>
                                     </div>

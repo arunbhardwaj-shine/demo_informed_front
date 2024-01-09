@@ -80,34 +80,110 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
 
     });
 
+
+  //   const [barChartOptions, setBarChartOptions] = useState({
+  //     chart: {
+  //         type: "column",
+  //     },
+  //     title: "Poll Answers",
+  //     tooltip: {
+  //         valueSuffix: "%",
+  //     },
+  //     xAxis: {
+  //         categories: [], // Add your options/categories here
+         
+  //     },
+  //     yAxis: {
+  //         min: 0,
+  //         title: {
+  //             text: "", // Customize the y-axis label
+  //         },
+  //         stackLabels: {
+  //             enabled: true,
+  //           },
+  //     },
+  //     legend: {
+  //         enabled:true,
+  //         verticalAlign: "bottom",
+  //         // labelFormat: '{name} ({percentage:.2f}%) ',
+         
+  //     },
+  //     plotOptions: {
+         
+  //         series: {
+  //             stacking: "normal",
+  //             pointWidth: 30,
+  //             allowPointSelect: true,
+  //             cursor: "pointer",
+  //             dataLabels: [
+                 
+  //                 {
+  //                     // enabled: true,
+  //                     distance: -40,
+  //                     // format: "{point.percentage:.1f}%",
+  //                     style: {
+  //                         fontSize: "1.2em",
+  //                         textOutline: "none",
+  //                         opacity: 0.7,
+  //                     },
+  //                 },
+  //             ],
+  //         },
+  //     },
+  //     series: [
+  //         {
+  //             name: "Questions",
+  //             colorByPoint: true,
+  //             data: [],
+  //         },
+  //     ],
+  // });
+
     setBarChartOptions({
       chart: {
-        // type: "bar",
         type: "column",
       },
+
       title: null,
+
       tooltip: {
         valueSuffix: "%",
       },
+
+      xAxis: {
+        categories: answerOption.map(item => item?.answer),
+      },
+
+      yAxis: {
+                min: 0,
+                title: {
+                    text: "", 
+                },
+                stackLabels: {
+                    enabled: true,
+                  },
+            },
       legend: {
         enabled:true,
         verticalAlign: "bottom",
-        labelFormat: '{name} ({percentage:.2f}%) ',
+        // labelFormat: '{name} ({percentage:.2f}%) ',
        
     }, 
       plotOptions: {
         series: {
+          stacking: "normal",
+          pointWidth: 30,
           allowPointSelect: true,
           cursor: "pointer",
           dataLabels: [
+            // {
+            //   enabled: true,
+            //   distance: 20,
+            // },
             {
-              enabled: true,
-              distance: 20,
-            },
-            {
-              enabled: true,
+              // enabled: true,
               distance: -40,
-              format: "{point.percentage:.1f}%",
+              // format: "{point.percentage:.1f}%",
               style: {
                 fontSize: "1.2em",
                 textOutline: "none",
@@ -118,24 +194,9 @@ const PreviewGraphModal = ({ graphType, answerOption }) => {
         },
         bar: {
           showInLegend: true,
-      //   size:"60%",
-      //   dataLabels: {
-      //     enabled: false, // Disable data labels for the pie chart
-      // },
       }
       },
-      xAxis: {
-        categories: answerOption.map(item => item?.answer),
-      },
-      yAxis: {
-                min: 0,
-                title: {
-                    text: "", // Customize the y-axis label
-                },
-                stackLabels: {
-                    enabled: true,
-                  },
-            },
+  
       series: [
         {
           name: "Percentage",

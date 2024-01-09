@@ -460,6 +460,9 @@ const Event = () => {
                               }
                               name="name"
                               value={user?.name}
+                              style={{
+                                borderColor: formData?.textColor
+                              }}
                             />
                     <input
                       type="hidden"
@@ -521,6 +524,9 @@ const Event = () => {
                               cols="40"
                               rows="4"
                               value={user?.question}
+                              style={{
+                                borderColor: formData?.textColor
+                              }}
                             ></textarea>
 
                     {error?.question ? (
@@ -610,7 +616,7 @@ const Event = () => {
                 // </div>
                 <p  style={{ color: formData?.textColor }}
                 dangerouslySetInnerHTML={{
-                  __html: formData?.footerText,
+                  __html: formData?.footerText.includes('xxx') ? "Preparation date:  "+eventId?.eventDate : formData?.footerText,
                 }}
               />
               )}
@@ -703,6 +709,7 @@ eventId={eventId}
             onClose={setShow}
             data={apiData}
             eventData={value}
+            designData={formData}
           />
         )}
 
