@@ -110,14 +110,14 @@ export default function PollListing({location,eventIdContext}) {
     // }
   }, []);
 
-  useEffect(() => {
-    setQuestions(questionsOrder);
-    console.log("Saving questions:", questionsOrder);
-  }, [questionsOrder]);
+  // useEffect(() => {
+  //   setQuestions(questionsOrder);
+  //   console.log("Saving questions:", questionsOrder);
+  // }, [questionsOrder]);
 
   const getApiData = async (event_code) => {
     try {
-      // loader("show");
+      loader("show");
 
       let apiData = await getListingData(event_code);
 
@@ -132,15 +132,16 @@ export default function PollListing({location,eventIdContext}) {
 
       setApiStatus(true);
     } catch (error) {
+      loader("hide");
       console.error("Error fetching data:", error);
     } finally {
-      loader("hide");
+      // loader("hide");
     }
   };
 
   const getAllEvents = async () => {
     try {
-      // loader("show");
+      loader("show");
       const response = await getData(
         `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`
       );
@@ -171,7 +172,7 @@ export default function PollListing({location,eventIdContext}) {
   };
 
   const handleSelectChange = async (event) => {
-    // loader("show");
+    loader("show");
     setApiStatus(() => false);
     setQuestions(() => {
       let data = [];
@@ -188,7 +189,7 @@ export default function PollListing({location,eventIdContext}) {
 
   const getListingData = async (id) => {
     try {
-      // loader("show");
+      loader("show");
       const apiData = await getData(`/webinar/getQuestionByEventId/${id}`);
       let data = apiData.data.data;
 
@@ -235,7 +236,7 @@ export default function PollListing({location,eventIdContext}) {
               },
             },
           ];
-      loader("hide");
+      // loader("hide");
       const deepCopyApiData = JSON.parse(JSON.stringify(data));
 
       setOriginalQuestions(deepCopyApiData);
@@ -427,7 +428,7 @@ export default function PollListing({location,eventIdContext}) {
       return;
     }
 
-    // loader("show");
+    loader("show");
 
     const surveyData = questions[currentIndex].questionData;
     // setSurveyData(surveyData);
@@ -601,7 +602,7 @@ export default function PollListing({location,eventIdContext}) {
   };
   const finalHandleDelete = async (key) => {
     try {
-      // loader("show");
+      loader("show");
       if (key == questions?.length - 1) {
         setQuestionFlag(false);
       }
@@ -692,7 +693,7 @@ export default function PollListing({location,eventIdContext}) {
   const handlePreview = (e, index) => {
     setIsPrevClicked(true);
     let ques=JSON.parse(JSON.stringify(questions))
-    setQuestionsOrder(JSON.parse(ques))
+    setQuestionsOrder(ques)
     // console.log(questionsOrder,'===>order1')
   };
 

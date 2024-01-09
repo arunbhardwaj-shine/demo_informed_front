@@ -912,43 +912,6 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
                           <div className="col-12 col-md-12">
-                            <div className="form-group d-flex align-items-center">
-                              <label htmlFor="">
-                                Event End Date <span> *</span>
-                              </label>
-
-                              <DatePicker
-                                name="dateEnd"
-                                className={
-                                  error?.dateEnd
-                                    ? "form-control error"
-                                    : "form-control"
-                                }
-                                placeholderText="Event date"
-                                selected={
-                                  eventInputs?.dateEnd
-                                    ? new Date(eventInputs?.dateEnd)
-                                    : new Date(
-                                      moment(new Date(), "MM/DD/YYYY").format(
-                                        "MM/DD/YYYY"
-                                      )
-                                    )
-                                }
-                                onChange={(date) =>
-                                  handleChange(date, "dateEnd")
-                                }
-                                minDate={eventInputs.dateStart || currentDate}
-                                dateFormat="dd/MM/yyyy"
-                              />
-                              {error?.dateEnd ? (
-                                <div className="login-validation">
-                                  {error?.dateEnd}
-                                </div>
-                              ) : null}
-                            </div>
-                          </div>
-
-                          <div className="col-12 col-md-12">
                             <div className="form-group double-select d-flex align-items-center">
                               <label htmlFor="">
                                 Event Start Time <span> *</span>
@@ -1015,6 +978,45 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
+                          
+                          <div className="col-12 col-md-12">
+                            <div className="form-group d-flex align-items-center">
+                              <label htmlFor="">
+                                Event End Date <span> *</span>
+                              </label>
+
+                              <DatePicker
+                                name="dateEnd"
+                                className={
+                                  error?.dateEnd
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
+                                placeholderText="Event date"
+                                selected={
+                                  eventInputs?.dateEnd
+                                    ? new Date(eventInputs?.dateEnd)
+                                    : new Date(
+                                      moment(new Date(), "MM/DD/YYYY").format(
+                                        "MM/DD/YYYY"
+                                      )
+                                    )
+                                }
+                                onChange={(date) =>
+                                  handleChange(date, "dateEnd")
+                                }
+                                minDate={eventInputs.dateStart || currentDate}
+                                dateFormat="dd/MM/yyyy"
+                              />
+                              {error?.dateEnd ? (
+                                <div className="login-validation">
+                                  {error?.dateEnd}
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          
 
                           <div className="col-12 col-md-12">
                             <div className="form-group double-select d-flex align-items-center">

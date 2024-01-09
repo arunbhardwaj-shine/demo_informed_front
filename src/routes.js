@@ -577,7 +577,7 @@ const Routing = () => {
           element={<LoginLayout component={NewEventCreate} />}
         />
          <Route
-          path="/webinar/chat-link"
+          path="/webinar/live-stream/chat-link"
           element={<LoginLayout component={ChatLinkPage} />}
         />
         <Route
