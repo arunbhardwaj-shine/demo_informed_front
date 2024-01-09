@@ -9446,8 +9446,15 @@ html {
 .invitee table td.registred {
   color: #39CABC;
 }
-
-
+.invitee table td.block {
+  color: #F58289;
+}
+.clear-search button.block, .clear-search button.block:hover{
+  background: #F58289;
+}
+.clear-search button.block svg path{
+  fill: #fff;
+}
 .polls-preview-header ul,
 .polls-preview-lists ul {
   display: flex;
@@ -11186,7 +11193,7 @@ html {
   cursor: pointer;
 }
 .register-page-right-view {
-  max-width: 500px;
+  max-width: 540px;
   width: 100%;
   margin-left: auto;
 }
@@ -11255,5 +11262,11 @@ html {
   gap: 37px;
   display: flex;
   flex-wrap: wrap;
+}
+.select-mail-template .page-title h6 {
+  font-size: 18px;
+  color: #004A89;
+  font-weight: 500;
+  margin: 40px 0 22px;
 }
 /**Poll creation End**/
