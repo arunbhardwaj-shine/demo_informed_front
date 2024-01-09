@@ -1548,7 +1548,7 @@ const WebinarRegistration = () => {
                               onClick={() => setModal(true)}
                             >
                               Add data field
-                              <img src={path_image + "add-choice.svg"} alt="" />
+                              <img src={path_image + "add-choice-voilet.svg"} alt="" />
                             </span>
                           </div>
                           <section className="webinarRegistrationBody">
@@ -2569,10 +2569,10 @@ const WebinarRegistration = () => {
                                       ) : null}
                                     </div>
                                     <div>
-                                      Select color of:
+                                      <h5>Select color of:</h5>
                                       <div className="d-flex align-items-center reg-color-set">
-                                        <div className="form-group">
-                                          <label>Typed Text</label>
+                                        <div className="form-group d-flex align-items-center">
+                                          <label>Typed text</label>
                                           <div className="option-action">
                                             <div className="color-pick">
                                               <img
@@ -2600,8 +2600,8 @@ const WebinarRegistration = () => {
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="form-group">
-                                          <label>Placeholder Text</label>
+                                        <div className="form-group d-flex align-items-center">
+                                          <label>Placeholder text</label>
                                           <div className="option-action">
                                             <div className="color-pick">
                                               <img
@@ -2629,7 +2629,7 @@ const WebinarRegistration = () => {
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group d-flex align-items-center">
                                           <label> Label </label>
                                           <div className="option-action">
                                             <div className="color-pick">
@@ -2655,7 +2655,7 @@ const WebinarRegistration = () => {
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="form-group">
+                                        {/* <div className="form-group">
                                           <label>Select Option color</label>
                                           <div className="option-action">
                                             <div className="color-pick">
@@ -2683,7 +2683,7 @@ const WebinarRegistration = () => {
                                               />
                                             </div>
                                           </div>
-                                        </div>
+                                        </div> */}
 
                                         {/* <div className="form-group">
                                         <label>Select background color</label>
@@ -2715,11 +2715,11 @@ const WebinarRegistration = () => {
                                       </div> */}
                                       </div>
                                     </div>
-                                    <div>
-                                      Select color of dropdown list:
+                                    <div className="dropdown-style">
+                                      <h5>Select color of dropdown list:</h5>
                                       <div className="d-flex align-items-center reg-color-set">
-                                        <div className="form-group">
-                                          <label>Options Text color</label>
+                                        <div className="form-group d-flex align-items-center">
+                                          <label>Options text color</label>
                                           <div className="option-action">
                                             <div className="color-pick">
                                               <img
@@ -2747,8 +2747,8 @@ const WebinarRegistration = () => {
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="form-group">
-                                          <label>Hovering Bar</label>
+                                        <div className="form-group d-flex align-items-center">
+                                          <label>Hovering bar</label>
                                           <div className="option-action">
                                             <div className="color-pick">
                                               <img
@@ -2776,8 +2776,8 @@ const WebinarRegistration = () => {
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="form-group">
-                                          <label>Selected Text</label>
+                                        <div className="form-group d-flex align-items-center">
+                                          <label>Selected text</label>
                                           <div className="option-action">
                                             <div className="color-pick">
                                               <img
@@ -2827,7 +2827,7 @@ const WebinarRegistration = () => {
                         </div> */}
                      
                     
-                      <div className="form-group d-flex align-items-center">
+                      <div className="form-group d-flex align-items-center less-spacer">
                       <label>Upload Logo</label>
                       <div
                         className="logo-section"
@@ -2839,7 +2839,7 @@ const WebinarRegistration = () => {
                               <h5>Upload your file</h5>
                               <h6>(Recommended size 000 x 000)</h6>
                             </div>
-                            <Button
+                            <Button className="upload-img"
                               onClick={(e) =>
                                 handleFileSelect(e, "logoImageUrl")
                               }
@@ -2885,7 +2885,7 @@ const WebinarRegistration = () => {
                         </div>
                       </div>
                       </div>
-                      <div className="form-group d-flex align-items-center">
+                      <div className="form-group d-flex align-items-center less-spacer">
                       <label>Upload Header</label>
                       <div
                         className="header-section"
@@ -2897,7 +2897,7 @@ const WebinarRegistration = () => {
                               <h5>Upload your file</h5>
                               <h6>(Recommended size 000 x 000)</h6>
                             </div>
-                            <Button
+                            <Button className="upload-img"
                               onClick={(e) =>
                                 handleFileSelect(e, "headerImageUrl")
                               }
@@ -2943,7 +2943,7 @@ const WebinarRegistration = () => {
                         </div>
                       </div>
                       </div>
-                      <div className="form-group d-flex align-items-center">
+                      <div className="form-group d-flex align-items-center less-spacer">
                         <label>Upload Footer</label>
                       <div
                         className="footer-section"
@@ -2955,7 +2955,7 @@ const WebinarRegistration = () => {
                               <h5>Upload your file</h5>
                               <h6>(Recommended size 000 x 000)</h6>
                             </div>
-                            <Button
+                            <Button className="upload-img"
                               onClick={(e) =>
                                 handleFileSelect(e, "footerImageUrl")
                               }
