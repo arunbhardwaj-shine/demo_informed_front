@@ -460,6 +460,9 @@ const Event = () => {
                               }
                               name="name"
                               value={user?.name}
+                              style={{
+                                borderColor: formData?.textColor
+                              }}
                             />
                     <input
                       type="hidden"
@@ -521,6 +524,9 @@ const Event = () => {
                               cols="40"
                               rows="4"
                               value={user?.question}
+                              style={{
+                                borderColor: formData?.textColor
+                              }}
                             ></textarea>
 
                     {error?.question ? (
@@ -703,6 +709,7 @@ eventId={eventId}
             onClose={setShow}
             data={apiData}
             eventData={value}
+            designData={formData}
           />
         )}
 
