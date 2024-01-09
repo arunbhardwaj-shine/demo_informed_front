@@ -231,7 +231,8 @@ const Invitees = () => {
   }
 
   const userEmailClicked = (e, user) => {
-    console.log("email clicked-->", user?.Email)
+    navigate("/EmailList");
+    // console.log("email clicked-->", user?.Email)
   }
 
   const userBlockedClicked = async (e, user, index) => {
@@ -349,6 +350,7 @@ const Invitees = () => {
   };
 
   const userSort = (e, key) => {
+   
     const direction = sortNameDirection === 0 ? 'asc' : 'dec';
 
     const sortedUserData = [...userData].sort(dynamicSort(key, direction));
@@ -829,7 +831,7 @@ const Invitees = () => {
                               ? "svg_asc"
                               : ""
                             }`}
-                          onClick={(e) => userSort(e, "country")}
+                          onClick={(e) => userSort(e, "province")}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                             <g clip-path="url(#clip0_3722_6611)">
@@ -851,7 +853,7 @@ const Invitees = () => {
                               ? "svg_asc"
                               : ""
                             }`}
-                          onClick={(e) => userSort(e, "registered")}
+                          onClick={(e) => userSort(e, "register_time")}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
                             <g clip-path="url(#clip0_3722_6611)">
@@ -932,7 +934,7 @@ const Invitees = () => {
                               <div className="clear-search">
                                 <button
                                   // style={{ marginLeft: "10px" }}
-                                  className="disabled btn-webinar"
+                                  className="btn-webinar"
                                   onClick={(e) => userEmailClicked(e, user)}
                                 >
                                   {/* <img

@@ -572,8 +572,8 @@
       label {
         margin: 0;
         flex: 0 0 200px;
-        align-self: flex-start;
-        padding: 16px 0 0;
+        align-self: center;
+        // padding: 16px 0 0;
         font-size: 16px;
       }
 
@@ -4535,6 +4535,11 @@ input[type="number"] {
   align-items: center;
   justify-content: center;
   padding: 4px 16px;
+
+  &.disabled {
+    border-color: #97B6CF;
+    color: #97B6CF;
+  }
 
   &:hover {
     color: $white;
@@ -11255,7 +11260,7 @@ img.change-password-image {
               height: 48px;
               display: flex;
               align-items: center;
-              max-width: 130px;
+              max-width: 120px;
               flex-direction: row-reverse;
               gap: 8px;
 
@@ -17342,27 +17347,29 @@ img.change-password-image {
 }
 
 .create-change-content.register-page .form-group {
-  gap: 0 15px;
+  gap: 0 16px;
 }
 
 .color-pick {
   border-radius: 30px;
   background: rgb(231 239 246 / 76%);
   width: 100%;
-  padding: 4px 8px;
-  height: 44px;
+  padding: 4px;
+  height: 48px;
   display: flex;
   align-items: center;
-  max-width: 90px;
+  max-width: 120px;
+  flex-direction: row-reverse;
+  gap: 8px;
 
   input[type="color"] {
     border-radius: 30px;
-    -webkit-appearance: none;
     appearance: none;
-    width: 108px;
-    margin-left: -34px;
+    width: 64px;
+    margin-left: 0px;
     cursor: pointer;
-    padding-left: 40px;
+    padding-left: 0px;
+    height: 100%;
 
     &::-webkit-color-swatch {
       border: none;
@@ -17375,12 +17382,29 @@ img.change-password-image {
       border-radius: 30px;
       padding: 0;
     }
+
+    &::-moz-color-swatch {
+      border: none;
+      border-radius: 30px;
+      padding: 0;
+    }
+
+    &::-moz-color-swatch-wrapper {
+      border: none;
+      border-radius: 30px;
+      padding: 0;
+    }
   }
 
   img {
-    max-width: 24px;
+    max-width: 40px;
     position: relative;
-    pointer-events: none
+    pointer-events: none;
+    border-radius: 30px;
+    background: #ffffff;
+    padding: 9px;
+    width: 100%;
+    cursor: pointer;
   }
 }
 
@@ -17398,17 +17422,17 @@ img.change-password-image {
 
   h5 {
     flex: 0 0 100%;
-    font-size: 22px;
-    line-height: 25px;
+    font-size: 18px;
+    line-height: 22px;
     color: #004A89;
     width: 100%;
-    margin: 0 0 16px;
+    margin: 0 0 12px;
   }
 
   .select-collected {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px 3%;
+    gap: 20px 3.9%;
     padding: 0 0 40px;
     margin-bottom: 22px;
     position: relative;
@@ -17427,9 +17451,9 @@ img.change-password-image {
   .add-choice {
     background: transparent;
     border: 0;
-    color: #004A89;
+    color: #8A4E9C;
     padding: 0;
-    font-size: 16px;
+    font-size: 14px;
     margin-left: auto;
     display: flex;
     align-items: center;
@@ -17450,7 +17474,7 @@ img.change-password-image {
   flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
-  width: 31.3%;
+  width: 30.3%;
   margin: 0 0;
 
   .form-check-input {

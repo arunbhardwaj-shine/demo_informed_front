@@ -73,6 +73,7 @@ const CommonAddEventModel = ({
     { label: "No", value: "0" },
   ]);
   const [timezoneOptions, setTimezoneOptions] = useState([]);
+  const [originalTimeZoneOptions,setOriginalTimeZoneOptions]=useState([])
   const [ibuOptions, setIBUOptions] = useState([]);
   const [meetingOptions, setMeetingOptions] = useState([
     { label: "Live", value: "Live" },
@@ -105,7 +106,16 @@ const CommonAddEventModel = ({
   });
   useEffect(() => {
     setIBUOptions(webinarDetail?.ibu);
-    setTimezoneOptions(webinarDetail?.timezoneName);
+   let uniqueTimeZone=[]
+   let uniqueLabelsSet = [];
+   webinarDetail?.timezoneName?.forEach((item)=>{
+    if (!uniqueLabelsSet?.includes(item?.label)) {
+      uniqueLabelsSet?.push(item?.label);
+      uniqueTimeZone?.push(item);
+    }
+  })   
+    setTimezoneOptions(uniqueTimeZone);
+    setOriginalTimeZoneOptions(webinarDetail?.timezoneName)
     if (data?.id) {
       let speaker_name = "";
       let speaker_email = "";
@@ -124,7 +134,6 @@ const CommonAddEventModel = ({
         event_type=parseData?.event_type;
       }
        countryTimeZoneOptions=webinarDetail?.timezoneName?.map((item)=>(item?.label==data?.timezone?{label:item?.value,value:item?.value}:null)).filter(Boolean);
-
       setCountryTimezone(countryTimeZoneOptions)
       setEventInputs({
         ...data,
@@ -208,7 +217,7 @@ const CommonAddEventModel = ({
       handleDebouncedChange(value);
     } else if (isSelectedName == "timezone") {
 
-      let countryTimeZoneOptions=timezoneOptions?.map((item)=>(item?.label==e?.label?{label:item?.value,value:item?.value}:null)).filter(Boolean);
+      let countryTimeZoneOptions=originalTimeZoneOptions?.map((item)=>(item?.label==e?.label?{label:item?.value,value:item?.value}:null)).filter(Boolean);
         setCountryTimezone(countryTimeZoneOptions)
       setEventInputs({ ...eventInputs, timezone: e?.label })
     }
