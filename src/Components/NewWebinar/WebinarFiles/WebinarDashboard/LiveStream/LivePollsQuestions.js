@@ -278,27 +278,34 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                                         <h6>{item?.speakerName}</h6>
                                                     </div>
                                                 </div>
-                                                <div className='question-status d-flex justify-content-between'>
-                                                    <div className='question-status-live'>
-                                                        <div className='question-live'>
-                                                            <label>Total (Live)</label>
-                                                            <p dangerouslySetInnerHTML={{__html:item?.totalUser}}></p>
+                                                
+                                                    <div className='question-status d-flex justify-content-between'>
+                                                        <div className='question-status-live'>
+                                                            <div className='question-live'>
+                                                                <label>Total (Live)</label>
+                                                                <p dangerouslySetInnerHTML={{__html:item?.totalUser}}></p>
+                                                            </div>
+                                                            <div className='question-answered'>
+                                                                <label>Answered</label>
+                                                                <p dangerouslySetInnerHTML={{__html:item?.totalUser}}></p>
+                                                            </div>
                                                         </div>
-                                                        <div className='question-answered'>
-                                                            <label>Answered</label>
-                                                            <p dangerouslySetInnerHTML={{__html:item?.totalUser}}></p>
-                                                        </div>
+                                                        {
+                                                             apiCallStatus ? 
+                                                             <div class="inner-loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
+                                                            :
+                                                            <div class="inner-loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
+                                                            // <div className='btn-group'>
+                                                            //     <label>Display:</label>
+                                                            //     <div className='btn-group-add'>
+                                                                    
+                                                            //         <Button className={item?.showQuestionToUser == 1 ? 'active quest' : item?.showQuestionToUser == 2 ? "visited quest" : "quest"} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"submit")}>Question</Button>
+                                                            //         <Button className={item?.showAnswerToUser == 1 ? 'active answer' : item?.showAnswerToUser == 2  ? 'visited answer' : 'answer'} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"answer")}>Answers</Button>
+                                                            //         <Button className={(item?.triggered == 1 || item?.showAnswerToUser == 1) ? 'close'  : 'close active'} onClick={(e) => closedClicked(e)}>Closed</Button>
+                                                            //     </div>
+                                                            // </div>
+                                                        }
                                                     </div>
-                                                    <div className='btn-group'>
-                                                        <label>Display:</label>
-                                                        <div className='btn-group-add'>
-                                                            
-                                                            <Button className={item?.showQuestionToUser == 1 ? 'active quest' : item?.showQuestionToUser == 2 ? "visited quest" : "quest"} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"submit")}>Question</Button>
-                                                            <Button className={item?.showAnswerToUser == 1 ? 'active answer' : item?.showAnswerToUser == 2  ? 'visited answer' : 'answer'} onClick={(e) => submitQuestionAnswer(e, item?.questionId,"answer")}>Answers</Button>
-                                                            <Button className={(item?.triggered == 1 || item?.showAnswerToUser == 1) ? 'close'  : 'close active'} onClick={(e) => closedClicked(e)}>Closed</Button>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </>)
@@ -380,27 +387,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                 <div className='pie-chart-outer-layout' >                
                     <QuestionPollsPieChart data={pieChartData} />
                 </div>           
-                 {
-                    apiCallStatus ? 
-                    <div
-                        className='poll_question_loader'
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "100%",
-                            height: "100%",
-                        }}
-                        >
-                        <Spinner
-                            color="#53aff4"
-                            size={32}
-                            speed={1}
-                            animating={true}
-                        />
-                    </div>
-                    : null
-                 }           
+                            
                 
            
             </div>
