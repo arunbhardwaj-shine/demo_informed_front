@@ -367,6 +367,42 @@ const Event = () => {
             </div>
             <div className="question-block-form">
               <div className="log-inner">
+
+              {parms?.includes("eahad_2024") ? (
+                <div className="head-sec" 
+                //  style={{
+                //   background: formData?.headerBackgroundColor,
+                //   borderBottomColor: formData?.buttonColor,
+                // }}
+                >
+                  {parms?.includes("eahad_2024") ? (
+                    <div>
+                      <img
+                        classname="header-img"
+                        src={path_image + "underspotlight-new1.png"}
+                        alt=""
+                      />
+                      <div className="right-side-img">
+                        <img
+                          src={path_image + "underspot-lady.png"}
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <h2 className="top-title"  style={{ color: formData?.textColor }}   dangerouslySetInnerHTML={{
+                      __html: formData?.heading,
+                    }}>
+                      {/* Write your question here! */}
+                    
+                    </h2>
+                  )}
+                  {/*<div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div>
+   <div className="head_desc">
+ </div> */}
+                </div>
+
+              ):(
                 <div className="head-sec" 
                  style={{
                   background: formData?.headerBackgroundColor,
@@ -398,6 +434,7 @@ const Event = () => {
    <div className="head_desc">
  </div> */}
                 </div>
+              )}
               </div>
               {parms?.includes("eahad_2024") ? (
                 <div className="event_title">
@@ -549,7 +586,31 @@ const Event = () => {
                       }
                     /> */}
 
-                          <Button
+                    {parms?.includes("eahad_2024")?
+                    ( <input
+                    type="submit"
+                    className="btn btn-success"
+                    value={
+                      parms?.includes("eahad_2024")
+                        ? "SUBMIT"
+                        : "SEND"
+                    }
+                  /> 
+)
+                    :( <Button
+                      type="submit"
+                      className="btn btn-success"
+                      style={{
+                        background: formData?.buttonColor,
+                        borderColor: formData?.buttonColor,
+                      }}
+                      dangerouslySetInnerHTML={{
+                        __html: formData?.buttonText,
+                      }}
+                    ></Button>)
+                    }
+
+                          {/* <Button
                               type="submit"
                               className="btn btn-success"
                               style={{
@@ -559,7 +620,7 @@ const Event = () => {
                               dangerouslySetInnerHTML={{
                                 __html: formData?.buttonText,
                               }}
-                            ></Button>
+                            ></Button> */}
                   </div>
 
                   {parms?.includes("eahad_2024") && (
