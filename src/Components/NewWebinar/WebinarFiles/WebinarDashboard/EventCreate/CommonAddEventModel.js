@@ -214,6 +214,7 @@ const CommonAddEventModel = ({
         ...eventInputs,
         [isSelectedName || name]: isSelectedName ? e : value?.trim(),
       });
+      console.log("value-->",value)
       handleDebouncedChange(value);
     } else if (isSelectedName == "timezone") {
 
@@ -237,14 +238,18 @@ const CommonAddEventModel = ({
   };
 
   const handleDebouncedChange=debounce(async (value)=>{
+    
 try{
   let error={}
   let eventCode=value;
 const response=await postData(ENDPOINT.EVENT_ID,{eventCode})
 if(response?.data?.data?.id){
-  error.event_code="Event code already exist"
-  setError(error)
-  return
+  if(data?.id!=response?.data?.data?.id){
+    error.event_code="Event code already exist"
+    setError(error)
+    return
+  }
+  
 }else{
   setError(error)
 }
@@ -315,10 +320,15 @@ catch(err){
 
   const saveClicked = async (e) => {
     try {
-      const error = EventModelValidation(eventInputs);
-      if (Object.keys(error)?.length) {
+      
+      if(error?.event_code){
+        console.log("error--->",error?.event_code)
+        return
+      }
+      const errorSaveClicked = EventModelValidation(eventInputs);
+      if (Object.keys(errorSaveClicked)?.length) {
         // toast.error(error[Object.keys(error)[0]]);
-        setError(error);
+        setError(errorSaveClicked);
         return;
       } else {
         loader("show");
