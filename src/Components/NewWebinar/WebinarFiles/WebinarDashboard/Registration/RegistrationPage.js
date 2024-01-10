@@ -763,7 +763,7 @@ const FormField1 = ({
         placeholder={form.placeholder ? form.placeholder : "Select"}
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
-        onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        onChange={(selectedOption) => handleFieldChange(selectedOption?.value)}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -985,7 +985,7 @@ const FormField2 = ({
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
-        onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        onChange={(selectedOption) => handleFieldChange(selectedOption?.value)}
         placeholder={form.placeholder ? form.placeholder : "Select"}
       />
     );
@@ -1379,7 +1379,7 @@ const FormField4 = ({
   const consentFieldClass = isConsentField ? "consent-feild" : "";
 
   const handleFieldChange = (value, e = "") => {
-    // console.log("i am here ");
+   
     const newData = { ...formFieldData };
 
     if (form?.inputType === "datepicker") {
@@ -1542,7 +1542,7 @@ const FormField4 = ({
         }
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
-        onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        onChange={(selectedOption) => handleFieldChange(selectedOption?.value)}
         placeholder={form.placeholder ? form.placeholder : "Select"}
         style={{
           color: pageColors?.dropdownOptionColor,
