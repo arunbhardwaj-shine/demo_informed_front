@@ -419,7 +419,7 @@ function Question(props) {
           <Modal.Body>
             <>
               <div className="webinar-popup polls-preview">
-                <PreviewGraphModal  onClose={handleClose} graphType={graphType} answerOption={answerOption}/>
+                <PreviewGraphModal  onClose={handleClose} graphType={graphType} answerOption={answerOption} question={question}/>
               </div>
             </>
           </Modal.Body>
