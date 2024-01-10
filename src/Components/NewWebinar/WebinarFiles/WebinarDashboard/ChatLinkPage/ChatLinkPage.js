@@ -76,7 +76,7 @@ const ChatLinkPage = () => {
     }
   };
 
-  const handleFileSelect = async (e, isSelectedName) => {
+  const handleFileSelect =  (e, isSelectedName) => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.style.display = "none";
@@ -89,9 +89,9 @@ const ChatLinkPage = () => {
         const extension = file.name.split(".").pop().toLowerCase();
 
         if (!validExtensions.includes(extension)) {
-          if (isSelectedName === "headerImageUrl") {
+          if (isSelectedName === "logoImageUrl") {
             setErrorMsg(
-              `Invalid file extension of header. Please select a valid extension file.`
+              `Invalid file extension of logo. Please select a valid extension file.`
             );
           }
         } else {
@@ -106,14 +106,14 @@ const ChatLinkPage = () => {
               [isSelectedName]: uploadedImageUrl,
             }));
             setDefaultLogo(dynamicContent?.logoImageUrl);
-            setLogo(uploadedImageUrl);
+            // setLogo(uploadedImageUrl);
+            setLogo(URL.createObjectURL(file));
           } catch (error) {
             console.error("Error uploading logo image:", error);
           }
         }
       }
     });
-
     fileInput.click();
   };
 
@@ -216,6 +216,10 @@ const ChatLinkPage = () => {
       const response = await postData(ENDPOINT.STORECHATLINKDATA, payload);
       setFormData(dynamicContent);
       setIsDataSaved(true);
+      if (errorMsg && errorMsg !== "") {
+        toast.error(errorMsg);
+        return;
+      }
       // console.log(isDataSaved,'===>isdata')
     } catch (error) {
       console.error("Error:", error);
@@ -295,7 +299,7 @@ const ChatLinkPage = () => {
                                 <h5>Upload your file</h5>
                               </div>
                               <Button
-                                onClick={(e) => handleFileSelect(e, field)}
+                                onClick={(e) => handleFileSelect(e, "logoImageUrl")}
                               >
                                 Choose Your File
                               </Button>
@@ -315,7 +319,7 @@ const ChatLinkPage = () => {
                                   alt="Edit"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleFileSelect(e, field);
+                                    handleFileSelect(e, "logoImageUrl");
                                   }}
                                 />
                               </button>
@@ -326,7 +330,7 @@ const ChatLinkPage = () => {
                                 className="dlt_btn_event btn-voilet"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleDeleteLogoImage(e, field);
+                                  handleDeleteLogoImage(e, "logoImageUrl");
                                 }}
                               >
                                 <img
