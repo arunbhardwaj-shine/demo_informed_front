@@ -42,6 +42,10 @@ const EventModelValidation = (data) => {
   }
   if (!data?.event_code) {
     error.event_code = "Please select event code";
+  }else if(data?.event_code){
+    if(data?.event_code?.length<3){
+      error.event_code = "Event code atleast 3 characters long";
+    }
   }
   if ((data?.speaker_name)?.length) {
     let index = (data?.speaker_name)?.findIndex(
