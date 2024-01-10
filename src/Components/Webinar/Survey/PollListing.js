@@ -1159,6 +1159,7 @@ export default function PollListing({location,eventIdContext}) {
 
       <CommonConfirmModel
         show={confirmationpopup}
+        onCloseCross={hideConfirmationModal}
         onClose={hideConfirmationModal}
         fun={finalHandleDelete}
         popupMessage={popupMessage}
