@@ -2861,10 +2861,10 @@ const WebinarRegistration = () => {
                           <button
                             className="btn btn-outline-primary"
                             title="Edit user"
+                            type="button"
                           >
                             <img
                               src={path + "edit-button.svg"}
-                              alt="Edit"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleFileSelect(e, "logoImageUrl");
@@ -2922,6 +2922,7 @@ const WebinarRegistration = () => {
                             <button
                               className="btn btn-outline-primary"
                               title="Edit user"
+                              type="button"
                             >
                               <img
                                 src={path + "edit-button.svg"}
@@ -2984,6 +2985,7 @@ const WebinarRegistration = () => {
                             <button
                               className="btn btn-outline-primary"
                               title="Edit user"
+                              type="button"
                             >
                               <img
                                 src={path + "edit-button.svg"}
