@@ -8,7 +8,6 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
 
  
   useEffect(() => {
-    // console.log(question,'answerOption')
     let percentage = parseInt(100 / answerOption?.length);
   
     let pieSeriesData = answerOption.map((item, index) => ({
@@ -18,6 +17,7 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
       title:question,
       // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
+  
   
     let barSeriesData = answerOption.map((item, index) => ({
       name: item?.answer,
@@ -64,10 +64,6 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
         },
         pie: {
           showInLegend: true,
-      //   size:"60%",
-      //   dataLabels: {
-      //     enabled: false, // Disable data labels for the pie chart
-      // },
       }
       },
       series: [
@@ -110,11 +106,10 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
                     enabled: true,
                   },
             },
+
       legend: {
-        enabled:true,
+        enabled:false,
         verticalAlign: "bottom",
-        // labelFormat: '{name} ({percentage:.2f}%) ',
-       
     }, 
       plotOptions: {
         series: {
@@ -123,14 +118,8 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
           allowPointSelect: true,
           cursor: "pointer",
           dataLabels: [
-            // {
-            //   enabled: true,
-            //   distance: 20,
-            // },
             {
-              // enabled: true,
               distance: -40,
-              // format: "{point.percentage:.1f}%",
               style: {
                 fontSize: "1.2em",
                 textOutline: "none",
@@ -146,7 +135,7 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
   
       series: [
         {
-          name: "Percentage",
+          name: "",
           colorByPoint: true,
           data: barSeriesData,
         },
