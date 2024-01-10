@@ -253,13 +253,7 @@ const ChatLinkPage = () => {
           
 
           <div className="d-flex justify-content-end header_btns">
-          <Button
-            onClick={(e) => {
-              handlePreviewInNewTab(e);
-            }}
-          >
-            Open Link
-          </Button>
+         
           <a
             // className={`copy_link btn-voilet`}
             className={`copy_link btn-voilet ${
@@ -278,12 +272,18 @@ const ChatLinkPage = () => {
           >
             Copy Chat Link
           </a>
+           <Button copy_link btn-bordered 
+            onClick={(e) => {
+              handlePreviewInNewTab(e);
+            }}
+          >
+            Open Link
+          </Button>
           </div>
           
           <div className="row ">
             <div className="col-md-6 col-sm-6">
               <div className="chatlink-left">
-              <h6>(Recommended size 300 x 140)</h6>
                 {Object.entries(dynamicEventData).map(([field, value]) => (
                   <div
                     key={field}
@@ -342,6 +342,7 @@ const ChatLinkPage = () => {
                             )}
                           </div>
                         </div>
+                        <span className="suggestion">(Recommended size 300 x 140)</span>
                       </>
                     ) : value.type == "color" ? (
                       <>
