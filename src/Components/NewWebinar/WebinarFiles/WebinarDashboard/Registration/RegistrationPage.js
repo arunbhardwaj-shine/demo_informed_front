@@ -739,6 +739,9 @@ const FormField1 = ({
         cols="40"
         rows="4"
         onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
       ></textarea>
     );
   } else if (
@@ -887,6 +890,9 @@ const FormField1 = ({
           id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
           placeholder={form.placeholder}
           onChange={(e) => handleFieldChange(e.target.value)}
+          style={{
+            color: pageColors?.typedTextColor,
+          }}
         />
         <div className="field-icon">
           <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
@@ -962,6 +968,9 @@ const FormField2 = ({
         cols="40"
         rows="4"
         onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
       ></textarea>
     );
   } else if (
@@ -1109,6 +1118,9 @@ const FormField2 = ({
           id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
           placeholder={form.label}
           onChange={(e) => handleFieldChange(e.target.value)}
+          style={{
+            color: pageColors?.typedTextColor,
+          }}
         />
         <div className="field-icon">
           <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
@@ -1193,6 +1205,9 @@ const FormField3 = ({
         cols="40"
         rows="4"
         onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
       ></textarea>
     );
   } else if (
@@ -1340,6 +1355,9 @@ const FormField3 = ({
         id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
         placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
       />
     );
   }
@@ -1377,7 +1395,6 @@ const FormField4 = ({
   const label = form?.name?.replace(/ /g, "_");
   const isConsentField = form?.label?.toLowerCase().includes("consent");
   const consentFieldClass = isConsentField ? "consent-feild" : "";
-
   const handleFieldChange = (value, e = "") => {
     // console.log("i am here ");
     const newData = { ...formFieldData };
