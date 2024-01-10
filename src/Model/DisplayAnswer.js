@@ -6,12 +6,12 @@ import HighchartsReact from "highcharts-react-official";
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 let  colors= ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"] 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-function DisplayAnswer({ show, data, onClose, readerCount, customAnswer }) {
+function DisplayAnswer({ show, data, onClose, readerCount, customAnswer, designData, graphType }) {
   const [searchParams] = useSearchParams();
   let parms=searchParams.get('evnt');
   const [userCount,setUserCount] = useState(0) 
   let chartOptions = '';
-if(customAnswer == 1){
+if(customAnswer == 1 || graphType === 'bar'){
   let graphData = [],
       line_v = [],
       line_h = [];
@@ -22,7 +22,7 @@ if(customAnswer == 1){
         const foundObj = {
           y: item?.y,
           name: item?.name,
-          color: colors[i],
+          color: item?.color ? item?.color : colors[i],
         };
         graphData.push(foundObj);
       });
@@ -67,11 +67,11 @@ if(customAnswer == 1){
       name: question.name,
       y: question.y,
       drilldown: question.drilldown,
-      color:colors[index],
+      color:question?.color ? question?.color : colors[index],
+      // color:colors[index],
       // color: question.y === 2 ? "#00FF00" : "#FF0000", 
     }));
-    const drilldownData = data
-      .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
+    const drilldownData = data?.filter(question => question?.drillDownData?.length > 0) // Exclude questions with empty drillDownData
       .map(question => ({
         id: question.drilldown,
         name: question.name,
@@ -185,20 +185,21 @@ if(customAnswer == 1){
     <>
       <Modal show={show} backdrop="static" onHide={onClose}  className={`${shouldAddClass ? "eahad_2024" : ""}`}
       keyboard={false} id="pollModel1">
-      <Modal.Header closeButton>
+      <Modal.Header closeButton style={{ background: designData?.headerBackgroundColor }}>
       <Modal.Title id="contained-modal-title-vcenter">
           {/* <img
             // src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
             src={path_image+'FVIII_logo.png'} 
             alt="logo"
           /> */}
-           <img  src={`${parms?.includes("eahad_2024")?"https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png":path_image+'FVIII_logo.png'}`}alt="Factor logo" />
+           {/* <img  src={`${parms?.includes("eahad_2024")?"https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png":path_image+'FVIII_logo.png'}`}alt="Factor logo" /> */}
+           <img  src={designData?.logoImageUrl} alt="Factor logo" />
         </Modal.Title>
       </Modal.Header>
         <Modal.Body>
-          <p>{data?.question}</p>
+          <p dangerouslySetInnerHTML={{__html: data?.question}}></p>
           <HighchartsReact key = {"rand_"+customAnswer} highcharts={Highcharts} options={chartOptions} />
-          <h5>Total Answer:{readerCount}</h5>
+          <h5 style={{ color: designData?.textColor }}>Total Answer:{readerCount}</h5>
         </Modal.Body>
       
       </Modal>

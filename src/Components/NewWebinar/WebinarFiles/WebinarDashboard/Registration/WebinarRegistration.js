@@ -72,7 +72,7 @@ const WebinarRegistration = () => {
   const [showExtensionModal, setExtensionModal] = useState(false);
   const [isFormChange, setIsFormChange] = useState(false);
   const [isDataSaved, setIsDataSaved] = useState(true);
-  const [save, setSave] = useState();
+  const [save, setSave] = useState(0);
   const [isSavedClicked, setIsSavedClicked] = useState(false);
   const [rawData, setRawData] = useState({});
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
@@ -919,7 +919,7 @@ const WebinarRegistration = () => {
       // setFile("");
       // setFoot("");
       // setLogo("");
-      setSave(response);
+      setSave((save)=>save+1);
       setIsDataSaved(true);
     } catch (err) {
       console.error("--err", err);
@@ -1047,6 +1047,8 @@ const WebinarRegistration = () => {
         setConfirmationPopup(true);
       }
     } else {
+      setSave((save)=>save+1);
+
       if (originalFormData?.templateId == template?.templateId) {
         let updatedBody = JSON.parse(JSON.stringify(originalFormData));
         setLogo(
@@ -1125,6 +1127,7 @@ const WebinarRegistration = () => {
               " ";
           }
         }
+
         setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
         setFormData(updatedBody);
       }
@@ -1141,6 +1144,9 @@ const WebinarRegistration = () => {
     //   setFormData(updatedBody);
     // }
     // setActiveIndex(template?.templateId);
+    
+
+
   };
 
   const handleCommonConfirmModal = () => {
@@ -2861,10 +2867,10 @@ const WebinarRegistration = () => {
                           <button
                             className="btn btn-outline-primary"
                             title="Edit user"
+                            type="button"
                           >
                             <img
                               src={path + "edit-button.svg"}
-                              alt="Edit"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleFileSelect(e, "logoImageUrl");
@@ -2922,6 +2928,7 @@ const WebinarRegistration = () => {
                             <button
                               className="btn btn-outline-primary"
                               title="Edit user"
+                              type="button"
                             >
                               <img
                                 src={path + "edit-button.svg"}
@@ -2984,6 +2991,7 @@ const WebinarRegistration = () => {
                             <button
                               className="btn btn-outline-primary"
                               title="Edit user"
+                              type="button"
                             >
                               <img
                                 src={path + "edit-button.svg"}
