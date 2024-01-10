@@ -317,7 +317,7 @@ function Question(props) {
                                 />
                                 <input
                                   type="color"
-                                  title="Choose Your Color"
+                                  title="This is the answer's color in the graph result"
                                   onChange={(e) =>
                                     onChoiceColorChange(e, index)
                                   }

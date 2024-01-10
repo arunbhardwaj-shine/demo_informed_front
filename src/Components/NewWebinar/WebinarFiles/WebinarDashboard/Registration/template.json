@@ -35,13 +35,14 @@
     
     "eventDateDetails": {
         "title": "Event Date Details",
-        "type": "text",
+        "type": "textArea",
         "value": "31st January 2024 <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source",
         "color": "#001489"
+       
     },
     "pageTitle": {
         "title": "Registration Page Title",
-        "type": "text",
+        "type": "textArea",
         "value": "Registrations are now open to the Patient Case",
         "color": "#001489"
     },
@@ -70,7 +71,7 @@
         "color": "#001489"
     },
     "Message": {
-        "title": "Modal Message",
+        "title": "Thank You Message",
         "type": "text",
         "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
         "color":  "#001489"
@@ -195,7 +196,7 @@
                 "color": "#04b39a"
             },
             "Message": {
-                "title": "Modal Message",
+                "title": "Thank You Message",
                 "type": "text",
                 "value": "Thank you for registering!",
                 "color": "#04b39a"
@@ -409,7 +410,7 @@
                 "color": "#354367"
             },
             "Message": {
-                "title": "Modal Message",
+                "title": "Thank You Message",
                 "type": "text",
                 "value": "Thank you for registering!",
                 "color":  "#354367"
@@ -579,7 +580,7 @@
                 "color": "#354367"
             },
             "Message": {
-                "title": "Modal Message",
+                "title": "Thank You Message",
                 "type": "text",
                 "value": "Thank you for registering!",
                 "color": "#354367"

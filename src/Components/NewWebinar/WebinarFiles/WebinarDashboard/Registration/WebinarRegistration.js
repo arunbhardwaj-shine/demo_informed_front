@@ -1345,7 +1345,14 @@ const WebinarRegistration = () => {
                                       {field.title}
                                       {/* <span>*</span> */}
                                     </label>
-                                    <input
+                                   { field.type == 'textArea'?<textarea className={`form-control ${
+                                        key == "eventEndTime" ||
+                                        key == "eventStartTime"
+                                          ? "disabled"
+                                          : ""
+                                      }`}
+                                      // className="form-control"
+                                      onChange={handleChange} name={`eventDetails-${key}`}>{field.value}</textarea>:<input
                                       type={field.type}
                                       name={`eventDetails-${key}`}
                                       value={field.value}
@@ -1371,7 +1378,7 @@ const WebinarRegistration = () => {
                                       onChange={handleChange}
                                       // disabled
                                       // readOnly={true}
-                                    />
+                                    />}
                                     {isEventEndTime ? (
                                       <div className="event-endTime"></div>
                                     ) : (
