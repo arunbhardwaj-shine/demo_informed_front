@@ -20,7 +20,7 @@ const ContactDM = () => {
     const [refreshFlag, setRefreshFlag] = useState(false);
     const { eventIdContext, handleEventId } = useSidebar();
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
-    const [openNotes, setOpenNotes] = useState(false);
+    const [openNotes, setOpenNotes] = useState();
     const [eventId, setEventId] = useState(eventIdContext?.eventId ? eventIdContext?.eventId : localStorageEvent?.eventId)
     useEffect(() => {
         // if(!eventIdContext){
@@ -48,6 +48,7 @@ const ContactDM = () => {
             // const response = await postData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}`,{event_id:eventId})
             const response = await postData("http://192.168.0.162:5000/api/get-contact-us-data", data)
             setUserData(response?.data?.data)
+            setOpenNotes(Array(response?.data?.data?.length).fill(false));
             setOriginalUserData(response?.data?.data)
 
         } catch (err) {
@@ -171,6 +172,13 @@ const ContactDM = () => {
         setShowFilter(false)
         getEventDMListing(search, "", load)
 
+    }
+
+    const openNotesExpand = (e, index) => {
+        const updatedOpenNotes = [...openNotes];
+        updatedOpenNotes[index] = !updatedOpenNotes[index];
+    
+        setOpenNotes(updatedOpenNotes);
     }
 
     return (
@@ -481,33 +489,33 @@ const ContactDM = () => {
                                                     {/* <td><div dangerouslySetInnerHTML={{__html:user?.message?user?.message?.length>60 ? `${user?.message?.slice(0,60)}...` :user?.message: "N/A"}}></div></td> */}
                                                     <td>
                                                         <div>
-                                                        <div dangerouslySetInnerHTML={{
-                                                            __html: user?.message
-                                                                ? user?.message.trim().length > 60
-                                                                    ? openNotes
-                                                                    ?user?.message?.trim() 
-                                                                    :user?.message?.substring(0, 60)                                                                     
-                                                                    : user?.message.trim()
-                                                                : "N/A"
-                                                               
-                                                        }} />
-                                                       
-                                                        {user?.message ? (
-                                                            user?.message?.trim().length > 60 ? (
-                                                                <span
-                                                                    className="show_more"
-                                                                    onClick={() => setOpenNotes(!openNotes)}
-                                                                    aria-controls="example-collapse-text"
-                                                                    aria-expanded={openNotes}
-                                                                >
-                                                                    ...
-                                                                </span>
+                                                            <div dangerouslySetInnerHTML={{
+                                                                __html: user?.message
+                                                                    ? user?.message.trim().length > 60
+                                                                        ? openNotes[index]
+                                                                            ? user?.message?.trim()
+                                                                            : user?.message?.substring(0, 60)
+                                                                        : user?.message.trim()
+                                                                    : "N/A"
+
+                                                            }} />
+
+                                                            {user?.message ? (
+                                                                user?.message?.trim().length > 60 ? (
+                                                                    <span
+                                                                        className="show_more"
+                                                                        onClick={(e) => openNotesExpand(e, index)}
+                                                                        aria-controls={`example-collapse-text-${index}`}
+                                                                        aria-expanded={openNotes[index]}
+                                                                    >
+                                                                        ...
+                                                                    </span>
+                                                                ) : (
+                                                                    ""
+                                                                )
                                                             ) : (
                                                                 ""
-                                                            )
-                                                        ) : (
-                                                            ""
-                                                        )}
+                                                            )}
                                                         </div>
                                                     </td>
                                                 </tr>
