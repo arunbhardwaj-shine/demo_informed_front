@@ -706,7 +706,7 @@ export default function PollListing({location,eventIdContext}) {
   const handleQuestionOrderChange = (questionsOrder) => {
     // setQuestions(updatedQuestions);
     setQuestionsOrder(questionsOrder)
-    console.log(questionsOrder,'===>order2')
+    // console.log(questionsOrder,'===>order2')
   };
 
   const handleSave = async () => {
@@ -743,7 +743,7 @@ export default function PollListing({location,eventIdContext}) {
     } finally {
       loader("hide");
     }
-    console.log("Saving questions:", questionsOrder)
+    // console.log("Saving questions:", questionsOrder)
   };
 
   return (

@@ -19,13 +19,17 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
       // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
     }));
   
+  
     let barSeriesData = answerOption.map((item, index) => ({
-      name: item?.answer,
-      y: percentage,
-      color: item?.color,
-      title:question,
+     
+      // name: item?.answer,
+      // y: percentage,
+      // color: item?.color,
+      // title:question,
       // colors: ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
+      data:[percentage]
     }));
+    // console.log(barSeriesData,'barSeriesData')
   
     setPieChartOptions({
       chart: {
@@ -110,11 +114,11 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
                     enabled: true,
                   },
             },
+
       legend: {
         enabled:true,
         verticalAlign: "bottom",
         // labelFormat: '{name} ({percentage:.2f}%) ',
-       
     }, 
       plotOptions: {
         series: {
@@ -144,13 +148,15 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
       }
       },
   
-      series: [
-        {
-          name: "Percentage",
-          colorByPoint: true,
-          data: barSeriesData,
-        },
-      ],
+      // series: [
+      //   {
+      //     name: "Percentage",
+      //     colorByPoint: true,
+      //     data: barSeriesData,
+      //   },
+      // ],
+
+      series: barSeriesData,
       
       exporting: {
         enabled: false,

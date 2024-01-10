@@ -62,7 +62,7 @@ useEffect(()=>{
             name: question.name,
             y: question.y,
             drilldown: question.drilldown,
-            color:colors[index],
+            color:question?.color ? question.color : colors[index],
           }));
           const drilldownData = value?.pollAnswers?.filter(question => question?.drillDownData?.length > 0) // Exclude questions with empty drillDownData
           .map(question => ({
@@ -77,13 +77,14 @@ useEffect(()=>{
           const foundObj = {
             y: item?.y,
             name: item?.name,
-            color: colors[i],
+            color: item?.color ? item?.color : colors[i],
           };
           graphData.push(foundObj);
         });
         newData.push({
           question: value?.question,
           canCustomAnswer: value?.canCustomAnswer,
+          graphType: value?.graphType,
           highchartData: {
             chart: {
               type: "column",
@@ -236,7 +237,7 @@ useEffect(() => {
                             __html: `${index + 1} ${item?.question}`,
                           }}></p>
                     {
-                      item?.canCustomAnswer == 1 ?
+                      item?.canCustomAnswer == 1 || item?.graphType == 'bar' ?
                       <>
                       {item?.answer?<HighchartsReact highcharts={Highcharts} options={item?.highchartData} />: <h6>This question hasn't been answered yet.</h6>}
                       </>
