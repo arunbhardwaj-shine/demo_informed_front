@@ -35,6 +35,7 @@ const PollQuestion = () => {
   const [data, setData] = useState([]);
   const [showAccordian, setAccordian] = useState(0);
   const [customAns,setCustomAns] = useState(0);
+  const [graphType,setGraphType] = useState(0);
   const [syncFlag, setSyncFlag] = useState(1);
   const [count, setCount] = useState(0);
   const [chartData, setChartData] = useState({});
@@ -328,6 +329,9 @@ const PollQuestion = () => {
         let data=result?.data?.data
         let custom_ans = result?.data?.custom_answer ? result?.data?.custom_answer : 0 ;
         setCustomAns(custom_ans);
+
+        let graph = result?.data?.graphType ? result?.data?.graphType : 'bar' ;
+        setGraphType(graph);
         let chartOptions = {};
         
           // for COLUMN GRAPH
@@ -341,7 +345,7 @@ const PollQuestion = () => {
             const foundObj = {
               y: item?.y,
               name: item?.name,
-              color: colors[i],
+              color: item?.color ? item.color : colors[i],
             };
             graphData.push(foundObj);
           });
@@ -385,11 +389,11 @@ const PollQuestion = () => {
               name: question.name,
               y: question.y,
               drilldown: question.drilldown,
-              color:colors[index],
+              color:question?.color ? question.color : colors[index],
               // color: question.y === 2 ? "#00FF00" : "#FF0000", 
             }));
             const drilldownData = data
-              .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
+              .filter(question => question?.drillDownData?.length > 0) // Exclude questions with empty drillDownData
               .map(question => ({
                 id: question.drilldown,
                 data: question.drillDownData.map(answer => [answer.name, answer.total]),
@@ -555,7 +559,7 @@ const PollQuestion = () => {
                         <div class="highcharts-container">
                           {
                             syncFlag && (
-                                customAns == 1 ? 
+                                customAns == 1 || graphType == 'bar' ? 
                                 <>
                                 {
                                   console.log("FOR LINE CHART")

@@ -98,7 +98,7 @@ const QuestionPollsPieChart = ({ data }) => {
               },
         },
         legend: {
-            enabled:true,
+            enabled:false,
             verticalAlign: "bottom",
             // labelFormat: '{name} ({percentage:.2f}%) ',
            
