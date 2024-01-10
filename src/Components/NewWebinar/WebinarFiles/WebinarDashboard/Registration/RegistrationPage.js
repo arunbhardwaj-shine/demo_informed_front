@@ -702,6 +702,14 @@ const FormField1 = ({
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
 
+  useEffect(()=>{
+    const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+  
+    placeholderElements.forEach((placeholderElement) => {
+      placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    });
+    },[form])
+
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
 
@@ -742,6 +750,7 @@ const FormField1 = ({
         style={{
           color: pageColors?.typedTextColor,
         }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
       ></textarea>
     );
   } else if (
@@ -767,6 +776,7 @@ const FormField1 = ({
         className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption?.value)}
+        data-placeholder-color={pageColors?.placeholderTextColor}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -893,6 +903,7 @@ const FormField1 = ({
           style={{
             color: pageColors?.typedTextColor,
           }}
+          data-placeholder-color={pageColors?.placeholderTextColor}
         />
         <div className="field-icon">
           <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
@@ -917,6 +928,14 @@ const FormField1 = ({
       ) : null}
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
+      <style>
+      {`
+        #registration_form > div .form-control::placeholder {
+          color: ${pageColors?.placeholderTextColor};
+        }
+        
+      `}
+    </style>
     </div>
   );
 };
@@ -933,6 +952,13 @@ const FormField2 = ({
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
+  useEffect(()=>{
+    const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+  
+    placeholderElements.forEach((placeholderElement) => {
+      placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    });
+    },[form])
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
     if (form?.inputType === "datepicker") {
@@ -971,6 +997,7 @@ const FormField2 = ({
         style={{
           color: pageColors?.typedTextColor,
         }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
       ></textarea>
     );
   } else if (
@@ -996,6 +1023,7 @@ const FormField2 = ({
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption?.value)}
         placeholder={form.placeholder ? form.placeholder : "Select"}
+        data-placeholder-color={pageColors?.placeholderTextColor}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1121,6 +1149,7 @@ const FormField2 = ({
           style={{
             color: pageColors?.typedTextColor,
           }}
+          data-placeholder-color={pageColors?.placeholderTextColor}
         />
         <div className="field-icon">
           <img src={`${path_image}${icons[form.label]}.svg`} alt="" />
@@ -1152,6 +1181,14 @@ const FormField2 = ({
 
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
+      <style>
+      {`
+        #registration_form > div .form-control::placeholder {
+          color: ${pageColors?.placeholderTextColor};
+        }
+        
+      `}
+    </style>
     </div>
   );
 };
@@ -1167,6 +1204,14 @@ const FormField3 = ({
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
+
+  useEffect(()=>{
+    const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+  
+    placeholderElements.forEach((placeholderElement) => {
+      placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    });
+    },[form])
 
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
@@ -1208,6 +1253,7 @@ const FormField3 = ({
         style={{
           color: pageColors?.typedTextColor,
         }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
       ></textarea>
     );
   } else if (
@@ -1233,6 +1279,7 @@ const FormField3 = ({
         isClearable
         onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
         placeholder={form.placeholder ? form.placeholder : "Select"}
+        data-placeholder-color={pageColors?.placeholderTextColor}
       />
     );
   } else if (form.inputType === "datepicker") {
@@ -1358,7 +1405,8 @@ const FormField3 = ({
         style={{
           color: pageColors?.typedTextColor,
         }}
-      />
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      />  
     );
   }
 
@@ -1377,6 +1425,14 @@ const FormField3 = ({
       </label>
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
+      <style>
+      {`
+        #registration_form > div .form-control::placeholder {
+          color: ${pageColors?.placeholderTextColor};
+        }
+        
+      `}
+    </style>
     </div>
   );
 };
@@ -1395,6 +1451,15 @@ const FormField4 = ({
   const label = form?.name?.replace(/ /g, "_");
   const isConsentField = form?.label?.toLowerCase().includes("consent");
   const consentFieldClass = isConsentField ? "consent-feild" : "";
+
+  useEffect(()=>{
+  const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+
+  placeholderElements.forEach((placeholderElement) => {
+    placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+  });
+  },[form])
+
   const handleFieldChange = (value, e = "") => {
    
     const newData = { ...formFieldData };
@@ -1536,6 +1601,7 @@ const FormField4 = ({
         style={{
           color: pageColors?.typedTextColor,
         }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
       ></textarea>
     );
   } else if (
@@ -1550,6 +1616,8 @@ const FormField4 = ({
 
     fieldInput = (
       <Select
+      data-placeholder-color={pageColors?.placeholderTextColor}
+
         options={
           form.inputType === "selection-country"
             ? countryList
@@ -1680,6 +1748,7 @@ const FormField4 = ({
     );
   } else {
     fieldInput = (
+      <>
       <input
         type={form.inputType}
         className="form-control"
@@ -1689,7 +1758,9 @@ const FormField4 = ({
         style={{
           color: pageColors?.typedTextColor,
         }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
       />
+      </>
     );
   }
 
@@ -1708,6 +1779,14 @@ const FormField4 = ({
       </label>
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
+      <style>
+      {`
+        #registration_form > div .form-control::placeholder {
+          color: ${pageColors?.placeholderTextColor};
+        }
+        
+      `}
+    </style>
     </div>
   );
 };
