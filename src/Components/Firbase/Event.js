@@ -47,21 +47,10 @@ const Event = () => {
   const [customAnswer, setCustomAnswer] = useState(0);
   const [graphType, setGraphType] = useState(0);
 
-  const [dynamicContent, setDynamicContent] = useState(() => {
-    const initialState = {};
-    Object.entries(dynamicEventData).forEach(([field, value]) => {
-      initialState[field] = value?.value;
-    });
-    return initialState;
-  });
-  const [formData, setFormData] = useState(() => {
-    const initialState = {};
-    Object.entries(dynamicEventData).forEach(([field, value]) => {
-      initialState[field] = value?.value;
-    });
-    return initialState;
-  });
+  const [dynamicContent, setDynamicContent] = useState({});
+  const [formData, setFormData] = useState({});
   const [logo, setLogo] = useState("");
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
 
   useEffect(() => {
@@ -84,6 +73,7 @@ const Event = () => {
       } else {
         setLogo(dynamicContent?.logoImageUrl);
       }
+      setIsDataLoaded(true)
     } catch (error) {
       setLogo(dynamicContent?.logoImageUrl);
 
@@ -344,7 +334,7 @@ const Event = () => {
         name="viewport"
         content="width=device-width, initial-scale=1"
       />
-      <div
+      {(isDataLoaded) && <div
         className={`octa_events ${
           shouldAddClass ? "eahad_2024" : ""
         }`}
@@ -787,7 +777,7 @@ eventId={eventId}
             onClose={() => setAnswerPopup(false)}
           />
         )}
-      </div>
+      </div>}
     </div>
   </>
   );
