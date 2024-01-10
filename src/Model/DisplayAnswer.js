@@ -67,11 +67,11 @@ if(customAnswer == 1){
       name: question.name,
       y: question.y,
       drilldown: question.drilldown,
-      color:colors[index],
+      color:question.color,
+      // color:colors[index],
       // color: question.y === 2 ? "#00FF00" : "#FF0000", 
     }));
-    const drilldownData = data
-      .filter(question => question.drillDownData.length > 0) // Exclude questions with empty drillDownData
+    const drilldownData = data?.filter(question => question?.drillDownData?.length > 0) // Exclude questions with empty drillDownData
       .map(question => ({
         id: question.drilldown,
         name: question.name,

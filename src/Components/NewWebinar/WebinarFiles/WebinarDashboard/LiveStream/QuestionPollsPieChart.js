@@ -140,9 +140,10 @@ const QuestionPollsPieChart = ({ data }) => {
         const seriesData = data?.pollAnswers?.map((item, index) => ({
             name: item?.name,
             y: item?.y,
-            // color: item?.color
+            color: item?.color
 
         }))
+       
         if(data?.graphType=="pie"){
             setPieChartOptions({ ...pieChartOptions, series: [{ ...pieChartOptions?.series[0], data: seriesData }] })
         } else if(data?.graphType=="bar"){
