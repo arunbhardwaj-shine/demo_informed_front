@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from 'react'
 import { Col, Tabs, Tab, Button, Form, Image } from 'react-bootstrap';
 import { postData, deleteData, deleteMethod } from '../../../../../axios/apiHelper';
@@ -10,6 +11,7 @@ import { toast } from "react-toastify";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LiveStream = () => {
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const { eventIdContext,handleEventId } = useSidebar();
   const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
   const [questions, setQuestions] = useState([]);
@@ -327,6 +329,83 @@ const LiveStream = () => {
     getEventRegisterReaders(search);
     event.preventDefault();
     return false;
+  };
+
+  const showEmailConfirmationPopup = (e, id) => {
+    try{
+      setResetDataId(id);
+      setCommonConfirmModelFun(() => sendEmail);
+      setPopupMessage({
+        message1: "You are about to send email to user.",
+        message2: "Are you sure you want to do this?",
+        footerButton: "Yes please!",
+      });
+      if (confirmationpopup) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
+      }
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  const sendEmail = async(id) => {
+    try{
+      setAttendeesApiCallStatus(true);
+      let updatedUserData = attendees.filter((item) => item?.id === id);
+      if(updatedUserData?.length > 0){
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          eventId: eventId,
+          readerId: updatedUserData?.[0]?.userId,
+          type: 'WEBINAR_SSI_LINK',
+          id: id
+        };
+        axios
+          .post(`webinar/send-user-mail`, body)
+          .then((res) => {
+            setAttendeesApiCallStatus(false);
+            toast.success("Email send successfully.");
+          })
+          .catch((err) => {
+            setAttendeesApiCallStatus(false);
+            toast.error("Something went wrong.");
+          });
+      }else{
+        setAttendeesApiCallStatus(false);
+        toast.warning("User data not found.");
+      }
+      hideConfirmationModal();
+    }catch(err){
+      console.log(err);
+      setAttendeesApiCallStatus(false);
+      hideConfirmationModal();
+    }
+  }
+
+  const copyToClipboard = (user_id) => {
+    let content = "https://onesource.octapharma.com/redirect?user-id=5098"+user_id+"61&encf=1";
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  }
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
   };
   
 
@@ -1505,10 +1584,10 @@ const LiveStream = () => {
                                         <li><span>Country</span>{item?.country ? item?.country : item?.province}</li>
                                       </ul>
                                   </div>
-                                 
+                                  
                                   <div className='hcp-activity-status'>
                                     <div className='hcp-activity-links'>
-                                      <button>
+                                      <button title="Copy SSI" onClick={() => {copyToClipboard(item?.userId)}}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                           <g clip-path="url(#clip0_3694_655)">
                                             <path d="M11.9973 1.37297L7.93219 5.43805C7.92434 5.44586 7.91945 5.45535 7.91164 5.46324C8.91308 5.31738 9.94187 5.41738 10.8955 5.78926L13.6545 3.03027C14.5686 2.11625 16.0551 2.11625 16.9691 3.03027C17.8831 3.94422 17.8831 5.43082 16.9691 6.34476C16.8132 6.5007 12.669 10.645 12.904 10.4098C11.9828 11.3312 10.4714 11.2918 9.58945 10.4098C9.13269 9.95308 8.38902 9.95308 7.93219 10.4098L7.2207 11.1213C7.41805 11.4566 7.6443 11.7793 7.93219 12.0672C9.66812 13.8031 12.6562 13.9418 14.5361 12.0877C14.544 12.0799 14.5534 12.075 14.5613 12.0672L18.6264 8.00211C20.4569 6.17148 20.4569 3.20359 18.6264 1.37297C16.7958 -0.457656 13.8279 -0.457656 11.9973 1.37297Z" fill="#0066BE"/>
@@ -1521,7 +1600,7 @@ const LiveStream = () => {
                                           </defs>
                                         </svg>
                                       </button>
-                                      <button>
+                                      <button title="Reminder" onClick={(e) => showEmailConfirmationPopup(e,item?.id)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M23.92 5.28516L12.8457 11.868C12.5899 12.0144 12.3004 12.0913 12.0057 12.0913C11.711 12.0913 11.4215 12.0144 11.1657 11.868L0.0799999 5.28516C0.0270091 5.51376 0.000170336 5.74764 0 5.9823V17.1594C0 17.9505 0.314264 18.7092 0.873659 19.2686C1.43305 19.828 2.19175 20.1423 2.98286 20.1423H21.0171C21.8082 20.1423 22.5669 19.828 23.1263 19.2686C23.6857 18.7092 24 17.9505 24 17.1594V5.9823C23.9998 5.74764 23.973 5.51376 23.92 5.28516Z" fill="#0066BE"></path><path d="M12.2745 10.92L23.4517 4.26857C23.1772 3.87765 22.8128 3.55839 22.3891 3.33763C21.9655 3.11687 21.4951 3.00108 21.0174 3H2.98311C2.50543 3.00108 2.03499 3.11687 1.61138 3.33763C1.18776 3.55839 0.823359 3.87765 0.548828 4.26857L11.7374 10.92C11.8198 10.965 11.9121 10.9886 12.006 10.9886C12.0998 10.9886 12.1922 10.965 12.2745 10.92Z" fill="#0066BE"></path></svg>
                                       </button>
                                     </div>
