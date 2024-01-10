@@ -4895,9 +4895,11 @@ l .vwd .factor-season-left h2 {
 .eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild li label {
   cursor: pointer;
 }
-.eahad .center-sided-inside  .consent-form-list.attend-sec.consent-feild > label{
+
+.eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild>label {
   font-weight: 700;
 }
+
 .eahad input:-webkit-autofill {
   -webkit-text-fill-color: #000 !important;
 }
@@ -4921,6 +4923,7 @@ l .vwd .factor-season-left h2 {
   font-size: 11px;
   font-weight: 400;
 }
+
 .eahad p.speaker-specialization {
   color: #001489;
   margin: 25px 0 0;
@@ -4930,9 +4933,11 @@ l .vwd .factor-season-left h2 {
   color: #001489;
   text-decoration: underline;
 }
+
 .eahad .center-sided-inside .consent-form-list.attend-sec div[class*="-placeholder"] {
   color: #9ab8d1;
 }
+
 /** Template four End**/
 footer {
   margin: 30px 0;
@@ -5124,15 +5129,17 @@ footer .footer-copyright ul li a:hover {
     background-size: 90px;
     padding: 40px 15px 10px 20px;
   }
-.eahad .octapharma_event_content h4.mb-4 {
-  margin-bottom: 5px !important;
-}
+
+  .eahad .octapharma_event_content h4.mb-4 {
+    margin-bottom: 5px !important;
+  }
+
   .eahad .header .header-text {
     padding-left: 0;
   }
 
   .eahad .header .header-text h3 {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .eahad .octapharma_event_content {
@@ -5147,6 +5154,11 @@ footer .footer-copyright ul li a:hover {
     font-size: 19px;
   }
 
+  .eahad p.speaker-specialization {
+    font-size: 14px;
+    margin: 10px 0 0;
+  }
+
   .eahad .center-sided-inside .consent-form-list.attend-sec {
     flex-direction: column;
     align-items: flex-start;
@@ -5155,6 +5167,7 @@ footer .footer-copyright ul li a:hover {
   .eahad .center-sided-inside .consent-form-list.attend-sec>label {
     flex: 1 1;
     font-size: 14px;
+    margin: 0 0 3px;
   }
 
   .eahad .form-control {
@@ -5204,25 +5217,32 @@ footer .footer-copyright ul li a:hover {
     padding-right: 0;
     text-align: unset;
   }
-.eahad .footer-inner .row {
-  flex-direction: column-reverse;
-}
+
+  .eahad .footer-inner .row {
+    flex-direction: column-reverse;
+  }
+
   .eahad .footer-inner p.health-professional {
     padding-right: 0;
     padding-top: 13px;
   }
-    .eahad .footer-inner .col-md-4 {
-      padding-left: 12px;
-    }
-        .eahad .footer-inner .footer-logo {
-          text-align: center;
-        }
-                .footer-sec {
-                  margin: 15px 0 0 0;
-                }
-                                .eahad .footer-sec span {
-                                  font-size: 11px;
-                                }
+
+  .eahad .footer-inner .col-md-4 {
+    padding-left: 12px;
+  }
+
+  .eahad .footer-inner .footer-logo {
+    text-align: left;
+    margin: 0 0 5px;
+  }
+
+  .footer-sec {
+    margin: 15px 0 0 0;
+  }
+
+  .eahad .footer-sec span {
+    font-size: 11px;
+  }
 }
 
 /***Webinar template 2 End***/
