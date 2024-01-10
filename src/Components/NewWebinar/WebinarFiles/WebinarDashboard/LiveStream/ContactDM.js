@@ -4,6 +4,7 @@ import { loader } from '../../../../../loader'
 import { postData } from '../../../../../axios/apiHelper'
 import { ENDPOINT } from '../../../../../axios/apiConfig'
 import { useSidebar } from '../../../../CommonComponent/LoginLayout'
+import Collapse from "react-bootstrap/Collapse";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const ContactDM = () => {
@@ -12,14 +13,15 @@ const ContactDM = () => {
     const [showFilter, setShowFilter] = useState(false)
     const [userData, setUserData] = useState([])
     const [originalUserData, setOriginalUserData] = useState([])
-    const [filterData, setFilterData] = useState({filters:['All','Current']})
+    const [filterData, setFilterData] = useState({ filters: ['All', 'Current'] })
     const [otherFilter, setOtherFilter] = useState({});
     const [appliedFilter, setAppliedFilter] = useState({})
     const [search, setSearch] = useState("")
     const [refreshFlag, setRefreshFlag] = useState(false);
-    const { eventIdContext,handleEventId } = useSidebar();
-    const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
-    const [eventId,setEventId]=useState(eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId)
+    const { eventIdContext, handleEventId } = useSidebar();
+    const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
+    const [openNotes, setOpenNotes] = useState(false);
+    const [eventId, setEventId] = useState(eventIdContext?.eventId ? eventIdContext?.eventId : localStorageEvent?.eventId)
     useEffect(() => {
         // if(!eventIdContext){
         //     handleEventId(localStorageEvent)
@@ -27,26 +29,26 @@ const ContactDM = () => {
         getEventDMListing()
     }, [])
 
-    const getEventDMListing = async (search="",filter="",load=0) => {
-       
+    const getEventDMListing = async (search = "", filter = "", load = 0) => {
+
         try {
-            if(load==0){
+            if (load == 0) {
                 loader("show")
-            }else{
+            } else {
                 setRefreshFlag(true)
             }
-            
+
             setApiStatus(false)
-            let event=filter?.filters?.includes("All")?0:eventId
-            let data={
-                event_id:event,
-                search:search,
-                
+            let event = filter?.filters?.includes("All") ? 0 : eventId
+            let data = {
+                event_id: event,
+                search: search,
+
             }
             // const response = await postData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}`,{event_id:eventId})
-            const response=await postData("http://192.168.0.162:5000/api/get-contact-us-data",data)
+            const response = await postData("http://192.168.0.162:5000/api/get-contact-us-data", data)
             setUserData(response?.data?.data)
-            setOriginalUserData(response?.data?.data)           
+            setOriginalUserData(response?.data?.data)
 
         } catch (err) {
             console.log("--err", err)
@@ -61,22 +63,22 @@ const ContactDM = () => {
     const handleOnFilterChange = (e, item, index, key, data = {}) => {
         const updatedFilter = JSON.parse(JSON.stringify({ ...data }));
         if (e?.target?.checked == true) {
-           
-             updatedFilter[key]=[];
-             updatedFilter[key]?.push(item)
-                // if (updatedFilter[key]) {
 
-                //     updatedFilter[key] = updatedFilter[key].includes(item)
-                //         ? updatedFilter[key].filter((value) => value !== item)
-                //         : [...updatedFilter[key], item];
-                // } else {
+            updatedFilter[key] = [];
+            updatedFilter[key]?.push(item)
+            // if (updatedFilter[key]) {
 
-                //     updatedFilter[key] = [item];
-                // }
-           
-        } 
+            //     updatedFilter[key] = updatedFilter[key].includes(item)
+            //         ? updatedFilter[key].filter((value) => value !== item)
+            //         : [...updatedFilter[key], item];
+            // } else {
+
+            //     updatedFilter[key] = [item];
+            // }
+
+        }
         // else if (e?.target?.checked == false) {
-           
+
         //         let index = updatedFilter[key]?.indexOf(item)
         //         if (index > -1) {
         //             updatedFilter[key]?.splice(index, 1)
@@ -85,27 +87,27 @@ const ContactDM = () => {
         //             delete updatedFilter[key]
         //         }
         //     }
-        
+
         setOtherFilter(updatedFilter);
     };
 
     const searchChange = (e) => {
         setSearch(e?.target?.value?.trim())
-        if (e?.target?.value == ""||e?.target?.value==null) {
-            let searched=e?.target?.value;
+        if (e?.target?.value == "" || e?.target?.value == null) {
+            let searched = e?.target?.value;
             setUserData()
             setSearch(searched)
-            getEventDMListing(searched,otherFilter)
+            getEventDMListing(searched, otherFilter)
             setOtherFilter({})
         }
 
     }
 
-    const submitSearchHandler=(e)=>{
+    const submitSearchHandler = (e) => {
         e.preventDefault()
         setUserData()
-       getEventDMListing(search,otherFilter)
-       
+        getEventDMListing(search, otherFilter)
+
     }
 
     // const submitSearchHandler = (e) => {
@@ -134,8 +136,8 @@ const ContactDM = () => {
         //     return data;
         // })
         setUserData()
-        getEventDMListing(search,otherFilter)
-        setAppliedFilter(otherFilter)      
+        getEventDMListing(search, otherFilter)
+        setAppliedFilter(otherFilter)
         setShowFilter(false)
 
     }
@@ -154,21 +156,21 @@ const ContactDM = () => {
         applyFilter()
     }
 
-    const clearFilter = () => {  
+    const clearFilter = () => {
         setUserData()
-        getEventDMListing(search,"")
+        getEventDMListing(search, "")
         setOtherFilter({})
         setAppliedFilter({})
         setShowFilter(false)
-       
+
     }
 
     const Refresh = async () => {
-        
-            let load=1;
-            setShowFilter(false)
-            getEventDMListing(search,"",load)
-           
+
+        let load = 1;
+        setShowFilter(false)
+        getEventDMListing(search, "", load)
+
     }
 
     return (
@@ -181,7 +183,7 @@ const ContactDM = () => {
                                 <h2>Contact DM</h2>
                             </div>
                             <div className='top-right-action'>
-                                                                <div className="search-bar">
+                                <div className="search-bar">
                                     <form
                                         className="d-flex"
                                         onSubmit={(e) => submitSearchHandler(e)}
@@ -400,7 +402,7 @@ const ContactDM = () => {
                                 </div>
 
                             </div>
-                            
+
                             {Object.keys(appliedFilter)?.length > 0 ? (
                                 <div className="apply-filter">
                                     <div className="filter-block">
@@ -448,7 +450,7 @@ const ContactDM = () => {
                                 </div>
                             ) : ""}
                         </div>
-                       
+
                         {userData != "undefined" && userData?.length > 0 ?
                             (
                                 <div className="invitee">
@@ -476,8 +478,38 @@ const ContactDM = () => {
                                                     <td>{user?.email ? user?.email : "N/A"}</td>
                                                     <td>{user?.country ? user?.country : "N/A"}</td>
                                                     <td>{user?.phone ? user?.phone : "N/A"}</td>
-                                                    <td><div dangerouslySetInnerHTML={{__html:user?.question ? user?.question : "N/A"}}></div></td>
-
+                                                    {/* <td><div dangerouslySetInnerHTML={{__html:user?.message?user?.message?.length>60 ? `${user?.message?.slice(0,60)}...` :user?.message: "N/A"}}></div></td> */}
+                                                    <td>
+                                                        <div>
+                                                        <div dangerouslySetInnerHTML={{
+                                                            __html: user?.message
+                                                                ? user?.message.trim().length > 60
+                                                                    ? openNotes
+                                                                    ?user?.message?.trim() 
+                                                                    :user?.message?.substring(0, 60)                                                                     
+                                                                    : user?.message.trim()
+                                                                : "N/A"
+                                                               
+                                                        }} />
+                                                       
+                                                        {user?.message ? (
+                                                            user?.message?.trim().length > 60 ? (
+                                                                <span
+                                                                    className="show_more"
+                                                                    onClick={() => setOpenNotes(!openNotes)}
+                                                                    aria-controls="example-collapse-text"
+                                                                    aria-expanded={openNotes}
+                                                                >
+                                                                    ...
+                                                                </span>
+                                                            ) : (
+                                                                ""
+                                                            )
+                                                        ) : (
+                                                            ""
+                                                        )}
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             ))}
                                         </tbody>
