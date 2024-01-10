@@ -1,13 +1,15 @@
 import axios from "axios";
-import React, { useState, useEffect } from 'react'
-import { Col, Tabs, Tab, Button, Form, Image } from 'react-bootstrap';
-import { postData, deleteData, deleteMethod } from '../../../../../axios/apiHelper';
-import { ENDPOINT } from '../../../../../axios/apiConfig';
-import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
-import { popup_alert } from '../../../../../popup_alert';
-import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import { Spinner } from 'react-activity';
+import Highcharts from "highcharts";
 import { toast } from "react-toastify";
+import { Spinner } from 'react-activity';
+import React, { useState, useEffect } from 'react'
+import HighchartsReact from "highcharts-react-official";
+import { popup_alert } from '../../../../../popup_alert';
+import { ENDPOINT } from '../../../../../axios/apiConfig';
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import { Col, Tabs, Tab, Button, Form, Image } from 'react-bootstrap';
+import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
+import { postData, deleteData, deleteMethod } from '../../../../../axios/apiHelper';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LiveStream = () => {
@@ -39,6 +41,52 @@ const LiveStream = () => {
   const [refreshAttendeesFlag, setRefreshAttendeesFlag] = useState("");
   const [attendeesApiCallStatus, setAttendeesApiCallStatus] = useState(true);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [lineChartOptions, setLineChartOptions] = useState({
+    chart: {
+        height: 270,
+        type: 'line'
+    },
+    title: {
+      text: '',
+      align: 'left'
+    },
+    xAxis: {
+        categories: [
+            1,5,10,15,20,25,30,35,40,45,50,60,65
+        ]
+    },
+    yAxis: {
+      title: {
+          text: ''
+      }
+    },
+    legend: {
+      enabled:false
+    },
+    exporting: {
+      enabled: false,
+    },
+
+    plotOptions: {
+      series: {
+          marker: {
+              enabled: false,
+              fillColor: '#8a4e9c',
+              states: {
+                  hover: {
+                      enabled: false
+                  }
+              }
+          },
+        color: '#0066be'  
+      }
+    },
+
+    series: [{
+      name: 'Active Users',
+      data: [5,10,15,20,25,30,35,40,15,20,22,35,70]
+    }]
+});
 
   useEffect(() => {
    
@@ -669,7 +717,13 @@ const LiveStream = () => {
             <Col className="col-4">
               <h6>Live HCP's Tracking</h6>
               <div className='live-hcp-tracking-img'>
-                <Image src={path_image + "live-hcp-tracking.png"} alt="" />
+                {/* <Image src={path_image + "live-hcp-tracking.png"} alt="" /> */}
+                  <HighchartsReact
+                    key={"line_bar"}
+                    highcharts={Highcharts}
+                    options={ lineChartOptions }
+                  />
+                <div id="hcp_tracking"></div>
               </div>
               <div className='dm-speaker'>
                 <h6>Direct Messaging To The Speaker</h6>
@@ -1600,7 +1654,7 @@ const LiveStream = () => {
                                           </defs>
                                         </svg>
                                       </button>
-                                      <button title="Reminder" onClick={(e) => showEmailConfirmationPopup(e,item?.id)}>
+                                      <button title="SSI Mail" onClick={(e) => showEmailConfirmationPopup(e,item?.id)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M23.92 5.28516L12.8457 11.868C12.5899 12.0144 12.3004 12.0913 12.0057 12.0913C11.711 12.0913 11.4215 12.0144 11.1657 11.868L0.0799999 5.28516C0.0270091 5.51376 0.000170336 5.74764 0 5.9823V17.1594C0 17.9505 0.314264 18.7092 0.873659 19.2686C1.43305 19.828 2.19175 20.1423 2.98286 20.1423H21.0171C21.8082 20.1423 22.5669 19.828 23.1263 19.2686C23.6857 18.7092 24 17.9505 24 17.1594V5.9823C23.9998 5.74764 23.973 5.51376 23.92 5.28516Z" fill="#0066BE"></path><path d="M12.2745 10.92L23.4517 4.26857C23.1772 3.87765 22.8128 3.55839 22.3891 3.33763C21.9655 3.11687 21.4951 3.00108 21.0174 3H2.98311C2.50543 3.00108 2.03499 3.11687 1.61138 3.33763C1.18776 3.55839 0.823359 3.87765 0.548828 4.26857L11.7374 10.92C11.8198 10.965 11.9121 10.9886 12.006 10.9886C12.0998 10.9886 12.1922 10.965 12.2745 10.92Z" fill="#0066BE"></path></svg>
                                       </button>
                                     </div>
