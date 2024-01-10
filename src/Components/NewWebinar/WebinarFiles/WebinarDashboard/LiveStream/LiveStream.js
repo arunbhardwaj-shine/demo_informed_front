@@ -1,13 +1,15 @@
 import axios from "axios";
-import React, { useState, useEffect } from 'react'
-import { Col, Tabs, Tab, Button, Form, Image } from 'react-bootstrap';
-import { postData, deleteData, deleteMethod } from '../../../../../axios/apiHelper';
-import { ENDPOINT } from '../../../../../axios/apiConfig';
-import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
-import { popup_alert } from '../../../../../popup_alert';
-import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import { Spinner } from 'react-activity';
+import Highcharts from "highcharts";
 import { toast } from "react-toastify";
+import { Spinner } from 'react-activity';
+import React, { useState, useEffect } from 'react'
+import HighchartsReact from "highcharts-react-official";
+import { popup_alert } from '../../../../../popup_alert';
+import { ENDPOINT } from '../../../../../axios/apiConfig';
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import { Col, Tabs, Tab, Button, Form, Image } from 'react-bootstrap';
+import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
+import { postData, deleteData, deleteMethod } from '../../../../../axios/apiHelper';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LiveStream = () => {
@@ -39,6 +41,52 @@ const LiveStream = () => {
   const [refreshAttendeesFlag, setRefreshAttendeesFlag] = useState("");
   const [attendeesApiCallStatus, setAttendeesApiCallStatus] = useState(true);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [lineChartOptions, setLineChartOptions] = useState({
+    chart: {
+        height: 270,
+        type: 'line'
+    },
+    title: {
+      text: '',
+      align: 'left'
+    },
+    xAxis: {
+        categories: [
+            1,5,10,15,20,25,30,35,40,45,50,60,65
+        ]
+    },
+    yAxis: {
+      title: {
+          text: ''
+      }
+    },
+    legend: {
+      enabled:false
+    },
+    exporting: {
+      enabled: false,
+    },
+
+    plotOptions: {
+      series: {
+          marker: {
+              enabled: false,
+              fillColor: '#8a4e9c',
+              states: {
+                  hover: {
+                      enabled: false
+                  }
+              }
+          },
+        color: '#0066be'  
+      }
+    },
+
+    series: [{
+      name: 'Active Users',
+      data: [5,10,15,20,25,30,35,40,15,20,22,35,70]
+    }]
+});
 
   useEffect(() => {
    
@@ -669,7 +717,13 @@ const LiveStream = () => {
             <Col className="col-4">
               <h6>Live HCP's Tracking</h6>
               <div className='live-hcp-tracking-img'>
-                <Image src={path_image + "live-hcp-tracking.png"} alt="" />
+                {/* <Image src={path_image + "live-hcp-tracking.png"} alt="" /> */}
+                  <HighchartsReact
+                    key={"line_bar"}
+                    highcharts={Highcharts}
+                    options={ lineChartOptions }
+                  />
+                <div id="hcp_tracking"></div>
               </div>
               <div className='dm-speaker'>
                 <h6>Direct Messaging To The Speaker</h6>
