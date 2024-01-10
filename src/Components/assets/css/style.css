@@ -11535,4 +11535,50 @@ max-height:140px
 .create-change-content.register-page .register-popup-view .react-datepicker-wrapper .react-datepicker__input-container input {
   padding: 12px 27px;
 }
+.question-listing .question-status {
+  position: relative;
+}
+.question-listing .loader_show {
+  position: absolute;
+  top: 0;
+  bottom: auto;
+}
+.question-listing .loader_show span.loader-view {
+  width: 10px;
+  height: 40px;
+  animation: escaleY1 1s infinite ease-in-out;
+    transform: scale(0.5);
+    animation-delay: -0.16s;
+}
+.question-listing .loader-view:before,
+.question-listing .loader-view:after {
+  width: 10px;
+  height: 40px;
+  animation: escaleY1 1s infinite ease-in-out;
+}
+.question-status #custom_loader {
+  position: relative;
+  flex: 1 1;
+}
+.question-listing .loader-view:before {
+  animation-delay: -0.32s;
+}
+@keyframes escaleY1 {
+
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 52px;
+    background: #0066be;
+    color: #0066be;
+  }
+
+  40% {
+    box-shadow: 0 -2em;
+    height: 65px;
+    background: #ffffff;
+    color: #ffffff;
+  }
+}
 /**Registration page end**/
