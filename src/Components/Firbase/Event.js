@@ -45,6 +45,7 @@ const Event = () => {
   const [answerPop, setAnswerPopup] = useState(false);
   const [totalReaders, setTotalReaders] = useState(0);
   const [customAnswer, setCustomAnswer] = useState(0);
+  const [graphType, setGraphType] = useState(0);
 
   const [dynamicContent, setDynamicContent] = useState(() => {
     const initialState = {};
@@ -295,6 +296,7 @@ const Event = () => {
         setApiData(result?.data?.data);
         setTotalReaders(result?.data?.totalReader);
         setCustomAnswer(result?.data?.custom_answer);
+        setGraphType(result?.data?.graphType);
         setAnswerPopup(true);
         setShow(false);
         setData(0);
@@ -780,6 +782,8 @@ eventId={eventId}
             data={apiData}
             readerCount={totalReaders}
             customAnswer={customAnswer}
+            graphType={graphType}
+            designData={formData}
             onClose={() => setAnswerPopup(false)}
           />
         )}
