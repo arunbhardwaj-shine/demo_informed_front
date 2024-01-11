@@ -58,7 +58,10 @@ const WebinarRegistration = () => {
   let prevData = location?.state;
   const resizeTextArea = (index) => {
     const textAreaRef = textAreaRefs.current[index];
+    // console.log(textAreaRef);
+
     if (textAreaRef) {
+      // console.log(textAreaRef);
       textAreaRef.style.height = "auto";
       textAreaRef.style.height = textAreaRef.scrollHeight + "px";
     }
@@ -330,8 +333,8 @@ const WebinarRegistration = () => {
           }
 
           if (
-            newFormData.eventDetails.speakerName?.value == "" &&
-            newFormData.eventDetails.speakerName?.value != undefined
+            newFormData?.eventDetails?.speakerName?.value == "" &&
+            newFormData?.eventDetails?.speakerName?.value != undefined
           ) {
             newFormData.eventDetails.speakerName.value = `${raw?.speaker_name}`;
           }
@@ -344,7 +347,11 @@ const WebinarRegistration = () => {
         );
       }
       setFormData(newFormData);
-      textAreaRefs.current=Array(Object.keys(newFormData.eventDetails)?.length).fill(null)
+      console.log(newFormData);
+      if(newFormData?.length>0){
+        
+        textAreaRefs.current=Array(Object.keys(newFormData.eventDetails)?.length).fill(null)
+      }
       setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
       setActiveIndex(tempId ? tempId : 0);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
@@ -1064,7 +1071,12 @@ const WebinarRegistration = () => {
             ? updatedBody?.logoImageUrl
             : template?.logoImageUrl
         );
+        // console.log(Object.keys(updatedBody.eventDetails)?.length>0);
 
+        if(Object.keys(updatedBody.eventDetails)?.length>0){
+        
+          textAreaRefs.current=Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
+        }
         setFormData(updatedBody);
       } else {
         let updatedBody = JSON.parse(JSON.stringify(template));
@@ -1137,6 +1149,11 @@ const WebinarRegistration = () => {
         }
 
         setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
+        // console.log(updatedBody);
+        if(Object.keys(updatedBody.eventDetails)?.length>0){
+        
+          textAreaRefs.current=Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
+        }
         setFormData(updatedBody);
       }
       setActiveIndex(template?.templateId);
@@ -1154,7 +1171,7 @@ const WebinarRegistration = () => {
     // setActiveIndex(template?.templateId);
     
 
-
+console.log(textAreaRefs.current);
   };
 
   const handleCommonConfirmModal = () => {
