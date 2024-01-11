@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Col,
   Row,
@@ -56,7 +56,13 @@ const WebinarRegistration = () => {
   const location = useLocation();
 
   let prevData = location?.state;
-
+  const resizeTextArea = (index) => {
+    const textAreaRef = textAreaRefs.current[index];
+    if (textAreaRef) {
+      textAreaRef.style.height = "auto";
+      textAreaRef.style.height = textAreaRef.scrollHeight + "px";
+    }
+  };
   // location?.state?.event_code ? location?.state?.event_code : ""
   const [event_code, setEventCode] = useState(
     location?.state?.eventCode
@@ -200,6 +206,7 @@ const WebinarRegistration = () => {
   const [dropDownData, setDropDownData] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
   const [showModalPreview, setShowModalPreview] = useState(false);
+  const textAreaRefs = useRef(null);
 
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
@@ -337,6 +344,7 @@ const WebinarRegistration = () => {
         );
       }
       setFormData(newFormData);
+      textAreaRefs.current=Array(Object.keys(newFormData.eventDetails)?.length).fill(null)
       setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
       setActiveIndex(tempId ? tempId : 0);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
@@ -1351,8 +1359,14 @@ const WebinarRegistration = () => {
                                           ? "disabled"
                                           : ""
                                       }`}
+                                      ref={(ref) => (textAreaRefs.current[index] = ref)}
+
                                       // className="form-control"
-                                      onChange={handleChange} name={`eventDetails-${key}`}>{field.value}</textarea>:<input
+                                      onChange={(e)=>{handleChange(e)
+                                      
+    
+                                        resizeTextArea(index);
+                                      }} name={`eventDetails-${key}`}>{field.value}</textarea>:<input
                                       type={field.type}
                                       name={`eventDetails-${key}`}
                                       value={field.value}
