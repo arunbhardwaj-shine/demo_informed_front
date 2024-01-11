@@ -445,7 +445,9 @@ const ChatLinkPage = () => {
                               // </i>
                             />
 
-                            <input
+                            <input  style={{
+                                borderColor: formData?.textColor
+                              }}
                               type="text"
                               id="name"
                               className="form-control "
@@ -488,7 +490,9 @@ const ChatLinkPage = () => {
                               }}
                               // <sup>*</sup>
                             />
-                            <textarea
+                            <textarea  style={{
+                                borderColor: formData?.textColor
+                              }}
                               name="question"
                               id="question"
                               className="form-control"

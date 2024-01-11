@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Col,
   Row,
@@ -56,7 +56,16 @@ const WebinarRegistration = () => {
   const location = useLocation();
 
   let prevData = location?.state;
+  const resizeTextArea = (index) => {
+    const textAreaRef = textAreaRefs.current[index];
+    // console.log(textAreaRef);
 
+    if (textAreaRef) {
+      // console.log(textAreaRef);
+      textAreaRef.style.height = "auto";
+      textAreaRef.style.height = textAreaRef.scrollHeight + "px";
+    }
+  };
   // location?.state?.event_code ? location?.state?.event_code : ""
   const [event_code, setEventCode] = useState(
     location?.state?.eventCode
@@ -200,6 +209,7 @@ const WebinarRegistration = () => {
   const [dropDownData, setDropDownData] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
   const [showModalPreview, setShowModalPreview] = useState(false);
+  const textAreaRefs = useRef(null);
 
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
@@ -229,6 +239,19 @@ const WebinarRegistration = () => {
       getWebinarData(event_code);
     }
   }, []);
+  useEffect(() => {if(textAreaRefs.current)
+   { textAreaRefs.current.map((value,index)=>{
+      const textAreaRef = value
+      // console.log(textAreaRef);
+  
+      if (textAreaRef) {
+        // console.log(textAreaRef);
+        textAreaRef.style.height = "auto";
+        textAreaRef.style.height = textAreaRef.scrollHeight + "px";
+      }
+    })}
+ 
+  }, [formData]);
   const getWebinarData = async (event_code) => {
     // console.log(event_code,'event_code')
     try {
@@ -323,8 +346,8 @@ const WebinarRegistration = () => {
           }
 
           if (
-            newFormData.eventDetails.speakerName?.value == "" &&
-            newFormData.eventDetails.speakerName?.value != undefined
+            newFormData?.eventDetails?.speakerName?.value == "" &&
+            newFormData?.eventDetails?.speakerName?.value != undefined
           ) {
             newFormData.eventDetails.speakerName.value = `${raw?.speaker_name}`;
           }
@@ -337,6 +360,10 @@ const WebinarRegistration = () => {
         );
       }
       setFormData(newFormData);
+      // console.log(newFormData);
+      if(Object.keys(newFormData.eventDetails)?.length>0){        
+        textAreaRefs.current=Array(Object.keys(newFormData.eventDetails)?.length).fill(null)
+      }
       setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
       setActiveIndex(tempId ? tempId : 0);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
@@ -1047,7 +1074,6 @@ const WebinarRegistration = () => {
         setConfirmationPopup(true);
       }
     } else {
-      setSave((save)=>save+1);
 
       if (originalFormData?.templateId == template?.templateId) {
         let updatedBody = JSON.parse(JSON.stringify(originalFormData));
@@ -1056,8 +1082,13 @@ const WebinarRegistration = () => {
             ? updatedBody?.logoImageUrl
             : template?.logoImageUrl
         );
+        // console.log(Object.keys(updatedBody.eventDetails)?.length>0);
 
-        setFormData(updatedBody);
+        if(Object.keys(updatedBody.eventDetails)?.length>0){
+        
+          textAreaRefs.current=Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
+        }
+        setFormData(JSON.parse(JSON.stringify(updatedBody)));
       } else {
         let updatedBody = JSON.parse(JSON.stringify(template));
 
@@ -1129,7 +1160,12 @@ const WebinarRegistration = () => {
         }
 
         setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
-        setFormData(updatedBody);
+        // console.log(updatedBody);
+        if(Object.keys(updatedBody.eventDetails)?.length>0){
+        
+          textAreaRefs.current=Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
+        }
+        setFormData(JSON.parse(JSON.stringify(updatedBody)));
       }
       setActiveIndex(template?.templateId);
     }
@@ -1146,7 +1182,7 @@ const WebinarRegistration = () => {
     // setActiveIndex(template?.templateId);
     
 
-
+    setSave((save)=>save+1);
   };
 
   const handleCommonConfirmModal = () => {
@@ -1345,14 +1381,16 @@ const WebinarRegistration = () => {
                                       {field.title}
                                       {/* <span>*</span> */}
                                     </label>
-                                   { field.type == 'textArea'?<textarea className={`form-control ${
-                                        key == "eventEndTime" ||
-                                        key == "eventStartTime"
-                                          ? "disabled"
-                                          : ""
-                                      }`}
-                                      // className="form-control"
-                                      onChange={handleChange} name={`eventDetails-${key}`}>{field.value}</textarea>:<input
+                                   { field.type == 'textArea'? <textarea  key={`textarea-${index}-${formData?.templateId}`} className={`form-control`}
+                                      ref={(ref) => (textAreaRefs.current[index] = ref)}
+                                      onChange={(e)=>{handleChange(e)
+                                        resizeTextArea(index);
+                                      }} name={`eventDetails-${key}`}>{field.value} 
+                                      
+                                       </textarea>:
+                                       
+                                       <input
+                                       key={`${field.type}-${index}-${formData?.templateId}`}
                                       type={field.type}
                                       name={`eventDetails-${key}`}
                                       value={field.value}
