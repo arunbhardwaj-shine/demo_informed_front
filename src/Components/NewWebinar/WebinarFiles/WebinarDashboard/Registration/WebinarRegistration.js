@@ -347,9 +347,8 @@ const WebinarRegistration = () => {
         );
       }
       setFormData(newFormData);
-      console.log(newFormData);
-      if(newFormData?.length>0){
-        
+      // console.log(newFormData);
+      if(Object.keys(newFormData.eventDetails)?.length>0){        
         textAreaRefs.current=Array(Object.keys(newFormData.eventDetails)?.length).fill(null)
       }
       setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
