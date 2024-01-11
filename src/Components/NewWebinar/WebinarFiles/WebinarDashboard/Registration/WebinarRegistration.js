@@ -239,6 +239,19 @@ const WebinarRegistration = () => {
       getWebinarData(event_code);
     }
   }, []);
+  useEffect(() => {if(textAreaRefs.current)
+   { textAreaRefs.current.map((value,index)=>{
+      const textAreaRef = value
+      // console.log(textAreaRef);
+  
+      if (textAreaRef) {
+        // console.log(textAreaRef);
+        textAreaRef.style.height = "auto";
+        textAreaRef.style.height = textAreaRef.scrollHeight + "px";
+      }
+    })}
+ 
+  }, [formData]);
   const getWebinarData = async (event_code) => {
     // console.log(event_code,'event_code')
     try {
