@@ -429,6 +429,7 @@ function Question(props) {
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={hideConfirmationModal}
+        onCloseCross={hideConfirmationModal}
         fun={handleDeleteClick}
         popupMessage={popupMessage}
         path_image={path_image}
