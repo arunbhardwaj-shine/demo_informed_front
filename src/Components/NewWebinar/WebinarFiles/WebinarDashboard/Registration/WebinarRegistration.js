@@ -1061,7 +1061,6 @@ const WebinarRegistration = () => {
         setConfirmationPopup(true);
       }
     } else {
-      setSave((save)=>save+1);
 
       if (originalFormData?.templateId == template?.templateId) {
         let updatedBody = JSON.parse(JSON.stringify(originalFormData));
@@ -1076,7 +1075,7 @@ const WebinarRegistration = () => {
         
           textAreaRefs.current=Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
         }
-        setFormData(updatedBody);
+        setFormData(JSON.parse(JSON.stringify(updatedBody)));
       } else {
         let updatedBody = JSON.parse(JSON.stringify(template));
 
@@ -1153,7 +1152,7 @@ const WebinarRegistration = () => {
         
           textAreaRefs.current=Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
         }
-        setFormData(updatedBody);
+        setFormData(JSON.parse(JSON.stringify(updatedBody)));
       }
       setActiveIndex(template?.templateId);
     }
@@ -1170,7 +1169,7 @@ const WebinarRegistration = () => {
     // setActiveIndex(template?.templateId);
     
 
-console.log(textAreaRefs.current);
+    setSave((save)=>save+1);
   };
 
   const handleCommonConfirmModal = () => {
@@ -1369,20 +1368,16 @@ console.log(textAreaRefs.current);
                                       {field.title}
                                       {/* <span>*</span> */}
                                     </label>
-                                   { field.type == 'textArea'?<textarea className={`form-control ${
-                                        key == "eventEndTime" ||
-                                        key == "eventStartTime"
-                                          ? "disabled"
-                                          : ""
-                                      }`}
+                                   { field.type == 'textArea'? <textarea  key={`textarea-${index}-${formData?.templateId}`} className={`form-control`}
                                       ref={(ref) => (textAreaRefs.current[index] = ref)}
-
-                                      // className="form-control"
                                       onChange={(e)=>{handleChange(e)
-                                      
-    
                                         resizeTextArea(index);
-                                      }} name={`eventDetails-${key}`}>{field.value}</textarea>:<input
+                                      }} name={`eventDetails-${key}`}>{field.value} 
+                                      
+                                       </textarea>:
+                                       
+                                       <input
+                                       key={`${field.type}-${index}-${formData?.templateId}`}
                                       type={field.type}
                                       name={`eventDetails-${key}`}
                                       value={field.value}
