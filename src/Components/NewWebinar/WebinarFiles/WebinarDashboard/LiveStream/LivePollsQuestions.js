@@ -26,12 +26,13 @@ const settings = {
     slidesToScroll: 1,
     dots: false,
     arrows: false,
+    centerMode: true,
+    centerPadding: "0",
     speed: 500,
     vertical: true,
     verticalScrolling: true,
     swipe: false,
     touchMove: false,
-    centerMode: true,
     responsive: [
         {
             breakpoint: 558,
@@ -108,8 +109,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
             graphType: questionData?.data?.data?.[0]?.graphType
             , pollAnswers: questionData?.data?.data?.[0]?.pollAnswers
         })
-     
-        if(questionData?.data?.data?.length==1){
+        if(currentIndex==0){
             loader("hide")
             setShow(true)
         }
@@ -117,7 +117,6 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
     }, [questionData])
 
     const handleAfterChange = async (current) => {
-      
         try {
             loader("show")
             let questionId = question[current]?.questionId

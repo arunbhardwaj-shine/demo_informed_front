@@ -9876,7 +9876,7 @@ html {
   flex-direction: row;
   gap: 32px;
   padding: 4px;
-  /* min-height: 80vh; */
+  min-height: 78vh;
   position: relative;
 }
 
