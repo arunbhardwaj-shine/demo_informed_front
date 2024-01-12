@@ -231,7 +231,9 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
 
             <div className='outer-layout'>
                 <div className='question-outer-layout'>
-                    <Button className={pollAnsExist ? 'reset' : 'disabled reset'} onClick={showConfirmationPopup}>Reset All</Button>
+                    <Button className="reset"
+                    // className={pollAnsExist ? 'reset' : 'disabled reset'} 
+                    onClick={showConfirmationPopup}>Reset All</Button>
                     <div className='question-outer-inset'>
                         {question?.length ?
                             <Slider

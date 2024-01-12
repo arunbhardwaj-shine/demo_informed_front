@@ -356,7 +356,9 @@ const ChatLinkPage = () => {
                     ) : value.type == "color" ? (
                       <>
                         <div className="color-pick">
+                          <div className="color-pick-point">
                           <img src={path_image + "color-picker.svg"} alt="" />
+                          </div>
                           <input
                             type="color"
                             title="Choose Your Color"
