@@ -391,10 +391,10 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   fill: var(--white);
 }
 
-.clear-search button:active svg path,
+/* .clear-search button:active svg path,
 .clear-search button:focus svg path {
   fill: var(--light-blue);
-}
+} */
 
 .user-login .dropdown .dropdown-menu a {
   font-size: 16px;
@@ -3195,7 +3195,9 @@ form#add_hcp_form .row:not(:first-child) {
   margin: 10px 0;
   padding: 12px;
 }
-
+.event_edit #add_hcp .modal-body .hcp-add-form form .speaker-name .multi-speaker-add {
+  max-width: 467px;
+}
 .modal.event_edit .split-button-dropup.edit-country-dropdown>div:nth-child(3) div {
   padding: 0;
 }
@@ -9396,6 +9398,7 @@ html {
   border-collapse: separate;
   border-spacing: 0px 22px;
   padding-left: 5px;
+  position: relative;
 }
 
 .invitee table tbody tr {
@@ -10538,15 +10541,20 @@ html {
 }
 
 .poll-creation .nav-tabs .nav-item:first-child button.active:before,
-.poll-creation .nav-tabs .nav-item:last-child button.active:after {
+.poll-creation .nav-tabs .nav-item:last-child button.active:after, .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
+.live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
   display: block;
   background: var(--white);
   left: 0;
   top: 32px;
   height: 25px;
 }
-
-.poll-creation .nav-tabs .nav-item:last-child button.active:after {
+.live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
+.live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
+  top: 25px;
+  height: 20px;
+}
+.poll-creation .nav-tabs .nav-item:last-child button.active:after, .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
   right: 0;
   left: auto;
 }
@@ -11050,11 +11058,11 @@ html {
   min-height: initial;
 }
 
-.chatlink-left button {
+/* .chatlink-left button {
   margin-left: auto;
   display: flex;
   justify-content: center;
-}
+} */
 
 .question-block-form form .btn.btn-success {
   width: 100%;
@@ -11243,7 +11251,7 @@ html {
 
 .create-change-content.register-page .form-group .logo-section,
 .create-change-content.register-page .form-group .header-section,
-.create-change-content.register-page .form-group .footer-section {
+.create-change-content.register-page .form-group .footer-section, .chatlink-left .logo-section {
   border-radius: 15px;
   border: 1px dashed #97B6CF;
   flex: 1 1;
@@ -11425,7 +11433,7 @@ max-height:140px
   font-size: 14px;
 }
 .register-popup-view .consent-form .split-button-dropup>div:nth-child(3) {
-  padding: 6px 10px;
+  padding: 7px 10px;
 }
 .register-popup-view .consent-form .split-button-dropup div:nth-child(3)>div div {
   font-size: 14px;
@@ -11595,5 +11603,8 @@ max-height:140px
   margin: 4px 0 0;
   color: #97B6CF;
   font-size: 14px;
+}
+.consent-form .container {
+  padding: 0;
 }
 /**Registration page end**/

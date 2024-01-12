@@ -229,6 +229,15 @@
     padding-right: 30px;
   }
 
+  .webinarRegistrationBody .reg-color-set .form-group {
+    flex: 0 0 45%;
+  }
+
+  .webinarRegistrationBody .reg-color-set {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
   .smart-list-name .apply-filter {
     margin-bottom: 30px;
     margin-top: 10px;
@@ -309,9 +318,30 @@
 }
 
 @media only screen and (max-width: 1550px) {
+  .register-popup-view .consent-form .split-button-dropup>div:nth-child(3) {
+    padding: 7px 10px;
+    height: 47px;
+  }
+
+  .register-popup-view .consent-form-inner .form-control {
+    font-size: 15px;
+  }
 
   #add_hcp .modal-body .hcp-add-form form {
     margin-bottom: 0;
+  }
+
+  .register-page-right-view .eahad .header .header-text h3 {
+    font-size: 18px;
+  }
+
+  .register-page-right-view .eahad .header {
+    padding: 22px 20px 40px 0;
+    background-size: 138px;
+  }
+
+  .register-page-right-view .eahad .header .header-text {
+    padding-left: 145px;
   }
 
   #accordion-smart .card-body .col {
@@ -348,8 +378,38 @@
 }
 
 @media only screen and (max-width: 1450px) {
+  .register-popup-view .factor-season-left {
+    padding: 30px 18px 10px 8px;
+  }
+
+  .create-change-content.register-page .form-group .upload-img {
+    min-width: 129px;
+  }
+
+  .register-page .form-group .header-section,
+  .register-page .form-group .footer-section,
+  .register-page .form-group .logo-section {
+    gap: 20px;
+  }
+
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 30px;
+  }
+
+  .page-top-nav.smart_list_names .btn.btn-primary,
+  .header_btns .copy_link {
+    font-size: 12px;
+  }
+
+  #add_hcp .modal-body .hcp-add-form form .add-extension label {
+    flex: 0 0 auto;
+    font-size: 16px;
+    padding: 0 4px 0 0;
+  }
+
+  .create-change-content.register-page .react-datepicker-wrapper .react-datepicker__input-container input {
+    background-position: 94% center;
+    padding-right: 40px;
   }
 
   .template_builder-option .template_language .split-button-dropup.edit-country-dropdown>div:nth-child(3),
@@ -485,10 +545,6 @@
   a.show-less-info p:after {
     line-height: 11px;
   }
-
-  /* .sidebar-menu button.toggle_btn {
-    margin: 34px 15px 0px;
-  } */
 
   .right-sidebar {
     padding-top: 30px;
@@ -1037,7 +1093,7 @@
   #add_hcp .modal-body .hcp-add-form form .form-group select {
     padding: 6px 18px;
     font-size: 14px;
-    height: 36px;
+    height: 45px;
   }
 
   .form-inline .form-group label {
@@ -1269,7 +1325,42 @@
   .modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
     padding: 6px 40px 6px 18px;
     font-size: 14px;
-    height: 36px;
+    height: 45px;
+  }
+
+  .event_edit #add_hcp .modal-footer .btn {
+    padding: 5px 13px;
+  }
+
+  .invitee table td:last-child {
+    width: 390px;
+  }
+
+  .invitee table .split-button-dropup>div:nth-child(3) {
+    min-width: 120px;
+  }
+
+  .invitee table th {
+    padding: 8px 10px;
+    min-width: 90px;
+  }
+
+  .register-page-right-view .eahad .octapharma_event_content {
+    padding: 0px 15px;
+  }
+
+  .register-page-right-view .eahad .footer {
+    padding: 10px 15px 10px;
+  }
+
+  .register-page-right-view .eahad .footer-inner p {
+    font-size: 14px;
+    padding-right: 15px;
+  }
+
+  .register-page-right-view .eahad .footer-inner p.health-professional {
+    padding-top: 15px;
+    padding-right: 15px;
   }
 }
 
@@ -1277,19 +1368,102 @@
   .create-smart-list .btn.btn-primary {
     padding: 6px 13px;
   }
+.register-popup-view .factor__logo img {
+  max-width: 200px;
+}
+.register-popup-view .factor-season-left h1 {
+  line-height: 38px;
+  font-size: 20px;
+}
+.register-popup-view .vwd .consent-form-inner .center-sided h2 {
+  font-size: 17px;
+  line-height: 30px;
+}
+  .select-mail-template .page-title h6 {
+    margin: 20px 0 22px;
+  }
 
   section.search-hcp.smart-list-view .header-btn-left {
     position: static;
     margin-bottom: 10px;
   }
-    .session-modal #pollModel .popup-content {
-      max-height: 58vh;
-    }
+
+  .session-modal #pollModel .popup-content {
+    max-height: 58vh;
+  }
+
+  .event_listing .email-result-block .email_box_block {
+    margin: 0 0 45px;
+  }
+
+  .event_listing .event-title {
+    font-size: 18px;
+  }
 }
 
 @media only screen and (max-width: 1365px) {
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
+  }
+.register-popup-view .factor__logo img {
+  max-width: 180px;
+}
+.register-popup-view .factor-season-left {
+  padding: 30px 18px 10px 0px;
+}
+.register-popup-view .factor-season-right {
+  padding-left: 0px;
+}
+.register-popup-view .vwd .consent-form-inner .center-sided h2 {
+  font-size: 15px;
+  line-height: 22px;
+}
+.register-popup-view #form_upper {
+  margin-bottom: 20px;
+}
+  .register-popup .register-popup-view {
+    padding: 13px;
+  }
+
+  .register-page-right-view .eahad .header .header-text {
+    padding-left: 120px;
+  }
+
+  .register-page-right-view .eahad .header .header-text h3 {
+    font-size: 16px;
+  }
+
+  .register-page-right-view .eahad .header {
+    padding: 13px 20px 25px 0;
+    background-size: 116px;
+  }
+
+  .register-page-right-view .eahad .octapharma_event_content h4 {
+    font-size: 14px;
+  }
+
+  .register-page-right-view .footer-sec {
+    margin: 18px 0 0 0;
+  }
+
+  .register-page-right-view .eahad .footer-inner p {
+    font-size: 12px;
+  }
+
+  .register-page-right-view .eahad .footer-sec span {
+    font-size: 10px;
+  }
+
+  .register-page-right-view .eahad .octapharma_event_content h3 {
+    font-size: 20px;
+  }
+
+  #add_hcp .modal-body .hcp-add-form form .add-extension label {
+    font-size: 15px;
+  }
+
+  .invitee table .invitess-tbl .clear-search svg {
+    max-width: 20px;
   }
 
   .modal #create_list_popup .upload-file-box h4 {
@@ -1405,7 +1579,7 @@
   }
 
   #add_hcp .modal-body .hcp-add-form form .form-group button {
-    height: 41px;
+    height: 35px;
   }
 
   .sidebar-menu button.toggle_btn {
@@ -1466,10 +1640,26 @@
   }
 
   .clear-search button {
-    width: 36px;
+    width: 35px;
     padding: 4px;
-    height: 36px;
+    height: 35px;
     font-size: 14px;
+  }
+
+  .invitee table .split-button-dropup>div:nth-child(3) {
+    min-height: 34px;
+  }
+
+  .invitee table td {
+    padding: 10px 10px;
+  }
+
+  .invitee table {
+    border-spacing: 0px 15px;
+  }
+
+  .invitee table td:last-child {
+    width: 360px;
   }
 
   .clear-search button svg {
