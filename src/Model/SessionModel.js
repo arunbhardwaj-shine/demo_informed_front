@@ -247,7 +247,8 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
                                       
                                     />
                                     <span className="checkmark" style={{
-                                        background: designData?.headerBackgroundColor,
+                                        // background: designData?.headerBackgroundColor,
+                                        background: item?.answerColor,
                                         borderColor: item?.answerColor,
                                       }}></span>
                                     {

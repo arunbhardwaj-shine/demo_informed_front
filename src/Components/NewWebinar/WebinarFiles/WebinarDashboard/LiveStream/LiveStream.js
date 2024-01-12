@@ -44,7 +44,7 @@ const LiveStream = () => {
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
         height: 270,
-        type: 'line'
+        type: 'spline'
     },
     title: {
       text: '',
@@ -78,13 +78,13 @@ const LiveStream = () => {
                   }
               }
           },
-        color: '#0066be'  
+        color: '#0066be'
       }
     },
 
     series: [{
       name: 'Active Users',
-      data: [5,10,15,20,25,30,35,40,15,20,22,35,70]
+      data: [5,10,15,20,25,30,35,40,15,20,22,35,70,{y:64,marker:{enabled:true,radius:5,fillColor:'#8a4e9c'}}]
     }]
 });
 

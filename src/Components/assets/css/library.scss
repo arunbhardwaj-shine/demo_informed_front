@@ -582,11 +582,11 @@
         flex: 1 1;
       }
 
-      textarea {
-        &.form-control {
-          min-height: 139px;
-        }
-      }
+      // textarea {
+      //   &.form-control {
+      //     min-height: 139px;
+      //   }
+      // }
 
       .dropdown-basic-button {
         flex: 1 1;
@@ -2338,7 +2338,8 @@ form.product-unit button {
 }
 
 .create-change-content .form-group textarea.form-control {
-  min-height: 223px;
+  // min-height: 223px;
+  min-height: 99px;
   resize: none;
   border-radius: 20px;
   padding: 16px;
