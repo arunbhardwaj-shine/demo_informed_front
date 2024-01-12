@@ -25,77 +25,222 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
       setUserValid(data?.totalQuestion);
       setUserRequired(data?.totalQuestion);
       setSpeaker(data?.speakerData);
+      
+    } catch (err) {
+      console.log("-err", err);
+    }
+  };
+  // console.log(data,'user')
+
+  // const handleChange = (questionId, data, type = "") => {
+  //   try {
+      
+  //     if(typeof data === 'string'){
+  //       if(data?.trim() == ''){
+  //         data = 0;
+  //       }
+  //     }
+  //     if (type) {
+  //       setUserValid({
+  //         ...userValid,
+  //         [questionId]: data ? data : userRequired[questionId],
+  //       });
+
+  //       return;
+  //     }
+  //     setUserValid({ ...userValid, [questionId]: data });
+  //   } catch (err) {
+  //     console.log("-err", err);
+  //   }
+  // };
+
+
+
+  // const handleSubmit = async () => {
+  //   try {
+  //     const errorValue = Object.values(userValid);
+
+  //     if (errorValue?.includes(0)) {
+  //       setError({ msg: "This field is required" });
+  //       return;
+  //     }
+  //     let newAr = [];
+  //     const keys = Object.keys(userValid);
+  //     keys.forEach((item) => {
+  //       let obj = {};
+  //       // user_answer:typeof userValid[item] != "number"?userValid[item]:"",
+  //       if (typeof userValid[item] != "number" && userValid[item]) {
+  //         obj = {
+  //           speakerName: userSpeaker[item],
+  //           poll_question_id: item,
+  //           poll_answer_id:
+  //             typeof userValid[item] == "number" ? userValid[item] : "",
+  //           user_answer: userValid[item],
+  //           guest_id: Cookies.get("events"),
+  //         };
+  //       }
+
+  //       if (typeof userValid[item] == "number" && userValid[item]) {
+  //         obj = {
+  //           speakerName: userSpeaker[item],
+  //           poll_question_id: item,
+  //           poll_answer_id:
+  //             typeof userValid[item] == "number" ? userValid[item] : "",
+  //           guest_id: Cookies.get("events"),
+  //         };
+  //       }
+  //       if (Object.keys(obj)?.length) {
+  //         newAr.push(obj);
+  //       }
+  //     });
+  //     loader("show");
+
+  //     await postData(ENDPOINT.ADD_EVENT_DATA, {
+  //       eventData: newAr,
+  //       eventId: eventData?.event_id,
+  //       poll_question_id: eventData?.question_id,
+  //     });
+  //     const eventQuestion = Cookies.get("eventQuestion");
+  //     if (!eventQuestion?.includes(eventData?.question_id)) {
+  //       let newAr = eventQuestion?.length ? JSON.parse(eventQuestion) : [];
+  //       newAr.push(eventData?.question_id);
+  //       const expirationDate = new Date();
+  //       expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+  //       Cookies.set("eventQuestion", JSON.stringify(newAr), {
+  //         expires: expirationDate,
+  //       });
+  //     }
+  //     setError({});
+  //     onClose(false);
+  //     loader("hide");
+  //   } catch (err) {
+  //     loader("hide");
+  //     console.log("-err", err);
+  //   }
+  // };
+
+  const handleChangeCheckbox = (questionId, data, type = "") => {
+    // console.log('q-->',questionId,"data--->",data,"----type-->",type)
+    try {
+      if (typeof data === 'string') {
+        if (data?.trim() === '') {
+          data = 0;
+        }
+      }
+  
+      if (type) {
+        setUserValid({
+          ...userValid,
+          [questionId]: data ? [data] : userRequired[questionId],
+        });
+        return;
+      }
+  
+      if (Array.isArray(userValid[questionId])) {
+        const updatedArray = [...userValid[questionId]];
+  
+        if (updatedArray.includes(data)) {
+          updatedArray.splice(updatedArray.indexOf(data), 1);
+        } else {
+          updatedArray.push(data);
+        }
+  
+        setUserValid({
+          ...userValid,
+          [questionId]: updatedArray,
+        });
+      } else {
+        setUserValid({
+          ...userValid,
+          [questionId]: [data], 
+        });
+      }
     } catch (err) {
       console.log("-err", err);
     }
   };
 
   const handleChange = (questionId, data, type = "") => {
+    // console.log('q-->',questionId,"data--->",data,"----type-->",type)
     try {
-      
-      if(typeof data === 'string'){
-        if(data?.trim() == ''){
+      if (typeof data === 'string') {
+        if (data?.trim() === '') {
           data = 0;
         }
       }
+  
       if (type) {
         setUserValid({
           ...userValid,
-          [questionId]: data ? data : userRequired[questionId],
+          [questionId]: data ? [data] : userRequired[questionId],
         });
-
         return;
       }
-      setUserValid({ ...userValid, [questionId]: data });
+  
+      setUserValid((prevUserValid) => {
+        const updatedValue = data === prevUserValid[questionId] ? null : data;
+        return {
+          ...prevUserValid,
+          [questionId]: updatedValue,
+        };
+      });
+  
     } catch (err) {
       console.log("-err", err);
     }
   };
-
+    
   const handleSubmit = async () => {
     try {
       const errorValue = Object.values(userValid);
-
+  
       if (errorValue?.includes(0)) {
         setError({ msg: "This field is required" });
         return;
       }
+  
       let newAr = [];
       const keys = Object.keys(userValid);
+  
       keys.forEach((item) => {
         let obj = {};
-        // user_answer:typeof userValid[item] != "number"?userValid[item]:"",
-        if (typeof userValid[item] != "number" && userValid[item]) {
+  
+        if (typeof userValid[item] !== "number" && userValid[item]?.length > 0) {
           obj = {
             speakerName: userSpeaker[item],
             poll_question_id: item,
-            poll_answer_id:
-              typeof userValid[item] == "number" ? userValid[item] : "",
-            user_answer: userValid[item],
+            // poll_answer_ids: userValid[item],
+            poll_answer_ids: userValid[item].join(','),
+            user_answer: userValid[item].join(','),
             guest_id: Cookies.get("events"),
           };
+          console.log(obj,'obj')
         }
-
-        if (typeof userValid[item] == "number" && userValid[item]) {
+  
+        if (typeof userValid[item] === "number" && userValid[item]) {
           obj = {
             speakerName: userSpeaker[item],
             poll_question_id: item,
-            poll_answer_id:
-              typeof userValid[item] == "number" ? userValid[item] : "",
+            poll_answer_id: userValid[item],
+            user_answer: userValid[item], 
             guest_id: Cookies.get("events"),
           };
+          console.log(obj,'obj2')
         }
+  
         if (Object.keys(obj)?.length) {
           newAr.push(obj);
         }
       });
+  
       loader("show");
-
+  
       await postData(ENDPOINT.ADD_EVENT_DATA, {
         eventData: newAr,
         eventId: eventData?.event_id,
         poll_question_id: eventData?.question_id,
       });
+  
       const eventQuestion = Cookies.get("eventQuestion");
       if (!eventQuestion?.includes(eventData?.question_id)) {
         let newAr = eventQuestion?.length ? JSON.parse(eventQuestion) : [];
@@ -106,6 +251,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
           expires: expirationDate,
         });
       }
+  
       setError({});
       onClose(false);
       loader("hide");
@@ -114,6 +260,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
       console.log("-err", err);
     }
   };
+ 
   useEffect(() => {
     initiFun();
     setError({});
@@ -235,25 +382,60 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
                                     }}
                                   />
                                 ) : (
+                                  // <div className="check-values">
+                                  //   {console.log(value?.answerType,'value')}
+                                  //   <input
+                                  //     type="radio"
+                                  //     onChange={(e) =>
+                                  //       handleChange(value?.id, childValue.id)
+                                  //     }
+                                  //     name={value?.question}
+                                  //     value={childValue?.answer}
+                                  //     id={"ans_"+index}
+                                      
+                                  //   />
+                                  //   <span className="checkmark" style={{
+                                  //       // background: designData?.headerBackgroundColor,
+                                  //       background: item?.answerColor,
+                                  //       borderColor: item?.answerColor,
+                                  //     }}></span>
+                                  //   {
+                                  //     !item?.hasParent ? <label style={{color: item?.answerColor}} for={"ans_"+index}>{childValue?.answer}</label> : null
+                                  //   }
+                                  // </div>
+
                                   <div className="check-values">
+                                  {value?.answerType === 'MULTIPLE' ? (
                                     <input
-                                      type="radio"
-                                      onChange={(e) =>
-                                        handleChange(value?.id, childValue.id)
-                                      }
+                                      type="checkbox"
+                                      onChange={(e) => handleChangeCheckbox(value?.id, childValue.id)}
                                       name={value?.question}
                                       value={childValue?.answer}
-                                      id={"ans_"+index}
-                                      
+                                      id={"ans_" + index}
                                     />
-                                    <span className="checkmark" style={{
-                                        background: designData?.headerBackgroundColor,
-                                        borderColor: item?.answerColor,
-                                      }}></span>
-                                    {
-                                      !item?.hasParent ? <label style={{color: item?.answerColor}} for={"ans_"+index}>{childValue?.answer}</label> : null
-                                    }
+                                  ) : (
+                                    <input
+                                      type="radio"
+                                      onChange={(e) => handleChange(value?.id, childValue.id)}
+                                      name={value?.question}
+                                      value={childValue?.answer}
+                                      id={"ans_" + index}
+                                    />
+                                  )}
+                                  <span
+                                    className="checkmark"
+                                    style={{
+                                      background: item?.answerColor,
+                                      borderColor: item?.answerColor,
+                                    }}
+                                  ></span>
+                                  {!item?.hasParent ? (
+                                    <label style={{ color: item?.answerColor }} htmlFor={"ans_" + index}>
+                                      {childValue?.answer}
+                                    </label>
+                                  ) : null}
                                   </div>
+
                                 )}
                               </>
                             );
