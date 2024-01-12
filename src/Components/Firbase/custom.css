@@ -18,7 +18,7 @@ body {
   align-items: center;
   display: flex;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 95vh;
   flex-direction: column;
 }
 
@@ -112,14 +112,16 @@ body {
   background: #25ab9e;
 }
 
-.eahad_2024 .question-block-form input.btn {
+.eahad_2024 .question-block-form input.btn.btn-success {
   background: linear-gradient(135deg, #ff8848 0%, #ff4f69 100%);
 }
 
-.eahad_2024 .question-block-form input.btn:hover {
+.eahad_2024 .question-block-form input.btn.btn-success:hover {
   background: linear-gradient(135deg, #ff4f69 0%, #ff8848 100%);
 }
-
+.octa_events.eahad_2024 {
+  padding: 20px 0;
+}
 .question-block .header-logo {
   text-align: center;
   margin-bottom: 30px;

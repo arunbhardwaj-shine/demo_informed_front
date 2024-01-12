@@ -4,7 +4,7 @@ import { postData, getData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { loader } from "../../../../../loader";
 import axios from "axios";
-import { Button, Col } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import dynamicEventData from "./events.json";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { toast } from "react-toastify";
@@ -249,10 +249,14 @@ const ChatLinkPage = () => {
   return (
     <>
       <Col className="right-sidebar custom-change">
-        <div className="custom-container register-page create-change-content chatlink">
-          
-
-          <div className="d-flex justify-content-end header_btns">
+        <div className="custom-container">
+          <Row>
+            <div className="top-header regi-web">
+              <div className="page-title">
+                <h2>Chat Link</h2>
+              </div>
+              <div className="top-right-action">
+                    <div className="d-flex justify-content-end header_btns">
          
           <a
             // className={`copy_link btn-voilet`}
@@ -280,7 +284,12 @@ const ChatLinkPage = () => {
             Open Link
           </Button>
           </div>
-          
+              </div>
+            </div>
+          </Row>
+
+
+        <div className="register-page create-change-content chatlink">
           <div className="row ">
             <div className="col-md-6 col-sm-6">
               <div className="chatlink-left">
@@ -590,6 +599,7 @@ const ChatLinkPage = () => {
             </div>
           </div>
         </div>
+       </div>
       </Col>
     </>
   );
