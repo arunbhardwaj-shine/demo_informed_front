@@ -2630,7 +2630,6 @@ const WebinarRegistration = () => {
                                       <div className="d-flex align-items-center reg-color-set">
                                         <div className="form-group d-flex align-items-center">
                                           <label>Typed text</label>
-                                          <div className="option-action">
                                             <div className="color-pick">
                                               <img
                                                 src={
@@ -2655,11 +2654,9 @@ const WebinarRegistration = () => {
                                                 }
                                               />
                                             </div>
-                                          </div>
                                         </div>
                                         <div className="form-group d-flex align-items-center">
                                           <label>Placeholder text</label>
-                                          <div className="option-action">
                                             <div className="color-pick">
                                               <img
                                                 src={
@@ -2684,11 +2681,9 @@ const WebinarRegistration = () => {
                                                 }
                                               />
                                             </div>
-                                          </div>
                                         </div>
                                         <div className="form-group d-flex align-items-center">
                                           <label> Label </label>
-                                          <div className="option-action">
                                             <div className="color-pick">
                                               <img
                                                 src={
@@ -2710,7 +2705,6 @@ const WebinarRegistration = () => {
                                                 }
                                               />
                                             </div>
-                                          </div>
                                         </div>
                                         {/* <div className="form-group">
                                           <label>Select Option color</label>

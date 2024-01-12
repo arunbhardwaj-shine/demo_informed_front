@@ -533,8 +533,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
                           <div className="col-12 col-md-12 speaker-name">
-                            <div className="row">
-                              <div className="col-12 col-md-6">
+                            <div className="multi-speaker-add">
                                 {Object.keys(eventInputs?.speaker_name)?.map((item, index) => (
                                   <div className="form-group d-flex align-items-center">
                                     <label htmlFor="">
@@ -601,7 +600,6 @@ const CommonAddEventModel = ({
                                   Add speaker
                                   <img src={path_image + "add-choice.svg"} alt="" />
                                 </span>
-                              </div>
 
                               {/* <div className="col-12 col-md-6">
                                 <div className="form-group">
