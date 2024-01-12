@@ -1212,7 +1212,7 @@ const LiveStream = () => {
                                     : null
                                   }
                                 </div>
-                                <div className='d-flex hcp-detail'>
+                                <div className='d-flex hcp-detail extra'>
                                   <div className='hcp-detail-list'>
                                       <ul>
                                         <li><span>Email</span>{item?.email}</li>

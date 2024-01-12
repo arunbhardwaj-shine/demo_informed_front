@@ -381,7 +381,7 @@ const ChatLinkPage = () => {
                     )}
                   </div>
                 ))}
-                <Button onClick={handleSubmitForm}>Save</Button>
+                <Button className="save-btn" onClick={handleSubmitForm}>Save</Button>
               </div>
             </div>
 

@@ -26,13 +26,12 @@ const settings = {
     slidesToScroll: 1,
     dots: false,
     arrows: false,
-    centerMode: true,
-    centerPadding: "0px",
     speed: 500,
     vertical: true,
     verticalScrolling: true,
     swipe: false,
     touchMove: false,
+    centerMode: true,
     responsive: [
         {
             breakpoint: 558,
