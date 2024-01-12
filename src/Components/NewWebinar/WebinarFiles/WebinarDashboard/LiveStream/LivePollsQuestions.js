@@ -109,7 +109,8 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
             graphType: questionData?.data?.data?.[0]?.graphType
             , pollAnswers: questionData?.data?.data?.[0]?.pollAnswers
         })
-        if(currentIndex==0){
+     
+        if(questionData?.data?.data?.length==1){
             loader("hide")
             setShow(true)
         }
@@ -117,6 +118,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
     }, [questionData])
 
     const handleAfterChange = async (current) => {
+      
         try {
             loader("show")
             let questionId = question[current]?.questionId
