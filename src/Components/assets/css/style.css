@@ -1299,7 +1299,8 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 }
 
 .active-subLink .sidebar-menu ul li.active>a {
-  background: #fbfcfd;
+  /* background: #fbfcfd; */
+  background:rgb(243 247 251 / 0%);
   border-radius: 47px 0 0 47px;
 }
 
@@ -9875,7 +9876,7 @@ html {
   flex-direction: row;
   gap: 32px;
   padding: 4px;
-  min-height: 80vh;
+  min-height: 78vh;
   position: relative;
 }
 
@@ -9920,6 +9921,7 @@ html {
 .poll-creation .question-outer-inset {
   width: 100%;
   max-width: 680px;
+  max-height: 80vh;
   /* min-height: 550px;
   align-items: center;
   display: flex;
@@ -9932,6 +9934,10 @@ html {
   align-items: center;
   display: flex;
 } */
+.slick-slider .slick-track,
+.slick-slider .slick-list {
+  box-sizing: border-box;
+}
 .poll-creation .question-outer-inset .question-boxed {
   display: flex;
   align-items: center;
@@ -10360,7 +10366,9 @@ html {
 .live-stream-action {
   gap: 8px;
 }
-
+.live-stream-ques-header .live-stream-hcp {
+  padding-right: 5px;
+}
 .live-stream-ques-header {
   padding: 0 8px 10px;
 }
@@ -10573,9 +10581,10 @@ html {
 .live-stream-ques-header .hcp-detail {
   width: 100%;
   justify-content: space-between;
-  flex-wrap: wrap;
 }
-
+.live-stream-ques-header .hcp-detail.extra{
+flex-wrap: wrap;
+}
 .live-stream-ques-header .hcp-detail .hcp-activity-status {
   align-items: flex-end;
   display: flex;
@@ -10604,15 +10613,19 @@ html {
   font-size: 12px;
 }
 
-.hcp-activity-status .activity-status.online span {
+.hcp-activity-status .activity-status span {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--green);
   display: inline-block;
   margin: 0 5px 0 0;
 }
-
+.hcp-activity-status .activity-status.online span {
+  background: var(--green);
+}
+.hcp-activity-status .activity-status.offline span {
+  background: #F58289;
+}
 .live-stream-ques-inner {
   position: relative;
   z-index: 1;
@@ -10653,6 +10666,7 @@ html {
   margin-left: -8px;
   width: calc(100% + 16px);
   margin-top: 8px;
+  margin-right: -8px;
 }
 
 .live-stream-ques-header .hcp-detail .reader-msg span {
@@ -10718,6 +10732,7 @@ html {
 .speaker-zone-listed {
   max-height: 68vh;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 4px;
 }
 
@@ -10933,7 +10948,7 @@ html {
 }
 
 .graph-box .no_found {
-  min-height: 50vh;
+  min-height: initial;
 }
 
 .graph-box .no_found img {
@@ -11178,12 +11193,12 @@ html {
   height: 48px;
   display: flex;
   align-items: center;
-  max-width: 121px;
+  width: 120px;
   flex-direction: row-reverse;
   gap: 8px;
 }
 
-.poll-question-create .question-color .color-pick input[type=color] {
+/* .poll-question-create .question-color .color-pick input[type=color] {
   border-radius: 30px;
   appearance: none;
   width: 64px;
@@ -11202,7 +11217,7 @@ html {
   padding: 9px;
   width: 100%;
   cursor: pointer;
-}
+} */
 .register-page-right-view {
   max-width: 540px;
   width: 100%;
@@ -11606,5 +11621,13 @@ max-height:140px
 }
 .consent-form .container {
   padding: 0;
+}
+.chatlink-left button.save-btn {
+  margin-left: auto;
+  display: block;
+  min-width: 150px;
+}
+.create-change-content.chatlink .form-group {
+  justify-content: space-between;
 }
 /**Registration page end**/

@@ -1358,10 +1358,12 @@ const WebinarRegistration = () => {
                                     )}
                                     {field.color && (
                                       <div className="color-pick">
+                                      <div className="color-pick-point">
                                         <img
                                           src={path_image + "color-picker.svg"}
                                           alt=""
                                         />
+                                        </div>
                                         <input
                                           type="color"
                                           title="Choose your color"
@@ -1424,10 +1426,12 @@ const WebinarRegistration = () => {
                                     )}
                                     {field.color && (
                                       <div className="color-pick">
+                                        <div className="color-pick-point">
                                         <img
                                           src={path_image + "color-picker.svg"}
                                           alt=""
                                         />
+                                        </div>
                                         <input
                                           type="color"
                                           title="Choose your color"
@@ -2631,6 +2635,7 @@ const WebinarRegistration = () => {
                                         <div className="form-group d-flex align-items-center">
                                           <label>Typed text</label>
                                             <div className="color-pick">
+                                              <div className="color-pick-point">
                                               <img
                                                 src={
                                                   path_image +
@@ -2638,6 +2643,7 @@ const WebinarRegistration = () => {
                                                 }
                                                 alt=""
                                               />
+                                              </div>
                                               <input
                                                 type="color"
                                                 title="Choose your color"
@@ -2658,6 +2664,7 @@ const WebinarRegistration = () => {
                                         <div className="form-group d-flex align-items-center">
                                           <label>Placeholder text</label>
                                             <div className="color-pick">
+                                              <div className="color-pick-point">
                                               <img
                                                 src={
                                                   path_image +
@@ -2665,6 +2672,7 @@ const WebinarRegistration = () => {
                                                 }
                                                 alt=""
                                               />
+                                              </div>
                                               <input
                                                 type="color"
                                                 title="Choose your color"
@@ -2685,6 +2693,7 @@ const WebinarRegistration = () => {
                                         <div className="form-group d-flex align-items-center">
                                           <label> Label </label>
                                             <div className="color-pick">
+                                              <div className="color-pick-point">
                                               <img
                                                 src={
                                                   path_image +
@@ -2692,6 +2701,7 @@ const WebinarRegistration = () => {
                                                 }
                                                 alt=""
                                               />
+                                              </div>
                                               <input
                                                 type="color"
                                                 title="Choose your color"

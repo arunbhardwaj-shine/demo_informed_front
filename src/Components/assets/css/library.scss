@@ -6288,7 +6288,7 @@ svg.pencil_icon {
     }
   }
 
-  img {
+  .color-pick-point {
     max-width: 40px;
     position: relative;
     pointer-events: none;
@@ -6299,6 +6299,9 @@ svg.pencil_icon {
     cursor: pointer;
     position: absolute;
     right: 4px;
+    img {
+      width: 100%;
+    }
   }
 }
 
@@ -11410,14 +11413,14 @@ img.change-password-image {
               gap: 8px;
 
               input[type="color"] {
-                border-radius: 30px;
-                -webkit-appearance: none;
-                appearance: none;
-                width: 64px;
-                margin-left: 0px;
-                cursor: pointer;
-                padding-left: 0px;
-                height: 100%;
+                // border-radius: 30px;
+                // -webkit-appearance: none;
+                // appearance: none;
+                // width: 64px;
+                // margin-left: 0px;
+                // cursor: pointer;
+                // padding-left: 0px;
+                // height: 100%;
 
                 &::-webkit-color-swatch {
                   border: none;
@@ -11432,16 +11435,16 @@ img.change-password-image {
                 }
               }
 
-              img {
-                max-width: 40px;
-                position: relative;
-                pointer-events: none;
-                border-radius: 30px;
-                background: #ffffff;
-                padding: 9px;
-                width: 100%;
-                cursor: pointer;
-              }
+              // img {
+              //   max-width: 40px;
+              //   position: relative;
+              //   pointer-events: none;
+              //   border-radius: 30px;
+              //   background: #ffffff;
+              //   padding: 9px;
+              //   width: 100%;
+              //   cursor: pointer;
+              // }
             }
           }
         }

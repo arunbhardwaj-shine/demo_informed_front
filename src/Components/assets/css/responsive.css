@@ -185,6 +185,19 @@
     padding: 0 30px;
   }
 
+  /* .doc-content-header .clear-search .search-bar form.d-flex input {
+  max-width: 175px;
+} */
+  .live-stream-tabs-data .doc-content-header .clear-search {
+    flex: 1 1;
+    justify-content: flex-end;
+  }
+
+  .doc-content-header .doc-content {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
   .page-top-nav .tabnav-link li::after {
     width: 44px;
     right: -23px;
@@ -227,6 +240,27 @@
   .right-sidebar {
     padding-left: 30px;
     padding-right: 30px;
+  }
+
+  .hcp-activity-links {
+    padding-left: 12px;
+  }
+
+  .live-stream-ques-header .hcp-detail .hcp-detail-list li span {
+    font-size: 13px;
+    min-width: 75px;
+  }
+
+  .live-stream-ques-header .hcp-detail .hcp-detail-list li {
+    font-size: 13px;
+  }
+
+  .live-stream-ques-header .hcp-detail .hcp-activity-status {
+    flex: 0 0 55px;
+  }
+
+  .live-stream-ques-header .hcp-detail.extra .hcp-activity-status {
+    flex: 0 0 100%;
   }
 
   .webinarRegistrationBody .reg-color-set .form-group {
@@ -318,6 +352,35 @@
 }
 
 @media only screen and (max-width: 1550px) {
+  .live-stream-action button.btn-primary {
+    font-size: 13px;
+    padding: 9px;
+    min-width: 85px;
+  }
+.speaker_zone .speaker_zone_right_div:after {
+  height: calc(100% - 20px);
+}
+.speaker_zone .speaker_zone_right_div .answered,
+.speaker_zone .speaker_zone_right_div .ignored {
+  padding: 0 10px;
+}
+.speaker_zone .speaker_zone_left_div {
+  padding: 15px 15px;
+}
+.speaker_zone .speaker_zone_right_div {
+  padding: 10px 10px;
+}
+.speaker_zone .webinar-top-sec .top-heading h4 {
+  font-size: 20px;
+}
+.email_box_block.no_found p,
+.not_found p,
+.no_found p {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--dark-blue);
+  margin: 0;
+}
   .register-popup-view .consent-form .split-button-dropup>div:nth-child(3) {
     padding: 7px 10px;
     height: 47px;
@@ -381,7 +444,25 @@
   .register-popup-view .factor-season-left {
     padding: 30px 18px 10px 8px;
   }
+    .speaker_zone .answered .reader_list_footer .reader_list_footer_btns button,
+    .speaker_zone .ignored .reader_list_footer .reader_list_footer_btns button,
+    .speaker_zone .reader_list_footer .reader_list_footer_btns button {
+      font-size: 13px;
+      min-width: 80px;
+    }
+.chatlink .question-block .head-sec h2.top-title {
+  font-size: 20px;
+}
+.chatlink .question-block .head-sec {
+  min-height: 130px;
+}
+.chatlink .question-block .copy-right-bottom-text p {
+  font-size: 11px;
+}
 
+.chatlink .question-block .log-inner {
+  margin: -25px -30px 20px;
+}
   .create-change-content.register-page .form-group .upload-img {
     min-width: 129px;
   }
@@ -1365,20 +1446,103 @@
 }
 
 @media only screen and (max-width: 1399px) {
+.speaker_zone .speaker_zone_right_div {
+    padding: 10px 5px;
+    margin-left: 20px;
+  }
+    .speaker_zone .question-post-time {
+      padding-left: 0;
+    }
   .create-smart-list .btn.btn-primary {
     padding: 6px 13px;
   }
-.register-popup-view .factor__logo img {
-  max-width: 200px;
+.reader_list_footer .reader_list_footer_btns {
+  gap: 0 5px;
 }
-.register-popup-view .factor-season-left h1 {
-  line-height: 38px;
-  font-size: 20px;
+.speaker_zone .reader_list p.user_name {
+  padding: 0 4px 7px 4px;
 }
-.register-popup-view .vwd .consent-form-inner .center-sided h2 {
+.detail-box .specialty {
+  padding: 0 4px 10px;
+}
+.user-question p {
+  font-size: 13px;
+  line-height: 16px;
+}
+.speaker_zone .reader_list .user-question {
+  margin-bottom: 10px;
+}
+.speaker_zone .webinar-top-sec .top-heading {
+  margin: 0 0 10px;
+}
+.speaker_zone .webinar-top-sec .top-heading h4 {
   font-size: 17px;
-  line-height: 30px;
 }
+.speaker_zone .answered .reader_list_footer .reader_list_footer_btns button,
+.speaker_zone .ignored .reader_list_footer .reader_list_footer_btns button,
+.speaker_zone .reader_list_footer .reader_list_footer_btns button {
+  min-width: 65px;
+}
+.create-change-content.register-page .form-group .logo-section img,
+.create-change-content.register-page .form-group .header-section img,
+.create-change-content.register-page .form-group .footer-section img {
+  max-width: 200px;
+  max-height: 70px;
+}
+
+.create-change-content.register-page .form-group .logo-section,
+.create-change-content.register-page .form-group .header-section,
+.create-change-content.register-page .form-group .footer-section,
+.chatlink-left .logo-section {
+  min-height: 190px;
+}
+
+.create-change-content.register-page .form-group span.suggestion {
+  font-size: 12px;
+}
+.chatlink .question-block-form .form-control {
+  font-size: 14px;
+}
+.chatlink .question-block .form-label {
+  font-size: 14px;
+}
+.chatlink .question-block .copy-right-bottom-text {
+  padding-top: 10px;
+}
+  .live-stream-action button.btn-primary {
+    font-size: 12px;
+  }
+
+  .reader-message .reader-msg-show p {
+    font-size: 13px;
+  }
+
+  .reader-message .user-comment input {
+    font-size: 12px;
+  }
+
+  .live-stream-tabs-data .doc-content-header {
+    margin: 0 0 8px;
+  }
+
+  .live-stream-hcp h4 {
+    font-size: 13px;
+  }
+
+  .register-popup-view .factor__logo img {
+    max-width: 200px;
+  }
+
+  .register-popup-view .factor-season-left h1 {
+    line-height: 38px;
+    font-size: 20px;
+  }
+
+  .register-popup-view .vwd .consent-form-inner .center-sided h2 {
+    font-size: 17px;
+    line-height: 30px;
+  }
+
   .select-mail-template .page-title h6 {
     margin: 20px 0 22px;
   }
@@ -1405,22 +1569,38 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
-.register-popup-view .factor__logo img {
-  max-width: 180px;
+
+  .live-stream .col-4 {
+    width: 50%;
+  }
+.invitess-tbl-right {
+  gap: 0 5px;
 }
-.register-popup-view .factor-season-left {
-  padding: 30px 18px 10px 0px;
-}
-.register-popup-view .factor-season-right {
-  padding-left: 0px;
-}
-.register-popup-view .vwd .consent-form-inner .center-sided h2 {
-  font-size: 15px;
-  line-height: 22px;
-}
-.register-popup-view #form_upper {
-  margin-bottom: 20px;
-}
+  .doc-content-main-box {
+    margin: 0 0 30px;
+  }
+
+  .register-popup-view .factor__logo img {
+    max-width: 180px;
+  }
+
+  .register-popup-view .factor-season-left {
+    padding: 30px 18px 10px 0px;
+  }
+
+  .register-popup-view .factor-season-right {
+    padding-left: 0px;
+  }
+
+  .register-popup-view .vwd .consent-form-inner .center-sided h2 {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .register-popup-view #form_upper {
+    margin-bottom: 20px;
+  }
+
   .register-popup .register-popup-view {
     padding: 13px;
   }
