@@ -214,7 +214,11 @@ const CommonAddEventModel = ({
         ...eventInputs,
         [isSelectedName || name]: isSelectedName ? e : value?.trim(),
       });
-      handleDebouncedChange(value);
+      setError({...error,event_code:""})
+      if(value?.length>2){
+        handleDebouncedChange(value);
+      }
+      
     } else if (isSelectedName == "timezone") {
 
       let countryTimeZoneOptions = originalTimeZoneOptions?.map((item) => (item?.label == e?.label ? { label: item?.value, value: item?.value } : null)).filter(Boolean);
@@ -237,19 +241,20 @@ const CommonAddEventModel = ({
   };
 
   const handleDebouncedChange = debounce(async (value) => {
+   
     try {
-      let error = {}
+      let err = ""
       let eventCode = value;
       const response = await postData(ENDPOINT.EVENT_ID, { eventCode })
       if (response?.data?.data?.id) {
         if (data?.id != response?.data?.data?.id) {
-          error.event_code = "Event code already exist"
-          setError(error)
+          err = "Event code already exist"
+          setError({...error,event_code:err})
           return
         }
 
       } else {
-        setError(error)
+        setError({...error,event_code:err})
       }
     }
     catch (err) {
@@ -528,8 +533,7 @@ const CommonAddEventModel = ({
                             </div>
                           </div>
                           <div className="col-12 col-md-12 speaker-name">
-                            <div className="row">
-                              <div className="col-12 col-md-6">
+                            <div className="multi-speaker-add">
                                 {Object.keys(eventInputs?.speaker_name)?.map((item, index) => (
                                   <div className="form-group d-flex align-items-center">
                                     <label htmlFor="">
@@ -596,7 +600,6 @@ const CommonAddEventModel = ({
                                   Add speaker
                                   <img src={path_image + "add-choice.svg"} alt="" />
                                 </span>
-                              </div>
 
                               {/* <div className="col-12 col-md-6">
                                 <div className="form-group">
