@@ -880,8 +880,11 @@ const LiveStream = () => {
                                   </div>
                                   
                                   <div className='hcp-activity-status'>
-                                      <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
-                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
+                                      {/* <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}> */}
+                                      <div className= "activity-status online" >
+                                        <span>&nbsp;</span>
+                                        "Online" 
+                                        {/* {item?.is_online ? "Online" : "Offline"} */}
                                       </div>
                                   </div>
                                 </div>
@@ -1053,8 +1056,11 @@ const LiveStream = () => {
                                   </div>
                                   
                                   <div className='hcp-activity-status'>
-                                      <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
-                                        <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
+                                      {/* <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}> */}
+                                      <div className="activity-status offline">
+                                        <span>&nbsp;</span> 
+                                        "Offline"
+                                        {/* {item?.is_online ? "Online" : "Offline"} */}
                                       </div>
                                   </div>
                                 </div>
@@ -1212,7 +1218,7 @@ const LiveStream = () => {
                                     : null
                                   }
                                 </div>
-                                <div className='d-flex hcp-detail'>
+                                <div className='d-flex hcp-detail extra'>
                                   <div className='hcp-detail-list'>
                                       <ul>
                                         <li><span>Email</span>{item?.email}</li>
@@ -1226,11 +1232,11 @@ const LiveStream = () => {
                                       </ul>
                                   </div>
                                  
-                                  <div className='hcp-activity-status'>
+                                  {/* <div className='hcp-activity-status'>
                                       <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
-                                  </div>
+                                  </div> */}
                                   <div className='reader-msg'>
                                     <span>Question:</span>
                                     <div className='reader-msg-show' dangerouslySetInnerHTML={{ __html: item?.question }}>
@@ -1438,11 +1444,11 @@ const LiveStream = () => {
                                       </ul>
                                   </div>
                                   
-                                  <div className='hcp-activity-status'>
+                                  {/* <div className='hcp-activity-status'>
                                       <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>

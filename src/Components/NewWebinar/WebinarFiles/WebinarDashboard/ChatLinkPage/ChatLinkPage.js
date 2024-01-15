@@ -59,17 +59,19 @@ const ChatLinkPage = () => {
         `${ENDPOINT.GETCHATLINKDATA}/${eventData?.eventId}`
       );
       const { chatLinkData } = response?.data?.data;
-      setIsDataSaved(false);
-      // console.log(isDataSaved,'===>isdata1')
+      
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
         setDynamicContent(chatLinkData);
         setFormData(chatLinkData);
         setLogo(chatLinkData?.logoImageUrl);
+        setIsDataSaved(true);
       } else {
-        setLogo(dynamicContent?.logoImageUrl);
+        setLogo(dynamicContent?.logoImageUrl); 
+        setIsDataSaved(false);
       }
     } catch (error) {
       setLogo(dynamicContent?.logoImageUrl);
+      setIsDataSaved(false);
       console.error("Error fetching settings:", error);
     } finally {
       loader("hide");
@@ -178,7 +180,6 @@ const ChatLinkPage = () => {
       [field]: value,
     }));
     setIsDataSaved(false);
-    // console.log(isDataSaved,'===>isdata')
   };
 
   const copyToClipboard = (content) => {
@@ -220,7 +221,6 @@ const ChatLinkPage = () => {
         toast.error(errorMsg);
         return;
       }
-      // console.log(isDataSaved,'===>isdata')
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -276,7 +276,11 @@ const ChatLinkPage = () => {
           >
             Copy Chat Link
           </a>
-           <Button copy_link btn-bordered 
+           <Button 
+            className={`btn-bordered  ${
+              !isDataSaved ? "disabled" : ""
+            }`}
+          
             onClick={(e) => {
               handlePreviewInNewTab(e);
             }}
@@ -356,7 +360,9 @@ const ChatLinkPage = () => {
                     ) : value.type == "color" ? (
                       <>
                         <div className="color-pick">
+                          <div className="color-pick-point">
                           <img src={path_image + "color-picker.svg"} alt="" />
+                          </div>
                           <input
                             type="color"
                             title="Choose Your Color"
@@ -381,7 +387,7 @@ const ChatLinkPage = () => {
                     )}
                   </div>
                 ))}
-                <Button onClick={handleSubmitForm}>Save</Button>
+                <Button className="save-btn" onClick={handleSubmitForm}>Save</Button>
               </div>
             </div>
 

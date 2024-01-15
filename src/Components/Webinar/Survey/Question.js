@@ -140,9 +140,9 @@ function Question(props) {
             <div>
             <h5>Question Color</h5> 
             <div className="color-pick" >
-              <img
+              <div className="color-pick-point"><img
                 src={path_image + "color-picker.svg"}
-                alt=""/>
+                alt=""/></div>
                 <input
                   type="color"
                   title="Choose Your Color"
@@ -157,10 +157,13 @@ function Question(props) {
                 <h5>Answer Color</h5>
 
                 <div className="color-pick" >
+                  <div className="color-pick-point">
                   <img
                     src={path_image + "color-picker.svg"}
                     alt=""
                   />
+                  </div>
+                 
 
                   <input
                     type="color"
@@ -311,10 +314,11 @@ function Question(props) {
                                   </Button>
                                 )}
                               <div className="color-pick" >
-                                <img
+                                <div className="color-pick-point"><img
                                   src={path_image + "color-picker.svg"}
                                   alt=""
-                                />
+                                /></div>
+                                
                                 <input
                                   type="color"
                                   title="This is the answer's color in the graph result"
