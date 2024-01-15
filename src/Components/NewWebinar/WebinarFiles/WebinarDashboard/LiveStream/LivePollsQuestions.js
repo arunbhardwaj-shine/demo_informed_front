@@ -32,6 +32,7 @@ const settings = {
     vertical: true,
     verticalScrolling: true,
     swipe: false,
+    debug: true,
     touchMove: false,
     responsive: [
         {
@@ -111,11 +112,13 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
             graphType: questionData?.data?.data?.[0]?.graphType
             , pollAnswers: questionData?.data?.data?.[0]?.pollAnswers
         })
-        if(currentIndex==0){
+        if(currentIndex==0||questionData?.data?.data?.length==0){
+           
             loader("hide")
             setShow(true)
             setApiCallStatus(false);
         }
+        
        
     }, [questionData])
 
