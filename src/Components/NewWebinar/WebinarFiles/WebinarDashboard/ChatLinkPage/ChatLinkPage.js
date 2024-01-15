@@ -233,12 +233,14 @@ const ChatLinkPage = () => {
 
     try {
       await navigator.clipboard.writeText(
-        `${`https://informed.pro/event?evnt=${eventData?.eventCode}`}`
+        // `${`https://informed.pro/event?evnt=${eventData?.eventCode}`}`
+        `${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`
       );
 
-      // Open link in a new tab
       window.open(
-        `${`https://informed.pro/event?evnt=${eventData?.eventCode}`}`,
+        // `${`https://informed.pro/event?evnt=${eventData?.eventCode}`}`,
+        // "_blank"
+        `${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`,
         "_blank"
       );
     } catch (error) {
@@ -256,14 +258,15 @@ const ChatLinkPage = () => {
                 <h2>Chat Link</h2>
               </div>
               <div className="top-right-action">
-                    <div className="d-flex justify-content-end header_btns">
+              <div className="d-flex justify-content-end header_btns">
          
           <a
             // className={`copy_link btn-voilet`}
             className={`copy_link btn-voilet ${
               !isDataSaved ? "disabled" : ""
             }`}
-            href={`https://informed.pro/event?evnt=${eventData?.eventCode}`}
+            // href={`https://informed.pro/event?evnt=${eventData?.eventCode}`}
+            href={`${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`}
             onClick={(e) => {
               e.preventDefault();
               if (!isDataSaved) {
