@@ -32,6 +32,7 @@ const settings = {
     vertical: true,
     verticalScrolling: true,
     swipe: false,
+    debug: true,
     touchMove: false,
     responsive: [
         {

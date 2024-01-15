@@ -214,7 +214,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
             user_answer: userValid[item].join(','),
             guest_id: Cookies.get("events"),
           };
-          console.log(obj,'obj')
+          // console.log(obj,'obj')
         }
   
         if (typeof userValid[item] === "number" && userValid[item]) {
@@ -225,7 +225,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
             user_answer: userValid[item], 
             guest_id: Cookies.get("events"),
           };
-          console.log(obj,'obj2')
+          // console.log(obj,'obj2')
         }
   
         if (Object.keys(obj)?.length) {
