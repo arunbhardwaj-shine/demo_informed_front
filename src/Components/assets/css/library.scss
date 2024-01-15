@@ -6262,6 +6262,7 @@ svg.pencil_icon {
     padding-left: 0px;
     padding-right: 48px;
     height: 100%;
+    background: rgba(231, 239, 246, 0.76);
 
     &::-webkit-color-swatch {
       border: none;
@@ -6290,6 +6291,7 @@ svg.pencil_icon {
 
   .color-pick-point {
     max-width: 40px;
+    height: 40px;
     position: relative;
     pointer-events: none;
     border-radius: 30px;
@@ -6299,6 +6301,7 @@ svg.pencil_icon {
     cursor: pointer;
     position: absolute;
     right: 4px;
+
     img {
       width: 100%;
     }
@@ -12912,6 +12915,12 @@ img.change-password-image {
     line-height: 23px;
   }
 
+  .color-pick .color-pick-point {
+    max-width: 37px;
+    padding: 6px;
+    height: 37px;
+  }
+
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .graph-box .no_found p {
     font-size: 25px;
   }
@@ -12960,6 +12969,12 @@ img.change-password-image {
 @media only screen and (max-width: 1500px) {
   .rd-analytics-content .row {
     margin: 0 -15px;
+  }
+
+  .color-pick .color-pick-point {
+    max-width: 31px;
+    padding: 1px;
+    height: 31px;
   }
 
   .rd-analytics-content [class*="col-"] {
@@ -18823,7 +18838,7 @@ img.change-password-image {
   }
 
   .create-change-content.register-page .form-group label {
-    flex: 0 0 120px;
+    flex: 0 0 130px;
     font-size: 15px;
   }
 
@@ -18850,6 +18865,10 @@ img.change-password-image {
         flex: 0 0 46%;
       }
     }
+  }
+
+  .color-pick {
+    max-width: 100px;
   }
 }
 
