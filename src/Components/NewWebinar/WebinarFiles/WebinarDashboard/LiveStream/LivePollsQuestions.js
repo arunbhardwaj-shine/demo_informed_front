@@ -82,7 +82,9 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
 
     useEffect(() => {
        setShow(false)
-       loader("show")
+       if(!apiCallStatus){
+        loader("show")
+       }
         let currentIndex = 0;
         const index = questionData?.data?.data.findIndex(item => item?.triggered === 1);
         
@@ -113,13 +115,13 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         if(currentIndex==0){
             loader("hide")
             setShow(true)
+            setApiCallStatus(false);
         }
        
     }, [questionData])
 
     const handleAfterChange = async (current) => {
         try {
-            loader("show")
             let questionId = question[current]?.questionId
             let chartData = { graphType: question[current]?.graphType, pollAnswers: question[current]?.pollAnswers }
             setCurrentIndex(Math.abs(current));
@@ -136,6 +138,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         }finally{
             loader("hide")
             setShow(true)
+            setApiCallStatus(false);
         }
     };
 
@@ -151,11 +154,12 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         } catch (err) {
             setApiCallStatus(false);
             console.log("-err", err);
-        } finally {
-            setTimeout(() => {
-                setApiCallStatus(false);
-            }, 3000);
-        }
+        } 
+        // finally {
+        //     setTimeout(() => {
+        //         setApiCallStatus(false);
+        //     }, 3000);
+        // }
     }
 
     const closedClicked = async (e, id) => {
@@ -165,13 +169,14 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                 eventId: eventData?.id,
             });
         } catch (err) {
+           
             setApiCallStatus(false);
         }
-        finally {
-            setTimeout(() => {
-                setApiCallStatus(false);
-            }, 3000);
-        }
+        // finally {
+        //     setTimeout(() => {
+        //         setApiCallStatus(false);
+        //     }, 3000);
+        // }
     }
 
     onSnapshot(q, (querySnapshot) => {
