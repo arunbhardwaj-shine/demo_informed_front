@@ -9892,6 +9892,9 @@ button.event_sort_btn.svg_active svg {
   max-height: 75vh;
   /* display: flex; */
 }
+.invitee table td span.show_more {
+  cursor: pointer;
+}
 .question-outer-layout .slick-slider .slick-track .slick-slide {
   height: 100%;
 }
