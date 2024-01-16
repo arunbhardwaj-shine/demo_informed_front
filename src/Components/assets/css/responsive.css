@@ -533,6 +533,10 @@
   .register-popup-view .factor-season-left {
     padding: 30px 18px 10px 8px;
   }
+    .register-popup-view .vwd .factor-season-left h1 {
+      font-size: 16px;
+      margin-bottom: 0;
+    }
 .register-popup-view .invertor-metting .meeting-logo img {
   max-height: 76px;
   max-width: 130px;
@@ -1776,7 +1780,9 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
-
+.live-stream .doc-content-main-box {
+  height: initial;
+}
   .poll-creation .outer-layout .question-outer-layout {
     width: 53%;
   }
