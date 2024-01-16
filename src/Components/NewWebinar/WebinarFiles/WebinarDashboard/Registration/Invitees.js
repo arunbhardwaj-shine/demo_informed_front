@@ -901,8 +901,16 @@ const Invitees = () => {
                         <td>{user?.email}</td>
                         <td>{user?.province}</td>
                         <td className={user?.is_blocked == 0 ? "registred" : "registred block"}>
-                          {user?.is_blocked == 0 ?
-                            moment(user?.register_time).format('DD MMMM YYYY | hh:mm:ss A') : "Blocked"}
+                          {/* {user?.is_blocked == 0 ?
+                            moment(user?.register_time).format('DD MMMM YYYY | hh:mm:ss A') : "Blocked"} */}
+                            
+                            {user?.is_blocked === 0 ? (
+                                <>
+                                    {moment(user?.register_time).format('DD MMMM YYYY')} <span>|</span> {moment(user?.register_time).format('hh:mm:ss A')}
+                                </>
+                            ) : (
+                                "Blocked"
+                            )}
                         </td>
                         <td>{user?.last_email ? user?.last_email : "N/A"}</td>
                         <td>
