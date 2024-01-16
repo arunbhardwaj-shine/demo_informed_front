@@ -10,15 +10,15 @@ import { getDatabase } from "firebase/database";
 //   messagingSenderId: "82125078924",
 //   appId: "1:82125078924:web:6bdcc63abcd2b88baf96a9"
 //   };
-  const firebaseConfig = {
-    apiKey: "AIzaSyD__r3UMJgmOrgW5-bGsEPDiROzuwKWVVA",
-    authDomain: "onesource-dbb30.firebaseapp.com",
-    projectId: "onesource-dbb30",
-    storageBucket: "onesource-dbb30.appspot.com",
-    messagingSenderId: "749099745733",
-    appId: "1:749099745733:web:3bb71bb52a537681580bac",
-    measurementId: "G-FQR3X48MQ1"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBNnuLzLRR0UyIxgFSS-VvZALfUUIAdHbw",
+  authDomain: "onesource-2427e.firebaseapp.com",
+  databaseURL: "https://onesource-2427e-default-rtdb.firebaseio.com",
+  projectId: "onesource-2427e",
+  storageBucket: "onesource-2427e.appspot.com",
+  messagingSenderId: "318428279694",
+  appId: "1:318428279694:web:3510333a27cb1771c5aadf"
+}
 
 
 const app1 = initializeApp(firebaseConfig,"second");
