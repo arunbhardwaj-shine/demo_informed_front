@@ -488,8 +488,7 @@ const ContactDM = () => {
                                                     <td>{user?.phone ? user?.phone : "N/A"}</td>
                                                     {/* <td><div dangerouslySetInnerHTML={{__html:user?.message?user?.message?.length>60 ? `${user?.message?.slice(0,60)}...` :user?.message: "N/A"}}></div></td> */}
                                                     <td>
-                                                        <div>
-                                                            <div dangerouslySetInnerHTML={{
+                                                            <span dangerouslySetInnerHTML={{
                                                                 __html: user?.message
                                                                     ? user?.message.trim().length > 60
                                                                         ? openNotes[index]
@@ -516,7 +515,6 @@ const ContactDM = () => {
                                                             ) : (
                                                                 ""
                                                             )}
-                                                        </div>
                                                     </td>
                                                 </tr>
                                             ))}
