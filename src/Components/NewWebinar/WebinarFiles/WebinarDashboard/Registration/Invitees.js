@@ -913,7 +913,7 @@ const Invitees = () => {
                             )}
                         </td>
                         <td>{user?.last_email ? user?.last_email : "N/A"}</td>
-                        <td>
+                        <td className="invites-td">
                           <div className="invitess-tbl">
                             <div className="invitess-tbl-left">
                               <div className="clear-search">
@@ -1066,7 +1066,7 @@ const Invitees = () => {
         resetDataId={clickUserId}
         popupMessage={{
           message1: "The deleted user will no longer have access <br> to <b>One Source</b>",
-          message2: "Are you sure you want to delete it?",
+          message3: "Are you sure you want to delete it?",
           footerButton: " Yes please!",
         }}
         path_image={path_image}

@@ -9353,7 +9353,13 @@ html {
   background: transparent;
   margin: 0 0 0 4px;
 }
+button.event_sort_btn.svg_active svg path {
+  fill: var(--dark-blue);
+}
 
+button.event_sort_btn.svg_active svg {
+  transform: rotate(180deg);
+}
 .invitee table td {
   color: #70899E;
   font-size: 13px;
@@ -9375,8 +9381,7 @@ html {
 
 .invitee table td>div {
   border-radius: 14px;
-  /* border: 1px dashed #97B6CF; */
-  background: rgba(0, 102, 190, 0.06);
+  /* background: rgba(0, 102, 190, 0.06); */
   padding: 10px;
   width: 100%;
   color: var(--dark-blue);
@@ -9398,6 +9403,7 @@ html {
 .invitee table td:last-child .invitess-tbl {
   display: flex;
   align-items: center;
+  border: 1px dashed #97B6CF;
 }
 
 .invitee table {
@@ -9454,6 +9460,9 @@ html {
 
 .invitee table td.registred {
   color: var(--green);
+}
+.invitee table td.registred span {
+  color: #70899E;
 }
 .invitee table td.block {
   color: #F58289;

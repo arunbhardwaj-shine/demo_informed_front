@@ -1278,8 +1278,12 @@ ul.tab-mail-list.data span.total-left {
   top: -7px;
 }
 
+#delete-confirm .modal-body h4 b {
+  font-weight: 500;
+}
+
 #delete-confirm .modal-body h4+h4 {
-  margin-top: 5px;
+  margin-top: 2px;
 }
 
 #delete-confirm .modal-body h4+h4 strong {
