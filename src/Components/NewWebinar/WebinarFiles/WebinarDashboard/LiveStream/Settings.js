@@ -161,7 +161,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
               </div>
               <div className="event-status-msg">
                 <p className="event-status-set">Offline</p>
-                <p>means events has not started so video runnig or image stating that it will start soon</p>
+                <p>Not live yet. A video or image is shown while offline.</p>
               </div>
              
             </div>
@@ -181,7 +181,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
               </div> 
              <div className="event-status-msg">
                 <p className="event-status-set">Start Timer</p>
-                <p>If they want to start 30 min or 1 hour timer before event</p>
+                <p>Activate a timer to count down to the live stream starts.</p>
               </div>
             </div>
             <div className="settings-status">
@@ -199,8 +199,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
               </div>
               
               <div className="event-status-msg">
-                <p className="event-status-set">Set Stream Live</p>
-                <p>Starting the live streaming</p>
+                <p className="event-status-set">Start Live Streaming</p>
+                <p>Click here to start the streaming.</p>
               </div>
             </div>
             <div className="settings-status">
@@ -217,8 +217,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 <img src={path_image + "message-to attendeed.png"} alt=""/> 
               </div>
               <div className="event-status-msg">
-                <p className="event-status-set">Set Poster</p>
-                <p>Message showing (image) Thank you for watching, we will be back, event has ended etc...</p>
+                <p className="event-status-set">End Live Streaming</p>
+                <p>Stop the live stream and place an image message.</p>
               </div>
               
             </div>
