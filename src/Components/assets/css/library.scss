@@ -1007,6 +1007,28 @@
   fill: $white;
 }
 
+#add_hcp {
+  .modal-body {
+
+    .hcp-add-form {
+      form {
+        .form-group {
+          .react-datepicker__input-container {
+            input {
+              @include custom-input-drop;
+              background: $white url(../images/calender.png) no-repeat;
+              background-size: 23px;
+              background-position: 95% center;
+            }
+          }
+        }
+      }
+    }
+
+
+  }
+}
+
 @keyframes blinker {
   0% {
     opacity: 1;
@@ -1256,8 +1278,12 @@ ul.tab-mail-list.data span.total-left {
   top: -7px;
 }
 
+#delete-confirm .modal-body h4 b {
+  font-weight: 500;
+}
+
 #delete-confirm .modal-body h4+h4 {
-  margin-top: 5px;
+  margin-top: 2px;
 }
 
 #delete-confirm .modal-body h4+h4 strong {
