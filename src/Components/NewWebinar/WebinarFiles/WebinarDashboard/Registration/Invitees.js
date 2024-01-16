@@ -24,7 +24,7 @@ const Invitees = () => {
   const [sortNameDirection, setSortNameDirection] = useState(0);
   const [sortingCount, setSortingCount] = useState(0);
   const [sorting, setSorting] = useState(0);
-  const [isActive, setIsActive] = useState("");
+  const [isActive, setIsActive] = useState({});
   const [search, setSearch] = useState("");
   const [noData, setNoData] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -357,7 +357,7 @@ const Invitees = () => {
 
     setUserData(sortedUserData);
     setSortNameDirection(sortNameDirection === 0 ? 1 : 0); // Toggle the sort direction
-    setIsActive(direction === 'asc' ? 'dec' : 'asc');
+    setIsActive({...isActive,[key]:direction === 'asc' ? 'dec' : 'asc'});
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
   };
@@ -781,9 +781,9 @@ const Invitees = () => {
                     <tr>
                       <th scope="col">Name
                         <button
-                          className={`event_sort_btn ${isActive == "dec"
+                          className={`event_sort_btn ${isActive?.name == "dec"
                             ? "svg_active"
-                            : isActive == "asc"
+                            : isActive?.name == "asc"
                               ? "svg_asc"
                               : ""
                             }`}
@@ -803,9 +803,9 @@ const Invitees = () => {
                       </th>
                       <th scope="col">Email
                         <button
-                          className={`event_sort_btn ${isActive == "dec"
+                          className={`event_sort_btn ${isActive?.email == "dec"
                             ? "svg_active"
-                            : isActive == "asc"
+                            : isActive?.email == "asc"
                               ? "svg_asc"
                               : ""
                             }`}
@@ -825,9 +825,9 @@ const Invitees = () => {
                       </th>
                       <th scope="col">Country
                         <button
-                          className={`event_sort_btn ${isActive == "dec"
+                          className={`event_sort_btn ${isActive?.province == "dec"
                             ? "svg_active"
-                            : isActive == "asc"
+                            : isActive?.province == "asc"
                               ? "svg_asc"
                               : ""
                             }`}
@@ -847,9 +847,9 @@ const Invitees = () => {
                       </th>
                       <th scope="col">Registered
                         <button
-                          className={`event_sort_btn ${isActive == "dec"
+                          className={`event_sort_btn ${isActive?.register_time == "dec"
                             ? "svg_active"
-                            : isActive == "asc"
+                            : isActive?.register_time == "asc"
                               ? "svg_asc"
                               : ""
                             }`}
@@ -869,9 +869,9 @@ const Invitees = () => {
                       </th>
                       <th scope="col">Last Email
                         {/* <button
-                          className={`event_sort_btn ${isActive == "dec"
+                          className={`event_sort_btn ${isActive?.last_email == "dec"
                             ? "svg_active"
-                            : isActive == "asc"
+                            : isActive?.last_email == "asc"
                               ? "svg_asc"
                               : ""
                             }`}
