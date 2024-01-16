@@ -47,6 +47,8 @@ const CommonConfirmModel = ({
               <strong dangerouslySetInnerHTML = {{__html: popupMessage?.message2 ? popupMessage?.message2 : ""}}>
               </strong>
             </h4>
+            <h4 dangerouslySetInnerHTML = {{__html: popupMessage?.message3 ? popupMessage?.message3 : ""}}>
+            </h4>
             <div className="modal-buttons">
               <button
                 type="button"

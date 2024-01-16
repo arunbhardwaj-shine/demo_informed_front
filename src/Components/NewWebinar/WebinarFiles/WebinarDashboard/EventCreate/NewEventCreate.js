@@ -112,13 +112,12 @@ const NewEventCreate = () => {
         setRawDescription(raw_description);
         let data = response?.data?.data?.data;
         data = data?.map((item, element) => {
-          let status = differenceDays(item?.dateStart)
+          let status = differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone)
           return {
             ...item,
             eventStatus: status,
           };
         });
-       
         setIsData(data);
         setApiData(data);
         if (
@@ -150,7 +149,7 @@ const NewEventCreate = () => {
         data = data?.map((item, element) => {
           return {
             ...item,
-            eventStatus: differenceDays(item?.dateStart),
+            eventStatus: differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone),
           };
         });
         setIsData([...isData, ...data]);
@@ -227,9 +226,9 @@ const NewEventCreate = () => {
   };
 
   const getEventStatus = (item) => {
-    return differenceDays(item?.dateStart) === 0
+    return differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone) === 0
       ? "Live"
-      : differenceDays(item?.dateStart) > 0
+      : differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone) > 0
         ? "Coming soon"
         : "Has ended";
   };
@@ -561,19 +560,67 @@ const NewEventCreate = () => {
     return formattedDate;
   };
 
-  const differenceDays = (eventDate) => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-    const day = String(today.getDate()).padStart(2, "0");
-    const todayDate = `${year}-${month}-${day}`;
-    const date1 = new Date(todayDate);
-    const date2 = new Date(eventDate);
-
-    const timeDifference = date2.getTime() - date1.getTime(); // Get the time difference in milliseconds
-    const dayDifference = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
-    return dayDifference;
+  const differenceDays = (eventStartDateTime,eventEndtDateTime,timezone) => {
+   
+    const time=getEventTime(timezone)
+    const currentTime = new Date(time);
+    const startTime = new Date(eventStartDateTime);
+    const endTime = new Date(eventEndtDateTime);
+   
+    if (currentTime < startTime) {
+      const timeDifference = startTime.getTime() - currentTime.getTime(); // Get the time difference in milliseconds
+    const dayDifference = Math.floor(timeDifference / (1000 * 3600 * 24)); // Convert milliseconds to days
+    return dayDifference;    
+    } else if (currentTime > endTime) {
+      return -1; 
+    } else {
+      return 0; 
+    }
   };
+
+  
+const getEventTime=(timeZone)=> {
+  const utcDateTime = new Date().toISOString();
+  try {
+    if (timeZone !== null) {
+      const options = {
+        timeZone: timeZone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      };
+ 
+      const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
+        new Date(utcDateTime)
+      );
+      return localDateTime.replace(/, /, ' ');
+    }
+  } catch (error) {
+    console.error('Invalid time zone specified:', timeZone);
+  }
+ 
+  const londonOptions = {
+    timeZone: 'Europe/London',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  };
+ 
+  const localDateTime = new Intl.DateTimeFormat('en-US', londonOptions).format(
+    new Date(utcDateTime)
+  );
+  return localDateTime.replace(/, /, ' ');
+ 
+  // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
+}
 
   const handleCardClick = (item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
@@ -1187,11 +1234,11 @@ const NewEventCreate = () => {
                                     // differenceDays(item?.dateStart) == 0
                                     //   ? "Event Live"
                                     //   :
-                                    differenceDays(item?.dateStart) > 0 ? (
+                                    differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone) > 0 ? (
                                       // differenceDays(item?.dateStart) +
                                       <>
                                         <span className="days-left">
-                                          {differenceDays(item?.dateStart)}
+                                          {differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone)}
                                         </span>
                                         Days left
                                       </>
