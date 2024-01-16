@@ -154,7 +154,7 @@ useEffect(() => {
     snapshot.forEach((userSnapshot) => {
       
       const user = userSnapshot.val();
-      if (user) {
+      if (user && user.user_id !=null) {
         if ( user?.status === 'online') {
           onlineUserIds.push(user.user_id);
         }
