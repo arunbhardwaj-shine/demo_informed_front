@@ -82,7 +82,7 @@ const NewEventCreate = () => {
     try {
       loader("show");
 
-      setIsLoaded(false);
+      // setIsLoaded(false);
       if (load) {
         setPageAll(true);
       }
@@ -112,7 +112,7 @@ const NewEventCreate = () => {
         setRawDescription(raw_description);
         let data = response?.data?.data?.data;
         data = data?.map((item, element) => {
-          let status = differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone)
+          let status = differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone,"")
           return {
             ...item,
             eventStatus: status,
@@ -120,13 +120,13 @@ const NewEventCreate = () => {
         });
         setIsData(data);
         setApiData(data);
-        if (
-          response?.data?.data?.totalPage > response?.data?.data?.data?.length
-        ) {
-          setIsLoaded(true);
-        } else {
-          setIsLoaded(false);
-        }
+        // if (
+        //   response?.data?.data?.totalPage > response?.data?.data?.data?.length
+        // ) {
+        //   setIsLoaded(true);
+        // } else {
+        //   setIsLoaded(false);
+        // }
       } else {
         let newDataLength = isData?.length + response?.data?.data?.data?.length;
         let raw_description = response?.data?.data?.data.map((d) =>
@@ -149,16 +149,16 @@ const NewEventCreate = () => {
         data = data?.map((item, element) => {
           return {
             ...item,
-            eventStatus: differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone),
+            eventStatus: differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone,""),
           };
         });
         setIsData([...isData, ...data]);
         setApiData([...apiData, ...data]);
-        if (totalEvents > newDataLength) {
-          setIsLoaded(true);
-        } else {
-          setIsLoaded(false);
-        }
+        // if (totalEvents > newDataLength) {
+        //   setIsLoaded(true);
+        // } else {
+        //   setIsLoaded(false);
+        // }
       }
       loader("hide");
     } catch (err) {
@@ -181,11 +181,11 @@ const NewEventCreate = () => {
     setSearch(e?.target?.value?.trim());
     if (e?.target?.value === "") {
       setIsData(apiData);
-      if (totalEvents > apiData?.length) {
-        setIsLoaded(true);
-      } else {
-        setIsLoaded(false);
-      }
+      // if (totalEvents > apiData?.length) {
+      //   setIsLoaded(true);
+      // } else {
+      //   setIsLoaded(false);
+      // }
     }
   };
   const submitSearchHandler = (event) => {
@@ -195,7 +195,7 @@ const NewEventCreate = () => {
     );
 
     setIsData(filteredData);
-    setIsLoaded(false);
+    // setIsLoaded(false);
     setApiStatus(true);
   };
 
@@ -209,7 +209,7 @@ const NewEventCreate = () => {
     });
 
     setIsData(result);
-    setIsLoaded(false);
+    // setIsLoaded(false);
     setApiStatus(true);
 
   };
@@ -226,9 +226,9 @@ const NewEventCreate = () => {
   };
 
   const getEventStatus = (item) => {
-    return differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone) === 0
+    return differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone,"") === 0
       ? "Live"
-      : differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone) > 0
+      : differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone,"") > 0
         ? "Coming soon"
         : "Has ended";
   };
@@ -560,7 +560,7 @@ const NewEventCreate = () => {
     return formattedDate;
   };
 
-  const differenceDays = (eventStartDateTime,eventEndtDateTime,timezone) => {
+  const differenceDays = (eventStartDateTime,eventEndtDateTime,timezone,flag=0) => {
    
     const time=getEventTime(timezone)
     const currentTime = new Date(time);
@@ -569,8 +569,20 @@ const NewEventCreate = () => {
    
     if (currentTime < startTime) {
       const timeDifference = startTime.getTime() - currentTime.getTime(); // Get the time difference in milliseconds
-    const dayDifference = Math.floor(timeDifference / (1000 * 3600 * 24)); // Convert milliseconds to days
-    return dayDifference;    
+    const dayDifference = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
+    if(flag==1){
+      const days = Math.floor(timeDifference / (1000 * 3600 * 24));
+const remainingTimeAfterDays = timeDifference % (1000 * 3600 * 24);
+const hours = Math.floor(remainingTimeAfterDays / (1000 * 3600));
+const remainingTimeAfterHours = remainingTimeAfterDays % (1000 * 3600);
+const minutes = Math.floor(remainingTimeAfterHours / (1000 * 60));
+// return `${days} days, ${hours} hours, ${minutes} minutes`
+// return (days ? days + " days " : "") + (hours ? hours + " hours " : "") + (minutes ? minutes + " minutes" : "");
+return (days ? days + " Days " : hours ? hours + " Hr":minutes ? minutes + " Min":"") ;
+    }else {
+      return dayDifference;
+    }
+        
     } else if (currentTime > endTime) {
       return -1; 
     } else {
@@ -1238,9 +1250,9 @@ const getEventTime=(timeZone)=> {
                                       // differenceDays(item?.dateStart) +
                                       <>
                                         <span className="days-left">
-                                          {differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone)}
+                                          {differenceDays(item?.eventStartDateTime,item?.eventEndtDateTime,item?.country_timezone,"1")}
                                         </span>
-                                        Days left
+                                         left
                                       </>
                                     ) : (
                                       // " Days Left"

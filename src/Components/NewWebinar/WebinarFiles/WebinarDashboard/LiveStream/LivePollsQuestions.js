@@ -81,6 +81,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
     }, [isdataLoaded]);
 
     useEffect(() => {
+        console.log("question-->",questionData?.data?.data)
        setShow(false)
        if(!apiCallStatus){
         loader("show")
@@ -238,9 +239,11 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
 
             <div className='outer-layout'>
                 <div className='question-outer-layout'>
+                    {question?.length ?
                     <Button className="reset"
                     // className={pollAnsExist ? 'reset' : 'disabled reset'} 
                     onClick={showConfirmationPopup}>Reset All</Button>
+                    :""}
                     <div className='question-outer-inset'>
                         {question?.length ?
                             <Slider
