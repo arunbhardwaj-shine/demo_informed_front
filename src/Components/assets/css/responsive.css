@@ -468,9 +468,6 @@
   .not_found p,
   .no_found p {
     font-size: 22px;
-    font-weight: bold;
-    color: var(--dark-blue);
-    margin: 0;
   }
 
   .register-popup-view .consent-form .split-button-dropup>div:nth-child(3) {

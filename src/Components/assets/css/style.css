@@ -681,7 +681,16 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   fill-opacity: 1;
   fill: var(--light-blue);
 }
+.active-subLink .sidebar-menu ul li.active.sub-links>a svg path {
+  fill: #dbe8f5;
+}
+.active-subLink .sidebar-menu ul li.active.sub-links {
+  margin-right: 0;
+}
 
+.active-subLink .sidebar-menu ul li.active.sub-links>a {
+  background: #fbfdff;
+}
 .email_box {
   max-width: 430px;
   flex: 0 0 430px;
@@ -11393,7 +11402,9 @@ button.event_sort_btn.svg_active svg {
   font-weight: 400;
   font-size: 14px;
 }
-
+.create-change-content.register-page .form-group .logo-section.header-section {
+  padding: 30px 0;
+}
 .register-page .form-group .header-section,
 .register-page .form-group .footer-section,
 .register-page .form-group .logo-section {
