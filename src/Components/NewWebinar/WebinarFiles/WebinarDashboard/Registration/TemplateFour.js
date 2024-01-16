@@ -146,7 +146,9 @@ export default function TemplateFour({ children, formData }) {
               {formattedDateRange}
             </h4> */}
 
-<h4 dangerouslySetInnerHTML={{
+<h4 style={{
+                  color: formData?.content?.eventDetails?.eventDateDetails?.color,
+                }} dangerouslySetInnerHTML={{
   __html: `${formData?.content?.eventDetails?.eventDateDetails?.value?formData?.content?.eventDetails?.eventDateDetails?.value:"31st January 2024 <br/> 8:00 (PST) / 17:00 (CET)<br/>Online in One Source"}`
 }}>
 </h4>
@@ -158,7 +160,9 @@ export default function TemplateFour({ children, formData }) {
 
             {/*  */}
             {formData?.content?.eventDetails?.SubHeading?.value ? (
-              <p
+              <p style={{
+                color: formData?.content?.eventDetails?.SubHeading?.color,
+              }}
                 class="speaker-specialization"
                 dangerouslySetInnerHTML={{
                   __html: formData?.content?.eventDetails?.SubHeading?.value,
@@ -173,7 +177,9 @@ export default function TemplateFour({ children, formData }) {
 
             {/*  */}
             {formData?.content?.eventDetails?.SubText?.value ? (
-              <p
+              <p style={{
+                color: formData?.content?.eventDetails?.SubText?.color,
+              }}
                 class="speaker-specialization"
                 dangerouslySetInnerHTML={{
                   __html: formData?.content?.eventDetails?.SubText?.value,
