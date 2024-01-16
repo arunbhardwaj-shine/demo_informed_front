@@ -1007,6 +1007,28 @@
   fill: $white;
 }
 
+#add_hcp {
+  .modal-body {
+
+    .hcp-add-form {
+      form {
+        .form-group {
+          .react-datepicker__input-container {
+            input {
+              @include custom-input-drop;
+              background: $white url(../images/calender.png) no-repeat;
+              background-size: 23px;
+              background-position: 95% center;
+            }
+          }
+        }
+      }
+    }
+
+
+  }
+}
+
 @keyframes blinker {
   0% {
     opacity: 1;

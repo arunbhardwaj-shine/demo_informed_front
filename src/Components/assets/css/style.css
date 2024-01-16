@@ -688,7 +688,10 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   height: 100%;
   width: 100%;
 }
-
+.event_listing .email_box {
+  max-width: 450px;
+  flex: 0 0 450px;
+}
 .email-result-block {
   display: flex;
   flex-wrap: wrap;
@@ -894,6 +897,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 .event_listing .email-result-block .speaker-name {
   color: var(--dark-blue);
   font-size: 14px;
+  margin: 0 0 4px;
 }
 
 .event_listing .email-result-block .speaker-name span {
@@ -5984,8 +5988,9 @@ h2 {
 .no_found p {
   font-size: 25px;
   font-weight: bold;
-  color: var(--dark-blue);
+  /* color: var(--dark-blue); */
   margin: 0;
+  color: rgb(0 74 137 / 85%);
 }
 
 text.highcharts-credits {
@@ -10227,11 +10232,18 @@ html {
   margin: 0 0 16px;
 }
 
+.live-stream .doc-content-main-box {
+  height: 100%;
+}
 .live-stream-tabs-data {
   background: var(--white);
   box-shadow: 0px -2px 7px rgba(0, 102, 190, 0.13);
   border-radius: 20px;
+  height: 95%;
+    display: flex;
+    flex-direction: column;
 }
+
 
 .live-stream-tabs-data .live-stream-ques {
   border-radius: 15px;
@@ -10300,6 +10312,7 @@ html {
   box-shadow: 0px -4px 8px rgba(0, 102, 190, 0.07);
   border-radius: 20px 20px 20px 20px;
   box-shadow: 0px -3px 8px rgba(0, 102, 190, 0.13);
+      height: 100%;
 }
 
 .reader-message {
@@ -10434,10 +10447,31 @@ html {
   background: rgba(0, 102, 190, 0.05);
   height: 104px;
   padding: 11px;
-  color: var(--skyblue);
+  color: var(--light-blue);
   font-size: 14px;
 }
+.dm-speaker .dm-speaker-txt textarea {
+  /* color: var(--skyblue); */
+}
+/* .dm-speaker .dm-speaker-txt textarea::-webkit-input-placeholder {
+  color: var(--skyblue);
+  opacity: 1;
+}
 
+.dm-speaker .dm-speaker-txt textarea::-moz-placeholder {
+  color: var(--skyblue);
+  opacity: 1;
+}
+
+.dm-speaker .dm-speaker-txt textarea:-ms-input-placeholder {
+  color: var(--skyblue);
+  opacity: 1;
+}
+
+.dm-speaker .dm-speaker-txt textarea:-moz-placeholder {
+  color: var(--skyblue);
+  opacity: 1;
+} */
 .dm-speaker .dm-speaker-txt button {
   display: flex;
   align-items: center;
