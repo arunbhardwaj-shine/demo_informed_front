@@ -241,7 +241,12 @@
     padding-left: 30px;
     padding-right: 30px;
   }
-
+.register-popup-view .footer-inner::before {
+  left: 65%;
+}
+.register-popup-view .emory .footer-inner::after {
+  right: 183px;
+}
   .question-listing .question-status .btn-group .btn-group-add button.btn {
     font-size: 12px;
     min-width: 62px;
@@ -377,7 +382,17 @@
     padding: 9px;
     min-width: 85px;
   }
-
+.webinarRegistrationBody #registration-form .form-group .btn-container .extension {
+ min-width: 100%;
+}
+.invitess-tbl-right {
+  gap: 0 8px;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+.invitee table td:last-child .invitess-tbl .clear-search button {
+  padding: 3px;
+}
   .poll-question-create .question-color .color-pick {
     height: 39px;
   }
@@ -453,9 +468,6 @@
   .not_found p,
   .no_found p {
     font-size: 22px;
-    font-weight: bold;
-    color: var(--dark-blue);
-    margin: 0;
   }
 
   .register-popup-view .consent-form .split-button-dropup>div:nth-child(3) {
@@ -521,7 +533,24 @@
   .register-popup-view .factor-season-left {
     padding: 30px 18px 10px 8px;
   }
-
+    .register-popup-view .vwd .factor-season-left h1 {
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+.register-popup-view .invertor-metting .meeting-logo img {
+  max-height: 76px;
+  max-width: 130px;
+}
+.motivate_outer .consent-form-inner .center-sided h2 {
+  font-size: 14px;
+}
+.register-popup-view .meeting-logo {
+  max-width: 160px;
+  flex: 0 0 160px;
+}
+.register-popup-view .invertor-metting .logo-top h5 {
+  font-size: 16px;
+}
   .speaker_zone .answered .reader_list_footer .reader_list_footer_btns button,
   .speaker_zone .ignored .reader_list_footer .reader_list_footer_btns button,
   .speaker_zone .reader_list_footer .reader_list_footer_btns button {
@@ -1496,7 +1525,7 @@
   }
 
   .invitee table td:last-child {
-    width: 390px;
+    width: 375px;
   }
 
   .invitee table .split-button-dropup>div:nth-child(3) {
@@ -1528,9 +1557,29 @@
 }
 
 @media only screen and (max-width: 1399px) {
+  .event-endDate,
+    .event-endTime {
+      min-width: 100px;
+    }
+    .create-change-content .form-group .extItem .react-datepicker__input-container input,
+    .webinarRegistrationBody #registration-form .form-group .extItem .form-control {
+      padding: 8px 37px 8px 15px;
+      background-position: 93% center;
+    }
+.webinarRegistrationBody #registration-form .form-group .btn-container {
+  max-width: calc(100% - 258px);
+}
+.webinarRegistrationBody #registration-form .form-group .btn-container .extension {
+  min-width: 415px;
+}
   .question-listing form.product-unit {
     padding: 0px 50px 0px 40px;
   }
+.register-popup-view footer .footer-copyright span,
+.register-popup-view footer .footer-copyright ul li a {
+  font-size: 10px;
+  line-height: 20px;
+}
 .create-change-content.chatlink.register-page .form-group label {
   flex: 0 0 150px;
   font-size: 15px;
@@ -1714,6 +1763,11 @@
   .event_listing .event-title {
     font-size: 18px;
   }
+    .register-popup-view .footer-inner::before {
+      top: 25px;
+      left: 57%;
+      background-size: 90px;
+    }
 }
 
 @media only screen and (min-width:1300px) and (max-width:1370px){
@@ -1726,7 +1780,9 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
-
+.live-stream .doc-content-main-box {
+  height: initial;
+}
   .poll-creation .outer-layout .question-outer-layout {
     width: 53%;
   }
@@ -1795,9 +1851,10 @@
     font-size: 14px;
   }
 
-  .register-page-right-view .footer-sec {
-    margin: 18px 0 0 0;
-  }
+.register-page-right-view .footer-sec {
+  margin: 18px 0 0 0;
+  line-height: 1;
+}
 
   .register-page-right-view .eahad .footer-inner p {
     font-size: 12px;

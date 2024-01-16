@@ -3924,13 +3924,11 @@ l .vwd .factor-season-left h2 {
 
 .emory .consent-form-inner .center-sided h2 {
   color: #263474;
-  font-family: 'RobotoSlab-Bold';
   font-size: 26px;
 }
 
 .emory .consent-form-inner .center-sided h3 {
   color: #354367;
-  font-family: 'RobotoSlab-Bold';
   font-size: 22px;
   text-align: center;
 }
@@ -4673,7 +4671,7 @@ l .vwd .factor-season-left h2 {
 }
 
 .eahad .center-sided-inside .consent-form-list.attend-sec {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex-wrap: wrap;
 }
@@ -4681,9 +4679,11 @@ l .vwd .factor-season-left h2 {
 .eahad .center-sided-inside .consent-form-list.attend-sec>label {
   flex: 0 0 100px;
   font-weight: 700;
-  margin: 0;
+  margin: 10px 0 0;
 }
-
+.eahad .center-sided-inside .consent-form-list.attend-sec ul {
+  margin: 10px 0 0;
+}
 .eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild {
   display: block;
   margin: 15px 0;
@@ -4930,7 +4930,7 @@ l .vwd .factor-season-left h2 {
 }
 
 .eahad p.speaker-specialization a {
-  color: #001489;
+  color: inherit;
   text-decoration: underline;
 }
 

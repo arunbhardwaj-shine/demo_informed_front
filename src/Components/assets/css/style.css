@@ -681,17 +681,28 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   fill-opacity: 1;
   fill: var(--light-blue);
 }
+.active-subLink .sidebar-menu ul li.active.sub-links>a svg path {
+  fill: #dbe8f5;
+}
+.active-subLink .sidebar-menu ul li.active.sub-links {
+  margin-right: 0;
+}
 
+.active-subLink .sidebar-menu ul li.active.sub-links>a {
+  background: #fbfdff;
+}
 .email_box {
   max-width: 430px;
   flex: 0 0 430px;
   height: 100%;
   width: 100%;
 }
+
 .event_listing .email_box {
   max-width: 450px;
   flex: 0 0 450px;
 }
+
 .email-result-block {
   display: flex;
   flex-wrap: wrap;
@@ -1304,7 +1315,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 
 .active-subLink .sidebar-menu ul li.active>a {
   /* background: #fbfcfd; */
-  background:rgb(243 247 251 / 0%);
+  background: rgb(243 247 251 / 0%);
   border-radius: 47px 0 0 47px;
 }
 
@@ -3200,9 +3211,11 @@ form#add_hcp_form .row:not(:first-child) {
   margin: 10px 0;
   padding: 12px;
 }
+
 .event_edit #add_hcp .modal-body .hcp-add-form form .speaker-name .multi-speaker-add {
   max-width: 467px;
 }
+
 .modal.event_edit .split-button-dropup.edit-country-dropdown>div:nth-child(3) div {
   padding: 0;
 }
@@ -9078,6 +9091,7 @@ html {
   cursor: pointer;
   width: 24px;
   height: 24px;
+  z-index: 1;
 }
 
 .session-modal #pollModel .form-group.no_child span.error {
@@ -9353,6 +9367,7 @@ html {
   background: transparent;
   margin: 0 0 0 4px;
 }
+
 button.event_sort_btn.svg_active svg path {
   fill: var(--dark-blue);
 }
@@ -9360,6 +9375,7 @@ button.event_sort_btn.svg_active svg path {
 button.event_sort_btn.svg_active svg {
   transform: rotate(180deg);
 }
+
 .invitee table td {
   color: #70899E;
   font-size: 13px;
@@ -9367,6 +9383,7 @@ button.event_sort_btn.svg_active svg {
   border: 0;
   background: var(--white);
   vertical-align: middle;
+  word-break: break-word;
 }
 
 .invitee table tr td:first-child {
@@ -9461,18 +9478,24 @@ button.event_sort_btn.svg_active svg {
 .invitee table td.registred {
   color: var(--green);
 }
+
 .invitee table td.registred span {
   color: #70899E;
 }
+
 .invitee table td.block {
   color: #F58289;
 }
-.clear-search button.block, .clear-search button.block:hover{
+
+.clear-search button.block,
+.clear-search button.block:hover {
   background: #F58289;
 }
-.clear-search button.block svg path{
+
+.clear-search button.block svg path {
   fill: var(--white);
 }
+
 .polls-preview-header ul,
 .polls-preview-lists ul {
   display: flex;
@@ -9862,8 +9885,27 @@ button.event_sort_btn.svg_active svg {
   box-shadow: 0px -2px 7px rgba(0, 102, 190, 0.13);
   border-radius: 20px;
   min-height: 87vh;
+  display: flex;
+  flex-direction: column;
+}
+.poll-creation .question-outer-inset .slick-track {
+  max-height: 75vh;
+  /* display: flex; */
+}
+.question-outer-layout .slick-slider .slick-track .slick-slide {
+  height: 100%;
+}
+.question-outer-layout .slick-slider .slick-track .slick-slide>div {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
+.question-outer-layout .slick-slider .slick-track .slick-slide>div .slider-space {
+  width: 100%;
+}
 .poll-creation .nav {
   border: 0;
 }
@@ -9938,9 +9980,10 @@ button.event_sort_btn.svg_active svg {
   max-height: 80vh;
 }
 
-.poll-creation .question-outer-inset .slick-list {
+/* .poll-creation .question-outer-inset .slick-list {
   max-height: 390px;
-}
+} */
+
 .poll-creation .question-outer-inset .question-boxed {
   display: flex;
   align-items: center;
@@ -9951,7 +9994,10 @@ button.event_sort_btn.svg_active svg {
   gap: 50px;
   padding: 4px;
 }
+.poll-creation .question-outer-inset .slider-space {
+padding:50px 0;
 
+}
 .question-outer-layout .slick-slider .slick-track .slick-slide {
   border: 0;
 }
@@ -10244,13 +10290,14 @@ button.event_sort_btn.svg_active svg {
 .live-stream .doc-content-main-box {
   height: 100%;
 }
+
 .live-stream-tabs-data {
   background: var(--white);
   box-shadow: 0px -2px 7px rgba(0, 102, 190, 0.13);
   border-radius: 20px;
   height: 95%;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -10321,7 +10368,7 @@ button.event_sort_btn.svg_active svg {
   box-shadow: 0px -4px 8px rgba(0, 102, 190, 0.07);
   border-radius: 20px 20px 20px 20px;
   box-shadow: 0px -3px 8px rgba(0, 102, 190, 0.13);
-      height: 100%;
+  height: 100%;
 }
 
 .reader-message {
@@ -10375,9 +10422,11 @@ button.event_sort_btn.svg_active svg {
 .live-stream-action {
   gap: 8px;
 }
+
 .live-stream-ques-header .live-stream-hcp {
   padding-right: 5px;
 }
+
 .live-stream-ques-header {
   padding: 0 8px 10px;
 }
@@ -10459,9 +10508,11 @@ button.event_sort_btn.svg_active svg {
   color: var(--light-blue);
   font-size: 14px;
 }
+
 .dm-speaker .dm-speaker-txt textarea {
   /* color: var(--skyblue); */
 }
+
 /* .dm-speaker .dm-speaker-txt textarea::-webkit-input-placeholder {
   color: var(--skyblue);
   opacity: 1;
@@ -10579,7 +10630,8 @@ button.event_sort_btn.svg_active svg {
 }
 
 .poll-creation .nav-tabs .nav-item:first-child button.active:before,
-.poll-creation .nav-tabs .nav-item:last-child button.active:after, .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
+.poll-creation .nav-tabs .nav-item:last-child button.active:after,
+.live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
 .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
   display: block;
   background: var(--white);
@@ -10587,12 +10639,15 @@ button.event_sort_btn.svg_active svg {
   top: 32px;
   height: 25px;
 }
+
 .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
 .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
   top: 25px;
   height: 20px;
 }
-.poll-creation .nav-tabs .nav-item:last-child button.active:after, .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
+
+.poll-creation .nav-tabs .nav-item:last-child button.active:after,
+.live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
   right: 0;
   left: auto;
 }
@@ -10612,9 +10667,11 @@ button.event_sort_btn.svg_active svg {
   width: 100%;
   justify-content: space-between;
 }
-.live-stream-ques-header .hcp-detail.extra{
-flex-wrap: wrap;
+
+.live-stream-ques-header .hcp-detail.extra {
+  flex-wrap: wrap;
 }
+
 .live-stream-ques-header .hcp-detail .hcp-activity-status {
   align-items: flex-end;
   display: flex;
@@ -10650,12 +10707,15 @@ flex-wrap: wrap;
   display: inline-block;
   margin: 0 5px 0 0;
 }
+
 .hcp-activity-status .activity-status.online span {
   background: var(--green);
 }
+
 .hcp-activity-status .activity-status.offline span {
   background: #F58289;
 }
+
 .live-stream-ques-inner {
   position: relative;
   z-index: 1;
@@ -10745,6 +10805,7 @@ flex-wrap: wrap;
 .live-stream-tabs-data .clear-search button.active svg path {
   fill: var(--white);
 }
+
 .live-hcp-tracking-img {
   margin: 0 0 32px;
   border-radius: 20px;
@@ -11277,6 +11338,7 @@ flex-wrap: wrap;
 .register-popup .register-popup-view .wrapper.eahad .octapharma_event {
   width: 100%;
 }
+
 .register-page-action p {
   color: var(--dark-blue);
   font-size: 18px;
@@ -11287,16 +11349,19 @@ flex-wrap: wrap;
   color: rgba(0, 74, 137, 0.55);
   font-size: 14px;
 }
+
 .register-page-action button.btn {
   padding: 7px;
 }
+
 .register-page-action {
   margin: 0 0 10px;
 }
 
 .create-change-content.register-page .form-group .logo-section,
 .create-change-content.register-page .form-group .header-section,
-.create-change-content.register-page .form-group .footer-section, .chatlink-left .logo-section {
+.create-change-content.register-page .form-group .footer-section,
+.chatlink-left .logo-section {
   border-radius: 15px;
   border: 1px dashed var(--skyblue);
   flex: 1 1;
@@ -11309,7 +11374,10 @@ flex-wrap: wrap;
   position: relative;
   overflow: hidden;
 }
-.create-change-content.register-page .form-group .logo-section .logo-text.header-text, .create-change-content.register-page .form-group .header-section .header-text, .create-change-content.register-page .form-group .footer-section .footer-text {
+
+.create-change-content.register-page .form-group .logo-section .logo-text.header-text,
+.create-change-content.register-page .form-group .header-section .header-text,
+.create-change-content.register-page .form-group .footer-section .footer-text {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -11321,7 +11389,9 @@ flex-wrap: wrap;
   gap: 10px;
 }
 
-.create-change-content.register-page .form-group .logo-section .logo-text.header-text button, .create-change-content.register-page .form-group .header-section .header-text button, .create-change-content.register-page .form-group .footer-section .footer-text button {
+.create-change-content.register-page .form-group .logo-section .logo-text.header-text button,
+.create-change-content.register-page .form-group .header-section .header-text button,
+.create-change-content.register-page .form-group .footer-section .footer-text button {
   background: var(--white);
   border: 0;
   width: 32px;
@@ -11329,35 +11399,49 @@ flex-wrap: wrap;
   padding: 4px;
   border-radius: 30px;
   box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.15);
-  margin:4px 0;
-}
-.create-change-content.register-page .form-group .logo-section img, .create-change-content.register-page .form-group .header-section img, .create-change-content.register-page .form-group .footer-section img{
-max-width: 300px;
-max-height:140px
+  margin: 4px 0;
 }
 
-.header-section h5, .logo-section h5, .footer-section h5 {
+.create-change-content.register-page .form-group .logo-section img,
+.create-change-content.register-page .form-group .header-section img,
+.create-change-content.register-page .form-group .footer-section img {
+  max-width: 300px;
+  max-height: 140px
+}
+
+.header-section h5,
+.logo-section h5,
+.footer-section h5 {
   font-size: 16px;
   color: var(--skyblue);
   font-weight: 400;
 }
-.header-section h6, .logo-section h6,
+
+.header-section h6,
+.logo-section h6,
 .footer-section h6 {
   color: var(--skyblue);
   font-weight: 400;
   font-size: 14px;
 }
-.register-page .form-group .header-section, .register-page .form-group .footer-section, .register-page .form-group .logo-section {
+.create-change-content.register-page .form-group .logo-section.header-section {
+  padding: 30px 0;
+}
+.register-page .form-group .header-section,
+.register-page .form-group .footer-section,
+.register-page .form-group .logo-section {
   gap: 37px;
   display: flex;
   flex-wrap: wrap;
 }
+
 .select-mail-template .page-title h6 {
   font-size: 18px;
   color: var(--dark-blue);
   font-weight: 500;
   margin: 40px 0 22px;
 }
+
 /**Poll creation End**/
 
 /**Registration page**/
@@ -11365,9 +11449,11 @@ max-height:140px
   position: relative;
   margin-bottom: 20px;
 }
+
 .top-header.regi-web .header_btns {
   gap: 16px;
 }
+
 .add_hcp_boxes #registration-form:after {
   border-bottom: 1px dashed var(--skyblue);
   content: "";
@@ -11377,251 +11463,323 @@ max-height:140px
   right: 0;
   position: absolute;
 }
+
 .webinarRegistrationBody .dropdown-style {
   margin: 16px 0 0;
 }
+
 .create-change-content.register-page .form-group .upload-img {
   min-width: 169px;
   box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
 }
+
 .create-change-content.register-page .form-group.less-spacer label {
   flex: 0 0 155px;
   font-size: 18px;
 }
+
 .register-page-right-view .octapharma_event_content {
   padding: 0 30px;
 }
+
 .register-page-right-view .octapharma_event_content h3 {
   font-size: 20px;
 }
+
 .register-page-right-view .octapharma_event_content h4 {
   font-size: 16px;
 }
+
 .register-page-right-view .eahad .header .header-text h3 {
   font-size: 20px;
 }
+
 .register-page-right-view .eahad p.speaker-specialization {
   margin: 16px 0 0;
   font-size: 15px;
 }
+
 .register-page-right-view .eahad .octapharma_event .octapharma_event_form {
   margin: 20px 0;
 }
+
 .register-page-right-view .eahad .octapharma_event .octapharma_event_form label {
   font-size: 15px;
 }
+
 .register-page-right-view .eahad .consent-form .split-button-dropup>div:nth-child(3) {
   padding: 2px 50px 2px 5px;
   font-size: 15px;
 }
+
 .register-page-right-view .eahad .form-control {
   padding: 7px 15px;
   font-size: 15px;
 }
+
 .register-page-right-view .eahad .footer {
   margin: 10px 0 0;
   padding: 30px 30px 20px;
 }
+
 .eahad .footer-inner p {
   font-size: 14px;
   padding-right: 15px;
 }
+
 .eahad .footer-inner p.health-professional {
   padding-top: 10px;
   padding-right: 10px;
   text-align: left;
 }
+
 .register-popup-view .factor-season-inner {
   margin: 0;
 }
+
 .register-popup-view .emory .factor-season-left {
   padding: 26px 25px 10px 15px;
 }
+
 .register-popup-view .emory .factor__logo img {
   max-height: 75px;
   max-width: 250px;
 }
+
 .register-popup-view .factor-season-left h2 {
   margin: 16px 0 14px;
   font-size: 16px;
 }
+
 .register-popup-view .factor-season-right::before {
   width: 15px;
   left: 8px;
 }
+
 .register-popup-view .factor-season-right {
   padding-left: 14px;
 }
+
 .register-popup-view .emory .factor-season-right h3 {
   margin-bottom: 14px;
   font-size: 16px;
 }
+
 .register-popup-view .emory .consent-form-inner .center-sided h2 {
   font-size: 18px;
   line-height: 31px;
 }
+
 .register-popup-view .consent-form-inner {
   padding: 15px 15px;
 }
+
 .register-popup-view .emory .consent-form-inner .center-sided h3 {
-  font-size: 17px;
+  font-size: 15px;
 }
+
 .register-popup-view #form_upper {
   margin-bottom: 30px;
 }
+
 .register-popup-view .emory .consent-form-list.attend-sec>label {
   margin: 0 0 4px;
   font-size: 14px;
 }
+
 .register-popup-view .emory .consent-form-inner .form-control {
   padding: 10px 20px;
   font-size: 14px;
 }
+
 .register-popup-view .consent-form .split-button-dropup>div:nth-child(3) {
   padding: 7px 10px;
 }
+
 .register-popup-view .consent-form .split-button-dropup div:nth-child(3)>div div {
   font-size: 14px;
 }
+
 .register-popup-view .consent-form-inner label {
   font-size: 13px;
   line-height: 16px;
 }
+
 .register-popup-view .emory .consent-form-list li {
   margin-bottom: 5px;
 }
+
 .register-popup-view footer .footer-inner {
   padding: 25px 20px 15px;
 }
+
 .register-popup-view footer .footer-copyright span,
 .register-popup-view footer .footer-copyright ul li a {
   font-size: 12px;
   line-height: 16px;
 }
+
 .register-popup-view footer .footer-logo img {
   width: 165px;
 }
+
 .register-popup-view .footer-inner::before {
   width: 113px;
   height: 114px;
   top: 25px;
-    left: 55%;
+  left: 55%;
   background-size: 100px;
 }
+
 .register-popup-view .emory .footer-inner::after {
   right: 233px;
   width: 14px;
 }
+
 .register-popup-view footer .footer-copyright {
   margin-top: 44px;
 }
+
 .register-popup-view .emory footer {
   margin: 30px 0 0;
 }
+
 .register-popup-view .motivate_outer .top_header h2 {
   font-size: 25px;
 }
+
 .register-popup-view .motivate_outer .consent-form-list.country {
   padding-right: 10px;
 }
+
 .register-popup-view .meeting-logo {
   max-width: 180px;
   flex: 0 0 180px;
 }
+
 .register-popup-view .invertor-metting .meeting-logo img {
   max-height: 85px;
   max-width: 160px;
 }
+
 .register-popup-view .invertor-metting .logo-top h5 {
   font-size: 17px;
   line-height: 20px;
 }
+
 .register-popup-view .motivate_outer .invertor-metting {
   margin: 10px auto 0;
 }
+
 .register-popup-view .motivate-mid-sec {
   padding: 25px 0 15px 0;
 }
+
 .register-popup-view .motivate-mid-sec h2 {
   font-size: 20px;
   line-height: 30px;
 }
+
 .register-popup-view .motivate_outer #form_upper {
   padding-bottom: 10px;
 }
+
 .register-popup-view .motivation-body .consent-form-inner .form-control {
   font-size: 14px;
   padding-left: 28px;
 }
+
 .register-popup-view .consent-form-list .field-icon img {
   width: 16px;
 }
+
 .webinarRegistrationBody #registration-form .form-group .extItem .btn-edit {
   margin: 0 6px;
 }
-.create-change-content .form-group .extItem .react-datepicker__input-container input, .webinarRegistrationBody #registration-form .form-group .extItem .form-control {
+
+.create-change-content .form-group .extItem .react-datepicker__input-container input,
+.webinarRegistrationBody #registration-form .form-group .extItem .form-control {
   padding: 8px 27px;
 }
+
 .register-popup-view .vwd .consent-form-inner .center-sided h2 {
   font-size: 20px;
   line-height: 32px;
 }
+
 .register-popup-view .factor-season-left {
   padding: 30px 18px 10px 18px;
 }
+
 .register-popup-view .factor__logo img {
   max-width: 230px;
 }
+
 .register-popup-view .factor-season-left h1 {
   line-height: 43px;
   margin: 9px 0;
   font-size: 23px;
 }
+.register-popup-view .vwd .factor-season-left h1 {
+  line-height: 30px;
+  font-size: 18px;
+}
 .register-popup-view .factor-season-right h3 {
   line-height: 20px;
   font-size: 14px;
 }
+
 .register-popup-view .vwd .factor-season-right::before {
   width: 15px;
   left: -22px;
 }
+
 .register-popup-view .vwd .consent-form-inner .form-control {
   padding: 10px 30px 10px 53px;
 }
+
 .register-popup-view .vwd .consent-form-list .field-icon {
   top: 10px;
 }
+
 .create-change-content.register-page .register-popup-view .react-datepicker-wrapper .react-datepicker__input-container input {
   padding: 12px 27px;
 }
+
 .question-listing .question-status {
   position: relative;
 }
+
 .question-listing .loader_show {
   position: absolute;
   top: 0;
   bottom: auto;
 }
+
 .question-listing .loader_show span.loader-view {
   width: 10px;
   height: 40px;
   animation: escaleY1 1s infinite ease-in-out;
-    transform: scale(0.5);
-    animation-delay: -0.16s;
+  transform: scale(0.5);
+  animation-delay: -0.16s;
 }
+
 .question-listing .loader-view:before,
 .question-listing .loader-view:after {
   width: 10px;
   height: 40px;
   animation: escaleY1 1s infinite ease-in-out;
 }
+
 .question-status #custom_loader {
   position: relative;
   flex: 1 1;
 }
+
 .question-listing .loader-view:before {
   animation-delay: -0.32s;
 }
+
 @keyframes escaleY1 {
 
   0%,
@@ -11640,10 +11798,12 @@ max-height:140px
     color: var(--white);
   }
 }
+
 .chatlink .header_btns {
   margin: 0 0 15px;
   gap: 15px;
 }
+
 .create-change-content.register-page .form-group span.suggestion {
   flex: 0 0 100%;
   justify-content: flex-end;
@@ -11652,15 +11812,19 @@ max-height:140px
   color: var(--skyblue);
   font-size: 14px;
 }
+
 .consent-form .container {
   padding: 0;
 }
+
 .chatlink-left button.save-btn {
   margin-left: auto;
   display: block;
   min-width: 150px;
 }
+
 .create-change-content.chatlink .form-group {
   justify-content: space-between;
 }
+
 /**Registration page end**/

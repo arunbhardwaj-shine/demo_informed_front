@@ -255,6 +255,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                     question?.map((item, index) => {
 
                                         return (<>
+                                        <div className='slider-space'>
                                             <div className='question-boxed'>
                                                 <div className='question-listing'
                                                     key={index}
@@ -343,6 +344,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                         </>)
                                     })
                                 }
