@@ -10,6 +10,8 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { Col, Tabs, Tab, Button, Form, Image } from 'react-bootstrap';
 import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
 import { postData, deleteData, deleteMethod } from '../../../../../axios/apiHelper';
+import { database } from '../../../../../config/firebaseConfigOnesource';
+import { ref, query, orderByChild, equalTo, onValue, off } from 'firebase/database';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LiveStream = () => {
@@ -41,52 +43,88 @@ const LiveStream = () => {
   const [refreshAttendeesFlag, setRefreshAttendeesFlag] = useState("");
   const [attendeesApiCallStatus, setAttendeesApiCallStatus] = useState(true);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+  const [userIds, setUserIds] = useState([]);
+  const [chartHeight, setChartHeight] = useState(270);
+  const [maxDataPoints, setMaxDataPoints] = useState(10); // Maximum number of data points to display
+
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
-        height: 270,
-        type: 'spline'
+      height: chartHeight,
+      type: 'spline'
     },
     title: {
       text: '',
       align: 'left'
     },
     xAxis: {
-        categories: [
-            1,5,10,15,20,25,30,35,40,45,50,60,65
-        ]
+      categories: [],
+      tickInterval: 1,
+
     },
     yAxis: {
       title: {
-          text: ''
-      }
+        text: ''
+      },
+      allowDecimals: false, // Ensure y-axis labels are integers
+
     },
     legend: {
-      enabled:false
+      enabled: false
     },
     exporting: {
       enabled: false,
     },
-
     plotOptions: {
       series: {
-          marker: {
-              enabled: false,
-              fillColor: '#8a4e9c',
-              states: {
-                  hover: {
-                      enabled: false
-                  }
-              }
-          },
+        marker: {
+          enabled: false,
+          fillColor: '#8a4e9c',
+          states: {
+            hover: {
+              enabled: false
+            }
+          }
+        },
         color: '#0066be'
       }
     },
-
     series: [{
       name: 'Active Users',
-      data: [5,10,15,20,25,30,35,40,15,20,22,35,70,{y:64,marker:{enabled:true,radius:5,fillColor:'#8a4e9c'}}]
+      data: []
     }]
-});
+  });
+
+  // useEffect to update the chart height and limit data points when chartHeight changes
+  useEffect(() => {
+    setLineChartOptions((prevOptions) => ({
+      ...prevOptions,
+      chart: {
+        ...prevOptions.chart,
+        height: chartHeight,
+      },
+      xAxis: {
+        ...prevOptions.xAxis,
+        categories: prevOptions.xAxis.categories.slice(-maxDataPoints),
+      },
+      series: [{
+        ...prevOptions.series[0],
+        data: prevOptions.series[0].data.slice(-maxDataPoints),
+      }],
+    }));
+  }, [chartHeight, maxDataPoints]);
+
+  // Function to handle dynamic changes in chart height
+  const handleChartHeightChange = (newHeight) => {
+    setChartHeight(newHeight);
+  };
+
+  // Function to handle dynamic changes in the maximum number of data points
+  const handleMaxDataPointsChange = (newMaxDataPoints) => {
+    setMaxDataPoints(newMaxDataPoints);
+  };
+
+
+
 
   useEffect(() => {
    
@@ -100,13 +138,53 @@ const LiveStream = () => {
   }, []);
 
   useEffect(() => {
+    // console.log("here i am !!s");
     if(eventId){
-      getEventRegisterReaders();
+      getEventRegisterReaders('',userIds);
     }
    
 }, [attendeesTab]);
 
+useEffect(() => {
+  const usersRef = ref(database, 'users');
+  const onlineUsersQuery = query(usersRef, orderByChild('status'));
 
+  const handleChange = (snapshot) => {
+    const onlineUserIds = [];
+    snapshot.forEach((userSnapshot) => {
+      
+      const user = userSnapshot.val();
+      if (user && user.user_id !=null) {
+        if ( user?.status === 'online') {
+          onlineUserIds.push(user.user_id);
+        }
+      }
+    });
+
+    setUserIds(onlineUserIds);
+  };
+  if (onValue) {
+    onValue(onlineUsersQuery, handleChange);
+  }
+
+  return () => {
+    if (off) {
+      off(onlineUsersQuery, 'value', handleChange);
+    }
+  };
+}, []); 
+
+
+
+
+useEffect(() => {
+
+//  if(userIds?.length>0){
+  
+  getEventRegisterReadersGraph("",userIds)
+//  }
+ 
+}, [userIds]);
   const getQuestions = async() => {    
     try{
       let body = {
@@ -122,14 +200,91 @@ const LiveStream = () => {
     }
   };
 
-  const getEventRegisterReaders = async(searchVal="") => {
+   const getEventRegisterReadersGraph = async(searchVal="",userids=[]) => {
+    try{
+      let body = {
+        "eventId": eventId,
+        "type" : "graph",
+        "search" : "",
+        "user_ids": userids
+      };
+      const response = await postData(ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,body);
+      getEventRegisterReaders("",userids)
+      // console.log(attendeesTab);
+      
+      let data=response?.data?.data
+      // console.log(data);
+      // return
+      if (data?.count!=undefined) {
+        setLineChartOptions((prevOptions) => {
+          const newOptions = { ...prevOptions };
+      
+          const newDataLength = data?.count?data?.count:0;
+          const currentCategories = prevOptions.xAxis.categories;
+          const maxDataPointsToShow = 7; 
+          if (currentCategories.length >= maxDataPointsToShow) {
+            const newCategories = [...currentCategories.slice(newDataLength), ...data.map((_, index) => index + 1)];
+            // console.log(newCategories);
+            newOptions.xAxis.categories = newCategories.slice(-maxDataPointsToShow);
+          } else {
+            const newCategories = currentCategories.map((category) => category + newDataLength);
+            newOptions.xAxis.categories = newCategories;
+          }
+      
+          let seriesData = prevOptions.series[0]?.data || [];
+      
+          if (seriesData.length === 0) {
+            seriesData.push({ y: newDataLength, marker: { enabled: true, radius: 5, fillColor: '#8a4e9c' } });
+          } else {
+            let lastElement = seriesData.pop();
+            // console.log(lastElement,"lastElement");
+            seriesData.push(lastElement.y);
+            seriesData.push({ y: newDataLength, marker: { enabled: true, radius: 5, fillColor: '#8a4e9c' } });
+          }
+          if(seriesData?.length>=10){
+            seriesData=seriesData?.slice(1,seriesData?.length)
+          }
+          // console.log(seriesData?.length);
+          newOptions.series = [{ ...prevOptions.series[0], data: seriesData }];
+      
+          newOptions.plotOptions.series.tooltip = {
+            headerFormat: '<span style="font-size: 10px">Online users</span><br/>',
+            pointFormat: '<b>{point.y} </b>',
+          };
+      
+          // console.log(newOptions);
+          return newOptions;
+        });
+      }
+      
+      
+      
+      
+      
+      
+      
+      
+      if(attendeesTab=="online" || attendeesTab=="offline"){
+
+              setAttendees(data);
+}
+      setAttendeesApiCallStatus(false);
+      setRefreshAttendeesFlag('');
+    }catch(err){
+      setRefreshAttendeesFlag('');
+      setAttendeesApiCallStatus(false);
+      console.log(err);
+    }
+  }
+  const getEventRegisterReaders = async(searchVal="",userids=[]) => {
     try{
       let body = {
         "eventId": eventId,
         "type" : attendeesTab,
-        "search" : searchVal
+        "search" : searchVal,
+        "user_ids": userIds
       };
-      const response = await postData(ENDPOINT.WEBINAR_GET_EVENT_ATTENDEES,body);
+      const response = await postData("http://192.168.0.78:3005/webinar/get-event-attendees",body);
       setAttendees(response?.data?.data);
       setAttendeesApiCallStatus(false);
       setRefreshAttendeesFlag('');
@@ -319,10 +474,13 @@ const LiveStream = () => {
   };
 
   const handleTabSelect = (selectedTab) => {
+    // if(selectedTab==activeTab) return;
+    // alert('handleTabSelect')
     setActiveTab(selectedTab);
   };
 
   const changeAttendeesTab = (selectedTab) => {
+    if(selectedTab==attendeesTab) return;
     setSearch('');
     setDeleteStatus(false);
     setAttendeesApiCallStatus(true);
@@ -881,10 +1039,9 @@ const LiveStream = () => {
                                   
                                   <div className='hcp-activity-status'>
                                       {/* <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}> */}
-                                      <div className= "activity-status online" >
-                                        <span>&nbsp;</span>
-                                        "Online" 
-                                        {/* {item?.is_online ? "Online" : "Offline"} */}
+                                      <div className= 'activity-status online' >
+                                        {/* <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"} */}
+                                        <span>&nbsp;</span> Online
                                       </div>
                                   </div>
                                 </div>
@@ -1057,10 +1214,9 @@ const LiveStream = () => {
                                   
                                   <div className='hcp-activity-status'>
                                       {/* <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}> */}
-                                      <div className="activity-status offline">
-                                        <span>&nbsp;</span> 
-                                        "Offline"
-                                        {/* {item?.is_online ? "Online" : "Offline"} */}
+                                      <div className={ 'activity-status offline'}>
+                                        {/* <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"} */}
+                                        <span>&nbsp;</span> Offline
                                       </div>
                                   </div>
                                 </div>
@@ -1218,7 +1374,7 @@ const LiveStream = () => {
                                     : null
                                   }
                                 </div>
-                                <div className='d-flex hcp-detail extra'>
+                                <div className='d-flex hcp-detail'>
                                   <div className='hcp-detail-list'>
                                       <ul>
                                         <li><span>Email</span>{item?.email}</li>
@@ -1232,11 +1388,11 @@ const LiveStream = () => {
                                       </ul>
                                   </div>
                                  
-                                  {/* <div className='hcp-activity-status'>
+                                  <div className='hcp-activity-status'>
                                       <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
-                                  </div> */}
+                                  </div>
                                   <div className='reader-msg'>
                                     <span>Question:</span>
                                     <div className='reader-msg-show' dangerouslySetInnerHTML={{ __html: item?.question }}>
@@ -1444,11 +1600,11 @@ const LiveStream = () => {
                                       </ul>
                                   </div>
                                   
-                                  {/* <div className='hcp-activity-status'>
+                                  <div className='hcp-activity-status'>
                                       <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
-                                  </div> */}
+                                  </div>
                                 </div>
                               </div>
                             </div>
