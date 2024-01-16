@@ -242,6 +242,26 @@
     padding-right: 30px;
   }
 
+  .question-listing .question-status .btn-group .btn-group-add button.btn {
+    font-size: 12px;
+    min-width: 62px;
+    padding: 7px 2px;
+  }
+
+  .question-listing .question-status .question-status-live label {
+    font-size: 13px;
+    padding: 0 0 3px;
+  }
+
+  .question-listing form.product-unit {
+    padding: 0px 60px 0px 40px;
+  }
+
+  .question-listing .question-status .question-status-live {
+    width: 180px;
+    padding: 5px;
+  }
+
   .hcp-activity-links {
     padding-left: 12px;
   }
@@ -356,6 +376,47 @@
     font-size: 13px;
     padding: 9px;
     min-width: 85px;
+  }
+
+  .poll-question-create .question-color .color-pick {
+    height: 39px;
+  }
+
+  .register-popup-view footer .footer-copyright span,
+  .register-popup-view footer .footer-copyright ul li a {
+    font-size: 11px;
+    line-height: 24px;
+  }
+
+  .question-boxed .question-listing {
+    padding: 6px 6px 6px;
+  }
+
+  .poll-creation .outer-layout .question-outer-layout button.reset {
+    font-size: 14px;
+    min-width: 86px;
+  }
+
+  .question-outer-layout .question-action {
+    width: 85px;
+    flex: 0 0 85px;
+  }
+
+  .question-outer-layout .question-action .question-listing-links .question-links-number {
+    font-size: 14px;
+  }
+
+  .question-listing .question-status .question-status-live {
+    width: 155px;
+    padding: 3px;
+  }
+
+  .question-listing .question-status .question-status-live label {
+    font-size: 12px;
+  }
+
+  .question-listing .question-status .btn-group .btn-group-add button.btn {
+    min-width: 60px;
   }
 
   .register-popup-view .motivation-body .consent-form-list.country .dropdown-basic-button>div:nth-child(3) {
@@ -1467,9 +1528,63 @@
 }
 
 @media only screen and (max-width: 1399px) {
+  .question-listing form.product-unit {
+    padding: 0px 50px 0px 40px;
+  }
+.create-change-content.chatlink.register-page .form-group label {
+  flex: 0 0 150px;
+  font-size: 15px;
+}
+.question-listing-action .question-number span {
+  font-size: 34px;
+}
+  .question-listing-action .question-action button {
+    font-size: 14px;
+  }
+
+  .poll-creation .question-outer-inset .slick-list {
+    max-height: initial;
+  }
+
+  .question-listing-action .question-action {
+    gap: 16px;
+  }
+
+  .poll-question .poll-question-create .form-check-inline {
+    margin-right: 10px;
+    padding-left: 10px;
+  }
+
+  .poll-question .poll-question-create .d-flex label.h5 {
+    width: 100%;
+  }
+
+  .poll-question .poll-question-create .form-check-inline {
+    margin-right: 20px;
+    padding-left: 0;
+  }
+
   .speaker_zone .speaker_zone_right_div {
     padding: 10px 5px;
     margin-left: 20px;
+  }
+
+  .poll-creation .outer-layout .question-outer-layout {
+    padding: 8px 0px 8px 8px;
+  }
+
+  .question-listing .question-status .btn-group .btn-group-add button.btn {
+    min-width: 54px;
+    font-size: 11px;
+  }
+
+  .question-listing .question-status .btn-group label {
+    font-size: 12px;
+    margin: 0 6px 0 0;
+  }
+
+  .question-listing .question-status .question-status-live {
+    width: 145px;
   }
 
   .speaker_zone .question-post-time {
@@ -1601,9 +1716,29 @@
   }
 }
 
+@media only screen and (min-width:1300px) and (max-width:1370px){
+  .live-stream-tabs-data.last .nav-tabs .nav-item button.active:nth-last-child(1):after{
+    display:none;
+  }
+}
+ 
 @media only screen and (max-width: 1365px) {
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
+  }
+
+  .poll-creation .outer-layout .question-outer-layout {
+    width: 53%;
+  }
+
+  .poll-creation .outer-layout .pie-chart-outer-layout {
+    width: 47%;
+  }
+
+  .poll-creation .outer-layout .question-outer-layout button.reset {
+    font-size: 13px;
+    min-width: 77px;
+    right: 40px;
   }
 
   .live-stream .col-4 {

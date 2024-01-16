@@ -925,7 +925,7 @@ useEffect(() => {
             <Col className="col-4">
               <h6>Attendees</h6>
               
-              <div className="live-stream-tabs-data">
+              <div className="live-stream-tabs-data last">
               <Tabs
                 id="attendees_tabs"
                 activeKey={attendeesTab}
