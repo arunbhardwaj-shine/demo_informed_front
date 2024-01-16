@@ -6322,14 +6322,16 @@ svg.pencil_icon {
     pointer-events: none;
     border-radius: 30px;
     background: #ffffff;
-    padding: 9px;
+    padding: 4px;
     width: 100%;
     cursor: pointer;
     position: absolute;
     right: 4px;
+    @include flex-middle;
 
     img {
       width: 100%;
+      max-width: 24px;
     }
   }
 }
@@ -8907,7 +8909,7 @@ svg.pencil_icon {
 
   .color-pick img {
     max-width: 31px;
-    padding: 5px;
+    padding: 2px;
   }
 
   .color-pick input[type=color] {
@@ -9243,6 +9245,10 @@ svg.pencil_icon {
     min-height: 190px;
   }
 
+  .create-change-content.register-page .form-group textarea.form-control {
+    min-height: 100px;
+  }
+
   .form-check-group {
     max-width: 350px;
   }
@@ -9447,6 +9453,7 @@ svg.pencil_icon {
     font-size: 15px;
     margin-bottom: 6px;
   }
+
 
   .content-listed .content-listed-content h5,
   .kpi-graph-inside .no-space .kpi-graph-inside-block h5 {
@@ -17542,10 +17549,6 @@ img.change-password-image {
 
 
 
-.event-endDate,
-.event-endTime {
-  min-width: 120px;
-}
 
 .feilds-section {
   border: 1px dashed #97B6CF;
@@ -17641,7 +17644,7 @@ img.change-password-image {
       }
 
       &>label {
-        padding: 17px 5px 0 0;
+        padding: 14px 5px 0 0;
         align-self: flex-start;
         flex: 0 0 150px;
       }
@@ -18660,6 +18663,7 @@ img.change-password-image {
   // }
   .webinarRegistrationBody #registration-form .form-group>label {
     flex: 0 0 130px;
+    padding-right: 0;
   }
 
   .registration-right .footer-section,
@@ -18750,6 +18754,15 @@ img.change-password-image {
         height: 70px;
       }
     }
+  }
+
+  .event-endDate,
+  .event-endTime {
+    min-width: 100px;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .btn-container .extension {
+    min-width: 415px;
   }
 
   .login {
@@ -19140,6 +19153,11 @@ img.change-password-image {
   .feilds-section h5 {
     font-size: 16px;
     margin: 0 0 12px;
+  }
+
+  .event-endDate,
+  .event-endTime {
+    min-width: 100px;
   }
 
   .poll-question .poll-question-create .speaker-detail .speaker-name {
