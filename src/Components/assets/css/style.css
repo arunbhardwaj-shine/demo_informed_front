@@ -9078,6 +9078,7 @@ html {
   cursor: pointer;
   width: 24px;
   height: 24px;
+  z-index: 1;
 }
 
 .session-modal #pollModel .form-group.no_child span.error {
