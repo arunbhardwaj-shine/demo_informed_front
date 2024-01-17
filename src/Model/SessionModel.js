@@ -210,7 +210,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
             speakerName: userSpeaker[item],
             poll_question_id: item,
             // poll_answer_ids: userValid[item],
-            poll_answer_ids: userValid[item].join(','),
+            poll_answer_id: userValid[item].join(','),
             user_answer: userValid[item].join(','),
             guest_id: Cookies.get("events"),
           };
@@ -245,7 +245,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
       let eventQuestion
       
       if(Object.keys(user).length>0){
-         userResetCounter = user && user.length > 0 ? user[0]?.resetCounter : 0;
+         userResetCounter = user && Object.keys(user).length > 0 ? user[0]?.resetCounter : 0;
          eventQuestion = Cookies.get("eventQuestion"+eventData?.event_id+'_'+userResetCounter);
       }
 
