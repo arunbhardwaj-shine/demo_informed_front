@@ -42,7 +42,6 @@ const Event = () => {
   const [sessionShow, setSessionShow] = useState(false);
 
   const [apiData, setApiData] = useState([]);
-  const [resetData, setResetData] = useState([]);
   const [answerPop, setAnswerPopup] = useState(false);
   const [totalReaders, setTotalReaders] = useState(0);
   const [customAnswer, setCustomAnswer] = useState(0);
@@ -146,15 +145,10 @@ const Event = () => {
       }
     });
     if (Object.keys(newData)?.length) {
+      // console.log(newData,"newDatanewDatanewData")
       /* Check already submit question  */
-      let userResetCounter
-      let eventQuestion
-      console.log(resetData,"apiDataapiDataapiDataapiData")
-      if(Object.keys(resetData).length>0){
-         userResetCounter = resetData && Object.keys(resetData).length>0 ? resetData?.questionListing?.[0]?.resetCounter : 0;
-         eventQuestion = Cookies.get("eventQuestion"+newData?.event_id+'_'+userResetCounter);
-      }
-     
+         let userResetCounter = newData?.resetFlag ? newData?.resetFlag : 0;
+         let eventQuestion = Cookies.get("eventQuestion"+newData?.event_id+'_'+userResetCounter);
       if (
         eventQuestion?.includes(newData?.question_id) &&
         newData?.triggered == 1
@@ -271,7 +265,6 @@ const Event = () => {
             id: value?.question_id,
           });
           setApiData(result?.data?.data);
-          setResetData(result?.data?.data);
           setAnswerPopup(false);
           setShow(true);
           //   setSessionShow(true)
@@ -305,7 +298,6 @@ const Event = () => {
           id: value?.question_id,
         });
         setApiData(result?.data?.data);
-        setResetData(result?.data?.data);
         setAnswerPopup(false);
         setShow(false);
         setSessionShow(true);
