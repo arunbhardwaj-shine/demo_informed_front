@@ -81,6 +81,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
     }, [isdataLoaded]);
 
     useEffect(() => {
+        console.log("question-->",questionData?.data?.data)
        setShow(false)
        if(!apiCallStatus){
         loader("show")
@@ -89,11 +90,11 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         const index = questionData?.data?.data.findIndex(item => item?.triggered === 1);
         
         if (index !== -1) {
+            console.log("index--->",index)
             currentIndex = index;
         } else {
-            const showAnswerIndex = questionData?.data?.data.findIndex(item => item?.showQuestionToUser === 0);
-            currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : questionData?.data?.data?.length - 1;
-           
+            const showAnswerIndex = questionData?.data?.data.findIndex(item => (item?.showQuestionToUser === 0||item?.showAnswerToUser=== 1));           
+            currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : questionData?.data?.data?.length - 1;           
         }
         if (slickRef.current) {
             slickRef.current.slickGoTo(currentIndex);
@@ -238,9 +239,11 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
 
             <div className='outer-layout'>
                 <div className='question-outer-layout'>
+                    {question?.length ?
                     <Button className="reset"
                     // className={pollAnsExist ? 'reset' : 'disabled reset'} 
                     onClick={showConfirmationPopup}>Reset All</Button>
+                    :""}
                     <div className='question-outer-inset'>
                         {question?.length ?
                             <Slider
@@ -252,6 +255,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                     question?.map((item, index) => {
 
                                         return (<>
+                                        <div className='slider-space'>
                                             <div className='question-boxed'>
                                                 <div className='question-listing'
                                                     key={index}
@@ -265,9 +269,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                                     <div className='question-display'>
                                                         <div className='question'>
                                                             Question
-                                                            <h4 dangerouslySetInnerHTML={{ __html: item?.question }}>
-
-                                                            </h4>
+                                                            <p dangerouslySetInnerHTML={{ __html: item?.question }}></p>
                                                         </div>
                                                         <div className='answer-options'>
                                                             Answers
@@ -340,6 +342,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                         </>)
                                     })
                                 }

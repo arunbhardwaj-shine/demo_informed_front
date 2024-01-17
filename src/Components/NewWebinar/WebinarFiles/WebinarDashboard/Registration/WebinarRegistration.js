@@ -1110,6 +1110,7 @@ const WebinarRegistration = () => {
             updatedBody?.eventDetails?.eventStartDate?.value == "" &&
             updatedBody?.eventDetails?.eventStartDate?.value != undefined
           ) {
+
             updatedBody.eventDetails.eventStartDate.value = new Date(
               rawData?.dateStart
             );
@@ -1329,20 +1330,24 @@ const WebinarRegistration = () => {
                                       dateFormat="dd/MM/yyyy"
                                       className="form-control disabled"
                                       placeholderText="Select date"
+                                      // key={Math.random*1000}
                                       readOnly={true}
+                                                                            value={new Date(field.value)}
+
                                       disabled
-                                      minDate={
-                                        key == "eventEndDate"
-                                          ? new Date(
-                                              formData?.eventDetails?.eventStartDate?.value
-                                            )
-                                          : currentDate
-                                      }
+                                      // minDate={
+                                      //   key == "eventEndDate"
+                                      //     ? new Date(
+                                      //         formData?.eventDetails?.eventStartDate?.value
+                                      //       )
+                                      //     : currentDate
+                                      // }
                                       selected={
-                                        field.value &&
-                                        field.value >= currentDate
-                                          ? new Date(field.value)
-                                          : currentDate
+                                        // field.value &&
+                                        // field.value >= currentDate
+                                          // ? 
+                                          new Date(field.value)
+                                          // : currentDate
                                       }
                                       onChange={(v, e) => {
                                         handleChange(v, `eventDetails-${key}`);

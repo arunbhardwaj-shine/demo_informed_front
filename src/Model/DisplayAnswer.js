@@ -183,7 +183,7 @@ if(customAnswer == 1 || graphType === 'bar'){
   const shouldAddClass = parms && parms.includes("eahad_2024");
   return (
     <>
-      <Modal show={show} backdrop="static" onHide={onClose}  className={`${shouldAddClass ? "eahad_2024" : ""}`}
+      <Modal show={show} backdrop="static" onHide={onClose}  className={`${shouldAddClass ? "eahad_2024" : ""}`} centered
       keyboard={false} id="pollModel1">
       <Modal.Header closeButton style={{ background: designData?.headerBackgroundColor }}>
       <Modal.Title id="contained-modal-title-vcenter">

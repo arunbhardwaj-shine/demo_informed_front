@@ -280,7 +280,7 @@ const ChatLinkPage = () => {
             Copy Chat Link
           </a>
            <Button 
-            className={`btn-bordered  ${
+            className={`btn-filled  ${
               !isDataSaved ? "disabled" : ""
             }`}
           

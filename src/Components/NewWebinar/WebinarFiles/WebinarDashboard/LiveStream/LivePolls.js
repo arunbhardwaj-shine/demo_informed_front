@@ -29,7 +29,7 @@ const LivePolls = ({ location, flag }) => {
                 eventId: eventId?.id,
             });
             setData(result)
-            loader("hide");
+            // loader("hide");
         } catch (err) {
             loader("hide");
             // setIsDataLoaded(false);
@@ -40,7 +40,7 @@ const LivePolls = ({ location, flag }) => {
     return (<>
 {data?
         <LivePollsQuestion questionData={data} eventData={eventId} isdataLoaded={isdataLoaded} getQuestions={getEventQuestion}/>
-        :""}
+        :""} 
     </>)
 }
 export default LivePolls
