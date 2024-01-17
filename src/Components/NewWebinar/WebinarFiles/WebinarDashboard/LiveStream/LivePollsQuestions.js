@@ -90,11 +90,11 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         const index = questionData?.data?.data.findIndex(item => item?.triggered === 1);
         
         if (index !== -1) {
+            console.log("index--->",index)
             currentIndex = index;
         } else {
-            const showAnswerIndex = questionData?.data?.data.findIndex(item => item?.showQuestionToUser === 0);
-            currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : questionData?.data?.data?.length - 1;
-           
+            const showAnswerIndex = questionData?.data?.data.findIndex(item => (item?.showQuestionToUser === 0||item?.showAnswerToUser=== 1));           
+            currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : questionData?.data?.data?.length - 1;           
         }
         if (slickRef.current) {
             slickRef.current.slickGoTo(currentIndex);
