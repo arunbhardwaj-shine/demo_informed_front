@@ -240,14 +240,25 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
         eventId: eventData?.event_id,
         poll_question_id: eventData?.question_id,
       });
-  
-      const eventQuestion = Cookies.get("eventQuestion");
+
+      let userResetCounter
+      let eventQuestion
+      
+      if(Object.keys(user).length>0){
+         userResetCounter = user && user.length > 0 ? user[0]?.resetCounter : 0;
+         eventQuestion = Cookies.get("eventQuestion"+eventData?.event_id+'_'+userResetCounter);
+      }
+
+      // const userResetCounter = user && user.length > 0 ? user[0]?.resetCounter : 0;
+      // const eventQuestion = Cookies.get("eventQuestion"+eventData?.event_id+'_'+userResetCounter);
+      // console.log(eventQuestion,'user')
+      
       if (!eventQuestion?.includes(eventData?.question_id)) {
         let newAr = eventQuestion?.length ? JSON.parse(eventQuestion) : [];
         newAr.push(eventData?.question_id);
         const expirationDate = new Date();
         expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-        Cookies.set("eventQuestion", JSON.stringify(newAr), {
+        Cookies.set("eventQuestion"+eventData?.event_id+'_'+user[0]?.resetCounter, JSON.stringify(newAr), {
           expires: expirationDate,
         });
       }

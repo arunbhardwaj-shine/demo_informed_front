@@ -10245,7 +10245,9 @@ button.event_sort_btn.svg_active svg {
   fill: var(--white);
   border: 0;
 }
-
+.poll-creation .outer-layout .question-outer-layout button.disabled svg path {
+  fill: rgb(255 255 255 / 44%);
+}
 .question-outer-layout .outer-layout {
   min-height: 80vh;
 }
@@ -11268,7 +11270,7 @@ button.event_sort_btn.svg_active svg {
 .poll-question-create .question-color:after {
   position: absolute;
   content: "";
-  border-bottom: 1px dashed var(--light-blue);
+  border-bottom: 1px dashed #97B6CF;
   bottom: 0;
   width: calc(100% + 80px);
   left: -40px;

@@ -154,7 +154,10 @@ useEffect(() => {
     snapshot.forEach((userSnapshot) => {
       
       const user = userSnapshot.val();
-      if (user && user.user_id !=null) {
+      if(user.user_id ==null){
+        return;
+      }
+      if (user  ) {
         if ( user?.status === 'online') {
           onlineUserIds.push(user.user_id);
         }
@@ -284,7 +287,7 @@ useEffect(() => {
         "search" : searchVal,
         "user_ids": userIds
       };
-      const response = await postData("http://192.168.0.78:3005/webinar/get-event-attendees",body);
+      const response = await postData(ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,body);
       setAttendees(response?.data?.data);
       setAttendeesApiCallStatus(false);
       setRefreshAttendeesFlag('');

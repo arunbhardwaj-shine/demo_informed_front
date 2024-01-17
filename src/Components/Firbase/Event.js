@@ -146,7 +146,14 @@ const Event = () => {
     });
     if (Object.keys(newData)?.length) {
       /* Check already submit question  */
-      const eventQuestion = Cookies.get("eventQuestion");
+      let userResetCounter
+      let eventQuestion
+      
+      if(Object.keys(apiData).length>0){
+         userResetCounter = apiData && apiData.length > 0 ? apiData?.questionListing[0]?.resetCounter : 0;
+         eventQuestion = Cookies.get("eventQuestion"+newData?.event_id+'_'+userResetCounter);
+      }
+     
       if (
         eventQuestion?.includes(newData?.question_id) &&
         newData?.triggered == 1
@@ -667,11 +674,13 @@ const Event = () => {
                 // <div className="copy-right-bottom-text">
                 //   <p>Preparation date: 7-8 December 2023</p>
                 // </div>
+                <div className="copy-right-bottom-text">
                 <p  style={{ color: formData?.textColor }}
                 dangerouslySetInnerHTML={{
                   __html: formData?.footerText.includes('xxx') ? "Preparation date:  "+eventId?.eventDate : formData?.footerText,
                 }}
               />
+              </div>
               )}
 
               {/* <div className="copy-right-bottom-text">
