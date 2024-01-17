@@ -46,7 +46,7 @@ const ContactDM = () => {
 
             }
             // const response = await postData(`${ENDPOINT.WEBINAR_EVENT_DM_LISTING}`,{event_id:eventId})
-            const response = await postData("http://192.168.0.162:5000/api/get-contact-us-data", data)
+            const response = await postData("https://onesource.informed.pro/api/get-contact-us-data", data)
             setUserData(response?.data?.data)
             setOpenNotes(Array(response?.data?.data?.length).fill(false));
             setOriginalUserData(response?.data?.data)

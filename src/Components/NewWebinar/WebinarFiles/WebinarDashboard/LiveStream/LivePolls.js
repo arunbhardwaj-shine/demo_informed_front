@@ -29,7 +29,7 @@ const LivePolls = ({ location, flag }) => {
                 eventId: eventId?.id,
             });
             setData(result)
-            // loader("hide");
+            loader("hide");
         } catch (err) {
             loader("hide");
             // setIsDataLoaded(false);
