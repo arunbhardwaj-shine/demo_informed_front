@@ -255,13 +255,13 @@ const NewEventCreate = () => {
   };
   const webinarPollingForm = (e, item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    if(item?.is_chat_link_created === 0){
-      navigate('/webinar/live-stream/chat-link')
-    }else{
+    // if(item?.is_chat_link_created === 0){
+    //   navigate('/webinar/live-stream/chat-link')
+    // }else{
     navigate("/webinar/live-stream/polls-layout", {
       state: { event_id: item?.id, companyId: item?.user_id },
     });
-  }
+  // }
   };
 
   const webinarEmailForm = (e,item) => {
