@@ -40,7 +40,7 @@ const LivePolls = ({ location, flag }) => {
     return (<>
 {data?
         <LivePollsQuestion questionData={data} eventData={eventId} isdataLoaded={isdataLoaded} getQuestions={getEventQuestion}/>
-        :""}
+        :""} 
     </>)
 }
 export default LivePolls

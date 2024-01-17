@@ -6322,14 +6322,16 @@ svg.pencil_icon {
     pointer-events: none;
     border-radius: 30px;
     background: #ffffff;
-    padding: 9px;
+    padding: 4px;
     width: 100%;
     cursor: pointer;
     position: absolute;
     right: 4px;
+    @include flex-middle;
 
     img {
       width: 100%;
+      max-width: 24px;
     }
   }
 }
@@ -8907,7 +8909,7 @@ svg.pencil_icon {
 
   .color-pick img {
     max-width: 31px;
-    padding: 5px;
+    padding: 2px;
   }
 
   .color-pick input[type=color] {
@@ -9243,6 +9245,10 @@ svg.pencil_icon {
     min-height: 190px;
   }
 
+  .create-change-content.register-page .form-group textarea.form-control {
+    min-height: 100px;
+  }
+
   .form-check-group {
     max-width: 350px;
   }
@@ -9447,6 +9453,7 @@ svg.pencil_icon {
     font-size: 15px;
     margin-bottom: 6px;
   }
+
 
   .content-listed .content-listed-content h5,
   .kpi-graph-inside .no-space .kpi-graph-inside-block h5 {
@@ -11370,7 +11377,7 @@ img.change-password-image {
       &:before {
         position: absolute;
         content: "";
-        border-top: 1px dashed $primary-color;
+        border-top: 1px dashed #97B6CF;
         top: 0;
         width: calc(100% + 80px);
         left: -40px;
@@ -17542,10 +17549,6 @@ img.change-password-image {
 
 
 
-.event-endDate,
-.event-endTime {
-  min-width: 120px;
-}
 
 .feilds-section {
   border: 1px dashed #97B6CF;
@@ -17641,7 +17644,7 @@ img.change-password-image {
       }
 
       &>label {
-        padding: 17px 5px 0 0;
+        padding: 14px 5px 0 0;
         align-self: flex-start;
         flex: 0 0 150px;
       }
@@ -18063,6 +18066,11 @@ img.change-password-image {
 .contact-us .contact-inset .split-button-dropup.show+span svg path {
   fill: $white;
   fill-opacity: 1;
+}
+
+.event-endDate,
+.event-endTime {
+  min-width: 120px;
 }
 
 /**New Landign Page End**/
@@ -18660,6 +18668,7 @@ img.change-password-image {
   // }
   .webinarRegistrationBody #registration-form .form-group>label {
     flex: 0 0 130px;
+    padding-right: 0;
   }
 
   .registration-right .footer-section,
@@ -18671,11 +18680,6 @@ img.change-password-image {
     min-width: 38px;
     padding: 4px 6px;
     height: 38px;
-  }
-
-  .poll-question .poll-question-create .form-check-inline {
-    // min-width: 32%;
-    // margin: 0 1.3% 17px 0;
   }
 
   .feilds-section {
@@ -18750,6 +18754,15 @@ img.change-password-image {
         height: 70px;
       }
     }
+  }
+
+  .event-endDate,
+  .event-endTime {
+    min-width: 100px;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .btn-container .extension {
+    min-width: 415px;
   }
 
   .login {
@@ -18948,6 +18961,10 @@ img.change-password-image {
   .color-pick {
     max-width: 100px;
   }
+
+  .no_found {
+    min-height: 58vh;
+  }
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
@@ -19142,6 +19159,11 @@ img.change-password-image {
     margin: 0 0 12px;
   }
 
+  .event-endDate,
+  .event-endTime {
+    min-width: 100px;
+  }
+
   .poll-question .poll-question-create .speaker-detail .speaker-name {
     width: 50%;
   }
@@ -19163,25 +19185,10 @@ img.change-password-image {
     width: 50%;
   }
 
-  // .webinarRegistrationBody .reg-color-set .form-group .color-pick {
-  //   height: 38px;
-  //   min-width: 85px;
-  // }
-
   .registration-right .footer-section,
   .registration-right .header-section {
     min-height: 280px;
   }
-
-  // .webinarRegistrationBody .reg-color-set .form-group .color-pick input[type=color] {
-  //   width: 75px;
-  //   margin-left: -22px;
-  //   padding-left: 25px;
-  // }
-
-  // .webinarRegistrationBody .reg-color-set .form-group .color-pick img {
-  //   max-width: 19px;
-  // }
 
   .webinar-checkbox label,
   .feilds-section .add-choice {
@@ -19337,7 +19344,88 @@ img.change-password-image {
   .landing-banner.pharma .circular-ring .center-logo {
     top: 36.5%;
   }
+
+  .poll-question .poll-question-create {
+    padding: 10px 15px 15px 15px;
+  }
+
+  .poll-question .poll-question-create label.h5,
+  .poll-question-create .question-color>div h5,
+  .poll-question .poll-question-create .answer-option .options .row .form-label,
+  .poll-question .poll-question-create .speaker-detail .speaker-name>div label,
+  .poll-question .poll-question-create .speaker-detail .display-result>div label {
+    font-size: 15px;
+  }
+
+  .poll-question .poll-question-create label.h5 {
+    line-height: 20px;
+    margin: 0 0 6px;
+  }
+
+  .poll-question .poll-question-create .form-check-inline label {
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .poll-question .poll-question-create .form-check-inline {
+    gap: 14px;
+    margin-right: 22px;
+  }
+
+  .poll-question .poll-question-create .answer-option .options .row .form-control {
+    padding: 7px 16px 7px 24px;
+    margin-right: 20px;
+    font-size: 14px;
+  }
+
+  .poll-question .poll-question-create .answer-option {
+    margin-top: 18px;
+    padding-top: 20px;
+  }
+
+  .poll-question .poll-question-create .answer-option .options .row {
+    margin-bottom: 10px !important;
+  }
+
+  .poll-question .poll-question-create .answer-option .options .row .option-action button {
+    width: 35px;
+    min-width: 35px;
+    height: 35px;
+  }
+
+  .poll-question .poll-question-create .answer-option .options .row .option-action button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .poll-question .poll-question-create .answer-option .options .row .option-action .color-pick {
+    height: 35px;
+  }
+
+  .color-pick .color-pick-point {
+    max-width: 27px;
+    height: 27px;
+  }
+
+  .color-pick .color-pick-point img {
+    max-width: 20px;
+  }
+
+  .poll-question .poll-question-create textarea {
+    font-size: 14px;
+    height: 70px;
+  }
+
+  .poll-question .poll-question-create .speaker-detail .speaker-name>div input {
+    padding: 7px 20px;
+    font-size: 14px;
+  }
+
+  .poll-question .poll-question-create .speaker-detail .speaker-name:before {
+    height: 60px;
+  }
 }
+
 
 @media only screen and (min-width: 1200px) and (max-width: $layout-breakpoint-extraLarge) {
   .pharma .circular-ring .big-circle .icon-block:nth-child(12) {

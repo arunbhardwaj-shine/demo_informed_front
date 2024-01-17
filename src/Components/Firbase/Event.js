@@ -42,6 +42,7 @@ const Event = () => {
   const [sessionShow, setSessionShow] = useState(false);
 
   const [apiData, setApiData] = useState([]);
+  const [resetData, setResetData] = useState([]);
   const [answerPop, setAnswerPopup] = useState(false);
   const [totalReaders, setTotalReaders] = useState(0);
   const [customAnswer, setCustomAnswer] = useState(0);
@@ -146,7 +147,14 @@ const Event = () => {
     });
     if (Object.keys(newData)?.length) {
       /* Check already submit question  */
-      const eventQuestion = Cookies.get("eventQuestion");
+      let userResetCounter
+      let eventQuestion
+      console.log(resetData,"apiDataapiDataapiDataapiData")
+      if(Object.keys(resetData).length>0){
+         userResetCounter = resetData && Object.keys(resetData).length>0 ? resetData?.questionListing?.[0]?.resetCounter : 0;
+         eventQuestion = Cookies.get("eventQuestion"+newData?.event_id+'_'+userResetCounter);
+      }
+     
       if (
         eventQuestion?.includes(newData?.question_id) &&
         newData?.triggered == 1
@@ -263,6 +271,7 @@ const Event = () => {
             id: value?.question_id,
           });
           setApiData(result?.data?.data);
+          setResetData(result?.data?.data);
           setAnswerPopup(false);
           setShow(true);
           //   setSessionShow(true)
@@ -296,6 +305,7 @@ const Event = () => {
           id: value?.question_id,
         });
         setApiData(result?.data?.data);
+        setResetData(result?.data?.data);
         setAnswerPopup(false);
         setShow(false);
         setSessionShow(true);
@@ -618,7 +628,7 @@ const Event = () => {
                   {parms?.includes("eahad_2024") && (
                     <div className="eahad-footer">
                       <img
-                        src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
+                        src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif"
                         alt=""
                       />
                       <div className="footer-msg">
@@ -667,11 +677,13 @@ const Event = () => {
                 // <div className="copy-right-bottom-text">
                 //   <p>Preparation date: 7-8 December 2023</p>
                 // </div>
+                <div className="copy-right-bottom-text">
                 <p  style={{ color: formData?.textColor }}
                 dangerouslySetInnerHTML={{
                   __html: formData?.footerText.includes('xxx') ? "Preparation date:  "+eventId?.eventDate : formData?.footerText,
                 }}
               />
+              </div>
               )}
 
               {/* <div className="copy-right-bottom-text">

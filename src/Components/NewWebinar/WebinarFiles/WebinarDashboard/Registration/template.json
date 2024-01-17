@@ -41,7 +41,7 @@
        
     },
     "pageTitle": {
-        "title": "Registration Page Title",
+        "title": "Registration Title",
         "type": "textArea",
         "value": "Registrations are now open to the Patient Case",
         "color": "#001489"
@@ -56,13 +56,13 @@
         "title": "Sub Heading",
         "type": "textArea",
         "value": "If you already have a One Source account you can register to the clinical practice session using the same login details.",
-        "color": "#33baa8"
+        "color": "#001489"
     },
     "SubText": {
         "title": "Sub Text",
         "type": "textArea",
         "value": "If you do not yet have a One Source account, by registering to a Clinical Practice session, an automatic account will be generated, and you will gain access to this content in accordance with the data privacy policy of <a href='https://onesource.octapharma.com/octapharma-privacy' target='_blank'>Octapharma AG</a> and <a href='https://albert.docintel.app/privacy_policy/' target='_blank'>Docintel.app</a> operating this page.",
-        "color": "#33baa8"
+        "color": "#001489"
     },
     "Specialization": {
         "title": "Specialization",
@@ -71,7 +71,7 @@
         "color": "#001489"
     },
     "Message": {
-        "title": "Thank You Message",
+        "title": "Thanks Message",
         "type": "textArea",
         "value": "<span><b>Thank you for registering to the upcoming Clinical Practice session!</b><span/><span>In case you are new to One Source, you will receive an email to set your password.<span/>",
         "color":  "#001489"
@@ -190,13 +190,13 @@
                 "color": "#04b39a"
             },
             "pageTitle": {
-                "title": "Registration Page Title",
+                "title": "Registration Title",
                 "type": "textArea",
                 "value": "To register please select and fill in all your details below.",
                 "color": "#04b39a"
             },
             "Message": {
-                "title": "Thank You Message",
+                "title": "Thanks Message",
                 "type": "textArea",
                 "value": "Thank you for registering!",
                 "color": "#04b39a"
@@ -398,7 +398,7 @@
                 "color": "#76B5AE"
             },
             "pageTitle": {
-                "title": "Registration Page Title",
+                "title": "Registration Title",
                 "type": "textArea",
                 "value": "To register please select and fill in all your details below.",
                 "color": "#354367"
@@ -410,7 +410,7 @@
                 "color": "#354367"
             },
             "Message": {
-                "title": "Thank You Message",
+                "title": "Thanks Message",
                 "type": "textArea",
                 "value": "Thank you for registering!",
                 "color":  "#354367"
@@ -574,13 +574,13 @@
                 "color": "#76B5AE"
             },
             "pageTitle": {
-                "title": "Registration Page Title",
+                "title": "Registration Title",
                 "type": "textArea",
                 "value": "To register please fill in all your details below.",
                 "color": "#354367"
             },
             "Message": {
-                "title": "Thank You Message",
+                "title": "Thanks Message",
                 "type": "textArea",
                 "value": "Thank you for registering!",
                 "color": "#354367"
