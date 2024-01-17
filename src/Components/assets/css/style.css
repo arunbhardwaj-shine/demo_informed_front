@@ -682,6 +682,18 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   fill: var(--light-blue);
 }
 
+.active-subLink .sidebar-menu ul li.active.sub-links>a svg path {
+  fill: #dbe8f5;
+}
+
+.active-subLink .sidebar-menu ul li.active.sub-links {
+  margin-right: 0;
+}
+
+.active-subLink .sidebar-menu ul li.active.sub-links>a {
+  background: #fbfdff;
+}
+
 .email_box {
   max-width: 430px;
   flex: 0 0 430px;
@@ -1305,8 +1317,8 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 }
 
 .active-subLink .sidebar-menu ul li.active>a {
-  /* background: #fbfcfd; */
-  background: rgb(243 247 251 / 0%);
+  background: #fbfcfd;
+  /* background: rgb(243 247 251 / 0%); */
   border-radius: 47px 0 0 47px;
 }
 
@@ -6287,11 +6299,14 @@ a.color_blue:hover {
   min-height: inherit;
 }
 
-button.btn.btn-primary.btn.btn-primary.disabled {
+button.btn-filled.btn-primary.disabled {
   background: rgba(151, 182, 207, 0.6);
   border-color: rgba(151, 182, 207, 0.6);
 }
-
+button.btn-bordered.btn-primary.disabled {
+  background: transparent;
+  border-color: rgba(151, 182, 207, 0.6);
+}
 .modal #add-list .smartlist-view .smartlist-buttons button.btn-filled.view {
   background: var(--light-blue);
   color: var(--white);
@@ -9820,6 +9835,8 @@ button.event_sort_btn.svg_active svg {
   box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
   border: none;
   padding: 8px 22px;
+  color: var(--dark-blue);
+  font-size: 15px;
 }
 
 /**Invitees page end**/
@@ -9876,6 +9893,33 @@ button.event_sort_btn.svg_active svg {
   box-shadow: 0px -2px 7px rgba(0, 102, 190, 0.13);
   border-radius: 20px;
   min-height: 87vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.poll-creation .question-outer-inset .slick-track {
+  max-height: 75vh;
+  /* display: flex; */
+}
+
+.invitee table td span.show_more {
+  cursor: pointer;
+}
+
+.question-outer-layout .slick-slider .slick-track .slick-slide {
+  height: 100%;
+}
+
+.question-outer-layout .slick-slider .slick-track .slick-slide>div {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.question-outer-layout .slick-slider .slick-track .slick-slide>div .slider-space {
+  width: 100%;
 }
 
 .poll-creation .nav {
@@ -9952,9 +9996,9 @@ button.event_sort_btn.svg_active svg {
   max-height: 80vh;
 }
 
-.poll-creation .question-outer-inset .slick-list {
+/* .poll-creation .question-outer-inset .slick-list {
   max-height: 390px;
-}
+} */
 
 .poll-creation .question-outer-inset .question-boxed {
   display: flex;
@@ -9965,6 +10009,11 @@ button.event_sort_btn.svg_active svg {
   overflow-y: auto;
   gap: 50px;
   padding: 4px;
+}
+
+.poll-creation .question-outer-inset .slider-space {
+  padding: 50px 0;
+
 }
 
 .question-outer-layout .slick-slider .slick-track .slick-slide {
@@ -10041,7 +10090,7 @@ button.event_sort_btn.svg_active svg {
   font-weight: 500;
 }
 
-.question-listing .question-display .question h4 {
+.question-listing .question-display .question p {
   color: var(--dark-blue);
   font-size: 14px;
   font-weight: 400;
@@ -10196,7 +10245,9 @@ button.event_sort_btn.svg_active svg {
   fill: var(--white);
   border: 0;
 }
-
+.poll-creation .outer-layout .question-outer-layout button.disabled svg path {
+  fill: rgb(255 255 255 / 44%);
+}
 .question-outer-layout .outer-layout {
   min-height: 80vh;
 }
@@ -10478,9 +10529,6 @@ button.event_sort_btn.svg_active svg {
   font-size: 14px;
 }
 
-.dm-speaker .dm-speaker-txt textarea {
-  /* color: var(--skyblue); */
-}
 
 /* .dm-speaker .dm-speaker-txt textarea::-webkit-input-placeholder {
   color: var(--skyblue);
@@ -11222,7 +11270,7 @@ button.event_sort_btn.svg_active svg {
 .poll-question-create .question-color:after {
   position: absolute;
   content: "";
-  border-bottom: 1px dashed var(--light-blue);
+  border-bottom: 1px dashed #97B6CF;
   bottom: 0;
   width: calc(100% + 80px);
   left: -40px;
@@ -11392,6 +11440,10 @@ button.event_sort_btn.svg_active svg {
   color: var(--skyblue);
   font-weight: 400;
   font-size: 14px;
+}
+
+.create-change-content.register-page .form-group .logo-section.header-section {
+  padding: 30px 0;
 }
 
 .register-page .form-group .header-section,
@@ -11688,6 +11740,11 @@ button.event_sort_btn.svg_active svg {
   font-size: 23px;
 }
 
+.register-popup-view .vwd .factor-season-left h1 {
+  line-height: 30px;
+  font-size: 18px;
+}
+
 .register-popup-view .factor-season-right h3 {
   line-height: 20px;
   font-size: 14px;
@@ -11792,25 +11849,3 @@ button.event_sort_btn.svg_active svg {
 }
 
 /**Registration page end**/
-
-
-
-@media screen and (-ms-high-contrast: active),
-(-ms-high-contrast: none) {
-  body {
-    border: 30px solid red !important;
-    background: red;
-  }
-}
-
-@supports (-ms-ime-align:auto) {
-  body {
-    display: none !important;
-
-  }
-}
-@supports (-ms-ime-align: auto) and (max-width: 0) {
-  body {
-    color: blue;
-  }
-}
