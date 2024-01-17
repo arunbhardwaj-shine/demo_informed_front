@@ -212,7 +212,8 @@ useEffect(() => {
         "user_ids": userids
       };
       const response = await postData(ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,body);
-      getEventRegisterReaders("",userids)
+      getEventRegisterReaders(search,userids)
+      
       // console.log(attendeesTab);
       
       let data=response?.data?.data
@@ -1478,6 +1479,7 @@ useEffect(() => {
                                         placeholder="Search by email or name"
                                         aria-label="Search"
                                         id="email_search"
+                                        value={search}
                                         onChange={(e) => searchChange(e)}
                                       />
                                       <button className="btn-outline-success" type="submit">
@@ -1681,7 +1683,8 @@ useEffect(() => {
                                         type="search"
                                         placeholder="Search by email or name"
                                         aria-label="Search"
-                                        id="email_search"
+                                        id="email_search_not_logged"
+                                        value={search}
                                         onChange={(e) => searchChange(e)}
                                       />
                                       <button className="btn-outline-success" type="submit">
