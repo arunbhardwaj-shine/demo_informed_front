@@ -357,43 +357,11 @@ const Invitees = () => {
 
     setUserData(sortedUserData);
     setSortNameDirection(sortNameDirection === 0 ? 1 : 0); // Toggle the sort direction
-    setIsActive({...isActive,[key]:direction === 'asc' ? 'dec' : 'asc'});
+    // setIsActive({...isActive,[key]:direction === 'asc' ? 'dec' : 'asc'});
+    setIsActive({[key]:direction === 'asc' ? 'dec' : 'asc'});
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
   };
-
-
-  // const getDownloadData = async (search) => {
-  //   try {
-  //     loader("show");
-
-  //     let payload = {
-  //       search: search? search : "",
-  //       Country: otherFilter?.Country ? otherFilter?.Country : "",
-  //       UserType: otherFilter?.UserType ? otherFilter?.UserType : "",
-  //       Type: otherFilter?.Type ? otherFilter?.Type : "",
-  //       id: eventId,
-  //       is_download: true,
-  //     };
-
-  //     const res = await postData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload, {
-  //       responseType: "blob",
-  //     });
-
-  //     console.log("Server Response:", res);
-
-  //     const link = document.createElement("a");
-  //     const url = URL.createObjectURL(res);
-  //     link.href = url;
-  //     link.download = "readers.xlsx";
-  //     link.click();
-
-  //     loader("hide");
-  //   } catch (err) {
-  //     console.error(err);
-  //     loader("hide");
-  //   }
-  // }; 
 
   const getDownloadData = async (search) => {
     try {
@@ -407,8 +375,6 @@ const Invitees = () => {
         id: eventId,
         is_download: true,
       };
-      
-
       const res = await postFormData(`${ENDPOINT.WEBINAR_GET_EVENT_REGISTRATION}/${eventId}?page=${page}`, payload, {
         responseType: "blob",
       });
@@ -1062,6 +1028,7 @@ const Invitees = () => {
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={setConfirmationPopup}
+        onCloseCross={()=>setConfirmationPopup(false)}
         fun={handleConfirmModel}
         resetDataId={clickUserId}
         popupMessage={{

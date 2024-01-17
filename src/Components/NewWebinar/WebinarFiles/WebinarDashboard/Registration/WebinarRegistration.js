@@ -307,14 +307,14 @@ const WebinarRegistration = () => {
           tempData.eventDetails.speakerName.value = raw?.speaker_name || "";
           newFormData.eventDetails = tempData.eventDetails;
         } else {
-          // if (
-          //   newFormData.eventDetails.eventStartDate?.value == "" &&
-          //   newFormData.eventDetails.eventStartDate?.value != undefined
-          // ) {
+          if (
+            newFormData.eventDetails.eventStartDate?.value == "" &&
+            newFormData.eventDetails.eventStartDate?.value != undefined
+          ) {
             newFormData.eventDetails.eventStartDate.value = new Date(
               raw?.dateStart
             );
-          // }
+          }
           if (
             newFormData.eventDetails.eventEndDate?.value == "" &&
             newFormData.eventDetails.eventEndDate?.value != undefined
@@ -324,12 +324,12 @@ const WebinarRegistration = () => {
             );
           }
 
-          // if (
-          //   newFormData.eventDetails.eventStartTime?.value == "" &&
-          //   newFormData.eventDetails.eventStartTime?.value != undefined
-          // ) {
+          if (
+            newFormData.eventDetails.eventStartTime?.value == "" &&
+            newFormData.eventDetails.eventStartTime?.value != undefined
+          ) {
             newFormData.eventDetails.eventStartTime.value = `${raw?.dateStartHour}:${raw?.dateStartMin}`;
-          // }
+          }
 
           if (
             newFormData.eventDetails.eventEndTime?.value == "" &&
