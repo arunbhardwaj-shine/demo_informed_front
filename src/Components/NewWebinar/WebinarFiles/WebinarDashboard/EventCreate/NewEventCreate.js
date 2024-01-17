@@ -565,7 +565,7 @@ const NewEventCreate = () => {
     const time=getEventTime(timezone)
     const currentTime = new Date(time);
     const startTime = new Date(eventStartDateTime);
-    const endTime = new Date(eventEndtDateTime);
+    const endTime = new Date(eventEndtDateTime);    
    
     if (currentTime < startTime) {
       const timeDifference = startTime.getTime() - currentTime.getTime(); // Get the time difference in milliseconds
@@ -604,8 +604,8 @@ const getEventTime=(timeZone)=> {
         minute: '2-digit',
         second: '2-digit',
         hour12: false,
+        hours24:true
       };
- 
       const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
         new Date(utcDateTime)
       );

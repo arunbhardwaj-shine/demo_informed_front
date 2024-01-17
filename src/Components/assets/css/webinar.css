@@ -4681,9 +4681,11 @@ l .vwd .factor-season-left h2 {
   font-weight: 700;
   margin: 10px 0 0;
 }
+
 .eahad .center-sided-inside .consent-form-list.attend-sec ul {
   margin: 10px 0 0;
 }
+
 .eahad .center-sided-inside .consent-form-list.attend-sec.consent-feild {
   display: block;
   margin: 15px 0;
@@ -5017,6 +5019,11 @@ footer .footer-copyright ul li a:hover {
   color: #280684;
 }
 
+@media only screen and (max-width:1399px) {
+  .motivate_outer .consent-form-inner .center-sided h2 {
+    font-size: 14px;
+  }
+}
 
 @media only screen and (max-width:1365px) {
   .modal .factor-season-left {
