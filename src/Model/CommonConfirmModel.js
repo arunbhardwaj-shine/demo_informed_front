@@ -28,6 +28,7 @@ const CommonConfirmModel = ({
         className="modal send-confirm"
         id="delete-confirm"
         show={show}
+        backdrop="static"
         onHide={handleClose}
       >
         <Modal.Header>

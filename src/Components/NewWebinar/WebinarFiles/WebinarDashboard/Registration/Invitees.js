@@ -1028,6 +1028,7 @@ const Invitees = () => {
       <CommonConfirmModel
         show={confirmationpopup}
         onClose={setConfirmationPopup}
+        onCloseCross={()=>setConfirmationPopup(false)}
         fun={handleConfirmModel}
         resetDataId={clickUserId}
         popupMessage={{
