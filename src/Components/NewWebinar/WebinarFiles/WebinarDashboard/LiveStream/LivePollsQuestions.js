@@ -269,9 +269,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                                                     <div className='question-display'>
                                                         <div className='question'>
                                                             Question
-                                                            <h4 dangerouslySetInnerHTML={{ __html: item?.question }}>
-
-                                                            </h4>
+                                                            <p dangerouslySetInnerHTML={{ __html: item?.question }}></p>
                                                         </div>
                                                         <div className='answer-options'>
                                                             Answers

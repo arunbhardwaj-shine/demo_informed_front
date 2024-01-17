@@ -618,7 +618,7 @@ const Event = () => {
                   {parms?.includes("eahad_2024") && (
                     <div className="eahad-footer">
                       <img
-                        src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
+                        src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif"
                         alt=""
                       />
                       <div className="footer-msg">
