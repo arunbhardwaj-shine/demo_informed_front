@@ -15,7 +15,7 @@ const QuestionPollsPieChart = ({ data,show }) => {
             },
         },
         title: {
-            text: "Poll Answers",
+            text: "Polls Results",
         },
         exporting: {
             enabled: false,
@@ -33,7 +33,8 @@ const QuestionPollsPieChart = ({ data,show }) => {
         },
         legend: {
             verticalAlign: "bottom",
-            labelFormat: '{name} ({percentage:.2f}%) ',
+            // labelFormat: '{name} ({percentage:.2f}%) ',
+            labelFormat: '{name} ({percentage:.0f}%)',
         },
 
         plotOptions: {
