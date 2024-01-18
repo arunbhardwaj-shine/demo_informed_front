@@ -65,7 +65,9 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         message2: "",
         footerButton: "",
     });
-    const [closedIndex,setClosedIndex]=useState(null)
+    const [closedIndex,setClosedIndex]=useState()
+
+
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
     const q = query(
@@ -88,6 +90,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         const index = questionData?.data?.data.findIndex(item => item?.triggered === 1);
         if (index !== -1) {
             currentIndex = index;
+            console.log("in index-->",index)
         } else {
             // const showAnswerIndex = questionData?.data?.data.findIndex(item => (item?.showQuestionToUser === 0||item?.showAnswerToUser=== 1));           
             // currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : questionData?.data?.data?.length - 1;  
@@ -95,14 +98,18 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
             const showAnswerIndex = questionData?.data?.data.findIndex(item => (item?.showAnswerToUser=== 1));
             if(showAnswerIndex!==-1){
                 currentIndex = showAnswerIndex
+                console.log("in showAnswerIndex-->",showAnswerIndex)
             }else if(closedIndex>=0){
                 currentIndex=closedIndex
+                console.log("in closedIndex-->",closedIndex)
             }else{
                 const showQuestionIndex = questionData?.data?.data.findIndex(item => (item?.showQuestionToUser === 0));
+                console.log("in showQuestionIndex-->",showQuestionIndex)
                 currentIndex=showQuestionIndex!==-1?showQuestionIndex: questionData?.data?.data?.length - 1
             }
 
         }
+        console.log("current index--->",currentIndex)
         if (slickRef.current) {
             slickRef.current.slickGoTo(currentIndex);
         }
@@ -125,9 +132,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
             loader("hide")
             setShow(true)
             setApiCallStatus(false);
-        }
-        setClosedIndex(null)
-        
+        }        
        
     }, [questionData])
 
@@ -176,7 +181,6 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
     const closedClicked = async (e, index) => {
         try {
             setApiCallStatus(true);
-           
             setClosedIndex(index)
             console.log("index-->",index)
             await postData(ENDPOINT.EVENT_CLOSE, {
