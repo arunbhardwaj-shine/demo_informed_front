@@ -65,8 +65,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         message2: "",
         footerButton: "",
     });
-
-
+    const [closedIndex,setClosedIndex]=useState(null)
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
     const q = query(
@@ -81,20 +80,28 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
     }, [isdataLoaded]);
 
     useEffect(() => {
-        console.log("question-->",questionData?.data?.data)
        setShow(false)
        if(!apiCallStatus){
         loader("show")
        }
         let currentIndex = 0;
         const index = questionData?.data?.data.findIndex(item => item?.triggered === 1);
-        
         if (index !== -1) {
-            console.log("index--->",index)
             currentIndex = index;
         } else {
-            const showAnswerIndex = questionData?.data?.data.findIndex(item => (item?.showQuestionToUser === 0||item?.showAnswerToUser=== 1));           
-            currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : questionData?.data?.data?.length - 1;           
+            // const showAnswerIndex = questionData?.data?.data.findIndex(item => (item?.showQuestionToUser === 0||item?.showAnswerToUser=== 1));           
+            // currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : questionData?.data?.data?.length - 1;  
+            
+            const showAnswerIndex = questionData?.data?.data.findIndex(item => (item?.showAnswerToUser=== 1));
+            if(showAnswerIndex!==-1){
+                currentIndex = showAnswerIndex
+            }else if(closedIndex>=0){
+                currentIndex=closedIndex
+            }else{
+                const showQuestionIndex = questionData?.data?.data.findIndex(item => (item?.showQuestionToUser === 0));
+                currentIndex=showQuestionIndex!==-1?showQuestionIndex: questionData?.data?.data?.length - 1
+            }
+
         }
         if (slickRef.current) {
             slickRef.current.slickGoTo(currentIndex);
@@ -119,6 +126,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
             setShow(true)
             setApiCallStatus(false);
         }
+        setClosedIndex(null)
         
        
     }, [questionData])
@@ -165,9 +173,12 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         // }
     }
 
-    const closedClicked = async (e, id) => {
+    const closedClicked = async (e, index) => {
         try {
             setApiCallStatus(true);
+           
+            setClosedIndex(index)
+            console.log("index-->",index)
             await postData(ENDPOINT.EVENT_CLOSE, {
                 eventId: eventData?.id,
             });
@@ -335,7 +346,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
 
                                                                         <Button className={item?.showQuestionToUser == 1 ? 'active quest' : item?.showQuestionToUser == 2 ? "visited quest" : "quest"} onClick={(e) => submitQuestionAnswer(e, item?.questionId, "submit")}>Question</Button>
                                                                         <Button className={item?.showAnswerToUser == 1 ? 'active answer' : item?.showAnswerToUser == 2 ? 'visited answer' : 'answer'} onClick={(e) => submitQuestionAnswer(e, item?.questionId, "answer")}>Answers</Button>
-                                                                        <Button className={(item?.triggered == 1 || item?.showAnswerToUser == 1) ? 'close' : 'close active'} onClick={(e) => closedClicked(e)}>Closed</Button>
+                                                                        <Button className={(item?.triggered == 1 || item?.showAnswerToUser == 1) ? 'close' : 'close active'} onClick={(e) => closedClicked(e,index)}>Closed</Button>
                                                                     </div>
                                                                 </div>
                                                         }

@@ -1230,7 +1230,7 @@ const Sidebar = () => {
                             <p>Speaker Zone</p>
                           </Link>
                         </li>
-                        <li className={isActiveChatPage ? 'active' : 'side_li'}
+                        {/* <li className={isActiveChatPage ? 'active' : 'side_li'}
                         // className="side_li"
                         >
                           <Link to="/webinar/live-stream/chat-link">
@@ -1261,7 +1261,7 @@ const Sidebar = () => {
                               </svg>
                             <p>Chat Link</p>
                           </Link>
-                        </li>
+                        </li> */}
                         <li className={isActivePolls ? 'active' : 'side_li'}
                         // className="side_li"
                         >
