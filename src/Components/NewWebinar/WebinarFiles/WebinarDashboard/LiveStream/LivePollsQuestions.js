@@ -86,11 +86,12 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
        if(!apiCallStatus){
         loader("show")
        }
+       setQuestion(questionData?.data?.data)
         let currentIndex = 0;
         const index = questionData?.data?.data.findIndex(item => item?.triggered === 1);
         if (index !== -1) {
             currentIndex = index;
-            console.log("in index-->",index)
+           
         } else {
             // const showAnswerIndex = questionData?.data?.data.findIndex(item => (item?.showQuestionToUser === 0||item?.showAnswerToUser=== 1));           
             // currentIndex = showAnswerIndex !== -1 ? showAnswerIndex : questionData?.data?.data?.length - 1;  
@@ -98,18 +99,18 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
             const showAnswerIndex = questionData?.data?.data.findIndex(item => (item?.showAnswerToUser=== 1));
             if(showAnswerIndex!==-1){
                 currentIndex = showAnswerIndex
-                console.log("in showAnswerIndex-->",showAnswerIndex)
+              
             }else if(closedIndex>=0){
                 currentIndex=closedIndex
-                console.log("in closedIndex-->",closedIndex)
+              
             }else{
                 const showQuestionIndex = questionData?.data?.data.findIndex(item => (item?.showQuestionToUser === 0));
-                console.log("in showQuestionIndex-->",showQuestionIndex)
+              
                 currentIndex=showQuestionIndex!==-1?showQuestionIndex: questionData?.data?.data?.length - 1
             }
 
         }
-        console.log("current index--->",currentIndex)
+      
         if (slickRef.current) {
             slickRef.current.slickGoTo(currentIndex);
         }
@@ -119,16 +120,20 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         setPollAnsExist(checkAnsExist);
 
         setCurrentIndex(currentIndex);
-        setQuestion(questionData?.data?.data)
+        // setQuestion(questionData?.data?.data)
         let updateQuestionId = []
         updateQuestionId?.push(questionData?.data?.data?.[0]?.questionId)
         setQuestionIdIndex(updateQuestionId)
-        setPieChartData({
-            graphType: questionData?.data?.data?.[0]?.graphType
-            , pollAnswers: questionData?.data?.data?.[0]?.pollAnswers
-        })
-        if(currentIndex==0||questionData?.data?.data?.length==0){
-           
+        // setPieChartData({
+        //     graphType: questionData?.data?.data?.[0]?.graphType
+        //     , pollAnswers: questionData?.data?.data?.[0]?.pollAnswers
+        // })
+        if(questionData?.data?.data?.length<=1){
+            setPieChartData({
+                    graphType: questionData?.data?.data?.[0]?.graphType
+                    , pollAnswers: questionData?.data?.data?.[0]?.pollAnswers
+                })
+              
             loader("hide")
             setShow(true)
             setApiCallStatus(false);
@@ -136,7 +141,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
        
     }, [questionData])
 
-    const handleAfterChange = async (current) => {
+    const handleAfterChange =(current) => {
         try {
             let questionId = question[current]?.questionId
             let chartData = { graphType: question[current]?.graphType, pollAnswers: question[current]?.pollAnswers }
@@ -182,7 +187,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         try {
             setApiCallStatus(true);
             setClosedIndex(index)
-            console.log("index-->",index)
+         
             await postData(ENDPOINT.EVENT_CLOSE, {
                 eventId: eventData?.id,
             });
@@ -209,6 +214,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
 
     const showConfirmationPopup = () => {
         try {
+            
             setCommonConfirmModelFun(() => resetPolls);
             setPopupMessage({
                 message1: "You are about to reset this poll.",
@@ -231,6 +237,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
         try {
             // setApiCallStatus(true);
             loader("show");
+            setClosedIndex()
             setPollAnsExist(false);
             const resetData = getData(ENDPOINT.RESETPOLL + "/" + eventData?.id);
         } catch (err) {
@@ -435,7 +442,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions, isdataLoaded
                 </div>
 
                 <div className='pie-chart-outer-layout' >
-                    <QuestionPollsPieChart data={pieChartData} show={show}/>
+                    <QuestionPollsPieChart data={pieChartData} />
                 </div>
 
 
