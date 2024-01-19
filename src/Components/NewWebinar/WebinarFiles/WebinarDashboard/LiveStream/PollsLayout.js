@@ -24,6 +24,10 @@ const PollsLayout = () => {
     };
 
     return (<>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
         <Col className="right-sidebar custom-change full-width">
             <div className="custom-container">
                 <div className="row">

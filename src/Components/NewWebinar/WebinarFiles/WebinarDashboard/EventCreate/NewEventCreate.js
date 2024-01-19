@@ -643,6 +643,7 @@ const getEventTime=(timeZone)=> {
 
   return (
     <>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>

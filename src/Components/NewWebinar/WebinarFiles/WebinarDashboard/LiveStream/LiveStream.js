@@ -623,6 +623,10 @@ useEffect(() => {
     <>
 
       <Col className="right-sidebar custom-change live-stream">
+         <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
         <div className="custom-container">
           <div className="row">
             <Col className="col-4" >

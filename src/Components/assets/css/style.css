@@ -82,7 +82,7 @@ button:focus,
   box-shadow: none;
 }
 
-nav #collapsibleNavbar li.nav-item a {
+nav.navbar .navbar-collapse li.nav-item a {
   color: var(--light-blue);
   font-size: 16px;
   line-height: 19px;
@@ -201,11 +201,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   display: none;
 }
 
-.left-sidebar.hidesidebar+.right-sidebar {
-  border-radius: 0px;
-}
-
-.left-sidebar.hidesidebar+.right-sidebar {
+.left-sidebar.hidesidebar~.right-sidebar {
   border-radius: 0px;
   background: rgba(255, 255, 255, 0.83) url(../images/informed-symbol.svg) no-repeat;
   background-size: 180px;
@@ -11854,5 +11850,24 @@ button.event_sort_btn.svg_active svg {
 .create-change-content.chatlink .form-group {
   justify-content: space-between;
 }
+.clear-search button[type="submit"]:hover svg path {
+  fill: #97b6cf;
+}
+.custom-change .select-mail-template .alice-carousel .alice-carousel__prev-btn,
+.custom-change .select-mail-template .alice-carousel .alice-carousel__next-btn {
+  position: absolute;
+  top: 50%;
+}
 
+.custom-change .select-mail-template .alice-carousel .alice-carousel__next-btn {
+  right: 0;
+}
+
+.custom-change .select-mail-template .alice-carousel .alice-carousel__prev-btn {
+  left: 0;
+}
+.select-mail-template .alice-carousel .alice-carousel__next-btn .alice-carousel__next-btn-item {
+ top: 50%;
+transform: translateY(-50%);
+}
 /**Registration page end**/
