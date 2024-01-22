@@ -8682,12 +8682,6 @@ svg.pencil_icon {
 
 @media only screen and (min-width: 1921px) {
 
-  //   .library-content-box-layuot {
-  //     gap: 0% 3%;
-  // }
-  //   .library-content-box-layuot .doc-content-main-box {
-  //     flex: 0 0 22.7%;
-  // }
   .spc-delete .email_box {
     max-width: 100%;
     flex: 0 0 100%;
@@ -20313,9 +20307,100 @@ img.change-password-image {
     padding: 10px 14px;
   }
 
+  .webinar-question-results.webinar_tabs_show {
+    padding: 15px 10px;
+  }
+
+  .webinar_tabs_show.webinar-question-results .col-md-4 {
+    padding: 0 10px;
+  }
+
+  .webinar_tabs_show.webinar-question-results .row {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+
+  .webinar-question-results .reader_list {
+    padding: 10px 10px 0;
+    margin: 0 0 20px;
+  }
+
+  .webinar-question-results .reader_list p.user_name {
+    font-size: 13px;
+  }
+
+  .webinar-question-results .reader_list .user-question {
+    padding: 8px;
+    margin: 0 0 15px;
+  }
+
   .poll-question .poll-question-create .answer-option .options .row .form-label {
     flex: 0 0 75px;
     max-width: 75px;
+  }
+
+  .webinar-question-results .reader_list .user-question p {
+    font-size: 13px;
+  }
+
+  .webinar-question-results .reader_list .reader_list_footer {
+    margin: 0 -10px;
+    padding: 10px;
+  }
+
+  .webinar-question-results table tbody tr td {
+    font-size: 13px;
+  }
+
+  .webinar-quest .navbar .right-sec h6 {
+    padding-right: 10px;
+    font-size: 15px;
+  }
+
+  .webinar-question-results p {
+    font-size: 14px;
+    margin: 0 0 7px;
+  }
+
+  .webinar-question-results h6 {
+    margin: 0px 0 20px;
+    font-size: 14px;
+  }
+
+  .webinar-question-results button.answermodel {
+    font-size: 14px;
+    padding: 4px 15px;
+  }
+
+  .webinar-quest .navbar .nav-fill .nav-item {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .webinar-quest .navbar .right-sec img {
+    max-width: 28px;
+  }
+
+  .webinar-question-results {
+
+    margin: 30px 0;
+  }
+
+  .webinar-question-results table thead th {
+    font-size: 13px;
+  }
+
+  .webinar-question-results .reader_list .reader_list_footer button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .webinar-question-results .reader_list .reader_list_footer .question-post-time small {
+    font-size: 12px;
+  }
+
+  .reader_list_footer .reader_list_footer_btns {
+    gap: 0 5px;
   }
 
   .poll-question .poll-question-option {
@@ -20457,6 +20542,50 @@ img.change-password-image {
 @media (max-width: $layout-breakpoint-small) {
   .consent-content .consent-content-inner .consent-details .consent-img {
     display: block;
+  }
+
+  .webinar-quest .navbar>.d-flex {
+    flex-direction: column-reverse;
+  }
+
+  .webinar-question-results .webinar-top-sec {
+    margin: 0 0 15px;
+  }
+
+  .webinar_tabs_show.webinar-question-results .col-md-4 {
+    border-right: 0;
+    border-bottom: 1px dashed #c1c9cd;
+    padding: 0 10px 15px;
+    margin: 0 0 15px;
+  }
+
+  .webinar-question-results table.table {
+    width: 600px;
+  }
+
+  .webinar-question-results {
+    overflow-x: auto;
+  }
+
+  .webinar-question-results table thead th {
+    min-width: 50px;
+  }
+
+  .webinar-question-results .col-md-4:last-child {
+    border-right: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border: 0;
+  }
+
+  .webinar-quest .navbar .right-sec img {
+    max-width: 30px;
+    margin: 0 0 13px 11px;
+  }
+
+  .webinar-quest .navbar .right-sec h6 {
+    padding: 0 0 13px;
+    font-size: 15px;
   }
 
   .how-work .build_with.justify-content-end {
@@ -21472,7 +21601,7 @@ img.change-password-image {
     }
   }
 
-  .login-confirm {
+  .modal.login-confirm {
     &.modal {
       padding: 0 16px !important;
 
@@ -22156,6 +22285,48 @@ img.change-password-image {
   .consent-content .works-started .works-started-links.pharm-page {
     padding: 85px 45px 0;
   }
+
+  .search-bar form.d-flex button {
+    padding: 3px;
+  }
+
+  nav.navbar .navbar-collapse li.nav-item a,
+  .nav-item.user-login .dropdown #dropdown-basic {
+    padding: 5px 15px;
+    font-size: 18px;
+    color: var(--light-blue);
+  }
+
+  .user-login .dropdown #dropdown-basic::after {
+    background-size: 15px;
+    width: 15px;
+    right: 15px;
+  }
+
+  .user-login .dropdown #dropdown-basic {
+    font-size: 18px;
+    padding: 8px 15px;
+    max-width: 100%;
+    justify-content: flex-start;
+  }
+
+  .navbar .navbar-collapse .user-login {
+    width: 100%;
+  }
+
+  .user-login .dropdown .dropdown-menu a {
+    font-size: 17px;
+    padding: 6px 30px;
+  }
+
+  .search-bar form.d-flex input {
+    padding: 5px 25px 5px 10px;
+  }
+
+  #add_hcp .modal-body .hcp-add-form form .form-group .react-datepicker__input-container input {
+    padding: 10px 22px;
+  }
+
 }
 
 /**Landing page Responsive End**/
