@@ -89,9 +89,9 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
         text: question, 
     },
 
-      tooltip: {
-        valueSuffix: "%",
-      },
+      // tooltip: {
+      //   valueSuffix: "%",
+      // },
 
       xAxis: {
         categories: answerOption.map(item => item?.answer),
@@ -99,6 +99,7 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
 
       yAxis: {
                 min: 0,
+                tickInterval: 1,
                 title: {
                     text: "", 
                 },

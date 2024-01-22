@@ -83,15 +83,14 @@ const QuestionPollsPieChart = ({ data,show }) => {
             type: "column",
         },
         title: "Poll Answers",
-        tooltip: {
-            valueSuffix: "%",
-        },
+        
         xAxis: {
             categories: [], // Add your options/categories here
            
         },
         yAxis: {
             min: 0,
+            tickInterval: 1,
             title: {
                 text: "", // Customize the y-axis label
             },
@@ -132,7 +131,7 @@ const QuestionPollsPieChart = ({ data,show }) => {
         },
         series: [
             {
-                name: "Questions",
+                name: "",
                 colorByPoint: true,
                 data: [],
             },

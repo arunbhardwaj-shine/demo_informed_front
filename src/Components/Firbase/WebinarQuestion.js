@@ -95,7 +95,10 @@ useEffect(()=>{
               tickInterval: 1,
               title: {
                   text: ''
-              }
+              },
+              stackLabels: {
+                enabled: true,
+              },
             },
             xAxis: {
               categories: line_v,
@@ -104,9 +107,26 @@ useEffect(()=>{
               text: "",
             },
             plotOptions: {
+              
               series: {
+                stacking: "normal",
                 pointWidth: 20,
-              },
+                allowPointSelect: true,
+                cursor: "pointer",
+                dataLabels: [
+                   
+                    {
+                        // enabled: true,
+                        distance: -40,
+                        // format: "{point.percentage:.1f}%",
+                        style: {
+                            fontSize: "1.2em",
+                            textOutline: "none",
+                            opacity: 0.7,
+                        },
+                    },
+                ],
+            },
             },
             column: {
               colorByPoint: true,
@@ -116,7 +136,7 @@ useEffect(()=>{
             },
 
             series: [
-              {
+              {name:"",
                 data: graphData,
                 showInLegend: false,
               },

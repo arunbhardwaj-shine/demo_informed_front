@@ -33,12 +33,16 @@ if(customAnswer == 1 || graphType === 'bar'){
         },
         yAxis: {
           min: 0,
+          tickInterval: 1,
           stackLabels: {
             enabled: true,
           },
           title: {
             text: ''
-          }
+          },
+          stackLabels: {
+            enabled: true,
+          },
         },
         legend: {
           enabled:false,
