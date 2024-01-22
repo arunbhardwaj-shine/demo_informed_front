@@ -34,20 +34,52 @@ if(customAnswer == 1 || graphType === 'bar'){
         yAxis: {
           min: 0,
           tickInterval: 1,
+          allowDecimals: false,
+          stackLabels: {
+            enabled: true,
+          },
           title: {
-            text: 'Number of users'
-          }
+            text: ''
+          },
+          stackLabels: {
+            enabled: true,
+          },
         },
+        legend: {
+          enabled:false,
+          verticalAlign: "bottom",
+      }, 
         xAxis: {
           categories: line_v,
         },
         title: {
           text: "Answers",
         },
+        // plotOptions: {
+        //   series: {
+        //     pointWidth: 20,
+        //   },
+        // },
         plotOptions: {
           series: {
-            pointWidth: 20,
+            stacking: "normal",
+            pointWidth: 30,
+            allowPointSelect: true,
+            cursor: "pointer",
+            dataLabels: [
+              {
+                distance: -40,
+                style: {
+                  fontSize: "1.2em",
+                  textOutline: "none",
+                  opacity: 0.7,
+                },
+              },
+            ],
           },
+          bar: {
+            showInLegend: true,
+        }
         },
         column: {
           colorByPoint: true,
@@ -57,8 +89,10 @@ if(customAnswer == 1 || graphType === 'bar'){
         },
         series: [
           {
+            name: "",
+          colorByPoint: true,
             data: graphData,
-            showInLegend: false,
+            // showInLegend: false,
           },
         ],
       };

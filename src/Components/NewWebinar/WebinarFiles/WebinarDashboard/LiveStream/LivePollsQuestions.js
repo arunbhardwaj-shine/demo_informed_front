@@ -1,25 +1,19 @@
 import Slider from "react-slick";
 import { Button } from "react-bootstrap";
-import { Spinner } from "react-activity";
 import { postData, getData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { db } from "../../../../../config/firebaseConfig";
 import React, { useState, useEffect, useRef } from "react";
 import QuestionPollsPieChart from "./QuestionPollsPieChart";
-import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { loader } from "../../../../../loader";
-
 import {
   collection,
   query,
   where,
   onSnapshot,
-  orderBy,
-  limit,
-  getDoc,
-  getDocs,
 } from "firebase/firestore";
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const settings = {
   infinite: false,
@@ -47,58 +41,39 @@ const settings = {
     },
   ],
 };
-const LivePollsQuestion = ({
-  questionData,
-  eventData,
-  getQuestions,
-  isdataLoaded,
-}) => {
+const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
   const [question, setQuestion] = useState([]);
   const currentQuestion = useRef();
   const slickRef = useRef("");
   const currentSnapShot = useRef(null);
   const [count, setCount] = useState(0);
-  const [firstcount, setFirstcount] = useState(0);
   const [currentTab, setCurrentTab] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [pollAnsExist, setPollAnsExist] = useState(0);
   const [questionIdIndex, setQuestionIdIndex] = useState([]);
   const [pieChartData, setPieChartData] = useState({});
   const [apiCallStatus, setApiCallStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [show, setShow] = useState(false);
+  const firstTime = useRef(true);
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
     footerButton: "",
   });
   const [closedIndex, setClosedIndex] = useState();
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
-  useEffect(() => {
-    setApiCallStatus(isdataLoaded);
-  }, [isdataLoaded]);
-
   useEffect(() => {
     setShow(false);
     let currentIndex = 0;
-    const index = questionData.findIndex(
-      (item) => item?.triggered === 1
-    );
+    const index = questionData.findIndex((item) => item?.triggered === 1);
     if (index !== -1) {
       currentIndex = index;
-      currentQuestion.current=questionData[currentIndex]?.questionId
-      setCurrentTab((prev)=>prev+1)
-
     } else {
-  
       const showAnswerIndex = questionData.findIndex(
         (item) => item?.showAnswerToUser === 1
       );
       if (showAnswerIndex !== -1) {
         currentIndex = showAnswerIndex;
-        
       } else if (closedIndex >= 0) {
         currentIndex = closedIndex;
       } else {
@@ -110,30 +85,26 @@ const LivePollsQuestion = ({
             ? showQuestionIndex
             : questionData?.length - 1;
       }
-      currentQuestion.current=questionData[currentIndex]?.questionId
-      setCurrentTab((prev)=>prev+1)
     }
 
     const checkAnsExist = questionData?.some(
       (obj) => obj?.pollAnswers && obj?.pollAnswers?.length > 0
     );
-    setPollAnsExist(checkAnsExist);
 
     setCurrentIndex(currentIndex);
-    setQuestion((prev) => questionData);
+    setQuestion(questionData);
     let updateQuestionId = [];
     updateQuestionId?.push(questionData?.[0]?.questionId);
     setQuestionIdIndex(updateQuestionId);
-    if(questionData?.length==1){
-      setPieChartData({
-        questionId: questionData?.[0]?.questionId,
-        graphType: questionData?.[0]?.graphType,
-        pollAnswers: questionData?.[0]?.pollAnswers,
-      });
-    }
-  
+    // if (questionData?.length == 1) {
+    //   setPieChartData({
+    //     questionId: questionData?.[0]?.questionId,
+    //     graphType: questionData?.[0]?.graphType,
+    //     pollAnswers: questionData?.[0]?.pollAnswers,
+    //   });
+    // }
+
     if (currentIndex == 0 || questionData?.length == 0) {
-   
       loader("hide");
       setShow(true);
       setApiCallStatus(false);
@@ -147,21 +118,22 @@ const LivePollsQuestion = ({
   useEffect(() => {
     if (slickRef.current && currentIndex != 0) {
       slickRef.current.slickGoTo(currentIndex, true);
+      if (firstTime.current) {
+        currentQuestion.current = question[currentIndex]?.questionId;
+        setCurrentTab(currentIndex + 1);
+      }
+      firstTime.current = false;
     }
-    
   }, [question]);
   useEffect(() => {
-  const apiCall=async ()=>{
-
-    
-    let data  =await firebaseev();
-  }
-     apiCall()
+    const apiCall = async () => {
+      let data = await firebaseev();
+    };
+    apiCall();
   }, [currentTab]);
 
   const handleAfterChange = async (current) => {
     try {
-      console.log("How Many times ",current);
       let questionId = question[current]?.questionId;
       // currentQuestion.current = questionId;
       let chartData = {
@@ -185,64 +157,58 @@ const LivePollsQuestion = ({
     }
   };
 
-
   const firebaseev = async () => {
     const q = query(
       collection(db, "chat"),
       where("event_id", "==", eventData?.id),
       where("question_id", "==", currentQuestion.current)
     );
-  
+
     if (currentSnapShot.current) {
       currentSnapShot.current();
     }
-  
+
     currentSnapShot.current = onSnapshot(q, async (querySnapshot) => {
       for (const doc of querySnapshot.docs) {
         if (doc.data()) {
-          setFirstcount(doc.data()?.webinar);
-  
           const result = await postData(ENDPOINT.WEBINAR_QUESTION_ONLY, {
             companyId: eventData?.companyId,
             eventId: eventData?.id,
             questionId: currentQuestion.current,
           });
-  
+
           const tempData = result?.data?.data;
-  
+
           if (tempData?.length) {
             const tempQuestion = question.map((item) => {
               item.triggered = 0;
-  
+
               if (item.showQuestionToUser === 1) {
                 item.showQuestionToUser = 2;
               }
-  
+
               if (item.showAnswerToUser === 1) {
                 item.showAnswerToUser = 2;
               }
-  
+
               return item;
             });
-  
+
             tempQuestion[currentIndex] = tempData[0];
-  
+
             setQuestion(tempQuestion);
-  
+
             setPieChartData({
               questionId: tempData[0]?.questionId,
               graphType: tempData[0]?.graphType,
               pollAnswers: tempData[0]?.pollAnswers,
             });
-  
           }
         }
       }
-                  setApiCallStatus(false);
-
+      setApiCallStatus(false);
     });
   };
-  
 
   const submitQuestionAnswer = async (e, question_id, type) => {
     try {
@@ -256,7 +222,6 @@ const LivePollsQuestion = ({
 
       let data = await postData(ENDPOINT.EVENT_SUBMIT, body);
       setCurrentTab(currentTab + 1);
-
     } catch (err) {
       setApiCallStatus(false);
       console.log("-err", err);
@@ -266,7 +231,7 @@ const LivePollsQuestion = ({
     // }
   };
 
-  const closedClicked = async (e, question_id,index) => {
+  const closedClicked = async (e, question_id, index) => {
     try {
       setApiCallStatus(true);
       setClosedIndex(index);
@@ -303,13 +268,9 @@ const LivePollsQuestion = ({
   const resetPolls = async () => {
     hideConfirmationModal();
     try {
-      // setApiCallStatus(true);
-      // loader("show");
-      setPollAnsExist(false);
       const resetData = await getData(ENDPOINT.RESETPOLL + "/" + eventData?.id);
       // await getQuestions();
       window.location.reload();
-
     } catch (err) {
       loader("hide");
       console.log(err);
@@ -331,11 +292,7 @@ const LivePollsQuestion = ({
       <div className="outer-layout">
         <div className="question-outer-layout">
           {question?.length ? (
-            <Button
-              className="reset"
-              // className={pollAnsExist ? 'reset' : 'disabled reset'}
-              onClick={showConfirmationPopup}
-            >
+            <Button className="reset" onClick={showConfirmationPopup}>
               Reset All
             </Button>
           ) : (
@@ -468,7 +425,7 @@ const LivePollsQuestion = ({
                                     <Button
                                       className={
                                         item?.showQuestionToUser == 1
-                                          ? "active quest"
+                                          ? "active quest disabled"
                                           : item?.showQuestionToUser == 2
                                           ? "visited quest"
                                           : "quest"
@@ -487,7 +444,7 @@ const LivePollsQuestion = ({
                                     <Button
                                       className={
                                         item?.showAnswerToUser == 1
-                                          ? "active answer"
+                                          ? "active answer disabled"
                                           : item?.showAnswerToUser == 2
                                           ? "visited answer"
                                           : "answer"
@@ -508,9 +465,15 @@ const LivePollsQuestion = ({
                                         item?.triggered == 1 ||
                                         item?.showAnswerToUser == 1
                                           ? "close"
-                                          : "close active"
+                                          : "close active disabled"
                                       }
-                                      onClick={(e) => closedClicked(e,item?.questionId, index)}
+                                      onClick={(e) =>
+                                        closedClicked(
+                                          e,
+                                          item?.questionId,
+                                          index
+                                        )
+                                      }
                                     >
                                       Closed
                                     </Button>
