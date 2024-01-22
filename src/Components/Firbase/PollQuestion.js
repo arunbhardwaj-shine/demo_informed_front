@@ -421,7 +421,7 @@ const PollQuestion = () => {
                   }
               },
               legend: {
-                  labelFormat: '{name} ({percentage:.2f}%) ',
+                  labelFormat: '{name} ({percentage:.0f}%) ',
               },
               plotOptions: {
                   pie: {
