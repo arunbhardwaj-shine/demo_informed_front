@@ -93,6 +93,7 @@ useEffect(()=>{
             yAxis: {
               min: 0,
               tickInterval: 1,
+              allowDecimals: false,
               title: {
                   text: ''
               },
@@ -110,7 +111,7 @@ useEffect(()=>{
               
               series: {
                 stacking: "normal",
-                pointWidth: 20,
+                pointWidth: 30,
                 allowPointSelect: true,
                 cursor: "pointer",
                 dataLabels: [

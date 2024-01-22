@@ -35,11 +35,15 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
         text: question, 
     },
       tooltip: {
+        formatter: function () {
+          return this.point.name + ' : <b>' + this.point.y + '</b>';
+      },
         valueSuffix: "%",
       },
       legend: {
         verticalAlign: "bottom",
-        labelFormat: '{name} ({percentage:.2f}%) ',
+        // labelFormat: '{name} ({percentage:.2f}%) ',
+        labelFormat: '{name} ({percentage:.0f}%)',
       },
       plotOptions: {
         series: {
@@ -68,7 +72,7 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
       },
       series: [
         {
-          name: "Percentage",
+          name: "",
           colorByPoint: true,
           data: pieSeriesData,
         },
@@ -100,6 +104,7 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
       yAxis: {
                 min: 0,
                 tickInterval: 1,
+                allowDecimals: false,
                 title: {
                     text: "", 
                 },
