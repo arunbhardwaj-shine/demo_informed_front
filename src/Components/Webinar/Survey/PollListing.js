@@ -71,8 +71,9 @@ const settings = {
     },
   ],
 };
-export default function PollListing({location,eventIdContext}) {
-  
+export default function PollListing({eventIdContext}) {
+  const location=useLocation();
+
   let navigate = useNavigate();
   const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
 
@@ -107,7 +108,9 @@ export default function PollListing({location,eventIdContext}) {
 
   useEffect(() => {
 
-    getAllEvents();
+    // getAllEvents();
+    getApiData(event_code);
+
     //get all events listing
 
     // toast.warning("Event Not Found", {
