@@ -478,6 +478,10 @@ const Invitees = () => {
 
   return (
     <>
+     <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <div className="row">

@@ -49,7 +49,7 @@ const WebinarRegistration = () => {
   const responsive = {
     0: { items: 1 },
     568: { items: 2 },
-    1024: { items: 5 },
+    1024: { items: 4 },
   };
 
   let navigate = useNavigate();
@@ -1270,7 +1270,7 @@ const WebinarRegistration = () => {
 
                   <AliceCarousel
                     mouseTracking
-                    disableButtonsControls
+                    //disableButtonsControls
                     disableDotsControls
                     activeIndex={activeIndex}
                     responsive={responsive}

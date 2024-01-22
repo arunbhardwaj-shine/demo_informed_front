@@ -162,3 +162,8 @@ button.btn.add-option {
 .webinar-registration.modal .modal-header {
   padding: 11px 11px;
 }
+@media only screen and (max-width:767px){
+  .question-block .copy-right-bottom-text {
+      padding-top: 10px;
+    }
+}

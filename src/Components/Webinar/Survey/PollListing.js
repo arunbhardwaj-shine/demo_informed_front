@@ -28,7 +28,22 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import PreviewModal from "./PreviewModal";
 import { useSidebar } from "../../CommonComponent/LoginLayout";
-
+let colors = [
+  "#FFBE2C",
+  "#F58289",
+  "#00D4C0",
+  "#D61975",
+  "#0066BE",
+  "#db6f2c",
+  "#9af5b2",
+  "#00003C",
+  "#9C9CA2",
+  "#7cb0dd",
+  "#7c00ad",
+  "#009739",
+  "#BCA9F5",
+  "#ACB5F5",
+]
 // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const settings = {
@@ -56,8 +71,9 @@ const settings = {
     },
   ],
 };
-export default function PollListing({location,eventIdContext}) {
-  
+export default function PollListing({eventIdContext}) {
+  const location=useLocation();
+
   let navigate = useNavigate();
   const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
 
@@ -92,7 +108,9 @@ export default function PollListing({location,eventIdContext}) {
 
   useEffect(() => {
 
-    getAllEvents();
+    // getAllEvents();
+    getApiData(event_code);
+
     //get all events listing
 
     // toast.warning("Event Not Found", {
@@ -386,9 +404,10 @@ export default function PollListing({location,eventIdContext}) {
 
     const updatedQuestions = [...questions];
     if (updatedQuestions[key].answerType != "YesNo") {
+      let length = updatedQuestions[key]?.questionData?.answerOption?.length
       updatedQuestions[key].questionData.answerOption.push({
         answer: "",
-        color: "#000000",
+        color: colors[length%colors.length],
       });
       updatedQuestions[key].questionDataErrors.answerOptionError.push({
         answerError: "",
@@ -573,9 +592,9 @@ export default function PollListing({location,eventIdContext}) {
       questionData: {
         question: "",
         questionColor: "#000000",
-        answerColor: "#000000",
+        answerColor: "#64B8B0",
         speakerName: "",
-        answerOption: [{ answer: "", color: "#000000" }],
+        answerOption: [{ answer: "", color: colors[0]}],
         answerType: "MULTIPLE",
 
         graphType: "bar",
