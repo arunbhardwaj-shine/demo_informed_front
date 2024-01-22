@@ -488,7 +488,7 @@ useEffect(() => {
     setSearch('');
     setDeleteStatus(false);
     setAttendeesApiCallStatus(true);
-    setAccordionOpen(false);
+    setAccordionOpen(0);
     setAttendeesTab(selectedTab);
   }
 
@@ -496,7 +496,7 @@ useEffect(() => {
     try{
       setRefreshAttendeesFlag(type);
       setDeleteStatus(false);
-      setAccordionOpen(false);
+      setAccordionOpen(0);
       setAttendeesApiCallStatus(true);
       getEventRegisterReaders();
     }catch(err){
@@ -504,18 +504,18 @@ useEffect(() => {
     }
   }
 
-  const toggleAccordion = async(id) => {
+  const toggleAccordion = async(id,user_id) => {
     try{
+      setAccordionOpen((prevIndex) => (prevIndex === id ? null : id));
       if(accordionOpen !== id){
         setMoreDetailsStatus(true);
         let body = {
             "eventId": eventId,
-            "userId": id
+            "userId": user_id
         };
         const response = await postData(ENDPOINT.WEBINAR_GET_EVENT_ATTENDEES_DETAILS,body);
         setAttendeesDetails(response?.data?.data);
       }
-      setAccordionOpen((prevIndex) => (prevIndex === id ? null : id));
       setMoreDetailsStatus(false);
     }catch(err){
       setMoreDetailsStatus(false);
@@ -534,7 +534,7 @@ useEffect(() => {
   const submitHandler = (event) => {
     setAttendees([]);
     setDeleteStatus(false);
-    setAccordionOpen(false);
+    setAccordionOpen(0);
     setAttendeesApiCallStatus(true);
     getEventRegisterReaders(search);
     event.preventDefault();
@@ -1055,7 +1055,7 @@ useEffect(() => {
                               </div>
                             </div>
                               <div className='preview-answers'>
-                                    <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id)}>
+                                    <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id,item?.userId)}>
                                     <div className="answer-section-heading">
                                       <p>
                                         {item?.id === accordionOpen ? "Less Details" : "More Details"} 
@@ -1088,7 +1088,9 @@ useEffect(() => {
                                             Object.keys(attendeesDetails)?.length > 0
                                             ?
                                             <ul>
-                                              <li><span>Login Time</span>{attendeesDetails?.login_time} | {attendeesDetails?.active_time}</li>
+                                              <li><span>Login Time</span>{attendeesDetails?.login_time}
+                                               {/* | {attendeesDetails?.active_time} */}
+                                               </li>
                                               <li><span>Network speed</span>{attendeesDetails?.speed}</li>
                                               <li><span>Browser </span>{attendeesDetails?.browser}</li>
                                               <li><span>Device</span>{attendeesDetails?.device}</li>
@@ -1227,7 +1229,7 @@ useEffect(() => {
                               </div>
                             </div>
                               <div className='preview-answers'>
-                                    <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id)}>
+                                    <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id,item?.userId)}>
                                     <div className="answer-section-heading">
                                       <p>
                                         {item?.id === accordionOpen ? "Less Details" : "More Details"} 
@@ -1260,7 +1262,9 @@ useEffect(() => {
                                             Object.keys(attendeesDetails)?.length > 0
                                             ?
                                             <ul>
-                                              <li><span>Login Time</span>{attendeesDetails?.login_time} | {attendeesDetails?.active_time}</li>
+                                              <li><span>Login Time</span>{attendeesDetails?.login_time} 
+                                              {/* | {attendeesDetails?.active_time} */}
+                                              </li>
                                               <li><span>Network speed</span>{attendeesDetails?.speed}</li>
                                               <li><span>Browser </span>{attendeesDetails?.browser}</li>
                                               <li><span>Device</span>{attendeesDetails?.device}</li>
@@ -1614,7 +1618,7 @@ useEffect(() => {
                               </div>
                             </div>
                               <div className='preview-answers'>
-                                    <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id)}>
+                                    <div className={item?.id === accordionOpen ? "answer-section active" : "answer-section"} onClick={() => toggleAccordion(item?.id,item?.userId)}>
                                     <div className="answer-section-heading">
                                       <p>
                                         {item?.id === accordionOpen ? "Less Details" : "More Details"} 
@@ -1647,7 +1651,9 @@ useEffect(() => {
                                             Object.keys(attendeesDetails)?.length > 0
                                             ?
                                             <ul>
-                                              <li><span>Login Time</span>{attendeesDetails?.login_time} | {attendeesDetails?.active_time}</li>
+                                              <li><span>Login Time</span>{attendeesDetails?.login_time}
+                                               {/* | {attendeesDetails?.active_time} */}
+                                               </li>
                                               <li><span>Network speed</span>{attendeesDetails?.speed}</li>
                                               <li><span>Browser </span>{attendeesDetails?.browser}</li>
                                               <li><span>Device</span>{attendeesDetails?.device}</li>
