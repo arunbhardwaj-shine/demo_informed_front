@@ -34,6 +34,7 @@ if(customAnswer == 1 || graphType === 'bar'){
         yAxis: {
           min: 0,
           tickInterval: 1,
+          allowDecimals: false,
           stackLabels: {
             enabled: true,
           },

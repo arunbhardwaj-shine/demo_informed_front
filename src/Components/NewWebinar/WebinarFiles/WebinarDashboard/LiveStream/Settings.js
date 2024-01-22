@@ -156,8 +156,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 // onChange={() => setLiveStatus(0)}
                 onChange={() => {
                   setLiveStatus(0);
-                  setStreamUrl("");
-                  setPosterUrl("");
+                  // setStreamUrl("");
+                  // setPosterUrl("");
                 }}
               />
                <div className="event-status-img">
@@ -176,8 +176,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 checked={liveStatus === 1}
                 onChange={() => {
                   setLiveStatus(1);
-                  setStreamUrl("");
-                  setPosterUrl("");
+                  // setStreamUrl("");
+                  // setPosterUrl("");
                 }}
               />
                <div className="event-status-img">
@@ -195,7 +195,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 checked={liveStatus === 2}
                 onChange={() => {
                   setLiveStatus(2);
-                  setPosterUrl("");
+                  // setPosterUrl("");
                 }}
               />
                <div className="event-status-img">
@@ -214,7 +214,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 checked={liveStatus === 3}
                 onChange={() => {
                   setLiveStatus(3);
-                  setStreamUrl("");
+                  // setStreamUrl("");
                 }}
               />
               <div className="event-status-img">

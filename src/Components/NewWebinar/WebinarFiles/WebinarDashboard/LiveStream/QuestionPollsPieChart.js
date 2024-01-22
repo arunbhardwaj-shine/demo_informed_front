@@ -91,6 +91,7 @@ const QuestionPollsPieChart = ({ data,show }) => {
         yAxis: {
             min: 0,
             tickInterval: 1,
+            allowDecimals: false,
             title: {
                 text: "", // Customize the y-axis label
             },
