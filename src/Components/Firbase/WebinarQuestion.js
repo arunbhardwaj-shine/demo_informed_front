@@ -94,7 +94,7 @@ useEffect(()=>{
               min: 0,
               tickInterval: 1,
               title: {
-                  text: 'Number of users'
+                  text: ''
               }
             },
             xAxis: {
