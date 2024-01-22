@@ -96,13 +96,13 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
     let updateQuestionId = [];
     updateQuestionId?.push(questionData?.[0]?.questionId);
     setQuestionIdIndex(updateQuestionId);
-    if (questionData?.length == 1) {
-      setPieChartData({
-        questionId: questionData?.[0]?.questionId,
-        graphType: questionData?.[0]?.graphType,
-        pollAnswers: questionData?.[0]?.pollAnswers,
-      });
-    }
+    // if (questionData?.length == 1) {
+    //   setPieChartData({
+    //     questionId: questionData?.[0]?.questionId,
+    //     graphType: questionData?.[0]?.graphType,
+    //     pollAnswers: questionData?.[0]?.pollAnswers,
+    //   });
+    // }
 
     if (currentIndex == 0 || questionData?.length == 0) {
       loader("hide");
