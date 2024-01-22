@@ -255,7 +255,7 @@ const SpeakerZone = () => {
                                     <div className="detail-box">  
                                     <div class="d-flex justify-content-between align-items-center">
                                         <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
-                                        <div className="specialty">Specialty</div>
+                                        {/* <div className="specialty">Specialty</div> */}
                                       </div>
                                         <div className="user-question">
                                             <p>{item?.question}</p>
@@ -318,7 +318,7 @@ const SpeakerZone = () => {
                                         <div className="detail-box">  
                                           <div class="d-flex justify-content-between align-items-center">
                                             <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
-                                            <div className="specialty">Specialty</div>
+                                            {/* <div className="specialty">Specialty</div> */}
                                             </div>
                                             <div className="user-question">
                                                 <p>{item?.question}</p>
@@ -378,7 +378,7 @@ const SpeakerZone = () => {
                                         <div className="detail-box">  
                                             <div class="d-flex justify-content-between align-items-center">
                                               <p className="user_name">{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
-                                              <div className="specialty">Specialty</div>
+                                              {/* <div className="specialty">Specialty</div> */}
                                               </div>
                                             <div className="user-question">
                                             <p>{item?.question}</p>
