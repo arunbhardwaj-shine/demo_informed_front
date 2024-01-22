@@ -47,7 +47,7 @@ useEffect(()=>{
 },[])
   const initiFun = async () => {
     try {
-      loader("show")
+      // loader("show")
       const result = await postData(ENDPOINT.WEBINAR_All_QUESTION_LISTING, {
         companyId: eventId?.companyId,
         eventId: eventId?.id,
@@ -93,9 +93,13 @@ useEffect(()=>{
             yAxis: {
               min: 0,
               tickInterval: 1,
+              allowDecimals: false,
               title: {
-                  text: 'Number of users'
-              }
+                  text: ''
+              },
+              stackLabels: {
+                enabled: true,
+              },
             },
             xAxis: {
               categories: line_v,
@@ -104,9 +108,26 @@ useEffect(()=>{
               text: "",
             },
             plotOptions: {
+              
               series: {
-                pointWidth: 20,
-              },
+                stacking: "normal",
+                pointWidth: 30,
+                allowPointSelect: true,
+                cursor: "pointer",
+                dataLabels: [
+                   
+                    {
+                        // enabled: true,
+                        distance: -40,
+                        // format: "{point.percentage:.1f}%",
+                        style: {
+                            fontSize: "1.2em",
+                            textOutline: "none",
+                            opacity: 0.7,
+                        },
+                    },
+                ],
+            },
             },
             column: {
               colorByPoint: true,
@@ -116,7 +137,7 @@ useEffect(()=>{
             },
 
             series: [
-              {
+              {name:"",
                 data: graphData,
                 showInLegend: false,
               },
@@ -228,6 +249,10 @@ useEffect(() => {
   return (
     <>
           <div className="webinar-questions webinar-question-box">
+            <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
             <Container>
               <div className="webinar-question-results">
                  {data?.map((item,index)=>{

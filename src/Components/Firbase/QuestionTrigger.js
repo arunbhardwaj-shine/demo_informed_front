@@ -99,6 +99,10 @@ const QuestionTrigger = () =>{
 
     return (
         <div className="webinar-question-box">
+            <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
         <Container>
             <div className="webinar-question-results webinar_tabs_show">
         <Row>
@@ -118,7 +122,12 @@ const QuestionTrigger = () =>{
                         <div className="detail-box">  
                             <p className="user_name">Name: {item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
                             <div className="user-question">
-                                <p>{item?.question}</p>
+                                <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
+                                {
+                                    item?.reply && item?.reply != "" ?
+                                    <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by admin: " + item?.reply}}></p></div>
+                                    : null
+                                }
                             </div>
                             <div className="reader_list_footer d-flex justify-content-between align-items-center" >
                                 <div className="question-post-time">
@@ -153,7 +162,12 @@ const QuestionTrigger = () =>{
                             <div className="detail-box">  
                                 <p className="user_name">Name: {item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
                                 <div className="user-question">
-                                    <p>{item?.question}</p>
+                                    <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
+                                    {
+                                        item?.reply && item?.reply != "" ?
+                                        <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by admin: " + item?.reply}}></p></div>
+                                        : null
+                                    }
                                 </div>
                                 <div className="reader_list_footer d-flex justify-content-between align-items-center answer-footer" >
                                     <div className="question-post-time">
@@ -185,7 +199,12 @@ const QuestionTrigger = () =>{
                             <div className="detail-box">  
                                 <p className="user_name">Name: {item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</p>
                                 <div className="user-question">
-                                <p>{item?.question}</p>
+                                <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
+                                {
+                                    item?.reply && item?.reply != "" ?
+                                    <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by admin: " + item?.reply}}></p></div>
+                                    : null
+                                }
                                 </div>
                                 <div className="reader_list_footer d-flex justify-content-between align-items-center ignore-footer" >
                                     <div className="question-post-time">

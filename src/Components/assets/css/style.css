@@ -82,7 +82,7 @@ button:focus,
   box-shadow: none;
 }
 
-nav.navbar .navbar-collapse li.nav-item a {
+nav.navbar .navbar-collapse li.nav-item a, nav.navbar .navbar-collapse li.nav-item a:hover {
   color: var(--light-blue);
   font-size: 16px;
   line-height: 19px;
@@ -10251,7 +10251,9 @@ button.event_sort_btn.svg_active svg {
 .question-outer-layout .outer-layout {
   min-height: 80vh;
 }
-
+.question-listing .question-status .btn-group .btn-group-add button.disabled {
+  opacity: 1!important;
+}
 .polls-preview .question-action button.btn[disabled] {
   opacity: 0.4;
 }

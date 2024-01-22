@@ -490,6 +490,10 @@ const PollQuestion = () => {
   return (
     <>
     <div className="webinar-question-box">
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
       <Container>
         <div className="webinar-question-results">
           <Table>
