@@ -136,7 +136,6 @@ if(customAnswer == 1 || graphType === 'bar'){
         }
     },
     legend: {
-        // labelFormat: '{name} ({percentage:.2f}%) ',
         labelFormat: '{name} ({percentage:.0f}%)',
     },
     plotOptions: {
