@@ -13709,7 +13709,15 @@ img.change-password-image {
   padding: 10px;
   margin: 0 0 25px;
 }
-
+.webinar-question-results .reader_list .user-question .speaker_reply{
+  border-top: 0.5px dashed #cbe1f5;
+  width: 100%;
+  padding: 8px 0 0px;
+  margin:8px 0 0;
+}
+.webinar-question-results .reader_list .user-question .speaker_reply p {
+  color: #0066be;
+}
 .webinar-question-results .reader_list .user-question p {
   font-size: 15px;
   font-weight: 400;
