@@ -47,7 +47,7 @@ useEffect(()=>{
 },[])
   const initiFun = async () => {
     try {
-      loader("show")
+      // loader("show")
       const result = await postData(ENDPOINT.WEBINAR_All_QUESTION_LISTING, {
         companyId: eventId?.companyId,
         eventId: eventId?.id,
