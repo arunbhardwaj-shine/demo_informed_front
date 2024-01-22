@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Button, Dropdown, Modal } from "react-bootstrap";
+import { Button, Dropdown, Modal, Navbar } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -131,7 +131,7 @@ const Header = () => {
           scrollDirection === "down" ? "-top-24" : "top-0"
         } h-24 bg-blue-200 transition-all duration-500`}
       >
-        <nav className="navbar navbar-expand-sm navbar-light">
+        <Navbar inverse collapseOnSelect className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
             <Link
               className="navbar-brand"
@@ -140,15 +140,19 @@ const Header = () => {
             >
               <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
             </Link>
-            <button
+            {/* <button
               className="navbar-toggler"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapsibleNavbar"
             >
               <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="collapsibleNavbar">
+            </button> */}
+            <>
+            <Navbar.Toggle/>
+            </>
+            <Navbar.Collapse id="collapsibleNavbar">
+            {/* <div className="collapse navbar-collapse" id="collapsibleNavbar"> */}
               <ul className="navbar-nav">
                 <li
                   className={
@@ -398,7 +402,8 @@ const Header = () => {
                   ""
                 )}
               </ul>
-            </div>
+            {/* </div> */}
+           
             <div className="user-login">
               <Dropdown>
                 <Dropdown.Toggle id="dropdown-basic">
@@ -440,8 +445,9 @@ const Header = () => {
 							  </ul>
 								*/}
             </div>
+             </Navbar.Collapse>
           </div>
-        </nav>
+        </Navbar>
       </header>
       <ToastContainer
         position="top-right"

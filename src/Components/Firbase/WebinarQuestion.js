@@ -228,6 +228,10 @@ useEffect(() => {
   return (
     <>
           <div className="webinar-questions webinar-question-box">
+            <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
             <Container>
               <div className="webinar-question-results">
                  {data?.map((item,index)=>{
