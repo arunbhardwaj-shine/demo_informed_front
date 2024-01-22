@@ -171,6 +171,10 @@ const Registration = () => {
 
   return (
     <>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
       <div className="right-sidebar col">
         <div className="top-header">
           <div className="page-title">

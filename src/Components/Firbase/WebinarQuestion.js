@@ -134,7 +134,7 @@ useEffect(()=>{
               enabled: false // Disable the export menu
             },
             title: {
-                text: 'User Answers in percentage',
+                text: 'Answers',
                 align: 'center'
             },
             tooltip: {
@@ -148,7 +148,8 @@ useEffect(()=>{
                 }
             },
             legend: {
-              labelFormat: '{name} ({percentage:.2f}%) ',
+              // labelFormat: '{name} ({percentage:.2f}%) ',
+              labelFormat: '{name} ({percentage:.0f}%)',
             },
             plotOptions: {
               pie: {

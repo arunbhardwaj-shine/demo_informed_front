@@ -17,7 +17,7 @@ const LivePolls = ({ location, flag }) => {
     const [isdataLoaded,setIsDataLoaded]=useState(false)
 
     useEffect(() => {
-        loader("show");
+        // loader("show");
         getEventQuestion()
     }, [flag])
 
@@ -28,7 +28,7 @@ const LivePolls = ({ location, flag }) => {
                 companyId: eventId?.companyId,
                 eventId: eventId?.id,
             });
-            setData(result)
+            setData(result?.data?.data)
             loader("hide");
         } catch (err) {
             loader("hide");
