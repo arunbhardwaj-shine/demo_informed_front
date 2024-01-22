@@ -42,7 +42,7 @@ if(customAnswer == 1 || graphType === 'bar'){
           categories: line_v,
         },
         title: {
-          text: "User Answers",
+          text: "Answers",
         },
         plotOptions: {
           series: {
@@ -89,7 +89,7 @@ if(customAnswer == 1 || graphType === 'bar'){
         type: 'pie'
       },
       title: {
-        text: "User Answers",
+        text: "Answers",
       },
       tooltip: {
         formatter: function() {
@@ -102,7 +102,8 @@ if(customAnswer == 1 || graphType === 'bar'){
         }
     },
     legend: {
-        labelFormat: '{name} ({percentage:.2f}%) ',
+        // labelFormat: '{name} ({percentage:.2f}%) ',
+        labelFormat: '{name} ({percentage:.0f}%)',
     },
     plotOptions: {
         pie: {
@@ -123,6 +124,9 @@ if(customAnswer == 1 || graphType === 'bar'){
       ],
       drilldown: {
         series: drilldownData,
+      },
+      exporting: {
+        enabled: false,
       },
     };
 }
@@ -199,7 +203,7 @@ if(customAnswer == 1 || graphType === 'bar'){
         <Modal.Body>
           <p dangerouslySetInnerHTML={{__html: data?.question}}></p>
           <HighchartsReact key = {"rand_"+customAnswer} highcharts={Highcharts} options={chartOptions} />
-          <h5 style={{ color: designData?.textColor }}>Total Answer:{readerCount}</h5>
+          {/* <h5 style={{ color: designData?.textColor }}>Total Answer:{readerCount}</h5> */}
         </Modal.Body>
       
       </Modal>

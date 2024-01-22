@@ -187,6 +187,10 @@ const SpeakerZone = () => {
 
   return (
     <>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <div className="row">
@@ -216,7 +220,7 @@ const SpeakerZone = () => {
                 </Button> */}
               </div>
             </div>
-            <div className="speaker_zone">
+            <div className="speaker_zone deteail">
                 <div className="speaker_zone_left_div">
                   <div class="webinar-top-sec d-flex justify-content-between align-items-center">
                       <div class="top-heading">

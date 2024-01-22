@@ -1585,15 +1585,18 @@
     margin: 20px 0px 25px;
     gap: 12px;
   }
-.ask-questions {
-  margin: 0 0 20px;
-}
+
+  .ask-questions {
+    margin: 0 0 20px;
+  }
+
   .settings-status .event-status-img img {
     max-width: 80px;
   }
-    .event-status-msg p {
-      font-size: 14px;
-    }
+
+  .event-status-msg p {
+    font-size: 14px;
+  }
 }
 
 @media only screen and (max-width: 1399px) {
@@ -2492,5 +2495,724 @@
     font-size: 25px;
     line-height: 35px;
     margin: 25px 0 0;
+  }
+
+  header nav.navbar {
+    padding: 3px 8px;
+  }
+
+  .email-result-block {
+    margin: 0 -10px;
+  }
+
+  .event_listing .email-result-block .email_box_block {
+    margin: 0 0 20px;
+  }
+
+  .email-result-block .email-block-add-box,
+  .email-result-block .email_box_block {
+    padding: 0 10px;
+  }
+
+  .event_listing .event-title {
+    font-size: 17px;
+  }
+
+  .event_listing .action_btn button {
+    width: 28px;
+    height: 28px;
+    padding: 2px;
+  }
+
+  .event_listing .action_btn button img {
+    max-width: 15px;
+    height: 15px;
+  }
+
+  .event_listing .email-result-block .speaker-name {
+    font-size: 13px;
+    margin: 0 0 3px;
+  }
+
+  .event_listing .event-details .event-date,
+  .event_listing .event-details .country-timezone {
+    font-size: 13px;
+    line-height: 15px;
+  }
+
+  .event_listing .email-result-block .mail-box-content {
+    padding: 15px 15px 15px 15px;
+  }
+
+  .email-block-add p {
+    font-size: 16px;
+  }
+
+  .event_listing .email-result-block .mail-box-content .action_btn .action-status {
+    font-size: 12px;
+    min-width: 85px;
+  }
+
+  .event_listing .email-block-add,
+  .event_listing .email_box {
+    min-height: 250px;
+  }
+
+  .sidebar-menu ul li a svg {
+    margin-right: 9px;
+    flex: 0 0 20px;
+    max-height: 20px;
+  }
+
+  .sidebar-menu ul li a,
+  .sidebar-menu ul li p {
+    font-size: 14px;
+  }
+
+  .sidebar-menu ul li a {
+    padding: 10px 11px;
+  }
+
+  .sidebar-menu ul li {
+    min-height: 40px;
+  }
+
+  .sidebar-menu {
+    max-width: 156px;
+  }
+
+  .left-sidebar {
+    width: 170px;
+  }
+
+  .sidebar_txt span {
+    font-size: 13px;
+  }
+
+  .page-title h2 {
+    font-size: 22px;
+    line-height: 25px;
+  }
+
+  .search-bar form.d-flex input {
+    width: 200px;
+  }
+
+  .search-bar form.d-flex button {
+    width: 40px;
+  }
+
+  .search-bar form.d-flex input {
+    padding: 5px 30px 5px 15px;
+  }
+
+  h4 {
+    font-size: 18px;
+  }
+
+  .invitee table td {
+    padding: 6px 6px;
+    font-size: 12px;
+  }
+
+  .invitee table th {
+    padding: 6px 6px;
+  }
+
+  .invitee table td>div {
+    padding: 7px;
+  }
+
+  .invites-td .clear-search button {
+    width: 30px;
+    padding: 2px;
+    height: 30px;
+  }
+
+  .invitee table .invitess-tbl .clear-search svg {
+    max-width: 18px;
+  }
+
+  .select-mail-template .alice-carousel .item img {
+    max-width: 94px;
+    padding: 6px 6px;
+    max-height: 100px;
+    min-height: 100px;
+  }
+
+  .select-mail-template.library-consent {
+    padding: 0 10px;
+  }
+
+  .invitee table {
+    border-spacing: 0px 12px;
+  }
+
+  .invitess-tbl-right:after {
+    height: 32px;
+  }
+
+  .invitee table .split-button-dropup>div:nth-child(3) {
+    min-height: 30px;
+    padding: 3px 20px 3px 3px;
+    min-width: 97px;
+    background-size: 13px;
+    background-position: 92% center;
+  }
+
+  .invitee table td:last-child {
+    width: auto;
+    padding: 6px;
+  }
+
+  .invitee table {
+    padding-left: 0px;
+  }
+
+  .settings-status .event-status-img img {
+    max-width: 70px;
+  }
+
+  .settings-card .settings-status {
+    gap: 14px;
+  }
+
+  .ask-questions .yes {
+    margin-right: 20px;
+  }
+
+  .ask-questions .form-check-inline {
+    margin-right: 7px;
+  }
+
+  .stream-url .form-label,
+  .poster-url .form-label {
+    font-size: 15px;
+  }
+
+  .ask-questions h5 {
+    margin-right: 20px;
+    font-size: 16px;
+  }
+
+  .event-status-msg p {
+    font-size: 13px;
+  }
+
+  .filter-by button svg {
+    margin-left: 25px;
+  }
+
+  .active-subLink .left-sidebar .left-sidebar-secondary ul a p {
+    font-size: 14px;
+  }
+
+  .active.sub-links .left-sidebar-secondary {
+    width: 135px;
+  }
+
+  .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary {
+    max-width: 135px;
+  }
+
+  .active-subLink .left-sidebar {
+    width: 210px;
+  }
+
+  .search-bar form.d-flex input,
+  .filter-by button {
+    height: 32px;
+  }
+
+  .filter-by,
+  .clear-search {
+    margin-left: 10px;
+  }
+
+  .clear-search button {
+    width: 32px;
+    padding: 7px;
+    height: 32px;
+  }
+
+  .navbar-light .navbar-brand img {
+    max-width: 140px;
+  }
+
+  .live-stream .doc-content-main-box {
+    margin: 0;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .btn-container {
+    max-width: calc(100% - 238px);
+  }
+
+  .register-popup-view .consent-form .split-button-dropup>div:nth-child(3) {
+    height: 38px;
+  }
+
+  .live-stream .col-4 {
+    margin: 0 0 20px;
+  }
+
+  .live-stream-tabs-data .tab-content,
+  .poll-creation .tab-content {
+    min-height: 300px;
+  }
+
+  .live-stream-ques-header .hcp-detail.extra,
+  .last .live-stream-ques-header .hcp-detail {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .live-stream-ques-header .hcp-detail .hcp-activity-status {
+    flex: 0 0 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hcp-activity-links {
+    padding-left: 0;
+    flex-direction: row;
+    padding-top: 10px;
+    border-left: 0;
+    border-top: 1px dashed var(--skyblue);
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .live-stream-ques-inner {
+    margin: 0 0 20px;
+  }
+
+  .doc-content-header .clear-search .search-bar form.d-flex input {
+    max-width: 180px;
+    padding: 5px 28px 5px 10px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .live-stream-tabs-data .clear-search {
+    gap: 5px;
+  }
+
+  .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary {
+    padding-top: 50px;
+  }
+
+  .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary ul {
+    margin: 10px 0 0;
+  }
+
+  .left-sidebar {
+    height: calc(100vh - 49px);
+  }
+
+  .left-sidebar .sidebar_txt button.toggle_btn {
+    margin: 0px 8px 0 6px;
+  }
+
+  .sidebar_txt span {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .live-stream-ques-header .hcp-detail .reader-msg-show,
+  .live-stream-ques-header .hcp-detail .reader-msg span {
+    font-size: 13px;
+  }
+
+  .hcp-activity-status .activity-status {
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .live-stream-tabs-data .doc-content h4 {
+    font-size: 14px;
+  }
+
+  .doc-content-header .search-bar form.d-flex button {
+    padding: 0px;
+    width: 32px;
+  }
+
+  .live-stream-tabs-data .tab-content,
+  .poll-creation .tab-content {
+    padding: 8px;
+  }
+
+  .right-sidebar.live-stream {
+    padding-bottom: 0px;
+  }
+
+  /* .speaker_zone.deteail {
+  flex-direction: column;
+  padding: 10px 10px;
+}
+.speaker_zone .speaker_zone_left_div {
+  width: 100%;
+  margin: 10px 0 20px;
+}
+.speaker_zone .speaker_zone_right_div {
+  padding: 10px 10px;
+  margin-left: 0;
+} */
+  .speaker_zone .speaker_zone_left_div {
+    padding: 8px;
+  }
+
+  .speaker_zone {
+    padding: 20px 10px 20px;
+  }
+
+  .speaker_zone .webinar-top-sec .top-heading {
+    padding: 3px 4px 0;
+    margin: 0 0 7px;
+  }
+
+  .speaker_zone .speaker_zone_right_div {
+    padding: 8px 0px;
+    margin-left: 15px;
+  }
+
+  .speaker_zone .webinar-top-sec .top-heading h4 {
+    font-size: 15px;
+  }
+
+  .speaker_zone .reader_list p.user_name {
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .detail-box .specialty {
+    font-size: 11px;
+  }
+
+  .speaker_zone .answered .reader_list_footer .reader_list_footer_btns button,
+  .speaker_zone .ignored .reader_list_footer .reader_list_footer_btns button,
+  .speaker_zone .reader_list_footer .reader_list_footer_btns button {
+    min-width: 55px;
+    padding: 6px;
+    font-size: 11px;
+  }
+
+  .reader_list_footer .reader_list_footer_btns {
+    gap: 0 6px;
+  }
+
+  .speaker_zone .question-post-time small {
+    font-size: 11px;
+  }
+
+  .user-question p {
+    font-size: 12px;
+  }
+
+  .speaker_zone .speaker_zone_right_div .answered,
+  .speaker_zone .speaker_zone_right_div .ignored {
+    padding: 0 8px;
+  }
+
+  .custom-change .top-header.sticky,
+  .custom-change .page-top-nav.sticky {
+    top: 48px;
+  }
+
+  .email_box_block.no_found p,
+  .not_found p,
+  .no_found p {
+    font-size: 18px;
+  }
+
+  .speaker_zone .top-right-action button {
+    padding: 7px 12px;
+  }
+
+  .poll-creation .nav li button {
+    font-size: 17px;
+  }
+
+  .question-outer-layout .question-action {
+    gap: 50px;
+  }
+
+  .poll-creation .outer-layout .question-outer-layout {
+    width: 55%;
+  }
+
+  .poll-creation .outer-layout .pie-chart-outer-layout {
+    width: 45%;
+  }
+
+  .poll-creation .outer-layout {
+    gap: 15px;
+  }
+
+  .poll-creation .outer-layout .question-outer-layout button.reset {
+    font-size: 11px;
+    min-width: 70px;
+    right: 14%;
+    top: -44px;
+  }
+
+  .question-listing .question-status {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .question-listing .question-status .question-status-live {
+    width: 100%;
+  }
+
+  .question-listing .question-status .btn-group .btn-group-add {
+    justify-content: space-between;
+    align-content: center;
+    display: flex;
+    flex: 1 1;
+  }
+
+  .question-listing .question-status .btn-group .btn-group-add button.btn {
+    min-width: 60px;
+    font-size: 12px;
+  }
+
+  .question-listing .question-status .btn-group label {
+    margin: 0 10px 0 0;
+  }
+
+  .question-list-number .question-status {
+    padding: 0px 8px 2px;
+  }
+
+  .question-listing .question-display .answer-options .answer {
+    font-size: 13px;
+    line-height: 1.2;
+    margin: 0 0 7px;
+  }
+
+  .question-listing .answer span {
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .question-listing .question-display .answer-options {
+    margin: 0 0 8px;
+  }
+
+  .question-listing .question-display {
+    border-radius: 13px;
+    background: rgba(0, 102, 190, 0.03);
+    padding: 8px 8px 8px 8px;
+  }
+
+  .question-listing .question-display .question p {
+    font-size: 13px;
+    margin: 0 0 10px;
+  }
+
+  .question-outer-layout .question-action .question-listing-links .question-links-number {
+    font-size: 13px;
+  }
+
+  .question-outer-layout .question-action .question-listing-links .question-links-screen {
+    display: flex;
+    align-content: center;
+  }
+
+  .question-outer-layout .question-action button {
+    width: 30px;
+    height: 30px;
+    padding: 8px 6px;
+  }
+
+  .question-listing form.product-unit {
+    padding: 0px 10px 0px 10px;
+  }
+
+  .question-listing-block {
+    width: 100%;
+    padding: 0 36px 0 10px;
+  }
+
+  .question-listing-action .question-number span {
+    font-size: 32px;
+  }
+
+  .question-listing-action .question-action {
+    gap: 10px;
+  }
+
+  .question-listing-action .question-action button {
+    font-size: 12px;
+  }
+
+  .invitee table .split-button-dropup div:nth-child(3)>div div {
+    font-size: 12px;
+  }
+
+  .invitess-tbl-right {
+    padding-left: 7px;
+    margin-left: 7px;
+  }
+
+  .live-stream h6 {
+    font-size: 16px;
+    margin: 0 0 12px;
+  }
+
+  .no_polls h3 {
+    font-size: 26px;
+  }
+
+  .preview-answers .answer-section.active .details-content ul li {
+    font-size: 13px;
+  }
+
+  #preview-poll.modal-dialog {
+    max-width: 880px;
+    width: 90%;
+  }
+
+  .preview-answers .answer-section.active .answer-section-heading p {
+    margin-top: 10px;
+  }
+
+  .dm-speaker .dm-speaker-txt button {
+    padding: 7px 8px;
+    font-size: 13px;
+    min-width: 90px;
+  }
+}
+
+@media only screen and (max-width:1023px) {
+  .page-title h2 {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .top-header.regi-web .header_btns {
+    gap: 10px;
+  }
+
+  .live-stream .col-4 {
+    width: 100%;
+  }
+
+  .right-sidebar.live-stream {
+    padding-top: 25px;
+  }
+.reader-message {
+  margin: 0 0 10px;
+}
+.speaker_zone.deteail {
+  flex-direction: column;
+}
+.speaker_zone .speaker_zone_left_div {
+  width: 100%;
+}
+.speaker_zone .speaker_zone_right_div {
+  margin: 20px 0 0;
+  flex-direction: column;
+}
+.speaker_zone .speaker_zone_right_div .answered,
+.speaker_zone .speaker_zone_right_div .ignored {
+  max-width: 100%;
+  width: 100%;
+}
+.speaker_zone .speaker_zone_right_div:after {
+  display:none;
+}
+.speaker_zone .speaker_zone_right_div .answered {
+  border-bottom: 1px dashed rgba(151, 182, 207, 0.50);
+  padding-bottom: 17px;
+}
+.poll-creation .outer-layout {
+  flex-direction: column;
+}
+.poll-creation .outer-layout .question-outer-layout, .poll-creation .outer-layout .pie-chart-outer-layout {
+  width: 100%;
+}
+.pie-chart-outer-layout .graph-box {
+  padding: 20px;
+}
+.poll-creation .outer-layout .question-outer-layout button.reset {
+  font-size: 10px;
+  min-width: 56px;
+  right: 55%;
+  top: -41px;
+  padding: 5px;
+}
+.question-listing-block {
+  width: 100%;
+  padding: 0 10px 0 10px;
+}
+.poll-question-create .question-color>div h5 {
+  min-width: 100px;
+}
+.poll-creation .nav li button {
+  font-size: 16px;
+}
+.speaker_zone .speaker_zone_right_div .ignored {
+  padding-top: 14px;
+}
+.speaker_zone .reader_list:last-child {
+  margin-bottom: 0;
+}
+.poll-question .poll-question-create .d-flex label.h5 {
+  margin: 0 0 4px;
+}
+.right-sidebar.custom-change {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.right-sidebar.live-stream.col {
+  width: calc(100% - 220px);
+}
+.question-listing-action {
+  padding-right: 82px;
+}
+.live-stream-tabs-data .nav-tabs .nav-item:first-child button.active::before,
+.live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
+  top: 23px;
+}
+.poll-question-create .question-color .color-pick {
+  padding: 3px;
+}
+  .invitee {
+    overflow-x: auto;
+    padding-left: 5px;
+  }
+
+  .select-mail-template.library-consent {
+    padding: 0;
+    margin-bottom: 10px;
+  }
+
+  header nav.navbar {
+    padding: 3px 0px;
+  }
+
+  .email-block-add p {
+    font-size: 15px;
+  }
+
+  .event_listing .email-result-block .mail-box-content .action_btn .action-status {
+    font-size: 11px;
+    min-width: 77px;
+  }
+
+  section.search-hcp.smart-list-view {
+    padding: 10px 0 0;
+  }
+
+  .dlt_btn {
+    right: -10px;
+  }
+
+  .email-result-block .email-block-add-box,
+  .email-result-block .email_box_block {
+    width: 50%;
   }
 }

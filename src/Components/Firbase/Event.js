@@ -16,6 +16,7 @@ import dynamicEventData from "../NewWebinar/WebinarFiles/WebinarDashboard/ChatLi
 import axios from "axios";
 import { db } from "../../config/firebaseConfig";
 import { Button, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const Event = () => {
@@ -42,7 +43,6 @@ const Event = () => {
   const [sessionShow, setSessionShow] = useState(false);
 
   const [apiData, setApiData] = useState([]);
-  const [resetData, setResetData] = useState([]);
   const [answerPop, setAnswerPopup] = useState(false);
   const [totalReaders, setTotalReaders] = useState(0);
   const [customAnswer, setCustomAnswer] = useState(0);
@@ -52,7 +52,7 @@ const Event = () => {
   const [formData, setFormData] = useState({});
   const [logo, setLogo] = useState("");
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     EventDataFun();
@@ -66,6 +66,10 @@ const Event = () => {
         `${ENDPOINT.GETCHATLINKDATA}/${parms}`
       );
       const { chatLinkData } = response?.data?.data;
+      console.log(response?.data?.data,'data')
+      // if(response?.data?.data?.length === 0){
+      //   navigate('/webinar/live-stream/chat-link')
+      // }
 
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
         setDynamicContent(chatLinkData);
@@ -146,15 +150,10 @@ const Event = () => {
       }
     });
     if (Object.keys(newData)?.length) {
+      // console.log(newData,"newDatanewDatanewData")
       /* Check already submit question  */
-      let userResetCounter
-      let eventQuestion
-      console.log(resetData,"apiDataapiDataapiDataapiData")
-      if(Object.keys(resetData).length>0){
-         userResetCounter = resetData && Object.keys(resetData).length>0 ? resetData?.questionListing?.[0]?.resetCounter : 0;
-         eventQuestion = Cookies.get("eventQuestion"+newData?.event_id+'_'+userResetCounter);
-      }
-     
+         let userResetCounter = newData?.resetFlag ? newData?.resetFlag : 0;
+         let eventQuestion = Cookies.get("eventQuestion"+newData?.event_id+'_'+userResetCounter);
       if (
         eventQuestion?.includes(newData?.question_id) &&
         newData?.triggered == 1
@@ -271,7 +270,6 @@ const Event = () => {
             id: value?.question_id,
           });
           setApiData(result?.data?.data);
-          setResetData(result?.data?.data);
           setAnswerPopup(false);
           setShow(true);
           //   setSessionShow(true)
@@ -305,7 +303,6 @@ const Event = () => {
           id: value?.question_id,
         });
         setApiData(result?.data?.data);
-        setResetData(result?.data?.data);
         setAnswerPopup(false);
         setShow(false);
         setSessionShow(true);
@@ -360,7 +357,7 @@ const Event = () => {
                   src={`${
                     parms?.includes("eahad_2024")
                       ? "https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"
-                      : formData?.logoImageUrl
+                      : formData?.logoImageUrl?formData?.logoImageUrl:"https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
                       // path_image + "FVIII_logo.png"
                   }`}
                   alt="Factor logo"
@@ -426,7 +423,7 @@ const Event = () => {
                     </div>
                   ) : (
                     <h2 className="top-title"  style={{ color: formData?.textColor }}   dangerouslySetInnerHTML={{
-                      __html: formData?.heading,
+                      __html: formData?.heading?formData?.heading:" Write your question here!",
                     }}>
                       {/* Write your question here! */}
                     
@@ -467,7 +464,7 @@ const Event = () => {
                               className="form-label"
                               style={{ color: formData?.textColor }}
                               dangerouslySetInnerHTML={{
-                                __html: formData?.nameLabel,
+                                __html: formData?.nameLabel?formData?.nameLabel:"Name",
                               }}
                               // <i>
                               //   <small>(Optional)</small>
@@ -495,7 +492,7 @@ const Event = () => {
                               placeholder={
                                 parms?.includes("eahad_2024")
                                   ? "Type your name"
-                                  : formData?.namePlaceholder
+                                  : formData?.namePlaceholder?formData?.namePlaceholder:"Write your name"
                               }
                               name="name"
                               value={user?.name}
@@ -531,7 +528,7 @@ const Event = () => {
                               className="form-label"
                               style={{ color: formData?.textColor }}
                               dangerouslySetInnerHTML={{
-                                __html: formData?.questionLabel,
+                                __html: formData?.questionLabel?formData?.questionLabel:"Your question",
                               }}
                               // <sup>*</sup>
                             />
@@ -558,7 +555,7 @@ const Event = () => {
                               placeholder={
                                 parms?.includes("eahad_2024")
                                   ? "Type your question"
-                                  : formData?.questionPlaceholder
+                                  : formData?.questionPlaceholder?formData?.questionPlaceholder:"Write your question"
                               }
                               cols="40"
                               rows="4"
@@ -607,7 +604,7 @@ const Event = () => {
                         borderColor: formData?.buttonColor,
                       }}
                       dangerouslySetInnerHTML={{
-                        __html: formData?.buttonText,
+                        __html: formData?.buttonText?formData?.buttonText:"SEND",
                       }}
                     ></Button>)
                     }
@@ -679,8 +676,11 @@ const Event = () => {
                 // </div>
                 <div className="copy-right-bottom-text">
                 <p  style={{ color: formData?.textColor }}
+                // dangerouslySetInnerHTML={{
+                //   __html: formData?.footerText?.includes('xxx') ? "Preparation date:  "+eventId?.eventDate : formData?.footerText,
+                // }}
                 dangerouslySetInnerHTML={{
-                  __html: formData?.footerText.includes('xxx') ? "Preparation date:  "+eventId?.eventDate : formData?.footerText,
+                  __html: formData?.footerText?formData?.footerText:"Preparation date: xx xxx 2024",
                 }}
               />
               </div>
