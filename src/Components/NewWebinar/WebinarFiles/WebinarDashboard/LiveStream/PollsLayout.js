@@ -7,11 +7,10 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
 
 const PollsLayout = () => {
-    const location=useLocation();
     const [flag, setFlag] = useState(1);
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const { eventIdContext,handleEventId } = useSidebar();
-    const [selectedTab,setSelectedTab]=useState("livepolls")
+    const [selectedTab,setSelectedTab]=useState("live-polls")
     useEffect(()=>{
         if(!eventIdContext){
             handleEventId(localStorageEvent) 
@@ -23,7 +22,7 @@ const PollsLayout = () => {
             return
         }
         setSelectedTab(key)
-        if(key === "livepolls"){
+        if(key === "live-polls"){
             setFlag(flag + 1);
         }
     };
@@ -38,28 +37,28 @@ const PollsLayout = () => {
                 <div className="row">
                     <div className='poll-creation'>
                     <Tabs
-                        defaultActiveKey="livepolls"
+                        defaultActiveKey="live-polls"
                         
                         activeKey={selectedTab}
                         onSelect={handleTabSelect}
                         fill
                     >
                         <Tab
-                            eventKey="livepolls"
+                            eventKey="live-polls"
                             
                             title="Live Polls "
                             className="flex-column justify-content-between"
                         >
-                            <LivePolls location={location} eventIdContext={eventIdContext?eventIdContext:localStorageEvent} flag={flag} />
+                            <LivePolls  eventIdContext={eventIdContext?eventIdContext:localStorageEvent} flag={flag} />
                             
                         </Tab>
 
                         <Tab
-                            eventKey="pollscreation"
+                            eventKey="polls-creation"
                             title="Polls Creation "
                             className="flex-column justify-content-between"
                         >
-                            <PollListing location={location} eventIdContext={eventIdContext?eventIdContext:localStorageEvent}/>
+                            <PollListing  eventIdContext={eventIdContext?eventIdContext:localStorageEvent}/>
 
                         </Tab>
                     </Tabs>

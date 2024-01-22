@@ -1282,8 +1282,7 @@ const Sidebar = () => {
                             <p>Polls</p>
                           </Link>
                         </li>
-                        <li className={isActiveContact ? 'active' : 'side_li'}
-                        // className="side_li"
+                        {/* <li className={isActiveContact ? 'active' : 'side_li'}
                         > 
                           <Link to="/webinar/live-stream/contact-dm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -1305,7 +1304,7 @@ const Sidebar = () => {
                             </svg>
                             <p>Contact DM</p>
                           </Link>
-                        </li>
+                        </li> */}
                         <li className={isActiveSettings ? 'active' : 'side_li'}
                         // className="side_li"
                         >

@@ -107,6 +107,7 @@ export const ENDPOINT = {
   IRT_COUNT_GRAPH: "/find-irt-count",
   WEBINAR_QUESTION_LISTING: "/auth/webinar-question",
   WEBINAR_All_QUESTION_LISTING: "/auth/webinar-all-question",
+  WEBINAR_QUESTION_ONLY: "/auth/webinar-question-only",
   // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
   RD_SITE_ENGAGEMENT:
     "https://webinar.docintel.app/lmn/api/analytics/rd_site_engagement",
