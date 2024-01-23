@@ -11,11 +11,11 @@ import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SessionModel = ({ show, onClose, data, eventData, designData }) => {
   const [searchParams] = useSearchParams();
-  let parms=searchParams.get('evnt');
+  let parms = searchParams.get('evnt');
   const [user, setUser] = useState([]);
   const [userValid, setUserValid] = useState({});
   const [userSpeaker, setSpeaker] = useState({});
-
+const [comment,setComment]=useState("")
   const [error, setError] = useState({});
   const [userRequired, setUserRequired] = useState({});
 
@@ -25,7 +25,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
       setUserValid(data?.totalQuestion);
       setUserRequired(data?.totalQuestion);
       setSpeaker(data?.speakerData);
-      
+
     } catch (err) {
       console.log("-err", err);
     }
@@ -34,7 +34,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
 
   // const handleChange = (questionId, data, type = "") => {
   //   try {
-      
+
   //     if(typeof data === 'string'){
   //       if(data?.trim() == ''){
   //         data = 0;
@@ -127,7 +127,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
           data = 0;
         }
       }
-  
+
       if (type) {
         setUserValid({
           ...userValid,
@@ -135,16 +135,16 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
         });
         return;
       }
-  
+
       if (Array.isArray(userValid[questionId])) {
         const updatedArray = [...userValid[questionId]];
-  
+
         if (updatedArray.includes(data)) {
           updatedArray.splice(updatedArray.indexOf(data), 1);
         } else {
           updatedArray.push(data);
         }
-  
+
         setUserValid({
           ...userValid,
           [questionId]: updatedArray,
@@ -152,7 +152,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
       } else {
         setUserValid({
           ...userValid,
-          [questionId]: [data], 
+          [questionId]: [data],
         });
       }
     } catch (err) {
@@ -162,13 +162,14 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
 
   const handleChange = (questionId, data, type = "") => {
     // console.log('q-->',questionId,"data--->",data,"----type-->",type)
+
     try {
       if (typeof data === 'string') {
         if (data?.trim() === '') {
           data = 0;
         }
       }
-  
+
       if (type) {
         setUserValid({
           ...userValid,
@@ -176,7 +177,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
         });
         return;
       }
-  
+
       setUserValid((prevUserValid) => {
         const updatedValue = data === prevUserValid[questionId] ? null : data;
         return {
@@ -184,27 +185,27 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
           [questionId]: updatedValue,
         };
       });
-  
+
     } catch (err) {
       console.log("-err", err);
     }
   };
-    
+
   const handleSubmit = async () => {
     try {
       const errorValue = Object.values(userValid);
-  
+
       if (errorValue?.includes(0)) {
         setError({ msg: "This field is required" });
         return;
       }
-  
+
       let newAr = [];
       const keys = Object.keys(userValid);
-  
+
       keys.forEach((item) => {
         let obj = {};
-  
+
         if (typeof userValid[item] !== "number" && userValid[item]?.length > 0) {
           obj = {
             speakerName: userSpeaker[item],
@@ -213,28 +214,30 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
             poll_answer_id: userValid[item].join(','),
             user_answer: userValid[item].join(','),
             guest_id: Cookies.get("events"),
+            comment:comment
           };
           // console.log(obj,'obj')
         }
-  
+
         if (typeof userValid[item] === "number" && userValid[item]) {
           obj = {
             speakerName: userSpeaker[item],
             poll_question_id: item,
             poll_answer_id: userValid[item],
-            user_answer: userValid[item], 
+            user_answer: userValid[item],
             guest_id: Cookies.get("events"),
+            comment:comment
           };
           // console.log(obj,'obj2')
         }
-  
+
         if (Object.keys(obj)?.length) {
           newAr.push(obj);
         }
       });
-  
+
       loader("show");
-  
+
       await postData(ENDPOINT.ADD_EVENT_DATA, {
         eventData: newAr,
         eventId: eventData?.event_id,
@@ -243,26 +246,26 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
 
       let userResetCounter
       let eventQuestion
-      
-      if(Object.keys(user).length>0){
-         userResetCounter = user && Object.keys(user).length > 0 ? user[0]?.resetCounter : 0;
-         eventQuestion = Cookies.get("eventQuestion"+eventData?.event_id+'_'+userResetCounter);
+
+      if (Object.keys(user).length > 0) {
+        userResetCounter = user && Object.keys(user).length > 0 ? user[0]?.resetCounter : 0;
+        eventQuestion = Cookies.get("eventQuestion" + eventData?.event_id + '_' + userResetCounter);
       }
 
       // const userResetCounter = user && user.length > 0 ? user[0]?.resetCounter : 0;
       // const eventQuestion = Cookies.get("eventQuestion"+eventData?.event_id+'_'+userResetCounter);
       // console.log(eventQuestion,'user')
-      
+
       if (!eventQuestion?.includes(eventData?.question_id)) {
         let newAr = eventQuestion?.length ? JSON.parse(eventQuestion) : [];
         newAr.push(eventData?.question_id);
         const expirationDate = new Date();
         expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-        Cookies.set("eventQuestion"+eventData?.event_id+'_'+user[0]?.resetCounter, JSON.stringify(newAr), {
+        Cookies.set("eventQuestion" + eventData?.event_id + '_' + user[0]?.resetCounter, JSON.stringify(newAr), {
           expires: expirationDate,
         });
       }
-  
+
       setError({});
       onClose(false);
       loader("hide");
@@ -271,7 +274,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
       console.log("-err", err);
     }
   };
- 
+
   useEffect(() => {
     initiFun();
     setError({});
@@ -295,7 +298,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
             src={path_image+'FVIII_logo.png'} 
             alt="logo"
           /> */}
-          <img  src={designData?.logoImageUrl} alt="logo" />
+          <img src={designData?.logoImageUrl} alt="logo" />
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -309,31 +312,32 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
                 <p className="event_sub_heading">Thank you for attending the Factor VIII Relevance Academy. We would be very grateful if you would complete and return this evaluation form. Your feedback will help us in our efforts to provide high-quality scientific meetings in the future.</p>
               } */}
               <h4
-                  style={{ color: item?.questionColor }}
-                  dangerouslySetInnerHTML={{
-                    __html: item?.parentQuestion,
-                  }}
-                ></h4>
+                style={{ color: item?.questionColor }}
+                dangerouslySetInnerHTML={{
+                  __html: item?.parentQuestion,
+                }}
+              ></h4>
+             
 
               {item?.groupId == 0 && item?.canCustomAnswer == 1 ? (
                 <>
-                <textarea
-                  className="custom-answer-area"
-                  onChange={(e) =>
-                    handleChange(item?.parentId, e.target.value, "input")
+                  <textarea
+                    className="custom-answer-area"
+                    onChange={(e) =>
+                      handleChange(item?.parentId, e.target.value, "input")
+                    }
+                    style={{
+                      borderColor: item?.answerColor,
+                    }}
+                    name="w3review"
+                    rows="4"
+                    cols="50"
+                  />
+                  {
+                    userValid?.[item?.parentId] === 0 ?
+                      error?.msg ? <span className="error">{error.msg}</span> : ""
+                      : null
                   }
-                  style={{
-                    borderColor: item?.answerColor,
-                  }}
-                  name="w3review"
-                  rows="4"
-                  cols="50"
-                />
-                {
-                  userValid?.[item?.parentId] === 0 ?
-                  error?.msg ? <span className="error">{error.msg}</span> : ""
-                  : null
-                }
                 </>
               ) : (
                 ""
@@ -343,8 +347,8 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
                 return (
                   <>
                     {value?.answerData?.length > 0 &&
-                    (index == 0 ||
-                      item?.childData?.[index]?.answerData?.[0].answer !=
+                      (index == 0 ||
+                        item?.childData?.[index]?.answerData?.[0].answer !=
                         item?.childData?.[index - 1]?.answerData?.[0]
                           ?.answer) ? (
                       <div className={item?.hasParent ? "form-group head" : "form-group head no_child"}>
@@ -354,10 +358,10 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
                             return (
                               <>
                                 <span
-                                style={{ color: item?.questionColor }}
-                                dangerouslySetInnerHTML={{
-                                  __html: newitem?.answer
-                                }}
+                                  style={{ color: item?.questionColor }}
+                                  dangerouslySetInnerHTML={{
+                                    __html: newitem?.answer
+                                  }}
                                 ></span>
                               </>
                             );
@@ -368,21 +372,21 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
 
                     <div className={item?.hasParent ? "form-group" : "form-group no_child"}>
                       {
-                        item?.hasParent ? 
+                        item?.hasParent ?
                           <label
                             style={{ color: item?.questionColor }}
                             dangerouslySetInnerHTML={{ __html: value?.question }}
                           />
-                        : null  
+                          : null
                       }
-                      
+
                       <div className="check-group">
                         {value?.answerData?.length ? (
-                          value?.answerData?.map((childValue,index) => {
+                          value?.answerData?.map((childValue, index) => {
                             return (
                               <>
                                 {value?.groupId == 0 &&
-                                value?.canCustomAnswer == 1 ? (
+                                  value?.canCustomAnswer == 1 ? (
                                   <textarea
                                     className="custom-answer-area"
                                     name="w3review"
@@ -403,7 +407,7 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
                                   //     name={value?.question}
                                   //     value={childValue?.answer}
                                   //     id={"ans_"+index}
-                                      
+
                                   //   />
                                   //   <span className="checkmark" style={{
                                   //       // background: designData?.headerBackgroundColor,
@@ -416,35 +420,35 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
                                   // </div>
 
                                   <div className="check-values">
-                                  {value?.answerType === 'MULTIPLE' ? (
-                                    <input
-                                      type="checkbox"
-                                      onChange={(e) => handleChangeCheckbox(value?.id, childValue.id)}
-                                      name={value?.question}
-                                      value={childValue?.answer}
-                                      id={"ans_" + index}
-                                    />
-                                  ) : (
-                                    <input
-                                      type="radio"
-                                      onChange={(e) => handleChange(value?.id, childValue.id)}
-                                      name={value?.question}
-                                      value={childValue?.answer}
-                                      id={"ans_" + index}
-                                    />
-                                  )}
-                                  <span
-                                    className="checkmark"
-                                    style={{
-                                      background: item?.answerColor,
-                                      borderColor: item?.answerColor,
-                                    }}
-                                  ></span>
-                                  {!item?.hasParent ? (
-                                    <label style={{ color: item?.answerColor }} htmlFor={"ans_" + index}>
-                                      {childValue?.answer}
-                                    </label>
-                                  ) : null}
+                                    {value?.answerType === 'MULTIPLE' ? (
+                                      <input
+                                        type="checkbox"
+                                        onChange={(e) => handleChangeCheckbox(value?.id, childValue.id)}
+                                        name={value?.question}
+                                        value={childValue?.answer}
+                                        id={"ans_" + index}
+                                      />
+                                    ) : (
+                                      <input
+                                        type="radio"
+                                        onChange={(e) => handleChange(value?.id, childValue.id)}
+                                        name={value?.question}
+                                        value={childValue?.answer}
+                                        id={"ans_" + index}
+                                      />
+                                    )}
+                                    <span
+                                      className="checkmark"
+                                      style={{
+                                        background: item?.answerColor,
+                                        borderColor: item?.answerColor,
+                                      }}
+                                    ></span>
+                                    {!item?.hasParent ? (
+                                      <label style={{ color: item?.answerColor }} htmlFor={"ans_" + index}>
+                                        {childValue?.answer}
+                                      </label>
+                                    ) : null}
                                   </div>
 
                                 )}
@@ -468,17 +472,31 @@ const SessionModel = ({ show, onClose, data, eventData, designData }) => {
                         ) : (
                           ""
                         )}
-                        
+
                       </div>
                       {
                         userValid?.[value?.id] === 0 ?
-                        error?.msg ? <span className="error">{error.msg}</span> : ""
-                        : null
+                          error?.msg ? <span className="error">{error.msg}</span> : ""
+                          : null
                       }
                     </div>
                   </>
                 );
               })}
+               {item?.addComment == 1 ? (
+                <textarea
+                  className="custom-answer-area"
+                  placeholder="Enter your comment"
+                  onChange={(e) =>setComment(e?.target?.value)
+                  }
+                  style={{
+                    borderColor: item?.answerColor,
+                  }}
+                  name="w3review"
+                  rows="4"
+                  cols="50"
+                />
+              ) : ""}
             </>
           ))}
         </div>

@@ -40,6 +40,7 @@ function Question(props) {
     onAddChoice,
     onDelete,
     onDeleteChoice,
+    onHandleAddCommentChange,
     onHandleSpeakerNameChange,
     questionDataErrors,
     onHandleIsRequiredChange,
@@ -66,6 +67,7 @@ function Question(props) {
     speakerName,
     isRequired,
     graphType,
+    addComment
   } = questionData;
 
   const [questionDataSample,setquestionDataSample]=useState(questionData)
@@ -247,6 +249,7 @@ function Question(props) {
                   answerType === "MULTIPLE"
                   // answerType === "YesNo"
                   ) && (
+                    <>
                   <div className="answer-option">
                     
                       {answerOption.map((choice, index) => (
@@ -345,9 +348,78 @@ function Question(props) {
                         <img src={path_image + "add-choice-voilet.svg"} alt="" />
                       </Button>
                     {/* )} */}
+                    {/* <div className="form-group">
+                <label htmlFor="">Add Comment</label>
+                <fieldset id="group2">
+                  <input
+                    type="radio"
+                    value="yes"
+                    name="group2"
+                    defaultChecked={
+                      addComment == 1 ? true : false
+                    }
+                    onClick={
+                      onHandleAddCommentChange
+                    }
+                    id="limitagreed1"
+                  />
+                  <label htmlFor="limitagreed1">Yes</label>
+                  <input
+                    type="radio"
+                    value="no"
+                    name="group2"
+                    defaultChecked={
+                      addComment != 1 ? true : false
+                    }
+                    onClick={
+                      onHandleAddCommentChange
+                    }
+                    id="limitagreed2"
+                  />
+                  <label htmlFor="limitagreed2">No</label>
+                 
+                </fieldset>
+              </div> */}
                   </div>
+                    <div className="speaker-detail d-flex align-items-center">
+                    <div className="form-group">
+                      <label htmlFor="">Include Comment</label>
+                      <fieldset id="group2">
+                        <input
+                          type="radio"
+                          value="yes"
+                          name="group2"
+                          defaultChecked={
+                            addComment == 1 ? true : false
+                          }
+                          onClick={
+                            onHandleAddCommentChange
+                          }
+                          id="limitagreed1"
+                        />
+                        <label htmlFor="limitagreed1">Yes</label>
+                        <input
+                          type="radio"
+                          value="no"
+                          name="group2"
+                          defaultChecked={
+                            addComment != 1 ? true : false
+                          }
+                          onClick={
+                            onHandleAddCommentChange
+                          }
+                          id="limitagreed2"
+                        />
+                        <label htmlFor="limitagreed2">No</label>
+                       
+                      </fieldset>
+                    </div>
+                    </div>
+                    </>
                 )}
               </Form.Group>
+              
+            
               <div className="speaker-detail d-flex align-items-center">
                 <div className="speaker-name">
                   <Form.Group>
