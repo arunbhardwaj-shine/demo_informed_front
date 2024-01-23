@@ -82,7 +82,9 @@ const QuestionPollsPieChart = ({ data,show }) => {
         chart: {
             type: "column",
         },
-        title: "Poll Answers",
+        title: {
+            text: "Polls Results",
+        },
         
         xAxis: {
             categories: [], // Add your options/categories here

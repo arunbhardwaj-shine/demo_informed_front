@@ -41,9 +41,6 @@ if(customAnswer == 1 || graphType === 'bar'){
           title: {
             text: ''
           },
-          stackLabels: {
-            enabled: true,
-          },
         },
         legend: {
           enabled:false,
