@@ -245,7 +245,7 @@ export default function PollListing({eventIdContext}) {
                 speakerName: "",
                 answerOption: [{ answer: "", color: "#000000" }],
                 answerType: "MULTIPLE",
-
+                addComment:0,
                 graphType: "bar",
               },
               questionDataErrors: {
@@ -380,6 +380,12 @@ export default function PollListing({eventIdContext}) {
     // }
     setQuestions(updatedQuestions);
   };
+  const handleAddCommentChange=(e,key)=>{
+   
+    const updatedQuestions = JSON.parse(JSON.stringify([...questions]));
+    updatedQuestions[key].questionData.addComment = e?.target?.value=="yes"?1:0;    
+    setQuestions(updatedQuestions);
+  }
   const handleSpeakerNameChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.speakerName = e.target.value;
@@ -441,8 +447,7 @@ export default function PollListing({eventIdContext}) {
     setQuestions(updatedQuestions);
   };
   const handleSubmit = async () => {
-    // console.log(questions);
-    // return;
+   
     const isValid = validateQuestions(currentIndex);
 
     if (!isValid) {
@@ -495,7 +500,7 @@ export default function PollListing({eventIdContext}) {
       console.error("An error occurred:", error);
     } finally {
       setShowUploadMenu(false);
-      const apiData = await getListingData(selectedItem?.value);
+      const apiData = await getListingData(event_code);
       // slickRef.current.slickGoTo(apiData.length);
       // setCurrentIndex(0);
       setQuestionFlag(false);
@@ -596,7 +601,7 @@ export default function PollListing({eventIdContext}) {
         speakerName: "",
         answerOption: [{ answer: "", color: colors[0]}],
         answerType: "MULTIPLE",
-
+        addComment:0,
         graphType: "bar",
       },
       questionDataErrors: {
@@ -634,7 +639,7 @@ export default function PollListing({eventIdContext}) {
           `/webinar/delete-question`,
           deletedQuestionId
         );
-        let apiData = await getListingData(selectedItem?.value);
+        let apiData = await getListingData(event_code);
         setQuestions(apiData);
       }
 
@@ -648,7 +653,7 @@ export default function PollListing({eventIdContext}) {
             speakerName: "",
             answerOption: [{ answer: "", color: "#000000" }],
             answerType: "MULTIPLE",
-
+            addComment:0,
             graphType: "bar",
           },
           questionDataErrors: {
@@ -739,11 +744,12 @@ export default function PollListing({eventIdContext}) {
         eventId:event_code,
         pollsData:payloadOrder
       };
+      
       const response = await postData(
         ENDPOINT.CHANGEPOLLSORDER,
         payload
       );
-      const apiData = await getListingData(selectedItem?.value);
+      const apiData = await getListingData(event_code);
       setQuestionFlag(false);
       setQuestions(apiData);
       setIsPrevClicked(false);
@@ -907,6 +913,7 @@ export default function PollListing({eventIdContext}) {
                     // onHandleIsRequiredChange={(e) =>
                     //   handleIsRequiredChange(e, index)
                     // }
+                    onHandleAddCommentChange={(e)=>handleAddCommentChange(e,index)}
                     onHandleSpeakerNameChange={(e) =>
                       handleSpeakerNameChange(e, index)
                     }
