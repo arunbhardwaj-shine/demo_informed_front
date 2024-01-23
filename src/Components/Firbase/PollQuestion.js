@@ -356,20 +356,49 @@ const PollQuestion = () => {
             yAxis: {
               min: 0,
               tickInterval: 1,
+              allowDecimals: false,
+              stackLabels: {
+                enabled: true,
+              },
               title: {
-                  text: 'Number of users'
+                  text: ''
               }
             },
+            legend: {
+              enabled:false,
+              verticalAlign: "bottom",
+          }, 
             xAxis: {
               categories: line_v,
             },
             title: {
-              text: "User Answers",
+              text: "",
             },
+            // plotOptions: {
+            //   series: {
+            //     pointWidth: 20,
+            //   },
+            // },
             plotOptions: {
               series: {
+                stacking: "normal",
                 pointWidth: 20,
+                allowPointSelect: true,
+                cursor: "pointer",
+                dataLabels: [
+                  {
+                    distance: -40,
+                    style: {
+                      fontSize: "1.2em",
+                      textOutline: "none",
+                      opacity: 0.7,
+                    },
+                  },
+                ],
               },
+              bar: {
+                showInLegend: true,
+            }
             },
             column: {
               colorByPoint: true,
@@ -377,10 +406,18 @@ const PollQuestion = () => {
             exporting: {
               enabled: false,
             },
+            // series: [
+            //   {
+            //     data: graphData,
+            //     showInLegend: false,
+            //   },
+            // ],
             series: [
               {
+              name:"",
+              colorByPoint: true,
                 data: graphData,
-                showInLegend: false,
+                // showInLegend: false,
               },
             ],
           };
@@ -408,7 +445,7 @@ const PollQuestion = () => {
                   type: 'pie'
               },
               title: {
-                text: "User Answers",
+                text: "Answers",
               },
               tooltip: {
                   formatter: function() {
@@ -421,7 +458,7 @@ const PollQuestion = () => {
                   }
               },
               legend: {
-                  labelFormat: '{name} ({percentage:.2f}%) ',
+                  labelFormat: '{name} ({percentage:.0f}%) ',
               },
               plotOptions: {
                   pie: {
