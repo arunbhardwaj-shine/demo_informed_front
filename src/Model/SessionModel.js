@@ -486,6 +486,7 @@ const [comment,setComment]=useState("")
                {item?.addComment == 1 ? (
                 <textarea
                   className="custom-answer-area"
+                  placeholder="Enter your comment"
                   onChange={(e) =>setComment(e?.target?.value)
                   }
                   style={{
