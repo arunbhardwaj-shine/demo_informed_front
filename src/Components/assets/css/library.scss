@@ -13703,15 +13703,18 @@ img.change-password-image {
   padding: 10px;
   margin: 0 0 25px;
 }
-.webinar-question-results .reader_list .user-question .speaker_reply{
+
+.webinar-question-results .reader_list .user-question .speaker_reply {
   border-top: 0.5px dashed #cbe1f5;
   width: 100%;
   padding: 8px 0 0px;
-  margin:8px 0 0;
+  margin: 8px 0 0;
 }
+
 .webinar-question-results .reader_list .user-question .speaker_reply p {
   color: #0066be;
 }
+
 .webinar-question-results .reader_list .user-question p {
   font-size: 15px;
   font-weight: 400;
@@ -20544,6 +20547,13 @@ img.change-password-image {
     display: block;
   }
 
+  .top-header.regi-web {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
   .webinar-quest .navbar>.d-flex {
     flex-direction: column-reverse;
   }
@@ -22327,6 +22337,171 @@ img.change-password-image {
     padding: 10px 22px;
   }
 
+  .create-change-content.register-page .form-group {
+    flex-wrap: wrap;
+    align-items: flex-start !important;
+  }
+
+  .create-change-content.register-page .form-group label {
+    flex: 0 0 100%;
+    align-self: flex-start;
+    margin: 0 0 3px;
+  }
+
+  .color-pick {
+    margin-left: auto;
+    margin-top: 3px;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .btn-container {
+    flex: 0 0 100%;
+  }
+
+  .create-change-content .form-group {
+    margin: 6px 0 6px;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group>label {
+    flex: 0 0 100%;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .slt-opt,
+  .create-change-content.register-page .form-group .form-control {
+    width: 100%;
+    flex: 0 0 100%;
+    margin: 0 0 8px;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .form-control {
+    margin-bottom: 8px;
+  }
+
+  .create-change-content.register-page .form-group .dropdown-basic-button>div:nth-child(3) {
+    background-position: 95% center;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .dlt_btn_event,
+  .webinarRegistrationBody #registration-form .form-group .btn-edit {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .btn-container {
+    margin-top: 4px;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .btn-container~.btn-filled {
+    margin-top: 0px;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group>label {
+    padding: 0 0;
+  }
+
+  .webinarRegistrationBody .reg-color-set .form-group,
+  .webinarRegistrationBody #registration-form .form-group .btn-container .extension .extItem .extOption,
+  .create-change-content.register-page .react-datepicker-wrapper {
+    flex: 0 0 100%;
+  }
+
+  .webinarRegistrationBody .reg-color-set .form-group label {
+    flex: 1 1;
+    align-self: center;
+  }
+
+  .feilds-section {
+    padding: 12px;
+  }
+
+  .octapharma_event {
+    max-width: 100%;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .btn-container .extension {
+    min-width: initial;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group .btn-container .extension .extItem {
+    margin: 0 0 5px;
+    flex-wrap: wrap;
+  }
+
+  .create-change-content.register-page .form-group.less-spacer {
+    margin: 20px 0 0;
+  }
+
+  .library-content-box-layuot .doc-content-main-box,
+  .library-content-box-layuot.readerlist .doc-content-main-box {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  .custom-change .library-content-box-layuot {
+    padding: 0 0px;
+  }
+
+  .custom-change .top-sticky {
+    padding: 15px 0px 15px;
+  }
+
+  .apply-filter {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .top-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .top-header .page-title {
+    margin: 0 0 5px;
+  }
+
+  .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-pane {
+    min-height: initial;
+  }
+
+  .library-content-box-layuot.readerlist .doc-content-main-box .tab-content {
+    min-height: inherit;
+  }
+
+  .custom-change .top-sticky {
+    top: 48px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-pane .tab-panel {
+    padding-bottom: 15px;
+  }
+
+  .select-template h3 {
+    font-size: 20px;
+  }
+
+  .webinar-quest .container,
+  .webinar-question-box .container {
+    max-width: 100%;
+  }
+
+  .webinar-quest .navbar>.d-flex .col-lg-6 {
+    width: 100%;
+  }
+
+  .webinar-quest .navbar .nav-fill {
+    width: 100%;
+  }
+
+  .webinar-quest .navbar>.d-flex .right-sec {
+    justify-content: center !important;
+  }
+
+  .webinar-quest {
+    padding: 5px 0 6px;
+  }
 }
 
 /**Landing page Responsive End**/
