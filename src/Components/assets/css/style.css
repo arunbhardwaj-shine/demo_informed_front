@@ -151,7 +151,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 }
 
 .navbar-expand-sm .navbar-collapse {
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .nav-item.user-login .dropdown .dropdown-menu {
@@ -253,6 +253,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   width: 31px;
   height: 31px;
   background-repeat: no-repeat;
+  z-index:-1;
 }
 
 .sidebar-menu ul li.active:after {
@@ -1273,17 +1274,17 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   width: 175px;
   padding: 0;
   height: 100%;
-  background: var(--light-skyblue);
+  /* background: var(--light-skyblue); */
   border-radius: 28.5107px 0 0;
   margin-right: 10px;
   position: fixed;
   top: 0px;
-  left: 66px;
+  /* left: 66px;
   background: #f3f7fb;
   -webkit-backdrop-filter: blur(254px);
   backdrop-filter: blur(254px);
   z-index: 1;
-  box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1);
+  box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1); */
 }
 
 .active-subLink .sidebar-menu ul li {
@@ -1301,13 +1302,18 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   display: flex;
   position: fixed;
   top: 0px;
-  left: 0;
+  left: 66px;
   width: 100%;
   z-index: 3;
   padding-right: 0px;
   background: linear-gradient(90deg, #f3f7fb, #e4edf5);
   border-radius: 25px 0 0 0;
   padding-top: 80px;
+      /* background: #f3f7fb; */
+        -webkit-backdrop-filter: blur(254px);
+        backdrop-filter: blur(254px);
+        z-index: 1;
+        box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1);
 }
 
 .active-subLink .sidebar-menu ul li.active {
@@ -9399,7 +9405,7 @@ button.event_sort_btn.svg_active svg {
 .invitee table td:last-child {
   padding: 8px;
   width: 422px;
-  border-radius: 13px;
+  border-radius: 0 13px 13px 0;
 }
 
 .invitee table td>div {
@@ -11871,5 +11877,25 @@ button.event_sort_btn.svg_active svg {
 .select-mail-template .alice-carousel .alice-carousel__next-btn .alice-carousel__next-btn-item {
  top: 50%;
 transform: translateY(-50%);
+}
+.poll-question .poll-question-create .answer-option .options .row textraea.form-control{
+  border-radius: 14px;;
+}
+input[type="time" i] {
+text-align:left;
+align-items: flex-start!important;
+}
+input[type="time"] {
+  position: relative;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: block;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: transparent;
 }
 /**Registration page end**/

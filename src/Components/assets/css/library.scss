@@ -11502,6 +11502,7 @@ img.change-password-image {
             width: 100%;
             color: $primary-color;
             margin-right: 59px;
+
           }
 
           .option-action {
@@ -22624,6 +22625,25 @@ img.change-password-image {
   .filter-by button {
     padding: 6px 5px;
   }
+
+  .create-change-content .form-group .form-control,
+  .create-change-content .form-group .react-datepicker__input-container input {
+    padding: 9px 18px;
+  }
+
+  // .color-pick {
+  //   height: 32px;
+  //   padding: 3px;
+  // }
+
+  // .color-pick .color-pick-point {
+  //   max-width: 27px;
+  //   height: 27px;
+  // }
+
+  // .color-pick input[type=color] {
+  //   padding-right: 34px;
+  // }
 }
 
 /**Landing page Responsive End**/
