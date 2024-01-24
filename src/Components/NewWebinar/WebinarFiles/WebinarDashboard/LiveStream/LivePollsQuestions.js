@@ -381,7 +381,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                                               return (
                                                 <>
                                                   <div
-                                                    className="answers sub-question"
+                                                    className="answer sub-question"
                                                     key={i}
                                                   >
                                                     <span>
