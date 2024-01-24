@@ -86,6 +86,8 @@ useEffect(()=>{
           canCustomAnswer: value?.canCustomAnswer,
           graphType: value?.graphType,
           highchartData: {
+
+
             chart: {
               type: "column",
               height:'500',
@@ -94,13 +96,18 @@ useEffect(()=>{
               min: 0,
               tickInterval: 1,
               allowDecimals: false,
-              title: {
-                  text: ''
-              },
               stackLabels: {
                 enabled: true,
               },
+              title: {
+                  text: ''
+              },
+              
             },
+            legend: {
+              enabled:false,
+              verticalAlign: "bottom",
+          }, 
             xAxis: {
               categories: line_v,
             },
@@ -137,9 +144,11 @@ useEffect(()=>{
             },
 
             series: [
-              {name:"",
+              {
+              name:"",
+              colorByPoint: true,
                 data: graphData,
-                showInLegend: false,
+                // showInLegend: false,
               },
             ],
           },
