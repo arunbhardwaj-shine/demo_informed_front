@@ -228,7 +228,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
             </div>
           </div>
 
-          <div className="ask-questions">
+          {/* <div className="ask-questions">
             <h5>Ask live questions: </h5>
             <div className="yes">
             <Form.Check
@@ -248,7 +248,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
             />
             No
           </div>
-          </div>
+          </div> */}
 
           {liveStatus === 2 && (
             <div className="stream-url">
