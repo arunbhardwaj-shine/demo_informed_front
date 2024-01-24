@@ -11904,7 +11904,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   position: absolute;
   background: transparent;
 }
-.poster-url {
+.poster-url,.stream-url {
   max-width: 593px;
 }
 
