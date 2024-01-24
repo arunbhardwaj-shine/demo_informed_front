@@ -11961,6 +11961,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   display: inline-block;
   flex: 0 0 16px;
 }
+.poll-question .poll-question-create .speaker-detail .speaker-comment fieldset input[type=radio]~label {
+cursor: pointer;
+}
 .poll-question .poll-question-create .speaker-detail .speaker-comment fieldset input[type=radio]:checked {
   background-color: #39cabc;
   border-color: #39cabc;
