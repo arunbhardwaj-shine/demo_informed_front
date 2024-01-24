@@ -939,7 +939,7 @@ export default function PollListing({ eventIdContext }) {
                                  <div className="polls-preview-header">
                                       <ul>
                                         <li>No.</li>
-                                        <li>Sub Questions</li>
+                                        <li> Questions</li>
                                       </ul>
                                     </div></>
                                   )}
