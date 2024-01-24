@@ -184,6 +184,7 @@ const ContactDM = () => {
     return (
         <>
             <Col className="right-sidebar custom-change">
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <div className="custom-container">
                     <div className="row">
                         <div className="top-header regi-web">

@@ -120,7 +120,6 @@ const [comment,setComment]=useState("")
   // };
 
   const handleChangeCheckbox = (questionId, data, type = "") => {
-    // console.log('q-->',questionId,"data--->",data,"----type-->",type)
     try {
       if (typeof data === 'string') {
         if (data?.trim() === '') {
@@ -161,7 +160,6 @@ const [comment,setComment]=useState("")
   };
 
   const handleChange = (questionId, data, type = "") => {
-    // console.log('q-->',questionId,"data--->",data,"----type-->",type)
 
     try {
       if (typeof data === 'string') {
@@ -175,6 +173,7 @@ const [comment,setComment]=useState("")
           ...userValid,
           [questionId]: data ? [data] : userRequired[questionId],
         });
+        setComment(data?.trim())
         return;
       }
 
@@ -206,15 +205,17 @@ const [comment,setComment]=useState("")
       keys.forEach((item) => {
         let obj = {};
 
-        if (typeof userValid[item] !== "number" && userValid[item]?.length > 0) {
+        if (typeof userValid[item] !== "number" && userValid[item]?.length > 0) {         
           obj = {
             speakerName: userSpeaker[item],
             poll_question_id: item,
             // poll_answer_ids: userValid[item],
-            poll_answer_id: userValid[item].join(','),
-            user_answer: userValid[item].join(','),
+            poll_answer_id:user[0]?.canCustomAnswer==1?"": userValid[item].join(','),
+            // poll_answer_id: "",
+            user_answer:comment,
             guest_id: Cookies.get("events"),
-            comment:comment
+           
+           
           };
           // console.log(obj,'obj')
         }
@@ -224,18 +225,20 @@ const [comment,setComment]=useState("")
             speakerName: userSpeaker[item],
             poll_question_id: item,
             poll_answer_id: userValid[item],
-            user_answer: userValid[item],
+            // user_answer: userValid[item],
+            user_answer:comment,
             guest_id: Cookies.get("events"),
-            comment:comment
+           
           };
-          // console.log(obj,'obj2')
+        
         }
-
+       
+       
         if (Object.keys(obj)?.length) {
           newAr.push(obj);
         }
       });
-
+    
       loader("show");
 
       await postData(ENDPOINT.ADD_EVENT_DATA, {
@@ -487,7 +490,7 @@ const [comment,setComment]=useState("")
                 <textarea
                   className="custom-answer-area"
                   placeholder="Enter your comment"
-                  onChange={(e) =>setComment(e?.target?.value)
+                  onChange={(e) =>setComment(e?.target?.value?.trim())
                   }
                   style={{
                     borderColor: item?.answerColor,

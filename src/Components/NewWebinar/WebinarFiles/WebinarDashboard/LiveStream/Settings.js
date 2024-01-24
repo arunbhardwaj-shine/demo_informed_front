@@ -395,7 +395,7 @@ const Settings = () => {
 
           {liveStatus === 3 && (
             <div className="poster-url">
-              <Form.Group>
+              <Form.Group className="poster-url-detail">
                 <Form.Label>Poster Option:</Form.Label>
                 <Select
                   className="dropdown-basic-button split-button-dropup"
@@ -420,7 +420,7 @@ const Settings = () => {
                 />
               </Form.Group>
 
-              <Form.Group>
+              <Form.Group className="poster-url-detail">
                 {/* {console.log(selectedPosterOption)} */}
                 <Form.Label>Poster URL:</Form.Label>
                 <Form.Control
