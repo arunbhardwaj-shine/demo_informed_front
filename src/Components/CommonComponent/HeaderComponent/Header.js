@@ -131,8 +131,34 @@ const Header = () => {
           scrollDirection === "down" ? "-top-24" : "top-0"
         } h-24 bg-blue-200 transition-all duration-500`}
       >
+
         <Navbar inverse collapseOnSelect className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
+            <div className="mob-sidenav" style={{display:"none"}}>
+              <button className="sidebar-toggler" onClick={()=>{
+                let sideBar=document.getElementById("left-sidebar");
+                if(sideBar){
+                  let classN=  sideBar.classList.contains("active");
+                  if(classN){
+                    sideBar.classList.remove("active");
+                    
+                  }
+                  else{
+                    
+                    sideBar.classList.add("active");
+                  }
+
+                }
+              }}>
+                <svg fill="#0066be" height="800px" width="800px" viewBox="0 0 32 32">
+                  <g>
+                    <path d="M16,10c1.7,0,3-1.3,3-3s-1.3-3-3-3s-3,1.3-3,3S14.3,10,16,10z"/>
+                    <path d="M16,13c-1.7,0-3,1.3-3,3s1.3,3,3,3s3-1.3,3-3S17.7,13,16,13z"/>
+                    <path d="M16,22c-1.7,0-3,1.3-3,3s1.3,3,3,3s3-1.3,3-3S17.7,22,16,22z"/>
+                  </g>
+                  </svg>
+              </button>
+            </div>
             <Link
               className="navbar-brand"
               // to={"/library-content"}
@@ -152,6 +178,7 @@ const Header = () => {
             <Navbar.Toggle/>
             </>
             <Navbar.Collapse id="collapsibleNavbar">
+              <div></div>
             {/* <div className="collapse navbar-collapse" id="collapsibleNavbar"> */}
               <ul className="navbar-nav">
                 <li

@@ -73,7 +73,6 @@ const QuestionPollsPieChart = ({ data,show }) => {
 
             }
         ],
-
     }
     );
 
@@ -147,12 +146,18 @@ const QuestionPollsPieChart = ({ data,show }) => {
         const seriesData = data?.pollAnswers?.map((item, index) => ({
             name: item?.name,
             y: item?.y,
-            color: item?.color
-
+            color: item?.color,
+            drilldown: item?.drilldown,
         }))
-       
+
+        const drilldownData = data?.pollAnswers?.filter(question => question?.drillDownData?.length > 0).map(question => ({
+            id: question.drilldown,
+            name: question.name,
+            data: question.drillDownData.map(answer => [answer.name, answer.total]),
+            colors: question.drillDownData.map(answer => answer.color)
+          }));
         if(data?.graphType=="pie"){
-            setPieChartOptions({ ...pieChartOptions, series: [{ ...pieChartOptions?.series[0], data: seriesData }] })
+            setPieChartOptions({ ...pieChartOptions, series: [{ ...pieChartOptions?.series[0], data: seriesData }], drilldown : {"series": drilldownData} })
         } else if(data?.graphType=="bar"){
             setBarChartOptions({ ...barChartOptions,xAxis: {
                 ...barChartOptions.xAxis,

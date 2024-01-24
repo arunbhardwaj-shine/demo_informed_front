@@ -381,9 +381,14 @@ function Question(props) {
                 </fieldset>
               </div> */}
                   </div>
-                    <div className="speaker-detail d-flex align-items-center">
-                    <div className="form-group">
-                      <label htmlFor="">Include Comment</label>
+                    
+                    </>
+                )}
+              </Form.Group>
+              <div className="speaker-detail comment d-flex align-items-center">
+                <div className="speaker-comment">
+                    <Form.Group>
+                      <Form.Label>Include Comment:</Form.Label>
                       <fieldset id="group2">
                         <input
                           type="radio"
@@ -413,12 +418,9 @@ function Question(props) {
                         <label htmlFor="limitagreed2">No</label>
                        
                       </fieldset>
+                    </Form.Group>
                     </div>
-                    </div>
-                    </>
-                )}
-              </Form.Group>
-              
+                  </div>
             
               <div className="speaker-detail d-flex align-items-center">
                 <div className="speaker-name">
