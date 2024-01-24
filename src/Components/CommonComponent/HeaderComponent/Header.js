@@ -135,7 +135,21 @@ const Header = () => {
         <Navbar inverse collapseOnSelect className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
             <div className="mob-sidenav" style={{display:"none"}}>
-              <button className="sidebar-toggler">
+              <button className="sidebar-toggler" onClick={()=>{
+                let sideBar=document.getElementById("left-sidebar");
+                if(sideBar){
+                  let classN=  sideBar.classList.contains("active");
+                  if(classN){
+                    sideBar.classList.remove("active");
+                    
+                  }
+                  else{
+                    
+                    sideBar.classList.add("active");
+                  }
+
+                }
+              }}>
                 <svg fill="#0066be" height="800px" width="800px" viewBox="0 0 32 32">
                   <g>
                     <path d="M16,10c1.7,0,3-1.3,3-3s-1.3-3-3-3s-3,1.3-3,3S14.3,10,16,10z"/>
