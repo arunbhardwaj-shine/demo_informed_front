@@ -538,12 +538,14 @@
 
 @media only screen and (max-width: 1450px) {
   .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
-      font-size: 16px;
-    }
+    font-size: 16px;
+  }
+
   .stream-url input.form-control,
-    .poster-url input.form-control {
-      height: 42px;
-    }
+  .poster-url input.form-control {
+    height: 42px;
+  }
+
   .register-popup-view .factor-season-left {
     padding: 30px 18px 10px 8px;
   }
@@ -1844,9 +1846,10 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
-    .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
-      font-size: 15px;
-    }
+
+  .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
+    font-size: 15px;
+  }
 
   .live-stream .doc-content-main-box {
     height: initial;
@@ -2491,18 +2494,22 @@
   .dropdown-menu.filter-options {
     width: 270px;
   }
-    .speaker-comment {
-      width: 100%;
-    }
-        .poll-question .poll-question-create .speaker-detail .speaker-comment>div {
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          width: 100%;
-        }
-.poll-question .poll-question-create .speaker-detail.comment {
-  padding-bottom: 12px;
-}
+
+  .speaker-comment {
+    width: 100%;
+  }
+
+  .poll-question .poll-question-create .speaker-detail .speaker-comment>div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .poll-question .poll-question-create .speaker-detail.comment {
+    padding-bottom: 12px;
+  }
+
   .chatlink .webinar-popup {
     justify-content: center;
     margin: 30px auto;
@@ -3299,15 +3306,18 @@
 }
 
 @media only screen and (max-width:767px) {
-.top-header.regi-web .save-btn {
+  .top-header.regi-web .save-btn {
     margin-left: auto;
   }
-    .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
-      font-size: 14px;
-    }
-        .poll-creation .question-outer-inset {
-          max-width: 100%;
-        }
+
+  .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
+    font-size: 14px;
+  }
+
+  .poll-creation .question-outer-inset {
+    max-width: 100%;
+  }
+
   .email-result-block .email-block-add-box,
   .email-result-block .email_box_block {
     width: 100%;
@@ -3369,7 +3379,7 @@
     width: 100%;
     position: absolute;
     background: #fff;
-    top: -100px;
+    top: -140px;
     height: 0;
     transition: all 0.6s linear;
     display: flex !important;
@@ -4017,13 +4027,15 @@
     font-size: 14px;
   }
 
-  .navbar .mob-sidenav {
-    display: block !important;
-  }
+.navbar .mob-sidenav {
+  display: block !important;
+  z-index: 8;
+}
 
-  .navbar .mob-sidenav button {
-    background: transparent;
-  }
+.navbar .mob-sidenav button {
+  background: transparent;
+  padding: 0 6px 0 0;
+}  
 
   .navbar .mob-sidenav button svg {
     height: 30px;
@@ -4033,4 +4045,56 @@
   .chatlink-left button.save-btn {
     min-width: 120px;
   }
+
+  .left-sidebar,
+  .left-sidebar.hidesidebar.active {
+    display: none;
+  }
+
+  .left-sidebar.active {
+    display: block;
+    position: absolute;
+    left: 0;
+  }
+
+  .left-sidebar.active .sidebar-menu {
+    top: 46px;
+  }
+
+  .left-sidebar.active .sidebar-menu ul li {
+    margin-right: 0;
+  }
+
+  .left-sidebar.active .sidebar-menu ul {
+    padding: 0 5px 0 0;
+  }
+.left-sidebar.active .sidebar-menu ul li {
+  border-radius: 0 47px 47px 0;
+}
+.left-sidebar.active .sidebar-menu ul li a {
+  padding: 10px 6px;
+}
+.left-sidebar.active .sidebar-menu {
+  max-width: 136px;
+}
+.left-sidebar.active .sidebar-menu ul li a svg {
+  margin-right: 5px;
+}
+.left-sidebar.active .sidebar-menu ul li a,
+.left-sidebar.active .sidebar-menu ul li p {
+  font-size: 12px;
+}
+.left-sidebar.active .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary {
+  left: 40px;;
+}
+  .left-sidebar.active .sidebar-menu ul li.active:before,
+  .left-sidebar.active .sidebar-menu ul li.active:after {
+    display: none
+  }
+.left-sidebar.active .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary {
+  box-shadow: -3px 0px 10px rgba(0, 102, 190, 0.1);
+}
+    .left-sidebar.active .sidebar-menu ul li a {
+      border-radius: 0 047px 47px 0;
+    }
 }

@@ -235,7 +235,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="left-sidebar">
+      <div className="left-sidebar" id="left-sidebar">
         <div className="sidebar-menu">
           {window.location.pathname === "/webinar/invitees" ||
             window.location.pathname == "/webinar/registration" ||
