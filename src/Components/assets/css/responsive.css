@@ -385,7 +385,9 @@
     padding: 9px;
     min-width: 85px;
   }
-
+.poll-creation .question-outer-inset {
+    max-width: calc(100% - 85px);
+}
   .webinarRegistrationBody #registration-form .form-group .btn-container .extension {
     min-width: 100%;
   }
@@ -1609,11 +1611,19 @@
 }
 
 @media only screen and (max-width: 1399px) {
-
+.question-outer-layout .question-action {
+    gap: 30px;
+  }
   .event-endDate,
   .event-endTime {
     min-width: 100px;
   }
+    .question-listing .question-display .answer-options .answer {
+      font-size: 13px;
+    }
+    .question-listing .answer span, .question-listing .question-display .answer-options .answer>div {
+      line-height: 1.4;
+    }
 
   .create-change-content .form-group .extItem .react-datepicker__input-container input,
   .webinarRegistrationBody #registration-form .form-group .extItem .form-control {
@@ -4027,15 +4037,15 @@
     font-size: 14px;
   }
 
-.navbar .mob-sidenav {
-  display: block !important;
-  z-index: 8;
-}
+  .navbar .mob-sidenav {
+    display: block !important;
+    z-index: 8;
+  }
 
-.navbar .mob-sidenav button {
-  background: transparent;
-  padding: 0 6px 0 0;
-}  
+  .navbar .mob-sidenav button {
+    background: transparent;
+    padding: 0 6px 0 0;
+  }
 
   .navbar .mob-sidenav button svg {
     height: 30px;
@@ -4068,33 +4078,79 @@
   .left-sidebar.active .sidebar-menu ul {
     padding: 0 5px 0 0;
   }
-.left-sidebar.active .sidebar-menu ul li {
-  border-radius: 0 47px 47px 0;
-}
-.left-sidebar.active .sidebar-menu ul li a {
-  padding: 10px 6px;
-}
-.left-sidebar.active .sidebar-menu {
-  max-width: 136px;
-}
-.left-sidebar.active .sidebar-menu ul li a svg {
-  margin-right: 5px;
-}
-.left-sidebar.active .sidebar-menu ul li a,
-.left-sidebar.active .sidebar-menu ul li p {
-  font-size: 12px;
-}
-.left-sidebar.active .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary {
-  left: 40px;;
-}
+
+  .left-sidebar.active .sidebar-menu ul li {
+    border-radius: 0 47px 47px 0;
+  }
+
+  .left-sidebar.active .sidebar-menu ul li a {
+    padding: 10px 6px;
+  }
+
+  .left-sidebar.active .sidebar-menu {
+    max-width: 136px;
+  }
+
+  .left-sidebar.active .sidebar-menu ul li a svg {
+    margin-right: 5px;
+  }
+
+  .left-sidebar.active .sidebar-menu ul li a,
+  .left-sidebar.active .sidebar-menu ul li p {
+    font-size: 12px;
+  }
+
+  .left-sidebar.active .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary {
+    left: 40px;
+    ;
+  }
+
   .left-sidebar.active .sidebar-menu ul li.active:before,
   .left-sidebar.active .sidebar-menu ul li.active:after {
     display: none
   }
-.left-sidebar.active .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary {
-  box-shadow: -3px 0px 10px rgba(0, 102, 190, 0.1);
-}
-    .left-sidebar.active .sidebar-menu ul li a {
-      border-radius: 0 047px 47px 0;
-    }
+
+  .left-sidebar.active .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary {
+    box-shadow: -3px 0px 10px rgba(0, 102, 190, 0.1);
+  }
+
+  .left-sidebar.active .sidebar-menu ul li a {
+    border-radius: 0 047px 47px 0;
+  }
+
+  .toggle_sidebar .left-sidebar ul a p,
+  .active-subLink .left-sidebar ul a p {
+    transition: all 0s ease-in-out;
+    transition-delay: 0s;
+    opacity: 0;
+  }
+
+  .sidebar-menu ul li a p {
+    transition: all 0s ease-in-out;
+    transition-delay: 0s;
+  }
+
+  .clear-search button svg {
+    width: 18px;
+  }
+
+  .left-sidebar.active:after {
+    content: "";
+    position: fixed;
+    background: rgb(0 0 0 / 19%);
+    width: 100%;
+    left: 0;
+    right: 0;
+    height: 100%;
+    z-index: 2;
+  }
+
+  .sidebar-menu ul {
+    margin: 68px 0 0;
+  }
+
+
+  /* .left-sidebar.active .sidebar-menu ul li {
+    z-index: 9;
+  } */
 }
