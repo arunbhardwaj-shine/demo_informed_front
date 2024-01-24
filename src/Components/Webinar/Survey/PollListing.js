@@ -468,7 +468,8 @@ export default function PollListing({ eventIdContext }) {
         data: [surveyData],
       };
       if (!surveyData?.id) {
-        payLoadData.eventId = selectedItem?.value;
+        // payLoadData.eventId = selectedItem?.value;
+        payLoadData.eventId = event_code;
         response = await postData(ENDPOINT.ADD_QUESTION, payLoadData);
         loader("hide");
         toast.success("Question Inserted Successfully", {
