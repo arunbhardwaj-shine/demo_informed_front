@@ -352,14 +352,58 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                             </div>
                             <div className="question-display">
                               <div className="question">
-                                Question
+                                {(item?.totalSubquestion && item?.totalSubquestion?.length>0) ?"Heading": "Question"}
                                 <p
                                   dangerouslySetInnerHTML={{
                                     __html: item?.question,
                                   }}
                                 ></p>
                               </div>
-                              <div className="answer-options">
+
+                              {(item?.totalSubquestion && item?.totalSubquestion?.length>0) ? <div className="answer-options">
+                                 Questions
+                          
+                                  <>
+                                    {
+                                      // item?.pollAnswers?.length ?
+                                      //     item?.pollAnswers?.map((answer, i) => {
+                                      //         return (<>
+                                      //             <div className='answer' key={i}>
+                                      //                 <span>{String.fromCharCode(65 + i)}.</span>
+                                      //                 <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
+
+                                      //             </div>
+                                      //         </>)
+                                      //     })
+                                      // :
+                                      item?.totalSubquestion?.map(
+                                            (answer, i) => {
+                                              return (
+                                                <>
+                                                  <div
+                                                    className="answers sub-question"
+                                                    key={i}
+                                                  >
+                                                    <span>
+                                                      {String.fromCharCode(
+                                                        65 + i
+                                                      )}
+                                                      .
+                                                    </span>
+                                                    <div
+                                                      dangerouslySetInnerHTML={{
+                                                        __html: answer?.pollquestion?.question,
+                                                      }}
+                                                    ></div>
+                                                  </div>
+                                                </>
+                                              );
+                                            }
+                                          )
+                                    }
+                                  </>
+                               
+                              </div>:  <div className="answer-options">
                                 Answers
                                 {item?.canCustomAnswer == 1 ? (
                                   <div>Not have any possible answers</div>
@@ -406,7 +450,9 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                                     }
                                   </>
                                 )}
-                              </div>
+                              </div>}
+
+                             
                               <div className="speaker">
                                 Speaker
                                 <h6>{item?.speakerName}</h6>
