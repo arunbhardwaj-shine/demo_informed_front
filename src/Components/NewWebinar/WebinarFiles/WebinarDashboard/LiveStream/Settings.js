@@ -60,6 +60,27 @@ const Settings = () => {
     fetchSettings();
   }, []);
 
+  // const fetchSettings = async () => {
+  //   try {
+  //     loader("show");
+  //     const response = await getData(
+  //       `${ENDPOINT.WEBINAR_SETTINGS_GET}/${eventId}`
+  //     );
+  //     const { live_status, ask_question, poster_url, stream_url } =
+  //       response?.data?.data;
+  //     setLiveStatus(live_status);
+  //     setAskQuestion(ask_question);
+  //     setPosterUrl(poster_url);
+  //     console.log(posterOptions,'options')
+  //     setStreamUrl(stream_url);
+  //     // console.log(response?.data?.data, "===>response");
+  //   } catch (error) {
+  //     console.error("Error fetching settings:", error);
+  //   } finally {
+  //     loader("hide");
+  //   }
+  // };
+
   const fetchSettings = async () => {
     try {
       loader("show");
@@ -71,14 +92,26 @@ const Settings = () => {
       setLiveStatus(live_status);
       setAskQuestion(ask_question);
       setPosterUrl(poster_url);
+  
+      
+      const foundOption = posterOptions.find((option) => option.value === poster_url);
+      if (typeof foundOption !== "undefined" && foundOption !== "undefined" && foundOption !== "") {
+        setSelectedPosterOption({ label: foundOption.label, });
+        // console.log(selectedPosterOption,'selectedPosterOption')
+       
+      }else{
+        setSelectedPosterOption({ label: "Custom" });
+        setCustomPosterUrl(poster_url);
+        // console.log(poster_url,'poster_url2123')
+      }
       setStreamUrl(stream_url);
-      // console.log(response?.data?.data, "===>response");
     } catch (error) {
       console.error("Error fetching settings:", error);
     } finally {
       loader("hide");
     }
   };
+
 
   const handleSave = async () => {
     try {
