@@ -1297,7 +1297,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   flex-direction: column;
   background: var(--light-skyblue);
   height: 100%;
-  max-width: 195px;
+  max-width: 174px;
   border-radius: 0 0 29px 0;
   display: flex;
   position: fixed;
@@ -9835,7 +9835,7 @@ button.event_sort_btn.svg_active svg {
 
 .stream-url input.form-control,
 .poster-url input.form-control {
-  max-width: 588px;
+  max-width: 100%;
   border-radius: 30px;
   background: var(--white);
   box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
@@ -9843,8 +9843,12 @@ button.event_sort_btn.svg_active svg {
   padding: 8px 22px;
   color: var(--dark-blue);
   font-size: 15px;
+  height: 48px;
 }
-
+.poster-url-detail .split-button-dropup>div:nth-child(3) {
+  max-width: 100%;
+  background-position:  95% center;
+}
 /**Invitees page end**/
 
 
@@ -9868,6 +9872,7 @@ button.event_sort_btn.svg_active svg {
   color: rgba(0, 102, 190, 0.30);
   font-size: 14px;
   font-weight: 500;
+  word-break: break-word;
 }
 
 .left-sidebar .sidebar_txt button.toggle_btn {
@@ -11898,5 +11903,70 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   width: 100%;
   position: absolute;
   background: transparent;
+}
+.poster-url {
+  max-width: 593px;
+}
+
+.poster-url .poster-url-detail {
+  margin: 0 0 15px;
+}
+
+.poster-url .poster-url-detail .split-button-dropup>div:nth-child(4) {
+  top: auto;
+  bottom: 45px;
+}
+
+.poll-question .poll-question-create .speaker-detail .speaker-comment fieldset input {
+  padding: 0;
+  width: auto;
+  margin-right: 14px;
+  box-shadow: none;
+}
+
+.poll-question .poll-question-create .speaker-detail .speaker-comment fieldset label {
+  flex: 0 0 auto;
+  margin-right: 22px;
+}
+
+.poll-question .poll-question-create .speaker-detail .speaker-comment>div {
+  display: flex;
+  align-items: center;
+}
+.poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
+  padding-right: 0px;
+  margin: 0;
+  color: #004A89;
+  margin: 0;
+  font-size: 18px;
+}
+.poll-question .poll-question-create .speaker-detail .speaker-comment fieldset {
+  gap: 24px;
+  display: flex;
+  align-items: center;
+  padding-left: 17px;
+}
+.poll-question .poll-question-create .speaker-detail .speaker-comment fieldset input[type=radio] {
+  margin: 0;
+  border: 1px solid #97B6CF;
+  width: 16px;
+  height: 16px;
+  padding: 1px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  display: inline-block;
+  flex: 0 0 16px;
+}
+.poll-question .poll-question-create .speaker-detail .speaker-comment fieldset input[type=radio]:checked {
+  background-color: #39cabc;
+  border-color: #39cabc;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+}
+.poll-question .poll-question-create .speaker-detail.comment{
+  padding-bottom:24px;
 }
 /**Registration page end**/
