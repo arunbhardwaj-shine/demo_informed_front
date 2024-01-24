@@ -537,6 +537,13 @@
 }
 
 @media only screen and (max-width: 1450px) {
+  .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
+      font-size: 16px;
+    }
+  .stream-url input.form-control,
+    .poster-url input.form-control {
+      height: 42px;
+    }
   .register-popup-view .factor-season-left {
     padding: 30px 18px 10px 8px;
   }
@@ -1837,6 +1844,9 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
+    .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
+      font-size: 15px;
+    }
 
   .live-stream .doc-content-main-box {
     height: initial;
@@ -2481,6 +2491,28 @@
   .dropdown-menu.filter-options {
     width: 270px;
   }
+    .speaker-comment {
+      width: 100%;
+    }
+        .poll-question .poll-question-create .speaker-detail .speaker-comment>div {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          width: 100%;
+        }
+.poll-question .poll-question-create .speaker-detail.comment {
+  padding-bottom: 12px;
+}
+  .chatlink .webinar-popup {
+    justify-content: center;
+    margin: 30px auto;
+    width: 100%;
+  }
+
+  .chatlink .webinar-popup .octa_events {
+    max-width: 100%;
+    width: 100%;
+  }
 
   .auto_mail_trigger_left {
     padding-right: 10px;
@@ -2970,7 +3002,13 @@
     justify-content: space-between;
     align-content: center;
     display: flex;
-    flex: 1 1;
+    flex: 0 0 auto;
+  }
+
+  .question-listing .question-status .btn-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .question-listing .question-status .btn-group .btn-group-add button.btn {
@@ -3092,6 +3130,18 @@
     line-height: 24px;
   }
 
+  .poll-creation .nav-tabs .nav-item:first-child button.active:before,
+  .poll-creation .nav-tabs .nav-item:last-child button.active:after,
+  .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
+  .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
+    height: 27px;
+    width: 14px;
+  }
+
+  .poll-creation .question-outer-inset {
+    max-width: calc(100% - 85px);
+  }
+
   .top-header.regi-web .header_btns {
     gap: 10px;
   }
@@ -3197,7 +3247,13 @@
 
   .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active::before,
   .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
-    top: 23px;
+    top: 28px;
+    height: 17px;
+    width: 12px;
+  }
+
+  .select-template h3 {
+    font-size: 20px;
   }
 
   .poll-question-create .question-color .color-pick {
@@ -3243,7 +3299,15 @@
 }
 
 @media only screen and (max-width:767px) {
-
+.top-header.regi-web .save-btn {
+    margin-left: auto;
+  }
+    .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
+      font-size: 14px;
+    }
+        .poll-creation .question-outer-inset {
+          max-width: 100%;
+        }
   .email-result-block .email-block-add-box,
   .email-result-block .email_box_block {
     width: 100%;
@@ -3311,10 +3375,23 @@
     display: flex !important;
     flex-direction: column;
     opacity: 0;
+    justify-content: center;
 
     /* clip-path: circle(50px at 90% -20%);
         -webkit-clip-path: circle(50px at 90% -20%); */
     /* transition: all 1s ease-out; */
+  }
+
+  .right-sidebar {
+    width: calc(100% - 220px);
+  }
+
+  .chatlink .question-block .head-sec {
+    min-height: 100px;
+  }
+
+  .chatlink .question-block .head-sec h2.top-title {
+    font-size: 16px;
   }
 
   .navbar .navbar-collapse.show {
@@ -3339,19 +3416,75 @@
   }
 
   .navbar.navbar-light button.navbar-toggler {
-    background: #0066be;
-    padding: 2px;
+    background: transparent;
+    /* padding: 2px;
     border: none;
     width: 33px;
     height: 33px;
     border-radius: 0;
+    border-radius: 50%; */
     z-index: 1;
-    border-radius: 50%;
+  }
+
+  .navbar button.navbar-toggler .navbar-toggler-icon,
+  .navbar button.navbar-toggler .navbar-toggler-icon::before,
+  .navbar button.navbar-toggler .navbar-toggler-icon:after {
+    width: 26px;
+    background: #0066be;
+    height: 2px;
+    transition-property: transform;
+    transition-duration: .15s;
+    transition-timing-function: ease;
+    border-radius: 10px;
+
+  }
+
+  .navbar button.navbar-toggler.collapsed .navbar-toggler-icon {
+    background-image: none;
+    position: relative;
+    transform: translate3d(0, 0px, 0) rotate(0deg);
+  }
+
+  .navbar button.navbar-toggler.collapsed .navbar-toggler-icon:before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 0;
+    transform: translate3d(0, 0px, 0) rotate(0deg);
+    opacity: 1;
+    transition: 1s ease opacity;
+  }
+
+  .navbar button.navbar-toggler.collapsed .navbar-toggler-icon:after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 0;
+    transform: translate3d(0, 0px, 0) rotate(0deg);
   }
 
   .navbar button.navbar-toggler .navbar-toggler-icon {
-    filter: brightness(0) invert(1);
-    background-size: 24px;
+    transform: translate3d(0, 0px, 0) rotate(45deg);
+    transition-delay: .09s;
+
+  }
+
+  .navbar button.navbar-toggler .navbar-toggler-icon:after {
+    transform: translate3d(0, -6px, 0) rotate(90deg);
+    transition-delay: .075s;
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 0;
+  }
+
+  .navbar button.navbar-toggler .navbar-toggler-icon:before {
+    opacity: 0;
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 0;
+    transition-delay: 1s;
   }
 
   .navbar-toggler:focus {
@@ -3860,5 +3993,44 @@
 
   .live-hcp-tracking-img {
     margin: 0 0 20px;
+  }
+
+  .create-change-content.register-page .form-group .logo-section .logo-text.header-text button,
+  .create-change-content.register-page .form-group .header-section .header-text button,
+  .create-change-content.register-page .form-group .footer-section .footer-text button {
+    width: 28px;
+    height: 28px;
+  }
+
+  .create-change-content.register-page .form-group .logo-section .logo-text.header-text button img,
+  .create-change-content.register-page .form-group .header-section .header-text button img {
+    width: 17px;
+    height: 17px;
+  }
+
+  .custom-change .create-change-content.chatlink {
+    padding: 15px 0 10px;
+    margin-bottom: 0;
+  }
+
+  .create-change-content.chatlink.register-page .form-group label {
+    font-size: 14px;
+  }
+
+  .navbar .mob-sidenav {
+    display: block !important;
+  }
+
+  .navbar .mob-sidenav button {
+    background: transparent;
+  }
+
+  .navbar .mob-sidenav button svg {
+    height: 30px;
+    width: 30px;
+  }
+
+  .chatlink-left button.save-btn {
+    min-width: 120px;
   }
 }

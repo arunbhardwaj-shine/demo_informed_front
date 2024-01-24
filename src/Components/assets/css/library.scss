@@ -11502,6 +11502,7 @@ img.change-password-image {
             width: 100%;
             color: $primary-color;
             margin-right: 59px;
+
           }
 
           .option-action {
@@ -11702,7 +11703,7 @@ img.change-password-image {
           align-items: center;
 
           label {
-            flex: 0 0 148px;
+            flex: 0 0 152px;
             padding-right: 6px;
             margin: 0;
             color: #004A89;
@@ -18846,6 +18847,19 @@ img.change-password-image {
     gap: 10px;
     margin-right: 15px;
   }
+
+  .poster-url-detail .split-button-dropup>div:nth-child(3) {
+    padding: 5px 15px;
+  }
+
+  .poster-url-detail .split-button-dropup div:nth-child(3)>div div {
+    font-size: 15px;
+  }
+
+  .poster-url-detail .split-button-dropup>div:nth-child(3)>div {
+    padding-left: 4px;
+  }
+
 }
 
 @media (max-width: $layout-breakpoint-extraLarge) {
@@ -22624,6 +22638,34 @@ img.change-password-image {
   .filter-by button {
     padding: 6px 5px;
   }
+
+  .create-change-content .form-group .form-control,
+  .create-change-content .form-group .react-datepicker__input-container input {
+    padding: 9px 18px;
+  }
+
+  .poll-question .poll-question-create .speaker-detail .display-result>div {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .poll-question .poll-question-create .speaker-detail .display-result>div button.btn {
+    margin-top: 16px;
+  }
+
+  // .color-pick {
+  //   height: 32px;
+  //   padding: 3px;
+  // }
+
+  // .color-pick .color-pick-point {
+  //   max-width: 27px;
+  //   height: 27px;
+  // }
+
+  // .color-pick input[type=color] {
+  //   padding-right: 34px;
+  // }
 }
 
 /**Landing page Responsive End**/
