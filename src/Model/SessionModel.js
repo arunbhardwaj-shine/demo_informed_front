@@ -173,7 +173,7 @@ const [comment,setComment]=useState("")
           ...userValid,
           [questionId]: data ? [data] : userRequired[questionId],
         });
-        setComment(data)
+        setComment(data?.trim())
         return;
       }
 
@@ -490,7 +490,7 @@ const [comment,setComment]=useState("")
                 <textarea
                   className="custom-answer-area"
                   placeholder="Enter your comment"
-                  onChange={(e) =>setComment(e?.target?.value)
+                  onChange={(e) =>setComment(e?.target?.value?.trim())
                   }
                   style={{
                     borderColor: item?.answerColor,
