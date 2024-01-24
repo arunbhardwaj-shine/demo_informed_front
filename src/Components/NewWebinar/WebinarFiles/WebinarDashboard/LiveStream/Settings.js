@@ -91,27 +91,35 @@ const Settings = () => {
         response?.data?.data;
       setLiveStatus(live_status);
       setAskQuestion(ask_question);
-      setPosterUrl(poster_url);
-      
-      const foundOption = posterOptions.find((option) => option.value === poster_url);
-      if (typeof foundOption !== "undefined" && foundOption !== "undefined" && foundOption !== "") {
-        setSelectedPosterOption({ label: foundOption.label, });
-        // console.log(selectedPosterOption,'selectedPosterOption')
-       
-      }else{
-        setSelectedPosterOption({ label: "Custom message" });
-        setCustomPosterUrl(poster_url);
-        // console.log(poster_url,'poster_url2123')
+
+      if (poster_url != "") {
+        const foundOption = posterOptions.find(
+          (option) => option.value === poster_url
+        );
+        if (
+          typeof foundOption !== "undefined" &&
+          foundOption !== "undefined" &&
+          foundOption !== ""
+        ) {
+          setSelectedPosterOption(foundOption);
+        } else {
+          setSelectedPosterOption(foundOption);
+          setCustomPosterUrl(poster_url);
+        }
+        setStreamUrl(stream_url);
+        setPosterUrl(poster_url);
+
+      } else {
+        setSelectedPosterOption(posterOptions[0]);
+        setPosterUrl(posterOptions[0]?.value);
+
       }
-      // setSelectedPosterOption(posterOptions[0])
-      setStreamUrl(stream_url);
     } catch (error) {
       console.error("Error fetching settings:", error);
     } finally {
       loader("hide");
     }
   };
-
 
   const handleSave = async () => {
     try {
@@ -172,7 +180,9 @@ const Settings = () => {
       if (
         liveStatus === 3 &&
         !(
-          selectedPosterOption.label === "Custom message" ? customPosterUrl : posterUrl
+          selectedPosterOption.label === "Custom message"
+            ? customPosterUrl
+            : posterUrl
         ).trim()
       ) {
         toast.error("Please filled poster url first", {
@@ -189,7 +199,9 @@ const Settings = () => {
       if (
         liveStatus === 3 &&
         !(
-          selectedPosterOption.label === "Custom message" ? customPosterUrl : posterUrl
+          selectedPosterOption.label === "Custom message"
+            ? customPosterUrl
+            : posterUrl
         ).startsWith("https")
       ) {
         toast.error("Poster URL should start with 'https'", {
@@ -311,7 +323,6 @@ const Settings = () => {
                 checked={liveStatus === 2}
                 onChange={() => {
                   setLiveStatus(2);
-                  // setPosterUrl("");
                 }}
               />
               <div className="event-status-img">
@@ -330,9 +341,6 @@ const Settings = () => {
                 checked={liveStatus === 3}
                 onChange={() => {
                   setLiveStatus(3);
-                  // setStreamUrl("");
-                  setPosterUrl(posterOptions[0].value);
-                  // setSelectedPosterOption(posterOptions[0])
                 }}
               />
               <div className="event-status-img">
