@@ -1611,11 +1611,19 @@
 }
 
 @media only screen and (max-width: 1399px) {
-
+.question-outer-layout .question-action {
+    gap: 30px;
+  }
   .event-endDate,
   .event-endTime {
     min-width: 100px;
   }
+    .question-listing .question-display .answer-options .answer {
+      font-size: 13px;
+    }
+    .question-listing .answer span, .question-listing .question-display .answer-options .answer>div {
+      line-height: 1.4;
+    }
 
   .create-change-content .form-group .extItem .react-datepicker__input-container input,
   .webinarRegistrationBody #registration-form .form-group .extItem .form-control {
