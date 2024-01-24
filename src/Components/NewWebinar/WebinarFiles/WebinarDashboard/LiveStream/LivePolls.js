@@ -17,7 +17,7 @@ const LivePolls = ({ location, flag }) => {
     const [isdataLoaded,setIsDataLoaded]=useState(false)
 
     useEffect(() => {
-        // loader("show");
+        loader("show");
         getEventQuestion()
     }, [flag])
 

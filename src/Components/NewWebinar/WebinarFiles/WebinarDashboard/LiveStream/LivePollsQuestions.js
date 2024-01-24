@@ -7,12 +7,7 @@ import React, { useState, useEffect, useRef } from "react";
 import QuestionPollsPieChart from "./QuestionPollsPieChart";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { loader } from "../../../../../loader";
-import {
-  collection,
-  query,
-  where,
-  onSnapshot,
-} from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const settings = {
@@ -31,12 +26,14 @@ const settings = {
   touchMove: false,
   responsive: [
     {
-      breakpoint: 558,
+      breakpoint: 767,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
-        dots: true,
-        arrows: true,
+        dots: false,
+        arrows: false,
+        vertical: false,
+  verticalScrolling: false,
       },
     },
   ],
@@ -116,38 +113,47 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
   }, [questionData]);
 
   useEffect(() => {
-    if (slickRef.current && currentIndex != 0) {
-      slickRef.current.slickGoTo(currentIndex, true);
-      if (firstTime.current) {
-        currentQuestion.current = question[currentIndex]?.questionId;
-        setCurrentTab(currentIndex + 1);
+    if (question?.length > 0) {
+      if (slickRef.current) {
+        if (firstTime.current) {
+          slickRef.current.slickGoTo(currentIndex, true);
+          currentQuestion.current = question[currentIndex]?.questionId;
+          setCurrentTab(currentIndex + 1);
+          firstTime.current = false;
+        }
       }
-      firstTime.current = false;
     }
   }, [question]);
   useEffect(() => {
-    const apiCall = async () => {
-      let data = await firebaseev();
-    };
-    apiCall();
+    if (question?.length > 0) {
+      const apiCall = async () => {
+        let data = await firebaseev();
+      };
+      apiCall();
+    }
+    //
   }, [currentTab]);
 
   const handleAfterChange = async (current) => {
     try {
       let questionId = question[current]?.questionId;
+
+      currentQuestion.current = questionId;
+
       // currentQuestion.current = questionId;
-      let chartData = {
-        questionId: question[current]?.questionId,
-        graphType: question[current]?.graphType,
-        pollAnswers: question[current]?.pollAnswers,
-      };
+      // let chartData = {
+      //   questionId: question[current]?.questionId,
+      //   graphType: question[current]?.graphType,
+      //   pollAnswers: question[current]?.pollAnswers,
+      // };
       setCurrentIndex(Math.abs(current));
-      setPieChartData(chartData);
+      // setPieChartData(chartData);
       let updateQuestionId = questionIdIndex;
       if (!updateQuestionId?.includes(questionId)) {
         updateQuestionId?.push(questionId);
         setQuestionIdIndex(updateQuestionId);
       }
+      setCurrentTab(currentTab + 1);
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -157,57 +163,76 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
     }
   };
 
-  const firebaseev = async () => {
-    const q = query(
-      collection(db, "chat"),
-      where("event_id", "==", eventData?.id),
-      where("question_id", "==", currentQuestion.current)
-    );
-
-    if (currentSnapShot.current) {
-      currentSnapShot.current();
+  const handleBeforeChange = async (current) => {
+    try {
+      setApiCallStatus(true)
+      if (currentSnapShot.current) {
+        currentSnapShot.current();
+      }
+      setPieChartData({})
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+      setShow(true);
+      // setApiCallStatus(false);
     }
+  };
 
-    currentSnapShot.current = onSnapshot(q, async (querySnapshot) => {
-      for (const doc of querySnapshot.docs) {
-        if (doc.data()) {
-          const result = await postData(ENDPOINT.WEBINAR_QUESTION_ONLY, {
-            companyId: eventData?.companyId,
-            eventId: eventData?.id,
-            questionId: currentQuestion.current,
-          });
 
-          const tempData = result?.data?.data;
+  const firebaseev = async () => {
+    if (eventData?.id && currentQuestion.current) {
+      const q = query(
+        collection(db, "chat"),
+        where("event_id", "==", eventData?.id),
+        where("question_id", "==", currentQuestion.current)
+      );
 
-          if (tempData?.length) {
-            const tempQuestion = question.map((item) => {
-              item.triggered = 0;
+      if (currentSnapShot.current) {
+        currentSnapShot.current();
+      }
 
-              if (item.showQuestionToUser === 1) {
-                item.showQuestionToUser = 2;
-              }
-
-              if (item.showAnswerToUser === 1) {
-                item.showAnswerToUser = 2;
-              }
-
-              return item;
+      currentSnapShot.current = onSnapshot(q, async (querySnapshot) => {
+        for (const doc of querySnapshot.docs) {
+          if (doc.data()) {
+            const result = await postData(ENDPOINT.WEBINAR_QUESTION_ONLY, {
+              companyId: eventData?.companyId,
+              eventId: eventData?.id,
+              questionId: currentQuestion.current,
             });
 
-            tempQuestion[currentIndex] = tempData[0];
+            const tempData = result?.data?.data;
 
-            setQuestion(tempQuestion);
+            if (tempData?.length) {
+              const tempQuestion = question.map((item) => {
+                item.triggered = 0;
 
-            setPieChartData({
-              questionId: tempData[0]?.questionId,
-              graphType: tempData[0]?.graphType,
-              pollAnswers: tempData[0]?.pollAnswers,
-            });
+                if (item.showQuestionToUser === 1) {
+                  item.showQuestionToUser = 2;
+                }
+
+                if (item.showAnswerToUser === 1) {
+                  item.showAnswerToUser = 2;
+                }
+
+                return item;
+              });
+
+              tempQuestion[currentIndex] = tempData[0];
+
+              setQuestion(tempQuestion);
+
+              setPieChartData({
+                questionId: tempData[0]?.questionId,
+                graphType: tempData[0]?.graphType,
+                pollAnswers: tempData[0]?.pollAnswers,
+              });
+            }
           }
         }
-      }
-      setApiCallStatus(false);
-    });
+        setApiCallStatus(false);
+      });
+    }
   };
 
   const submitQuestionAnswer = async (e, question_id, type) => {
@@ -218,10 +243,8 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
         questionId: question_id,
         type: type,
       };
-      currentQuestion.current = question_id;
 
       let data = await postData(ENDPOINT.EVENT_SUBMIT, body);
-      setCurrentTab(currentTab + 1);
     } catch (err) {
       setApiCallStatus(false);
       console.log("-err", err);
@@ -235,12 +258,9 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
     try {
       setApiCallStatus(true);
       setClosedIndex(index);
-      currentQuestion.current = question_id;
       let data = await postData(ENDPOINT.EVENT_CLOSE, {
         eventId: eventData?.id,
       });
-
-      setCurrentTab(currentTab + 1);
     } catch (err) {
       setApiCallStatus(false);
     } finally {
@@ -303,6 +323,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
               {...settings}
               ref={slickRef}
               afterChange={(e) => handleAfterChange(e)}
+              beforeChange={(e) => handleBeforeChange(e)}
             >
               {question?.length ? (
                 question?.map((item, index) => {
@@ -515,7 +536,14 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
               <div className="question-listing-link-box">
                 {question?.length
                   ? question?.map((item, index) => (
-                      <div className="question-listing-links">
+                      <div className="question-listing-links" onClick={()=>{
+                        if(index>=0 && currentIndex!=index){
+                          
+                          setCurrentIndex(index)
+                          slickRef.current.slickGoTo(index)
+
+                        }
+                      }}>
                         <div
                           className={
                             currentIndex == index
