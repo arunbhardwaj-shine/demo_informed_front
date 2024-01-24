@@ -537,6 +537,13 @@
 }
 
 @media only screen and (max-width: 1450px) {
+  .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
+      font-size: 16px;
+    }
+  .stream-url input.form-control,
+    .poster-url input.form-control {
+      height: 42px;
+    }
   .register-popup-view .factor-season-left {
     padding: 30px 18px 10px 8px;
   }
@@ -1837,6 +1844,9 @@
   #send-sample .form-search-hcp .form-button .btn.btn-filled {
     margin-right: 40px;
   }
+    .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
+      font-size: 15px;
+    }
 
   .live-stream .doc-content-main-box {
     height: initial;
@@ -2481,7 +2491,18 @@
   .dropdown-menu.filter-options {
     width: 270px;
   }
-
+    .speaker-comment {
+      width: 100%;
+    }
+        .poll-question .poll-question-create .speaker-detail .speaker-comment>div {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          width: 100%;
+        }
+.poll-question .poll-question-create .speaker-detail.comment {
+  padding-bottom: 12px;
+}
   .chatlink .webinar-popup {
     justify-content: center;
     margin: 30px auto;
@@ -3278,7 +3299,15 @@
 }
 
 @media only screen and (max-width:767px) {
-
+.top-header.regi-web .save-btn {
+    margin-left: auto;
+  }
+    .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
+      font-size: 14px;
+    }
+        .poll-creation .question-outer-inset {
+          max-width: 100%;
+        }
   .email-result-block .email-block-add-box,
   .email-result-block .email_box_block {
     width: 100%;
