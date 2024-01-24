@@ -242,8 +242,9 @@ useEffect(() => {
     setCommentPopup(true);
     if (index !== -1) {
       let allComments = alldata?.[index]?.userComments;
-      let comments = allComments?.map(obj => obj.comments);
-      setComments(comments);
+      // let comments = allComments?.map(obj => obj.comments);
+      // setComments(comments);
+      setComments(allComments);
       setCurrentQuestion(alldata?.[index]?.question);
       console.log(`Element found at index ${index}`);
     } else {
@@ -330,9 +331,9 @@ useEffect(() => {
                           return(
                             <>
                             <tr>
-                              <td>N/A</td>
+                              <td>{item?.name?item?.name:"N/A"}</td>
                               {/* <td></td> */}
-                              <td>{item}</td>
+                              <td>{item?.comments}</td>
                             </tr>
                             </>
                           ) 
