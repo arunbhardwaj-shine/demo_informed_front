@@ -1092,8 +1092,7 @@ useEffect(() => {
                                             Object.keys(attendeesDetails)?.length > 0
                                             ?
                                             <ul>
-                                              <li><span>Login Time</span>{attendeesDetails?.login_time}
-                                               {/* | {attendeesDetails?.active_time} */}
+                                              <li><span>Login Time</span>{attendeesDetails?.login_time} | {attendeesDetails?.active_time}
                                                </li>
                                               <li><span>Network speed</span>{attendeesDetails?.speed}</li>
                                               <li><span>Browser </span>{attendeesDetails?.browser}</li>
@@ -1266,8 +1265,7 @@ useEffect(() => {
                                             Object.keys(attendeesDetails)?.length > 0
                                             ?
                                             <ul>
-                                              <li><span>Login Time</span>{attendeesDetails?.login_time} 
-                                              {/* | {attendeesDetails?.active_time} */}
+                                              <li><span>Login Time</span>{attendeesDetails?.login_time} | {attendeesDetails?.active_time}
                                               </li>
                                               <li><span>Network speed</span>{attendeesDetails?.speed}</li>
                                               <li><span>Browser </span>{attendeesDetails?.browser}</li>
@@ -1400,11 +1398,11 @@ useEffect(() => {
                                       </ul>
                                   </div>
                                  
-                                  <div className='hcp-activity-status'>
+                                  {/* <div className='hcp-activity-status'>
                                       <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}>
                                         <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"}
                                       </div>
-                                  </div>
+                                  </div> */}
                                   <div className='reader-msg'>
                                     <span>Question:</span>
                                     <div className='reader-msg-show' dangerouslySetInnerHTML={{ __html: item?.question }}>
@@ -1655,8 +1653,7 @@ useEffect(() => {
                                             Object.keys(attendeesDetails)?.length > 0
                                             ?
                                             <ul>
-                                              <li><span>Login Time</span>{attendeesDetails?.login_time}
-                                               {/* | {attendeesDetails?.active_time} */}
+                                              <li><span>Login Time</span>{attendeesDetails?.login_time} | {attendeesDetails?.active_time}
                                                </li>
                                               <li><span>Network speed</span>{attendeesDetails?.speed}</li>
                                               <li><span>Browser </span>{attendeesDetails?.browser}</li>

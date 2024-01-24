@@ -2482,6 +2482,17 @@
     width: 270px;
   }
 
+  .chatlink .webinar-popup {
+    justify-content: center;
+    margin: 30px auto;
+    width: 100%;
+  }
+
+  .chatlink .webinar-popup .octa_events {
+    max-width: 100%;
+    width: 100%;
+  }
+
   .auto_mail_trigger_left {
     padding-right: 10px;
     width: 100%;
@@ -2970,7 +2981,13 @@
     justify-content: space-between;
     align-content: center;
     display: flex;
-    flex: 1 1;
+    flex: 0 0 auto;
+  }
+
+  .question-listing .question-status .btn-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .question-listing .question-status .btn-group .btn-group-add button.btn {
@@ -3092,6 +3109,18 @@
     line-height: 24px;
   }
 
+  .poll-creation .nav-tabs .nav-item:first-child button.active:before,
+  .poll-creation .nav-tabs .nav-item:last-child button.active:after,
+  .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
+  .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
+    height: 27px;
+    width: 14px;
+  }
+
+  .poll-creation .question-outer-inset {
+    max-width: calc(100% - 85px);
+  }
+
   .top-header.regi-web .header_btns {
     gap: 10px;
   }
@@ -3197,7 +3226,13 @@
 
   .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active::before,
   .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
-    top: 23px;
+    top: 28px;
+    height: 17px;
+    width: 12px;
+  }
+
+  .select-template h3 {
+    font-size: 20px;
   }
 
   .poll-question-create .question-color .color-pick {
@@ -3207,6 +3242,7 @@
   .invitee {
     overflow-x: auto;
     padding-left: 5px;
+    margin-bottom: 5px;
   }
 
   .select-mail-template.library-consent {
@@ -3309,11 +3345,24 @@
     transition: all 0.6s linear;
     display: flex !important;
     flex-direction: column;
-    opacity:0;
+    opacity: 0;
+    justify-content: center;
 
     /* clip-path: circle(50px at 90% -20%);
         -webkit-clip-path: circle(50px at 90% -20%); */
     /* transition: all 1s ease-out; */
+  }
+
+  .right-sidebar {
+    width: calc(100% - 220px);
+  }
+
+  .chatlink .question-block .head-sec {
+    min-height: 100px;
+  }
+
+  .chatlink .question-block .head-sec h2.top-title {
+    font-size: 16px;
   }
 
   .navbar .navbar-collapse.show {
@@ -3338,19 +3387,75 @@
   }
 
   .navbar.navbar-light button.navbar-toggler {
-    background: #0066be;
-    padding: 2px;
+    background: transparent;
+    /* padding: 2px;
     border: none;
     width: 33px;
     height: 33px;
     border-radius: 0;
+    border-radius: 50%; */
     z-index: 1;
-    border-radius: 50%;
+  }
+
+  .navbar button.navbar-toggler .navbar-toggler-icon,
+  .navbar button.navbar-toggler .navbar-toggler-icon::before,
+  .navbar button.navbar-toggler .navbar-toggler-icon:after {
+    width: 26px;
+    background: #0066be;
+    height: 2px;
+    transition-property: transform;
+    transition-duration: .15s;
+    transition-timing-function: ease;
+    border-radius: 10px;
+
+  }
+
+  .navbar button.navbar-toggler.collapsed .navbar-toggler-icon {
+    background-image: none;
+    position: relative;
+    transform: translate3d(0, 0px, 0) rotate(0deg);
+  }
+
+  .navbar button.navbar-toggler.collapsed .navbar-toggler-icon:before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 0;
+    transform: translate3d(0, 0px, 0) rotate(0deg);
+    opacity: 1;
+    transition: 1s ease opacity;
+  }
+
+  .navbar button.navbar-toggler.collapsed .navbar-toggler-icon:after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 0;
+    transform: translate3d(0, 0px, 0) rotate(0deg);
   }
 
   .navbar button.navbar-toggler .navbar-toggler-icon {
-    filter: brightness(0) invert(1);
-    background-size: 24px;
+    transform: translate3d(0, 0px, 0) rotate(45deg);
+    transition-delay: .09s;
+
+  }
+
+  .navbar button.navbar-toggler .navbar-toggler-icon:after {
+    transform: translate3d(0, -6px, 0) rotate(90deg);
+    transition-delay: .075s;
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 0;
+  }
+
+  .navbar button.navbar-toggler .navbar-toggler-icon:before {
+    opacity: 0;
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 0;
+    transition-delay: 1s;
   }
 
   .navbar-toggler:focus {
@@ -3362,9 +3467,10 @@
     border-radius: 0;
   }
 
- .-top-24 .navbar .navbar-collapse.show {
-   height: calc(100vh + 50px);
- }
+  .-top-24 .navbar .navbar-collapse.show {
+    height: calc(100vh + 50px);
+  }
+
   .-top-24 {
     top: -50px;
   }
@@ -3539,180 +3645,363 @@
   .custom-change .select-mail-template .alice-carousel .alice-carousel__next-btn {
     right: -10px;
   }
-    .create-change-content.register-page .react-datepicker-wrapper {
-      flex: 0 0 100%;
-    }
-        .register-page-right-view .eahad .octapharma_event .octapharma_event_form label {
-          font-size: 12px;
-        }
-.create-change-content.register-page .form-group .logo-section,
-.create-change-content.register-page .form-group .header-section,
-.create-change-content.register-page .form-group .footer-section,
-.chatlink-left .logo-section {
-  min-height: 140px;
-  flex: 0 0 100%;
-}
-.register-popup-view .meeting-logo {
-  max-width: 90px;
-  flex: 0 0 90px;
-}
-.invertor-metting .logo-top p {
-  font-size: 13px;
-}
-.register-popup-view .invertor-metting .logo-top h5 {
-  font-size: 14px;
-}
-.register-popup-view .invertor-metting .meeting-logo img {
-  max-height: 65px;
-  max-width: 88px;
-}
-.register-popup-view .motivate_outer .top_header h2 {
-  font-size: 22px;
-}
-.motivate_outer .top_header h2 {
-  padding: 10px;
-}
-.register-popup-view .motivate-mid-sec h2 {
-  font-size: 16px;
-  line-height: 24px;
-}
-.motivate_outer .motivation-body .consent-form-inner {
-  box-shadow: none;
-  border: 0;
-  padding: 15px 0;
-}
-.register-popup-view .factor-season-left h2 {
-  margin: 10px 0 10px;
-  font-size: 12px;
-}
-.register-popup-view .factor-season-left {
-  padding: 20px 11px 7px 0px;
-}
-.register-popup-view .factor__logo img {
-  max-width: 160px;
-}
-.register-popup-view .vwd .factor-season-left h1 {
-  font-size: 13px;
-  line-height: 20px;
-}
-.factor-season-inner .factor-season-right .emory__logo img {
-  max-width: 170px;
-}
-.register-popup-view .factor-season-right h3 {
-  font-size: 12px;
-  margin: 8px 0 10px;
-}
-.factor-season-inner .emory__logo {
-  margin: 0 0;
-}
-.register-popup-view .vwd .factor-season-right::before {
-  display: none;
-}
-.register-popup-view .vwd .consent-form-inner .form-control {
-  padding: 6px 30px 6px 40px;
-}
-.register-popup-view .vwd .consent-form-list .field-icon {
-  top: 6px;
-  left: 25px;
-}
-.vwd.wrapper .consent-form-list .field-icon img {
-  width: 18px;
-}
-.register-popup-view .consent-form .split-button-dropup>div:nth-child(3) {
-  padding: 4px 10px;
-}
-.register-page-right-view .footer-sec {
-  margin: 10px 0 0 0;
-}
-.vwd.wrapper .footer-sec span {
-  font-size: 9px;
-}
-.register-popup-view .emory .factor-season-left {
-  padding: 16px 0px 0px 0px;
-}
-.register-popup-view .emory .factor__logo img {
-  max-height: 60px;
-  max-width: 200px;
-}
-.register-popup-view .factor-season-right::before {
-  display:none;
-}
-.register-popup-view .emory .consent-form-inner .center-sided h2 {
-  font-size: 15px;
-  line-height: 17px;
-}
-.register-popup-view .emory .consent-form-inner .center-sided h3 {
-  font-size: 13px;
-  line-height: 100%;
-  margin-top: 9px;
-}
-.register-popup-view .emory .factor-season-right h3 {
-  margin-bottom: 14px;
-  font-size: 14px;
-  line-height: 1;
-  margin-top: 0;
-}
-#add_hcp .modal-body .hcp-add-box {
-  width: 100%;
-}
-#add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action {
-  padding: 15px 12px 12px 12px;
-}
-#add_hcp .modal-body .hcp-add-form form .form-group label {
-  flex: 0 0 90px;
-  font-size: 14px;
-}
-#add_hcp .modal-body .hcp-add-form form .form-group .form-control,
-#add_hcp .modal-body .hcp-add-form form .form-group select {
-  font-size: 14px;
-  padding: 8px 18px;
-  height: auto;
-}
-.modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
-  height: 37px;
-  padding: 4px 40px 4px 18px;
-}
-.modal .modal-content {
-  padding: 0 15px;
-}
-.register-popup-view footer .footer-copyright {
-  margin-top: 35px;
-  flex-direction: column;
-}
-footer .footer-copyright ul li {
-  display: inline-block;
-  padding: 0 10px 0 0;
-}
-.register-popup-view .footer-inner::before {
-  background-size: 80px;
-  left: auto;
-  right: -20px;
-}
-.register-popup-view .emory .footer-inner::after {
-  right: 113px;
-}
-.register-popup-view .emory footer {
-  margin: 17px 0 0;
-}
-/* .left-sidebar {
-  display: none;
-} */
-.filter-by,
-.clear-search {
-  margin-left: 0px;
-}
-.top-right-action {
-  width: 100%;
-  justify-content: flex-end;
-  gap: 10px;
-}
-.filter-block {
-  padding: 10px;
-}
-.clear-filter::before {
-  height: calc(100% + 1px);
-}
-.right-sidebar.custom-change {
-  min-height: calc(100vh - 48px);
-}
+
+  .create-change-content.register-page .react-datepicker-wrapper {
+    flex: 0 0 100%;
+  }
+
+  .register-page-right-view .eahad .octapharma_event .octapharma_event_form label {
+    font-size: 12px;
+  }
+
+  .create-change-content.register-page .form-group .logo-section,
+  .create-change-content.register-page .form-group .header-section,
+  .create-change-content.register-page .form-group .footer-section,
+  .chatlink-left .logo-section {
+    min-height: 140px;
+    flex: 0 0 100%;
+  }
+
+  .register-popup-view .meeting-logo {
+    max-width: 90px;
+    flex: 0 0 90px;
+  }
+
+  .invertor-metting .logo-top p {
+    font-size: 13px;
+  }
+
+  .register-popup-view .invertor-metting .logo-top h5 {
+    font-size: 14px;
+  }
+
+  .register-popup-view .invertor-metting .meeting-logo img {
+    max-height: 65px;
+    max-width: 88px;
+  }
+
+  .register-popup-view .motivate_outer .top_header h2 {
+    font-size: 22px;
+  }
+
+  .motivate_outer .top_header h2 {
+    padding: 10px;
+  }
+
+  .register-popup-view .motivate-mid-sec h2 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .motivate_outer .motivation-body .consent-form-inner {
+    box-shadow: none;
+    border: 0;
+    padding: 15px 0;
+  }
+
+  .register-popup-view .factor-season-left h2 {
+    margin: 10px 0 10px;
+    font-size: 12px;
+  }
+
+  .register-popup-view .factor-season-left {
+    padding: 20px 11px 7px 0px;
+  }
+
+  .register-popup-view .factor__logo img {
+    max-width: 160px;
+  }
+
+  .register-popup-view .vwd .factor-season-left h1 {
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .factor-season-inner .factor-season-right .emory__logo img {
+    max-width: 170px;
+  }
+
+  .register-popup-view .factor-season-right h3 {
+    font-size: 12px;
+    margin: 8px 0 10px;
+  }
+
+  .factor-season-inner .emory__logo {
+    margin: 0 0;
+  }
+
+  .register-popup-view .vwd .factor-season-right::before {
+    display: none;
+  }
+
+  .register-popup-view .vwd .consent-form-inner .form-control {
+    padding: 6px 30px 6px 40px;
+  }
+
+  .register-popup-view .vwd .consent-form-list .field-icon {
+    top: 6px;
+    left: 25px;
+  }
+
+  .vwd.wrapper .consent-form-list .field-icon img {
+    width: 18px;
+  }
+
+  .register-popup-view .consent-form .split-button-dropup>div:nth-child(3) {
+    padding: 4px 10px;
+  }
+
+  .register-page-right-view .footer-sec {
+    margin: 10px 0 0 0;
+  }
+
+  .vwd.wrapper .footer-sec span {
+    font-size: 9px;
+  }
+
+  .register-popup-view .emory .factor-season-left {
+    padding: 16px 0px 0px 0px;
+  }
+
+  .register-popup-view .emory .factor__logo img {
+    max-height: 60px;
+    max-width: 200px;
+  }
+
+  .register-popup-view .factor-season-right::before {
+    display: none;
+  }
+
+  .register-popup-view .emory .consent-form-inner .center-sided h2 {
+    font-size: 15px;
+    line-height: 17px;
+  }
+
+  .register-popup-view .emory .consent-form-inner .center-sided h3 {
+    font-size: 13px;
+    line-height: 100%;
+    margin-top: 9px;
+  }
+
+  .register-popup-view .emory .factor-season-right h3 {
+    margin-bottom: 14px;
+    font-size: 14px;
+    line-height: 1;
+    margin-top: 0;
+  }
+
+  #add_hcp .modal-body .hcp-add-box {
+    width: 100%;
+  }
+
+  #add_hcp .modal-body .hcp-add-form form .add_hcp_boxes .form_action {
+    padding: 15px 12px 12px 12px;
+  }
+
+  #add_hcp .modal-body .hcp-add-form form .form-group label {
+    flex: 0 0 90px;
+    font-size: 14px;
+  }
+
+  #add_hcp .modal-body .hcp-add-form form .form-group .form-control,
+  #add_hcp .modal-body .hcp-add-form form .form-group select {
+    font-size: 14px;
+    padding: 8px 18px;
+    height: auto;
+  }
+
+  .modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
+    height: 37px;
+    padding: 4px 40px 4px 18px;
+  }
+
+  .modal .modal-content {
+    padding: 0 15px;
+  }
+
+  .register-popup-view footer .footer-copyright {
+    margin-top: 35px;
+    flex-direction: column;
+  }
+
+  footer .footer-copyright ul li {
+    display: inline-block;
+    padding: 0 10px 0 0;
+  }
+
+  .register-popup-view .footer-inner::before {
+    background-size: 80px;
+    left: auto;
+    right: -20px;
+  }
+
+  .register-popup-view .emory .footer-inner::after {
+    right: 113px;
+  }
+
+  .register-popup-view .emory footer {
+    margin: 17px 0 0;
+  }
+
+  .filter-by,
+  .clear-search {
+    margin-left: 0px;
+  }
+
+  .top-right-action {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 5px;
+  }
+
+  .filter-block {
+    padding: 10px;
+  }
+
+  .clear-filter::before {
+    height: calc(100% + 1px);
+  }
+
+  .right-sidebar.custom-change,
+  .left-sidebar.hidesidebar~.right-sidebar {
+    min-height: calc(100vh - 48px);
+  }
+
+  .poll-creation .outer-layout .question-outer-layout,
+  .poll-creation .outer-layout .pie-chart-outer-layout {
+    flex-direction: column;
+    padding: 4px;
+  }
+
+  .question-outer-layout .question-action {
+    gap: 15px;
+    width: 100%;
+    flex: 0 0 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0 0 10px
+  }
+
+  .poll-creation .outer-layout .question-outer-layout button.reset {
+    font-size: 11px;
+    min-width: 60px;
+    right: 10px;
+    top: 10px;
+    padding: 5px;
+  }
+
+  .question-list-number {
+    padding: 0px 0px 6px 2px;
+  }
+
+  .question-outer-layout .question-action button.question-prev {
+    transform: rotate(-90deg);
+  }
+
+  .question-outer-layout .question-action button.question-next {
+    transform: rotate(-90deg);
+  }
+
+  .question-outer-layout .question-action .question-listing-link-box {
+    flex-direction: row;
+    gap: 8px;
+    width: calc(100% - 100px);
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+
+  .right-sidebar {
+    border-radius: 0;
+  }
+
+  .tag-lists-view::-webkit-scrollbar,
+  .search-hcp-table .search-hcp-table-inside::-webkit-scrollbar,
+  .dropdown-menu.filter-options #accordion::-webkit-scrollbar,
+  .dropdown-menu.filter-options #accordion .card ul::-webkit-scrollbar,
+  ::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .poll-creation .nav li button {
+    font-size: 14px;
+  }
+
+  .question-listing-action {
+    padding-right: 0px;
+    flex-direction: column-reverse;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+  }
+
+  .question-listing-action .question-action {
+    gap: 10px;
+    justify-content: flex-end;
+    width: 100%;
+    margin: 0 0 6px;
+  }
+
+  .poll-question-create .question-color .color-pick {
+    height: 34px;
+  }
+
+  .color-pick .color-pick-point {
+    max-width: 28px;
+    height: 28px;
+  }
+
+  .poll-creation .nav-tabs .nav-item:first-child button.active:before,
+  .poll-creation .nav-tabs .nav-item:last-child button.active:after,
+  .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
+  .live-stream-tabs-data .nav-tabs .nav-item:last-child button.active::after {
+    height: 17px;
+  }
+
+  .event_listing .email_box,
+  .event_listing .email-block-add {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+
+  .live-hcp-tracking-img {
+    margin: 0 0 20px;
+  }
+
+  .create-change-content.register-page .form-group .logo-section .logo-text.header-text button,
+  .create-change-content.register-page .form-group .header-section .header-text button,
+  .create-change-content.register-page .form-group .footer-section .footer-text button {
+    width: 28px;
+    height: 28px;
+  }
+
+  .create-change-content.register-page .form-group .logo-section .logo-text.header-text button img,
+  .create-change-content.register-page .form-group .header-section .header-text button img {
+    width: 17px;
+    height: 17px;
+  }
+
+  .custom-change .create-change-content.chatlink {
+    padding: 15px 0 10px;
+    margin-bottom: 0;
+  }
+
+  .create-change-content.chatlink.register-page .form-group label {
+    font-size: 14px;
+  }
+
+  .navbar .mob-sidenav {
+    display: block !important;
+  }
+
+  .navbar .mob-sidenav button {
+    background: transparent;
+  }
+
+  .navbar .mob-sidenav button svg {
+    height: 30px;
+    width: 30px;
+  }
+
+  .chatlink-left button.save-btn {
+    min-width: 120px;
+  }
 }

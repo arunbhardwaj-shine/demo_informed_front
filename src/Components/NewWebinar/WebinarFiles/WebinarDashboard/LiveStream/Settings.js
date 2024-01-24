@@ -5,18 +5,55 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { getData, postData } from "../../../../../axios/apiHelper";
 import { toast } from "react-toastify";
 import { loader } from "../../../../../loader";
+import Select from "react-select";
 
 const Settings = () => {
-  const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
-  const { eventIdContext,handleEventId } = useSidebar();
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+  const { eventIdContext, handleEventId } = useSidebar();
   const [liveStatus, setLiveStatus] = useState(0);
   const [askQuestion, setAskQuestion] = useState(0);
   const [streamUrl, setStreamUrl] = useState("");
-  const [posterUrl, setPosterUrl] = useState("");
-  const [eventId,setEventId]=useState(eventIdContext?.eventId?eventIdContext?.eventId:localStorageEvent?.eventId)
+  const [eventId, setEventId] = useState(
+    eventIdContext?.eventId
+      ? eventIdContext?.eventId
+      : localStorageEvent?.eventId
+  );
+
+  const [customPosterUrl, setCustomPosterUrl] = useState("");
+  const posterOptions = [
+    {
+      label: "Thank you image without speaker",
+      value:
+        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-thanks1-banner-min.jpg",
+    },
+    {
+      label: "Thank you image with speaker",
+      value:
+        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-thanks-banner-min.jpg",
+    },
+    {
+      label: "Delayed time",
+      value:
+        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Banner-Unexpected-Reason.jpg",
+    },
+    {
+      label: "Stay Tuned",
+      value:
+        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-video-banner.jpg",
+    },
+    {
+      label: "Technical difficulties",
+      value:
+        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Banner-Technical-difficulties.jpg",
+    },
+    { label: "Custom", value: "" },
+  ];
+  const [selectedPosterOption, setSelectedPosterOption] = useState(
+    posterOptions[0]
+  );
+  const [posterUrl, setPosterUrl] = useState(posterOptions[0].value);
 
   useEffect(() => {
-   
     // if(!eventIdContext){
     //   handleEventId(localStorageEvent)
     // }
@@ -60,18 +97,19 @@ const Settings = () => {
         return;
       }
 
-      if (liveStatus === 3 && !posterUrl.trim()) {
-        toast.error("Please filled poster url first", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        return;
-      }
+      // if (liveStatus === 3 && !posterUrl.trim()) {
+      //   toast.error("Please filled poster url first", {
+      //     position: "top-right",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //   });
+      //   return;
+      // }
+
       if (liveStatus === 2 && !streamUrl.startsWith("https")) {
         toast.error("Stream URL should start with 'https'", {
           position: "top-right",
@@ -85,7 +123,42 @@ const Settings = () => {
         return;
       }
 
-      if (liveStatus === 3 && !posterUrl.startsWith("https")) {
+      // if (liveStatus === 3 && !posterUrl.startsWith("https")) {
+      //   toast.error("Poster URL should start with 'https'", {
+      //     position: "top-right",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //   });
+      //   return;
+      // }
+
+      if (
+        liveStatus === 3 &&
+        !(
+          selectedPosterOption.label === "Custom" ? customPosterUrl : posterUrl
+        ).trim()
+      ) {
+        toast.error("Please filled poster url first", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        return;
+      }
+      if (
+        liveStatus === 3 &&
+        !(
+          selectedPosterOption.label === "Custom" ? customPosterUrl : posterUrl
+        ).startsWith("https")
+      ) {
         toast.error("Poster URL should start with 'https'", {
           position: "top-right",
           autoClose: 5000,
@@ -103,7 +176,13 @@ const Settings = () => {
         live_status: liveStatus,
         ask_question: askQuestion,
         stream_url: liveStatus === 2 ? streamUrl : "",
-        poster_url: liveStatus === 3 ? posterUrl : "",
+        // poster_url: liveStatus === 3 ? posterUrl: "",
+        poster_url:
+          liveStatus === 3
+            ? selectedPosterOption.label === "Custom"
+              ? customPosterUrl
+              : posterUrl
+            : "",
       };
       // console.log("====>payload", payload);
 
@@ -126,21 +205,26 @@ const Settings = () => {
       loader("hide");
     }
   };
-let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+  const handleCustomInputChange = (e) => {
+    setCustomPosterUrl(e.target.value);
+    // setSelectedPosterOption("Custom");
+  };
+
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   return (
     <>
       <Col className="right-sidebar custom-change">
-        <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-      />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <div className="custom-container">
           <div className="row">
             <div className="top-header regi-web sticky">
               <div className="page-title">
                 <h2>Settings</h2>
               </div>
-              <Button className="save-btn" onClick={handleSave}>Save</Button>
+              <Button className="save-btn" onClick={handleSave}>
+                Save
+              </Button>
             </div>
           </div>
           <div className="page-title event-heading">
@@ -160,14 +244,13 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                   // setPosterUrl("");
                 }}
               />
-               <div className="event-status-img">
-                <img src={path_image + "offline-status.png"} alt=""/> 
+              <div className="event-status-img">
+                <img src={path_image + "offline-status.png"} alt="" />
               </div>
               <div className="event-status-msg">
                 <p className="event-status-set">Offline</p>
                 <p>Not live yet. A video or image is shown while offline.</p>
               </div>
-             
             </div>
             <div className="settings-status">
               <Form.Check
@@ -180,10 +263,10 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                   // setPosterUrl("");
                 }}
               />
-               <div className="event-status-img">
-                <img src={path_image + "start-time.png"} alt=""/> 
-              </div> 
-             <div className="event-status-msg">
+              <div className="event-status-img">
+                <img src={path_image + "start-time.png"} alt="" />
+              </div>
+              <div className="event-status-msg">
                 <p className="event-status-set">Start Timer</p>
                 <p>Activate a timer to count down to the live stream starts.</p>
               </div>
@@ -198,10 +281,10 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                   // setPosterUrl("");
                 }}
               />
-               <div className="event-status-img">
-                <img src={path_image + "live-status.png"} alt=""/> 
+              <div className="event-status-img">
+                <img src={path_image + "live-status.png"} alt="" />
               </div>
-              
+
               <div className="event-status-msg">
                 <p className="event-status-set">Start Live Streaming</p>
                 <p>Click here to start the streaming.</p>
@@ -215,20 +298,21 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 onChange={() => {
                   setLiveStatus(3);
                   // setStreamUrl("");
+                  setPosterUrl(posterOptions[0].value);
+                  // setSelectedPosterOption(posterOptions[0])
                 }}
               />
               <div className="event-status-img">
-                <img src={path_image + "message-to attendeed.png"} alt=""/> 
+                <img src={path_image + "message-to attendeed.png"} alt="" />
               </div>
               <div className="event-status-msg">
                 <p className="event-status-set">End Live Streaming</p>
                 <p>Stop the live stream and place an image message.</p>
               </div>
-              
             </div>
           </div>
 
-          <div className="ask-questions">
+          {/* <div className="ask-questions">
             <h5>Ask live questions: </h5>
             <div className="yes">
             <Form.Check
@@ -248,22 +332,22 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
             />
             No
           </div>
-          </div>
+          </div> */}
 
           {liveStatus === 2 && (
             <div className="stream-url">
-            <Form.Group>
-              <Form.Label>Stream URL:</Form.Label>
-              <Form.Control
-                type="text"
-                value={streamUrl}
-                onChange={(e) => setStreamUrl(e.target.value)}
-              />
-            </Form.Group>
+              <Form.Group>
+                <Form.Label>Stream URL:</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={streamUrl}
+                  onChange={(e) => setStreamUrl(e.target.value)}
+                />
+              </Form.Group>
             </div>
           )}
 
-          {liveStatus === 3 && (
+          {/* {liveStatus === 3 && (
             <div className="poster-url">
             <Form.Group>
               <Form.Label>Poster URL:</Form.Label>
@@ -273,6 +357,54 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                 onChange={(e) => setPosterUrl(e.target.value)}
               />
             </Form.Group>
+            </div>
+          )} */}
+
+          {liveStatus === 3 && (
+            <div className="poster-url">
+              <Form.Group>
+                <Form.Label>Poster Option:</Form.Label>
+                <Select
+                  className="dropdown-basic-button split-button-dropup"
+                  options={posterOptions.map((option) => ({
+                    label: option.label,
+                    value: option.value,
+                  }))}
+                  value={selectedPosterOption}
+                  onChange={(selectedOption) => {
+                    setSelectedPosterOption(selectedOption);
+                    setCustomPosterUrl(
+                      posterOptions.find(
+                        (option) => option.label === selectedOption.label
+                      )?.value || ""
+                    );
+                    setPosterUrl(
+                      posterOptions.find(
+                        (option) => option.label === selectedOption.label
+                      )?.value || ""
+                    );
+                  }}
+                />
+              </Form.Group>
+
+              <Form.Group>
+                {/* {console.log(selectedPosterOption)} */}
+                <Form.Label>Poster URL:</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={
+                    selectedPosterOption.label === "Custom"
+                      ? customPosterUrl
+                      : posterUrl
+                  }
+                  onChange={handleCustomInputChange}
+                  placeholder={
+                    selectedPosterOption.label === "Custom"
+                      ? "Please enter poster url"
+                      : ""
+                  }
+                />
+              </Form.Group>
             </div>
           )}
         </div>

@@ -26,12 +26,14 @@ const settings = {
   touchMove: false,
   responsive: [
     {
-      breakpoint: 558,
+      breakpoint: 767,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
-        dots: true,
-        arrows: true,
+        dots: false,
+        arrows: false,
+        vertical: false,
+  verticalScrolling: false,
       },
     },
   ],
@@ -160,6 +162,23 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
       // setApiCallStatus(false);
     }
   };
+
+  const handleBeforeChange = async (current) => {
+    try {
+      setApiCallStatus(true)
+      if (currentSnapShot.current) {
+        currentSnapShot.current();
+      }
+      setPieChartData({})
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+      setShow(true);
+      // setApiCallStatus(false);
+    }
+  };
+
 
   const firebaseev = async () => {
     if (eventData?.id && currentQuestion.current) {
@@ -304,6 +323,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
               {...settings}
               ref={slickRef}
               afterChange={(e) => handleAfterChange(e)}
+              beforeChange={(e) => handleBeforeChange(e)}
             >
               {question?.length ? (
                 question?.map((item, index) => {
@@ -516,7 +536,14 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
               <div className="question-listing-link-box">
                 {question?.length
                   ? question?.map((item, index) => (
-                      <div className="question-listing-links">
+                      <div className="question-listing-links" onClick={()=>{
+                        if(index>=0 && currentIndex!=index){
+                          
+                          setCurrentIndex(index)
+                          slickRef.current.slickGoTo(index)
+
+                        }
+                      }}>
                         <div
                           className={
                             currentIndex == index

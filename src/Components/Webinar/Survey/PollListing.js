@@ -61,12 +61,12 @@ const settings = {
   touchMove: false,
   responsive: [
     {
-      breakpoint: 558,
+      breakpoint: 767,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
-        dots: true,
-        arrows: true,
+        dots: false,
+        arrows: false,
       },
     },
   ],

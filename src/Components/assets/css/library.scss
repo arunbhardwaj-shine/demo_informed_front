@@ -11502,6 +11502,7 @@ img.change-password-image {
             width: 100%;
             color: $primary-color;
             margin-right: 59px;
+
           }
 
           .option-action {
@@ -22482,17 +22483,12 @@ img.change-password-image {
     font-size: 20px;
   }
 
-  .webinar-quest .container,
+  .webinar-quest .navbar>.d-flex .col-lg-6,
+  .webinar-quest .navbar .nav-fill,
+  webinar-quest .container,
   .webinar-question-box .container {
+    width: 100%;
     max-width: 100%;
-  }
-
-  .webinar-quest .navbar>.d-flex .col-lg-6 {
-    width: 100%;
-  }
-
-  .webinar-quest .navbar .nav-fill {
-    width: 100%;
   }
 
   .webinar-quest .navbar>.d-flex .right-sec {
@@ -22502,6 +22498,152 @@ img.change-password-image {
   .webinar-quest {
     padding: 5px 0 6px;
   }
+
+  .no_found {
+    min-height: 150px;
+  }
+
+  .poll-question .poll-question-create label.h5,
+  .poll-question-create .question-color>div h5,
+  .poll-question .poll-question-create .answer-option .options .row .form-label,
+  .poll-question .poll-question-create .speaker-detail .speaker-name>div label,
+  .poll-question .poll-question-create .speaker-detail .display-result>div label {
+    font-size: 14px;
+  }
+
+  .poll-question {
+    .poll-question-create {
+      textarea {
+        padding: 8px 10px 8px 10px;
+      }
+
+      .answer-option {
+        margin-top: 12px;
+        padding-top: 12px;
+
+        .options {
+          .row {
+            flex-wrap: wrap;
+            margin-bottom: 5px !important;
+
+            .form-label {
+              flex: 0 0 100%;
+              max-width: 100%;
+              margin: 0 0 6px;
+            }
+
+            .form-control {
+              border-radius: 14px;
+            }
+
+            .option-action {
+              max-width: 100%;
+              justify-content: flex-end;
+              margin: 8px 0 2px;
+              gap: 0 6px;
+
+              button {
+                margin-top: 3px;
+              }
+
+              .color-pick {
+                margin-left: 0;
+              }
+            }
+          }
+        }
+      }
+
+      .speaker-detail {
+        .speaker-name &>div {
+          flex-direction: column;
+          align-items: flex-start;
+
+          label {
+            flex: 0 0 100%;
+            max-width: 100%;
+            margin: 0 0 6px;
+          }
+        }
+
+        .display-result &>div {
+          align-items: center;
+          flex-wrap: wrap;
+          justify-content: flex-start;
+
+          button {
+            min-width: 80px;
+            font-size: 14px;
+            margin: 20px 0 0 auto;
+          }
+        }
+      }
+
+      .form-check-inline {
+        gap: 10px;
+        margin-right: 0;
+      }
+    }
+  }
+
+  .mb-4 {
+    margin-bottom: 10px !important;
+  }
+
+  form.product-unit button {
+    margin: 7px 0 14px auto;
+  }
+
+  .poll-question {
+    .poll-question-create {
+      .answer-option {
+        .options {
+          .row {
+            flex-wrap: wrap;
+            margin-bottom: 5px !important;
+
+            .option-action {
+              max-width: 100%;
+              justify-content: flex-end;
+              margin: 8px 0 2px;
+              gap: 0 6px;
+
+              button {
+                margin-top: 3px;
+              }
+
+              .color-pick {
+                margin-left: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .filter-by button {
+    padding: 6px 5px;
+  }
+
+  .create-change-content .form-group .form-control,
+  .create-change-content .form-group .react-datepicker__input-container input {
+    padding: 9px 18px;
+  }
+
+  // .color-pick {
+  //   height: 32px;
+  //   padding: 3px;
+  // }
+
+  // .color-pick .color-pick-point {
+  //   max-width: 27px;
+  //   height: 27px;
+  // }
+
+  // .color-pick input[type=color] {
+  //   padding-right: 34px;
+  // }
 }
 
 /**Landing page Responsive End**/
