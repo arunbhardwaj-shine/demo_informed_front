@@ -163,6 +163,23 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
     }
   };
 
+  const handleBeforeChange = async (current) => {
+    try {
+      setApiCallStatus(true)
+      if (currentSnapShot.current) {
+        currentSnapShot.current();
+      }
+      setPieChartData({})
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+      setShow(true);
+      // setApiCallStatus(false);
+    }
+  };
+
+
   const firebaseev = async () => {
     if (eventData?.id && currentQuestion.current) {
       const q = query(
@@ -306,6 +323,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
               {...settings}
               ref={slickRef}
               afterChange={(e) => handleAfterChange(e)}
+              beforeChange={(e) => handleBeforeChange(e)}
             >
               {question?.length ? (
                 question?.map((item, index) => {
@@ -518,7 +536,14 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
               <div className="question-listing-link-box">
                 {question?.length
                   ? question?.map((item, index) => (
-                      <div className="question-listing-links">
+                      <div className="question-listing-links" onClick={()=>{
+                        if(index>=0 && currentIndex!=index){
+                          
+                          setCurrentIndex(index)
+                          slickRef.current.slickGoTo(index)
+
+                        }
+                      }}>
                         <div
                           className={
                             currentIndex == index

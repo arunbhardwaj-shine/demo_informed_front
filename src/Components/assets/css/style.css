@@ -10277,6 +10277,7 @@ button.event_sort_btn.svg_active svg {
   width: 100%;
   max-width: 72px;
   gap: 6px;
+  cursor: pointer;
 }
 
 .question-outer-layout .question-action .question-listing-link-box {
