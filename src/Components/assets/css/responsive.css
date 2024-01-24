@@ -385,7 +385,9 @@
     padding: 9px;
     min-width: 85px;
   }
-
+.poll-creation .question-outer-inset {
+    max-width: calc(100% - 85px);
+}
   .webinarRegistrationBody #registration-form .form-group .btn-container .extension {
     min-width: 100%;
   }
@@ -4140,7 +4142,7 @@
   }
 
 
-  .left-sidebar.active .sidebar-menu ul li {
+  /* .left-sidebar.active .sidebar-menu ul li {
     z-index: 9;
-  }
+  } */
 }
