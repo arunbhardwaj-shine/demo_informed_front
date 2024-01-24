@@ -20,6 +20,7 @@ const Settings = () => {
   );
 
   const [customPosterUrl, setCustomPosterUrl] = useState("");
+  const [customPosterUrlOriginal, setCustomPosterUrlOriginal] = useState("");
   const posterOptions = [
     {
       label: "Thank you message without speaker image",
@@ -101,10 +102,16 @@ const Settings = () => {
           foundOption !== "undefined" &&
           foundOption !== ""
         ) {
-          setSelectedPosterOption(foundOption);
+
+          setSelectedPosterOption(foundOption);         
+           setCustomPosterUrl(poster_url);
+          //  setCustomPosterUrlOriginal(poster_url);
+
         } else {
-          setSelectedPosterOption(foundOption);
+
+          setSelectedPosterOption(posterOptions[posterOptions?.length-1]);
           setCustomPosterUrl(poster_url);
+          setCustomPosterUrlOriginal(poster_url);
         }
         setStreamUrl(stream_url);
         setPosterUrl(poster_url);
@@ -414,16 +421,28 @@ const Settings = () => {
                   value={selectedPosterOption}
                   onChange={(selectedOption) => {
                     setSelectedPosterOption(selectedOption);
-                    setCustomPosterUrl(
-                      posterOptions.find(
-                        (option) => option.label === selectedOption.label
-                      )?.value || ""
-                    );
-                    setPosterUrl(
-                      posterOptions.find(
-                        (option) => option.label === selectedOption.label
-                      )?.value || ""
-                    );
+                   
+                    if(selectedOption?.label=="Custom message"){
+                      setCustomPosterUrl(
+                        customPosterUrlOriginal
+                      );
+                      setPosterUrl(
+                        customPosterUrlOriginal
+                      );
+                    }else{
+                      setCustomPosterUrl(
+                        posterOptions.find(
+                          (option) => option.label === selectedOption.label
+                        )?.value || ""
+                      );
+                      setPosterUrl(
+                        posterOptions.find(
+                          (option) => option.label === selectedOption.label
+                        )?.value || ""
+                      );
+                    }
+                  
+                  
                   }}
                 />
               </Form.Group>
@@ -434,13 +453,13 @@ const Settings = () => {
                 <Form.Control
                   type="text"
                   value={
-                    selectedPosterOption.label === "Custom message"
+                    selectedPosterOption?.label === "Custom message"
                       ? customPosterUrl
                       : posterUrl
                   }
                   onChange={handleCustomInputChange}
                   placeholder={
-                    selectedPosterOption.label === "Custom message"
+                    selectedPosterOption?.label === "Custom message"
                       ? "Please enter poster url"
                       : ""
                   }
