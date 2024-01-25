@@ -893,7 +893,7 @@ const Invitees = () => {
                                   placeholder="Select user type"
                                   value={userTypeOptions?.findIndex((item, i) => item?.value == user?.hcp_status) != -1 ?
                                     userTypeOptions[userTypeOptions?.findIndex((item, i) => item?.value == user?.hcp_status)]
-                                    : ""
+                                    : userTypeOptions[0]
                                   }
                                   onChange={(e) => handleChange(e, user, index)}
                                 />
