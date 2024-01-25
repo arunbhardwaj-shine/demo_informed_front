@@ -324,14 +324,9 @@ useEffect(() => {
                           <th>Explanation</th>
                           </tr>
                         </thead>
-                        <tbody>			
-                          {console.log("data-->",comments.every(obj => obj.comments === ""))}
-                        
-                        
-                          
+                        <tbody>                          
                        { comments.every(obj => obj.comments === "") 
-                       ?
-                       <tr><td colSpan={3}><p>No Data Found</p></td></tr>
+                       ? <tr><td colSpan={3}><p>No Data Found</p></td></tr>
                        :comments?.map((item,index)=>{
                           return(
                             <>

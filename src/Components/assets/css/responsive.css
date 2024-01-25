@@ -3200,7 +3200,13 @@
     font-size: 20px;
     line-height: 24px;
   }
-
+.event_listing .email-result-block .email_box_block:nth-child(3n + 1) .email_box {
+  margin-left: auto;
+}
+.event_listing .email-result-block .email_box_block:nth-child(3n) .email_box {
+  margin-right: auto;
+  margin-left: 0;
+}
   .page-top-nav ul.tabnav-link li.active-main a:after,
   .navbar-nav li.active-main a:after {
     bottom: -8px;
