@@ -64,7 +64,7 @@ const LiveStream = () => {
     },
     yAxis: {
       title: {
-        text: "no of online users"
+        text: "online users"
       },
       allowDecimals: false, // Ensure y-axis labels are integers
 
