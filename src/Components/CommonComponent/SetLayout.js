@@ -99,11 +99,12 @@ const SetLayout = () => {
         localStorage.getItem("webinar_flag") == 1 &&
         localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
       ) {
-        window.open(
-          "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
-            localStorage.getItem("user_id"),
-          "_blank"
-        );
+        navigate("/webinar/event-listing")
+        // window.open(
+        //   "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
+        //     localStorage.getItem("user_id"),
+        //   "_blank"
+        // );
       }
     } else if (title == "Licensed") {
       // navigate("/license-content");
