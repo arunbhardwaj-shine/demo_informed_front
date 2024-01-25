@@ -2,7 +2,7 @@ import axios from "axios";
 import Highcharts from "highcharts";
 import { toast } from "react-toastify";
 import { Spinner } from 'react-activity';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import HighchartsReact from "highcharts-react-official";
 import { popup_alert } from '../../../../../popup_alert';
 import { ENDPOINT } from '../../../../../axios/apiConfig';
@@ -57,13 +57,14 @@ const LiveStream = () => {
       align: 'left'
     },
     xAxis: {
+    
       categories: [],
       tickInterval: 1,
 
     },
     yAxis: {
       title: {
-        text: ''
+        text: "no of online users"
       },
       allowDecimals: false, // Ensure y-axis labels are integers
 
@@ -301,7 +302,7 @@ useEffect(() => {
 
   const refreshQuestion = async(type) => {
     try{
-      setrefreshFlag(type);
+      setrefreshFlag(type);     
       setApiCallStatus(true);
       getQuestions();
     }catch(err){
@@ -469,7 +470,7 @@ useEffect(() => {
         setAdminMessage('');
         setErrorMessage('');
         setMessageSendStatus(false);
-        setActiveTab("sent");
+        // setActiveTab("sent");
         toast.success("Message send successfully.");
         getQuestions();
       }
@@ -480,9 +481,12 @@ useEffect(() => {
   };
 
   const handleTabSelect = (selectedTab) => {
-    // if(selectedTab==activeTab) return;
+    if(selectedTab==activeTab) return;
     // alert('handleTabSelect')
+   
+    refreshQuestion(selectedTab)
     setActiveTab(selectedTab);
+   
   };
 
   const changeAttendeesTab = (selectedTab) => {
@@ -650,7 +654,7 @@ useEffect(() => {
                         <div className="doc-content d-flex justify-content-between align-items-center">
                           <h4>Question | <span>{questions?.new?.length ? questions?.new?.length : 0}</span></h4>
                           <div className='btn-refresh'>
-                            <img className= {refreshFlag === "new" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshQuestion("new",e)}/>
+                            <img className= {refreshFlag == "new" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshQuestion("new",e)}/>
                           </div>
                         </div>
                       </div>
@@ -729,7 +733,7 @@ useEffect(() => {
                         <div className="doc-content d-flex justify-content-between align-items-center">
                           <h4>Question | <span>{questions?.sent?.length ? questions?.sent?.length : 0}</span></h4>
                           <div className='btn-refresh'>
-                            <img className= {refreshFlag === "sent" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshQuestion("sent",e)}/>
+                            <img className= {refreshFlag == "sent" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshQuestion("sent",e)}/>
                           </div>
                         </div>
                       </div>
@@ -815,7 +819,7 @@ useEffect(() => {
                         <div className="doc-content d-flex justify-content-between align-items-center">
                           <h4>Question | <span>{questions?.ignore?.length ? questions?.ignore?.length : 0}</span></h4>
                           <div className='btn-refresh'>
-                          <img className= {refreshFlag === "ignore" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshQuestion("ignore",e)}/>
+                          <img className= {refreshFlag == "ignored" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshQuestion("ignored",e)}/>
                           </div>
                         </div>
                       </div>
