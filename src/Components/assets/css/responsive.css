@@ -385,13 +385,16 @@
     padding: 9px;
     min-width: 85px;
   }
-    .stream-url input.form-control,
-    .poster-url input.form-control{
-      font-size: 15px;
-    }
-.poll-creation .question-outer-inset {
+
+  .stream-url input.form-control,
+  .poster-url input.form-control {
+    font-size: 15px;
+  }
+
+  .poll-creation .question-outer-inset {
     max-width: calc(100% - 85px);
-}
+  }
+
   .webinarRegistrationBody #registration-form .form-group .btn-container .extension {
     min-width: 100%;
   }
@@ -1615,22 +1618,27 @@
 }
 
 @media only screen and (max-width: 1399px) {
-.question-outer-layout .question-action {
+  .question-outer-layout .question-action {
     gap: 30px;
   }
-    .poll-creation .question-outer-inset .question-boxed {
-      padding: 5px;
-    }
+
+  .poll-creation .question-outer-inset .question-boxed {
+    padding: 5px;
+  }
+
   .event-endDate,
   .event-endTime {
     min-width: 100px;
   }
-    .question-listing .question-display .answer-options .answer {
-      font-size: 13px;
-    }
-    .question-listing .answer span, .question-listing .question-display .answer-options .answer>div {
-      line-height: 1.4;
-    }
+
+  .question-listing .question-display .answer-options .answer {
+    font-size: 13px;
+  }
+
+  .question-listing .answer span,
+  .question-listing .question-display .answer-options .answer>div {
+    line-height: 1.4;
+  }
 
   .create-change-content .form-group .extItem .react-datepicker__input-container input,
   .webinarRegistrationBody #registration-form .form-group .extItem .form-control {
@@ -2511,13 +2519,46 @@
   .dropdown-menu.filter-options {
     width: 270px;
   }
-.polls-preview-header ul li:nth-child(2),
-.polls-preview-lists ul li:nth-child(2) {
-  width: 400px;
+
+  .poll-question .question-listing .polls-preview-header ul {
+    padding: 10px 18px;
+  }
+.poll-question .question-listing .polls-preview-lists ul li:nth-child(2) {
+  width: 345px;
 }
-.polls-preview-lists ul li:nth-child(2) {
-  padding-right: 15px;
-}
+  .question-listing .loader_show {
+    position: relative;
+    min-height: 42px;
+  }
+
+  @keyframes escaleY1 {
+
+    0%,
+    80%,
+    100% {
+      box-shadow: 0 0;
+      height: 25px;
+      background: var(--light-blue);
+      color: var(--light-blue);
+    }
+
+    40% {
+      box-shadow: 0 -2em;
+      height: 35px;
+      background: var(--white);
+      color: var(--white);
+    }
+  }
+
+  .polls-preview-header ul li:nth-child(2),
+  .polls-preview-lists ul li:nth-child(2) {
+    width: 400px;
+  }
+
+  .polls-preview-lists ul li:nth-child(2) {
+    padding-right: 15px;
+  }
+
   .speaker-comment {
     width: 100%;
   }
@@ -3159,14 +3200,17 @@
     font-size: 20px;
     line-height: 24px;
   }
-.page-top-nav ul.tabnav-link li.active-main a:after,
-.navbar-nav li.active-main a:after {
-  bottom: -8px;
-}
-.polls-preview-header ul li:last-child {
-  padding-left: 0;
-  width: 135px;
-}
+
+  .page-top-nav ul.tabnav-link li.active-main a:after,
+  .navbar-nav li.active-main a:after {
+    bottom: -8px;
+  }
+
+  .polls-preview-header ul li:last-child {
+    padding-left: 0;
+    width: 135px;
+  }
+
   .poll-creation .nav-tabs .nav-item:first-child button.active:before,
   .poll-creation .nav-tabs .nav-item:last-child button.active:after,
   .live-stream-tabs-data .nav-tabs .nav-item:first-child button.active:before,
@@ -3339,24 +3383,39 @@
   .top-header.regi-web .save-btn {
     margin-left: auto;
   }
-#preview-poll .modal-body {
-  padding: 0;
+.polls-preview-list-question li {
+  font-size: 13px;
 }
-#preview-poll .modal-body .webinar-popup.polls-preview {
-  padding: 0;
-  overflow-x: scroll;
+.polls-preview-header h6 {
+  font-size: 15px;
+  line-height: 20px;
 }
-.active-subLink .left-sidebar {
-  width: 180px;
+.polls-preview.poll-question-option.question-listing ul li:nth-child(3){
+  width:20px;
 }
-#preview-poll .webinar-popup .polls-preview {
-  width: 600px;
-      padding-bottom: 6px;
-}
-#preview-poll .modal-footer {
-  box-shadow: none;
-  padding: 12px 0px;
-}
+  #preview-poll .modal-body {
+    padding: 0;
+  }
+
+  #preview-poll .modal-body .webinar-popup.polls-preview {
+    padding: 0;
+    overflow-x: scroll;
+  }
+
+  .active-subLink .left-sidebar {
+    width: 180px;
+  }
+
+  #preview-poll .webinar-popup .polls-preview {
+    width: 600px;
+    padding-bottom: 6px;
+  }
+
+  #preview-poll .modal-footer {
+    box-shadow: none;
+    padding: 12px 0px;
+  }
+
   .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
     font-size: 14px;
   }
@@ -3561,9 +3620,10 @@
     top: 0px;
   }
 
-.register-page-right-view .eahad .consent-form .split-button-dropup>div:nth-child(3) {
-  padding: 2px 50px 2px 15px;
-}
+  .register-page-right-view .eahad .consent-form .split-button-dropup>div:nth-child(3) {
+    padding: 2px 50px 2px 15px;
+  }
+
   #add_hcp .modal-body {
     padding-left: 0;
     padding-right: 0;
@@ -4188,36 +4248,44 @@
   .sidebar-menu ul {
     margin: 68px 0 0;
   }
-.page-top-nav ul.tabnav-link li.active-main a:after,
-.navbar-nav li.active-main a:after {
-  bottom: 11px;
-  left: auto;
-  right: auto;
-  margin-left: 10px;
-}
-.sidebar-menu ul li.active, .sidebar-menu ul li {
-  z-index: 4;
-}
-.active.sub-links .left-sidebar-secondary {
-  left: 38px;
-}
-.poster-url .custom-poster-added .custom-poster img {
-  max-width: 120px;
-  max-height: 160px;
-  width: 100%;
-}
-.poster-url .custom-poster-added .custom-poster h5 {
-  font-size: 14px;
-}
-.live-stream-tabs-data .nav-tabs .nav-item:nth-child(4) button::after{
-  display:none;
-}
-.live-stream-tabs-data .nav-tabs .nav-item:last-child button::before{
-display: block;
-  background: var(--white);
-  left: 0;
-  top: 28px;
+
+  .page-top-nav ul.tabnav-link li.active-main a:after,
+  .navbar-nav li.active-main a:after {
+    bottom: 11px;
+    left: auto;
+    right: auto;
+    margin-left: 10px;
+  }
+
+  .sidebar-menu ul li.active,
+  .sidebar-menu ul li {
+    z-index: 4;
+  }
+
+  .active.sub-links .left-sidebar-secondary {
+    left: 38px;
+  }
+
+  .poster-url .custom-poster-added .custom-poster img {
+    max-width: 120px;
+    max-height: 160px;
+    width: 100%;
+  }
+
+  .poster-url .custom-poster-added .custom-poster h5 {
+    font-size: 14px;
+  }
+
+  .live-stream-tabs-data .nav-tabs .nav-item:nth-child(4) button::after {
+    display: none;
+  }
+
+  .live-stream-tabs-data .nav-tabs .nav-item:last-child button::before {
+    display: block;
+    background: var(--white);
+    left: 0;
+    top: 28px;
     height: 17px;
     width: 12px;
-}
+  }
 }

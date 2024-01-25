@@ -10480,12 +10480,12 @@ button.event_sort_btn.svg_active svg {
   border: 0;
 }
 
-.live-stream-action .send-speaker {
+.live-stream-action .send-speaker, .live-stream-action .send-speaker:hover {
   background: var(--green);
   margin-right: auto;
 }
 
-.live-stream-action .ignored {
+.live-stream-action .ignored, .live-stream-action .ignored:hover {
   background: #F58289;
 }
 
@@ -12056,5 +12056,8 @@ cursor: pointer;
   font-size: 16px;
   color: var(--skyblue);
   font-weight: 400;
+}
+.polls-preview.poll-question-option.question-listing .polls-preview-header li:last-child {
+  margin-left: 0;
 }
 /**Registration page end**/
