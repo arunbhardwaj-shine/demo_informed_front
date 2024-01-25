@@ -263,7 +263,7 @@ const SpeakerZone = () => {
                                         <div className="reader_list_footer d-flex justify-content-between align-items-center" >
                                             <div className="question-post-time">
                                                 {/* <small>{moment(item?.created).format("YYYY-MM-DD")}</small><br /> */}
-                                                <small>{moment(item?.created).format("hh:mm a")}</small>
+                                                <small>{moment(item?.created, "YYYY-MM-DD hh:mm:A").format("hh:mm a")}</small>
                                             </div>
                                             <div className="reader_list_footer_btns">
                                                 <Button className="ignored" onClick={()=>submitFun(0,item?.id,"question")}>Ignore</Button>
@@ -326,7 +326,7 @@ const SpeakerZone = () => {
                                             <div className="reader_list_footer d-flex justify-content-between align-items-center answer-footer" >
                                                 <div className="question-post-time">
                                                   {/* <small>{moment(item?.updated).format("YYYY-MM-DD")}</small><br/> */}
-                                                    <small>{moment(item?.updated).format("hh:mm a")}</small>
+                                                    <small>{moment(item?.updated, "YYYY-MM-DD hh:mm:A").format("hh:mm a")}</small>
                                                 </div>
                                                 <div className="reader_list_footer_btns">
                                                     <Button onClick={()=>submitFun(1,item?.id,"answer")}>Undo</Button>
@@ -386,7 +386,7 @@ const SpeakerZone = () => {
                                             <div className="reader_list_footer d-flex justify-content-between align-items-center ignore-footer" >
                                                 <div className="question-post-time">
                                                   {/* <small>{moment(item?.updated).format("YYYY-MM-DD")}</small><br/> */}
-                                                  <small>{moment(item?.updated).format("hh:mm a")}</small>
+                                                  <small>{moment(item?.updated, "YYYY-MM-DD hh:mm:A").format("hh:mm a")}</small>
                                                 </div>
                                                 <div className="reader_list_footer_btns">
                                                     <Button onClick={()=>submitFun(1,item?.id,"ignore")}>Undo</Button>
