@@ -20,24 +20,25 @@ const Settings = () => {
   );
 
   const [customPosterUrl, setCustomPosterUrl] = useState("");
+  const [customPosterUrlOriginal, setCustomPosterUrlOriginal] = useState("");
   const posterOptions = [
     {
-      label: "Thank you image without speaker",
+      label: "Thank you message without speaker image",
       value:
         "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-thanks1-banner-min.jpg",
     },
     {
-      label: "Thank you image with speaker",
+      label: "Thank you message with speaker image",
       value:
         "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-thanks-banner-min.jpg",
     },
     {
-      label: "Delayed time",
+      label: "Event delayed",
       value:
         "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Banner-Unexpected-Reason.jpg",
     },
     {
-      label: "Stay Tuned",
+      label: "Stay tuned",
       value:
         "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-video-banner.jpg",
     },
@@ -46,7 +47,7 @@ const Settings = () => {
       value:
         "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Banner-Technical-difficulties.jpg",
     },
-    { label: "Custom", value: "" },
+    { label: "Custom message", value: "" },
   ];
   const [selectedPosterOption, setSelectedPosterOption] = useState(
     posterOptions[0]
@@ -91,27 +92,41 @@ const Settings = () => {
         response?.data?.data;
       setLiveStatus(live_status);
       setAskQuestion(ask_question);
-      setPosterUrl(poster_url);
-  
-      
-      const foundOption = posterOptions.find((option) => option.value === poster_url);
-      if (typeof foundOption !== "undefined" && foundOption !== "undefined" && foundOption !== "") {
-        setSelectedPosterOption({ label: foundOption.label, });
-        // console.log(selectedPosterOption,'selectedPosterOption')
-       
-      }else{
-        setSelectedPosterOption({ label: "Custom" });
-        setCustomPosterUrl(poster_url);
-        // console.log(poster_url,'poster_url2123')
+
+      if (poster_url != "") {
+        const foundOption = posterOptions.find(
+          (option) => option.value === poster_url
+        );
+        if (
+          typeof foundOption !== "undefined" &&
+          foundOption !== "undefined" &&
+          foundOption !== ""
+        ) {
+
+          setSelectedPosterOption(foundOption);         
+           setCustomPosterUrl(poster_url);
+          //  setCustomPosterUrlOriginal(poster_url);
+
+        } else {
+
+          setSelectedPosterOption(posterOptions[posterOptions?.length-1]);
+          setCustomPosterUrl(poster_url);
+          setCustomPosterUrlOriginal(poster_url);
+        }
+        setStreamUrl(stream_url);
+        setPosterUrl(poster_url);
+
+      } else {
+        setSelectedPosterOption(posterOptions[0]);
+        setPosterUrl(posterOptions[0]?.value);
+
       }
-      setStreamUrl(stream_url);
     } catch (error) {
       console.error("Error fetching settings:", error);
     } finally {
       loader("hide");
     }
   };
-
 
   const handleSave = async () => {
     try {
@@ -172,7 +187,9 @@ const Settings = () => {
       if (
         liveStatus === 3 &&
         !(
-          selectedPosterOption.label === "Custom" ? customPosterUrl : posterUrl
+          selectedPosterOption.label === "Custom message"
+            ? customPosterUrl
+            : posterUrl
         ).trim()
       ) {
         toast.error("Please filled poster url first", {
@@ -189,7 +206,9 @@ const Settings = () => {
       if (
         liveStatus === 3 &&
         !(
-          selectedPosterOption.label === "Custom" ? customPosterUrl : posterUrl
+          selectedPosterOption.label === "Custom message"
+            ? customPosterUrl
+            : posterUrl
         ).startsWith("https")
       ) {
         toast.error("Poster URL should start with 'https'", {
@@ -212,7 +231,7 @@ const Settings = () => {
         // poster_url: liveStatus === 3 ? posterUrl: "",
         poster_url:
           liveStatus === 3
-            ? selectedPosterOption.label === "Custom"
+            ? selectedPosterOption.label === "Custom message"
               ? customPosterUrl
               : posterUrl
             : "",
@@ -311,7 +330,6 @@ const Settings = () => {
                 checked={liveStatus === 2}
                 onChange={() => {
                   setLiveStatus(2);
-                  // setPosterUrl("");
                 }}
               />
               <div className="event-status-img">
@@ -330,9 +348,6 @@ const Settings = () => {
                 checked={liveStatus === 3}
                 onChange={() => {
                   setLiveStatus(3);
-                  // setStreamUrl("");
-                  setPosterUrl(posterOptions[0].value);
-                  // setSelectedPosterOption(posterOptions[0])
                 }}
               />
               <div className="event-status-img">
@@ -406,16 +421,28 @@ const Settings = () => {
                   value={selectedPosterOption}
                   onChange={(selectedOption) => {
                     setSelectedPosterOption(selectedOption);
-                    setCustomPosterUrl(
-                      posterOptions.find(
-                        (option) => option.label === selectedOption.label
-                      )?.value || ""
-                    );
-                    setPosterUrl(
-                      posterOptions.find(
-                        (option) => option.label === selectedOption.label
-                      )?.value || ""
-                    );
+                   
+                    if(selectedOption?.label=="Custom message"){
+                      setCustomPosterUrl(
+                        customPosterUrlOriginal
+                      );
+                      setPosterUrl(
+                        customPosterUrlOriginal
+                      );
+                    }else{
+                      setCustomPosterUrl(
+                        posterOptions.find(
+                          (option) => option.label === selectedOption.label
+                        )?.value || ""
+                      );
+                      setPosterUrl(
+                        posterOptions.find(
+                          (option) => option.label === selectedOption.label
+                        )?.value || ""
+                      );
+                    }
+                  
+                  
                   }}
                 />
               </Form.Group>
@@ -426,13 +453,13 @@ const Settings = () => {
                 <Form.Control
                   type="text"
                   value={
-                    selectedPosterOption.label === "Custom"
+                    selectedPosterOption?.label === "Custom message"
                       ? customPosterUrl
                       : posterUrl
                   }
                   onChange={handleCustomInputChange}
                   placeholder={
-                    selectedPosterOption.label === "Custom"
+                    selectedPosterOption?.label === "Custom message"
                       ? "Please enter poster url"
                       : ""
                   }

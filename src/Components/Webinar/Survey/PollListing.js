@@ -43,7 +43,7 @@ let colors = [
   "#009739",
   "#BCA9F5",
   "#ACB5F5",
-]
+];
 // let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const settings = {
@@ -71,14 +71,19 @@ const settings = {
     },
   ],
 };
-export default function PollListing({eventIdContext}) {
-  const location=useLocation();
+export default function PollListing({ eventIdContext }) {
+  const location = useLocation();
 
   let navigate = useNavigate();
-  const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+  const [accordionOpen, setAccordionOpen] = useState(null);
 
   // const location = useLocation();
-  const event_code = location?.state?.event_id ? location?.state?.event_id :eventIdContext?eventIdContext?.eventId:localStorageEvent?.eventCode;
+  const event_code = location?.state?.event_id
+    ? location?.state?.event_id
+    : eventIdContext
+    ? eventIdContext?.eventId
+    : localStorageEvent?.eventCode;
   const slickRef = useRef("");
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
@@ -104,10 +109,9 @@ export default function PollListing({eventIdContext}) {
     questions[currentIndex]
   );
   const [isPrevClicked, setIsPrevClicked] = useState(false);
-  const [questionsOrder,setQuestionsOrder] = useState([])
+  const [questionsOrder, setQuestionsOrder] = useState([]);
 
   useEffect(() => {
-
     // getAllEvents();
     getApiData(event_code);
 
@@ -210,7 +214,7 @@ export default function PollListing({eventIdContext}) {
       loader("show");
       const apiData = await getData(`/webinar/getQuestionByEventId/${id}`);
       let data = apiData.data.data;
-      if(data?.length == 0){
+      if (data?.length == 0) {
         loader("hide");
       }
       data = data.map((d) => {
@@ -245,7 +249,7 @@ export default function PollListing({eventIdContext}) {
                 speakerName: "",
                 answerOption: [{ answer: "", color: "#000000" }],
                 answerType: "MULTIPLE",
-                addComment:0,
+                addComment: 0,
                 graphType: "bar",
               },
               questionDataErrors: {
@@ -256,7 +260,7 @@ export default function PollListing({eventIdContext}) {
               },
             },
           ];
-      
+
       const deepCopyApiData = JSON.parse(JSON.stringify(data));
 
       setOriginalQuestions(deepCopyApiData);
@@ -380,12 +384,12 @@ export default function PollListing({eventIdContext}) {
     // }
     setQuestions(updatedQuestions);
   };
-  const handleAddCommentChange=(e,key)=>{
-   
+  const handleAddCommentChange = (e, key) => {
     const updatedQuestions = JSON.parse(JSON.stringify([...questions]));
-    updatedQuestions[key].questionData.addComment = e?.target?.value=="yes"?1:0;    
+    updatedQuestions[key].questionData.addComment =
+      e?.target?.value == "yes" ? 1 : 0;
     setQuestions(updatedQuestions);
-  }
+  };
   const handleSpeakerNameChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.speakerName = e.target.value;
@@ -410,10 +414,10 @@ export default function PollListing({eventIdContext}) {
 
     const updatedQuestions = [...questions];
     if (updatedQuestions[key].answerType != "YesNo") {
-      let length = updatedQuestions[key]?.questionData?.answerOption?.length
+      let length = updatedQuestions[key]?.questionData?.answerOption?.length;
       updatedQuestions[key].questionData.answerOption.push({
         answer: "",
-        color: colors[length%colors.length],
+        color: colors[length % colors.length],
       });
       updatedQuestions[key].questionDataErrors.answerOptionError.push({
         answerError: "",
@@ -447,7 +451,6 @@ export default function PollListing({eventIdContext}) {
     setQuestions(updatedQuestions);
   };
   const handleSubmit = async () => {
-   
     const isValid = validateQuestions(currentIndex);
 
     if (!isValid) {
@@ -600,9 +603,9 @@ export default function PollListing({eventIdContext}) {
         questionColor: "#000000",
         answerColor: "#64B8B0",
         speakerName: "",
-        answerOption: [{ answer: "", color: colors[0]}],
+        answerOption: [{ answer: "", color: colors[0] }],
         answerType: "MULTIPLE",
-        addComment:0,
+        addComment: 0,
         graphType: "bar",
       },
       questionDataErrors: {
@@ -654,7 +657,7 @@ export default function PollListing({eventIdContext}) {
             speakerName: "",
             answerOption: [{ answer: "", color: "#000000" }],
             answerType: "MULTIPLE",
-            addComment:0,
+            addComment: 0,
             graphType: "bar",
           },
           questionDataErrors: {
@@ -719,8 +722,8 @@ export default function PollListing({eventIdContext}) {
 
   const handlePreview = (e, index) => {
     setIsPrevClicked(true);
-    let ques=JSON.parse(JSON.stringify(questions))
-    setQuestionsOrder(ques)
+    let ques = JSON.parse(JSON.stringify(questions));
+    setQuestionsOrder(ques);
     // console.log(questionsOrder,'===>order1')
   };
 
@@ -730,7 +733,7 @@ export default function PollListing({eventIdContext}) {
 
   const handleQuestionOrderChange = (questionsOrder) => {
     // setQuestions(updatedQuestions);
-    setQuestionsOrder(questionsOrder)
+    setQuestionsOrder(questionsOrder);
     // console.log(questionsOrder,'===>order2')
   };
 
@@ -739,17 +742,14 @@ export default function PollListing({eventIdContext}) {
       loader("show");
       let payloadOrder = questionsOrder.map((item, index) => ({
         index: index + 1,
-        id: item?.questionData?.id
+        id: item?.questionData?.id,
       }));
       const payload = {
-        eventId:event_code,
-        pollsData:payloadOrder
+        eventId: event_code,
+        pollsData: payloadOrder,
       };
-      
-      const response = await postData(
-        ENDPOINT.CHANGEPOLLSORDER,
-        payload
-      );
+
+      const response = await postData(ENDPOINT.CHANGEPOLLSORDER, payload);
       const apiData = await getListingData(event_code);
       setQuestionFlag(false);
       setQuestions(apiData);
@@ -771,11 +771,13 @@ export default function PollListing({eventIdContext}) {
     }
     // console.log("Saving questions:", questionsOrder)
   };
-
+  const toggleAccordion = (index) => {
+    setAccordionOpen((prevIndex) => (prevIndex === index ? null : index));
+  };
   return (
     <>
-                <div className="question-listing">
-                  {/* <div className="top-header reader_list">
+      <div className="question-listing">
+        {/* <div className="top-header reader_list">
                     <div className="page-title">
                       <Link
                         className="btn btn-primary btn-bordered back-btn"
@@ -798,8 +800,8 @@ export default function PollListing({eventIdContext}) {
                     </div>
                   </div> */}
 
-                  <form className="product-unit d-flex justify-content-between align-items-center">
-                    {/* <div className="form-group">
+        <form className="product-unit d-flex justify-content-between align-items-center">
+          {/* <div className="form-group">
                       <label htmlFor="">Select Event</label>
                       <Select
                         options={dropDownData}
@@ -811,14 +813,14 @@ export default function PollListing({eventIdContext}) {
                         value={selectedItem}
                       />
                     </div> */}
-                    <div className="page-title">
-                      <h4>
-                        Questions | <span>{questions.length}</span>
-                      </h4>
-                    </div>
-                    <Button onClick={handlePreview}>Preview All</Button>
+          <div className="page-title">
+            <h4>
+              Questions | <span>{questions.length}</span>
+            </h4>
+          </div>
+          <Button onClick={handlePreview}>Preview All</Button>
 
-                    {/* <Button
+          {/* <Button
                   className="align-right btn-bordered btn-voilet"
                   onClick={() => {
                     setShowUploadMenu(true);
@@ -827,14 +829,17 @@ export default function PollListing({eventIdContext}) {
                 >
                   Add New Question +
                 </Button> */}
-                  </form>
-            <div className="question-listing-block">  
-            <div className="question-listing-action d-flex justify-content-between align-items-center">
-              <div className="question-number">
-                <span>Q{currentIndex + 1}</span>
-              </div>
+        </form>
+        <div className="question-listing-block">
+          <div className="question-listing-action d-flex justify-content-between align-items-center">
+            <div className="question-number">
+              <span>Q{currentIndex + 1}</span>
+            </div>
 
-              <div className="question-action">
+            <div className="question-action">
+              {questions[currentIndex]?.questionData?.pollSubQuestions &&
+              questions[currentIndex]?.questionData?.pollSubQuestions
+                ?.length ? null : (
                 <Button
                   className="dl_btn btn-bordered"
                   onClick={() => {
@@ -881,116 +886,224 @@ export default function PollListing({eventIdContext}) {
                     ></path>
                   </svg>
                 </Button>
+              )}
 
+              {questions[currentIndex]?.questionData?.pollSubQuestions &&
+              questions[currentIndex]?.questionData?.pollSubQuestions
+                ?.length ? null : (
                 <Button className="save btn-filled" onClick={handleSubmit}>
-                  {questions[currentIndex]?.questionData?.id ? "Update" : "Save"}
+                  {questions[currentIndex]?.questionData?.id
+                    ? "Update"
+                    : "Save"}
                 </Button>
+              )}
 
-                <Button
-                  className={`add-question btn-bordered ${
-                    questionFlag ? "disabled" : ""
-                  }`}
-                  onClick={handleAddQuestion}
-                >
-                  Add Question +
-                </Button>
-              </div>
-            </div>
-            <div className="poll-question">
-             
-              <Slider
-                {...settings}
-                ref={slickRef}
-                afterChange={handleAfterChange}
+              <Button
+                className={`add-question btn-bordered ${
+                  questionFlag ? "disabled" : ""
+                }`}
+                onClick={handleAddQuestion}
               >
-                {questions.map((questionObj, index) => (
-                  <Question
-                    index={index}
-                    questionData={questionObj.questionData}
-                    questionDataErrors={questionObj.questionDataErrors}
-                    onQuestionChange={(e) => handleQuestionChange(e, index)}
-                    onQuestionColorChange={(e) => handleQuestionColorChange(e, index)}
-                    onAnswerColorChange={(e) => handleAnswerColorChange(e, index)}
-                    // onHandleIsRequiredChange={(e) =>
-                    //   handleIsRequiredChange(e, index)
-                    // }
-                    onHandleAddCommentChange={(e)=>handleAddCommentChange(e,index)}
-                    onHandleSpeakerNameChange={(e) =>
-                      handleSpeakerNameChange(e, index)
-                    }
-                    onChoiceChange={(e, choiceIndex) =>
-                      handleChoiceChange(e, index, choiceIndex)
-                    }
-                    onChoiceColorChange={(e, choiceIndex) =>
-                      handleChoiceColorChange(e, index, choiceIndex)
-                    }
-                    onTypeChange={(e) => handleTypeChange(e, index)}
-                    onHandleDisplayResultChange={(e) =>
-                      handleDisplayResultChange(e, index)
-                    }
-                    onAddChoice={() => handleAddChoice(index)}
-                    onDelete={() => handleDelete(index)}
-                    onDeleteChoice={(choiceIndex) =>
-                      handleDeleteChoice(index, choiceIndex)
-                    }
-                    onHandleSubmit={handleSubmit}
-                    onHandleAddQuestion={() => handleAddQuestion(index)}
-                    onHandleDelete={handleDelete}
-                    onHandleIncrementChange={handleIncrementChange}
-                    lastQuestionIndex={questions.length}
-                    checkValidation={()=>validateQuestions(index)}
-                  />
-                ))}
-              </Slider>
-               {apiStatus && (
-                <div className="poll-question-selection">
-                  {/* <div className="question-number">
+                Add Question +
+              </Button>
+            </div>
+          </div>
+          <div className="poll-question">
+            <Slider
+              {...settings}
+              ref={slickRef}
+              afterChange={handleAfterChange}
+            >
+              {questions.map((questionObj, index) => (
+                <>
+                  {questionObj?.questionData?.pollSubQuestions &&
+                  questionObj?.questionData?.pollSubQuestions?.length > 0 ? (
+                    <>
+                      {questionObj?.questionData?.pollSubQuestions?.length >
+                      0 ? (
+                        <div className="polls-preview poll-question-option">
+                          <div className="polls-preview-lists poll-question-create">
+                            {questionObj?.questionData?.pollSubQuestions.map(
+                              (question, index) => (
+                                <>
+                                  {index == 0 && (
+                                 <>   
+                                  <div className="polls-preview-header">
+                                  <h6>
+                                         {
+                                      question?.question
+                                    }
+
+                                    </h6>
+                                  </div>
+                                 <div className="polls-preview-header">
+                                      <ul>
+                                        <li>No.</li>
+                                        <li> Questions</li>
+                                      </ul>
+                                    </div></>
+                                  )}
+                                  <div
+                                    className="polls-preview-list-box"
+                                    draggable
+                                    // onDragStart={(e) => handleDragStart(e, index)}
+                                    // onDrop={(e) => handleDrop(e, index)}
+                                    // onDragOver={allowDrop}
+                                  >
+                                    <div className="polls-preview-list-question">
+                                      <ul
+                                        key={question.questionId}
+                                        // draggable
+                                        // onDragStart={(e) => handleDragStart(e, index)}
+                                        // onDrop={(e) => handleDrop(e, index)}
+                                        // onDragOver={allowDrop}
+                                      >
+                                        <li>{index + 1}</li>
+                                        <li>{question?.question}</li>
+                                        {/* <li>{question?.answerType}</li> */}
+                                        <li>
+                                          <div className="question-action">
+                                            <div
+                                              className="answer-section-heading"
+                                              onClick={() =>
+                                                toggleAccordion(index)
+                                              }
+                                            >
+                                              <p>
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "down-arrow.png"
+                                                  }
+                                                  alt=""
+                                                />
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                    <div className="preview-answers">
+                                      <div
+                                        className={`answer-section ${
+                                          accordionOpen === index
+                                            ? "active"
+                                            : ""
+                                        }`}
+                                      >
+                                        {accordionOpen === index && (
+                                          <div className="details-content">
+                                            <ul>
+                                              {question?.answer
+                                                ?.split("~")
+                                                .map((option, optionIndex) => (
+                                                  <li key={option?.id}>
+                                                    {optionIndex + 1}: {option}
+                                                  </li>
+                                                ))}
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div class="email_box_block no_found">
+                          <p>No Data Found</p>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Question
+                      index={index}
+                      questionData={questionObj.questionData}
+                      questionDataErrors={questionObj.questionDataErrors}
+                      onQuestionChange={(e) => handleQuestionChange(e, index)}
+                      onQuestionColorChange={(e) =>
+                        handleQuestionColorChange(e, index)
+                      }
+                      onAnswerColorChange={(e) =>
+                        handleAnswerColorChange(e, index)
+                      }
+                      // onHandleIsRequiredChange={(e) =>
+                      //   handleIsRequiredChange(e, index)
+                      // }
+                      onHandleAddCommentChange={(e) =>
+                        handleAddCommentChange(e, index)
+                      }
+                      onHandleSpeakerNameChange={(e) =>
+                        handleSpeakerNameChange(e, index)
+                      }
+                      onChoiceChange={(e, choiceIndex) =>
+                        handleChoiceChange(e, index, choiceIndex)
+                      }
+                      onChoiceColorChange={(e, choiceIndex) =>
+                        handleChoiceColorChange(e, index, choiceIndex)
+                      }
+                      onTypeChange={(e) => handleTypeChange(e, index)}
+                      onHandleDisplayResultChange={(e) =>
+                        handleDisplayResultChange(e, index)
+                      }
+                      onAddChoice={() => handleAddChoice(index)}
+                      onDelete={() => handleDelete(index)}
+                      onDeleteChoice={(choiceIndex) =>
+                        handleDeleteChoice(index, choiceIndex)
+                      }
+                      onHandleSubmit={handleSubmit}
+                      onHandleAddQuestion={() => handleAddQuestion(index)}
+                      onHandleDelete={handleDelete}
+                      onHandleIncrementChange={handleIncrementChange}
+                      lastQuestionIndex={questions.length}
+                      checkValidation={() => validateQuestions(index)}
+                    />
+                  )}
+                </>
+              ))}
+            </Slider>
+            {apiStatus && (
+              <div className="poll-question-selection">
+                {/* <div className="question-number">
                     <span>
                       Q{currentIndex + 1}/{questions.length}
                     </span>
                   </div> */}
-                  <div className="question-action">
-                    <Button
-                      className={`btn-bordered question-prev ${
-                        currentIndex == 0 ? "disabled" : ""
-                      } `}
-                      // disabled={index == 0 ? true : false}
-                      onClick={() => slickRef.current.slickPrev()}
-                    >
-                      <svg
-                        width="19"
-                        height="11"
-                        viewBox="0 0 19 11"
-                        fill="none"
-                      >
-                        <path
-                          d="M9.27902 3.61976L2.56094 10.3378C1.97509 10.9236 1.02524 10.9236 0.439388 10.3378C-0.146462 9.75196 -0.146463 8.80211 0.439387 8.21626L8.21496 0.440724C8.41288 0.242814 8.65233 0.111762 8.90525 0.0475674C9.4024 -0.0805243 9.95244 0.0500824 10.3417 0.439387L18.1173 8.21496C18.7031 8.80081 18.7031 9.75066 18.1173 10.3365C17.5314 10.9224 16.5816 10.9224 15.9957 10.3365L9.27902 3.61976Z"
-                          fill="#0066BE"
-                        />
-                      </svg>
-                    </Button>
-                    <Button
-                      className={`btn-bordered question-next ${
-                        currentIndex == questions.length - 1 ? "disabled" : ""
-                      }`}
-                      onClick={() => {
-                        slickRef.current.slickNext();
-                        // console.log(slickRef.current);
-                      }}
-                    >
-                      <svg
-                        width="19"
-                        height="11"
-                        viewBox="0 0 19 11"
-                        fill="none"
-                      >
-                        <path
-                          d="M9.27853 7.15662L2.56206 0.442137C1.97595 -0.143796 1.02569 -0.143796 0.43958 0.442137C-0.146527 1.02807 -0.146527 1.97806 0.43958 2.56399L8.21954 10.3416C8.80565 10.9276 9.75591 10.9276 10.342 10.3416C10.3643 10.3194 10.3858 10.2965 10.4064 10.2732L18.1204 2.56155C18.7065 1.97556 18.7065 1.02548 18.1204 0.439493C17.5342 -0.146497 16.5838 -0.146498 15.9977 0.439493L9.27853 7.15662Z"
-                          fill="#0066BE"
-                        />
-                      </svg>
-                    </Button>
-                    {/* <Button
+                <div className="question-action">
+                  <Button
+                    className={`btn-bordered question-prev ${
+                      currentIndex == 0 ? "disabled" : ""
+                    } `}
+                    // disabled={index == 0 ? true : false}
+                    onClick={() => slickRef.current.slickPrev()}
+                  >
+                    <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
+                      <path
+                        d="M9.27902 3.61976L2.56094 10.3378C1.97509 10.9236 1.02524 10.9236 0.439388 10.3378C-0.146462 9.75196 -0.146463 8.80211 0.439387 8.21626L8.21496 0.440724C8.41288 0.242814 8.65233 0.111762 8.90525 0.0475674C9.4024 -0.0805243 9.95244 0.0500824 10.3417 0.439387L18.1173 8.21496C18.7031 8.80081 18.7031 9.75066 18.1173 10.3365C17.5314 10.9224 16.5816 10.9224 15.9957 10.3365L9.27902 3.61976Z"
+                        fill="#0066BE"
+                      />
+                    </svg>
+                  </Button>
+                  <Button
+                    className={`btn-bordered question-next ${
+                      currentIndex == questions.length - 1 ? "disabled" : ""
+                    }`}
+                    onClick={() => {
+                      slickRef.current.slickNext();
+                      // console.log(slickRef.current);
+                    }}
+                  >
+                    <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
+                      <path
+                        d="M9.27853 7.15662L2.56206 0.442137C1.97595 -0.143796 1.02569 -0.143796 0.43958 0.442137C-0.146527 1.02807 -0.146527 1.97806 0.43958 2.56399L8.21954 10.3416C8.80565 10.9276 9.75591 10.9276 10.342 10.3416C10.3643 10.3194 10.3858 10.2965 10.4064 10.2732L18.1204 2.56155C18.7065 1.97556 18.7065 1.02548 18.1204 0.439493C17.5342 -0.146497 16.5838 -0.146498 15.9977 0.439493L9.27853 7.15662Z"
+                        fill="#0066BE"
+                      />
+                    </svg>
+                  </Button>
+                  {/* <Button
                       className="dl_btn btn-bordered"
                       onClick={() => {
                         setPopupMessage({
@@ -1036,7 +1149,7 @@ export default function PollListing({eventIdContext}) {
                         ></path>
                       </svg>
                     </Button> */}
-                    {/* <Button
+                  {/* <Button
                       className={`add-question btn-bordered ${questionFlag ? "disabled" : ""
                         }`}
                       onClick={handleAddQuestion}
@@ -1044,7 +1157,7 @@ export default function PollListing({eventIdContext}) {
                       Add Question +
                     </Button> */}
 
-                    {/* <Button
+                  {/* <Button
                       className="save btn-bordered"
                       onClick={handleSubmit}
                     >
@@ -1052,12 +1165,12 @@ export default function PollListing({eventIdContext}) {
                         ? "Update"
                         : "Save"}
                     </Button> */}
-                  </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+          </div>
 
-            {/* {questions?.length > 1 && currentIndex < questions.length - 1 ? (
+          {/* {questions?.length > 1 && currentIndex < questions.length - 1 ? (
               <div>
                 <div className="poll-question dummy-data">
                   <div className="question-number">
@@ -1138,8 +1251,8 @@ export default function PollListing({eventIdContext}) {
             ) : (
               ""
             )} */}
-            </div>
- </div>
+        </div>
+      </div>
       {isPrevClicked && (
         <Modal
           show={isPrevClicked}
@@ -1177,9 +1290,7 @@ export default function PollListing({eventIdContext}) {
             </>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={handleSave}>
-              Save
-            </Button>
+            <Button onClick={handleSave}>Save</Button>
           </Modal.Footer>
         </Modal>
       )}
