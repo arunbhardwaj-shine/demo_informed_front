@@ -487,7 +487,7 @@ const Invitees = () => {
           <div className="row">
             <div className="top-header regi-web sticky">
               <div className="page-title">
-                <h2>Invitees</h2>
+                <h2>Registered Users</h2>
               </div>
               <div className="top-right-action">
                   <div className="search-bar">
