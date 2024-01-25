@@ -480,18 +480,13 @@ const Settings = () => {
 
               {selectedPosterOption?.label === "Custom message" && (
                 <>
-                  <Button className="upload-img" 
-                  // onClick={handleFileSelect}
-                   onClick={(e) => handleFileSelect(e, "posterImage")}>
-                    Choose Your File
-                  </Button>
+                 
 
-                  <div className="form-group d-flex align-items-center less-spacer">
-                    <div className="header-section">
+                  <div className="form-group d-flex align-items-center custom-poster-added">
+                 
+                    <div className="custom-poster">
                     {!(poster || uploadedImageUrl)  ? (
-                      <div>
                         <h5>Upload your poster</h5>
-                      </div>
                     ) : null}
 
                       <img
@@ -499,6 +494,11 @@ const Settings = () => {
                         src={poster || uploadedImageUrl}
                       />
                     </div>
+                     <Button className="upload-img" 
+                  // onClick={handleFileSelect}
+                   onClick={(e) => handleFileSelect(e, "posterImage")}>
+                    Choose Your File
+                  </Button>
                   </div>
                 </>
               )}

@@ -3645,8 +3645,8 @@
   }
 
   #add_hcp .modal-body .hcp-add-form form .form-group button {
-    height: 42px;
-    width: 42px;
+    height: 37px;
+    width: 37px;
   }
 
   .modal-body .hcp-add-form form .form-group .dropdown button,
@@ -4201,7 +4201,23 @@
 .active.sub-links .left-sidebar-secondary {
   left: 38px;
 }
-  /* .left-sidebar.active .sidebar-menu ul li {
-    z-index: 9;
-  } */
+.poster-url .custom-poster-added .custom-poster img {
+  max-width: 120px;
+  max-height: 160px;
+  width: 100%;
+}
+.poster-url .custom-poster-added .custom-poster h5 {
+  font-size: 14px;
+}
+.live-stream-tabs-data .nav-tabs .nav-item:nth-child(4) button::after{
+  display:none;
+}
+.live-stream-tabs-data .nav-tabs .nav-item:last-child button::before{
+display: block;
+  background: var(--white);
+  left: 0;
+  top: 28px;
+    height: 17px;
+    width: 12px;
+}
 }
