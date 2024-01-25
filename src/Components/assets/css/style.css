@@ -82,14 +82,16 @@ button:focus,
   box-shadow: none;
 }
 
-nav.navbar .navbar-collapse li.nav-item a, nav.navbar .navbar-collapse li.nav-item a:hover {
-  color: var(--light-blue);
+nav.navbar .navbar-collapse li.nav-item a{
   font-size: 16px;
   line-height: 19px;
   padding: 0 51px;
+}
+nav.navbar .navbar-collapse li.nav-item a,
+nav.navbar .navbar-collapse li.nav-item a:hover, nav.navbar .navbar-collapse li.nav-item a:focus {
+  color: var(--light-blue);
   text-decoration: none;
 }
-
 .readers.search_view .top-right-action.library_content_view button {
   top: 13px;
 }
@@ -9539,6 +9541,7 @@ button.event_sort_btn.svg_active svg {
 
 .polls-preview-header ul li:last-child {
   padding-left: 20px;
+  margin-left: auto;
 }
 
 .polls-preview-lists ul li:nth-child(2) {
@@ -10477,12 +10480,12 @@ button.event_sort_btn.svg_active svg {
   border: 0;
 }
 
-.live-stream-action .send-speaker {
+.live-stream-action .send-speaker, .live-stream-action .send-speaker:hover {
   background: var(--green);
   margin-right: auto;
 }
 
-.live-stream-action .ignored {
+.live-stream-action .ignored, .live-stream-action .ignored:hover {
   background: #F58289;
 }
 
@@ -10495,16 +10498,34 @@ button.event_sort_btn.svg_active svg {
   height: 32px;
 }
 
-.speaker-send .live-stream-action .send-speaker,
-.question-ignored .live-stream-action .ignored {
-  background: rgba(151, 182, 207, 0.50);
-  color: var(--white);
+.speaker-send .live-stream-action .send-speaker{
+  /* background: var(--white);
+    color: var(--green);
+    box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20); */
+    background: rgba(151, 182, 207, 0.50);
+      color: var(--white);
 }
-
+/* .speaker-send .live-stream-action .send-speaker:hover {
+  background: var(--green);
+  color:var(--white) ;
+} */
+.question-ignored .live-stream-action .ignored {
+    /* background: var(--white);
+    color: #F58289;
+    box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20); */
+      background: rgba(151, 182, 207, 0.50);
+        color: var(--white);
+}
+/* .question-ignored .live-stream-action .ignored:hover {
+  background: #F58289;
+  color: var(--white);
+} */
 .speaker-send .live-stream-action .ignored {
   background: var(--white);
   color: #F58289;
   box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
+  /* background: rgba(151, 182, 207, 0.50);
+    color: var(--white); */
 }
 
 .speaker-send .live-stream-action .ignored:hover {
@@ -10514,16 +10535,21 @@ button.event_sort_btn.svg_active svg {
 }
 
 .question-ignored .live-stream-action .send-speaker {
-  background: var(--white);
+background: var(--white);
   color: var(--green);
   box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
+  /* background: rgba(151, 182, 207, 0.50);
+    color: var(--white); */
 }
-
 .question-ignored .live-stream-action .send-speaker:hover {
   background: var(--green);
   color: var(--white);
-  box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
 }
+/* .question-ignored .live-stream-action .send-speaker:hover {
+  background: var(--green);
+  color: var(--white);
+  box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
+} */
 
 .dm-speaker .dm-speaker-txt {
   border-radius: 20px;
@@ -10576,7 +10602,7 @@ button.event_sort_btn.svg_active svg {
 }
 
 .question-ignored .reader-message .reader-msg-show {
-  background: var(--green);
+  background: #F58289;
 }
 
 .question-ignored .reader-message .reader-msg-show p,
@@ -10585,7 +10611,7 @@ button.event_sort_btn.svg_active svg {
 }
 
 .speaker-send .reader-message .reader-msg-show {
-  background: #F58289;
+    background: var(--green);
 }
 
 .doc-content-main-box .nav-tabs .nav-item button.active:before,
@@ -12001,5 +12027,37 @@ cursor: pointer;
 .poll-question-option .preview-answers .answer-section.active {
   padding-top: 18px;
   padding-bottom: 5px;
+}
+/* input::-webkit-datetime-edit-fields-wrapper{
+  color:red;
+} */
+.poster-url .custom-poster-added {
+  background: var(--white);
+  box-shadow: 0px 0px 15px 0px rgba(0, 102, 190, 0.23) inset;
+  border-radius: 15px;
+  padding: 15px;
+  border: 0.5px solid var(--skyblue);
+  justify-content: space-between;
+}
+
+.poster-url .custom-poster-added .custom-poster img {
+  max-width: 200px;
+  max-height: 200px;
+  width: 100%;
+}
+.poster-url .custom-poster-added .custom-poster {
+  align-items: center;
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.poster-url .custom-poster-added .custom-poster h5 {
+  font-size: 16px;
+  color: var(--skyblue);
+  font-weight: 400;
+}
+.polls-preview.poll-question-option.question-listing .polls-preview-header li:last-child {
+  margin-left: 0;
 }
 /**Registration page end**/
