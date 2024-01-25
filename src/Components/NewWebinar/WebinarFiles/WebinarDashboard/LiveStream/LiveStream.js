@@ -479,7 +479,7 @@ useEffect(() => {
   };
 
   const handleTabSelect = (selectedTab) => {
-    // if(selectedTab==activeTab) return;
+    if(selectedTab==activeTab) return;
     // alert('handleTabSelect')
    
     refreshQuestion(selectedTab)
