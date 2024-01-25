@@ -487,7 +487,7 @@ const Invitees = () => {
           <div className="row">
             <div className="top-header regi-web sticky">
               <div className="page-title">
-                <h2>Invitees</h2>
+                <h2>Registered Users</h2>
               </div>
               <div className="top-right-action">
                   <div className="search-bar">
@@ -893,7 +893,7 @@ const Invitees = () => {
                                   placeholder="Select user type"
                                   value={userTypeOptions?.findIndex((item, i) => item?.value == user?.hcp_status) != -1 ?
                                     userTypeOptions[userTypeOptions?.findIndex((item, i) => item?.value == user?.hcp_status)]
-                                    : ""
+                                    : userTypeOptions[0]
                                   }
                                   onChange={(e) => handleChange(e, user, index)}
                                 />
