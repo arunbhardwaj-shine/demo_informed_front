@@ -64,7 +64,7 @@ const LiveStream = () => {
     },
     yAxis: {
       title: {
-        text: "no of online users"
+        text: "online users"
       },
       allowDecimals: false, // Ensure y-axis labels are integers
 
@@ -400,16 +400,20 @@ useEffect(() => {
 
   const deleteUser = async (id) => {
     setApiCallStatus(true);
+    hideConfirmationModal();
     try {
-      await deleteData(ENDPOINT.WEBINAR_DELETE_QUESTION_ANSWER, id);
-      popup_alert({
-        visible: "show",
-        message: "Question has been deleted <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
+      let event = eventId;
+      await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_QUESTION_ANSWER}/${id}/${event}`);
+      toast.success("Question has been deleted successfully.");
+      // popup_alert({
+      //   visible: "show",
+      //   message: "Question has been deleted <br />successfully !",
+      //   type: "success",
+      //   redirect: "",
+      // });
       setApiCallStatus(false);
     } catch (err) {
+      console.log(err);
       setApiCallStatus(false);
     }
 
@@ -420,15 +424,13 @@ useEffect(() => {
       ])
     );
     setQuestions(updatedObj);
-
-    hideConfirmationModal();
   }
 
   const deleteRegisterUser = async (id) => {
     setAttendeesApiCallStatus(true);
     try {
-      let eventId = eventId;
-      const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${eventId}`);
+      let event = eventId;
+      const res = await deleteMethod(`${ENDPOINT.WEBINAR_DELETE_USER}/${id}/${event}`);
       let updatedUserData = attendees.filter((item) => item?.userId !== id);
       setAttendees(updatedUserData);
       popup_alert({
