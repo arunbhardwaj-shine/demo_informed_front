@@ -389,11 +389,16 @@ const Invitees = () => {
       });
 
       console.log("Response:", res);
+      let eventName=localStorage.getItem('EventIdContext')
+      if(eventName){
+        eventName=JSON.parse(eventName)
+
+      }
 
       const link = document.createElement("a");
       const url = URL.createObjectURL(res?.data);
       link.href = url;
-      link.download = "readers.xlsx";
+      link.download = `${eventName?.eventTitle?eventName?.eventTitle+"_Registered_Users":"Registered_Users"}.xlsx`;
       link.click();
       loader("hide");
     } catch (err) {
