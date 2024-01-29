@@ -12060,4 +12060,8 @@ cursor: pointer;
 .polls-preview.poll-question-option.question-listing .polls-preview-header li:last-child {
   margin-left: 0;
 }
+.webinar-popup {
+  background: #fff;
+  min-height: 100vh;
+}
 /**Registration page end**/
