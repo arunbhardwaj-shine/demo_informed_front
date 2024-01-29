@@ -12,6 +12,8 @@ import CommonConfirmModel from '../../../../../Model/CommonConfirmModel';
 import { postData, deleteData, deleteMethod } from '../../../../../axios/apiHelper';
 import { database } from '../../../../../config/firebaseConfigOnesource';
 import { ref, query, orderByChild, equalTo, onValue, off } from 'firebase/database';
+import * as XLSX from "xlsx";
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LiveStream = () => {
@@ -624,7 +626,15 @@ useEffect(() => {
     document.body.removeChild(textArea);
   };
   
+  const downloadExcel = (event) => {
 
+      var data = event.target.result;
+      let readedData = XLSX.read(data, { type: "binary" });
+      const wsname = readedData.SheetNames[0];
+      const ws = readedData.Sheets[wsname];
+
+      const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
+  };
   return (
     <>
 
@@ -1475,14 +1485,12 @@ useEffect(() => {
                     </>
                   }
                 </Tab>
-                <Tab eventKey="all" title="All">
+                {/* <Tab eventKey="all" title="All">
                       <div className="doc-content-header">
                           <div className="doc-content d-flex justify-content-between align-items-center">
                             <h4>HCPs | <span>{attendees.length}</span></h4>
                             <div className='clear-search d-flex justify-content-end align-items-center'>
-                              {/* {
-                                attendees.length > 0
-                                ? */}
+                          
                                 <div className="search-bar">
                                     <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                                       <input
@@ -1516,8 +1524,7 @@ useEffect(() => {
                                       </button>
                                     </form>
                                 </div>
-                                  {/* : null
-                              } */}
+                                
                               <div className='btn-refresh'>
                                 <img className= {refreshAttendeesFlag === "all" ?  "refresh-rotate" : ""} src={path_image + "refresh-btn.svg"} alt="" onClick={(e) =>refreshAttendees('all')}/>
                               </div>
@@ -1683,7 +1690,7 @@ useEffect(() => {
                       </div>
                     </>
                   }
-                </Tab>
+                </Tab> */}
                 <Tab eventKey="not-logged" title="Not Logged In">
                         <div className="doc-content-header">
                           <div className="doc-content d-flex justify-content-between align-items-center">
