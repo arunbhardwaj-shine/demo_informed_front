@@ -681,11 +681,11 @@ const LiveStream = () => {
         if (item?.send_by == 1) {
           finalData.Name = "Octapharama";
         } else {
-          finalData.Name = item?.name ? item?.name : "Anonymous";
+          finalData.Name = item?.name ? item?.name.trim() : "Anonymous";
         }
-        finalData.Country = item?.country ? item?.country : "N/A";
-        finalData.Message = item?.question ? item?.question : "N/A";
-        finalData.Reply = item?.reply ? item?.reply : "N/A";
+        finalData.Country = item?.country ? item?.country.trim() : "N/A";
+        finalData.Message = item?.question ? item?.question.trim() : "N/A";
+        finalData.Reply = item?.reply ? item?.reply.trim() : "N/A";
         finalData.Date = item?.question_date ? item?.question_date : "N/A";
         return finalData;
       });
