@@ -20,11 +20,13 @@ const Sidebar = () => {
   const [getHideShowSideContent, setHideShowSideContent] = useState(false);
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
   const [get_user_id, set_user_id] = useState();
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
 
   const { selectedItem,eventIdContext } = useSidebar();
   // if(!eventIdContext){
   //   navigate("/webinar/event-listing");
   // }
+  
 
   useEffect(() => {
     let user_id = localStorage.getItem("user_id");
@@ -256,7 +258,7 @@ const Sidebar = () => {
                   <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
                 </button>
                 {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
-                <span>{eventIdContext?.eventTitle}</span>
+                <span>{eventIdContext?.eventTitle?eventIdContext?.eventTitle:localStorageEvent?.eventTitle}</span>
               </div>
             </>
           ) : null}
@@ -1188,7 +1190,7 @@ const Sidebar = () => {
                         <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
                       </button>
                       {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
-                      <span>{eventIdContext?.eventTitle}</span>
+                      <span>{eventIdContext?.eventTitle?eventIdContext?.eventTitle:localStorageEvent?.eventTitle}</span>
                     </div>
                       <ul>
                         <li className={isActive ? 'active' : 'side_li'}
