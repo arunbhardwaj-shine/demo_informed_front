@@ -302,7 +302,7 @@ const GetMedpakDetails = () => {
                  .then((res) => {
                     console.log("Response from the server:", res);
                     if (res.data.status_code === 200) {
-                       toast.success("Reminder sent to the readers successfully");
+                       toast.success("User reminder status updated successfully.");
                     } else {
                        toast.warning(res.data.message);
                     }

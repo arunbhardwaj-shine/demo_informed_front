@@ -1,5 +1,5 @@
 import Slider from "react-slick";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { postData, getData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { db } from "../../../../../config/firebaseConfig";
@@ -33,7 +33,7 @@ const settings = {
         dots: false,
         arrows: false,
         vertical: false,
-  verticalScrolling: false,
+        verticalScrolling: false,
       },
     },
   ],
@@ -53,6 +53,8 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [show, setShow] = useState(false);
   const firstTime = useRef(true);
+  const [commentPop,setCommentPopup] = useState(false)
+  const [comments,setComments] = useState([])
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -165,11 +167,11 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
 
   const handleBeforeChange = async (current) => {
     try {
-      setApiCallStatus(true)
+      setApiCallStatus(true);
       if (currentSnapShot.current) {
         currentSnapShot.current();
       }
-      setPieChartData({})
+      setPieChartData({});
     } catch (err) {
       console.log("--err", err);
     } finally {
@@ -178,7 +180,6 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
       // setApiCallStatus(false);
     }
   };
-
 
   const firebaseev = async () => {
     if (eventData?.id && currentQuestion.current) {
@@ -306,7 +307,23 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
       getQuestions();
     }
   }, [count]);
+  const displayPopup = async (question_id, e) => {
+  
+    // const result = await postData(ENDPOINT.GETCOMMENTSBYQUESTIONID, {
+    //   companyId: eventData?.companyId,
+    //   eventId: eventData?.id,
+    //   questionId: question_id,
+    // }); 
 
+     e.preventDefault();
+     let index=question?.findIndex(obj=>obj?.questionId===question_id)
+    setCommentPopup(true);
+    if(index!==-1){
+      let allComments=question?.[index]?.userComments;
+      setComments(allComments)
+    }
+   
+  }
   return (
     <>
       <div className="outer-layout">
@@ -352,7 +369,10 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                             </div>
                             <div className="question-display">
                               <div className="question">
-                                {(item?.totalSubquestion && item?.totalSubquestion?.length>0) ?"Heading": "Question"}
+                                {item?.totalSubquestion &&
+                                item?.totalSubquestion?.length > 0
+                                  ? "Heading"
+                                  : "Question"}
                                 <p
                                   dangerouslySetInnerHTML={{
                                     __html: item?.question,
@@ -360,9 +380,10 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                                 ></p>
                               </div>
 
-                              {(item?.totalSubquestion && item?.totalSubquestion?.length>0) ? <div className="answer-options">
-                                 Questions
-                          
+                              {item?.totalSubquestion &&
+                              item?.totalSubquestion?.length > 0 ? (
+                                <div className="answer-options">
+                                  Questions
                                   <>
                                     {
                                       // item?.pollAnswers?.length ?
@@ -377,85 +398,115 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                                       //     })
                                       // :
                                       item?.totalSubquestion?.map(
-                                            (answer, i) => {
-                                              return (
-                                                <>
-                                                  <div
-                                                    className="answer sub-question"
-                                                    key={i}
-                                                  >
-                                                    <span>
-                                                      {String.fromCharCode(
-                                                        65 + i
-                                                      )}
-                                                      .
-                                                    </span>
-                                                    <div
-                                                      dangerouslySetInnerHTML={{
-                                                        __html: answer?.pollquestion?.question,
-                                                      }}
-                                                    ></div>
-                                                  </div>
-                                                </>
-                                              );
-                                            }
-                                          )
+                                        (answer, i) => {
+                                          return (
+                                            <>
+                                              <div
+                                                className="answer sub-question"
+                                                key={i}
+                                              >
+                                                <span>
+                                                  {String.fromCharCode(65 + i)}.
+                                                </span>
+                                                <div
+                                                  dangerouslySetInnerHTML={{
+                                                    __html:
+                                                      answer?.pollquestion
+                                                        ?.question,
+                                                  }}
+                                                ></div>
+                                              </div>
+                                            </>
+                                          );
+                                        }
+                                      )
                                     }
                                   </>
+                                </div>
+                              ) : (
+                                <div className="answer-options">
+                                  Answers
+                                  {item?.canCustomAnswer == 1 ? (
+                                    <div>Not have any possible answers</div>
+                                  ) : (
+                                    <>
+                                      {
+                                        // item?.pollAnswers?.length ?
+                                        //     item?.pollAnswers?.map((answer, i) => {
+                                        //         return (<>
+                                        //             <div className='answer' key={i}>
+                                        //                 <span>{String.fromCharCode(65 + i)}.</span>
+                                        //                 <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
+
+                                        //             </div>
+                                        //         </>)
+                                        //     })
+                                        // :
+                                        item?.allUserAnswers?.length
+                                          ? item?.allUserAnswers?.map(
+                                              (answer, i) => {
+                                                return (
+                                                  <>
+                                                    <div
+                                                      className="answer"
+                                                      key={i}
+                                                    >
+                                                      <span>
+                                                        {String.fromCharCode(
+                                                          65 + i
+                                                        )}
+                                                        .
+                                                      </span>
+                                                      <div
+                                                        dangerouslySetInnerHTML={{
+                                                          __html: answer,
+                                                        }}
+                                                      ></div>
+                                                    </div>
+                                                  </>
+                                                );
+                                              }
+                                            )
+                                          : null
+                                      }
+                                    </>
+                                  )}
+                                </div>
+                              )}
+                              {/* {item?.totalSubquestion &&
+                                item?.totalSubquestion?.length > 0 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-info answermodel"
+                                    onClick={(e) =>
+                                      displayPopup(item?.questionId, e)
+                                    }
+                                  >
+                                    See Comments
+                                  </button>
+                                )} */}
+                                 {item?.userComments?.every(obj=>obj.comments=="") ?"":
+                                // item?.userComments?.length > 0 && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-info answermodel"
+                                    onClick={(e) =>
+                                      displayPopup(item?.questionId, e)
+                                    }
+                                  >
+                                    See Comments
+                                  </button>
+                                // )
                                
-                              </div>:  <div className="answer-options">
-                                Answers
-                                {item?.canCustomAnswer == 1 ? (
-                                  <div>Not have any possible answers</div>
-                                ) : (
-                                  <>
-                                    {
-                                      // item?.pollAnswers?.length ?
-                                      //     item?.pollAnswers?.map((answer, i) => {
-                                      //         return (<>
-                                      //             <div className='answer' key={i}>
-                                      //                 <span>{String.fromCharCode(65 + i)}.</span>
-                                      //                 <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
+                                }
 
-                                      //             </div>
-                                      //         </>)
-                                      //     })
-                                      // :
-                                      item?.allUserAnswers?.length
-                                        ? item?.allUserAnswers?.map(
-                                            (answer, i) => {
-                                              return (
-                                                <>
-                                                  <div
-                                                    className="answer"
-                                                    key={i}
-                                                  >
-                                                    <span>
-                                                      {String.fromCharCode(
-                                                        65 + i
-                                                      )}
-                                                      .
-                                                    </span>
-                                                    <div
-                                                      dangerouslySetInnerHTML={{
-                                                        __html: answer,
-                                                      }}
-                                                    ></div>
-                                                  </div>
-                                                </>
-                                              );
-                                            }
-                                          )
-                                        : null
-                                    }
-                                  </>
-                                )}
-                              </div>}
-
-                             
                               <div className="speaker">
                                 Speaker
-                                <h6>{item?.speakerName}</h6>
+                                <h6
+                                  dangerouslySetInnerHTML={{
+                                    __html: item?.speakerName,
+                                  }}
+                                />
                               </div>
                             </div>
 
@@ -582,14 +633,15 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
               <div className="question-listing-link-box">
                 {question?.length
                   ? question?.map((item, index) => (
-                      <div className="question-listing-links" onClick={()=>{
-                        if(index>=0 && currentIndex!=index){
-                          
-                          setCurrentIndex(index)
-                          slickRef.current.slickGoTo(index)
-
-                        }
-                      }}>
+                      <div
+                        className="question-listing-links"
+                        onClick={() => {
+                          if (index >= 0 && currentIndex != index) {
+                            setCurrentIndex(index);
+                            slickRef.current.slickGoTo(index);
+                          }
+                        }}
+                      >
                         <div
                           className={
                             currentIndex == index
@@ -667,6 +719,53 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
           hideConfirmationModal();
         }}
       />
+          <Modal show={commentPop} 
+          backdrop="static" 
+          onHide={()=>setCommentPopup(false)} 
+            keyboard={false} id="showComments">
+            <Modal.Header closeButton>
+              <Modal.Title id="contained-modal-title-vcenter">
+                {
+                  "Comments"
+               
+                }
+        
+              </Modal.Title>
+            </Modal.Header>
+              <Modal.Body>
+                  <table className="table table-striped">
+                        <thead>
+                          <tr>
+                          <th>User Name</th>
+                          <th>Explanation</th>
+                          </tr>
+                        </thead>
+                        <tbody>										 
+                        {
+                          comments?.every(obj=>obj?.comments==="") 
+                          ?
+                          <tr><td colSpan={3}><p>No Data Found</p></td></tr>
+                          :
+                          comments?.map((item,index)=>{
+                          return(
+                            <>
+                            {item?.comments?
+                            <tr>
+                              <td>{item?.name?item?.name:"N/A"}</td>
+                              <td>{item?.comments}</td>
+                            </tr>
+                            :""}
+                            </>
+                          ) 
+                          })
+                         
+                        }
+                        </tbody>
+                  </table>
+                
+              </Modal.Body>
+            
+          </Modal>
     </>
   );
 };
