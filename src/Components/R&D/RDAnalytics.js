@@ -936,6 +936,7 @@ const RDAnalytics = () => {
                       <thead>
                         <tr>
                           <th>Site</th>
+                          <th>Email</th>
                           <th>Name</th>
                           <th>Role</th>
                           <th>Training</th>
@@ -969,6 +970,9 @@ const RDAnalytics = () => {
                               >
                                 <td>
                                   {item?.site_name ? item?.site_name : "NA"}
+                                </td>
+                                <td>
+                                  {item?.email ? item?.email : "NA"}
                                 </td>
                                 <td>
                                   {item?.username
@@ -1076,7 +1080,7 @@ const RDAnalytics = () => {
                               </tr>
                               {individualCompletionShow == index ? (
                                 <tr className={"fold show"}>
-                                  <td colspan="7">
+                                  <td colspan="8">
                                     <div className="fold-content">
                                       {
                                         trainingDropdownData?.length == 0 ?
@@ -1334,7 +1338,7 @@ const RDAnalytics = () => {
                                 </tr>
                               ) : null}
                               <tr className="blank">
-                                <td colspan="7" style={{ height: "10px;" }}>
+                                <td colspan="8" style={{ height: "10px;" }}>
                                   &nbsp;
                                 </td>
                               </tr>
