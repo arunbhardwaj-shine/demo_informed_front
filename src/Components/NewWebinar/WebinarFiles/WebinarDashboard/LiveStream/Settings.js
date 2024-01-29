@@ -390,7 +390,7 @@ const Settings = () => {
                 <img src={path_image + "message-to attendeed.png"} alt="" />
               </div>
               <div className="event-status-msg">
-                <p className="event-status-set">End Live Streaming</p>
+                <p className="event-status-set">Set Poster</p>
                 <p>Stop the live stream and place an image message.</p>
               </div>
             </div>

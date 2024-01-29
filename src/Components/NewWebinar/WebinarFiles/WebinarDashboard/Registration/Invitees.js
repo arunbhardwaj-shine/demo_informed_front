@@ -34,12 +34,20 @@ const Invitees = () => {
     // "User type ": ["HCP", "Staff user", "Test user"],
     // "User ": ["Registered", "Blocked"]
   });
-  const [otherFilter, setOtherFilter] = useState({});
+  const [otherFilter, setOtherFilter] = useState({
+    "UserType": [
+        "HCP"
+    ]
+});
   const [page, setPage] = useState(1)
   const [totalReaders, setTotalReaders] = useState()
   const [totalPage, setTotalPage] = useState()
   const [pageAll, setPageAll] = useState(false);
-  const [appliedFilter, setAppliedFilter] = useState({})
+  const [appliedFilter, setAppliedFilter] = useState({
+    "UserType": [
+        "HCP"
+    ]
+})
 
   const {eventIdContext,handleEventId } = useSidebar();
   const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
@@ -52,7 +60,7 @@ const Invitees = () => {
     //   handleEventId(localStorageEvent)
     // }  
    if(eventId){
-    getWebinarData(page);
+    getWebinarData(page,otherFilter);
    }
       
    
@@ -120,6 +128,7 @@ const Invitees = () => {
         "search": search ? search : "",
         "Country": filter?.Country ? filter?.Country : "",
         "UserType": filter?.UserType ? filter?.UserType : "",
+        // "UserType":["HCP"],
         "Type": filter?.Type ? filter?.Type : "",
         "id": eventId
       };
@@ -173,7 +182,7 @@ const Invitees = () => {
         setUserData()
         setApiStatus(false)
         setSearch(searched)
-        getWebinarData(sp);
+        getWebinarData(sp,otherFilter);
       }
     } catch (error) {
       console.error('Error in searchChange:', error);
@@ -191,11 +200,11 @@ const Invitees = () => {
       let sp = 1;
       setPage(sp)
       if (!search) {
-        getWebinarData(sp);
+        getWebinarData(sp,otherFilter);
       } else {
         setUserData()
         setSearch("")
-        getWebinarData(sp);
+        getWebinarData(sp,otherFilter);
       }
     } catch (error) {
       console.error('Error in submitSearchHandler:', error);
@@ -421,7 +430,8 @@ const Invitees = () => {
           delete updatedFilter[key]
         }
       }
-    }
+    }    console.log(updatedFilter,"updatedFilter");
+
     setOtherFilter(updatedFilter);
   };
 
