@@ -127,7 +127,8 @@ const Invitees = () => {
       let payload = {
         "search": search ? search : "",
         "Country": filter?.Country ? filter?.Country : "",
-        "UserType": filter?.UserType ? filter?.UserType : "",
+        // "UserType": filter?.UserType ? filter?.UserType : "",
+        "UserType":["HCP"],
         "Type": filter?.Type ? filter?.Type : "",
         "id": eventId
       };
