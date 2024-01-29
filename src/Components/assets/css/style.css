@@ -4221,7 +4221,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 .filter-footer {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   background: var(--white);
   width: 100%;
