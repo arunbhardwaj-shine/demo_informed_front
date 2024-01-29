@@ -513,8 +513,9 @@ const PollQuestion = () => {
   onSnapshot(q, (querySnapshot) => {
     querySnapshot.forEach((doc) => {
       if (doc.data()) {
-        if (count != doc.data()?.questionTrigger) {
-          setCount(doc.data()?.questionTrigger);
+        let newCount = doc.data()?.questionTrigger + doc.data()?.webinar;
+        if (count != newCount) {
+          setCount(newCount);
         }
       }
     });

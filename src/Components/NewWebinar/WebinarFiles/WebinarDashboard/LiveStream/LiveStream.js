@@ -685,7 +685,7 @@ useEffect(() => {
                                     <div className="live-stream-ques" key={item.id}>
                                       <div className="live-stream-ques-header d-flex justify-content-between">
                                         <div className="live-stream-hcp">
-                                          <h4>{item?.name ? item?.name : "Anonymous"}</h4>
+                                          <h4>{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</h4>
                                         </div>
                                         <div className="speaker-specialty">
                                           {item?.question_date}
@@ -765,7 +765,8 @@ useEffect(() => {
                                   <div className="live-stream-ques" key={item.id}>
                                     <div className="live-stream-ques-header d-flex justify-content-between">
                                       <div className="live-stream-hcp">
-                                      <h4>{item?.name ? item?.name : "Anonymous"}</h4>
+                                      {/* <h4>{item?.name ? item?.name : "Anonymous"}</h4> */}
+                                      <h4>{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</h4>
                                       </div>
                                       <div className="speaker-specialty">
                                         {item?.question_date}
@@ -850,7 +851,8 @@ useEffect(() => {
                                   <div className="live-stream-ques" key={item.id}>
                                     <div className="live-stream-ques-header d-flex justify-content-between">
                                       <div className="live-stream-hcp">
-                                      <h4>{item?.name ? item?.name : "Anonymous"}</h4>
+                                      {/* <h4>{item?.name ? item?.name : "Anonymous"}</h4> */}
+                                      <h4>{item?.send_by == 1 ? "Octapharma" : item?.name ? item?.name : "Anonymous"}</h4>
                                       </div>
                                       <div className="speaker-specialty">
                                         {item?.question_date}
