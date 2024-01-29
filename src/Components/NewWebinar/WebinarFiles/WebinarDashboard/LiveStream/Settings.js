@@ -8,6 +8,7 @@ import { loader } from "../../../../../loader";
 import Select from "react-select";
 
 const Settings = () => {
+  const validExtensions = ["png", "jpeg", "jpg"];
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const { eventIdContext, handleEventId } = useSidebar();
   const [liveStatus, setLiveStatus] = useState(0);
@@ -19,8 +20,6 @@ const Settings = () => {
       : localStorageEvent?.eventId
   );
 
-  const [customPosterUrl, setCustomPosterUrl] = useState("");
-  const [customPosterUrlOriginal, setCustomPosterUrlOriginal] = useState("");
   const posterOptions = [
     {
       label: "Thank you message without speaker image",
@@ -49,10 +48,15 @@ const Settings = () => {
     },
     { label: "Custom message", value: "" },
   ];
+
   const [selectedPosterOption, setSelectedPosterOption] = useState(
     posterOptions[0]
   );
+
   const [posterUrl, setPosterUrl] = useState(posterOptions[0].value);
+  const [poster, setPoster] = useState();
+  const [errorMsg, setErrorMsg] = useState("");
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
   useEffect(() => {
     // if(!eventIdContext){
@@ -102,24 +106,16 @@ const Settings = () => {
           foundOption !== "undefined" &&
           foundOption !== ""
         ) {
-
-          setSelectedPosterOption(foundOption);         
-           setCustomPosterUrl(poster_url);
-          //  setCustomPosterUrlOriginal(poster_url);
-
+          setSelectedPosterOption(foundOption);
         } else {
-
-          setSelectedPosterOption(posterOptions[posterOptions?.length-1]);
-          setCustomPosterUrl(poster_url);
-          setCustomPosterUrlOriginal(poster_url);
+          setSelectedPosterOption(posterOptions[posterOptions?.length - 1]);
+          setUploadedImageUrl(poster_url);
         }
         setStreamUrl(stream_url);
         setPosterUrl(poster_url);
-
       } else {
         setSelectedPosterOption(posterOptions[0]);
         setPosterUrl(posterOptions[0]?.value);
-
       }
     } catch (error) {
       console.error("Error fetching settings:", error);
@@ -131,6 +127,19 @@ const Settings = () => {
   const handleSave = async () => {
     try {
       loader("show");
+
+      if (errorMsg) {
+        toast.error(errorMsg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        return;
+      }
 
       if (liveStatus === 2 && !streamUrl.trim()) {
         toast.error("Please filled stream url first", {
@@ -145,18 +154,22 @@ const Settings = () => {
         return;
       }
 
-      // if (liveStatus === 3 && !posterUrl.trim()) {
-      //   toast.error("Please filled poster url first", {
-      //     position: "top-right",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //   });
-      //   return;
-      // }
+      if (
+        liveStatus === 3 &&
+        !posterUrl.trim() &&
+        !selectedPosterOption.label === "Custom message"
+      ) {
+        toast.error("Please filled poster url first", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        return;
+      }
 
       if (liveStatus === 2 && !streamUrl.startsWith("https")) {
         toast.error("Stream URL should start with 'https'", {
@@ -171,45 +184,10 @@ const Settings = () => {
         return;
       }
 
-      // if (liveStatus === 3 && !posterUrl.startsWith("https")) {
-      //   toast.error("Poster URL should start with 'https'", {
-      //     position: "top-right",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //   });
-      //   return;
-      // }
-
       if (
         liveStatus === 3 &&
-        !(
-          selectedPosterOption.label === "Custom message"
-            ? customPosterUrl
-            : posterUrl
-        ).trim()
-      ) {
-        toast.error("Please filled poster url first", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        return;
-      }
-      if (
-        liveStatus === 3 &&
-        !(
-          selectedPosterOption.label === "Custom message"
-            ? customPosterUrl
-            : posterUrl
-        ).startsWith("https")
+        !posterUrl.startsWith("https") &&
+        !selectedPosterOption.label === "Custom message"
       ) {
         toast.error("Poster URL should start with 'https'", {
           position: "top-right",
@@ -228,15 +206,13 @@ const Settings = () => {
         live_status: liveStatus,
         ask_question: askQuestion,
         stream_url: liveStatus === 2 ? streamUrl : "",
-        // poster_url: liveStatus === 3 ? posterUrl: "",
         poster_url:
           liveStatus === 3
             ? selectedPosterOption.label === "Custom message"
-              ? customPosterUrl
+              ? uploadedImageUrl
               : posterUrl
             : "",
       };
-      // console.log("====>payload", payload);
 
       const response = await postData(
         ENDPOINT.WEBINAR_SETTINGS_UPDATE,
@@ -258,9 +234,73 @@ const Settings = () => {
     }
   };
 
-  const handleCustomInputChange = (e) => {
-    setCustomPosterUrl(e.target.value);
-    // setSelectedPosterOption("Custom");
+  const handleFileSelect = (e, isSelectedName) => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.style.display = "none";
+    fileInput.accept = ".png, .jpeg, .jpg";
+    fileInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+
+      if (file) {
+        const extension = file.name.split(".").pop().toLowerCase();
+
+        if (!validExtensions.includes(extension)) {
+          if (isSelectedName === "posterImage") {
+            setErrorMsg(
+              `Invalid file extension of image. Please select a valid extension file.`
+            );
+          }
+        } else {
+          setErrorMsg("");
+        }
+        if (isSelectedName === "posterImage") {
+          setPoster(URL.createObjectURL(file)); 
+        }
+        try {
+          const uploadedImageUrl = await uploadImageToServer(file);
+          setUploadedImageUrl(uploadedImageUrl);
+        } catch (error) {
+          console.error("Error uploading image:", error);
+        } 
+      }
+    });
+    fileInput.click();
+  };
+
+  const uploadImageToServer = async (file) => {
+    try {
+      // const validExtensions = ["png", "jpeg"];
+      const extension = file.name.split(".").pop().toLowerCase();
+      if (!validExtensions.includes(extension)) {
+        throw new Error(
+          "Invalid file extension. Please select a valid extension file."
+        );
+      }
+
+      loader("show");
+      const formData = new FormData();
+      formData.append("image", file);
+      const response = await fetch(
+        "https://onesource.informed.pro/api/upload-image",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      if (response.ok) {
+        const uploadedData = await response.json();
+        return uploadedData.imageUrl;
+      } else {
+        console.error("Image upload failed");
+        return null;
+      }
+    } catch (error) {
+      console.error("Image upload error:", error);
+      return null;
+    } finally {
+      loader("hide");
+    }
   };
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -292,8 +332,6 @@ const Settings = () => {
                 // onChange={() => setLiveStatus(0)}
                 onChange={() => {
                   setLiveStatus(0);
-                  // setStreamUrl("");
-                  // setPosterUrl("");
                 }}
               />
               <div className="event-status-img">
@@ -311,8 +349,6 @@ const Settings = () => {
                 checked={liveStatus === 1}
                 onChange={() => {
                   setLiveStatus(1);
-                  // setStreamUrl("");
-                  // setPosterUrl("");
                 }}
               />
               <div className="event-status-img">
@@ -421,50 +457,51 @@ const Settings = () => {
                   value={selectedPosterOption}
                   onChange={(selectedOption) => {
                     setSelectedPosterOption(selectedOption);
-                   
-                    if(selectedOption?.label=="Custom message"){
-                      setCustomPosterUrl(
-                        customPosterUrlOriginal
-                      );
-                      setPosterUrl(
-                        customPosterUrlOriginal
-                      );
-                    }else{
-                      setCustomPosterUrl(
-                        posterOptions.find(
-                          (option) => option.label === selectedOption.label
-                        )?.value || ""
-                      );
+
+                    if (selectedOption?.label == "Custom message") {
+                      // setUploadedImageUrl(uploadedImageUrl);
+                    } else {
                       setPosterUrl(
                         posterOptions.find(
                           (option) => option.label === selectedOption.label
                         )?.value || ""
                       );
                     }
-                  
-                  
                   }}
                 />
               </Form.Group>
 
-              <Form.Group className="poster-url-detail">
-                {/* {console.log(selectedPosterOption)} */}
-                <Form.Label>Poster URL:</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={
-                    selectedPosterOption?.label === "Custom message"
-                      ? customPosterUrl
-                      : posterUrl
-                  }
-                  onChange={handleCustomInputChange}
-                  placeholder={
-                    selectedPosterOption?.label === "Custom message"
-                      ? "Please enter poster url"
-                      : ""
-                  }
-                />
-              </Form.Group>
+              {!(selectedPosterOption?.label === "Custom message") && (
+                <Form.Group className="poster-url-detail">
+                  <Form.Label>Poster URL:</Form.Label>
+                  <Form.Control type="text" value={posterUrl} />
+                </Form.Group>
+              )}
+
+              {selectedPosterOption?.label === "Custom message" && (
+                <>
+                 
+
+                  <div className="form-group d-flex align-items-center custom-poster-added">
+                 
+                    <div className="custom-poster">
+                    {!(poster || uploadedImageUrl)  ? (
+                        <h5>Upload your poster</h5>
+                    ) : null}
+
+                      <img
+                        className="header-img"
+                        src={poster || uploadedImageUrl}
+                      />
+                    </div>
+                     <Button className="upload-img" 
+                  // onClick={handleFileSelect}
+                   onClick={(e) => handleFileSelect(e, "posterImage")}>
+                    Choose Your File
+                  </Button>
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>

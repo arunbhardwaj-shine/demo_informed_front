@@ -11802,7 +11802,7 @@ img.change-password-image {
   margin-left: 26px;
   position: absolute;
   text-align: center;
-  top: 7px;
+  top: 8px;
   width: 50%;
   z-index: 5;
 }
@@ -19882,7 +19882,7 @@ img.change-password-image {
 
 @media only screen and (max-width: 1200px) {
   .no_found {
-    min-height: 65vh;
+    min-height: 35vh;
   }
 
   .poll-question .poll-question-create .answer-option .options .row .option-action {
@@ -20014,7 +20014,7 @@ img.change-password-image {
 
   .custom-change .top-header.sticky,
   .custom-change .page-top-nav.sticky {
-    top: 48px;
+    top: 47px;
   }
 }
 
@@ -20559,6 +20559,11 @@ img.change-password-image {
 @media (max-width: $layout-breakpoint-small) {
   .consent-content .consent-content-inner .consent-details .consent-img {
     display: block;
+  }
+
+  .custom-change .top-header.sticky,
+  .custom-change .page-top-nav.sticky {
+    top: 45px;
   }
 
   .top-header.regi-web {
@@ -22647,6 +22652,14 @@ img.change-password-image {
   .poll-question .poll-question-create .speaker-detail .display-result>div {
     justify-content: flex-start;
     flex-wrap: wrap;
+  }
+
+  .webinarRegistrationBody #registration-form .centered-input {
+    margin: 0 0 5px;
+  }
+
+  .webinarRegistrationBody #registration-form .form-group {
+    justify-content: flex-end;
   }
 
   .poll-question .poll-question-create .speaker-detail .display-result>div button.btn {

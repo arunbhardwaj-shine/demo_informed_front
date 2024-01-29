@@ -176,7 +176,7 @@ const Registration = () => {
         content="width=device-width, initial-scale=1"
       />
       <div className="right-sidebar col">
-        <div className="top-header">
+        <div className="top-header sticky">
           <div className="page-title">
             <h3>Registration Page </h3>
           </div>

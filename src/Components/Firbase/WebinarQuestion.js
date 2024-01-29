@@ -324,22 +324,23 @@ useEffect(() => {
                           <th>Explanation</th>
                           </tr>
                         </thead>
-                        <tbody>										 
-                        {
-                          comments?.length > 0 ?
-                          comments?.map((item,index)=>{
+                        <tbody>                          
+                       { comments.every(obj => obj.comments === "") 
+                       ? <tr><td colSpan={3}><p>No Data Found</p></td></tr>
+                       :comments?.map((item,index)=>{
                           return(
                             <>
+                            {item?.comments?
                             <tr>
                               <td>{item?.name?item?.name:"N/A"}</td>
                               {/* <td></td> */}
                               <td>{item?.comments}</td>
                             </tr>
+                             :""} 
                             </>
                           ) 
-                          })
-                          : <tr><td colSpan={3}><p>No Data Found</p></td></tr>
-                        }
+                          })                        
+                      }	
                         </tbody>
                   </table>
                 

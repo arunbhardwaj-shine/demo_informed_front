@@ -921,7 +921,7 @@ export default function PollListing({ eventIdContext }) {
                     <>
                       {questionObj?.questionData?.pollSubQuestions?.length >
                       0 ? (
-                        <div className="polls-preview poll-question-option">
+                        <div className="polls-preview poll-question-option question-listing">
                           <div className="polls-preview-lists poll-question-create">
                             {questionObj?.questionData?.pollSubQuestions.map(
                               (question, index) => (

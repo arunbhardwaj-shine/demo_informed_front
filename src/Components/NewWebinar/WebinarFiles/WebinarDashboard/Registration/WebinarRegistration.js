@@ -1221,9 +1221,13 @@ const WebinarRegistration = () => {
   return (
     <>
       <Col className="right-sidebar custom-change">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
         <div className="custom-container">
           <div className="row">
-            <div className="top-header regi-web">
+            <div className="top-header regi-web sticky">
               <div className="page-title">
                 <h2>Registration Page</h2>
               </div>
