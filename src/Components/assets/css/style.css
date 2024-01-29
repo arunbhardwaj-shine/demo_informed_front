@@ -9732,6 +9732,8 @@ button.event_sort_btn.svg_active svg {
 
 .event_edit #preview-poll .webinar-popup {
   max-height: 62vh;
+  min-height: initial;
+    background: transparent;
 }
 
 .settings-card {
