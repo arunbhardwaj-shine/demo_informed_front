@@ -683,6 +683,7 @@ const LiveStream = () => {
         } else {
           finalData.Name = item?.name ? item?.name.trim() : "Anonymous";
         }
+        finalData.Email = item?.email ? item?.email.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
         finalData.Message = item?.question ? item?.question.trim() : "N/A";
         finalData.Reply = item?.reply ? item?.reply.trim() : "N/A";
