@@ -182,7 +182,7 @@ const Invitees = () => {
         setUserData()
         setApiStatus(false)
         setSearch(searched)
-        getWebinarData(sp);
+        getWebinarData(sp,otherFilter);
       }
     } catch (error) {
       console.error('Error in searchChange:', error);
@@ -200,11 +200,11 @@ const Invitees = () => {
       let sp = 1;
       setPage(sp)
       if (!search) {
-        getWebinarData(sp);
+        getWebinarData(sp,otherFilter);
       } else {
         setUserData()
         setSearch("")
-        getWebinarData(sp);
+        getWebinarData(sp,otherFilter);
       }
     } catch (error) {
       console.error('Error in submitSearchHandler:', error);
