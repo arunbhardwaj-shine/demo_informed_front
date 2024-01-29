@@ -721,6 +721,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
       />
           <Modal show={commentPop} 
           backdrop="static" 
+          className="show-comments"
           onHide={()=>setCommentPopup(false)} 
             keyboard={false} id="showComments">
             <Modal.Header closeButton>
@@ -733,7 +734,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
               </Modal.Title>
             </Modal.Header>
               <Modal.Body>
-                  <table className="table table-striped">
+                  <table className="table">
                         <thead>
                           <tr>
                           <th>User Name</th>

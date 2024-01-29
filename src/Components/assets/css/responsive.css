@@ -3389,7 +3389,27 @@
   .top-header.regi-web .save-btn {
     margin-left: auto;
   }
+    .show-comments .modal-body {
+      padding: 0 10px 5px;
+    }
+        .show-comments #showComments .modal-title.h4 {
+          font-size: 20px;
+          padding: 0 20px 0 20px;
+        }
 .polls-preview-list-question li {
+  font-size: 13px;
+}
+#showComments th, #showComments td {
+  font-size: 14px;
+  padding: 3px;
+}
+.question-display .answermodel {
+  font-size: 10px;
+  margin: 0px 0 10px;
+  padding: 3px 10px;
+}
+.poll-question-option .preview-answers .answer-section h6 {
+  margin: 0 0 3px;
   font-size: 13px;
 }
 .polls-preview-header h6 {

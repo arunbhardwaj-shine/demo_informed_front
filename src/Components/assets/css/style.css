@@ -10124,7 +10124,15 @@ button.event_sort_btn.svg_active svg {
 .question-listing .question-display .answer-options {
   margin: 0 0 18px;
 }
-
+.question-display .answermodel {
+  font-size: 12px;
+  margin: -10px 0 10px;
+  padding: 4px 10px;
+  background: #8a4e9c;
+  border: 0;
+  color: #fff;
+  font-weight: 400;
+}
 .question-listing .answer span {
   color: var(--dark-blue);
   font-size: 14px;
@@ -12067,5 +12075,27 @@ cursor: pointer;
 .webinar-popup {
   background: #fff;
   min-height: 100vh;
+}
+#showComments th {
+  color: #004A89;
+  font-size: 15px;
+}
+
+#showComments td {
+  color: #70899E;
+  font-size: 15px;
+}
+.show-comments .modal-body {
+  padding-top: 0;
+}
+.show-comments #showComments .modal-title.h4 {
+  font-size: 22px;
+}
+.show-comments #showComments {
+  width: 900px;
+  max-width: 94%;
+}
+.show-comments #showComments .modal-content{
+  padding:0;
 }
 /**Registration page end**/
