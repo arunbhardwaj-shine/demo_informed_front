@@ -125,7 +125,7 @@ const QuestionTrigger = () =>{
                                 <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
                                 {
                                     item?.reply && item?.reply != "" ?
-                                    <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by admin: " + item?.reply}}></p></div>
+                                    <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p></div>
                                     : null
                                 }
                             </div>
@@ -165,7 +165,7 @@ const QuestionTrigger = () =>{
                                     <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
                                     {
                                         item?.reply && item?.reply != "" ?
-                                        <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by admin: " + item?.reply}}></p></div>
+                                        <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p></div>
                                         : null
                                     }
                                 </div>
@@ -202,7 +202,7 @@ const QuestionTrigger = () =>{
                                 <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
                                 {
                                     item?.reply && item?.reply != "" ?
-                                    <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by admin: " + item?.reply}}></p></div>
+                                    <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p></div>
                                     : null
                                 }
                                 </div>

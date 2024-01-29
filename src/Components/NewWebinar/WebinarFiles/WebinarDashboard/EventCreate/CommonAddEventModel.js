@@ -765,7 +765,7 @@ const CommonAddEventModel = ({
                           </div>
 
                           <div className="col-12 col-md-12">
-                            <div className="form-group">
+                            <div className="form-group align-items-center">
                               <label htmlFor="">
                                 Country Timezone <span> *</span>
                               </label>

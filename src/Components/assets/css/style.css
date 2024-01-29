@@ -10124,7 +10124,15 @@ button.event_sort_btn.svg_active svg {
 .question-listing .question-display .answer-options {
   margin: 0 0 18px;
 }
-
+.question-display .answermodel {
+  font-size: 12px;
+  margin: -10px 0 10px;
+  padding: 4px 10px;
+  background: #8a4e9c;
+  border: 0;
+  color: #fff;
+  font-weight: 400;
+}
 .question-listing .answer span {
   color: var(--dark-blue);
   font-size: 14px;
@@ -10315,7 +10323,7 @@ button.event_sort_btn.svg_active svg {
 /***Live stream***/
 .right-sidebar.live-stream {
   padding-top: 35px;
-  padding-bottom: 35px;
+  padding-bottom: 20px;
 }
 
 .live-stream h6 {
@@ -12028,6 +12036,10 @@ cursor: pointer;
   padding-top: 18px;
   padding-bottom: 5px;
 }
+.poll-question-option .preview-answers .answer-section h6 {
+  color:#fff;
+  margin:0 0 6px;
+}
 /* input::-webkit-datetime-edit-fields-wrapper{
   color:red;
 } */
@@ -12059,5 +12071,31 @@ cursor: pointer;
 }
 .polls-preview.poll-question-option.question-listing .polls-preview-header li:last-child {
   margin-left: 0;
+}
+.webinar-popup {
+  background: #fff;
+  min-height: 100vh;
+}
+#showComments th {
+  color: #004A89;
+  font-size: 15px;
+}
+
+#showComments td {
+  color: #70899E;
+  font-size: 15px;
+}
+.show-comments .modal-body {
+  padding-top: 0;
+}
+.show-comments #showComments .modal-title.h4 {
+  font-size: 22px;
+}
+.show-comments #showComments {
+  width: 900px;
+  max-width: 94%;
+}
+.show-comments #showComments .modal-content{
+  padding:0;
 }
 /**Registration page end**/

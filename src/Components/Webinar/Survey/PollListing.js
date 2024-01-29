@@ -929,19 +929,16 @@ export default function PollListing({ eventIdContext }) {
                                   {index == 0 && (
                                  <>   
                                   <div className="polls-preview-header">
-                                  <h6>
-                                         {
-                                      question?.question
-                                    }
+                                  <h6 dangerouslySetInnerHTML={{ __html: question?.question }} />
 
-                                    </h6>
                                   </div>
-                                 <div className="polls-preview-header">
+                                 {/* <div className="polls-preview-header">
                                       <ul>
                                         <li>No.</li>
                                         <li> Questions</li>
                                       </ul>
-                                    </div></>
+                                    </div> */}
+                                    </>
                                   )}
                                   <div
                                     className="polls-preview-list-box"
@@ -959,7 +956,7 @@ export default function PollListing({ eventIdContext }) {
                                         // onDragOver={allowDrop}
                                       >
                                         <li>{index + 1}</li>
-                                        <li>{question?.question}</li>
+                                        <li dangerouslySetInnerHTML={{ __html: question?.question }} />
                                         {/* <li>{question?.answerType}</li> */}
                                         <li>
                                           <div className="question-action">
@@ -970,7 +967,7 @@ export default function PollListing({ eventIdContext }) {
                                               }
                                             >
                                               <p>
-                                                <img
+                                               <img
                                                   src={
                                                     path_image +
                                                     "down-arrow.png"
@@ -993,13 +990,13 @@ export default function PollListing({ eventIdContext }) {
                                       >
                                         {accordionOpen === index && (
                                           <div className="details-content">
+                                            <h6>Answers:</h6>
                                             <ul>
                                               {question?.answer
                                                 ?.split("~")
                                                 .map((option, optionIndex) => (
-                                                  <li key={option?.id}>
-                                                    {optionIndex + 1}: {option}
-                                                  </li>
+                                                  <li key={option?.id} dangerouslySetInnerHTML={{ __html: `${optionIndex + 1}: ${option}` }} />
+
                                                 ))}
                                             </ul>
                                           </div>

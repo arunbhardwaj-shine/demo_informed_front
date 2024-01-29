@@ -170,4 +170,5 @@ export const ENDPOINT = {
   GETCHATLINKDATA:"auth/get-chat-link-data",
   CHANGEPOLLSORDER:"webinar/change-polls-order",
   RESETPOLL:"webinar/reset-polls",
+  GETCOMMENTSBYQUESTIONID:"webinar/get-comments-by-question-id",
 };
