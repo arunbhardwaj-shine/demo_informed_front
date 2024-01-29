@@ -10315,7 +10315,7 @@ button.event_sort_btn.svg_active svg {
 /***Live stream***/
 .right-sidebar.live-stream {
   padding-top: 35px;
-  padding-bottom: 35px;
+  padding-bottom: 20px;
 }
 
 .live-stream h6 {
@@ -12027,6 +12027,10 @@ cursor: pointer;
 .poll-question-option .preview-answers .answer-section.active {
   padding-top: 18px;
   padding-bottom: 5px;
+}
+.poll-question-option .preview-answers .answer-section h6 {
+  color:#fff;
+  margin:0 0 6px;
 }
 /* input::-webkit-datetime-edit-fields-wrapper{
   color:red;

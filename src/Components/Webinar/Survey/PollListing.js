@@ -990,8 +990,8 @@ export default function PollListing({ eventIdContext }) {
                                       >
                                         {accordionOpen === index && (
                                           <div className="details-content">
+                                            <h6>Answers:</h6>
                                             <ul>
-                                              <h6>Answers:</h6>
                                               {question?.answer
                                                 ?.split("~")
                                                 .map((option, optionIndex) => (
