@@ -53,8 +53,8 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [show, setShow] = useState(false);
   const firstTime = useRef(true);
-  const [commentPop,setCommentPopup] = useState(false)
-  const [comments,setComments] = useState([])
+  const [commentPop, setCommentPopup] = useState(false);
+  const [comments, setComments] = useState([]);
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -135,7 +135,13 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
     }
     //
   }, [currentTab]);
-
+  useEffect(() => {
+    return () => {
+      if (currentSnapShot.current) {
+        currentSnapShot.current();
+      }
+    };
+  }, []);
   const handleAfterChange = async (current) => {
     try {
       let questionId = question[current]?.questionId;
@@ -308,22 +314,20 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
     }
   }, [count]);
   const displayPopup = async (question_id, e) => {
-  
     // const result = await postData(ENDPOINT.GETCOMMENTSBYQUESTIONID, {
     //   companyId: eventData?.companyId,
     //   eventId: eventData?.id,
     //   questionId: question_id,
-    // }); 
+    // });
 
-     e.preventDefault();
-     let index=question?.findIndex(obj=>obj?.questionId===question_id)
+    e.preventDefault();
+    let index = question?.findIndex((obj) => obj?.questionId === question_id);
     setCommentPopup(true);
-    if(index!==-1){
-      let allComments=question?.[index]?.userComments;
-      setComments(allComments)
+    if (index !== -1) {
+      let allComments = question?.[index]?.userComments;
+      setComments(allComments);
     }
-   
-  }
+  };
   return (
     <>
       <div className="outer-layout">
@@ -485,8 +489,13 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                                     See Comments
                                   </button>
                                 )} */}
-                                 {item?.userComments?.every(obj=>obj.comments=="") ?"":
-                                // item?.userComments?.length > 0 && (
+                              {
+                                item?.userComments?.every(
+                                  (obj) => obj.comments == ""
+                                ) ? (
+                                  ""
+                                ) : (
+                                  // item?.userComments?.length > 0 && (
                                   <button
                                     type="button"
                                     className="btn btn-info answermodel"
@@ -496,9 +505,9 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
                                   >
                                     See Comments
                                   </button>
+                                )
                                 // )
-                               
-                                }
+                              }
 
                               <div className="speaker">
                                 Speaker
@@ -719,54 +728,54 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
           hideConfirmationModal();
         }}
       />
-          <Modal show={commentPop} 
-          backdrop="static" 
-          className="show-comments"
-          onHide={()=>setCommentPopup(false)} 
-            keyboard={false} id="showComments">
-            <Modal.Header closeButton>
-              <Modal.Title id="contained-modal-title-vcenter">
-                {
-                  "Comments"
-               
-                }
-        
-              </Modal.Title>
-            </Modal.Header>
-              <Modal.Body>
-                  <table className="table">
-                        <thead>
-                          <tr>
-                          <th>User Name</th>
-                          <th>Explanation</th>
-                          </tr>
-                        </thead>
-                        <tbody>										 
-                        {
-                          comments?.every(obj=>obj?.comments==="") 
-                          ?
-                          <tr><td colSpan={3}><p>No Data Found</p></td></tr>
-                          :
-                          comments?.map((item,index)=>{
-                          return(
-                            <>
-                            {item?.comments?
-                            <tr>
-                              <td>{item?.name?item?.name:"N/A"}</td>
-                              <td>{item?.comments}</td>
-                            </tr>
-                            :""}
-                            </>
-                          ) 
-                          })
-                         
-                        }
-                        </tbody>
-                  </table>
-                
-              </Modal.Body>
-            
-          </Modal>
+      <Modal
+        show={commentPop}
+        backdrop="static"
+        className="show-comments"
+        onHide={() => setCommentPopup(false)}
+        keyboard={false}
+        id="showComments"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            {"Comments"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>Explanation</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comments?.every((obj) => obj?.comments === "") ? (
+                <tr>
+                  <td colSpan={3}>
+                    <p>No Data Found</p>
+                  </td>
+                </tr>
+              ) : (
+                comments?.map((item, index) => {
+                  return (
+                    <>
+                      {item?.comments ? (
+                        <tr>
+                          <td>{item?.name ? item?.name : "N/A"}</td>
+                          <td>{item?.comments}</td>
+                        </tr>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
