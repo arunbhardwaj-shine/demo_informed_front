@@ -12103,4 +12103,12 @@ cursor: pointer;
 .show-comments #showComments .modal-content{
   padding:0;
 }
+.live-stream-tabs-data .clear-search button.delt_btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.live-stream-tabs-data .clear-search button.delt_btn:hover svg rect, .live-stream-tabs-data .clear-search button.delt_btn.active svg rect {
+  fill: #fff;
+}
 /**Registration page end**/
