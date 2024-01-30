@@ -420,16 +420,12 @@ const LiveStream = () => {
     try {
       let event = eventId;
       await deleteMethod(
-        `${ENDPOINT.WEBINAR_DELETE_QUESTION_MESSAGES}/${event}`
+        `${ENDPOINT.WEBINAR_RESET_QUESTION_ANSWER}/${event}`
       );
       toast.success("Question has been deleted successfully.");
-      // popup_alert({
-      //   visible: "show",
-      //   message: "Question has been deleted <br />successfully !",
-      //   type: "success",
-      //   redirect: "",
-      // });
-      setApiCallStatus(false);
+      refreshQuestion(activeTab)
+
+      // setApiCallStatus(false);
     } catch (err) {
       console.log(err);
       setApiCallStatus(false);
