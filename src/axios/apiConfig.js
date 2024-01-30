@@ -171,4 +171,6 @@ export const ENDPOINT = {
   CHANGEPOLLSORDER:"webinar/change-polls-order",
   RESETPOLL:"webinar/reset-polls",
   GETCOMMENTSBYQUESTIONID:"webinar/get-comments-by-question-id",
+  WEBINAR_DELETE_QUESTION_MESSAGES:"webinar/delete-question-messages",
+
 };

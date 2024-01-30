@@ -413,6 +413,53 @@ const LiveStream = () => {
     } catch (err) {
       console.log(err);
     }
+  }; 
+  const deleteMessages = async (id) => {
+    setApiCallStatus(true);
+    hideConfirmationModal();
+    try {
+      let event = eventId;
+      await deleteMethod(
+        `${ENDPOINT.WEBINAR_DELETE_QUESTION_MESSAGES}/${event}`
+      );
+      toast.success("Question has been deleted successfully.");
+      // popup_alert({
+      //   visible: "show",
+      //   message: "Question has been deleted <br />successfully !",
+      //   type: "success",
+      //   redirect: "",
+      // });
+      setApiCallStatus(false);
+    } catch (err) {
+      console.log(err);
+      setApiCallStatus(false);
+    }
+
+    const updatedObj = Object.fromEntries(
+      Object.entries(questions).map(([key, array]) => [
+        key,
+        array.filter((item) => item.id !== id),
+      ])
+    );
+    setQuestions(updatedObj);
+  };
+  const showConfirmationPopupForResetMessages = (e, id) => {
+    try {
+      setResetDataId(id);
+      setCommonConfirmModelFun(() => deleteMessages);
+      setPopupMessage({
+        message1: "You are about to reset all the questions",
+        message2: "Are you sure you want to do this?",
+        footerButton: "Yes please!",
+      });
+      if (confirmationpopup) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const showAttendeesConfirmationPopup = (e, id) => {
@@ -727,8 +774,12 @@ const LiveStream = () => {
         <div className="custom-container">
           <div className="row">
             <Col className="col-4">
+              <div className="d-flex justify-content-between align-items-center">
               <h6>Engagements</h6>
-
+              <Button className="reset btn-voilet" onClick={showConfirmationPopupForResetMessages}>
+              Reset All
+            </Button>
+            </div>
               <div className="doc-content-main-box col">
                 <div className="live-stream-tabs-data">
                   <Tabs activeKey={activeTab} onSelect={handleTabSelect} fill>
