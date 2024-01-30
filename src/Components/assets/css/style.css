@@ -9153,15 +9153,15 @@ html {
 }
 
 .session-modal #pollModel .form-group .check-values .checkmark:after {
-  left: 8px;
-  top: 3px;
+  left: 4px;
+  top: -38%;
   width: 8px;
   height: 14px;
   border: solid white;
   border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg) translateY(-50%);
+  -ms-transform: rotate(45deg) translateY(-50%);
+  transform: rotate(45deg) translateY(-50%);
 }
 
 .session-modal #pollModel .form-group .check-values .checkmark:after {
@@ -10742,7 +10742,9 @@ background: var(--white);
 .live-stream-ques-header .hcp-detail.extra, .last .live-stream-ques-header .hcp-detail {
   flex-wrap: wrap;
 }
-
+.last .live-stream-ques-header .hcp-detail .hcp-detail-list {
+  flex: 1 1;
+}
 .live-stream-ques-header .hcp-detail .hcp-activity-status {
   align-items: flex-end;
   display: flex;
@@ -10754,6 +10756,7 @@ background: var(--white);
   color: var(--dark-blue);
   font-size: 14px;
   margin: 0 0 6px;
+  word-break: break-all;
 }
 
 .live-stream-ques-header .hcp-detail .hcp-detail-list li span {
