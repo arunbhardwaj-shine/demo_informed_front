@@ -577,7 +577,7 @@ const PollQuestion = () => {
                         <button
                           type="button"
                           onClick={handleClose}
-                          className={`btn btn-submit btn-filled `}
+                          className={item?.triggered == 1 || item?.showAnswerToUser == 1  ? `btn btn-submit btn-filled ` : `btn btn-submit btn-bordered`}
                         >
                           Closed
                         </button>
