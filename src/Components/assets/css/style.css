@@ -10742,7 +10742,9 @@ background: var(--white);
 .live-stream-ques-header .hcp-detail.extra, .last .live-stream-ques-header .hcp-detail {
   flex-wrap: wrap;
 }
-
+.last .live-stream-ques-header .hcp-detail .hcp-detail-list {
+  flex: 1 1;
+}
 .live-stream-ques-header .hcp-detail .hcp-activity-status {
   align-items: flex-end;
   display: flex;
@@ -10754,6 +10756,7 @@ background: var(--white);
   color: var(--dark-blue);
   font-size: 14px;
   margin: 0 0 6px;
+  word-break: break-all;
 }
 
 .live-stream-ques-header .hcp-detail .hcp-detail-list li span {
