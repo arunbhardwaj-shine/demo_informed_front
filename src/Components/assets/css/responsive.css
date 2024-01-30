@@ -4278,7 +4278,7 @@
     width: 18px;
   }
 
-  .left-sidebar.active:after {
+  /* .left-sidebar.active:after {
     content: "";
     position: fixed;
     background: rgb(0 0 0 / 19%);
@@ -4287,7 +4287,7 @@
     right: 0;
     height: 100%;
     z-index: 2;
-  }
+  } */
 
   .sidebar-menu ul {
     margin: 68px 0 0;

@@ -118,6 +118,18 @@ const Header = () => {
     //
     // if (queryParams?.name && queryParams?.name != "") {
     //   setUserName(queryParams.name);
+    const handleOutsideClick = (event) => {
+      let sideBar=document.getElementById("left-sidebar");
+      let button=document.querySelector("#root > header > nav > div > div.mob-sidenav > button")
+      if (sideBar && !sideBar.contains(event.target) && !button.contains(event.target)  ) {
+        sideBar.classList.remove("active");
+      }
+    };
+    
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
     // }  
   }, []);
 
