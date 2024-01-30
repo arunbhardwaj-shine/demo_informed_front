@@ -478,7 +478,7 @@ const Invitees = () => {
       setPage(sp);
       setOtherFilter({});
       setAppliedFilter({})
-      setSearch("");
+      // setSearch("");
       setShowFilter(false);
       setUserData();
       getWebinarData(sp);
