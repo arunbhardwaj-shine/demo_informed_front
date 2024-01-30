@@ -314,6 +314,9 @@ tr.poll_graph.active-graph {
     border: 1px solid var(--light-blue);
     margin-right: 5px;
 }
+.webinar-question-results .btn-filled {
+    margin-right: 5px;
+}
 
 .webinar-question-results th,
 .webinar-question-results td {

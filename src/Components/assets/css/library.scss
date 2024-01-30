@@ -19884,7 +19884,13 @@ img.change-password-image {
   .no_found {
     min-height: 35vh;
   }
+  .webinar-question-results table tbody tr td:nth-child(2), .webinar-question-results table thead tr th:nth-child(2) {
+    width: 300px;
+}
 
+.webinar-question-results table tbody tr td:last-child, .webinar-question-results table thead tr th:last-child {
+    width: 390px;
+}
   .poll-question .poll-question-create .answer-option .options .row .option-action {
     max-width: 150px;
     gap: 0 10px;
@@ -20589,7 +20595,7 @@ img.change-password-image {
   }
 
   .webinar-question-results table.table {
-    width: 600px;
+    width: 680px;
   }
 
   .webinar-question-results {
