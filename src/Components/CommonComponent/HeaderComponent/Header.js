@@ -46,6 +46,14 @@ const Header = () => {
   ]);
   const navigate = useNavigate();
 
+  const handleMenuItemClick = () => {
+    const navbarCollapse = document.getElementById('collapsibleNavbar');
+    navbarCollapse.classList.toggle('show');
+
+    const iconCollapse = document.getElementById('collapsibleIcon');
+    iconCollapse.classList.toggle('collapsed');
+  };
+
   const removed_pop = () => {
     var element = document.getElementById("resend-confirm");
     element.classList.remove("custom_model_show");
@@ -110,11 +118,7 @@ const Header = () => {
     //
     // if (queryParams?.name && queryParams?.name != "") {
     //   setUserName(queryParams.name);
-    // }
-    let name = localStorage.getItem("name");
-    if (name && name != "") {
-      setUserName(name);
-    }
+    // }  
   }, []);
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -135,7 +139,8 @@ const Header = () => {
         <Navbar inverse collapseOnSelect className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
             <div className="mob-sidenav" style={{display:"none"}}>
-              <button className="sidebar-toggler" onClick={()=>{
+              <button className="sidebar-toggler"
+               onClick={()=>{
                 let sideBar=document.getElementById("left-sidebar");
                 if(sideBar){
                   let classN=  sideBar.classList.contains("active");
@@ -175,7 +180,8 @@ const Header = () => {
               <span className="navbar-toggler-icon"></span>
             </button> */}
             <>
-            <Navbar.Toggle/>
+            {/* <Navbar.Toggle onClick={handleMenuItemClick}/> */}
+            <Navbar.Toggle id="collapsibleIcon"/>
             </>
             <Navbar.Collapse id="collapsibleNavbar">
               <div></div>
@@ -210,7 +216,7 @@ const Header = () => {
                     window.location.pathname == "/products"
                       ? "nav-item active active-main"
                       : "nav-item"
-                  }
+                  } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link" to={"/library-content"}>
                     LIBRARY
@@ -232,7 +238,7 @@ const Header = () => {
                     window.location.pathname == "/article_type_registration"
                       ? "nav-item active active-main"
                       : "nav-item"
-                  }
+                  } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link" to={"/readers-view"}>
                     CRM
@@ -270,7 +276,7 @@ const Header = () => {
                     window.location.pathname == "/content-analytics"
                       ? "nav-item active active-main"
                       : "nav-item"
-                  }
+                  } onClick={handleMenuItemClick}
                 >
                   <Link
                     className="nav-link"
@@ -323,7 +329,7 @@ const Header = () => {
                     window.location.pathname == "/get-details"
                       ? "nav-item active active-main"
                       : "nav-item"
-                  }
+                  } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link" to={"/EmailList"}>
                     EMAIL
@@ -350,7 +356,7 @@ const Header = () => {
                       window.location.pathname == "/license-add-link"
                         ? "nav-item active active-main"
                         : "nav-item"
-                    }
+                    } onClick={handleMenuItemClick}
                   >
                     <Link className="nav-link" to={"/license-content"}>
                       LICENSED
@@ -378,7 +384,7 @@ const Header = () => {
                         ? "nav-item active active-main"
                     : "nav-item"
                   }>
-                    <Link className="nav-link" to={"/webinar/event-listing"}>
+                    <Link className="nav-link" to={"/webinar/event-listing"} onClick={handleMenuItemClick}>
                       WEBINAR
                     </Link>
                     {/* <a

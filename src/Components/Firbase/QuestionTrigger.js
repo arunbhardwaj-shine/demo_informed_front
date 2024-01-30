@@ -107,12 +107,12 @@ const QuestionTrigger = () =>{
             <div className="webinar-question-results webinar_tabs_show">
         <Row>
           <Col md={4}>
-            <div class="webinar-top-sec d-flex justify-content-between align-items-center">
-                    <div class="top-heading">
+            <div className="webinar-top-sec d-flex justify-content-between align-items-center">
+                    <div className="top-heading">
                         <h4>Questions:</h4>
                     </div>
-                    <div class="webinar-top-btn question">
-                        <span class="btn default-side-buttons">{data?.question?.length}</span>                                                             
+                    <div className="webinar-top-btn question">
+                        <span className="btn default-side-buttons">{data?.question?.length}</span>                                                             
                     </div>
             </div>
             {
@@ -131,7 +131,7 @@ const QuestionTrigger = () =>{
                             </div>
                             <div className="reader_list_footer d-flex justify-content-between align-items-center" >
                                 <div className="question-post-time">
-                                    <small>{moment(item?.created, "YYYY-MM-DD hh:mm:A").format("YYYY-MM-DD")}</small><br />
+                                    <small>{moment(item?.created, "YYYY-MM-DD hh:mm:A").format("DD-MM-YYYY")}</small><br />
                                     <small>{moment(item?.created, "YYYY-MM-DD hh:mm:A").format("HH:mm A")}</small>
                                 </div>
                                 <div className="reader_list_footer_btns">
@@ -147,12 +147,12 @@ const QuestionTrigger = () =>{
             }
           </Col>
           <Col md={4}>
-                <div class="webinar-top-sec d-flex justify-content-between align-center">
-                    <div class="top-heading">
+                <div className="webinar-top-sec d-flex justify-content-between align-center">
+                    <div className="top-heading">
                         <h4>Answered:</h4>
                     </div>
-                    <div class="webinar-top-btn answered">
-                        <span class="btn default-side-buttons">{data?.answer?.length}</span>                                                             
+                    <div className="webinar-top-btn answered">
+                        <span className="btn default-side-buttons">{data?.answer?.length}</span>
                     </div>
             </div>
             {
@@ -171,7 +171,7 @@ const QuestionTrigger = () =>{
                                 </div>
                                 <div className="reader_list_footer d-flex justify-content-between align-items-center answer-footer" >
                                     <div className="question-post-time">
-                                       <small>{moment(item?.updated, "YYYY-MM-DD hh:mm:A").format("YYYY-MM-DD")}</small><br/>
+                                       <small>{moment(item?.updated, "YYYY-MM-DD hh:mm:A").format("DD-MM-YYYY")}</small><br/>
                                         <small>{moment(item?.updated, "YYYY-MM-DD hh:mm:A").format("HH:mm A")}</small>
                                     </div>
                                     <div className="reader_list_footer_btns">
@@ -184,12 +184,12 @@ const QuestionTrigger = () =>{
                 }):<h6 className="no-found">No Records Found</h6>
             }</Col>
           <Col md={4}>
-            <div class="webinar-top-sec d-flex justify-content-between align-center">
-                    <div class="top-heading">
+            <div className="webinar-top-sec d-flex justify-content-between align-center">
+                    <div className="top-heading">
                         <h4>Ignored:</h4>
                     </div>
-                    <div class="webinar-top-btn ignored">
-                        <span class="btn default-side-buttons">{data?.ignre?.length}</span>                                                             
+                    <div className="webinar-top-btn ignored">
+                        <span className="btn default-side-buttons">{data?.ignre?.length}</span>
                     </div>
             </div>
             {
@@ -208,7 +208,7 @@ const QuestionTrigger = () =>{
                                 </div>
                                 <div className="reader_list_footer d-flex justify-content-between align-items-center ignore-footer" >
                                     <div className="question-post-time">
-                                      <small>{moment(item?.updated, "YYYY-MM-DD hh:mm:A").format("YYYY-MM-DD")}</small><br/>
+                                      <small>{moment(item?.updated, "YYYY-MM-DD hh:mm:A").format("DD-MM-YYYY")}</small><br/>
                                       <small>{moment(item?.updated, "YYYY-MM-DD hh:mm:A").format("HH:mm A")}</small>
                                     </div>
                                     <div className="reader_list_footer_btns">
