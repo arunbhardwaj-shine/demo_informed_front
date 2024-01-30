@@ -9153,15 +9153,15 @@ html {
 }
 
 .session-modal #pollModel .form-group .check-values .checkmark:after {
-  left: 8px;
-  top: 3px;
+  left: 4px;
+  top: -38%;
   width: 8px;
   height: 14px;
   border: solid white;
   border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg) translateY(-50%);
+  -ms-transform: rotate(45deg) translateY(-50%);
+  transform: rotate(45deg) translateY(-50%);
 }
 
 .session-modal #pollModel .form-group .check-values .checkmark:after {
