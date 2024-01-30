@@ -9990,7 +9990,7 @@ button.event_sort_btn.svg_active svg {
   position: relative;
 }
 
-.poll-creation .outer-layout .question-outer-layout button.reset {
+.poll-creation .outer-layout .question-outer-layout button.reset{
   position: absolute;
   top: -51px;
   right: 28px;
@@ -10001,7 +10001,14 @@ button.event_sort_btn.svg_active svg {
   z-index: 2;
   background: var(--violet);
 }
-
+.live-stream .reset.btn-voilet{
+  font-size: 13px;
+  padding: 5px;
+  min-width: 80px;
+  border: 0;
+  background: var(--violet);
+  margin: 0 0 12px;
+}
 .poll-creation .outer-layout .question-outer-layout button.disabled {
   background: var(--skyblue);
   pointer-events: none;
@@ -11009,9 +11016,19 @@ background: var(--white);
 
 .speaker_zone .speaker_zone_left_div .user-question {
   background: rgba(0, 102, 190, 0.06);
+  border:0.5px solid rgba(0, 102, 190, 0.02);
+  overflow:hidden;
 
 }
-
+.speaker_zone .speaker_zone_left_div .user-question .speaker_reply {
+  border-top: 0.5px dashed #cbe1f5;
+  margin: 9px -8px -10px;
+  padding: 10px 8px 10px;
+  background: #fff;
+}
+.speaker_zone .speaker_zone_left_div .user-question .speaker_reply {
+color:#000;
+}
 .speaker_zone .ignored .reader_list .user-question {
   background: #F58289;
 }

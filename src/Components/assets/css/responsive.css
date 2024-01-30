@@ -3193,6 +3193,7 @@
     font-size: 13px;
     min-width: 90px;
   }
+
 }
 
 @media only screen and (max-width:1023px) {
@@ -4278,7 +4279,7 @@
     width: 18px;
   }
 
-  .left-sidebar.active:after {
+  /* .left-sidebar.active:after {
     content: "";
     position: fixed;
     background: rgb(0 0 0 / 19%);
@@ -4287,7 +4288,7 @@
     right: 0;
     height: 100%;
     z-index: 2;
-  }
+  } */
 
   .sidebar-menu ul {
     margin: 68px 0 0;
@@ -4340,4 +4341,17 @@
       left: 4px;
       top: 42%;
     }
+    .left-sidebar.active ~.right-sidebar {
+      position: relative;
+  }
+  
+  .left-sidebar.active ~.right-sidebar:after {
+      content: "";
+      position: absolute;
+      background: rgb(0 0 0 / 19%);
+      width: 100%;
+      height: 100%;
+      top: 0;
+      z-index: 9;
+  }
 }
