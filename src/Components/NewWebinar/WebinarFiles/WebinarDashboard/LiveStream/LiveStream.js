@@ -54,6 +54,7 @@ const LiveStream = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [deleteStatus, setDeleteStatus] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(true);
+  const [firstTime, setFirstTime] = useState(true);
   const [accordionOpen, setAccordionOpen] = useState("");
   const [attendeesTab, setAttendeesTab] = useState("online");
   const [messageSendStatus, setMessageSendStatus] = useState(false);
@@ -77,6 +78,9 @@ const LiveStream = () => {
     xAxis: {
       categories: [],
       tickInterval: 1,
+      labels: {
+        enabled: false
+    }
     },
     yAxis: {
       title: {
@@ -226,13 +230,13 @@ const LiveStream = () => {
         ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,
         body
       );
-      getEventRegisterReaders(search, userids);
-
-      // console.log(attendeesTab);
-
+      // console.log(response);
       let data = response?.data?.data;
-      // console.log(data);
-      // return
+      // console.log(data)
+      if(firstTime && data?.count>0){
+        getEventRegisterReaders(search, userids);
+        setFirstTime(false);
+        }
       if (data?.count != undefined) {
         setLineChartOptions((prevOptions) => {
           const newOptions = { ...prevOptions };
@@ -289,9 +293,9 @@ const LiveStream = () => {
         });
       }
 
-      if (attendeesTab == "online" || attendeesTab == "offline") {
-        setAttendees(data);
-      }
+      // if (attendeesTab == "online" || attendeesTab == "offline") {
+      //   setAttendees(data);
+      // }
       setAttendeesApiCallStatus(false);
       setRefreshAttendeesFlag("");
     } catch (err) {

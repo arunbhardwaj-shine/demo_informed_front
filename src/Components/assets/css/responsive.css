@@ -4332,4 +4332,12 @@
     height: 17px;
     width: 12px;
   }
+    .session-modal #pollModel .check-values label {
+      flex: 1 1;
+    }
+  
+    .session-modal #pollModel .form-group .check-values .checkmark:after {
+      left: 4px;
+      top: 42%;
+    }
 }
