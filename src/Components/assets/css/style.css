@@ -9990,7 +9990,7 @@ button.event_sort_btn.svg_active svg {
   position: relative;
 }
 
-.poll-creation .outer-layout .question-outer-layout button.reset {
+.poll-creation .outer-layout .question-outer-layout button.reset{
   position: absolute;
   top: -51px;
   right: 28px;
@@ -10001,7 +10001,14 @@ button.event_sort_btn.svg_active svg {
   z-index: 2;
   background: var(--violet);
 }
-
+.live-stream .reset.btn-voilet{
+  font-size: 13px;
+  padding: 5px;
+  min-width: 80px;
+  border: 0;
+  background: var(--violet);
+  margin: 0 0 12px;
+}
 .poll-creation .outer-layout .question-outer-layout button.disabled {
   background: var(--skyblue);
   pointer-events: none;

@@ -125,7 +125,8 @@ const Header = () => {
         sideBar.classList.remove("active");
       }
     };
-    
+
+    document.addEventListener("mousedown", handleOutsideClick);
 
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
