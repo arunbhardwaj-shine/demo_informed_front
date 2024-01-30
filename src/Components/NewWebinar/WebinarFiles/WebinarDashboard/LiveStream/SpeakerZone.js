@@ -258,7 +258,12 @@ const SpeakerZone = () => {
                                         {/* <div className="specialty">Specialty</div> */}
                                       </div>
                                         <div className="user-question">
-                                            <p>{item?.question}</p>
+                                            <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
+                                            {
+                                                item?.reply && item?.reply != "" ?
+                                                <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p></div>
+                                                : null
+                                            }
                                         </div>
                                         <div className="reader_list_footer d-flex justify-content-between align-items-center" >
                                             <div className="question-post-time">
@@ -321,7 +326,12 @@ const SpeakerZone = () => {
                                             {/* <div className="specialty">Specialty</div> */}
                                             </div>
                                             <div className="user-question">
-                                                <p>{item?.question}</p>
+                                              <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
+                                              {
+                                                  item?.reply && item?.reply != "" ?
+                                                  <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p></div>
+                                                  : null
+                                              }
                                             </div>
                                             <div className="reader_list_footer d-flex justify-content-between align-items-center answer-footer" >
                                                 <div className="question-post-time">
@@ -381,7 +391,12 @@ const SpeakerZone = () => {
                                               {/* <div className="specialty">Specialty</div> */}
                                               </div>
                                             <div className="user-question">
-                                            <p>{item?.question}</p>
+                                            <p dangerouslySetInnerHTML={{__html: item?.question}}></p>
+                                            {
+                                                item?.reply && item?.reply != "" ?
+                                                <div className="speaker_reply"><p dangerouslySetInnerHTML={{__html: "Reply by Octapharma: " + item?.reply}}></p></div>
+                                                : null
+                                            }
                                             </div>
                                             <div className="reader_list_footer d-flex justify-content-between align-items-center ignore-footer" >
                                                 <div className="question-post-time">
