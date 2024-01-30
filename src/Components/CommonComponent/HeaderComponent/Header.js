@@ -78,6 +78,10 @@ const Header = () => {
   };
 
   useEffect(() => {
+    let name = localStorage.getItem("name");
+    if (name && name != "") {
+      setUserName(name);
+    }
     // if (queryParams?.id && queryParams?.id != "") {
     //   let user_id = localStorage.getItem("user_id");
     //   if (user_id) {

@@ -626,11 +626,15 @@ const LiveStream = () => {
   };
 
   const submitHandler = (event) => {
-    setAttendees([]);
-    setDeleteStatus(false);
-    setAccordionOpen(0);
-    setAttendeesApiCallStatus(true);
-    getEventRegisterReaders(search);
+    if(search?.length > 2){
+      setAttendees([]);
+      setDeleteStatus(false);
+      setAccordionOpen(0);
+      setAttendeesApiCallStatus(true);
+      getEventRegisterReaders(search);
+    }else{
+      toast.warning("Please enter atleast 3 characters.");
+    }
     event.preventDefault();
     return false;
   };
