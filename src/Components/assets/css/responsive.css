@@ -4341,4 +4341,17 @@
       left: 4px;
       top: 42%;
     }
+    .left-sidebar.active ~.right-sidebar {
+      position: relative;
+  }
+  
+  .left-sidebar.active ~.right-sidebar:after {
+      content: "";
+      position: absolute;
+      background: rgb(0 0 0 / 19%);
+      width: 100%;
+      height: 100%;
+      top: 0;
+      z-index: 9;
+  }
 }
