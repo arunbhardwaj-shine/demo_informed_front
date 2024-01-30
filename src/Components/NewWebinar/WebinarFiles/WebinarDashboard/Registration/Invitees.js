@@ -113,7 +113,7 @@ const Invitees = () => {
   //   }
   // };
 
-  const getWebinarData = async (page, filter, loadMore = 0) => {
+  const getWebinarData = async (page, filter, loadMore = 0,serachClear="-1") => {
     try {
       setIsLoaded(false)
       if (loadMore == 0) {
@@ -125,7 +125,7 @@ const Invitees = () => {
       setShowFilter(false)
       
       let payload = {
-        "search": search ? search : "",
+        "search": serachClear!="-1"?serachClear:search ? search : "",
         "Country": filter?.Country ? filter?.Country : "",
         "UserType": filter?.UserType ? filter?.UserType : "",
         // "UserType":["HCP"],
@@ -170,9 +170,8 @@ const Invitees = () => {
   };
 
 
-  const searchChange = (e) => {
+  const searchChange = async (e) => {
     try {
-      setSearch(e?.target?.value?.trim());
       setIsLoaded(false);
       setNoData(false);
       let sp = 1;
@@ -181,8 +180,11 @@ const Invitees = () => {
         setPage(sp)
         setUserData()
         setApiStatus(false)
-        setSearch(searched)
-        getWebinarData(sp,otherFilter);
+        setSearch("");
+      await  getWebinarData(sp,otherFilter,0,e?.target?.value);
+        
+      }else{
+        setSearch(e?.target?.value);
       }
     } catch (error) {
       console.error('Error in searchChange:', error);
@@ -203,7 +205,7 @@ const Invitees = () => {
         getWebinarData(sp,otherFilter);
       } else {
         setUserData()
-        setSearch("")
+        // setSearch("")
         getWebinarData(sp,otherFilter);
       }
     } catch (error) {
@@ -435,7 +437,7 @@ const Invitees = () => {
           delete updatedFilter[key]
         }
       }
-    }    console.log(updatedFilter,"updatedFilter");
+    }  
 
     setOtherFilter(updatedFilter);
   };
@@ -516,7 +518,9 @@ const Invitees = () => {
                       placeholder="Search by name or email"
                       aria-label="Search"
                       id="email_search"
-                      onChange={(e) => searchChange(e)}
+                      value={search}
+                      onChange={(e) =>{
+                        searchChange(e)} }
                     />
                     <button className="btn-outline-success" type="submit">
                       <svg
