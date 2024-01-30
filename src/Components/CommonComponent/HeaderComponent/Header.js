@@ -131,6 +131,10 @@ const Header = () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
     // }  
+    let name = localStorage.getItem("name");
+    if (name && name != "") {
+      setUserName(name);
+    }
   }, []);
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;

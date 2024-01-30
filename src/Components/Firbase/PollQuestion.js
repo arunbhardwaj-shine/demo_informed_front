@@ -540,7 +540,7 @@ const PollQuestion = () => {
                 <th>Sr No</th>
                 <th>Question</th>
                 <th>Speaker</th>
-                <th>User count</th>
+                <th>Answers count</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -576,6 +576,13 @@ const PollQuestion = () => {
                         </button>
                         <button
                           type="button"
+                          onClick={handleClose}
+                          className={`btn btn-submit btn-filled `}
+                        >
+                          Closed
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => accordianFun(index + 1,item?.questionId)}
                           className={`btn show_graph ${
                             showAccordian && showAccordian == index + 1
@@ -588,6 +595,8 @@ const PollQuestion = () => {
                             alt=""
                           />
                         </button>
+
+                        
                       </td>
                     </tr>
                     <tr
@@ -632,7 +641,7 @@ const PollQuestion = () => {
                 );
               })}
             </tbody>
-            <tfoot>
+            {/* <tfoot>
               <tr>
                 {data?.length ? (
                   <td colspan={5}>
@@ -646,7 +655,7 @@ const PollQuestion = () => {
                   </td>
                 ) : null}
               </tr>
-            </tfoot>
+            </tfoot> */}
           </Table>
         </div>
       </Container>
