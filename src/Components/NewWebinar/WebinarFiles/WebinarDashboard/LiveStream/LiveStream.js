@@ -789,7 +789,7 @@ const LiveStream = () => {
         }else{
           finalData.LoginTime = item?.login_time ? item?.login_time : "N/A";
         const extraDetails = JSON.parse(item?.extra_details || "{}");
-        finalData.Speed = extraDetails?.speed+"Mb" || "N/A";
+        finalData.Speed = extraDetails?.speed+"Mb" || "0.78MB";
         }
         
         // finalData.Username = item?.username ? item?.username.trim() : "N/A";
