@@ -3389,6 +3389,24 @@
   .top-header.regi-web .save-btn {
     margin-left: auto;
   }
+    .mail-box-content .dlt_btn button {
+      width: 28px;
+      height: 28px;
+    }
+    .mail-box-content .dlt_btn {
+      right: -7px;
+    }
+        .navbar-light .navbar-brand {
+          margin: 0;
+        }
+    .mail-box-content .dlt_btn button svg {
+      width: 17px;
+      height: 17px;
+    }
+    .modal.event_edit #add_hcp .modal-body .hcp-add-form form .form-group.double-select .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
+      max-width: 100%;
+      background-position: 91% center;
+    }
     .show-comments .modal-body {
       padding: 0 10px 5px;
     }
