@@ -444,7 +444,7 @@ const LiveStream = () => {
       setResetDataId(id);
       setCommonConfirmModelFun(() => deleteMessages);
       setPopupMessage({
-        message1: "You are about to reset all the questions",
+        message1: "You are about to reset all the engagements",
         message2: "Are you sure you want to do this?",
         footerButton: "Yes please!",
       });
