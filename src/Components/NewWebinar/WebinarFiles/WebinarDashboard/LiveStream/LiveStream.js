@@ -91,6 +91,9 @@ const LiveStream = () => {
     legend: {
       enabled: false,
     },
+    tooltip: {
+        outside: true
+    },
     exporting: {
       enabled: false,
     },
