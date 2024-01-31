@@ -10906,6 +10906,7 @@ background: var(--white);
   overflow-y: auto;
   overflow-x: hidden;
   padding: 4px;
+  min-height:180px;
 }
 
 .hcp-activity-links {
@@ -11026,7 +11027,27 @@ background: var(--white);
   padding: 10px 8px 10px;
   background: #fff;
 }
-.speaker_zone .speaker_zone_left_div .user-question .speaker_reply {
+.speaker_zone .speaker_zone_right_div .reader_list .user-question .speaker_reply{
+  border-top: 0.5px dashed rgb(57 202 188 / 74%);
+  margin: 9px -8px -10px;
+  padding: 10px 8px 10px;
+  background: #fff;
+}
+.speaker_zone .speaker_zone_right_div .ignored .reader_list .user-question .speaker_reply{
+  border-top: 0.5px dashed rgb(245 130 137 / 74%);
+  margin: 9px -8px -10px;
+  padding: 10px 8px 10px;
+  background: #fff;
+}
+.speaker_zone .speaker_zone_right_div .reader_list .user-question{
+  border: 0.5px solid rgb(57 202 188 / 74%);
+  overflow: hidden;
+}
+.speaker_zone .speaker_zone_right_div .ignored  .reader_list .user-question{
+  border: 0.5px dashed rgb(245 130 137 / 74%);
+  overflow: hidden;
+}
+.speaker_zone .speaker_zone_left_div .user-question .speaker_reply , .speaker_zone .reader_list .user-question .speaker_reply p{
 color:#000;
 }
 .speaker_zone .ignored .reader_list .user-question {

@@ -401,7 +401,7 @@ const LiveStream = () => {
       setResetDataId(id);
       setCommonConfirmModelFun(() => deleteUser);
       setPopupMessage({
-        message1: "You are about to remove this question.",
+        message1: "You are about to remove this engagement.",
         message2: "Are you sure you want to do this?",
         footerButton: "Yes please!",
       });
@@ -415,6 +415,7 @@ const LiveStream = () => {
     }
   }; 
   const deleteMessages = async (id) => {
+
     setApiCallStatus(true);
     hideConfirmationModal();
     try {
@@ -422,7 +423,7 @@ const LiveStream = () => {
       await deleteMethod(
         `${ENDPOINT.WEBINAR_RESET_QUESTION_ANSWER}/${event}`
       );
-      toast.success("Question has been deleted successfully.");
+      toast.success("Engagements has been deleted successfully.");
       refreshQuestion(activeTab)
 
       // setApiCallStatus(false);
@@ -441,10 +442,14 @@ const LiveStream = () => {
   };
   const showConfirmationPopupForResetMessages = (e, id) => {
     try {
+      if(questions?.new?.length == 0 && questions?.ignore?.length == 0 && questions?.sent?.length == 0){
+        toast.warning("No data found.");
+        return;
+      }
       setResetDataId(id);
       setCommonConfirmModelFun(() => deleteMessages);
       setPopupMessage({
-        message1: "You are about to reset all the questions",
+        message1: "You are about to delete all the engagements",
         message2: "Are you sure you want to do this?",
         footerButton: "Yes please!",
       });
@@ -485,7 +490,7 @@ const LiveStream = () => {
       await deleteMethod(
         `${ENDPOINT.WEBINAR_DELETE_QUESTION_ANSWER}/${id}/${event}`
       );
-      toast.success("Question has been deleted successfully.");
+      toast.success("Engagement has been deleted successfully.");
       // popup_alert({
       //   visible: "show",
       //   message: "Question has been deleted <br />successfully !",
@@ -789,7 +794,7 @@ const LiveStream = () => {
         }else{
           finalData.LoginTime = item?.login_time ? item?.login_time : "N/A";
         const extraDetails = JSON.parse(item?.extra_details || "{}");
-        finalData.Speed = extraDetails?.speed+"Mb" || "N/A";
+        finalData.Speed = Object.keys(extraDetails).length === 0 ? "0.78 MB" : extraDetails?.speed ? extraDetails?.speed+" Mb" : "0.78 MB";
         }
         
         // finalData.Username = item?.username ? item?.username.trim() : "N/A";
@@ -831,7 +836,7 @@ const LiveStream = () => {
               <div className="d-flex justify-content-between align-items-center">
               <h6>Engagements</h6>
               <Button className="reset btn-voilet" onClick={showConfirmationPopupForResetMessages}>
-              Reset All
+              Delete All
             </Button>
             </div>
               <div className="doc-content-main-box col">
