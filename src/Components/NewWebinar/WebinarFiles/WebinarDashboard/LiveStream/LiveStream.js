@@ -401,7 +401,7 @@ const LiveStream = () => {
       setResetDataId(id);
       setCommonConfirmModelFun(() => deleteUser);
       setPopupMessage({
-        message1: "You are about to remove this question.",
+        message1: "You are about to remove this engagement.",
         message2: "Are you sure you want to do this?",
         footerButton: "Yes please!",
       });
@@ -415,6 +415,7 @@ const LiveStream = () => {
     }
   }; 
   const deleteMessages = async (id) => {
+
     setApiCallStatus(true);
     hideConfirmationModal();
     try {
@@ -441,6 +442,10 @@ const LiveStream = () => {
   };
   const showConfirmationPopupForResetMessages = (e, id) => {
     try {
+      if(questions?.new?.length == 0 && questions?.ignore?.length == 0 && questions?.sent?.length == 0){
+        toast.warning("No data found.");
+        return;
+      }
       setResetDataId(id);
       setCommonConfirmModelFun(() => deleteMessages);
       setPopupMessage({
@@ -485,7 +490,7 @@ const LiveStream = () => {
       await deleteMethod(
         `${ENDPOINT.WEBINAR_DELETE_QUESTION_ANSWER}/${id}/${event}`
       );
-      toast.success("Question has been deleted successfully.");
+      toast.success("Engagement has been deleted successfully.");
       // popup_alert({
       //   visible: "show",
       //   message: "Question has been deleted <br />successfully !",
