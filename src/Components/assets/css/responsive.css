@@ -4339,7 +4339,7 @@
   
     .session-modal #pollModel .form-group .check-values .checkmark:after {
       left: 4px;
-      top: 42%;
+      top: 38%;
     }
     .left-sidebar.active ~.right-sidebar {
       position: relative;
