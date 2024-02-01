@@ -10756,6 +10756,8 @@ background: var(--white);
   align-items: flex-end;
   display: flex;
   justify-content: flex-end;
+  flex-direction: column;
+  gap: 10px;
 }
 
 
@@ -10764,14 +10766,16 @@ background: var(--white);
   font-size: 14px;
   margin: 0 0 6px;
   word-break: break-all;
+  display: flex;
+    justify-content: flex-start;
 }
 
 .live-stream-ques-header .hcp-detail .hcp-detail-list li span {
   color: rgba(0, 74, 137, 0.55);
   font-size: 14px;
   font-weight: 500;
-  min-width: 100px;
-  display: inline-block;
+  min-width: 70px;
+  flex: 0 0 70px;
 }
 
 .hcp-activity-status .activity-status {

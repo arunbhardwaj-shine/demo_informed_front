@@ -2871,8 +2871,10 @@
 
   .live-stream-ques-header .hcp-detail .hcp-activity-status {
     flex: 0 0 100%;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+    flex-direction: row;
+        margin: 10px 0 0;
   }
 
   .hcp-activity-links {
@@ -2929,7 +2931,6 @@
 
   .hcp-activity-status .activity-status {
     justify-content: flex-end;
-    width: 100%;
   }
 
   .live-stream-tabs-data .doc-content h4 {
