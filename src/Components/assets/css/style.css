@@ -9154,7 +9154,7 @@ html {
 
 .session-modal #pollModel .form-group .check-values .checkmark:after {
   left: 4px;
-  top: -38%;
+  top: 38%;
   width: 8px;
   height: 14px;
   border: solid white;
