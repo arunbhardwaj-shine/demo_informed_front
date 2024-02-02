@@ -9028,6 +9028,7 @@ html {
   display: block;
   width: 100%;
   margin: 0 0 10px;
+  text-transform: unset;
 }
 
 .session-modal #pollModel .form-group {
