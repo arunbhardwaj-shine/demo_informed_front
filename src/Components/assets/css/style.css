@@ -9186,7 +9186,9 @@ html {
   overflow-y: auto;
   overflow-x: hidden;
 }
-
+.session-modal #pollModel .form-group.custom_ans span.error {
+  margin: 3px 0 0;
+}
 .session-modal #pollModel .modal-title.h4 img,
 #pollModel1 .modal-title.h4 img {
   max-width: 170px;
