@@ -2158,8 +2158,7 @@ const LibraryCreateUser = () => {
                     userInputs.docintelFormat
                   ) &&
                     localStorage.getItem("user_id") ==
-                      "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                      "iSnEsKu5gB/DRlycxB6G4g==") ? (
+                      "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>
