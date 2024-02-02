@@ -9182,7 +9182,7 @@ html {
 
 .session-modal #pollModel .popup-content {
   width: 100%;
-  max-height: 66vh;
+  max-height: 62vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -9196,10 +9196,14 @@ html {
 #pollModel1 .modal-header {
   background: #beddd9;
 }
+.session-modal #pollModel .form-group.custom_ans {
+  flex-direction: column;
+  padding-right: 4px;
+}
 
-/* .data-preview .modal-header {
-  padding: 14px;
-} */
+.session-modal #pollModel .form-group.custom_ans label {
+  margin: 0 0 7px;
+}
 .data-preview .log-activity-box {
   padding-bottom: 5px;
   border-bottom: 1px dashed var(--light-blue);

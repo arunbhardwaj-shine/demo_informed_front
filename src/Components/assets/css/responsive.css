@@ -3391,6 +3391,12 @@
   .top-header.regi-web .save-btn {
     margin-left: auto;
   }
+    .session-modal #pollModel .form-group.custom_ans textarea {
+      max-height: 70px;
+    }
+        .session-modal #pollModel .form-group.custom_ans {
+          padding-right: 0;
+        }
     .mail-box-content .dlt_btn button {
       width: 28px;
       height: 28px;
