@@ -161,7 +161,7 @@ const SpeakerZone = () => {
     },[count])
 
     const copyToClipboard = () => {
-      let content = "https://informed.pro/Webinar/question-list?evnt="+eventId?.eventCode
+      let content = eventId?.id> 402 ? "https://events.docintel.app/Webinar/question-list?evnt="+eventId?.eventCode :"https://informed.pro/Webinar/question-list?evnt="+eventId?.eventCode
       if (window.isSecureContext && navigator.clipboard) {
         navigator.clipboard.writeText(content);
         toast.success("content copied to the clipboard!");

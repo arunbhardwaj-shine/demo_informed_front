@@ -1244,9 +1244,7 @@ const WebinarRegistration = () => {
                           return;
                         }
                         console.dir();
-                        let newLink = `${
-                          e.currentTarget.host
-                        }/${e.currentTarget.getAttribute("href")}`;
+                        let newLink = eventData?.event_id > 402  ? 'https://events.docintel.app/'+e.currentTarget.getAttribute("href") :`${e.currentTarget.host}/${e.currentTarget.getAttribute("href")}`;
                         copyToClipboard(newLink);
                       }}
                     >
