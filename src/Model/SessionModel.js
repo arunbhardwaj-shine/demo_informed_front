@@ -210,9 +210,9 @@ const [comment,setComment]=useState("")
             speakerName: userSpeaker[item],
             poll_question_id: item,
             // poll_answer_ids: userValid[item],
-            poll_answer_id:user[0]?.canCustomAnswer==1?"": userValid[item].join(','),
+            poll_answer_id: (user[0]?.canCustomAnswer==1 || user[0]?.parentId == 1660) ?"": userValid[item].join(','),
             // poll_answer_id: "",
-            user_answer:comment,
+            user_answer:user[0]?.parentId == 1660 ? userValid[item].join(',') :comment,
             guest_id: Cookies.get("events"),
            
            
@@ -469,7 +469,7 @@ const [comment,setComment]=useState("")
                             onChange={(e) =>
                               handleChange(value?.id, e.target.value, "input")
                             }
-                            name="w3review"
+                            name={"w3review_"+index}
                             rows="4"
                             cols="50"
                             style={{
