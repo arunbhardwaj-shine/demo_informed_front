@@ -301,9 +301,11 @@ useEffect(() => {
 
           <Modal show={commentPop} backdrop="static" onHide={onClose} keyboard={false} id="showComments">
             <Modal.Header closeButton>
-              <Modal.Title id="contained-modal-title-vcenter">
+              <Modal.Title id="contained-modal-title-vcenter" dangerouslySetInnerHTML={{
+                      __html: currentQuestion?.length > 0 ? currentQuestion : "Answer",
+                    }}>
                 {
-                  currentQuestion?.length > 0 ? currentQuestion : "Answer"
+                  // currentQuestion?.length > 0 ? currentQuestion : "Answer"
                   // <img
                   //   src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
                   //   alt=""
