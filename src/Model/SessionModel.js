@@ -210,9 +210,9 @@ const [comment,setComment]=useState("")
             speakerName: userSpeaker[item],
             poll_question_id: item,
             // poll_answer_ids: userValid[item],
-            poll_answer_id:user[0]?.canCustomAnswer==1?"": userValid[item].join(','),
+            poll_answer_id: (user[0]?.canCustomAnswer==1 || user[0]?.parentId == 1660) ?"": userValid[item].join(','),
             // poll_answer_id: "",
-            user_answer:comment,
+            user_answer:user[0]?.parentId == 1660 ? userValid[item].join(',') :comment,
             guest_id: Cookies.get("events"),
            
            
@@ -314,12 +314,16 @@ const [comment,setComment]=useState("")
                 :
                 <p className="event_sub_heading">Thank you for attending the Factor VIII Relevance Academy. We would be very grateful if you would complete and return this evaluation form. Your feedback will help us in our efforts to provide high-quality scientific meetings in the future.</p>
               } */}
-              <h4
-                style={{ color: item?.questionColor }}
-                dangerouslySetInnerHTML={{
-                  __html: item?.parentQuestion,
-                }}
-              ></h4>
+              {
+               item?.parentId != 1660 ?
+                <h4
+                  style={{ color: item?.questionColor }}
+                  dangerouslySetInnerHTML={{
+                    __html: item?.parentQuestion,
+                  }}
+                ></h4>
+                : null
+              }
              
 
               {item?.groupId == 0 && item?.canCustomAnswer == 1 ? (
@@ -373,7 +377,7 @@ const [comment,setComment]=useState("")
                       </div>
                     ) : null}
 
-                    <div className={item?.hasParent ? "form-group" : "form-group no_child"}>
+                    <div className={item?.hasParent && item?.parentId == 1660  ? "form-group custom_ans" : item?.hasParent ? "form-group" : "form-group no_child"}>
                       {
                         item?.hasParent ?
                           <label
@@ -465,7 +469,7 @@ const [comment,setComment]=useState("")
                             onChange={(e) =>
                               handleChange(value?.id, e.target.value, "input")
                             }
-                            name="w3review"
+                            name={"w3review_"+index}
                             rows="4"
                             cols="50"
                             style={{
