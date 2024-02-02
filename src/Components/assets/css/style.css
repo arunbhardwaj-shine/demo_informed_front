@@ -9028,6 +9028,7 @@ html {
   display: block;
   width: 100%;
   margin: 0 0 10px;
+  text-transform: unset;
 }
 
 .session-modal #pollModel .form-group {
@@ -9133,6 +9134,7 @@ html {
 .session-modal #pollModel .check-values {
   position: relative;
   min-width: 35px;
+  height:24px;
 }
 
 .session-modal #pollModel {
@@ -9198,9 +9200,11 @@ html {
 #pollModel1 .modal-header {
   background: #beddd9;
 }
+
 .session-modal #pollModel .form-group.custom_ans {
   flex-direction: column;
   padding-right: 4px;
+  margin-bottom: 18px;
 }
 
 .session-modal #pollModel .form-group.custom_ans label {
