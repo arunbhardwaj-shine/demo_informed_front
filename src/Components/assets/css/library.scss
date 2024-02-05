@@ -11679,14 +11679,6 @@ img.change-password-image {
         width: 55%;
         position: relative;
 
-        // &:before {
-        //   position: absolute;
-        //   content: "";
-        //   border-right: 1px solid $primary-color;
-        //   right: 0px;
-        //   top: -24px;
-        //   height: calc(100% + 48px);
-        //}
         &:before {
           content: "";
           border-right: 1px solid rgba(0, 102, 190, 0.20);
@@ -19080,6 +19072,10 @@ img.change-password-image {
   .no_found {
     min-height: 58vh;
   }
+
+  .webinar-question-results table tbody tr td button {
+    font-size: 12px;
+  }
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
@@ -19884,13 +19880,17 @@ img.change-password-image {
   .no_found {
     min-height: 35vh;
   }
-  .webinar-question-results table tbody tr td:nth-child(2), .webinar-question-results table thead tr th:nth-child(2) {
-    width: 300px;
-}
 
-.webinar-question-results table tbody tr td:last-child, .webinar-question-results table thead tr th:last-child {
+  .webinar-question-results table tbody tr td:nth-child(2),
+  .webinar-question-results table thead tr th:nth-child(2) {
+    width: 300px;
+  }
+
+  .webinar-question-results table tbody tr td:last-child,
+  .webinar-question-results table thead tr th:last-child {
     width: 390px;
-}
+  }
+
   .poll-question .poll-question-create .answer-option .options .row .option-action {
     max-width: 150px;
     gap: 0 10px;
@@ -21645,7 +21645,7 @@ img.change-password-image {
       }
 
       #download-qr {
-        margin: 0;
+        margin: 0 auto;
 
         .modal-body {
           padding: 18px 4px 0px;
@@ -22672,19 +22672,16 @@ img.change-password-image {
     margin-top: 16px;
   }
 
-  // .color-pick {
-  //   height: 32px;
-  //   padding: 3px;
-  // }
+  .library_create .library_create-box .create-library-content h5 {
+    font-size: 12px;
+    line-height: 1.4;
+  }
 
-  // .color-pick .color-pick-point {
-  //   max-width: 27px;
-  //   height: 27px;
-  // }
-
-  // .color-pick input[type=color] {
-  //   padding-right: 34px;
-  // }
+  .library_create .library_create-box {
+    max-width: 100%;
+    flex: 0 0 100%;
+    min-height: 130px;
+  }
 }
 
 /**Landing page Responsive End**/
