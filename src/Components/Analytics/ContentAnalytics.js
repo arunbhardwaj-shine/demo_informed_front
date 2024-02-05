@@ -872,23 +872,23 @@ const LinksLayout = ({ data, activeKey,  handleAccordionToggle}) => {
             </Accordion.Header>
               <Accordion.Body>
                 {
-                  item?.ipAddress.length > 0 ?
+                  item?.data.length > 0 ?
                     <table>
                       <thead>
                         <tr>
-                          <th>
-                            Ipaddress
-                          </th>
+                          <th>Ipaddress</th>
+                          <th>Browser</th>
+                          <th>Date</th>
                         </tr>
                       </thead>
                       <tbody>
                         {
-                          item?.ipAddress?.split('~').map((substring, index) => {
+                          item?.data?.map((substring, index) => {
                             return (
                               <tr>
-                                <td dangerouslySetInnerHTML={{
-                                  __html: substring?.length > 0 ? substring : "",
-                                }}></td>
+                                <td>{substring?.ip_address}</td>
+                                <td>{substring?.browser}</td>
+                                <td>{substring?.date}</td>
                               </tr>
                             )
                           })
