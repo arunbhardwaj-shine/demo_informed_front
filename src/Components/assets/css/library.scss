@@ -5963,6 +5963,46 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
   justify-content: space-between;
 }
 
+.content_analytics_accordian .accordion-collapse .accordion-body .accordion {
+  padding: 20px;
+}
+
+.content_analytics_accordian .accordion-collapse .accordion-body .accordion .analytics-detail-view-box {
+  padding: 0;
+}
+
+.content_analytics_accordian .analytics-time-detail .time-needed,
+.content_analytics_accordian .analytics-time-detail .time-spent {
+  text-align: left;
+}
+
+.content_analytics_accordian .accordion-collapse .accordion-body .accordion .accordion-body {
+  padding: 0;
+  border-color: #fff;
+  box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.2);
+  border-radius: 7px;
+  border: 0;
+  overflow: hidden;
+}
+
+.content_analytics_accordian .accordion-collapse .accordion-body .accordion .accordion-body thead {
+  width: 100%;
+  background: #0066be;
+}
+
+.content_analytics_accordian .accordion-collapse .accordion-body .accordion .accordion-body table {
+  width: 100%;
+}
+
+.content_analytics_accordian .accordion-collapse .accordion-body .accordion .accordion-body thead th {
+  padding: 5px 20px;
+  color: #fff;
+}
+
+.content_analytics_accordian .accordion-collapse .accordion-body .accordion .accordion-body table tbody td {
+  padding: 5px 15px;
+}
+
 .content_analytics_accordian .section-detail-box .detail_section_heading {
   font-size: 20px;
   color: #1a3870;
