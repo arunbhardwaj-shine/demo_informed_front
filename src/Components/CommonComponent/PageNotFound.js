@@ -5,6 +5,11 @@ import { Link } from "react-router-dom";
 const PageNotFound = () => {
   const path_image = process.env.REACT_APP_ONESOURCE;
   return (
+    <>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
     <div className="page_not_found">
       <div className="page_not_found-inset">
       <div class="not-found">
@@ -15,6 +20,7 @@ const PageNotFound = () => {
         <Link to="/">Go back</Link>
     </div>
     </div>
+    </>
   )
 }
 

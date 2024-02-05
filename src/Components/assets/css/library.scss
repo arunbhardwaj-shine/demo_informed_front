@@ -11679,14 +11679,6 @@ img.change-password-image {
         width: 55%;
         position: relative;
 
-        // &:before {
-        //   position: absolute;
-        //   content: "";
-        //   border-right: 1px solid $primary-color;
-        //   right: 0px;
-        //   top: -24px;
-        //   height: calc(100% + 48px);
-        //}
         &:before {
           content: "";
           border-right: 1px solid rgba(0, 102, 190, 0.20);
@@ -19080,6 +19072,10 @@ img.change-password-image {
   .no_found {
     min-height: 58vh;
   }
+
+  .webinar-question-results table tbody tr td button {
+    font-size: 12px;
+  }
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
@@ -19884,13 +19880,17 @@ img.change-password-image {
   .no_found {
     min-height: 35vh;
   }
-  .webinar-question-results table tbody tr td:nth-child(2), .webinar-question-results table thead tr th:nth-child(2) {
-    width: 300px;
-}
 
-.webinar-question-results table tbody tr td:last-child, .webinar-question-results table thead tr th:last-child {
+  .webinar-question-results table tbody tr td:nth-child(2),
+  .webinar-question-results table thead tr th:nth-child(2) {
+    width: 300px;
+  }
+
+  .webinar-question-results table tbody tr td:last-child,
+  .webinar-question-results table thead tr th:last-child {
     width: 390px;
-}
+  }
+
   .poll-question .poll-question-create .answer-option .options .row .option-action {
     max-width: 150px;
     gap: 0 10px;
@@ -20559,6 +20559,34 @@ img.change-password-image {
 
   .no_found {
     min-height: 35vh;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs .nav-item button {
+    font-size: 11px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .doc-content h6,
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list h6,
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-content-links a {
+    font-size: 12px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box {
+    padding: 10px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs,
+  .library-content-box-layuot .doc-content-main-box .tab-content {
+    margin: 0 -10px 0;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
+    padding: 7px 5px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tabs-data {
+    flex-direction: column;
+    display: flex;
   }
 }
 
@@ -21645,7 +21673,7 @@ img.change-password-image {
       }
 
       #download-qr {
-        margin: 0;
+        margin: 0 auto;
 
         .modal-body {
           padding: 18px 4px 0px;
@@ -22672,19 +22700,40 @@ img.change-password-image {
     margin-top: 16px;
   }
 
-  // .color-pick {
-  //   height: 32px;
-  //   padding: 3px;
-  // }
+  .library_create .library_create-box .create-library-content h5 {
+    font-size: 12px;
+    line-height: 1.4;
+  }
 
-  // .color-pick .color-pick-point {
-  //   max-width: 27px;
-  //   height: 27px;
-  // }
+  .library_create .library_create-box {
+    max-width: 47%;
+    flex: 0 0 47%;
+    min-height: 120px;
+    padding: 14px 6px;
+  }
 
-  // .color-pick input[type=color] {
-  //   padding-right: 34px;
-  // }
+  .library_create.landing-layout {
+    max-width: 100%;
+    padding: 0 30px;
+    min-height: 92.5vh;
+  }
+
+  .library_create.landing-layout .row,
+  .library_create,
+  .library_create.spc-box {
+    gap: 25px 6%;
+  }
+
+  .library_create .library_create-box .create-library-img img {
+    max-height: 18px;
+    max-width: 18px;
+  }
+
+  .library_create .library_create-box .create-library-img {
+    width: 35px;
+    height: 35px;
+  }
+
 }
 
 /**Landing page Responsive End**/

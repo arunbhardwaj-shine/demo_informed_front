@@ -55,6 +55,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
   const firstTime = useRef(true);
   const [commentPop, setCommentPopup] = useState(false);
   const [comments, setComments] = useState([]);
+  const [currentQuestionID,setCurrentQuestionID] = useState('')
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -326,6 +327,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
     if (index !== -1) {
       let allComments = question?.[index]?.userComments;
       setComments(allComments);
+      setCurrentQuestionID(question_id);
     }
   };
   return (
@@ -742,38 +744,86 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>User Name</th>
-                <th>Explanation</th>
-              </tr>
-            </thead>
-            <tbody>
-              {comments?.every((obj) => obj?.comments === "") ? (
+          {
+            currentQuestionID == 1660 ? 
+            <table className="table table-custom">
+              <thead>
                 <tr>
-                  <td colSpan={3}>
-                    <p>No Data Found</p>
-                  </td>
+                <th>User Name</th>
+                <>
+                  {
+                    comments?.[0]?.questions?.split('~').map((substring, index) => {
+                      return (
+                        <th dangerouslySetInnerHTML={{
+                          __html: substring?.length > 0 ? substring : "",
+                        }}></th>
+                        )
+                    })
+                  }
+                </>
                 </tr>
-              ) : (
-                comments?.map((item, index) => {
-                  return (
-                    <>
-                      {item?.comments ? (
-                        <tr>
-                          <td>{item?.name ? item?.name : "N/A"}</td>
-                          <td>{item?.comments}</td>
-                        </tr>
-                      ) : (
-                        ""
-                      )}
-                    </>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>                          
+                { comments.every(obj => obj.comments === "") 
+                ? <tr><td colSpan={3}><p>No Data Found</p></td></tr>
+                :comments?.map((item,index)=>{
+                    return(
+                      <>
+                      {item?.comments?
+                      <tr>
+                        <td>{item?.name?item?.name:"N/A"}</td>
+                        {
+                          item?.comments?.split('~').map((substring, index) => {
+                            return (
+                              <td dangerouslySetInnerHTML={{
+                                __html: substring?.length > 0 ? substring : "",
+                              }}></td>
+                              )
+                          })
+                        }
+                        {/* <td>{item?.comments}</td> */}
+                      </tr>
+                      :""} 
+                      </>
+                    ) 
+                    })                        
+                }	
+              </tbody>
+            </table>
+            :
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Explanation</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comments?.every((obj) => obj?.comments === "") ? (
+                  <tr>
+                    <td colSpan={3}>
+                      <p>No Data Found</p>
+                    </td>
+                  </tr>
+                ) : (
+                  comments?.map((item, index) => {
+                    return (
+                      <>
+                        {item?.comments ? (
+                          <tr>
+                            <td>{item?.name ? item?.name : "N/A"}</td>
+                            <td>{item?.comments}</td>
+                          </tr>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          }
         </Modal.Body>
       </Modal>
     </>
