@@ -9028,6 +9028,7 @@ html {
   display: block;
   width: 100%;
   margin: 0 0 10px;
+  text-transform: unset;
 }
 
 .session-modal #pollModel .form-group {
@@ -9133,6 +9134,7 @@ html {
 .session-modal #pollModel .check-values {
   position: relative;
   min-width: 35px;
+  height:24px;
 }
 
 .session-modal #pollModel {
@@ -9182,11 +9184,13 @@ html {
 
 .session-modal #pollModel .popup-content {
   width: 100%;
-  max-height: 66vh;
+  max-height: 62vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
-
+.session-modal #pollModel .form-group.custom_ans span.error {
+  margin: 3px 0 0;
+}
 .session-modal #pollModel .modal-title.h4 img,
 #pollModel1 .modal-title.h4 img {
   max-width: 170px;
@@ -9197,9 +9201,15 @@ html {
   background: #beddd9;
 }
 
-/* .data-preview .modal-header {
-  padding: 14px;
-} */
+.session-modal #pollModel .form-group.custom_ans {
+  flex-direction: column;
+  padding-right: 4px;
+  margin-bottom: 18px;
+}
+
+.session-modal #pollModel .form-group.custom_ans label {
+  margin: 0 0 7px;
+}
 .data-preview .log-activity-box {
   padding-bottom: 5px;
   border-bottom: 1px dashed var(--light-blue);
@@ -12228,4 +12238,44 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   fill: #fff;
 }
 
+
+
+
+.table-custom tbody tr {
+  background: transparent;
+  box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+  border-radius: 13px;
+  border-spacing: 0px 10px;
+}
+
+table.table-custom {
+  border-collapse: separate;
+  border-spacing: 0px 10px;
+  padding-left: 5px;
+}
+
+.table-custom tr td:first-child {
+  border-radius: 13px 0 0 13px;
+}
+
+.table-custom tr td {
+  vertical-align: middle;
+  font-size: 13px;
+  line-height: 15px;
+  color: var(--light-gray);
+  font-weight: 300;
+  padding: 15px 10px;
+  border: 0;
+  background: var(--white);
+}
+
+.table-custom tr td:last-child {
+  border-radius: 0px 13px 13px 0px;
+}
+
+.table-custom tr th {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+}
 /**Registration page end**/
