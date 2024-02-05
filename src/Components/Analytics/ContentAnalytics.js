@@ -886,9 +886,9 @@ const LinksLayout = ({ data, activeKey,  handleAccordionToggle}) => {
                           item?.ipAddress?.split('~').map((substring, index) => {
                             return (
                               <tr>
-                                <th dangerouslySetInnerHTML={{
+                                <td dangerouslySetInnerHTML={{
                                   __html: substring?.length > 0 ? substring : "",
-                                }}></th>
+                                }}></td>
                               </tr>
                             )
                           })
