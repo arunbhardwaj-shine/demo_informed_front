@@ -6006,7 +6006,9 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
 .content_analytics_accordian .no_found {
   min-height: 50vh;
 }
-
+.accordion-item[disabled] button.accordion-button::after{
+  display: none;
+}
 .content_analytics_accordian .section-detail-box .detail_section_heading {
   font-size: 20px;
   color: #1a3870;
