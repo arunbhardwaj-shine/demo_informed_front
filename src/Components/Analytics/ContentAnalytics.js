@@ -31,9 +31,12 @@ const ContentAnalytics = () => {
   const [sectionLoader, setSectionLoader] = useState(false);
   const [mapData, setMapData] = useState([]);
   const [readerData, setReaderData] = useState([]);
+  const [linkData, setLinkData] = useState([]);
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [isReaderAccordionOpen, setIsReaderAccordionOpen] = useState(false);
+  const [isLinkAccordianOpen, setisLinkAccordianOpen] = useState(false);
   const [sublinkOptions, setSublinkOptions] = useState([]);
+  const [activeKey, setActiveKey] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -226,6 +229,30 @@ const ContentAnalytics = () => {
     }
   };
 
+  const handleLinksAccordionOpen = async() => {
+    try {
+      if (!isLinkAccordianOpen) {
+        setSectionLoader(true);
+        if (!linkData?.length) {
+
+            const response = await postData(ENDPOINT.LINKSANALYTICS, {
+              pdfId: selectedPdf,
+            });
+            const hadData = response?.data?.data || [];
+            setLinkData(hadData);
+        }
+        setisLinkAccordianOpen(true);
+      } else {
+        setisLinkAccordianOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setSectionLoader(false);
+    } finally {
+      setSectionLoader(false);
+    }
+  }
+
   const handleParent = async () => {
     try {
       loader("show");
@@ -275,6 +302,10 @@ const ContentAnalytics = () => {
       console.log(err);
       loader("hide");
     }
+  };
+
+  const handleAccordionToggle = (index) => {
+    setActiveKey(activeKey === index ? null : index);
   };
 
   return (
@@ -581,6 +612,56 @@ const ContentAnalytics = () => {
                         </Accordion>
                       </Col>
                     </Row>
+
+                    {
+                      selectedPdf == 4830 ? 
+                      <Row>
+                        <Col>
+                          <Accordion
+                            onSelect={handleLinksAccordionOpen}
+                            className="content_analytics_accordian"
+                          >
+                            <Accordion.Item eventKey="2">
+                              <Accordion.Header>
+                                Links Per Page
+                              </Accordion.Header>
+
+                              <Accordion.Body>
+                                {!isLinkAccordianOpen ? (
+                                  <div className="accordion-loader">
+                                    <div
+                                      className={
+                                        "loader tab-inside " +
+                                        (sectionLoader ? "show" : "")
+                                      }
+                                      id="custom_loader"
+                                    >
+                                      <div className="loader_show">
+                                        <span className="loader-view"> </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    ) : null}
+                                {isLinkAccordianOpen ? (
+                                  linkData?.length ? (
+                                    <LinksLayout data={linkData} activeKey={activeKey} handleAccordionToggle={handleAccordionToggle}/>
+                                  ) : (
+                                    <>
+                                      <div className="no_found">
+                                        <p align="center">No Data Available</p>
+                                      </div>
+                                    </>
+                                  )
+                                  ) : null}
+                              </Accordion.Body>
+                            </Accordion.Item>
+                          </Accordion>
+                        </Col>
+                      </Row>
+                      : null
+                    }
+                    
+
                   </div>
                 </div>
               ) : isLoaded ? (
@@ -759,6 +840,68 @@ const BarComponent = ({ data }) => {
           }}
         />
       </div>
+    </>
+  );
+};
+
+
+const LinksLayout = ({ data, activeKey,  handleAccordionToggle}) => {
+  return (
+    <>
+      <div className="section-detail-box d-flex">
+        <div className="detail_section_heading">Readers Per Link</div>
+        <div className="detail_section_pages">Total: {data?.length} Pages</div>
+      </div>
+      <Accordion activeKey={activeKey} onSelect={handleAccordionToggle}>
+        {data?.map((item, index) => (
+          <Accordion.Item key={index} eventKey={index.toString()} disabled={item.count === 0}>
+            <Accordion.Header>
+              <div className="analytics-detail-view-box">
+                  <div className="analytics-detil-image">
+                    <div>Page {item?.page}</div>
+                  </div>
+                  <div className="analytics-time-detail">
+                    <div className="time-needed">
+                      Link: <span>{item?.link}</span>
+                    </div>
+                    <div className="time-spent">
+                      No of clicks: <span> {item?.count}</span>
+                    </div>
+                  </div>
+                </div>
+            </Accordion.Header>
+              <Accordion.Body>
+                {
+                  item?.ipAddress.length > 0 ?
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>
+                            Ipaddress
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          item?.ipAddress?.split('~').map((substring, index) => {
+                            return (
+                              <tr>
+                                <td dangerouslySetInnerHTML={{
+                                  __html: substring?.length > 0 ? substring : "",
+                                }}></td>
+                              </tr>
+                            )
+                          })
+                        }
+                      </tbody>
+                    </table>
+                  :
+                  null
+                }
+              </Accordion.Body>
+          </Accordion.Item>
+        ))}
+      </Accordion>
     </>
   );
 };
