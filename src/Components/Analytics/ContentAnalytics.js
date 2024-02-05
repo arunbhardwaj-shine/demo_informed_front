@@ -909,17 +909,29 @@ const LinksLayout = ({ data, activeKey, handleAccordionToggle }) => {
       }
 
       // return;
-console.log(data);
       data = data?.map((item, index) => {
         let finalData = {};
 
         finalData.page = item?.page ? item?.page : "N/A";
         finalData.count = item?.count ? item?.count : "N/A";
         finalData.link = item?.link ?  item?.link : "N/A";
-        finalData.IpAddress = item?.ipAddress ? item?.ipAddress : "N/A";
-
+        finalData.IpAddress = [];
+        finalData.Browser =[];
+        finalData.Date= [];
+        item.data = item?.data?.map((itemChild, indexChild) => {
+          finalData.IpAddress.push(itemChild?.ip_address); // Use a default value if ip_address is undefined
+          finalData.Browser.push(itemChild?.browser); // Use a default value if ip_address is undefined
+          finalData.Date.push(itemChild?.date); // Use a default value if ip_address is undefined
+        
+        });
+        finalData.IpAddress = finalData.IpAddress.join(',');
+        finalData.Browser =finalData.Browser.join(',');
+        finalData.Date= finalData.Date.join(',');
         return finalData;
       });
+   
+console.log(data);
+
       const worksheet = XLSX.utils.json_to_sheet(data);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
@@ -990,30 +1002,35 @@ console.log(data);
                 </div>
               </div>
             </Accordion.Header>
-            <Accordion.Body>
-              {item?.ipAddress.length > 0 ? (
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Ipaddress</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {item?.ipAddress?.split("~").map((substring, index) => {
-                      return (
+              <Accordion.Body>
+                {
+                  item?.data.length > 0 ?
+                    <table>
+                      <thead>
                         <tr>
-                          <td
-                            dangerouslySetInnerHTML={{
-                              __html: substring?.length > 0 ? substring : "",
-                            }}
-                          ></td>
+                          <th>Ipaddress</th>
+                          <th>Browser</th>
+                          <th>Date</th>
                         </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              ) : null}
-            </Accordion.Body>
+                      </thead>
+                      <tbody>
+                        {
+                          item?.data?.map((substring, index) => {
+                            return (
+                              <tr>
+                                <td>{substring?.ip_address}</td>
+                                <td>{substring?.browser}</td>
+                                <td>{substring?.date}</td>
+                              </tr>
+                            )
+                          })
+                        }
+                      </tbody>
+                    </table>
+                  :
+                  null
+                }
+              </Accordion.Body>
           </Accordion.Item>
         ))}
       </Accordion>
