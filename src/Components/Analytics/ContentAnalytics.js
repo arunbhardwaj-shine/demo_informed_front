@@ -871,28 +871,35 @@ const LinksLayout = ({ data, activeKey,  handleAccordionToggle}) => {
                 </div>
             </Accordion.Header>
               <Accordion.Body>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>
-                        Ipaddress
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      item?.ipAddress?.split('~').map((substring, index) => {
-                        return (
-                          <tr>
-                            <th dangerouslySetInnerHTML={{
-                              __html: substring?.length > 0 ? substring : "",
-                            }}></th>
-                          </tr>
-                        )
-                      })
-                    }
-                  </tbody>
-                </table>
+                {
+                  item?.ipAddress.length > 0 ?
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>
+                            Ipaddress
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          item?.ipAddress?.split('~').map((substring, index) => {
+                            return (
+                              <tr>
+                                <th dangerouslySetInnerHTML={{
+                                  __html: substring?.length > 0 ? substring : "",
+                                }}></th>
+                              </tr>
+                            )
+                          })
+                        }
+                      </tbody>
+                    </table>
+                  :
+                  <div className="no_found">
+                    <p align="center">No Data Available</p>
+                  </div>
+                }
               </Accordion.Body>
           </Accordion.Item>
         ))}
