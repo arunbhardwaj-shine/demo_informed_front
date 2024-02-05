@@ -549,7 +549,10 @@
   .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
     font-size: 16px;
   }
-
+.webinar-question-results td,
+.webinar-question-results th {
+  max-width: 410px;
+}
   .stream-url input.form-control,
   .poster-url input.form-control {
     height: 42px;
