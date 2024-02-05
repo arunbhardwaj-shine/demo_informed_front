@@ -854,7 +854,7 @@ const LinksLayout = ({ data, activeKey,  handleAccordionToggle}) => {
       </div>
       <Accordion activeKey={activeKey} onSelect={handleAccordionToggle}>
         {data?.map((item, index) => (
-          <Accordion.Item key={index} eventKey={index.toString()}>
+          <Accordion.Item key={index} eventKey={index.toString()} disabled={item.count === 0}>
             <Accordion.Header>
               <div className="analytics-detail-view-box">
                   <div className="analytics-detil-image">
@@ -896,9 +896,7 @@ const LinksLayout = ({ data, activeKey,  handleAccordionToggle}) => {
                       </tbody>
                     </table>
                   :
-                  <div className="no_found">
-                    <p align="center">No Data Available</p>
-                  </div>
+                  null
                 }
               </Accordion.Body>
           </Accordion.Item>
