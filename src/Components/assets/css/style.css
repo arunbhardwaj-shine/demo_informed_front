@@ -12279,3 +12279,31 @@ table.table-custom {
   line-height: 1.3;
 }
 /**Registration page end**/
+
+
+.highlight_box {
+  border: 2px dashed rgb(2, 130, 229)!important;
+  background-color: rgba(8, 157, 227, 0.1)!important;
+  touch-action: manipulation;
+}
+.viewer-layout-main .viewer-text {
+      pointer-events: none;
+        cursor: auto;
+        touch-action: auto;
+}
+
+.viewer-layout-main .viewer-text:focus {
+  cursor: move;
+  pointer-events: none;
+}
+.sublink_right.preview-content .add_link_to_pdf .viewer-layout-main::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hiding scrollbar for IE, Edge and Firefox */
+.sublink_right.preview-content .add_link_to_pdf .viewer-layout-main {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
