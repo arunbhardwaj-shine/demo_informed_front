@@ -2522,7 +2522,25 @@
   .dropdown-menu.filter-options {
     width: 270px;
   }
-
+.help-popup-view {
+  left: 136px;
+}
+.page_not_found-inset {
+  padding: 40px 80px;
+  width: 94%;
+}
+.page_not_found h1 {
+  font-size: 110px;
+  line-height: 1.2;
+  margin: 0;
+}
+.page_not_found-inset h4 {
+  font-size: 28px;
+  line-height: 172.5%;
+}
+.page_not_found-inset p {
+  margin: 0 auto 25px;
+}
   .email-result-block .email_box_block:nth-child(3n) .email_box {
     margin-right: auto;
   }
@@ -3414,6 +3432,29 @@
   .top-header.regi-web .save-btn {
     margin-left: auto;
   }
+    .page_not_found-inset {
+      padding: 20px 20px 30px;
+      width: 94%;
+    }
+        .page_not_found-inset h4 {
+          font-size: 24px;
+          line-height: 142.5%;
+        }
+        .page_not_found h1 {
+          font-size: 90px;
+        }
+        .page_not_found-inset p {
+    margin: 10px 0 20px;
+    font-size: 17px;
+    line-height: 150%;
+}
+    /* .help-popup-view {
+      left: 173px;
+      transform: rotateY(180deg);
+    }
+        .help-popup-view svg {
+          transform: rotateY(-180deg);
+        } */
 .session-modal #pollModel .form-group span.error {
   margin-top: 0;
 }

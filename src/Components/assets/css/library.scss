@@ -5963,6 +5963,10 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
   justify-content: space-between;
 }
 
+.content_analytics_accordian .accordion-collapse .accordion-body .section-detail-box .clear-search {
+ gap:15px;
+}
+
 .content_analytics_accordian .accordion-collapse .accordion-body .accordion {
   padding: 20px;
 }
@@ -5984,7 +5988,7 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
   border: 0;
   overflow: hidden;
   margin-top: -10px;
-  padding-bottom:10px;
+  padding-bottom: 10px;
 }
 
 .content_analytics_accordian .accordion-collapse .accordion-body .accordion h2.accordion-header {
@@ -20615,6 +20619,34 @@ img.change-password-image {
   .no_found {
     min-height: 35vh;
   }
+
+  .library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs .nav-item button {
+    font-size: 11px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .doc-content h6,
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list h6,
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-content-links a {
+    font-size: 12px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box {
+    padding: 10px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs,
+  .library-content-box-layuot .doc-content-main-box .tab-content {
+    margin: 0 -10px 0;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
+    padding: 7px 5px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tabs-data {
+    flex-direction: column;
+    display: flex;
+  }
 }
 
 @media (max-width: $layout-breakpoint-small) {
@@ -22733,10 +22765,34 @@ img.change-password-image {
   }
 
   .library_create .library_create-box {
-    max-width: 100%;
-    flex: 0 0 100%;
-    min-height: 130px;
+    max-width: 47%;
+    flex: 0 0 47%;
+    min-height: 120px;
+    padding: 14px 6px;
   }
+
+  .library_create.landing-layout {
+    max-width: 100%;
+    padding: 0 30px;
+    min-height: 92.5vh;
+  }
+
+  .library_create.landing-layout .row,
+  .library_create,
+  .library_create.spc-box {
+    gap: 25px 6%;
+  }
+
+  .library_create .library_create-box .create-library-img img {
+    max-height: 18px;
+    max-width: 18px;
+  }
+
+  .library_create .library_create-box .create-library-img {
+    width: 35px;
+    height: 35px;
+  }
+
 }
 
 /**Landing page Responsive End**/
