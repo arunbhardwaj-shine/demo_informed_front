@@ -907,32 +907,48 @@ const LinksLayout = ({ data, activeKey, handleAccordionToggle }) => {
         toast.warning("No data found");
         return;
       }
-
-      // return;
+      let newData = [];
+  
       data = data?.map((item, index) => {
         let finalData = {};
-
-        finalData.page = item?.page ? item?.page : "N/A";
-        finalData.count = item?.count ? item?.count : "N/A";
-        finalData.link = item?.link ?  item?.link : "N/A";
-        finalData.IpAddress = [];
-        finalData.Browser =[];
-        finalData.Date= [];
+  
+        finalData.Page = item?.page;
+        finalData.Count = item?.count;
+        finalData.Link = item?.link ? item?.link : "N/A";
+        newData.push(finalData);
         item.data = item?.data?.map((itemChild, indexChild) => {
-          finalData.IpAddress.push(itemChild?.ip_address); // Use a default value if ip_address is undefined
-          finalData.Browser.push(itemChild?.browser); // Use a default value if ip_address is undefined
-          finalData.Date.push(itemChild?.date); // Use a default value if ip_address is undefined
-        
+          let finalDataSample = {};
+          finalDataSample.IpAddress = itemChild?.ip_address;
+          finalDataSample.Browser = itemChild?.browser;
+          finalDataSample.Date = itemChild?.date;
+          newData.push(finalDataSample);
+  
+          return itemChild;
         });
-        finalData.IpAddress = finalData.IpAddress.join(',');
-        finalData.Browser =finalData.Browser.join(',');
-        finalData.Date= finalData.Date.join(',');
-        return finalData;
+  
+    
+  
+        return item;
       });
-   
-console.log(data);
-
-      const worksheet = XLSX.utils.json_to_sheet(data);
+  
+      const worksheet = XLSX.utils.json_to_sheet(newData);
+  
+      // Set dynamic width for each column except "Link"
+      let columnWidths = {
+        "Page": 5,
+        "Count": 5,
+        "Link": 70,
+        "IpAddress": 10,
+        "Browser": 10,
+        "Date": 10,
+    }; 
+      console.log(Object.keys(columnWidths).map((key) => ({
+        wch: columnWidths[key] + 2,
+      })));
+      worksheet["!cols"] = Object.keys(columnWidths).map((key) => ({
+        wch: columnWidths[key] + 2,
+      }));
+  
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       const excelBuffer = XLSX.write(workbook, {
@@ -940,9 +956,10 @@ console.log(data);
         type: "array",
       });
       const blob = new Blob([excelBuffer], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+        type:
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      saveAs(blob, `Readers_per_link.xlsx`);
+      saveAs(blob, `readers_per_link.xlsx`);
     } catch (error) {
       console.error(
         "An error occurred while downloading the Excel file:",
@@ -950,6 +967,7 @@ console.log(data);
       );
     }
   };
+  
   return (
     <>
       <div className="section-detail-box d-flex">
