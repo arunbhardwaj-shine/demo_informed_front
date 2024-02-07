@@ -24,6 +24,7 @@ const   WebinarQuestion = () => {
   const [commentPop,setCommentPopup] = useState(false)
   const [comments,setComments] = useState([])
   const [currentQuestion,setCurrentQuestion] = useState('')
+  const [currentQuestionID,setCurrentQuestionID] = useState('')
   const queryParams = new URLSearchParams(location.search);   
   const [countValue, setCountvalue] = useState(0);
   const q = query(collection(db, "chat"),where("event_id","==",eventId?.id),orderBy("date","desc"),limit(1))
@@ -246,6 +247,7 @@ useEffect(() => {
       // setComments(comments);
       setComments(allComments);
       setCurrentQuestion(alldata?.[index]?.question);
+      setCurrentQuestionID(question_id);
       console.log(`Element found at index ${index}`);
     } else {
       console.log('Element not found');
@@ -318,33 +320,81 @@ useEffect(() => {
               </Modal.Title>
             </Modal.Header>
               <Modal.Body>
-                  <table className="table table-striped">
-                        <thead>
-                          <tr>
-                          <th>User Name</th>
-                          {/* <th>Answer</th> */}
-                          <th>Explanation</th>
-                          </tr>
-                        </thead>
-                        <tbody>                          
-                       { comments.every(obj => obj.comments === "") 
-                       ? <tr><td colSpan={3}><p>No Data Found</p></td></tr>
-                       :comments?.map((item,index)=>{
-                          return(
-                            <>
-                            {item?.comments?
+                  {
+                    currentQuestionID == 1660 ? 
+                    <table className="table table-custom">
+                      <thead>
+                        <tr>
+                        <th>User Name</th>
+                        <>
+                          {
+                            comments?.[0]?.questions?.split('~').map((substring, index) => {
+                              return (
+                                <th dangerouslySetInnerHTML={{
+                                  __html: substring?.length > 0 ? substring : "",
+                                }}></th>
+                                )
+                            })
+                          }
+                        </>
+                        </tr>
+                      </thead>
+                      <tbody>                          
+                        { comments.every(obj => obj.comments === "") 
+                        ? <tr><td colSpan={3}><p>No Data Found</p></td></tr>
+                        :comments?.map((item,index)=>{
+                            return(
+                              <>
+                              {item?.comments?
+                              <tr>
+                                <td>{item?.name?item?.name:"N/A"}</td>
+                                {
+                                  item?.comments?.split('~').map((substring, index) => {
+                                    return (
+                                      <td dangerouslySetInnerHTML={{
+                                        __html: substring?.length > 0 ? substring : "",
+                                      }}></td>
+                                      )
+                                  })
+                                }
+                                {/* <td>{item?.comments}</td> */}
+                              </tr>
+                              :""} 
+                              </>
+                            ) 
+                            })                        
+                        }	
+                      </tbody>
+                    </table>
+                    :
+                    <table className="table table-striped">
+                          <thead>
                             <tr>
-                              <td>{item?.name?item?.name:"N/A"}</td>
-                              {/* <td></td> */}
-                              <td>{item?.comments}</td>
+                            <th>User Name</th>
+                            {/* <th>Answer</th> */}
+                            <th>Explanation</th>
                             </tr>
-                             :""} 
-                            </>
-                          ) 
-                          })                        
-                      }	
-                        </tbody>
-                  </table>
+                          </thead>
+                          <tbody>                          
+                        { comments.every(obj => obj.comments === "") 
+                        ? <tr><td colSpan={3}><p>No Data Found</p></td></tr>
+                        :comments?.map((item,index)=>{
+                            return(
+                              <>
+                              {item?.comments?
+                              <tr>
+                                <td>{item?.name?item?.name:"N/A"}</td>
+                                {/* <td></td> */}
+                                <td>{item?.comments}</td>
+                              </tr>
+                              :""} 
+                              </>
+                            ) 
+                            })                        
+                        }	
+                          </tbody>
+                    </table>
+                  }
                 
               </Modal.Body>
             

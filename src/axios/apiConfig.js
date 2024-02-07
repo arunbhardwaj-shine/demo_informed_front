@@ -172,5 +172,5 @@ export const ENDPOINT = {
   RESETPOLL:"webinar/reset-polls",
   GETCOMMENTSBYQUESTIONID:"webinar/get-comments-by-question-id",
   WEBINAR_RESET_QUESTION_ANSWER:"webinar/reset-question-answer",
-
+  LINKSANALYTICS: "/analytics/pdf-link-analytics",
 };
