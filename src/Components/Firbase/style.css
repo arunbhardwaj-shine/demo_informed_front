@@ -207,6 +207,11 @@ body {
     font-weight: 500;
 }
 
+#pollModel .modal-body p.no_found,
+#pollModel1 .modal-body p.no_found {
+    min-height: 40vh;
+}
+
 #pollAnswerModel .detail-box.form_box p#questionText {
     margin-bottom: 30px;
 }

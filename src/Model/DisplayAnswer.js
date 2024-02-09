@@ -231,8 +231,16 @@ if(customAnswer == 1 || graphType === 'bar'){
         </Modal.Title>
       </Modal.Header>
         <Modal.Body>
-          <p dangerouslySetInnerHTML={{__html: data?.question}}></p>
-          <HighchartsReact key = {"rand_"+customAnswer} highcharts={Highcharts} options={chartOptions} />
+          {
+            data?.length == 0 
+            ?
+              <p className="no_found">No Data Found</p>
+            :
+            <>
+              <p dangerouslySetInnerHTML={{__html: data?.question}}></p>
+              <HighchartsReact key = {"rand_"+customAnswer} highcharts={Highcharts} options={chartOptions} />
+            </>
+          }
           {/* <h5 style={{ color: designData?.textColor }}>Total Answer:{readerCount}</h5> */}
         </Modal.Body>
       

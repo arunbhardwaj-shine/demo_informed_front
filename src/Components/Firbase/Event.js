@@ -66,7 +66,7 @@ const Event = () => {
         `${ENDPOINT.GETCHATLINKDATA}/${parms}`
       );
       const { chatLinkData } = response?.data?.data;
-      console.log(response?.data?.data,'data')
+      // console.log(response?.data?.data,'data')
       // if(response?.data?.data?.length === 0){
       //   navigate('/webinar/live-stream/chat-link')
       // }
@@ -175,27 +175,28 @@ const Event = () => {
           setValue({});
         }
         return;
-      } else if (
-        !eventQuestion?.includes(newData?.question_id) &&
-        newData?.triggered == 2
-      ) {
-        if (data) {
-          setData(0);
-        }
-        if (show) {
-          setShow(false);
-        }
-        if (answerPop) {
-          setAnswerPopup(false);
-        }
-        if (sessionShow) {
-          setSessionShow(false);
-        }
-        if (Object.keys(value)?.length) {
-          setValue({});
-        }
-        return;
       }
+      //  else if (
+      //   !eventQuestion?.includes(newData?.question_id) &&
+      //   newData?.triggered == 2
+      // ) {
+      //   if (data) {
+      //     setData(0);
+      //   }
+      //   if (show) {
+      //     setShow(false);
+      //   }
+      //   if (answerPop) {
+      //     setAnswerPopup(false);
+      //   }
+      //   if (sessionShow) {
+      //     setSessionShow(false);
+      //   }
+      //   if (Object.keys(value)?.length) {
+      //     setValue({});
+      //   }
+      //   return;
+      // }
 
       if (newData?.triggered == 1) {
         if (Object.keys(value)?.length) {
