@@ -21,7 +21,6 @@ export const WebinarHeader = () => {
   };
   return (
     <>
-      {/* {console.log("- ium here")} */}
       <header>
         <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">

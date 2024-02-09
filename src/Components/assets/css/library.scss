@@ -1345,7 +1345,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .readerlist .tab-mail-list.data .delivered .progress,
 .delivered .progress {
-  background: #f58289;
+  background: $light-pink;
 }
 
 .readerlist .tab-mail-list.data .rtr .progress,
@@ -1406,7 +1406,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .tab-mail-list.data .progress .progress-bar.bg-danger {
   color: #a53239;
-  background: #f58289 !important;
+  background: $light-pink !important;
 }
 
 .tab-mail-list.data .progress .progress-bar.bg-sublink {
@@ -4274,7 +4274,7 @@ input[type="number"] {
 }
 
 .saved .timeline-block-title h6 {
-  color: #f58289;
+  color: $light-pink;
 }
 
 .opened .timeline-block-title h6 {
@@ -4372,11 +4372,11 @@ input[type="number"] {
         align-items: center;
 
         &.media-red {
-          border: 2px solid #f58289;
+          border: 2px solid $light-pink;
           box-shadow: 0px 1px 6px rgb(245 130 137 / 75%);
 
           .content-type {
-            color: #f58289;
+            color: $light-pink;
           }
         }
 
@@ -6693,7 +6693,7 @@ svg.pencil_icon {
             content: "";
             position: absolute;
             bottom: 0;
-            border: solid 2px #f58289;
+            border: solid 2px $light-pink;
             width: 311px;
             left: 3px;
           }
@@ -7065,7 +7065,7 @@ svg.pencil_icon {
               }
 
               &.b-c3 {
-                background: #f58289;
+                background: $light-pink;
               }
             }
 
@@ -7094,7 +7094,7 @@ svg.pencil_icon {
             }
 
             .p-c3 {
-              color: #f58289;
+              color: $light-pink;
             }
 
             h3 {
@@ -7845,7 +7845,7 @@ svg.pencil_icon {
       &::after {
         content: "";
         width: 140px;
-        border-bottom: 3px solid #f58289;
+        border-bottom: 3px solid $light-pink;
         position: absolute;
         bottom: 0;
         left: 3px;
@@ -8125,7 +8125,7 @@ svg.pencil_icon {
           -ms-animation: fadeIn ease 2s;
         }
 
-        +.hover-image {
+        &+.hover-image {
           display: none;
           position: absolute;
           width: 500px;
@@ -8390,7 +8390,6 @@ svg.pencil_icon {
 }
 
 .build-content.info-med h2 {
-  font-family: Mulish;
   margin-bottom: 40px;
   font-size: 33px;
   font-weight: 600;
@@ -8410,7 +8409,6 @@ svg.pencil_icon {
 }
 
 .build-content h3 {
-  font-family: mulish;
   font-size: 36px;
   font-weight: 600;
   line-height: 44px;
@@ -8445,7 +8443,6 @@ svg.pencil_icon {
   margin: 0 -45px;
   text-align: center;
   color: $voilet;
-  font-family: Mulish;
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 16px;
@@ -8462,7 +8459,7 @@ svg.pencil_icon {
 }
 
 .cr-3 {
-  background-color: #f58289;
+  background-color: $light-pink;
   z-index: 0;
 }
 
@@ -9247,7 +9244,6 @@ svg.pencil_icon {
     max-width: 106px;
   }
 
-
   .form-group.primary_phone .dropdown-basic-button #rfs-btn {
     padding: 5px 10px;
   }
@@ -9290,8 +9286,6 @@ svg.pencil_icon {
   .create-change-content .upload-file-box .box p {
     font-size: 14px;
   }
-
-
 
   .create-change-content .upload-file-box .box p span {
     font-size: 12px;
@@ -9427,7 +9421,7 @@ svg.pencil_icon {
 
   .create-change-content .form-group fieldset label {
     font-size: 15px;
-    padding: 0;
+    padding: 0 15px 0 0;
   }
 
   .marketing-log {
@@ -10064,6 +10058,14 @@ svg.pencil_icon {
     flex: 0 0 50%;
   }
 
+  .create-change-content .form-group.margin-added .add_product {
+    margin-right: -166px;
+  }
+
+  .form-check-group {
+    padding: 8px 16px;
+  }
+
   .template_builder-option.library-cosent .template_language span {
     margin-bottom: 7px;
   }
@@ -10494,6 +10496,8 @@ svg.pencil_icon {
 }
 
 /**Library Responsive**/
+
+
 
 /**Informed and Publisher page responsive**/
 @media only screen and (max-width: 1365px) {
@@ -11309,70 +11313,8 @@ img.change-password-image {
     }
   }
 
-  // .slick-slider {
-  //   .slick-prev {
-  //     top: 98px;
-  //     position: absolute;
-  //     width: 48px;
-  //     height: 48px;
-  //     border-radius: 50%;
-  //     border: 1px solid var(--light-blue);
-  //     left: 4px;
-  //     z-index: 4;
-  //     display: flex !important;
-  //     align-items: center;
-  //     justify-content: center;
-  //     transform: rotate(0deg) translate(0px, 0px);
-
-  //     &:before {
-  //       content: '';
-  //       background: url(../../../../public/componentAssets/images/back-page-icon.svg) no-repeat;
-  //       background-size: 100%;
-  //       width: 19px;
-  //       height: 11px;
-  //     }
-  //   }
-
-  //   .slick-next {
-  //     top: 162px;
-  //     left: 0;
-  //     width: 48px;
-  //     height: 48px;
-  //     border-radius: 50%;
-  //     left: 4px;
-  //     border: 1px solid var(--light-blue);
-  //     z-index: 4;
-  //     display: flex !important;
-  //     align-items: center;
-  //     justify-content: center;
-  //     transform: rotate(0deg) translate(0px, 0px);
-
-  //     &:before {
-  //       content: '';
-  //       background: url(../../../../public/componentAssets/images/next-page-icon.svg) no-repeat;
-  //       background-size: 100%;
-  //       width: 19px;
-  //       height: 11px;
-  //     }
-  //   }
-  // }
-
   .poll-question-selection {
-
-    // display: flex;
-    // flex-direction: row;
-    // position: absolute;
-    // transform: rotate(90deg) scaleX(1);
-    // transform-origin: top left;
-    // right: 52px;
-    // top: 0;
-    // justify-content: space-between;
-    // align-items: center;
-    // width: 100%;
-    // max-width: 570px;
-    // z-index: 2;
     display: flex;
-    /* flex-direction: row; */
     position: absolute;
     transform: rotate(270deg) scaleX(1);
     transform-origin: top right;
@@ -11380,8 +11322,6 @@ img.change-password-image {
     top: 0px;
     justify-content: space-between;
     align-items: center;
-    /* width: 100%; */
-    /* max-width: 18px; */
     z-index: 2;
     height: auto;
 
@@ -11420,8 +11360,6 @@ img.change-password-image {
           -moz-transform: rotate(90deg);
           -webkit-transform: rotate(90deg);
           transform: rotate(90deg);
-          // opacity: 0;
-          // visibility: hidden;
         }
 
         &.add-question,
@@ -11964,7 +11902,7 @@ img.change-password-image {
 
     &.sites {
       h5 {
-        color: #f58289;
+        color: $light-pink;
       }
     }
 
@@ -12363,7 +12301,7 @@ img.change-password-image {
           }
 
           &.not_yet {
-            color: #f58289;
+            color: $light-pink;
           }
 
           &:first-child {
@@ -13798,7 +13736,7 @@ img.change-password-image {
 }
 
 .webinar-top-sec .webinar-top-btn.ignored {
-  background: #f58289;
+  background: $light-pink;
 }
 
 .webinar-top-sec .webinar-top-btn.answered {
@@ -13828,11 +13766,11 @@ img.change-password-image {
 
 .webinar-question-results .reader_list .reader_list_footer.ignore-footer button {
   background: $white;
-  color: #f58289;
+  color: $light-pink;
 }
 
 .webinar-question-results .reader_list .reader_list_footer button.ignored {
-  background: #f58289;
+  background: $light-pink;
 }
 
 .webinar-question-results .reader_list .reader_list_footer button.answer {
@@ -18240,6 +18178,18 @@ img.change-password-image {
   min-width: 120px;
 }
 
+.active-subLink .sidebar-menu ul li svg path {
+  fill-opacity: 0.3;
+}
+
+.active.sub-links .left-sidebar-secondary .sidebar-menu-secondary ul li svg path {
+  fill-opacity: 0.6;
+}
+
+.active.sub-links .left-sidebar-secondary .sidebar-menu-secondary ul li.active svg path {
+  fill-opacity: 1;
+}
+
 /**New Landign Page End**/
 
 /**Landing page Responsive Start**/
@@ -18830,9 +18780,6 @@ img.change-password-image {
     margin: 0 0 25px;
   }
 
-  // .webinarRegistrationBody #registration-form .form-group>label {
-  //   padding: 11px 5px 0 0;
-  // }
   .webinarRegistrationBody #registration-form .form-group>label {
     flex: 0 0 130px;
     padding-right: 0;
@@ -19148,6 +19095,10 @@ img.change-password-image {
 
   .webinar-question-results table tbody tr td button {
     font-size: 12px;
+  }
+
+  .create-change-content .form-group.margin-added .add_product {
+    margin-right: -163px;
   }
 }
 
