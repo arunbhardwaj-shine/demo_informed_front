@@ -64,8 +64,13 @@ const LiveStream = () => {
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [userIds, setUserIds] = useState([]);
   const [chartHeight, setChartHeight] = useState(270);
+  const [fixSlotsCategory,setFixSlotsCategory] = useState([]);
+  const [fixSlotsValue,setFixSlotsValue] = useState([]);
+  const [tempSlotsCategory,setTempSlotsCategory] = useState([]);
+  const [tempSlotsValue,setTempSlotsValue] = useState([]);
+  const [insertFlag, setInsertFlag] = useState(false);
   const [maxDataPoints, setMaxDataPoints] = useState(10); // Maximum number of data points to display
-
+  const [firstTimeStatus, setFirstTimeStatus] = useState(false);
   const [lineChartOptions, setLineChartOptions] = useState({
     chart: {
       height: chartHeight,
@@ -79,7 +84,7 @@ const LiveStream = () => {
       categories: [],
       tickInterval: 1,
       labels: {
-        enabled: false
+        enabled: true
     }
     },
     yAxis: {
@@ -183,7 +188,6 @@ const LiveStream = () => {
           }
         }
       });
-
       setUserIds(onlineUserIds);
     };
     if (onValue) {
@@ -198,11 +202,13 @@ const LiveStream = () => {
   }, []);
 
   useEffect(() => {
-    //  if(userIds?.length>0){
+      if(firstTimeStatus){
+        getEventRegisterReadersGraph("", userIds);
+      }else{
+        setFirstTimeStatus(true);
+      }
+  }, [userIds, insertFlag]);
 
-    getEventRegisterReadersGraph("", userIds);
-    //  }
-  }, [userIds]);
   const getQuestions = async () => {
     try {
       let body = {
@@ -223,16 +229,22 @@ const LiveStream = () => {
 
   const getEventRegisterReadersGraph = async (searchVal = "", userids = []) => {
     try {
+      console.log(insertFlag,"insertFlag");
       let body = {
         eventId: eventId,
         type: "graph",
         search: "",
         user_ids: userids,
+        flag: firstTime ? true : insertFlag
       };
       const response = await postData(
         ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,
         body
       );
+
+      if(insertFlag){
+        setInsertFlag(false);
+      }
       // console.log(response);
       let data = response?.data?.data;
       // console.log(data)
@@ -243,55 +255,38 @@ const LiveStream = () => {
       if (data?.count != undefined) {
         setLineChartOptions((prevOptions) => {
           const newOptions = { ...prevOptions };
-
           const newDataLength = data?.count ? data?.count : 0;
-          const currentCategories = prevOptions.xAxis.categories;
-          const maxDataPointsToShow = 7;
-          if (currentCategories.length >= maxDataPointsToShow) {
-            const newCategories = [
-              ...currentCategories.slice(newDataLength),
-              ...data.map((_, index) => index + 1),
-            ];
-            // console.log(newCategories);
-            newOptions.xAxis.categories = newCategories.slice(
-              -maxDataPointsToShow
-            );
-          } else {
-            const newCategories = currentCategories.map(
-              (category) => category + newDataLength
-            );
-            newOptions.xAxis.categories = newCategories;
-          }
-
+          const prevCategory = tempSlotsCategory;
+          const prevValue = tempSlotsValue;
           let seriesData = prevOptions.series[0]?.data || [];
-
-          if (seriesData.length === 0) {
-            seriesData.push({
-              y: newDataLength,
-              marker: { enabled: true, radius: 5, fillColor: "#8a4e9c" },
-            });
-          } else {
-            let lastElement = seriesData.pop();
-            // console.log(lastElement,"lastElement");
-            seriesData.push(lastElement.y);
-            seriesData.push({
-              y: newDataLength,
-              marker: { enabled: true, radius: 5, fillColor: "#8a4e9c" },
-            });
+          let obj = {
+            y: newDataLength,
+            marker: { enabled: true, radius: 5, fillColor: "#8a4e9c" },
+          };
+          prevCategory.push('');
+          let lastElement = prevValue.pop();
+          if(lastElement){
+            prevValue.push(lastElement.y);
           }
-          if (seriesData?.length >= 10) {
-            seriesData = seriesData?.slice(1, seriesData?.length);
+          prevValue.push(obj);
+          if(prevCategory.length > 5){
+            prevCategory.shift();
+            prevValue.shift();
           }
-          // console.log(seriesData?.length);
+          setTempSlotsCategory(prevCategory);
+          setTempSlotsValue(prevValue);
+          const newCategory  = [...fixSlotsCategory, ...prevCategory];
+          const newValues    = [...fixSlotsValue, ...prevValue];
+          newOptions.xAxis.categories = newCategory;
+          seriesData=newValues;
           newOptions.series = [{ ...prevOptions.series[0], data: seriesData }];
-
           newOptions.plotOptions.series.tooltip = {
             headerFormat:
               '<span style="font-size: 10px">Online users</span><br/>',
             pointFormat: "<b>{point.y} </b>",
           };
 
-          // console.log(newOptions);
+          // console.log(newOptions,"newOptions");
           return newOptions;
         });
       }
@@ -829,6 +824,57 @@ const LiveStream = () => {
       setApiCallStatus(false);
     }
   };
+
+  useEffect(() => {
+    // Initial API call
+    getOnlineReadersGraph();
+    // Set up interval to call API every 5 minutes (300,000 milliseconds)
+    const intervalId = setInterval(() => {
+      getOnlineReadersGraph();
+    }, 300000);
+    // 300000
+    // Clear the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+  }, []);
+ 
+const getOnlineReadersGraph=async()=>{
+  console.log("Function call for interval");
+  try{
+    let body = {
+      eventId: eventId,
+    };
+    const response = await postData(ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES_GRAPH_DATA,body);
+    let data = response?.data?.data;
+    if (data?.slotCount != undefined) {
+      setLineChartOptions((prevOptions) => {
+        setFixSlotsCategory(data?.timeSlots);
+        setFixSlotsValue(data?.slotCount);
+        setTempSlotsCategory([]);
+        setTempSlotsValue([]);
+        const newOptions = { ...prevOptions };
+        newOptions.xAxis.categories=data?.timeSlots
+        let seriesData=data?.slotCount
+        newOptions.series = [{ ...prevOptions.series[0], data: seriesData }];
+        return newOptions
+      })
+    }
+    setAttendeesApiCallStatus(false);
+    setRefreshAttendeesFlag("");
+  }catch(err){
+    console.log("--err",err)
+    setAttendeesApiCallStatus(false);
+    setRefreshAttendeesFlag("");
+  }
+}
+
+useEffect(() => {
+  const updateFlag = () => {
+    setInsertFlag(true);
+  };
+  const intervalId = setInterval(updateFlag, 60000);
+  return () => clearInterval(intervalId);
+}, []);
+
   return (
     <>
       <Col className="right-sidebar custom-change live-stream">
