@@ -817,7 +817,7 @@ const Routing = () => {
         />
 
          <Route
-          path="/survey/survey-question-data"
+          path="/webinar/live-stream/survey/question-data"
           element={<LoginLayout component={SurveyQuestionFormData} />}
         />
       </Routes>
