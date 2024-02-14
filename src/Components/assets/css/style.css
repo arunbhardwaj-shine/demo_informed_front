@@ -693,7 +693,12 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 .active-subLink .sidebar-menu ul li.active.sub-links>a svg path {
   fill: #dbe8f5;
 }
-
+.active-subLink .sidebar-menu ul li.side_li>a svg path {
+ fill-opacity: 0.3;
+}
+.active-subLink .sidebar-menu ul li .sidebar-menu-secondary li.side_li>a svg path {
+  fill-opacity: 0.6;
+}
 .active-subLink .sidebar-menu ul li.active.sub-links {
   margin-right: 0;
 }

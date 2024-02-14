@@ -1228,9 +1228,9 @@ const getEventTime=(timeZone)=> {
                                   }}
                                 >
                                   <img
-                                    title="Polls"
-                                    src={path_image + "polling-icon.svg"}
-                                    alt="Polls"
+                                    title="Survey"
+                                    src={path_image + "survay-icon.svg"}
+                                    alt="Survey"
                                   />
                                 </button>
                                 <button
