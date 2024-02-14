@@ -234,6 +234,7 @@ const Sidebar = () => {
   const isActiveSpeaker = location.pathname === '/webinar/live-stream/speaker-zone'
   const isActiveSettings = location.pathname === '/webinar/live-stream/settings'
   const isActiveChatPage = location.pathname === '/webinar/live-stream/chat-link'
+  const isActiveSurveyPage = location.pathname === '/survey/survey-question-data'
 
   return (
     <>
@@ -243,8 +244,8 @@ const Sidebar = () => {
             window.location.pathname == "/webinar/registration" ||
             window.location.pathname == "/webinar/email" ||
             window.location.pathname == "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/webinar/live-stream/chat-link" || 
-            window.location.pathname == "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/settings"
+            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/survey/survey-question-data"  || window.location.pathname == "/webinar/live-stream/chat-link" || 
+            window.location.pathname == "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/settings" 
             || window.location.pathname === "/webinar/live-stream/speaker-zone" ? (
             <>
 
@@ -271,7 +272,7 @@ const Sidebar = () => {
             window.location.pathname === "/webinar/registration" ||
             window.location.pathname === "/webinar/email" ||
             window.location.pathname === "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/webinar/live-stream/chat-link" ||
+            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/survey/survey-question-data"  ||  window.location.pathname == "/webinar/live-stream/chat-link" ||
             window.location.pathname === "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/contact-dm" || window.location.pathname === "/webinar/live-stream/settings" 
             || window.location.pathname === "/webinar/live-stream/speaker-zone") && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
@@ -1100,7 +1101,7 @@ const Sidebar = () => {
               window.location.pathname == "/webinar/registration" ||
               window.location.pathname == "/webinar/email" ||
               window.location.pathname == "/webinar/live-stream" || 
-               window.location.pathname == "/webinar/live-stream/polls-layout" ||    window.location.pathname == "/webinar/live-stream/chat-link" ||  
+               window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/survey/survey-question-data" ||   window.location.pathname == "/webinar/live-stream/chat-link" ||  
                window.location.pathname == "/webinar/live-stream/contact-dm" || 
                 window.location.pathname === "/webinar/live-stream/settings" ||
                  window.location.pathname === "/webinar/live-stream/speaker-zone" ||
@@ -1156,7 +1157,7 @@ const Sidebar = () => {
 
                 <li
                   className={
-                    location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/webinar/live-stream/contact-dm" || location.pathname == "/webinar/live-stream/chat-link"
+                    location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/survey/survey-question-data" || window.location.pathname == "/webinar/live-stream/contact-dm" || location.pathname == "/webinar/live-stream/chat-link"
                     || window.location.pathname === "/webinar/live-stream/settings" || window.location.pathname === "/webinar/live-stream/speaker-zone"
                       ? "active sub-links"
                       : "side_li sub-links"
@@ -1232,7 +1233,28 @@ const Sidebar = () => {
                             <p>Speaker Zone</p>
                           </Link>
                         </li>
-                        {/* <li className={isActiveChatPage ? 'active' : 'side_li'}
+                       
+                        <li className={isActivePolls ? 'active' : 'side_li'}
+                        // className="side_li"
+                        >
+                          <Link to="/webinar/live-stream/polls-layout">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <g clip-path="url(#clip0_3761_88)">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499864 0L1 3.9837e-06H1.50015C1.7763 3.9837e-06 2 0.223861 2 0.500003V0.999988H16.3937C16.7272 0.999988 17 1.24225 17 1.53835V4.46163C17 4.76311 16.7272 4.99999 16.3937 4.99999H2V9.99999H14.3207C14.7011 9.99999 15 10.2369 15 10.5383V13.4616C15 13.7577 14.7011 14 14.3207 14H2V19H11.273C11.6728 19 12 19.2419 12 19.5376V22.4624C12 22.7581 11.6728 23 11.273 23H2V23.5C2 23.7761 1.7763 24 1.50015 24H1H0.499847C0.223704 24 0 23.7761 0 23.5V0.500006C0 0.223857 0.223715 -4.27361e-06 0.499864 0Z" fill="#0066BE" fill-opacity="0.6"/>
+                                <path d="M21.3807 2.79292C22.152 2.79292 22.7772 2.16763 22.7772 1.3964C22.7772 0.625179 22.1519 0 21.3807 0C20.6095 0 19.9839 0.625297 19.9839 1.39652C19.9839 2.16775 20.6095 2.79292 21.3807 2.79292ZM21.9731 2.88811H20.7881C19.8021 2.88811 19 3.69035 19 4.6763L19.01 5.55402L19.0137 5.57672L19.1135 5.60797C20.0544 5.90196 20.8719 6 21.5447 6C22.8589 6 23.6206 5.62532 23.6675 5.60144L23.7608 5.55426H23.7708L23.7608 4.6763C23.7611 3.69035 22.959 2.88811 21.9731 2.88811Z" fill="#0066BE" fill-opacity="0.6"/>
+                                <path d="M21.3807 11.7929C22.152 11.7929 22.7772 11.1676 22.7772 10.3964C22.7772 9.62518 22.1519 9 21.3807 9C20.6095 9 19.9839 9.6253 19.9839 10.3965C19.9839 11.1677 20.6095 11.7929 21.3807 11.7929ZM21.9731 11.8881H20.7881C19.8021 11.8881 19 12.6903 19 13.6763L19.01 14.554L19.0137 14.5767L19.1135 14.608C20.0544 14.902 20.8719 15 21.5447 15C22.8589 15 23.6206 14.6253 23.6675 14.6014L23.7608 14.5543H23.7708L23.7608 13.6763C23.7611 12.6903 22.959 11.8881 21.9731 11.8881Z" fill="#0066BE" fill-opacity="0.6"/>
+                                <path d="M21.3807 19.7929C22.152 19.7929 22.7772 19.1676 22.7772 18.3964C22.7772 17.6252 22.1519 17 21.3807 17C20.6095 17 19.9839 17.6253 19.9839 18.3965C19.9839 19.1677 20.6095 19.7929 21.3807 19.7929ZM21.9731 19.8881H20.7881C19.8021 19.8881 19 20.6903 19 21.6763L19.01 22.554L19.0137 22.5767L19.1135 22.608C20.0544 22.902 20.8719 23 21.5447 23C22.8589 23 23.6206 22.6253 23.6675 22.6014L23.7608 22.5543H23.7708L23.7608 21.6763C23.7611 20.6903 22.959 19.8881 21.9731 19.8881Z" fill="#0066BE" fill-opacity="0.6"/>
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3761_88">
+                                  <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                              </defs>
+                            </svg>
+                            <p>Polls</p>
+                          </Link>
+                        </li>
+                        <li className={isActiveChatPage ? 'active' : 'side_li'}
                         // className="side_li"
                         >
                           <Link to="/webinar/live-stream/chat-link">
@@ -1263,11 +1285,11 @@ const Sidebar = () => {
                               </svg>
                             <p>Chat Link</p>
                           </Link>
-                        </li> */}
-                        <li className={isActivePolls ? 'active' : 'side_li'}
+                        </li>
+                        <li className={isActiveSurveyPage ? 'active' : 'side_li'}
                         // className="side_li"
                         >
-                          <Link to="/webinar/live-stream/polls-layout">
+                          <Link to="/survey/survey-question-data">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                               <g clip-path="url(#clip0_3761_88)">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499864 0L1 3.9837e-06H1.50015C1.7763 3.9837e-06 2 0.223861 2 0.500003V0.999988H16.3937C16.7272 0.999988 17 1.24225 17 1.53835V4.46163C17 4.76311 16.7272 4.99999 16.3937 4.99999H2V9.99999H14.3207C14.7011 9.99999 15 10.2369 15 10.5383V13.4616C15 13.7577 14.7011 14 14.3207 14H2V19H11.273C11.6728 19 12 19.2419 12 19.5376V22.4624C12 22.7581 11.6728 23 11.273 23H2V23.5C2 23.7761 1.7763 24 1.50015 24H1H0.499847C0.223704 24 0 23.7761 0 23.5V0.500006C0 0.223857 0.223715 -4.27361e-06 0.499864 0Z" fill="#0066BE" fill-opacity="0.6"/>
@@ -1281,7 +1303,7 @@ const Sidebar = () => {
                                 </clipPath>
                               </defs>
                             </svg>
-                            <p>Polls</p>
+                            <p>Survey</p>
                           </Link>
                         </li>
                         {/* <li className={isActiveContact ? 'active' : 'side_li'}
@@ -1360,7 +1382,7 @@ const Sidebar = () => {
                 window.location.pathname == "/webinar/registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
-                window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/webinar/live-stream/chat-link" ||
+                window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/survey/survey-question-data" || window.location.pathname == "/webinar/live-stream/chat-link" ||
                 window.location.pathname == "/webinar/analytics" ?
               (
                 <ul>
@@ -1557,7 +1579,7 @@ const Sidebar = () => {
                 window.location.pathname == "/webinar/registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
-                window.location.pathname == "/webinar/live-stream/polls-layout" ||   window.location.pathname == "/webinar/live-stream/chat-link" ||
+                window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/survey/survey-question-data" ||   window.location.pathname == "/webinar/live-stream/chat-link" ||
                 window.location.pathname == "/webinar/analytics" ?
                 (
                   <ul>
