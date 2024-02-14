@@ -55,16 +55,6 @@ const SurveyData = () => {
                           Object.keys(item?.survey_data).length ? (
                           <div className='main'>
                             <div className='survey-data'>
-                              <h6>Location:</h6>
-                              <p>City: <span>{item?.survey_data?.location?.city}</span></p>
-                              <p>State: <span>{item?.survey_data?.location?.state}</span></p>
-                            </div>
-
-                            <div className='survey-data'>
-                              <p>Type of Provider: <span>{item?.survey_data?.provider}</span></p>
-                            </div>
-
-                            <div className='survey-data'>
                               <h6> 1. How relevant was this patient case to your clinical practice?</h6>
                               <p>{item?.survey_data?.patient_case?.patient_case_rating} star</p>
                             </div>

@@ -1,21 +1,5 @@
 export const SurveyQuestionFormValidations = (data) => {
   let error = {};
-  if (!data?.location) {
-    error.city = "Please enter city";
-    error.state = "Please enter state";
-  } else if (data?.location) {
-    if (!data?.location?.city) {
-      error.city = "Please enter city";
-    }
-    if (!data?.location?.state) {
-      error.state = "Please enter state";
-    }
-  }
-
-  if (!data?.provider) {
-    error.provider = "Please enter type of provider";
-  }
-
   if (!data?.patient_case?.patient_case_rating) {
     error.patient_case = "Please rate to your clinical practice";
   }
