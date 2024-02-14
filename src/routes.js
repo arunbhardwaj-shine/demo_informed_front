@@ -184,10 +184,10 @@ import RDListing from "./Components/R&D/RDListing";
 
 //Survey Form
 
-import Check8 from "./Components/Survey/Check8"
-import SurveyData from "./Components/Survey/SurveyData"
-import SurveyCheck8Question from "./Components/Survey/SurveyCheck8Question"
-import SurveyCheck8QuestionData from "./Components/Survey/SurveyCheck8QuestionData"
+import Check8 from "./Components/survey/Check8";
+import SurveyCheck8Question from "./Components/survey/SurveyCheck8Question"
+import SurveyData from "./Components/survey/SurveyData";
+import SurveyCheck8QuestionData from "./Components/survey/SurveyCheck8QuestionData";
 
 let platform = 0;
 let show = 0;
