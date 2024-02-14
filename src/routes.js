@@ -795,7 +795,25 @@ const Routing = () => {
           path="/autologout"
           element={<LoginLayout component={AutoLogout} />}
         />
+        <Route
+          path="/check8"
+          element={<Check8 />}
+        />
+         <Route
+          path="/survey-check8-question"
+          element={<SurveyCheck8Question />}
+        />
+        <Route
+          path="/survey-data"
+          element={<SurveyData/>}
+        />
+         <Route
+          path="/survey-question-data"
+          element={<SurveyCheck8QuestionData />}
+        />
       </Routes>
+
+      
     </Router>
   );
 };
