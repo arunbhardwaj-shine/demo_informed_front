@@ -41,6 +41,14 @@ const SurveyData = () => {
                 <h4>Survey Data</h4>
               </div>
               <div className='survey_data_details'>
+                <div className='survey_data_accordion_heading'>
+                  <ul>
+                    <li>Name</li>
+                    <li>Email</li>
+                    <li>Country</li>
+                    <li>Survey Date</li>
+                  </ul>
+                </div>
               {data?.length > 0 ?
                 data?.map((item, index) => {
                   return (<>
@@ -52,7 +60,12 @@ const SurveyData = () => {
                     >
                       <Accordion.Item eventKey="0">
                         <Accordion.Header>
-                          See Details
+                          <ul>
+                            <li>Name</li>
+                            <li>Email</li>
+                            <li>Country</li>
+                            <li>Survey Date</li>
+                          </ul>
                         </Accordion.Header>
 
                         <Accordion.Body>
