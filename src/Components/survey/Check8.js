@@ -14,6 +14,7 @@ const Check8 = () => {
   const [error, setError] = useState("");
   const location = useLocation();
   const userId=new URLSearchParams(location.search).get("user_id")
+  // var encrypted_us = queryParams.get("user_id") ?  queryParams.get("user_id") : 0;
 
   const handleChange = (e, isSelectedName, rating) => {
     if (
@@ -139,7 +140,8 @@ const Check8 = () => {
         let body={
           surveyData:data,
           formType:1,
-          user_id:userId?userId:0
+          user_id:userId?userId:0,
+          event_id:0
         }
         const response = await postData(ENDPOINT.STORE_SURVEY_DATA, body)
         if(response?.status==200){
