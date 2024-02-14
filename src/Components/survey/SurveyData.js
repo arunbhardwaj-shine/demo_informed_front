@@ -76,12 +76,12 @@ const SurveyData = () => {
                                   </div>
                                   <div className='survey-data'>
                                     <h6>1. Rate the different reasons you have used the 8CHECK service: </h6>
-                                    <p>To confirm a diagnosis: <span>{item?.survey_data?.rate_different_reasons?.to_confirm_diagnosis}</span></p>
-                                    <p>Patient inhibitor development risk: <span>{item?.survey_data?.rate_different_reasons?.patient_inhibitor_development_risk}</span></p>
-                                    <p>Guide treatment choice: <span>{item?.survey_data?.rate_different_reasons?.guide_treatment_choice}</span></p>
-                                    <p>Genotype not available at my center: <span>{item?.survey_data?.rate_different_reasons?.genotype_not_available}</span></p>
-                                    <p>No insurance reimbursement: <span>{item?.survey_data?.rate_different_reasons?.no_insurance_reimbursement}</span></p>
-                                    <p>Family/Individual request: <span>{item?.survey_data?.rate_different_reasons?.family_request}</span></p>
+                                    <p>To confirm a diagnosis: <span>{item?.survey_data?.rate_different_reasons?.to_confirm_diagnosis} star</span></p>
+                                    <p>Patient inhibitor development risk: <span>{item?.survey_data?.rate_different_reasons?.patient_inhibitor_development_risk} star</span></p>
+                                    <p>Guide treatment choice: <span>{item?.survey_data?.rate_different_reasons?.guide_treatment_choice} star</span></p>
+                                    <p>Genotype not available at my center: <span>{item?.survey_data?.rate_different_reasons?.genotype_not_available} star</span></p>
+                                    <p>No insurance reimbursement: <span>{item?.survey_data?.rate_different_reasons?.no_insurance_reimbursement} star</span></p>
+                                    <p>Family/Individual request: <span>{item?.survey_data?.rate_different_reasons?.family_request} star</span></p>
                                   </div>
 
                                   <div className='survey-data'>
@@ -100,18 +100,18 @@ const SurveyData = () => {
 
                                   <div className='survey-data'>
                                     <h6>3. How has receiving the genotype information impacted patient care? Rate the options below</h6>
-                                    <p>Improved accuracy of diagnosis: <span>{item?.survey_data?.genotype_information_impacted_rate?.improved_accuracy_diagnosis}</span></p>
-                                    <p>Guided treatment choice: <span>{item?.survey_data?.genotype_information_impacted_rate?.guided_treatment_choice}</span></p>
-                                    <p>Changed clinical management of the patient: <span>{item?.survey_data?.genotype_information_impacted_rate?.changed_clinical_management}</span></p>
-                                    <p>Impacted family planning: <span>{item?.survey_data?.genotype_information_impacted_rate?.impacted_family_planning}</span></p>
-                                    <p>Informed testing of family members: <span>{item?.survey_data?.genotype_information_impacted_rate?.informed_testing_of_family_members}</span></p>
-                                    <p>Surgical management: <span>{item?.survey_data?.genotype_information_impacted_rate?.surgical_management}</span></p>
-                                    <p>Improved patients quality of life: <span>{item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life}</span></p>
+                                    <p>Improved accuracy of diagnosis: <span>{item?.survey_data?.genotype_information_impacted_rate?.improved_accuracy_diagnosis} star</span></p>
+                                    <p>Guided treatment choice: <span>{item?.survey_data?.genotype_information_impacted_rate?.guided_treatment_choice} star</span></p>
+                                    <p>Changed clinical management of the patient: <span>{item?.survey_data?.genotype_information_impacted_rate?.changed_clinical_management} star</span></p>
+                                    <p>Impacted family planning: <span>{item?.survey_data?.genotype_information_impacted_rate?.impacted_family_planning} star</span></p>
+                                    <p>Informed testing of family members: <span>{item?.survey_data?.genotype_information_impacted_rate?.informed_testing_of_family_members} star</span></p>
+                                    <p>Surgical management: <span>{item?.survey_data?.genotype_information_impacted_rate?.surgical_management} star</span></p>
+                                    <p>Improved patients quality of life: <span>{item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life} star</span></p>
                                   </div>
 
                                   <div className='survey-data'>
                                     <h6>4. How satisfied are you with the 8CHECK service</h6>
-                                    <p>0 stars (not a reason) to 5 stars (major reason(s)): <span>{item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service}</span></p>
+                                    <p><span>{item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service} star</span></p>
                                     <p>Who have not received a FVIII infusion: <span>{item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion}</span></p>
                                   </div>
 

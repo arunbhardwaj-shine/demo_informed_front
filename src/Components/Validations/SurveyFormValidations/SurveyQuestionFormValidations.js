@@ -17,7 +17,7 @@ export const SurveyQuestionFormValidations = (data) => {
   }
 
   if (!data?.patient_case?.patient_case_rating) {
-    error.patient_case = "Please rate all the reasons";
+    error.patient_case = "Please rate to your clinical practice";
   }
 
   if (!data?.clinical_practice?.future_clinical) {
