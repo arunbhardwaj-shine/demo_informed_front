@@ -18,7 +18,6 @@ const SurveyQuestionFormData = () => {
 
   useEffect(() => {
     getSurveyData();
-    console.log(eventIdContext,'eventIdContext')
   }, []);
 
   const getSurveyData = async () => {
@@ -76,7 +75,7 @@ const SurveyQuestionFormData = () => {
                       </Accordion.Header>
                       <Accordion.Body>
                         {openAccordionIndex === index &&
-                          Object.keys(item?.survey_data).length >0 ? (
+                          Object.keys(item?.survey_data).length > 0 ? (
                           <div className='main'>
                             <div className='survey-data'>
                               <h6> 1. How relevant was this patient case to your clinical practice?</h6>

@@ -1,11 +1,40 @@
-import { useState, useRef } from "react";
+import { useState, useRef ,useEffect} from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { SurveyQuestionFormValidations } from "../Validations/SurveyFormValidations/SurveyQuestionFormValidations";
 import { ToastContainer, toast } from "react-toastify";
+import { useLocation } from 'react-router-dom';
+import { loader } from "../../loader";
+
 
 const SurveyQuestionForm = () => {
+  const [eventId,setEvent] = useState({
+    id:0,
+    companyId:0
+  })
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);   
+  var encrypted_us = queryParams.get("user_id") ?  queryParams.get("user_id") : 0;
+  
+  
+  const EventDataFun = async() =>{
+    try{
+        loader("show")
+        const result = await postData(ENDPOINT.EVENT_ID,{
+             eventCode :queryParams.get("event")
+        })
+        setEvent(result.data.data)
+        // loader("hide")
+  
+    }catch(err){
+        // loader("hide")
+        console.log("-err",err)
+    }
+  }
+  useEffect(()=>{
+    EventDataFun()
+  },[])
   const formRef = useRef(null);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [formInputs, setFormInputs] = useState({});
@@ -75,6 +104,8 @@ const SurveyQuestionForm = () => {
 
         let body = {
           surveyData: data,
+          event_id:eventId,
+          userId:encrypted_us,
           formType: 2
         }
 
