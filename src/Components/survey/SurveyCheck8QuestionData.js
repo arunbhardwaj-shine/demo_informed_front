@@ -66,22 +66,22 @@ const SurveyData = () => {
 
                             <div className='survey-data'>
                               <h6> 1. How relevant was this patient case to your clinical practice?</h6>
-                              <p><span>{item?.survey_data?.patient_case?.patient_case_rating}</span></p>
+                              <p>{item?.survey_data?.patient_case?.patient_case_rating} star</p>
                             </div>
 
                             <div className='survey-data'>
                               <h6> 2. I plan to attend future Clinical Practice patient cases:</h6>
-                              <p><span>{item?.survey_data?.clinical_practice?.future_clinical}</span></p>
+                              <p>{item?.survey_data?.clinical_practice?.future_clinical}</p>
                             </div>
 
                             <div className='survey-data'>
                               <h6> 3. Would you recommend Clinical Practice to a colleague?</h6>
-                              <p><span>{item?.survey_data?.recommend?.recommend_clinical}</span></p>
+                              <p>{item?.survey_data?.recommend?.recommend_clinical}</p>
                             </div>
 
                             <div className='survey-data'>
                               <h6> 4. Please suggest a topic for a future Clinical Practice patient case:</h6>
-                              <p><span>{item?.survey_data?.suggestion}</span></p>
+                              <p>{item?.survey_data?.suggestion}</p>
                             </div>
                           </div>
                         ) : (
