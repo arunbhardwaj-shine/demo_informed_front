@@ -4,6 +4,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper"
 import { SurveyFormValidations } from "../Validations/SurveyFormValidations/SurveyFormValidations"
 import { useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const Check8 = () => {
   const formRef = useRef(null);
@@ -83,7 +84,6 @@ const Check8 = () => {
       const error = SurveyFormValidations(formInputs)
       if (Object.keys(error)?.length) {
         setError(error)
-        console.log("error-->",error)
         return
       }
       else {
@@ -139,10 +139,13 @@ const Check8 = () => {
           user_id:userId?userId:0
         }
         const response = await postData(ENDPOINT.STORE_SURVEY_DATA, body)
-        setFormInputs({});
-        setError()
-        formRef.current.reset();
-        console.log("response-->",response)
+        if(response?.status==200){
+          setFormInputs({});
+          setError()
+          formRef.current.reset();
+          formRef.current.scrollIntoView({ behavior: 'smooth' });
+          toast.success(response?.data?.message)
+        }    
       }
 
     } catch (err) {
@@ -151,6 +154,17 @@ const Check8 = () => {
   };
   return (
     <>
+     <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="col right-sidebar full-width-survey">
         <div className="check-survey">
           <Container>
@@ -2025,7 +2039,7 @@ const Check8 = () => {
                                 id="4-informed_testing"
                                 name="informed_testing_of_family_members"
                                 onChange={(e) =>
-                                  handleChange(e, "genotype_information_impacted_rate ", "4")
+                                  handleChange(e, "genotype_information_impacted_rate", "4")
                                 }
                                 checked={formInputs?.genotype_information_impacted_rate?.informed_testing_of_family_members == "4"}
                               />
