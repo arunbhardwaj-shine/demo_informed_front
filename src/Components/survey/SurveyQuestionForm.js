@@ -89,7 +89,7 @@ const SurveyQuestionForm = () => {
 
   return (
     <>
-      <div className="col right-sidebar">
+      <div className="col right-sidebar full-width-survey">
         <div className="check-survey">
           <Container>
             <Row>

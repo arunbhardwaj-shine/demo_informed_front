@@ -3,19 +3,24 @@ import { getData } from '../../axios/apiHelper';
 import { ENDPOINT } from '../../axios/apiConfig';
 import { Accordion, Col, Row } from 'react-bootstrap';
 import { useSidebar } from "../CommonComponent/LoginLayout";
+import { useLocation } from "react-router-dom";
 
 const SurveyQuestionFormData = () => {
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const { eventIdContext, handleEventId } = useSidebar();
   const [data, setData] = useState([]);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
-  const [eventId, setEventId] = useState(
-    eventIdContext?.eventId
-      ? eventIdContext?.eventId
-      : localStorageEvent?.eventId
-  );
+  // const [eventId, setEventId] = useState(
+  //   eventIdContext?.eventId
+  //     ? eventIdContext?.eventId
+  //     : localStorageEvent?.eventId
+  // );
+  const { state } = useLocation()
+  const  [eventId,setEventId]  = useState(state?.eventId?state?.eventId:eventIdContext?.eventId?eventIdContext?.eventId:JSON.parse(localStorage.getItem("EventIdContext"))?.eventId);
+
   useEffect(() => {
     getSurveyData();
+    console.log(eventIdContext,'eventIdContext')
   }, []);
 
   const getSurveyData = async () => {
@@ -37,7 +42,7 @@ const SurveyQuestionFormData = () => {
   };
 
   return (
-    <Col className="right-sidebar custom-change full-width-survey">
+    <Col className="right-sidebar custom-change">
       <div className="custom-container">
         <Row>
           <Col>
