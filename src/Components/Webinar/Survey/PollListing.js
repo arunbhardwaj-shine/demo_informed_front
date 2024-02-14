@@ -245,9 +245,10 @@ export default function PollListing({ eventIdContext }) {
               questionData: {
                 question: "",
                 questionColor: "#000000",
-                answerColor: "#000000",
+                answerColor: "#64B8B0",
                 speakerName: "",
-                answerOption: [{ answer: "", color: "#000000" }],
+                // answerOption: [{ answer: "", color: "#000000" }],
+                answerOption: [{ answer: "", color: colors[0] }],
                 answerType: "MULTIPLE",
                 addComment: 0,
                 graphType: "bar",
