@@ -269,7 +269,7 @@ const LiveStream = () => {
             prevValue.push(lastElement.y);
           }
           prevValue.push(obj);
-          if(prevCategory.length > 5){
+          if(prevCategory.length > 2){
             prevCategory.shift();
             prevValue.shift();
           }
