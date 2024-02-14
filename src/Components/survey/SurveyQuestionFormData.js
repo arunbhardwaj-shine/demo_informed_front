@@ -18,7 +18,6 @@ const SurveyQuestionFormData = () => {
 
   useEffect(() => {
     getSurveyData();
-    console.log(eventIdContext,'eventIdContext')
   }, []);
 
   const getSurveyData = async () => {
@@ -49,6 +48,14 @@ const SurveyQuestionFormData = () => {
                 <h4>Survey Data</h4>
               </div>
               <div className='survey_data_details'>
+                <div className='survey_data_accordion_heading'>
+                  <ul>
+                    <li>Name</li>
+                    <li>Email</li>
+                    <li>Country</li>
+                    <li>Survey Date</li>
+                  </ul>
+                </div>
               {data?.length > 0 ?
                 data?.map((item, index) => (
                   <Accordion
@@ -59,11 +66,16 @@ const SurveyQuestionFormData = () => {
                   >
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>
-                        See Details
+                        <ul>
+                          <li>Name</li>
+                          <li>Email</li>
+                          <li>Country</li>
+                          <li>Survey Date</li>
+                        </ul>
                       </Accordion.Header>
                       <Accordion.Body>
                         {openAccordionIndex === index &&
-                          Object.keys(item?.survey_data).length >0 ? (
+                          Object.keys(item?.survey_data).length > 0 ? (
                           <div className='main'>
                             <div className='survey-data'>
                               <h6> 1. How relevant was this patient case to your clinical practice?</h6>
