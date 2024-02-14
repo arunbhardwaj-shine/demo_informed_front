@@ -5,6 +5,7 @@ import { postData } from "../../axios/apiHelper"
 import { SurveyFormValidations } from "../Validations/SurveyFormValidations/SurveyFormValidations"
 import { useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { loader } from "../../loader";
 
 const Check8 = () => {
   const formRef = useRef(null);
@@ -81,7 +82,9 @@ const Check8 = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      loader("show")
       const error = SurveyFormValidations(formInputs)
+      
       if (Object.keys(error)?.length) {
         setError(error)
         return
@@ -150,6 +153,8 @@ const Check8 = () => {
 
     } catch (err) {
       console.log("--err", err)
+    }finally{
+      loader("hide")
     }
   };
   return (
