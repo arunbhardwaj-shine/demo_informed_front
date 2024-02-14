@@ -255,7 +255,9 @@ const NewEventCreate = () => {
   };
   const surveyQuestionFormDetail = (e,item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
-    navigate("/survey/survey-question-data");
+    navigate("/webinar/live-stream/survey/question-data" , {
+      state: { event_id: item?.id, companyId: item?.user_id },
+    });
   }
   const webinarPollingForm = (e, item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})

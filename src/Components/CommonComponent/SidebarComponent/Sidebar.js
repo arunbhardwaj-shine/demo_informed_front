@@ -234,7 +234,7 @@ const Sidebar = () => {
   const isActiveSpeaker = location.pathname === '/webinar/live-stream/speaker-zone'
   const isActiveSettings = location.pathname === '/webinar/live-stream/settings'
   const isActiveChatPage = location.pathname === '/webinar/live-stream/chat-link'
-  const isActiveSurveyPage = location.pathname === '/survey/survey-question-data'
+  const isActiveSurveyPage = location.pathname === '/webinar/live-stream/survey/question-data'
 
   return (
     <>
@@ -244,7 +244,7 @@ const Sidebar = () => {
             window.location.pathname == "/webinar/registration" ||
             window.location.pathname == "/webinar/email" ||
             window.location.pathname == "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/survey/survey-question-data"  || window.location.pathname == "/webinar/live-stream/chat-link" || 
+            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/webinar/live-stream/survey/question-data"  || window.location.pathname == "/webinar/live-stream/chat-link" || 
             window.location.pathname == "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/settings" 
             || window.location.pathname === "/webinar/live-stream/speaker-zone" ? (
             <>
@@ -272,7 +272,7 @@ const Sidebar = () => {
             window.location.pathname === "/webinar/registration" ||
             window.location.pathname === "/webinar/email" ||
             window.location.pathname === "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/survey/survey-question-data"  ||  window.location.pathname == "/webinar/live-stream/chat-link" ||
+            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/webinar/live-stream/survey/question-data"  ||  window.location.pathname == "/webinar/live-stream/chat-link" ||
             window.location.pathname === "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/contact-dm" || window.location.pathname === "/webinar/live-stream/settings" 
             || window.location.pathname === "/webinar/live-stream/speaker-zone") && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
@@ -1101,7 +1101,7 @@ const Sidebar = () => {
               window.location.pathname == "/webinar/registration" ||
               window.location.pathname == "/webinar/email" ||
               window.location.pathname == "/webinar/live-stream" || 
-               window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/survey/survey-question-data" ||   window.location.pathname == "/webinar/live-stream/chat-link" ||  
+               window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/webinar/live-stream/survey/question-data" ||   window.location.pathname == "/webinar/live-stream/chat-link" ||  
                window.location.pathname == "/webinar/live-stream/contact-dm" || 
                 window.location.pathname === "/webinar/live-stream/settings" ||
                  window.location.pathname === "/webinar/live-stream/speaker-zone" ||
@@ -1157,7 +1157,7 @@ const Sidebar = () => {
 
                 <li
                   className={
-                    location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/survey/survey-question-data" || window.location.pathname == "/webinar/live-stream/contact-dm" || location.pathname == "/webinar/live-stream/chat-link"
+                    location.pathname == "/webinar/live-stream" || location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/webinar/live-stream/survey/question-data" || window.location.pathname == "/webinar/live-stream/contact-dm" || location.pathname == "/webinar/live-stream/chat-link"
                     || window.location.pathname === "/webinar/live-stream/settings" || window.location.pathname === "/webinar/live-stream/speaker-zone"
                       ? "active sub-links"
                       : "side_li sub-links"
@@ -1289,7 +1289,7 @@ const Sidebar = () => {
                         <li className={isActiveSurveyPage ? 'active' : 'side_li'}
                         // className="side_li"
                         >
-                          <Link to="/survey/survey-question-data">
+                          <Link to="/webinar/live-stream/survey/question-data">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                               <g clip-path="url(#clip0_3761_88)">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499864 0L1 3.9837e-06H1.50015C1.7763 3.9837e-06 2 0.223861 2 0.500003V0.999988H16.3937C16.7272 0.999988 17 1.24225 17 1.53835V4.46163C17 4.76311 16.7272 4.99999 16.3937 4.99999H2V9.99999H14.3207C14.7011 9.99999 15 10.2369 15 10.5383V13.4616C15 13.7577 14.7011 14 14.3207 14H2V19H11.273C11.6728 19 12 19.2419 12 19.5376V22.4624C12 22.7581 11.6728 23 11.273 23H2V23.5C2 23.7761 1.7763 24 1.50015 24H1H0.499847C0.223704 24 0 23.7761 0 23.5V0.500006C0 0.223857 0.223715 -4.27361e-06 0.499864 0Z" fill="#0066BE" fill-opacity="0.6"/>
@@ -1382,7 +1382,7 @@ const Sidebar = () => {
                 window.location.pathname == "/webinar/registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
-                window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/survey/survey-question-data" || window.location.pathname == "/webinar/live-stream/chat-link" ||
+                window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/survey/question-data" || window.location.pathname == "/webinar/live-stream/chat-link" ||
                 window.location.pathname == "/webinar/analytics" ?
               (
                 <ul>
@@ -1579,7 +1579,7 @@ const Sidebar = () => {
                 window.location.pathname == "/webinar/registration" ||
                 window.location.pathname == "/webinar/email" ||
                 window.location.pathname == "/webinar/live-stream" ||
-                window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/survey/survey-question-data" ||   window.location.pathname == "/webinar/live-stream/chat-link" ||
+                window.location.pathname == "/webinar/live-stream/polls-layout" ||  window.location.pathname == "/survey/question-data" ||   window.location.pathname == "/webinar/live-stream/chat-link" ||
                 window.location.pathname == "/webinar/analytics" ?
                 (
                   <ul>
