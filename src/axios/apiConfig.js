@@ -173,4 +173,5 @@ export const ENDPOINT = {
   GETCOMMENTSBYQUESTIONID:"webinar/get-comments-by-question-id",
   WEBINAR_RESET_QUESTION_ANSWER:"webinar/reset-question-answer",
   LINKSANALYTICS: "/analytics/pdf-link-analytics",
+  WEBINAR_GET_EVENT_ATTENDEES_GRAPH_DATA: "/webinar/get-online-readers",
 };
