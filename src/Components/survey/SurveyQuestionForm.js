@@ -3,6 +3,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { SurveyQuestionFormValidations } from "../Validations/SurveyFormValidations/SurveyQuestionFormValidations";
+import { ToastContainer, toast } from "react-toastify";
 
 const SurveyQuestionForm = () => {
   const formRef = useRef(null);
@@ -78,9 +79,13 @@ const SurveyQuestionForm = () => {
         }
 
         const response = await postData(ENDPOINT.STORE_SURVEY_DATA, body);
-        setFormInputs({});
-        setError();
-        formRef.current.reset();
+        if(response?.status==200){
+          setFormInputs({});
+          setError()
+          formRef.current.reset();
+          formRef.current.scrollIntoView({ behavior: 'smooth' });
+          toast.success(response?.data?.message)
+        }  
       }
     } catch (err) {
       console.log("--err", err);
@@ -89,6 +94,17 @@ const SurveyQuestionForm = () => {
 
   return (
     <>
+     <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="col right-sidebar full-width-survey">
         <div className="check-survey">
           <Container>
