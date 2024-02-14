@@ -119,9 +119,11 @@ body {
 .eahad_2024 .question-block-form input.btn.btn-success:hover {
   background: linear-gradient(135deg, #ff4f69 0%, #ff8848 100%);
 }
+
 .octa_events.eahad_2024 {
   padding: 20px 0;
 }
+
 .question-block .header-logo {
   text-align: center;
   margin-bottom: 30px;
@@ -372,11 +374,11 @@ p#totalCountText {
 
 @media only screen and (max-width: 1365px) {
   .question-block .head-sec {
-    min-height: 103px;
+    min-height: 90px;
   }
 
   .question-block .head-sec h2.top-title {
-    font-size: 26px;
+    font-size: 23px;
   }
 
   .eahad_2024 .question-block .head-sec {
@@ -406,6 +408,18 @@ p#totalCountText {
 
   .eahad_2024 .question-block .header-logo img {
     max-width: 240px;
+  }
+
+  .question-block-form {
+    padding: 20px 30px 10px;
+  }
+
+  .question-block .header-logo {
+    margin-bottom: 15px;
+  }
+
+  .question-block .header-logo img {
+    max-width: 250px;
   }
 }
 

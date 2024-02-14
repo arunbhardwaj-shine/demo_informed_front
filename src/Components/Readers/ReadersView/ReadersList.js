@@ -1689,6 +1689,10 @@ const NewReaders = () => {
   return (
     <>
       <Col className="right-sidebar custom-change">
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
         <div className="custom-container">
           <Row>
             <div className="top-sticky">

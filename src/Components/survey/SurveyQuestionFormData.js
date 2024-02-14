@@ -2,8 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { getData } from '../../axios/apiHelper';
 import { ENDPOINT } from '../../axios/apiConfig';
 import { Accordion, Col, Row } from 'react-bootstrap';
+import { useSidebar } from "../CommonComponent/LoginLayout";
 
-const SurveyData = () => {
+const SurveyQuestionFormData = () => {
+  const { eventIdContext, handleEventId } = useSidebar();
+
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+
+  const [eventData, setEventData] = useState(
+    eventIdContext ? eventIdContext : localStorageEvent
+  );
+  
   const [data, setData] = useState([]);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
 
@@ -13,6 +22,7 @@ const SurveyData = () => {
 
   const getSurveyData = async () => {
     try {
+      // const response = await getData( `${ENDPOINT.GET_SURVEY_DATA + "?type=2"}/${eventId}`)
       const response = await getData(ENDPOINT.GET_SURVEY_DATA + "?type=2");
       let parsedData = response?.data?.data.map(item => ({
         ...item,
@@ -29,7 +39,7 @@ const SurveyData = () => {
   };
 
   return (
-    <Col className="right-sidebar custom-change full-width-survey">
+    <Col className="right-sidebar custom-change">
       <div className="custom-container">
         <Row>
           <Col>
@@ -38,6 +48,14 @@ const SurveyData = () => {
                 <h4>Survey Data</h4>
               </div>
               <div className='survey_data_details'>
+                <div className='survey_data_accordion_heading'>
+                  <ul>
+                    <li>Name</li>
+                    <li>Email</li>
+                    <li>Country</li>
+                    <li>Survey Date</li>
+                  </ul>
+                </div>
               {data?.length > 0 ?
                 data?.map((item, index) => (
                   <Accordion
@@ -48,40 +66,35 @@ const SurveyData = () => {
                   >
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>
-                        See Details
+                        <ul>
+                          <li>Name</li>
+                          <li>Email</li>
+                          <li>Country</li>
+                          <li>Survey Date</li>
+                        </ul>
                       </Accordion.Header>
                       <Accordion.Body>
                         {openAccordionIndex === index &&
-                          Object.keys(item?.survey_data).length ? (
+                          Object.keys(item?.survey_data).length > 0 ? (
                           <div className='main'>
                             <div className='survey-data'>
-                              <h6>Location:</h6>
-                              <p>City: <span>{item?.survey_data?.location?.city}</span></p>
-                              <p>State: <span>{item?.survey_data?.location?.state}</span></p>
-                            </div>
-
-                            <div className='survey-data'>
-                              <p>Type of Provider: <span>{item?.survey_data?.provider}</span></p>
-                            </div>
-
-                            <div className='survey-data'>
                               <h6> 1. How relevant was this patient case to your clinical practice?</h6>
-                              <p><span>{item?.survey_data?.patient_case?.patient_case_rating}</span></p>
+                              <p>{item?.survey_data?.patient_case?.patient_case_rating} star</p>
                             </div>
 
                             <div className='survey-data'>
                               <h6> 2. I plan to attend future Clinical Practice patient cases:</h6>
-                              <p><span>{item?.survey_data?.clinical_practice?.future_clinical}</span></p>
+                              <p>{item?.survey_data?.clinical_practice?.future_clinical}</p>
                             </div>
 
                             <div className='survey-data'>
                               <h6> 3. Would you recommend Clinical Practice to a colleague?</h6>
-                              <p><span>{item?.survey_data?.recommend?.recommend_clinical}</span></p>
+                              <p>{item?.survey_data?.recommend?.recommend_clinical}</p>
                             </div>
 
                             <div className='survey-data'>
                               <h6> 4. Please suggest a topic for a future Clinical Practice patient case:</h6>
-                              <p><span>{item?.survey_data?.suggestion}</span></p>
+                              <p>{item?.survey_data?.suggestion}</p>
                             </div>
                           </div>
                         ) : (
@@ -103,4 +116,4 @@ const SurveyData = () => {
   );
 };
 
-export default SurveyData;
+export default SurveyQuestionFormData;
