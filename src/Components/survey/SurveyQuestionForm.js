@@ -4,7 +4,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { SurveyQuestionFormValidations } from "../Validations/SurveyFormValidations/SurveyQuestionFormValidations";
 
-const SurveyCheck8Question = () => {
+const SurveyQuestionForm = () => {
   const formRef = useRef(null);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [formInputs, setFormInputs] = useState({});
@@ -89,7 +89,7 @@ const SurveyCheck8Question = () => {
 
   return (
     <>
-      <div className="col right-sidebar full-width-survey">
+      <div className="col right-sidebar">
         <div className="check-survey">
           <Container>
             <Row>
@@ -373,4 +373,4 @@ const SurveyCheck8Question = () => {
   );
 };
 
-export default SurveyCheck8Question;
+export default SurveyQuestionForm;
