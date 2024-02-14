@@ -182,6 +182,13 @@ import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/L
 import ChatLinkPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/ChatLinkPage/ChatLinkPage";
 import RDListing from "./Components/R&D/RDListing";
 
+//Survey Form
+
+import Check8 from "./Components/Survey/Check8"
+import SurveyData from "./Components/Survey/SurveyData"
+import SurveyCheck8Question from "./Components/Survey/SurveyCheck8Question"
+import SurveyCheck8QuestionData from "./Components/Survey/SurveyCheck8QuestionData"
+
 let platform = 0;
 let show = 0;
 
