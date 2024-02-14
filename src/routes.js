@@ -803,19 +803,19 @@ const Routing = () => {
           element={<LoginLayout component={AutoLogout} />}
         />
         <Route
-          path="/check8"
+          path="/survey/check8"
           element={<Check8 />}
         />
          <Route
-          path="/survey-check8-question"
+          path="/survey/survey-check8-question"
           element={<SurveyCheck8Question />}
         />
         <Route
-          path="/survey-data"
+          path="/survey/survey-data"
           element={<SurveyData/>}
         />
          <Route
-          path="/survey-question-data"
+          path="/survey/survey-question-data"
           element={<SurveyCheck8QuestionData />}
         />
       </Routes>
