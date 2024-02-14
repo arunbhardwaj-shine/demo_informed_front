@@ -180,6 +180,7 @@ import Settings from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Live
 import LivePolls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LivePolls";
 import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/PollsLayout";
 import ChatLinkPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/ChatLinkPage/ChatLinkPage";
+import RDListing from "./Components/R&D/RDListing";
 
 let platform = 0;
 let show = 0;
@@ -263,6 +264,10 @@ const Routing = () => {
         <Route
           path="/LEX-210-analytics"
           element={<LoginLayout component={RDAnalytics} />}
+        />
+        <Route
+          path="/user-listing"
+          element={<LoginLayout component={RDListing} />}
         />
         <Route
           path="/feedback"
