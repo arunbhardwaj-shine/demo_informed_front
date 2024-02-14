@@ -12,7 +12,7 @@ const HeaderOuter = () => {
             />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <meta name="theme-color" content="#000000" />
-            <link rel="icon" href="componentAssets/images/favico.png" />
+            <link rel="icon" href="https://informed.pro/componentAssets/images/favico.png" />
             <meta name="description" content="inforMed.pro" />
             <link
             rel="stylesheet"

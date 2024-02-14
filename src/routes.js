@@ -182,6 +182,13 @@ import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/L
 import ChatLinkPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/ChatLinkPage/ChatLinkPage";
 import RDListing from "./Components/R&D/RDListing";
 
+//Survey Form
+
+import Check8 from "./Components/survey/Check8";
+import SurveyCheck8Question from "./Components/survey/SurveyCheck8Question"
+import SurveyData from "./Components/survey/SurveyData";
+import SurveyCheck8QuestionData from "./Components/survey/SurveyCheck8QuestionData";
+
 let platform = 0;
 let show = 0;
 
@@ -795,7 +802,25 @@ const Routing = () => {
           path="/autologout"
           element={<LoginLayout component={AutoLogout} />}
         />
+        <Route
+          path="/check8"
+          element={<Check8 />}
+        />
+         <Route
+          path="/survey-check8-question"
+          element={<SurveyCheck8Question />}
+        />
+        <Route
+          path="/survey-data"
+          element={<SurveyData/>}
+        />
+         <Route
+          path="/survey-question-data"
+          element={<SurveyCheck8QuestionData />}
+        />
       </Routes>
+
+      
     </Router>
   );
 };
