@@ -1,10 +1,10 @@
-@use "sass:math";
 @import "./mixins";
 @import "./variables";
 @import "./webinar.css";
 @import "./webinar-responsive.css";
 @import url("https://fonts.googleapis.com/css?family=Muli");
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
+
 
 .library-content-box-layuot {
   margin-top: 20px;
@@ -99,7 +99,7 @@
     width: 100%;
     flex: 0 0 30%;
     position: relative;
-    @include flex-center;
+    @include flex-space-between;
     flex-direction: column;
     align-items: initial;
 
@@ -139,8 +139,7 @@
       }
 
       .select-tags {
-        display: flex;
-        flex-wrap: wrap;
+        @include flex-wrap;
 
         div {
           background: $light-blue;
@@ -249,9 +248,8 @@
       margin: 1px -16px 0;
       padding: 18px 16px 16px;
       min-height: 260px;
-      display: flex;
+      @include flex-justify-between;
       height: calc(100% - 16px);
-      justify-content: space-between;
 
       .tab-pane {
         width: 100%;
@@ -479,8 +477,7 @@
 
         ul.tab-mail-list {
           li {
-            display: flex;
-            align-items: center;
+            @include flex-align-center;
             margin: 0 0 3px;
           }
         }
@@ -514,7 +511,7 @@
             }
           }
 
-          @include flex-center;
+          @include flex-space-between;
 
           .footer-btn {
             text-transform: none;
@@ -665,8 +662,7 @@
     }
 
     .add_product {
-      display: flex;
-      align-items: center;
+      @include flex-align-center;
     }
 
     .react-datepicker__input-container {
@@ -817,9 +813,7 @@
   .library_create-box {
     @include library_create-box;
     min-height: 190px;
-    justify-content: center;
-    display: flex;
-    align-items: center;
+    @include flex-middle;
 
     &:hover {
       box-shadow: 0px 0px 16px -3px $primary-color;
@@ -846,9 +840,7 @@
       z-index: 1;
       box-shadow: 3px 3px 16px rgba(0, 102, 190, 0.18);
       border-radius: 15px 5px 5px 5px;
-      align-items: center;
-      display: flex;
-      justify-content: center;
+      @include flex-middle;
 
       img {
         width: auto;
@@ -975,8 +967,7 @@
 
 .selected-products-list.product_show .products_top_action {
   flex: 0 0 100%;
-  justify-content: flex-end;
-  display: flex;
+  @include flex-end;
   margin-top: -25px;
 }
 
@@ -1155,8 +1146,7 @@ input:-webkit-autofill {
 }
 
 .viewer-toolbar {
-  align-items: center;
-  justify-content: center;
+  @include flex-middle;
 }
 
 .viewer-layout-container .viewer-layout-toolbar .viewer-toolbar-left .viewer-toolbar-item:nth-child(4) {
@@ -1524,9 +1514,7 @@ ul.tab-mail-list.data span.total-left small {
     padding: 18px 32px 24px;
 
     .form-group {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include flex-middle;
       margin-bottom: 20px;
 
       .form-control {
@@ -1687,13 +1675,13 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .login-confirm #download-qr .modal-body .form-group input:-webkit-autofill {
-  -webkit-text-fill-color: #004a89 !important;
+  -webkit-text-fill-color: $dark-blue !important;
 }
 
 .login-confirm #download-qr .modal-body .form-group .form-control {
   max-width: 367px;
   padding: 8px 52px;
-  color: #004a89 !important;
+  color: $dark-blue !important;
 
   &:focus {
     box-shadow: 0px 0px 7px 0px rgba(0, 102, 190, 0.4);
@@ -1709,7 +1697,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .login-confirm #download-qr .modal-body .form-group.error .form-control {
-  box-shadow: 0px 0px 4px 0px #d61975;
+  box-shadow: 0px 0px 4px 0px $pink;
 }
 
 .login-confirm .modal-title.h4 {
@@ -1881,8 +1869,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .doc-content-main-box ul.tab-mail-list li {
-  display: flex;
-  align-items: flex-start;
+  @include flex-align-start;
   margin: 0 0 10px;
 }
 
@@ -2053,7 +2040,7 @@ ul.tab-mail-list.tag a {
 
 .timeline-left-user .timeline-left-user-detail ul li .select-dropdown-wrapper span {
   font-size: 13px;
-  color: #8a4e9c;
+  color: $voilet;
   text-align: right;
   display: block;
   margin: 4px 0 10px;
@@ -2138,11 +2125,6 @@ select::-ms-expand {
   overflow-y: auto;
 }
 
-.form-check-group .form-check-group-inset {
-  max-height: 145px;
-  overflow-y: auto;
-}
-
 .create-change-content .form-group .form-check label {
   font-size: 15px;
   line-height: 18px;
@@ -2151,7 +2133,7 @@ select::-ms-expand {
 }
 
 .create-reader-form-header {
-  @include flex-center;
+  @include flex-space-between;
   margin-bottom: 8px;
 }
 
@@ -2164,8 +2146,7 @@ select::-ms-expand {
     padding: 16px 32px 20px;
 
     .crm-review {
-      display: flex;
-      flex-wrap: wrap;
+      @include flex-wrap;
 
       .crm-review-detail {
         border-left: 1px dashed $primary-color;
@@ -2215,8 +2196,7 @@ select::-ms-expand {
 
           li {
             list-style: none;
-            display: flex;
-            align-items: center;
+            @include flex-align-center;
             margin: 0 0 14px;
 
             h6 {
@@ -2310,7 +2290,7 @@ form.product-unit button {
   margin: 0 13px;
   font-size: 16px;
   line-height: 19px;
-  color: #70899E;
+  color: $dark-gray;
   flex: 0 0 auto;
   font-weight: 400;
 }
@@ -2348,9 +2328,6 @@ form.product-unit button {
   padding-right: 20px;
 }
 
-// .create-change-content .form-group fieldset label[for="limitagreed2"] {
-//   padding-right: 32px;
-// }
 .create-change-content .form-group input:checked[type="checkbox"],
 .create-change-content .form-group input:checked[type="radio"],
 .all-checked-reminder input:checked[type="checkbox"],
@@ -2402,10 +2379,8 @@ form.product-unit button {
 }
 
 .create-change-content .upload-file-box .box {
-  display: flex;
-  justify-content: space-between;
+  @include flex-space-between;
   flex-direction: row-reverse;
-  align-items: center;
   width: 100%;
 }
 
@@ -2482,17 +2457,14 @@ form.product-unit button {
         background: $white;
 
         .embedding-video {
-          display: flex;
-          justify-content: center;
+          @include flex-justify-center;
           width: 100%;
 
           .side-step-text {
             position: relative;
             padding-left: 58px;
-            align-items: flex-start;
-            display: flex;
+            @include flex-start-center;
             flex-direction: column;
-            justify-content: center;
 
             &:first-child {
               &:not(:last-child) {
@@ -2533,8 +2505,7 @@ form.product-unit button {
             }
 
             .formgroup {
-              display: flex;
-              align-items: center;
+              @include flex-align-center;
 
               .form-label {
                 font-weight: 400;
@@ -2573,8 +2544,7 @@ form.product-unit button {
               }
 
               .upload-file-box {
-                align-items: center;
-                display: flex;
+                @include flex-align-center;
                 margin-left: 24px;
                 padding: 0 0 0 24px;
                 border-radius: 0;
@@ -2776,8 +2746,7 @@ form.product-unit button {
 
 .create-change-content.spc-content {
   .embedding-video {
-    display: flex;
-    justify-content: center;
+    @include flex-align-center;
     width: 100%;
     padding: 32px;
     box-shadow: 0px 0px 13px -3px rgba(0, 102, 190, 0.2);
@@ -2787,10 +2756,8 @@ form.product-unit button {
     .side-step-text {
       position: relative;
       padding-left: 58px;
-      align-items: flex-start;
-      display: flex;
+      @include flex-start-center;
       flex-direction: column;
-      justify-content: center;
 
       &:first-child {
         &:not(:last-child) {
@@ -2831,8 +2798,7 @@ form.product-unit button {
       }
 
       .formgroup {
-        display: flex;
-        align-items: center;
+        @include flex-align-center;
 
         .form-label {
           font-weight: 400;
@@ -2871,8 +2837,7 @@ form.product-unit button {
         }
 
         .upload-file-box {
-          align-items: center;
-          display: flex;
+          @include flex-align-center;
           margin-left: 24px;
           padding: 0 0 0 24px;
           border-radius: 0;
@@ -2921,7 +2886,6 @@ form.product-unit button {
   padding: 0;
   overflow-y: auto;
   max-height: 61vh;
-  // overflow-x: hidden;
 }
 
 .sublink_right.preview-content #pdf_view_box .viewer-layout-main {
@@ -2929,14 +2893,6 @@ form.product-unit button {
   max-height: 61vh;
 }
 
-// .sublink_right.preview-content .viewer-layout-main {
-//     padding: 0;
-//     overflow-y: auto;
-//     max-height: 61vh;
-// }
-// .no_scroll.modal-body-content div, .sublink_right.preview-content .no_scroll .viewer-layout-main{
-//   overflow: hidden;
-// }
 #addLinkForm p.err_class {
   font-size: 14px;
   color: #f00;
@@ -2977,7 +2933,6 @@ form.product-unit button {
 }
 
 .header-btn .btn.send_btn {
-  // min-width: 106px;
   margin-left: 10px;
 }
 
@@ -3113,9 +3068,7 @@ form.product-unit button {
     }
 
     .no-sublink {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      @include flex-middle;
       height: 100%;
 
       img {
@@ -3162,16 +3115,14 @@ form.product-unit button {
 
 .sublink-qr {
   margin: 0 14px 0 35px;
-  align-items: center;
-  display: flex;
+  @include flex-align-center;
 
   .sublink-qr-download {
     padding: 8px;
     background: $white;
     box-shadow: 0px 1px 6px rgb(0 102 190 / 20%);
     border-radius: 13px;
-    display: flex;
-    align-items: center;
+    @include flex-align-center;
 
     img {
       max-width: 48px;
@@ -3181,10 +3132,8 @@ form.product-unit button {
       margin-left: 5px;
       width: 30px;
       height: 30px;
-      display: flex;
+      @include flex-middle;
       text-align: center;
-      align-items: center;
-      justify-content: center;
       cursor: pointer;
     }
   }
@@ -3537,9 +3486,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 
 .create-change-content .form-group .ebook-format {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  @include flex-middle;
 }
 
 .create-change-content .form-group .ebook-format label {
@@ -3620,7 +3567,6 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 
 .form-group.primary_phone .dropdown-basic-button.PhoneInput {
-  // background: $white url(../images/dropdown-arrow.svg) no-repeat 90% center;
   background: $white;
   border-radius: 30px;
   border: 0;
@@ -3669,10 +3615,6 @@ select.PhoneInputCountrySelect {
   color: $light-gray;
   font-weight: 300;
 }
-
-// .form-group.primary_phone .dropdown-basic-button .PhoneInputCountrySelectArrow {
-//   display: none;
-// }
 
 .form-group.primary_phone .dropdown-basic-button ul {
   width: 100%;
@@ -3726,10 +3668,8 @@ select.PhoneInputCountrySelect {
 }
 
 .modal .upload-file-box .box {
-  display: flex;
-  justify-content: space-between;
+  @include flex-space-between;
   flex-direction: row-reverse;
-  align-items: center;
   width: 100%;
 }
 
@@ -3951,16 +3891,16 @@ input[type="number"] {
 .timeline-right-list {
   .nav-tabs {
     margin: 0 0 50px;
-    border-bottom: 1px solid #004a89;
+    border-bottom: 1px solid $dark-blue;
 
     button {
       border: 0;
       background: rgb(0 74 137 / 8%);
-      color: #004a89;
+      color: $dark-blue;
 
       &.active {
-        background: #004a89;
-        color: #fff;
+        background: $dark-blue;
+        color: $white;
       }
     }
   }
@@ -4016,15 +3956,12 @@ input[type="number"] {
 }
 
 .timeline-block-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  @include flex-space-between;
   margin: 0 0 14px;
 }
 
 .timeline-block-title {
-  display: flex;
-  align-items: center;
+  @include flex-align-center;
   flex: 1 1;
 }
 
@@ -4035,7 +3972,7 @@ input[type="number"] {
 
 .timeline-block-title span {
   font-weight: 400;
-  color: #004a89;
+  color: $dark-blue;
 }
 
 .feedback-block {
@@ -4047,7 +3984,7 @@ input[type="number"] {
 }
 
 .feedback-block .library .timeline-block-title h6 {
-  color: #004a89;
+  color: $dark-blue;
   font-size: 15px;
   margin-bottom: 5px;
   font-weight: 400;
@@ -4072,7 +4009,7 @@ input[type="number"] {
 .feedback-block .feedback-detail p {
   font-size: 15px;
   line-height: 20px;
-  color: #004a89;
+  color: $dark-blue;
   padding: 10px 0 14px;
 }
 
@@ -4090,11 +4027,6 @@ input[type="number"] {
   position: relative;
 }
 
-// .wrap_div .radio_btn {
-//   position: absolute;
-//   right: 15px;
-//   top: 8px;
-// }
 .wrap_div .radio_btn input[type="checkbox"] {
   width: 24px;
   height: 24px;
@@ -4300,8 +4232,8 @@ input[type="number"] {
 }
 
 .timeline-article-detail-full.active {
-  flex-direction: column-reverse;
   display: flex;
+  flex-direction: column-reverse;
 }
 
 .timeline-article-detail-full .timeline-article-details-heading {
@@ -4351,8 +4283,7 @@ input[type="number"] {
     }
 
     .timeline-article-details-boxes {
-      display: flex;
-      flex-wrap: wrap;
+      @include flex-wrap;
       align-items: flex-start;
       margin: 20px 0 0px;
 
@@ -4368,8 +4299,7 @@ input[type="number"] {
         box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
         border-radius: 13px;
         margin: 0 1% 20px;
-        display: flex;
-        align-items: center;
+        @include flex-align-center;
 
         &.media-red {
           border: 2px solid #f58289;
@@ -4404,9 +4334,7 @@ input[type="number"] {
           box-shadow: 0px 0px 6px rgba(0, 102, 190, 0.29);
           padding: 3px;
           height: 80px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          @include flex-middle;
           border-radius: 5px;
 
           img {
@@ -4425,16 +4353,14 @@ input[type="number"] {
 
         .media-right {
           flex: 1 1;
-          display: flex;
-          justify-content: space-between;
+          @include flex-justify-between;
 
           ul {
             list-style: none;
             padding: 0;
 
             li {
-              display: flex;
-              align-items: center;
+              @include flex-align-center;
               margin: 0 0 14px;
               white-space: nowrap;
 
@@ -4534,7 +4460,7 @@ input[type="number"] {
 }
 
 .event-select label {
-  color: #004A89;
+  color: $dark-blue;
   font-size: 18px;
   margin-right: 12px;
 }
@@ -4559,28 +4485,26 @@ input[type="number"] {
 
 .header_btns .copy_link {
   border-radius: 30px;
-  border: 1px solid #8A4E9C;
-  background: #FFF;
-  color: #8A4E9C;
+  border: 1px solid $voilet;
+  background: $white;
+  color: $voilet;
   font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-middle;
   padding: 4px 16px;
 
   &.disabled {
-    border-color: #97B6CF;
-    color: #97B6CF;
+    border-color: $light-gray;
+    color: $light-gray;
 
     &:hover {
-      color: #ffffff;
-      background: #97B6CF;
+      color: $white;
+      background: $light-gray;
     }
   }
 
   &:hover {
     color: $white;
-    background: #8A4E9C;
+    background: $voilet;
   }
 }
 
@@ -5102,11 +5026,6 @@ input.viewer-toolbar-current-page-input {
     box-shadow: 0 0 15px rgba(0, 102, 190, 0.1);
   }
 
-  // border-radius: 0 0 20px 20px;
-  // display:flex;
-  // min-height: 70vh;
-  // border-radius: 0 0 20px 20px;
-  // box-shadow: 0px 0px 15px rgba(0, 102, 190, 0.1);
   h3 {
     font-weight: 500;
     font-size: 22px;
@@ -5180,9 +5099,8 @@ input.viewer-toolbar-current-page-input {
       text-align: right;
 
       li {
-        display: flex;
+        @include flex-justify-between;
         padding: 0;
-        justify-content: space-between;
         list-style: none;
         margin: 0 auto;
         font-size: 14px;
@@ -5308,7 +5226,7 @@ input.viewer-toolbar-current-page-input {
 }
 
 .analytics-reader-detail-box {
-  @include flex-center;
+  @include flex-space-between;
   padding: 4px 0;
 }
 
@@ -5353,7 +5271,7 @@ input.viewer-toolbar-current-page-input {
 
 .content_analytics_accordian .accordion-collapse .accordion-body .section-detail-box {
   width: 100%;
-  justify-content: space-between;
+  @include flex-justify-between;
   padding: 10px;
 }
 
@@ -5475,8 +5393,7 @@ input.viewer-toolbar-current-page-input {
 
 .content-listed-content-inside {
   padding-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
+  @include flex-wrap;
 }
 
 .content-listed-content-inside h5 {
@@ -5649,14 +5566,17 @@ input.viewer-toolbar-current-page-input {
 /**Analytics end**/
 
 /***header-sticky***/
-.top-header.sticky {
-  padding: 20px 8px 15px;
-  position: sticky;
-  top: 84px;
-  z-index: 6;
-  background: #fbfcfd;
-  transition: 0.3s linear;
-  transition-delay: 0.1s;
+
+.top-header {
+  &.sticky {
+    padding: 20px 8px 15px;
+    position: sticky;
+    top: 84px;
+    z-index: 6;
+    background: #fbfcfd;
+    transition: 0.3s linear;
+    transition-delay: 0.1s;
+  }
 }
 
 .top-header.regi-web.sticky {
@@ -5665,19 +5585,6 @@ input.viewer-toolbar-current-page-input {
 
 .custom-change {
   padding-top: 0px;
-
-  //---CRM top fix start---//
-  // .top-header {
-  //   &.sticky {
-  //     padding: 20px 8px 15px;
-  //     position: sticky;
-  //     top: 84px;
-  //     z-index: 6;
-  //     background: #fbfcfd;
-  //     transition: 0.3s linear;
-  //     transition-delay: 0.1s;
-  //   }
-  // }
 
   .top-sticky {
     padding: 20px 8px 15px;
@@ -5689,7 +5596,6 @@ input.viewer-toolbar-current-page-input {
     transition-delay: 0.1s;
   }
 
-  //----end---//
   .page-top-nav {
     &.sticky {
       padding: 20px 8px 15px;
@@ -5719,7 +5625,6 @@ header.-top-24~div .custom-change .page-top-nav.sticky {
   transition: 0.3s linear;
 }
 
-//-----
 header.-top-24~div .custom-change .top-sticky,
 header.-top-24~div .custom-change .page-top-nav.sticky {
   top: 0px;
@@ -5783,8 +5688,7 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
 .library_create_position {
   height: 100%;
   min-height: 86vh;
-  align-items: center;
-  display: flex;
+  @include flex-align-center;
 }
 
 .library_create_position .library_create {
@@ -5882,9 +5786,7 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
 }
 
 .detail-box-grid .reparkive {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include flex-space-between;
 }
 
 .detail-box-grid .reparkive .reparkive-box p {
@@ -5987,7 +5889,7 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
 
 .content_analytics_accordian .accordion-collapse .accordion-body .accordion .accordion-body {
   padding: 0;
-  border-color: #fff;
+  border-color: $white;
   box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.2);
   border-radius: 0 0 7px 7px;
   border: 0;
@@ -6014,7 +5916,7 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
 }
 
 .content_analytics_accordian .accordion-collapse .accordion-body .accordion .accordion-body table tbody td {
-  color: #000;
+  color: $black;
   padding: 4px 20px;
   font-size: 15px;
 }
@@ -6250,6 +6152,12 @@ svg.pencil_icon {
 
 .right-sidebar {
   padding-top: 20px;
+
+  &.full-width-survey {
+    border-radius: 0;
+    width: 100%;
+    min-height: 100vh;
+  }
 }
 
 .split-button-dropup div:nth-child(3)>div div div[role="button"] {
@@ -6302,8 +6210,7 @@ svg.pencil_icon {
 .spc-content .selected-products-list .products-listing {
   margin: 0;
   height: 100%;
-  align-items: center;
-  display: flex;
+  @include flex-align-center;
 }
 
 .selected-products-list .products-listing:first-letter {
@@ -6385,7 +6292,7 @@ svg.pencil_icon {
     position: relative;
     pointer-events: none;
     border-radius: 30px;
-    background: #ffffff;
+    background: $white;
     padding: 4px;
     width: 100%;
     cursor: pointer;
@@ -6824,9 +6731,7 @@ svg.pencil_icon {
         border-radius: 8px;
 
         .d-content-inr {
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          @include flex-middle;
           max-width: 775px;
           width: 100%;
           margin: 0px auto;
@@ -6911,8 +6816,7 @@ svg.pencil_icon {
       .albert-inside-upper {
         float: right;
         width: 100%;
-        display: flex;
-        justify-content: flex-end;
+        @include flex-end;
         padding-right: 58px;
 
         .albert-inside-upper-left {
@@ -6956,8 +6860,7 @@ svg.pencil_icon {
       }
 
       .albert-inside-bottom {
-        display: flex;
-        align-items: flex-end;
+        @include flex-align-end;
         margin-top: -159px;
 
         .albert-inside-bottom-left {
@@ -7236,9 +7139,8 @@ svg.pencil_icon {
 
       .team-section-map-listing {
         .date-list {
-          display: flex;
+          @include flex-justify-between;
           width: 100%;
-          justify-content: space-between;
           margin: 0px;
           padding: 0px 0px 0 0;
           margin-top: -12px;
@@ -7303,8 +7205,7 @@ svg.pencil_icon {
           background: #f0eee4;
           padding: 20px 90px 12px 30px;
           border-radius: 8px;
-          display: flex;
-          align-items: center;
+          @include flex-align-center;
           margin-right: -66px;
           position: relative;
 
@@ -7431,9 +7332,7 @@ svg.pencil_icon {
         }
 
         button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          @include flex-middle;
           margin-left: auto;
           background: $green;
           border-color: $green;
@@ -7483,9 +7382,8 @@ svg.pencil_icon {
 
     .article_bx {
       min-height: 300px;
-      display: flex;
+      @include flex-justify-between;
       flex-direction: column;
-      justify-content: space-between;
       padding: 28px 32px 20px 22px;
       margin-top: 20px;
 
@@ -7646,7 +7544,7 @@ svg.pencil_icon {
 }
 
 .header-forgot .modal-content .form-field.error {
-  box-shadow: 0px 0px 4px 0px #d61975;
+  box-shadow: 0px 0px 4px 0px $pink;
 }
 
 .header-forgot .modal-content button.btn {
@@ -7656,7 +7554,7 @@ svg.pencil_icon {
 }
 
 .header-forgot .modal-content p {
-  color: #d61975;
+  color: $pink;
   font-size: 12px;
   margin: 0;
   text-align: right;
@@ -7671,7 +7569,7 @@ svg.pencil_icon {
 }
 
 .login-confirm #download-qr .modal-body p.error-msg {
-  color: #d61975;
+  color: $pink;
   font-size: 14px;
   text-align: right;
 }
@@ -7679,7 +7577,7 @@ svg.pencil_icon {
 .login-confirm #download-qr .modal-body .form-group p.error-msg {
   font-size: 12px;
   margin-top: 5px;
-  color: #d61975;
+  color: $pink;
   position: absolute;
   bottom: -23px;
 }
@@ -8034,8 +7932,7 @@ svg.pencil_icon {
 }
 
 .publisher_feet-cont {
-  display: flex;
-  justify-content: space-between;
+  @include flex-justify-between;
 
   .content-box.p-f2 {
     margin: 50px 0 30px 15px;
@@ -8083,8 +7980,7 @@ svg.pencil_icon {
 }
 
 .publisher_feet-cont-last-sec {
-  display: flex;
-  justify-content: flex-end;
+  @include flex-end;
 
   .screenshot {
     text-align: right;
@@ -8148,11 +8044,11 @@ svg.pencil_icon {
   margin: -35px 0 0 54px;
   display: -ms-flexbox;
   display: -webkit-flex;
-  display: flex;
   -ms-flex-align: center;
   -webkit-align-items: center;
-  -webkit-box-align: center;
   align-items: center;
+  -webkit-box-align: center;
+  @include flex-align-center;
   height: 100%;
 
   ul {
@@ -8199,8 +8095,7 @@ svg.pencil_icon {
 .publisher-sec {
   width: 100%;
   margin: 30px auto 0;
-  display: flex;
-  justify-content: flex-end;
+  @include flex-align-end;
   max-width: 837px;
   margin-right: 60px;
 
@@ -8414,7 +8309,7 @@ svg.pencil_icon {
   font-size: 36px;
   font-weight: 600;
   line-height: 44px;
-  color: #000;
+  color: $black;
   margin: 0px;
   padding: 0px 0px 25px 0;
 }
@@ -8713,7 +8608,7 @@ svg.pencil_icon {
 
   .form-check-input {
     margin: 0;
-    border: 1px solid #97B6CF;
+    border: 1px solid $light-gray;
     width: 16px;
     height: 16px;
     padding: 1px;
@@ -8736,7 +8631,7 @@ svg.pencil_icon {
   label {
     font-size: 16px;
     line-height: 19px;
-    color: #70899E;
+    color: $dark-gray;
   }
 }
 
@@ -8745,7 +8640,6 @@ svg.pencil_icon {
 /**Library Responsive**/
 
 @media only screen and (min-width: 1921px) {
-
   .spc-delete .email_box {
     max-width: 100%;
     flex: 0 0 100%;
@@ -9914,6 +9808,10 @@ svg.pencil_icon {
     height: 60px;
   }
 
+  .create-change-content.analytic-charts .product-unit .form-group {
+    flex: 0 0 830px;
+  }
+
   .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(4),
   .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup.btn-bigger>div:nth-child(4) {
     max-height: 450px;
@@ -9996,9 +9894,9 @@ svg.pencil_icon {
     margin: 10px 0 10px;
   }
 
-  .custom-change {
-    padding: 0 10px 0 10px;
-  }
+  // .custom-change {
+  //   padding: 0 10px 0 10px;
+  // }
 
   .custom-change .top-header.sticky,
   .custom-change .page-top-nav.sticky {
@@ -10062,6 +9960,76 @@ svg.pencil_icon {
   form.product-unit .form-group {
     width: auto;
     flex: 0 0 50%;
+  }
+
+  .top-header {
+    margin: 0 0 10px;
+  }
+
+  .template_builder-option.library-cosent .template_language {
+    max-width: 315px;
+  }
+
+  .template_builder-option .template_language .split-button-dropup.edit-country-dropdown>div:nth-child(3),
+  .template_builder-option .template_country .split-button-dropup.edit-country-dropdown>div:nth-child(3) {
+    min-height: 42px;
+  }
+
+  .email-form .form-inline .form-group.template_builder_div {
+    @include flex-justify-between;
+  }
+
+  .email-form .form-inline .form-group.template_builder_div .form-buttons.form-buttons-template.right-side {
+    float: none;
+    width: auto;
+    margin: 0;
+  }
+
+  .select-mail-template.library-cosent {
+    margin-top: 30px;
+  }
+
+  .select-mail-template .page-title h4 {
+    margin: 0 0 12px;
+  }
+
+  .template_builder-option.library-cosent .split-button-dropup div:nth-child(3)>div div {
+    font-size: 14px;
+  }
+
+  .selected-products-list .products-listing button.dlt_btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .selected-products-list .products-listing button.dlt_btn img {
+    width: 20px;
+  }
+
+  .create-change-content .form-group .split-button-dropup.extra_multiselect div:nth-child(3)>div div {
+    font-size: 13px;
+  }
+
+  .create-change-content .form-group fieldset label {
+    padding: 0 13px 0 0;
+  }
+
+  .custom-change .top-header.sticky,
+  .custom-change .page-top-nav.sticky,
+  .custom-change .top-sticky,
+  header.top-0~div .form_action.sticky-view,
+  header.top-0~div .template_builder-option.library-cosent.sticky-view {
+    top: 48px;
+  }
+
+  .page-top-nav .tabnav-link li::after {
+    top: 13px;
+    width: 17px;
+    right: -9px;
+  }
+
+  .btn.btn-primary {
+    padding: 8px 12px;
   }
 
   .template_builder-option.library-cosent .template_language span {
@@ -10206,8 +10174,63 @@ svg.pencil_icon {
   }
 
   .content_analytics .highchart-lable {
-    font-size: 13px;
+    font-size: 11px;
     padding: 0 0 0 1px;
+  }
+
+  .content_analytics .accordion-item button.accordion-button {
+    font-size: 18px;
+  }
+
+  .distribute-page-reader p {
+    font-size: 14px;
+  }
+
+  .distribute-page-reader p strong {
+    font-size: 14px;
+  }
+
+  .high_charts .highcharts-data-table {
+    overflow-x: auto;
+  }
+
+  .high_charts.top ul.nav.nav-tabs li.nav-item {
+    flex: 0 0 auto;
+  }
+
+  .high_charts .highcharts-data-table table tr th,
+  .high_charts .highcharts-data-table table tr td {
+    font-size: 12px;
+  }
+
+  .delivery-trends .nav-tabs .nav-item .nav-link {
+    font-size: 14px;
+  }
+
+  .analytic-charts .form_action,
+  .tabs_content_load ul.nav-tabs {
+    top: 48px;
+  }
+
+  .delivery-trends .tab-content h3,
+  .delivery-trends.space-added h3 {
+    font-size: 14px;
+  }
+
+  .delivery-trends .tab-content .btn,
+  .delivery-trends.space-added a.btn {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+
+  .delivery-trends .tab-content h5,
+  .delivery-trends.space-added h5 {
+    font-size: 14px;
+  }
+
+  .delivery-trends.space-added span {
+    margin-left: 0px;
+    font-size: 16px;
   }
 
   .create-change-content .col-md-6,
@@ -10401,8 +10424,7 @@ svg.pencil_icon {
   }
 
   .sublink-listed-view-block .sublink-list-link {
-    display: flex;
-    align-items: center;
+    @include flex-align-center;
   }
 
   .library_create .library_create-box .create-library-content h3 {
@@ -10429,6 +10451,19 @@ svg.pencil_icon {
   .selected-products-list {
     padding: 15px 12px 0;
   }
+
+  .custom-change {
+    padding: 0 15px 0 15px;
+  }
+
+  .custom-change .top-header.sticky,
+  .custom-change .page-top-nav.sticky {
+    padding: 16px 0px 16px;
+  }
+
+  .filter-by button {
+    padding: 9px 10px 9px 13px;
+  }
 }
 
 @media (max-width: $layout-breakpoint-medium) {
@@ -10436,18 +10471,49 @@ svg.pencil_icon {
     flex: 0 0 260px;
   }
 
+  .create-change-content .form-group.margin-added {
+    flex-wrap: wrap;
+  }
+
+  .create-change-content .form-group.margin-added .dropdown-basic-button {
+    max-width: 100%;
+    flex: 1 1;
+  }
+
+  .create-change-content .form-group.margin-added .add_product {
+    margin: 8px 0 0;
+    flex: 0 0 100%;
+    justify-content: flex-end;
+  }
+
+  .create-change-content .form-group.margin-added .add_product span {
+    display: none;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-content-links a {
+    font-size: 13px;
+  }
+
+  .doc-content-main-box ul.tab-mail-list li {
+    margin: 0 0 7px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content {
+    min-height: 210px;
+    padding-bottom: 0;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content>.active {
+    min-height: 200px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box {
+    margin: 7px 0;
+
+  }
+
   .create-change-content.spc-content.analytic-charts .form-group .split-button-dropup>div:nth-child(3) {
     max-width: 200px;
-  }
-
-  nav.navbar .navbar-collapse li.nav-item a {
-    padding: 0 10px;
-    font-size: 14px;
-  }
-
-  .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
-    font-size: 11px;
-    padding: 7px 6px;
   }
 
   .timeline-left-user {
@@ -10474,10 +10540,8 @@ svg.pencil_icon {
   .library_create .library_create-box {
     padding: 18px 8px;
     min-height: 150px;
-    align-items: center;
-    display: flex;
+    @include flex-middle;
     flex-direction: column;
-    justify-content: center;
   }
 
   .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup>div:nth-child(3) {
@@ -10491,9 +10555,118 @@ svg.pencil_icon {
   #tagsModal .modal-footer form .form-group .btn {
     width: 92px;
   }
+
+  .library_create .library_create-box {
+    max-width: 270px;
+    margin: 0 auto;
+    flex: 0 0 45%;
+  }
+
+  nav #collapsibleNavbar li.nav-item a,
+  .nav-item.user-login .dropdown #dropdown-basic {
+    padding: 0 9px;
+  }
+
+  .library_create.landing-layout {
+    padding: 50px 0;
+  }
+
+  .custom-change .top-sticky {
+    top: 48px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .doc-content h6,
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list h6 {
+    font-size: 13px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs .nav-item button {
+    font-size: 11px;
+    padding: 10px 6px;
+    height: 100%;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
+    font-size: 10px;
+    padding: 4px 5px;
+  }
+
+  .doc-content-header-logo img {
+    width: 48px !important;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .doc-content-header-logo {
+    width: 48px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup {
+    width: 100%;
+    flex: 1 1;
+    margin-right: 0;
+    min-width: 100px;
+  }
+
+  nav.navbar .navbar-collapse li.nav-item a {
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  .custom-change .top-sticky {
+    padding: 15px 8px 15px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.data h6.tab-content-title {
+    flex: 0 0 138px;
+  }
+
+  .tab-mail-list.data .progress .progress-bar,
+  .tab-mail-list.data .data-progress.success span,
+  .tab-mail-list.data .data-progress.danger span {
+    font-size: 12px;
+  }
+
+  .create-change-content .form-group label {
+    font-size: 14px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper {
+    margin: 15px 0px 0;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tabs-data {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .library-content-box-layuot .doc-content-main-box {
+    padding: 12px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs {
+    margin: 0 -12px 0;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .tab-content {
+    margin: 0px -12px 0;
+  }
+
+  .create-change-content .upload-file-box,
+  .create-change-content .form-group .form-control,
+  .create-change-content .form-group .react-datepicker__input-container input {
+    max-width: 100%;
+    flex: 1 1;
+  }
+
+  .create-change-content .form-group .dropdown-basic-button {
+    max-width: 100%;
+  }
 }
 
 /**Library Responsive**/
+
+
+
+
 
 /**Informed and Publisher page responsive**/
 @media only screen and (max-width: 1365px) {
@@ -11297,6 +11470,11 @@ img.change-password-image {
 
 /***Print css end***/
 
+
+
+
+
+
 /***Webinar polls***/
 .poll-question {
   padding: 0 0 30px;
@@ -11308,54 +11486,6 @@ img.change-password-image {
       height: 100% !important;
     }
   }
-
-  // .slick-slider {
-  //   .slick-prev {
-  //     top: 98px;
-  //     position: absolute;
-  //     width: 48px;
-  //     height: 48px;
-  //     border-radius: 50%;
-  //     border: 1px solid var(--light-blue);
-  //     left: 4px;
-  //     z-index: 4;
-  //     display: flex !important;
-  //     align-items: center;
-  //     justify-content: center;
-  //     transform: rotate(0deg) translate(0px, 0px);
-
-  //     &:before {
-  //       content: '';
-  //       background: url(../../../../public/componentAssets/images/back-page-icon.svg) no-repeat;
-  //       background-size: 100%;
-  //       width: 19px;
-  //       height: 11px;
-  //     }
-  //   }
-
-  //   .slick-next {
-  //     top: 162px;
-  //     left: 0;
-  //     width: 48px;
-  //     height: 48px;
-  //     border-radius: 50%;
-  //     left: 4px;
-  //     border: 1px solid var(--light-blue);
-  //     z-index: 4;
-  //     display: flex !important;
-  //     align-items: center;
-  //     justify-content: center;
-  //     transform: rotate(0deg) translate(0px, 0px);
-
-  //     &:before {
-  //       content: '';
-  //       background: url(../../../../public/componentAssets/images/next-page-icon.svg) no-repeat;
-  //       background-size: 100%;
-  //       width: 19px;
-  //       height: 11px;
-  //     }
-  //   }
-  // }
 
   .poll-question-selection {
 
@@ -11505,12 +11635,12 @@ img.change-password-image {
       label {
         font-size: 16px;
         line-height: 25px;
-        color: #70899E;
+        color: $dark-gray;
       }
 
       .form-check-input[type=radio] {
         margin: 0;
-        border: 1px solid #97B6CF;
+        border: 1px solid $light-gray;
         width: 16px;
         height: 16px;
         padding: 1px;
@@ -11540,7 +11670,7 @@ img.change-password-image {
       &:before {
         position: absolute;
         content: "";
-        border-top: 1px dashed #97B6CF;
+        border-top: 1px dashed $light-gray;
         top: 0;
         width: calc(100% + 80px);
         left: -40px;
@@ -11583,7 +11713,6 @@ img.change-password-image {
             max-width: 180px;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
             gap: 0 16px;
             padding: 0;
 
@@ -11641,7 +11770,7 @@ img.change-password-image {
               //   position: relative;
               //   pointer-events: none;
               //   border-radius: 30px;
-              //   background: #ffffff;
+              //   background: $white;
               //   padding: 9px;
               //   width: 100%;
               //   cursor: pointer;
@@ -11654,7 +11783,7 @@ img.change-password-image {
       .add-choice {
         background: transparent;
         border: 0;
-        color: #8A4E9C;
+        color: $voilet;
         padding: 0;
         font-size: 14px;
         margin-left: auto;
@@ -11681,18 +11810,6 @@ img.change-password-image {
         background-color: transparent;
 
         input {
-          //   position: absolute;
-          //   opacity: 0;
-          //   z-index: 5;
-
-          //   :checked+span span:first-child {
-          //     color: var(--blue);
-          //   }
-
-          //   :checked+span span:last-child {
-          //     color: #89b2d5;
-          //   }
-
           :checked~a.btn {
             right: 50%;
           }
@@ -11764,14 +11881,13 @@ img.change-password-image {
         }
 
         &>div {
-          display: flex;
-          align-items: center;
+          @include flex-align-center;
 
           label {
             flex: 0 0 152px;
             padding-right: 6px;
             margin: 0;
-            color: #004A89;
+            color: $dark-blue;
             margin: 0;
             font-size: 18px;
           }
@@ -11802,15 +11918,13 @@ img.change-password-image {
         padding-left: 70px;
 
         &>div {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          @include flex-middle;
 
           label {
             margin: 0;
             padding-right: 6px;
             margin: 0;
-            color: #004A89;
+            color: $dark-blue;
             margin: 0;
             font-size: 18px;
           }
@@ -11825,14 +11939,6 @@ img.change-password-image {
     }
   }
 }
-
-// .slick-vertical {
-//   .slick-track {
-//     display: flex;
-//     flex-direction: column;
-//     gap: 8px 0px;
-//   }
-// }
 
 /***Webinar polls end***/
 
@@ -12023,8 +12129,7 @@ img.change-password-image {
         .not-found {
           text-align: center;
           min-height: 300px;
-          display: flex;
-          align-items: flex-end;
+          @include flex-align-end;
           justify-content: center;
           height: 100%;
         }
@@ -12089,9 +12194,7 @@ img.change-password-image {
 
               .article-number {
                 filter: drop-shadow(1px 1px 4px rgba(0, 102, 190, 0.33));
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                @include flex-middle;
                 background: $primary-color;
                 border-radius: 9px 0px 2px;
                 font-weight: 500;
@@ -12140,8 +12243,7 @@ img.change-password-image {
               }
 
               .pages-number {
-                display: flex;
-                align-items: center;
+                @include flex-align-center;
                 font-size: 12px;
                 line-height: 14px;
                 color: rgba(0, 74, 137, 0.55);
@@ -12155,8 +12257,7 @@ img.change-password-image {
               }
 
               .pages-viewer {
-                display: flex;
-                align-items: center;
+                @include flex-align-center;
                 color: $yellow;
                 font-size: 12px;
                 line-height: 14px;
@@ -12230,6 +12331,103 @@ img.change-password-image {
 }
 
 .rd-full-explain {
+  &.rd-listing {
+    .rd-training-block {
+      table {
+        tbody {
+          tr {
+            &.view {
+              td {
+                input[type="checkbox"] {
+                  -webkit-appearance: none;
+                  appearance: none;
+                  border: 1px solid $dark-gray;
+                  border-radius: 50%;
+                  width: 16px;
+                  height: 16px;
+                  -webkit-print-color-adjust: exact;
+                  print-color-adjust: exact;
+                  cursor: pointer;
+                  position: relative;
+
+                  &:checked {
+                    background-color: #f58289;
+                    border-color: #f58289;
+                  }
+
+                  &:after {
+                    content: "";
+                    position: absolute;
+                    width: 10px;
+                    height: 2px;
+                    background: $white;
+                    border-radius: 20px;
+                    top: 50%;
+                    left: 0;
+                    right: 0;
+                    transform: translateY(-50%);
+                    margin: 0 auto;
+                  }
+                }
+              }
+            }
+          }
+
+          tr {
+            &.fold {
+              background: #f0f6fb;
+              border-radius: 0 0 9px 9px;
+
+              td {
+                padding: 5px 15px 5px 0;
+
+                table {
+                  th {
+                    &:first-child {
+                      width: 123px;
+                    }
+
+                    &:nth-child(2) {
+                      width: 345px;
+                    }
+
+                    &:nth-child(3) {
+                      width: 157px;
+                    }
+
+                    &:nth-child(4) {
+                      width: 428px;
+                    }
+
+                    &:nth-child(5) {
+                      width: 185px;
+                    }
+                  }
+                }
+              }
+
+              table {
+                tr {
+                  td {
+                    padding: 9px 16px;
+                  }
+
+                  &:nth-child(2) {
+                    background: transparent;
+                  }
+                }
+              }
+            }
+
+            &.blank {
+              height: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .rd-section-title {
     margin: 73px 0 20px;
 
@@ -12281,7 +12479,7 @@ img.change-password-image {
 
     table {
       margin: 12px 0 0;
-      // background: #ffffff;
+      background: transparent;
 
       thead {
         tr {
@@ -12337,6 +12535,10 @@ img.change-password-image {
           &.fold.show {
             display: table-row;
 
+            table {
+              width: 100%;
+            }
+
             .no_data {
               text-align: center;
               font-size: 20px;
@@ -12372,7 +12574,7 @@ img.change-password-image {
 
           &:last-child {
             border-radius: 0px 9px 9px 0px;
-            padding-right: 45px;
+            padding-right: 44px;
           }
 
           &.pics {
@@ -12388,7 +12590,7 @@ img.change-password-image {
 
         .view {
           position: relative;
-          cursor: pointer;
+
 
           &:after {
             content: "";
@@ -12401,6 +12603,7 @@ img.change-password-image {
             width: 16px;
             height: 10px;
             transition: all 0.2s ease-out 0s;
+            cursor: pointer;
           }
 
           &.show {
@@ -12450,7 +12653,7 @@ img.change-password-image {
                   display: block;
                   position: absolute;
                   z-index: 1;
-                  background: #fff;
+                  background: $white;
                   right: 25px;
                   width: 270px;
                   padding: 15px;
@@ -12466,7 +12669,7 @@ img.change-password-image {
               p {
                 font-size: 13px;
                 line-height: 15px;
-                color: #70899E;
+                color: $dark-gray;
 
                 span {
                   font-weight: 500;
@@ -12563,8 +12766,7 @@ img.change-password-image {
         border-radius: 9px;
 
         .accordion-header {
-          display: flex;
-          align-items: flex-start;
+          @include flex-align-start;
           padding: 0px;
 
           button {
@@ -12612,16 +12814,14 @@ img.change-password-image {
               filter: drop-shadow(0px 0px 5px rgba(0, 102, 190, 0.24));
               border-radius: 4px;
               min-height: 75px;
-              display: flex;
-              align-items: center;
+              @include flex-align-center;
               background: #f8f8f8;
               padding: 3px;
               text-align: center;
             }
 
             .article-detail-view {
-              display: flex;
-              align-items: center;
+              @include flex-align-center;
 
               .article-page-number {
                 font-weight: 500;
@@ -12716,12 +12916,10 @@ img.change-password-image {
         }
 
         .page-count {
-          display: flex;
+          @include flex-space-between;
           font-size: 12px;
           line-height: 14px;
           color: rgba(0, 74, 137, 0.55);
-          justify-content: space-between;
-          align-items: center;
 
           .time {
             span {
@@ -12736,8 +12934,7 @@ img.change-password-image {
           }
 
           .completed-date {
-            display: flex;
-            align-items: center;
+            @include flex-align-center;
 
             &.certificate-download {
               flex-direction: column;
@@ -12780,8 +12977,7 @@ img.change-password-image {
 
               &.complete {
                 color: $secondary-green;
-                align-items: center;
-                display: flex;
+                @include flex-align-center;
               }
 
               img {
@@ -12803,9 +12999,7 @@ img.change-password-image {
     }
 
     .engagement-sec .pages-viewer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include flex-middle;
       font-size: 24px;
       color: $yellow;
       min-height: 70px;
@@ -12824,10 +13018,6 @@ img.change-password-image {
     .site_complete table.table thead th:nth-child(2) {
       width: 250px;
     }
-
-    // .site_complete table.table thead th:nth-child(3) {
-    //   width: 185px;
-    // }
   }
 }
 
@@ -12887,7 +13077,7 @@ img.change-password-image {
 
 .table-responsive {
   max-height: 500px;
-  padding: 0 5px 0 3px;
+  padding: 0 5px 8px 3px;
 }
 
 .table-responsive::-webkit-scrollbar {
@@ -13154,6 +13344,30 @@ img.change-password-image {
   .rd-full-explain .rd-training-block .site_complete table.table thead th:nth-child(2) {
     width: 202px;
   }
+
+  .rd-full-explain .rd-training-block table thead tr th:first-child {
+    width: 116px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:first-child {
+    width: 118px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(2) {
+    width: 289px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(3) {
+    width: 122px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(4) {
+    width: 310px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(5) {
+    width: 133px;
+  }
 }
 
 @media only screen and (max-width: 1500px) {
@@ -13203,6 +13417,18 @@ img.change-password-image {
 
   .accordion-body .contents-block .contents-block-right {
     flex: 0 0 400px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(3) {
+    width: 118px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(4) {
+    width: 275px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(5) {
+    width: 120px;
   }
 }
 
@@ -13306,6 +13532,37 @@ img.change-password-image {
   .accordion-body .contents-block .contents-block-right h4 {
     margin: 0 0 30px;
   }
+
+  .rd-full-explain.rd-listing .rd-training-block table thead tr th {
+    padding: 5px 10px 16px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody td,
+  .rd-full-explain.rd-listing .rd-training-block table tbody .fold td table tr th,
+  .rd-full-explain.rd-listing .rd-training-block table tbody .fold td table tr td {
+    padding: 5px 10px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(2) {
+    width: 360px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(3) {
+    width: 135px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(4) {
+    width: 139px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table thead tr th:first-child,
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:first-child {
+    width: 102px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody td:last-child {
+    padding-right: 45px;
+  }
 }
 
 @media only screen and (max-width: 1365px) {
@@ -13356,6 +13613,18 @@ img.change-password-image {
   .rd-full-explain .rd-training-block table thead tr th {
     padding: 5px 16px 6px;
   }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(2) {
+    width: 352px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(3) {
+    width: 113px;
+  }
+
+  .rd-full-explain.rd-listing .rd-training-block table tbody tr.fold td table th:nth-child(5) {
+    width: 90px;
+  }
 }
 
 @media (max-width: $layout-breakpoint-large) {
@@ -13379,8 +13648,7 @@ img.change-password-image {
     font-size: 13px;
     padding: 7px;
     min-width: 86px;
-    display: flex;
-    align-items: center;
+    @include flex-align-center;
     justify-content: flex-end;
     margin-left: auto;
   }
@@ -13522,6 +13790,10 @@ img.change-password-image {
 
 /*Responsive for R&D Analytics End*/
 
+
+
+
+
 /**Speaker Zone Page**/
 .webinar-quest {
   background: $white;
@@ -13638,7 +13910,7 @@ img.change-password-image {
         td {
           vertical-align: middle;
           padding: 12px 8px;
-          color: #000000;
+          color: $black;
           font-size: 15px;
 
           button {
@@ -13784,7 +14056,7 @@ img.change-password-image {
 .webinar-question-results .reader_list .user-question p {
   font-size: 15px;
   font-weight: 400;
-  color: #000;
+  color: $black;
   margin: 0;
 }
 
@@ -13802,7 +14074,7 @@ img.change-password-image {
 }
 
 .webinar-top-sec .webinar-top-btn.answered {
-  background: #00d4c0;
+  background: $green;
 }
 
 .webinar-top-sec .webinar-top-btn span.default-side-buttons {
@@ -13836,7 +14108,7 @@ img.change-password-image {
 }
 
 .webinar-question-results .reader_list .reader_list_footer button.answer {
-  background: #00d4c0;
+  background: $green;
 }
 
 .webinar-question-results h6.no-found {
@@ -13902,7 +14174,7 @@ img.change-password-image {
 
     h5 {
       font-size: 20px;
-      color: #004a89;
+      color: $dark-blue;
       font-weight: 600;
       line-height: 25px;
       margin: 0 0 10px;
@@ -13910,7 +14182,7 @@ img.change-password-image {
 
     p {
       font-size: 15px;
-      color: #70899e;
+      color: $dark-gray;
       line-height: 22px;
       font-weight: 400;
 
@@ -13939,7 +14211,7 @@ img.change-password-image {
         padding: 10px 11px 20px;
 
         .modal-title {
-          color: #004a89;
+          color: $dark-blue;
         }
       }
 
@@ -13955,7 +14227,7 @@ img.change-password-image {
 
             th {
               min-width: 230px;
-              color: #8a4e9c;
+              color: $voilet;
               font-weight: 600;
               font-size: 15px;
               padding: 0 10px 20px 0;
@@ -13965,7 +14237,7 @@ img.change-password-image {
           td {
             vertical-align: top;
             font-size: 15px;
-            color: #70899e;
+            color: $dark-gray;
             padding: 0 10px 20px 0;
           }
         }
@@ -13992,7 +14264,7 @@ img.change-password-image {
 //   background: rgba(0, 0, 36, 0.65);
 //   backdrop-filter: blur(10px);
 //   --bs-backdrop-zindex: 1050;
-//   --bs-backdrop-bg: #000;
+//   --bs-backdrop-bg: $black;
 //   --bs-backdrop-opacity: 1;
 // }
 
@@ -14054,7 +14326,7 @@ img.change-password-image {
       .big-circle {
         .icon-block {
           &.gradient {
-            background: linear-gradient(216deg, #00d4c0 14.8%, #004a89 120.1%);
+            background: linear-gradient(216deg, $green 14.8%, $dark-blue 120.1%);
           }
         }
       }
@@ -14069,14 +14341,14 @@ img.change-password-image {
           .icon-block {
             &:nth-child(2) {
               background: linear-gradient(216deg,
-                  #00d4c0 14.8%,
-                  #004a89 120.1%);
+                  $green 14.8%,
+                  $dark-blue 120.1%);
             }
 
             &:nth-child(5) {
               background: linear-gradient(216deg,
-                  #00d4c0 14.8%,
-                  #004a89 120.1%);
+                  $green 14.8%,
+                  $dark-blue 120.1%);
             }
           }
         }
@@ -14178,16 +14450,14 @@ img.change-password-image {
     position: relative;
     border: 1px solid #49e9f3;
     border-radius: 50%;
-    display: flex;
     display: -webkit-flex;
-    align-items: center;
     -webkit-align-items: center;
-    justify-content: center;
+    align-items: center;
     -webkit-justify-content: center;
-    // animation: Rotate 26s linear infinite;
-    // -webkit-animation: Rotate 26s linear infinite;
+    justify-content: center;
     animation: Rotate 20s linear infinite;
     -webkit-animation: Rotate 20s linear infinite;
+    @include flex-middle;
 
     .icon-block {
       &.big {
@@ -14225,12 +14495,12 @@ img.change-password-image {
     height: 64px;
     position: absolute;
     border-radius: 50%;
-    display: flex;
     display: -webkit-flex;
-    align-items: center;
     -webkit-align-items: center;
-    justify-content: center;
+    align-items: center;
     -webkit-justify-content: center;
+    justify-content: center;
+    @include flex-middle;
     fill: rgba(255, 255, 255, 0.01);
     filter: drop-shadow(0px 0px 32px rgba(0, 74, 137, 0.39));
     box-shadow: 0px 0px 32px rgba(0, 74, 137, 0.39);
@@ -14379,9 +14649,7 @@ img.change-password-image {
     width: 100%;
     height: 100%;
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-middle;
   }
 
   .circle-inner3 .circle-half-bigger svg {
@@ -14433,9 +14701,7 @@ img.change-password-image {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-middle;
     border-radius: 50%;
     fill: rgba(255, 255, 255, 0.01);
     filter: drop-shadow(0px 0px 32px rgba(0, 74, 137, 0.39));
@@ -14972,7 +15238,7 @@ img.change-password-image {
         z-index: -1;
         background: linear-gradient(180deg,
             $primary-color -19.35%,
-            #00d4c0 123.28%);
+            $green 123.28%);
       }
     }
   }
@@ -15042,7 +15308,7 @@ img.change-password-image {
         border-radius: 37px;
         padding: 8px 23px;
         border-radius: 81px;
-        background: linear-gradient(90deg, $primary-color -7.89%, #00d4c0 100%);
+        background: linear-gradient(90deg, $primary-color -7.89%, $green 100%);
         box-shadow: 0px 2px 4px 0px rgba(0, 74, 137, 0.5);
         font-weight: 400;
         line-height: 39px;
@@ -15054,7 +15320,7 @@ img.change-password-image {
 
         &:hover {
           background: linear-gradient(90deg,
-              #00d4c0 -7.89%,
+              $green -7.89%,
               $primary-color 100%);
         }
 
@@ -15250,7 +15516,7 @@ img.change-password-image {
         .split-button-dropup {
           &.error {
             >div:nth-child(3) {
-              border: 1px solid #d61975;
+              border: 1px solid $pink;
               box-shadow: 0px 0px 6px 0px #ff9fce;
             }
           }
@@ -15585,9 +15851,7 @@ img.change-password-image {
         width: 100%;
 
         .slick-slide {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          @include flex-middle;
           transition: opacity 400ms ease 0s, visibility 800ms ease 0s !important;
 
           // &[data-index="1"] {
@@ -15617,9 +15881,7 @@ img.change-password-image {
           }
 
           .slider-in-views {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            @include flex-middle;
           }
 
           .slider-in-views,
@@ -15678,9 +15940,7 @@ img.change-password-image {
           }
 
           .slider-in-view {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            @include flex-middle;
 
             .slider-bg-icons {
               opacity: 0;
@@ -15803,8 +16063,7 @@ img.change-password-image {
               }
 
               .slide-left-sided {
-                display: flex;
-                align-items: flex-end;
+                @include flex-align-end;
                 justify-content: flex-end;
                 padding-right: 25px;
 
@@ -15852,9 +16111,8 @@ img.change-password-image {
 
               .slide-left-sided {
                 text-align: right;
-                display: flex;
+                @include flex-end;
                 align-items: center;
-                justify-content: flex-end;
 
                 img {
                   max-width: 397px;
@@ -15880,8 +16138,7 @@ img.change-password-image {
               .slide-right-content {
                 max-width: 584px;
                 width: 100%;
-                align-items: flex-start;
-                display: flex;
+                @include flex-align-start;
                 justify-content: center;
                 flex-direction: column;
 
@@ -16129,9 +16386,7 @@ img.change-password-image {
 .pharma-slider .slider .slick-list .slick-track .slick-slide>div {
   width: 100%;
   min-height: 569px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-middle;
 }
 
 .consent-content {
@@ -16139,7 +16394,6 @@ img.change-password-image {
   background: $white;
   border-radius: 20px;
   background: $white;
-  // box-shadow: 0px 0px 40px 0px rgba(0, 102, 190, 0.16);
   margin: -15px 0 0;
   position: relative;
   z-index: 3;
@@ -16167,8 +16421,7 @@ img.change-password-image {
     }
 
     .consent-details {
-      display: flex;
-      align-items: center;
+      @include flex-align-center;
 
       &.pharma-view {
         ul {
@@ -16312,9 +16565,7 @@ img.change-password-image {
       font-weight: 500;
       font-size: 12px;
       filter: drop-shadow(0px 1px 19px rgba(0, 102, 190, 0.24));
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include flex-align-center;
       flex-direction: column;
       padding: 5px;
       z-index: 2;
@@ -16491,16 +16742,16 @@ img.change-password-image {
 
       &.automail {
         &.active {
-          background: #00d4c0;
-          outline: 2px dashed #00d4c0;
-          filter: drop-shadow(0px 0px 19px #00d4c0);
+          background: $green;
+          outline: 2px dashed $green;
+          filter: drop-shadow(0px 0px 19px $green);
         }
 
         &.visible {
-          background: #00d4c0;
+          background: $green;
 
           &~.mudule-article-overview {
-            background: #00d4c0;
+            background: $green;
           }
         }
       }
@@ -16600,7 +16851,7 @@ img.change-password-image {
     opacity: 0;
     visibility: hidden;
     transition: 0.4s linear;
-    @include flex-center;
+    @include flex-space-between;
 
     &.show {
       opacity: 1;
@@ -16677,7 +16928,7 @@ img.change-password-image {
 
           .contact-validation {
             font-size: 12px;
-            color: #d61975;
+            color: $pink;
             text-align: right;
             position: absolute;
             margin-left: auto;
@@ -16724,7 +16975,7 @@ img.change-password-image {
     }
 
     .module-register form .split-button-dropup div:nth-child(3)>div div[class*="-placeholder"] {
-      color: #97b6cf;
+      color: $light-gray;
     }
 
     .module-register .split-button-dropup>div:nth-child(4) {
@@ -16732,14 +16983,14 @@ img.change-password-image {
       padding: 5px 5px;
       height: 190px;
       max-height: 200px;
-      color: #97b6cf;
+      color: $light-gray;
       background-color: $white;
       box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
     }
 
     .module-register .split-button-dropup>div:nth-child(4)>div div {
       text-align: left;
-      color: #97b6cf;
+      color: $light-gray;
       font-size: 14px;
       padding: 8px 10px;
 
@@ -16752,7 +17003,7 @@ img.change-password-image {
 }
 
 .module-register .form-group .split-button-dropup div:nth-child(4) div::-webkit-scrollbar-thumb {
-  background: #97b6cf;
+  background: $light-gray;
   border: 2px solid #eff4f8;
   height: 40px;
 }
@@ -16855,7 +17106,7 @@ img.change-password-image {
 
 .automail span,
 .request .circle .active.automail span {
-  color: #00d4c0;
+  color: $green;
 }
 
 .ai span,
@@ -16932,8 +17183,7 @@ img.change-password-image {
   box-shadow: 0px 1px 19px 0px rgba(0, 102, 190, 0.24);
   z-index: 3;
   padding: 24px 40px 34px;
-  display: flex;
-  justify-content: space-between;
+  @include flex-justify-between;
   flex-direction: column;
   // transform: translate(70%, 0) scale(0.3);
   opacity: 0;
@@ -17129,11 +17379,9 @@ img.change-password-image {
   --total: auto !important;
   transform: none;
   width: auto;
-  display: flex;
+  @include flex-middle;
   flex-wrap: wrap;
-  align-items: center;
   height: auto;
-  justify-content: center;
   gap: 16px 28px;
 }
 
@@ -17233,7 +17481,7 @@ img.change-password-image {
       resize: none;
       height: 91px;
       margin: 20px 0 10px;
-      color: #97b6cf;
+      color: $light-gray;
     }
 
     input {
@@ -17338,7 +17586,7 @@ img.change-password-image {
 .submit-section h3 {
   font-size: 32px;
   font-weight: 700;
-  color: #004a89;
+  color: $dark-blue;
   margin-bottom: 25px;
 }
 
@@ -17373,7 +17621,7 @@ img.change-password-image {
 }
 
 .modules-diagram .pharma_market.circle .stat.webinar.active:after {
-  border-color: #8a4e9c;
+  border-color: $voilet;
   width: 44px;
 }
 
@@ -17423,7 +17671,7 @@ img.change-password-image {
 }
 
 .modules-diagram .pharma_market.circle .stat.automail.active:after {
-  border-color: #00d4c0;
+  border-color: $green;
   width: 44px;
 }
 
@@ -17718,7 +17966,7 @@ img.change-password-image {
 
 
 .feilds-section {
-  border: 1px dashed #97B6CF;
+  border: 1px dashed $light-gray;
   border-radius: 12px;
   width: 100%;
   padding: 24px;
@@ -17728,7 +17976,7 @@ img.change-password-image {
     flex: 0 0 100%;
     font-size: 18px;
     line-height: 22px;
-    color: #004A89;
+    color: $dark-blue;
     width: 100%;
     margin: 0 0 12px;
   }
@@ -17742,7 +17990,7 @@ img.change-password-image {
     position: relative;
 
     &:after {
-      border-bottom: 1px dashed #97B6CF;
+      border-bottom: 1px dashed $light-gray;
       content: "";
       bottom: 0;
       width: calc(100% + 48px);
@@ -17755,12 +18003,11 @@ img.change-password-image {
   .add-choice {
     background: transparent;
     border: 0;
-    color: #8A4E9C;
+    color: $voilet;
     padding: 0;
     font-size: 14px;
     margin-left: auto;
-    display: flex;
-    align-items: center;
+    @include flex-align-center;
     // margin: 0 auto;
     cursor: pointer;
 
@@ -17822,8 +18069,7 @@ img.change-password-image {
 
       .btn-container {
         flex: 1 1;
-        display: flex;
-        flex-wrap: wrap;
+        @include flex-wrap;
         margin-top: 16px;
 
         .check {
@@ -17831,15 +18077,14 @@ img.change-password-image {
           min-width: 100%;
           margin: 0 0 4px;
           /* word-break: break-all; */
-          flex-wrap: wrap;
-          display: flex;
+          @include flex-wrap;
           width: 100%;
 
           .add-choice {
-            justify-content: flex-end;
+            @include flex-end;
             align-self: flex-start;
             font-size: 12px;
-            color: #8a4e9c;
+            color: $voilet;
             padding-top: 3px;
           }
         }
@@ -17859,8 +18104,7 @@ img.change-password-image {
 
           .extItem {
             margin: 0 0 11px;
-            display: flex;
-            align-items: flex-end;
+            @include flex-align-end;
 
             .opt-internal {
               flex: 1 1;
@@ -17888,7 +18132,7 @@ img.change-password-image {
       input[type="radio"],
       input[type="checkbox"] {
         margin: 0 10px 0 0;
-        border: 1px solid #97B6CF;
+        border: 1px solid $light-gray;
         width: 16px;
         height: 16px;
         padding: 1px;
@@ -17966,9 +18210,7 @@ img.change-password-image {
 .register-page-left {
   .save.btn {
     margin: 14px 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-middle;
     min-width: 130px;
   }
 }
@@ -17981,9 +18223,7 @@ img.change-password-image {
   padding-bottom: 74px;
 
   .header-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-middle;
     padding: 10px 10px 50px;
     position: relative;
     min-height: 300px;
@@ -18023,9 +18263,7 @@ img.change-password-image {
 
   .footer-section {
     min-height: 304px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-middle;
     padding: 10px 10px 50px;
     position: relative;
 
@@ -18071,9 +18309,7 @@ img.change-password-image {
       padding: 6px;
       height: 35px;
       margin: 5px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include flex-middle;
 
       img {
         width: 18px;
@@ -18241,7 +18477,344 @@ img.change-password-image {
 }
 
 /**New Landign Page End**/
+/**8check survey**/
+.check-survey {
+  .survey-block {
+    max-width: 890px;
+    margin: 0 auto;
+    border: 3px solid #00aeef;
+    box-shadow: 0px 0px 8px rgba(0, 20, 137, 0.15);
+    border-radius: 15px;
+    background: #ebf0f5;
+    padding: 0;
+    overflow: hidden;
 
+    .survey-header {
+      background: linear-gradient(to right, #24407d 0%, #009bcc 100%);
+      padding: 15px 30px;
+
+      img {
+        max-width: 180px;
+      }
+
+      h1 {
+        text-align: center;
+        color: $white;
+        font-weight: 700;
+      }
+    }
+
+    .survey-question {
+      padding: 40px;
+
+      .login-validation {
+        position: static;
+        width: 100%;
+      }
+
+
+      label {
+        &.form-label {
+          color: #24407d;
+          font-size: 17px;
+          margin: 0 0 7px;
+        }
+
+        &.label-main {
+          font-weight: 700;
+          font-size: 20px;
+          margin: 0 0 12px;
+
+          small {
+            font-size: 14px;
+            font-weight: 400;
+            padding: 0 0 0 24px;
+          }
+        }
+      }
+
+      input {
+
+        &.form-control {
+          border-radius: 0;
+          border: 1px solid #019acc;
+          box-shadow: none;
+        }
+      }
+
+      .form-check {
+        display: flex;
+        flex-direction: row-reverse;
+        padding: 0 40px 0 0;
+        gap: 13px;
+        align-items: center;
+
+        label {
+          font-size: 17px;
+          color: #24407d;
+        }
+
+        input {
+          &.form-check-input {
+            border-radius: 0;
+            width: 28px;
+            height: 28px;
+            border: 1px solid #019acc;
+            margin: 0;
+            position: relative;
+            cursor: pointer;
+
+            &:checked::after {
+              background: #019acc;
+              content: "";
+              position: absolute;
+              width: 100%;
+              height: 100%;
+            }
+          }
+
+          &:checked::before {
+            left: 9px;
+            top: 3px;
+            width: 9px;
+            height: 18px;
+            border: solid $white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+            content: "";
+            position: absolute;
+            z-index: 1;
+          }
+        }
+      }
+
+
+      .rating-wrapper {
+        display: inline-flex;
+        flex-direction: row-reverse;
+        margin: 0 0;
+        width: initial;
+        padding-left: 0;
+
+        input {
+          display: none;
+          height: 100%;
+          width: 100%;
+        }
+
+        label {
+          color: #E1E6F6;
+          cursor: pointer;
+          display: inline-flex;
+          font-size: 23px;
+          padding: 0rem;
+          transition: color 0.5s;
+
+          svg {
+            width: 36px;
+            height: 36px;
+          }
+        }
+      }
+
+      fieldset {
+        width: 100%;
+
+        .star-rating {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          label {
+            font-size: 17px;
+            color: #24407d;
+            padding-left: 24px;
+
+            &.star-rating {
+              padding-left: 0;
+            }
+          }
+        }
+      }
+
+      .flex-wrap {
+        padding-left: 24px;
+
+        &>label {
+          font-size: 17px;
+          color: #24407d;
+          flex: 0 0 100%;
+          margin: 2px 0 10px;
+        }
+
+        fieldset {
+          margin: -15px 0 10px;
+        }
+
+        &.activity {
+          flex-direction: column;
+          align-items: flex-start;
+
+          .form-check {
+            padding: 0;
+            margin: 0 0 10px;
+          }
+
+          .form-check-label {
+            min-width: 280px;
+          }
+        }
+      }
+
+      textarea {
+        border-radius: 0;
+        box-shadow: none;
+        resize: none;
+        border: 1px solid #019acc;
+        min-height: 100px;
+      }
+
+      .other-option {
+        margin: 10px 0 0;
+
+        label {
+          font-size: 17px;
+          color: #24407d;
+        }
+      }
+
+      button {
+        min-width: 140px;
+        margin: 15px 0 0 auto;
+        display: block;
+      }
+    }
+  }
+
+  .rating-wrapper label:hover svg path,
+  .rating-wrapper label:hover~label svg path,
+  .rating-wrapper input:checked~label svg path {
+    fill: #019acc;
+  }
+}
+
+/**8check survey end**/
+
+/**survey data**/
+.survey_data {
+  background: rgba(0, 102, 190, 0.03);
+  border-radius: 20px;
+  padding: 16px;
+  margin: 30px 0 0;
+  min-height: 94vh;
+
+  .survey_data_heading {
+    h4 {
+      font-weight: 500;
+      text-transform: capitalize;
+      color: $dark-blue;
+      margin: 0 0 15px;
+      padding: 0 0 0 4px;
+    }
+  }
+
+  .survey_data_details {
+    height: 100%;
+    overflow-y: auto;
+    max-height: 85vh;
+    padding: 4px;
+  }
+
+  .accordion-item {
+    border: 0;
+    background: $white;
+    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+    border-radius: 9px;
+    margin: 0 0 10px;
+
+    h2 {
+      margin: 0px 0px;
+
+      button {
+        font-size: 16px;
+        line-height: 18px;
+        color: $dark-gray;
+        font-weight: 500;
+        border-radius: 9px !important;
+
+        &:focus {
+          border: 0;
+          box-shadow: none;
+        }
+
+        &:after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 17px;
+          background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+          background-size: 16px;
+          width: 16px;
+          height: 10px;
+          transition: all 0.2s ease-out 0s;
+          cursor: pointer;
+        }
+
+        &:not(.collapsed) {
+          color: $dark-gray;
+          border-radius: 9px 9px 0 0 !important;
+
+          &:after {
+            content: "";
+            transform: rotate(180deg) translateY(5px);
+            background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+          }
+        }
+      }
+    }
+
+    .accordion-collapse {
+      .accordion-body {
+        background: $white;
+        box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+        border: 0;
+        padding: 0px 20px 15px;
+        border-top: 0.5px dashed $light-gray;
+        border-radius: 0 0 9px 9px;
+
+        .survey-data {
+          h6 {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 24px;
+            color: $dark-blue;
+            margin: 20px 0 7px;
+          }
+
+          p {
+            font-size: 15px;
+            line-height: 18px;
+            margin: 0 0 5px;
+            font-weight: 500;
+            color: rgba(0, 74, 137, 0.55);
+            word-break: break-word;
+            margin: 0 0 9px;
+            max-width: 450px;
+
+            span {
+              color: $primary-color;
+              color: $dark-blue;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**survey data end**/
 /**Landing page Responsive Start**/
 @media only screen and (max-width: 1650px) {
   .landing-banner {
@@ -19149,6 +19722,68 @@ img.change-password-image {
   .webinar-question-results table tbody tr td button {
     font-size: 12px;
   }
+
+  .check-survey {
+    .survey-block {
+      max-width: 800px;
+
+      .survey-header {
+        img {
+          max-width: 140px;
+        }
+
+        h1 {
+          font-size: 36px;
+        }
+      }
+
+      .survey-question {
+        padding: 25px;
+
+        .flex-wrap {
+          padding-left: 32px;
+
+          &>label {
+            font-size: 16px;
+          }
+        }
+
+        label {
+          &.label-main {
+            font-size: 17px;
+            margin: 0 0 7px;
+
+            small {
+              padding: 0 0 0 20px;
+            }
+          }
+
+          &.form-label {
+            font-size: 16px;
+          }
+        }
+
+        .form-check {
+          label {
+            font-size: 16px;
+          }
+        }
+
+        fieldset {
+          .star-rating {
+            label {
+              font-size: 16px;
+              padding-left: 20px;
+            }
+          }
+        }
+
+        button {
+          font-size: 16px;
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
@@ -19954,6 +20589,18 @@ img.change-password-image {
       }
     }
   }
+
+  .check-survey {
+    .survey-block {
+      max-width: 750px;
+
+      .survey-question {
+        .form-check {
+          padding: 0 28px 0 0;
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 1200px) {
@@ -20669,8 +21316,96 @@ img.change-password-image {
     display: flex;
   }
 
-  .library_create_position .library_create .library_create-box {
-    max-width: 47%;
+  .check-survey {
+    .survey-block {
+      max-width: 90%;
+
+      .survey-header {
+        padding: 15px 25px;
+
+        img {
+          max-width: 130px;
+        }
+
+        h1 {
+          font-size: 26px;
+        }
+      }
+
+      .survey-question {
+        .flex-wrap {
+          padding-left: 0;
+          gap: 10px;
+
+          &>label {
+            font-size: 15px;
+            margin-bottom: 0;
+          }
+
+          &.activity .form-check {
+            padding: 0;
+            margin: 0 0 3px;
+          }
+        }
+
+        .form-check {
+          padding: 0 20px 0 0;
+
+          label {
+            font-size: 15px;
+          }
+
+          label {
+            &.form-label {
+              font-size: 15px;
+            }
+
+            &.label-main {
+              small {
+                font-size: 11px;
+              }
+            }
+          }
+        }
+
+        input {
+          &.form-check-input {
+            width: 25px;
+            height: 25px;
+          }
+        }
+
+        fieldset {
+          .star-rating {
+            label {
+              font-size: 15px;
+              padding-left: 0px;
+            }
+
+            .rating-wrapper {
+              label {
+                svg {
+                  width: 30px;
+                  height: 30px;
+                }
+              }
+            }
+          }
+        }
+
+        label {
+          &.form-label {
+            font-size: 15px;
+          }
+
+          &.label-main {
+            small {
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -20810,9 +21545,7 @@ img.change-password-image {
     height: 32px;
     border-radius: 50%;
     box-shadow: 0px 0px 8px 0px rgba(0, 102, 190, 0.32);
-    align-items: center;
-    justify-content: center;
-    display: flex;
+    @include flex-middle;
   }
 
   .mobile-slider-inset .slick-list .module-discribe .btn-filled+a img {
@@ -20836,9 +21569,7 @@ img.change-password-image {
     height: auto;
     --radius: 0;
     gap: 0 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-middle;
   }
 
   .module-bigger-size.show.small .module-diagram.circle.pharma_market .stat.active {
@@ -20862,9 +21593,7 @@ img.change-password-image {
   }
 
   .mobile-slider-inset .slick-slider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-middle;
     height: 100%;
   }
 
@@ -21525,9 +22254,7 @@ img.change-password-image {
         .slick-track {
           .slick-slide {
             &>div {
-              align-items: center;
-              justify-content: center;
-              display: flex;
+              @include flex-middle;
             }
 
             .slider-in-views {
@@ -21815,7 +22542,7 @@ img.change-password-image {
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-right-sided .slide-right-content h5 {
     font-size: 15px;
     line-height: 22px;
-    color: #004a89;
+    color: $dark-blue;
   }
 
   .pharma-slider .slider .slick-list .slick-track .slick-slide .slider-in-view .slide-right-sided .slide-right-content h3 {
@@ -22004,15 +22731,18 @@ img.change-password-image {
     bottom: 28px;
   }
 
-  .landing-banner.pharma .landing-block {
-    overflow-x: hidden;
-    height: 100%;
-    min-height: 90vh;
-    justify-content: space-around;
-    display: flex;
-    flex-direction: column;
-    padding-left: 0;
-    padding-right: 0;
+  .landing-banner {
+    &.pharma {
+      .landing-block {
+        overflow-x: hidden;
+        height: 100%;
+        min-height: 90vh;
+        @include flex-space-around;
+        flex-direction: column;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
   }
 
   .pharma-slider .slider .slick-dots li {
@@ -22024,9 +22754,7 @@ img.change-password-image {
     background: $white;
     width: 16px;
     height: 16px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
+    @include flex-middle;
     background: transparent;
   }
 
@@ -22079,9 +22807,7 @@ img.change-password-image {
   }
 
   .consent-content .works-started .modules-diagram .module-bigger-size.show {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-middle;
     transition: none;
     height: auto;
   }
@@ -22096,8 +22822,6 @@ img.change-password-image {
     width: 100%;
     padding: 40px 15px;
     flex-direction: column;
-    // top: 50%;
-    // transform: translateY(-50%);
     background: transparent;
     backdrop-filter: none;
   }
@@ -22187,10 +22911,8 @@ img.change-password-image {
     background: $white;
     box-shadow: 0px 0px 24px 0px rgba(0, 0, 60, 0.5);
     border-radius: 50%;
-    display: flex;
+    @include flex-middle;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
 
   .submit-section img {
@@ -22216,7 +22938,7 @@ img.change-password-image {
   }
 
   .header-forgot .modal-title.h4 {
-    color: #004a89;
+    color: $dark-blue;
     font-size: 20px;
   }
 
@@ -22251,13 +22973,13 @@ img.change-password-image {
     display: none;
   }
 
+  .mobile-slider .slick-dots {
+    bottom: -32px;
+  }
+
   .mobile-slider .slick-dots li {
     height: 10px;
     width: 14px;
-  }
-
-  .mobile-slider .slick-dots {
-    bottom: -32px;
   }
 
   .mobile-slider .slick-dots li button:before {
@@ -22271,7 +22993,7 @@ img.change-password-image {
 
   .mobile-slider .slick-dots li.slick-active button:before {
     opacity: 1;
-    background: #004a89;
+    background: $dark-blue;
   }
 
   .module-bigger-size.small.show .module-diagram.circle.pharma_market {
@@ -22279,9 +23001,7 @@ img.change-password-image {
     height: auto;
     --radius: 0;
     gap: 0 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-middle;
     position: absolute;
     top: 420px;
     transform: translate(0%, 0%);
@@ -22416,9 +23136,7 @@ img.change-password-image {
   .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show .shape.shape-left+div.request {
     top: 0;
     bottom: 0;
-    justify-content: center;
-    align-items: center;
-    display: flex;
+    @include flex-middle;
   }
 
   .scrollerClass .consent-content .works-started .modules-diagram .module-bigger-size.show.small .shape.shape-left+div {
@@ -22451,13 +23169,24 @@ img.change-password-image {
     background-size: 15px;
     width: 15px;
     right: 15px;
+    transition: all 0.4s ease-in-out;
+
+  }
+
+  .user-login .dropdown #dropdown-basic[aria-expanded="true"]::after {
+    transform: rotate(180deg) translateY(7px);
   }
 
   .user-login .dropdown #dropdown-basic {
-    font-size: 18px;
-    padding: 8px 15px;
+    font-size: 16px;
+    padding: 8px 20px;
     max-width: 100%;
     justify-content: flex-start;
+  }
+
+  nav #collapsibleNavbar li.nav-item a,
+  .nav-item.user-login .dropdown #dropdown-basic {
+    padding: 0 20px;
   }
 
   .navbar .navbar-collapse .user-login {
@@ -22465,8 +23194,8 @@ img.change-password-image {
   }
 
   .user-login .dropdown .dropdown-menu a {
-    font-size: 17px;
-    padding: 6px 30px;
+    font-size: 16px;
+    padding: 4px 20px;
   }
 
   .search-bar form.d-flex input {
@@ -22821,9 +23550,35 @@ img.change-password-image {
     height: 35px;
   }
 
+  .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
+    font-size: 12px;
+  }
+
   .library-content-box-layuot .doc-content-main-box .tab-content .tab-pane,
   .library-content-box-layuot .doc-content-main-box .tab-content {
     min-height: 200px;
+  }
+
+  .survey_data {
+    padding: 12px;
+  }
+
+  .survey_data .survey_data_heading h4 {
+    margin: 0 0 9px;
+  }
+
+  .survey_data .accordion-item .accordion-collapse .accordion-body {
+    padding: 0px 15px 15px;
+  }
+
+  .survey_data .accordion-item h2 button {
+    font-size: 15px;
+    padding: 13px;
+  }
+
+  .survey_data .accordion-item .accordion-collapse .accordion-body .survey-data h6 {
+    font-size: 15px;
+    line-height: 22px;
   }
 }
 
