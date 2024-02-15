@@ -13,7 +13,7 @@ const Check8 = () => {
   const [formInputs, setFormInputs] = useState({});
   const [error, setError] = useState("");
   const location = useLocation();
-  const userId=new URLSearchParams(location.search).get("user_id")
+  const userId=new URLSearchParams(location.search).get("uhsjdksdk")
   // var encrypted_us = queryParams.get("user_id") ?  queryParams.get("user_id") : 0;
 
   const handleChange = (e, isSelectedName, rating) => {

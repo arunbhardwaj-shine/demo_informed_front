@@ -15,7 +15,7 @@ const SurveyQuestionForm = () => {
   })
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);   
-  var encrypted_us = queryParams.get("user_id") ?  queryParams.get("user_id") : 0;
+  var encrypted_us = queryParams.get("uhsjdksdk") ?  queryParams.get("uhsjdksdk") : 0;
   
   
   const EventDataFun = async() =>{

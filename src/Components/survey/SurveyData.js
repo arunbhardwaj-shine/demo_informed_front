@@ -52,7 +52,8 @@ const SurveyData = () => {
           Email: item?.email ? item.email.trim() : "N/A",
           Country: item?.country ? item.country.trim() : "N/A",
           SurveyDate: item?.created_at ? item.created_at.trim() : "N/A",
-          'Location\nCity': item?.survey_data?.location?.city ?item?.survey_data?.location?.city.trim() : "N/A",
+          'Location,City': item?.survey_data?.location?.city ?item?.survey_data?.location?.city.trim() : "N/A",
+          'Location,State':item?.survey_data?.location?.state ?item?.survey_data?.location?.state.trim() : "N/A",
       };
       })
       // const worksheet = XLSX.utils.json_to_sheet(downloadData);
