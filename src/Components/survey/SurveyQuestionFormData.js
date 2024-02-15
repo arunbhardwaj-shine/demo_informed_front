@@ -25,6 +25,7 @@ const SurveyQuestionFormData = () => {
 
   const getSurveyData = async () => {
     try {
+      loader("show")
       const response = await getData(ENDPOINT.GET_SURVEY_DATA + "?type=2");
       let data = [];
       response?.data?.data?.map((item, index) => {
@@ -35,6 +36,8 @@ const SurveyQuestionFormData = () => {
       setData(data);
     } catch (err) {
       console.log("--err", err);
+    }finally{
+      loader("hide")
     }
   };
 
