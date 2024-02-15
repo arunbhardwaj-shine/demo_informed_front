@@ -13,7 +13,7 @@ const Check8 = () => {
   const [formInputs, setFormInputs] = useState({});
   const [error, setError] = useState("");
   const location = useLocation();
-  const userId=new URLSearchParams(location.search).get("user_id")
+  const userId=new URLSearchParams(location.search).get("uhsjdksdk")
   // var encrypted_us = queryParams.get("user_id") ?  queryParams.get("user_id") : 0;
 
   const handleChange = (e, isSelectedName, rating) => {
@@ -140,7 +140,7 @@ const Check8 = () => {
         let body={
           surveyData:data,
           formType:1,
-          user_id:userId?userId:0,
+          userId:userId?userId:0,
           event_id:0
         }
         const response = await postData(ENDPOINT.STORE_SURVEY_DATA, body)
@@ -172,7 +172,12 @@ const Check8 = () => {
         draggable
         pauseOnHover
       />
+      <div class="loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
       <div className="col right-sidebar full-width-survey">
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
         <div className="check-survey">
           <Container>
             <Row>

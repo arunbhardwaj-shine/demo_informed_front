@@ -15,12 +15,12 @@ const SurveyQuestionForm = () => {
   })
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);   
-  var encrypted_us = queryParams.get("user_id") ?  queryParams.get("user_id") : 0;
+  var encrypted_us = queryParams.get("uhsjdksdk") ?  queryParams.get("uhsjdksdk") : 0;
   
   
   const EventDataFun = async() =>{
     try{
-        loader("show")
+        // loader("show")
         const result = await postData(ENDPOINT.EVENT_ID,{
              eventCode :queryParams.get("event")
         })
@@ -140,6 +140,7 @@ const SurveyQuestionForm = () => {
         draggable
         pauseOnHover
       />
+      <div class="loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
       <div className="col right-sidebar full-width-survey">
         <div className="check-survey">
           <Container>
