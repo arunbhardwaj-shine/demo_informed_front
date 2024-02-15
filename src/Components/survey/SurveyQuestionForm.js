@@ -104,7 +104,8 @@ const SurveyQuestionForm = () => {
 
         let body = {
           surveyData: data,
-          event_id:eventId,
+          // event_id:eventId,
+          event_id:eventId?.id?eventId?.id:0,
           userId:encrypted_us,
           formType: 2
         }
@@ -143,7 +144,7 @@ const SurveyQuestionForm = () => {
               <div className="survey-block">
                 <div className="survey-header d-flex justify-content-center">
                   <Col>
-                    <h1> Post Event Survey</h1>
+                    <h1>Clinical Practice Post Event Survey</h1>
                   </Col>
                 </div>
                 <div className="survey-question">
