@@ -33,7 +33,7 @@ const SurveyQuestionFormData = () => {
         data?.push(item);
       });
       // console.log("response-->", data)
-      // setData(data);
+      setData(data);
     } catch (err) {
       console.log("--err", err);
     }finally{
