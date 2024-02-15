@@ -253,6 +253,12 @@ const NewEventCreate = () => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     navigate("/webinar/live-stream");
   };
+  const surveyQuestionFormDetail = (e,item) => {
+    handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
+    navigate("/webinar/live-stream/survey/question-data" , {
+      state: { event_id: item?.id, companyId: item?.user_id },
+    });
+  }
   const webinarPollingForm = (e, item) => {
     handleEventId({eventId:item?.id,companyId:item?.user_id,eventCode:item?.event_code,eventTitle:item?.title})
     // if(item?.is_chat_link_created === 0){
@@ -1212,6 +1218,19 @@ const getEventTime=(timeZone)=> {
                                     title="Polls"
                                     src={path_image + "polling-icon.svg"}
                                     alt="Polls"
+                                  />
+                                </button>
+                                <button
+                                  className="btn-webinar"
+                                  onClick={(e) => {
+                                    surveyQuestionFormDetail(e, item);
+                                    e.stopPropagation();
+                                  }}
+                                >
+                                  <img
+                                    title="Survey"
+                                    src={path_image + "survay-icon.svg"}
+                                    alt="Survey"
                                   />
                                 </button>
                                 <button

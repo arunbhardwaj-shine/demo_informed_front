@@ -3,12 +3,18 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper"
 import { SurveyFormValidations } from "../Validations/SurveyFormValidations/SurveyFormValidations"
+import { useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { loader } from "../../loader";
 
 const Check8 = () => {
   const formRef = useRef(null);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [formInputs, setFormInputs] = useState({});
   const [error, setError] = useState("");
+  const location = useLocation();
+  const userId=new URLSearchParams(location.search).get("user_id")
+  // var encrypted_us = queryParams.get("user_id") ?  queryParams.get("user_id") : 0;
 
   const handleChange = (e, isSelectedName, rating) => {
     if (
@@ -77,10 +83,11 @@ const Check8 = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      loader("show")
       const error = SurveyFormValidations(formInputs)
+      
       if (Object.keys(error)?.length) {
         setError(error)
-        console.log("error-->",error)
         return
       }
       else {
@@ -132,20 +139,39 @@ const Check8 = () => {
         }
         let body={
           surveyData:data,
-          formType:1
+          formType:1,
+          user_id:userId?userId:0,
+          event_id:0
         }
         const response = await postData(ENDPOINT.STORE_SURVEY_DATA, body)
-        setFormInputs({});
-        setError()
-        formRef.current.reset();
+        if(response?.status==200){
+          setFormInputs({});
+          setError()
+          formRef.current.reset();
+          formRef.current.scrollIntoView({ behavior: 'smooth' });
+          toast.success(response?.data?.message)
+        }    
       }
 
     } catch (err) {
       console.log("--err", err)
+    }finally{
+      loader("hide")
     }
   };
   return (
     <>
+     <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="col right-sidebar full-width-survey">
         <div className="check-survey">
           <Container>
@@ -2020,7 +2046,7 @@ const Check8 = () => {
                                 id="4-informed_testing"
                                 name="informed_testing_of_family_members"
                                 onChange={(e) =>
-                                  handleChange(e, "genotype_information_impacted_rate ", "4")
+                                  handleChange(e, "genotype_information_impacted_rate", "4")
                                 }
                                 checked={formInputs?.genotype_information_impacted_rate?.informed_testing_of_family_members == "4"}
                               />

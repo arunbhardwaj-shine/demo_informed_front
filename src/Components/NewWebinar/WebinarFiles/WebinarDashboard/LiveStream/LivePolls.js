@@ -4,9 +4,12 @@ import { postData } from '../../../../../axios/apiHelper'
 import LivePollsQuestion from './LivePollsQuestions'
 import { useSidebar } from '../../../../CommonComponent/LoginLayout'
 import { loader } from '../../../../../loader'
+import { useNavigate } from 'react-router-dom'
 
 
-const LivePolls = ({ location, flag }) => {
+const LivePolls = ({ location, flag ,setSelectedTab}) => {
+    const navigate = useNavigate();
+
     const {eventIdContext,handleEventId}=useSidebar()
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEvent] = useState({
@@ -28,6 +31,9 @@ const LivePolls = ({ location, flag }) => {
                 companyId: eventId?.companyId,
                 eventId: eventId?.id,
             });
+            if(result?.data?.data.length === 0){
+                setSelectedTab("polls-creation")
+            }
             setData(result?.data?.data)
             loader("hide");
         } catch (err) {

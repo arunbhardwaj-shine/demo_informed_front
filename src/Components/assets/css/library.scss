@@ -8859,6 +8859,11 @@ svg.pencil_icon {
     margin-top: 0px;
   }
 
+  .apply-filter {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
   .create-change-content.register-page .register-page-left {
     padding-right: 10px;
   }
@@ -10469,6 +10474,18 @@ svg.pencil_icon {
 @media (max-width: $layout-breakpoint-medium) {
   .crm-detail .crm-detail-content .crm-review .crm-review-detail:first-child {
     flex: 0 0 260px;
+  }
+
+  .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list h6.tab-content-title {
+    flex: 0 0 80px;
+  }
+
+  .library-content-box-layuot.readerlist .doc-content-main-box .tab-content .tab-mail-list.data.change h6.tab-content-title {
+    flex: 0 0 80px;
+  }
+
+  .library-content-box-layuot.readerlist .doc-content-main-box .tab-content {
+    min-height: 230px;
   }
 
   .create-change-content .form-group.margin-added {
@@ -18706,8 +18723,12 @@ img.change-password-image {
   background: rgba(0, 102, 190, 0.03);
   border-radius: 20px;
   padding: 16px;
-  margin: 30px 0 0;
-  min-height: 94vh;
+  margin: 20px 0;
+  min-height: 86vh;
+  max-height: 86vh;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
 
   .survey_data_heading {
     h4 {
@@ -18719,11 +18740,39 @@ img.change-password-image {
     }
   }
 
+  .survey_data_accordion_heading {
+    padding: 16px 20px;
+
+    ul {
+      li {
+        font-weight: 500;
+        line-height: 18px;
+        color: #004A89;
+      }
+    }
+  }
+
   .survey_data_details {
     height: 100%;
     overflow-y: auto;
-    max-height: 85vh;
     padding: 4px;
+
+    ul {
+      display: flex;
+      justify-content: flex-start;
+      width: 100%;
+
+      li {
+        width: 26%;
+        padding:0 15px 0 0; 
+        &:last-child {
+          width: 22%;
+        }
+      }
+    }
+
+
+
   }
 
   .accordion-item {
@@ -19977,7 +20026,9 @@ img.change-password-image {
     font-size: 16px;
     margin: 0 0 12px;
   }
-
+.survey_data .survey_data_details ul li {
+    font-size: 14px;
+}
   .data-main-footer-sec .footer-btn button {
     font-size: 13px;
   }
@@ -23170,7 +23221,10 @@ img.change-password-image {
     width: 15px;
     right: 15px;
     transition: all 0.4s ease-in-out;
+  }
 
+  .nav-item.user-login .dropdown #dropdown-basic::after {
+    right: 0;
   }
 
   .user-login .dropdown #dropdown-basic[aria-expanded="true"]::after {
@@ -23339,7 +23393,9 @@ img.change-password-image {
     min-height: inherit;
   }
 
-  .custom-change .top-sticky {
+  .custom-change .top-sticky,
+  header.-top-24~div .custom-change .top-sticky,
+  header.-top-24~div .custom-change .page-top-nav.sticky {
     top: 48px;
   }
 
@@ -23491,7 +23547,15 @@ img.change-password-image {
   }
 
   .filter-by button {
-    padding: 6px 5px;
+    padding: 6px 6px;
+  }
+
+  .library-content-box-layuot.readerlist .doc-content-main-box {
+    margin: 0px 0 15px;
+  }
+
+  .library-content-box-layuot .doc-content-main-box .doc-content-header {
+    margin-bottom: 5px;
   }
 
   .create-change-content .form-group .form-control,

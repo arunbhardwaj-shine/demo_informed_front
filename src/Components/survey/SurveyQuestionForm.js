@@ -1,10 +1,40 @@
-import { useState, useRef } from "react";
+import { useState, useRef ,useEffect} from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { SurveyQuestionFormValidations } from "../Validations/SurveyFormValidations/SurveyQuestionFormValidations";
+import { ToastContainer, toast } from "react-toastify";
+import { useLocation } from 'react-router-dom';
+import { loader } from "../../loader";
 
-const SurveyCheck8Question = () => {
+
+const SurveyQuestionForm = () => {
+  const [eventId,setEvent] = useState({
+    id:0,
+    companyId:0
+  })
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);   
+  var encrypted_us = queryParams.get("user_id") ?  queryParams.get("user_id") : 0;
+  
+  
+  const EventDataFun = async() =>{
+    try{
+        loader("show")
+        const result = await postData(ENDPOINT.EVENT_ID,{
+             eventCode :queryParams.get("event")
+        })
+        setEvent(result.data.data)
+        // loader("hide")
+  
+    }catch(err){
+        // loader("hide")
+        console.log("-err",err)
+    }
+  }
+  useEffect(()=>{
+    EventDataFun()
+  },[])
   const formRef = useRef(null);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [formInputs, setFormInputs] = useState({});
@@ -25,15 +55,8 @@ const SurveyCheck8Question = () => {
       };
 
       setFormInputs({ ...formInputs, ...updateForm });
-    } else if (e.target.name === "city" || e.target.name === "state") {
-      setFormInputs((prevState) => ({
-        ...prevState,
-        location: {
-          ...prevState.location,
-          [e.target.name]: e?.target?.value,
-        },
-      }));
-    }
+    } 
+    
     else {
       const isOther = isSelectedName === "other";
       const checkboxValue = isOther ? true : e.target.checked;
@@ -57,13 +80,6 @@ const SurveyCheck8Question = () => {
         return;
       } else {
         let data = {
-          location: {
-            city: formInputs?.location?.city ? formInputs?.location?.city : "",
-            state: formInputs?.location?.state
-              ? formInputs?.location?.state
-              : "",
-          },
-          provider: formInputs?.provider ? formInputs?.provider : "",
 
           suggestion: formInputs?.suggestion ? formInputs?.suggestion : "",
 
@@ -88,13 +104,20 @@ const SurveyCheck8Question = () => {
 
         let body = {
           surveyData: data,
+          // event_id:eventId,
+          event_id:eventId?.id?eventId?.id:0,
+          userId:encrypted_us,
           formType: 2
         }
 
         const response = await postData(ENDPOINT.STORE_SURVEY_DATA, body);
-        setFormInputs({});
-        setError();
-        formRef.current.reset();
+        if(response?.status==200){
+          setFormInputs({});
+          setError()
+          formRef.current.reset();
+          formRef.current.scrollIntoView({ behavior: 'smooth' });
+          toast.success(response?.data?.message)
+        }  
       }
     } catch (err) {
       console.log("--err", err);
@@ -103,96 +126,34 @@ const SurveyCheck8Question = () => {
 
   return (
     <>
+     <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="col right-sidebar full-width-survey">
         <div className="check-survey">
           <Container>
             <Row>
               <div className="survey-block">
-                <div className="survey-header d-flex align-items-center justify-content-between">
+                <div className="survey-header d-flex justify-content-center">
                   <Col>
-                    <img src={path_image + "8checklogo.png"} alt="" />
+                    <h1>Clinical Practice Post Event Survey</h1>
                   </Col>
-                  <Col>
-                    <h1>Survey Question</h1>
-                  </Col>
-                  <Col></Col>
                 </div>
                 <div className="survey-question">
                   <Form onSubmit={handleSubmit} ref={formRef}>
-                    <Form.Group className="mb-3">
-                      <Form.Label className="label-main">Location:</Form.Label>
-                      <Row>
-                        <Col sm={6}>
-                          <Form.Label>City:</Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="city"
-                            placeholder=""
-                            value={formInputs?.location?.city}
-                            onChange={(e) => handleChange(e)}
-                          />
-                          {error?.city ? (
-                            <div className="login-validation">
-                              {error?.city}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </Col>
-                        <Col sm={6}>
-                          <Form.Label>State:</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder=""
-                            name="state"
-                            value={formInputs?.location?.state}
-                            onChange={(e) => handleChange(e)}
-                          />
-                          {error?.state ? (
-                            <div className="login-validation">
-                              {error?.state}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </Col>
-                      </Row>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                      <Form.Label className="label-main">
-                        Type of Provider:
-                      </Form.Label>
-
-                      <Row>
-                        <Col sm={12}>
-                          <Form.Control
-                            type="text"
-                            placeholder=""
-                            name="provider"
-                            value={formInputs?.provider}
-                            onChange={(e) => handleChange(e)}
-                          />
-                          {error?.provider ? (
-                            <div className="login-validation">
-                              {error?.provider}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </Col>
-                      </Row>
-                    </Form.Group>
-
                     <Form.Group className="mb-3">
                       <Form.Label column sm={12} className="label-main">
                         1. How relevant was this patient case to your clinical
                         practice?
                         <br />
-                        {/* <small>
-                          (5 star rating, and this should be the question
-                          displayed in the email)
-                        </small> */}
                       </Form.Label>
                       <Col sm={12} className="d-flex flex-wrap">
                         <fieldset>
@@ -460,4 +421,4 @@ const SurveyCheck8Question = () => {
   );
 };
 
-export default SurveyCheck8Question;
+export default SurveyQuestionForm;
