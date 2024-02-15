@@ -74,6 +74,7 @@ const SurveyQuestionForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      loader("show")
       const error = SurveyQuestionFormValidations(formInputs);
       if (Object.keys(error)?.length) {
         setError(error);
@@ -121,6 +122,8 @@ const SurveyQuestionForm = () => {
       }
     } catch (err) {
       console.log("--err", err);
+    }finally{
+      loader("hide")
     }
   };
 
