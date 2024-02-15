@@ -210,7 +210,7 @@ const SurveyData = () => {
             <div className="survey_data">
               <div className='survey_data_heading d-flex align-items-center justify-content-between'>
                 <h4>Survey Data</h4>
-                <div className='top-right-action'>
+                <div className='clear-search d-flex align-items-center'>
                   <a
                     className={`copy_link btn-voilet`}
                     href={`${window.location.protocol}//${window.location.host}/survey/check8`}
