@@ -26,14 +26,20 @@ const SurveyQuestionFormData = () => {
   const getSurveyData = async () => {
     try {
       loader("show")
-      const response = await getData(ENDPOINT.GET_SURVEY_DATA + "?type=2");
+     let eventId=eventData?.eventId?eventData?.eventId:0
+     if(eventId==0){
+      toast.error("Event id required")
+      return
+     } else{
+      const response = await getData(ENDPOINT.GET_SURVEY_DATA + `?type=2&eventId=${eventId}`);
       let data = [];
       response?.data?.data?.map((item, index) => {
         item.survey_data = JSON.parse(item?.survey_data);
         data?.push(item);
       });
-      // console.log("response-->", data)
       setData(data);
+     }
+     
     } catch (err) {
       console.log("--err", err);
     }finally{
