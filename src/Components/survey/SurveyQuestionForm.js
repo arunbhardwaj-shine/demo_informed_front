@@ -25,10 +25,10 @@ const SurveyQuestionForm = () => {
              eventCode :queryParams.get("event")
         })
         setEvent(result.data.data)
-        // loader("hide")
+        loader("hide")
   
     }catch(err){
-        // loader("hide")
+        loader("hide")
         console.log("-err",err)
     }
   }
@@ -140,6 +140,7 @@ const SurveyQuestionForm = () => {
         draggable
         pauseOnHover
       />
+      <div class="loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
       <div className="col right-sidebar full-width-survey">
         <div className="check-survey">
           <Container>

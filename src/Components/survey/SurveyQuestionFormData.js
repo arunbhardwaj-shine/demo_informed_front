@@ -19,8 +19,6 @@ const SurveyQuestionFormData = () => {
 
   const [data, setData] = useState([]);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
-  const [apiCallStatus, setApiCallStatus] = useState(true);
-
   useEffect(() => {
     getSurveyData();
   }, []);
@@ -50,13 +48,12 @@ const SurveyQuestionFormData = () => {
         toast.warning("No data found");
         return;
       }
-      setApiCallStatus(true);
       data = data?.map((item, index) => {
         let finalData = {};
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
         finalData.Email = item?.email ? item?.email.trim() : "N/A";
-        finalData.Survey_Date = item?.created_at
+        finalData.SurveyDate = item?.created_at
           ? item?.created_at.trim()
           : "N/A";
         finalData[
@@ -73,7 +70,7 @@ const SurveyQuestionFormData = () => {
             ? `${item?.survey_data?.recommend?.recommend_clinical}`.trim()
             : "N/A";
         finalData[
-          ` 4. Please suggest a topic for a future Clinical Practice patient case:`
+          `Please suggest a topic for a future Clinical Practice patient case:`
         ] = item?.survey_data?.suggestion
           ? `${item?.survey_data?.suggestion}`.trim()
           : "N/A";
@@ -89,14 +86,12 @@ const SurveyQuestionFormData = () => {
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      saveAs(blob, `Survey_Users.xlsx`);
-      setApiCallStatus(false);
+      saveAs(blob, `Survey_Users_Data.xlsx`);
     } catch (error) {
       console.error(
         "An error occurred while downloading the Excel file:",
         error
       );
-      setApiCallStatus(false);
     }
   };
 
@@ -272,7 +267,7 @@ const SurveyQuestionFormData = () => {
                                     </div>
                                   ) : (
                                     <div className="no_found">
-                                      <p align="center">No Data Available</p>
+                                      <p align="center">No Data Found</p>
                                     </div>
                                   )}
                                 </>
@@ -286,7 +281,7 @@ const SurveyQuestionFormData = () => {
                 </div>
               ) : (
                 <div className="no_found">
-                  <p align="center">No Data Available</p>
+                  <p align="center">No Data Found</p>
                 </div>
               )}
             </div>
