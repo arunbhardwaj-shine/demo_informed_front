@@ -107,6 +107,7 @@ const SurveyData = () => {
       draggable
       pauseOnHover
     />
+    <div class="loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
     <Col className="right-sidebar custom-change full-width-survey">
       <div className="custom-container">
         <Row>
