@@ -21,18 +21,6 @@ const SurveyQuestionFormData = () => {
   }, []);
 
   const getSurveyData = async () => {
-    // try {
-    //   // const response = await getData( `${ENDPOINT.GET_SURVEY_DATA + "?type=2"}/${eventId}`)
-    //   const response = await getData(ENDPOINT.GET_SURVEY_DATA + "?type=2");
-    //   let parsedData = response?.data?.data.map(item => ({
-    //     ...item,
-    //     survey_data: JSON.parse(item?.survey_data)
-    //   }));
-    //   setData(parsedData);
-    // } catch (err) {
-    //   console.log("--err", err);
-    // }
-
     try {
       const response = await getData(ENDPOINT.GET_SURVEY_DATA+"?type=2")
       let data = []
@@ -97,7 +85,8 @@ const SurveyQuestionFormData = () => {
                   </ul>
                 </div>
               {data?.length > 0 ?
-                data?.map((item, index) => (
+                data?.map((item, index) => {
+                  return (<>
                   <Accordion
                     key={index}
                     activeKey={openAccordionIndex === index ? '0' : null}
@@ -114,8 +103,9 @@ const SurveyQuestionFormData = () => {
                           </ul>
                       </Accordion.Header>
                       <Accordion.Body>
-                        {openAccordionIndex === index &&
-                          Object.keys(item?.survey_data).length ? (
+                        {openAccordionIndex === index && (
+                          <>
+                          {Object.keys(item?.survey_data)?.length ? (
                           <div className='main'>
                             <div className='survey-data'>
                               <h6> 1. How relevant was this patient case to your clinical practice?</h6>
@@ -142,10 +132,13 @@ const SurveyQuestionFormData = () => {
                             <p align="center">No Data Available</p>
                           </div>
                         )}
+                      </>
+                    )}
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
-                ))
+                  </>)
+                })
                 : ""}
               </div>
             </div>
