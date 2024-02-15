@@ -3,6 +3,9 @@ import { getData } from '../../axios/apiHelper'
 import { ENDPOINT } from '../../axios/apiConfig'
 import { Accordion, Col, Row } from 'react-bootstrap'
 import moment from 'moment'
+import {ToastContainer,toast} from 'react-toastify'
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 const SurveyData = () => {
   const [data, setData] = useState([])
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
@@ -31,8 +34,52 @@ const SurveyData = () => {
     setOpenAccordionIndex(prevIndex => (prevIndex === index ? null : index));
   };
 
+  const downloadExcelSurveyData=()=>{
+    try{
+      if (data?.length == 0) {
+        toast.warning("No data found");
+        return;
+      }
+      let downloadData=data?.map((item,index)=>{
+        let finalData={}
+        finalData.Name=item?.name? item?.name?.trim():"N/A";
+        finalData.Email=item?.email?item?.email?.trim():"N/A";
+        finalData.Country=item?.country?item?.country?.trim():"N/A";
+        finalData.SurveyDate=item?.created_at?item?.created_at?.trim():"N/A";
+
+        return finalData;
+      })
+      const worksheet = XLSX.utils.json_to_sheet(downloadData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+      });
+      saveAs(
+        blob,"Survey_data.xlsx");
+
+    }catch(err){
+      console.log("An error occurred while downloading the Excel file:",err)
+    }
+  }
+
 
   return (<>
+   <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     <Col className="right-sidebar custom-change full-width-survey">
       <div className="custom-container">
         <Row>
@@ -44,10 +91,10 @@ const SurveyData = () => {
               <div className="clear-search d-flex align-items-center">
                            <button
                             className="btn print"
-                            title="Download stats"
-                            // onClick={() => {
-                            //   downloadExcelUsers();
-                            // }}
+                            title="Download survey data"
+                            onClick={() => {
+                              downloadExcelSurveyData();
+                            }}
                           >
                             <svg
                               width="20"
@@ -67,6 +114,7 @@ const SurveyData = () => {
                             </svg>
                           </button>
                           </div>
+                          {data?.length > 0 ?
               <div className='survey_data_details'>
                 <div className='survey_data_accordion_heading'>
                   <ul>
@@ -76,8 +124,8 @@ const SurveyData = () => {
                     <li>Survey Date</li>
                   </ul>
                 </div>
-              {data?.length > 0 ?
-                data?.map((item, index) => {
+             
+                {data?.map((item, index) => {
                   return (<>
                     <Accordion
                       activeKey={openAccordionIndex === index ? '0' : null}
@@ -177,10 +225,11 @@ const SurveyData = () => {
                       </Accordion.Item>
                     </Accordion>
                   </>)
-                })
+                })}
 
-                : ""}
+                
               </div>
+              : <div className='no_found'>No Data Found</div>}
             </div>
           </Col>
         </Row>
