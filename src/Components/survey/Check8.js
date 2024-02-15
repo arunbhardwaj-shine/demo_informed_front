@@ -173,6 +173,10 @@ const Check8 = () => {
         pauseOnHover
       />
       <div className="col right-sidebar full-width-survey">
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
         <div className="check-survey">
           <Container>
             <Row>

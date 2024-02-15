@@ -1348,8 +1348,11 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 }
 
 .active-subLink .sidebar-menu ul li.active>a p,
-.active-subLink .sidebar-menu ul li:hover>a p {
+.active-subLink .sidebar-menu ul li:hover>a p, .sidebar-menu ul li:hover>a p {
   color: var(--light-blue);
+}
+.active-subLink .sidebar-menu ul li:hover svg path, .active-subLink .sidebar-menu ul li .sidebar-menu-secondary li.side_li:hover>a svg path{
+fill-opacity: 1;
 }
 
 .active-subLink .left-sidebar {
