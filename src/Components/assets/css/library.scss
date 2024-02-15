@@ -18731,12 +18731,35 @@ img.change-password-image {
   flex-direction: column;
 
   .survey_data_heading {
+    margin: 0 0 8px;
+
     h4 {
       font-weight: 500;
       text-transform: capitalize;
       color: $dark-blue;
-      margin: 0 0 15px;
       padding: 0 0 0 4px;
+    }
+
+    .clear-search {
+      gap: 12px;
+
+      a {
+        &.btn-voilet {
+          border-radius: 30px;
+          border: 1px solid #8A4E9C;
+          color: #8A4E9C;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 7px 16px;
+
+          &:hover {
+            color: #ffffff;
+            background: #8A4E9C;
+          }
+        }
+      }
     }
   }
 
@@ -18764,7 +18787,9 @@ img.change-password-image {
 
       li {
         width: 26%;
-        padding:0 15px 0 0; 
+        padding: 0 15px 0 0;
+        word-break: break-all;
+
         &:last-child {
           width: 22%;
         }
@@ -20026,9 +20051,20 @@ img.change-password-image {
     font-size: 16px;
     margin: 0 0 12px;
   }
-.survey_data .survey_data_details ul li {
+
+  .survey_data .survey_data_heading .clear-search a.btn-voilet {
+    padding: 6px 16px;
     font-size: 14px;
-}
+  }
+
+  .survey_data .survey_data_details ul li {
+    font-size: 14px;
+  }
+
+  .survey_data .survey_data_details ul li {
+    font-size: 14px;
+  }
+
   .data-main-footer-sec .footer-btn button {
     font-size: 13px;
   }
@@ -20550,6 +20586,11 @@ img.change-password-image {
 @media (max-width: $layout-breakpoint-large) {
   .custom-change .top-sticky {
     top: 48px;
+  }
+
+  .survey_data .survey_data_heading .clear-search a.btn-voilet {
+    padding: 5px 16px;
+    font-size: 13px;
   }
 
   .webinar-quest .container,
@@ -21108,6 +21149,18 @@ img.change-password-image {
     padding: 10px 14px;
   }
 
+  .survey_data .accordion-item h2 button {
+    padding: 10px;
+  }
+
+  .survey_data .survey_data_details ul li {
+    font-size: 12px;
+  }
+
+  .survey_data .survey_data_accordion_heading {
+    padding: 12px 10px;
+  }
+
   .webinar-question-results.webinar_tabs_show {
     padding: 15px 10px;
   }
@@ -21463,6 +21516,77 @@ img.change-password-image {
 @media (max-width: $layout-breakpoint-small) {
   .consent-content .consent-content-inner .consent-details .consent-img {
     display: block;
+  }
+
+  .check-survey .survey-block .survey-header {
+    padding: 10px 10px;
+  }
+
+  .check-survey .survey-block .survey-header img {
+    max-width: 80px;
+  }
+
+  .check-survey .survey-block .survey-question .form-check {
+    flex-direction: row;
+  }
+
+  .check-survey .survey-block .survey-question .form-check-custom,
+  .check-survey .survey-block .survey-question .form-check {
+    width: 100%;
+  }
+
+  .check-survey .survey-block .survey-question fieldset .star-rating {
+    align-items: flex-start;
+    flex-direction: column;
+    margin: 0 0 7px;
+  }
+
+  .check-survey .survey-block .survey-question .form-check input.form-check-input {
+    flex: 0 0 28px;
+  }
+
+  .check-survey .survey-block .survey-question button {
+    min-width: 118px;
+    margin: 20px 0 0 auto;
+  }
+
+  .check-survey .survey-block .survey-question label.label-main small {
+    font-size: 10px;
+  }
+
+  .check-survey .survey-block .survey-question {
+    padding: 15px;
+  }
+
+  .check-survey .survey-block .survey-header h1 {
+    font-size: 18px;
+  }
+
+  .survey_data .survey_data_details ul li {
+    padding: 0 6px 0 0;
+  }
+
+  .survey_data .survey_data_heading .clear-search a.btn-voilet {
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+
+  .survey_data .accordion-item h2 button:after {
+    right: 4px;
+    background-size: 12px;
+  }
+
+  .survey_data .survey_data_details ul li:last-child {
+    padding-right: 15px;
+  }
+
+  .survey_data .survey_data_details {
+    overflow-x: auto;
+  }
+
+  .survey_data_details .content_analytics_accordian,
+  .survey_data .survey_data_accordion_heading {
+    width: 500px;
   }
 
   .right-sidebar {
@@ -23627,9 +23751,6 @@ img.change-password-image {
     padding: 12px;
   }
 
-  .survey_data .survey_data_heading h4 {
-    margin: 0 0 9px;
-  }
 
   .survey_data .accordion-item .accordion-collapse .accordion-body {
     padding: 0px 15px 15px;
