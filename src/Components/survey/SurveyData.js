@@ -19,21 +19,20 @@ const SurveyData = () => {
   const getSurveyData = async () => {
     try {
       loader("show")
-      setApiCallStatus(true)
+     
       const response = await getData(ENDPOINT.GET_SURVEY_DATA + "?type=1")
       let data = []
       response?.data?.data?.map((item, index) => {
         item.survey_data = JSON.parse(item?.survey_data)
         data?.push(item)
       })
-      // console.log("response-->", data)
-      setData(data)
+      setData(data)   
 
     } catch (err) {
       console.log("--err", err)
     }finally{
       loader("hide")
-      setApiCallStatus(false)
+      setApiCallStatus(true)
     }
   }
 
@@ -119,6 +118,7 @@ const SurveyData = () => {
             <div className="survey_data">
               <div className='survey_data_heading d-flex align-items-center justify-content-between'>
                 <h4>Survey Data</h4>
+                {data?.length>0?
                 <div className="clear-search d-flex align-items-center">
                   <button
                     className="btn print"
@@ -145,6 +145,7 @@ const SurveyData = () => {
                     </svg>
                   </button>
                 </div>
+                :""}
               </div>
               {data?.length > 0 ?<>
                 <div className='survey_data_details'>
@@ -247,7 +248,7 @@ const SurveyData = () => {
                                   </div>
                                 ) : (
                                   <div className="no_found">
-                                    <p align="center">No Data Available</p>
+                                    <h3 align="center">No Data Found</h3>
                                   </div>
                                 )}
                               </>
@@ -262,7 +263,7 @@ const SurveyData = () => {
 
                 </div>
                 </>
-                : <div className='no_found'>No Data Found</div>}
+                : apiCallStatus?<div className='no_found'><h3 style={{ color: "#004A89" }}>No Data Found</h3></div>:""}
             </div>
           </Col>
         </Row>

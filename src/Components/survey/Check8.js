@@ -140,7 +140,7 @@ const Check8 = () => {
         let body={
           surveyData:data,
           formType:1,
-          user_id:userId?userId:0,
+          userId:userId?userId:0,
           event_id:0
         }
         const response = await postData(ENDPOINT.STORE_SURVEY_DATA, body)
