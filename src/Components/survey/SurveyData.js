@@ -126,7 +126,7 @@ const SurveyData = () => {
           "4. How satisfied are you with the 8CHECK service,Who have not received a FVIII infusion":
           item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion?item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion?.trim():"N/A",
 
-          "5. Suggestion for service improvement":item?.survey_data?.service_improvement?item?.survey_data?.service_improvement?.trim():"N/A",
+          "5. Suggestion for service improvement":item?.survey_data?.suggestion?item?.survey_data?.suggestion?.trim():"N/A",
 
           "6. Would you be interested in participating in any of the following 8CHECK activities":item?.survey_data?.interested_in_8check_activities?item?.survey_data?.interested_in_8check_activities?.trim():"N/A",
         };
@@ -347,7 +347,7 @@ const SurveyData = () => {
 
                                     <div className='survey-data'>
                                       <h6>5. Suggestion for service improvement</h6>
-                                      <p>{item?.survey_data?.service_improvement}</p>
+                                      <p>{item?.survey_data?.suggestion}</p>
                                     </div>
 
                                     <div className='survey-data'>
