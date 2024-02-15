@@ -19,21 +19,20 @@ const SurveyData = () => {
   const getSurveyData = async () => {
     try {
       loader("show")
-      setApiCallStatus(true)
+     
       const response = await getData(ENDPOINT.GET_SURVEY_DATA + "?type=1")
       let data = []
       response?.data?.data?.map((item, index) => {
         item.survey_data = JSON.parse(item?.survey_data)
         data?.push(item)
       })
-      // console.log("response-->", data)
-      setData(data)
+      setData(data)   
 
     } catch (err) {
       console.log("--err", err)
     }finally{
       loader("hide")
-      setApiCallStatus(false)
+      setApiCallStatus(true)
     }
   }
 
@@ -53,14 +52,12 @@ const SurveyData = () => {
           Email: item?.email ? item.email.trim() : "N/A",
           Country: item?.country ? item.country.trim() : "N/A",
           SurveyDate: item?.created_at ? item.created_at.trim() : "N/A",
-          'Location\nCity': item?.survey_data?.location?.city ?item?.survey_data?.location?.city.trim() : "N/A",
+          'Location,City': item?.survey_data?.location?.city ?item?.survey_data?.location?.city.trim() : "N/A",
+          'Location,State':item?.survey_data?.location?.state ?item?.survey_data?.location?.state.trim() : "N/A",
       };
       })
       // const worksheet = XLSX.utils.json_to_sheet(downloadData);
-// Testing start
-
       const worksheet = XLSX.utils.json_to_sheet(downloadData, { header: Object.keys(downloadData[0]), origin: 'A1' });
-
       // Adjust column widths
       const columnWidths = downloadData.reduce((acc, item) => {
           Object.keys(item).forEach(key => {
@@ -73,10 +70,6 @@ const SurveyData = () => {
       }, {});
       
       worksheet['!cols'] = Object.keys(columnWidths).map(key => ({ wch: columnWidths[key] }));
-      
-
-// Testing end
-
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       const excelBuffer = XLSX.write(workbook, {
@@ -93,6 +86,29 @@ const SurveyData = () => {
       console.log("An error occurred while downloading the Excel file:", err)
     }
   }
+
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
+  };
 
 
   return (<>
@@ -119,6 +135,23 @@ const SurveyData = () => {
             <div className="survey_data">
               <div className='survey_data_heading d-flex align-items-center justify-content-between'>
                 <h4>Survey Data</h4>
+                <div className='top-right-action'>
+                <a
+                      className={`copy_link btn-voilet`}
+                      href={`${window.location.protocol}//${window.location.host}/survey/check8`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // if (!isDataSaved) {
+                        //   return;
+                        // }
+                        console.dir();
+                        let newLink = `${e.currentTarget.getAttribute("href")}`;
+                        copyToClipboard(newLink);
+                      }}
+                    >
+                      Copy Survey Link
+                    </a>
+                {data?.length>0?
                 <div className="clear-search d-flex align-items-center">
                   <button
                     className="btn print"
@@ -144,6 +177,8 @@ const SurveyData = () => {
                       />
                     </svg>
                   </button>
+                </div>
+                :""}
                 </div>
               </div>
               {data?.length > 0 ?<>
@@ -247,7 +282,7 @@ const SurveyData = () => {
                                   </div>
                                 ) : (
                                   <div className="no_found">
-                                    <p align="center">No Data Available</p>
+                                    <h3 align="center" style={{ color: "#004A89" }}>No Data Found</h3>
                                   </div>
                                 )}
                               </>
@@ -262,7 +297,7 @@ const SurveyData = () => {
 
                 </div>
                 </>
-                : <div className='no_found'>No Data Found</div>}
+                : apiCallStatus?<div className='no_found'><h3 style={{ color: "#004A89" }}>No Data Found</h3></div>:""}
             </div>
           </Col>
         </Row>
