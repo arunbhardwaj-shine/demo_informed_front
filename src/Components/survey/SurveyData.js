@@ -56,10 +56,7 @@ const SurveyData = () => {
       };
       })
       // const worksheet = XLSX.utils.json_to_sheet(downloadData);
-// Testing start
-
       const worksheet = XLSX.utils.json_to_sheet(downloadData, { header: Object.keys(downloadData[0]), origin: 'A1' });
-
       // Adjust column widths
       const columnWidths = downloadData.reduce((acc, item) => {
           Object.keys(item).forEach(key => {
@@ -72,10 +69,6 @@ const SurveyData = () => {
       }, {});
       
       worksheet['!cols'] = Object.keys(columnWidths).map(key => ({ wch: columnWidths[key] }));
-      
-
-// Testing end
-
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       const excelBuffer = XLSX.write(workbook, {
@@ -92,6 +85,29 @@ const SurveyData = () => {
       console.log("An error occurred while downloading the Excel file:", err)
     }
   }
+
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
+  };
 
 
   return (<>
@@ -118,6 +134,22 @@ const SurveyData = () => {
             <div className="survey_data">
               <div className='survey_data_heading d-flex align-items-center justify-content-between'>
                 <h4>Survey Data</h4>
+                <div className='top-right-action'>
+                <a
+                      className={`copy_link btn-voilet`}
+                      href={`${window.location.protocol}//${window.location.host}/survey/check8`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // if (!isDataSaved) {
+                        //   return;
+                        // }
+                        console.dir();
+                        let newLink = `${e.currentTarget.getAttribute("href")}`;
+                        copyToClipboard(newLink);
+                      }}
+                    >
+                      Copy Survey Link
+                    </a>
                 {data?.length>0?
                 <div className="clear-search d-flex align-items-center">
                   <button
@@ -146,6 +178,7 @@ const SurveyData = () => {
                   </button>
                 </div>
                 :""}
+                </div>
               </div>
               {data?.length > 0 ?<>
                 <div className='survey_data_details'>
@@ -248,7 +281,7 @@ const SurveyData = () => {
                                   </div>
                                 ) : (
                                   <div className="no_found">
-                                    <h3 align="center">No Data Found</h3>
+                                    <h3 align="center" style={{ color: "#004A89" }}>No Data Found</h3>
                                   </div>
                                 )}
                               </>
