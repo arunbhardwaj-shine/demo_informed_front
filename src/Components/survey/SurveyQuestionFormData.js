@@ -33,7 +33,7 @@ const SurveyQuestionFormData = () => {
         data?.push(item);
       });
       // console.log("response-->", data)
-      setData(data);
+      // setData(data);
     } catch (err) {
       console.log("--err", err);
     }finally{
@@ -133,7 +133,7 @@ const SurveyQuestionFormData = () => {
             <div className="survey_data">
               <div className="survey_data_heading d-flex align-items-center justify-content-between">
                 <h4>Survey Data</h4>
-                {data?.length > 0 ? (
+                {/* {data?.length > 0 ? ( */}
                   <div className="clear-search d-flex align-items-center">
                     <a
                       className={`copy_link btn-voilet`}
@@ -150,6 +150,7 @@ const SurveyQuestionFormData = () => {
                     >
                       Copy Survey Link
                     </a>
+                    {data?.length > 0 ? (
                     <button
                       className="btn print"
                       title="Download stats"
@@ -174,13 +175,15 @@ const SurveyQuestionFormData = () => {
                         />
                       </svg>
                     </button>
+                     ) : (
+                      ""
+                    )}
                     
                   </div>
-                ) : (
-                  ""
-                )}
+                 {/* ) : (
+                 ""
+                 )} */}
 
-                
               </div>
               
               {data?.length > 0 ? (
