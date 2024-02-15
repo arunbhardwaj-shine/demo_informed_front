@@ -74,6 +74,7 @@ const SurveyQuestionForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      loader("show")
       const error = SurveyQuestionFormValidations(formInputs);
       if (Object.keys(error)?.length) {
         setError(error);
@@ -104,7 +105,8 @@ const SurveyQuestionForm = () => {
 
         let body = {
           surveyData: data,
-          event_id:eventId,
+          // event_id:eventId,
+          event_id:eventId?.id?eventId?.id:0,
           userId:encrypted_us,
           formType: 2
         }
@@ -120,6 +122,8 @@ const SurveyQuestionForm = () => {
       }
     } catch (err) {
       console.log("--err", err);
+    }finally{
+      loader("hide")
     }
   };
 
@@ -143,7 +147,7 @@ const SurveyQuestionForm = () => {
               <div className="survey-block">
                 <div className="survey-header d-flex justify-content-center">
                   <Col>
-                    <h1> Post Event Survey</h1>
+                    <h1>Clinical Practice Post Event Survey</h1>
                   </Col>
                 </div>
                 <div className="survey-question">
