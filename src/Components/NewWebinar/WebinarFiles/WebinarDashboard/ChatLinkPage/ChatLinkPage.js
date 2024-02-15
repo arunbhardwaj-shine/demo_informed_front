@@ -266,8 +266,9 @@ const ChatLinkPage = () => {
             className={`copy_link btn-voilet ${
               !isDataSaved ? "disabled" : ""
             }`}
-            // href={`https://informed.pro/event?evnt=${eventData?.eventCode}`}
-            href={`${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`}
+            // href={`${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`} 
+            href={eventData?.eventId > 402  ?`https://events.docintel.app/event?evnt=${eventData?.eventCode}`:`${window.currentTarget.host}/event?evnt=${eventData?.eventCode}`}
+
             onClick={(e) => {
               e.preventDefault();
               if (!isDataSaved) {
