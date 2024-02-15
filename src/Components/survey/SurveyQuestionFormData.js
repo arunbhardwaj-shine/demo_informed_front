@@ -143,14 +143,15 @@ const SurveyQuestionFormData = () => {
                   <div className="clear-search d-flex align-items-center">
                     <a
                       className={`copy_link btn-voilet`}
-                      href={`${window.location.protocol}//${window.location.host}/survey/survey-question-form?evnt=${eventData?.eventCode}`}
+                       // href={`${window.location.protocol}//${window.location.host}survey/survey-question-form?event=${eventData?.eventCode}`} 
+                      href={eventData?.eventId > 402  ?`https://events.docintel.app/survey/survey-question-form?event=${eventData?.eventCode}`:`${window.currentTarget.host}/survey/survey-question-form?event=${eventData?.eventCode}`}
                       onClick={(e) => {
                         e.preventDefault();
                         // if (!isDataSaved) {
                         //   return;
                         // }
                         console.dir();
-                        let newLink = `${e.currentTarget.getAttribute("href")}`;
+                        let newLink =e.currentTarget.getAttribute("href");
                         copyToClipboard(newLink);
                       }}
                     >

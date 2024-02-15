@@ -1237,14 +1237,14 @@ const WebinarRegistration = () => {
                       className={`copy_link btn-bordered ${
                         !isDataSaved ? "disabled" : ""
                       }`}
-                      href={`event-registration?event=${event_code}`}
+                      href={eventData?.event_id > 402  ?`https://events.docintel.app/event-registration?event=${event_code}`:`${window.currentTarget.host}/event-registration?event=${event_code}`}
                       onClick={(e) => {
                         e.preventDefault();
                         if (!isDataSaved) {
                           return;
                         }
                         console.dir();
-                        let newLink = eventData?.event_id > 402  ? 'https://events.docintel.app/'+e.currentTarget.getAttribute("href") :`${e.currentTarget.host}/${e.currentTarget.getAttribute("href")}`;
+                        let newLink =e.currentTarget.getAttribute("href");
                         copyToClipboard(newLink);
                       }}
                     >

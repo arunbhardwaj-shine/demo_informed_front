@@ -20,15 +20,15 @@ const SurveyQuestionForm = () => {
   
   const EventDataFun = async() =>{
     try{
-        loader("show")
+        // loader("show")
         const result = await postData(ENDPOINT.EVENT_ID,{
              eventCode :queryParams.get("event")
         })
         setEvent(result.data.data)
-        loader("hide")
+        // loader("hide")
   
     }catch(err){
-        loader("hide")
+        // loader("hide")
         console.log("-err",err)
     }
   }
