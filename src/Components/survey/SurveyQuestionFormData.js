@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { getData } from '../../axios/apiHelper';
-import { ENDPOINT } from '../../axios/apiConfig';
-import { Accordion, Col, Row } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { getData } from "../../axios/apiHelper";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { Accordion, Col, Row } from "react-bootstrap";
 import { useSidebar } from "../CommonComponent/LoginLayout";
 import { loader } from "../../loader";
 import { toast } from "react-toastify";
@@ -16,7 +16,7 @@ const SurveyQuestionFormData = () => {
   const [eventData, setEventData] = useState(
     eventIdContext ? eventIdContext : localStorageEvent
   );
-  
+
   const [data, setData] = useState([]);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
   const [apiCallStatus, setApiCallStatus] = useState(true);
@@ -27,27 +27,25 @@ const SurveyQuestionFormData = () => {
 
   const getSurveyData = async () => {
     try {
-      const response = await getData(ENDPOINT.GET_SURVEY_DATA+"?type=2")
-      let data = []
+      const response = await getData(ENDPOINT.GET_SURVEY_DATA + "?type=2");
+      let data = [];
       response?.data?.data?.map((item, index) => {
-        item.survey_data = JSON.parse(item?.survey_data)
-        data?.push(item)
-      })
+        item.survey_data = JSON.parse(item?.survey_data);
+        data?.push(item);
+      });
       // console.log("response-->", data)
-      setData(data)
-
+      setData(data);
     } catch (err) {
-      console.log("--err", err)
+      console.log("--err", err);
     }
   };
 
   const handleAccordionOpen = (index) => {
-    setOpenAccordionIndex(prevIndex => (prevIndex === index ? null : index));
+    setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
   const downloadSurveyUsers = (data) => {
     try {
-      
       if (data?.length == 0) {
         toast.warning("No data found");
         return;
@@ -58,7 +56,27 @@ const SurveyQuestionFormData = () => {
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
         finalData.Email = item?.email ? item?.email.trim() : "N/A";
-        finalData.Survey_Date = item?.created_at ? item?.created_at.trim() : "N/A";
+        finalData.Survey_Date = item?.created_at
+          ? item?.created_at.trim()
+          : "N/A";
+        finalData[
+          `How relevant was this patient case to your clinical practice?`
+        ] = item?.survey_data?.patient_case?.patient_case_rating
+          ? `${item?.survey_data?.patient_case?.patient_case_rating} star`.trim()
+          : "N/A";
+        finalData[`I plan to attend future Clinical Practice patient cases:`] =
+          item?.survey_data?.clinical_practice?.future_clinical
+            ? `${item?.survey_data?.clinical_practice?.future_clinical}`.trim()
+            : "N/A";
+        finalData[`Would you recommend Clinical Practice to a colleague?`] =
+          item?.survey_data?.recommend?.recommend_clinical
+            ? `${item?.survey_data?.recommend?.recommend_clinical}`.trim()
+            : "N/A";
+        finalData[
+          ` 4. Please suggest a topic for a future Clinical Practice patient case:`
+        ] = item?.survey_data?.suggestion
+          ? `${item?.survey_data?.suggestion}`.trim()
+          : "N/A";
         return finalData;
       });
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -71,10 +89,7 @@ const SurveyQuestionFormData = () => {
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      saveAs(
-        blob,
-        `Survey_Users.xlsx`
-      );
+      saveAs(blob, `Survey_Users.xlsx`);
       setApiCallStatus(false);
     } catch (error) {
       console.error(
@@ -85,16 +100,40 @@ const SurveyQuestionFormData = () => {
     }
   };
 
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
+  };
+
   return (
     <Col className="right-sidebar custom-change">
       <div className="custom-container">
         <Row>
           <Col>
             <div className="survey_data">
-              <div className='survey_data_heading'>
+              <div className="survey_data_heading">
                 <h4>Survey Data</h4>
               </div>
-              <div className="clear-search">
+              {data?.length > 0 ? (
+                <div className="clear-search">
                   <button
                     className="btn print"
                     title="Download stats"
@@ -120,72 +159,136 @@ const SurveyQuestionFormData = () => {
                     </svg>
                   </button>
                 </div>
-              <div className='survey_data_details'>
-                <div className='survey_data_accordion_heading'>
-                  <ul>
-                    <li>Name</li>
-                    <li>Email</li>
-                    <li>Country</li>
-                    <li>Survey Date</li>
-                  </ul>
-                </div>
-              {data?.length > 0 ?
-                data?.map((item, index) => {
-                  return (<>
-                  <Accordion
-                    key={index}
-                    activeKey={openAccordionIndex === index ? '0' : null}
-                    onSelect={() => handleAccordionOpen(index)}
-                    className="content_analytics_accordian"
-                  >
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header>
-                      <ul>
-                            <li>{item?.name?item?.name:"N/A"}</li>
-                            <li>{item?.email?item?.email:"N/A"}</li>
-                            <li>{item?.country?item?.country:"N/A"}</li>
-                          <li>{item?.created_at?item?.created_at:"N/A"}</li>
-                          </ul>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        {openAccordionIndex === index && (
-                          <>
-                          {Object.keys(item?.survey_data)?.length ? (
-                          <div className='main'>
-                            <div className='survey-data'>
-                              <h6> 1. How relevant was this patient case to your clinical practice?</h6>
-                              <p>{item?.survey_data?.patient_case?.patient_case_rating} star</p>
-                            </div>
+              ) : (
+                ""
+              )}
 
-                            <div className='survey-data'>
-                              <h6> 2. I plan to attend future Clinical Practice patient cases:</h6>
-                              <p>{item?.survey_data?.clinical_practice?.future_clinical}</p>
-                            </div>
+              <a
+                className={`copy_link btn-voilet`}
+                // className={`copy_link btn-voilet ${
+                //   !isDataSaved ? "disabled" : ""
+                // }`}
+                // href={`https://informed.pro/event?evnt=${eventData?.eventCode}`}
+                href={`${window.location.protocol}//${window.location.host}/survey/survey-question-form?evnt=${eventData?.eventCode}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  // if (!isDataSaved) {
+                  //   return;
+                  // }
+                  console.dir();
+                  let newLink = `${e.currentTarget.getAttribute("href")}`;
+                  copyToClipboard(newLink);
+                }}
+              >
+                Copy Survey Link
+              </a>
+              {data?.length > 0 ? (
+                <div className="survey_data_details">
+                  <div className="survey_data_accordion_heading">
+                    <ul>
+                      <li>Name</li>
+                      <li>Email</li>
+                      <li>Country</li>
+                      <li>Survey Date</li>
+                    </ul>
+                  </div>
 
-                            <div className='survey-data'>
-                              <h6> 3. Would you recommend Clinical Practice to a colleague?</h6>
-                              <p>{item?.survey_data?.recommend?.recommend_clinical}</p>
-                            </div>
+                  {data?.map((item, index) => {
+                    return (
+                      <>
+                        <Accordion
+                          key={index}
+                          activeKey={openAccordionIndex === index ? "0" : null}
+                          onSelect={() => handleAccordionOpen(index)}
+                          className="content_analytics_accordian"
+                        >
+                          <Accordion.Item eventKey="0">
+                            <Accordion.Header>
+                              <ul>
+                                <li>{item?.name ? item?.name : "N/A"}</li>
+                                <li>{item?.email ? item?.email : "N/A"}</li>
+                                <li>{item?.country ? item?.country : "N/A"}</li>
+                                <li>
+                                  {item?.created_at ? item?.created_at : "N/A"}
+                                </li>
+                              </ul>
+                            </Accordion.Header>
+                            <Accordion.Body>
+                              {openAccordionIndex === index && (
+                                <>
+                                  {Object.keys(item?.survey_data)?.length ? (
+                                    <div className="main">
+                                      <div className="survey-data">
+                                        <h6>
+                                          {" "}
+                                          1. How relevant was this patient case
+                                          to your clinical practice?
+                                        </h6>
+                                        <p>
+                                          {
+                                            item?.survey_data?.patient_case
+                                              ?.patient_case_rating
+                                          }{" "}
+                                          star
+                                        </p>
+                                      </div>
 
-                            <div className='survey-data'>
-                              <h6> 4. Please suggest a topic for a future Clinical Practice patient case:</h6>
-                              <p>{item?.survey_data?.suggestion}</p>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="no_found">
-                            <p align="center">No Data Available</p>
-                          </div>
-                        )}
+                                      <div className="survey-data">
+                                        <h6>
+                                          {" "}
+                                          2. I plan to attend future Clinical
+                                          Practice patient cases:
+                                        </h6>
+                                        <p>
+                                          {
+                                            item?.survey_data?.clinical_practice
+                                              ?.future_clinical
+                                          }
+                                        </p>
+                                      </div>
+
+                                      <div className="survey-data">
+                                        <h6>
+                                          {" "}
+                                          3. Would you recommend Clinical
+                                          Practice to a colleague?
+                                        </h6>
+                                        <p>
+                                          {
+                                            item?.survey_data?.recommend
+                                              ?.recommend_clinical
+                                          }
+                                        </p>
+                                      </div>
+
+                                      <div className="survey-data">
+                                        <h6>
+                                          {" "}
+                                          4. Please suggest a topic for a future
+                                          Clinical Practice patient case:
+                                        </h6>
+                                        <p>{item?.survey_data?.suggestion}</p>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div className="no_found">
+                                      <p align="center">No Data Available</p>
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                            </Accordion.Body>
+                          </Accordion.Item>
+                        </Accordion>
                       </>
-                    )}
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                  </>)
-                })
-                : ""}
-              </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="no_found">
+                  <p align="center">No Data Available</p>
+                </div>
+              )}
             </div>
           </Col>
         </Row>
