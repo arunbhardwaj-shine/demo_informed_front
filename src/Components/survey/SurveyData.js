@@ -89,6 +89,10 @@ const SurveyData = () => {
             item?.survey_data?.rate_different_reasons?.family_request ?
               item?.survey_data?.rate_different_reasons?.family_request : "N/A",
 
+              "1.Rate the different reasons you have used the 8CHECK service,Others":
+            item?.survey_data?.rate_different_reasons?.others ?
+              item?.survey_data?.rate_different_reasons?.others?.trim() : "N/A",
+
           "2.How many patients in each patient group have used the 8CHECK service,Patients with severe hemophilia A,Who have not received a FVIII infusion":
             item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion ? item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion : "N/A",
         
@@ -128,6 +132,9 @@ const SurveyData = () => {
         
           "3. How has receiving the genotype information impacted patient care? Rate the options below,Improved patients quality of life":
           item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life?item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life?.trim():"N/A",
+
+          "3. How has receiving the genotype information impacted patient care? Rate the options below,Others":
+          item?.survey_data?.genotype_information_impacted_rate?.others?item?.survey_data?.genotype_information_impacted_rate?.others?.trim():"N/A",
         
           "4. How satisfied are you with the 8CHECK service":item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?.trim():"N/A",
 
@@ -188,6 +195,8 @@ const SurveyData = () => {
           {wch: 30}, // Width of column AC 
           {wch: 30}, // Width of column AD 
           {wch: 30}, // Width of column AE 
+          {wch:30},
+          {wch:30},
           {wch: 60}, // Width of column AF 
          
         ];
@@ -400,7 +409,7 @@ const SurveyData = () => {
 
                                     <div className='survey-data'>
                                       <h6>5. Suggestion for service improvement</h6>
-                                      <p>{item?.survey_data?.suggestion}</p>
+                                      <p>{item?.survey_data?.suggestion?item?.survey_data?.suggestion:"N/A"}</p>
                                     </div>
 
                                     <div className='survey-data'>
