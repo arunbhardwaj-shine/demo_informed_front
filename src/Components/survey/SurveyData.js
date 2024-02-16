@@ -327,13 +327,13 @@ const SurveyData = () => {
                     return (<>
                       <Accordion
                         activeKey={openAccordionIndex === index ? '0' : null}
-                        ref={openAccordionIndex === index ?firstAccordionRef  : null}
+                        
                         onSelect={() => handleAccordionOpen(index)}
                         
                         className="content_analytics_accordian"
                       >
                         {/* <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}> */}
-                        <Accordion.Item eventKey="0" >
+                        <Accordion.Item eventKey="0" ref={openAccordionIndex === index ?firstAccordionRef  : null}>
                         
                           <Accordion.Header>
                             <ul>
