@@ -90,9 +90,9 @@ export const SurveyFormValidations = (data) => {
             }
         }
 
-        if(!data?.service_improvement){
-            error.service_improvement="Please give suggestions"
-        }
+        // if(!data?.suggestion){
+        //     error.suggestion="Please give suggestions"
+        // }
         if(!data?.interested_in_8check_activities){
             error.interested_in_8check_activities="Please select option"
         }

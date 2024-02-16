@@ -57,21 +57,78 @@ const SurveyData = () => {
           'Type of Provider': item?.survey_data?.provider ? item?.survey_data?.provider.trim() : "N/A",
           Haematologist: item?.survey_data?.haematologist ? item?.survey_data?.haematologist?.trim() : "N/A",
           "Location of Practice": item?.survey_data?.practice_location ? item?.survey_data?.practice_location?.trim() : "N/A",
-          "1. Rate the different reasons you have used the 8CHECK service,To confirm a diagnosis":
+          "1.Rate the different reasons you have used the 8CHECK service,To confirm a diagnosis":
             item?.survey_data?.rate_different_reasons?.to_confirm_diagnosis ?
               item?.survey_data?.rate_different_reasons?.to_confirm_diagnosis : "N/A",
 
-          "1. Rate the different reasons you have used the 8CHECK service,Patient inhibitor development risk":
+          "1.Rate the different reasons you have used the 8CHECK service,Patient inhibitor development risk":
             item?.survey_data?.rate_different_reasons?.patient_inhibitor_development_risk ?
               item?.survey_data?.rate_different_reasons?.patient_inhibitor_development_risk : "N/A",
 
-          "1. Rate the different reasons you have used the 8CHECK service,Guide treatment choice":
+          "1.Rate the different reasons you have used the 8CHECK service,Guide treatment choice":
             item?.survey_data?.rate_different_reasons?.guide_treatment_choice ?
               item?.survey_data?.rate_different_reasons?.guide_treatment_choice : "N/A",
 
-              "1. Rate the different reasons you have used the 8CHECK service,Genotype not available at my center":
-              item?.survey_data?.rate_different_reasons?.guide_treatment_choice ?
-                item?.survey_data?.rate_different_reasons?.guide_treatment_choice : "N/A",
+          "1.Rate the different reasons you have used the 8CHECK service,Genotype not available at my center":
+            item?.survey_data?.rate_different_reasons?.genotype_not_available ?
+              item?.survey_data?.rate_different_reasons?.genotype_not_available : "N/A",
+
+          "1.Rate the different reasons you have used the 8CHECK service,No insurance reimbursement":
+            item?.survey_data?.rate_different_reasons?.no_insurance_reimbursement ?
+              item?.survey_data?.rate_different_reasons?.no_insurance_reimbursement : "N/A",
+
+          "1.Rate the different reasons you have used the 8CHECK service,Family/Individual request":
+            item?.survey_data?.rate_different_reasons?.family_request ?
+              item?.survey_data?.rate_different_reasons?.family_request : "N/A",
+
+          "2.How many patients in each patient group have used the 8CHECK service,Patients with severe hemophilia A,Who have not received a FVIII infusion":
+            item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion ? item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion : "N/A",
+        
+            "2.How many patients in each patient group have used the 8CHECK service,Patients with severe hemophilia A,Who have received more than 50 infusions FVIII treatment":
+            item?.survey_data?.patients_with_severe_hemophilia_A?.recieved_FVIII_infusion ? item?.survey_data?.patients_with_severe_hemophilia_A?.recieved_FVIII_infusion : "N/A",
+          
+            "2.How many patients in each patient group have used the 8CHECK service,Patients with non-severe hemophilia A":
+            item?.survey_data?.patients_with_non_severe_hemophilia_A?.non_severe_hemophilia_A ? item?.survey_data?.patients_with_non_severe_hemophilia_A?.non_severe_hemophilia_A : "N/A",
+          
+            "2.How many patients in each patient group have used the 8CHECK service,Known, or potential carriers/female with hemophilia A,Symptomatic":
+            item?.survey_data?.known_carrier_with_hemophilia_A?.symptomatic?item?.survey_data?.known_carrier_with_hemophilia_A?.symptomatic?.trim():"N/A",
+
+            "2.How many patients in each patient group have used the 8CHECK service,Known, or potential carriers/female with hemophilia A,Asymptomatic":
+            item?.survey_data?.known_carrier_with_hemophilia_A?.asymptomatic?item?.survey_data?.known_carrier_with_hemophilia_A?.asymptomatic?.trim():"N/A",
+
+            "2.How many patients in each patient group have used the 8CHECK service,Patients with current/past FVIII inhibitors":
+            item?.survey_data?.patient_with_FVIII_inhibitors?.FVIII_inhibitors?item?.survey_data?.patient_with_FVIII_inhibitors?.FVIII_inhibitors?.trim():"N/A",
+          
+          "3. How has receiving the genotype information impacted patient care? Rate the options below,Improved accuracy of diagnosis":
+          item?.survey_data?.genotype_information_impacted_rate?.improved_accuracy_diagnosis?item?.survey_data?.genotype_information_impacted_rate?.improved_accuracy_diagnosis?.trim():"N/A",
+          
+          "3. How has receiving the genotype information impacted patient care? Rate the options below,Guided treatment choice":
+          item?.survey_data?.genotype_information_impacted_rate?.guided_treatment_choice?item?.survey_data?.genotype_information_impacted_rate?.guided_treatment_choice?.trim():"N/A",
+        
+          "3. How has receiving the genotype information impacted patient care? Rate the options below,Changed clinical management of the patient":
+          item?.survey_data?.genotype_information_impacted_rate?.changed_clinical_management?item?.survey_data?.genotype_information_impacted_rate?.changed_clinical_management?.trim():"N/A",
+        
+          "3. How has receiving the genotype information impacted patient care? Rate the options below,Impacted family planning":
+          item?.survey_data?.genotype_information_impacted_rate?.impacted_family_planning?item?.survey_data?.genotype_information_impacted_rate?.impacted_family_planning?.trim():"N/A",
+
+          "3. How has receiving the genotype information impacted patient care? Rate the options below,Informed testing of family members":
+          item?.survey_data?.genotype_information_impacted_rate?.informed_testing_of_family_members?item?.survey_data?.genotype_information_impacted_rate?.informed_testing_of_family_members?.trim():"N/A",
+
+          "3. How has receiving the genotype information impacted patient care? Rate the options below,Surgical management":
+          item?.survey_data?.genotype_information_impacted_rate?.surgical_management?item?.survey_data?.genotype_information_impacted_rate?.surgical_management?.trim():"N/A",
+        
+        
+          "3. How has receiving the genotype information impacted patient care? Rate the options below,Improved patients quality of life":
+          item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life?item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life?.trim():"N/A",
+        
+          "4. How satisfied are you with the 8CHECK service":item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?.trim():"N/A",
+
+          "4. How satisfied are you with the 8CHECK service,Who have not received a FVIII infusion":
+          item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion?item?.survey_data?.satisfied_with_8check_service?.FVIII_infusion?.trim():"N/A",
+
+          "5. Suggestion for service improvement":item?.survey_data?.suggestion?item?.survey_data?.suggestion?.trim():"N/A",
+
+          "6. Would you be interested in participating in any of the following 8CHECK activities":item?.survey_data?.interested_in_8check_activities?item?.survey_data?.interested_in_8check_activities?.trim():"N/A",
         };
       })
       // const worksheet = XLSX.utils.json_to_sheet(downloadData);
@@ -141,7 +198,7 @@ const SurveyData = () => {
       draggable
       pauseOnHover
     />
-    <div class="loader" id="custom_loader"><div class="loader_show"><span class="loader-view"> </span></div></div>
+    <div className="loader" id="custom_loader"><div className="loader_show"><span className="loader-view"> </span></div></div>
     <Col className="right-sidebar custom-change full-width-survey">
       <meta
         name="viewport"
@@ -153,7 +210,7 @@ const SurveyData = () => {
             <div className="survey_data">
               <div className='survey_data_heading d-flex align-items-center justify-content-between'>
                 <h4>Survey Data</h4>
-                <div className='top-right-action'>
+                <div className='clear-search d-flex align-items-center'>
                   <a
                     className={`copy_link btn-voilet`}
                     href={`${window.location.protocol}//${window.location.host}/survey/check8`}
@@ -290,7 +347,7 @@ const SurveyData = () => {
 
                                     <div className='survey-data'>
                                       <h6>5. Suggestion for service improvement</h6>
-                                      <p>{item?.survey_data?.service_improvement}</p>
+                                      <p>{item?.survey_data?.suggestion}</p>
                                     </div>
 
                                     <div className='survey-data'>
