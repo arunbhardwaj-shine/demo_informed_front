@@ -363,6 +363,7 @@ const SurveyData = () => {
                                       <p>Genotype not available at my center: <span>{item?.survey_data?.rate_different_reasons?.genotype_not_available} star</span></p>
                                       <p>No insurance reimbursement: <span>{item?.survey_data?.rate_different_reasons?.no_insurance_reimbursement} star</span></p>
                                       <p>Family/Individual request: <span>{item?.survey_data?.rate_different_reasons?.family_request} star</span></p>
+                                    {item?.survey_data?.rate_different_reasons?.others?<p>Others:<span>{item?.survey_data?.rate_different_reasons?.others}</span></p>:""}
                                     </div>
 
                                     <div className='survey-data'>
@@ -388,6 +389,7 @@ const SurveyData = () => {
                                       <p>Informed testing of family members: <span>{item?.survey_data?.genotype_information_impacted_rate?.informed_testing_of_family_members} star</span></p>
                                       <p>Surgical management: <span>{item?.survey_data?.genotype_information_impacted_rate?.surgical_management} star</span></p>
                                       <p>Improved patients quality of life: <span>{item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life} star</span></p>
+                                    {item?.survey_data?.genotype_information_impacted_rate?.others?<p>Others:<span>{item?.survey_data?.genotype_information_impacted_rate?.others}</span></p>:""}
                                     </div>
 
                                     <div className='survey-data'>
