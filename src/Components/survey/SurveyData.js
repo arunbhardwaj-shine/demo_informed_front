@@ -49,7 +49,7 @@ const SurveyData = () => {
   const handleAccordionOpen = (index) => {
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
     if (firstAccordionRef.current) {
-      firstAccordionRef.current[index].scrollIntoView({ behavior: "smooth" ,  block: "center"});
+      firstAccordionRef.current[index].scrollIntoView({ behavior: "smooth" });
     }
   };
 
