@@ -131,20 +131,62 @@ const SurveyData = () => {
           "6. Would you be interested in participating in any of the following 8CHECK activities":item?.survey_data?.interested_in_8check_activities?item?.survey_data?.interested_in_8check_activities?.trim():"N/A",
         };
       })
-      // const worksheet = XLSX.utils.json_to_sheet(downloadData);
-      const worksheet = XLSX.utils.json_to_sheet(downloadData, { header: Object.keys(downloadData[0]), origin: 'A1' });
-      // Adjust column widths
-      const columnWidths = downloadData.reduce((acc, item) => {
-        Object.keys(item).forEach(key => {
-          const columnLength = item[key].length;
-          if (!acc[key] || acc[key] < columnLength) {
-            acc[key] = columnLength;
-          }
-        });
-        return acc;
-      }, {});
+      
+      // const worksheet = XLSX.utils.json_to_sheet(downloadData, { header: Object.keys(downloadData[0]), origin: 'A1' });
+      // // Adjust column widths
+      // const columnWidths = downloadData.reduce((acc, item) => {
+      //   Object.keys(item).forEach(key => {
+      //     const columnLength = item[key].length;
+      //     if (!acc[key] || acc[key] < columnLength) {
+      //       acc[key] = columnLength;
+      //     }
+      //   });
+      //   return acc;
+      // }, {});
 
-      worksheet['!cols'] = Object.keys(columnWidths).map(key => ({ wch: columnWidths[key] }));
+      // worksheet['!cols'] = Object.keys(columnWidths).map(key => ({ wch: columnWidths[key] }));
+
+      const worksheet = XLSX.utils.json_to_sheet(downloadData);
+         // Specify column widths (in Excel units, 1 unit = 1/256th of the width of a character)
+         const columnWidths = [
+          {wch: 20}, // Width of column A 
+          {wch: 20}, // Width of column B 
+          {wch: 10}, // Width of column C 
+          {wch: 15}, // Width of column D 
+          {wch: 15}, // Width of column E 
+          {wch: 15}, // Width of column F 
+          {wch: 20}, // Width of column G 
+          {wch: 20}, // Width of column H 
+          {wch: 20},  // Width of column I
+          {wch: 30},  // Width of column J 
+          {wch: 30}, // Width of column K 
+          {wch: 30}, // Width of column L 
+          {wch: 30}, // Width of column M 
+          {wch: 30}, // Width of column N 
+          {wch: 30}, // Width of column O 
+          {wch: 30}, // Width of column P 
+          {wch: 30}, // Width of column Q 
+          {wch: 30}, // Width of column R 
+          {wch: 30}, // Width of column S 
+          {wch: 30}, // Width of column T 
+          {wch: 30}, // Width of column U 
+          {wch: 30}, // Width of column V 
+          {wch: 30}, // Width of column W 
+          {wch: 30}, // Width of column X 
+          {wch: 30},  // Width of column Y 
+          {wch: 30}, // Width of column Z 
+          {wch: 30}, // Width of column AA 
+          {wch: 30}, // Width of column AB 
+          {wch: 30}, // Width of column AC 
+          {wch: 30}, // Width of column AD 
+          {wch: 30}, // Width of column AE 
+          {wch: 60}, // Width of column AF 
+         
+        ];
+      
+      // Apply column widths
+      worksheet['!cols'] = columnWidths;
+      
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       const excelBuffer = XLSX.write(workbook, {
@@ -155,7 +197,7 @@ const SurveyData = () => {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
       saveAs(
-        blob, "Survey_data.xlsx");
+        blob, "Survey_Data_8Check.xlsx");
 
     } catch (err) {
       console.log("An error occurred while downloading the Excel file:", err)
@@ -213,7 +255,8 @@ const SurveyData = () => {
                 <div className='clear-search d-flex align-items-center'>
                   <a
                     className={`copy_link btn-voilet`}
-                    href={`${window.location.protocol}//${window.location.host}/survey/check8`}
+                    // href={`${window.location.protocol}//${window.location.host}/survey/check8`}
+                    href={`https://events.docintel.app/survey/check8`}
                     onClick={(e) => {
                       e.preventDefault();
                       // if (!isDataSaved) {
@@ -230,7 +273,7 @@ const SurveyData = () => {
                     <div className="clear-search d-flex align-items-center">
                       <button
                         className="btn print"
-                        title="Download survey data"
+                        title="Download data"
                         onClick={() => {
                           downloadExcelSurveyData();
                         }}
