@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { getData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { Accordion, Col, Row } from "react-bootstrap";
@@ -47,8 +47,19 @@ const SurveyQuestionFormData = () => {
     }
   };
 
+  
+
+  const firstAccordionRef = useRef(null);
+
+  // const handleAccordionOpen = (index) => {
+  //   setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
+  // };
+
   const handleAccordionOpen = (index) => {
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
+    if (firstAccordionRef.current) {
+      firstAccordionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const downloadSurveyUsers = (data) => {
@@ -60,8 +71,8 @@ const SurveyQuestionFormData = () => {
       data = data?.map((item, index) => {
         let finalData = {};
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
-        finalData.Country = item?.country ? item?.country.trim() : "N/A";
         finalData.Email = item?.email ? item?.email.trim() : "N/A";
+        finalData.Country = item?.country ? item?.country.trim() : "N/A";
         finalData.SurveyDate = item?.created_at
           ? item?.created_at.trim()
           : "N/A";
@@ -86,6 +97,20 @@ const SurveyQuestionFormData = () => {
         return finalData;
       });
       const worksheet = XLSX.utils.json_to_sheet(data);
+        // Specify column widths (in Excel units, 1 unit = 1/256th of the width of a character)
+      const columnWidths = [
+        {wch: 20}, // Width of column A (Name)
+        {wch: 25}, // Width of column B (Email)
+        {wch: 15}, // Width of column C (Country)
+        {wch: 15}, // Width of column D (SurveyDate)
+        {wch: 45}, // Width of column E (How relevant)
+        {wch: 45}, // Width of column F (Plan to attend)
+        {wch: 45}, // Width of column G (Recommend)
+        {wch: 55}, // Width of column H (Suggestion)
+      ];
+    
+    // Apply column widths
+    worksheet['!cols'] = columnWidths;
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       const excelBuffer = XLSX.write(workbook, {
@@ -95,7 +120,7 @@ const SurveyQuestionFormData = () => {
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      saveAs(blob, `Survey_Users_Data.xlsx`);
+      saveAs(blob, `Survey_Data_${eventData?.eventCode}.xlsx`);
     } catch (error) {
       console.error(
         "An error occurred while downloading the Excel file:",
@@ -160,7 +185,7 @@ const SurveyQuestionFormData = () => {
                     {data?.length > 0 ? (
                     <button
                       className="btn print"
-                      title="Download stats"
+                      title="Download data"
                       onClick={() => {
                         downloadSurveyUsers(data);
                       }}
@@ -207,13 +232,13 @@ const SurveyQuestionFormData = () => {
                   {data?.map((item, index) => {
                     return (
                       <>
-                        <Accordion
+                        <Accordion 
                           key={index}
                           activeKey={openAccordionIndex === index ? "0" : null}
                           onSelect={() => handleAccordionOpen(index)}
                           className="content_analytics_accordian"
                         >
-                          <Accordion.Item eventKey="0">
+                          <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}>
                             <Accordion.Header>
                               <ul>
                                 <li>{item?.name ? item?.name : "N/A"}</li>

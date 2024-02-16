@@ -9,6 +9,7 @@ import { loader } from "../../loader";
 
 const Check8 = () => {
   const formRef = useRef(null);
+  const pageRef=useRef(null);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [formInputs, setFormInputs] = useState({});
   const [error, setError] = useState("");
@@ -105,7 +106,8 @@ const Check8 = () => {
             guide_treatment_choice: formInputs?.rate_different_reasons?.guide_treatment_choice ? formInputs?.rate_different_reasons?.guide_treatment_choice : "",
             genotype_not_available: formInputs?.rate_different_reasons?.genotype_not_available ? formInputs?.rate_different_reasons?.genotype_not_available : "",
             no_insurance_reimbursement: formInputs?.rate_different_reasons?.no_insurance_reimbursement ? formInputs?.rate_different_reasons?.no_insurance_reimbursement : "",
-            family_request: formInputs?.rate_different_reasons?.family_request ? formInputs?.rate_different_reasons?.family_request : ""
+            family_request: formInputs?.rate_different_reasons?.family_request ? formInputs?.rate_different_reasons?.family_request : "",
+          others:formInputs?.rate_different_reasons?.others ? formInputs?.rate_different_reasons?.others : ""
           },
           patients_with_severe_hemophilia_A: {
             not_recieved_FVIII_infusion: formInputs?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion ? formInputs?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion : "",
@@ -126,7 +128,8 @@ const Check8 = () => {
             impacted_family_planning: formInputs?.genotype_information_impacted_rate?.impacted_family_planning ? formInputs?.genotype_information_impacted_rate?.impacted_family_planning : "",
             informed_testing_of_family_members: formInputs?.genotype_information_impacted_rate?.informed_testing_of_family_members ? formInputs?.genotype_information_impacted_rate?.informed_testing_of_family_members : "",
             surgical_management: formInputs?.genotype_information_impacted_rate?.surgical_management ? formInputs?.genotype_information_impacted_rate?.surgical_management : "",
-            improved_patients_quality_of_life: formInputs?.genotype_information_impacted_rate?.improved_patients_quality_of_life ? formInputs?.genotype_information_impacted_rate?.improved_patients_quality_of_life : ""
+            improved_patients_quality_of_life: formInputs?.genotype_information_impacted_rate?.improved_patients_quality_of_life ? formInputs?.genotype_information_impacted_rate?.improved_patients_quality_of_life : "",
+            others:formInputs?.genotype_information_impacted_rate?.improved_patients_quality_of_life?formInputs?.genotype_information_impacted_rate?.improved_patients_quality_of_life:"N/A"
           },
 
           satisfied_with_8check_service: {
@@ -134,7 +137,7 @@ const Check8 = () => {
             FVIII_infusion: formInputs?.satisfied_with_8check_service?.FVIII_infusion ? formInputs?.satisfied_with_8check_service?.FVIII_infusion : ""
           },
 
-          service_improvement: formInputs?.service_improvement ? formInputs?.service_improvement : "",
+          suggestion: formInputs?.suggestion ? formInputs?.suggestion : "",
           interested_in_8check_activities: formInputs?.interested_in_8check_activities ? formInputs?.interested_in_8check_activities : ""
         }
         let body={
@@ -148,8 +151,12 @@ const Check8 = () => {
           setFormInputs({});
           setError()
           formRef.current.reset();
-          formRef.current.scrollIntoView({ behavior: 'smooth' });
+         ;
           toast.success(response?.data?.message)
+          window.scrollTo({
+            top: pageRef.current.offsetTop,
+            behavior: 'smooth',
+          });
         }    
       }
 
@@ -179,7 +186,7 @@ const Check8 = () => {
           content="width=device-width, initial-scale=1"
         />
         <div className="check-survey">
-          <Container>
+          <Container ref={pageRef}>
             <Row>
               <div className="survey-block">
                 <div className="survey-header d-flex align-items-center justify-content-between">
@@ -2612,13 +2619,13 @@ const Check8 = () => {
                         <Form.Control
                           as="textarea"
                           aria-label="With textarea"
-                          name="service_improvement"
-                          value={formInputs?.service_improvement?formInputs?.service_improvement:""}
+                          name="suggestion"
+                          value={formInputs?.suggestion?formInputs?.suggestion:""}
                           onChange={(e) => handleChange(e)}
 
                         />
-                      {error?.service_improvement ? (
-                        <div className="login-validation">{error?.service_improvement
+                      {error?.suggestion ? (
+                        <div className="login-validation">{error?.suggestion
                         }</div>
                       ) : (
                         ""
