@@ -986,15 +986,18 @@ const WebinarRegistration = () => {
       setShowModalPreview(true);
       return;
     }
+    let link = '';
+    if(eventData?.event_id > 402){
+      link = `https://events.docintel.app/event-registration?event=${event_code}`;
+    }else{
+      link = `${window.location.origin}/event-registration?event=${event_code}`;
+    }
 
     try {
-      await navigator.clipboard.writeText(
-        `${window.location.origin}/event-registration?event=${event_code}`
-      );
-
+      await navigator.clipboard.writeText(link);
       // Open link in a new tab
       window.open(
-        `${window.location.origin}/event-registration?event=${event_code}`,
+        link,
         "_blank"
       );
     } catch (error) {
@@ -1237,7 +1240,7 @@ const WebinarRegistration = () => {
                       className={`copy_link btn-bordered ${
                         !isDataSaved ? "disabled" : ""
                       }`}
-                      href={eventData?.event_id > 402  ?`https://events.docintel.app/event-registration?event=${event_code}`:`${window.currentTarget.host}/event-registration?event=${event_code}`}
+                      href={eventData?.event_id > 402  ?`https://events.docintel.app/event-registration?event=${event_code}`:`${window.location.host}/event-registration?event=${event_code}`}
                       onClick={(e) => {
                         e.preventDefault();
                         if (!isDataSaved) {
@@ -1258,7 +1261,7 @@ const WebinarRegistration = () => {
                         handlePreviewInNewTab(e);
                       }}
                     >
-                      Preview In New Tab
+                      Open Link
                     </Button>
                   </div>
             </div>

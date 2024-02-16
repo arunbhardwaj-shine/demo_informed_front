@@ -232,15 +232,18 @@ const ChatLinkPage = () => {
     e.preventDefault();
 
     try {
-      await navigator.clipboard.writeText(
-        // `${`https://informed.pro/event?evnt=${eventData?.eventCode}`}`
-        `${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`
-      );
+      let link = '';
+      if(eventData?.eventId > 402){
+        link = `https://events.docintel.app/event?evnt=${eventData?.eventCode}`;
+      }else{
+        link = `${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`;
+      }
 
+      await navigator.clipboard.writeText(
+        link
+      );
       window.open(
-        // `${`https://informed.pro/event?evnt=${eventData?.eventCode}`}`,
-        // "_blank"
-        `${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`,
+        link,
         "_blank"
       );
     } catch (error) {
@@ -267,7 +270,7 @@ const ChatLinkPage = () => {
               !isDataSaved ? "disabled" : ""
             }`}
             // href={`${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`} 
-            href={eventData?.eventId > 402  ?`https://events.docintel.app/event?evnt=${eventData?.eventCode}`:`${window.currentTarget.host}/event?evnt=${eventData?.eventCode}`}
+            href={eventData?.eventId > 402  ?`https://events.docintel.app/event?evnt=${eventData?.eventCode}`:`${window.location.host}/event?evnt=${eventData?.eventCode}`}
 
             onClick={(e) => {
               e.preventDefault();
