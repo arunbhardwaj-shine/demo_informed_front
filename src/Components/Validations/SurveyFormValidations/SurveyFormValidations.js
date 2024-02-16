@@ -2,29 +2,29 @@ export const SurveyFormValidations = (data) => {
     console.log("data-->", data)
     let error = {}
     if (!data?.location) {
-        error.city = "Please enter city"
-        error.state = "Please enter state"
+        error.city = "This field is required"
+        error.state = "This field is required"
     } else if (data?.location) {
         if (!data?.location?.city) {
-            error.city = "Please enter city"
+            error.city = "This field is required"
         }
         if (!data?.location?.state) {
-            error.state = "Please enter state"
+            error.state = "This field is required"
         }
     }
     if (!data?.provider) {
-        error.provider = "Please enter type of provider"
+        error.provider = "This field is required"
     }
 
     if (!data?.haematologist) {
-        error.haematologist = "Please select the option"
+        error.haematologist = "This field is required"
     }
 
     if (!data?.practice_location) {
-        error.practice_location = "Please select location of practice"
+        error.practice_location = "This field is required"
     }
     if (!data?.rate_different_reasons) {
-        error.rate_different_reasons = "Please rate all the reasons"
+        error.rate_different_reasons = "This field is required"
     }
     else if (data?.rate_different_reasons) {
         if (!data?.rate_different_reasons?.to_confirm_diagnosis || 
@@ -33,38 +33,38 @@ export const SurveyFormValidations = (data) => {
             !data?.rate_different_reasons?.genotype_not_available ||
             !data?.rate_different_reasons?.no_insurance_reimbursement || 
             !data?.rate_different_reasons?.family_request) {
-            error.rate_different_reasons = "Please rate all the reasons"
+            error.rate_different_reasons = "This field is required"
         }
     }
     if (!data?.patients_with_severe_hemophilia_A) {
-        error.not_recieved_FVIII_infusion = "Please select the option"
-        error.recieved_FVIII_infusion = "Please select the option"
+        error.not_recieved_FVIII_infusion = "This field is required"
+        error.recieved_FVIII_infusion = "This field is required"
     } else if (data?.patients_with_severe_hemophilia_A) {
         if (!data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion) {
-            error.not_recieved_FVIII_infusion = "Please select the option"
+            error.not_recieved_FVIII_infusion = "This field is required"
         }
         if (!data?.patients_with_severe_hemophilia_A?.recieved_FVIII_infusion) {
-            error.recieved_FVIII_infusion = "Please select the option"
+            error.recieved_FVIII_infusion = "This field is required"
         }
     }
     if(!data?.patients_with_non_severe_hemophilia_A){
-        error.patients_with_non_severe_hemophilia_A="Please select the option"
+        error.patients_with_non_severe_hemophilia_A="This field is required"
     }
 
     if(!data?.known_carrier_with_hemophilia_A){
-        error.symptomatic="Please select the option"
-        error.asymptomatic="Please select the option"
+        error.symptomatic="This field is required"
+        error.asymptomatic="This field is required"
     }else if(data?.known_carrier_with_hemophilia_A){
         if(!data?.known_carrier_with_hemophilia_A?.symptomatic){
-            error.symptomatic="Please select the option"
+            error.symptomatic="This field is required"
         }
         if(!data?.known_carrier_with_hemophilia_A?.asymptomatic){
-            error.asymptomatic="Please select the option"
+            error.asymptomatic="This field is required"
         }
     }
 
     if(!data?.patient_with_FVIII_inhibitors){
-        error.patient_with_FVIII_inhibitors="Please select the option"
+        error.patient_with_FVIII_inhibitors="This field is required"
     }
     if(!data?.genotype_information_impacted_rate||
         !data?.genotype_information_impacted_rate?.improved_accuracy_diagnosis||
@@ -76,25 +76,25 @@ export const SurveyFormValidations = (data) => {
         !data?.genotype_information_impacted_rate?.improved_patients_quality_of_life
 
         ){
-            error.genotype_information_impacted_rate="Please rate all the fields"
+            error.genotype_information_impacted_rate="This field is required"
         }
         if(!data?.satisfied_with_8check_service){
-            error.satisfied_with_8check_service="Please select the option"
-            error.FVIII_infusion="Please select the option"
+            error.satisfied_with_8check_service="This field is required"
+            error.FVIII_infusion="This field is required"
         }else if(data?.satisfied_with_8check_service){
             if(!data?.satisfied_with_8check_service?.satisfied_with_8check_service){
-                error.satisfied_with_8check_service="Please select the option" 
+                error.satisfied_with_8check_service="This field is required" 
             }
             if(!data?.satisfied_with_8check_service?.FVIII_infusion){
-                error.FVIII_infusion="Please select the option" 
+                error.FVIII_infusion="This field is required" 
             }
         }
 
-        if(!data?.service_improvement){
-            error.service_improvement="Please give suggestions"
-        }
+        // if(!data?.suggestion){
+        //     error.suggestion="This field is required"
+        // }
         if(!data?.interested_in_8check_activities){
-            error.interested_in_8check_activities="Please select option"
+            error.interested_in_8check_activities="This field is required"
         }
 
 
