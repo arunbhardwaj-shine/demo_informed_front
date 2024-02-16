@@ -134,7 +134,7 @@ const Check8 = () => {
             FVIII_infusion: formInputs?.satisfied_with_8check_service?.FVIII_infusion ? formInputs?.satisfied_with_8check_service?.FVIII_infusion : ""
           },
 
-          service_improvement: formInputs?.service_improvement ? formInputs?.service_improvement : "",
+          suggestion: formInputs?.suggestion ? formInputs?.suggestion : "",
           interested_in_8check_activities: formInputs?.interested_in_8check_activities ? formInputs?.interested_in_8check_activities : ""
         }
         let body={
@@ -2612,13 +2612,13 @@ const Check8 = () => {
                         <Form.Control
                           as="textarea"
                           aria-label="With textarea"
-                          name="service_improvement"
-                          value={formInputs?.service_improvement?formInputs?.service_improvement:""}
+                          name="suggestion"
+                          value={formInputs?.suggestion?formInputs?.suggestion:""}
                           onChange={(e) => handleChange(e)}
 
                         />
-                      {error?.service_improvement ? (
-                        <div className="login-validation">{error?.service_improvement
+                      {error?.suggestion ? (
+                        <div className="login-validation">{error?.suggestion
                         }</div>
                       ) : (
                         ""
