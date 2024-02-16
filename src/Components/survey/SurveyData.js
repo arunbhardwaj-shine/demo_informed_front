@@ -9,9 +9,9 @@ import { saveAs } from "file-saver";
 import { loader } from '../../loader';
 const SurveyData = () => {
   const [data, setData] = useState([])
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
   const [apiCallStatus, setApiCallStatus] = useState(false)
+  const firstAccordionRef = useRef(null);
   useEffect(() => {
     getSurveyData()
   }, [])
@@ -35,17 +35,15 @@ const SurveyData = () => {
       setApiCallStatus(true)
     }
   }
-  const firstAccordionRef = useRef(null);
-
-  // const handleAccordionOpen = (index) => {
-  //   setOpenAccordionIndex(prevIndex => (prevIndex === index ? null : index));
-  // };
+  
 
   const handleAccordionOpen = (index) => {
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
+    
     if (firstAccordionRef.current) {
       firstAccordionRef.current.scrollIntoView({ behavior: "smooth" });
     }
+    
   };
 
   const downloadExcelSurveyData = () => {
@@ -89,6 +87,10 @@ const SurveyData = () => {
             item?.survey_data?.rate_different_reasons?.family_request ?
               item?.survey_data?.rate_different_reasons?.family_request : "N/A",
 
+              "1.Rate the different reasons you have used the 8CHECK service,Others":
+            item?.survey_data?.rate_different_reasons?.others ?
+              item?.survey_data?.rate_different_reasons?.others?.trim() : "N/A",
+
           "2.How many patients in each patient group have used the 8CHECK service,Patients with severe hemophilia A,Who have not received a FVIII infusion":
             item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion ? item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion : "N/A",
         
@@ -128,6 +130,9 @@ const SurveyData = () => {
         
           "3. How has receiving the genotype information impacted patient care? Rate the options below,Improved patients quality of life":
           item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life?item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life?.trim():"N/A",
+
+          "3. How has receiving the genotype information impacted patient care? Rate the options below,Others":
+          item?.survey_data?.genotype_information_impacted_rate?.others?item?.survey_data?.genotype_information_impacted_rate?.others?.trim():"N/A",
         
           "4. How satisfied are you with the 8CHECK service":item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?.trim():"N/A",
 
@@ -188,6 +193,8 @@ const SurveyData = () => {
           {wch: 30}, // Width of column AC 
           {wch: 30}, // Width of column AD 
           {wch: 30}, // Width of column AE 
+          {wch:30},
+          {wch:30},
           {wch: 60}, // Width of column AF 
          
         ];
@@ -267,9 +274,7 @@ const SurveyData = () => {
                     href={`https://events.docintel.app/survey/check8`}
                     onClick={(e) => {
                       e.preventDefault();
-                      // if (!isDataSaved) {
-                      //   return;
-                      // }
+                      
                       console.dir();
                       let newLink = `${e.currentTarget.getAttribute("href")}`;
                       copyToClipboard(newLink);
@@ -322,11 +327,14 @@ const SurveyData = () => {
                     return (<>
                       <Accordion
                         activeKey={openAccordionIndex === index ? '0' : null}
+                        
                         onSelect={() => handleAccordionOpen(index)}
-                        // onSelect={(e) => handleAccordionOpen(e, index)}
+                        
                         className="content_analytics_accordian"
                       >
-                        <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}>
+                        {/* <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}> */}
+                        <Accordion.Item eventKey="0" ref={openAccordionIndex === index ?firstAccordionRef  : null}>
+                        
                           <Accordion.Header>
                             <ul>
                               <li>{item?.name ? item?.name : "N/A"}</li>
@@ -363,6 +371,7 @@ const SurveyData = () => {
                                       <p>Genotype not available at my center: <span>{item?.survey_data?.rate_different_reasons?.genotype_not_available} star</span></p>
                                       <p>No insurance reimbursement: <span>{item?.survey_data?.rate_different_reasons?.no_insurance_reimbursement} star</span></p>
                                       <p>Family/Individual request: <span>{item?.survey_data?.rate_different_reasons?.family_request} star</span></p>
+                                    {item?.survey_data?.rate_different_reasons?.others?<p>Others:<span>{item?.survey_data?.rate_different_reasons?.others}</span></p>:""}
                                     </div>
 
                                     <div className='survey-data'>
@@ -388,6 +397,7 @@ const SurveyData = () => {
                                       <p>Informed testing of family members: <span>{item?.survey_data?.genotype_information_impacted_rate?.informed_testing_of_family_members} star</span></p>
                                       <p>Surgical management: <span>{item?.survey_data?.genotype_information_impacted_rate?.surgical_management} star</span></p>
                                       <p>Improved patients quality of life: <span>{item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life} star</span></p>
+                                    {item?.survey_data?.genotype_information_impacted_rate?.others?<p>Others:<span>{item?.survey_data?.genotype_information_impacted_rate?.others}</span></p>:""}
                                     </div>
 
                                     <div className='survey-data'>
@@ -398,7 +408,7 @@ const SurveyData = () => {
 
                                     <div className='survey-data'>
                                       <h6>5. Suggestion for service improvement</h6>
-                                      <p>{item?.survey_data?.suggestion}</p>
+                                      <p>{item?.survey_data?.suggestion?item?.survey_data?.suggestion:"N/A"}</p>
                                     </div>
 
                                     <div className='survey-data'>
