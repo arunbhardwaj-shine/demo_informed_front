@@ -9,9 +9,9 @@ import { saveAs } from "file-saver";
 import { loader } from '../../loader';
 const SurveyData = () => {
   const [data, setData] = useState([])
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
   const [apiCallStatus, setApiCallStatus] = useState(false)
+  const firstAccordionRef = useRef(null);
   useEffect(() => {
     getSurveyData()
   }, [])
@@ -35,17 +35,15 @@ const SurveyData = () => {
       setApiCallStatus(true)
     }
   }
-  const firstAccordionRef = useRef(null);
-
-  // const handleAccordionOpen = (index) => {
-  //   setOpenAccordionIndex(prevIndex => (prevIndex === index ? null : index));
-  // };
+  
 
   const handleAccordionOpen = (index) => {
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
+    
     if (firstAccordionRef.current) {
       firstAccordionRef.current.scrollIntoView({ behavior: "smooth" });
     }
+    
   };
 
   const downloadExcelSurveyData = () => {
@@ -276,9 +274,7 @@ const SurveyData = () => {
                     href={`https://events.docintel.app/survey/check8`}
                     onClick={(e) => {
                       e.preventDefault();
-                      // if (!isDataSaved) {
-                      //   return;
-                      // }
+                      
                       console.dir();
                       let newLink = `${e.currentTarget.getAttribute("href")}`;
                       copyToClipboard(newLink);
@@ -331,11 +327,14 @@ const SurveyData = () => {
                     return (<>
                       <Accordion
                         activeKey={openAccordionIndex === index ? '0' : null}
+                        ref={openAccordionIndex === index ?firstAccordionRef  : null}
                         onSelect={() => handleAccordionOpen(index)}
-                        // onSelect={(e) => handleAccordionOpen(e, index)}
+                        
                         className="content_analytics_accordian"
                       >
-                        <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}>
+                        {/* <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}> */}
+                        <Accordion.Item eventKey="0" >
+                        
                           <Accordion.Header>
                             <ul>
                               <li>{item?.name ? item?.name : "N/A"}</li>
