@@ -238,7 +238,7 @@ const SurveyQuestionFormData = () => {
                           onSelect={() => handleAccordionOpen(index)}
                           className="content_analytics_accordian"
                         >
-                          <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}>
+                          <Accordion.Item eventKey="0" ref={openAccordionIndex === index ?firstAccordionRef  : null}>
                             <Accordion.Header>
                               <ul>
                                 <li>{item?.name ? item?.name : "N/A"}</li>
