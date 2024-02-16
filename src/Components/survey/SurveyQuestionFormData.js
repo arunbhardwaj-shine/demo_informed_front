@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { getData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { Accordion, Col, Row } from "react-bootstrap";
@@ -47,8 +47,19 @@ const SurveyQuestionFormData = () => {
     }
   };
 
+  
+
+  const firstAccordionRef = useRef(null);
+
+  // const handleAccordionOpen = (index) => {
+  //   setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
+  // };
+
   const handleAccordionOpen = (index) => {
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
+    if (firstAccordionRef.current) {
+      firstAccordionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const downloadSurveyUsers = (data) => {
@@ -221,13 +232,13 @@ const SurveyQuestionFormData = () => {
                   {data?.map((item, index) => {
                     return (
                       <>
-                        <Accordion
+                        <Accordion 
                           key={index}
                           activeKey={openAccordionIndex === index ? "0" : null}
                           onSelect={() => handleAccordionOpen(index)}
                           className="content_analytics_accordian"
                         >
-                          <Accordion.Item eventKey="0">
+                          <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}>
                             <Accordion.Header>
                               <ul>
                                 <li>{item?.name ? item?.name : "N/A"}</li>

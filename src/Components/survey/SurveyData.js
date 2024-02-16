@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState ,useRef} from 'react'
 import { getData } from '../../axios/apiHelper'
 import { ENDPOINT } from '../../axios/apiConfig'
 import { Accordion, Col, Row } from 'react-bootstrap'
@@ -35,9 +35,17 @@ const SurveyData = () => {
       setApiCallStatus(true)
     }
   }
+  const firstAccordionRef = useRef(null);
+
+  // const handleAccordionOpen = (index) => {
+  //   setOpenAccordionIndex(prevIndex => (prevIndex === index ? null : index));
+  // };
 
   const handleAccordionOpen = (index) => {
-    setOpenAccordionIndex(prevIndex => (prevIndex === index ? null : index));
+    setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
+    if (firstAccordionRef.current) {
+      firstAccordionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const downloadExcelSurveyData = () => {
@@ -318,7 +326,7 @@ const SurveyData = () => {
                         // onSelect={(e) => handleAccordionOpen(e, index)}
                         className="content_analytics_accordian"
                       >
-                        <Accordion.Item eventKey="0">
+                        <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}>
                           <Accordion.Header>
                             <ul>
                               <li>{item?.name ? item?.name : "N/A"}</li>
