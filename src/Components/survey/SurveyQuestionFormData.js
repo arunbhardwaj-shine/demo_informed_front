@@ -8,8 +8,10 @@ import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
+
 const SurveyQuestionFormData = () => {
   const { eventIdContext, handleEventId } = useSidebar();
+  const firstAccordionRef = useRef([]);
 
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
 
@@ -49,7 +51,7 @@ const SurveyQuestionFormData = () => {
 
   
 
-  const firstAccordionRef = useRef(null);
+  
 
   // const handleAccordionOpen = (index) => {
   //   setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
@@ -58,7 +60,7 @@ const SurveyQuestionFormData = () => {
   const handleAccordionOpen = (index) => {
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
     if (firstAccordionRef.current) {
-      firstAccordionRef.current.scrollIntoView({ behavior: "smooth" });
+      firstAccordionRef.current[index].scrollIntoView({ behavior: "smooth" ,block: "center" });
     }
   };
 
@@ -238,7 +240,7 @@ const SurveyQuestionFormData = () => {
                           onSelect={() => handleAccordionOpen(index)}
                           className="content_analytics_accordian"
                         >
-                          <Accordion.Item eventKey="0" ref={openAccordionIndex === index ?firstAccordionRef  : null}>
+                          <Accordion.Item eventKey="0"   ref={(ref) => (firstAccordionRef.current[index] = ref)}>
                             <Accordion.Header>
                               <ul>
                                 <li>{item?.name ? item?.name : "N/A"}</li>

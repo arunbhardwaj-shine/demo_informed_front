@@ -11,7 +11,7 @@ const SurveyData = () => {
   const [data, setData] = useState([])
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
   const [apiCallStatus, setApiCallStatus] = useState(false)
-  const firstAccordionRef = useRef(null);
+  const firstAccordionRef = useRef([]);
   useEffect(() => {
     getSurveyData()
   }, [])
@@ -37,13 +37,20 @@ const SurveyData = () => {
   }
   
 
+  // const handleAccordionOpen = (index) => {
+  //   setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
+    
+  //   if (firstAccordionRef.current) {
+  //     firstAccordionRef.current.scrollIntoView({ behavior: "smooth" });
+  //   }
+    
+  // };
+
   const handleAccordionOpen = (index) => {
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
-    
     if (firstAccordionRef.current) {
-      firstAccordionRef.current.scrollIntoView({ behavior: "smooth" });
+      firstAccordionRef.current[index].scrollIntoView({ behavior: "smooth" ,  block: "center"});
     }
-    
   };
 
   const downloadExcelSurveyData = () => {
@@ -333,7 +340,7 @@ const SurveyData = () => {
                         className="content_analytics_accordian"
                       >
                         {/* <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}> */}
-                        <Accordion.Item eventKey="0" ref={openAccordionIndex === index ?firstAccordionRef  : null}>
+                        <Accordion.Item eventKey="0" ref={(ref) => (firstAccordionRef.current[index] = ref)}>
                         
                           <Accordion.Header>
                             <ul>
