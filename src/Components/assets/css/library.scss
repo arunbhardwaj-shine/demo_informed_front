@@ -2919,12 +2919,12 @@ form.product-unit button {
 }
 
 .viewer-page-layer {
-  // max-width: 1248px !important;
+  max-width: 1248px !important;
   height: auto !important;
   position: relative;
   // width: min(900px, 1260px)!important;
   // width: max(1248px, 100%) !important;
-  width: max(100%, min(50%, 900px)) !important
+  // width: max(100%, min(50%, 900px)) !important
 }
 
 .viewer-canvas-layer canvas {
