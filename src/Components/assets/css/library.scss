@@ -8700,6 +8700,22 @@ svg.pencil_icon {
   .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
     padding: 7px 10px;
   }
+
+  .create-change-content .inputfile~label {
+    min-width: 155px;
+  }
+
+  .library_create {
+    gap: 74px 110px;
+  }
+
+  .create-change-content .upload-file-box .box p {
+    font-size: 15px;
+  }
+
+  .create-change-content .upload-file-box .box p span {
+    font-size: 13px;
+  }
 }
 
 @media only screen and (max-width: 1650px) {
@@ -9326,7 +9342,7 @@ svg.pencil_icon {
 
   .create-change-content .form-group fieldset label {
     font-size: 15px;
-    padding: 0;
+    padding-right: 10px;
   }
 
   .marketing-log {
@@ -9811,6 +9827,10 @@ svg.pencil_icon {
   .sublink_right_block .loader-view {
     width: 60px;
     height: 60px;
+  }
+
+  .create-change-content .form-group.margin-added .add_product {
+    margin-right: -170px;
   }
 
   .create-change-content.analytic-charts .product-unit .form-group {
