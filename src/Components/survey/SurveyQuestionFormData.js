@@ -12,9 +12,8 @@ import { saveAs } from "file-saver";
 const SurveyQuestionFormData = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const firstAccordionRef = useRef([]);
-
+  const accordionRefs = useRef([]);
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-
   const [eventData, setEventData] = useState(
     eventIdContext ? eventIdContext : localStorageEvent
   );
@@ -49,20 +48,18 @@ const SurveyQuestionFormData = () => {
     }
   };
 
-  
-
-  
-
-  // const handleAccordionOpen = (index) => {
-  //   setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
-  // };
-
   const handleAccordionOpen = (index) => {
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
-    if (firstAccordionRef.current) {
-      firstAccordionRef.current[index].scrollIntoView({ behavior: "smooth" });
-    }
+   
   };
+  useEffect(() => {
+    if (accordionRefs.current[openAccordionIndex]) {
+        accordionRefs.current[openAccordionIndex].scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
+    }
+}, [openAccordionIndex]);
 
   const downloadSurveyUsers = (data) => {
     try {
@@ -240,7 +237,7 @@ const SurveyQuestionFormData = () => {
                           onSelect={() => handleAccordionOpen(index)}
                           className="content_analytics_accordian"
                         >
-                          <Accordion.Item eventKey="0"   ref={(ref) => (firstAccordionRef.current[index] = ref)}>
+                          <Accordion.Item eventKey="0"   ref={(ref) => { accordionRefs.current[index] = ref; }}>
                             <Accordion.Header>
                               <ul>
                                 <li>{item?.name ? item?.name : "N/A"}</li>
