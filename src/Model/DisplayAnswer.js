@@ -29,7 +29,7 @@ if(customAnswer == 1 || graphType === 'bar'){
 
       chartOptions = {
         chart: {
-          type: "column",
+          type: "bar",
         },
         yAxis: {
           min: 0,
