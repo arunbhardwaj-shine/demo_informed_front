@@ -2884,13 +2884,13 @@ form.product-unit button {
 
 .sublink_right.preview-content .add_link_to_pdf .viewer-layout-main {
   padding: 0;
-  // overflow-y: auto;
-  // max-height: 61vh;
+  overflow-y: auto;
+  max-height: 61vh;
 }
 
 .sublink_right.preview-content #pdf_view_box .viewer-layout-main {
   padding: 0;
-  // max-height: 61vh;
+  max-height: 61vh;
 }
 
 #addLinkForm p.err_class {
@@ -2914,35 +2914,10 @@ form.product-unit button {
   padding: 20px;
   margin: 0;
   position: relative;
-  // overflow-y: auto;
-  // max-height: 61vh;
+  overflow-y: auto;
+  max-height: 61vh;
 }
 
-.viewer-page-layer {
-  max-width: 1248px !important;
-  height: auto !important;
-  position: relative;
-  // width: min(900px, 1260px)!important;
-  // width: max(1248px, 100%) !important;
-  // width: max(100%, min(50%, 900px)) !important
-}
-
-.viewer-canvas-layer canvas {
-  max-width: 100% !important;
-  width: inherit !important;
-  transform: scale(1) !important;
-}
-
-.viewer-canvas-layer {
-  max-width: 100% !important;
-  height: auto !important;
-  position: relative;
-  width: inherit !important;
-}
-
-// .viewer-page-layer [id*="canvas_page_"]{
-//   width: 100% !important;
-// }
 .form-group .add_product span {
   height: 50px;
   border-left: 1px solid $light-gray;
