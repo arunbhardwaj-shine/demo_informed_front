@@ -11,7 +11,7 @@ const SurveyData = () => {
   const [data, setData] = useState([])
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
   const [apiCallStatus, setApiCallStatus] = useState(false)
-  const firstAccordionRef = useRef([]);
+  const accordionRefs = useRef([]);
   useEffect(() => {
     getSurveyData()
   }, [])
@@ -35,23 +35,18 @@ const SurveyData = () => {
       setApiCallStatus(true)
     }
   }
-  
 
-  // const handleAccordionOpen = (index) => {
-  //   setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
-    
-  //   if (firstAccordionRef.current) {
-  //     firstAccordionRef.current.scrollIntoView({ behavior: "smooth" });
-  //   }
-    
-  // };
-
-  const handleAccordionOpen = (index) => {
+  const handleAccordionOpen=(index)=>{
     setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
-    if (firstAccordionRef.current) {
-      firstAccordionRef.current[index].scrollIntoView({ behavior: "smooth" });
+  }
+  useEffect(() => {
+    if (accordionRefs.current[openAccordionIndex]) {
+        accordionRefs.current[openAccordionIndex].scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
     }
-  };
+}, [openAccordionIndex]);
 
   const downloadExcelSurveyData = () => {
     try {
@@ -333,15 +328,12 @@ const SurveyData = () => {
                   {data?.map((item, index) => {
                     return (<>
                       <Accordion
-                        activeKey={openAccordionIndex === index ? '0' : null}
-                        
+                      key={index}
+                        activeKey={openAccordionIndex === index ? '0' : null}                        
                         onSelect={() => handleAccordionOpen(index)}
-                        
                         className="content_analytics_accordian"
                       >
-                        {/* <Accordion.Item eventKey="0" ref={index === 0 ? firstAccordionRef : null}> */}
-                        <Accordion.Item eventKey="0" ref={(ref) => (firstAccordionRef.current[index] = ref)}>
-                        
+                        <Accordion.Item eventKey="0" ref={(ref) => { accordionRefs.current[index] = ref; }}>                        
                           <Accordion.Header>
                             <ul>
                               <li>{item?.name ? item?.name : "N/A"}</li>
