@@ -90,7 +90,7 @@ useEffect(()=>{
 
 
             chart: {
-              type: "column",
+              type: "bar",
               height:'500',
             },
             yAxis: {
