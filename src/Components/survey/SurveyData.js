@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState ,useRef} from 'react'
 import { getData } from '../../axios/apiHelper'
 import { ENDPOINT } from '../../axios/apiConfig'
 import { Accordion, Col, Row } from 'react-bootstrap'
@@ -9,9 +9,9 @@ import { saveAs } from "file-saver";
 import { loader } from '../../loader';
 const SurveyData = () => {
   const [data, setData] = useState([])
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
   const [apiCallStatus, setApiCallStatus] = useState(false)
+  const accordionRefs = useRef([]);
   useEffect(() => {
     getSurveyData()
   }, [])
@@ -36,9 +36,17 @@ const SurveyData = () => {
     }
   }
 
-  const handleAccordionOpen = (index) => {
-    setOpenAccordionIndex(prevIndex => (prevIndex === index ? null : index));
-  };
+  const handleAccordionOpen=(index)=>{
+    setOpenAccordionIndex((prevIndex) => (prevIndex === index ? null : index));
+  }
+  useEffect(() => {
+    if (accordionRefs.current[openAccordionIndex]) {
+        accordionRefs.current[openAccordionIndex].scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
+    }
+}, [openAccordionIndex]);
 
   const downloadExcelSurveyData = () => {
     try {
@@ -81,6 +89,10 @@ const SurveyData = () => {
             item?.survey_data?.rate_different_reasons?.family_request ?
               item?.survey_data?.rate_different_reasons?.family_request : "N/A",
 
+              "1.Rate the different reasons you have used the 8CHECK service,Others":
+            item?.survey_data?.rate_different_reasons?.others ?
+              item?.survey_data?.rate_different_reasons?.others?.trim() : "N/A",
+
           "2.How many patients in each patient group have used the 8CHECK service,Patients with severe hemophilia A,Who have not received a FVIII infusion":
             item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion ? item?.survey_data?.patients_with_severe_hemophilia_A?.not_recieved_FVIII_infusion : "N/A",
         
@@ -120,6 +132,9 @@ const SurveyData = () => {
         
           "3. How has receiving the genotype information impacted patient care? Rate the options below,Improved patients quality of life":
           item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life?item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life?.trim():"N/A",
+
+          "3. How has receiving the genotype information impacted patient care? Rate the options below,Others":
+          item?.survey_data?.genotype_information_impacted_rate?.others?item?.survey_data?.genotype_information_impacted_rate?.others?.trim():"N/A",
         
           "4. How satisfied are you with the 8CHECK service":item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?item?.survey_data?.satisfied_with_8check_service?.satisfied_with_8check_service?.trim():"N/A",
 
@@ -131,20 +146,64 @@ const SurveyData = () => {
           "6. Would you be interested in participating in any of the following 8CHECK activities":item?.survey_data?.interested_in_8check_activities?item?.survey_data?.interested_in_8check_activities?.trim():"N/A",
         };
       })
-      // const worksheet = XLSX.utils.json_to_sheet(downloadData);
-      const worksheet = XLSX.utils.json_to_sheet(downloadData, { header: Object.keys(downloadData[0]), origin: 'A1' });
-      // Adjust column widths
-      const columnWidths = downloadData.reduce((acc, item) => {
-        Object.keys(item).forEach(key => {
-          const columnLength = item[key].length;
-          if (!acc[key] || acc[key] < columnLength) {
-            acc[key] = columnLength;
-          }
-        });
-        return acc;
-      }, {});
+      
+      // const worksheet = XLSX.utils.json_to_sheet(downloadData, { header: Object.keys(downloadData[0]), origin: 'A1' });
+      // // Adjust column widths
+      // const columnWidths = downloadData.reduce((acc, item) => {
+      //   Object.keys(item).forEach(key => {
+      //     const columnLength = item[key].length;
+      //     if (!acc[key] || acc[key] < columnLength) {
+      //       acc[key] = columnLength;
+      //     }
+      //   });
+      //   return acc;
+      // }, {});
 
-      worksheet['!cols'] = Object.keys(columnWidths).map(key => ({ wch: columnWidths[key] }));
+      // worksheet['!cols'] = Object.keys(columnWidths).map(key => ({ wch: columnWidths[key] }));
+
+      const worksheet = XLSX.utils.json_to_sheet(downloadData);
+         // Specify column widths (in Excel units, 1 unit = 1/256th of the width of a character)
+         const columnWidths = [
+          {wch: 20}, // Width of column A 
+          {wch: 20}, // Width of column B 
+          {wch: 10}, // Width of column C 
+          {wch: 15}, // Width of column D 
+          {wch: 15}, // Width of column E 
+          {wch: 15}, // Width of column F 
+          {wch: 20}, // Width of column G 
+          {wch: 20}, // Width of column H 
+          {wch: 20},  // Width of column I
+          {wch: 30},  // Width of column J 
+          {wch: 30}, // Width of column K 
+          {wch: 30}, // Width of column L 
+          {wch: 30}, // Width of column M 
+          {wch: 30}, // Width of column N 
+          {wch: 30}, // Width of column O 
+          {wch: 30}, // Width of column P 
+          {wch: 30}, // Width of column Q 
+          {wch: 30}, // Width of column R 
+          {wch: 30}, // Width of column S 
+          {wch: 30}, // Width of column T 
+          {wch: 30}, // Width of column U 
+          {wch: 30}, // Width of column V 
+          {wch: 30}, // Width of column W 
+          {wch: 30}, // Width of column X 
+          {wch: 30},  // Width of column Y 
+          {wch: 30}, // Width of column Z 
+          {wch: 30}, // Width of column AA 
+          {wch: 30}, // Width of column AB 
+          {wch: 30}, // Width of column AC 
+          {wch: 30}, // Width of column AD 
+          {wch: 30}, // Width of column AE 
+          {wch:30},
+          {wch:30},
+          {wch: 60}, // Width of column AF 
+         
+        ];
+      
+      // Apply column widths
+      worksheet['!cols'] = columnWidths;
+      
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       const excelBuffer = XLSX.write(workbook, {
@@ -155,7 +214,7 @@ const SurveyData = () => {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
       saveAs(
-        blob, "Survey_data.xlsx");
+        blob, "Survey_Data_8Check.xlsx");
 
     } catch (err) {
       console.log("An error occurred while downloading the Excel file:", err)
@@ -213,12 +272,11 @@ const SurveyData = () => {
                 <div className='clear-search d-flex align-items-center'>
                   <a
                     className={`copy_link btn-voilet`}
-                    href={`${window.location.protocol}//${window.location.host}/survey/check8`}
+                    // href={`${window.location.protocol}//${window.location.host}/survey/check8`}
+                    href={`https://events.docintel.app/survey/check8`}
                     onClick={(e) => {
                       e.preventDefault();
-                      // if (!isDataSaved) {
-                      //   return;
-                      // }
+                      
                       console.dir();
                       let newLink = `${e.currentTarget.getAttribute("href")}`;
                       copyToClipboard(newLink);
@@ -230,7 +288,7 @@ const SurveyData = () => {
                     <div className="clear-search d-flex align-items-center">
                       <button
                         className="btn print"
-                        title="Download survey data"
+                        title="Download data"
                         onClick={() => {
                           downloadExcelSurveyData();
                         }}
@@ -270,12 +328,12 @@ const SurveyData = () => {
                   {data?.map((item, index) => {
                     return (<>
                       <Accordion
-                        activeKey={openAccordionIndex === index ? '0' : null}
+                      key={index}
+                        activeKey={openAccordionIndex === index ? '0' : null}                        
                         onSelect={() => handleAccordionOpen(index)}
-                        // onSelect={(e) => handleAccordionOpen(e, index)}
                         className="content_analytics_accordian"
                       >
-                        <Accordion.Item eventKey="0">
+                        <Accordion.Item eventKey="0" ref={(ref) => { accordionRefs.current[index] = ref; }}>                        
                           <Accordion.Header>
                             <ul>
                               <li>{item?.name ? item?.name : "N/A"}</li>
@@ -312,6 +370,7 @@ const SurveyData = () => {
                                       <p>Genotype not available at my center: <span>{item?.survey_data?.rate_different_reasons?.genotype_not_available} star</span></p>
                                       <p>No insurance reimbursement: <span>{item?.survey_data?.rate_different_reasons?.no_insurance_reimbursement} star</span></p>
                                       <p>Family/Individual request: <span>{item?.survey_data?.rate_different_reasons?.family_request} star</span></p>
+                                    {item?.survey_data?.rate_different_reasons?.others?<p>Others:<span>{item?.survey_data?.rate_different_reasons?.others}</span></p>:""}
                                     </div>
 
                                     <div className='survey-data'>
@@ -337,6 +396,7 @@ const SurveyData = () => {
                                       <p>Informed testing of family members: <span>{item?.survey_data?.genotype_information_impacted_rate?.informed_testing_of_family_members} star</span></p>
                                       <p>Surgical management: <span>{item?.survey_data?.genotype_information_impacted_rate?.surgical_management} star</span></p>
                                       <p>Improved patients quality of life: <span>{item?.survey_data?.genotype_information_impacted_rate?.improved_patients_quality_of_life} star</span></p>
+                                    {item?.survey_data?.genotype_information_impacted_rate?.others?<p>Others:<span>{item?.survey_data?.genotype_information_impacted_rate?.others}</span></p>:""}
                                     </div>
 
                                     <div className='survey-data'>
@@ -347,7 +407,7 @@ const SurveyData = () => {
 
                                     <div className='survey-data'>
                                       <h6>5. Suggestion for service improvement</h6>
-                                      <p>{item?.survey_data?.suggestion}</p>
+                                      <p>{item?.survey_data?.suggestion?item?.survey_data?.suggestion:"N/A"}</p>
                                     </div>
 
                                     <div className='survey-data'>
