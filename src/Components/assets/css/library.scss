@@ -3487,6 +3487,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 
 .create-change-content .form-group .ebook-format {
   @include flex-middle;
+  flex-wrap: wrap;
 }
 
 .create-change-content .form-group .ebook-format label {
