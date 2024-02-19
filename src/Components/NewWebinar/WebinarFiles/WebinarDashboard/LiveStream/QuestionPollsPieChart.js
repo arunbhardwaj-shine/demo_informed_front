@@ -76,10 +76,9 @@ const QuestionPollsPieChart = ({ data,show }) => {
     }
     );
 
-
     const [barChartOptions, setBarChartOptions] = useState({
         chart: {
-            type: "column",
+            type: "bar",
         },
         title: {
             text: "Polls Results",

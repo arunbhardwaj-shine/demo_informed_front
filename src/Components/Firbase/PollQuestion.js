@@ -351,7 +351,7 @@ const PollQuestion = () => {
           });
           chartOptions.linechart = {
             chart: {
-              type: "column",
+              type: "bar",
             },
             yAxis: {
               min: 0,
