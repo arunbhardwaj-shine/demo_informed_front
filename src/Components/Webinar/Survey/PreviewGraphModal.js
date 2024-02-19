@@ -86,7 +86,8 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
 
     setBarChartOptions({
       chart: {
-        type: "column",
+        // type: "column",
+        type: "bar",
       },
 
       title: {
@@ -99,6 +100,10 @@ const PreviewGraphModal = ({ graphType, answerOption ,question}) => {
 
       xAxis: {
         categories: answerOption.map(item => item?.answer),
+      //   categories : answerOption.map(item => {
+      //     const label = item?.answer;
+      //     return label.length > 15 ? label.replace(/(.{1,15})/g, '$1<br>') : label;
+      // })
       },
 
       yAxis: {
