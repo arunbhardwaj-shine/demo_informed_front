@@ -283,6 +283,7 @@ const [comment,setComment]=useState("")
     setError({});
   }, [show]);
   const shouldAddClass = parms && parms.includes("eahad_2024");
+  const addClass = parms && parms.includes("GTH2024");
   return (
     <Modal
       id="pollModel"
@@ -291,7 +292,8 @@ const [comment,setComment]=useState("")
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       // className="session-modal"
-      className={`session-modal ${shouldAddClass ? "eahad_2024" : ""}`}
+      className={`session-modal ${shouldAddClass ? "eahad_2024" : ""}${addClass ? "gth-2024" : ""
+            }`}
       centered
     >
       <Modal.Header style={{ background: designData?.headerBackgroundColor }}>
