@@ -482,7 +482,7 @@ const Event = () => {
                             />
                             <div className="right-side-img">
                               <img
-                                  src={path_image + "gth-banner1.png"}
+                                  src={path_image + "gth-banner2.png"}
                                 alt=""
                               />
                             </div>
