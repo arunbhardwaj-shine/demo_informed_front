@@ -593,7 +593,7 @@ const AddLinkToPdf = () => {
     let box_height = box.getBoundingClientRect().height;
     let actual_width = xcoordinates + 15 - box_width;
     let x_cord = actual_width / 3.8;
-    let actual_height = mousefirstdown + 11 - ycoordinates;
+    let actual_height = mousefirstdown - ycoordinates;
     let y_cord = actual_height / 3.8;
     let page_no = linkonpage + 1;
     let box_width_x = box_width / 3.7;
@@ -1010,7 +1010,7 @@ const AddLinkToPdf = () => {
                             <Viewer
                               id="container"
                               renderPage={renderPage}
-                              defaultScale={SpecialZoomLevel.PageFit}
+                              defaultScale={defaultScale}
                               onPageChange={handleDocumentLoad}
                               onDocumentLoad={handleCompleteDocumentLoad}
                               renderMode="canvas"
