@@ -1574,9 +1574,10 @@ ul.tabnav-link li {
   pointer-events: none;
 }
 
-.header-btn {
-  text-align: right;
-}
+  .header-btn {
+      text-align: right;
+      display: flex;
+    }
 
 .btn.btn-primary {
   box-sizing: border-box;
@@ -1795,7 +1796,7 @@ ul.tabnav-link li {
   width: 44px;
   height: 44px;
   top: -28px;
-  z-index: 5;
+  z-index: 4;
 }
 
 .select-mail-option input {
@@ -3876,6 +3877,15 @@ form#add_hcp_form .row:not(:first-child) {
 .mail-recipt .mail-recipt-right {
   padding-bottom: 10px;
   margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.mail-recipt .mail-recipt-right p, .mail-recipt .mail-recipt-right h6{
+  width:100%;
+}
+.mail-content-select-top .mail-preview-img {
+  flex: 0 0 85px;
 }
 
 /**css loader**/
@@ -8488,11 +8498,11 @@ section.search-hcp.smart-list-view .header-btn-left {
   border-radius: 5px;
   box-shadow: 0 0 10px #9ecaed;
   width: 320px;
-  transform: translateY(-50%);
+  /* transform: translateY(-50%);
   top: 50%;
   left: 0;
   right: 0;
-  margin: 0 auto;
+  margin: 0 auto; */
   background-color: var(--white);
   z-index: 5;
 }
@@ -12286,11 +12296,11 @@ table.table-custom {
   pointer-events: none;
 }
 
-.sublink_right.preview-content .add_link_to_pdf .viewer-layout-main::-webkit-scrollbar {
+/* .sublink_right.preview-content .add_link_to_pdf .viewer-layout-main::-webkit-scrollbar {
   display: none;
-}
+} */
 
-.sublink_right.preview-content .add_link_to_pdf .viewer-layout-main {
+/* .sublink_right.preview-content .add_link_to_pdf .viewer-layout-main {
   scrollbar-width: none;
   -ms-overflow-style: none;
-}
+} */
