@@ -1,7 +1,7 @@
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
-import { postData,getData } from "../../axios/apiHelper";
+import { postData, getData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import EventModel from "../../Model/EventModel";
 import SessionModel from "../../Model/SessionModel";
@@ -62,9 +62,7 @@ const Event = () => {
   const fetchApiData = async () => {
     try {
       loader("show");
-      const response = await getData(
-        `${ENDPOINT.GETCHATLINKDATA}/${parms}`
-      );
+      const response = await getData(`${ENDPOINT.GETCHATLINKDATA}/${parms}`);
       const { chatLinkData } = response?.data?.data;
       // console.log(response?.data?.data,'data')
       // if(response?.data?.data?.length === 0){
@@ -78,7 +76,7 @@ const Event = () => {
       } else {
         setLogo(dynamicContent?.logoImageUrl);
       }
-      setIsDataLoaded(true)
+      setIsDataLoaded(true);
     } catch (error) {
       setLogo(dynamicContent?.logoImageUrl);
 
@@ -152,8 +150,10 @@ const Event = () => {
     if (Object.keys(newData)?.length) {
       // console.log(newData,"newDatanewDatanewData")
       /* Check already submit question  */
-         let userResetCounter = newData?.resetFlag ? newData?.resetFlag : 0;
-         let eventQuestion = Cookies.get("eventQuestion"+newData?.event_id+'_'+userResetCounter);
+      let userResetCounter = newData?.resetFlag ? newData?.resetFlag : 0;
+      let eventQuestion = Cookies.get(
+        "eventQuestion" + newData?.event_id + "_" + userResetCounter
+      );
       if (
         eventQuestion?.includes(newData?.question_id) &&
         newData?.triggered == 1
@@ -327,151 +327,253 @@ const Event = () => {
   }, [data]);
 
   const shouldAddClass = parms && parms.includes("eahad_2024");
-
- 
+  const addClass = parms && parms.includes("GTH2024");
 
   return (
     <>
-    <div className="webinar-popup">
-      <div className="loader" id="custom_loader">
-        <div className="loader_show">
-          <span className="loader-view"> </span>
+      <div className="webinar-popup">
+        <div className="loader" id="custom_loader">
+          <div className="loader_show">
+            <span className="loader-view"> </span>
+          </div>
         </div>
-      </div>
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-      />
-      {(isDataLoaded) && <div
-        className={`octa_events ${
-          shouldAddClass ? "eahad_2024" : ""
-        }`}
-      >
-        {/* <div className="octa_events"> */}
-        <div className="container">
-          <div className="question-block">
-            <div className="header-logo">
-              <div>
-                {/* <img src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png" /> */}
-                {/* <img src={path_image+'FVIII_logo.png'} alt="Logo" /> */}
-                <img
-                  src={`${
-                    parms?.includes("eahad_2024")
-                      ? "https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"
-                      : formData?.logoImageUrl?formData?.logoImageUrl:"https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
-                      // path_image + "FVIII_logo.png"
-                  }`}
-                  alt="Factor logo"
-                />
-              </div>
-            </div>
-            <div className="question-block-form">
-              <div className="log-inner">
-
-              {parms?.includes("eahad_2024") ? (
-                <div className="head-sec" 
-                //  style={{
-                //   background: formData?.headerBackgroundColor,
-                //   borderBottomColor: formData?.buttonColor,
-                // }}
-                >
-                  {parms?.includes("eahad_2024") ? (
-                    <div>
-                      <img
-                        classname="header-img"
-                        src={path_image + "underspotlight-new1.png"}
-                        alt=""
-                      />
-                      <div className="right-side-img">
-                        <img
-                          src={path_image + "underspot-lady.png"}
-                          alt=""
-                        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {isDataLoaded && (
+          <div
+            // className={`octa_events ${
+            //   shouldAddClass ? "eahad_2024" : ""
+            // }`}
+            className={`octa_events ${shouldAddClass ? "eahad_2024" : ""}${
+              addClass ? "gth-2024" : ""
+            }`}
+          >
+            {/* <div className="octa_events"> */}
+            <div className="container">
+              <div className="question-block">
+                <div className="header-logo">
+                  <div>
+                    {/* <img src="https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png" /> */}
+                    {/* <img src={path_image+'FVIII_logo.png'} alt="Logo" /> */}
+                    <img
+                      // src={`${
+                      //   parms?.includes("eahad_2024")
+                      //     ? "https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"
+                      //     : formData?.logoImageUrl?formData?.logoImageUrl:"https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                      //     // path_image + "FVIII_logo.png"
+                      // }`}
+                      src={`${
+                        parms?.includes("eahad_2024")
+                          ? "https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"
+                          : parms?.includes("GTH2024")
+                          ? "https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"
+                          : formData?.logoImageUrl
+                          ? formData?.logoImageUrl
+                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                      }`}
+                      alt="Factor logo"
+                    />
+                  </div>
+                </div>
+                <div className="question-block-form">
+                  <div className="log-inner">
+                    {/* {parms?.includes("eahad_2024") ? (
+                      <div
+                        className="head-sec"
+                      >
+                        {parms?.includes("eahad_2024") ? (
+                          <div>
+                            <img
+                              classname="header-img"
+                              src={path_image + "underspotlight-new1.png"}
+                              alt=""
+                            />
+                            <div className="right-side-img">
+                              <img
+                                src={path_image + "underspot-lady.png"}
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <h2
+                            className="top-title"
+                            style={{ color: formData?.textColor }}
+                            dangerouslySetInnerHTML={{
+                              __html: formData?.heading,
+                            }}
+                          >
+                           
+                          </h2>
+                        )}
+           
                       </div>
-                    </div>
-                  ) : (
-                    <h2 className="top-title"  style={{ color: formData?.textColor }}   dangerouslySetInnerHTML={{
-                      __html: formData?.heading,
-                    }}>
-                      {/* Write your question here! */}
-                    
-                    </h2>
-                  )}
-                  {/*<div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div>
-   <div className="head_desc">
- </div> */}
-                </div>
-
-              ):(
-                <div className="head-sec" 
-                 style={{
-                  background: formData?.headerBackgroundColor,
-                  borderBottomColor: formData?.buttonColor,
-                }}>
-                  {parms?.includes("eahad_2024") ? (
-                    <div>
-                      <img
-                        classname="header-img"
-                        src={path_image + "underspotlight-new1.png"}
-                        alt=""
-                      />
-                      <div className="right-side-img">
-                        <img
-                          src={path_image + "underspot-lady.png"}
-                          alt=""
-                        />
+                    ) : (
+                      <div
+                        className="head-sec"
+                        style={{
+                          background: formData?.headerBackgroundColor,
+                          borderBottomColor: formData?.buttonColor,
+                        }}
+                      >
+                        {parms?.includes("eahad_2024") ? (
+                          <div>
+                            <img
+                              classname="header-img"
+                              src={path_image + "underspotlight-new1.png"}
+                              alt=""
+                            />
+                            <div className="right-side-img">
+                              <img
+                                src={path_image + "underspot-lady.png"}
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <h2
+                            className="top-title"
+                            style={{ color: formData?.textColor }}
+                            dangerouslySetInnerHTML={{
+                              __html: formData?.heading
+                                ? formData?.heading
+                                : " Write your question here!",
+                            }}
+                          >
+                          </h2>
+                        )}
+           
                       </div>
-                    </div>
-                  ) : (
-                    <h2 className="top-title"  style={{ color: formData?.textColor }}   dangerouslySetInnerHTML={{
-                      __html: formData?.heading?formData?.heading:" Write your question here!",
-                    }}>
-                      {/* Write your question here! */}
-                    
-                    </h2>
-                  )}
-                  {/*<div className="under-spotlight"><img src={path_image+'FVIII_logo.png'} alt="Logo" /></div>
-   <div className="head_desc">
- </div> */}
-                </div>
-              )}
-              </div>
-              {parms?.includes("eahad_2024") ? (
-                <div className="event_title">
-                  <h2 className="top-title">
-                    Type your question here!
-                  </h2>
-                </div>
-              ) : null}
-              <form onSubmit={handleSubmit}>
-                <input
-                  type="hidden"
-                  className="form-control"
-                  id="guest_id"
-                  name="guest_id"
-                  value="lji3sjpsdc21tux2st"
-                />
+                    )} */}
 
-                <div className="row">
-                  <div className="col-md-12">
-                    {/* <label htmlFor="fname" className="form-label">
+                    {parms?.includes("eahad_2024") ? (
+                      <div className="head-sec">
+                        {parms?.includes("eahad_2024") ? (
+                          <div>
+                            <img
+                              className="header-img"
+                              src={path_image + "underspotlight-new1.png"}
+                              alt=""
+                            />
+                            <div className="right-side-img">
+                              <img
+                                src={path_image + "underspot-lady.png"}
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <h2
+                            className="top-title"
+                            style={{ color: formData?.textColor }}
+                            dangerouslySetInnerHTML={{
+                              __html: formData?.heading,
+                            }}
+                          ></h2>
+                        )}
+                      </div>
+                    ) : parms?.includes("GTH2024") ? (
+                      <div className="head-sec">
+                        {parms?.includes("GTH2024") ? (
+                          <div>
+                            <img
+                              className="header-img"
+                              src={path_image + "underspotlight-new1.png"}
+                              alt=""
+                            />
+                            <div className="right-side-img">
+                              <img
+                                src={path_image + "underspot-lady.png"}
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <h2
+                            className="top-title"
+                            style={{ color: formData?.textColor }}
+                            dangerouslySetInnerHTML={{
+                              __html: formData?.heading,
+                            }}
+                          ></h2>
+                        )}
+                      </div>
+                    ) : (
+                      <div
+                        className="head-sec"
+                        style={{
+                          background: formData?.headerBackgroundColor,
+                          borderBottomColor: formData?.buttonColor,
+                        }}
+                      >
+                        {parms?.includes("eahad_2024") ? (
+                          <div>
+                            <img
+                              className="header-img"
+                              src={path_image + "underspotlight-new1.png"}
+                              alt=""
+                            />
+                            <div className="right-side-img">
+                              <img
+                                src={path_image + "underspot-lady.png"}
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <h2
+                            className="top-title"
+                            style={{ color: formData?.textColor }}
+                            dangerouslySetInnerHTML={{
+                              __html: formData?.heading
+                                ? formData?.heading
+                                : " Write your question here!",
+                            }}
+                          ></h2>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  {parms?.includes("eahad_2024") ? (
+                    <div className="event_title">
+                      <h2 className="top-title">Type your question here!</h2>
+                    </div>
+                  ) : null}
+                  {parms?.includes("GTH2024") ? (
+                    <div className="event_title">
+                      <h2 className="top-title">Type your question here!</h2>
+                    </div>
+                  ) : null}
+                  <form onSubmit={handleSubmit}>
+                    <input
+                      type="hidden"
+                      className="form-control"
+                      id="guest_id"
+                      name="guest_id"
+                      value="lji3sjpsdc21tux2st"
+                    />
+
+                    <div className="row">
+                      <div className="col-md-12">
+                        {/* <label htmlFor="fname" className="form-label">
                       Name{" "}
                       <i>
                         <small>(Optional)</small>
                       </i>
                     </label> */}
-                    <label
-                              htmlFor="fname"
-                              className="form-label"
-                              style={{ color: formData?.textColor }}
-                              dangerouslySetInnerHTML={{
-                                __html: formData?.nameLabel?formData?.nameLabel:"Name",
-                              }}
-                              // <i>
-                              //   <small>(Optional)</small>
-                              // </i>
-                            />
-                    {/* <input
+                        <label
+                          htmlFor="fname"
+                          className="form-label"
+                          style={{ color: formData?.textColor }}
+                          dangerouslySetInnerHTML={{
+                            __html: formData?.nameLabel
+                              ? formData?.nameLabel
+                              : "Name",
+                          }}
+                          // <i>
+                          //   <small>(Optional)</small>
+                          // </i>
+                        />
+                        {/* <input
                       type="text"
                       id="name"
                       onChange={handleChange}
@@ -485,55 +587,61 @@ const Event = () => {
                       value={user?.name}
                     /> */}
 
-                    <input
-                              type="text"
-                              id="name"
-                              onChange={handleChange}
-                              className="form-control "
-                              placeholder={
-                                parms?.includes("eahad_2024")
-                                  ? "Type your name"
-                                  : formData?.namePlaceholder?formData?.namePlaceholder:"Write your name"
-                              }
-                              name="name"
-                              value={user?.name}
-                              style={{
-                                borderColor: formData?.textColor
-                              }}
-                            />
-                    <input
-                      type="hidden"
-                      className="form-control"
-                      value="Question submitted successfully"
-                      name="succ_message"
-                    />
-                    <input
-                      type="hidden"
-                      className="form-control"
-                      value="Please enter message"
-                      name="err_message"
-                    />
-                    <input
-                      type="hidden"
-                      className="form-control"
-                      value="index.php?evnt=octa-academy-2023"
-                      name="page"
-                    />
-                  </div>
-                  <div className="col-md-12">
-                    {/* <label htmlFor="question" className="form-label">
+                        <input
+                          type="text"
+                          id="name"
+                          onChange={handleChange}
+                          className="form-control "
+                          placeholder={
+                            parms?.includes("eahad_2024")
+                              ? "Type your name"
+                              : parms?.includes("GTH2024")
+                              ? "Type your name"
+                              : formData?.namePlaceholder
+                              ? formData?.namePlaceholder
+                              : "Write your name"
+                          }
+                          name="name"
+                          value={user?.name}
+                          style={{
+                            borderColor: formData?.textColor,
+                          }}
+                        />
+                        <input
+                          type="hidden"
+                          className="form-control"
+                          value="Question submitted successfully"
+                          name="succ_message"
+                        />
+                        <input
+                          type="hidden"
+                          className="form-control"
+                          value="Please enter message"
+                          name="err_message"
+                        />
+                        <input
+                          type="hidden"
+                          className="form-control"
+                          value="index.php?evnt=octa-academy-2023"
+                          name="page"
+                        />
+                      </div>
+                      <div className="col-md-12">
+                        {/* <label htmlFor="question" className="form-label">
                       Your question<sup>*</sup>
                     </label> */}
-                    <label
-                              htmlFor="fname"
-                              className="form-label"
-                              style={{ color: formData?.textColor }}
-                              dangerouslySetInnerHTML={{
-                                __html: formData?.questionLabel?formData?.questionLabel:"Your question",
-                              }}
-                              // <sup>*</sup>
-                            />
-                    {/* <textarea
+                        <label
+                          htmlFor="fname"
+                          className="form-label"
+                          style={{ color: formData?.textColor }}
+                          dangerouslySetInnerHTML={{
+                            __html: formData?.questionLabel
+                              ? formData?.questionLabel
+                              : "Your question",
+                          }}
+                          // <sup>*</sup>
+                        />
+                        {/* <textarea
                       name="question"
                       id="question"
                       onChange={handleChange}
@@ -548,35 +656,39 @@ const Event = () => {
                       value={user?.question}
                     ></textarea> */}
 
-                      <textarea
-                              name="question"
-                              id="question"
-                              onChange={handleChange}
-                              className="form-control"
-                              placeholder={
-                                parms?.includes("eahad_2024")
-                                  ? "Type your question"
-                                  : formData?.questionPlaceholder?formData?.questionPlaceholder:"Write your question"
-                              }
-                              cols="40"
-                              rows="4"
-                              value={user?.question}
-                              style={{
-                                borderColor: formData?.textColor
-                              }}
-                            ></textarea>
+                        <textarea
+                          name="question"
+                          id="question"
+                          onChange={handleChange}
+                          className="form-control"
+                          placeholder={
+                            parms?.includes("eahad_2024")
+                              ? "Type your question"
+                              : parms?.includes("GTH2024")
+                              ? "Type your question"
+                              : formData?.questionPlaceholder
+                              ? formData?.questionPlaceholder
+                              : "Write your question"
+                          }
+                          cols="40"
+                          rows="4"
+                          value={user?.question}
+                          style={{
+                            borderColor: formData?.textColor,
+                          }}
+                        ></textarea>
 
-                    {error?.question ? (
-                      <span className="event-validation">
-                        {error?.question}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
+                        {error?.question ? (
+                          <span className="event-validation">
+                            {error?.question}
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </div>
 
-                  <div className="col-md-12">
-                    {/* <input
+                      <div className="col-md-12">
+                        {/* <input
                       type="submit"
                       className="btn btn-success"
                       value={
@@ -586,213 +698,277 @@ const Event = () => {
                       }
                     /> */}
 
-                    {parms?.includes("eahad_2024")?
-                    ( <input
-                    type="submit"
-                    className="btn btn-success"
-                    value={
-                      parms?.includes("eahad_2024")
-                        ? "SUBMIT"
-                        : "SEND"
-                    }
-                  /> 
-)
-                    :( <Button
-                      type="submit"
-                      className="btn btn-success"
-                      style={{
-                        background: formData?.buttonColor,
-                        borderColor: formData?.buttonColor,
-                      }}
-                      dangerouslySetInnerHTML={{
-                        __html: formData?.buttonText?formData?.buttonText:"SEND",
-                      }}
-                    ></Button>)
-                    }
+                        {/* {parms?.includes("eahad_2024") ? (
+                          <input
+                            type="submit"
+                            className="btn btn-success"
+                            value={
+                              parms?.includes("eahad_2024") ? "SUBMIT" : "SEND"
+                            }
+                          />
+                        ) :  (
+                          <Button
+                            type="submit"
+                            className="btn btn-success"
+                            style={{
+                              background: formData?.buttonColor,
+                              borderColor: formData?.buttonColor,
+                            }}
+                            dangerouslySetInnerHTML={{
+                              __html: formData?.buttonText
+                                ? formData?.buttonText
+                                : "SEND",
+                            }}
+                          ></Button>
+                        )} */}
 
-                          {/* <Button
-                              type="submit"
-                              className="btn btn-success"
-                              style={{
-                                background: formData?.buttonColor,
-                                borderColor: formData?.buttonColor,
-                              }}
-                              dangerouslySetInnerHTML={{
-                                __html: formData?.buttonText,
-                              }}
-                            ></Button> */}
-                  </div>
-
-                  {parms?.includes("eahad_2024") && (
-                    <div className="eahad-footer">
-                      <img
-                        src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif"
-                        alt=""
-                      />
-                      <div className="footer-msg">
-                        <p>
-                          Visit{" "}
-                          <a
-                            target="_blank"
-                            href="https://onesource.octapharma.com"
-                          >
-                            One Source
-                          </a>
-                          , Octapharma’s online haematology platform
-                          for healthcare professionals, to be up to
-                          date with the latest news and events, and to
-                          hear leading experts share their opinions
-                          about treating patients with bleeding
-                          disorders.
-                        </p>
-                        <p>
-                          To visit One Source click here:{" "}
-                          <a
-                            target="_blank"
-                            href="https://onesource.octapharma.com"
-                          >
-                            https://onesource.octapharma.com
-                          </a>
-                        </p>
-                        <span>
-                          One Source platform is for healthcare
-                          professionals only.
-                        </span>
+                        {parms?.includes("eahad_2024") ? (
+                          <input
+                            type="submit"
+                            className="btn btn-success"
+                            value={
+                              parms?.includes("eahad_2024") ? "SUBMIT" : "SEND"
+                            }
+                          />
+                        ) : parms?.includes("GTH2024") ? (
+                          <input
+                            type="submit"
+                            className="btn btn-success"
+                            value={
+                              parms?.includes("GTH2024") ? "SUBMIT" : "SEND"
+                            }
+                          />
+                        ) : (
+                          <Button
+                            type="submit"
+                            className="btn btn-success"
+                            style={{
+                              background: formData?.buttonColor,
+                              borderColor: formData?.buttonColor,
+                            }}
+                            dangerouslySetInnerHTML={{
+                              __html: formData?.buttonText
+                                ? formData?.buttonText
+                                : "SEND",
+                            }}
+                          ></Button>
+                        )}
                       </div>
+
+                      {parms?.includes("eahad_2024") && (
+                        <div className="eahad-footer">
+                          <img
+                            src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif"
+                            alt=""
+                          />
+                          <div className="footer-msg">
+                            <p>
+                              Visit{" "}
+                              <a
+                                target="_blank"
+                                href="https://onesource.octapharma.com"
+                              >
+                                One Source
+                              </a>
+                              , Octapharma’s online haematology platform for
+                              healthcare professionals, to be up to date with
+                              the latest news and events, and to hear leading
+                              experts share their opinions about treating
+                              patients with bleeding disorders.
+                            </p>
+                            <p>
+                              To visit One Source click here:{" "}
+                              <a
+                                target="_blank"
+                                href="https://onesource.octapharma.com"
+                              >
+                                https://onesource.octapharma.com
+                              </a>
+                            </p>
+                            <span>
+                              One Source platform is for healthcare
+                              professionals only.
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      {parms?.includes("GTH2024") && (
+                        <div className="eahad-footer">
+                          <img
+                            src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif"
+                            alt=""
+                          />
+                          <div className="footer-msg">
+                            <p>
+                              Visit{" "}
+                              <a
+                                target="_blank"
+                                href="https://onesource.octapharma.com"
+                              >
+                                One Source
+                              </a>
+                              , Octapharma’s online haematology platform for
+                              healthcare professionals, to be up to date with
+                              the latest news and events, and to hear leading
+                              experts share their opinions about treating
+                              patients with bleeding disorders.
+                            </p>
+                            <p>
+                              To visit One Source click here:{" "}
+                              <a
+                                target="_blank"
+                                href="https://onesource.octapharma.com"
+                              >
+                                https://onesource.octapharma.com
+                              </a>
+                            </p>
+                            <span>
+                              One Source platform is for healthcare
+                              professionals only.
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </form>
+                  {parms?.includes("eahad_2024") ? (
+                    <div className="copy-right-bottom-text">
+                      <p>
+                        591_HAEQUE_EAHAD 2024
+                        <br />
+                        Preparation date: December 2023
+                      </p>
+                    </div>
+                  ) : parms?.includes("GTH2024") ? (
+                    <div className="copy-right-bottom-text">
+                      <p>
+                        591_HAEQUE_EAHAD 2024
+                        <br />
+                        Preparation date: December 2023
+                      </p>
+                    </div>
+                  ) : (
+                    // <div className="copy-right-bottom-text">
+                    //   <p>Preparation date: 7-8 December 2023</p>
+                    // </div>
+                    <div className="copy-right-bottom-text">
+                      <p
+                        style={{ color: formData?.textColor }}
+                        // dangerouslySetInnerHTML={{
+                        //   __html: formData?.footerText?.includes('xxx') ? "Preparation date:  "+eventId?.eventDate : formData?.footerText,
+                        // }}
+                        dangerouslySetInnerHTML={{
+                          __html: formData?.footerText
+                            ? formData?.footerText
+                            : "Preparation date: xx xxx 2024",
+                        }}
+                      />
                     </div>
                   )}
-                </div>
-              </form>
-              {parms?.includes("eahad_2024") ? (
-                <div className="copy-right-bottom-text">
-                  <p>
-                    591_HAEQUE_EAHAD 2024
-                    <br />
-                    Preparation date: December 2023
-                  </p>
-                </div>
-              ) : (
-                // <div className="copy-right-bottom-text">
-                //   <p>Preparation date: 7-8 December 2023</p>
-                // </div>
-                <div className="copy-right-bottom-text">
-                <p  style={{ color: formData?.textColor }}
-                // dangerouslySetInnerHTML={{
-                //   __html: formData?.footerText?.includes('xxx') ? "Preparation date:  "+eventId?.eventDate : formData?.footerText,
-                // }}
-                dangerouslySetInnerHTML={{
-                  __html: formData?.footerText?formData?.footerText:"Preparation date: xx xxx 2024",
-                }}
-              />
-              </div>
-              )}
 
-              {/* <div className="copy-right-bottom-text">
+                  {/* <div className="copy-right-bottom-text">
   <p>Preparation date: 7-8 December 2023</p>
 </div> */}
-            </div>
-          </div>
-        </div>
-        <div className="modal fade" id="pollModel" role="dialog">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <img
-                  src="../webinar-assets/images/octa-logo.svg"
-                  className="modal-title"
-                  width="210"
-                />
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                >
-                  &times;
-                </button>
-              </div>
-              <div className="modal-body" id="poll-content"></div>
-              <div className="modal-footer">
-                {/* <!--<button type="button" id="submitPollAnswer" className="submit_btn btn-primary" >Submit</button>--> */}
-                <button
-                  type="submit"
-                  name="cpd_tab"
-                  id="submitPollAnswerGuest"
-                  className="submit_btn btn-primary"
-                  title="Submit"
-                >
-                  Submit
-                </button>
-                {/* <!-- <button type="button" className="btn btn-default"  onclick="closePollPopup()">Close</button>--> */}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+            <div className="modal fade" id="pollModel" role="dialog">
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <img
+                      src="../webinar-assets/images/octa-logo.svg"
+                      className="modal-title"
+                      width="210"
+                    />
+                    <button
+                      type="button"
+                      className="close"
+                      data-dismiss="modal"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                  <div className="modal-body" id="poll-content"></div>
+                  <div className="modal-footer">
+                    {/* <!--<button type="button" id="submitPollAnswer" className="submit_btn btn-primary" >Submit</button>--> */}
+                    <button
+                      type="submit"
+                      name="cpd_tab"
+                      id="submitPollAnswerGuest"
+                      className="submit_btn btn-primary"
+                      title="Submit"
+                    >
+                      Submit
+                    </button>
+                    {/* <!-- <button type="button" className="btn btn-default"  onclick="closePollPopup()">Close</button>--> */}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        <div
-          className="modal fade"
-          id="pollAnswerModel"
-          role="dialog"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <img
-                  src="../webinar-assets/images/octa-logo.svg"
-                  className="modal-title"
-                  width="210"
-                />
-                <button
-                  type="button"
-                  className="close"
-                  onclick="closeAnswerModel()"
-                >
-                  &times;
-                </button>
-              </div>
-              <div className="modal-body" id="poll-answer-content">
-                <div className="row">
-                  <div className="col-md-12 col-sm-12">
-                    <div className="detail-box form_box">
-                      <p id="questionText"></p>
-                      <div id="container1"></div>
-                      <p id="totalCountText"></p>
+            <div className="modal fade" id="pollAnswerModel" role="dialog">
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <img
+                      src="../webinar-assets/images/octa-logo.svg"
+                      className="modal-title"
+                      width="210"
+                    />
+                    <button
+                      type="button"
+                      className="close"
+                      onclick="closeAnswerModel()"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                  <div className="modal-body" id="poll-answer-content">
+                    <div className="row">
+                      <div className="col-md-12 col-sm-12">
+                        <div className="detail-box form_box">
+                          <p id="questionText"></p>
+                          <div id="container1"></div>
+                          <p id="totalCountText"></p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        {/* <EventModel
+            {/* <EventModel
 show={show}
 onClose={setShow}
 data={apiData}
 eventId={eventId}
 /> */}
-        {show && (
-          <SessionModel
-            show={show}
-            onClose={setShow}
-            data={apiData}
-            eventData={value}
-            designData={formData}
-          />
-        )}
+            {show && (
+              <SessionModel
+                show={show}
+                onClose={setShow}
+                data={apiData}
+                eventData={value}
+                designData={formData}
+              />
+            )}
 
-        {answerPop && (
-          <DisplayAnswer
-            show={answerPop}
-            data={apiData}
-            readerCount={totalReaders}
-            customAnswer={customAnswer}
-            graphType={graphType}
-            designData={formData}
-            onClose={() => setAnswerPopup(false)}
-          />
+            {answerPop && (
+              <DisplayAnswer
+                show={answerPop}
+                data={apiData}
+                readerCount={totalReaders}
+                customAnswer={customAnswer}
+                graphType={graphType}
+                designData={formData}
+                onClose={() => setAnswerPopup(false)}
+              />
+            )}
+          </div>
         )}
-      </div>}
-    </div>
-  </>
+      </div>
+    </>
   );
 };
 export default Event;
