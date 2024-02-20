@@ -343,7 +343,7 @@ const PollQuestion = () => {
             line_v.push(item?.name);
             line_h.push(item?.y);
             const foundObj = {
-              y: item?.y,
+              data: [item?.y],
               name: item?.name,
               color: item?.color ? item.color : colors[i],
             };
@@ -365,11 +365,12 @@ const PollQuestion = () => {
               }
             },
             legend: {
-              enabled:false,
+              enabled:true,
               verticalAlign: "bottom",
           }, 
             xAxis: {
               categories: line_v,
+              visible:false,
             },
             title: {
               text: "",
@@ -381,13 +382,14 @@ const PollQuestion = () => {
             // },
             plotOptions: {
               series: {
-                stacking: "normal",
+                // stacking: "normal",
                 pointWidth: 20,
                 allowPointSelect: true,
                 cursor: "pointer",
                 dataLabels: [
                   {
-                    distance: -40,
+                    enabled:true,
+                    // distance: -40,
                     style: {
                       fontSize: "1.2em",
                       textOutline: "none",
@@ -406,20 +408,15 @@ const PollQuestion = () => {
             exporting: {
               enabled: false,
             },
+            series: graphData
             // series: [
             //   {
+            //   name:"",
+            //   colorByPoint: true,
             //     data: graphData,
-            //     showInLegend: false,
+            //     // showInLegend: false,
             //   },
             // ],
-            series: [
-              {
-              name:"",
-              colorByPoint: true,
-                data: graphData,
-                // showInLegend: false,
-              },
-            ],
           };
         
             const seriesData = data.map((question,index) => ({
