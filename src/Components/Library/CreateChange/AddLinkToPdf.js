@@ -9,7 +9,7 @@ import Viewer from "@phuocng/react-pdf-viewer";
 import "@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css";
 import Select from "react-select";
 import axios from "axios";
-import { DocumentLoadEvent, RenderPageProps } from "@react-pdf-viewer/core";
+import { DocumentLoadEvent, RenderPageProps, SpecialZoomLevel } from "@react-pdf-viewer/core";
 import { loader } from "../../../loader";
 import CommonModel from "../../../Model/CommonModel";
 import ConfirmationModal from "../../../Model/ConfirmationModel";
@@ -35,6 +35,7 @@ const AddLinkToPdf = () => {
   const [endX, setEndX] = useState(0);
   const [endY, setEndY] = useState(0);
   const [file, setFile] = useState();
+  const [documentHeight, setDocumentHeight] = useState(0);
   const [startXCordinate, setStartXCordinate] = useState(0);
   const [startYCordinate, setStartYCordinate] = useState(0);
   const [endXCordinate, setEndXCordinate] = useState(0);
@@ -101,6 +102,26 @@ const AddLinkToPdf = () => {
       </>
     );
   };
+
+  const handleCompleteDocumentLoad = (e: DocumentLoadEvent) => {
+    const pageLayerElement = document.querySelector(".viewer-page-layer");
+    if(pageLayerElement){
+      const width = pageLayerElement.clientWidth;
+      console.log(width,"widthwidthwidth");
+    }else{
+      console.log("No found","widthwidthwidth");
+    }
+    setTimeout(function(){
+      const divElement = document.querySelector(".viewer-layout-container");
+      if (divElement) {
+        const height = divElement.clientHeight;
+       
+        setDocumentHeight(height);
+      } else {
+        console.error('Element with class "modal-body-content" not found.');
+      }
+    }, 2000);
+};
 
   const handleDocumentLoad = (e: DocumentLoadEvent) => {
     try {
@@ -363,6 +384,14 @@ const AddLinkToPdf = () => {
   };
 
   useEffect(() => {
+    const handleGlobalMouseUp = (event) => {
+      console.log("Global");
+      // Check if the mouseup event target is not inside the parentRef
+      if (parentRef.current && !parentRef.current.contains(event.target)) {
+        handleMouseUp(event);
+      }
+    };
+
     parentRef?.current?.addEventListener("mousedown", handleMouseDown);
     parentRef?.current?.addEventListener("mousemove", handleMouseMove);
     parentRef?.current?.addEventListener("mouseup", handleMouseUp);
@@ -371,6 +400,9 @@ const AddLinkToPdf = () => {
       parentRef?.current?.addEventListener("dragstart", handleDragStart); // Attach the event listener
     }
 
+     // Add global mouseup event listener
+    document.addEventListener("mouseup", handleGlobalMouseUp);
+
     return () => {
       parentRef?.current?.removeEventListener("mousedown", handleMouseDown);
       parentRef?.current?.removeEventListener("mousemove", handleMouseMove);
@@ -378,6 +410,9 @@ const AddLinkToPdf = () => {
       if (parentRef?.current) {
         parentRef?.current.removeEventListener("dragstart", handleDragStart);
       }
+
+      // Remove global mouseup event listener
+      document.removeEventListener("mouseup", handleGlobalMouseUp);
     };
   }, [dragging, startX, startY, endX, endY, file]);
 
@@ -407,7 +442,7 @@ const AddLinkToPdf = () => {
 
   const handleMouseMove = (event) => {
     const targetLink = event.target.closest(".viewer-annotation-link");
-
+    
     if (targetLink) {
       const anchorTag = targetLink.querySelector("a");
       if (anchorTag) {
@@ -509,6 +544,17 @@ const AddLinkToPdf = () => {
       setDragging(false);
       if (showAddLink) {
         setHighlighted(true);
+      }
+    }else{
+      if(dragging){
+        if (event.target.name === "url") return;
+        if (event.target.name === "addurl") return;
+        window.getSelection().removeAllRanges();
+        setDragging(false);
+        if (showAddLink) {
+          setHighlighted(true);
+        }
+        console.log("Outside function");
       }
     }
   };
@@ -767,9 +813,7 @@ const AddLinkToPdf = () => {
 
   return (
     <>
-      <Col className="right-sidebar custom-change">
-        <div className="custom-container">
-          <Row>
+      <Col className="right-sidebar custom-change full-screen">
             <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
@@ -966,8 +1010,9 @@ const AddLinkToPdf = () => {
                             <Viewer
                               id="container"
                               renderPage={renderPage}
-                              defaultScale={defaultScale}
+                              defaultScale={SpecialZoomLevel.PageFit}
                               onPageChange={handleDocumentLoad}
+                              onDocumentLoad={handleCompleteDocumentLoad}
                               renderMode="canvas"
                               fileUrl={file}
                               // fileUrl={"https://docintel.s3-eu-west-1.amazonaws.com/ebook/arunp/pdflink_1690265146.pdf"}
@@ -988,7 +1033,16 @@ const AddLinkToPdf = () => {
                               }}
                             />
                             {highlighted && (
-                              <div className="link_popup">
+                              <div className="link_popup" style={{
+                                left: `${Math.min(startX, endX)}px`,
+                                top: `${
+                                      Math.min(startY, endY) < 145 ?
+                                        Math.min(startY, endY) + 151
+                                      :
+                                        (documentHeight) - (Math.min(startY, endY) + Math.abs(startY - endY)) > 145 ? 
+                                        Math.min(startY, endY) + Math.abs(startY - endY) + 10 :
+                                        Math.min(startY, endY) - 151}px`,
+                              }}>
                                 <form action="#" id="addLinkForm">
                                   <button
                                     type="button"
@@ -1035,8 +1089,6 @@ const AddLinkToPdf = () => {
                 </div>
               </div>
             </div>
-          </Row>
-        </div>
       </Col>
       <CommonModel
         show={commanShow}

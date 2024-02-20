@@ -2885,12 +2885,12 @@ form.product-unit button {
 .sublink_right.preview-content .add_link_to_pdf .viewer-layout-main {
   padding: 0;
   overflow-y: auto;
-  max-height: 61vh;
+  // max-height: 61vh;
 }
 
 .sublink_right.preview-content #pdf_view_box .viewer-layout-main {
   padding: 0;
-  max-height: 61vh;
+  // max-height: 61vh;
 }
 
 #addLinkForm p.err_class {
@@ -2907,15 +2907,15 @@ form.product-unit button {
 }
 
 .sublink_right.preview-content .modal-body-content {
-  border: 0.5px solid $light-gray;
-  box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
-  border-radius: 15px;
-  min-height: 68vh;
-  padding: 20px;
-  margin: 0;
+  // border: 0.5px solid $light-gray;
+  // box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
+  // border-radius: 15px;
+  // min-height: 68vh;
+  // padding: 20px;
+  // margin: 0;
   position: relative;
-  overflow-y: auto;
-  max-height: 61vh;
+  // overflow-y: auto;
+  // max-height: 61vh;
 }
 
 .form-group .add_product span {
@@ -5619,7 +5619,13 @@ input.viewer-toolbar-current-page-input {
     margin: 0 auto 40px;
   }
 }
-
+.custom-change.full-screen .create-change-content.spc-content {
+  max-width: 100%;
+  padding: 12px;
+}
+.custom-change.full-screen .sublink_right.preview-content {
+  max-width: 100%;
+}
 header.-top-24~div .custom-change .top-header.sticky,
 header.-top-24~div .custom-change .page-top-nav.sticky {
   top: 0px;
@@ -23766,8 +23772,6 @@ img.change-password-image {
     font-size: 15px;
     line-height: 22px;
   }
-
-  
 }
 
 /**Landing page Responsive End**/
