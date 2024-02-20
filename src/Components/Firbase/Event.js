@@ -477,12 +477,12 @@ const Event = () => {
                           <div>
                             <img
                               className="header-img"
-                              src={path_image + "underspotlight-new1.png"}
+                                src={path_image + "spotlight-logo.png"}
                               alt=""
                             />
                             <div className="right-side-img">
                               <img
-                                src={path_image + "underspot-lady.png"}
+                                  src={path_image + "gth-banner1.png"}
                                 alt=""
                               />
                             </div>
@@ -795,7 +795,7 @@ const Event = () => {
                       {parms?.includes("GTH2024") && (
                         <div className="eahad-footer">
                           <img
-                            src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif"
+                            src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
                             alt=""
                           />
                           <div className="footer-msg">
@@ -842,9 +842,7 @@ const Event = () => {
                   ) : parms?.includes("GTH2024") ? (
                     <div className="copy-right-bottom-text">
                       <p>
-                        591_HAEQUE_EAHAD 2024
-                        <br />
-                        Preparation date: December 2023
+                        Preparation date: February 2024
                       </p>
                     </div>
                   ) : (
