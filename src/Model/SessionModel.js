@@ -283,7 +283,7 @@ const [comment,setComment]=useState("")
     setError({});
   }, [show]);
   const shouldAddClass = parms && parms.includes("eahad_2024");
-  const addClass = parms && parms.includes("GTH2024");
+  const addClass = parms && parms.includes("GTH2024") || parms.includes("WFH2024") ;
   return (
     <Modal
       id="pollModel"
