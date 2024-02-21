@@ -72,11 +72,12 @@ if(customAnswer == 1 || graphType === 'bar'){
             dataLabels: [
               {
                 enabled:true,
-                // distance: -40,
+                
                 style: {
                   fontSize: "1.2em",
                   textOutline: "none",
                   opacity: 0.7,
+                  
                 },
               },
             ],
