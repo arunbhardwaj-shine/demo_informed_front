@@ -327,7 +327,7 @@ const Event = () => {
   }, [data]);
 
   const shouldAddClass = parms && parms.includes("eahad_2024");
-  const addClass = parms && parms.includes("GTH2024");
+  const addClass = parms && parms.includes("GTH2024") || parms.includes("WFH2024");
 
   return (
     <>
@@ -364,7 +364,7 @@ const Event = () => {
                       src={`${
                         parms?.includes("eahad_2024")
                           ? "https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"
-                          : parms?.includes("GTH2024")
+                          : parms?.includes("GTH2024") || parms.includes("WFH2024")
                           ? "https://webinar.docintel.app/EAHAD2022/images/Octapharma_blue.png"
                           : formData?.logoImageUrl
                           ? formData?.logoImageUrl
@@ -471,9 +471,9 @@ const Event = () => {
                           ></h2>
                         )}
                       </div>
-                    ) : parms?.includes("GTH2024") ? (
+                    ) : parms?.includes("WFH2024")  ? (
                       <div className="head-sec">
-                        {parms?.includes("GTH2024") ? (
+                        {parms?.includes("WFH2024")  ? (
                           <div>
                             <img
                               className="header-img"
@@ -483,6 +483,32 @@ const Event = () => {
                             <div className="right-side-img">
                               <img
                                   src={path_image + "gth-banner2.png"}
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <h2
+                            className="top-title"
+                            style={{ color: formData?.textColor }}
+                            dangerouslySetInnerHTML={{
+                              __html: formData?.heading,
+                            }}
+                          ></h2>
+                        )}
+                      </div>
+                    )  :  parms?.includes("GTH2024")  ? (
+                      <div className="head-sec gth-header">
+                        {parms?.includes("GTH2024")  ? (
+                          <div>
+                            <img
+                              className="header-img"
+                                src={path_image + "spotlight-logo.png"}
+                              alt=""
+                            />
+                            <div className="right-side-img">
+                              <img
+                                  src={path_image + "gth-banner1.png"}
                                 alt=""
                               />
                             </div>
@@ -538,7 +564,7 @@ const Event = () => {
                       <h2 className="top-title">Type your question here!</h2>
                     </div>
                   ) : null}
-                  {parms?.includes("GTH2024") ? (
+                  {parms?.includes("GTH2024") || parms.includes("WFH2024")? (
                     <div className="event_title">
                       <h2 className="top-title">Type your question here!</h2>
                     </div>
@@ -595,7 +621,7 @@ const Event = () => {
                           placeholder={
                             parms?.includes("eahad_2024")
                               ? "Type your name"
-                              : parms?.includes("GTH2024")
+                              : parms?.includes("GTH2024") || parms.includes("WFH2024")
                               ? "Type your name"
                               : formData?.namePlaceholder
                               ? formData?.namePlaceholder
@@ -664,7 +690,7 @@ const Event = () => {
                           placeholder={
                             parms?.includes("eahad_2024")
                               ? "Type your question"
-                              : parms?.includes("GTH2024")
+                              : parms?.includes("GTH2024") || parms.includes("WFH2024")
                               ? "Type your question"
                               : formData?.questionPlaceholder
                               ? formData?.questionPlaceholder
@@ -730,12 +756,12 @@ const Event = () => {
                               parms?.includes("eahad_2024") ? "SUBMIT" : "SEND"
                             }
                           />
-                        ) : parms?.includes("GTH2024") ? (
+                        ) : parms?.includes("GTH2024") || parms.includes("WFH2024") ? (
                           <input
                             type="submit"
                             className="btn btn-success"
                             value={
-                              parms?.includes("GTH2024") ? "SUBMIT" : "SEND"
+                              parms?.includes("GTH2024") || parms.includes("WFH2024") ? "SUBMIT" : "SEND"
                             }
                           />
                         ) : (
@@ -792,7 +818,44 @@ const Event = () => {
                           </div>
                         </div>
                       )}
-                      {parms?.includes("GTH2024") && (
+                      {parms?.includes("GTH2024")  && (
+                        <div className="eahad-footer">
+                          <img
+                            src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
+                            alt=""
+                          />
+                          <div className="footer-msg">
+                            <p>
+                              Visit{" "}
+                              <a
+                                target="_blank"
+                                href="https://onesource.octapharma.com"
+                              >
+                                One Source
+                              </a>
+                              , Octapharma’s online haematology platform for
+                              healthcare professionals, to be up to date with
+                              the latest news and events, and to hear leading
+                              experts share their opinions about treating
+                              patients with bleeding disorders.
+                            </p>
+                            <p>
+                              To visit One Source click here:{" "}
+                              <a
+                                target="_blank"
+                                href="https://onesource.octapharma.com"
+                              >
+                                https://onesource.octapharma.com
+                              </a>
+                            </p>
+                            <span>
+                              One Source platform is for healthcare
+                              professionals only.
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      {parms?.includes("WFH2024")  && (
                         <div className="eahad-footer">
                           <img
                             src="https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
@@ -839,10 +902,16 @@ const Event = () => {
                         Preparation date: December 2023
                       </p>
                     </div>
-                  ) : parms?.includes("GTH2024") ? (
+                  ) : parms?.includes("GTH2024")  ? (
                     <div className="copy-right-bottom-text">
                       <p>
                         Preparation date: February 2024
+                      </p>
+                    </div>
+                  )  : parms?.includes("WFH2024")  ? (
+                    <div className="copy-right-bottom-text">
+                      <p>
+                      618_HAEQUE_WFH 2024 <br/> Preparation date: February 2024
                       </p>
                     </div>
                   ) : (

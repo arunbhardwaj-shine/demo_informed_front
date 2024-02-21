@@ -72,11 +72,12 @@ if(customAnswer == 1 || graphType === 'bar'){
             dataLabels: [
               {
                 enabled:true,
-                // distance: -40,
+                
                 style: {
                   fontSize: "1.2em",
                   textOutline: "none",
                   opacity: 0.7,
+                  
                 },
               },
             ],
@@ -223,7 +224,7 @@ if(customAnswer == 1 || graphType === 'bar'){
     colors: ["#FFCACD", "#39CABC"],
   });
   const shouldAddClass = parms && parms.includes("eahad_2024");
-  const addClass = parms && parms.includes("GTH2024");
+  const addClass = parms && parms.includes("GTH2024") || parms.includes("WFH2024");
   return (
     <>
       <Modal show={show} backdrop="static" onHide={onClose} className={`${shouldAddClass ? "eahad_2024" : ""}${addClass ? "gth-2024" : ""
