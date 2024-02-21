@@ -121,7 +121,7 @@ const EmailList = (props) => {
           // borderRadius: 5,
           style: {
             fontFamily: "Helvetica, sans-serif",
-            fontSize: "13px",
+            // fontSize: "13px",
             fontWeight: "normal",
             textShadow: "none",
           },
