@@ -65,7 +65,7 @@ if(customAnswer == 1 || graphType === 'bar'){
         // },
         plotOptions: {
           series: {
-            // stacking: "normal",
+           
             pointWidth: 30,
             // allowPointSelect: true,
             cursor: "pointer",
