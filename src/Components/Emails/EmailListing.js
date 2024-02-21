@@ -66,6 +66,16 @@ const EmailList = (props) => {
         beta: 25,
         depth: 70,
       },
+    //   events: {
+    //     load: function() {
+    //         var chart = this;
+    //         chart.series.forEach(function(series) {
+    //             series.data.forEach(function(point) {
+    //                 point.onMouseOver(); // Trigger tooltip display
+    //             });
+    //         });
+    //     }
+    // }
     },
     title: {
       text: "Mail campaign stats",
@@ -87,6 +97,48 @@ const EmailList = (props) => {
     yAxis: {
       title: {
         text: null,
+      },
+    },
+    tooltip: {
+      enabled: false,
+    },
+    plotOptions: {
+      series: {
+        dataLabels: {
+          allowOverlap: false,
+          distance: 40,
+          enabled: true,
+          inside: false,
+          overflow: "justify",
+          crop: true,
+          shape: "callout",
+          size: "100%",
+          backgroundColor: "rgba(255,255,255)",
+          // borderColor: "rgba(0,0,0,0.9)",
+          // borderColor:this.point.color,
+          color: "rgba(0,0,0)",
+          // borderWidth: 0.5,
+          // borderRadius: 5,
+          style: {
+            fontFamily: "Helvetica, sans-serif",
+            // fontSize: "13px",
+            fontWeight: "normal",
+            textShadow: "none",
+          },
+          formatter: function () {
+            return (
+              "<span ><div className=" +
+              this.series.name +
+              '><span style="font-weight: bold;">' +
+              this.x +
+              "</span><br/><strong>" +
+              this.series.name +
+              "</strong> <strong >" +":"+
+              Highcharts.numberFormat(this.y, 0) +
+              "</strong></div></span>"
+            );
+          },
+        },
       },
     },
     series: [
