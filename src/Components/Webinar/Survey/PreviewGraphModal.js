@@ -124,6 +124,12 @@ const PreviewGraphModal = ({ graphType, answerOption, question }) => {
         // labelFormat: '{name} ({percentage:.2f}%) ',
         // labelFormat: '{name} ({percentage:.0f}%)',
       },
+      tooltip: {
+        formatter: function() {
+          return '<b>' + this.series.name + '</b><br/>' +
+            this.point.y.toFixed(0) + '%';
+        }
+      },
       plotOptions: {
         series: {
           // stacking: "normal",
@@ -139,11 +145,20 @@ const PreviewGraphModal = ({ graphType, answerOption, question }) => {
                 textOutline: "none",
                 opacity: 0.7,
               },
+              formatter: function () {
+                return this.y.toFixed(0) + "%";
+              }
             },
           ],
         },
         bar: {
           showInLegend: true,
+          dataLabels: {
+            enabled: true,
+            formatter: function() {
+              return this.y.toFixed(0) + "%";
+            }
+          }
         }
       },
 
