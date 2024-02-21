@@ -15,7 +15,7 @@
         "value": "#dbecea"  
     },
     "heading": {
-        "title": "Modal heading",
+        "title": "Header Text",
         "type": "text",
         "value": "Write your question here!"
     },

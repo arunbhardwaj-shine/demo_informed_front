@@ -1295,7 +1295,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .data-progress {
-  margin-right: 5px;
+  margin-right: 8px;
   padding: 0px 0 0 35px;
 }
 
@@ -3487,7 +3487,6 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 
 .create-change-content .form-group .ebook-format {
   @include flex-middle;
-  flex-wrap: wrap;
 }
 
 .create-change-content .form-group .ebook-format label {
@@ -5675,7 +5674,7 @@ header.-top-24~div .template_builder-option.library-cosent.sticky-view {
 header.top-0~div .form_action.sticky-view,
 header.top-0~div .template_builder-option.library-cosent.sticky-view {
   top: 84px;
-  transition: 0.44s linear;
+  transition: 0.3s linear;
 }
 
 .template_builder-option.library-cosent.sticky-view {
@@ -8667,10 +8666,6 @@ svg.pencil_icon {
   .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .split-button-dropup>div:nth-child(3) div {
     padding-left: 0;
   }
-
-  .select-mail-template.library-cosent .email-form form {
-    padding: 0 12px;
-  }
 }
 
 @media only screen and (max-width: 1900px) {
@@ -8686,49 +8681,6 @@ svg.pencil_icon {
 @media only screen and (max-width: 1700px) {
   .library-content-box-layuot {
     gap: 0% 2%;
-  }
-
-  .library_create {
-    gap: 74px 9%;
-  }
-
-  .spc-edit .smartlist-view.email_box .mail-box-content table td {
-    padding: 5px;
-  }
-
-  .create-change-content .form-group .split-button-dropup div:nth-child(3)>div div[class*="-multiValue"] {
-    margin: 2px;
-  }
-
-  .create-change-content .form-group .split-button-dropup div:nth-child(3)>div div[class*="-multiValue"]>div {
-    font-size: 14px;
-  }
-
-  .spc-edit .smartlist-view .mail-box-content table th {
-    width: 95px;
-    padding-right: 5px;
-  }
-
-  .library_create .library_create-box {
-    flex: 0 0 32.3%;
-  }
-
-  .create-change-content .upload-file-box .box p {
-    font-size: 15px;
-  }
-
-  .create-change-content .inputfile~label {
-    padding: 9px;
-    font-size: 15px;
-    min-width: 150px;
-  }
-
-  .create-change-content .form-group.margin-added .add_product {
-    margin-right: -205px;
-  }
-
-  .create-change-content.spc-content .embedding-video .side-step-text p {
-    font-size: 18px;
   }
 
   .library-content-box-layuot .doc-content-main-box {
@@ -8747,6 +8699,22 @@ svg.pencil_icon {
 
   .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
     padding: 7px 10px;
+  }
+
+  .create-change-content .inputfile~label {
+    min-width: 155px;
+  }
+
+  .library_create {
+    gap: 74px 110px;
+  }
+
+  .create-change-content .upload-file-box .box p {
+    font-size: 15px;
+  }
+
+  .create-change-content .upload-file-box .box p span {
+    font-size: 13px;
   }
 }
 
@@ -8777,15 +8745,6 @@ svg.pencil_icon {
   .form-group.primary_phone .dropdown-basic-button.split-button-dropup>div:nth-child(3),
   .create-change-content .split-button-dropup>div:nth-child(3) {
     height: 45px;
-  }
-
-  .create-change-content .form-group .dropdown-basic-button.extra_multiselect>div:nth-child(3) {
-    height: auto;
-    padding-right: 40px;
-  }
-
-  .create-change-content .form-group .split-button-dropup div:nth-child(3)>div div[class*=-multiValue] {
-    padding-right: 5px;
   }
 
   .form-check-group {
@@ -8914,14 +8873,6 @@ svg.pencil_icon {
 @media only screen and (max-width: 1500px) {
   .selected-products-list.product_show .products_top_action {
     margin-top: 0px;
-  }
-
-  .sublink_left h5 {
-    font-size: 18px;
-  }
-
-  .no_content_selected h3 {
-    font-size: 28px;
   }
 
   .apply-filter {
@@ -9095,7 +9046,7 @@ svg.pencil_icon {
   }
 
   .sublink_right .sublink_right_block {
-    min-height: 490px;
+    min-height: 572px;
   }
 
   .create-change-content .form-group {
@@ -9175,22 +9126,12 @@ svg.pencil_icon {
     font-size: 13px;
   }
 
-  .template_builder-option.library-cosent.sticky-view {
-    margin-bottom: 10px;
-    padding: 10px;
-  }
-
-  header.top-0~div .form_action.sticky-view,
-  header.top-0~div .template_builder-option.library-cosent.sticky-view {
-    top: 79px;
-  }
-
   .form-check-group-inset .form-check:last-child {
     margin-bottom: 0;
   }
 
   .split-button-dropup div:nth-child(3)>div div {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .library-content-box-layuot .doc-content-main-box .tab-content .tab-mail-list.change .form-group .btn {
@@ -9391,14 +9332,6 @@ svg.pencil_icon {
     line-height: 15px;
   }
 
-  h4 {
-    font-size: 18px;
-  }
-
-  .create-change-content .form-group {
-    margin: 10px 0 10px;
-  }
-
   .create-change-content.reader_added .form-group .add_product button {
     min-width: 130px;
   }
@@ -9409,7 +9342,7 @@ svg.pencil_icon {
 
   .create-change-content .form-group fieldset label {
     font-size: 15px;
-    padding-right: 15px;
+    padding-right: 10px;
   }
 
   .marketing-log {
@@ -9502,10 +9435,6 @@ svg.pencil_icon {
     margin-bottom: 6px;
   }
 
-  .library_create .library_create-box .create-library-img {
-    width: 52px;
-    height: 52px;
-  }
 
   .content-listed .content-listed-content h5,
   .kpi-graph-inside .no-space .kpi-graph-inside-block h5 {
@@ -9521,6 +9450,10 @@ svg.pencil_icon {
     left: 154px !important;
   }
 
+  .library-content-box-layuot .doc-content-main-box {
+    flex: 0 0 49%;
+    width: 49%;
+  }
 
   .library-content-box-layuot .doc-content-main-box .tabs-data .nav-tabs .nav-item:first-child button.active:before {
     height: 43px;
@@ -9717,8 +9650,7 @@ svg.pencil_icon {
   }
 
   .library_create .library_create-box .create-library-img img {
-    max-height: 26px;
-    max-width: 26px;
+    max-height: 33px;
   }
 
   .doc-content-header-logo img {
@@ -9766,11 +9698,6 @@ svg.pencil_icon {
 
   .library-content-box-layuot .doc-content-main-box .tab-content .data-main-footer-sec .footer-btn-wrapper .footer-btn {
     padding: 8px 6px;
-    font-size: 12px;
-  }
-
-  .data-main-footer-sec .footer-btn button {
-    padding: 6px 12px;
     font-size: 14px;
   }
 
@@ -9902,9 +9829,8 @@ svg.pencil_icon {
     height: 60px;
   }
 
-  .library-content-box-layuot .doc-content-main-box {
-    flex: 0 0 49%;
-    width: 49%;
+  .create-change-content .form-group.margin-added .add_product {
+    margin-right: -170px;
   }
 
   .create-change-content.analytic-charts .product-unit .form-group {
@@ -13398,26 +13324,7 @@ img.change-password-image {
   text-align: right;
   cursor: pointer;
 }
-#renewModal .create-change-content .form-group .form-control, #renewModal .form-group .react-datepicker-wrapper {
-  flex: 1 1;
-  max-width: 100%;
-  margin: 0;
-}
-#renewModal .create-change-content{
-margin: 0;
-padding: 24px 22px 12px;
-background: transparent;
-}
-#renewModal .create-change-content .form-group {
-  margin: 10px 0 10px;
-}
-#renewModal .create-change-content .form-group label {
-  flex: 0 0 160px;
-}
-#renewModal .create-change-content  button.btn.next {
-  display: flex;
-  margin: 10px 0 0 auto;
-}
+
 /*Responsive for R&D Analytics*/
 @media only screen and (max-width: 1599px) {
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top h5 {
@@ -23864,6 +23771,7 @@ background: transparent;
     padding: 12px;
   }
 
+
   .survey_data .accordion-item .accordion-collapse .accordion-body {
     padding: 0px 15px 15px;
   }
@@ -23877,7 +23785,6 @@ background: transparent;
     font-size: 15px;
     line-height: 22px;
   }
-
 }
 
 /**Landing page Responsive End**/

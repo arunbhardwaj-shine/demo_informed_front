@@ -49,7 +49,7 @@ const PollsLayout = () => {
                             title="Live Polls "
                             className="flex-column justify-content-between"
                         >
-                            <LivePolls  eventIdContext={eventIdContext?eventIdContext:localStorageEvent} flag={flag} />
+                            <LivePolls  eventIdContext={eventIdContext?eventIdContext:localStorageEvent} flag={flag} setSelectedTab={setSelectedTab}/>
                             
                         </Tab>
 

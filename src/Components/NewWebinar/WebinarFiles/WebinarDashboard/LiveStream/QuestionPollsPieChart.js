@@ -66,20 +66,20 @@ const QuestionPollsPieChart = ({ data,show }) => {
         },
         series: [
 
-            {
-                name: 'Questions',
-                colorByPoint: true,
-                data: []
+            // {
+            //     name: 'Questions',
+            //     colorByPoint: true,
+            //     data: []
 
-            }
+            // }
         ],
     }
     );
 
-
     const [barChartOptions, setBarChartOptions] = useState({
         chart: {
-            type: "column",
+            type: "bar",
+            // height: 250,
         },
         title: {
             text: "Polls Results",
@@ -87,6 +87,7 @@ const QuestionPollsPieChart = ({ data,show }) => {
         
         xAxis: {
             categories: [], // Add your options/categories here
+            visible:false
            
         },
         yAxis: {
@@ -104,23 +105,24 @@ const QuestionPollsPieChart = ({ data,show }) => {
             enabled: false,
           },
         legend: {
-            enabled:false,
+            enabled:true,
             verticalAlign: "bottom",
-            // labelFormat: '{name} ({percentage:.2f}%) ',
-           
+            // labelFormat: '{name} ({percentage:.0f}%)',
+        //     x: 0,
+        // y: 0,
         },
         plotOptions: {
            
             series: {
-                stacking: "normal",
+                // stacking: "normal",
                 pointWidth: 30,
                 allowPointSelect: true,
                 cursor: "pointer",
                 dataLabels: [
                    
                     {
-                        // enabled: true,
-                        distance: -40,
+                        enabled: true,
+                        // distance: -40,
                         // format: "{point.percentage:.1f}%",
                         style: {
                             fontSize: "1.2em",
@@ -132,37 +134,87 @@ const QuestionPollsPieChart = ({ data,show }) => {
             },
         },
         series: [
-            {
-                name: "",
-                colorByPoint: true,
-                data: [],
-            },
+            // {
+            //     name: "",
+            //     colorByPoint: true,
+            //     data: [],
+            // },
         ],
     });
 
 
     useEffect(() => {
         const options = data?.pollAnswers?.map((item) => item?.name) || [];
-        const seriesData = data?.pollAnswers?.map((item, index) => ({
-            name: item?.name,
-            y: item?.y,
-            color: item?.color,
-            drilldown: item?.drilldown,
-        }))
+        const seriesData=[{
+            name: "",
+            y: "",
+            color: "",
+            drilldown: "",
+        }]
+        const barSeriesData=[{
+            name: "",
+            data: "",
+            color: "",
+            
+        }]
+        
+        // const seriesData = data?.pollAnswers?.map((item, index) => ({
+        //     name: item?.name,
+        //     y: item?.y,
+        //     color: item?.color,
+        //     drilldown: item?.drilldown,
+        // }))
 
-        const drilldownData = data?.pollAnswers?.filter(question => question?.drillDownData?.length > 0).map(question => ({
-            id: question.drilldown,
-            name: question.name,
-            data: question.drillDownData.map(answer => [answer.name, answer.total]),
-            colors: question.drillDownData.map(answer => answer.color)
-          }));
+        // const barSeriesData=data?.pollAnswers?.map((item, index) => ({
+        //     name: item?.name,
+        //     data: [item?.y],
+        //     color: item?.color,
+        //     drilldown: item?.drilldown,
+        // }))
+
+        // const drilldownData = data?.pollAnswers?.filter(question => question?.drillDownData?.length > 0).map(question => ({
+        //     id: question.drilldown,
+        //     name: question.name,
+        //     data: question.drillDownData.map(answer => [answer.name, answer.total]),
+        //     colors: question.drillDownData.map(answer => answer.color)
+        //   }));
         if(data?.graphType=="pie"){
-            setPieChartOptions({ ...pieChartOptions, series: [{ ...pieChartOptions?.series[0], data: seriesData }], drilldown : {"series": drilldownData} })
+             data?.pollAnswers?.map((item, index) => {
+                seriesData.push({
+                    name: item?.name,
+                    y: item?.y,
+                    color: item?.color,
+                    drilldown: item?.drilldown,
+                })
+               
+            })
+            const drilldownData = data?.pollAnswers?.filter(question => question?.drillDownData?.length > 0).map(question => ({
+                id: question.drilldown,
+                name: question.name,
+                data: question.drillDownData.map(answer => [answer.name, answer.total]),
+                colors: question.drillDownData.map(answer => answer.color)
+              }));
+            // setPieChartOptions({ ...pieChartOptions, series: [{ ...pieChartOptions?.series[0], data: seriesData?.slice(1) }], drilldown : {"series": drilldownData} })
+            setPieChartOptions({ ...pieChartOptions, 
+                series: [{ ...pieChartOptions?.series[0], data: seriesData?.slice(1) }], 
+                drilldown : {"series": drilldownData} })
         } else if(data?.graphType=="bar"){
+
+          data?.pollAnswers?.map((item, index) => {
+            barSeriesData.push({
+                name: item?.name,
+                data: [item?.y],
+                color: item?.color,
+            })
+                
+                
+            })
             setBarChartOptions({ ...barChartOptions,xAxis: {
                 ...barChartOptions.xAxis,
                 categories: options,
-            }, series: [{ ...barChartOptions?.series[0], data: seriesData }] })
+            }, 
+            // series: [{ ...barChartOptions?.series[0], data: seriesData }] })
+            series:barSeriesData?.slice(1)})
            
         }
         

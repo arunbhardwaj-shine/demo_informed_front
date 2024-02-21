@@ -76,6 +76,7 @@ useEffect(()=>{
           line_v.push(item?.name);
           line_h.push(item?.count_answer);
           const foundObj = {
+            data:[item?.y],
             y: item?.y,
             name: item?.name,
             color: item?.color ? item?.color : colors[i],
@@ -90,7 +91,7 @@ useEffect(()=>{
 
 
             chart: {
-              type: "column",
+              type: "bar",
               height:'500',
             },
             yAxis: {
@@ -106,11 +107,12 @@ useEffect(()=>{
               
             },
             legend: {
-              enabled:false,
+              enabled:true,
               verticalAlign: "bottom",
           }, 
             xAxis: {
               categories: line_v,
+              visible:false
             },
             title: {
               text: "",
@@ -118,15 +120,15 @@ useEffect(()=>{
             plotOptions: {
               
               series: {
-                stacking: "normal",
+                // stacking: "normal",
                 pointWidth: 30,
                 allowPointSelect: true,
                 cursor: "pointer",
                 dataLabels: [
                    
                     {
-                        // enabled: true,
-                        distance: -40,
+                        enabled: true,
+                        // distance: -40,
                         // format: "{point.percentage:.1f}%",
                         style: {
                             fontSize: "1.2em",
@@ -136,6 +138,10 @@ useEffect(()=>{
                     },
                 ],
             },
+            bar: {
+              showInLegend: true,
+              
+          }
             },
             column: {
               colorByPoint: true,
@@ -144,14 +150,15 @@ useEffect(()=>{
               enabled: false,
             },
 
-            series: [
-              {
-              name:"",
-              colorByPoint: true,
-                data: graphData,
-                // showInLegend: false,
-              },
-            ],
+            // series: [
+            //   {
+            //   name:"",
+            //   colorByPoint: true,
+            //     data: graphData,
+            //     // showInLegend: false,
+            //   },
+            // ],
+            series:graphData
           },
           pieChartData:{
             chart: {
