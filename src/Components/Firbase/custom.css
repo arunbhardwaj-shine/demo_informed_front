@@ -50,12 +50,21 @@ body {
   position: relative;
 }
 
-.eahad_2024 .question-block .head-sec {
-  background: linear-gradient(135deg, #ff8848 0%, #ff4f69 100%);
+.eahad_2024 .question-block .head-sec, .gth-2024 .question-block .head-sec {
   border-bottom: none;
   width: 100%;
   justify-content: center;
   position: relative;
+}
+.gth-2024 .question-block .head-sec {
+  background: linear-gradient(93deg, #9acfcb 0%, #01168a 100%);
+}
+.gth-2024 .question-block .head-sec.gth-header {
+  overflow: hidden;
+}
+
+.eahad_2024 .question-block .head-sec{
+  background: linear-gradient(135deg, #ff8848 0%, #ff4f69 100%);
 }
 
 .eahad_2024 .question-block .head-sec .right-side-img img {
@@ -64,8 +73,19 @@ body {
   max-height: 150px;
   right: 10px;
 }
-
-.eahad_2024 .question-block .head-sec img {
+.gth-2024 .question-block .head-sec .right-side-img img {
+  top: 0;
+  max-height: 210px;
+  position: absolute;
+  right: 0px;
+  width: 165px;
+}
+.gth-2024 .question-block .head-sec.gth-header .right-side-img img {
+  max-height: 190px;
+  width: 200px;
+  max-width: 200px;
+}
+.eahad_2024 .question-block .head-sec img, .gth-2024 .question-block .head-sec img {
   max-width: 300px;
   margin: 0 auto;
   display: block;
@@ -78,8 +98,14 @@ body {
   margin-top: 0px;
   color: #233c7a;
 }
-
-.eahad_2024 .question-block .head-sec h2.top-title {
+.gth-2024 .question-block-form .form-control {
+  color: #001489;
+  font-size: 16px;
+}
+.gth-2024 input:-webkit-autofill {
+  -webkit-text-fill-color: #001489 !important;
+}
+.eahad_2024 .question-block .head-sec h2.top-title, .gth-2024 .question-block .head-sec h2.top-title {
   color: #ffffff;
 }
 
@@ -119,8 +145,13 @@ body {
 .eahad_2024 .question-block-form input.btn.btn-success:hover {
   background: linear-gradient(135deg, #ff4f69 0%, #ff8848 100%);
 }
-
-.octa_events.eahad_2024 {
+.gth-2024 .question-block-form input.btn.btn-success {
+  background: linear-gradient(93deg, #9acfcb 0%, #01168a 100%);
+}
+.gth-2024 .question-block-form input.btn.btn-success:hover {
+  background: linear-gradient(93deg, #01168a 0%, #9acfcb 100%);
+}
+.octa_events.eahad_2024, .octa_events.gth-2024 {
   padding: 20px 0;
 }
 
@@ -133,7 +164,10 @@ body {
 .eahad_2024 #pollModel1 .modal-footer button {
   background: #0053a0;
 }
-
+.gth-2024 #pollModel .modal-footer button,
+.gth-2024 #pollModel1 .modal-footer button {
+  background: linear-gradient(93deg, #9acfcb 0%, #01168a 100%)!important;
+}
 .session-modal.eahad_2024 #pollModel .modal-header {
   background: rgb(0 83 160 / 41%);
 }
@@ -160,7 +194,10 @@ body {
 .eahad_2024 #pollModel1 .modal-header {
   background: rgb(0 83 160 / 41%);
 }
-
+.gth-2024 #pollModel .modal-header,
+.gth-2024 #pollModel1 .modal-header {
+background: linear-gradient(93deg, #9acfcb 0%, #01168a 100%)!important;
+}
 .question-block form #error {
   font-size: 14px;
   position: relative;
@@ -197,7 +234,9 @@ body {
   color: #233c7a;
   font-weight: 500;
 }
-
+.gth-2024 .question-block .copy-right-bottom-text p {
+  color: #001459;
+}
 .question-block .copy-right-bottom-text {
   padding-top: 20px;
   color: #64b8b0;
@@ -224,11 +263,11 @@ body {
   margin: -25px -30px 40px;
 }
 
-.eahad_2024 .question-block .log-inner {
+.eahad_2024 .question-block .log-inner, .gth-2024 .question-block .log-inner {
   margin: -25px -30px 10px;
 }
 
-.eahad_2024 .event_title h2.top-title {
+.eahad_2024 .event_title h2.top-title, .gth-2024 .event_title h2.top-title {
   text-align: center;
   font-weight: 700;
   font-size: 27px;
@@ -236,15 +275,18 @@ body {
   margin-top: 15px;
   color: #004b95;
 }
+.gth-2024 .event_title h2.top-title {
+ color: #001489;
+}
 
-.eahad_2024 .eahad-footer {
+.eahad_2024 .eahad-footer, .gth-2024 .eahad-footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 26px;
 }
 
-.eahad_2024 .eahad-footer img {
+.eahad_2024 .eahad-footer img, .gth-2024 .eahad-footer img {
   flex: 0 0 200px;
   width: 100%;
   max-width: 190px;
@@ -252,32 +294,38 @@ body {
 }
 
 .eahad_2024 .footer-msg p,
-.eahad_2024 .footer-msg p a {
+.eahad_2024 .footer-msg p a, .gth-2024 .footer-msg p,
+.gth-2024 .footer-msg p a {
   font-size: 11px;
   color: #004b95;
   margin: 0 0 6px;
 }
-
-.eahad_2024 .footer-msg a {
+.gth-2024 .footer-msg p,
+.gth-2024 .footer-msg p a {
+  color: #001489;
+}
+.eahad_2024 .footer-msg a, .gth-2024 .footer-msg a {
   text-decoration: underline;
 }
 
-.eahad_2024 .question-block .copy-right-bottom-text p {
+.eahad_2024 .question-block .copy-right-bottom-text p, .gth-2024 .question-block .copy-right-bottom-text p {
   font-size: 10px;
   margin: 8px 0 0;
 }
 
-.eahad_2024 .footer-msg span {
+.eahad_2024 .footer-msg span, .gth-2024 .footer-msg span {
   font-size: 10px;
   color: #004b95;
   display: block;
 }
-
-.eahad_2024 .question-block .copy-right-bottom-text {
+.gth-2024 .footer-msg span {
+  color: #001489;
+}
+.eahad_2024 .question-block .copy-right-bottom-text, .gth-2024 .question-block .copy-right-bottom-text {
   padding: 0;
 }
 
-.eahad_2024 .eahad-footer .footer-msg {
+.eahad_2024 .eahad-footer .footer-msg, .gth-2024 .eahad-footer .footer-msg {
   flex: 1 1;
   padding-left: 20px;
 }
@@ -344,7 +392,7 @@ p#totalCountText {
     margin-bottom: 15px;
   }
 
-  .eahad_2024 .question-block .head-sec {
+  .eahad_2024 .question-block .head-sec, .gth-2024 .question-block .head-sec{
     min-height: 130px;
   }
 
@@ -352,7 +400,7 @@ p#totalCountText {
     max-height: 115px;
   }
 
-  .eahad_2024 .event_title h2.top-title {
+  .eahad_2024 .event_title h2.top-title, .gth-2024 .event_title h2.top-title {
     font-size: 25px;
     margin-bottom: 5px;
     margin-top: 10px;
@@ -367,29 +415,41 @@ p#totalCountText {
     height: 100px;
   }
 
-  .eahad_2024 .question-block .head-sec img {
+  .eahad_2024 .question-block .head-sec img,  .gth-2024 .question-block .head-sec img {
     max-width: 260px;
   }
+.gth-2024 .question-block .head-sec .right-side-img img {
+  max-height: 160px;
+  max-width: 127px;
+  width: 100%;
+}
 }
 
 @media only screen and (max-width: 1365px) {
   .question-block .head-sec {
     min-height: 90px;
   }
-
+.gth-2024 .question-block .head-sec.gth-header .right-side-img img {
+  max-height: 140px;
+  width: 170px;
+  max-width: 170px;
+}
   .question-block .head-sec h2.top-title {
     font-size: 23px;
   }
 
-  .eahad_2024 .question-block .head-sec {
+  .eahad_2024 .question-block .head-sec, .gth-2024 .question-block .head-sec {
     min-height: 110px;
   }
-
+.gth-2024 .question-block .head-sec .right-side-img img {
+  max-height: 125px;
+  max-width: 105px;
+}
   .eahad_2024 .question-block .head-sec .right-side-img img {
     max-height: 105px;
   }
 
-  .eahad_2024 .question-block .head-sec img {
+  .eahad_2024 .question-block .head-sec img,  .gth-2024 .question-block .head-sec img {
     max-width: 240px;
   }
 
@@ -406,7 +466,7 @@ p#totalCountText {
     max-width: 170px;
   }
 
-  .eahad_2024 .question-block .header-logo img {
+  .eahad_2024 .question-block .header-logo img, .gth-2024 .question-block .header-logo img {
     max-width: 240px;
   }
 
@@ -422,12 +482,20 @@ p#totalCountText {
     max-width: 250px;
   }
 }
-
+@media only screen and (max-width: 1023px) {
+.session-modal.gth-2024 #pollModel, .gth-2024 #pollModel1 {
+  max-width: 95%;
+}
+}
 @media only screen and (max-width: 767px) {
   .question-block .header-logo img {
     max-width: 180px;
   }
-
+.gth-2024 .question-block .head-sec.gth-header .right-side-img img {
+  max-height: 120px;
+  width: 120px;
+  max-width: 120px;
+}
   .eahad_2024 .question-block .copy-right-bottom-text p {
     margin: 13px 0 0;
   }
@@ -436,11 +504,15 @@ p#totalCountText {
     padding: 12px 0;
   }
 
-  .eahad_2024 .question-block .header-logo img {
+  .eahad_2024 .question-block .header-logo img, .gth-2024 .question-block .header-logo img {
     max-width: 190px;
   }
-
-  .eahad_2024 .question-block .head-sec img {
+.gth-2024 .question-block .head-sec .right-side-img img {
+  max-height: 130px;
+  width: 120px;
+  bottom: -20px;
+}
+  .eahad_2024 .question-block .head-sec img,  .gth-2024 .question-block .head-sec img {
     max-width: 170px;
   }
 
@@ -449,21 +521,21 @@ p#totalCountText {
     right: 15px;
   }
 
-  .eahad_2024 .event_title h2.top-title {
+  .eahad_2024 .event_title h2.top-title, .gth-2024 .event_title h2.top-title {
     font-size: 20px;
   }
 
-  .eahad_2024 .eahad-footer {
+  .eahad_2024 .eahad-footer,  .gth-2024 .eahad-footer {
     margin-top: 12px;
     flex-direction: column;
     align-items: center;
   }
 
-  .eahad_2024 .eahad-footer .footer-msg {
+  .eahad_2024 .eahad-footer .footer-msg, .gth-2024 .eahad-footer .footer-msg {
     padding-left: 0;
   }
 
-  .eahad_2024 .eahad-footer img {
+  .eahad_2024 .eahad-footer img, .gth-2024 .eahad-footer img {
     flex: 0 0 auto;
     max-width: 200px;
     align-items: center;
