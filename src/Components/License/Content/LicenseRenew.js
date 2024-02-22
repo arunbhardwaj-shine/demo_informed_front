@@ -26,45 +26,16 @@ import DatePicker from "react-datepicker";
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LicenseRenew = () => {
-  const limit = 24;
   const [flag, setFlag] = useState(0);
-  const [types, setTypes] = useState([
-    { value: "Online Offer", label: "Online Offer" },
-    { value: "Offline Offer", label: "Offline Offer" },
-    { value: "Sunshine", label: "Sunshine" },
-  ]);
-
   const location = useLocation();
-  const [apiCallStatus, setApiCallStatus] = useState(false);
   const [opening_details, setOpeningDetails] = useState([]);
-  const navigate = useNavigate();
-  const [filterObject, setFilterObject] = useState({});
-  const [deletestatus, setDeleteStatus] = useState(false);
-  const [page, setPage] = useState(1);
-  const [data, setLibraryData] = useState([])
-
-
-  const [updateflag, setupdateFlag] = useState(0);
-  const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
+  const [data, setData] = useState(location?.state?.data)
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
-
-
   useEffect(() => {
-    tabClicked('data-tab', 4920)
+    tabClicked('data-tab', data?.id)
     console.log("location-->",location.state)
-    setLibraryData(location?.state?.data)
-
-    getLibraryData(page, filterObject, "");
-
-    if (localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ==') {
-      const newObj = { value: "Sunshine USA", label: "Sunshine USA" };
-      const updatedArray = [...types, newObj];
-      setTypes(updatedArray);
-    }
-
-
   }, []);
 
 
@@ -94,49 +65,6 @@ const LicenseRenew = () => {
 
     }
   };
-  const getLibraryData = async (page, obj, search = "", load = 0) => {
-    try {
-      if (load == 0) {
-        loader("show");
-      } else {
-      }
-      setApiCallStatus(false);
-      let data = {
-        user_id: localStorage.getItem("user_id"),
-        page: page,
-        search: search,
-        type: "",
-        limit: limit,
-        license: 1,
-      };
-
-      let body = { ...data, ...obj };
-
-      const res = await postData(ENDPOINT.LIBRARY, body);
-
-      let apiData = [];
-      if (res?.data?.data?.library?.length) {
-        const totalData =
-          res.data?.data?.library?.length >= 24
-            ? 24
-            : res.data.data.library?.length;
-        apiData = res?.data?.data?.library?.slice(0, totalData);
-
-        if (res?.data?.data?.library?.length > 24) {
-          setLoadData({ ...loadData, nextLimit: 24 });
-        }
-      }
-      setApiCallStatus(true);
-      loader("hide");
-
-    } catch (err) {
-      console.log("err");
-      loader("hide");
-    }
-  };
-
-
-
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
@@ -150,20 +78,11 @@ const LicenseRenew = () => {
       </OverlayTrigger>
     );
   }
-
-
-
-
-
-
-
   const imageOnError = (event) => {
     event.currentTarget.src = BrokenImage;
     event.currentTarget.className = "error";
   };
-
-
-
+  
   const changeFormatForPrint = (value) => {
     let data = "";
     if (value?.allow_print) {
