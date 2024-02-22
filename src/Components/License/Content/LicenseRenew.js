@@ -23,8 +23,7 @@ const LicenseRenew = () => {
   const location = useLocation();
   const [opening_details, setOpeningDetails] = useState([]);
   const [data, setData] = useState(location?.state?.data);
-  const BrokenImage =
-    "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
+  const BrokenImage = "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const dropdownData = [
     { value: "reset", label: "Reset collected data and set a new limit" },
     { value: "update", label: "Add a new quantity to the current usage" },
@@ -53,7 +52,7 @@ const LicenseRenew = () => {
     setFlag(0);
 
     let normal_data = opening_details;
-    try {
+ 
       let body = {
         pdfId: [id],
       };
@@ -64,9 +63,7 @@ const LicenseRenew = () => {
         setOpeningDetails([new_data]);
         setFlag(flag + 1);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -177,25 +174,22 @@ const LicenseRenew = () => {
           <Row>
             <div className="top-header sticky">
               <div className="page-title d-flex">
-                <Link
-                  className="btn btn-primary btn-bordered back-btn"
-                  to="/license-create"
-                >
-                  <svg
-                    width="14"
-                    height="24"
-                    viewBox="0 0 14 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                      fill="#97B6CF"
-                    />
-                  </svg>
-                </Link>
                 <h2>Renew</h2>
+                <div className="dlt_btn">
+                  <Link
+                    to="/license/renew-listing"
+                    //   state={{ pdfid: data.id }}
+                    state={{ data: "renew" }}
+                    className="footer-btn"
+                  >
+                    <button className="btn btn-primary btn-filled next">
+                      Close
+
+                    </button>
+                  </Link>
+                </div>
               </div>
+
             </div>
 
             <div className="library-content-box-layuot">
@@ -223,8 +217,8 @@ const LicenseRenew = () => {
                       <div className="select-tags">
                         {data?.tags?.length
                           ? JSON.parse(data.tags)?.map((data) => {
-                              return <div>{data}</div>;
-                            })
+                            return <div>{data}</div>;
+                          })
                           : ""}
                       </div>
                     </div>
@@ -342,7 +336,7 @@ const LicenseRenew = () => {
                       <ul className="tab-mail-list data">
                         <h4>Collected Data</h4>
                         {data?.lastRomanNumber == 2 ||
-                        data?.lastRomanNumber == 3 ? (
+                          data?.lastRomanNumber == 3 ? (
                           <>
                             <li className="d-flex align-center">
                               <h6 className="tab-content-title">
@@ -361,10 +355,10 @@ const LicenseRenew = () => {
                                       (el) => el.pdfId == data?.id
                                     ) !== -1
                                       ? opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ]?.unique > 0
+                                        opening_details.findIndex(
+                                          (el) => el.pdfId == data?.id
+                                        )
+                                      ]?.unique > 0
                                         ? "warning"
                                         : "default"
                                       : "default"
@@ -374,10 +368,10 @@ const LicenseRenew = () => {
                                       (el) => el.pdfId == data?.id
                                     ) !== -1
                                       ? opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ]?.unique
+                                        opening_details.findIndex(
+                                          (el) => el.pdfId == data?.id
+                                        )
+                                      ]?.unique
                                       : "100"
                                   }
                                   label={
@@ -385,10 +379,10 @@ const LicenseRenew = () => {
                                       (el) => el.pdfId == data?.id
                                     ) !== -1
                                       ? opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ]?.unique
+                                        opening_details.findIndex(
+                                          (el) => el.pdfId == data?.id
+                                        )
+                                      ]?.unique
                                       : "Loading"
                                   }
                                 />
@@ -411,10 +405,10 @@ const LicenseRenew = () => {
                                       (el) => el.pdfId == data?.id
                                     ) !== -1
                                       ? opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ]?.pinReaders
+                                        opening_details.findIndex(
+                                          (el) => el.pdfId == data?.id
+                                        )
+                                      ]?.pinReaders
                                         ? "pin_usage"
                                         : "default"
                                       : "default"
@@ -424,16 +418,16 @@ const LicenseRenew = () => {
                                       (el) => el.pdfId == data?.id
                                     ) !== -1
                                       ? (opening_details[
+                                        opening_details.findIndex(
+                                          (el) => el.pdfId == data?.id
+                                        )
+                                      ]?.pinReaders /
+                                        opening_details[
                                           opening_details.findIndex(
                                             (el) => el.pdfId == data?.id
                                           )
-                                        ]?.pinReaders /
-                                          opening_details[
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            )
-                                          ]?.limit) *
-                                        100
+                                        ]?.limit) *
+                                      100
                                       : "100"
                                   }
                                   label={
@@ -441,10 +435,10 @@ const LicenseRenew = () => {
                                       (el) => el.pdfId == data?.id
                                     ) !== -1
                                       ? opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ].pinReaders
+                                        opening_details.findIndex(
+                                          (el) => el.pdfId == data?.id
+                                        )
+                                      ].pinReaders
                                       : "Loading"
                                   }
                                 />
@@ -455,16 +449,16 @@ const LicenseRenew = () => {
                                       (el) => el.pdfId == data?.id
                                     ) !== -1
                                       ? opening_details[
+                                        opening_details.findIndex(
+                                          (el) => el.pdfId == data?.id
+                                        )
+                                      ]?.limit == 1000
+                                        ? "Unlimited"
+                                        : opening_details[
                                           opening_details.findIndex(
                                             (el) => el.pdfId == data?.id
                                           )
-                                        ]?.limit == 1000
-                                        ? "Unlimited"
-                                        : opening_details[
-                                            opening_details.findIndex(
-                                              (el) => el.pdfId == data?.id
-                                            )
-                                          ]?.limit
+                                        ]?.limit
                                       : "Unlimited"}
                                   </strong>
                                 </span>
@@ -474,21 +468,21 @@ const LicenseRenew = () => {
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
                                   ? opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.limit == 1000
+                                    ? null
+                                    : opening_details[
                                       opening_details.findIndex(
                                         (el) => el.pdfId == data?.id
                                       )
-                                    ]?.limit == 1000
-                                    ? null
-                                    : opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.limit -
-                                      opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.pinReaders
+                                    ]?.limit -
+                                    opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.pinReaders
                                   : null}
 
                                 {opening_details.findIndex(
@@ -523,10 +517,10 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   ) !== -1
                                     ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.unique
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.unique
                                       ? "warning"
                                       : "default"
                                     : "default"
@@ -536,16 +530,16 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   ) !== -1
                                     ? (opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.unique /
+                                      opening_details[
                                         opening_details.findIndex(
                                           (el) => el.pdfId == data?.id
                                         )
-                                      ]?.unique /
-                                        opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ]?.limit) *
-                                      100
+                                      ]?.limit) *
+                                    100
                                     : "100"
                                 }
                                 label={
@@ -553,10 +547,10 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   ) !== -1
                                     ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.unique
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.unique
                                     : "Loading"
                                 }
                               />
@@ -568,16 +562,16 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   ) !== -1
                                     ? opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.limit == 1000
+                                      ? "unlimited"
+                                      : opening_details[
                                         opening_details.findIndex(
                                           (el) => el.pdfId == data?.id
                                         )
-                                      ]?.limit == 1000
-                                      ? "unlimited"
-                                      : opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ]?.limit
+                                      ]?.limit
                                     : "unlimited"}
                                 </strong>
                               </span>
@@ -587,21 +581,21 @@ const LicenseRenew = () => {
                                 (el) => el.pdfId == data?.id
                               ) !== -1
                                 ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.limit == 1000
+                                  ? null
+                                  : opening_details[
                                     opening_details.findIndex(
                                       (el) => el.pdfId == data?.id
                                     )
-                                  ]?.limit == 1000
-                                  ? null
-                                  : opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.limit -
-                                    opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.unique
+                                  ]?.limit -
+                                  opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.unique
                                 : null}
 
                               {opening_details.findIndex(
@@ -635,10 +629,10 @@ const LicenseRenew = () => {
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
                                   ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ].opening
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ].opening
                                     ? "success"
                                     : "default"
                                   : "default"
@@ -648,10 +642,10 @@ const LicenseRenew = () => {
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
                                   ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ].opening
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ].opening
                                   : "100"
                               }
                               label={
@@ -659,15 +653,17 @@ const LicenseRenew = () => {
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
                                   ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ].opening
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ].opening
                                   : "Loading"
                               }
                             />
                           </div>
                         </li>
+
+
 
                         <li>
                           <h6 className="tab-content-title">
@@ -686,10 +682,10 @@ const LicenseRenew = () => {
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
                                   ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.reader
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.reader
                                     ? "danger"
                                     : "default"
                                   : "default"
@@ -699,16 +695,16 @@ const LicenseRenew = () => {
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
                                   ? (opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.reader /
+                                    opening_details[
                                       opening_details.findIndex(
                                         (el) => el.pdfId == data?.id
                                       )
-                                    ]?.reader /
-                                      opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.limit) *
-                                    100
+                                    ]?.limit) *
+                                  100
                                   : "100"
                               }
                               label={
@@ -716,10 +712,10 @@ const LicenseRenew = () => {
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
                                   ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ].reader
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ].reader
                                   : "Loading"
                               }
                             />
@@ -743,10 +739,10 @@ const LicenseRenew = () => {
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
                                   ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.subLink
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.subLink
                                     ? "sublink"
                                     : "default"
                                   : "default"
@@ -756,16 +752,16 @@ const LicenseRenew = () => {
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
                                   ? (opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.subLink /
+                                    opening_details[
                                       opening_details.findIndex(
                                         (el) => el.pdfId == data?.id
                                       )
-                                    ]?.subLink /
-                                      opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.limit) *
-                                    100
+                                    ]?.limit) *
+                                  100
                                   : "100"
                               }
                               label={
@@ -773,10 +769,10 @@ const LicenseRenew = () => {
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
                                   ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ].subLink
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ].subLink
                                   : "Loading"
                               }
                             />
@@ -801,10 +797,10 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   ) !== -1
                                     ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.print
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.print
                                       ? "print"
                                       : "default"
                                     : "default"
@@ -814,16 +810,16 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   ) !== -1
                                     ? (opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.print /
+                                      opening_details[
                                         opening_details.findIndex(
                                           (el) => el.pdfId == data?.id
                                         )
-                                      ]?.print /
-                                        opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ]?.limit) *
-                                      100
+                                      ]?.limit) *
+                                    100
                                     : "100"
                                 }
                                 label={
@@ -831,10 +827,10 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   ) !== -1
                                     ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ].print
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ].print
                                     : "Loading"
                                 }
                               />
@@ -860,10 +856,10 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   ) !== -1
                                     ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.download
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.download
                                       ? "download"
                                       : "default"
                                     : "default"
@@ -873,16 +869,16 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   ) !== -1
                                     ? (opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.download /
+                                      opening_details[
                                         opening_details.findIndex(
                                           (el) => el.pdfId == data?.id
                                         )
-                                      ]?.download /
-                                        opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ]?.limit) *
-                                      100
+                                      ]?.limit) *
+                                    100
                                     : "100"
                                 }
                                 label={
@@ -890,10 +886,10 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   ) !== -1
                                     ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ].download
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ].download
                                     : "Loading"
                                 }
                               />
@@ -964,10 +960,10 @@ const LicenseRenew = () => {
                             userInputs.expDatetime
                               ? new Date(userInputs.expDatetime)
                               : new Date(
-                                  moment(new Date())
-                                    .add(1, "years")
-                                    .format("MM/DD/YYYY")
-                                )
+                                moment(new Date())
+                                  .add(1, "years")
+                                  .format("MM/DD/YYYY")
+                              )
                           }
                           name="expDatetime"
                           onChange={(date) => handleChange(date, "expDatetime")}
