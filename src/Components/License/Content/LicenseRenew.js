@@ -332,58 +332,7 @@ const LicenseRenew = () => {
 
                     <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                       <ul className="tab-mail-list data">
-                        <li>
-                          <h6 className="tab-content-title">
-                            Openings (total){" "}
-                            <LinkWithTooltip tooltip="Number of opening counts for specific article.">
-                              <img
-                                src={path_image + "info_circle_icon.svg"}
-                                alt="refresh-btn"
-                              />
-                            </LinkWithTooltip>
-                          </h6>
-                          <div className="data-progress limited">
-                            <ProgressBar
-                              variant={
-                                opening_details.findIndex(
-                                  (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ].opening
-                                    ? "success"
-                                    : "default"
-                                  : "default"
-                              }
-                              now={
-                                opening_details.findIndex(
-                                  (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ].opening
-                                  : "100"
-                              }
-                              label={
-                                opening_details.findIndex(
-                                  (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ].opening
-                                  : "Loading"
-                              }
-                            />
-                          </div>
-                        </li>
-
-                        {data?.lastRomanNumber == 2 ||
+                      {data?.lastRomanNumber == 2 ||
                         data?.lastRomanNumber == 3 ? (
                           <>
                             <li className="d-flex align-center">
@@ -660,6 +609,58 @@ const LicenseRenew = () => {
                             </span>
                           </li>
                         )}
+                        <li>
+                          <h6 className="tab-content-title">
+                            Openings (total){" "}
+                            <LinkWithTooltip tooltip="Number of opening counts for specific article.">
+                              <img
+                                src={path_image + "info_circle_icon.svg"}
+                                alt="refresh-btn"
+                              />
+                            </LinkWithTooltip>
+                          </h6>
+                          <div className="data-progress limited">
+                            <ProgressBar
+                              variant={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ].opening
+                                    ? "success"
+                                    : "default"
+                                  : "default"
+                              }
+                              now={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ].opening
+                                  : "100"
+                              }
+                              label={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ].opening
+                                  : "Loading"
+                              }
+                            />
+                          </div>
+                        </li>
+
+                  
 
                         <li>
                           <h6 className="tab-content-title">
