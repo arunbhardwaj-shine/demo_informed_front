@@ -275,7 +275,7 @@ const LicenseRenew = () => {
   const dropdownData=[
     { value: "reset", label: "Reset collected data and set a new limit" },
     { value: "update", label: "Add a new quantity to the current usage" },
-    { value: "add", label: "add a new  quantity to the pervious quantity" },
+    { value: "add", label: "Add a new  quantity to the pervious quantity" },
   ];
   const [selectedValue,setSelectedValue]=useState("")
   return (

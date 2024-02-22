@@ -1142,7 +1142,7 @@ const LicenseEditListing = () => {
                                 state={{data:data}}
                                   className="footer-btn"
                                 >
-                                  <button>
+                                  <button className="btn btn-primary btn-filled next">
                                     Renew
                                   
                                   </button>
