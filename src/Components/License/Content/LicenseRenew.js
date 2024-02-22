@@ -24,6 +24,8 @@ import { loader } from "../../../loader";
 
 // import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
+import moment from "moment";
+import DatePicker from "react-datepicker";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -181,7 +183,7 @@ const LicenseRenew = () => {
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
 
-
+   
   useEffect(() => {
     getLibraryData(page, filterObject, "");
 
@@ -353,7 +355,67 @@ const LicenseRenew = () => {
 
     return data;
   };
-
+  const [userInputs, setCreateLibraryInputs] = useState({
+    expDatetime: new Date(
+      moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+      
+    ),
+    limit: "",
+  });
+  const handleChange = (e, isSelectedName) => {
+    setCreateLibraryInputs({
+      ...userInputs,
+      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
+        ? e?.target?.files
+          ? e?.target?.files
+          : e
+        : e?.target?.value,
+    });
+  };
+  const limitFieldRef = useRef(null);
+  const [error, setError] = useState({});
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const renewButtonClicked = async (e) => {
+    loader("show");
+  
+    let err = {};
+    const { limit, expDatetime, specialRequirement } = userInputs;
+  
+    try {
+      if (!limit) {
+        err.limit = "Limit is required";
+      } else if (limit < 0) {
+        err.limit = "Limit must be greater than or equal to 0";
+      }
+  
+      setError(err);
+  
+      if (Object.keys(err).length) {
+        return;
+      }
+  
+      const formattedExpDatetime = expDatetime
+        ? moment(expDatetime).format("YYYY/MM/DD")
+        : "";
+  
+      const payload = {
+        pdfId: 5444,
+        limit,
+        expDatetime: formattedExpDatetime,
+        specialRequirement,
+      };
+  
+      const res = await postData(ENDPOINT.RENEWLICENSE, {
+        user_id: localStorage.getItem("user_id"),
+        ...payload,
+      });
+  
+    } catch (error) {
+      console.error("An error occurred:", error);
+    } finally {
+      loader("hide"); 
+    }
+  };
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1197,7 +1259,78 @@ const LicenseRenew = () => {
                     <p>No Data Found</p>
                   </div>
                 ) : null}
+                
               </>
+              <div id="renewModal" >
+        <div>
+          <h5 className="modal-title" id="staticBackdropLabel">
+          License Renewal
+          </h5>
+
+        </div>
+        <div>
+          <div className="create-change-content">
+            <div className="form_action">
+              <div className="form-group">
+                <label htmlFor="">
+                  Set limit of usage <span>*</span>
+                </label>
+                <input
+                  type="number"
+                  name="limit"
+                  min="0"
+                  ref={limitFieldRef}
+                  className={
+                    error?.limit ? "form-control error" : "form-control"
+                  }
+                  placeholder="“0” value means unlimited limit"
+                  onChange={handleChange}
+                />
+                {error?.limit ? (
+                  <div className="login-validation">{error?.limit}</div>
+                ) : null}
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Expiration date</label>
+                <DatePicker
+                  selected={
+                    userInputs?.expDatetime
+                      ? new Date(userInputs?.expDatetime)
+                      : new Date(
+                          moment(new Date(), "MM/DD/YYYY")
+                            .add("years", 1)
+                            .format("MM/DD/YYYY")
+                        )
+                  }
+                  name="expDatetime"
+                  onChange={(e) => handleChange(e, "expDatetime")}
+                  dateFormat="dd/MM/yyyy"
+                  className="form-control"
+                  minDate={currentDate}
+                />
+              </div>
+                <div className="form-group">
+                  <label htmlFor="">Invoice notes</label>
+                  <textarea
+                    className="form-control"
+                    id="formControlTextarea"
+                    onChange={(e) =>
+                      handleChange(e?.target.value, "specialRequirement")
+                    }
+                    rows="5"
+                    placeholder="Please type your notes here..."
+                  ></textarea>
+                </div>
+              <button
+                className="btn btn-primary btn-filled next"
+                onClick={renewButtonClicked}
+              >
+                Renew License
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
             </div>
 
           </Row>
