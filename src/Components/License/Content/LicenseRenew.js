@@ -22,6 +22,7 @@ const LicenseRenew = () => {
   const [flag, setFlag] = useState(0);
   const location = useLocation();
   const [opening_details, setOpeningDetails] = useState([]);
+  const [oldOpeningDetails, setOldOpeningDetails] = useState([]);
   const [data, setData] = useState(location?.state?.data);
   const BrokenImage = "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const dropdownData = [
@@ -51,7 +52,7 @@ const LicenseRenew = () => {
   const getLibraryStats = async (event, id) => {
     setFlag(0);
 
-    let normal_data = opening_details;
+    let normal_data = oldOpeningDetails;
  
       let body = {
         pdfId: [id],
@@ -59,7 +60,8 @@ const LicenseRenew = () => {
       const res = await postData(ENDPOINT.LIBRARYSTATS, body);
       if (res?.data?.data?.[0]) {
         let new_data = res?.data?.data?.[0];
-        //   normal_data.push(new_data);
+          normal_data.push(new_data);
+          setOldOpeningDetails(normal_data);
         setOpeningDetails([new_data]);
         setFlag(flag + 1);
       }
@@ -121,6 +123,7 @@ const LicenseRenew = () => {
 
     let err = {};
     let { limit, expDatetime, specialRequirement } = userInputs;
+    limit=parseInt(limit)
 
     try {
       if (!limit) {
