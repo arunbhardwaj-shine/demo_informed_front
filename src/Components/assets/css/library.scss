@@ -5621,7 +5621,7 @@ input.viewer-toolbar-current-page-input {
         width: 100%;
         border-radius: 20px;
         background: #FFF;
-        box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.20);
+        box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.20);
       }
 
       .data-collected {
@@ -5744,6 +5744,26 @@ input.viewer-toolbar-current-page-input {
           border-radius: 20px;
           background: #FFF;
           box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.20);
+
+          .old-data-detail {
+            @include flex-center;
+            border-bottom: 1px dashed #0066BE;
+            padding-bottom: 20px;
+            margin-bottom: 10px;
+
+            h6 {
+              color: rgba(0, 74, 137, 0.55);
+              font-size: 14px;
+              font-weight: 500;
+              margin: 0;
+              min-width: 80px;
+            }
+
+            p {
+              color: #004A89;
+              font-size: 14px;
+            }
+          }
         }
 
 

@@ -1002,6 +1002,16 @@ const LicenseRenew = () => {
               <h3>Old Collected Data</h3>
               <div className="old-collected-data data-collected">
                 <div className="data-main-box old-data">
+                  <div className="old-data-detail">
+                    <div className="old-data-from d-flex align-items-center">
+                        <h6>Start date</h6>
+                        <p>4 August 2022</p>
+                    </div>
+                    <div className="old-data-to d-flex align-items-center">
+                      <h6>End date</h6>
+                      <p>4 August 2023</p>
+                    </div>
+                  </div>
                   <ul className="tab-mail-list data">
                     {data?.lastRomanNumber == 2 ||
                       data?.lastRomanNumber == 3 ? (
