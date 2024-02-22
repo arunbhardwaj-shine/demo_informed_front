@@ -188,6 +188,7 @@ import Check8 from "./Components/survey/Check8";
 import SurveyQuestionForm from "./Components/survey/SurveyQuestionForm"
 import SurveyData from "./Components/survey/SurveyData";
 import SurveyQuestionFormData from "./Components/survey/SurveyQuestionFormData";
+import LicenseRenew from "./Components/License/Content/LicenseRenew";
 
 let platform = 0;
 let show = 0;
@@ -784,6 +785,10 @@ const Routing = () => {
         <Route
           path="/license-edit"
           element={<LoginLayout component={EditLicense} />}
+        />
+           <Route
+          path="license/renew"
+          element={<LoginLayout component={LicenseRenew} />}
         />
         <Route path="*" element={<PageNotFound />} />
         <Route
