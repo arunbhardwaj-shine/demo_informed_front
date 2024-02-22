@@ -23,7 +23,8 @@ const LicenseRenew = () => {
   const location = useLocation();
   const [opening_details, setOpeningDetails] = useState([]);
   const [data, setData] = useState(location?.state?.data);
-  const BrokenImage ="https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
+  const BrokenImage =
+    "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const dropdownData = [
     { value: "reset", label: "Reset collected data and set a new limit" },
     { value: "update", label: "Add a new quantity to the current usage" },
@@ -51,23 +52,21 @@ const LicenseRenew = () => {
   const getLibraryStats = async (event, id) => {
     setFlag(0);
 
-
-      let normal_data = opening_details;
-      try {
-        let body = {
-          pdfId: [id],
-        };
-        const res = await postData(ENDPOINT.LIBRARYSTATS, body);
-        if (res?.data?.data?.[0]) {
-          let new_data = res?.data?.data?.[0];
+    let normal_data = opening_details;
+    try {
+      let body = {
+        pdfId: [id],
+      };
+      const res = await postData(ENDPOINT.LIBRARYSTATS, body);
+      if (res?.data?.data?.[0]) {
+        let new_data = res?.data?.data?.[0];
         //   normal_data.push(new_data);
-          setOpeningDetails([new_data]);
-          setFlag(flag + 1);
-        }
-      } catch (err) {
-        console.log(err);
+        setOpeningDetails([new_data]);
+        setFlag(flag + 1);
       }
-    
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -87,19 +86,15 @@ const LicenseRenew = () => {
     event.currentTarget.className = "error";
   };
 
-
-
   const handleChange = (e, isSelectedName) => {
     const updatedInputs = { ...userInputs };
-    if (isSelectedName === 'expDatetime') {
+    if (isSelectedName === "expDatetime") {
       updatedInputs.expDatetime = e;
     } else {
-      updatedInputs[e?.target?.name] = e?.target?.value;
+      updatedInputs[isSelectedName] = e?.target?.value;
     }
     setCreateLibraryInputs(updatedInputs);
   };
-  
-
 
   const copyToClipboard = (content) => {
     if (window.isSecureContext && navigator.clipboard) {
@@ -128,7 +123,7 @@ const LicenseRenew = () => {
     loader("show");
 
     let err = {};
-    const { limit, expDatetime, specialRequirement } = userInputs;
+    let { limit, expDatetime, specialRequirement } = userInputs;
 
     try {
       if (!limit) {
@@ -142,11 +137,14 @@ const LicenseRenew = () => {
       if (Object.keys(err).length) {
         return;
       }
-
       const formattedExpDatetime = expDatetime
         ? moment(expDatetime).format("YYYY/MM/DD")
         : "";
-
+      if (selectedValue == "update") {
+        limit += opening_details[0]?.unique;
+      } else if (selectedValue == "add") {
+        limit += opening_details[0]?.limit;
+      }
       const payload = {
         pdfId: data?.id,
         limit,
@@ -158,25 +156,19 @@ const LicenseRenew = () => {
         user_id: localStorage.getItem("user_id"),
         ...payload,
       });
-      console.log(opening_details,"opening_details");
+      setCreateLibraryInputs({
+        expDatetime: new Date(
+          moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+        ),
+        limit: "",
+      });
+      await getLibraryStats("data-tab", data?.id);
     } catch (error) {
       console.error("An error occurred:", error);
     } finally {
-        setCreateLibraryInputs({
-            expDatetime: new Date(
-              moment(new Date(), "MM/DD/YYYY")
-                .add("years", 1)
-                .format("MM/DD/YYYY")
-            ),
-            limit: "",
-          });
-      await getLibraryStats("data-tab", data?.id);
-
       loader("hide");
-
     }
   };
-
 
   return (
     <>
@@ -349,7 +341,7 @@ const LicenseRenew = () => {
                     <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                       <ul className="tab-mail-list data">
                         <h4>Collected Data</h4>
-                      {data?.lastRomanNumber == 2 ||
+                        {data?.lastRomanNumber == 2 ||
                         data?.lastRomanNumber == 3 ? (
                           <>
                             <li className="d-flex align-center">
@@ -677,8 +669,6 @@ const LicenseRenew = () => {
                           </div>
                         </li>
 
-                  
-
                         <li>
                           <h6 className="tab-content-title">
                             Registered readers
@@ -936,6 +926,7 @@ const LicenseRenew = () => {
                                 .format("MM/DD/YYYY")
                             ),
                             limit: "",
+                            specialRequirement: "",
                           });
                           setSelectedValue(value?.value);
                         }}
@@ -991,11 +982,12 @@ const LicenseRenew = () => {
                           className="form-control"
                           id="formControlTextarea"
                           onChange={(e) =>
-                            handleChange(e.target.value, "specialRequirement")
+                            handleChange(e, "specialRequirement")
                           }
                           rows="5"
                           placeholder="Please type your notes here..."
-                          value={userInputs?.specialRequirement}
+                          name="specialRequirement"
+                          value={userInputs?.specialRequirement || ""}
                         ></textarea>
                       </div>
                       <button
