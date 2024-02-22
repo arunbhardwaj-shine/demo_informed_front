@@ -332,6 +332,7 @@ const LicenseRenew = () => {
 
                     <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
                       <ul className="tab-mail-list data">
+                        <h4>Collected Data</h4>
                       {data?.lastRomanNumber == 2 ||
                         data?.lastRomanNumber == 3 ? (
                           <>
