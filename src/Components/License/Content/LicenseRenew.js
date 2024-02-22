@@ -193,278 +193,260 @@ const LicenseRenew = () => {
 
             </div>
 
-            <div className="library-content-box-layuot">
-              <>
+            <div className="library-content-box-layuot d-flex">
+              <div className="renew-left-block d-flex">
                 <div className="doc-content-main-box col">
-                  <div className="doc-content-header">
-                    <div className="doc-content-header-logo">
-                      <a href="#">
-                        <img
-                          alt="doc-logo"
-                          src={data?.coverImage}
-                          onError={imageOnError}
-                          style={{ width: "67px" }}
-                        />
-                      </a>
-                    </div>
-                    <div className="doc-content">
-                      <h5>{data?.title}</h5>
-                      <h6>
-                        {data?.pdf_sub_title
-                          ? data.pdf_sub_title
-                          : data?.folder_name}
-                      </h6>
-                      <p>{data?.key_author}</p>
-                      <div className="select-tags">
-                        {data?.tags?.length
-                          ? JSON.parse(data.tags)?.map((data) => {
-                            return <div>{data}</div>;
-                          })
-                          : ""}
+                    <div className="doc-content-header">
+                      <div className="doc-content-header-logo">
+                        <a href="#">
+                          <img
+                            alt="doc-logo"
+                            src={data?.coverImage}
+                            onError={imageOnError}
+                            style={{ width: "67px" }}
+                          />
+                        </a>
+                      </div>
+                      <div className="doc-content">
+                        <h5>{data?.title}</h5>
+                        <h6>
+                          {data?.pdf_sub_title
+                            ? data.pdf_sub_title
+                            : data?.folder_name}
+                        </h6>
+                        <p>{data?.key_author}</p>
+                        <div className="select-tags">
+                          {data?.tags?.length
+                            ? JSON.parse(data.tags)?.map((data) => {
+                              return <div>{data}</div>;
+                            })
+                            : ""}
+                        </div>
                       </div>
                     </div>
-                    <div className="tabs-data">
-                      {/* <div className="flex-column justify-content-between"> */}
+                      <div className="tabs-data">
+                        {/* <div className="flex-column justify-content-between"> */}
 
-                      {/* </div> */}
+                        {/* </div> */}
 
-                      <div className="tab-panel d-flex flex-column justify-content-between">
-                        <div className="tab-content-links">
-                          <a
-                            href={data?.docintelLink}
-                            className="doc-link"
-                            target="_blank"
-                          >
-                            {data?.docintelLink}
-                          </a>
-                          <span
-                            className="copy-content"
-                            onClick={() => {
-                              copyToClipboard(data?.docintelLink);
-                            }}
-                          >
-                            <img
-                              src={path_image + "copy-content.svg"}
-                              alt="Copy"
-                            />
-                          </span>
-                        </div>
-                        <ul className="tab-mail-list">
-                          {localStorage.getItem("group_id") == 2 && (
-                            <>
-                              <li>
-                                <h6 className="tab-content-title">
-                                  Sales person
-                                </h6>
-                                <h6>
-                                  {data?.saleName ? data.saleName : "N/A"}
-                                </h6>
-                              </li>
-                              <li>
-                                <h6 className="tab-content-title">
-                                  Production person
-                                </h6>
-                                <h6>
-                                  {data?.productName
-                                    ? data?.productName
-                                    : "N/A"}
-                                </h6>
-                              </li>
-                              <li>
-                                <h6 className="tab-content-title">Company</h6>
-                                <h6>{data?.company ? data?.company : "N/A"}</h6>
-                              </li>
-
-                              <li>
-                                <h6 className="tab-content-title">
-                                  Client product
-                                </h6>
-                                <h6>{data?.product ? data?.product : "N/A"}</h6>
-                              </li>
-                              <li>
-                                <h6 className="tab-content-title">Country</h6>
-                                <h6>{data?.country ? data?.country : "N/A"}</h6>
-                              </li>
-                              <li>
-                                <h6 className="tab-content-title">Reseller</h6>
-                                <h6>
-                                  {data?.reseller ? data?.reseller : "N/A"}
-                                </h6>
-                              </li>
-                              <li>
-                                <h6 className="tab-content-title">
-                                  Cost Center
-                                </h6>
-                                <h6>
-                                  {data?.cost_center && data?.cost_center != 0
-                                    ? data.cost_center
-                                    : "N/A"}
-                                </h6>
-                              </li>
-
-                              {/* <li>
+                        <div className="tab-panel d-flex flex-column justify-content-between">
+                          <div className="tab-content-links">
+                            <a
+                              href={data?.docintelLink}
+                              className="doc-link"
+                              target="_blank"
+                            >
+                              {data?.docintelLink}
+                            </a>
+                            <span
+                              className="copy-content"
+                              onClick={() => {
+                                copyToClipboard(data?.docintelLink);
+                              }}
+                            >
+                              <img
+                                src={path_image + "copy-content.svg"}
+                                alt="Copy"
+                              />
+                            </span>
+                          </div>
+                          <ul className="tab-mail-list">
+                            {localStorage.getItem("group_id") == 2 && (
+                              <>
+                                <li>
                                   <h6 className="tab-content-title">
-                                    Client name
+                                    Sales person
                                   </h6>
                                   <h6>
-                                    {data?.company +
-                                      " " +
-                                      data?.product +
-                                      " " +
-                                      data?.country}
+                                    {data?.saleName ? data.saleName : "N/A"}
                                   </h6>
-                                </li> */}
-                            </>
-                          )}
+                                </li>
+                                <li>
+                                  <h6 className="tab-content-title">
+                                    Production person
+                                  </h6>
+                                  <h6>
+                                    {data?.productName
+                                      ? data?.productName
+                                      : "N/A"}
+                                  </h6>
+                                </li>
+                                <li>
+                                  <h6 className="tab-content-title">Company</h6>
+                                  <h6>{data?.company ? data?.company : "N/A"}</h6>
+                                </li>
 
-                          <li>
-                            <h6 className="tab-content-title">Enable</h6>
-                            <h6>{data?.enable ? data?.enable : "N/A"}</h6>
-                          </li>
-                          <li>
-                            <h6 className="tab-content-title">
-                              Expiration date
-                            </h6>
-                            <h6>
-                              {data?.expireDate ? data?.expireDate : "N/A"}
-                            </h6>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
+                                <li>
+                                  <h6 className="tab-content-title">
+                                    Client product
+                                  </h6>
+                                  <h6>{data?.product ? data?.product : "N/A"}</h6>
+                                </li>
+                                <li>
+                                  <h6 className="tab-content-title">Country</h6>
+                                  <h6>{data?.country ? data?.country : "N/A"}</h6>
+                                </li>
+                                <li>
+                                  <h6 className="tab-content-title">Reseller</h6>
+                                  <h6>
+                                    {data?.reseller ? data?.reseller : "N/A"}
+                                  </h6>
+                                </li>
+                                <li>
+                                  <h6 className="tab-content-title">
+                                    Cost Center
+                                  </h6>
+                                  <h6>
+                                    {data?.cost_center && data?.cost_center != 0
+                                      ? data.cost_center
+                                      : "N/A"}
+                                  </h6>
+                                </li>
 
-                    <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
-                      <ul className="tab-mail-list data">
-                        <h4>Collected Data</h4>
-                        {data?.lastRomanNumber == 2 ||
-                          data?.lastRomanNumber == 3 ? (
-                          <>
-                            <li className="d-flex align-center">
-                              <h6 className="tab-content-title">
-                                Unique reader (total)
-                                <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
-                                  <img
-                                    src={path_image + "info_circle_icon.svg"}
-                                    alt="refresh-btn"
-                                  />
-                                </LinkWithTooltip>
-                              </h6>
-                              <div className="data-progress send">
-                                <ProgressBar
-                                  variant={
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    ) !== -1
-                                      ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.unique > 0
-                                        ? "warning"
-                                        : "default"
-                                      : "default"
-                                  }
-                                  now={
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    ) !== -1
-                                      ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.unique
-                                      : "100"
-                                  }
-                                  label={
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    ) !== -1
-                                      ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.unique
-                                      : "Loading"
-                                  }
-                                />
-                              </div>
+                                {/* <li>
+                                    <h6 className="tab-content-title">
+                                      Client name
+                                    </h6>
+                                    <h6>
+                                      {data?.company +
+                                        " " +
+                                        data?.product +
+                                        " " +
+                                        data?.country}
+                                    </h6>
+                                  </li> */}
+                              </>
+                            )}
+
+                            <li>
+                              <h6 className="tab-content-title">Enable</h6>
+                              <h6>{data?.enable ? data?.enable : "N/A"}</h6>
                             </li>
                             <li>
                               <h6 className="tab-content-title">
-                                Article Usage
-                                <LinkWithTooltip tooltip="Number of usage on the content.">
-                                  <img
-                                    src={path_image + "info_circle_icon.svg"}
-                                    alt="refresh-btn"
-                                  />
-                                </LinkWithTooltip>
+                                Expiration date
                               </h6>
-                              <div className="data-progress">
-                                <ProgressBar
-                                  variant={
+                              <h6>
+                                {data?.expireDate ? data?.expireDate : "N/A"}
+                              </h6>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                </div>
+                <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
+                  <ul className="tab-mail-list data">
+                    <h4>Collected Data</h4>
+                    {data?.lastRomanNumber == 2 ||
+                      data?.lastRomanNumber == 3 ? (
+                      <>
+                        <li className="d-flex align-center">
+                          <h6 className="tab-content-title">
+                            Unique reader (total)
+                            <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
+                              <img
+                                src={path_image + "info_circle_icon.svg"}
+                                alt="refresh-btn"
+                              />
+                            </LinkWithTooltip>
+                          </h6>
+                          <div className="data-progress send">
+                            <ProgressBar
+                              variant={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
                                     opening_details.findIndex(
                                       (el) => el.pdfId == data?.id
-                                    ) !== -1
-                                      ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.pinReaders
-                                        ? "pin_usage"
-                                        : "default"
-                                      : "default"
-                                  }
-                                  now={
+                                    )
+                                  ]?.unique > 0
+                                    ? "warning"
+                                    : "default"
+                                  : "default"
+                              }
+                              now={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
                                     opening_details.findIndex(
                                       (el) => el.pdfId == data?.id
-                                    ) !== -1
-                                      ? (opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.pinReaders /
-                                        opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ]?.limit) *
-                                      100
-                                      : "100"
-                                  }
-                                  label={
+                                    )
+                                  ]?.unique
+                                  : "100"
+                              }
+                              label={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
                                     opening_details.findIndex(
                                       (el) => el.pdfId == data?.id
-                                    ) !== -1
-                                      ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ].pinReaders
-                                      : "Loading"
-                                  }
-                                />
-                                <span>
-                                  Agreed Limit :&nbsp;
-                                  <strong>
-                                    {opening_details.findIndex(
+                                    )
+                                  ]?.unique
+                                  : "Loading"
+                              }
+                            />
+                          </div>
+                        </li>
+                        <li>
+                          <h6 className="tab-content-title">
+                            Article Usage
+                            <LinkWithTooltip tooltip="Number of usage on the content.">
+                              <img
+                                src={path_image + "info_circle_icon.svg"}
+                                alt="refresh-btn"
+                              />
+                            </LinkWithTooltip>
+                          </h6>
+                          <div className="data-progress">
+                            <ProgressBar
+                              variant={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                    opening_details.findIndex(
                                       (el) => el.pdfId == data?.id
-                                    ) !== -1
-                                      ? opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.limit == 1000
-                                        ? "Unlimited"
-                                        : opening_details[
-                                          opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          )
-                                        ]?.limit
-                                      : "Unlimited"}
-                                  </strong>
-                                </span>
-                              </div>
-                              <span className="total-left">
+                                    )
+                                  ]?.pinReaders
+                                    ? "pin_usage"
+                                    : "default"
+                                  : "default"
+                              }
+                              now={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? (opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.pinReaders /
+                                    opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.limit) *
+                                  100
+                                  : "100"
+                              }
+                              label={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ].pinReaders
+                                  : "Loading"
+                              }
+                            />
+                            <span>
+                              Agreed Limit :&nbsp;
+                              <strong>
                                 {opening_details.findIndex(
                                   (el) => el.pdfId == data?.id
                                 ) !== -1
@@ -473,111 +455,111 @@ const LicenseRenew = () => {
                                       (el) => el.pdfId == data?.id
                                     )
                                   ]?.limit == 1000
-                                    ? null
+                                    ? "Unlimited"
                                     : opening_details[
                                       opening_details.findIndex(
                                         (el) => el.pdfId == data?.id
                                       )
-                                    ]?.limit -
-                                    opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.pinReaders
-                                  : null}
-
-                                {opening_details.findIndex(
+                                    ]?.limit
+                                  : "Unlimited"}
+                              </strong>
+                            </span>
+                          </div>
+                          <span className="total-left">
+                            {opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
                                   (el) => el.pdfId == data?.id
-                                ) !== -1 ? (
+                                )
+                              ]?.limit == 1000
+                                ? null
+                                : opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.limit -
+                                opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.pinReaders
+                              : null}
+
+                            {opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1 ? (
+                              opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.limit != 1000 ? (
+                                <small>Left</small>
+                              ) : null
+                            ) : null}
+                          </span>
+                        </li>
+                      </>
+                    ) : (
+                      <li className="d-flex align-center">
+                        <h6 className="tab-content-title">
+                          Unique reader (total)
+                          <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
+                            <img
+                              src={path_image + "info_circle_icon.svg"}
+                              alt="refresh-btn"
+                            />
+                          </LinkWithTooltip>
+                        </h6>
+                        <div className="data-progress send">
+                          <ProgressBar
+                            variant={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.unique
+                                  ? "warning"
+                                  : "default"
+                                : "default"
+                            }
+                            now={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? (opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.unique /
                                   opening_details[
                                     opening_details.findIndex(
                                       (el) => el.pdfId == data?.id
                                     )
-                                  ]?.limit != 1000 ? (
-                                    <small>Left</small>
-                                  ) : null
-                                ) : null}
-                              </span>
-                            </li>
-                          </>
-                        ) : (
-                          <li className="d-flex align-center">
-                            <h6 className="tab-content-title">
-                              Unique reader (total)
-                              <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <div className="data-progress send">
-                              <ProgressBar
-                                variant={
+                                  ]?.limit) *
+                                100
+                                : "100"
+                            }
+                            label={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
                                   opening_details.findIndex(
                                     (el) => el.pdfId == data?.id
-                                  ) !== -1
-                                    ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.unique
-                                      ? "warning"
-                                      : "default"
-                                    : "default"
-                                }
-                                now={
-                                  opening_details.findIndex(
-                                    (el) => el.pdfId == data?.id
-                                  ) !== -1
-                                    ? (opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.unique /
-                                      opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.limit) *
-                                    100
-                                    : "100"
-                                }
-                                label={
-                                  opening_details.findIndex(
-                                    (el) => el.pdfId == data?.id
-                                  ) !== -1
-                                    ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.unique
-                                    : "Loading"
-                                }
-                              />
-                              <span>
-                                Agreed Limit :&nbsp;
-                                <strong>
-                                  {" "}
-                                  {opening_details.findIndex(
-                                    (el) => el.pdfId == data?.id
-                                  ) !== -1
-                                    ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.limit == 1000
-                                      ? "unlimited"
-                                      : opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.limit
-                                    : "unlimited"}
-                                </strong>
-                              </span>
-                            </div>
-                            <span className="total-left">
+                                  )
+                                ]?.unique
+                                : "Loading"
+                            }
+                          />
+                          <span>
+                            Agreed Limit :&nbsp;
+                            <strong>
+                              {" "}
                               {opening_details.findIndex(
                                 (el) => el.pdfId == data?.id
                               ) !== -1
@@ -586,323 +568,339 @@ const LicenseRenew = () => {
                                     (el) => el.pdfId == data?.id
                                   )
                                 ]?.limit == 1000
-                                  ? null
+                                  ? "unlimited"
                                   : opening_details[
                                     opening_details.findIndex(
                                       (el) => el.pdfId == data?.id
                                     )
-                                  ]?.limit -
-                                  opening_details[
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    )
-                                  ]?.unique
-                                : null}
-
-                              {opening_details.findIndex(
+                                  ]?.limit
+                                : "unlimited"}
+                            </strong>
+                          </span>
+                        </div>
+                        <span className="total-left">
+                          {opening_details.findIndex(
+                            (el) => el.pdfId == data?.id
+                          ) !== -1
+                            ? opening_details[
+                              opening_details.findIndex(
                                 (el) => el.pdfId == data?.id
-                              ) !== -1 ? (
+                              )
+                            ]?.limit == 1000
+                              ? null
+                              : opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.limit -
+                              opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.unique
+                            : null}
+
+                          {opening_details.findIndex(
+                            (el) => el.pdfId == data?.id
+                          ) !== -1 ? (
+                            opening_details[
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              )
+                            ]?.limit != 1000 ? (
+                              <small>Left</small>
+                            ) : null
+                          ) : null}
+                        </span>
+                      </li>
+                    )}
+                    <li>
+                      <h6 className="tab-content-title">
+                        Openings (total){" "}
+                        <LinkWithTooltip tooltip="Number of opening counts for specific article.">
+                          <img
+                            src={path_image + "info_circle_icon.svg"}
+                            alt="refresh-btn"
+                          />
+                        </LinkWithTooltip>
+                      </h6>
+                      <div className="data-progress limited">
+                        <ProgressBar
+                          variant={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ].opening
+                                ? "success"
+                                : "default"
+                              : "default"
+                          }
+                          now={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ].opening
+                              : "100"
+                          }
+                          label={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ].opening
+                              : "Loading"
+                          }
+                        />
+                      </div>
+                    </li>
+
+
+
+                    <li>
+                      <h6 className="tab-content-title">
+                        Registered readers
+                        <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
+                          <img
+                            src={path_image + "info_circle_icon.svg"}
+                            alt="refresh-btn"
+                          />
+                        </LinkWithTooltip>
+                      </h6>
+                      <div className="data-progress">
+                        <ProgressBar
+                          variant={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.reader
+                                ? "danger"
+                                : "default"
+                              : "default"
+                          }
+                          now={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? (opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.reader /
                                 opening_details[
                                   opening_details.findIndex(
                                     (el) => el.pdfId == data?.id
                                   )
-                                ]?.limit != 1000 ? (
-                                  <small>Left</small>
-                                ) : null
-                              ) : null}
-                            </span>
-                          </li>
-                        )}
-                        <li>
-                          <h6 className="tab-content-title">
-                            Openings (total){" "}
-                            <LinkWithTooltip tooltip="Number of opening counts for specific article.">
-                              <img
-                                src={path_image + "info_circle_icon.svg"}
-                                alt="refresh-btn"
-                              />
-                            </LinkWithTooltip>
-                          </h6>
-                          <div className="data-progress limited">
-                            <ProgressBar
-                              variant={
+                                ]?.limit) *
+                              100
+                              : "100"
+                          }
+                          label={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
                                 opening_details.findIndex(
                                   (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? opening_details[
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    )
-                                  ].opening
-                                    ? "success"
-                                    : "default"
-                                  : "default"
-                              }
-                              now={
+                                )
+                              ].reader
+                              : "Loading"
+                          }
+                        />
+                      </div>
+                    </li>
+
+                    <li>
+                      <h6 className="tab-content-title">
+                        SubLinks
+                        <LinkWithTooltip tooltip="Number of sublinks with content.">
+                          <img
+                            src={path_image + "info_circle_icon.svg"}
+                            alt="refresh-btn"
+                          />
+                        </LinkWithTooltip>
+                      </h6>
+                      <div className="data-progress">
+                        <ProgressBar
+                          variant={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
                                 opening_details.findIndex(
                                   (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? opening_details[
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    )
-                                  ].opening
-                                  : "100"
-                              }
-                              label={
+                                )
+                              ]?.subLink
+                                ? "sublink"
+                                : "default"
+                              : "default"
+                          }
+                          now={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? (opening_details[
                                 opening_details.findIndex(
                                   (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? opening_details[
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    )
-                                  ].opening
-                                  : "Loading"
-                              }
+                                )
+                              ]?.subLink /
+                                opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.limit) *
+                              100
+                              : "100"
+                          }
+                          label={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ].subLink
+                              : "Loading"
+                          }
+                        />
+                      </div>
+                    </li>
+
+                    {data?.allow_print ? (
+                      <li>
+                        <h6 className="tab-content-title">
+                          Printed
+                          <LinkWithTooltip tooltip="Number of HCPs who have print the content.">
+                            <img
+                              src={path_image + "info_circle_icon.svg"}
+                              alt="refresh-btn"
                             />
-                          </div>
-                        </li>
-
-
-
-                        <li>
-                          <h6 className="tab-content-title">
-                            Registered readers
-                            <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
-                              <img
-                                src={path_image + "info_circle_icon.svg"}
-                                alt="refresh-btn"
-                              />
-                            </LinkWithTooltip>
-                          </h6>
-                          <div className="data-progress">
-                            <ProgressBar
-                              variant={
-                                opening_details.findIndex(
-                                  (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? opening_details[
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    )
-                                  ]?.reader
-                                    ? "danger"
-                                    : "default"
+                          </LinkWithTooltip>
+                        </h6>
+                        <div className="data-progress">
+                          <ProgressBar
+                            variant={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.print
+                                  ? "print"
                                   : "default"
-                              }
-                              now={
-                                opening_details.findIndex(
-                                  (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? (opening_details[
+                                : "default"
+                            }
+                            now={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? (opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.print /
+                                  opening_details[
                                     opening_details.findIndex(
                                       (el) => el.pdfId == data?.id
                                     )
-                                  ]?.reader /
-                                    opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.limit) *
-                                  100
-                                  : "100"
-                              }
-                              label={
-                                opening_details.findIndex(
-                                  (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? opening_details[
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    )
-                                  ].reader
-                                  : "Loading"
-                              }
-                            />
-                          </div>
-                        </li>
+                                  ]?.limit) *
+                                100
+                                : "100"
+                            }
+                            label={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ].print
+                                : "Loading"
+                            }
+                          />
+                        </div>
+                      </li>
+                    ) : null}
 
-                        <li>
-                          <h6 className="tab-content-title">
-                            SubLinks
-                            <LinkWithTooltip tooltip="Number of sublinks with content.">
-                              <img
-                                src={path_image + "info_circle_icon.svg"}
-                                alt="refresh-btn"
-                              />
-                            </LinkWithTooltip>
-                          </h6>
-                          <div className="data-progress">
-                            <ProgressBar
-                              variant={
-                                opening_details.findIndex(
-                                  (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? opening_details[
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    )
-                                  ]?.subLink
-                                    ? "sublink"
-                                    : "default"
+                    {data?.allow_download ? (
+                      <li>
+                        <h6 className="tab-content-title">
+                          Downloaded
+                          <LinkWithTooltip tooltip="Number of HCPs who have download the content.">
+                            <img
+                              src={path_image + "info_circle_icon.svg"}
+                              alt="refresh-btn"
+                            />
+                          </LinkWithTooltip>
+                        </h6>
+                        <div className="data-progress">
+                          <ProgressBar
+                            variant={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.download
+                                  ? "download"
                                   : "default"
-                              }
-                              now={
-                                opening_details.findIndex(
-                                  (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? (opening_details[
+                                : "default"
+                            }
+                            now={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? (opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.download /
+                                  opening_details[
                                     opening_details.findIndex(
                                       (el) => el.pdfId == data?.id
                                     )
-                                  ]?.subLink /
-                                    opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.limit) *
-                                  100
-                                  : "100"
-                              }
-                              label={
-                                opening_details.findIndex(
-                                  (el) => el.pdfId == data?.id
-                                ) !== -1
-                                  ? opening_details[
-                                    opening_details.findIndex(
-                                      (el) => el.pdfId == data?.id
-                                    )
-                                  ].subLink
-                                  : "Loading"
-                              }
-                            />
-                          </div>
-                        </li>
-
-                        {data?.allow_print ? (
-                          <li>
-                            <h6 className="tab-content-title">
-                              Printed
-                              <LinkWithTooltip tooltip="Number of HCPs who have print the content.">
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <div className="data-progress">
-                              <ProgressBar
-                                variant={
+                                  ]?.limit) *
+                                100
+                                : "100"
+                            }
+                            label={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
                                   opening_details.findIndex(
                                     (el) => el.pdfId == data?.id
-                                  ) !== -1
-                                    ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.print
-                                      ? "print"
-                                      : "default"
-                                    : "default"
-                                }
-                                now={
-                                  opening_details.findIndex(
-                                    (el) => el.pdfId == data?.id
-                                  ) !== -1
-                                    ? (opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.print /
-                                      opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.limit) *
-                                    100
-                                    : "100"
-                                }
-                                label={
-                                  opening_details.findIndex(
-                                    (el) => el.pdfId == data?.id
-                                  ) !== -1
-                                    ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ].print
-                                    : "Loading"
-                                }
-                              />
-                            </div>
-                          </li>
-                        ) : null}
-
-                        {data?.allow_download ? (
-                          <li>
-                            <h6 className="tab-content-title">
-                              Downloaded
-                              <LinkWithTooltip tooltip="Number of HCPs who have download the content.">
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-                            </h6>
-                            <div className="data-progress">
-                              <ProgressBar
-                                variant={
-                                  opening_details.findIndex(
-                                    (el) => el.pdfId == data?.id
-                                  ) !== -1
-                                    ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.download
-                                      ? "download"
-                                      : "default"
-                                    : "default"
-                                }
-                                now={
-                                  opening_details.findIndex(
-                                    (el) => el.pdfId == data?.id
-                                  ) !== -1
-                                    ? (opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ]?.download /
-                                      opening_details[
-                                        opening_details.findIndex(
-                                          (el) => el.pdfId == data?.id
-                                        )
-                                      ]?.limit) *
-                                    100
-                                    : "100"
-                                }
-                                label={
-                                  opening_details.findIndex(
-                                    (el) => el.pdfId == data?.id
-                                  ) !== -1
-                                    ? opening_details[
-                                      opening_details.findIndex(
-                                        (el) => el.pdfId == data?.id
-                                      )
-                                    ].download
-                                    : "Loading"
-                                }
-                              />
-                            </div>
-                          </li>
-                        ) : null}
-                      </ul>
-                    </div>
-                  </div>
+                                  )
+                                ].download
+                                : "Loading"
+                            }
+                          />
+                        </div>
+                      </li>
+                    ) : null}
+                  </ul>
                 </div>
-              </>
-
+              </div>
               <div id="renewModal">
                 <div className="form_action">
                   <Form className="product-unit d-flex justify-content-between align-items-center">
@@ -996,6 +994,577 @@ const LicenseRenew = () => {
                     </div>
                   </div>
                 )}
+              </div>
+            </div>
+            <div className="old-collected">
+              <h3>Old Collected Data</h3>
+              <div className="old-collected-data">
+                <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
+                  <ul className="tab-mail-list data">
+                    <h4>Collected Data</h4>
+                    {data?.lastRomanNumber == 2 ||
+                      data?.lastRomanNumber == 3 ? (
+                      <>
+                        <li className="d-flex align-center">
+                          <h6 className="tab-content-title">
+                            Unique reader (total)
+                            <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
+                              <img
+                                src={path_image + "info_circle_icon.svg"}
+                                alt="refresh-btn"
+                              />
+                            </LinkWithTooltip>
+                          </h6>
+                          <div className="data-progress send">
+                            <ProgressBar
+                              variant={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.unique > 0
+                                    ? "warning"
+                                    : "default"
+                                  : "default"
+                              }
+                              now={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.unique
+                                  : "100"
+                              }
+                              label={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.unique
+                                  : "Loading"
+                              }
+                            />
+                          </div>
+                        </li>
+                        <li>
+                          <h6 className="tab-content-title">
+                            Article Usage
+                            <LinkWithTooltip tooltip="Number of usage on the content.">
+                              <img
+                                src={path_image + "info_circle_icon.svg"}
+                                alt="refresh-btn"
+                              />
+                            </LinkWithTooltip>
+                          </h6>
+                          <div className="data-progress">
+                            <ProgressBar
+                              variant={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.pinReaders
+                                    ? "pin_usage"
+                                    : "default"
+                                  : "default"
+                              }
+                              now={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? (opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.pinReaders /
+                                    opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.limit) *
+                                  100
+                                  : "100"
+                              }
+                              label={
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ].pinReaders
+                                  : "Loading"
+                              }
+                            />
+                            <span>
+                              Agreed Limit :&nbsp;
+                              <strong>
+                                {opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                ) !== -1
+                                  ? opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.limit == 1000
+                                    ? "Unlimited"
+                                    : opening_details[
+                                      opening_details.findIndex(
+                                        (el) => el.pdfId == data?.id
+                                      )
+                                    ]?.limit
+                                  : "Unlimited"}
+                              </strong>
+                            </span>
+                          </div>
+                          <span className="total-left">
+                            {opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.limit == 1000
+                                ? null
+                                : opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.limit -
+                                opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.pinReaders
+                              : null}
+
+                            {opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1 ? (
+                              opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.limit != 1000 ? (
+                                <small>Left</small>
+                              ) : null
+                            ) : null}
+                          </span>
+                        </li>
+                      </>
+                    ) : (
+                      <li className="d-flex align-center">
+                        <h6 className="tab-content-title">
+                          Unique reader (total)
+                          <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
+                            <img
+                              src={path_image + "info_circle_icon.svg"}
+                              alt="refresh-btn"
+                            />
+                          </LinkWithTooltip>
+                        </h6>
+                        <div className="data-progress send">
+                          <ProgressBar
+                            variant={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.unique
+                                  ? "warning"
+                                  : "default"
+                                : "default"
+                            }
+                            now={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? (opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.unique /
+                                  opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.limit) *
+                                100
+                                : "100"
+                            }
+                            label={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.unique
+                                : "Loading"
+                            }
+                          />
+                          <span>
+                            Agreed Limit :&nbsp;
+                            <strong>
+                              {" "}
+                              {opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.limit == 1000
+                                  ? "unlimited"
+                                  : opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.limit
+                                : "unlimited"}
+                            </strong>
+                          </span>
+                        </div>
+                        <span className="total-left">
+                          {opening_details.findIndex(
+                            (el) => el.pdfId == data?.id
+                          ) !== -1
+                            ? opening_details[
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              )
+                            ]?.limit == 1000
+                              ? null
+                              : opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.limit -
+                              opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.unique
+                            : null}
+
+                          {opening_details.findIndex(
+                            (el) => el.pdfId == data?.id
+                          ) !== -1 ? (
+                            opening_details[
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              )
+                            ]?.limit != 1000 ? (
+                              <small>Left</small>
+                            ) : null
+                          ) : null}
+                        </span>
+                      </li>
+                    )}
+                    <li>
+                      <h6 className="tab-content-title">
+                        Openings (total){" "}
+                        <LinkWithTooltip tooltip="Number of opening counts for specific article.">
+                          <img
+                            src={path_image + "info_circle_icon.svg"}
+                            alt="refresh-btn"
+                          />
+                        </LinkWithTooltip>
+                      </h6>
+                      <div className="data-progress limited">
+                        <ProgressBar
+                          variant={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ].opening
+                                ? "success"
+                                : "default"
+                              : "default"
+                          }
+                          now={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ].opening
+                              : "100"
+                          }
+                          label={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ].opening
+                              : "Loading"
+                          }
+                        />
+                      </div>
+                    </li>
+
+
+
+                    <li>
+                      <h6 className="tab-content-title">
+                        Registered readers
+                        <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
+                          <img
+                            src={path_image + "info_circle_icon.svg"}
+                            alt="refresh-btn"
+                          />
+                        </LinkWithTooltip>
+                      </h6>
+                      <div className="data-progress">
+                        <ProgressBar
+                          variant={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.reader
+                                ? "danger"
+                                : "default"
+                              : "default"
+                          }
+                          now={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? (opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.reader /
+                                opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.limit) *
+                              100
+                              : "100"
+                          }
+                          label={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ].reader
+                              : "Loading"
+                          }
+                        />
+                      </div>
+                    </li>
+
+                    <li>
+                      <h6 className="tab-content-title">
+                        SubLinks
+                        <LinkWithTooltip tooltip="Number of sublinks with content.">
+                          <img
+                            src={path_image + "info_circle_icon.svg"}
+                            alt="refresh-btn"
+                          />
+                        </LinkWithTooltip>
+                      </h6>
+                      <div className="data-progress">
+                        <ProgressBar
+                          variant={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.subLink
+                                ? "sublink"
+                                : "default"
+                              : "default"
+                          }
+                          now={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? (opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ]?.subLink /
+                                opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.limit) *
+                              100
+                              : "100"
+                          }
+                          label={
+                            opening_details.findIndex(
+                              (el) => el.pdfId == data?.id
+                            ) !== -1
+                              ? opening_details[
+                                opening_details.findIndex(
+                                  (el) => el.pdfId == data?.id
+                                )
+                              ].subLink
+                              : "Loading"
+                          }
+                        />
+                      </div>
+                    </li>
+
+                    {data?.allow_print ? (
+                      <li>
+                        <h6 className="tab-content-title">
+                          Printed
+                          <LinkWithTooltip tooltip="Number of HCPs who have print the content.">
+                            <img
+                              src={path_image + "info_circle_icon.svg"}
+                              alt="refresh-btn"
+                            />
+                          </LinkWithTooltip>
+                        </h6>
+                        <div className="data-progress">
+                          <ProgressBar
+                            variant={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.print
+                                  ? "print"
+                                  : "default"
+                                : "default"
+                            }
+                            now={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? (opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.print /
+                                  opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.limit) *
+                                100
+                                : "100"
+                            }
+                            label={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ].print
+                                : "Loading"
+                            }
+                          />
+                        </div>
+                      </li>
+                    ) : null}
+
+                    {data?.allow_download ? (
+                      <li>
+                        <h6 className="tab-content-title">
+                          Downloaded
+                          <LinkWithTooltip tooltip="Number of HCPs who have download the content.">
+                            <img
+                              src={path_image + "info_circle_icon.svg"}
+                              alt="refresh-btn"
+                            />
+                          </LinkWithTooltip>
+                        </h6>
+                        <div className="data-progress">
+                          <ProgressBar
+                            variant={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.download
+                                  ? "download"
+                                  : "default"
+                                : "default"
+                            }
+                            now={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? (opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ]?.download /
+                                  opening_details[
+                                    opening_details.findIndex(
+                                      (el) => el.pdfId == data?.id
+                                    )
+                                  ]?.limit) *
+                                100
+                                : "100"
+                            }
+                            label={
+                              opening_details.findIndex(
+                                (el) => el.pdfId == data?.id
+                              ) !== -1
+                                ? opening_details[
+                                  opening_details.findIndex(
+                                    (el) => el.pdfId == data?.id
+                                  )
+                                ].download
+                                : "Loading"
+                            }
+                          />
+                        </div>
+                      </li>
+                    ) : null}
+                  </ul>
+                </div>
               </div>
             </div>
           </Row>
