@@ -188,6 +188,7 @@ import Check8 from "./Components/survey/Check8";
 import SurveyQuestionForm from "./Components/survey/SurveyQuestionForm"
 import SurveyData from "./Components/survey/SurveyData";
 import SurveyQuestionFormData from "./Components/survey/SurveyQuestionFormData";
+import LicenseRenewListing from "./Components/License/Content/LicenseRenewListing";
 
 let platform = 0;
 let show = 0;
@@ -748,6 +749,10 @@ const Routing = () => {
         <Route
           path="/license-edit-listing"
           element={<LoginLayout component={LicenseEditListing} />}
+        />
+        <Route
+          path="/license/renew-listing"
+          element={<LoginLayout component={LicenseRenewListing} />}
         />
         <Route
           path="/license-create"
