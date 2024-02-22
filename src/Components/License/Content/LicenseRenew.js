@@ -60,8 +60,8 @@ const LicenseRenew = () => {
         const res = await postData(ENDPOINT.LIBRARYSTATS, body);
         if (res?.data?.data?.[0]) {
           let new_data = res?.data?.data?.[0];
-          normal_data.push(new_data);
-          setOpeningDetails(normal_data);
+        //   normal_data.push(new_data);
+          setOpeningDetails([new_data]);
           setFlag(flag + 1);
         }
       } catch (err) {
@@ -90,11 +90,15 @@ const LicenseRenew = () => {
 
 
   const handleChange = (e, isSelectedName) => {
-    setCreateLibraryInputs({
-      ...userInputs,
-      [e?.target?.name]: e?.target?.value,
-    });
+    const updatedInputs = { ...userInputs };
+    if (isSelectedName === 'expDatetime') {
+      updatedInputs.expDatetime = e;
+    } else {
+      updatedInputs[e?.target?.name] = e?.target?.value;
+    }
+    setCreateLibraryInputs(updatedInputs);
   };
+  
 
 
   const copyToClipboard = (content) => {
@@ -154,10 +158,22 @@ const LicenseRenew = () => {
         user_id: localStorage.getItem("user_id"),
         ...payload,
       });
+      console.log(opening_details,"opening_details");
     } catch (error) {
       console.error("An error occurred:", error);
     } finally {
+        setCreateLibraryInputs({
+            expDatetime: new Date(
+              moment(new Date(), "MM/DD/YYYY")
+                .add("years", 1)
+                .format("MM/DD/YYYY")
+            ),
+            limit: "",
+          });
+      await getLibraryStats("data-tab", data?.id);
+
       loader("hide");
+
     }
   };
 
