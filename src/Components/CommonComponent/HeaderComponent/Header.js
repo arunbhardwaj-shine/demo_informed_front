@@ -370,7 +370,9 @@ const Header = () => {
                       window.location.pathname == "/license-content-detail" ||
                       window.location.pathname == "/license-edit-listing" ||
                       window.location.pathname == "/license-create" ||
-                      window.location.pathname == "/license-add-link"
+                      window.location.pathname == "/license-add-link"||
+                      window.location.pathname == "/license/renew-listing" ||
+                      window.location.pathname == "/license/renew"
                         ? "nav-item active active-main"
                         : "nav-item"
                     } onClick={handleMenuItemClick}

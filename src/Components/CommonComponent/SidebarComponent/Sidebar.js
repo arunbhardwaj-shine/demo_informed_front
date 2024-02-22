@@ -858,7 +858,8 @@ const Sidebar = () => {
             window.location.pathname == "/license-edit-listing" ||
             window.location.pathname == "/license-content-detail" ||
             window.location.pathname == "/license-add-link"||
-            window.location.pathname == "/license/renew-listing"  ? (
+            window.location.pathname == "/license/renew-listing" ||
+            window.location.pathname == "/license/renew" ? (
             <ul>
               <li
                 className={
@@ -894,7 +895,8 @@ const Sidebar = () => {
                     location.pathname == "/license-edit-listing" ||
                     location.pathname == "/license-content-detail" ||
                     location.pathname == "/license-add-link"||
-                    location.pathname == "/license/renew-listing") &&
+                    location.pathname == "/license/renew-listing"||
+                    location.pathname == "/license/renew") &&
                     c_id == 0
                     ? "active"
                     : "side_li"
