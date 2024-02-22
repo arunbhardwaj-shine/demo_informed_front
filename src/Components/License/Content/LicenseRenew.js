@@ -23,9 +23,23 @@ const LicenseRenew = () => {
   const location = useLocation();
   const [opening_details, setOpeningDetails] = useState([]);
   const [data, setData] = useState(location?.state?.data);
-  const BrokenImage =
-    "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
-
+  const BrokenImage ="https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
+  const dropdownData = [
+    { value: "reset", label: "Reset collected data and set a new limit" },
+    { value: "update", label: "Add a new quantity to the current usage" },
+    { value: "add", label: "Add a new  quantity to the pervious quantity" },
+  ];
+  const [selectedValue, setSelectedValue] = useState("");
+  const limitFieldRef = useRef(null);
+  const [error, setError] = useState({});
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [userInputs, setCreateLibraryInputs] = useState({
+    expDatetime: new Date(
+      moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+    ),
+    limit: "",
+    specialRequirement: "",
+  });
   useEffect(() => {
     if (!data) {
       navigate("/license/renew-listing");
@@ -74,22 +88,14 @@ const LicenseRenew = () => {
   };
 
 
-  const [userInputs, setCreateLibraryInputs] = useState({
-    expDatetime: new Date(
-      moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
-    ),
-    limit: "",
-    specialRequirement: "",
-  });
+
   const handleChange = (e, isSelectedName) => {
     setCreateLibraryInputs({
       ...userInputs,
       [e?.target?.name]: e?.target?.value,
     });
   };
-  const limitFieldRef = useRef(null);
-  const [error, setError] = useState({});
-  const [currentDate, setCurrentDate] = useState(new Date());
+
 
   const copyToClipboard = (content) => {
     if (window.isSecureContext && navigator.clipboard) {
@@ -155,12 +161,7 @@ const LicenseRenew = () => {
     }
   };
 
-  const dropdownData = [
-    { value: "reset", label: "Reset collected data and set a new limit" },
-    { value: "update", label: "Add a new quantity to the current usage" },
-    { value: "add", label: "Add a new  quantity to the pervious quantity" },
-  ];
-  const [selectedValue, setSelectedValue] = useState("");
+
   return (
     <>
       <Col className="right-sidebar custom-change">
