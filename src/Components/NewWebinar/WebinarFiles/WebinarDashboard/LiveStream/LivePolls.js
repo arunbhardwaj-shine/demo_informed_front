@@ -45,7 +45,7 @@ const LivePolls = ({ location, flag ,setSelectedTab}) => {
                         progress: undefined,
                       });
                 }else{
-                    setIsDataLoaded(false)
+                    setIsFirstLoaded(false)
                 }
                 setSelectedTab("polls-creation")
             }
