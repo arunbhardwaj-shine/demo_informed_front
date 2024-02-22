@@ -1138,7 +1138,8 @@ const LicenseEditListing = () => {
                             <div className="dlt_btn">
                                 <Link
                                   to="/license/renew"
-                                  state={{ pdfid: data.id }}
+                                //   state={{ pdfid: data.id }}
+                                state={{data:data}}
                                   className="footer-btn"
                                 >
                                   <button>

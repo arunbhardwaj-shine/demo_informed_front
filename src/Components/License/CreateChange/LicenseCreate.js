@@ -15,7 +15,7 @@ const data = [
     subtitle: "Change or Replace an existing 1ClickLink from here",
   },
   {
-    image: `${path_image}edit-icon.png`,
+    image: `${path_image}renew-icon.svg`,
     title: "Renew",
     subtitle: "Renew or Update an existing 1ClickLink from here",
   },
