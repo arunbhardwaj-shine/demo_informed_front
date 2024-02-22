@@ -16,6 +16,8 @@ if(customAnswer == 1 || graphType === 'bar'){
       line_v = [],
       line_h = [];
       let i = 0;
+      let totalAnswer = data?.map(item => item.y) // Extracting the 'y' values
+            .reduce((total, yValue) => total + yValue, 0);
       data?.forEach((item) => {
         line_v.push(item?.name);
         line_h.push(item?.y);
@@ -24,10 +26,12 @@ if(customAnswer == 1 || graphType === 'bar'){
         //   name: item?.name,
         //   color: item?.color ? item?.color : colors[i],
         // };
+
         const foundObj = {
-          data: [item?.y],
+          data: [{p:(item?.y/totalAnswer)*100,y:item?.y}],
           name: item?.name,
           color: item?.color ? item?.color : colors[i],
+
         };
         graphData.push(foundObj);
       });
@@ -63,16 +67,24 @@ if(customAnswer == 1 || graphType === 'bar'){
         //     pointWidth: 20,
         //   },
         // },
+        tooltip: {
+          formatter: function() {
+            return '<b>' + this.series.name +":"+ '</b><br/>' +
+              this.point.y ;
+          }
+        },
         plotOptions: {
-          series: {
-            // stacking: "normal",
+          series: {          
             pointWidth: 30,
             // allowPointSelect: true,
             cursor: "pointer",
             dataLabels: [
               {
                 enabled:true,
-                
+                formatter:function() {
+                  var pcnt = this.point.p.toFixed(0);
+                  return '<tspan >' + pcnt +"%" +'</tspan>';
+              },
                 style: {
                   fontSize: "1.2em",
                   textOutline: "none",

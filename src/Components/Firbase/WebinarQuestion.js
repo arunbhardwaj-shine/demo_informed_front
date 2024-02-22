@@ -72,12 +72,14 @@ useEffect(()=>{
             data: question.drillDownData.map(answer => [answer.name, answer.total]),
             colors: question.drillDownData.map(answer => answer.color)
           }));
+          let totalAnswer = value?.pollAnswers?.map(item => item.y) // Extracting the 'y' values
+          .reduce((total, yValue) => total + yValue, 0);
           value?.pollAnswers.forEach((item,i) => {
           line_v.push(item?.name);
           line_h.push(item?.count_answer);
           const foundObj = {
-            data:[item?.y],
-            y: item?.y,
+            data: [{p:(item?.y/totalAnswer)*100,y:item?.y}],
+            // y: item?.y,
             name: item?.name,
             color: item?.color ? item?.color : colors[i],
           };
@@ -117,6 +119,12 @@ useEffect(()=>{
             title: {
               text: "",
             },
+            tooltip: {
+              formatter: function() {
+                return '<b>' + this.series.name +":"+ '</b><br/>' +
+                  this.point.y ;
+              }
+            },
             plotOptions: {
               
               series: {
@@ -130,6 +138,10 @@ useEffect(()=>{
                         enabled: true,
                         // distance: -40,
                         // format: "{point.percentage:.1f}%",
+                        formatter:function() {
+                          var pcnt = this.point.p.toFixed(0);
+                          return '<tspan >' + pcnt +"%" +'</tspan>';
+                      },
                         style: {
                             fontSize: "1.2em",
                             textOutline: "none",

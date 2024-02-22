@@ -1295,7 +1295,7 @@ ul.tab-mail-list.data span.total-left small {
 }
 
 .data-progress {
-  margin-right: 8px;
+  margin-right: 5px;
   padding: 0px 0 0 35px;
 }
 
@@ -13404,7 +13404,26 @@ img.change-password-image {
   text-align: right;
   cursor: pointer;
 }
-
+#renewModal .create-change-content .form-group .form-control, #renewModal .form-group .react-datepicker-wrapper {
+  flex: 1 1;
+  max-width: 100%;
+  margin: 0;
+}
+#renewModal .create-change-content{
+margin: 0;
+padding: 24px 22px 12px;
+background: transparent;
+}
+#renewModal .create-change-content .form-group {
+  margin: 10px 0 10px;
+}
+#renewModal .create-change-content .form-group label {
+  flex: 0 0 160px;
+}
+#renewModal .create-change-content  button.btn.next {
+  display: flex;
+  margin: 10px 0 0 auto;
+}
 /*Responsive for R&D Analytics*/
 @media only screen and (max-width: 1599px) {
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top h5 {

@@ -3,6 +3,7 @@ export const ENDPOINT = {
   LIBRARY: `/library/get-library`,
   FILTERS: `/library/library-filter`,
   DELETE: `library/delete-library`,
+  RENEWLICENSE: `library//renew-license`,
   LIBRARYSTATS: `/library/library-stats`,
   LIBRARYCHANGECONSENT: `/library/change-consent`,
   LIBRARYCREATE: `/library/create-library`,

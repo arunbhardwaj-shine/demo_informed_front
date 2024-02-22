@@ -339,11 +339,13 @@ const PollQuestion = () => {
           line_v = [],
           line_h = [];
           let i = 0;
+          let totalAnswer = data?.map(item => item.y) // Extracting the 'y' values
+          .reduce((total, yValue) => total + yValue, 0);
           data?.forEach((item) => {
             line_v.push(item?.name);
             line_h.push(item?.y);
             const foundObj = {
-              data: [item?.y],
+              data:  [{p:(item?.y/totalAnswer)*100,y:item?.y}],
               name: item?.name,
               color: item?.color ? item.color : colors[i],
             };
@@ -380,6 +382,12 @@ const PollQuestion = () => {
             //     pointWidth: 20,
             //   },
             // },
+            tooltip: {
+              formatter: function() {
+                return '<b>' + this.series.name +":"+ '</b><br/>' +
+                  this.point.y ;
+              }
+            },
             plotOptions: {
               series: {
                 // stacking: "normal",
@@ -390,6 +398,11 @@ const PollQuestion = () => {
                   {
                     enabled:true,
                     // distance: -40,
+                    formatter:function() {
+                      var pcnt = this.point.p.toFixed(0);
+                      return '<tspan >' + pcnt +"%" +'</tspan>';
+                  },
+
                     style: {
                       fontSize: "1.2em",
                       textOutline: "none",
