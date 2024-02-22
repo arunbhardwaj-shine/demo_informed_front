@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, Form } from "react-router-dom";
 import {
   postData,
 
@@ -206,6 +206,30 @@ const LicenseRenew = () => {
   const limitFieldRef = useRef(null);
   const [error, setError] = useState({});
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    // textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
+  };
+
   const renewButtonClicked = async (e) => {
     loader("show");
 
@@ -236,39 +260,23 @@ const LicenseRenew = () => {
         specialRequirement,
       };
 
-      const res = await postData(ENDPOINT.RENEWLICENSE, {
-        user_id: localStorage.getItem("user_id"),
-        ...payload,
-      });
-
+    //   const res = await postData(ENDPOINT.RENEWLICENSE, {
+    //     user_id: localStorage.getItem("user_id"),
+    //     ...payload,
+    //   });
     } catch (error) {
       console.error("An error occurred:", error);
     } finally {
       loader("hide");
     }
   };
-  const copyToClipboard = (content) => {
-    if (window.isSecureContext && navigator.clipboard) {
-      navigator.clipboard.writeText(content);
-      toast.success("content copied to the clipboard!");
-    } else {
-      unsecuredCopyToClipboard(content);
-    }
-  };
-  const unsecuredCopyToClipboard = (text) => {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    // textArea.focus();
-    textArea.select();
-    try {
-      document.execCommand("copy");
-      toast.success("content copied to the clipboard!");
-    } catch (err) {
-      console.error("Unable to copy to clipboard", err);
-    }
-    document.body.removeChild(textArea);
-  };
+
+  const dropdownData=[
+    { value: "reset", label: "Reset collected data and set a new limit" },
+    { value: "update", label: "Add a new quantity to the current usage" },
+    { value: "add", label: "add a new  quantity to the pervious quantity" },
+  ];
+  const [selectedValue,setSelectedValue]=useState("")
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1084,76 +1092,76 @@ const LicenseRenew = () => {
 
 
              
-              <div id="renewModal" >
-                <div>
-                  <h5 className="modal-title" id="staticBackdropLabel">
-                    License Renewal
-                  </h5>
-
-                </div>
-                <div>
-                  <div className="create-change-content">
-                    <div className="form_action">
-                      <div className="form-group">
-                        <label htmlFor="">
-                          Set limit of usage <span>*</span>
-                        </label>
-                        <input
-                          type="number"
-                          name="limit"
-                          min="0"
-                          ref={limitFieldRef}
-                          className={
-                            error?.limit ? "form-control error" : "form-control"
-                          }
-                          placeholder="“0” value means unlimited limit"
-                          onChange={handleChange}
-                        />
-                        {error?.limit ? (
-                          <div className="login-validation">{error?.limit}</div>
-                        ) : null}
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="">Expiration date</label>
-                        <DatePicker
-                          selected={
-                            userInputs?.expDatetime
-                              ? new Date(userInputs?.expDatetime)
-                              : new Date(
-                                moment(new Date(), "MM/DD/YYYY")
-                                  .add("years", 1)
-                                  .format("MM/DD/YYYY")
-                              )
-                          }
-                          name="expDatetime"
-                          onChange={(e) => handleChange(e, "expDatetime")}
-                          dateFormat="dd/MM/yyyy"
-                          className="form-control"
-                          minDate={currentDate}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="">Invoice notes</label>
-                        <textarea
-                          className="form-control"
-                          id="formControlTextarea"
-                          onChange={(e) =>
-                            handleChange(e?.target.value, "specialRequirement")
-                          }
-                          rows="5"
-                          placeholder="Please type your notes here..."
-                        ></textarea>
-                      </div>
-                      <button
-                        className="btn btn-primary btn-filled next"
-                        onClick={renewButtonClicked}
-                      >
-                        Renew License
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                <div id="renewModal">
+      <div className="form_action">
+        <Form className="product-unit d-flex justify-content-between align-items-center">
+          <div className="form-group">
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Please select what you like to do to renew your license
+            </h5>
+            <Select
+              options={dropdownData}
+              placeholder="Select Here"
+              className="dropdown-basic-button split-button-dropup"
+              isClearable
+              onChange={(value) => {
+                setSelectedValue(value?.value);
+              }}
+            />
+          </div>
+        </Form>
+      </div>
+    { selectedValue&&  <div className="create-change-content">
+        <div className="form_action">
+          <div className="form-group">
+            <label htmlFor="">
+              Set limit of usage <span>*</span>
+            </label>
+            <input
+              type="number"
+              name="limit"
+              min="0"
+              ref={limitFieldRef}
+              className={error.limit ? "form-control error" : "form-control"}
+              placeholder="“0” value means unlimited limit"
+              onChange={(e) => handleChange(e, "limit")}
+            />
+            {error.limit && <div className="login-validation">{error.limit}</div>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="">Expiration date</label>
+            <DatePicker
+              selected={
+                userInputs.expDatetime
+                  ? new Date(userInputs.expDatetime)
+                  : new Date(moment(new Date()).add(1, 'years').format("MM/DD/YYYY"))
+              }
+              name="expDatetime"
+              onChange={(date) => handleChange(date, "expDatetime")}
+              dateFormat="dd/MM/yyyy"
+              className="form-control"
+              minDate={currentDate}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="">Invoice notes</label>
+            <textarea
+              className="form-control"
+              id="formControlTextarea"
+              onChange={(e) => handleChange(e.target.value, "specialRequirement")}
+              rows="5"
+              placeholder="Please type your notes here..."
+            ></textarea>
+          </div>
+          <button
+            className="btn btn-primary btn-filled next"
+            onClick={renewButtonClicked}
+          >
+            Renew License
+          </button>
+        </div>
+      </div>}
+    </div>
             </div>
 
           </Row>
