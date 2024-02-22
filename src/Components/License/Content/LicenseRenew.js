@@ -51,22 +51,19 @@ const LicenseRenew = () => {
   const getLibraryStats = async (event, id) => {
     setFlag(0);
 
-
-      let normal_data = opening_details;
-      try {
-        let body = {
-          pdfId: [id],
-        };
-        const res = await postData(ENDPOINT.LIBRARYSTATS, body);
-        if (res?.data?.data?.[0]) {
-          let new_data = res?.data?.data?.[0];
+    let normal_data = opening_details;
+ 
+      let body = {
+        pdfId: [id],
+      };
+      const res = await postData(ENDPOINT.LIBRARYSTATS, body);
+      if (res?.data?.data?.[0]) {
+        let new_data = res?.data?.data?.[0];
         //   normal_data.push(new_data);
-          setOpeningDetails([new_data]);
-          setFlag(flag + 1);
-        }
-      } catch (err) {
-        console.log(err);
+        setOpeningDetails([new_data]);
+        setFlag(flag + 1);
       }
+    
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -86,19 +83,15 @@ const LicenseRenew = () => {
     event.currentTarget.className = "error";
   };
 
-
-
   const handleChange = (e, isSelectedName) => {
     const updatedInputs = { ...userInputs };
-    if (isSelectedName === 'expDatetime') {
+    if (isSelectedName === "expDatetime") {
       updatedInputs.expDatetime = e;
     } else {
-      updatedInputs[e?.target?.name] = e?.target?.value;
+      updatedInputs[isSelectedName] = e?.target?.value;
     }
     setCreateLibraryInputs(updatedInputs);
   };
-  
-
 
   const copyToClipboard = (content) => {
     if (window.isSecureContext && navigator.clipboard) {
@@ -127,7 +120,7 @@ const LicenseRenew = () => {
     loader("show");
 
     let err = {};
-    const { limit, expDatetime, specialRequirement } = userInputs;
+    let { limit, expDatetime, specialRequirement } = userInputs;
 
     try {
       if (!limit) {
@@ -141,11 +134,14 @@ const LicenseRenew = () => {
       if (Object.keys(err).length) {
         return;
       }
-
       const formattedExpDatetime = expDatetime
         ? moment(expDatetime).format("YYYY/MM/DD")
         : "";
-
+      if (selectedValue == "update") {
+        limit += opening_details[0]?.unique;
+      } else if (selectedValue == "add") {
+        limit += opening_details[0]?.limit;
+      }
       const payload = {
         pdfId: data?.id,
         limit,
@@ -157,25 +153,19 @@ const LicenseRenew = () => {
         user_id: localStorage.getItem("user_id"),
         ...payload,
       });
-      console.log(opening_details,"opening_details");
+      setCreateLibraryInputs({
+        expDatetime: new Date(
+          moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+        ),
+        limit: "",
+      });
+      await getLibraryStats("data-tab", data?.id);
     } catch (error) {
       console.error("An error occurred:", error);
     } finally {
-        setCreateLibraryInputs({
-            expDatetime: new Date(
-              moment(new Date(), "MM/DD/YYYY")
-                .add("years", 1)
-                .format("MM/DD/YYYY")
-            ),
-            limit: "",
-          });
-      await getLibraryStats("data-tab", data?.id);
-
       loader("hide");
-
     }
   };
-
 
   return (
     <>
@@ -184,23 +174,6 @@ const LicenseRenew = () => {
           <Row>
             <div className="top-header sticky">
               <div className="page-title d-flex">
-                {/* <Link
-                  className="btn btn-primary btn-bordered back-btn"
-                  to="/license-create"
-                >
-                  <svg
-                    width="14"
-                    height="24"
-                    viewBox="0 0 14 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                      fill="#97B6CF"
-                    />
-                  </svg>
-                </Link> */}
                 <h2>Renew</h2>
                 <div className="dlt_btn">
                   <Link
@@ -947,6 +920,7 @@ const LicenseRenew = () => {
                                 .format("MM/DD/YYYY")
                             ),
                             limit: "",
+                            specialRequirement: "",
                           });
                           setSelectedValue(value?.value);
                         }}
@@ -1002,11 +976,12 @@ const LicenseRenew = () => {
                           className="form-control"
                           id="formControlTextarea"
                           onChange={(e) =>
-                            handleChange(e.target.value, "specialRequirement")
+                            handleChange(e, "specialRequirement")
                           }
                           rows="5"
                           placeholder="Please type your notes here..."
-                          value={userInputs?.specialRequirement}
+                          name="specialRequirement"
+                          value={userInputs?.specialRequirement || ""}
                         ></textarea>
                       </div>
                       <button
