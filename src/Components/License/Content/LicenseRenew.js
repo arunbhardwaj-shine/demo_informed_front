@@ -30,16 +30,13 @@ const LicenseRenew = () => {
     if (!data) {
       navigate("/license/renew-listing");
     } else {
-      tabClicked("data-tab", data?.id);
+      getLibraryStats("data-tab", data?.id);
     }
   }, []);
 
-  const tabClicked = async (event, id) => {
+  const getLibraryStats = async (event, id) => {
     setFlag(0);
-    console.log(event);
 
-    if (event == "data-tab") {
-      // setOpeningDetails(normal_data);
 
       let normal_data = opening_details;
       try {
@@ -56,7 +53,7 @@ const LicenseRenew = () => {
       } catch (err) {
         console.log(err);
       }
-    }
+    
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -76,29 +73,7 @@ const LicenseRenew = () => {
     event.currentTarget.className = "error";
   };
 
-  const changeFormatForPrint = (value) => {
-    let data = "";
-    if (value?.allow_print) {
-      data += "Print | ";
-    }
-    if (value?.allow_download) {
-      data += "Download | ";
-    }
-    if (value?.allow_share) {
-      data += "Share | ";
-    }
-    if (value?.chat_box) {
-      data += "Request | ";
-    }
-    if (data) {
-      // data = data.replace(/^,|,$/g, "");
-      data = data.trim().slice(0, -1);
-    } else {
-      data = "N/A";
-    }
 
-    return data;
-  };
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: new Date(
       moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
