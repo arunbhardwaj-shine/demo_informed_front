@@ -121,6 +121,7 @@ const LicenseRenew = () => {
 
     let err = {};
     let { limit, expDatetime, specialRequirement } = userInputs;
+    limit=parseInt(limit)
 
     try {
       if (!limit) {
