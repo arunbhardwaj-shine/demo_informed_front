@@ -58,25 +58,7 @@ const LicenseRenew = () => {
     }
   }, []);
 
-  const getLibraryStats = async (event, id) => {
-    setFlag(0);
-
-    let normal_data = opening_details;
  
-      let body = {
-        pdfId: [id],
-      };
-      const res = await postData(ENDPOINT.LIBRARYSTATS, body);
-      if (res?.data?.data?.[0]) {
-        let new_data = res?.data?.data?.[0];
-          // normal_data.push(new_data);
-          setOldOpeningDetails(opening_details?.length?opening_details:[new_data]);
-        setOpeningDetails([new_data]);
-        setFlag(flag + 1);
-      }
-    
-  };
-
   function LinkWithTooltip({ id, children, href, tooltip }) {
     return (
       <OverlayTrigger
@@ -126,27 +108,34 @@ const LicenseRenew = () => {
     }
     document.body.removeChild(textArea);
   };
+ const getLibraryStats = async (event, id) => {
+    setFlag(0);
+
+    let normal_data = opening_details;
+ 
+      let body = {
+        pdfId: [id],
+      };
+      const res = await postData(ENDPOINT.LIBRARYSTATS, body);
+      if (res?.data?.data?.[0]) {
+        let new_data = res?.data?.data?.[0];
+          // normal_data.push(new_data);
+          setOldOpeningDetails(opening_details?.length?opening_details:[new_data]);
+        setOpeningDetails([new_data]);
+        setFlag(flag + 1);
+      }
+    
+  };
 
   const renewButtonClicked = async () => {
 
-    let err = {};
     hideConfirmationModal();
 
     let { limit, expDatetime, specialRequirement } = userInputs;
     limit=parseInt(limit)
 
     try {
-      if (!limit) {
-        err.limit = "Limit is required";
-      } else if (limit < 0) {
-        err.limit = "Limit must be greater than or equal to 0";
-      }
-
-      setError(err);
-
-      if (Object.keys(err).length) {
-        return;
-      }
+   
       const formattedExpDatetime = expDatetime
         ? moment(expDatetime).format("YYYY/MM/DD")
         : "";
@@ -192,6 +181,22 @@ const LicenseRenew = () => {
     }
   };
   const showConfirmationPopup = (stateMsg,  id) => {
+    let err = {};
+    hideConfirmationModal();
+
+    let { limit } = userInputs;
+    limit=parseInt(limit)
+      if (!limit) {
+        err.limit = "Limit is required";
+      } else if (limit < 0) {
+        err.limit = "Limit must be greater than or equal to 0";
+      }
+
+      setError(err);
+
+      if (Object.keys(err).length) {
+        return;
+      }
     if (stateMsg == "reset") {
       setResetDataId(id);
       setCommonConfirmModelFun(() => resetCollection);
