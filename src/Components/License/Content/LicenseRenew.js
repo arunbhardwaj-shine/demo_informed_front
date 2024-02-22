@@ -26,6 +26,7 @@ import DatePicker from "react-datepicker";
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LicenseRenew = () => {
+  const navigate = useNavigate();
   const [flag, setFlag] = useState(0);
   const location = useLocation();
   const [opening_details, setOpeningDetails] = useState([]);
@@ -34,7 +35,12 @@ const LicenseRenew = () => {
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
   useEffect(() => {
+   if(!data){
+    navigate("/license/renew-listing")
+   }else{
     tabClicked('data-tab', data?.id)
+   }
+    
     console.log("location-->",location.state)
   }, []);
 
@@ -82,7 +88,7 @@ const LicenseRenew = () => {
     event.currentTarget.src = BrokenImage;
     event.currentTarget.className = "error";
   };
-  
+
   const changeFormatForPrint = (value) => {
     let data = "";
     if (value?.allow_print) {
@@ -302,17 +308,28 @@ const LicenseRenew = () => {
                                   </h6>
                                   <h6>
                                     {data?.productName
-                                      ? data.productName
+                                      ? data?.productName
                                       : "N/A"}
                                   </h6>
                                 </li>
+                                <li>
+                                  <h6 className="tab-content-title">
+                                    Company
+                                  </h6>
+                                  <h6>
+                                    {data?.company
+                                      ? data?.company
+                                      : "N/A"}
+                                  </h6>
+                                </li>
+                                
                                 <li>
                                   <h6 className="tab-content-title">
                                     Client product
                                   </h6>
                                   <h6>
                                     {data?.product
-                                      ? data.product
+                                      ? data?.product
                                       : "N/A"}
                                   </h6>
                                 </li>
@@ -322,7 +339,17 @@ const LicenseRenew = () => {
                                   </h6>
                                   <h6>
                                     {data?.country
-                                      ? data.country
+                                      ? data?.country
+                                      : "N/A"}
+                                  </h6>
+                                </li>
+                                <li>
+                                  <h6 className="tab-content-title">
+                                    Reseller
+                                  </h6>
+                                  <h6>
+                                    {data?.reseller
+                                      ? data?.reseller
                                       : "N/A"}
                                   </h6>
                                 </li>
@@ -338,7 +365,7 @@ const LicenseRenew = () => {
                                   </h6>
                                 </li>
 
-                                <li>
+                                {/* <li>
                                   <h6 className="tab-content-title">
                                     Client name
                                   </h6>
@@ -349,38 +376,16 @@ const LicenseRenew = () => {
                                       " " +
                                       data?.country}
                                   </h6>
-                                </li>
+                                </li> */}
                               </>
                             )}
-                            <li>
-                              <h6 className="tab-content-title">
-                                Usage limit
-                              </h6>
-                              <h6>
-                                {data?.limit > 0
-                                  ? data?.limit
-                                  : "Unlimited"}
-                              </h6>
-                            </li>
+                            
 
                             <li>
                               <h6 className="tab-content-title">
-                                Allow
+                                Enable
                               </h6>
-                              <h6>{changeFormatForPrint(data)}</h6>
-                            </li>
-                            <li>
-                              <h6 className="tab-content-title">
-                                Link type
-                              </h6>
-                              <h6>{data?.linkType}</h6>
-                            </li>
-
-                            <li>
-                              <h6 className="tab-content-title">
-                                Upload date
-                              </h6>
-                              <h6>{data?.uploadedDate}</h6>
+                              <h6>{data?.enable?data?.enable:"N/A"}</h6>
                             </li>
                             <li>
                               <h6 className="tab-content-title">
@@ -388,7 +393,7 @@ const LicenseRenew = () => {
                               </h6>
                               <h6>
                                 {data?.expireDate
-                                  ? data.expireDate
+                                  ? data?.expireDate
                                   : "N/A"}
                               </h6>
                             </li>
