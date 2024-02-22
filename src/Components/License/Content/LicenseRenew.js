@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { postData } from "../../../axios/apiHelper";
-import { ENDPOINT } from "../../../axios/apiConfig";
+import {
+    deleteData,
+    postData,
+    updateConsent,
+    resetStats,
+    updateTags,
+  } from "../../../axios/apiHelper";import { ENDPOINT } from "../../../axios/apiConfig";
 import Select from "react-select";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -14,6 +19,8 @@ import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
 import DatePicker from "react-datepicker";
+import { popup_alert } from "../../../popup_alert";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -52,7 +59,7 @@ const LicenseRenew = () => {
   const getLibraryStats = async (event, id) => {
     setFlag(0);
 
-    let normal_data = oldOpeningDetails;
+    let normal_data = opening_details;
  
       let body = {
         pdfId: [id],
@@ -118,8 +125,7 @@ const LicenseRenew = () => {
     document.body.removeChild(textArea);
   };
 
-  const renewButtonClicked = async (e) => {
-    loader("show");
+  const renewButtonClicked = async () => {
 
     let err = {};
     let { limit, expDatetime, specialRequirement } = userInputs;
@@ -140,9 +146,19 @@ const LicenseRenew = () => {
       const formattedExpDatetime = expDatetime
         ? moment(expDatetime).format("YYYY/MM/DD")
         : "";
-      if (selectedValue == "update") {
+        if (selectedValue == "reset") {
+            showConfirmationPopup(
+                "reset",
+                data?.id
+              )
+        }
+      else if (selectedValue == "update") {
+    loader("show");
+
         limit += opening_details[0]?.unique;
       } else if (selectedValue == "add") {
+    loader("show");
+
         limit += opening_details[0]?.limit;
       }
       const payload = {
@@ -163,12 +179,91 @@ const LicenseRenew = () => {
         limit: "",
       });
       await getLibraryStats("data-tab", data?.id);
+      popup_alert({
+        visible: "show",
+        message: "Your limit has been changed <br />successfully !",
+        type: "success",
+        redirect: "",
+      });
+      hideConfirmationModal();
+
     } catch (error) {
       console.error("An error occurred:", error);
     } finally {
       loader("hide");
     }
   };
+  const showConfirmationPopup = (stateMsg,  id) => {
+    if (stateMsg == "reset") {
+      setResetDataId(id);
+      setCommonConfirmModelFun(() => resetCollection);
+      setPopupMessage({
+        message1: " You are about to reset the collected data.",
+        message2: "Are you sure you want to do this?",
+        footerButton: "Delete all data",
+      });
+      if (confirmationpopup) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
+      }
+    }else{
+        setResetDataId(id);
+        setCommonConfirmModelFun(() => renewButtonClicked);
+        setPopupMessage({
+          message1: " You are about to change the limit.",
+          message2: "Are you sure you want to do this?",
+          footerButton: "Yes please",
+        });
+        if (confirmationpopup) {
+          setConfirmationPopup(false);
+        } else {
+          setConfirmationPopup(true);
+        }
+    }
+  };
+
+  const resetCollection = async (pdf_id) => {
+    try {
+      loader("show");
+
+      await resetStats(ENDPOINT.LIBRARYRESETSTATS, {
+        user_id: localStorage.getItem("user_id"),
+        pdfId: pdf_id,
+      });
+      let normal_data = opening_details;
+      const lib_data_index = normal_data.findIndex((el) => el.pdfId === pdf_id);
+      if (lib_data_index != -1) {
+          await renewButtonClicked()
+          
+     
+      } else {
+        loader("hide");
+        popup_alert({
+
+          visible: "show",
+          message: "Something went wrong, Please try again.",
+          type: "error",
+          redirect: "",
+        });
+      }
+    } catch (err) {
+      console.log("err", err);
+      loader("hide");
+    }
+  };
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
+  const [update, setUpdate] = useState(0);
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [resetDataId, setResetDataId] = useState("");
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
+  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
 
   return (
     <>
@@ -989,7 +1084,12 @@ const LicenseRenew = () => {
                       </div>
                       <button
                         className="btn btn-primary btn-filled next"
-                        onClick={renewButtonClicked}
+                        onClick={()=>{
+                            showConfirmationPopup(
+                                selectedValue,
+                                data?.id
+                              )
+                        }}
                       >
                         Renew License
                       </button>
@@ -1572,6 +1672,15 @@ const LicenseRenew = () => {
           </Row>
         </div>
       </Col>
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={hideConfirmationModal}
+        fun={commonConfirmModelFun}
+        popupMessage={popupMessage}
+        path_image={path_image}
+        resetDataId={resetDataId}
+      />
+
     </>
   );
 };

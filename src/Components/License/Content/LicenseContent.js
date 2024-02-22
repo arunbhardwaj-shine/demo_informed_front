@@ -2256,7 +2256,7 @@ const LicenseContent = (props) => {
                                     >
                                       Analytics
                                     </Link>
-                                 {localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" &&   <Button
+                                 {/* {localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" &&   <Button
                                       className="footer-btn"
                                       onClick={(e) =>
                                         showConfirmationPopup(
@@ -2267,7 +2267,7 @@ const LicenseContent = (props) => {
                                       }
                                     >
                                       Renew
-                                    </Button>}
+                                    </Button>} */}
                                     <Button
                                       className="footer-btn reset"
                                       onClick={(e) =>
