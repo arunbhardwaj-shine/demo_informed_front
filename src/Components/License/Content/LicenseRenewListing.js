@@ -1135,7 +1135,7 @@ const LicenseEditListing = () => {
                                 <div className="dlt_btn"></div>
                               </div>
                             ) : null} */}
-                            <div className="dlt_btn">
+                            {/* <div className="dlt_btn">
                                 <Link
                                   to="/license/renew"
                                 //   state={{ pdfid: data.id }}
@@ -1147,7 +1147,7 @@ const LicenseEditListing = () => {
                                   
                                   </button>
                                 </Link>
-                              </div>
+                              </div> */}
                           </div>
                           <div className="tabs-data">
                             <Tabs
@@ -1299,6 +1299,17 @@ const LicenseEditListing = () => {
                                       </div>
                                     </li>
                                   </ul>
+                                </div>
+                                <div className="data-main-footer-sec renew">
+                                  <div className="footer-btn-wrapper d-flex justify-content-end">
+                                  <Link
+                                    to="/license/renew"
+                                    //   state={{ pdfid: data.id }}
+                                    state={{ data: data }}
+                                    className="footer-btn"
+                                  >Renew
+                                  </Link>
+                                </div>
                                 </div>
 
                                 {/* {location?.state?.data != "renew" &&
@@ -1948,6 +1959,17 @@ const LicenseEditListing = () => {
                                     ) : null}
                                   </ul>
                                 </div>
+                                <div className="data-main-footer-sec renew">
+                                  <div className="footer-btn-wrapper d-flex justify-content-end">
+                                    <Link
+                                      to="/license/renew"
+                                      //   state={{ pdfid: data.id }}
+                                      state={{ data: data }}
+                                      className="footer-btn"
+                                    >Renew
+                                    </Link>
+                                  </div>
+                                </div>
                               </Tab>
                               <Tab
                                 className="change-tab flex-column justify-content-between"
@@ -1987,6 +2009,17 @@ const LicenseEditListing = () => {
                                       </Button>
                                     </div>
                                   </ul>
+                                </div>
+                                <div className="data-main-footer-sec renew">
+                                  <div className="footer-btn-wrapper d-flex justify-content-end">
+                                    <Link
+                                      to="/license/renew"
+                                      //   state={{ pdfid: data.id }}
+                                      state={{ data: data }}
+                                      className="footer-btn"
+                                    >Renew
+                                    </Link>
+                                  </div>
                                 </div>
                               </Tab>
                               <Tab

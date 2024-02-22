@@ -169,13 +169,13 @@ const LicenseRenew = () => {
 
   return (
     <>
-      <Col className="right-sidebar custom-change">
+      <Col className="right-sidebar custom-change licence-renew">
         <div className="custom-container">
           <Row>
             <div className="top-header sticky">
-              <div className="page-title d-flex">
+              <div className="page-title d-flex justify-content-between">
                 <h2>Renew</h2>
-                <div className="dlt_btn">
+                <div className="close">
                   <Link
                     to="/license/renew-listing"
                     //   state={{ pdfid: data.id }}
@@ -193,7 +193,7 @@ const LicenseRenew = () => {
             </div>
 
             <div className="library-content-box-layuot d-flex">
-              <div className="renew-left-block d-flex">
+              <div className="renew-left-block data-collected d-flex">
                 <div className="doc-content-main-box col">
                     <div className="doc-content-header">
                       <div className="doc-content-header-logo">
@@ -333,9 +333,9 @@ const LicenseRenew = () => {
                         </div>
                       </div>
                 </div>
-                <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
+                <div className="data-main-box d-flex flex-column">
+                  <h6>Collected Data</h6>
                   <ul className="tab-mail-list data">
-                    <h4>Collected Data</h4>
                     {data?.lastRomanNumber == 2 ||
                       data?.lastRomanNumber == 3 ? (
                       <>
@@ -995,12 +995,11 @@ const LicenseRenew = () => {
                 )}
               </div>
             </div>
-            <div className="old-collected">
+            <div className="old-collected library-content-box-layuot">
               <h3>Old Collected Data</h3>
-              <div className="old-collected-data">
-                <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
+              <div className="old-collected-data data-collected">
+                <div className="data-main-box old-data">
                   <ul className="tab-mail-list data">
-                    <h4>Collected Data</h4>
                     {data?.lastRomanNumber == 2 ||
                       data?.lastRomanNumber == 3 ? (
                       <>
