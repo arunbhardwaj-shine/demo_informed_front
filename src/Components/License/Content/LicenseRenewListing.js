@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { createContent } from "../../CommonComponent/Validations";
 
 import { popup_alert } from "../../../popup_alert";
-import DatePicker from "react-datepicker";
-
 import {
   deleteData,
   postData,
@@ -38,25 +35,10 @@ import { toast } from "react-toastify";
 import moment from "moment";
 // import QRCode from "react-qr-code";
 import QRCode from "qrcode.react";
-import { connect } from "react-redux";
-import {
-  getEmailData,
-  getDraftData,
-  getSelectedSmartListData,
-} from "../../../actions";
+
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LicenseContent = (props) => {
-  const [userInputs, setCreateLibraryInputs] = useState({
-    expDatetime: new Date(
-      moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
-    ),
-    limit: "",
-  });
-  const limitFieldRef = useRef(null);
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [error, setError] = useState({});
-
+const LicenseEditListing = () => {
   const limit = 24;
   const [size, setSize] = useState("Small");
   const [flag, setFlag] = useState(0);
@@ -64,10 +46,6 @@ const LicenseContent = (props) => {
     { value: "Online Offer", label: "Online Offer" },
     { value: "Offline Offer", label: "Offline Offer" },
     { value: "Sunshine", label: "Sunshine" },
-  ]);
-  const [statusOptions, setStatusOptions] = useState([
-    { label: "Sold", value: "sold" },
-    { label: "Unsold", value: "unsold" },
   ]);
   const [pageAllClicked, setPageAllClicked] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -89,7 +67,6 @@ const LicenseContent = (props) => {
   let obj = {};
   const [userId, setUserId] = useState();
   const [filterObject, setFilterObject] = useState({});
-  const [appliedFilter, setAppliedFilter] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [show, setShow] = useState(false);
   const [filterdata, setFilterData] = useState({
@@ -105,7 +82,6 @@ const LicenseContent = (props) => {
 
   const [libraryData, setLibraryData] = useState([]);
   const [changeConsent, setchangeConsent] = useState([]);
-  const [changeStatus, setChangeStatus] = useState([]);
   const [updateflag, setupdateFlag] = useState(0);
   const [qrState, setQr] = useState({
     value: "",
@@ -113,7 +89,6 @@ const LicenseContent = (props) => {
   const [qrSize, setQrSize] = useState(290);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isRenewOpen, setIsRenewOpen] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
   const [allTags, setAllTags] = useState({});
   const [resetDataId, setResetDataId] = useState();
@@ -122,8 +97,6 @@ const LicenseContent = (props) => {
     message2: "",
     footerButton: "",
   });
-  const [forceRender, setForceRender] = useState(false);
-  const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
@@ -153,28 +126,16 @@ const LicenseContent = (props) => {
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
-  const handleChange = (e, isSelectedName) => {
-    setCreateLibraryInputs({
-      ...userInputs,
-      [isSelectedName ? isSelectedName : e?.target?.name]: isSelectedName
-        ? e?.target?.files
-          ? e?.target?.files
-          : e
-        : e?.target?.value,
-    });
-  };
+
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
-      const newObj = { value: "Sunshine USA", label: "Sunshine USA" };
+    applyFilters();
+    getLibraryData(page, filterObject, search);
+
+    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ=='){
+      const newObj = {value: "Sunshine USA", label: "Sunshine USA"};
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);
     }
-
-    applyFilters();
-    getLibraryData(page, filterObject, search);
-    props.getDraftData(null);
-    props.getSelectedSmartListData(null);
-    props.getEmailData(null);
 
     function handleOutsideClick(event) {
       if (
@@ -235,53 +196,29 @@ const LicenseContent = (props) => {
 
   const submitHandler = (event) => {
     setLibraryData([]);
-    setPage(1);
-    getLibraryData(1, filterObject, search);
+    getLibraryData(page, filterObject, search);
     event.preventDefault();
     return false;
   };
 
-  const handleOnFilterChange = (e, item, index, key, data = []) => {
-    let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if (!newObj[key]) {
-      newObj[key] = [];
+  const handleOnFilterChange = (e, item, index, key) => {
+    if (!filterObject[key]) {
+      filterObject[key] = [];
     }
 
     if (e?.target?.checked == true) {
-      if (key == "draft" || key == "Selected By Articles") {
-        newObj[key] = [];
-        newObj[key]?.push(item);
-      } else {
-        if (item == "All") {
-          newObj[key] = data;
-        } else {
-          newObj[key]?.push(item);
-
-          if (data?.length - 1 == newObj[key]?.length) {
-            newObj[key]?.push("All");
-          }
-        }
-      }
+      filterObject[key]?.push(item);
     } else {
-      if (item == "All") {
-        newObj[key] = [];
-      } else {
-        if (newObj[key]?.includes("All")) {
-          newObj[key] = newObj[key]?.filter((item) => item != "All");
-        }
-      }
-      const index = newObj[key]?.indexOf(item);
+      const index = filterObject[key]?.indexOf(item);
       if (index > -1) {
-        newObj[key]?.splice(index, 1);
-        if (newObj[key]?.length == 0) {
-          delete newObj[key];
+        filterObject[key]?.splice(index, 1);
+        if (filterObject[key]?.length == 0) {
+          delete filterObject[key];
         }
       }
     }
 
-    // setFilterObject(newObj);
-    setAppliedFilter(newObj);
-    setForceRender(!forceRender);
+    setFilterObject(filterObject);
   };
 
   const tabClicked = async (event, id) => {
@@ -323,7 +260,7 @@ const LicenseContent = (props) => {
     obj = {};
     setFilterObject({});
     setLibraryData([]);
-    setFilterApplyflag(0);
+
     getLibraryData(page, {}, search);
     setSearch("");
 
@@ -333,9 +270,9 @@ const LicenseContent = (props) => {
   const applyFilter = (e) => {
     e.preventDefault();
     setLibraryData([]);
-    setFilterApplyflag(1);
-    setFilterObject(appliedFilter);
-    getLibraryData(page, appliedFilter, search);
+
+    setFilterObject(filterObject);
+    getLibraryData(page, filterObject, search);
 
     setShowFilter(false);
   };
@@ -378,7 +315,6 @@ const LicenseContent = (props) => {
       let body = { ...data, ...obj };
 
       const res = await postData(ENDPOINT.LIBRARY, body);
-
       setTotalLibraryRecord(res?.data?.data?.library);
 
       let apiData = [];
@@ -423,6 +359,14 @@ const LicenseContent = (props) => {
       setPageAll(false);
       setApiCallStatus(true);
       loader("hide");
+      // setPageAllClicked(false);
+      // if((res?.data?.data?.library).length>0){
+      //   setIsLoaded(true);
+      //   setNoData(false)
+      // }
+      // else{
+      //   setNoData(true)
+      // }
     } catch (err) {
       console.log("err");
       loader("hide");
@@ -450,18 +394,13 @@ const LicenseContent = (props) => {
         message1:
           "You are about to remove this content from any reader and every device forever.",
         message2: "Are you sure you want to do this?",
-        footerButton: "Yes Please!",
+        footerButton: "Yes Please  !",
       });
       if (confirmationpopup) {
         setConfirmationPopup(false);
       } else {
         setConfirmationPopup(true);
       }
-    } else if (stateMsg == "renew") {
-      // setUserId(id);
-      setResetDataId(id);
-
-      setIsRenewOpen(!isRenewOpen);
     } else {
       // setDeleteStatus(false);
       setResetDataId(id);
@@ -524,10 +463,6 @@ const LicenseContent = (props) => {
 
   const removeindividualfilter = (key, item) => {
     let old_object = filterObject;
-    if (item == "All") {
-      old_object[key]?.includes(item);
-      delete old_object[key];
-    }
 
     const index = old_object[key]?.indexOf(item);
     if (index > -1) {
@@ -537,11 +472,7 @@ const LicenseContent = (props) => {
       }
     }
 
-    if (!Object.keys(old_object)?.length) {
-      setFilterApplyflag(0);
-    }
     setFilterObject(old_object);
-    setAppliedFilter(old_object);
     setLibraryData([]);
     getLibraryData(page, old_object);
   };
@@ -576,64 +507,20 @@ const LicenseContent = (props) => {
     }
   };
 
-  const onStatusChange = (e, i) => {
-    let statusValue = e?.value;
-    let status = {
-      index: i,
-      value: statusValue,
-    };
-    const found = changeStatus.some((el) => el?.index === i);
-    if (!found) {
-      setChangeStatus((oldArray) => [...oldArray, status]);
-    } else {
-      const index = changeStatus.findIndex((el) => el?.index === i);
-      changeStatus[index].value = statusValue;
-    }
-  };
-
-  const updateChanges = async (pdf_id, index) => {
+  const updateConset = async (pdf_id, index) => {
     loader("show");
     try {
-      let body = {};
-      let consent_value = "";
-      let status_value = "";
+      const index = changeConsent.findIndex((el) => el.index === pdf_id);
+      let consent_value = changeConsent[index].value;
 
-      const consentIndex = changeConsent.findIndex((el) => el.index === pdf_id);
-      if (consentIndex != -1) {
-        consent_value = changeConsent[consentIndex].value;
-      } else {
-        const consentIndex = libraryData.findIndex((el) => el?.id === pdf_id);
-        consent_value = libraryData[consentIndex]?.linkType;
-      }
-
-      if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
-        const statusIndex = changeStatus?.findIndex(
-          (el) => el?.index === pdf_id
-        );
-        if (statusIndex != -1) {
-          status_value = changeStatus[statusIndex]?.value;
-        } else {
-          const statusIndex = libraryData?.findIndex((el) => el?.id === pdf_id);
-          status_value = libraryData[statusIndex]?.sold_unsold;
-        }
-        body = {
-          pdfId: pdf_id,
-          consentType: consent_value,
-          sold_unsold: status_value,
-        };
-      } else {
-        body = {
-          pdfId: pdf_id,
-          consentType: consent_value,
-        };
-      }
+      let body = {
+        pdfId: pdf_id,
+        consentType: consent_value,
+      };
 
       const res = await updateConsent(ENDPOINT.LIBRARYCHANGECONSENT, body);
       const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
       libraryData[lib_data_index].linkType = consent_value;
-      if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
-        libraryData[lib_data_index].sold_unsold = status_value;
-      }
       const new_data = libraryData;
       setLibraryData(new_data);
       setupdateFlag(updateflag + 1);
@@ -659,35 +546,24 @@ const LicenseContent = (props) => {
       };
       const res = await resetStats(ENDPOINT.LIBRARYRESETSTATS, body);
       let normal_data = opening_details;
-      const lib_data_index = normal_data.findIndex((el) => el.pdfId === pdf_id);
-      if (lib_data_index != -1) {
-        normal_data[lib_data_index].unique = 0;
-        normal_data[lib_data_index].opening = 0;
-        normal_data[lib_data_index].reader = 0;
-        normal_data[lib_data_index].download = 0;
-        normal_data[lib_data_index].print = 0;
-        normal_data[lib_data_index].subLink = 0;
+      const lib_data_index = normal_data.findIndex(
+        (el) => el.pdf_id === pdf_id
+      );
+      normal_data[lib_data_index].uniqueReader = 0;
+      normal_data[lib_data_index].opening = 0;
+      normal_data[lib_data_index].registeredReader = 0;
 
-        setOpeningDetails(normal_data);
-        setFlag(1);
-        setUpdate(update + 1);
+      setOpeningDetails(normal_data);
+      setFlag(1);
+      setUpdate(update + 1);
 
-        loader("hide");
-        popup_alert({
-          visible: "show",
-          message: "Your stats has been reset <br />successfully !",
-          type: "success",
-          redirect: "",
-        });
-      } else {
-        loader("hide");
-        popup_alert({
-          visible: "show",
-          message: "Something went wrong, Please try again.",
-          type: "error",
-          redirect: "",
-        });
-      }
+      loader("hide");
+      popup_alert({
+        visible: "show",
+        message: "Your stats has been reset <br />successfully !",
+        type: "success",
+        redirect: "",
+      });
     } catch (err) {
       console.log("err", err);
       loader("hide");
@@ -867,403 +743,283 @@ const LicenseContent = (props) => {
     return data;
   };
 
-  const nextClicked = (id) => {
-    props.getEmailData({ PdfSelected: id });
-  };
-  const renewButtonClicked = async (e) => {
-    loader("show");
-  
-    let err = {};
-    const { limit, expDatetime, specialRequirement } = userInputs;
-  
-    try {
-      if (!limit) {
-        err.limit = "Limit is required";
-      } else if (limit < 0) {
-        err.limit = "Limit must be greater than or equal to 0";
-      }
-  
-      setError(err);
-  
-      if (Object.keys(err).length) {
-        return;
-      }
-  
-      const formattedExpDatetime = expDatetime
-        ? moment(expDatetime).format("YYYY/MM/DD")
-        : "";
-  
-      const payload = {
-        pdfId: resetDataId,
-        limit,
-        expDatetime: formattedExpDatetime,
-        specialRequirement,
-      };
-  
-      const res = await postData(ENDPOINT.RENEWLICENSE, {
-        user_id: localStorage.getItem("user_id"),
-        ...payload,
-      });
-  
-      setIsRenewOpen(false);
-    } catch (error) {
-      console.error("An error occurred:", error);
-    } finally {
-      loader("hide"); 
-    }
-  };
-  
-
   return (
     <>
       <Col className="right-sidebar custom-change">
         <div className="custom-container">
           <Row>
-            <div className="top-sticky">
-              <div className="top-header">
-                <div className="page-title">
-                  {/* <h2>{location?.state?.data == "edit" ? "Edit" : "Content"}</h2> */}
-                </div>
-                <div className="top-right-action">
-                  <div className="search-bar">
-                    <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
-                      <input
-                        className="form-control me-2"
-                        type="text"
-                        placeholder="Search by title"
-                        aria-label="Search"
-                        id="email_search"
-                        onChange={(e) => searchChange(e)}
-                      />
-                      <button className="btn btn-outline-success" type="submit">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
-                            fill="#97B6CF"
-                          />
-                        </svg>
-                      </button>
-                    </form>
-                  </div>
-                  <div
-                    className={
-                      showfilter
-                        ? "filter-by nav-item dropdown highlight"
-                        : "filter-by nav-item dropdown"
-                    }
+            <div className="top-header sticky">
+              <div className="page-title d-flex">
+                <Link
+                  className="btn btn-primary btn-bordered back-btn"
+                  to="/license-create"
+                >
+                  <svg
+                    width="14"
+                    height="24"
+                    viewBox="0 0 14 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <button
-                      ref={buttonRef}
-                      className={
-                        Object.keys(filterObject).length > 0
-                          ? "btn btn-secondary dropdown filter_applied"
-                          : "btn btn-secondary dropdown"
-                      }
-                      type="button"
-                      id="dropdownMenuButton2"
-                      onClick={() => setShowFilter((showfilter) => !showfilter)}
-                    >
-                      Filter By
-                      {showfilter ? (
-                        <svg
-                          className="close-arrow"
-                          width="13"
-                          height="12"
-                          viewBox="0 0 13 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            width="2.09896"
-                            height="15.1911"
-                            rx="1.04948"
-                            transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                            fill="#0066BE"
-                          />
-                          <rect
-                            width="2.09896"
-                            height="15.1911"
-                            rx="1.04948"
-                            transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                            fill="#0066BE"
-                          />
-                        </svg>
-                      ) : (
-                        <svg
-                          className="filter-arrow"
-                          width="16"
-                          height="14"
-                          viewBox="0 0 16 14"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                            fill="#97B6CF"
-                          />
-                          <path
-                            d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                            fill="#97B6CF"
-                          />
-                          <path
-                            d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                            fill="#97B6CF"
-                          />
-                        </svg>
-                      )}
-                    </button>
-                    {showfilter && (
-                      <div
-                        ref={filterRef}
-                        className="dropdown-menu filter-options"
-                        aria-labelledby="dropdownMenuButton2"
+                    <path
+                      d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                      fill="#97B6CF"
+                    />
+                  </svg>
+                </Link>
+                {/* <h2>{location?.state?.data == "renew" ? "Renew" : "Content"}</h2> */}
+                <h2>Renew</h2>
+              </div>
+              <div className="top-right-action">
+                <div className="search-bar">
+                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                    <input
+                      className="form-control me-2"
+                      type="text"
+                      placeholder="Search"
+                      aria-label="Search"
+                      id="email_search"
+                      onChange={(e) => searchChange(e)}
+                    />
+                    <button className="btn btn-outline-success" type="submit">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <h4>Filter By</h4>
-                        <Accordion defaultActiveKey="0" flush>
-                          {Object.keys(filterdata)?.map(function (key, index) {
-                            return (
-                              <>
-                                {filterdata[key]?.length > 0 ? (
-                                  <Accordion.Item
-                                    className="card"
-                                    eventKey={index}
-                                  >
-                                    <Accordion.Header className="card-header">
-                                      {key}
-                                    </Accordion.Header>
-
-                                    <Accordion.Body className="card-body">
-                                      <ul>
-                                        {filterdata[key]?.length > 0
-                                          ? filterdata[key]?.map(
-                                              (item, index) => (
-                                                <li>
-                                                  {item != "" ? (
-                                                    <label className="select-multiple-option">
-                                                      <input
-                                                        type={
-                                                          key == "draft" ||
-                                                          key ==
-                                                            "Selected By Articles"
-                                                            ? "radio"
-                                                            : "checkbox"
-                                                        }
-                                                        id={`custom-checkbox-tags-${index}`}
-                                                        value={item}
-                                                        checked={
-                                                          appliedFilter[
-                                                            key
-                                                          ]?.includes(item)
-                                                            ? true
-                                                            : false
-                                                        }
-                                                        // defaultChecked={
-                                                        //   filterObject?.hasOwnProperty(
-                                                        //     key
-                                                        //   )
-                                                        //     ? filterObject[
-                                                        //         key
-                                                        //       ]?.indexOf(item) !==
-                                                        //       -1
-                                                        //     : false
-                                                        // }
-                                                        name="tags[]"
-                                                        onChange={(e) =>
-                                                          handleOnFilterChange(
-                                                            e,
-                                                            item,
-                                                            index,
-                                                            key,
-                                                            [...filterdata[key]]
-                                                          )
-                                                        }
-                                                      />
-
-                                                      {key == "draft" &&
-                                                      item == "0"
-                                                        ? "live"
-                                                        : key == "draft" &&
-                                                          item == "1"
-                                                        ? "draft"
-                                                        : item}
-                                                      <span className="checkmark"></span>
-                                                    </label>
-                                                  ) : null}
-                                                </li>
-                                              )
-                                            )
-                                          : null}
-                                      </ul>
-                                    </Accordion.Body>
-                                  </Accordion.Item>
-                                ) : null}
-                              </>
-                            );
-                          })}
-                        </Accordion>
-
-                        <div className="filter-footer">
-                          <button
-                            className="btn btn-primary btn-bordered"
-                            onClick={clearFilter}
-                          >
-                            Clear
-                          </button>
-                          <button
-                            className="btn btn-primary btn-filled"
-                            onClick={applyFilter}
-                          >
-                            Apply
-                          </button>
-                        </div>
-                      </div>
+                        <path
+                          d="M15.8045 14.862L11.2545 10.312C12.1359 9.22334 12.6665 7.84 12.6665 6.33334C12.6665 2.84134 9.82522 0 6.33325 0C2.84128 0 0 2.84131 0 6.33331C0 9.82531 2.84132 12.6667 6.33328 12.6667C7.83992 12.6667 9.22325 12.136 10.3119 11.2547L14.8619 15.8047C14.9919 15.9347 15.1625 16 15.3332 16C15.5039 16 15.6745 15.9347 15.8045 15.8047C16.0652 15.544 16.0652 15.1227 15.8045 14.862ZM6.33328 11.3333C3.57597 11.3333 1.33333 9.09066 1.33333 6.33331C1.33333 3.57597 3.57597 1.33331 6.33328 1.33331C9.0906 1.33331 11.3332 3.57597 11.3332 6.33331C11.3332 9.09066 9.09057 11.3333 6.33328 11.3333Z"
+                          fill="#97B6CF"
+                        />
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+                <div
+                  className={
+                    showfilter
+                      ? "filter-by nav-item dropdown highlight"
+                      : "filter-by nav-item dropdown"
+                  }
+                >
+                  <button
+                    ref={buttonRef}
+                    className={
+                      Object.keys(filterObject).length > 0
+                        ? "btn btn-secondary dropdown filter_applied"
+                        : "btn btn-secondary dropdown"
+                    }
+                    type="button"
+                    id="dropdownMenuButton2"
+                    onClick={() => setShowFilter((showfilter) => !showfilter)}
+                  >
+                    Filter By
+                    {showfilter ? (
+                      <svg
+                        className="close-arrow"
+                        width="13"
+                        height="12"
+                        viewBox="0 0 13 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.09896"
+                          height="15.1911"
+                          rx="1.04948"
+                          transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                          fill="#0066BE"
+                        />
+                        <rect
+                          width="2.09896"
+                          height="15.1911"
+                          rx="1.04948"
+                          transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                          fill="#0066BE"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        className="filter-arrow"
+                        width="16"
+                        height="14"
+                        viewBox="0 0 16 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                          fill="#97B6CF"
+                        />
+                        <path
+                          d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                          fill="#97B6CF"
+                        />
+                        <path
+                          d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                          fill="#97B6CF"
+                        />
+                      </svg>
                     )}
-                  </div>
+                  </button>
+                  {showfilter && (
+                    <div
+                      ref={filterRef}
+                      className="dropdown-menu filter-options"
+                      aria-labelledby="dropdownMenuButton2"
+                    >
+                      <h4>Filter By</h4>
+                      <Accordion defaultActiveKey="0" flush>
+                        {Object.keys(filterdata)?.map(function (key, index) {
+                          return (
+                            <>
+                              {filterdata[key]?.length > 0 ? (
+                                <Accordion.Item
+                                  className="card"
+                                  eventKey={index}
+                                >
+                                  <Accordion.Header className="card-header">
+                                    {key}
+                                  </Accordion.Header>
 
-                  {location?.state?.data !== "edit" ? (
-                    <div className="clear-search">
-                      {deletestatus ? (
+                                  <Accordion.Body className="card-body">
+                                    <ul>
+                                      {filterdata[key]?.length > 0
+                                        ? filterdata[key]?.map(
+                                            (item, index) => (
+                                              <li>
+                                                {item != "" ? (
+                                                  <label className="select-multiple-option">
+                                                    <input
+                                                      type="checkbox"
+                                                      id={`custom-checkbox-tags-${index}`}
+                                                      value={item}
+                                                      defaultChecked={
+                                                        filterObject?.hasOwnProperty(
+                                                          key
+                                                        )
+                                                          ? filterObject[
+                                                              key
+                                                            ]?.indexOf(item) !==
+                                                            -1
+                                                          : false
+                                                      }
+                                                      name="tags[]"
+                                                      onChange={(e) =>
+                                                        handleOnFilterChange(
+                                                          e,
+                                                          item,
+                                                          index,
+                                                          key
+                                                        )
+                                                      }
+                                                    />
+
+                                                    {key == "draft" &&
+                                                    item == "0"
+                                                      ? "live"
+                                                      : key == "draft" &&
+                                                        item == "1"
+                                                      ? "draft"
+                                                      : item}
+                                                    <span className="checkmark"></span>
+                                                  </label>
+                                                ) : null}
+                                              </li>
+                                            )
+                                          )
+                                        : null}
+                                    </ul>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              ) : null}
+                            </>
+                          );
+                        })}
+                      </Accordion>
+
+                      <div className="filter-footer">
                         <button
-                          className="btn btn-outline-primary cancel"
-                          title="Cancel delete"
-                          onClick={(e) => showDeleteButtons()}
+                          className="btn btn-primary btn-bordered"
+                          onClick={clearFilter}
                         >
-                          Cancel
+                          Clear
                         </button>
-                      ) : (
                         <button
-                          title="Delete"
-                          className="btn btn-outline-primary"
-                          onClick={(e) => showDeleteButtons()}
+                          className="btn btn-primary btn-filled"
+                          onClick={applyFilter}
                         >
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M15.84 22.25H8.15989C7.3915 22.2389 6.65562 21.9381 6.09941 21.4079C5.5432 20.8776 5.20765 20.157 5.15985 19.39L4.24984 5.55C4.24518 5.44966 4.26045 5.34938 4.29478 5.25498C4.32911 5.16057 4.38181 5.07391 4.44985 5C4.51993 4.9234 4.60479 4.86177 4.69931 4.81881C4.79382 4.77584 4.89606 4.75244 4.99985 4.75H19C19.1029 4.74977 19.2046 4.7707 19.2991 4.81148C19.3935 4.85226 19.4785 4.91202 19.5488 4.98704C19.6192 5.06207 19.6733 5.15077 19.7079 5.24761C19.7426 5.34446 19.7569 5.44739 19.75 5.55L18.88 19.39C18.8317 20.1638 18.4905 20.8902 17.9258 21.4214C17.3611 21.9527 16.6153 22.249 15.84 22.25ZM5.83986 6.25L6.60987 19.3C6.63531 19.6935 6.80978 20.0625 7.09775 20.3319C7.38573 20.6013 7.76555 20.7508 8.15989 20.75H15.84C16.2336 20.7485 16.6121 20.5982 16.8996 20.3292C17.1871 20.0603 17.3622 19.6927 17.39 19.3L18.2 6.3L5.83986 6.25Z"
-                              fill="#0066BE"
-                            />
-                            <path
-                              d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z"
-                              fill="#0066BE"
-                            />
-                            <path
-                              d="M15 6.25009H9C8.80189 6.2475 8.61263 6.16765 8.47253 6.02755C8.33244 5.88745 8.25259 5.69819 8.25 5.50007V3.70004C8.26268 3.18685 8.47219 2.69818 8.83518 2.33519C9.19816 1.9722 9.68682 1.76268 10.2 1.75H13.8C14.3217 1.76305 14.8177 1.97951 15.182 2.35319C15.5463 2.72686 15.7502 3.22815 15.75 3.75004V5.50007C15.7474 5.69819 15.6676 5.88745 15.5275 6.02755C15.3874 6.16765 15.1981 6.2475 15 6.25009ZM9.75 4.75006H14.25V3.75004C14.25 3.63069 14.2026 3.51623 14.1182 3.43184C14.0338 3.34744 13.9193 3.30003 13.8 3.30003H10.2C10.0807 3.30003 9.96619 3.34744 9.8818 3.43184C9.79741 3.51623 9.75 3.63069 9.75 3.75004V4.75006Z"
-                              fill="#0066BE"
-                            />
-                            <path
-                              d="M15 18.25C14.8019 18.2474 14.6126 18.1676 14.4725 18.0275C14.3324 17.8874 14.2526 17.6981 14.25 17.5V9.5C14.25 9.30109 14.329 9.11032 14.4697 8.96967C14.6103 8.82902 14.8011 8.75 15 8.75C15.1989 8.75 15.3897 8.82902 15.5303 8.96967C15.671 9.11032 15.75 9.30109 15.75 9.5V17.5C15.7474 17.6981 15.6676 17.8874 15.5275 18.0275C15.3874 18.1676 15.1981 18.2474 15 18.25Z"
-                              fill="#0066BE"
-                            />
-                            <path
-                              d="M9 18.25C8.80189 18.2474 8.61263 18.1676 8.47253 18.0275C8.33244 17.8874 8.25259 17.6981 8.25 17.5V9.5C8.25 9.30109 8.32902 9.11032 8.46967 8.96967C8.61032 8.82902 8.80109 8.75 9 8.75C9.19891 8.75 9.38968 8.82902 9.53033 8.96967C9.67098 9.11032 9.75 9.30109 9.75 9.5V17.5C9.74741 17.6981 9.66756 17.8874 9.52747 18.0275C9.38737 18.1676 9.19811 18.2474 9 18.25Z"
-                              fill="#0066BE"
-                            />
-                            <path
-                              d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z"
-                              fill="#0066BE"
-                            />
-                          </svg>
+                          Apply
                         </button>
-                      )}
+                      </div>
                     </div>
-                  ) : null}
+                  )}
+                </div>
 
-                  {location?.state?.data == "edit" ? (
-                    <div className="clear-search">
+                {/* {location?.state?.data !== "renew" ? (
+                  <div className="clear-search">
+                    {deletestatus ? (
                       <button
                         className="btn btn-outline-primary cancel"
-                        onClick={(e) => navigate("/license-create")}
+                        onClick={(e) => showDeleteButtons()}
                       >
                         Cancel
                       </button>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-              {Object.keys(filterObject)?.length !== 0 &&
-              filterApplyflag > 0 ? (
-                <div className="apply-filter">
-                  <div className="filter-block">
-                    <div className="filter-block-left full">
-                      {Object.keys(filterObject)?.map((key, index) => {
-                        return (
-                          <>
-                            {filterObject[key]?.length > 0 ? (
-                              <div className="filter-div">
-                                <div className="filter-div-title">
-                                  <span>{key} |</span>
-                                </div>
-                                <div className="filter-div-list">
-                                  {filterObject[key]?.includes("All") ? (
-                                    <>
-                                      <div
-                                        className="filter-result"
-                                        onClick={(event) =>
-                                          removeindividualfilter(key, "All")
-                                        }
-                                      >
-                                        {"All"}
-
-                                        <img
-                                          src={path_image + "filter-close.svg"}
-                                          alt="Close-filter"
-                                        />
-                                      </div>
-                                    </>
-                                  ) : (
-                                    <>
-                                      {" "}
-                                      {filterObject[key]?.map((item, index) => (
-                                        <div
-                                          className="filter-result"
-                                          onClick={(event) =>
-                                            removeindividualfilter(key, item)
-                                          }
-                                        >
-                                          {key == "draft" && item == "0"
-                                            ? "live"
-                                            : key == "draft" && item == "1"
-                                            ? "draft"
-                                            : item}
-                                          <img
-                                            src={
-                                              path_image + "filter-close.svg"
-                                            }
-                                            alt="Close-filter"
-                                          />
-                                        </div>
-                                      ))}
-                                    </>
-                                  )}
-                                </div>
-                              </div>
-                            ) : null}
-                          </>
-                        );
-                      })}
-                    </div>
-                    <div className="clear-filter">
+                    ) : (
                       <button
-                        className="btn btn-outline-primary btn-bordered"
-                        onClick={clearFilter}
+                        className="btn btn-outline-primary"
+                        onClick={(e) => showDeleteButtons()}
                       >
-                        Remove All
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M15.84 22.25H8.15989C7.3915 22.2389 6.65562 21.9381 6.09941 21.4079C5.5432 20.8776 5.20765 20.157 5.15985 19.39L4.24984 5.55C4.24518 5.44966 4.26045 5.34938 4.29478 5.25498C4.32911 5.16057 4.38181 5.07391 4.44985 5C4.51993 4.9234 4.60479 4.86177 4.69931 4.81881C4.79382 4.77584 4.89606 4.75244 4.99985 4.75H19C19.1029 4.74977 19.2046 4.7707 19.2991 4.81148C19.3935 4.85226 19.4785 4.91202 19.5488 4.98704C19.6192 5.06207 19.6733 5.15077 19.7079 5.24761C19.7426 5.34446 19.7569 5.44739 19.75 5.55L18.88 19.39C18.8317 20.1638 18.4905 20.8902 17.9258 21.4214C17.3611 21.9527 16.6153 22.249 15.84 22.25ZM5.83986 6.25L6.60987 19.3C6.63531 19.6935 6.80978 20.0625 7.09775 20.3319C7.38573 20.6013 7.76555 20.7508 8.15989 20.75H15.84C16.2336 20.7485 16.6121 20.5982 16.8996 20.3292C17.1871 20.0603 17.3622 19.6927 17.39 19.3L18.2 6.3L5.83986 6.25Z"
+                            fill="#0066BE"
+                          />
+                          <path
+                            d="M20.9998 6.25H2.99999C2.80108 6.25 2.61032 6.17098 2.46967 6.03033C2.32902 5.88968 2.25 5.69891 2.25 5.5C2.25 5.30109 2.32902 5.11032 2.46967 4.96967C2.61032 4.82902 2.80108 4.75 2.99999 4.75H20.9998C21.1987 4.75 21.3895 4.82902 21.5301 4.96967C21.6708 5.11032 21.7498 5.30109 21.7498 5.5C21.7498 5.69891 21.6708 5.88968 21.5301 6.03033C21.3895 6.17098 21.1987 6.25 20.9998 6.25Z"
+                            fill="#0066BE"
+                          />
+                          <path
+                            d="M15 6.25009H9C8.80189 6.2475 8.61263 6.16765 8.47253 6.02755C8.33244 5.88745 8.25259 5.69819 8.25 5.50007V3.70004C8.26268 3.18685 8.47219 2.69818 8.83518 2.33519C9.19816 1.9722 9.68682 1.76268 10.2 1.75H13.8C14.3217 1.76305 14.8177 1.97951 15.182 2.35319C15.5463 2.72686 15.7502 3.22815 15.75 3.75004V5.50007C15.7474 5.69819 15.6676 5.88745 15.5275 6.02755C15.3874 6.16765 15.1981 6.2475 15 6.25009ZM9.75 4.75006H14.25V3.75004C14.25 3.63069 14.2026 3.51623 14.1182 3.43184C14.0338 3.34744 13.9193 3.30003 13.8 3.30003H10.2C10.0807 3.30003 9.96619 3.34744 9.8818 3.43184C9.79741 3.51623 9.75 3.63069 9.75 3.75004V4.75006Z"
+                            fill="#0066BE"
+                          />
+                          <path
+                            d="M15 18.25C14.8019 18.2474 14.6126 18.1676 14.4725 18.0275C14.3324 17.8874 14.2526 17.6981 14.25 17.5V9.5C14.25 9.30109 14.329 9.11032 14.4697 8.96967C14.6103 8.82902 14.8011 8.75 15 8.75C15.1989 8.75 15.3897 8.82902 15.5303 8.96967C15.671 9.11032 15.75 9.30109 15.75 9.5V17.5C15.7474 17.6981 15.6676 17.8874 15.5275 18.0275C15.3874 18.1676 15.1981 18.2474 15 18.25Z"
+                            fill="#0066BE"
+                          />
+                          <path
+                            d="M9 18.25C8.80189 18.2474 8.61263 18.1676 8.47253 18.0275C8.33244 17.8874 8.25259 17.6981 8.25 17.5V9.5C8.25 9.30109 8.32902 9.11032 8.46967 8.96967C8.61032 8.82902 8.80109 8.75 9 8.75C9.19891 8.75 9.38968 8.82902 9.53033 8.96967C9.67098 9.11032 9.75 9.30109 9.75 9.5V17.5C9.74741 17.6981 9.66756 17.8874 9.52747 18.0275C9.38737 18.1676 9.19811 18.2474 9 18.25Z"
+                            fill="#0066BE"
+                          />
+                          <path
+                            d="M12 18.25C11.8019 18.2474 11.6126 18.1676 11.4725 18.0275C11.3324 17.8874 11.2526 17.6981 11.25 17.5V9.5C11.25 9.30109 11.329 9.11032 11.4697 8.96967C11.6103 8.82902 11.8011 8.75 12 8.75C12.1989 8.75 12.3897 8.82902 12.5303 8.96967C12.671 9.11032 12.75 9.30109 12.75 9.5V17.5C12.7474 17.6981 12.6676 17.8874 12.5275 18.0275C12.3874 18.1676 12.1981 18.2474 12 18.25Z"
+                            fill="#0066BE"
+                          />
+                        </svg>
                       </button>
-                    </div>
+                    )}
                   </div>
-                </div>
-              ) : null}
+                ) : null} */}
+
+                {/*location?.state?.data == "edit" ? (
+                  <div className="clear-search">
+                    <button
+                      className="btn btn-outline-primary cancel"
+                      onClick={(e) => navigate("/license-create")}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                ) : null*/}
+              </div>
             </div>
             <QRCode
               style={{ display: "none" }}
@@ -1273,8 +1029,9 @@ const LicenseContent = (props) => {
               level={qrState?.level}
               includeMargin={true}
             />
-            {/* {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
+            {Object.keys(filterObject)?.length !== 0 ? (
               <div className="apply-filter">
+                {/* <h6>Applied filters</h6> */}
                 <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
@@ -1286,45 +1043,24 @@ const LicenseContent = (props) => {
                                 <span>{key} |</span>
                               </div>
                               <div className="filter-div-list">
-                                {filterObject[key]?.includes("All") ? (
-                                  <>
-                                    <div
-                                      className="filter-result"
-                                      onClick={(event) =>
-                                        removeindividualfilter(key, "All")
-                                      }
-                                    >
-                                      {"All"}
-
-                                      <img
-                                        src={path_image + "filter-close.svg"}
-                                        alt="Close-filter"
-                                      />
-                                    </div>
-                                  </>
-                                ) : (
-                                  <>
-                                    {" "}
-                                    {filterObject[key]?.map((item, index) => (
-                                      <div
-                                        className="filter-result"
-                                        onClick={(event) =>
-                                          removeindividualfilter(key, item)
-                                        }
-                                      >
-                                        {key == "draft" && item == "0"
-                                          ? "live"
-                                          : key == "draft" && item == "1"
-                                          ? "draft"
-                                          : item}
-                                        <img
-                                          src={path_image + "filter-close.svg"}
-                                          alt="Close-filter"
-                                        />
-                                      </div>
-                                    ))}
-                                  </>
-                                )}
+                                {filterObject[key]?.map((item, index) => (
+                                  <div
+                                    className="filter-result"
+                                    onClick={(event) =>
+                                      removeindividualfilter(key, item)
+                                    }
+                                  >
+                                    {key == "draft" && item == "0"
+                                      ? "live"
+                                      : key == "draft" && item == "1"
+                                      ? "draft"
+                                      : item}
+                                    <img
+                                      src={path_image + "filter-close.svg"}
+                                      alt="Close-filter"
+                                    />
+                                  </div>
+                                ))}
                               </div>
                             </div>
                           ) : null}
@@ -1342,7 +1078,7 @@ const LicenseContent = (props) => {
                   </div>
                 </div>
               </div>
-            ) : null} */}
+            ) : null}
 
             <div className="library-content-box-layuot d-flex">
               <>
@@ -1363,13 +1099,7 @@ const LicenseContent = (props) => {
                               </a>
                             </div>
                             <div className="doc-content">
-                              <h5
-                                dangerouslySetInnerHTML={{
-                                  __html: data?.title,
-                                }}
-                              >
-                                {/* {data?.title} */}
-                              </h5>
+                              <h5>{data?.title}</h5>
                               <h6>
                                 {data?.pdf_sub_title
                                   ? data.pdf_sub_title
@@ -1384,29 +1114,40 @@ const LicenseContent = (props) => {
                                   : ""}
                               </div>
                             </div>
-                            {location?.state?.data == "edit" ? (
+                            {/* {location?.state?.data == "renew" ? (
                               <div className="dlt_btn">
-                                <button>
-                                  <img
-                                    src={path_image + "edit-white.svg"}
-                                    alt="Delete Row"
-                                  />
-                                </button>
+                                <Link
+                                  to="/license/renew"
+                                  state={{ pdfid: data.id }}
+                                  className="footer-btn"
+                                >
+                                  <button>
+                                    <img
+                                      src={path_image + "edit-white.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  
+                                  </button>
+                                </Link>
                               </div>
                             ) : deletestatus ? (
                               <div className="dlt_btn">
-                                <button
-                                  onClick={(e) =>
-                                    showConfirmationPopup("delete", e, data?.id)
-                                  }
-                                >
-                                  <img
-                                    src={path_image + "delete.svg"}
-                                    alt="Delete Row"
-                                  />
-                                </button>
+                                <div className="dlt_btn"></div>
                               </div>
-                            ) : null}
+                            ) : null} */}
+                            {/* <div className="dlt_btn">
+                                <Link
+                                  to="/license/renew"
+                                //   state={{ pdfid: data.id }}
+                                state={{data:data}}
+                                  className="footer-btn"
+                                >
+                                  <button className="btn btn-primary btn-filled next">
+                                    Renew
+                                  
+                                  </button>
+                                </Link>
+                              </div> */}
                           </div>
                           <div className="tabs-data">
                             <Tabs
@@ -1557,25 +1298,21 @@ const LicenseContent = (props) => {
                                           data.pdfLinks == 0 && <h6>No</h6>}
                                       </div>
                                     </li>
-                                    {localStorage.getItem("user_id") ==
-                                    "m5JI5zEDY3xHFTZBnSGQZg==" ? (
-                                      <>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Status
-                                          </h6>
-                                          <h6>
-                                            {data?.sold_unsold
-                                              ? data?.sold_unsold
-                                              : "N/A"}
-                                          </h6>
-                                        </li>
-                                      </>
-                                    ) : null}
                                   </ul>
                                 </div>
+                                <div className="data-main-footer-sec renew">
+                                  <div className="footer-btn-wrapper d-flex justify-content-end">
+                                  <Link
+                                    to="/license/renew"
+                                    //   state={{ pdfid: data.id }}
+                                    state={{ data: data }}
+                                    className="footer-btn"
+                                  >Renew
+                                  </Link>
+                                </div>
+                                </div>
 
-                                {location?.state?.data != "edit" &&
+                                {/* {location?.state?.data != "renew" &&
                                 deletestatus == false ? (
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn-wrapper">
@@ -1598,27 +1335,17 @@ const LicenseContent = (props) => {
                                       >
                                         Download QR
                                       </Button>
-                                      {/*<Button
-                                          className="footer-btn"
-                                          onClick={() => {
-                                            navigate("/CreateEmail");
-                                          }}
-                                        >
-                                          Send in email
-                                        </Button>*/}
-                                      <Link
-                                        to="/CreateEmail"
-                                        state={{ PdfSelected: data.id }}
-                                        onClick={() => {
-                                          nextClicked(data.id);
-                                        }}
+                                      <Button
                                         className="footer-btn"
+                                        onClick={() => {
+                                          navigate("/CreateEmail");
+                                        }}
                                       >
                                         Send in email
-                                      </Link>
+                                      </Button>
                                     </div>
                                   </div>
-                                ) : null}
+                                ) : null} */}
                               </Tab>
                               <Tab
                                 eventKey="data-tab"
@@ -1650,7 +1377,7 @@ const LicenseContent = (props) => {
                                                   opening_details.findIndex(
                                                     (el) => el.pdfId == data?.id
                                                   )
-                                                ].opening > 0
+                                                ].opening
                                                 ? "success"
                                                 : "default"
                                               : "default"
@@ -1680,10 +1407,11 @@ const LicenseContent = (props) => {
                                         />
                                       </div>
                                     </li>
-
-                                    {data?.lastRomanNumber == 2 ||
-                                    data?.lastRomanNumber == 3 ? (
-                                      <>
+                                    
+                                    {
+                                      data?.lastRomanNumber == 2 || data?.lastRomanNumber == 3  ?
+                                      (
+                                        <>
                                         <li className="d-flex align-center">
                                           <h6 className="tab-content-title">
                                             Unique reader (total)
@@ -1705,8 +1433,7 @@ const LicenseContent = (props) => {
                                                 ) !== -1
                                                   ? opening_details[
                                                       opening_details.findIndex(
-                                                        (el) =>
-                                                          el.pdfId == data?.id
+                                                        (el) => el.pdfId == data?.id
                                                       )
                                                     ]?.unique > 0
                                                     ? "warning"
@@ -1717,12 +1444,11 @@ const LicenseContent = (props) => {
                                                 opening_details.findIndex(
                                                   (el) => el.pdfId == data?.id
                                                 ) !== -1
-                                                  ? opening_details[
+                                                  ? (opening_details[
                                                       opening_details.findIndex(
-                                                        (el) =>
-                                                          el.pdfId == data?.id
+                                                        (el) => el.pdfId == data?.id
                                                       )
-                                                    ]?.unique
+                                                    ]?.unique) 
                                                   : "100"
                                               }
                                               label={
@@ -1731,8 +1457,7 @@ const LicenseContent = (props) => {
                                                 ) !== -1
                                                   ? opening_details[
                                                       opening_details.findIndex(
-                                                        (el) =>
-                                                          el.pdfId == data?.id
+                                                        (el) => el.pdfId == data?.id
                                                       )
                                                     ]?.unique
                                                   : "Loading"
@@ -1809,8 +1534,7 @@ const LicenseContent = (props) => {
                                                 ) !== -1
                                                   ? opening_details[
                                                       opening_details.findIndex(
-                                                        (el) =>
-                                                          el.pdfId == data?.id
+                                                        (el) => el.pdfId == data?.id
                                                       )
                                                     ]?.limit == 1000
                                                     ? "Unlimited"
@@ -1821,6 +1545,125 @@ const LicenseContent = (props) => {
                                                         )
                                                       ]?.limit
                                                   : "Unlimited"}
+                                              </strong>
+                                            </span>
+                                          </div>
+                                          <span className="total-left">
+                                              {opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1
+                                                ? opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) => el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit == 1000
+                                                  ? null
+                                                  : opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit -
+                                                    opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.pinReaders
+                                                : null}
+
+                                              {opening_details.findIndex(
+                                                (el) => el.pdfId == data?.id
+                                              ) !== -1 ? (
+                                                opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.limit != 1000 ? (
+                                                  <small>Left</small>
+                                                ) : null
+                                              ) : null}
+                                            </span>
+                                        </li>
+                                        </>
+                                      )
+                                       : 
+                                        <li className="d-flex align-center">
+                                          <h6 className="tab-content-title">
+                                            Unique reader (total)
+                                            <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "info_circle_icon.svg"
+                                                }
+                                                alt="refresh-btn"
+                                              />
+                                            </LinkWithTooltip>
+                                          </h6>
+                                          <div className="data-progress send">
+                                            <ProgressBar
+                                              variant={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique
+                                                    ? "warning"
+                                                    : "default"
+                                                  : "default"
+                                              }
+                                              now={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? (opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique /
+                                                      opening_details[
+                                                        opening_details.findIndex(
+                                                          (el) =>
+                                                            el.pdfId == data?.id
+                                                        )
+                                                      ]?.limit) *
+                                                    100
+                                                  : "100"
+                                              }
+                                              label={
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.unique
+                                                  : "Loading"
+                                              }
+                                            />
+                                            <span>
+                                              Agreed Limit :&nbsp;
+                                              <strong>
+                                                {" "}
+                                                {opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) => el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit == 1000
+                                                    ? "unlimited"
+                                                    : opening_details[
+                                                        opening_details.findIndex(
+                                                          (el) =>
+                                                            el.pdfId == data?.id
+                                                        )
+                                                      ]?.limit
+                                                  : "unlimited"}
                                               </strong>
                                             </span>
                                           </div>
@@ -1836,16 +1679,14 @@ const LicenseContent = (props) => {
                                                 ? null
                                                 : opening_details[
                                                     opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
+                                                      (el) => el.pdfId == data?.id
                                                     )
                                                   ]?.limit -
                                                   opening_details[
                                                     opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
+                                                      (el) => el.pdfId == data?.id
                                                     )
-                                                  ]?.pinReaders
+                                                  ]?.unique
                                               : null}
 
                                             {opening_details.findIndex(
@@ -1861,258 +1702,129 @@ const LicenseContent = (props) => {
                                             ) : null}
                                           </span>
                                         </li>
-                                      </>
-                                    ) : (
-                                      <li className="d-flex align-center">
-                                        <h6 className="tab-content-title">
-                                          Unique reader (total)
-                                          <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-                                        <div className="data-progress send">
-                                          <ProgressBar
-                                            variant={
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              ) !== -1
-                                                ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
-                                                    )
-                                                  ]?.unique > 0
-                                                  ? "warning"
-                                                  : "default"
-                                                : "default"
-                                            }
-                                            now={
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              ) !== -1
-                                                ? (opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
-                                                    )
-                                                  ]?.unique /
-                                                    opening_details[
-                                                      opening_details.findIndex(
-                                                        (el) =>
-                                                          el.pdfId == data?.id
-                                                      )
-                                                    ]?.limit) *
-                                                  100
-                                                : "100"
-                                            }
-                                            label={
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              ) !== -1
-                                                ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
-                                                    )
-                                                  ]?.unique
-                                                : "Loading"
-                                            }
-                                          />
-                                          <span>
-                                            Agreed Limit :&nbsp;
-                                            <strong>
-                                              {opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              ) !== -1
-                                                ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
-                                                    )
-                                                  ]?.limit == 1000
-                                                  ? "Unlimited"
-                                                  : opening_details[
-                                                      opening_details.findIndex(
-                                                        (el) =>
-                                                          el.pdfId == data?.id
-                                                      )
-                                                    ]?.limit
-                                                : "Unlimited"}
-                                            </strong>
-                                          </span>
-                                        </div>
-                                        <span className="total-left">
-                                          {opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          ) !== -1
-                                            ? opening_details[
-                                                opening_details.findIndex(
-                                                  (el) => el.pdfId == data?.id
-                                                )
-                                              ]?.limit == 1000
-                                              ? null
-                                              : opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ]?.limit -
-                                                opening_details[
-                                                  opening_details.findIndex(
-                                                    (el) => el.pdfId == data?.id
-                                                  )
-                                                ]?.unique
-                                            : null}
+                                    }
 
-                                          {opening_details.findIndex(
-                                            (el) => el.pdfId == data?.id
-                                          ) !== -1 ? (
-                                            opening_details[
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              )
-                                            ]?.limit != 1000 ? (
-                                              <small>Left</small>
-                                            ) : null
-                                          ) : null}
-                                        </span>
-                                      </li>
-                                    )}
-                                    {data?.linkType != "Online" ? (
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Registered readers{" "}
-                                          <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-                                        <div className="data-progress">
-                                          <ProgressBar
-                                            variant={
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              ) !== -1
-                                                ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
-                                                    )
-                                                  ]?.reader
-                                                  ? "danger"
-                                                  : "default"
-                                                : "default"
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        Registered readers
+                                        <LinkWithTooltip tooltip="Number of HCPs who have register for or activated the content.">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
                                             }
-                                            now={
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              ) !== -1
-                                                ? (opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
-                                                    )
-                                                  ]?.reader /
-                                                    opening_details[
-                                                      opening_details.findIndex(
-                                                        (el) =>
-                                                          el.pdfId == data?.id
-                                                      )
-                                                    ]?.limit) *
-                                                  100
-                                                : "100"
-                                            }
-                                            label={
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              ) !== -1
-                                                ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
-                                                    )
-                                                  ].reader
-                                                : "Loading"
-                                            }
+                                            alt="refresh-btn"
                                           />
-                                        </div>
-                                      </li>
-                                    ) : null}
-                                    {data?.subLinkAdded ? (
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          SubLinks
-                                          <LinkWithTooltip tooltip="Number of sublinks with content.">
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-                                        <div className="data-progress">
-                                          <ProgressBar
-                                            variant={
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              ) !== -1
-                                                ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
-                                                    )
-                                                  ]?.subLink
-                                                  ? "sublink"
-                                                  : "default"
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <div className="data-progress">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.reader
+                                                ? "danger"
                                                 : "default"
-                                            }
-                                            now={
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              ) !== -1
-                                                ? (opening_details[
+                                              : "default"
+                                          }
+                                          now={
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? (opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.reader /
+                                                  opening_details[
                                                     opening_details.findIndex(
                                                       (el) =>
                                                         el.pdfId == data?.id
                                                     )
-                                                  ]?.subLink /
-                                                    opening_details[
-                                                      opening_details.findIndex(
-                                                        (el) =>
-                                                          el.pdfId == data?.id
-                                                      )
-                                                    ]?.limit) *
-                                                  100
-                                                : "100"
+                                                  ]?.limit) *
+                                                100
+                                              : "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ].reader
+                                              : "Loading"
+                                          }
+                                        />
+                                      </div>
+                                    </li>
+
+                                    <li>
+                                      <h6 className="tab-content-title">
+                                        SubLinks
+                                        <LinkWithTooltip tooltip="Number of sublinks with content.">
+                                          <img
+                                            src={
+                                              path_image +
+                                              "info_circle_icon.svg"
                                             }
-                                            label={
-                                              opening_details.findIndex(
-                                                (el) => el.pdfId == data?.id
-                                              ) !== -1
-                                                ? opening_details[
-                                                    opening_details.findIndex(
-                                                      (el) =>
-                                                        el.pdfId == data?.id
-                                                    )
-                                                  ].subLink
-                                                : "Loading"
-                                            }
+                                            alt="refresh-btn"
                                           />
-                                        </div>
-                                      </li>
-                                    ) : null}
+                                        </LinkWithTooltip>
+                                      </h6>
+                                      <div className="data-progress">
+                                        <ProgressBar
+                                          variant={
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.subLink
+                                                ? "sublink"
+                                                : "default"
+                                              : "default"
+                                          }
+                                          now={
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? (opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.subLink /
+                                                  opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) =>
+                                                        el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit) *
+                                                100
+                                              : "100"
+                                          }
+                                          label={
+                                            opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ].subLink
+                                              : "Loading"
+                                          }
+                                        />
+                                      </div>
+                                    </li>
 
                                     {data?.allow_print ? (
                                       <li>
@@ -2247,39 +1959,15 @@ const LicenseContent = (props) => {
                                     ) : null}
                                   </ul>
                                 </div>
-                                <div className="data-main-footer-sec">
-                                  <div className="footer-btn-wrapper">
+                                <div className="data-main-footer-sec renew">
+                                  <div className="footer-btn-wrapper d-flex justify-content-end">
                                     <Link
+                                      to="/license/renew"
+                                      //   state={{ pdfid: data.id }}
+                                      state={{ data: data }}
                                       className="footer-btn"
-                                      to="/content-analytics"
-                                      state={{ pdfId: data.id }}
-                                    >
-                                      Analytics
+                                    >Renew
                                     </Link>
-                                 {/* {localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" &&   <Button
-                                      className="footer-btn"
-                                      onClick={(e) =>
-                                        showConfirmationPopup(
-                                          "renew",
-                                          e,
-                                          data?.id
-                                        )
-                                      }
-                                    >
-                                      Renew
-                                    </Button>} */}
-                                    <Button
-                                      className="footer-btn reset"
-                                      onClick={(e) =>
-                                        showConfirmationPopup(
-                                          "reset",
-                                          e,
-                                          data?.id
-                                        )
-                                      }
-                                    >
-                                      Reset the collected data
-                                    </Button>
                                   </div>
                                 </div>
                               </Tab>
@@ -2290,116 +1978,46 @@ const LicenseContent = (props) => {
                               >
                                 <div className="data-main-box change-tab-main-box tab-panel">
                                   <ul className="tab-mail-list data change">
-                                    {/* <div className="form-group d-flex align-items-center"> */}
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Consent type
-                                      </h6>
-                                      <div className="select-dropdown-wrapper">
-                                        <div className="select">
-                                          <Select
-                                            options={types}
-                                            defaultValue={
-                                              data.linkType == "Online"
-                                                ? types[0]
-                                                : data.linkType == "Offline"
-                                                ? types[1]
-                                                : data.linkType == "Sunshine"
-                                                ? types[2]
-                                                : data.linkType ==
-                                                  "Sunshine USA"
-                                                ? types?.[3]
-                                                : "Select"
-                                            }
-                                            onChange={(event) =>
-                                              onConsentChange(event, data.id)
-                                            }
-                                            id={"consent_dropdown_" + index}
-                                            className="dropdown-basic-button split-button-dropup"
-                                            isClearable
-                                          />
-                                        </div>
-                                      </div>
-                                    </li>
-                                    {localStorage.getItem("user_id") ==
-                                    "m5JI5zEDY3xHFTZBnSGQZg==" ? (
-                                      <>
-                                        <li>
-                                          {/* <div className="form-group d-flex align-items-center"> */}
-
-                                          <h6 className="tab-content-title">
-                                            Status
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={statusOptions}
-                                                defaultValue={
-                                                  data.sold_unsold == "sold"
-                                                    ? statusOptions[0]
-                                                    : data.sold_unsold ==
-                                                      "unsold"
-                                                    ? statusOptions[1]
-                                                    : "Select"
-                                                }
-                                                onChange={(event) =>
-                                                  onStatusChange(
-                                                    event,
-                                                    data?.id
-                                                  )
-                                                }
-                                                id={"status_dropdown_" + index}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>
-                                      </>
-                                    ) : (
-                                      ""
-                                    )}
-                                  </ul>
-                                  <div className="data-main-footer-sec">
-                                    <div className="footer-btn d-flex justify-content-end">
+                                    <div className="form-group d-flex align-items-center">
+                                      <label htmlFor="">Consent type</label>
+                                      <Select
+                                        options={types}
+                                        defaultValue={
+                                          data.linkType == "Online"
+                                            ? types[0]
+                                            : data.linkType == "Offline"
+                                            ? types[1]
+                                            : data.linkType == "Sunshine"
+                                            ? types[2]
+                                            : data.linkType == "Sunshine USA"
+                                            ? types?.[3]
+                                            : "Select"
+                                        }
+                                        onChange={(event) =>
+                                          onConsentChange(event, data.id)
+                                        }
+                                        id={"consent_dropdown_" + index}
+                                        className="dropdown-basic-button split-button-dropup"
+                                        isClearable
+                                      />
                                       <Button
                                         onClick={(e) =>
-                                          updateChanges(data.id, index)
+                                          updateConset(data.id, index)
                                         }
                                       >
                                         Update
                                       </Button>
                                     </div>
-                                  </div>
+                                  </ul>
                                 </div>
-                                <div className="data-main-footer-sec">
-                                  <div className="footer-btn-wrapper">
-                                    {/* <Button className="footer-btn">
-                                        Edit Docintel Link
-                                      </Button> */}
+                                <div className="data-main-footer-sec renew">
+                                  <div className="footer-btn-wrapper d-flex justify-content-end">
                                     <Link
-                                      to="/license-edit"
-                                      state={{ pdfid: data.id }}
+                                      to="/license/renew"
+                                      //   state={{ pdfid: data.id }}
+                                      state={{ data: data }}
                                       className="footer-btn"
-                                    >
-                                      Edit link
-                                    </Link>
-                                    {localStorage.getItem("group_id") == 3 ? (
-                                      <Button
-                                        className="footer-btn"
-                                        onClick={(e) =>
-                                          tagButtonClicked(data.id)
-                                        }
-                                      >
-                                        Tags
-                                      </Button>
-                                    ) : null}
-                                    <Link
-                                      to="/license-sublink"
-                                      state={{ pdfid: data.id }}
-                                      className="footer-btn"
-                                    >
-                                      New sublink
+                                    >Renew
                                     </Link>
                                   </div>
                                 </div>
@@ -2492,7 +2110,7 @@ const LicenseContent = (props) => {
 
                                     <li>
                                       <h6 className="tab-content-title">
-                                        Allowed
+                                        Allow
                                       </h6>
                                       <h6>{changeFormatForPrint(data)}</h6>
                                     </li>
@@ -2544,7 +2162,6 @@ const LicenseContent = (props) => {
                 ) : null}
               </>
             </div>
-
             <div className="load_more">
               {isLoaded == true ? (
                 <Button
@@ -2672,175 +2289,8 @@ const LicenseContent = (props) => {
           </button>
         </Modal.Footer>
       </Modal>
-
-      <Modal id="tagsModal" show={isOpen}>
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={closeModal}
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="select-tags">
-            <h6>Select Tag :</h6>
-            <div className="tag-lists">
-              <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
-                  return (
-                    <>
-                      <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <div className="selected-tags">
-            <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
-            </h6>
-
-            <div className="total-selected">
-              {tagClickedFirst.map((data, index) => {
-                return (
-                  <>
-                    <div className="tag-cross">
-                      {data.innerHTML || data}
-                      <img
-                        src={path_image + "filter-close.svg"}
-                        alt="Close-filter"
-                        onClick={() => removeTagFinal(index)}
-                      />
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <form>
-            <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
-              <input
-                type="text"
-                className="form-control"
-                id="new-tag"
-                value={newTag}
-                onChange={(e) => newTagChanged(e)}
-              />
-
-              <button
-                onClick={addTag}
-                type="button"
-                className="btn btn-primary add btn-bordered"
-              >
-                Add
-              </button>
-            </div>
-          </form>
-          <button
-            type="button"
-            className="btn btn-primary save btn-filled"
-            onClick={saveButtonClicked}
-          >
-            Save
-          </button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal id="renewModal" show={isRenewOpen}>
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-          License Renewal
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={() => setIsRenewOpen(false)}
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="create-change-content">
-            <div className="form_action">
-              <div className="form-group">
-                <label htmlFor="">
-                  Set limit of usage <span>*</span>
-                </label>
-                <input
-                  type="number"
-                  name="limit"
-                  min="0"
-                  ref={limitFieldRef}
-                  className={
-                    error?.limit ? "form-control error" : "form-control"
-                  }
-                  placeholder="“0” value means unlimited limit"
-                  onChange={handleChange}
-                />
-                {error?.limit ? (
-                  <div className="login-validation">{error?.limit}</div>
-                ) : null}
-              </div>
-              <div className="form-group">
-                <label htmlFor="">Expiration date</label>
-                <DatePicker
-                  selected={
-                    userInputs?.expDatetime
-                      ? new Date(userInputs?.expDatetime)
-                      : new Date(
-                          moment(new Date(), "MM/DD/YYYY")
-                            .add("years", 1)
-                            .format("MM/DD/YYYY")
-                        )
-                  }
-                  name="expDatetime"
-                  onChange={(e) => handleChange(e, "expDatetime")}
-                  dateFormat="dd/MM/yyyy"
-                  className="form-control"
-                  minDate={currentDate}
-                />
-              </div>
-                <div className="form-group">
-                  <label htmlFor="">Invoice notes</label>
-                  <textarea
-                    className="form-control"
-                    id="formControlTextarea"
-                    onChange={(e) =>
-                      handleChange(e?.target.value, "specialRequirement")
-                    }
-                    rows="5"
-                    placeholder="Please type your notes here..."
-                  ></textarea>
-                </div>
-              <button
-                className="btn btn-primary btn-filled next"
-                onClick={renewButtonClicked}
-              >
-                Renew License
-              </button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
     </>
   );
 };
 
-const mapStateToProps = (state) => {
-  return state;
-};
-
-export default connect(mapStateToProps, {
-  getDraftData: getDraftData,
-  getSelectedSmartListData: getSelectedSmartListData,
-  getEmailData: getEmailData,
-})(LicenseContent);
+export default LicenseEditListing;

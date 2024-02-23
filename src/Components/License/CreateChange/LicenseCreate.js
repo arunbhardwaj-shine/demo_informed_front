@@ -15,10 +15,11 @@ const data = [
     subtitle: "Change or Replace an existing 1ClickLink from here",
   },
   {
-    image: `${path_image}link-icon.png`,
-    title: "New SubLink",
-    subtitle: "SubLinks leads to 1ClickLinks but are tracked seperately",
+    image: `${path_image}renew-icon.svg`,
+    title: "Renew",
+    subtitle: "Renew or Update an existing 1ClickLink from here",
   },
+  
   {
     image: `${path_image}popup-icon.png`,
     title: "Set Pop up",
@@ -28,6 +29,11 @@ const data = [
     image: `${path_image}topics.png`,
     title: "Topics",
     subtitle: "Add new or delete an existing topic",
+  },
+  {
+    image: `${path_image}link-icon.png`,
+    title: "New SubLink",
+    subtitle: "SubLinks leads to 1ClickLinks but are tracked seperately",
   },
 ];
 
@@ -45,15 +51,22 @@ const LicenseCreate = () => {
         },
       });
     } else if (value == 2) {
-      navigate("/license-sublink", {
+      navigate("/license/renew-listing", {
         state: {
-          data: "sublink",
+          data: "renew",
         },
       });
     } else if (value == 3) {
       navigate("/license-set-popup");
     } else if (value == 4) {
       navigate("/license-topics", {
+        state: {
+          data: "sublink",
+        },
+      });
+    }
+    else if (value == 5) {
+      navigate("/license-sublink", {
         state: {
           data: "sublink",
         },

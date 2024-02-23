@@ -492,6 +492,22 @@
       }
 
       .data-main-footer-sec {
+        &.renew {
+
+          .footer-btn-wrapper {
+            border-top: 0;
+            padding-top: 1px;
+
+            a {
+              background: $primary-color;
+              color: $white;
+              max-width: 91px;
+              min-width: initial;
+              width: 100%;
+            }
+          }
+        }
+
         .data-main-footer-sec-inner {
           border-top: 0.5px dashed $primary-color;
           padding-top: 12px;
@@ -5587,6 +5603,267 @@ input.viewer-toolbar-current-page-input {
 .custom-change {
   padding-top: 0px;
 
+  &.licence-renew {
+    .page-title {
+      width: 100%;
+    }
+
+    h3 {
+      color: #004A89;
+    }
+
+    .library-content-box-layuot {
+      padding: 0 8px;
+      gap: 12px;
+
+      .renew-left-block {
+        max-width: 905px;
+        width: 60%;
+        border-radius: 20px;
+        background: #FFF;
+        box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.20);
+      }
+
+      .data-collected {
+        .doc-content-main-box {
+          width: 50%;
+          flex: 0 0 50%;
+          background: transparent;
+          box-shadow: none;
+          margin: 0;
+
+          .tabs-data {
+            border-top: 0.5px dashed #0066BE;
+            padding-top: 20px;
+
+            .tab-content-links {
+              margin-bottom: 22px;
+              line-height: 1;
+
+              a {
+                @include h6;
+                color: $voilet;
+                text-decoration: none;
+                word-break: break-all;
+              }
+            }
+
+            .tab-mail-list {
+              li {
+                margin: 0 0 22px;
+
+                h6 {
+                  @include h6;
+                  color: $dark-blue;
+                  margin: 0;
+                  word-break: break-all;
+                }
+
+                h6.tab-content-title {
+                  font-weight: 500;
+                  color: $library-box-heading;
+                  flex: 0 0 122px;
+                  word-break: break-word;
+                  margin: 0;
+
+                  img {
+                    width: 12px;
+                    margin-left: 4px;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .data-main-box {
+          width: 50%;
+          border-left: 0.5px dashed #0066BE;
+          padding: 16px 24px 16px 26px;
+
+          h6 {
+            color: #0066BE;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 0 0 25px;
+          }
+
+          ul {
+            li {
+              min-height: 47px;
+              align-items: center;
+              padding: 14px 0 12px;
+              display: flex;
+
+              &:last-child {
+                padding: 11px 0 5px;
+              }
+
+              h6.tab-content-title {
+                flex: 0 0 150px;
+                font-weight: 500;
+                color: rgba(0, 74, 137, 0.55);
+                word-break: break-word;
+                margin: 0;
+                font-size: 14px;
+                line-height: 16px;
+
+                img {
+                  width: 12px;
+                  margin-left: 4px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      #renewModal {
+        width: calc(40% - 12px);
+        border-radius: 20px;
+        border: 1px dashed #70899E;
+        padding: 16px;
+        margin: 0;
+
+        form {
+          &.product-unit {
+            .form-label {
+              flex: 1 1;
+              margin: 0;
+
+              h5 {
+                color: #004A89;
+                margin: 0 0 10px;
+                font-size: 20px;
+              }
+
+              .dropdown-basic-button {
+                &>div:nth-child(3) {
+                  padding: 8px 50px 8px 15px;
+                  max-width: 100%;
+                }
+              }
+            }
+
+            .renew-license-block {
+              border-radius: 20px;
+              background: rgba(0, 102, 190, 0.05);
+              margin: 10px 0 0;
+              padding: 0px 24px 16px;
+
+              .form-group {
+                width: 100%;
+                margin: 12px 0;
+
+                &.full {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+
+                  label {
+                    flex: 0 0;
+                    margin: 0 0 14px;
+                  }
+
+                  textarea {
+                    &.form-control {
+                      width: 100%;
+                      max-width: 100%;
+                      height: 79px;
+                      min-height: 79px;
+                      margin: 0;
+                    }
+                  }
+                }
+
+                &.label {
+
+                  border-radius: 20px 20px 0px 0px;
+                  background: rgba(0, 102, 190, 0.05);
+                  margin: 0 -24px;
+                  width: calc(100% + 48px);
+                  padding: 12px 24px 10px;
+
+                  label {
+                    color: #004A89;
+                    font-size: 16px;
+                    flex: 0 0 100%;
+                  }
+                }
+
+                label {
+                  font-size: 16px;
+                  flex: 0 0 200px;
+                }
+
+                input {
+                  margin: 0;
+                }
+
+                .login-validation {
+                  left: 200px !important;
+                }
+              }
+
+              button {
+                margin: 16px auto 0;
+                display: flex;
+                min-width: 160px;
+                text-align: center;
+                justify-content: center;
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .old-collected {
+      h3 {
+        margin: 0 0 24px;
+      }
+
+      .old-collected-data {
+        border-radius: 20px;
+        background: rgba(0, 102, 190, 0.05);
+        padding: 32px;
+
+        .old-data {
+          border: 0;
+          max-width: 453px;
+          width: 100%;
+          padding: 24px 10px;
+          border-radius: 20px;
+          background: #FFF;
+          box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.20);
+
+          .old-data-detail {
+            @include flex-center;
+            border-bottom: 1px dashed #0066BE;
+            padding-bottom: 20px;
+            margin-bottom: 10px;
+
+            h6 {
+              color: rgba(0, 74, 137, 0.55);
+              font-size: 14px;
+              font-weight: 500;
+              margin: 0;
+              min-width: 80px;
+            }
+
+            p {
+              color: #004A89;
+              font-size: 14px;
+            }
+          }
+        }
+
+
+      }
+    }
+  }
+
   .top-sticky {
     padding: 20px 8px 15px;
     position: sticky;
@@ -8770,6 +9047,26 @@ svg.pencil_icon {
   .create-change-content.reader_added .form-group .add_product button {
     min-width: 165px;
   }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .form-label h5 {
+    font-size: 18px;
+  }
+
+  .licence-renew .library-content-box-layuot .data-collected .data-main-box .data-progress {
+    padding-left: 12px;
+  }
+
+  .custom-change.licence-renew .form-group .react-datepicker__input-container input {
+    background-position: 90% center;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group label {
+    flex: 0 0 175px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group .login-validation {
+    left: 180px !important;
+  }
 }
 
 @media only screen and (max-width: 1599px) {
@@ -8908,6 +9205,19 @@ svg.pencil_icon {
 
   .form-group.primary_phone .dropdown-basic-button.PhoneInput input.PhoneInputInput {
     font-size: 14px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group label,
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group.label label {
+    font-size: 15px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .form-label h5 {
+    font-size: 16px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group.full label {
+    margin: 0 0 8px;
   }
 }
 
@@ -13398,26 +13708,33 @@ img.change-password-image {
   text-align: right;
   cursor: pointer;
 }
-#renewModal .create-change-content .form-group .form-control, #renewModal .form-group .react-datepicker-wrapper {
+
+#renewModal .create-change-content .form-group .form-control,
+#renewModal .form-group .react-datepicker-wrapper {
   flex: 1 1;
   max-width: 100%;
   margin: 0;
 }
-#renewModal .create-change-content{
-margin: 0;
-padding: 24px 22px 12px;
-background: transparent;
+
+#renewModal .create-change-content {
+  margin: 0;
+  padding: 24px 22px 12px;
+  background: transparent;
 }
+
 #renewModal .create-change-content .form-group {
   margin: 10px 0 10px;
 }
+
 #renewModal .create-change-content .form-group label {
   flex: 0 0 160px;
 }
-#renewModal .create-change-content  button.btn.next {
+
+#renewModal .create-change-content button.btn.next {
   display: flex;
   margin: 10px 0 0 auto;
 }
+
 /*Responsive for R&D Analytics*/
 @media only screen and (max-width: 1599px) {
   .rd-analytics-content .rd-analytics-box .rd-analytics-box-layout .rd-analytics-top h5 {
@@ -14279,7 +14596,7 @@ background: transparent;
   display: none;
 }
 
-.cookie-popup {
+.cookie-popups {
   border-radius: 18px 18px 0px 0px;
   background: $white;
   box-shadow: 0px -6px 20px 0px $blue;
@@ -19549,7 +19866,7 @@ background: transparent;
     }
   }
 
-  .cookie-popup {
+  .cookie-popups {
     .cookie-popup-btns {
       button.btn {
         min-width: 130px;
@@ -20904,16 +21221,16 @@ background: transparent;
     padding: 5px 0 10px;
   }
 
-  .cookie-popup .cookie-popup-text {
+  .cookie-popups .cookie-popup-text {
     padding-right: 25px;
   }
 
-  .cookie-popup .cookie-popup-btns button.btn {
+  .cookie-popups .cookie-popup-btns button.btn {
     font-size: 13px;
     min-width: 80px;
   }
 
-  .cookie-popup .cookie-popup-btns {
+  .cookie-popups .cookie-popup-btns {
     gap: 10px;
   }
 
@@ -21885,7 +22202,7 @@ background: transparent;
     height: 100%;
   }
 
-  .cookie-popup {
+  .cookie-popups {
     .cookie-popup-inset {
       flex-direction: column;
       padding: 0;
