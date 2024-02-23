@@ -541,7 +541,16 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 .clear-search {
   margin-left: 24px;
 }
+.licence-renew .clear-search{
+gap: 12px;
+}
+.licence-renew .clear-search button.print{
+flex:0 0 40px;
 
+}
+.licence-renew .clear-search a{
+background: transparent;
+}
 .search-bar input::-webkit-input-placeholder {
   color: var(--skyblue);
   opacity: 1;
