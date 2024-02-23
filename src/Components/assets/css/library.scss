@@ -5613,11 +5613,11 @@ input.viewer-toolbar-current-page-input {
     }
 
     .library-content-box-layuot {
-      padding: 0 12px;
+      padding: 0 8px;
       gap: 12px;
 
       .renew-left-block {
-        flex: 0 0 850px;
+        flex: 0 0 905px;
         width: 100%;
         border-radius: 20px;
         background: #FFF;
@@ -5637,7 +5637,7 @@ input.viewer-toolbar-current-page-input {
             padding-top: 20px;
 
             .tab-content-links {
-              margin-bottom: 13px;
+              margin-bottom: 22px;
               line-height: 1;
 
               a {
@@ -5650,7 +5650,7 @@ input.viewer-toolbar-current-page-input {
 
             .tab-mail-list {
               li {
-                margin: 0 0 13px;
+                margin: 0 0 22px;
 
                 h6 {
                   @include h6;
@@ -5723,15 +5723,18 @@ input.viewer-toolbar-current-page-input {
         border-radius: 20px;
         border: 1px dashed #70899E;
         padding: 16px;
+        margin: 0;
 
         form {
           &.product-unit {
-            .form-group {
+            .form-label {
               flex: 1 1;
+              margin: 0;
 
               h5 {
                 color: #004A89;
-                margin: 0 0 16px;
+                margin: 0 0 10px;
+                font-size: 20px;
               }
 
               .dropdown-basic-button {
@@ -5746,20 +5749,70 @@ input.viewer-toolbar-current-page-input {
               border-radius: 20px;
               background: rgba(0, 102, 190, 0.05);
               margin: 10px 0 0;
+              padding: 0px 24px 16px;
 
               .form-group {
+                width: 100%;
+                margin: 12px 0;
+
+                &.full {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+
+                  label {
+                    flex: 0 0;
+                    margin: 0 0 14px;
+                  }
+
+                  textarea {
+                    &.form-control {
+                      width: 100%;
+                      max-width: 100%;
+                      height: 79px;
+                      min-height: 79px;
+                      margin: 0;
+                    }
+                  }
+                }
+
                 &.label {
-                  padding: 14px 24px 10px;
+
                   border-radius: 20px 20px 0px 0px;
                   background: rgba(0, 102, 190, 0.05);
+                  margin: 0 -24px;
+                  width: calc(100% + 48px);
+                  padding: 12px 24px 10px;
 
                   label {
                     color: #004A89;
-                    font-size: 15px;
+                    font-size: 16px;
+                    flex: 0 0 100%;
                   }
+                }
+
+                label {
+                  font-size: 16px;
+                  flex: 0 0 200px;
+                }
+
+                input {
+                  margin: 0;
+                }
+
+                .login-validation{
+                  left:200px!important;
                 }
               }
 
+              button {
+                margin: 16px auto 0;
+                display: flex;
+                min-width: 160px;
+                text-align: center;
+                justify-content: center;
+                font-size: 16px;
+              }
             }
           }
         }

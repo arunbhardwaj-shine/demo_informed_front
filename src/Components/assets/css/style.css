@@ -542,8 +542,10 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   margin-left: 24px;
 }
 .licence-renew .clear-search{
-gap: 12px;
+  gap: 12px;
+  margin:0;
 }
+
 .licence-renew .clear-search button.print{
 flex:0 0 40px;
 
@@ -8389,7 +8391,10 @@ section.search-hcp.smart-list-view .header-btn-left {
 .top-header .justify-content-between button {
   width: auto;
 }
-
+.licence-renew .top-header .justify-content-between button.next {
+  width: 100%;
+  min-width: 80px;
+}
 .add-content-form {
   border-bottom: 1px dashed var(--light-blue);
   padding: 20px 15px;

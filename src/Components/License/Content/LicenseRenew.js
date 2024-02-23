@@ -1080,10 +1080,10 @@ const LicenseRenew = () => {
                   </ul>
                 </div>
               </div>
-              <div id="renewModal">
+              <div id="renewModal" class="create-change-content">
                 <div className="form_action">
                   <Form className="product-unit d-flex justify-content-between align-items-center">
-                    <div className="form-group">
+                    <div className="form-label">
                       <h5 className="modal-title" id="staticBackdropLabel">
                         Please select what you like to do to renew your license
                       </h5>
@@ -1142,6 +1142,7 @@ const LicenseRenew = () => {
                           name="limit"
                           min="0"
                           ref={limitFieldRef}
+                              placeholder="“0” value means unlimited limit"
                           className={
                             error.limit ? "form-control error" : "form-control"
                           }
@@ -1154,7 +1155,7 @@ const LicenseRenew = () => {
                         )}
                       </div>
                       
-                      <div className="form-group">
+                      <div className="form-group full">
                         <label htmlFor="">Invoice Notes</label>
                         <textarea
                           className="form-control"
@@ -1162,7 +1163,7 @@ const LicenseRenew = () => {
                           onChange={(e) =>
                             handleChange(e, "specialRequirement")
                           }
-                          rows="3"
+                          rows="2"
                           placeholder="Please type your notes here"
                           name="specialRequirement"
                           value={userInputs?.specialRequirement || ""}
