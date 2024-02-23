@@ -1145,7 +1145,7 @@ const LicenseRenew = () => {
                           className={
                             error.limit ? "form-control error" : "form-control"
                           }
-                          placeholder="“0” value means unlimited limit"
+                          // placeholder="“0” value means unlimited limit"
                           value={userInputs?.limit}
                           onChange={(e) => handleChange(e, "limit")}
                         />
@@ -1169,6 +1169,7 @@ const LicenseRenew = () => {
                         ></textarea>
                       </div>
                       <button
+                      type="button"
                         className="btn btn-primary btn-filled next"
                         onClick={()=>{
                             showConfirmationPopup(
@@ -1187,7 +1188,7 @@ const LicenseRenew = () => {
                 
               </div>
             </div>
-            <div className="old-collected library-content-box-layuot">
+            {/* <div className="old-collected library-content-box-layuot">
               <h3>Old Collected Data</h3>
               {oldOpeningDetails?.length > 0 ?
               <div className="clear-search d-flex align-items-center">
@@ -1794,7 +1795,7 @@ const LicenseRenew = () => {
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
           </Row>
         </div>
       </Col>
