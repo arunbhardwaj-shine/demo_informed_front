@@ -5617,8 +5617,8 @@ input.viewer-toolbar-current-page-input {
       gap: 12px;
 
       .renew-left-block {
-        flex: 0 0 905px;
-        width: 100%;
+        max-width: 905px;
+        width: 60%;
         border-radius: 20px;
         background: #FFF;
         box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.20);
@@ -5719,7 +5719,7 @@ input.viewer-toolbar-current-page-input {
       }
 
       #renewModal {
-        flex: 1 1;
+        width: calc(40% - 12px);
         border-radius: 20px;
         border: 1px dashed #70899E;
         padding: 16px;
@@ -5800,8 +5800,8 @@ input.viewer-toolbar-current-page-input {
                   margin: 0;
                 }
 
-                .login-validation{
-                  left:200px!important;
+                .login-validation {
+                  left: 200px !important;
                 }
               }
 
@@ -9047,6 +9047,26 @@ svg.pencil_icon {
   .create-change-content.reader_added .form-group .add_product button {
     min-width: 165px;
   }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .form-label h5 {
+    font-size: 18px;
+  }
+
+  .licence-renew .library-content-box-layuot .data-collected .data-main-box .data-progress {
+    padding-left: 12px;
+  }
+
+  .custom-change.licence-renew .form-group .react-datepicker__input-container input {
+    background-position: 90% center;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group label {
+    flex: 0 0 175px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group .login-validation {
+    left: 180px !important;
+  }
 }
 
 @media only screen and (max-width: 1599px) {
@@ -9185,6 +9205,19 @@ svg.pencil_icon {
 
   .form-group.primary_phone .dropdown-basic-button.PhoneInput input.PhoneInputInput {
     font-size: 14px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group label,
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group.label label {
+    font-size: 15px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .form-label h5 {
+    font-size: 16px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group.full label {
+    margin: 0 0 8px;
   }
 }
 
@@ -14563,7 +14596,7 @@ img.change-password-image {
   display: none;
 }
 
-.cookie-popup {
+.cookie-popups {
   border-radius: 18px 18px 0px 0px;
   background: $white;
   box-shadow: 0px -6px 20px 0px $blue;
@@ -19833,7 +19866,7 @@ img.change-password-image {
     }
   }
 
-  .cookie-popup {
+  .cookie-popups {
     .cookie-popup-btns {
       button.btn {
         min-width: 130px;
@@ -21188,16 +21221,16 @@ img.change-password-image {
     padding: 5px 0 10px;
   }
 
-  .cookie-popup .cookie-popup-text {
+  .cookie-popups .cookie-popup-text {
     padding-right: 25px;
   }
 
-  .cookie-popup .cookie-popup-btns button.btn {
+  .cookie-popups .cookie-popup-btns button.btn {
     font-size: 13px;
     min-width: 80px;
   }
 
-  .cookie-popup .cookie-popup-btns {
+  .cookie-popups .cookie-popup-btns {
     gap: 10px;
   }
 
@@ -22169,7 +22202,7 @@ img.change-password-image {
     height: 100%;
   }
 
-  .cookie-popup {
+  .cookie-popups {
     .cookie-popup-inset {
       flex-direction: column;
       padding: 0;
