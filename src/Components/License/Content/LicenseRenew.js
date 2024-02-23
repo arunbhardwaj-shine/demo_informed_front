@@ -164,21 +164,17 @@ const LicenseRenew = () => {
         ...payload,
       });
 
-      setCreateLibraryInputs({
-        expDatetime: new Date(
-          moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
-        ),
-        limit: "",
-      });
+
 
       await getLibraryStats("data-tab", data?.id);
-
+      resetCreateLibraryInputs()
       popup_alert({
         visible: "show",
         message: "Your limit has been updated successfully!",
         type: "success",
         redirect: "/license/renew-listing",
       });
+      
     } catch (error) {
       console.error("An error occurred:", error);
       return; // Exit the function on error
@@ -186,7 +182,16 @@ const LicenseRenew = () => {
       loader("hide");
     }
   };
+  const resetCreateLibraryInputs =()=>{
+    setCreateLibraryInputs({
+      expDatetime: new Date(
+        moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+      ),
+      limit: "",
+      specialRequirement: "",
 
+    });
+  }
   const showConfirmationPopup = (stateMsg, id) => {
     const { limit } = userInputs;
     const parsedLimit = parseInt(limit);
@@ -267,31 +272,30 @@ const LicenseRenew = () => {
 
       let downloadData = openingDetails?.map((item, index) => {
         return {
-          Download: item?.download ? item?.download : 0,
-          LIMIT: item?.limit ? item?.limit : 0,
-          OPENING: item?.opening ? item?.opening : 0,
-          PDFID: item?.pdfId ? item?.pdfId : 0,
-          PINREADER: item?.pinReaders ? item?.pinReaders : 0,
-          PRINT: item?.print ? item?.print : 0,
-          READER: item?.reader ? item?.reader : 0,
-          RTR: item?.rtr ? item?.rtr : 0,
-          SUBLINK: item?.subLink ? item?.sublink : 0,
-          UNIQUEREADER: item?.unique ? item?.unique : 0,
+          "Total Downloads": item?.download ? item?.download : 0,
+          "Limit": item?.limit ? item?.limit : 0,
+          "Opening Count": item?.opening ? item?.opening : 0,
+          "Pin Readers": item?.pinReaders ? item?.pinReaders : 0,
+          "Print Count": item?.print ? item?.print : 0,
+          "Reader Count": item?.reader ? item?.reader : 0,
+          "RTR Count": item?.rtr ? item?.rtr : 0,
+          "Sublinks Count": item?.subLink ? item?.sublink : 0,
+          "Unique Readers": item?.unique ? item?.unique : 0,
         };
       });
-
+    
       const worksheet = XLSX.utils.json_to_sheet(downloadData);
 
       const columnWidths = [
-        { wch: 20 }, // Width of column A
-        { wch: 20 }, // Width of column B
-        { wch: 10 }, // Width of column C
-        { wch: 15 }, // Width of column D
-        { wch: 15 }, // Width of column E
-        { wch: 15 }, // Width of column F
-        { wch: 20 }, // Width of column G
-        { wch: 20 }, // Width of column H
-        { wch: 20 }, // Width of column I
+        { wch: 20 },                        
+        { wch: 20 }, 
+        { wch: 20 }, 
+        { wch: 20 }, 
+        { wch: 20 }, 
+        { wch: 20 }, 
+        { wch: 20 }, 
+        { wch: 20 }, 
+        { wch: 20 }, 
         { wch: 20 },
       ];
       worksheet["!cols"] = columnWidths;
@@ -305,7 +309,7 @@ const LicenseRenew = () => {
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      saveAs(blob, "Renew_License.xlsx");
+      saveAs(blob, `${data?.title}_collected_data.xlsx`);
     } catch (err) {
       console.log("An error occurred while downloading the Excel file:", err);
     }
@@ -1065,15 +1069,7 @@ const LicenseRenew = () => {
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                         onChange={(value) => {
-                          setCreateLibraryInputs({
-                            expDatetime: new Date(
-                              moment(new Date(), "MM/DD/YYYY")
-                                .add("years", 1)
-                                .format("MM/DD/YYYY")
-                            ),
-                            limit: "",
-                            specialRequirement: "",
-                          });
+                          resetCreateLibraryInputs()
                           setSelectedValue(value?.value);
                         }}
                       />
