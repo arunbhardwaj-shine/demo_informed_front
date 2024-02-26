@@ -21,11 +21,9 @@ import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LicenseRenew = () => {
-  
+const LicenseRenew = () => {  
   const navigate = useNavigate();
   const [flag, setFlag] = useState(0);
   const location = useLocation();

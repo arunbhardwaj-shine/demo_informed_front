@@ -9098,6 +9098,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .session-modal #pollModel .form-group.no_child .check-values {
   text-align: center;
   width: 100%;
+  height: auto;
   display: flex;
   margin: 0 0 10px;
   align-items: center;
