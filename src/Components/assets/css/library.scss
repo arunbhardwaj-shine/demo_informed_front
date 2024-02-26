@@ -10208,12 +10208,61 @@ svg.pencil_icon {
   .content_analytics .circle_graph .col:after {
     left: 3px;
   }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group.label {
+    padding: 12px 14px 10px;
+    margin: 0 -14px;
+    width: calc(100% + 28px);
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block {
+    padding: 0px 14px 16px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group label,
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group.label label {
+    font-size: 14px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group label {
+    flex: 0 0 155px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot .data-collected .doc-content-main-box .tabs-data .tab-mail-list li,
+  .custom-change.licence-renew .library-content-box-layuot .data-collected .doc-content-main-box .tabs-data .tab-content-links {
+    margin: 0 0 16px;
+  }
 }
 
 @media only screen and (max-width: 1365px) {
   .sublink_right_block .loader-view {
     width: 60px;
     height: 60px;
+  }
+
+  .licence-renew .clear-search button.print {
+    flex: 0 0 35px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .form-label .dropdown-basic-button>div:nth-child(3) {
+    padding: 3px 40px 3px 10px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot .data-collected .data-main-box {
+    padding: 16px 12px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .form-label h5 {
+    font-size: 14px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group {
+    margin: 9px 0;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot .data-collected .data-main-box ul li h6.tab-content-title {
+    flex: 0 0 138px;
+    font-size: 13px;
   }
 
   .library-content-box-layuot .doc-content-main-box {
