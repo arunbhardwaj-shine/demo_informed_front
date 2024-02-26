@@ -35,9 +35,9 @@ const LicenseRenew = () => {
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const dropdownData = [
-    { value: "reset", label: "Reset collected data and set a new limit" },
-    { value: "update", label: "Add a new quantity to the current usage" },
-    { value: "add", label: "Add a new  quantity to the pervious quantity" },
+    { value: "reset", label: "Reset usage data and set a new limit" },
+    { value: "update", label: "Add more quantity to existing usage." },
+    { value: "add", label: "Add higher quantity to previous limit of use" },
   ];
   const [selectedValue, setSelectedValue] = useState("");
   const limitFieldRef = useRef(null);
@@ -1061,7 +1061,7 @@ const LicenseRenew = () => {
                   <Form className="product-unit d-flex justify-content-between align-items-center">
                     <div className="form-label">
                       <h5 className="modal-title" id="staticBackdropLabel">
-                        Please select what you like to do to renew your license
+                        Please select what the new limits will be
                       </h5>
                       <Select
                         options={dropdownData}
@@ -1079,7 +1079,7 @@ const LicenseRenew = () => {
                         <div className="renew-license-block">
                           <div className="form-group label">
                             <label>
-                             Please enter below details to renew the article.
+                              Deleting all the current data and setting a new fresh limit with zero Unique Readers, openings or other data.
                             </label>
                           </div>
                           <div className="form-group">
@@ -1104,7 +1104,7 @@ const LicenseRenew = () => {
                             />
                           </div>
                           <div className="form-group">
-                            <label htmlFor="">Set new limit of usage</label>
+                            <label htmlFor="">Set new limit of Unique Readers</label>
                             <input
                               type="number"
                               name="limit"

@@ -5613,11 +5613,12 @@ input.viewer-toolbar-current-page-input {
     }
 
     .library-content-box-layuot {
-      padding: 0 8px;
+      padding: 0 12px;
       gap: 12px;
+      flex-direction: row-reverse;
 
       .renew-left-block {
-        max-width: 905px;
+        // max-width: 905px;
         width: 60%;
         border-radius: 20px;
         background: #FFF;
@@ -5777,12 +5778,11 @@ input.viewer-toolbar-current-page-input {
                 }
 
                 &.label {
-
                   border-radius: 20px 20px 0px 0px;
                   background: rgba(0, 102, 190, 0.05);
                   margin: 0 -24px;
                   width: calc(100% + 48px);
-                  padding: 12px 24px 10px;
+                  padding: 14px 24px 26px;
 
                   label {
                     color: #004A89;
@@ -10240,6 +10240,36 @@ svg.pencil_icon {
     height: 60px;
   }
 
+  header.top-0~div .form_action.sticky-view,
+  header.top-0~div .template_builder-option.library-cosent.sticky-view {
+    top: 62px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group label {
+    flex: 0 0 132px;
+    font-size: 12px;
+  }
+
+  .custom-change.licence-renew .create-change-content .form-group .form-control,
+  .custom-change.licence-renew .create-change-content .form-group .react-datepicker__input-container input {
+    padding: 9px 16px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group.full textarea.form-control {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot .data-collected .doc-content-main-box .tabs-data .tab-content-links a,
+  .custom-change.licence-renew .library-content-box-layuot .data-collected .doc-content-main-box .tabs-data .tab-mail-list li h6 {
+    font-size: 13px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block button {
+    min-width: 140px;
+    font-size: 14px;
+  }
+
   .licence-renew .clear-search button.print {
     flex: 0 0 35px;
   }
@@ -10257,7 +10287,7 @@ svg.pencil_icon {
   }
 
   .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group {
-    margin: 9px 0;
+    margin: 6px 0;
   }
 
   .custom-change.licence-renew .library-content-box-layuot .data-collected .data-main-box ul li h6.tab-content-title {
@@ -10422,6 +10452,64 @@ svg.pencil_icon {
   form.product-unit .form-group {
     width: auto;
     flex: 0 0 50%;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot .data-collected .data-main-box ul li h6.tab-content-title {
+    flex: 0 0 auto;
+    font-size: 13px;
+    margin: 0 0 5px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot .data-collected .data-main-box ul li {
+    min-height: initial;
+    padding: 8px 0 8px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot .data-collected .data-main-box ul li {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .licence-renew ul.tab-mail-list.data span.total-left {
+    font-size: 12px;
+    position: absolute;
+    right: 0;
+    left: auto;
+    bottom: 5px;
+    top: auto;
+    margin: 0;
+  }
+
+  .selected-products-list .products-listing {
+    padding: 14px 14px;
+    border-radius: 9px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .custom-change.licence-renew .data-progress.limited {
+    margin-top: 0px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot .doc-content-main-box {
+    padding: 16px 10px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group.full label {
+    margin: 0 0 0px;
+  }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .renew-license-block .form-group label {
+    flex: 0 0 auto;
+  }
+
+  .licence-renew .library-content-box-layuot .data-collected .data-main-box .data-progress {
+    padding-left: 0px;
   }
 
   .top-header {
