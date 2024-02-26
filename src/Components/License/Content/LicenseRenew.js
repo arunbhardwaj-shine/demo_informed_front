@@ -196,9 +196,8 @@ const LicenseRenew = () => {
   const showConfirmationPopup = (stateMsg, id) => {
     const { limit } = userInputs;
     const parsedLimit = parseInt(limit);
-
     const err = {};
-    if (parsedLimit ===undefined  ) {
+    if (parsedLimit ===undefined || isNaN(parsedLimit) ) {
       err.limit = "Limit is required";
     } else if (parsedLimit < 0) {
       err.limit = "Limit must be greater than or equal to 0";
