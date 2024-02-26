@@ -852,7 +852,7 @@ const ChatLinkPage = () => {
                                         e.stopPropagation();
                                         handleDeleteFooterImage(
                                           e,
-                                          "headerImage"
+                                          "footerImage"
                                         );
                                       }}
                                     >

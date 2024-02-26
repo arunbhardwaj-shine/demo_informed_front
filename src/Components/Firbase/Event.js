@@ -820,7 +820,7 @@ const Event = () => {
                              src={
                                formData?.footerImage
                                  ? formData?.footerImage
-                                 : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                                 : "https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
                              }
                             alt=""
                           />
