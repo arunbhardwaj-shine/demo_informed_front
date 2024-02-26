@@ -118,6 +118,7 @@ const ChatLinkPage = () => {
   };
 
   const handleFileSelect = (e, isSelectedName) => {
+    setIsFormChange(true);
     // return;
     const fileInput = document.createElement("input");
     fileInput.type = "file";
@@ -233,6 +234,7 @@ const ChatLinkPage = () => {
 
   const handleDeleteLogoImage = () => {
     const currentLogo = logo;
+    setIsFormChange(true);
 
     if (currentLogo !== defaultLogo) {
       setLogo("");
@@ -253,6 +255,7 @@ const ChatLinkPage = () => {
 
   const handleDeleteHeaderImage = () => {
     const currentHeader = headerImage;
+    setIsFormChange(true);
 
     if (currentHeader !== defaultHeaderImage) {
       setHeaderImage("");
@@ -273,6 +276,7 @@ const ChatLinkPage = () => {
 
   const handleDeleteFooterImage = () => {
     const currentFooter = footerImage;
+    setIsFormChange(true);
 
     if (currentFooter !== defaultFooterImage) {
       setFooterImage("");
@@ -293,6 +297,7 @@ const ChatLinkPage = () => {
 
   const handleDeleteSecondHeaderImage = () => {
     const currentHeader = secondHeaderImage;
+    setIsFormChange(true);
 
     if (currentHeader !== defaultSecondHeaderImage) {
       setSecondHeaderImage("");
