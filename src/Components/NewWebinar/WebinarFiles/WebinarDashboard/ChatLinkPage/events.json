@@ -1,4 +1,5 @@
-{  
+[{ "templateId": 1,
+   "fieldData":{ 
     "logoImageUrl":{
         "title": "Logo",
         "type": "file",
@@ -54,5 +55,146 @@
         "type": "text",
         "value": "Preparation date: xx xxx 2024"
     }
+    
+    }
+    },
 
-}
+    { "templateId": 2,
+    "fieldData":{ 
+    "logoImageUrl":{
+        "title": "Logo",
+        "type": "file",
+        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+    },
+    "textColor": {
+        "title": "Text Color",
+        "type": "color",
+        "value": "#233c7a"  
+    },
+    "headerBackgroundImage": {
+        "title": "Header Image",
+        "type": "file",
+        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/xRaqZMQ2ojiGspE5WzVrO8uoRz36qvzHPMcGXmHZ.png" 
+    },
+    "nameLabel": {
+        "title": "Name Label",
+        "type": "text",
+        "value": "Name"
+    },
+    "namePlaceholder": {
+        "title": "Name Placeholder",
+        "type": "text",
+        "value": "Write Your Name"
+    },
+    "questionLabel": {
+        "title": "Question Label",
+        "type": "text",
+        "value": "Your question"
+    },
+    "questionPlaceholder": {
+        "title": "Question Placeholder",
+        "type": "text",
+        "value": "Write your question"
+    },
+    "buttonText": {
+        "title": "Button Text",
+        "type": "text",
+        "value": "SEND"
+    },
+    "buttonColor": {
+        "title": "Button Color",
+        "type": "color",
+        "value": "#64b8b0"
+    },
+    "footerText": {
+        "title": "Footer Text",
+        "type": "text",
+        "value": "Preparation date: xx xxx 2024"
+    }
+    
+    }
+    },
+
+    { "templateId": 3,
+    "fieldData":{ 
+    "logoImageUrl":{
+        "title": "Logo",
+        "type": "file",
+        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+    },
+    "textColor": {
+        "title": "Text Color",
+        "type": "color",
+        "value": "#233c7a"  
+    },
+    "headerImage": {
+        "title": "Header Image",
+        "type": "file",
+        "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/YjgEfQQsYoqo7FxJYL9frU5mivp0GziGEJEMSFze.png" 
+    },
+    "formHeading": {
+        "title": "Form Heading",
+        "type": "text",
+        "value": "Type your question here!"
+    },
+    "nameLabel": {
+        "title": "Name Label",
+        "type": "text",
+        "value": "Name"
+    },
+    "namePlaceholder": {
+        "title": "Name Placeholder",
+        "type": "text",
+        "value": "Write Your Name"
+    },
+    "questionLabel": {
+        "title": "Question Label",
+        "type": "text",
+        "value": "Your question"
+    },
+    "questionPlaceholder": {
+        "title": "Question Placeholder",
+        "type": "text",
+        "value": "Write your question"
+    },
+    "buttonText": {
+        "title": "Button Text",
+        "type": "text",
+        "value": "SEND"
+    },
+    "buttonColor": {
+        "title": "Button Color",
+        "type": "color",
+        "value": "#64b8b0"
+    },
+    "footerImage": {
+        "title": "Footer Image",
+        "type": "file",
+        "value": "https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif" 
+    },
+    "footerTextOne": {
+        "title": "Footer Message One",
+        "type": "textArea",
+        "value": "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders."
+
+    },
+    "footerTextTwo": {
+        "title": "Footer Message Two",
+        "type": "text",
+        "value": "To visit One Source click here: <a target=\"_blank\" href=\"https://onesource.octapharma.com\">https://onesource.octapharma.com</a>"
+
+    },
+    "footerTextThree": {
+        "title": "Footer Message Three",
+        "type": "text",
+        "value": "One Source platform is for healthcare professionals only."
+    },
+    "footerText": {
+        "title": "Footer Text",
+        "type": "text",
+       "value" :"Preparation date: xx xxx 2024"
+    }
+   
+    }
+    }
+    ]
