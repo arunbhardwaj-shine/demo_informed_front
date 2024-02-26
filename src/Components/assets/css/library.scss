@@ -9693,6 +9693,10 @@ svg.pencil_icon {
   .create-change-content.spc-content .embedding-video .side-step-text:last-child .embedded-video-step {
     left: 58px;
   }
+
+  .custom-change.licence-renew .library-content-box-layuot #renewModal form.product-unit .form-label .dropdown-basic-button>div:nth-child(3) {
+    padding: 3px 50px 3px 15px;
+  }
 }
 
 @media (max-width: $layout-breakpoint-extraLarge) {
