@@ -180,13 +180,13 @@
     },
     "footerTextTwo": {
         "title": "Footer Message Two",
-        "type": "text",
+        "type": "textArea",
         "value": "To visit One Source click here: <a target=\"_blank\" href=\"https://onesource.octapharma.com\">https://onesource.octapharma.com</a>"
 
     },
     "footerTextThree": {
         "title": "Footer Message Three",
-        "type": "text",
+        "type": "textArea",
         "value": "One Source platform is for healthcare professionals only."
     },
     "footerText": {

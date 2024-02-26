@@ -895,7 +895,16 @@ const ChatLinkPage = () => {
                                 />
                               </div>
                             </>
-                          ) :
+                          ) : value.type == "textArea" ? (
+                            <>
+                               <textArea
+                                type={value.type}
+                                onChange={(e) => handleDynamicChange(field, e.target.value)}
+                                className="form-control"
+                                value={dynamicContent[field]}
+                              >{dynamicContent[field]}</textArea>
+                            </>
+                          ):
                            (
                               <input
                                 type={value.type}
