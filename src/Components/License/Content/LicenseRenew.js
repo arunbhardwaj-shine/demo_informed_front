@@ -1077,7 +1077,7 @@ const LicenseRenew = () => {
                         <div className="renew-license-block">
                           <div className="form-group label">
                             <label>
-                              Deleting all the current data and setting a new fresh limit with zero Unique Readers, openings or other data.
+                             {selectedValue=="update"?"Add more Unique Readers on top of the those that have already read, while keeping the old usage in analytics.":selectedValue=="add"?"Sets a higher limit of usage (Unique Readers) on top of the previous limit while keeping all old usage analytics." :"Deleting all the current data and setting a new fresh limit with zero Unique Readers, openings or other data."}
                             </label>
                           </div>
                           <div className="form-group">
