@@ -25,6 +25,7 @@ import { saveAs } from "file-saver";
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LicenseRenew = () => {
+  
   const navigate = useNavigate();
   const [flag, setFlag] = useState(0);
   const location = useLocation();
@@ -170,7 +171,7 @@ const LicenseRenew = () => {
       resetCreateLibraryInputs()
       popup_alert({
         visible: "show",
-        message: "Your limit has been updated successfully!",
+        message: "Article renewed successfully!",
         type: "success",
         redirect: "/license/renew-listing",
       });
@@ -197,7 +198,7 @@ const LicenseRenew = () => {
     const parsedLimit = parseInt(limit);
 
     const err = {};
-    if (!parsedLimit) {
+    if (parsedLimit ===undefined  ) {
       err.limit = "Limit is required";
     } else if (parsedLimit < 0) {
       err.limit = "Limit must be greater than or equal to 0";
@@ -1079,10 +1080,7 @@ const LicenseRenew = () => {
                         <div className="renew-license-block">
                           <div className="form-group label">
                             <label>
-                              Description dolor sit amet consectetur. Sit
-                              euismod convallis eget fermentum. Senectus mattis
-                              nibh convallis netus volutpat tempor neque cursus.
-                              Et nunc elit tortor leo volutpat.
+                             Please enter below details to renew the article.
                             </label>
                           </div>
                           <div className="form-group">
