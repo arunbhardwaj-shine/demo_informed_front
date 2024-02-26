@@ -304,7 +304,11 @@ useEffect(() => {
                     {item?.answer? 
                       <>
                       <h6 className="total_count">Total user: {item?.answer} </h6>
-                      <button type="button" className="btn btn-info answermodel" onClick={(e) => displayPopup(item?.questionId, e)}>Answers</button>
+                      { alldata[index].userComments.every(obj => obj.comments === "")
+                        ? ""
+                        : <button type="button" className="btn btn-info answermodel" onClick={(e) => displayPopup(item?.questionId, e)}>Answers</button>                     
+                        }	
+                      {/* <button type="button" className="btn btn-info answermodel" onClick={(e) => displayPopup(item?.questionId, e)}>Answers</button> */}
                       </>
                       :
                       null
@@ -356,7 +360,8 @@ useEffect(() => {
                         </>
                         </tr>
                       </thead>
-                      <tbody>                          
+                      <tbody>  
+                                         
                         { comments.every(obj => obj.comments === "") 
                         ? <tr><td colSpan={3}><p>No Data Found</p></td></tr>
                         :comments?.map((item,index)=>{
