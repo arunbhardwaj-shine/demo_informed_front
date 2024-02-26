@@ -142,6 +142,16 @@ const ChatLinkPage = () => {
               `Invalid file extension of header image. Please select a valid extension file.`
             );
           }
+          if (isSelectedName === "headerImage") {
+            setErrorMsg(
+              `Invalid file extension of header image. Please select a valid extension file.`
+            );
+          }
+          if (isSelectedName === "footerImage") {
+            setErrorMsg(
+              `Invalid file extension of foter image. Please select a valid extension file.`
+            );
+          }
         } else {
           setErrorMsg("");
         }
@@ -470,6 +480,11 @@ const ChatLinkPage = () => {
             apiData?.headerImage ? apiData?.headerImage : ""
           );
         }
+        if (template?.templateId == 3) {
+          setFooterImage(
+            apiData?.footerImage ? apiData?.footerImage : ""
+          );
+        }
       } else {
         const initialState = {};
         Object.entries(template?.fieldData).forEach(([field, value]) => {
@@ -497,6 +512,13 @@ const ChatLinkPage = () => {
           setSecondHeaderImage(
             updatedBody?.fieldData?.headerImage?.value
               ? updatedBody?.fieldData?.headerImage?.value
+              : ""
+          );
+        }
+        if (template?.templateId == 3) {
+          setFooterImage(
+            updatedBody?.fieldData?.footerImage?.value
+              ? updatedBody?.fieldData?.footerImage?.value
               : ""
           );
         }
