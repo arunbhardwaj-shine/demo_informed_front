@@ -370,6 +370,7 @@ const LicenseEditListing = () => {
     } catch (err) {
       console.log("err");
       loader("hide");
+      setApiCallStatus(true);
     }
   };
 
