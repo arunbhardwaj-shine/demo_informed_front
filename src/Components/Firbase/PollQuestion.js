@@ -334,7 +334,7 @@ const PollQuestion = () => {
         setGraphType(graph);
         let chartOptions = {};
         
-          // for COLUMN GRAPH
+          // for BAR GRAPH
           let graphData = [],
           line_v = [],
           line_h = [];

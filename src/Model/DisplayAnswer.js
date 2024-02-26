@@ -35,7 +35,6 @@ if(customAnswer == 1 || graphType === 'bar'){
         };
         graphData.push(foundObj);
       });
-
       chartOptions = {
         chart: {
           type: "bar",

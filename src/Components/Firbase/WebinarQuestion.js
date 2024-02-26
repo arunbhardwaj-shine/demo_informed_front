@@ -90,8 +90,6 @@ useEffect(()=>{
           canCustomAnswer: value?.canCustomAnswer,
           graphType: value?.graphType,
           highchartData: {
-
-
             chart: {
               type: "bar",
               height:'500',
