@@ -970,14 +970,14 @@ const ChatLinkPage = () => {
                             {
                             formData?.templateId == 2  ? (
                               <div
-                                className="head-sec"
+                                className="head-sec template2"
                                 style={{
                                   backgroundImage: `url(${formData?.headerBackgroundImage})`,
                                 }}
                               ></div>
                             ) :  formData?.templateId == 3  ? (<>
                               <div
-                                className="head-sec"
+                                className="head-sec template2"
                                 style={{
                                   backgroundImage: `url(${formData?.headerImage})`,
                                 }}
@@ -1154,7 +1154,7 @@ const ChatLinkPage = () => {
                                 : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
                             }}
                           />
-                              <p
+                              {/* <p
                             style={{ color: formData?.textColor }}
                             dangerouslySetInnerHTML={{
                               __html: formData?.footerTextTwo
@@ -1169,7 +1169,7 @@ const ChatLinkPage = () => {
                                 ? formData?.footerTextThree
                                 : "One Source platform is for healthcare professionals only.",
                             }}
-                              />
+                              /> */}
                             </div>
                           </div>
                            <div className="copy-right-bottom-text">
