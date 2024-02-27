@@ -1118,7 +1118,7 @@ eventId={eventId}
                   />
                 </div>
               </div>
-              <div className="question-block-form">
+              <div className="question-block-form small-temp">
                 <div className="log-inner">
                   <div className="head-sec">
                     <h2
@@ -1277,9 +1277,9 @@ eventId={eventId}
                   />
                 </div>
               </div>
-              <div className="question-block-form">
+              <div className="question-block-form small-temp">
                 <div className="log-inner">
-                  <div className="head-sec">
+                  <div className="head-sec template2">
                     <img
                       src={`${
                         formData?.headerBackgroundImage
@@ -1439,8 +1439,7 @@ eventId={eventId}
                 <div className="log-inner">
                   <div 
                   // className="head-sec "
-                  className={`head-sec ${parms.includes("GTH2024") ? "gth-header" : ""
-                }`}>
+                  className="head-sec template2">
                     <img
                       src={
                         formData?.headerImage
@@ -1590,7 +1589,7 @@ eventId={eventId}
                         : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
                     }}
                   />
-                      <p
+                      {/* <p
                     style={{ color: formData?.textColor }}
                     dangerouslySetInnerHTML={{
                       __html: formData?.footerTextTwo
@@ -1605,7 +1604,7 @@ eventId={eventId}
                         ? formData?.footerTextThree
                         : "One Source platform is for healthcare professionals only.",
                     }}
-                      />
+                      /> */}
                     </div>
                   </div>
 

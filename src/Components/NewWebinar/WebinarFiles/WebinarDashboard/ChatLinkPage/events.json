@@ -175,19 +175,8 @@
     "footerTextOne": {
         "title": "Footer Message One",
         "type": "textArea",
-        "value": "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders."
+        "value": "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.<br/><br/>To visit One Source click here: <a target=\"_blank\" href=\"https://onesource.octapharma.com\">https://onesource.octapharma.com</a> <br/><br/><span>One Source platform is for healthcare professionals only.</span>"
 
-    },
-    "footerTextTwo": {
-        "title": "Footer Message Two",
-        "type": "textArea",
-        "value": "To visit One Source click here: <a target=\"_blank\" href=\"https://onesource.octapharma.com\">https://onesource.octapharma.com</a>"
-
-    },
-    "footerTextThree": {
-        "title": "Footer Message Three",
-        "type": "textArea",
-        "value": "One Source platform is for healthcare professionals only."
     },
     "footerText": {
         "title": "Footer Text",
