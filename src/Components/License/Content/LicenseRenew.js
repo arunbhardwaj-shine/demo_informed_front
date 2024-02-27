@@ -1093,7 +1093,7 @@ const LicenseRenew = () => {
                                   ? "form-control error"
                                   : "form-control"
                               }
-                              // placeholder="“0” value means unlimited limit"
+                              placeholder="“0” value means changing to unlimited limit"
                               value={userInputs?.limit}
                               onChange={(e) => handleChange(e, "limit")}
                             />
