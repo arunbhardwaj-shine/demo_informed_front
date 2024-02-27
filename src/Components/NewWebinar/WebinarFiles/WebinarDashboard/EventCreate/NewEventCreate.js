@@ -569,6 +569,7 @@ const NewEventCreate = () => {
   const differenceDays = (eventStartDateTime,eventEndtDateTime,timezone,flag=0) => {
    
     const time=getEventTime(timezone)
+   
     const currentTime = new Date(time);
     const startTime = new Date(eventStartDateTime);
     const endTime = new Date(eventEndtDateTime);    
@@ -597,6 +598,50 @@ return (days ? days + " Days " : hours ? hours + " Hr":minutes ? minutes + " Min
   };
 
   
+// const getEventTime=(timeZone)=> {
+//   const utcDateTime = new Date().toISOString();
+//   try {
+//     if (timeZone !== null) {
+//       const options = {
+//         timeZone: timeZone,
+//         year: 'numeric',
+//         month: '2-digit',
+//         day: '2-digit',
+//         hour: '2-digit',
+//         minute: '2-digit',
+//         second: '2-digit',
+//         hour12: false,
+//         hours24:true
+//       };
+//       const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
+//         new Date(utcDateTime)
+//       );
+//       return localDateTime.replace(/, /, ' ');
+//     }
+//   } catch (error) {
+//     console.error('Invalid time zone specified:', timeZone);
+//   }
+ 
+//   const londonOptions = {
+//     timeZone: 'Europe/London',
+//     year: 'numeric',
+//     month: '2-digit',
+//     day: '2-digit',
+//     hour: '2-digit',
+//     minute: '2-digit',
+//     second: '2-digit',
+//     hour12: false,
+//     hours24:true
+//   };
+ 
+//   const localDateTime = new Intl.DateTimeFormat('en-US', londonOptions).format(
+//     new Date(utcDateTime)
+//   );
+//   return localDateTime.replace(/, /, ' ');
+ 
+//   // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
+// }
+
 const getEventTime=(timeZone)=> {
   const utcDateTime = new Date().toISOString();
   try {
@@ -610,12 +655,22 @@ const getEventTime=(timeZone)=> {
         minute: '2-digit',
         second: '2-digit',
         hour12: false,
-        hours24:true
       };
+ 
       const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
         new Date(utcDateTime)
       );
-      return localDateTime.replace(/, /, ' ');
+ 
+      const adjustedLocalDateTime = localDateTime.replace(
+        /(\d{2}:\d{2}:\d{2})/,
+        (_, time) => {
+          let [hours, minutes, seconds] = time.split(':');
+          hours = hours === '24' ? '00' : hours; // Replace 24 with 00
+          const adjustedHours = hours;
+          return `${adjustedHours}:${minutes}:${seconds}`;
+        }
+      );
+      return adjustedLocalDateTime.replace(/, /, ' ');
     }
   } catch (error) {
     console.error('Invalid time zone specified:', timeZone);
@@ -635,7 +690,17 @@ const getEventTime=(timeZone)=> {
   const localDateTime = new Intl.DateTimeFormat('en-US', londonOptions).format(
     new Date(utcDateTime)
   );
-  return localDateTime.replace(/, /, ' ');
+ 
+  const adjustedLocalDateTime = localDateTime.replace(
+    /(\d{2}:\d{2}:\d{2})/,
+    (_, time) => {
+      let [hours, minutes, seconds] = time.split(':');
+      hours = hours === '24' ? '00' : hours; // Replace 24 with 00
+      const adjustedHours = hours;
+      return `${adjustedHours}:${minutes}:${seconds}`;
+    }
+  );
+  return adjustedLocalDateTime.replace(/, /, ' ');
  
   // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
 }
