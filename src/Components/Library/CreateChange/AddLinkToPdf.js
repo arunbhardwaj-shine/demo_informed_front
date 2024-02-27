@@ -66,6 +66,7 @@ const AddLinkToPdf = () => {
   const [viewerscroll, setViewerscroll] = useState(0);
   const [selectedUrl, setSelectedUrl] = useState("");
   const [pageNo, setPageNo] = useState(0);
+  const [dynamicScale, setDynamicScale] = useState(0);
   const [newObj, setNewObj] = useState({});
   const navigate = useNavigate();
   const [commanShow, setCommanShow] = useState(false);
@@ -86,6 +87,8 @@ const AddLinkToPdf = () => {
   const parentRef = useRef(null);
   const popupRef = useRef(null);
   const renderPage = (props: RenderPageProps) => {
+    // console.log(props.scale,"pure scale");
+    setDynamicScale(props.scale);
     return (
       <>
         <div id={"canvas_page_" + props.pageIndex}>
@@ -104,13 +107,6 @@ const AddLinkToPdf = () => {
   };
 
   const handleCompleteDocumentLoad = (e: DocumentLoadEvent) => {
-    const pageLayerElement = document.querySelector(".viewer-page-layer");
-    if(pageLayerElement){
-      const width = pageLayerElement.clientWidth;
-      console.log(width,"widthwidthwidth");
-    }else{
-      console.log("No found","widthwidthwidth");
-    }
     setTimeout(function(){
       const divElement = document.querySelector(".viewer-layout-container");
       if (divElement) {
@@ -506,9 +502,8 @@ const AddLinkToPdf = () => {
       const scrollTop = scrollLayer.scrollTop;
       const textLayer = parentRef.current.querySelector(".viewer-text-layer");
       const pageHeight = textLayer.getBoundingClientRect().height;
-
       getMousePosition(parentRef.current, event, scrollTop);
-
+      
       // Calculate the coordinates relative to the viewer
       const x = event.clientX - viewerRect.left;
       const y = event.clientY - viewerRect.top;
@@ -560,6 +555,7 @@ const AddLinkToPdf = () => {
   };
 
   const getMousePosition = (canvas, event, scrollTop) => {
+    // console.log(event.clientX,"event.clientX");
     const closestElement = event.target.closest(".pdf_page_class");
     if (closestElement) {
       const closestElementId = closestElement.id;
@@ -569,8 +565,11 @@ const AddLinkToPdf = () => {
         `#${closestElementId} .viewer-text-layer`
       );
       const rect = viewerTextLayer.getBoundingClientRect();
+      // console.log(event.clientX,rect.left,"RECT LEFT")
       const x = event.clientX - 16 - rect.left;
       const y = event.clientY - rect.top - scrollTop;
+      console.log(event.clientX,"event.clientX");
+      console.log(rect.left,"rect.left");
       setXcoordinates(x);
       setYcoordinates(rect.top);
     }
@@ -592,14 +591,20 @@ const AddLinkToPdf = () => {
     let box_width = box.getBoundingClientRect().width;
     let box_height = box.getBoundingClientRect().height;
     let actual_width = xcoordinates + 15 - box_width;
+    console.log(xcoordinates,"xcoordinates")
+    console.log(box_width,"box_width")
+    console.log(actual_width,"actual_width")
     let x_cord = actual_width / 3.8;
     let actual_height = mousefirstdown - ycoordinates;
     let y_cord = actual_height / 3.8;
     let page_no = linkonpage + 1;
     let box_width_x = box_width / 3.7;
     let box_width_y = box_height / 3.7;
+    // console.log(box_width_x,"box_width_x");
+    // console.log(box_width_y,"box_width_y");
     let cordinates =
       x_cord + "," + parseInt(y_cord) + "," + box_width_x + "," + box_width_y;
+      console.log(cordinates,"cordinates");
     addLinkToPdf(cordinates, page_no, embed_url, file);
   };
 
