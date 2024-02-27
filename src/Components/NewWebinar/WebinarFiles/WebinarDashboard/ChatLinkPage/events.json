@@ -173,7 +173,7 @@
         "value": "https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif" 
     },
     "footerTextOne": {
-        "title": "Footer Message One",
+        "title": "Footer Message",
         "type": "textArea",
         "value": "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.<br/><br/>To visit One Source click here: <a target=\"_blank\" href=\"https://onesource.octapharma.com\">https://onesource.octapharma.com</a> <br/><br/><span>One Source platform is for healthcare professionals only.</span>"
 
