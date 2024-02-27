@@ -142,6 +142,16 @@ const ChatLinkPage = () => {
               `Invalid file extension of header image. Please select a valid extension file.`
             );
           }
+          if (isSelectedName === "headerImage") {
+            setErrorMsg(
+              `Invalid file extension of header image. Please select a valid extension file.`
+            );
+          }
+          if (isSelectedName === "footerImage") {
+            setErrorMsg(
+              `Invalid file extension of foter image. Please select a valid extension file.`
+            );
+          }
         } else {
           setErrorMsg("");
         }
@@ -470,6 +480,11 @@ const ChatLinkPage = () => {
             apiData?.headerImage ? apiData?.headerImage : ""
           );
         }
+        if (template?.templateId == 3) {
+          setFooterImage(
+            apiData?.footerImage ? apiData?.footerImage : ""
+          );
+        }
       } else {
         const initialState = {};
         Object.entries(template?.fieldData).forEach(([field, value]) => {
@@ -497,6 +512,13 @@ const ChatLinkPage = () => {
           setSecondHeaderImage(
             updatedBody?.fieldData?.headerImage?.value
               ? updatedBody?.fieldData?.headerImage?.value
+              : ""
+          );
+        }
+        if (template?.templateId == 3) {
+          setFooterImage(
+            updatedBody?.fieldData?.footerImage?.value
+              ? updatedBody?.fieldData?.footerImage?.value
               : ""
           );
         }
@@ -948,14 +970,14 @@ const ChatLinkPage = () => {
                             {
                             formData?.templateId == 2  ? (
                               <div
-                                className="head-sec"
+                                className="head-sec template2"
                                 style={{
                                   backgroundImage: `url(${formData?.headerBackgroundImage})`,
                                 }}
                               ></div>
                             ) :  formData?.templateId == 3  ? (<>
                               <div
-                                className="head-sec"
+                                className="head-sec template2"
                                 style={{
                                   backgroundImage: `url(${formData?.headerImage})`,
                                 }}
@@ -1132,7 +1154,7 @@ const ChatLinkPage = () => {
                                 : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
                             }}
                           />
-                              <p
+                              {/* <p
                             style={{ color: formData?.textColor }}
                             dangerouslySetInnerHTML={{
                               __html: formData?.footerTextTwo
@@ -1147,7 +1169,7 @@ const ChatLinkPage = () => {
                                 ? formData?.footerTextThree
                                 : "One Source platform is for healthcare professionals only.",
                             }}
-                              />
+                              /> */}
                             </div>
                           </div>
                            <div className="copy-right-bottom-text">
