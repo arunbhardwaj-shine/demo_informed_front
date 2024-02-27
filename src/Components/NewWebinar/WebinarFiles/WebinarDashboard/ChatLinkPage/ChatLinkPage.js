@@ -83,8 +83,7 @@ const ChatLinkPage = () => {
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
         setTemplateData(
           dynamicEventData[
-            chatLinkData?.templateId ? chatLinkData?.templateId - 1 : 1,
-            chatLinkData?.templateName ? chatLinkData?.templateName - 1 : 1
+            chatLinkData?.templateId ? chatLinkData?.templateId - 1 : 1
           ]
         );
         setActiveIndex(chatLinkData?.templateId);
@@ -628,7 +627,7 @@ const ChatLinkPage = () => {
                                   : ""
                               }
                             />
-                            <p>{template?.templateName}</p>
+                            {/* <p>{template?.templateName}</p> */}
                           </div>
                         </>
                       );
