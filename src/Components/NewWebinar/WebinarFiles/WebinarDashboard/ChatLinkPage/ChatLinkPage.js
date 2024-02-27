@@ -425,6 +425,7 @@ const ChatLinkPage = () => {
         draggable: true,
         progress: undefined,
       });
+      setIsFormChange(false);
     } else {
       setIsFormChange(false);
       setConfirmationPopup(false);
