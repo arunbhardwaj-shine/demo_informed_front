@@ -4,6 +4,7 @@ import HighchartsReact from "highcharts-react-official";
 import { Spinner } from 'react-activity';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const QuestionPollsPieChart = ({ data,show }) => {
+   
     const [pieChartOptions, setPieChartOptions] = useState({
         chart: {
             plotBackgroundColor: null,
@@ -230,23 +231,30 @@ const QuestionPollsPieChart = ({ data,show }) => {
         
     }, [data?.pollAnswers],show)
 
+
     return (<>
   
         <div className="graph-box">
-            {(data?.graphType=="pie"&&data?.pollAnswers?.length&&show)?
+            {(data?.graphType=="pie"&&data?.pollAnswers?.length)?
+           
             <HighchartsReact
                 key={"pie"}
                 highcharts={Highcharts}
                 options={ pieChartOptions }
             />
-            :(data?.graphType=="bar" && data?.pollAnswers?.length&&show)?
+          
+            :(data?.graphType=="bar" && data?.pollAnswers?.length)?
+           
             <HighchartsReact
                 key={"bar"}
                 highcharts={Highcharts}
                 options={ barChartOptions }
-            />:
+            />
+            
+            :
             <div className="no_found">
                 <img src={path_image + "default-bar-chart.png"} alt="" />
+                
             </div>
             }
         </div>
