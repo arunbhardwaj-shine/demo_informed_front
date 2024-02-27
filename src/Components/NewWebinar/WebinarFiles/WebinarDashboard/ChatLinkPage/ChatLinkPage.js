@@ -149,7 +149,7 @@ const ChatLinkPage = () => {
           }
           if (isSelectedName === "footerImage") {
             setErrorMsg(
-              `Invalid file extension of foter image. Please select a valid extension file.`
+              `Invalid file extension of footer image. Please select a valid extension file.`
             );
           }
         } else {
