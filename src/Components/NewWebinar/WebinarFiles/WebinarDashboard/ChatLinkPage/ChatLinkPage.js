@@ -81,11 +81,18 @@ const ChatLinkPage = () => {
       );
       const { chatLinkData } = response?.data?.data;
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
-        setTemplateData(
-          dynamicEventData[
-            chatLinkData?.templateId ? chatLinkData?.templateId - 1 : 1
-          ]
-        );
+
+        const data=dynamicEventData?.filter((item,index)=>item?.templateId==chatLinkData?.templateId)
+        if(  data?.length){
+          setTemplateData(
+            data[0]
+           );
+        }else{
+          setTemplateData(
+            dynamicEventData[1]
+           );
+        }
+        
         setActiveIndex(chatLinkData?.templateId);
         setDynamicContent(chatLinkData);
         setApiData(chatLinkData);
@@ -627,7 +634,7 @@ const ChatLinkPage = () => {
                                   : ""
                               }
                             />
-                            {/* <p>{template?.templateName}</p> */}
+                            <p>{template?.templateName}</p>
                           </div>
                         </>
                       );
@@ -641,6 +648,7 @@ const ChatLinkPage = () => {
               <div className="row ">
                 <div className="col-md-6 col-sm-6">
                   <div className="chatlink-left">
+                    
                     {Object.entries(templateData?.fieldData).map(
                       ([field, value]) => (
                         <div
