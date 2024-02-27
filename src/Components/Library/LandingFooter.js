@@ -721,7 +721,7 @@ const LandingFooter = () => {
             </Row>
         </Container>
         { !acceptedCookies && cookieSection && (
-            <div className='cookie-popup'>
+            <div className='cookie-popups'>
             <Container>
                 <Row>
                     <div className='cookie-popup-inset d-flex justify-content-between align-items-center'>

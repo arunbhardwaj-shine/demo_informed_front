@@ -5,6 +5,7 @@ import LivePollsQuestion from './LivePollsQuestions'
 import { useSidebar } from '../../../../CommonComponent/LoginLayout'
 import { loader } from '../../../../../loader'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 
 const LivePolls = ({ location, flag ,setSelectedTab}) => {
@@ -18,6 +19,7 @@ const LivePolls = ({ location, flag ,setSelectedTab}) => {
     });
     const [data, setData] = useState()
     const [isdataLoaded,setIsDataLoaded]=useState(false)
+    const [isFirstLoaded,setIsFirstLoaded]=useState(true)
 
     useEffect(() => {
         loader("show");
@@ -31,7 +33,20 @@ const LivePolls = ({ location, flag ,setSelectedTab}) => {
                 companyId: eventId?.companyId,
                 eventId: eventId?.id,
             });
-            if(result?.data?.data.length === 0){
+            if(result?.data?.data.length === 0 ){
+                if(!isFirstLoaded){
+                    toast.error(`Please create the polls first`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                      });
+                }else{
+                    setIsFirstLoaded(false)
+                }
                 setSelectedTab("polls-creation")
             }
             setData(result?.data?.data)
