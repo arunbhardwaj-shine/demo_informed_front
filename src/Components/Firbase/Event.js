@@ -1284,7 +1284,7 @@ eventId={eventId}
                       src={`${
                         formData?.headerBackgroundImage
                           ? formData?.headerBackgroundImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/xRaqZMQ2ojiGspE5WzVrO8uoRz36qvzHPMcGXmHZ.png"
                       }`}
                       alt="OneSource logo"
                     />
@@ -1633,7 +1633,7 @@ eventId={eventId}
                       src={
                         formData?.headerImage
                           ? formData?.headerImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/YjgEfQQsYoqo7FxJYL9frU5mivp0GziGEJEMSFze.png"
                       }
                       alt="OneSource logo"
                     />
@@ -1822,7 +1822,7 @@ eventId={eventId}
                       src={
                         formData?.headerImage
                           ? formData?.headerImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/oLbpvIMzDZQ2DwzqRyRTRc70qPpLXL1uJEKFpuC2.png"
                       }
                       alt="OneSource logo"
                     />
@@ -2011,7 +2011,7 @@ eventId={eventId}
                       src={
                         formData?.headerImage
                           ? formData?.headerImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/Nhe1keWKvcPYVIHrKc3I9Lp2N3wemWSvYXMN8pwD.png"
                       }
                       alt="OneSource logo"
                     />
@@ -2143,7 +2143,7 @@ eventId={eventId}
                        src={
                          formData?.footerImage
                            ? formData?.footerImage
-                           : "https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
+                           : "https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif"
                        }
                       alt=""
                     />
@@ -2200,7 +2200,7 @@ eventId={eventId}
                       src={
                         formData?.headerImage
                           ? formData?.headerImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/pWcVWFwxOiDZzQsruqEVWj9UXp6YVPkPCLhU11ZO.png"
                       }
                       alt="OneSource logo"
                     />
@@ -2332,7 +2332,7 @@ eventId={eventId}
                        src={
                          formData?.footerImage
                            ? formData?.footerImage
-                           : "https://docintel.app/img/octa/e-templates/one-source/onesource-logo.gif"
+                           : "https://docintel.app/img/octa/e-templates/one-source/onesource-logo-org.gif"
                        }
                       alt=""
                     />

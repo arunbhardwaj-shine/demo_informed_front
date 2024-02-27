@@ -83,7 +83,8 @@ const ChatLinkPage = () => {
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
         setTemplateData(
           dynamicEventData[
-            chatLinkData?.templateId ? chatLinkData?.templateId - 1 : 1
+            chatLinkData?.templateId ? chatLinkData?.templateId - 1 : 1,
+            chatLinkData?.templateName ? chatLinkData?.templateName - 1 : 1
           ]
         );
         setActiveIndex(chatLinkData?.templateId);
@@ -627,7 +628,7 @@ const ChatLinkPage = () => {
                                   : ""
                               }
                             />
-                            {/* <p>{template?.templateName}</p> */}
+                            <p>{template?.templateName}</p>
                           </div>
                         </>
                       );
@@ -1163,7 +1164,7 @@ const ChatLinkPage = () => {
                                src={
                                  formData?.footerImage
                                    ? formData?.footerImage
-                                   : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                                   : ""
                                }
                               alt=""
                             />
