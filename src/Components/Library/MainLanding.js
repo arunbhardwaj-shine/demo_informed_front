@@ -131,7 +131,7 @@ const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
                             {/* <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link> 
                             <Link to="/pharma-marketing" className='pharma-marketing'>Pharma Marketing</Link>
                            <Link to="/landing-publisher" className='publisher-gradient'>Publishers</Link> */}
-                            <a href='/pharma-marketing' className='pharma-marketing'>Pharma Marketing</a>
+                            <a href='/pharma-marketing' className='pharma-marketing'>Pharma</a>
                             <a href='/landing-publisher' className='publisher-gradient'>Publishers</a>
                         </div>
                     </div>

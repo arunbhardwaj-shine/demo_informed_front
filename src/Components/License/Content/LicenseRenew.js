@@ -21,6 +21,7 @@ import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import axios from "axios";
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LicenseRenew = () => {  
@@ -260,56 +261,35 @@ const LicenseRenew = () => {
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
   };
-
-  const downloadOldCollectedData = () => {
+  const downloadOldCollectedData = async () => {
     try {
-      if (openingDetails?.length == 0) {
-        toast.warning("No data found");
-        return;
-      }
-
-      let downloadData = openingDetails?.map((item, index) => {
-        return {
-          "Total Downloads": item?.download ? item?.download : 0,
-          "Limit": item?.limit ? item?.limit : 0,
-          "Opening Count": item?.opening ? item?.opening : 0,
-          "Pin Readers": item?.pinReaders ? item?.pinReaders : 0,
-          "Print Count": item?.print ? item?.print : 0,
-          "Reader Count": item?.reader ? item?.reader : 0,
-          "RTR Count": item?.rtr ? item?.rtr : 0,
-          "Sublinks Count": item?.subLink ? item?.sublink : 0,
-          "Unique Readers": item?.unique ? item?.unique : 0,
-        };
+      loader("show");
+      let durl =
+        "https://webinar.informed.pro/Analytics/download_excel_new/" +
+        data?.id;
+      const response = await axios.get(durl, { responseType: "blob" });
+      // .then((response) => {
+      // Create a Blob from the response data
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
-    
-      const worksheet = XLSX.utils.json_to_sheet(downloadData);
-
-      const columnWidths = [
-        { wch: 20 },                        
-        { wch: 20 }, 
-        { wch: 20 }, 
-        { wch: 20 }, 
-        { wch: 20 }, 
-        { wch: 20 }, 
-        { wch: 20 }, 
-        { wch: 20 }, 
-        { wch: 20 }, 
-        { wch: 20 },
-      ];
-      worksheet["!cols"] = columnWidths;
-
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-      const excelBuffer = XLSX.write(workbook, {
-        bookType: "xlsx",
-        type: "array",
-      });
-      const blob = new Blob([excelBuffer], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
-      });
-      saveAs(blob, `${data?.title}_collected_data.xlsx`);
+      // Create a temporary URL for the Blob
+      const url = window.URL.createObjectURL(blob);
+      // Create a link and click it to trigger the download
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${data?.title}_collected_data.xlsx`;
+      link.click();
+      // Clean up the temporary URL
+      window.URL.revokeObjectURL(url);
+      // })
+      // .catch((error) => {
+      //   console.error('Error downloading the Excel file:', error);
+      // });
+      loader("hide");
     } catch (err) {
-      console.log("An error occurred while downloading the Excel file:", err);
+      console.log(err);
+      loader("hide");
     }
   };
 
@@ -1113,7 +1093,7 @@ const LicenseRenew = () => {
                                   ? "form-control error"
                                   : "form-control"
                               }
-                              // placeholder="“0” value means unlimited limit"
+                              placeholder="“0” value means changing to unlimited limit"
                               value={userInputs?.limit}
                               onChange={(e) => handleChange(e, "limit")}
                             />

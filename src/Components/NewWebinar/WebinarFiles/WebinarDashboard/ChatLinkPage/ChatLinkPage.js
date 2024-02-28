@@ -16,7 +16,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const ChatLinkPage = () => {
   const { eventIdContext, handleEventId } = useSidebar();
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
   const responsive = {
     0: { items: 1 },
     568: { items: 2 },
@@ -81,11 +81,18 @@ const ChatLinkPage = () => {
       );
       const { chatLinkData } = response?.data?.data;
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
-        setTemplateData(
-          dynamicEventData[
-            chatLinkData?.templateId ? chatLinkData?.templateId - 1 : 1
-          ]
-        );
+
+        const data=dynamicEventData?.filter((item,index)=>item?.templateId==chatLinkData?.templateId)
+        if(  data?.length){
+          setTemplateData(
+            data[0]
+           );
+        }else{
+          setTemplateData(
+            dynamicEventData[1]
+           );
+        }
+        
         setActiveIndex(chatLinkData?.templateId);
         setDynamicContent(chatLinkData);
         setApiData(chatLinkData);
@@ -149,7 +156,7 @@ const ChatLinkPage = () => {
           }
           if (isSelectedName === "footerImage") {
             setErrorMsg(
-              `Invalid file extension of foter image. Please select a valid extension file.`
+              `Invalid file extension of footer image. Please select a valid extension file.`
             );
           }
         } else {
@@ -425,6 +432,7 @@ const ChatLinkPage = () => {
         draggable: true,
         progress: undefined,
       });
+      setIsFormChange(false);
     } else {
       setIsFormChange(false);
       setConfirmationPopup(false);
@@ -475,12 +483,20 @@ const ChatLinkPage = () => {
             apiData?.headerBackgroundImage ? apiData?.headerBackgroundImage : ""
           );
         }
-        if (template?.templateId == 3) {
+        // if (template?.templateId == 3) {
+        //   setSecondHeaderImage(
+        //     apiData?.headerImage ? apiData?.headerImage : ""
+        //   );
+        // }
+        // if (template?.templateId == 3) {
+        //   setFooterImage(
+        //     apiData?.footerImage ? apiData?.footerImage : ""
+        //   );
+        // }
+        if (template?.templateId == 4 || template?.templateId == 5 || template?.templateId == 6 || template?.templateId == 7 ) {
           setSecondHeaderImage(
             apiData?.headerImage ? apiData?.headerImage : ""
           );
-        }
-        if (template?.templateId == 3) {
           setFooterImage(
             apiData?.footerImage ? apiData?.footerImage : ""
           );
@@ -508,14 +524,26 @@ const ChatLinkPage = () => {
               : ""
           );
         }
-        if (template?.templateId == 3) {
+        // if (template?.templateId == 3) {
+        //   setSecondHeaderImage(
+        //     updatedBody?.fieldData?.headerImage?.value
+        //       ? updatedBody?.fieldData?.headerImage?.value
+        //       : ""
+        //   );
+        // }
+        // if (template?.templateId == 3) {
+        //   setFooterImage(
+        //     updatedBody?.fieldData?.footerImage?.value
+        //       ? updatedBody?.fieldData?.footerImage?.value
+        //       : ""
+        //   );
+        // }
+        if (template?.templateId == 4 || template?.templateId == 5 || template?.templateId == 6 || template?.templateId == 7 ) {
           setSecondHeaderImage(
             updatedBody?.fieldData?.headerImage?.value
               ? updatedBody?.fieldData?.headerImage?.value
               : ""
           );
-        }
-        if (template?.templateId == 3) {
           setFooterImage(
             updatedBody?.fieldData?.footerImage?.value
               ? updatedBody?.fieldData?.footerImage?.value
@@ -606,7 +634,7 @@ const ChatLinkPage = () => {
                                   : ""
                               }
                             />
-                            {/* <p>{template?.name}</p> */}
+                            <p>{template?.templateName}</p>
                           </div>
                         </>
                       );
@@ -620,6 +648,7 @@ const ChatLinkPage = () => {
               <div className="row ">
                 <div className="col-md-6 col-sm-6">
                   <div className="chatlink-left">
+                    
                     {Object.entries(templateData?.fieldData).map(
                       ([field, value]) => (
                         <div
@@ -850,8 +879,7 @@ const ChatLinkPage = () => {
                                 <img
                                   className="header-img"
                                   src={
-                                    footerImage
-                                     
+                                    footerImage 
                                   }
                                 />
 
@@ -975,7 +1003,7 @@ const ChatLinkPage = () => {
                                   backgroundImage: `url(${formData?.headerBackgroundImage})`,
                                 }}
                               ></div>
-                            ) :  formData?.templateId == 3  ? (<>
+                            ) :  formData?.templateId == 4 || formData?.templateId == 5 || formData?.templateId == 6  || formData?.templateId === 7 ? (<>
                               <div
                                 className="head-sec template2"
                                 style={{
@@ -991,7 +1019,7 @@ const ChatLinkPage = () => {
                     </div>
                             
                             </>
-                            ) :(
+                            ) : (
                               <div
                                 className="head-sec"
                                 style={{
@@ -1021,13 +1049,7 @@ const ChatLinkPage = () => {
 
                             <div className="row">
                               <div className="col-md-12">
-                                {/* <label htmlFor="fname" className="form-label">
-                                Name{" "}
                                
-                                <i>
-                                  <small>(Optional)</small>
-                                </i>
-                              </label> */}
                                 <label
                                   htmlFor="fname"
                                   className="form-label"
@@ -1035,9 +1057,7 @@ const ChatLinkPage = () => {
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.nameLabel,
                                   }}
-                                  // <i>
-                                  //   <small>(Optional)</small>
-                                  // </i>
+                                  
                                 />
 
                                 <input
@@ -1049,7 +1069,7 @@ const ChatLinkPage = () => {
                                   className="form-control "
                                   placeholder={formData?.namePlaceholder}
                                   name="name"
-                                  // value={user?.name}
+                                  
                                 />
 
                                 <input
@@ -1072,11 +1092,7 @@ const ChatLinkPage = () => {
                                 />
                               </div>
                               <div className="col-md-12">
-                                {/* <label htmlFor="question" className="form-label">
-                                Your question
-                    
-                                <sup>*</sup>
-                              </label> */}
+                               
                                 <label
                                   htmlFor="fname"
                                   className="form-label"
@@ -1084,7 +1100,7 @@ const ChatLinkPage = () => {
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.questionLabel,
                                   }}
-                                  // <sup>*</sup>
+                                 
                                 />
                                 <textarea
                                   style={{
@@ -1096,7 +1112,7 @@ const ChatLinkPage = () => {
                                   placeholder={formData?.questionPlaceholder}
                                   cols="40"
                                   rows="4"
-                                  // value={user?.question}
+                                  
                                 ></textarea>
                                 {error?.question ? (
                                   <span className="event-validation">
@@ -1108,18 +1124,10 @@ const ChatLinkPage = () => {
                               </div>
 
                               <div className="col-md-12">
-                                {/* <input
-                                type="submit"
-                                className="btn btn-success"
-                                value={
-                                  parms?.includes("eahad_2024")
-                                    ? "SUBMIT"
-                                    : dynamicContent?.buttonText
-                                }
-                              /> */}
+                               
 
                                 <Button
-                                  // type="submit"
+                                 
                                   className="btn btn-success"
                                   style={{
                                     background: formData?.buttonColor,
@@ -1134,14 +1142,15 @@ const ChatLinkPage = () => {
                              
                             </div>
                           </form>
-                          {formData?.templateId === 3 ? <>
+                          {formData?.templateId === 4 || formData?.templateId === 5  || formData?.templateId === 6 || formData?.templateId === 7? 
+                          <>
                             <div className="eahad-footer">
                             <img
                               
                                src={
                                  formData?.footerImage
                                    ? formData?.footerImage
-                                   : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                                   : ""
                                }
                               alt=""
                             />
@@ -1154,22 +1163,6 @@ const ChatLinkPage = () => {
                                 : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
                             }}
                           />
-                              {/* <p
-                            style={{ color: formData?.textColor }}
-                            dangerouslySetInnerHTML={{
-                              __html: formData?.footerTextTwo
-                                ? formData?.footerTextTwo
-                                : "To visit One Source click here: <a target=\"_blank\" href=\"https://onesource.octapharma.com\">https://onesource.octapharma.com</a>",
-                            }}
-                          />
-                              <span
-                              style={{ color: formData?.textColor }}
-                            dangerouslySetInnerHTML={{
-                              __html: formData?.footerTextThree
-                                ? formData?.footerTextThree
-                                : "One Source platform is for healthcare professionals only.",
-                            }}
-                              /> */}
                             </div>
                           </div>
                            <div className="copy-right-bottom-text">
@@ -1179,7 +1172,8 @@ const ChatLinkPage = () => {
                                __html: formData?.footerText,
                              }}
                            />
-                         </div></> :
+                         </div>
+                         </> :
                           <div className="copy-right-bottom-text">
                           <p
                             style={{ color: formData?.textColor }}
@@ -1189,15 +1183,6 @@ const ChatLinkPage = () => {
                           />
                         </div>
                         }
-
-                          {/* <div className="copy-right-bottom-text">
-                            <p
-                              style={{ color: formData?.textColor }}
-                              dangerouslySetInnerHTML={{
-                                __html: formData?.footerText,
-                              }}
-                            />
-                          </div> */}
                         </div>
                       </div>
                     </div>
