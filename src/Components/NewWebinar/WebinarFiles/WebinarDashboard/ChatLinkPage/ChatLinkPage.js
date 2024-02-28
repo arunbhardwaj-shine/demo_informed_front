@@ -21,6 +21,7 @@ const ChatLinkPage = () => {
     0: { items: 1 },
     568: { items: 2 },
     1024: { items: 4 },
+    1921: { items: 5 }
   };
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
   const [popupMessage, setPopupMessage] = useState({
@@ -602,8 +603,6 @@ const ChatLinkPage = () => {
               </div>
             </div>
             <section className="select-mail-template library-consent create-change-content">
-              <div className="custom-container">
-                <Row>
                   <div className="page-title">
                     <h6>Select Template</h6>
                   </div>
@@ -640,8 +639,6 @@ const ChatLinkPage = () => {
                       );
                     })}
                   </AliceCarousel>
-                </Row>{" "}
-              </div>{" "}
             </section>
 
             <div className="register-page create-change-content chatlink">
