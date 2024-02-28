@@ -11,6 +11,7 @@ const PollsLayout = () => {
     const localStorageEvent=JSON.parse(localStorage.getItem("EventIdContext"))
     const { eventIdContext,handleEventId } = useSidebar();
     const [selectedTab,setSelectedTab]=useState("live-polls")
+    const [firstTimeTab,setFirstTimeTab]=useState(true)
     useEffect(()=>{
         if(!eventIdContext){
             handleEventId(localStorageEvent) 
@@ -24,6 +25,10 @@ const PollsLayout = () => {
         setSelectedTab(key)
         if(key === "live-polls"){
             setFlag(flag + 1);
+            setFirstTimeTab(true)
+        }
+        if(key==="polls-creation"){
+            setFirstTimeTab(false) 
         }
     };
 
@@ -49,7 +54,7 @@ const PollsLayout = () => {
                             title="Live Polls "
                             className="flex-column justify-content-between"
                         >
-                            <LivePolls  eventIdContext={eventIdContext?eventIdContext:localStorageEvent} flag={flag} setSelectedTab={setSelectedTab}/>
+                            <LivePolls  eventIdContext={eventIdContext?eventIdContext:localStorageEvent} flag={flag} setSelectedTab={setSelectedTab} firstTimeTab={firstTimeTab}/>
                             
                         </Tab>
 
