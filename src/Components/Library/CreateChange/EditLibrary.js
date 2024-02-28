@@ -530,14 +530,20 @@ const EditLibrary = () => {
                 hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
               );
         }
-        if (
-          userDetail?.user?.[0]?.group_id == 3 &&
+        if (userDetail?.user?.[0]?.group_id == 3 &&
           userDetail?.user?.[0]?.octaLach == 1
         ) {
           formData.append(
             "medical",
             userInputs?.medical
               ? JSON.stringify(userInputs?.medical)
+              : JSON.stringify(false)
+          );
+
+          formData.append(
+            "sync_onesource",
+            userInputs?.sync_onesource
+              ? JSON.stringify(userInputs?.sync_onesource)
               : JSON.stringify(false)
           );
         }
@@ -1429,7 +1435,7 @@ const EditLibrary = () => {
                     </div>
 
                     <div className="form-group">
-                    <label htmlFor="setasdraft1">Request quote</label>
+                    <label htmlFor="setasdraft">Request quote</label>
                     <fieldset id="request_quote">
                       <div className="switch">
                         <label className="switch-light">
@@ -1437,7 +1443,7 @@ const EditLibrary = () => {
                             type="checkbox"
                             value="value1"
                             name="request_quote"
-                            id="setasdraft1"
+                            id="setasdraft"
                             defaultChecked={
                               userInputs?.request_quote ? true : false
                             }
@@ -1821,14 +1827,14 @@ const EditLibrary = () => {
                             </fieldset>
                           </div>
                           <div className="form-group">
-                            <label htmlFor="setasdraft1">Set as draft</label>
+                            <label htmlFor="setasdraft2">Set as draft</label>
                             <fieldset id="group2">
                               <div className="switch">
                                 <label className="switch-light">
                                   <input
                                     type="checkbox"
                                     name="group2"
-                                    id="setasdraft1"
+                                    id="setasdraft2"
                                     defaultChecked={
                                       userInputs?.draft ? true : false
                                     }
@@ -1864,7 +1870,7 @@ const EditLibrary = () => {
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <>
                           <div className="form-group">
-                            <label htmlFor="setasdraft1">Medical</label>
+                            <label htmlFor="setasdraft3">Medical</label>
                             <fieldset id="group2">
                               <div className="switch">
                                 <label className="switch-light">
@@ -1872,7 +1878,7 @@ const EditLibrary = () => {
                                     type="checkbox"
                                     value="value1"
                                     name="group2"
-                                    id="setasdraft1"
+                                    id="setasdraft3"
                                     defaultChecked={
                                       userInputs?.medical &&
                                       parseInt(userInputs?.medical)
@@ -1914,10 +1920,64 @@ const EditLibrary = () => {
                         </>
                       ) : null}
 
+                      {userDetail?.user?.[0]?.octaLach == 1 && userDetail?.user?.[0]?.group_id == 3
+                         ? (
+                        <>
+                          <div className="form-group">
+                            <label htmlFor="synconesource" dangerouslySetInnerHTML={{__html: 'OneSource/<br>InformedGO<br>Library'}}></label>
+                            <fieldset id="sync_onesource">
+                              <div className="switch">
+                                <label className="switch-light">
+                                  <input
+                                    type="checkbox"
+                                    value="value1"
+                                    name="sync_onesource"
+                                    id="synconesource"
+                                    defaultChecked={
+                                      userInputs?.sync_onesource &&
+                                      parseInt(userInputs?.sync_onesource)
+                                        ? true
+                                        : false
+                                    }
+                                    onChange={(e) => {
+                                      handleChange(
+                                        e.target?.checked,
+                                        "sync_onesource"
+                                      );
+                                    }}
+                                  />
+                                  <span>
+                                    <span
+                                      className={`switch-btn ${
+                                        userInputs?.sync_onesource == 0
+                                          ? " Active"
+                                          : ""
+                                      }`}
+                                    >
+                                      No
+                                    </span>
+                                    <span
+                                      className={`switch-btn ${
+                                        userInputs?.sync_onesource == 1
+                                          ? " Active"
+                                          : ""
+                                      }`}
+                                    >
+                                      Yes
+                                    </span>
+                                  </span>
+                                  <a className="btn"></a>
+                                </label>
+                              </div>
+                            </fieldset>
+                          </div>
+                        </>
+                      ) : null}
+
                       {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">
-                          <label htmlFor="setasdraft1">
+                          <label htmlFor="setasdraft4">
                             {localStorage.getItem("user_id") ==
                             "56Ek4feL/1A8mZgIKQWEqg=="
                               ? "IRT mandatory training"
@@ -1935,7 +1995,7 @@ const EditLibrary = () => {
                                       ? "Select IRT mandatory training"
                                       : "Select IRT"
                                   }
-                                  id="setasdraft1"
+                                  id="setasdraft4"
                                   defaultChecked={
                                     userInputs?.reader_mandatory ? true : false
                                   }
