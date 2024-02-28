@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { postData, getData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
@@ -17,6 +17,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ChatLinkPage = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const [activeIndex, setActiveIndex] = useState(0);
+  const aliceCarouselRef = useRef(null);
+
   const responsive = {
     0: { items: 1 },
     568: { items: 2 },
@@ -85,12 +87,15 @@ const ChatLinkPage = () => {
 
         const index = dynamicEventData.findIndex((item) => item?.templateId === chatLinkData?.templateId);
 
-console.log(index,"index");
+       console.log(index,"index");
+       
         if (index !== -1) {
             const filteredItem = dynamicEventData[index];
             setTemplateData(
               filteredItem
              );
+            console.log( aliceCarouselRef?.current?.slideTo(index))
+        
              setActiveIndex(index);
 
         } else {
@@ -616,6 +621,7 @@ console.log(index,"index");
                   </div>
 
                   <AliceCarousel
+                   ref={aliceCarouselRef}
                     mouseTracking
                     //disableButtonsControls
                     items={dynamicEventData?.length}
@@ -623,7 +629,7 @@ console.log(index,"index");
                     activeIndex={activeIndex}
                     slideToIndex={activeIndex}
                     responsive={responsive}
-                    onSlideChanged={syncActiveIndex}
+                    // onSlideChanged={syncActiveIndex}
                   >
                     {dynamicEventData.map((template, index) => {
                       return (
