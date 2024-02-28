@@ -1369,7 +1369,9 @@ fill-opacity: 1;
 .active-subLink .left-sidebar {
   width: 250px;
 }
-
+.active-subLink .right-sidebar {
+  width: calc(100% - 260px);
+}
 .toggle_sidebar .left-sidebar ul a p,
 .active-subLink .left-sidebar ul a p {
   font-size: 0;
@@ -11344,7 +11346,9 @@ button.event_sort_btn.svg_active svg {
   justify-content: flex-start;
   min-height: initial;
 }
-
+.chatlink .question-block .header-logo img{
+  max-height:150px;
+}
 /* .chatlink-left button {
   margin-left: auto;
   display: flex;
@@ -11549,7 +11553,7 @@ button.event_sort_btn.svg_active svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 212px;
+  min-height: 200px;
   flex-wrap: wrap;
   padding: 25px 0 45px;
   position: relative;
@@ -11607,7 +11611,7 @@ button.event_sort_btn.svg_active svg {
 }
 
 .create-change-content.register-page .form-group .logo-section.header-section {
-  padding: 30px 0;
+  padding: 30px 0 45px; 
 }
 
 .register-page .form-group .header-section,
