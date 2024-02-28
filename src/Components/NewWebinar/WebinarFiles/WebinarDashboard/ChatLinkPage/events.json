@@ -1,4 +1,6 @@
-[{ "templateId": 1,
+[{ 
+    "templateId": 1,
+    "templateName": "Default Template",
     
    "fieldData":{ 
     "logoImageUrl":{
@@ -61,6 +63,8 @@
     },
 
     { "templateId": 2,
+    "templateName": "OctaAcademy Template",
+
    
     "fieldData":{ 
     "logoImageUrl":{
@@ -118,6 +122,8 @@
     },
 
     { "templateId": 4,
+    "templateName": "GTH Template",
+
     
     "fieldData":{ 
     "logoImageUrl":{
@@ -191,7 +197,8 @@
     },
 
     { "templateId": 5,
-   
+    "templateName": "WFH Template",
+
     "fieldData":{ 
     "logoImageUrl":{
         "title": "Logo",
@@ -264,6 +271,8 @@
     },
 
     { "templateId": 6,
+    "templateName": "THSNA Template",
+
     
     "fieldData":{ 
     "logoImageUrl":{
@@ -337,6 +346,8 @@
     },
 
     { "templateId": 7,
+    "templateName": "EAHAD Template",
+
    
     "fieldData":{ 
     "logoImageUrl":{
