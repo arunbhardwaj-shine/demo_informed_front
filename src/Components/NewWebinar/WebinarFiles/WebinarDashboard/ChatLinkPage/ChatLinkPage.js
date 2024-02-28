@@ -21,6 +21,7 @@ const ChatLinkPage = () => {
     0: { items: 1 },
     568: { items: 2 },
     1024: { items: 4 },
+    1921: { items: 5 }
   };
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
   const [popupMessage, setPopupMessage] = useState({
@@ -81,12 +82,27 @@ const ChatLinkPage = () => {
       );
       const { chatLinkData } = response?.data?.data;
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
-        setTemplateData(
-          dynamicEventData[
-            chatLinkData?.templateId ? chatLinkData?.templateId - 1 : 1
-          ]
-        );
-        setActiveIndex(chatLinkData?.templateId);
+
+        const index = dynamicEventData.findIndex((item) => item?.templateId === chatLinkData?.templateId);
+
+console.log(index,"index");
+        if (index !== -1) {
+            const filteredItem = dynamicEventData[index];
+            setTemplateData(
+              filteredItem
+             );
+             setActiveIndex(index);
+
+        } else {
+          setTemplateData(
+            dynamicEventData[1]
+           );
+           setActiveIndex(0);
+
+        }
+  
+       
+        
         setDynamicContent(chatLinkData);
         setApiData(chatLinkData);
         setFormData(chatLinkData);
@@ -450,7 +466,7 @@ const ChatLinkPage = () => {
       console.error("Error preview in new window:", error);
     }
   };
-  const templateClicked = (template, e) => {
+  const templateClicked = (template, e,index=0) => {
     if (isFormChange) {
       setTemplateData(template);
       setPopupMessage({
@@ -545,7 +561,7 @@ const ChatLinkPage = () => {
         }
       }
 
-      setActiveIndex(template?.templateId);
+      setActiveIndex(index);
     }
   };
   return (
@@ -595,8 +611,6 @@ const ChatLinkPage = () => {
               </div>
             </div>
             <section className="select-mail-template library-consent create-change-content">
-              <div className="custom-container">
-                <Row>
                   <div className="page-title">
                     <h6>Select Template</h6>
                   </div>
@@ -604,8 +618,10 @@ const ChatLinkPage = () => {
                   <AliceCarousel
                     mouseTracking
                     //disableButtonsControls
+                    items={dynamicEventData?.length}
                     disableDotsControls
                     activeIndex={activeIndex}
+                    slideToIndex={activeIndex}
                     responsive={responsive}
                     onSlideChanged={syncActiveIndex}
                   >
@@ -614,7 +630,7 @@ const ChatLinkPage = () => {
                         <>
                           <div
                             className="item"
-                            onClick={(e) => templateClicked(template, e)}
+                            onClick={(e) => templateClicked(template, e,index)}
                           >
                             <img
                               id={`"template_dyn" + template?.popupNo`}
@@ -622,25 +638,24 @@ const ChatLinkPage = () => {
                               alt=""
                               className={
                                 typeof activeIndex !== "undefined" &&
-                                activeIndex == template?.templateId
+                                activeIndex == index
                                   ? "select_mm"
                                   : ""
                               }
                             />
-                            {/* <p>{template?.templateName}</p> */}
+                            <p>{template?.templateName}</p>
                           </div>
                         </>
                       );
                     })}
                   </AliceCarousel>
-                </Row>{" "}
-              </div>{" "}
             </section>
 
             <div className="register-page create-change-content chatlink">
               <div className="row ">
                 <div className="col-md-6 col-sm-6">
                   <div className="chatlink-left">
+                    
                     {Object.entries(templateData?.fieldData).map(
                       ([field, value]) => (
                         <div
@@ -871,8 +886,7 @@ const ChatLinkPage = () => {
                                 <img
                                   className="header-img"
                                   src={
-                                    footerImage
-                                     
+                                    footerImage 
                                   }
                                 />
 
@@ -914,7 +928,7 @@ const ChatLinkPage = () => {
                                 </div>
                               </div>
                               <span className="suggestion">
-                                (Recommended size 300 x 140)
+                                (Recommended size 190 x 100)
                               </span>
                             </>
                           ) : value.type == "color" ? (
@@ -1042,13 +1056,7 @@ const ChatLinkPage = () => {
 
                             <div className="row">
                               <div className="col-md-12">
-                                {/* <label htmlFor="fname" className="form-label">
-                                Name{" "}
                                
-                                <i>
-                                  <small>(Optional)</small>
-                                </i>
-                              </label> */}
                                 <label
                                   htmlFor="fname"
                                   className="form-label"
@@ -1056,9 +1064,7 @@ const ChatLinkPage = () => {
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.nameLabel,
                                   }}
-                                  // <i>
-                                  //   <small>(Optional)</small>
-                                  // </i>
+                                  
                                 />
 
                                 <input
@@ -1070,7 +1076,7 @@ const ChatLinkPage = () => {
                                   className="form-control "
                                   placeholder={formData?.namePlaceholder}
                                   name="name"
-                                  // value={user?.name}
+                                  
                                 />
 
                                 <input
@@ -1093,11 +1099,7 @@ const ChatLinkPage = () => {
                                 />
                               </div>
                               <div className="col-md-12">
-                                {/* <label htmlFor="question" className="form-label">
-                                Your question
-                    
-                                <sup>*</sup>
-                              </label> */}
+                               
                                 <label
                                   htmlFor="fname"
                                   className="form-label"
@@ -1105,7 +1107,7 @@ const ChatLinkPage = () => {
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.questionLabel,
                                   }}
-                                  // <sup>*</sup>
+                                 
                                 />
                                 <textarea
                                   style={{
@@ -1117,7 +1119,7 @@ const ChatLinkPage = () => {
                                   placeholder={formData?.questionPlaceholder}
                                   cols="40"
                                   rows="4"
-                                  // value={user?.question}
+                                  
                                 ></textarea>
                                 {error?.question ? (
                                   <span className="event-validation">
@@ -1129,18 +1131,10 @@ const ChatLinkPage = () => {
                               </div>
 
                               <div className="col-md-12">
-                                {/* <input
-                                type="submit"
-                                className="btn btn-success"
-                                value={
-                                  parms?.includes("eahad_2024")
-                                    ? "SUBMIT"
-                                    : dynamicContent?.buttonText
-                                }
-                              /> */}
+                               
 
                                 <Button
-                                  // type="submit"
+                                 
                                   className="btn btn-success"
                                   style={{
                                     background: formData?.buttonColor,
