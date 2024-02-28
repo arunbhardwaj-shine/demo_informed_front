@@ -83,18 +83,26 @@ const ChatLinkPage = () => {
       const { chatLinkData } = response?.data?.data;
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
 
-        const data=dynamicEventData?.filter((item,index)=>item?.templateId==chatLinkData?.templateId)
-        if(  data?.length){
-          setTemplateData(
-            data[0]
-           );
-        }else{
+        const index = dynamicEventData.findIndex((item) => item?.templateId === chatLinkData?.templateId);
+
+console.log(index,"index");
+        if (index !== -1) {
+            const filteredItem = dynamicEventData[index];
+            setTemplateData(
+              filteredItem
+             );
+             setActiveIndex(index);
+
+        } else {
           setTemplateData(
             dynamicEventData[1]
            );
+           setActiveIndex(0);
+
         }
+  
+       
         
-        setActiveIndex(chatLinkData?.templateId);
         setDynamicContent(chatLinkData);
         setApiData(chatLinkData);
         setFormData(chatLinkData);
@@ -458,7 +466,7 @@ const ChatLinkPage = () => {
       console.error("Error preview in new window:", error);
     }
   };
-  const templateClicked = (template, e) => {
+  const templateClicked = (template, e,index=0) => {
     if (isFormChange) {
       setTemplateData(template);
       setPopupMessage({
@@ -553,7 +561,7 @@ const ChatLinkPage = () => {
         }
       }
 
-      setActiveIndex(template?.templateId);
+      setActiveIndex(index);
     }
   };
   return (
@@ -610,8 +618,10 @@ const ChatLinkPage = () => {
                   <AliceCarousel
                     mouseTracking
                     //disableButtonsControls
+                    items={dynamicEventData?.length}
                     disableDotsControls
                     activeIndex={activeIndex}
+                    slideToIndex={activeIndex}
                     responsive={responsive}
                     onSlideChanged={syncActiveIndex}
                   >
@@ -620,7 +630,7 @@ const ChatLinkPage = () => {
                         <>
                           <div
                             className="item"
-                            onClick={(e) => templateClicked(template, e)}
+                            onClick={(e) => templateClicked(template, e,index)}
                           >
                             <img
                               id={`"template_dyn" + template?.popupNo`}
@@ -628,7 +638,7 @@ const ChatLinkPage = () => {
                               alt=""
                               className={
                                 typeof activeIndex !== "undefined" &&
-                                activeIndex == template?.templateId
+                                activeIndex == index
                                   ? "select_mm"
                                   : ""
                               }

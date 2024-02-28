@@ -38,7 +38,7 @@ const settings = {
     },
   ],
 };
-const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
+const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab }) => {
   const [question, setQuestion] = useState([]);
   const currentQuestion = useRef();
   const slickRef = useRef("");
@@ -62,10 +62,16 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
     footerButton: "",
   });
   const [closedIndex, setClosedIndex] = useState();
+ 
   useEffect(() => {
+   
     setShow(false);
+    if(firstTimeTab){
+      firstTime.current=true   
+    }
     let currentIndex = 0;
     const index = questionData.findIndex((item) => item?.triggered === 1);
+ 
     if (index !== -1) {
       currentIndex = index;
     } else {
@@ -73,13 +79,16 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
         (item) => item?.showAnswerToUser === 1
       );
       if (showAnswerIndex !== -1) {
+       
         currentIndex = showAnswerIndex;
       } else if (closedIndex >= 0) {
+       
         currentIndex = closedIndex;
       } else {
         const showQuestionIndex = questionData.findIndex(
           (item) => item?.showQuestionToUser === 0
         );
+       
         currentIndex =
           showQuestionIndex !== -1
             ? showQuestionIndex
@@ -109,15 +118,12 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
       setShow(true);
       setApiCallStatus(false);
     }
-
     setClosedIndex();
-
-    //}
   }, [questionData]);
 
   useEffect(() => {
     if (question?.length > 0) {
-      if (slickRef.current) {
+      if (slickRef.current) {      
         if (firstTime.current) {
           slickRef.current.slickGoTo(currentIndex, true);
           currentQuestion.current = question[currentIndex]?.questionId;
@@ -134,7 +140,6 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
       };
       apiCall();
     }
-    //
   }, [currentTab]);
   useEffect(() => {
     return () => {
@@ -146,7 +151,6 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
   const handleAfterChange = async (current) => {
     try {
       let questionId = question[current]?.questionId;
-
       currentQuestion.current = questionId;
 
       // currentQuestion.current = questionId;
@@ -210,11 +214,9 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions }) => {
             });
 
             const tempData = result?.data?.data;
-
             if (tempData?.length) {
               const tempQuestion = question.map((item) => {
                 item.triggered = 0;
-
                 if (item.showQuestionToUser === 1) {
                   item.showQuestionToUser = 2;
                 }
