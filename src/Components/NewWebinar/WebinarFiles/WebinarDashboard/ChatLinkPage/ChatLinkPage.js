@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { postData, getData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
@@ -17,10 +17,13 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ChatLinkPage = () => {
   const { eventIdContext, handleEventId } = useSidebar();
   const [activeIndex, setActiveIndex] = useState(0);
+  const aliceCarouselRef = useRef(null);
+
   const responsive = {
     0: { items: 1 },
     568: { items: 2 },
     1024: { items: 4 },
+    1921: { items: 5 }
   };
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
   const [popupMessage, setPopupMessage] = useState({
@@ -82,18 +85,29 @@ const ChatLinkPage = () => {
       const { chatLinkData } = response?.data?.data;
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
 
-        const data=dynamicEventData?.filter((item,index)=>item?.templateId==chatLinkData?.templateId)
-        if(  data?.length){
-          setTemplateData(
-            data[0]
-           );
-        }else{
+        const index = dynamicEventData.findIndex((item) => item?.templateId === chatLinkData?.templateId);
+
+       console.log(index,"index");
+       
+        if (index !== -1) {
+            const filteredItem = dynamicEventData[index];
+            setTemplateData(
+              filteredItem
+             );
+            console.log( aliceCarouselRef?.current?.slideTo(index))
+        
+             setActiveIndex(index);
+
+        } else {
           setTemplateData(
             dynamicEventData[1]
            );
+           setActiveIndex(0);
+
         }
+  
+       
         
-        setActiveIndex(chatLinkData?.templateId);
         setDynamicContent(chatLinkData);
         setApiData(chatLinkData);
         setFormData(chatLinkData);
@@ -457,7 +471,7 @@ const ChatLinkPage = () => {
       console.error("Error preview in new window:", error);
     }
   };
-  const templateClicked = (template, e) => {
+  const templateClicked = (template, e,index=0) => {
     if (isFormChange) {
       setTemplateData(template);
       setPopupMessage({
@@ -552,7 +566,7 @@ const ChatLinkPage = () => {
         }
       }
 
-      setActiveIndex(template?.templateId);
+      setActiveIndex(index);
     }
   };
   return (
@@ -602,26 +616,27 @@ const ChatLinkPage = () => {
               </div>
             </div>
             <section className="select-mail-template library-consent create-change-content">
-              <div className="custom-container">
-                <Row>
                   <div className="page-title">
                     <h6>Select Template</h6>
                   </div>
 
                   <AliceCarousel
+                   ref={aliceCarouselRef}
                     mouseTracking
                     //disableButtonsControls
+                    items={dynamicEventData?.length}
                     disableDotsControls
                     activeIndex={activeIndex}
+                    slideToIndex={activeIndex}
                     responsive={responsive}
-                    onSlideChanged={syncActiveIndex}
+                    // onSlideChanged={syncActiveIndex}
                   >
                     {dynamicEventData.map((template, index) => {
                       return (
                         <>
                           <div
                             className="item"
-                            onClick={(e) => templateClicked(template, e)}
+                            onClick={(e) => templateClicked(template, e,index)}
                           >
                             <img
                               id={`"template_dyn" + template?.popupNo`}
@@ -629,7 +644,7 @@ const ChatLinkPage = () => {
                               alt=""
                               className={
                                 typeof activeIndex !== "undefined" &&
-                                activeIndex == template?.templateId
+                                activeIndex == index
                                   ? "select_mm"
                                   : ""
                               }
@@ -640,8 +655,6 @@ const ChatLinkPage = () => {
                       );
                     })}
                   </AliceCarousel>
-                </Row>{" "}
-              </div>{" "}
             </section>
 
             <div className="register-page create-change-content chatlink">
@@ -921,7 +934,7 @@ const ChatLinkPage = () => {
                                 </div>
                               </div>
                               <span className="suggestion">
-                                (Recommended size 300 x 140)
+                                (Recommended size 190 x 100)
                               </span>
                             </>
                           ) : value.type == "color" ? (
