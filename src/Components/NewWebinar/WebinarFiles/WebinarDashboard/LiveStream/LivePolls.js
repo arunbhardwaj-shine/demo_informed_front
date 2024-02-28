@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 
-const LivePolls = ({ location, flag ,setSelectedTab}) => {
+const LivePolls = ({ location, flag ,setSelectedTab,firstTimeTab}) => {
     const navigate = useNavigate();
 
     const {eventIdContext,handleEventId}=useSidebar()
@@ -60,7 +60,7 @@ const LivePolls = ({ location, flag ,setSelectedTab}) => {
 
     return (<>
 {data?
-        <LivePollsQuestion questionData={data} eventData={eventId} isdataLoaded={isdataLoaded} getQuestions={getEventQuestion}/>
+        <LivePollsQuestion questionData={data} eventData={eventId} isdataLoaded={isdataLoaded} getQuestions={getEventQuestion} firstTimeTab={firstTimeTab}/>
         :""} 
     </>)
 }
