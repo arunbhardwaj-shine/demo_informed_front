@@ -81,11 +81,18 @@ const ChatLinkPage = () => {
       );
       const { chatLinkData } = response?.data?.data;
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
-        setTemplateData(
-          dynamicEventData[
-            chatLinkData?.templateId ? chatLinkData?.templateId - 1 : 1
-          ]
-        );
+
+        const data=dynamicEventData?.filter((item,index)=>item?.templateId==chatLinkData?.templateId)
+        if(  data?.length){
+          setTemplateData(
+            data[0]
+           );
+        }else{
+          setTemplateData(
+            dynamicEventData[1]
+           );
+        }
+        
         setActiveIndex(chatLinkData?.templateId);
         setDynamicContent(chatLinkData);
         setApiData(chatLinkData);
@@ -627,7 +634,7 @@ const ChatLinkPage = () => {
                                   : ""
                               }
                             />
-                            {/* <p>{template?.templateName}</p> */}
+                            <p>{template?.templateName}</p>
                           </div>
                         </>
                       );
@@ -641,6 +648,7 @@ const ChatLinkPage = () => {
               <div className="row ">
                 <div className="col-md-6 col-sm-6">
                   <div className="chatlink-left">
+                    
                     {Object.entries(templateData?.fieldData).map(
                       ([field, value]) => (
                         <div
@@ -871,8 +879,7 @@ const ChatLinkPage = () => {
                                 <img
                                   className="header-img"
                                   src={
-                                    footerImage
-                                     
+                                    footerImage 
                                   }
                                 />
 
@@ -1042,13 +1049,7 @@ const ChatLinkPage = () => {
 
                             <div className="row">
                               <div className="col-md-12">
-                                {/* <label htmlFor="fname" className="form-label">
-                                Name{" "}
                                
-                                <i>
-                                  <small>(Optional)</small>
-                                </i>
-                              </label> */}
                                 <label
                                   htmlFor="fname"
                                   className="form-label"
@@ -1056,9 +1057,7 @@ const ChatLinkPage = () => {
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.nameLabel,
                                   }}
-                                  // <i>
-                                  //   <small>(Optional)</small>
-                                  // </i>
+                                  
                                 />
 
                                 <input
@@ -1070,7 +1069,7 @@ const ChatLinkPage = () => {
                                   className="form-control "
                                   placeholder={formData?.namePlaceholder}
                                   name="name"
-                                  // value={user?.name}
+                                  
                                 />
 
                                 <input
@@ -1093,11 +1092,7 @@ const ChatLinkPage = () => {
                                 />
                               </div>
                               <div className="col-md-12">
-                                {/* <label htmlFor="question" className="form-label">
-                                Your question
-                    
-                                <sup>*</sup>
-                              </label> */}
+                               
                                 <label
                                   htmlFor="fname"
                                   className="form-label"
@@ -1105,7 +1100,7 @@ const ChatLinkPage = () => {
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.questionLabel,
                                   }}
-                                  // <sup>*</sup>
+                                 
                                 />
                                 <textarea
                                   style={{
@@ -1117,7 +1112,7 @@ const ChatLinkPage = () => {
                                   placeholder={formData?.questionPlaceholder}
                                   cols="40"
                                   rows="4"
-                                  // value={user?.question}
+                                  
                                 ></textarea>
                                 {error?.question ? (
                                   <span className="event-validation">
@@ -1129,18 +1124,10 @@ const ChatLinkPage = () => {
                               </div>
 
                               <div className="col-md-12">
-                                {/* <input
-                                type="submit"
-                                className="btn btn-success"
-                                value={
-                                  parms?.includes("eahad_2024")
-                                    ? "SUBMIT"
-                                    : dynamicContent?.buttonText
-                                }
-                              /> */}
+                               
 
                                 <Button
-                                  // type="submit"
+                                 
                                   className="btn btn-success"
                                   style={{
                                     background: formData?.buttonColor,
