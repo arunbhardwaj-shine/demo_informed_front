@@ -1643,7 +1643,19 @@
   .question-outer-layout .question-action {
     gap: 30px;
   }
-
+.left-sidebar .sidebar_txt {
+  margin: 0px 0 0;
+}
+.sidebar-menu ul {
+  margin: 20px 0 0;
+}
+.sidebar-menu .sidebar-menu-secondary ul::-webkit-scrollbar {
+  display: none;
+}
+.sidebar-menu ul li {
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
   .poll-creation .question-outer-inset .question-boxed {
     padding: 5px;
   }
@@ -2559,6 +2571,9 @@
   .dropdown-menu.filter-options {
     width: 270px;
   }
+    .left-sidebar .sidebar_txt {
+      margin: 15px 0 0;
+    }
 .verify_email .verify-left {
   width: 100%;
 }
