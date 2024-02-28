@@ -259,7 +259,7 @@ const Sidebar = () => {
                   <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
                 </button>
                 {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
-                <span>{eventIdContext?.eventTitle?eventIdContext?.eventTitle:localStorageEvent?.eventTitle}</span>
+                <span title={eventIdContext?.eventTitle?eventIdContext?.eventTitle:localStorageEvent?.eventTitle}>{eventIdContext?.eventTitle?eventIdContext?.eventTitle:localStorageEvent?.eventTitle}</span>
               </div>
             </>
           ) : null}
@@ -1195,7 +1195,7 @@ const Sidebar = () => {
                         <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
                       </button>
                       {/* <span>Event Name sollicitudin faucibus molestie gulvinar ultricies</span> */}
-                      <span>{eventIdContext?.eventTitle?eventIdContext?.eventTitle:localStorageEvent?.eventTitle}</span>
+                                <span title={eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}>{eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle}</span>
                     </div>
                       <ul>
                         <li className={isActive ? 'active' : 'side_li'}
