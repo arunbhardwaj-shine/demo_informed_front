@@ -21,6 +21,7 @@ const ChatLinkPage = () => {
     0: { items: 1 },
     568: { items: 2 },
     1024: { items: 4 },
+    1921: { items: 5 }
   };
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
   const [popupMessage, setPopupMessage] = useState({
@@ -610,8 +611,6 @@ console.log(index,"index");
               </div>
             </div>
             <section className="select-mail-template library-consent create-change-content">
-              <div className="custom-container">
-                <Row>
                   <div className="page-title">
                     <h6>Select Template</h6>
                   </div>
@@ -650,8 +649,6 @@ console.log(index,"index");
                       );
                     })}
                   </AliceCarousel>
-                </Row>{" "}
-              </div>{" "}
             </section>
 
             <div className="register-page create-change-content chatlink">
@@ -931,7 +928,7 @@ console.log(index,"index");
                                 </div>
                               </div>
                               <span className="suggestion">
-                                (Recommended size 300 x 140)
+                                (Recommended size 190 x 100)
                               </span>
                             </>
                           ) : value.type == "color" ? (

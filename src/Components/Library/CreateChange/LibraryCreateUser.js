@@ -213,7 +213,7 @@ const LibraryCreateUser = () => {
   useEffect(() => {
     initalFun();
   }, []);
-  const handleChange = (e, isSelectedName) => {    
+  const handleChange = (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
       return;
     }
@@ -347,14 +347,20 @@ const LibraryCreateUser = () => {
               );
         }
 
-        if (
-          userDetail?.user?.[0]?.group_id == 3 &&
+        if (userDetail?.user?.[0]?.group_id == 3 &&
           userDetail?.user?.[0]?.octaLach == 1
         ) {
           formData.append(
             "medical",
             userInputs?.medical
               ? JSON.stringify(userInputs?.medical)
+              : JSON.stringify(false)
+          );
+
+          formData.append(
+            "sync_onesource",
+            userInputs?.sync_onesource
+              ? JSON.stringify(userInputs?.sync_onesource)
               : JSON.stringify(false)
           );
         }
@@ -1554,7 +1560,7 @@ const LibraryCreateUser = () => {
                       <>
                         {
                           <div className="form-group">
-                            <label htmlFor="setasdraft1">Set as draft</label>
+                            <label htmlFor="setasdraft5">Set as draft</label>
                             <fieldset id="group2">
                               <div className="switch">
                                 <label className="switch-light">
@@ -1562,7 +1568,7 @@ const LibraryCreateUser = () => {
                                     type="checkbox"
                                     value="value1"
                                     name="group2"
-                                    id="setasdraft1"
+                                    id="setasdraft5"
                                     onChange={(e) => {
                                       handleChange(e.target?.checked, "draft");
                                     }}
@@ -1630,7 +1636,7 @@ const LibraryCreateUser = () => {
                           </fieldset>
                         </div>
                         <div className="form-group">
-                          <label htmlFor="setasdraft1">Set as draft</label>
+                          <label htmlFor="setasdraft2">Set as draft</label>
                           <fieldset id="group2">
                             <div className="switch">
                               <label className="switch-light">
@@ -1638,7 +1644,7 @@ const LibraryCreateUser = () => {
                                   type="checkbox"
                                   value="value1"
                                   name="group2"
-                                  id="setasdraft1"
+                                  id="setasdraft2"
                                   onChange={(e) => {
                                     handleChange(e.target?.checked, "draft");
                                   }}
@@ -1659,7 +1665,7 @@ const LibraryCreateUser = () => {
                     userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
                         <div className="form-group">
-                          <label htmlFor="setasdraft1">Medical</label>
+                          <label htmlFor="setasdraft3">Medical</label>
                           <fieldset id="group2">
                             <div className="switch">
                               <label className="switch-light">
@@ -1667,7 +1673,7 @@ const LibraryCreateUser = () => {
                                   type="checkbox"
                                   value="value1"
                                   name="group2"
-                                  id="setasdraft1"
+                                  id="setasdraft3"
                                   onChange={(e) => {
                                     handleChange(e.target?.checked, "medical");
                                   }}
@@ -1683,10 +1689,40 @@ const LibraryCreateUser = () => {
                         </div>
                       </>
                     ) : null}
+
+                    {userDetail?.user?.[0]?.octaLach == 1 &&
+                    userDetail?.user?.[0]?.group_id == 3 ? (
+                      <>
+                        <div className="form-group">
+                          <label htmlFor="synconesource" dangerouslySetInnerHTML={{__html: 'OneSource/<br>InformedGO<br>Library'}}></label>
+                          <fieldset id="sync_onesource">
+                            <div className="switch">
+                              <label className="switch-light">
+                                <input
+                                  type="checkbox"
+                                  value="value1"
+                                  name="sync_onesource"
+                                  id="synconesource"
+                                  onChange={(e) => {
+                                    handleChange(e.target?.checked, "sync_onesource");
+                                  }}
+                                />
+                                <span>
+                                  <span className="switch-btn active">No</span>
+                                  <span className="switch-btn">Yes</span>
+                                </span>
+                                <a className="btn"></a>
+                              </label>
+                            </div>
+                          </fieldset>
+                        </div>
+                      </>
+                    ) : null}
+                    
                     {userDetail?.user?.[0]?.flag == 1 &&
                     userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
-                        <label htmlFor="setasdraft1">
+                        <label htmlFor="setasdraft4">
                           {localStorage.getItem("user_id") ==
                           "56Ek4feL/1A8mZgIKQWEqg=="
                             ? "Irt mandatory training"
@@ -1698,7 +1734,7 @@ const LibraryCreateUser = () => {
                               <input
                                 type="checkbox"
                                 name="group2"
-                                id="setasdraft1"
+                                id="setasdraft4"
                                 onChange={(e) => {
                                   handleChange(e.target?.checked, "mandatory");
                                 }}
