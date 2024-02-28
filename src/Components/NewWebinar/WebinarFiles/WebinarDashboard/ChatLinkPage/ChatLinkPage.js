@@ -921,7 +921,7 @@ const ChatLinkPage = () => {
                                 </div>
                               </div>
                               <span className="suggestion">
-                                (Recommended size 300 x 140)
+                                (Recommended size 190 x 100)
                               </span>
                             </>
                           ) : value.type == "color" ? (
