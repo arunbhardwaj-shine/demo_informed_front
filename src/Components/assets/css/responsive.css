@@ -47,11 +47,6 @@
     flex: 0 0 auto;
     width: 25%;
   }
-
-  /* .modal-dialog {
-    margin: 8rem auto;
-  } */
-
   #send-sample.modal-dialog {
     height: calc(100% - 16rem);
   }

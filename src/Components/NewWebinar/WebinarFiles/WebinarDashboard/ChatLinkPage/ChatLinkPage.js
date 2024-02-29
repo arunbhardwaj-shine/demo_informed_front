@@ -52,7 +52,8 @@ const ChatLinkPage = () => {
   const [isDataSaved, setIsDataSaved] = useState(true);
   const [templateData, setTemplateData] = useState(dynamicEventData[0]);
   const [apiData, setApiData] = useState({});
-
+  const [downloadqr, setDownloadQr] = useState(false);
+  const [downloadqrSection, setDownloadQrSection] = useState(false);
   const [dynamicContent, setDynamicContent] = useState(() => {
     const initialState = {};
     initialState.templateId = dynamicEventData[0]?.templateId;
@@ -576,6 +577,50 @@ console.log(index,"index");
               </div>
               <div className="top-right-action">
                 <div className="d-flex justify-content-end header_btns">
+                  <div className="dropdown qr-download">
+                    <button
+                      className="btn btn-primary dropdown"
+                      type="button"
+                      onClick={() => setDownloadQr((downloadqr) => !downloadqr)}
+                    >
+                      Download QR
+                      
+                    </button>
+                    {downloadqr && (
+                      <div
+                        className="dropdown-menu filter-options"
+                        aria-labelledby="dropdownMenuButton2"
+                      >
+                        <ul>
+                          <li>
+                            <label className="select-multiple-option">
+                            <input
+                              type="checkbox"
+                              id="qr-code"
+                            />Download PNG
+                            <span className="checkmark"></span>
+                            </label>
+                          </li>
+                          <li>
+                            <label className="select-multiple-option">
+                            <input
+                              type="checkbox"
+                              id="qr-code1"
+                            />Download EPS
+                            <span className="checkmark"></span>
+                            </label>
+                          </li>
+                        </ul>
+                        <div className="filter-footer justify-content-end">
+                          <button
+                            className="btn btn-primary btn-filled"
+                          >
+                            Download
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   <a
                     // className={`copy_link btn-voilet`}
                     className={`copy_link btn-voilet ${
