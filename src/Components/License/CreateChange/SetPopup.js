@@ -84,13 +84,22 @@ const SetPopup = (props) => {
     { value: "Sunshine", label: "Sunshine" },
   ]);
 
+  // const [timeList, setTimeList] = useState([
+  //   { value: "5", label: "5 Second" },
+  //   { value: "10", label: "10 Second" },
+  //   { value: "15", label: "15 Second" },
+  //   { value: "20", label: "20 Second" },
+  //   { value: "25", label: "25 Second" },
+  //   { value: "2500", label: "No Pop-up" },
+  // ]);
+
   const [timeList, setTimeList] = useState([
-    { value: "5", label: "5 Second" },
-    { value: "10", label: "10 Second" },
-    { value: "15", label: "15 Second" },
-    { value: "20", label: "20 Second" },
-    { value: "25", label: "25 Second" },
-    { value: "2500", label: "No Pop-up" },
+    { value: "5000", label: "5 Second" },
+    { value: "10000", label: "10 Second" },
+    { value: "15000", label: "15 Second" },
+    { value: "20000", label: "20 Second" },
+    { value: "25000", label: "25 Second" },
+    { value: "25000000", label: "No Pop-up" },
   ]);
 
   const responsive = {
