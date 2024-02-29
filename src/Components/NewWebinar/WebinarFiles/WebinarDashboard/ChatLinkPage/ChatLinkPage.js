@@ -32,6 +32,8 @@ const ChatLinkPage = () => {
     footerButton: "",
   });
   const [isFormChange, setIsFormChange] = useState(false);
+  const [sliderIndex, setSliderIndex] = useState(0);
+  const currentIndex = useRef(null);
 
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
@@ -91,11 +93,16 @@ const ChatLinkPage = () => {
 
         if (index !== -1) {
 
-
+          const filteredItem = dynamicEventData[index];
+          setTemplateData(filteredItem);
+    
           setActiveIndex(index);
+          currentIndex.current = index
+       
         } else {
-          setTemplateData(dynamicEventData[1]);
+          setTemplateData(dynamicEventData[0]);
           setActiveIndex(0);
+          currentIndex.current = 0
         }
 
         setDynamicContent(chatLinkData);
@@ -564,7 +571,7 @@ const ChatLinkPage = () => {
               <div className="page-title">
                 <h2>Chat Link</h2>
               </div>
-              <div className="top-right-action">
+           { currentIndex.current !=null &&   <div className="top-right-action">
                 <div className="d-flex justify-content-end header_btns">
                   <a
                     className={`copy_link btn-voilet ${
@@ -597,14 +604,14 @@ const ChatLinkPage = () => {
                     Open Link
                   </Button>
                 </div>
-              </div>
+              </div>}
             </div>
             <section className="select-mail-template library-consent create-change-content">
               <div className="page-title">
                 <h6>Select Template</h6>
               </div>
 
-              <AliceCarousel
+              {(dynamicEventData?.length && currentIndex.current !=null) && <AliceCarousel
                 ref={aliceCarouselRef}
                 mouseTracking
                 //disableButtonsControls
@@ -613,11 +620,10 @@ const ChatLinkPage = () => {
                 activeIndex={activeIndex}
                 responsive={responsive}
                 onInitialized={()=>{
-                  aliceCarouselRef.current?.slideTo(5)
-                  console.log(aliceCarouselRef.current);
+                  aliceCarouselRef.current?.slideTo(currentIndex.current)
                 }}
               >
-                {dynamicEventData.map((template, index) => {
+                { dynamicEventData.map((template, index) => {
                   return (
                     <>
                       <div
@@ -641,14 +647,14 @@ const ChatLinkPage = () => {
                     </>
                   );
                 })}
-              </AliceCarousel>
+              </AliceCarousel>}
             </section>
 
             <div className="register-page create-change-content chatlink">
               <div className="row ">
                 <div className="col-md-6 col-sm-6">
                   <div className="chatlink-left">
-                    {Object.entries(templateData?.fieldData).map(
+                    {currentIndex.current !=null && Object.entries(templateData?.fieldData).map(
                       ([field, value]) => (
                         <div
                           key={field}
@@ -961,9 +967,9 @@ const ChatLinkPage = () => {
                         </div>
                       )
                     )}
-                    <Button className="save-btn" onClick={handleSubmitForm}>
+                 {currentIndex.current !=null &&  <Button className="save-btn" onClick={handleSubmitForm}>
                       Save
-                    </Button>
+                    </Button>}
                   </div>
                 </div>
 
@@ -974,7 +980,7 @@ const ChatLinkPage = () => {
                         <span className="loader-view"> </span>
                       </div>
                     </div>
-                    <div className={`octa_events`}>
+                    {currentIndex.current !=null && <div className={`octa_events`}>
                       <div className="question-block">
                         <div className="header-logo">
                           <div>
@@ -1177,7 +1183,7 @@ const ChatLinkPage = () => {
                           )}
                         </div>
                       </div>
-                    </div>
+                    </div>}
                   </div>
                 </div>
               </div>
