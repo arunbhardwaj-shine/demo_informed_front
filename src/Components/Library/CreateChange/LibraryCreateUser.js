@@ -1694,7 +1694,7 @@ const LibraryCreateUser = () => {
                     userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
                         <div className="form-group">
-                          <label htmlFor="synconesource" dangerouslySetInnerHTML={{__html: 'OneSource/<br>InformedGO<br>Library'}}></label>
+                          <label htmlFor="synconesource"><img src={path_image + "library_move.svg"} /></label>
                           <fieldset id="sync_onesource">
                             <div className="switch">
                               <label className="switch-light">
