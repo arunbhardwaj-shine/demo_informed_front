@@ -340,7 +340,6 @@ const ChatLinkPage = () => {
 
   const uploadImageToServer = async (file) => {
     try {
-      // const validExtensions = ["png", "jpeg"];
       const extension = file.name.split(".").pop().toLowerCase();
       if (!validExtensions.includes(extension)) {
         throw new Error(
@@ -581,7 +580,6 @@ const ChatLinkPage = () => {
               <div className="top-right-action">
                 <div className="d-flex justify-content-end header_btns">
                   <a
-                    // className={`copy_link btn-voilet`}
                     className={`copy_link btn-voilet ${
                       !isDataSaved ? "disabled" : ""
                     }`}
@@ -943,7 +941,6 @@ const ChatLinkPage = () => {
                                   onChange={(e) =>
                                     handleDynamicChange(field, e.target.value)
                                   }
-                                  // defaultValue={dynamicEventData?.textColor?.value}
                                   defaultValue={dynamicContent[field]}
                                   value={dynamicContent[field]}
                                 />
