@@ -88,22 +88,9 @@ const ChatLinkPage = () => {
           (item) => item?.templateId === chatLinkData?.templateId
         );
 
-        console.log(index, "index");
 
         if (index !== -1) {
-          const filteredItem = dynamicEventData[index];
-          setTemplateData(filteredItem);
-          let selectDiv = document.getElementById(
-            `template_${filteredItem?.templateId}`
-          );
 
-          if (selectDiv) {
-            selectDiv.scrollIntoView({
-              behavior: "smooth",
-              block: "nearest",
-              inline: "start",
-            });
-          }
 
           setActiveIndex(index);
         } else {
@@ -624,9 +611,11 @@ const ChatLinkPage = () => {
                 items={dynamicEventData?.length}
                 disableDotsControls
                 activeIndex={activeIndex}
-                slideToIndex={activeIndex}
                 responsive={responsive}
-                // onSlideChanged={syncActiveIndex}
+                onInitialized={()=>{
+                  aliceCarouselRef.current?.slideTo(5)
+                  console.log(aliceCarouselRef.current);
+                }}
               >
                 {dynamicEventData.map((template, index) => {
                   return (
