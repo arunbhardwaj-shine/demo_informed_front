@@ -1238,7 +1238,7 @@ const WebinarRegistration = () => {
               </div>
               <div className="top-right-action">
                   <div className="d-flex justify-content-center header_btns">
-                  <div className="dropdown qr-download">
+                  {/* <div className="dropdown qr-download">
                     <button
                       className="btn btn-primary dropdown"
                       type="button"
@@ -1281,7 +1281,7 @@ const WebinarRegistration = () => {
                         </div>
                       </div>
                     )}
-                  </div>
+                  </div> */}
                     <a
                       className={`copy_link btn-bordered ${
                         !isDataSaved ? "disabled" : ""
