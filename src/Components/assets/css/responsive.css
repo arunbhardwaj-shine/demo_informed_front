@@ -1910,14 +1910,15 @@
   display: flex;
   justify-content: flex-end;
 }
-.preview_mail h4,
-.verify-email-detail h4 {
-  font-size: 16px;
-}
+
 .verify-email-detail h6 {
   font-size: 14px;
   line-height: 17px;
   margin-bottom: 7px;
+}
+.preview_mail h4,
+.verify-email-detail h4 {
+  font-size: 16px;
 }
 .verify-email-detail .form-buttons.right-side {
   margin: 0 0 10px;
