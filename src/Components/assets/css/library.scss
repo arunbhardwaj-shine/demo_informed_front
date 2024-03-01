@@ -422,6 +422,12 @@
           img {
             width: 12px;
             margin-left: 4px;
+
+            &.library_go {
+              margin: 0;
+              width: 100%;
+              max-width: 70px;
+            }
           }
         }
 
@@ -659,6 +665,11 @@
       line-height: 21px;
       color: $dark-blue;
       flex: 0 0 154px;
+
+      &>img {
+        max-width: 100px;
+        width: 100%;
+      }
 
       >span {
         color: $pink;
@@ -3339,10 +3350,6 @@ form.product-unit button {
   text-transform: unset;
 }
 
-// .create-change-content .form-group.margin-added .add_product {
-//   margin-right: -40%;
-// }
-
 .create-change-content .form-group.margin-added .add_product {
   margin-right: -183px;
 }
@@ -3507,7 +3514,7 @@ button.btn.btn-primary.btn-bordered.move-draft.chappter-add-btn {
 }
 
 .create-change-content .form-group .ebook-format label {
-  flex: 0 0 136px;
+  flex: 0 0 144px;
 }
 
 .create-change-content .form-group .ebook-format input.form-control {
@@ -7903,9 +7910,6 @@ svg.pencil_icon {
   background-size: 225px;
 }
 
-// .modal-body .form-group label span{
-//   color:$pink;
-// }
 .form-group.primary_phone .dropdown-basic-button.split-button-dropup div:nth-child(3)>div div {
   padding-right: 0;
 }
@@ -12305,15 +12309,6 @@ img.change-password-image {
               gap: 8px;
 
               input[type="color"] {
-                // border-radius: 30px;
-                // -webkit-appearance: none;
-                // appearance: none;
-                // width: 64px;
-                // margin-left: 0px;
-                // cursor: pointer;
-                // padding-left: 0px;
-                // height: 100%;
-
                 &::-webkit-color-swatch {
                   border: none;
                   border-radius: 30px;
@@ -12326,17 +12321,6 @@ img.change-password-image {
                   padding: 0;
                 }
               }
-
-              // img {
-              //   max-width: 40px;
-              //   position: relative;
-              //   pointer-events: none;
-              //   border-radius: 30px;
-              //   background: $white;
-              //   padding: 9px;
-              //   width: 100%;
-              //   cursor: pointer;
-              // }
             }
           }
         }
@@ -15099,9 +15083,6 @@ img.change-password-image {
       width: 86%;
       animation: Rotate-reverse 26s linear infinite;
       -webkit-animation: Rotate-reverse 26s linear infinite;
-      // animation: img-rotate 26s linear infinite;
-      // -webkit-animation: img-rotate 26s linear infinite;
-      // transform: rotate(-45deg);
     }
 
     &:first-child {
@@ -15334,18 +15315,6 @@ img.change-password-image {
 
 .main-outer {
   .circular-ring {
-    // .big-circle {
-    //   animation-duration: 13s;
-    //   -webkit-animation-duration: 13s;
-    // }
-
-    // .icon-block {
-    //   img {
-    //     animation-duration: 13s;
-    //     -webkit-animation-duration: 13s;
-    //   }
-    // }
-
     .circle {
       &.circle-inner2 {
         animation-name: circle-rotate-reverse;
@@ -15553,15 +15522,8 @@ img.change-password-image {
         height: calc(100% - 100px);
         background: url(../../../../public/componentAssets/images/pharma-circle-bg.svg) no-repeat;
         background-position: center;
-        // animation: circle-rotate-reverse 26s linear infinite;
-        // -webkit-animation: circle-rotate-reverse 26s linear infinite;
 
         .icon-block {
-          // img {
-          //   // animation: img-rotate-reverse 26s linear infinite;
-          //   // -webkit-animation: img-rotate-reverse 26s linear infinite;
-          // }
-
           &:first-child {
             top: 1.6%;
             left: 48%;
@@ -17075,31 +17037,7 @@ img.change-password-image {
   }
 }
 
-// @keyframes bounce {
-//   0% {
-//     transform: var(--transform) scale(0.8);
-//   }
-
-//   100% {
-//     transform: var(--transform) scale(1.2);
-//   }
-// }
-
 @keyframes bounce {
-  // 0% {
-  //   -webkit-transform: var(--transform) scale(1);
-  //   transform: var(--transform) scale(1);
-  // }
-
-  // 25% {
-  //   -webkit-transform: var(--transform) scale(0.9);
-  //   transform: var(--transform) scale(0.9);
-  // }
-
-  // 50% {
-  //   -webkit-transform: var(--transform) scale(1.1);
-  //   transform: var(--transform) scale(1.1);
-  // }
 
   0% {
     -webkit-transform: var(--transform) scale(1);
@@ -17157,6 +17095,7 @@ img.change-password-image {
       flex-direction: column;
       padding: 5px;
       z-index: 2;
+      justify-content: center;
       cursor: pointer;
       // Decimal value, 0-1 based on the child's index.
       --d: calc(var(--i) / var(--total));
@@ -17173,14 +17112,6 @@ img.change-password-image {
       transition: transform 1.5s ease-in-out;
 
       &.random-class {
-        // -webkit-animation: bounce 2s ease infinite;
-        // animation: bounce 2s ease infinite;
-        // -webkit-animation-duration: 0.75s;
-        // animation-duration: 0.75s;
-        // -webkit-animation-duration: calc(1 * 0.75);
-        // animation-duration: calc(1 * 0.75);
-        // -webkit-animation-name: bounce;
-        // animation-name: bounce;
         animation: bounce 0.7s alternate infinite ease-in;
       }
 
@@ -20621,6 +20552,10 @@ img.change-password-image {
   .feilds-section h5 {
     font-size: 16px;
     margin: 0 0 12px;
+  }
+
+  .table-responsive {
+    max-height: 465px;
   }
 
   .survey_data .survey_data_heading .clear-search a.btn-voilet {

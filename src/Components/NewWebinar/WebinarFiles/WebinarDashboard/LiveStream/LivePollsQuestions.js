@@ -746,6 +746,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div className="table-responsive">
           {
             currentQuestionID == 1660 ? 
             <table className="table table-custom">
@@ -826,6 +827,7 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
               </tbody>
             </table>
           }
+          </div>
         </Modal.Body>
       </Modal>
     </>

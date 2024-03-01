@@ -47,11 +47,6 @@
     flex: 0 0 auto;
     width: 25%;
   }
-
-  /* .modal-dialog {
-    margin: 8rem auto;
-  } */
-
   #send-sample.modal-dialog {
     height: calc(100% - 16rem);
   }
@@ -1910,14 +1905,15 @@
   display: flex;
   justify-content: flex-end;
 }
-.preview_mail h4,
-.verify-email-detail h4 {
-  font-size: 16px;
-}
+
 .verify-email-detail h6 {
   font-size: 14px;
   line-height: 17px;
   margin-bottom: 7px;
+}
+.preview_mail h4,
+.verify-email-detail h4 {
+  font-size: 16px;
 }
 .verify-email-detail .form-buttons.right-side {
   margin: 0 0 10px;
@@ -3584,7 +3580,7 @@
   }
 
   .show-comments .modal-body {
-    padding: 0 10px 5px;
+    padding: 0 10px 10px;
   }
 
   .show-comments #showComments .modal-title.h4 {
@@ -3598,7 +3594,7 @@
 
   #showComments th,
   #showComments td {
-    font-size: 14px;
+    font-size: 12px;
     padding: 3px;
   }
 
