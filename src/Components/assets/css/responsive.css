@@ -3579,7 +3579,7 @@
   }
 
   .show-comments .modal-body {
-    padding: 0 10px 5px;
+    padding: 0 10px 10px;
   }
 
   .show-comments #showComments .modal-title.h4 {
@@ -3593,7 +3593,7 @@
 
   #showComments th,
   #showComments td {
-    font-size: 14px;
+    font-size: 12px;
     padding: 3px;
   }
 
