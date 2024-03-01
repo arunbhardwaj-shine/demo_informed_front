@@ -23,7 +23,7 @@ const ChatLinkPage = () => {
     0: { items: 1 },
     568: { items: 2 },
     1024: { items: 4 },
-    1921: { items: 5 }
+    1921: { items: 5 },
   };
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
   const [popupMessage, setPopupMessage] = useState({
@@ -32,6 +32,8 @@ const ChatLinkPage = () => {
     footerButton: "",
   });
   const [isFormChange, setIsFormChange] = useState(false);
+  const [sliderIndex, setSliderIndex] = useState(0);
+  const currentIndex = useRef(null);
 
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
@@ -54,7 +56,8 @@ const ChatLinkPage = () => {
   const [isDataSaved, setIsDataSaved] = useState(true);
   const [templateData, setTemplateData] = useState(dynamicEventData[0]);
   const [apiData, setApiData] = useState({});
-
+  const [downloadqr, setDownloadQr] = useState(false);
+  const [downloadqrSection, setDownloadQrSection] = useState(false);
   const [dynamicContent, setDynamicContent] = useState(() => {
     const initialState = {};
     initialState.templateId = dynamicEventData[0]?.templateId;
@@ -84,44 +87,39 @@ const ChatLinkPage = () => {
       );
       const { chatLinkData } = response?.data?.data;
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
+        const index = dynamicEventData.findIndex(
+          (item) => item?.templateId === chatLinkData?.templateId
+        );
 
-        const index = dynamicEventData.findIndex((item) => item?.templateId === chatLinkData?.templateId);
 
-       console.log(index,"index");
-       
         if (index !== -1) {
-            const filteredItem = dynamicEventData[index];
-            setTemplateData(
-              filteredItem
-             );
-            console.log( aliceCarouselRef?.current?.slideTo(index))
-        
-             setActiveIndex(index);
 
-        } else {
-          setTemplateData(
-            dynamicEventData[1]
-           );
-           setActiveIndex(0);
-
-        }
-  
+          const filteredItem = dynamicEventData[index];
+          setTemplateData(filteredItem);
+    
+          setActiveIndex(index);
+          currentIndex.current = index
        
-        
+        } else {
+          setTemplateData(dynamicEventData[0]);
+          setActiveIndex(0);
+          currentIndex.current = 0
+        }
+
         setDynamicContent(chatLinkData);
         setApiData(chatLinkData);
         setFormData(chatLinkData);
         setLogo(chatLinkData?.logoImageUrl);
         setHeaderImage(chatLinkData?.headerBackgroundImage);
         setFooterImage(chatLinkData?.footerImage);
-        setSecondHeaderImage(chatLinkData?.headerImage)
+        setSecondHeaderImage(chatLinkData?.headerImage);
         setIsDataSaved(true);
       } else {
         setFormData(dynamicContent);
         setLogo(dynamicContent?.logoImageUrl);
         setHeaderImage(dynamicContent?.headerBackgroundImage);
         setFooterImage(dynamicContent?.footerImage);
-        setSecondHeaderImage(chatLinkData?.headerImage)
+        setSecondHeaderImage(chatLinkData?.headerImage);
 
         setIsDataSaved(false);
       }
@@ -129,7 +127,7 @@ const ChatLinkPage = () => {
       setLogo(dynamicContent?.logoImageUrl);
       setHeaderImage(dynamicContent?.headerBackgroundImage);
       setFooterImage(dynamicContent?.footerImage);
-      setSecondHeaderImage(dynamicContent?.headerImage)
+      setSecondHeaderImage(dynamicContent?.headerImage);
 
       setIsDataSaved(false);
       console.error("Error fetching settings:", error);
@@ -177,10 +175,7 @@ const ChatLinkPage = () => {
           setErrorMsg("");
         }
 
-        if (
-          isSelectedName === "logoImageUrl" 
-         
-        ) {
+        if (isSelectedName === "logoImageUrl") {
           try {
             const uploadedImageUrl = await uploadImageToServer(file);
             setDynamicContent((prevContent) => ({
@@ -197,19 +192,16 @@ const ChatLinkPage = () => {
             console.error("Error uploading logo image:", error);
           }
         }
-        if (
-         
-          isSelectedName === "headerBackgroundImage"
-        ) {
+        if (isSelectedName === "headerBackgroundImage") {
           try {
             const uploadedImageUrl = await uploadImageToServer(file);
             setDynamicContent((prevContent) => ({
               ...prevContent,
               [isSelectedName]: uploadedImageUrl,
             }));
-           
+
             setDefaultHeaderImage(dynamicContent?.headerBackgroundImage);
-           
+
             if (isSelectedName === "headerBackgroundImage") {
               setHeaderImage(URL.createObjectURL(file));
             }
@@ -218,19 +210,16 @@ const ChatLinkPage = () => {
           }
         }
 
-        if (
-         
-          isSelectedName === "headerImage"
-        ) {
+        if (isSelectedName === "headerImage") {
           try {
             const uploadedImageUrl = await uploadImageToServer(file);
             setDynamicContent((prevContent) => ({
               ...prevContent,
               [isSelectedName]: uploadedImageUrl,
             }));
-           
+
             setDefaultSecondHeaderImage(dynamicContent?.headerImage);
-           
+
             if (isSelectedName === "headerImage") {
               setSecondHeaderImage(URL.createObjectURL(file));
             }
@@ -238,19 +227,16 @@ const ChatLinkPage = () => {
             console.error("Error uploading header image:", error);
           }
         }
-        if (
-         
-          isSelectedName === "footerImage"
-        ) {
+        if (isSelectedName === "footerImage") {
           try {
             const uploadedImageUrl = await uploadImageToServer(file);
             setDynamicContent((prevContent) => ({
               ...prevContent,
               [isSelectedName]: uploadedImageUrl,
             }));
-           
+
             setDefaultHeaderImage(dynamicContent?.footerImage);
-           
+
             if (isSelectedName === "footerImage") {
               setFooterImage(URL.createObjectURL(file));
             }
@@ -349,7 +335,6 @@ const ChatLinkPage = () => {
 
   const uploadImageToServer = async (file) => {
     try {
-      // const validExtensions = ["png", "jpeg"];
       const extension = file.name.split(".").pop().toLowerCase();
       if (!validExtensions.includes(extension)) {
         throw new Error(
@@ -471,7 +456,7 @@ const ChatLinkPage = () => {
       console.error("Error preview in new window:", error);
     }
   };
-  const templateClicked = (template, e,index=0) => {
+  const templateClicked = (template, e, index = 0) => {
     if (isFormChange) {
       setTemplateData(template);
       setPopupMessage({
@@ -507,13 +492,16 @@ const ChatLinkPage = () => {
         //     apiData?.footerImage ? apiData?.footerImage : ""
         //   );
         // }
-        if (template?.templateId == 4 || template?.templateId == 5 || template?.templateId == 6 || template?.templateId == 7 ) {
+        if (
+          template?.templateId == 4 ||
+          template?.templateId == 5 ||
+          template?.templateId == 6 ||
+          template?.templateId == 7
+        ) {
           setSecondHeaderImage(
             apiData?.headerImage ? apiData?.headerImage : ""
           );
-          setFooterImage(
-            apiData?.footerImage ? apiData?.footerImage : ""
-          );
+          setFooterImage(apiData?.footerImage ? apiData?.footerImage : "");
         }
       } else {
         const initialState = {};
@@ -552,7 +540,12 @@ const ChatLinkPage = () => {
         //       : ""
         //   );
         // }
-        if (template?.templateId == 4 || template?.templateId == 5 || template?.templateId == 6 || template?.templateId == 7 ) {
+        if (
+          template?.templateId == 4 ||
+          template?.templateId == 5 ||
+          template?.templateId == 6 ||
+          template?.templateId == 7
+        ) {
           setSecondHeaderImage(
             updatedBody?.fieldData?.headerImage?.value
               ? updatedBody?.fieldData?.headerImage?.value
@@ -579,10 +572,53 @@ const ChatLinkPage = () => {
               <div className="page-title">
                 <h2>Chat Link</h2>
               </div>
-              <div className="top-right-action">
+           { currentIndex.current !=null &&   <div className="top-right-action">
                 <div className="d-flex justify-content-end header_btns">
+                  {/* <div className="dropdown qr-download">
+                    <button
+                      className="btn btn-primary dropdown"
+                      type="button"
+                      onClick={() => setDownloadQr((downloadqr) => !downloadqr)}
+                    >
+                      Download QR
+                      
+                    </button>
+                    {downloadqr && (
+                      <div
+                        className="dropdown-menu filter-options"
+                        aria-labelledby="dropdownMenuButton2"
+                      >
+                        <ul>
+                          <li>
+                            <label className="select-multiple-option">
+                            <input
+                              type="checkbox"
+                              id="qr-code"
+                            />Download PNG
+                            <span className="checkmark"></span>
+                            </label>
+                          </li>
+                          <li>
+                            <label className="select-multiple-option">
+                            <input
+                              type="checkbox"
+                              id="qr-code1"
+                            />Download EPS
+                            <span className="checkmark"></span>
+                            </label>
+                          </li>
+                        </ul>
+                        <div className="filter-footer justify-content-end">
+                          <button
+                            className="btn btn-primary btn-filled"
+                          >
+                            Download
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div> */}
                   <a
-                    // className={`copy_link btn-voilet`}
                     className={`copy_link btn-voilet ${
                       !isDataSaved ? "disabled" : ""
                     }`}
@@ -613,56 +649,57 @@ const ChatLinkPage = () => {
                     Open Link
                   </Button>
                 </div>
-              </div>
+              </div>}
             </div>
             <section className="select-mail-template library-consent create-change-content">
-                  <div className="page-title">
-                    <h6>Select Template</h6>
-                  </div>
+              <div className="page-title">
+                <h6>Select Template</h6>
+              </div>
 
-                  <AliceCarousel
-                   ref={aliceCarouselRef}
-                    mouseTracking
-                    //disableButtonsControls
-                    items={dynamicEventData?.length}
-                    disableDotsControls
-                    activeIndex={activeIndex}
-                    slideToIndex={activeIndex}
-                    responsive={responsive}
-                    // onSlideChanged={syncActiveIndex}
-                  >
-                    {dynamicEventData.map((template, index) => {
-                      return (
-                        <>
-                          <div
-                            className="item"
-                            onClick={(e) => templateClicked(template, e,index)}
-                          >
-                            <img
-                              id={`"template_dyn" + template?.popupNo`}
-                              src={`${path_image}/chatTemplate${template?.templateId}.png`}
-                              alt=""
-                              className={
-                                typeof activeIndex !== "undefined" &&
-                                activeIndex == index
-                                  ? "select_mm"
-                                  : ""
-                              }
-                            />
-                            <p>{template?.templateName}</p>
-                          </div>
-                        </>
-                      );
-                    })}
-                  </AliceCarousel>
+              {(dynamicEventData?.length && currentIndex.current !=null) && <AliceCarousel
+                ref={aliceCarouselRef}
+                mouseTracking
+                //disableButtonsControls
+                items={dynamicEventData?.length}
+                disableDotsControls
+                activeIndex={activeIndex}
+                responsive={responsive}
+                onInitialized={()=>{
+                  aliceCarouselRef.current?.slideTo(currentIndex.current)
+                }}
+              >
+                { dynamicEventData.map((template, index) => {
+                  return (
+                    <>
+                      <div
+                        className="item"
+                        onClick={(e) => templateClicked(template, e, index)}
+                      >
+                        <img
+                          key={template?.templateId}
+                          id={`template_${template?.templateId}`}
+                          src={`${path_image}/chatTemplate${template?.templateId}.png`}
+                          alt=""
+                          className={
+                            typeof activeIndex !== "undefined" &&
+                            activeIndex == index
+                              ? "select_mm"
+                              : "nothing"
+                          }
+                        />
+                        <p>{template?.templateName}</p>
+                      </div>
+                    </>
+                  );
+                })}
+              </AliceCarousel>}
             </section>
 
             <div className="register-page create-change-content chatlink">
               <div className="row ">
                 <div className="col-md-6 col-sm-6">
                   <div className="chatlink-left">
-                    
-                    {Object.entries(templateData?.fieldData).map(
+                    {currentIndex.current !=null && Object.entries(templateData?.fieldData).map(
                       ([field, value]) => (
                         <div
                           key={field}
@@ -670,7 +707,7 @@ const ChatLinkPage = () => {
                         >
                           <label> {value.title}</label>
 
-                          {value.type === "file" &&  field === "logoImageUrl" ?  (
+                          {value.type === "file" && field === "logoImageUrl" ? (
                             <>
                               <div className="logo-section header-section">
                                 {!logo && (
@@ -688,12 +725,7 @@ const ChatLinkPage = () => {
                                   </>
                                 )}
 
-                                <img
-                                  className="logo-img"
-                                  src={
-                                     logo
-                                  }
-                                />
+                                <img className="logo-img" src={logo} />
 
                                 <div className="logo-text header-text">
                                   {logo && (
@@ -736,7 +768,8 @@ const ChatLinkPage = () => {
                                 (Recommended size 300 x 140)
                               </span>
                             </>
-                          ) : value.type === "file" &&  field === "headerBackgroundImage" ? (
+                          ) : value.type === "file" &&
+                            field === "headerBackgroundImage" ? (
                             <>
                               <div className="header-section">
                                 {!headerImage && (
@@ -744,9 +777,13 @@ const ChatLinkPage = () => {
                                     <div>
                                       <h5>Upload your file</h5>
                                     </div>
-                                    <Button className="upload-img"
+                                    <Button
+                                      className="upload-img"
                                       onClick={(e) =>
-                                        handleFileSelect(e, "headerBackgroundImage")
+                                        handleFileSelect(
+                                          e,
+                                          "headerBackgroundImage"
+                                        )
                                       }
                                     >
                                       Choose Your File
@@ -754,13 +791,7 @@ const ChatLinkPage = () => {
                                   </>
                                 )}
 
-                                <img
-                                  className="header-img"
-                                  src={
-                                    headerImage
-                                     
-                                  }
-                                />
+                                <img className="header-img" src={headerImage} />
 
                                 <div className="header-text">
                                   {headerImage && (
@@ -773,7 +804,10 @@ const ChatLinkPage = () => {
                                         alt="Edit"
                                         onClick={(e) => {
                                           e.stopPropagation();
-                                          handleFileSelect(e, "headerBackgroundImage");
+                                          handleFileSelect(
+                                            e,
+                                            "headerBackgroundImage"
+                                          );
                                         }}
                                       />
                                     </button>
@@ -803,7 +837,8 @@ const ChatLinkPage = () => {
                                 (Recommended size 300 x 140)
                               </span>
                             </>
-                          ) : value.type === "file" &&  field === "headerImage" ? (
+                          ) : value.type === "file" &&
+                            field === "headerImage" ? (
                             <>
                               <div className="header-section">
                                 {!secondHeaderImage && (
@@ -811,7 +846,8 @@ const ChatLinkPage = () => {
                                     <div>
                                       <h5>Upload your file</h5>
                                     </div>
-                                    <Button className="upload-img"
+                                    <Button
+                                      className="upload-img"
                                       onClick={(e) =>
                                         handleFileSelect(e, "headerImage")
                                       }
@@ -823,10 +859,7 @@ const ChatLinkPage = () => {
 
                                 <img
                                   className="header-img"
-                                  src={
-                                    secondHeaderImage
-                                     
-                                  }
+                                  src={secondHeaderImage}
                                 />
 
                                 <div className="header-text">
@@ -870,8 +903,8 @@ const ChatLinkPage = () => {
                                 (Recommended size 300 x 140)
                               </span>
                             </>
-                          ):
-                          value.type === "file" &&  field === "footerImage" ? (
+                          ) : value.type === "file" &&
+                            field === "footerImage" ? (
                             <>
                               <div className="header-section">
                                 {!footerImage && (
@@ -879,7 +912,8 @@ const ChatLinkPage = () => {
                                     <div>
                                       <h5>Upload your file</h5>
                                     </div>
-                                    <Button className="upload-img"
+                                    <Button
+                                      className="upload-img"
                                       onClick={(e) =>
                                         handleFileSelect(e, "footerImage")
                                       }
@@ -889,12 +923,7 @@ const ChatLinkPage = () => {
                                   </>
                                 )}
 
-                                <img
-                                  className="header-img"
-                                  src={
-                                    footerImage 
-                                  }
-                                />
+                                <img className="header-img" src={footerImage} />
 
                                 <div className="header-text">
                                   {footerImage && (
@@ -952,7 +981,6 @@ const ChatLinkPage = () => {
                                   onChange={(e) =>
                                     handleDynamicChange(field, e.target.value)
                                   }
-                                  // defaultValue={dynamicEventData?.textColor?.value}
                                   defaultValue={dynamicContent[field]}
                                   value={dynamicContent[field]}
                                 />
@@ -960,29 +988,33 @@ const ChatLinkPage = () => {
                             </>
                           ) : value.type == "textArea" ? (
                             <>
-                               <textArea
+                              <textArea
                                 type={value.type}
-                                onChange={(e) => handleDynamicChange(field, e.target.value)}
+                                onChange={(e) =>
+                                  handleDynamicChange(field, e.target.value)
+                                }
                                 className="form-control"
                                 value={dynamicContent[field]}
-                              >{dynamicContent[field]}</textArea>
+                              >
+                                {dynamicContent[field]}
+                              </textArea>
                             </>
-                          ):
-                           (
-                              <input
-                                type={value.type}
-                                onChange={(e) => handleDynamicChange(field, e.target.value)}
-                                className="form-control"
-                                value={dynamicContent[field]}
-                              />
-                            )
-                          }
+                          ) : (
+                            <input
+                              type={value.type}
+                              onChange={(e) =>
+                                handleDynamicChange(field, e.target.value)
+                              }
+                              className="form-control"
+                              value={dynamicContent[field]}
+                            />
+                          )}
                         </div>
                       )
                     )}
-                    <Button className="save-btn" onClick={handleSubmitForm}>
+                 {currentIndex.current !=null &&  <Button className="save-btn" onClick={handleSubmitForm}>
                       Save
-                    </Button>
+                    </Button>}
                   </div>
                 </div>
 
@@ -993,7 +1025,7 @@ const ChatLinkPage = () => {
                         <span className="loader-view"> </span>
                       </div>
                     </div>
-                    <div className={`octa_events`}>
+                    {currentIndex.current !=null && <div className={`octa_events`}>
                       <div className="question-block">
                         <div className="header-logo">
                           <div>
@@ -1008,30 +1040,36 @@ const ChatLinkPage = () => {
                         </div>
                         <div className="question-block-form">
                           <div className="log-inner">
-                            {
-                            formData?.templateId == 2  ? (
+                            {formData?.templateId == 2 ? (
                               <div
                                 className="head-sec template2"
                                 style={{
                                   backgroundImage: `url(${formData?.headerBackgroundImage})`,
                                 }}
                               ></div>
-                            ) :  formData?.templateId == 4 || formData?.templateId == 5 || formData?.templateId == 6  || formData?.templateId === 7 ? (<>
-                              <div
-                                className="head-sec template2"
-                                style={{
-                                  backgroundImage: `url(${formData?.headerImage})`,
-                                }}
-                              ></div>
-                               <div className="event_title">
-                      <h2 className="top-title"   style={{ color: formData?.textColor }} dangerouslySetInnerHTML={{
-                                __html: formData?.formHeading
-                                  ? formData?.formHeading
-                                  : "Type your question here!",
-                              }}/>
-                    </div>
-                            
-                            </>
+                            ) : formData?.templateId == 4 ||
+                              formData?.templateId == 5 ||
+                              formData?.templateId == 6 ||
+                              formData?.templateId === 7 ? (
+                              <>
+                                <div
+                                  className="head-sec template2"
+                                  style={{
+                                    backgroundImage: `url(${formData?.headerImage})`,
+                                  }}
+                                ></div>
+                                <div className="event_title">
+                                  <h2
+                                    className="top-title"
+                                    style={{ color: formData?.textColor }}
+                                    dangerouslySetInnerHTML={{
+                                      __html: formData?.formHeading
+                                        ? formData?.formHeading
+                                        : "Type your question here!",
+                                    }}
+                                  />
+                                </div>
+                              </>
                             ) : (
                               <div
                                 className="head-sec"
@@ -1062,7 +1100,6 @@ const ChatLinkPage = () => {
 
                             <div className="row">
                               <div className="col-md-12">
-                               
                                 <label
                                   htmlFor="fname"
                                   className="form-label"
@@ -1070,7 +1107,6 @@ const ChatLinkPage = () => {
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.nameLabel,
                                   }}
-                                  
                                 />
 
                                 <input
@@ -1082,7 +1118,6 @@ const ChatLinkPage = () => {
                                   className="form-control "
                                   placeholder={formData?.namePlaceholder}
                                   name="name"
-                                  
                                 />
 
                                 <input
@@ -1105,7 +1140,6 @@ const ChatLinkPage = () => {
                                 />
                               </div>
                               <div className="col-md-12">
-                               
                                 <label
                                   htmlFor="fname"
                                   className="form-label"
@@ -1113,7 +1147,6 @@ const ChatLinkPage = () => {
                                   dangerouslySetInnerHTML={{
                                     __html: formData?.questionLabel,
                                   }}
-                                 
                                 />
                                 <textarea
                                   style={{
@@ -1125,7 +1158,6 @@ const ChatLinkPage = () => {
                                   placeholder={formData?.questionPlaceholder}
                                   cols="40"
                                   rows="4"
-                                  
                                 ></textarea>
                                 {error?.question ? (
                                   <span className="event-validation">
@@ -1137,10 +1169,7 @@ const ChatLinkPage = () => {
                               </div>
 
                               <div className="col-md-12">
-                               
-
                                 <Button
-                                 
                                   className="btn btn-success"
                                   style={{
                                     background: formData?.buttonColor,
@@ -1151,54 +1180,55 @@ const ChatLinkPage = () => {
                                   }}
                                 ></Button>
                               </div>
-
-                             
                             </div>
                           </form>
-                          {formData?.templateId === 4 || formData?.templateId === 5  || formData?.templateId === 6 || formData?.templateId === 7? 
-                          <>
-                            <div className="eahad-footer">
-                            <img
-                              
-                               src={
-                                 formData?.footerImage
-                                   ? formData?.footerImage
-                                   : ""
-                               }
-                              alt=""
-                            />
-                            <div className="footer-msg">
-                            <p
-                            style={{ color: formData?.textColor }}
-                            dangerouslySetInnerHTML={{
-                              __html: formData?.footerTextOne
-                                ? formData?.footerTextOne
-                                : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
-                            }}
-                          />
+                          {formData?.templateId === 4 ||
+                          formData?.templateId === 5 ||
+                          formData?.templateId === 6 ||
+                          formData?.templateId === 7 ? (
+                            <>
+                              <div className="eahad-footer">
+                                <img
+                                  src={
+                                    formData?.footerImage
+                                      ? formData?.footerImage
+                                      : ""
+                                  }
+                                  alt=""
+                                />
+                                <div className="footer-msg">
+                                  <p
+                                    style={{ color: formData?.textColor }}
+                                    dangerouslySetInnerHTML={{
+                                      __html: formData?.footerTextOne
+                                        ? formData?.footerTextOne
+                                        : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
+                                    }}
+                                  />
+                                </div>
+                              </div>
+                              <div className="copy-right-bottom-text">
+                                <p
+                                  style={{ color: formData?.textColor }}
+                                  dangerouslySetInnerHTML={{
+                                    __html: formData?.footerText,
+                                  }}
+                                />
+                              </div>
+                            </>
+                          ) : (
+                            <div className="copy-right-bottom-text">
+                              <p
+                                style={{ color: formData?.textColor }}
+                                dangerouslySetInnerHTML={{
+                                  __html: formData?.footerText,
+                                }}
+                              />
                             </div>
-                          </div>
-                           <div className="copy-right-bottom-text">
-                           <p
-                             style={{ color: formData?.textColor }}
-                             dangerouslySetInnerHTML={{
-                               __html: formData?.footerText,
-                             }}
-                           />
-                         </div>
-                         </> :
-                          <div className="copy-right-bottom-text">
-                          <p
-                            style={{ color: formData?.textColor }}
-                            dangerouslySetInnerHTML={{
-                              __html: formData?.footerText,
-                            }}
-                          />
-                        </div>
-                        }
+                          )}
                         </div>
                       </div>
-                    </div>
+                    </div>}
                   </div>
                 </div>
               </div>

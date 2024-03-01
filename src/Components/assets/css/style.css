@@ -4082,7 +4082,19 @@ form#add_hcp_form .row:not(:first-child) {
   display: block;
   z-index: 7;
 }
-
+.qr-download .dropdown-menu.filter-options {
+  width: 190px;
+  padding: 15px 15px 42px 15px;
+  border-radius: 20px 0px 20px 20px;
+}
+.qr-download .dropdown-menu .filter-footer {
+  padding: 7px 12px 7px;
+}
+.qr-download .dropdown-menu .filter-footer button.btn {
+  font-size: 12px;
+  min-width: 74px;
+  padding: 4px 6px;
+}
 .dropdown-menu.filter-options h4 {
   font-size: 20px;
   color: var(--light-blue);
@@ -4153,14 +4165,14 @@ form#add_hcp_form .row:not(:first-child) {
   padding-bottom: 0;
 }
 
-.dropdown-menu.filter-options .accordion .card ul {
+.dropdown-menu.filter-options .accordion .card ul, .qr-download .dropdown-menu.filter-options ul {
   padding: 0;
   margin: 0;
   overflow-y: auto;
   max-height: 240px;
 }
 
-.dropdown-menu.filter-options .accordion .card ul li,
+.dropdown-menu.filter-options .accordion .card ul li, .qr-download .dropdown-menu.filter-options ul li,
 .approved_list ul li {
   list-style: none;
   position: relative;
@@ -4170,7 +4182,9 @@ form#add_hcp_form .row:not(:first-child) {
   font-weight: 300;
   padding-bottom: 14px;
 }
-
+.qr-download .dropdown-menu.filter-options ul li {
+  padding-left: 22px;
+}
 .dropdown-menu.filter-options .accordion .card .select-multiple-option,
 .select-multiple-option {
   display: inline-block;
@@ -4183,7 +4197,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 .dropdown-menu.filter-options .accordion .card .select-multiple-option input,
-.select-multiple-option input[type="radio"] {
+.select-multiple-option input[type="radio"], .qr-download .dropdown-menu.filter-options input[type="checkbox"]{
   opacity: 0;
   z-index: 1;
   top: 3px;
@@ -4193,9 +4207,11 @@ form#add_hcp_form .row:not(:first-child) {
   cursor: pointer;
   position: absolute;
 }
-
+.qr-download .dropdown-menu.filter-options input{
+  left:0;
+}
 .dropdown-menu.filter-options .accordion .card .select-multiple-option .checkmark,
-.select-multiple-option .checkmark {
+.select-multiple-option .checkmark, .qr-download .dropdown-menu.filter-options .checkmark {
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -4207,7 +4223,7 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 .dropdown-menu.filter-options .accordion .select-multiple-option .checkmark:after,
-.select-multiple-option .checkmark:after {
+.select-multiple-option .checkmark:after, .qr-download .dropdown-menu.filter-options .checkmark:after {
   left: 5px;
   top: 2px;
   width: 5px;
@@ -4222,12 +4238,12 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 .dropdown-menu.filter-options .accordion .select-multiple-option input:checked~.checkmark:after,
-.select-multiple-option input:checked~.checkmark:after {
+.select-multiple-option input:checked~.checkmark:after, .qr-download .dropdown-menu.filter-options input:checked~.checkmark:after {
   display: block;
 }
 
 .dropdown-menu.filter-options .accordion .select-multiple-option input:checked~.checkmark,
-.approved_list ul li .select-multiple-option input:checked~.checkmark {
+.approved_list ul li .select-multiple-option input:checked~.checkmark, .qr-download .dropdown-menu.filter-options input:checked~.checkmark {
   background-color: var(--green);
   border-color: var(--green);
 }
@@ -9891,8 +9907,6 @@ button.event_sort_btn.svg_active svg {
 }
 
 /**Invitees page end**/
-
-
 
 
 

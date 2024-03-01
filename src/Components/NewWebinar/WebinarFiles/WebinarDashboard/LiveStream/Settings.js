@@ -29,7 +29,7 @@ const Settings = () => {
     {
       label: "Thank you message with speaker image",
       value:
-        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-thanks-banner-min.jpg",
+        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-thanks-banner-jill.jpg",
     },
     {
       label: "Event delayed",
@@ -39,7 +39,7 @@ const Settings = () => {
     {
       label: "Stay tuned",
       value:
-        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-video-banner.jpg",
+        "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Brand-video-banner-jill.jpg",
     },
     {
       label: "Technical difficulties",
