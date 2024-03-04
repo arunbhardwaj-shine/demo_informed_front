@@ -147,16 +147,16 @@
                 "value": "Registration",
                 "color": "#ffffff"
             },
-            "SubHeadingOne": {
+            "SubHeadingThree": {
                 "title": "Sub Heading One",
                 "type": "text",
-                "value": "Welcome dinner",
+                "value": "MOTIVATE Investigators meeting",
                 "color": "#004b95"
             },
-            "SubHeadingOneDate": {
+            "SubHeadingThreeDate": {
                 "title": "Sub Heading Date",
                 "type": "date",
-                "value": "Wednesday, 24 May 2023",
+                "value": "Friday, 23 May 2024",
                 "color": "#04b39a"
             },
             "SubHeadingTwo": {
@@ -168,19 +168,7 @@
             "SubHeadingTwoDate": {
                 "title": "Sub Heading Date",
                 "type": "date",
-                "value": "Thursday, 25 May 2023",
-                "color": "#04b39a"
-            },
-            "SubHeadingThree": {
-                "title": "Sub Heading Three",
-                "type": "text",
-                "value": "MOTIVATE Investigators meeting",
-                "color": "#004b95"
-            },
-            "SubHeadingThreeDate": {
-                "title": "Sub Heading Date",
-                "type": "date",
-                "value": "Friday, 26 May 2023",
+                "value": "Thursday, 24 May 2024",
                 "color": "#04b39a"
             },
             "speakerName": {
@@ -188,6 +176,12 @@
                 "type": "text",
                 "value": "",
                 "color": "#04b39a"
+            },
+            "location": {
+                "title": "Location",
+                "type": "textArea",
+                "value": "Steigenberger Hotel & Resort Camp de Mar, <br/>Palma de Mallorca Spain",
+                "color": "#004b95"
             },
             "pageTitle": {
                 "title": "Registration Title",
@@ -201,8 +195,9 @@
                 "value": "Thank you for registering!",
                 "color": "#04b39a"
             }
+            
         },
-        "logoImageUrl": "https://webinar.docintel.app/MOTIVATE-study/Regi/images/lund-logo.png",
+        "logoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/c4fOe21roTvgZtGrbDzo60BGgAGLjvnvY0yotuay.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
         "labelColor": "#04b39a",

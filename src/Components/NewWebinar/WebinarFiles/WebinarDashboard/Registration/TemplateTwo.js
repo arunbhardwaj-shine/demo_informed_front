@@ -50,7 +50,7 @@ export default function TemplateTwo({children,formData}) {
               <div className="col-12">
                 <div className="invertor-metting">
                   <div className="meeting-logo"></div>
-                  <div className="logo-top" >
+                  {/* <div className="logo-top" >
                     <h5 style={{
                     color:eventData?.SubHeadingOne?.color
                   }} 
@@ -58,34 +58,13 @@ export default function TemplateTwo({children,formData}) {
                     __html: eventData?.SubHeadingOne?.value?eventData?.SubHeadingOne?.value:"Welcome dinner"
                   }}
                   >
-                    {/* {`${eventData?.SubHeadingOne?.value?eventData?.SubHeadingOne?.value:"Welcome dinner"}`} */}
                     </h5>
                     <p style={{
                     color:eventData?.SubHeadingOneDate?.color
                   }} >{SubHeadingOneDate}</p>
-                  </div>
+                  </div> */}
                 </div>
-                <div className="invertor-metting">
-                  <div className="meeting-logo">
-                    {/* <img src="images/im-workshop.png" alt=""> */}
-                    <img  src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/MOTIVATE-study/Regi/images/lund-logo.png"}`}alt="" />
-                  </div>
-                  <div className="logo-top">
-                    <h5 style={{
-                    color:eventData?.SubHeadingTwo?.color
-                  }}
-                  dangerouslySetInnerHTML={{
-                    __html: eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"
-                  }}
-                   >
-                    {/* {`${eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"}`} */}
-                    
-                    </h5>
-                    <p style={{
-                    color:eventData?.SubHeadingTwoDate?.color
-                  }}>{SubHeadingTwoDate}</p>
-                  </div>
-                </div>
+               
                 <div className="invertor-metting">
                   <div className="meeting-logo">
                     <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/motivate-modern-logo-min.png" alt="" />
@@ -105,6 +84,27 @@ export default function TemplateTwo({children,formData}) {
                   }} >{SubHeadingThreeDate}</p>
                   </div>
                 </div>
+                <div className="invertor-metting">
+                  <div className="meeting-logo">
+                    {/* <img src="images/im-workshop.png" alt=""> */}
+                    <img  src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/c4fOe21roTvgZtGrbDzo60BGgAGLjvnvY0yotuay.png"}`}alt="" />
+                  </div>
+                  <div className="logo-top">
+                    <h5 style={{
+                    color:eventData?.SubHeadingTwo?.color
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"
+                  }}
+                   >
+                    {/* {`${eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"}`} */}
+                    
+                    </h5>
+                    <p style={{
+                    color:eventData?.SubHeadingTwoDate?.color
+                  }}>{SubHeadingTwoDate}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -114,6 +114,13 @@ export default function TemplateTwo({children,formData}) {
                   }}
                   dangerouslySetInnerHTML={{
                     __html: eventData?.speakerName?.value
+                  }}
+                  />
+                   <h5 style={{
+                    color:eventData?.location?.color
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: eventData?.location?.value
                   }}
                   />
                     {/* {eventData?.speakerName?.value}</h2> */}
