@@ -99,7 +99,7 @@ const LicenseEditListing = () => {
   });
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
-  const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
+  const [loadData, setLoadData] = useState({ limit:24, nextLimit: 0 });
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
@@ -126,6 +126,7 @@ const LicenseEditListing = () => {
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
+  const [searchTotalRecords,setSearchTotalRecords]=useState([])
 
   useEffect(() => {
     applyFilters();
@@ -180,14 +181,25 @@ const LicenseEditListing = () => {
     let totalRecord = loadData.limit * sp;
     let newData = [];
     // getLibraryData(sp, filterObject, search, 1);
-
-    if (totalLibraryRecord?.length >= totalRecord) {
-      newData = totalLibraryRecord.slice(loadData.nextLimit, totalRecord);
-      setLoadData({ ...loadData, nextLimit: totalRecord });
-    } else {
-      newData = totalLibraryRecord.slice(loadData.nextLimit);
-      setIsLoaded(false);
-    }
+    if(searchTotalRecords?.length==0){
+      if (totalLibraryRecord?.length >= totalRecord) {
+        newData = totalLibraryRecord.slice(loadData.nextLimit, totalRecord);
+        setLoadData({ ...loadData, nextLimit: totalRecord });
+        setIsLoaded(true);
+      } else {
+        newData = totalLibraryRecord.slice(loadData.nextLimit);
+        setIsLoaded(false);
+      }
+    }else{
+      if(searchTotalRecords?.length>=totalRecord){
+        newData=searchTotalRecords?.slice(loadData.nextLimit, totalRecord)
+        setLoadData({ ...loadData, nextLimit: totalRecord });
+        setIsLoaded(true);
+      }else{
+        newData = searchTotalRecords?.slice(loadData.nextLimit);
+        setIsLoaded(false);
+      }
+    } 
 
     setLibraryData((oldArray) => [...oldArray, ...newData]);
     setPage(sp);
@@ -195,9 +207,33 @@ const LicenseEditListing = () => {
   };
 
   const submitHandler = (event) => {
-    setLibraryData([]);
-    getLibraryData(page, filterObject, search);
     event.preventDefault();
+    if(search==""){
+      setSearchTotalRecords([])
+      return
+    }
+    setIsLoaded(false);
+    setLibraryData([]);
+    // getLibraryData(page, filterObject, search);
+    // return false;
+   
+    //
+    let data = totalLibraryRecord?.filter(item => item?.docintelLink?.includes(search));
+    setSearchTotalRecords(data)
+    let apiData = [];
+    if (data?.length) {
+      const totalData =
+      data?.length >= 24
+          ? 24
+          : data?.length;
+      apiData = data?.slice(0, totalData);
+
+      if (data?.length > 24) {
+        setLoadData({ ...loadData, nextLimit: 24 });
+        setIsLoaded(true);
+      }
+    }
+    setLibraryData(apiData);
     return false;
   };
 
@@ -270,12 +306,12 @@ const LicenseEditListing = () => {
   const applyFilter = (e) => {
     e.preventDefault();
     setLibraryData([]);
-
     setFilterObject(filterObject);
-    getLibraryData(page, filterObject, search);
+    getLibraryData(page, filterObject, search)
+    setShowFilter(false);    
 
-    setShowFilter(false);
   };
+
   const handleQR = (e) => {
     if (e == "H") {
       setQrSize(390);
@@ -306,7 +342,8 @@ const LicenseEditListing = () => {
       let data = {
         user_id: localStorage.getItem("user_id"),
         page: page,
-        search: search,
+        // search: search,
+        search:"",
         type: type,
         limit: limit,
         license: 1,
@@ -315,21 +352,30 @@ const LicenseEditListing = () => {
       let body = { ...data, ...obj };
 
       const res = await postData(ENDPOINT.LIBRARY, body);
+      let finalData=[]
+      if(search){
+        finalData=res?.data?.data?.library?.filter((item)=>item?.docintelLink?.includes(search))
+        setSearchTotalRecords(finalData)
+      }else{
+        finalData=res?.data?.data?.library
+        setSearchTotalRecords([])
+      }       
       setTotalLibraryRecord(res?.data?.data?.library);
 
       let apiData = [];
-      if (res?.data?.data?.library?.length) {
+      if (finalData?.length) {
         const totalData =
-          res.data?.data?.library?.length >= 24
+        finalData?.length >= 24
             ? 24
-            : res.data.data.library?.length;
-        apiData = res?.data?.data?.library?.slice(0, totalData);
+            : finalData?.length;
+        apiData = finalData?.slice(0, totalData);
 
-        if (res?.data?.data?.library?.length > 24) {
+        if (finalData?.length > 24) {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
       }
+  
       setLibraryData(apiData);
 
       // if (totalCount != res?.data?.data?.total) {
@@ -375,14 +421,35 @@ const LicenseEditListing = () => {
   };
 
   const searchChange = (e) => {
-    setIsLoaded(false);
+    // setIsLoaded(false);
     setNoData(false);
     setSearch(e?.target?.value);
-    if (e?.target?.value === "") {
-      setLibraryData([]);
-      setPageAllClicked(false);
+    // if (e?.target?.value === "") {
+    //   setLibraryData([]);
+    //   setPageAllClicked(false);
 
-      getLibraryData(page, filterObject, "");
+    //   getLibraryData(page, filterObject, "");
+    // }
+    if(e?.target?.value===""){
+      let apiData = [];
+      setSearchTotalRecords([])
+      setApiCallStatus(false)
+      
+      if (totalLibraryRecord?.length) {
+        const totalData =
+        totalLibraryRecord?.length >= 24
+            ? 24
+            : totalLibraryRecord?.length;
+        apiData = totalLibraryRecord?.slice(0, totalData);
+
+        if (totalLibraryRecord?.length > 24) {
+          setLoadData({ ...loadData, nextLimit: 24 });
+          setIsLoaded(true);
+        }
+      }
+      setLibraryData(apiData);
+      setApiCallStatus(true);
+
     }
   };
 
@@ -475,7 +542,7 @@ const LicenseEditListing = () => {
 
     setFilterObject(old_object);
     setLibraryData([]);
-    getLibraryData(page, old_object);
+    getLibraryData(page, old_object,search);
   };
 
   const downloadQRCode = () => {
@@ -780,6 +847,7 @@ const LicenseEditListing = () => {
                       placeholder="Search"
                       aria-label="Search"
                       id="email_search"
+                      value={search?search:""}
                       onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline-success" type="submit">
