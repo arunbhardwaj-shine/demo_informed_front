@@ -1376,6 +1376,43 @@ const WebinarRegistration = () => {
                                     <label>
                                       {field.title} <span>*</span>
                                     </label>
+                                    {formData?.templateId === 2 ? 
+                                    <DatePicker
+                                      name={`eventDetails-${key}`}
+                                      dateFormat="dd/MM/yyyy"
+                                      className="form-control"
+                                      placeholderText="Select date"
+                                      // key={Math.random*1000}
+                                      // readOnly={true}
+                                      value={new Date(field.value)}
+
+                                      
+                                      // minDate={
+                                      //   key == "eventEndDate"
+                                      //     ? new Date(
+                                      //         formData?.eventDetails?.eventStartDate?.value
+                                      //       )
+                                      //     : currentDate
+                                      // }
+                                      // selected={
+                                      //   field.value && new Date(field.value) >= currentDate
+                                      //     ? new Date(field.value)
+                                      //     : currentDate
+                                      // }
+                                      selected={
+                                        field.value &&
+                                       new Date(field.value) >= currentDate
+                                          ? 
+                                          new Date(field?.value)
+                                          : currentDate
+                                      }
+                                      onChange={(v, e) => {
+                                        handleChange(v, `eventDetails-${key}`);
+                                      }}
+                                      onKeyDown={(e) => {
+                                        e.preventDefault();
+                                      }}
+                                    /> : 
                                     <DatePicker
                                       name={`eventDetails-${key}`}
                                       dateFormat="dd/MM/yyyy"
@@ -1383,7 +1420,7 @@ const WebinarRegistration = () => {
                                       placeholderText="Select date"
                                       // key={Math.random*1000}
                                       readOnly={true}
-                                                                            value={new Date(field.value)}
+                                      value={new Date(field.value)}
 
                                       disabled
                                       // minDate={
@@ -1406,7 +1443,7 @@ const WebinarRegistration = () => {
                                       onKeyDown={(e) => {
                                         e.preventDefault();
                                       }}
-                                    />
+                                    /> }
                                     {isEventEndDate ? (
                                       <div className="event-endDate"></div>
                                     ) : (

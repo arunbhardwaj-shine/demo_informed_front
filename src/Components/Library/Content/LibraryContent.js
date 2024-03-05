@@ -2637,7 +2637,7 @@ const LibraryContent = (props) => {
                                       ?
                                         <li>
                                           <h6 className="tab-content-title">
-                                            <img src={path_image + "library_move.svg"} />
+                                            <img className="library_go" src={path_image + "library_move.svg"} />
                                           </h6>
                                           <h6>
                                             {
