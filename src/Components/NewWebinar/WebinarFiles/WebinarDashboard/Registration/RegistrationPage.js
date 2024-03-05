@@ -609,6 +609,10 @@ const RegistrationPage = ({ prevData,type }) => {
 
   return (
     <>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      />
       <div className="loader" id="custom_loader">
         <div className="loader_show">
           <span className="loader-view"> </span>
@@ -949,16 +953,17 @@ const FormField2 = ({
   level,
   templateId,
 }) => {
+  { console.log(form, 'form') }
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
-  useEffect(()=>{
+  useEffect(() => {
     const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
-  
+
     placeholderElements.forEach((placeholderElement) => {
       placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
     });
-    },[form])
+  }, [form])
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
     if (form?.inputType === "datepicker") {
@@ -1137,14 +1142,32 @@ const FormField2 = ({
         ))}
       </ul>
     );
-  } else {
+  }
+  else if (form.label === "Dietary restrictions or allergies:" && form.inputType === "text") {
+    fieldInput = (
+
+      <input
+        type={form.inputType}
+        className="form-control"
+        id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
+        placeholder={form.placeholder}
+        onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      />
+
+    );
+  }
+  else {
     fieldInput = (
       <>
         <input
           type={form.inputType}
           className="form-control"
           id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
-          placeholder={form.label}
+          placeholder={form.placeholder}
           onChange={(e) => handleFieldChange(e.target.value)}
           style={{
             color: pageColors?.typedTextColor,
@@ -1165,15 +1188,14 @@ const FormField2 = ({
       //   : ""
       //   }`}
 
-        className={`col-sm-12 col-md-12 consent-form-list attend-sec ${
-          (label?.includes("country") || label?.includes("Country")) ? "country" : ""
-        } ${
-          (label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
+      className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
+        }  ${(label?.includes("Dietary restrictions or allergies:")) ? "restriction" : ""
+        } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
         }`}
-        
+
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
-      {form.inputType != "text" && form.inputType != "email" ? (
+      {form.label != "Name" && form.inputType != "email" ? (
         <label
           style={{
             color: pageColors?.labelColor,
@@ -1189,13 +1211,13 @@ const FormField2 = ({
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
       <style>
-      {`
+        {`
         #registration_form > div .form-control::placeholder {
           color: ${pageColors?.placeholderTextColor};
         }
-        
+       
       `}
-    </style>
+      </style>
     </div>
   );
 };
