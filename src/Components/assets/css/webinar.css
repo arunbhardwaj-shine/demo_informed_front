@@ -4184,7 +4184,7 @@ l .vwd .factor-season-left h2 {
 
 .motivate_outer .consent-form .btn#submit_registration {
   outline: 0;
-  background: #2068b3;
+  background: #00529f;
   border: none;
   border-radius: 0 10px;
   text-transform: uppercase;
@@ -4410,7 +4410,7 @@ l .vwd .factor-season-left h2 {
 }
 
 .motivate-mid-sec {
-  padding: 40px 0 20px 0;
+  padding: 20px 0 20px 0;
   border-bottom: 6px solid;
   border-image-slice: 1;
   border-image-source: linear-gradient(to left, #bbcc52, #3fb597);
