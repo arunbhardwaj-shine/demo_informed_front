@@ -1150,7 +1150,7 @@ const FormField2 = ({
         type={form.inputType}
         className="form-control"
         id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
-        placeholder={form.label}
+        placeholder={form.placeholder}
         onChange={(e) => handleFieldChange(e.target.value)}
         style={{
           color: pageColors?.typedTextColor,
