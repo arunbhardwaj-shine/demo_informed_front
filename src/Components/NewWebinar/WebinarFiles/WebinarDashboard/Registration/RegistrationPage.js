@@ -1143,7 +1143,7 @@ const FormField2 = ({
       </ul>
     );
   }
-  else if (form.label === "Dietary Restrictions:" && form.inputType === "text") {
+  else if (form.label === "Dietary restrictions or allergies:" && form.inputType === "text") {
     fieldInput = (
 
       <input
@@ -1189,7 +1189,7 @@ const FormField2 = ({
       //   }`}
 
       className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
-        }  ${(label?.includes("Dietary Restrictions:")) ? "restriction" : ""
+        }  ${(label?.includes("Dietary restrictions or allergies:")) ? "restriction" : ""
         } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
         }`}
 
