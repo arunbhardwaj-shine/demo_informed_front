@@ -192,7 +192,7 @@
             "location": {
                 "title": "Location",
                 "type": "textArea",
-                "value": "Steigenberger Hotel & Resort Camp de Mar, <br/>Palma de Mallorca Spain",
+                "value": "Steigenberger Hotel & Resort Camp de Mar, <br/>Mallorca Spain",
                 "color": "#004b95"
             },
             "pageTitle": {
@@ -314,7 +314,7 @@
                 "option": [],
                 "required": "",
                 "extension": "",
-                "name": "restiration"
+                "name": "restrictions"
             },
             {
                 "label": "I consent to:",
