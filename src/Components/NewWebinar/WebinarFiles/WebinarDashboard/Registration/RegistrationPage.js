@@ -1187,9 +1187,8 @@ const FormField2 = ({
       //   ? "country"
       //   : ""
       //   }`}
-
       className={`col-sm-12 col-md-12 consent-form-list attend-sec ${(label?.includes("country") || label?.includes("Country")) ? "country" : ""
-        }  ${(label?.includes("Dietary restrictions or allergies:")) ? "restriction" : ""
+        }  ${(label?.includes("restrictions")) ? "restrictions" : ""
         } ${(label?.includes("name") || label?.includes("Name") || label?.includes("email") || label?.includes("Email")) ? "static" : ""
         }`}
 

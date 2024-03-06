@@ -147,27 +147,39 @@
                 "value": "Registration",
                 "color": "#ffffff"
             },
-            "SubHeadingThree": {
+            "SubHeadingOne": {
                 "title": "Sub Heading One",
+                "type": "text",
+                "value": "Welcome dinner",
+                "color": "#004b95"
+            },
+            "SubHeadingOneDate": {
+                "title": "Sub Heading Date",
+                "type": "text",
+                "value": "Wednesday, 24 May 2023",
+                "color": "#04b39a"
+            },
+            "SubHeadingThree": {
+                "title": "Sub Heading Two",
                 "type": "text",
                 "value": "MOTIVATE Investigators meeting",
                 "color": "#004b95"
             },
             "SubHeadingThreeDate": {
                 "title": "Sub Heading Date",
-                "type": "date",
+                "type": "text",
                 "value": "Thursday, 23 May 2024",
                 "color": "#04b39a"
             },
             "SubHeadingTwo": {
-                "title": "Sub Heading Two",
+                "title": "Sub Heading Three",
                 "type": "text",
                 "value": "International ITI School and networking dinner",
                 "color": "#004b95"
             },
             "SubHeadingTwoDate": {
                 "title": "Sub Heading Date",
-                "type": "date",
+                "type": "text",
                 "value": "Friday, 24 May 2024",
                 "color": "#04b39a"
             },
@@ -180,7 +192,7 @@
             "location": {
                 "title": "Location",
                 "type": "textArea",
-                "value": "Steigenberger Hotel & Resort Camp de Mar, <br/>Palma de Mallorca Spain",
+                "value": "Steigenberger Hotel & Resort Camp de Mar, <br/>Mallorca Spain",
                 "color": "#004b95"
             },
             "pageTitle": {
@@ -197,7 +209,8 @@
             }
             
         },
-        "logoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/c4fOe21roTvgZtGrbDzo60BGgAGLjvnvY0yotuay.png",
+        "logoOneImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/v3pXr7w6XsrReRo6hTA8IPfcXBUw1SDaB5vEXP61.png ",
+        "logoTwoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/c4fOe21roTvgZtGrbDzo60BGgAGLjvnvY0yotuay.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
         "labelColor": "#04b39a",
@@ -301,7 +314,7 @@
                 "option": [],
                 "required": "",
                 "extension": "",
-                "name": "restiration"
+                "name": "restrictions"
             },
             {
                 "label": "I consent to:",
