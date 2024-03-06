@@ -168,7 +168,7 @@
             "SubHeadingThreeDate": {
                 "title": "Sub Heading Date",
                 "type": "date",
-                "value": "Friday, 23 May 2024",
+                "value": "Thursday, 23 May 2024",
                 "color": "#04b39a"
             },
             "SubHeadingTwo": {
@@ -180,7 +180,7 @@
             "SubHeadingTwoDate": {
                 "title": "Sub Heading Date",
                 "type": "date",
-                "value": "Thursday, 24 May 2024",
+                "value": "Friday, 24 May 2024",
                 "color": "#04b39a"
             },
             "speakerName": {
@@ -306,6 +306,15 @@
                 ],
                 "extension": true,
                 "name": "mode_of_travel"
+            },
+            {
+                "label": "Dietary restrictions or allergies:",
+                "inputType": "text",
+                "placeholder": "Please write here if you have dietary restrictions",
+                "option": [],
+                "required": "",
+                "extension": "",
+                "name": "restiration"
             },
             {
                 "label": "I consent to:",

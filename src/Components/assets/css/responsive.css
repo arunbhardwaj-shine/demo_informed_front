@@ -3516,7 +3516,9 @@
   .top-header.regi-web .save-btn {
     margin-left: auto;
   }
-
+.register-popup-view .motivation-body .consent-form-inner .form-control#restiration {
+  font-size: 11px;
+}
   .page_not_found-inset {
     padding: 20px 20px 30px;
     width: 94%;
