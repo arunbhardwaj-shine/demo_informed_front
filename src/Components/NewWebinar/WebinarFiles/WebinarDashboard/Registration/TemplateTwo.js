@@ -50,51 +50,52 @@ export default function TemplateTwo({children,formData}) {
               <div className="col-12">
                 <div className="invertor-metting">
                   <div className="meeting-logo"></div>
-                  {/* <div className="logo-top" >
+                  <div className="logo-top" >
                     <h5 style={{
                     color:eventData?.SubHeadingOne?.color
                   }} 
                   dangerouslySetInnerHTML={{
-                    __html: eventData?.SubHeadingOne?.value?eventData?.SubHeadingOne?.value:"Welcome dinner"
+                    __html: eventData?.SubHeadingOne?.value?eventData?.SubHeadingOne?.value:""
                   }}
                   >
                     </h5>
                     <p style={{
                     color:eventData?.SubHeadingOneDate?.color
-                  }} >{SubHeadingOneDate}</p>
-                  </div> */}
+                  }} >{eventData?.SubHeadingOneDate?.value ? eventData?.SubHeadingOneDate?.value : ""}</p>
+                  </div>
                 </div>
                
                 <div className="invertor-metting">
                   <div className="meeting-logo">
-                    <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/motivate-modern-logo-min.png" alt="" />
+                    {/* <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/motivate-modern-logo-min.png" alt="" /> */}
+                    <img  src={`${formData?.content?.logoOneImageUrl?formData?.content?.logoOneImageUrl:""}`}alt="" />
                   </div>
                   <div className="logo-top">
                     <h5 style={{
                     color:eventData?.SubHeadingThree?.color
                   }}
                   dangerouslySetInnerHTML={{
-                    __html: eventData?.SubHeadingThree?.value?eventData?.SubHeadingThree?.value:"MOTIVATE Investigators meeting"
+                    __html: eventData?.SubHeadingThree?.value?eventData?.SubHeadingThree?.value:""
                   }}
                   >
                     {/* {`${eventData?.SubHeadingThree?.value?eventData?.SubHeadingThree?.value:"MOTIVATE Investigators meeting"}`}  */}
                     </h5>
                     <p style={{
                     color:eventData?.SubHeadingThreeDate?.color
-                  }} >{SubHeadingThreeDate}</p>
+                  }} >{eventData?.SubHeadingThreeDate?.value ? eventData?.SubHeadingThreeDate?.value : ""}</p>
                   </div>
                 </div>
                 <div className="invertor-metting">
                   <div className="meeting-logo">
                     {/* <img src="images/im-workshop.png" alt=""> */}
-                    <img  src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/c4fOe21roTvgZtGrbDzo60BGgAGLjvnvY0yotuay.png"}`}alt="" />
+                    <img  src={`${formData?.content?.logoTwoImageUrl?formData?.content?.logoTwoImageUrl:""}`}alt="" />
                   </div>
                   <div className="logo-top">
                     <h5 style={{
                     color:eventData?.SubHeadingTwo?.color
                   }}
                   dangerouslySetInnerHTML={{
-                    __html: eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"
+                    __html: eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:""
                   }}
                    >
                     {/* {`${eventData?.SubHeadingTwo?.value?eventData?.SubHeadingTwo?.value:"International ITI School and networking dinner"}`} */}
@@ -102,7 +103,7 @@ export default function TemplateTwo({children,formData}) {
                     </h5>
                     <p style={{
                     color:eventData?.SubHeadingTwoDate?.color
-                  }}>{SubHeadingTwoDate}</p>
+                  }}>{eventData?.SubHeadingTwoDate?.value ? eventData?.SubHeadingTwoDate?.value : ""}</p>
                   </div>
                 </div>
               </div>

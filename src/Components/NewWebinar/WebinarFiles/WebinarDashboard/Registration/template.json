@@ -147,6 +147,18 @@
                 "value": "Registration",
                 "color": "#ffffff"
             },
+            "SubHeadingOne": {
+                "title": "Sub Heading One",
+                "type": "text",
+                "value": "Welcome dinner",
+                "color": "#004b95"
+            },
+            "SubHeadingOneDate": {
+                "title": "Sub Heading Date",
+                "type": "date",
+                "value": "Wednesday, 24 May 2023",
+                "color": "#04b39a"
+            },
             "SubHeadingThree": {
                 "title": "Sub Heading One",
                 "type": "text",
@@ -197,7 +209,8 @@
             }
             
         },
-        "logoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/c4fOe21roTvgZtGrbDzo60BGgAGLjvnvY0yotuay.png",
+        "logoOneImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/v3pXr7w6XsrReRo6hTA8IPfcXBUw1SDaB5vEXP61.png ",
+        "logoTwoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/c4fOe21roTvgZtGrbDzo60BGgAGLjvnvY0yotuay.png",
         "headerImageUrl": "",
         "footerImageUrl": "",
         "labelColor": "#04b39a",
