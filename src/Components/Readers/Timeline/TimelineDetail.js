@@ -158,6 +158,14 @@ const TimelineDetail = (props) => {
     event.currentTarget.className = "error";
   };
 
+  const getEventName = (string) => {
+    let resultArray = string.split(":");
+    if(resultArray){
+      return resultArray?.slice(1)?.join(':')?.trim();;
+    }
+    return string;
+  }
+
   return (
     <>
       <Col className="right-sidebar col">
@@ -684,7 +692,7 @@ const TimelineDetail = (props) => {
                               )}
 
                               {details?.action ==
-                                "New docintel account is created" && (
+                                "New docintel account is created" || details?.action.includes('User register')  && (
                                 <div className="timeline-box">
                                   <div className="timeline_date">
                                     {details?.date}
@@ -731,6 +739,128 @@ const TimelineDetail = (props) => {
                                   </div>
                                 </div>
                               )}
+
+                              
+                              {details?.action.includes('Poll answer submited for event') ? (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-block-head library">
+                                      <div className="timeline-block-title">
+                                        <div className="timeline-block-img">
+                                          <img
+                                            src={
+                                              path_image + "poll.svg"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <h6>Poll answer submited for event</h6> 
+                                        
+                                      </div>
+                                      <div className="timeline-time-view">
+                                        <div className="timeline-time">
+                                          {details?.time}
+                                        </div>
+                                        |
+                                        <div className="timeline-timezone">
+                                          {details?.timezone}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody> 
+                                          <tr>
+                                            <th className="device-title">
+                                              Event
+                                            </th>
+                                            <td className="device-name">
+                                            {getEventName(details?.action)}
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <th className="device-title">
+                                              Question
+                                            </th>
+                                            <td className="device-name" dangerouslySetInnerHTML={{
+                                                  __html: details?.question,
+                                            }}>  
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <th className="device-title">
+                                              Answer
+                                            </th>
+                                            <td className="device-name" dangerouslySetInnerHTML={{
+                                                  __html: details?.answer,
+                                            }}>  
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                  </div>
+                                </div>
+                              ): null}
+
+                              {details?.action.includes('Query submited for event') ? (
+                                <div className="timeline-box">
+                                  <div className="timeline_date">
+                                    {details?.date}
+                                  </div>
+                                  <div className="timeline-block">
+                                    <div className="timeline-block-head received">
+                                      <div className="timeline-block-title">
+                                        <div className="timeline-block-img">
+                                          <img
+                                            src={
+                                              path_image + "query.svg"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <h6>Query submited for event</h6> 
+                                        
+                                      </div>
+                                      <div className="timeline-time-view">
+                                        <div className="timeline-time">
+                                          {details?.time}
+                                        </div>
+                                        |
+                                        <div className="timeline-timezone">
+                                          {details?.timezone}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-article-device">
+                                      <Table>
+                                        <tbody> 
+                                          <tr>
+                                            <th className="device-title">
+                                              Event
+                                            </th>
+                                            <td className="device-name">
+                                            {getEventName(details?.action)}
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <th className="device-title">
+                                              Query
+                                            </th>
+                                            <td className="device-name" dangerouslySetInnerHTML={{
+                                                  __html: details?.poll_query,
+                                            }}>  
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </Table>
+                                    </div>
+                                  </div>
+                                </div>
+                              ): null}
 
                               {details?.action == "New mail received" || details?.action == "New Mail Received" ? (
                                 <div className="timeline-box">
