@@ -155,31 +155,31 @@
             },
             "SubHeadingOneDate": {
                 "title": "Sub Heading Date",
-                "type": "date",
+                "type": "text",
                 "value": "Wednesday, 24 May 2023",
                 "color": "#04b39a"
             },
             "SubHeadingThree": {
-                "title": "Sub Heading One",
+                "title": "Sub Heading Two",
                 "type": "text",
                 "value": "MOTIVATE Investigators meeting",
                 "color": "#004b95"
             },
             "SubHeadingThreeDate": {
                 "title": "Sub Heading Date",
-                "type": "date",
+                "type": "text",
                 "value": "Thursday, 23 May 2024",
                 "color": "#04b39a"
             },
             "SubHeadingTwo": {
-                "title": "Sub Heading Two",
+                "title": "Sub Heading Three",
                 "type": "text",
                 "value": "International ITI School and networking dinner",
                 "color": "#004b95"
             },
             "SubHeadingTwoDate": {
                 "title": "Sub Heading Date",
-                "type": "date",
+                "type": "text",
                 "value": "Friday, 24 May 2024",
                 "color": "#04b39a"
             },

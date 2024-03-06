@@ -1426,8 +1426,8 @@ const WebinarRegistration = () => {
                                     <label>
                                       {field.title} <span>*</span>
                                     </label>
-                                    {console.log(field.value,'field.value')}
-                                    {formData?.templateId === 2 ? 
+                                    {/* {console.log(field.value,'field.value')} */}
+                                    {/* {formData?.templateId === 2 ? 
                                     <DatePicker
                                       name={`eventDetails-${key}`}
                                       dateFormat="dd/MM/yyyy"
@@ -1473,7 +1473,7 @@ const WebinarRegistration = () => {
                                       // }}
                                     /> 
                                     
-                                    : 
+                                    :  */}
                                     <DatePicker
                                       name={`eventDetails-${key}`}
                                       dateFormat="dd/MM/yyyy"
@@ -1504,7 +1504,8 @@ const WebinarRegistration = () => {
                                       onKeyDown={(e) => {
                                         e.preventDefault();
                                       }}
-                                    /> }
+                                    /> 
+                                    {/* } */}
                                     {isEventEndDate ? (
                                       <div className="event-endDate"></div>
                                     ) : (
