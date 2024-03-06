@@ -659,7 +659,7 @@ const TimelineDetail = (props) => {
                                             alt=""
                                           />
                                         </div>
-                                        <h6>User logged into Docintel</h6>
+                                        <h6>User logged into {details?.app_used == "OneSource" ? "OneSource" : "Docintel"}</h6>
                                       </div>
                                       <div className="timeline-time-view">
                                         <div className="timeline-time">
