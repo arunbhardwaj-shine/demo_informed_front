@@ -1396,6 +1396,7 @@ const WebinarRegistration = () => {
                               }
                             />
                             {/* <p>{template?.name}</p> */}
+                            <p>{template?.templateName}</p>
                           </div>
                         </>
                       );
