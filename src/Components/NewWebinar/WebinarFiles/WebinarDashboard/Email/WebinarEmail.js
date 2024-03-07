@@ -241,38 +241,46 @@ const handleScroll = (e) => {
 };
 
 const showViewEmailModal = (data) => {
-  let id = data;
-  // if (typeof emailListData !== "undefined") {
-  //   let getSpecificKeyData = emailListData?.filter((p) => p?.id == id);
-  //   let valueupdate = options;
-  //   valueupdate?.xAxis?.categories?.push(getSpecificKeyData[0]?.
-  //     labels_value[0]);
+  let id = data?.auto_id;
+  if (typeof data !== "undefined") {
+    let getSpecificKeyData =data
+    let valueupdate = options;
+   
+    console.log("value-->",Object.keys(data?.labels_value)?.length)
+    Object.keys(data?.labels_value)?.map((item,index)=>{
+      valueupdate?.xAxis?.categories?.push(item);
+      
+    })
+    console.log("x axis-->",valueupdate?.xAxis?.categories)
 
-  //   if (getSpecificKeyData[0]?.multi_ctr?.length > 0) {
-  //     getSpecificKeyData[0]?.multi_ctr.map((multilinkdata) => {
-  //       valueupdate?.xAxis?.categories.push(multilinkdata?.click_name);
-  //     });
-  //   }
-  //   setCTRName(getSpecificKeyData[0].click_name);
-  //   valueupdate.series[0].data = [
-  //     { y: getSpecificKeyData[0].total_Sent, color: "#8a4e9c" },
-  //     { y: getSpecificKeyData[0].total_Opened, color: "#ffbe2c" },
-  //     { y: getSpecificKeyData[0].total_Click, color: "#39cabc" },
-  //   ];
+    // console.log("get specific value--->",getSpecificKeyData)
+   
 
-  //   if (getSpecificKeyData[0]?.multi_ctr?.length > 0) {
-  //     getSpecificKeyData[0]?.multi_ctr.map((multilinkdata, index) => {
-  //       let obj = {
-  //         y: multilinkdata?.total_Click,
-  //         color: colorArray?.[index]
-  //       }
-  //       valueupdate.series[0].data.push(obj);
-  //     });
-  //   }
+    // if (getSpecificKeyData[0]?.multi_ctr?.length > 0) {
+    //   getSpecificKeyData[0]?.multi_ctr.map((multilinkdata) => {
+    //     valueupdate?.xAxis?.categories.push(multilinkdata?.click_name);
+    //   });
+    // }
+    setCTRName(data?.labels_value);
+    valueupdate.series[0].data = [
+      { y: data?.email_sent, color: "#8a4e9c" },
+      { y: data?.email_read, color: "#ffbe2c" },
+      // { y: getSpecificKeyData[0].total_Click, color: "#39cabc" },
+    ];
 
-  //   setOptions(valueupdate);
-  //   setviewEmailData(getSpecificKeyData);
-  // }
+    if ( Object.keys(data?.labels_value)?.length > 0) {
+      Object.keys(data?.labels_value)?.map((item, index) => {
+        let obj = {
+          y: data?.labels_value[item],
+          color: colorArray?.[index]
+        }
+        valueupdate.series[0].data.push(obj);
+      });
+    }
+
+    setOptions(valueupdate);
+    setviewEmailData(data);
+  }
   hideModal();
   setviewEmailModal(true);
   setCampaignId(id);
@@ -795,7 +803,7 @@ const showViewEmailModal = (data) => {
                                       <button
                                         className="btn btn-primary btn-filled edit"
                                         onClick={(e) =>
-                                          showViewEmailModal(data?.auto_id)
+                                          showViewEmailModal(data)
                                         }
                                       >
                                         View
@@ -915,11 +923,11 @@ const showViewEmailModal = (data) => {
                 <div className="mail-box-content">
                   <div className="mail-box-heading-block">
                     <div className="mail-box-heading">
-                      <h5>{viewEmailData[0].subject}</h5>
-                      <p>{viewEmailData[0].description}</p>
+                      <h5>{viewEmailData?.subject}</h5>
+                      <p>{viewEmailData?.description}</p>
                     </div>
                     {
-                      viewEmailData[0].status != 5
+                      viewEmailData?.status != 5
                       ? 
                       <div className="mail-view-btn">
                         <button
@@ -937,24 +945,24 @@ const showViewEmailModal = (data) => {
                       <tbody>
                         <tr>
                           <th>Campaign</th>
-                          <td>{viewEmailData[0].campaign}</td>
+                          <td>{viewEmailData?.campaign}</td>
                         </tr>
                         <tr>
                           <th>List</th>
-                          <td>{viewEmailData[0].smart_list_name}</td>
+                          <td>{viewEmailData?.smart_list_name}</td>
                         </tr>
                         <tr>
                           <th>Content Title </th>
-                          <td>{viewEmailData[0].article_title}</td>
+                          <td>{viewEmailData?.article_title}</td>
                         </tr>
                         <tr>
                           <th>Docintel Link </th>
                           <td>
                             <a
-                              href={viewEmailData[0].docintel_link}
+                              href={viewEmailData?.docintel_link}
                               target="_blank"
                             >
-                              {viewEmailData[0].docintel_link}
+                              {viewEmailData?.docintel_link}
                             </a>
                           </td>
                         </tr>
@@ -962,13 +970,13 @@ const showViewEmailModal = (data) => {
                     </table>
                   </div>
                   <div className="mail-time">
-                    <span>{viewEmailData[0].created_at}</span>
+                    <span>{viewEmailData?.created_at}</span>
                   </div>
                   <div className="mailbox-tags">
                     <h6>Tags</h6>
                     <ul>
-                      {viewEmailData[0].tags != "" ? (
-                        viewEmailData[0].tags.map((tag) => {
+                      {viewEmailData?.tags != "" ? (
+                        viewEmailData?.tags?.map((tag) => {
                           return <li className="list1">{tag}</li>;
                         })
                       ) : (
@@ -977,7 +985,7 @@ const showViewEmailModal = (data) => {
                     </ul>
                   </div>
                   <div className="mail-stats">
-                    <ul className={viewEmailData[0]?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
+                    <ul className={viewEmailData?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
                       <li
                         // onClick={() => {
                         //   getReaderData("unique", "Emails sent", "#8a4e9c");
@@ -1023,7 +1031,7 @@ const showViewEmailModal = (data) => {
                               </defs>
                             </svg>
 
-                            <span>{viewEmailData[0].total_Sent}</span>
+                            <span>{viewEmailData?.email_sent}</span>
                           </div>
                         </div>
                       </li>
@@ -1071,8 +1079,8 @@ const showViewEmailModal = (data) => {
                               </defs>
                             </svg>
                             <span>
-                              {viewEmailData[0]?.bounce
-                                ? viewEmailData[0].bounce
+                              {viewEmailData?.bounce
+                                ? viewEmailData?.bounce
                                 : 0}
                             </span>
                           </div>
@@ -1118,7 +1126,7 @@ const showViewEmailModal = (data) => {
                                 fill="#FAC755"
                               />
                             </svg>
-                            <span>{viewEmailData[0].total_Opened_pr}%</span>
+                            <span>{viewEmailData?.read_precent}</span>
                           </div>
                         </div>
                       </li>
@@ -1127,44 +1135,50 @@ const showViewEmailModal = (data) => {
                         //   getReaderData("ctr", viewEmailData[0]?.click_name, "#39cabc", viewEmailData[0]?.click_key);
                         // }}
                       >
-                        <div className="mail_click">
-                          <div className="mail_click_box">
-                            <h6>{ctrName}</h6>
-                            <div className="mail_click_box_content">
-                              <svg
-                                width="40"
-                                height="40"
-                                viewBox="0 0 40 40"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <circle
-                                  cx="20"
-                                  cy="20"
-                                  r="18.5"
-                                  stroke="#39CABC"
-                                  stroke-width="3"
-                                  stroke-linejoin="round"
-                                />
-                                <path
-                                  d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
-                                  fill="#39CABC"
-                                />
-                                <path
-                                  d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
-                                  fill="#39CABC"
-                                />
-                              </svg>
-                              <span>{viewEmailData[0].total_Click_pr}%</span>
-                            </div>
-                          </div>
-                        </div>
+                        {Object.keys(ctrName)?.length>0?Object.keys(ctrName)?.map((item,index)=>(<>
+                          <div className="mail_click">
+                         <div className="mail_click_box">
+                           <h6>{item}</h6>
+                           <div className="mail_click_box_content">
+                             <svg
+                               width="40"
+                               height="40"
+                               viewBox="0 0 40 40"
+                               fill="none"
+                               xmlns="http://www.w3.org/2000/svg"
+                             >
+                               <circle
+                                 cx="20"
+                                 cy="20"
+                                 r="18.5"
+                                 stroke="#39CABC"
+                                 stroke-width="3"
+                                 stroke-linejoin="round"
+                               />
+                               <path
+                                 d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
+                                 fill="#39CABC"
+                               />
+                               <path
+                                 d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
+                                 fill="#39CABC"
+                               />
+                             </svg>
+                             {/* <span>{viewEmailData?.total_Click_pr}%</span> */}
+                             <span>{ctrName[item]}</span>
+                           </div>
+                         </div>
+                       </div>
+                        </>))
+                        
+                        :""}
+                       
                       </li>
 
                       {
-                        viewEmailData[0]?.multi_ctr && viewEmailData[0]?.multi_ctr?.length > 0
+                        viewEmailData?.multi_ctr && viewEmailData?.multi_ctr?.length > 0
                           ?
-                          viewEmailData[0]?.multi_ctr.map((ctr, index) => {
+                          viewEmailData?.multi_ctr.map((ctr, index) => {
                             return (
                               <li
                                 // onClick={() => {
@@ -1223,7 +1237,7 @@ const showViewEmailModal = (data) => {
                 <div
                   className="preview-mail-box"
                   dangerouslySetInnerHTML={{
-                    __html: viewEmailData[0].template,
+                    __html: viewEmailData?.template,
                   }}
                 ></div>
               </div>
