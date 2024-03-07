@@ -681,7 +681,6 @@ const Sidebar = () => {
                 localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ==" ||
                 localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ==" ||
                 localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ||
-                localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A==" ||
                 localStorage.getItem("user_id") == "59A m0rrvmC9UrYZKZXJxA==" ? (
                 <li
                   className={
