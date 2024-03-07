@@ -172,7 +172,9 @@ import SelectSmartListUsersLayout from "./Components/CommonComponent/SelectSmart
 import GetDetailsLayout from "./Components/CommonComponent/GetDetailsLayout";
 import Polls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Registration/Polls";
 import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/LiveStream";
-import Emails from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/Emails";
+import WebinarEmail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarEmail";
+import WebinarAutoEmails from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarAutoEmails";
+import WebinarSmartlist from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSmartlist";
 import Analytics from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/Analytics";
 import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
 import SpeakerZone from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/SpeakerZone";
@@ -616,7 +618,15 @@ const Routing = () => {
         />
         <Route
           path="/webinar/email"
-          element={<LoginLayout component={Emails} />}
+          element={<LoginLayout component={WebinarEmail} />}
+        />
+         <Route
+          path="/webinar/email/auto-emails"
+          element={<LoginLayout component={WebinarAutoEmails} />}
+        />
+        <Route
+          path="/webinar/email/smartlist"
+          element={<LoginLayout component={WebinarSmartlist} />}
         />
         <Route
           path="/webinar/analytics"
