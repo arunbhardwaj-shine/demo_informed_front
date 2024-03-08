@@ -160,6 +160,7 @@ const WebinarEmail = () => {
       }else{
         filterData =response?.data?.data
       }
+      console.log("filter data-->",filterData)
       setEmailListData(filterData)
       setTotalEmailListData(response?.data?.data)
 
@@ -739,7 +740,7 @@ const WebinarEmail = () => {
                                 ? "approved"
                                 : data?.status == 2
                                   ? "email-draft"
-                                  : "draft-approved")
+                                  : "approved")
                           }
                         >
                           {/* <div className="mail-top-title">
@@ -894,7 +895,7 @@ const WebinarEmail = () => {
                                       </svg>
                                     </div>
                                     <span>
-
+                                      {console.log("-->",Object.keys(data?.labels_value)[0])}
                                       {data?.labels_value[Object.keys(data?.labels_value)[0]] > 0
                                         ? ((data?.labels_value[Object.keys(data?.labels_value)[0]] / data?.email_sent) * 100)?.toFixed(2) + "%"
                                         : 0}{" "}
