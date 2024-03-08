@@ -35,6 +35,7 @@ const WebinarEmail = () => {
   const [campaign_id, setCampaignId] = useState("");
   const [viewEmailData, setviewEmailData] = useState();
   const [ctrName, setCTRName] = useState("");
+  const [readerDetailsData,setReaderDetailsData]=useState([])
   const [options, setOptions] = useState({
     chart: {
       type: "column",
@@ -269,7 +270,9 @@ const showViewEmailModal = (data) => {
 };
 
 const getReaderData = async (type = "", dynamic_name="") => {
-  const body = {    
+  try{
+    loader("show")
+    const body = {    
       eventId:eventId,
       autoId:campaign_id,     
       type:type,
@@ -277,7 +280,16 @@ const getReaderData = async (type = "", dynamic_name="") => {
       }
 
   console.log("body-->",body)
+  const response=await postData(ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST,body)
+  console.log("res-->",response)
   // setviewEmailModal(false);
+  setReaderDetailsData(response?.data?.data);
+  }catch(err){
+    console.log("--err",err)
+  }finally{
+    loader("hide")
+  }
+ 
 }
 
   return (
@@ -930,7 +942,7 @@ const getReaderData = async (type = "", dynamic_name="") => {
                   <div className="mail-box-heading-block">
                     <div className="mail-box-heading">
                       <h5>{viewEmailData?.subject}</h5>
-                      {/* <p>{viewEmailData?.description}</p> */}
+                      <p>{viewEmailData?.event}</p>
                     </div>
                     {
                       viewEmailData?.status != 5
@@ -951,24 +963,24 @@ const getReaderData = async (type = "", dynamic_name="") => {
                       <tbody>
                         <tr>
                           <th>Campaign</th>
-                          <td>{viewEmailData?.campaign}</td>
+                          <td>{viewEmailData?.campaign?viewEmailData?.campaign:viewEmailData?.subject}</td>
                         </tr>
                         <tr>
                           <th>List</th>
-                          <td>{viewEmailData?.smart_list_name}</td>
+                          <td>{viewEmailData?.smart_list_name?viewEmailData?.smart_list_name:"N/A"}</td>
                         </tr>
                         <tr>
                           <th>Content Title </th>
-                          <td>{viewEmailData?.article_title}</td>
+                          <td>{viewEmailData?.article_title?viewEmailData?.article_title:"N/A"}</td>
                         </tr>
                         <tr>
                           <th>Docintel Link </th>
                           <td>
                             <a
-                              href={viewEmailData?.docintel_link}
+                              href={viewEmailData?.docintel_link?viewEmailData?.docintel_link:""}
                               target="_blank"
                             >
-                              {viewEmailData?.docintel_link}
+                              {viewEmailData?.docintel_link?viewEmailData?.docintel_link:""}
                             </a>
                           </td>
                         </tr>
@@ -1133,15 +1145,15 @@ const getReaderData = async (type = "", dynamic_name="") => {
                        
                      
 
-                      {
+                      {/* {
                         viewEmailData?.multi_ctr && viewEmailData?.multi_ctr?.length > 0
                           ?
                           viewEmailData?.multi_ctr.map((ctr, index) => {
                             return (
                               <li
-                                // onClick={() => {
-                                //   getReaderData("ctr", ctr?.click_name, colorArray?.[index], ctr?.click_key);
-                                // }}
+                                onClick={() => {
+                                  getReaderData("ctr", ctr?.click_name, colorArray?.[index], ctr?.click_key);
+                                }}
                               >
                                 <div className="mail_click">
                                   <div className="mail_click_box">
@@ -1179,7 +1191,7 @@ const getReaderData = async (type = "", dynamic_name="") => {
                             )
                           })
                           : null
-                      }
+                      } */}
                     </ul>
                   </div>
                 </div>
