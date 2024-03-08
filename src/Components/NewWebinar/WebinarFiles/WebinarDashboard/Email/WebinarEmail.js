@@ -18,6 +18,7 @@ const WebinarEmail = () => {
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
   const [search, setSearch] = useState("")
   const [emailListData, setEmailListData] = useState([])
+  const [totalEmailListData,setTotalEmailListData]=useState([])
   const [appliedFilter, setAppliedFilter] = useState({})
   const [filterObject, setFilterObject] = useState({})
   const [apifilterObject, setApifilterObject] = useState({});
@@ -145,7 +146,7 @@ const WebinarEmail = () => {
         eventId: eventId,
       };
       const response=await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST,body)
-      console.log("response-->",response?.data?.data)
+      setTotalEmailListData(response?.data?.data)
       setEmailListData(response?.data?.data)
     }catch(err){
       console.log("--err",err)
@@ -156,17 +157,16 @@ const WebinarEmail = () => {
 
   const searchChange = (e) => {
     setSearch(e?.target?.value);
+    
     if (e?.target?.value === "") {
-      setEmailListData()
+      setEmailListData(totalEmailListData)
     }
-    console.log("in search change")
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-
-    console.log("in submit search", search)
-
+    let searchData=totalEmailListData?.filter((item)=>item?.subject?.includes(search))
+    setEmailListData(searchData)
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
@@ -243,41 +243,23 @@ const handleScroll = (e) => {
 const showViewEmailModal = (data) => {
   let id = data?.auto_id;
   if (typeof data !== "undefined") {
-    let getSpecificKeyData =data
     let valueupdate = options;
-   
-    console.log("value-->",Object.keys(data?.labels_value)?.length)
-    Object.keys(data?.labels_value)?.map((item,index)=>{
-      valueupdate?.xAxis?.categories?.push(item);
-      
-    })
-    console.log("x axis-->",valueupdate?.xAxis?.categories)
-
-    // console.log("get specific value--->",getSpecificKeyData)
-   
-
-    // if (getSpecificKeyData[0]?.multi_ctr?.length > 0) {
-    //   getSpecificKeyData[0]?.multi_ctr.map((multilinkdata) => {
-    //     valueupdate?.xAxis?.categories.push(multilinkdata?.click_name);
-    //   });
-    // }
-    setCTRName(data?.labels_value);
     valueupdate.series[0].data = [
       { y: data?.email_sent, color: "#8a4e9c" },
       { y: data?.email_read, color: "#ffbe2c" },
-      // { y: getSpecificKeyData[0].total_Click, color: "#39cabc" },
     ];
+   
+    Object.keys(data?.labels_value)?.map((item,index)=>{
+      valueupdate?.xAxis?.categories?.push(item);
 
-    if ( Object.keys(data?.labels_value)?.length > 0) {
-      Object.keys(data?.labels_value)?.map((item, index) => {
-        let obj = {
-          y: data?.labels_value[item],
-          color: colorArray?.[index]
-        }
-        valueupdate.series[0].data.push(obj);
-      });
-    }
-
+      let obj = {
+        y: data?.labels_value[item],
+        color: colorArray?.[index]
+      }
+      valueupdate.series[0].data.push(obj);
+      
+    })
+    setCTRName(data?.labels_value);
     setOptions(valueupdate);
     setviewEmailData(data);
   }
@@ -285,6 +267,18 @@ const showViewEmailModal = (data) => {
   setviewEmailModal(true);
   setCampaignId(id);
 };
+
+const getReaderData = async (type = "", dynamic_name="") => {
+  const body = {    
+      eventId:eventId,
+      autoId:campaign_id,     
+      type:type,
+      name:dynamic_name
+      }
+
+  console.log("body-->",body)
+  // setviewEmailModal(false);
+}
 
   return (
     <>
@@ -587,7 +581,10 @@ const showViewEmailModal = (data) => {
                 {!deletestatus && (
                   <div className="email_box_block">
                     <div className="email-block-add">
-                      <Link to="/EmailArticleSelect" onClick={createNewEmail}>
+                      <Link 
+                      // to="/EmailArticleSelect" 
+                      to=""
+                      onClick={createNewEmail}>
                         <img src={path_image + "add-button.svg"} alt="" />
                       </Link>
                       <p>Create New Email</p>
@@ -631,13 +628,21 @@ const showViewEmailModal = (data) => {
                                     : null
                                 } */}
                                 <h5>{data?.subject?data?.subject:""}</h5>
-                                {/* <p>{data?.description}</p> */}
+                                <p>{data?.event}</p>
                                 <div className="mailbox-table">
                                   <table>
                                     <tbody>
                                       <tr>
-                                        <th>Event :</th>
-                                        <td>{data?.event?data?.event:"N/A"}</td>
+                                        <th>Campaign</th>
+                                        <td>{data?.campaign?data?.campaign:data?.subject}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>Creator</th>
+                                        <td>{data?.creator?data?.creator:"N/A"}</td>
+                                      </tr>
+                                      <tr>
+                                        <th>List</th>
+                                        <td>{data?.smart_list_name?data?.smart_list_name:"N/A"}</td>
                                       </tr>
                                      
                                     </tbody>
@@ -754,8 +759,9 @@ const showViewEmailModal = (data) => {
                                       </svg>
                                     </div>
                                     <span>
-                                      {data?.labels_value?.ics_file_first_click_time > 0
-                                        ? ((data?.labels_value?.ics_file_first_click_time/data?.email_sent)*100 )?.toFixed(2)+ "%"
+                                
+                                      {data?.labels_value[Object.keys(data?.labels_value)[0]] > 0
+                                        ? ((data?.labels_value[Object.keys(data?.labels_value)[0]]/data?.email_sent)*100 )?.toFixed(2)+ "%"
                                         : 0}{" "}
                                     </span>
                                   </li>
@@ -924,7 +930,7 @@ const showViewEmailModal = (data) => {
                   <div className="mail-box-heading-block">
                     <div className="mail-box-heading">
                       <h5>{viewEmailData?.subject}</h5>
-                      <p>{viewEmailData?.description}</p>
+                      {/* <p>{viewEmailData?.description}</p> */}
                     </div>
                     {
                       viewEmailData?.status != 5
@@ -987,9 +993,9 @@ const showViewEmailModal = (data) => {
                   <div className="mail-stats">
                     <ul className={viewEmailData?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
                       <li
-                        // onClick={() => {
-                        //   getReaderData("unique", "Emails sent", "#8a4e9c");
-                        // }}
+                        onClick={() => {
+                          getReaderData("sent", "");
+                        }}
                       >
                         <div className="mail_send">
                           <h6>Emails sent</h6>
@@ -1037,59 +1043,9 @@ const showViewEmailModal = (data) => {
                       </li>
 
                       <li
-                        // onClick={() => {
-                        //   getReaderData("bounce", "Emails bounced", "#f58289");
-                        // }}
-                      >
-                        <div className="mail_view">
-                          <h6>Emails bounced</h6>
-                          <div className="mail-stats-list">
-                            <svg
-                              width="40"
-                              height="40"
-                              viewBox="0 0 40 40"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <circle
-                                cx="20"
-                                cy="20"
-                                r="18.5"
-                                stroke="#F58289"
-                                stroke-width="3"
-                                stroke-linejoin="round"
-                              />
-                              <g clipPath="url(#clip0_698_97)">
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M27.9098 12.283C27.5648 12.0981 27.1782 12.0001 26.7771 12.0001L12.4111 12C12.002 12 11.6165 12.1028 11.2788 12.2833L19.594 17.8268L27.9098 12.283ZM20.6461 25.1001C20.5929 24.8003 20.5651 24.4917 20.5651 24.1766C20.5651 21.2795 22.9136 18.931 25.8107 18.931C27.0975 18.931 28.2762 19.3944 29.1888 20.1634L29.1889 14.2817C29.1888 13.8568 29.0782 13.4485 28.8715 13.0884L19.9582 19.0308C19.738 19.1776 19.451 19.1777 19.2307 19.0309L10.3172 13.0886C10.1158 13.4407 10 13.8479 10 14.2819V15.0203V16.3318V17.8295L10.0001 19.1409L10 20.6387V21.9502V22.6886C10.0001 23.3309 10.2514 23.9359 10.7078 24.3923C11.1642 24.8487 11.7694 25.1001 12.4115 25.1001L20.6461 25.1001ZM25.804 28.3757C28.1216 28.3757 30.0004 26.4969 30.0004 24.1792C30.0004 21.8616 28.1216 19.9828 25.804 19.9828C23.4863 19.9828 21.6075 21.8616 21.6075 24.1792C21.6075 26.4969 23.4863 28.3757 25.804 28.3757ZM25.1052 26.6285C25.1052 26.2422 25.4184 25.9291 25.8047 25.9291C26.1909 25.9291 26.504 26.2422 26.504 26.6285C26.504 27.0148 26.1909 27.3279 25.8047 27.3279C25.4185 27.3279 25.1052 27.0148 25.1052 26.6285ZM25.8046 24.9097C26.1909 24.9097 26.504 24.583 26.504 24.1799V21.7623C26.504 21.3593 26.1909 21.0325 25.8046 21.0325C25.4183 21.0325 25.1052 21.3593 25.1052 21.7623V24.1799C25.1052 24.583 25.4183 24.9097 25.8046 24.9097Z"
-                                  fill="#F58289"
-                                />
-                              </g>
-                              <defs>
-                                <clipPath id="clip0_698_97">
-                                  <rect
-                                    width="20"
-                                    height="20"
-                                    fill="white"
-                                    transform="translate(10 10)"
-                                  />
-                                </clipPath>
-                              </defs>
-                            </svg>
-                            <span>
-                              {viewEmailData?.bounce
-                                ? viewEmailData?.bounce
-                                : 0}
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-                      <li
-                        // onClick={() => {
-                        //   getReaderData("open", "Emails opened", "#ffbe2c");
-                        // }}
+                        onClick={() => {
+                          getReaderData("open", "");
+                        }}
                       >
                         <div className="mail_open">
                           <h6>Emails opened</h6>
@@ -1130,12 +1086,13 @@ const showViewEmailModal = (data) => {
                           </div>
                         </div>
                       </li>
-                      <li
-                        // onClick={() => {
-                        //   getReaderData("ctr", viewEmailData[0]?.click_name, "#39cabc", viewEmailData[0]?.click_key);
-                        // }}
-                      >
+                     
                         {Object.keys(ctrName)?.length>0?Object.keys(ctrName)?.map((item,index)=>(<>
+                          <li
+                        onClick={() => {
+                          getReaderData("ctr", item);
+                        }}
+                      >
                           <div className="mail_click">
                          <div className="mail_click_box">
                            <h6>{item}</h6>
@@ -1169,11 +1126,12 @@ const showViewEmailModal = (data) => {
                            </div>
                          </div>
                        </div>
+                       </li>
                         </>))
                         
                         :""}
                        
-                      </li>
+                     
 
                       {
                         viewEmailData?.multi_ctr && viewEmailData?.multi_ctr?.length > 0
