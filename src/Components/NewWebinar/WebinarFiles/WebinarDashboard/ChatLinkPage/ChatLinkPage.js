@@ -115,6 +115,9 @@ const ChatLinkPage = () => {
         setSecondHeaderImage(chatLinkData?.headerImage);
         setIsDataSaved(true);
       } else {
+        setTemplateData(dynamicEventData[0]);
+        setActiveIndex(0);
+        currentIndex.current = 0
         setFormData(dynamicContent);
         setLogo(dynamicContent?.logoImageUrl);
         setHeaderImage(dynamicContent?.headerBackgroundImage);
