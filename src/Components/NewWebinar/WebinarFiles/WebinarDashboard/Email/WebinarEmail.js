@@ -13,7 +13,6 @@ import { popup_alert } from "../../../../../popup_alert";
 const WebinarEmail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  let path_image_delete = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -143,7 +142,6 @@ const WebinarEmail = () => {
     ],
   });
 
-
   useEffect(() => {
     getWebinarCompaignList()
     getFilterList()
@@ -156,8 +154,14 @@ const WebinarEmail = () => {
         eventId: eventId,
       };
       const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
+      let filterData=[]      
+      if(search!=""){
+        filterData=response?.data?.data?.filter((item,index)=>item?.subject?.includes(search))
+      }else{
+        filterData =response?.data?.data
+      }
+      setEmailListData(filterData)
       setTotalEmailListData(response?.data?.data)
-      setEmailListData(response?.data?.data)
 
     } catch (err) {
       console.log("--err", err)
@@ -182,7 +186,7 @@ const WebinarEmail = () => {
     }
   };
 
-  const submitHandler = (event) => {
+  const submitSearchHandler = (event) => {
     event.preventDefault();
     let searchData = totalEmailListData?.filter((item) => item?.subject?.includes(search))
     setEmailListData(searchData)
@@ -255,13 +259,13 @@ const WebinarEmail = () => {
   }
 
   const clearFilter = () => {
+    setSearch("");
     setAppliedFilter({});
     setApifilterObject({});
     setFilterObject({});
     setEmailListData([]);
     setTotalEmailListData([])
-    getWebinarCompaignList()
-    setSearch("");
+    getWebinarCompaignList()    
     setShowFilter(false);
   };
   const createNewEmail = () => {
@@ -329,35 +333,29 @@ const WebinarEmail = () => {
     }
   }
 
-  const showConfirmationPopup = ( id) => {
-    console.log("new id--->",id)
-   
+  const showConfirmationPopup = (id) => {
     setCampaignId(id);
-      // setCommonConfirmModelFun(() => deleteUser);
-      setPopupMessage({
-        message1: "You are about to remove this compaign.",
-        message2: "Are you sure you want to do this?",
-        footerButton: "Yes please!",
-      });
-      if (confirmationpopup) {
-        setConfirmationPopup(false);
-      } else {
-        setConfirmationPopup(true);
-      }
-   
+    setPopupMessage({
+      message1: "You are about to remove this compaign.",
+      message2: "Are you sure you want to do this?",
+      footerButton: "Yes please!",
+    });
+    if (confirmationpopup) {
+      setConfirmationPopup(false);
+    } else {
+      setConfirmationPopup(true);
+    }
   };
 
-  const deleteCompaign=async(id)=>{
-    console.log("id-->",id)
+  const deleteCompaign = async (id) => {
     loader("show");
     try {
-      let body={
-        eventId:eventId,
-        emailAutoresponserId:id
+      let body = {
+        eventId: eventId,
+        emailAutoresponserId: id
       }
-      
-      const res=await postData(ENDPOINT.WEBINAR_EMAIL_DELETE_COMPAIGN, body);
-      console.log("res--->",res)
+      const res = await postData(ENDPOINT.WEBINAR_EMAIL_DELETE_COMPAIGN, body);
+      console.log("res--->", res)
       loader("hide");
       popup_alert({
         visible: "show",
@@ -365,15 +363,15 @@ const WebinarEmail = () => {
         type: "success",
         redirect: "",
       });
-
       const updatedRes = emailListData?.filter((item) => item?.auto_id !== id);
       setEmailListData(updatedRes);
-      // }
-      loader("hide");
     } catch (err) {
+      console.log("--err", err)
+    } finally {
       loader("hide");
+      hideConfirmationModal();
     }
-    hideConfirmationModal();
+
   }
 
   const hideConfirmationModal = () => {
@@ -391,7 +389,7 @@ const WebinarEmail = () => {
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
-                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                  <form className="d-flex" onSubmit={(e) => submitSearchHandler(e)}>
                     <input
                       className="form-control me-2"
                       type="text"
@@ -737,9 +735,9 @@ const WebinarEmail = () => {
                             "email_box " +
                             ((data?.status == 5)
                               ? "queue" :
-                              data.status == 1
+                              data?.status == 1
                                 ? "approved"
-                                : data.status == 2
+                                : data?.status == 2
                                   ? "email-draft"
                                   : "draft-approved")
                           }
@@ -1017,9 +1015,9 @@ const WebinarEmail = () => {
                             {deletestatus && (
                               <div className="dlt_btn">
                                 <button
-                                onClick={(e) =>
-                                  showConfirmationPopup(data?.auto_id)
-                                }
+                                  onClick={(e) =>
+                                    showConfirmationPopup(data?.auto_id)
+                                  }
                                 >
                                   <img
                                     src={path + "delete.svg"}
@@ -1290,45 +1288,47 @@ const WebinarEmail = () => {
         </Modal>
 
 
-        <div>
-          <Modal
-            className="modal modal-second"
-            id="mail-view"
-            show={readerDetailsPopupStatus}
-          >
-            <Modal.Header>
-              <h4
-              // style={{ color: popupHeadingColor }}
-              >
-                {detailPopupName != "" ? detailPopupName : null}
-              </h4>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                onClick={(e) => {
-                  setReaderDetailsPopupStatus(false);
-                  setReaderDetailsData([]);
-                  setviewEmailModal(true);
-                }}
-              ></button>
-            </Modal.Header>
-            <Modal.Body>
-              {
-                <div className="selected-hcp-list">
-                  <table className="table" id="table-to-xls">
-                    <thead className="sticky-header">
-                      <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Country</th>
-                        <th scope="col">Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {typeof readerDetailsData !== "undefined" &&
-                        readerDetailsData?.length > 0 ? (
-                        readerDetailsData?.map((item, index) => (
+
+      </div>
+      <div>
+        <Modal
+          className="modal modal-second"
+          id="mail-view"
+          show={readerDetailsPopupStatus}
+        >
+          <Modal.Header>
+            <h4
+            // style={{ color: popupHeadingColor }}
+            >
+              {detailPopupName != "" ? detailPopupName : null}
+            </h4>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              onClick={(e) => {
+                setReaderDetailsPopupStatus(false);
+                setReaderDetailsData([]);
+                setviewEmailModal(true);
+              }}
+            ></button>
+          </Modal.Header>
+          <Modal.Body>
+            {
+              <div className="selected-hcp-list">
+                {typeof readerDetailsData !== "undefined" &&
+                  readerDetailsData?.length > 0 ? (<>
+                    <table className="table" id="table-to-xls">
+                      <thead className="sticky-header">
+                        <tr>
+                          <th scope="col">Name</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Country</th>
+                          <th scope="col">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {readerDetailsData?.map((item, index) => (
                           <>
                             <tr
                               key={"readers_" + index}
@@ -1336,43 +1336,40 @@ const WebinarEmail = () => {
                               id={`row-selected` + index}
                             >
                               <td>
-                                {" "}
-                                {item?.name}{" "}
+                                {item?.name}
                               </td>
-                              <td> {item?.email ? item?.email : "N/A"} </td>
-
+                              <td> {item?.email ? item?.email : "N/A"}
+                              </td>
                               <td>
-                                {" "}
                                 <span>
                                   {item?.country ? item?.country : "N/A"}
-                                </span>{" "}
+                                </span>
                               </td>
                               <td>
-                                {" "}
                                 <span>
                                   {item?.formatted_date ? item?.formatted_date : "N/A"}
-                                </span>{" "}
+                                </span>
                               </td>
-
                             </tr>
                           </>
-                        ))
-                      ) : readerDetailsData?.length == 0 ? (
-                        <tr className="table_no_data_found">
-                          <td colspan="6">
-                            <div className="no_found">
-                              <p>No Data Found</p>
-                            </div>
-                          </td>
-                        </tr>
-                      ) : null}
-                    </tbody>
-                  </table>
-                </div>
-              }
-            </Modal.Body>
-          </Modal>
-        </div>
+                        ))}
+
+                      </tbody>
+                    </table>
+                  </>) : readerDetailsData?.length == 0 ? (
+                    <tr className="table_no_data_found">
+                      <td colspan="6">
+                        <div className="no_found">
+                          <p>No Data Found</p>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : null}
+
+              </div>
+            }
+          </Modal.Body>
+        </Modal>
       </div>
       <CommonConfirmModel
         show={confirmationpopup}
