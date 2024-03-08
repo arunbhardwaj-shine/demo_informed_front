@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Col, Accordion, Button,Modal } from "react-bootstrap";
+import { Col, Accordion, Button, Modal } from "react-bootstrap";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { Link } from "react-router-dom";
 import { loader } from "../../../../../loader";
@@ -7,10 +7,13 @@ import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
+import { popup_alert } from "../../../../../popup_alert";
 
 const WebinarEmail = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image_delete = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -18,7 +21,7 @@ const WebinarEmail = () => {
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
   const [search, setSearch] = useState("")
   const [emailListData, setEmailListData] = useState([])
-  const [totalEmailListData,setTotalEmailListData]=useState([])
+  const [totalEmailListData, setTotalEmailListData] = useState([])
   const [appliedFilter, setAppliedFilter] = useState({})
   const [filterObject, setFilterObject] = useState({})
   const [apifilterObject, setApifilterObject] = useState({});
@@ -26,16 +29,24 @@ const WebinarEmail = () => {
   const [filterdata, setFilterData] = useState({});
   const [deletestatus, setDeleteStatus] = useState(false);
   const [viewEmailModal, setviewEmailModal] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId
       ? eventIdContext?.eventId
       : localStorageEvent?.eventId
   );
-  const [campaign_id, setCampaignId] = useState("");
+  const [campaignId, setCampaignId] = useState("");
   const [viewEmailData, setviewEmailData] = useState();
   const [ctrName, setCTRName] = useState("");
-  const [readerDetailsData,setReaderDetailsData]=useState([])
+  const [readerDetailsData, setReaderDetailsData] = useState([])
+  const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] =
+    useState(false);
+  const [detailPopupName, setDetailPopupName] = useState("");
+  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
   const [options, setOptions] = useState({
     chart: {
       type: "column",
@@ -45,16 +56,16 @@ const WebinarEmail = () => {
         beta: 25,
         depth: 70,
       },
-    //   events: {
-    //     load: function() {
-    //         var chart = this;
-    //         chart.series.forEach(function(series) {
-    //             series.data.forEach(function(point) {
-    //                 point.onMouseOver(); // Trigger tooltip display
-    //             });
-    //         });
-    //     }
-    // }
+      //   events: {
+      //     load: function() {
+      //         var chart = this;
+      //         chart.series.forEach(function(series) {
+      //             series.data.forEach(function(point) {
+      //                 point.onMouseOver(); // Trigger tooltip display
+      //             });
+      //         });
+      //     }
+      // }
     },
     title: {
       text: "Mail campaign stats",
@@ -112,7 +123,7 @@ const WebinarEmail = () => {
               this.x +
               "</span><br/><strong>" +
               this.series.name +
-              "</strong> <strong >" +":"+
+              "</strong> <strong >" + ":" +
               Highcharts.numberFormat(this.y, 0) +
               "</strong></div></span>"
             );
@@ -134,31 +145,38 @@ const WebinarEmail = () => {
 
 
   useEffect(() => {
-    // if(!eventIdContext){
-    //   handleEventId(localStorageEvent)
-    // }
     getWebinarCompaignList()
+    getFilterList()
   }, [])
 
-  const getWebinarCompaignList =async()=>{
-    try{
+  const getWebinarCompaignList = async (filter = "") => {
+    try {
       loader("show")
       let body = {
         eventId: eventId,
       };
-      const response=await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST,body)
+      const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
       setTotalEmailListData(response?.data?.data)
       setEmailListData(response?.data?.data)
-    }catch(err){
-      console.log("--err",err)
-    }finally{
+
+    } catch (err) {
+      console.log("--err", err)
+    } finally {
       loader("hide")
+    }
+  }
+  const getFilterList = async () => {
+    try {
+      const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_FILTER_LIST, { eventId })
+      setFilterData(response?.data?.data)
+    } catch (err) {
+      console.log("--err", err)
     }
   }
 
   const searchChange = (e) => {
     setSearch(e?.target?.value);
-    
+
     if (e?.target?.value === "") {
       setEmailListData(totalEmailListData)
     }
@@ -166,131 +184,201 @@ const WebinarEmail = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    let searchData=totalEmailListData?.filter((item)=>item?.subject?.includes(search))
+    let searchData = totalEmailListData?.filter((item) => item?.subject?.includes(search))
     setEmailListData(searchData)
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    console.log("handle on filter change")
+    if (!newObj[key]) {
+      newObj[key] = [];
+    }
+    if (!apifilterObject[key]) {
+      apifilterObject[key] = [];
+    }
+
+    if (e?.target?.checked == true) {
+      newObj[key]?.push(item);
+      apifilterObject[key]?.push(e?.target?.value);
+    } else {
+      const index = newObj[key]?.indexOf(item);
+      if (index > -1) {
+        newObj[key]?.splice(index, 1);
+        if (newObj[key]?.length == 0) {
+          delete newObj[key];
+        }
+      }
+      const index2 = apifilterObject[key]?.indexOf(e.target.value);
+      if (index2 > -1) {
+        apifilterObject[key]?.splice(index2, 1);
+        if (apifilterObject[key]?.length == 0) {
+          delete apifilterObject[key];
+        }
+      }
+    }
+    setAppliedFilter(newObj);
+    setApifilterObject(apifilterObject);
   }
 
   const applyFilter = (e) => {
     e.preventDefault();
     setEmailListData([]);
     setFilterObject(appliedFilter);
-    // getEmailListData(page, appliedFilter, search);
+    getWebinarCompaignList(appliedFilter);
     setShowFilter(false);
   };
 
+  const removeindividualfilter = (key, item) => {
+    let old_object = filterObject;
+    const index = old_object[key]?.indexOf(item);
+    if (index > -1) {
+      old_object[key]?.splice(index, 1);
+      if (old_object[key]?.length == 0) {
+        delete old_object[key];
+      }
+    }
+    if (Object.keys(old_object)?.length !== 0) {
+      setFilterObject(old_object);
+      setEmailListData([]);
+      setTotalEmailListData([]);
+      setAppliedFilter(old_object);
+      getWebinarCompaignList(old_object)
+    } else {
+      let obj = {};
+      setFilterObject({});
+      setAppliedFilter({});
+      setApifilterObject({});
+      setEmailListData([]);
+      setTotalEmailListData([]);
+      getWebinarCompaignList(obj);
+    }
+  }
+
   const clearFilter = () => {
-    let obj = {};
     setAppliedFilter({});
-    setApifilterObject(obj);
-    setFilterObject(obj);
+    setApifilterObject({});
+    setFilterObject({});
     setEmailListData([]);
-    // getReaderListData(page, obj, search);
+    setTotalEmailListData([])
+    getWebinarCompaignList()
     setSearch("");
     setShowFilter(false);
   };
-const createNewEmail=()=>{
-  console.log("in create new email")
-}
-
-const draftNavigate = async (
-  campaign_id,
-  pdf_id,
-  route,
-  campaign,
-  creator,
-  discription,
-  subject,
-  tags
-) => {
-  console.log("in draft Navigate")
-}
-
-const showModal = (refernce, id) => {
-  console.log("in show modal")
-  // hideEmailModal();
-  // setReference(refernce);
-  // setCampaignId(id);
-  setIsOpen(true);
-};
-
-// const showViewEmailModal = (data) => {
-//   let id = data;
-//   hideModal();
-//   setviewEmailModal(true);
-//   setCampaignId(id);
-// };
-
-const hideModal = () => {
-  setIsOpen(false);
-};
-const hideEmailModal = () => {
-  setviewEmailModal(false);
-};
-const handleScroll = (e) => {
-  if (e?.target?.scrollTop > 20) {
-    document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
-  } else {
-    document
-      .querySelector("#mail-view")
-      .setAttribute("custom-atr", "non-scroll");
+  const createNewEmail = () => {
+    console.log("in create new email")
   }
-};
 
-const showViewEmailModal = (data) => {
-  let id = data?.auto_id;
-  if (typeof data !== "undefined") {
-    let valueupdate = options;
-    valueupdate.series[0].data = [
-      { y: data?.email_sent, color: "#8a4e9c" },
-      { y: data?.email_read, color: "#ffbe2c" },
-    ];
+  const hideEmailModal = () => {
+    setviewEmailModal(false);
+  };
+  const handleScroll = (e) => {
+    if (e?.target?.scrollTop > 20) {
+      document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
+    } else {
+      document
+        .querySelector("#mail-view")
+        .setAttribute("custom-atr", "non-scroll");
+    }
+  };
+
+  const showViewEmailModal = (data) => {
+    let id = data?.auto_id;
+    if (typeof data !== "undefined") {
+      let valueupdate = options;
+      valueupdate.series[0].data = [
+        { y: data?.email_sent, color: "#8a4e9c" },
+        { y: data?.email_read, color: "#ffbe2c" },
+      ];
+
+      Object.keys(data?.labels_value)?.map((item, index) => {
+        valueupdate?.xAxis?.categories?.push(item);
+
+        let obj = {
+          y: data?.labels_value[item],
+          color: colorArray?.[index]
+        }
+        valueupdate.series[0].data.push(obj);
+
+      })
+      setCTRName(data?.labels_value);
+      setOptions(valueupdate);
+      setviewEmailData(data);
+    }
+    setviewEmailModal(true);
+    setCampaignId(id);
+  };
+
+  const getReaderData = async (type = "", dynamic_name = "", popup_name = "") => {
+    try {
+      loader("show")
+      const body = {
+        eventId: eventId,
+        autoId: campaignId,
+        type: type,
+        name: dynamic_name
+      }
+      const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST, body)
+      setviewEmailModal(false);
+      setReaderDetailsData(response?.data?.data);
+      setDetailPopupName(popup_name)
+      setReaderDetailsPopupStatus(true);
+    } catch (err) {
+      console.log("--err", err)
+    } finally {
+      loader("hide")
+    }
+  }
+
+  const showConfirmationPopup = ( id) => {
+    console.log("new id--->",id)
    
-    Object.keys(data?.labels_value)?.map((item,index)=>{
-      valueupdate?.xAxis?.categories?.push(item);
-
-      let obj = {
-        y: data?.labels_value[item],
-        color: colorArray?.[index]
+    setCampaignId(id);
+      // setCommonConfirmModelFun(() => deleteUser);
+      setPopupMessage({
+        message1: "You are about to remove this compaign.",
+        message2: "Are you sure you want to do this?",
+        footerButton: "Yes please!",
+      });
+      if (confirmationpopup) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
       }
-      valueupdate.series[0].data.push(obj);
+   
+  };
+
+  const deleteCompaign=async(id)=>{
+    console.log("id-->",id)
+    loader("show");
+    try {
+      let body={
+        eventId:eventId,
+        emailAutoresponserId:id
+      }
       
-    })
-    setCTRName(data?.labels_value);
-    setOptions(valueupdate);
-    setviewEmailData(data);
-  }
-  hideModal();
-  setviewEmailModal(true);
-  setCampaignId(id);
-};
+      const res=await postData(ENDPOINT.WEBINAR_EMAIL_DELETE_COMPAIGN, body);
+      console.log("res--->",res)
+      loader("hide");
+      popup_alert({
+        visible: "show",
+        message: "Compaign has been deleted <br />successfully !",
+        type: "success",
+        redirect: "",
+      });
 
-const getReaderData = async (type = "", dynamic_name="") => {
-  try{
-    loader("show")
-    const body = {    
-      eventId:eventId,
-      autoId:campaign_id,     
-      type:type,
-      name:dynamic_name
-      }
-
-  console.log("body-->",body)
-  const response=await postData(ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST,body)
-  console.log("res-->",response)
-  // setviewEmailModal(false);
-  setReaderDetailsData(response?.data?.data);
-  }catch(err){
-    console.log("--err",err)
-  }finally{
-    loader("hide")
+      const updatedRes = emailListData?.filter((item) => item?.auto_id !== id);
+      setEmailListData(updatedRes);
+      // }
+      loader("hide");
+    } catch (err) {
+      loader("hide");
+    }
+    hideConfirmationModal();
   }
- 
-}
+
+  const hideConfirmationModal = () => {
+    setConfirmationPopup(false);
+  };
 
   return (
     <>
@@ -421,29 +509,7 @@ const getReaderData = async (type = "", dynamic_name="") => {
                                               {item != "" ? (
                                                 <label className="select-multiple-option">
                                                   <input
-                                                    type={
-                                                      key == "status" ||
-                                                        key ==
-                                                        "Content Owners" ||
-                                                        key ==
-                                                        "contact Type" ||
-                                                        key == "userAction" ||
-                                                        key == "Blinded" ||
-                                                        key == "IRT" ||
-                                                        key ==
-                                                        "IRT mandatory training" ||
-                                                        key == "region" ||
-                                                        key == "RTR?" ||
-                                                        key ==
-                                                        "Business Unit" ||
-                                                        key ==
-                                                        "webinarRegistered" ||
-                                                        key ==
-                                                        "Registered For Webinar" ||
-                                                        key == "List"
-                                                        ? "radio"
-                                                        : "checkbox"
-                                                    }
+                                                    type={"checkbox"}
                                                     id={`custom-checkbox-tags-${index}`}
                                                     value={
                                                       typeof item ==
@@ -588,46 +654,105 @@ const getReaderData = async (type = "", dynamic_name="") => {
                 </div>
               </div>
             </div>
+            {Object.keys(filterObject)?.length ? (
+              <div className="apply-filter">
+                {/* <h6>Applied filters</h6> */}
+                <div className="filter-block">
+                  <div className="filter-block-left full">
+                    {Object.keys(filterObject)?.map((key, index) => {
+                      return (
+                        <>
+                          {filterObject[key]?.length ? (
+                            <div className="filter-div">
+                              <div className="filter-div-title">
+                                <span>{key} |</span>
+                              </div>
+                              <div className="filter-div-list">
+
+                                {filterObject[key]?.map((item, index) => (
+                                  <div
+                                    className={
+                                      key == "role"
+                                        ? "filter-result upper"
+                                        : "filter-result"
+                                    }
+                                    id={item}
+                                    rt={index}
+                                    b
+                                  >
+                                    {item}
+                                    <img
+                                      src={
+                                        path_image + "filter-close.svg"
+                                      }
+                                      onClick={(event) => {
+                                        removeindividualfilter(key, item);
+                                      }}
+                                      alt="Close-filter"
+                                    />
+                                  </div>
+                                ))}
+
+                              </div>
+                            </div>
+                          ) : null}
+                        </>
+                      );
+                    })}
+                  </div>
+                  <div className="clear-filter">
+                    <Button
+                      className="btn btn-outline-primary btn-bordered"
+                      onClick={clearFilter}
+                    >
+                      Remove All
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+
             <div className="email-result">
               <div className="col email-result-block">
                 {!deletestatus && (
                   <div className="email_box_block">
                     <div className="email-block-add">
-                      <Link 
-                      // to="/EmailArticleSelect" 
-                      to=""
-                      onClick={createNewEmail}>
+                      <Link
+                        // to="/EmailArticleSelect" 
+                        to=""
+                        onClick={createNewEmail}>
                         <img src={path_image + "add-button.svg"} alt="" />
                       </Link>
                       <p>Create New Email</p>
                     </div>
                   </div>
                 )}
-                     {emailListData?.length > 0 ? (
+                {emailListData?.length > 0 ? (
                   emailListData?.map((data) => {
                     return (
                       <div className="email_box_block">
                         <div
-                          // className={
-                          //   "email_box " +
-                          //   ((data?.status == 5)
-                          //     ? "queue" :
-                          //     data.status == 1
-                          //       ? "approved"
-                          //       : data.status == 2
-                          //         ? "email-draft"
-                          //         : "draft-approved")
-                          // }
+                          className={
+                            "email_box " +
+                            ((data?.status == 5)
+                              ? "queue" :
+                              data.status == 1
+                                ? "approved"
+                                : data.status == 2
+                                  ? "email-draft"
+                                  : "draft-approved")
+                          }
                         >
-                          <div className="mail-top-title">
+                          {/* <div className="mail-top-title">
 
                             <span>
-                              {/* {( data?.status == 5)
+                              {( data?.status == 5)
                                 ? "Sending in queue" :
                                 data?.status == 2 ? "Draft" : "Approved Draft"
-                              } */}
+                              }
                             </span>
-                          </div>
+                          </div> */}
                           <div className="mail-box-content">
                             <div className="mail-box-content-top">
                               <div className="mail-box-content-top-view">
@@ -639,24 +764,24 @@ const getReaderData = async (type = "", dynamic_name="") => {
                                     </div>
                                     : null
                                 } */}
-                                <h5>{data?.subject?data?.subject:""}</h5>
+                                <h5>{data?.subject ? data?.subject : ""}</h5>
                                 <p>{data?.event}</p>
                                 <div className="mailbox-table">
                                   <table>
                                     <tbody>
                                       <tr>
                                         <th>Campaign</th>
-                                        <td>{data?.campaign?data?.campaign:data?.subject}</td>
+                                        <td>{data?.campaign ? data?.campaign : data?.subject}</td>
                                       </tr>
                                       <tr>
                                         <th>Creator</th>
-                                        <td>{data?.creator?data?.creator:"N/A"}</td>
+                                        <td>{data?.creator ? data?.creator : "N/A"}</td>
                                       </tr>
                                       <tr>
                                         <th>List</th>
-                                        <td>{data?.smart_list_name?data?.smart_list_name:"N/A"}</td>
+                                        <td>{data?.smart_list_name ? data?.smart_list_name : "N/A"}</td>
                                       </tr>
-                                     
+
                                     </tbody>
                                   </table>
                                 </div>
@@ -672,7 +797,7 @@ const getReaderData = async (type = "", dynamic_name="") => {
                                   </ul>
                                 </div>
                                 <div className="mail-time">
-                                  <span>{data?.created_at}</span>
+                                  <span>{data?.created_at ? data?.created_at : "N/A"}</span>
                                 </div>
                               </div>
                               <div className="mail-stats">
@@ -710,7 +835,7 @@ const getReaderData = async (type = "", dynamic_name="") => {
                                         </defs>
                                       </svg>
                                     </div>
-                                    <span>{data?.email_sent}</span>
+                                    <span>{data?.email_sent ? data?.email_sent : 0}</span>
                                   </li>
                                   <li>
                                     <div
@@ -743,9 +868,9 @@ const getReaderData = async (type = "", dynamic_name="") => {
                                       </svg>
                                     </div>
                                     <span>
-                                      {data?.read_precent!=""
-                                        ? data?.read_precent 
-                                        : 0}{" "}
+                                      {data?.read_precent != ""
+                                        ? data?.read_precent
+                                        : 0 + "%"}{" "}
                                     </span>
                                   </li>
                                   <li>
@@ -771,9 +896,9 @@ const getReaderData = async (type = "", dynamic_name="") => {
                                       </svg>
                                     </div>
                                     <span>
-                                
+
                                       {data?.labels_value[Object.keys(data?.labels_value)[0]] > 0
-                                        ? ((data?.labels_value[Object.keys(data?.labels_value)[0]]/data?.email_sent)*100 )?.toFixed(2)+ "%"
+                                        ? ((data?.labels_value[Object.keys(data?.labels_value)[0]] / data?.email_sent) * 100)?.toFixed(2) + "%"
                                         : 0}{" "}
                                     </span>
                                   </li>
@@ -781,10 +906,10 @@ const getReaderData = async (type = "", dynamic_name="") => {
                               </div>
                             </div>
                             {/* {data?.status == 1 ? ( */}
-                              <div className="mailbox-buttons">
-                                {!deletestatus && (
-                                  <>
-                                    {/* <div className="send_new">
+                            <div className="mailbox-buttons">
+                              {!deletestatus && (
+                                <>
+                                  {/* <div className="send_new">
                                       <button
                                         className="btn btn-primary btn-bordered send-new"
                                         onClick={() =>
@@ -804,8 +929,8 @@ const getReaderData = async (type = "", dynamic_name="") => {
                                       </button>
                                     </div> */}
 
-                                    <div className="mailbox-buttons-list">
-                                      {/* {data?.total_Opened_pr < 100 ? (
+                                  <div className="mailbox-buttons-list">
+                                    {/* {data?.total_Opened_pr < 100 ? (
                                         <button
                                           className="btn btn-primary btn-bordered send"
                                           onClick={(e) =>
@@ -818,20 +943,20 @@ const getReaderData = async (type = "", dynamic_name="") => {
                                         ""
                                       )} */}
 
-                                      <button
-                                        className="btn btn-primary btn-filled edit"
-                                        onClick={(e) =>
-                                          showViewEmailModal(data)
-                                        }
-                                      >
-                                        View
-                                      </button>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
+                                    <button
+                                      className="btn btn-primary btn-filled edit"
+                                      onClick={(e) =>
+                                        showViewEmailModal(data)
+                                      }
+                                    >
+                                      View
+                                    </button>
+                                  </div>
+                                </>
+                              )}
+                            </div>
                             {/* ) :  */}
-                              {/* data.status == 5 ? (
+                            {/* data.status == 5 ? (
                                 <div className="mailbox-buttons d-flex justify-content-end">
                                   <button
                                         className="btn btn-primary btn-filled edit"
@@ -892,9 +1017,9 @@ const getReaderData = async (type = "", dynamic_name="") => {
                             {deletestatus && (
                               <div className="dlt_btn">
                                 <button
-                                  // onClick={(e) =>
-                                  //   showConfirmationPopup(data.id)
-                                  // }
+                                onClick={(e) =>
+                                  showConfirmationPopup(data?.auto_id)
+                                }
                                 >
                                   <img
                                     src={path + "delete.svg"}
@@ -934,7 +1059,7 @@ const getReaderData = async (type = "", dynamic_name="") => {
               onClick={hideEmailModal}
             ></button>
           </Modal.Header>
-           
+
           <Modal.Body onScroll={handleScroll}>
             {typeof viewEmailData !== "undefined" && (
               <div className="modal-body-view">
@@ -944,43 +1069,43 @@ const getReaderData = async (type = "", dynamic_name="") => {
                       <h5>{viewEmailData?.subject}</h5>
                       <p>{viewEmailData?.event}</p>
                     </div>
-                    {
+                    {/* {
                       viewEmailData?.status != 5
                       ? 
                       <div className="mail-view-btn">
                         <button
                           className="btn btn-primary btn-bordered"
-                          // onClick={(e) => showModal("send", campaign_id)}
+                          onClick={(e) => showModal("send", campaignId)}
                         >
                           Resend
                         </button>
                       </div>
                       : null
-                    }
+                    } */}
                   </div>
                   <div className="mailbox-table">
                     <table>
                       <tbody>
                         <tr>
                           <th>Campaign</th>
-                          <td>{viewEmailData?.campaign?viewEmailData?.campaign:viewEmailData?.subject}</td>
+                          <td>{viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject}</td>
                         </tr>
                         <tr>
                           <th>List</th>
-                          <td>{viewEmailData?.smart_list_name?viewEmailData?.smart_list_name:"N/A"}</td>
+                          <td>{viewEmailData?.smart_list_name ? viewEmailData?.smart_list_name : "N/A"}</td>
                         </tr>
                         <tr>
                           <th>Content Title </th>
-                          <td>{viewEmailData?.article_title?viewEmailData?.article_title:"N/A"}</td>
+                          <td>{viewEmailData?.article_title ? viewEmailData?.article_title : "N/A"}</td>
                         </tr>
                         <tr>
                           <th>Docintel Link </th>
                           <td>
                             <a
-                              href={viewEmailData?.docintel_link?viewEmailData?.docintel_link:""}
+                              href={viewEmailData?.docintel_link ? viewEmailData?.docintel_link : ""}
                               target="_blank"
                             >
-                              {viewEmailData?.docintel_link?viewEmailData?.docintel_link:""}
+                              {viewEmailData?.docintel_link ? viewEmailData?.docintel_link : ""}
                             </a>
                           </td>
                         </tr>
@@ -1006,7 +1131,7 @@ const getReaderData = async (type = "", dynamic_name="") => {
                     <ul className={viewEmailData?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
                       <li
                         onClick={() => {
-                          getReaderData("sent", "");
+                          getReaderData("sent", "", "Email sent");
                         }}
                       >
                         <div className="mail_send">
@@ -1056,7 +1181,7 @@ const getReaderData = async (type = "", dynamic_name="") => {
 
                       <li
                         onClick={() => {
-                          getReaderData("open", "");
+                          getReaderData("open", "", "Email open");
                         }}
                       >
                         <div className="mail_open">
@@ -1098,100 +1223,49 @@ const getReaderData = async (type = "", dynamic_name="") => {
                           </div>
                         </div>
                       </li>
-                     
-                        {Object.keys(ctrName)?.length>0?Object.keys(ctrName)?.map((item,index)=>(<>
-                          <li
-                        onClick={() => {
-                          getReaderData("ctr", item);
-                        }}
-                      >
-                          <div className="mail_click">
-                         <div className="mail_click_box">
-                           <h6>{item}</h6>
-                           <div className="mail_click_box_content">
-                             <svg
-                               width="40"
-                               height="40"
-                               viewBox="0 0 40 40"
-                               fill="none"
-                               xmlns="http://www.w3.org/2000/svg"
-                             >
-                               <circle
-                                 cx="20"
-                                 cy="20"
-                                 r="18.5"
-                                 stroke="#39CABC"
-                                 stroke-width="3"
-                                 stroke-linejoin="round"
-                               />
-                               <path
-                                 d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
-                                 fill="#39CABC"
-                               />
-                               <path
-                                 d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
-                                 fill="#39CABC"
-                               />
-                             </svg>
-                             {/* <span>{viewEmailData?.total_Click_pr}%</span> */}
-                             <span>{ctrName[item]}</span>
-                           </div>
-                         </div>
-                       </div>
-                       </li>
-                        </>))
-                        
-                        :""}
-                       
-                     
 
-                      {/* {
-                        viewEmailData?.multi_ctr && viewEmailData?.multi_ctr?.length > 0
-                          ?
-                          viewEmailData?.multi_ctr.map((ctr, index) => {
-                            return (
-                              <li
-                                onClick={() => {
-                                  getReaderData("ctr", ctr?.click_name, colorArray?.[index], ctr?.click_key);
-                                }}
-                              >
-                                <div className="mail_click">
-                                  <div className="mail_click_box">
-                                    <h6 style={{ color: colorArray?.[index] }}>{ctr?.click_name}</h6>
-                                    <div className="mail_click_box_content">
-                                      <svg
-                                        width="40"
-                                        height="40"
-                                        viewBox="0 0 40 40"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <circle
-                                          cx="20"
-                                          cy="20"
-                                          r="18.5"
-                                          stroke={colorArray?.[index]}
-                                          stroke-width="3"
-                                          stroke-linejoin="round"
-                                        />
-                                        <path
-                                          d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
-                                          fill={colorArray?.[index]}
-                                        />
-                                        <path
-                                          d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
-                                          fill={colorArray?.[index]}
-                                        />
-                                      </svg>
-                                      <span>{ctr?.total_Click_pr}%</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                            )
-                          })
-                          : null
-                      } */}
+                      {Object.keys(ctrName)?.length > 0 ? Object.keys(ctrName)?.map((item, index) => (<>
+                        <li
+                          onClick={() => {
+                            getReaderData("ctr", item, item);
+                          }}
+                        >
+                          <div className="mail_click">
+                            <div className="mail_click_box">
+                              <h6>{item}</h6>
+                              <div className="mail_click_box_content">
+                                <svg
+                                  width="40"
+                                  height="40"
+                                  viewBox="0 0 40 40"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <circle
+                                    cx="20"
+                                    cy="20"
+                                    r="18.5"
+                                    stroke="#39CABC"
+                                    stroke-width="3"
+                                    stroke-linejoin="round"
+                                  />
+                                  <path
+                                    d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
+                                    fill="#39CABC"
+                                  />
+                                  <path
+                                    d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
+                                    fill="#39CABC"
+                                  />
+                                </svg>
+
+                                <span>{ctrName[item]}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </>))
+                        : ""}
                     </ul>
                   </div>
                 </div>
@@ -1214,7 +1288,100 @@ const getReaderData = async (type = "", dynamic_name="") => {
             )}
           </Modal.Body>
         </Modal>
+
+
+        <div>
+          <Modal
+            className="modal modal-second"
+            id="mail-view"
+            show={readerDetailsPopupStatus}
+          >
+            <Modal.Header>
+              <h4
+              // style={{ color: popupHeadingColor }}
+              >
+                {detailPopupName != "" ? detailPopupName : null}
+              </h4>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                onClick={(e) => {
+                  setReaderDetailsPopupStatus(false);
+                  setReaderDetailsData([]);
+                  setviewEmailModal(true);
+                }}
+              ></button>
+            </Modal.Header>
+            <Modal.Body>
+              {
+                <div className="selected-hcp-list">
+                  <table className="table" id="table-to-xls">
+                    <thead className="sticky-header">
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {typeof readerDetailsData !== "undefined" &&
+                        readerDetailsData?.length > 0 ? (
+                        readerDetailsData?.map((item, index) => (
+                          <>
+                            <tr
+                              key={"readers_" + index}
+                              className="hcp"
+                              id={`row-selected` + index}
+                            >
+                              <td>
+                                {" "}
+                                {item?.name}{" "}
+                              </td>
+                              <td> {item?.email ? item?.email : "N/A"} </td>
+
+                              <td>
+                                {" "}
+                                <span>
+                                  {item?.country ? item?.country : "N/A"}
+                                </span>{" "}
+                              </td>
+                              <td>
+                                {" "}
+                                <span>
+                                  {item?.formatted_date ? item?.formatted_date : "N/A"}
+                                </span>{" "}
+                              </td>
+
+                            </tr>
+                          </>
+                        ))
+                      ) : readerDetailsData?.length == 0 ? (
+                        <tr className="table_no_data_found">
+                          <td colspan="6">
+                            <div className="no_found">
+                              <p>No Data Found</p>
+                            </div>
+                          </td>
+                        </tr>
+                      ) : null}
+                    </tbody>
+                  </table>
+                </div>
+              }
+            </Modal.Body>
+          </Modal>
+        </div>
       </div>
+      <CommonConfirmModel
+        show={confirmationpopup}
+        onClose={hideConfirmationModal}
+        fun={deleteCompaign}
+        popupMessage={popupMessage}
+        path_image={path_image}
+        resetDataId={campaignId}
+      />
     </>
   );
 };

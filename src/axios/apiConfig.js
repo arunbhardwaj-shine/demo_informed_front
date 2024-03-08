@@ -178,5 +178,7 @@ export const ENDPOINT = {
   STORE_SURVEY_DATA:"auth/store-survey-data",
   GET_SURVEY_DATA:"auth/get-survey-data",
   WEBINAR_EMAIL_COMPAIGN_LIST:"/webinarEmail/get-campaign-list",
-  WEBINAR_EMAIL_GET_READERS_LIST:"/webinarEmail/get-readers-list"
+  WEBINAR_EMAIL_GET_READERS_LIST:"/webinarEmail/get-readers-list",
+  WEBINAR_EMAIL_GET_FILTER_LIST:"/webinarEmail/get-filter-list",
+  WEBINAR_EMAIL_DELETE_COMPAIGN:"/webinarEmail/delete-list"
 };
