@@ -55,41 +55,38 @@ const WebinarEmail = () => {
         beta: 25,
         depth: 70,
       },
-      //   events: {
-      //     load: function() {
-      //         var chart = this;
-      //         chart.series.forEach(function(series) {
-      //             series.data.forEach(function(point) {
-      //                 point.onMouseOver(); // Trigger tooltip display
-      //             });
-      //         });
-      //     }
-      // }
+      
     },
     title: {
       text: "Mail campaign stats",
     },
-    plotOptions: {
-      column: {
-        depth: 25,
-      },
-    },
     xAxis: {
-      categories: ["Emails sent", "Emails opened"],
-      labels: {
-        skew3d: true,
-        style: {
-          fontSize: "16px",
-        },
-      },
+      categories: [],
+      
     },
     yAxis: {
       title: {
         text: null,
       },
     },
-    tooltip: {
+    exporting: {
       enabled: false,
+    },
+    tooltip: {    
+     
+        formatter: function () {
+          return (
+            "<span ><div className=" +
+            this.series.name +
+            '>'
+            // <span style="font-weight: bold">'
+             +
+           this.x+
+            " <strong >"  +":"+
+            Highcharts.numberFormat(this.y, 0) +
+            "</strong></div></span>"
+          );
+        },         
     },
     plotOptions: {
       series: {
@@ -102,10 +99,10 @@ const WebinarEmail = () => {
           crop: true,
           shape: "callout",
           size: "100%",
-          backgroundColor: "rgba(255,255,255)",
+          // backgroundColor: "rgba(255,255,255)",
           // borderColor: "rgba(0,0,0,0.9)",
           // borderColor:this.point.color,
-          color: "rgba(0,0,0)",
+          // color: "rgba(0,0,0)",
           // borderWidth: 0.5,
           // borderRadius: 5,
           style: {
@@ -118,11 +115,9 @@ const WebinarEmail = () => {
             return (
               "<span ><div className=" +
               this.series.name +
-              '><span style="font-weight: bold;">' +
-              this.x +
-              "</span><br/><strong>" +
-              this.series.name +
-              "</strong> <strong >" + ":" +
+              // '><span style="font-weight: 400">' +  
+              this.x
+              +" <strong >" +
               Highcharts.numberFormat(this.y, 0) +
               "</strong></div></span>"
             );
@@ -133,11 +128,7 @@ const WebinarEmail = () => {
     series: [
       {
         name: "Email campaign",
-        data: [
-          { y: 2, color: "#8a4e9c" },
-          { y: 3, color: "#ffbe2c" },
-          { y: 0, color: "#39cabc" },
-        ],
+        data: [],
       },
     ],
   });
@@ -160,15 +151,17 @@ const WebinarEmail = () => {
       }else{
         filterData =response?.data?.data
       }
-      console.log("filter data-->",filterData)
       setEmailListData(filterData)
       setTotalEmailListData(response?.data?.data)
+      // if(Object.keys(filterData)?.length==0){
 
-    } catch (err) {
-      console.log("--err", err)
-    } finally {
+      //   getFilterList()
+      // }
       loader("hide")
-    }
+    } catch (err) {
+      loader("hide")
+      console.log("--err", err)
+    } 
   }
   const getFilterList = async () => {
     try {
@@ -289,7 +282,9 @@ const WebinarEmail = () => {
   const showViewEmailModal = (data) => {
     let id = data?.auto_id;
     if (typeof data !== "undefined") {
-      let valueupdate = options;
+      // let valueupdate =JSON.parse(JSON.stringify(options)) ;
+      let valueupdate =options ;
+      valueupdate.xAxis.categories=["Emails sent", "Emails opened"]
       valueupdate.series[0].data = [
         { y: data?.email_sent, color: "#8a4e9c" },
         { y: data?.email_read, color: "#ffbe2c" },
@@ -302,8 +297,7 @@ const WebinarEmail = () => {
           color: colorArray?.[index]
         }
         valueupdate.series[0].data.push(obj);
-
-      })
+      })    
       setCTRName(data?.labels_value);
       setOptions(valueupdate);
       setviewEmailData(data);
@@ -326,11 +320,11 @@ const WebinarEmail = () => {
       setReaderDetailsData(response?.data?.data);
       setDetailPopupName(popup_name)
       setReaderDetailsPopupStatus(true);
-    } catch (err) {
-      console.log("--err", err)
-    } finally {
       loader("hide")
-    }
+    } catch (err) {
+      loader("hide")
+      console.log("--err", err)
+    } 
   }
 
   const showConfirmationPopup = (id) => {
@@ -364,13 +358,13 @@ const WebinarEmail = () => {
       });
       const updatedRes = emailListData?.filter((item) => item?.auto_id !== id);
       setEmailListData(updatedRes);
-    } catch (err) {
-      console.log("--err", err)
-    } finally {
-      loader("hide");
       hideConfirmationModal();
-    }
-
+      loader("hide");
+     
+    } catch (err) {
+      loader("hide");
+      console.log("--err", err)
+    } 
   }
 
   const hideConfirmationModal = () => {
@@ -894,7 +888,7 @@ const WebinarEmail = () => {
                                     </div>
                                     <span>
                                       {data?.labels_value[Object.keys(data?.labels_value)[0]] > 0
-                                        ? ((data?.labels_value[Object.keys(data?.labels_value)[0]] / data?.email_sent) * 100)?.toFixed(2) + "%"
+                                        ? ((data?.labels_value[Object.keys(data?.labels_value)[0]] / data?.email_read) * 100)?.toFixed(2) + "%"
                                         : 0}{" "}
                                     </span>
                                   </li>
@@ -1123,7 +1117,7 @@ const WebinarEmail = () => {
                       )}
                     </ul>
                   </div>
-                  <div className="mail-stats">
+                  <div className="mail-stats webinar-mail-stats">
                     <ul className={viewEmailData?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
                       <li
                         onClick={() => {
@@ -1223,12 +1217,12 @@ const WebinarEmail = () => {
                       {Object.keys(ctrName)?.length > 0 ? Object.keys(ctrName)?.map((item, index) => (<>
                         <li
                           onClick={() => {
-                            getReaderData("ctr", item, item);
+                            getReaderData("ctr", item, viewEmailData?.labels[item]);
                           }}
                         >
                           <div className="mail_click">
                             <div className="mail_click_box">
-                              <h6>{item}</h6>
+                              <h6>{viewEmailData?.labels[item]}</h6>
                               <div className="mail_click_box_content">
                                 <svg
                                   width="40"
@@ -1255,7 +1249,7 @@ const WebinarEmail = () => {
                                   />
                                 </svg>
 
-                                <span>{ctrName[item]}</span>
+                                <span>{ctrName[item]+"("+((ctrName[item]/viewEmailData?.email_read)*100).toFixed(2)+"%)"}</span>
                               </div>
                             </div>
                           </div>
@@ -1268,6 +1262,7 @@ const WebinarEmail = () => {
                 <div className="chart-description">
                   <div className="chart-description-view">
                     <HighchartsReact
+                    key={campaignId}
                       highcharts={Highcharts}
                       options={options}
                     />
