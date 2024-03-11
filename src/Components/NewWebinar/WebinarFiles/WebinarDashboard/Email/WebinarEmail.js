@@ -294,9 +294,8 @@ const WebinarEmail = () => {
         { y: data?.email_sent, color: "#8a4e9c" },
         { y: data?.email_read, color: "#ffbe2c" },
       ];
-
       Object.keys(data?.labels_value)?.map((item, index) => {
-        valueupdate?.xAxis?.categories?.push(item);
+        valueupdate?.xAxis?.categories?.push(data?.labels[item]);
 
         let obj = {
           y: data?.labels_value[item],
@@ -356,7 +355,6 @@ const WebinarEmail = () => {
         emailAutoresponserId: id
       }
       const res = await postData(ENDPOINT.WEBINAR_EMAIL_DELETE_COMPAIGN, body);
-      console.log("res--->", res)
       loader("hide");
       popup_alert({
         visible: "show",
@@ -895,7 +893,6 @@ const WebinarEmail = () => {
                                       </svg>
                                     </div>
                                     <span>
-                                      {console.log("-->",Object.keys(data?.labels_value)[0])}
                                       {data?.labels_value[Object.keys(data?.labels_value)[0]] > 0
                                         ? ((data?.labels_value[Object.keys(data?.labels_value)[0]] / data?.email_sent) * 100)?.toFixed(2) + "%"
                                         : 0}{" "}
