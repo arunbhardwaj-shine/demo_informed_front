@@ -3,6 +3,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { Col, Accordion, Button } from "react-bootstrap";
 
 const WebinarAutoEmails=()=>{
+  const { eventIdContext, handleEventId } = useSidebar()
 
     return (
         <>

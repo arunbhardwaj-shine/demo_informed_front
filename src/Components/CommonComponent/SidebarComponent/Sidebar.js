@@ -237,7 +237,7 @@ const Sidebar = () => {
   const isActiveSurveyPage = location.pathname === '/webinar/live-stream/survey/question-data'
 
   const isActiveEmail = location.pathname === '/webinar/email'
-  const isActiveAutomail = location.pathname === '/webinar/email/auto-email'
+  const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
   const isActiveSmartlist = location.pathname === '/webinar/email/smartlist'
 
   return (
@@ -248,9 +248,14 @@ const Sidebar = () => {
             window.location.pathname == "/webinar/registration" ||
             window.location.pathname == "/webinar/email" ||
             window.location.pathname == "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/webinar/live-stream/survey/question-data" || window.location.pathname == "/webinar/live-stream/chat-link" ||
-            window.location.pathname == "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/settings"
-            || window.location.pathname === "/webinar/live-stream/speaker-zone" ? (
+            window.location.pathname == "/webinar/live-stream/polls-layout" ||
+             window.location.pathname == "/webinar/live-stream/survey/question-data" || 
+             window.location.pathname == "/webinar/live-stream/chat-link" ||
+            window.location.pathname == "/webinar/analytics" || 
+            window.location.pathname === "/webinar/live-stream/settings"|| 
+            window.location.pathname === "/webinar/live-stream/speaker-zone" ||
+            window.location.pathname == "/webinar/email/auto-emails"||
+            window.location.pathname == "/webinar/email/smartlist"? (
             <>
 
               {/* <button className="toggle_btn" onClick={() => toggleClassToBody()}>
@@ -276,9 +281,15 @@ const Sidebar = () => {
             window.location.pathname === "/webinar/registration" ||
             window.location.pathname === "/webinar/email" ||
             window.location.pathname === "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/webinar/live-stream/survey/question-data" || window.location.pathname == "/webinar/live-stream/chat-link" ||
-            window.location.pathname === "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/contact-dm" || window.location.pathname === "/webinar/live-stream/settings"
-            || window.location.pathname === "/webinar/live-stream/speaker-zone") && (
+            window.location.pathname == "/webinar/live-stream/polls-layout" ||
+             window.location.pathname == "/webinar/live-stream/survey/question-data" ||
+              window.location.pathname == "/webinar/live-stream/chat-link" ||
+            window.location.pathname === "/webinar/analytics" ||
+             window.location.pathname === "/webinar/live-stream/contact-dm" ||
+              window.location.pathname === "/webinar/live-stream/settings"  ||
+               window.location.pathname === "/webinar/live-stream/speaker-zone"||
+               window.location.pathname === "/webinar/email/auto-emails"||
+               window.location.pathname === "/webinar/email/smartlist") && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
               </button>
@@ -1114,7 +1125,9 @@ const Sidebar = () => {
               window.location.pathname == "/webinar/live-stream/contact-dm" ||
               window.location.pathname === "/webinar/live-stream/settings" ||
               window.location.pathname === "/webinar/live-stream/speaker-zone" ||
-              window.location.pathname == "/webinar/analytics" ?
+              window.location.pathname == "/webinar/analytics"||
+              window.location.pathname == "/webinar/email/auto-emails"||
+              window.location.pathname == "/webinar/email/smartlist" ?
               (
                 <ul>
                   <li
@@ -1150,7 +1163,9 @@ const Sidebar = () => {
                   </li>
                   <li
                     className={
-                      location.pathname == "/webinar/email" || location.pathname == "/webinar/auto-emails" || location.pathname == "/webinar/smartlist"
+                      location.pathname == "/webinar/email" || 
+                      location.pathname == "/webinar/email/auto-emails" || 
+                      location.pathname == "/webinar/email/smartlist"
                         ? "active sub-links"
                         : "side_li sub-links"
                     }
@@ -1205,7 +1220,8 @@ const Sidebar = () => {
                           <li className={isActiveAutomail ? 'active' : 'side_li'}
                           // className="side_li"
                           >
-                            <Link to="/webinar/email/auto-email">
+                            {console.log("isActiveAutomail",isActiveAutomail)}
+                            <Link to="/webinar/email/auto-emails">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <g clip-path="url(#clip0_3765_722)">
                                   <path
