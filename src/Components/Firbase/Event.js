@@ -2365,6 +2365,186 @@ eventId={eventId}
           </div>
         )}
 
+        {formData?.templateId === 7 && (
+          <div className="container">
+            <div className="question-block">
+              <div className="header-logo">
+                <div>
+                  <img
+                    src={
+                      formData?.logoImageUrl
+                        ? formData?.logoImageUrl
+                        : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                    }
+                    alt="OneSource logo"
+                  />
+                </div>
+              </div>
+              <div className="question-block-form">
+                <div className="log-inner">
+                  <div 
+                  // className="head-sec "
+                  className="head-sec template2">
+                    <img
+                      src={
+                        formData?.headerImage
+                          ? formData?.headerImage
+                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/UY1wCngrWNar5zcPobfZZMPr4G187Ds2Ot6LZan2.png"
+                      }
+                      alt="OneSource logo"
+                    />
+                  </div>
+                </div>
+                <div className="event_title">
+                <h2 className="top-title"   style={{ color: formData?.textColor }} dangerouslySetInnerHTML={{
+                          __html: formData?.formHeading
+                            ? formData?.formHeading
+                            : "Type your question here!",
+                        }}/>
+              </div>
+
+                <form onSubmit={handleSubmit}>
+                  <input
+                    type="hidden"
+                    className="form-control"
+                    id="guest_id"
+                    name="guest_id"
+                    value="lji3sjpsdc21tux2st"
+                  />
+
+                  <div className="row">
+                    <div className="col-md-12">
+                      <label
+                        htmlFor="fname"
+                        className="form-label"
+                        style={{ color: formData?.textColor }}
+                        dangerouslySetInnerHTML={{
+                          __html: formData?.nameLabel
+                            ? formData?.nameLabel
+                            : "Name",
+                        }}
+                      />
+
+                      <input
+                        type="text"
+                        id="name"
+                        onChange={handleChange}
+                        className="form-control "
+                        placeholder={
+                          formData?.namePlaceholder
+                            ? formData?.namePlaceholder
+                            : "Write your name"
+                        }
+                        name="name"
+                        value={user?.name}
+                        style={{
+                          borderColor: formData?.textColor,
+                        }}
+                      />
+                      <input
+                        type="hidden"
+                        className="form-control"
+                        value="Question submitted successfully"
+                        name="succ_message"
+                      />
+                      <input
+                        type="hidden"
+                        className="form-control"
+                        value="Please enter message"
+                        name="err_message"
+                      />
+                      <input
+                        type="hidden"
+                        className="form-control"
+                        value="index.php?evnt=octa-academy-2023"
+                        name="page"
+                      />
+                    </div>
+                    <div className="col-md-12">
+                      <label
+                        htmlFor="fname"
+                        className="form-label"
+                        style={{ color: formData?.textColor }}
+                        dangerouslySetInnerHTML={{
+                          __html: formData?.questionLabel
+                            ? formData?.questionLabel
+                            : "Your question",
+                        }}
+                      />
+
+                      <textarea
+                        name="question"
+                        id="question"
+                        onChange={handleChange}
+                        className="form-control"
+                        placeholder={
+                          formData?.questionPlaceholder
+                            ? formData?.questionPlaceholder
+                            : "Write your question"
+                        }
+                        cols="40"
+                        rows="4"
+                        value={user?.question}
+                        style={{
+                          borderColor: formData?.textColor,
+                        }}
+                      ></textarea>
+
+                      {error?.question && (
+                        <span className="event-validation">
+                          {error?.question}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="col-md-12">
+                      <Button
+                        type="submit"
+                        className="btn btn-success"
+                        style={{
+                          background: formData?.buttonColor,
+                          borderColor: formData?.buttonColor,
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: formData?.buttonText
+                            ? formData?.buttonText
+                            : "SEND",
+                        }}
+                      ></Button>
+                    </div>
+                  </div>
+                </form>
+
+                <div className="eahad-footer">
+                    <div className="footer-msg">
+                    <p
+                    style={{ color: formData?.textColor }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.footerTextOne
+                        // ? formData?.footerTextOne
+                        // : "This symposium is for healthcare professionals attending the ISTH congress only and is organised and sponsored by Octapharma. It has been approved in line with UK regulations for an international audience. Prescribing information may vary depending on local approval in each country. Before prescribing any product, always refer to local materials such as the prescribing information and/or the summary of product characteristics. This is a promotional symposium and products will be discussed.",
+                    }}
+                  />
+                    </div>
+                  </div>
+
+                <div className="copy-right-bottom-text">
+                  <p
+                    style={{ color: formData?.textColor }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.footerText
+                        // ? formData?.footerText
+                        // : "Preparation date: xx xxx 2024",
+                    }}
+                  />
+                </div>
+
+                
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Modal for Poll */}
         <div className="modal fade" id="pollModel" role="dialog">
         <div className="modal-dialog modal-dialog-centered">

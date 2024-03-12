@@ -36,7 +36,8 @@ const template = {
   1:["logo","header"],
   2:['logoOne',"logoTwo"],
   3:['logo','header','footer'],
-  4:[]
+  4:[],
+  5:['header']
 }
 const WebinarRegistration = () => {
   const { eventIdContext, handleEventId } = useSidebar();

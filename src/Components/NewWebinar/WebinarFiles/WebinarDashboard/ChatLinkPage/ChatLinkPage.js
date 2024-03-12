@@ -499,7 +499,7 @@ const ChatLinkPage = () => {
           template?.templateId == 4 ||
           template?.templateId == 5 ||
           template?.templateId == 6 ||
-          template?.templateId == 7
+          template?.templateId == 7 || template?.templateId == 8
         ) {
           setSecondHeaderImage(
             apiData?.headerImage ? apiData?.headerImage : ""
@@ -547,7 +547,7 @@ const ChatLinkPage = () => {
           template?.templateId == 4 ||
           template?.templateId == 5 ||
           template?.templateId == 6 ||
-          template?.templateId == 7
+          template?.templateId == 7 || template?.templateId == 8
         ) {
           setSecondHeaderImage(
             updatedBody?.fieldData?.headerImage?.value
@@ -1053,7 +1053,8 @@ const ChatLinkPage = () => {
                             ) : formData?.templateId == 4 ||
                               formData?.templateId == 5 ||
                               formData?.templateId == 6 ||
-                              formData?.templateId === 7 ? (
+                              formData?.templateId === 7 ||
+                              formData?.templateId === 8 ? (
                               <>
                                 <div
                                   className="head-sec template2"
@@ -1188,7 +1189,7 @@ const ChatLinkPage = () => {
                           {formData?.templateId === 4 ||
                           formData?.templateId === 5 ||
                           formData?.templateId === 6 ||
-                          formData?.templateId === 7 ? (
+                          formData?.templateId === 7  ? (
                             <>
                               <div className="eahad-footer">
                                 <img
@@ -1219,7 +1220,31 @@ const ChatLinkPage = () => {
                                 />
                               </div>
                             </>
-                          ) : (
+                          ) :
+                          formData?.templateId === 8 ? (
+                          <>
+                          <div className="copy-right-bottom-text">
+                         <p
+                           style={{ color: formData?.textColor }}
+                           dangerouslySetInnerHTML={{
+                             __html: formData?.footerTextOne,
+                           }}
+                         />
+                       </div>
+                       <div className="copy-right-bottom-text">
+                                <p
+                                  style={{ color: formData?.textColor }}
+                                  dangerouslySetInnerHTML={{
+                                    __html: formData?.footerText,
+                                  }}
+                                />
+                              </div>
+
+                       </>
+                       
+                     ):
+                          
+                          (
                             <div className="copy-right-bottom-text">
                               <p
                                 style={{ color: formData?.textColor }}

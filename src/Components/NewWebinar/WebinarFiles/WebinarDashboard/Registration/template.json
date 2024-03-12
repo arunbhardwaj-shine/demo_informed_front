@@ -658,5 +658,119 @@
                 "required": "yes"
             }
         ]
+    },
+
+    {
+        "templateId": 5,
+        "templateName": "Octa Academy Template",
+        "headerImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/KDPmRbYfSuN16CflTC3raGxe1eaHPi10hw79KimX.png",
+        "bodyText": "",
+        "pageTitle": "This event is aimed only at professionals in the health area. To register, please fill out the following information",
+        "eventDetails": {
+            "HeaderHeadingOne": {
+                "title": "Header Heading One",
+                "type": "text",
+                "value": "Octapharma Academy",
+                "color": "#000"
+            },
+            "HeaderHeadingTwo": {
+                "title": "Header Heading Two",
+                "type": "text",
+                "value": "RECORD<br/><span>Virtual event</span>",
+                "color": "#000"
+            },
+            "HeadingOne": {
+                "title": "Heading One",
+                "type": "text",
+                "value": "COURSE IN THE MODERN MANAGEMENT OF HEMOPHILIA",
+                "color": "#6eb9b0"
+            },
+            "HeadingTwo": {
+                "title": "Heading Two",
+                "type": "text",
+                "value": "Treatment of hemophilia A:Current challenges and future opportunities",
+                "color": "#6eb9b0"
+            },
+            "EventDate": {
+                "title": "Event Date",
+                "type": "text",
+                "value": "March 15, 2024",
+                "color": "#000"
+            },
+            "EventTimeAndLocation": {
+                "title": "Event Time And Location",
+                "type": "textArea",
+                "value": "March 15 9:00 hrs - 18:00 hrs Bogotá, Colombia (local time)",
+                "color": "#000"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "This event is aimed only at professionals in the health area. To register, please fill out the following information",
+                "color": "#000"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#04b39a"
+            }
+            
+        },
+        "labelColor": "",
+        "optionColor": "",
+        "body": [
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "my participation during the live symposium that is recorded for live streaming and on-demand use*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "receive emails about this event and other Octapharma activities during ISTH 2022 (these may be promotional in nature)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "consent"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "Select a country",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            }
+        ]
     }
 ]
