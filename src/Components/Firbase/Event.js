@@ -2365,7 +2365,7 @@ eventId={eventId}
           </div>
         )}
 
-        {formData?.templateId === 7 && (
+        {formData?.templateId === 8 && (
           <div className="container">
             <div className="question-block">
               <div className="header-logo">
@@ -2374,7 +2374,7 @@ eventId={eventId}
                     src={
                       formData?.logoImageUrl
                         ? formData?.logoImageUrl
-                        : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/3BOf8GjoyBykieysOxBPUPNfeXFV4YBT1i3M3T01.png"
+                        : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/a5u7S4PCPizOUn4PslZsZi87df7ki1o0TetOIh0l.png"
                     }
                     alt="OneSource logo"
                   />
@@ -2389,7 +2389,7 @@ eventId={eventId}
                       src={
                         formData?.headerImage
                           ? formData?.headerImage
-                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/UY1wCngrWNar5zcPobfZZMPr4G187Ds2Ot6LZan2.png"
+                          : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/s6H57OStbuoxTQpSDnYdL38ZKc2bNrx4PVYG45Jg.png"
                       }
                       alt="OneSource logo"
                     />
