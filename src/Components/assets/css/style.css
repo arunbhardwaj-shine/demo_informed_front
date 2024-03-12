@@ -8130,7 +8130,37 @@ section.search-hcp.smart-list-view .header-btn-left {
   max-width: 1057px;
   margin: 0 auto;
 }
-
+.search-hcp .email_stats .accordion .accordion-item button.accordion-button {
+  padding: 0 50px 0 20px;
+}
+.search-hcp .email_stats .accordion .accordion-item .accordion-header button.accordion-button > table tr td:first-child, .search-hcp .email_stats#analytics-hcp-table .email_stats_title_heading table tr th:first-child{
+  width: 35%;
+}
+/* .search-hcp .email_stats#analytics-hcp-table  table tr th:first-child{
+  padding-left:30px;
+} */
+.search-hcp .email_stats .accordion .accordion-item .accordion-header button.accordion-button > table tr td:nth-child(2), .search-hcp .email_stats#analytics-hcp-table  .email_stats_title_heading table tr th:nth-child(2) {
+  width: 18%;
+}
+.search-hcp .email_stats .accordion .accordion-item .accordion-header button.accordion-button > table tr td:nth-child(3), .search-hcp .email_stats#analytics-hcp-table  .email_stats_title_heading table tr th:nth-child(3) {
+  width: 15%;
+}
+.search-hcp .email_stats .accordion .accordion-item table, .search-hcp .email_stats  table {
+  width: 100%;
+  border-spacing: 0px 0px;
+}
+.email_stats_title_heading {
+  padding: 0 70px 0 27px;
+}
+.search-hcp .email_stats#analytics-hcp-table  table tr th:nth-child(4) {
+  width: 23.6%;
+}
+.search-hcp .email_stats .accordion .accordion-item table tr, .search-hcp .email_stats  table tr{
+  box-shadow: none;
+}
+.smart-list-view .selected-hcp-list#analytics-hcp-table table thead.sticky-header th{
+  background: transparent;
+}
 .green-box .box,
 .orange-box .box {
   height: 13px;
