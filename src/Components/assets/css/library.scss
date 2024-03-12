@@ -1362,7 +1362,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .readerlist .tab-mail-list.data .delivered .progress,
 .delivered .progress {
-  background: #f58289;
+  background: $light-pink;
 }
 
 .readerlist .tab-mail-list.data .rtr .progress,
@@ -1423,7 +1423,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .tab-mail-list.data .progress .progress-bar.bg-danger {
   color: #a53239;
-  background: #f58289 !important;
+  background: $light-pink !important;
 }
 
 .tab-mail-list.data .progress .progress-bar.bg-sublink {
@@ -4230,7 +4230,7 @@ input[type="number"] {
 }
 
 .saved .timeline-block-title h6 {
-  color: #f58289;
+  color: $light-pink;
 }
 
 .opened .timeline-block-title h6 {
@@ -4326,20 +4326,20 @@ input[type="number"] {
         @include flex-align-center;
 
         &.media-red {
-          border: 2px solid #f58289;
+          border: 2px solid $light-pink;
           box-shadow: 0px 1px 6px rgb(245 130 137 / 75%);
 
           .content-type {
-            color: #f58289;
+            color: $light-pink;
           }
         }
 
         &.media-yellow {
-          border: 2px solid #ffbe2c;
+          border: 2px solid $yellow;
           box-shadow: 0px 1px 6px rgb(255 190 44 / 75%);
 
           .content-type {
-            color: #ffbe2c;
+            color: $yellow;
           }
         }
 
@@ -6885,7 +6885,7 @@ svg.pencil_icon {
             content: "";
             position: absolute;
             bottom: 0;
-            border: solid 2px #f58289;
+            border: solid 2px $light-pink;
             width: 311px;
             left: 3px;
           }
@@ -7253,7 +7253,7 @@ svg.pencil_icon {
               }
 
               &.b-c3 {
-                background: #f58289;
+                background: $light-pink;
               }
             }
 
@@ -7282,7 +7282,7 @@ svg.pencil_icon {
             }
 
             .p-c3 {
-              color: #f58289;
+              color: $light-pink;
             }
 
             h3 {
@@ -8025,7 +8025,7 @@ svg.pencil_icon {
       &::after {
         content: "";
         width: 140px;
-        border-bottom: 3px solid #f58289;
+        border-bottom: 3px solid $light-pink;
         position: absolute;
         bottom: 0;
         left: 3px;
@@ -8639,7 +8639,7 @@ svg.pencil_icon {
 }
 
 .cr-3 {
-  background-color: #f58289;
+  background-color: $light-pink;
   z-index: 0;
 }
 
@@ -12616,7 +12616,7 @@ img.change-password-image {
 
     &.sites {
       h5 {
-        color: #f58289;
+        color: $light-pink;
       }
     }
 
@@ -12897,8 +12897,8 @@ img.change-password-image {
                   position: relative;
 
                   &:checked {
-                    background-color: #f58289;
-                    border-color: #f58289;
+                    background-color: $light-pink;
+                    border-color: $light-pink;
                   }
 
                   &:after {
@@ -13111,7 +13111,7 @@ img.change-password-image {
           }
 
           &.not_yet {
-            color: #f58289;
+            color: $light-pink;
           }
 
           &:first-child {
@@ -14622,7 +14622,7 @@ img.change-password-image {
 }
 
 .webinar-question-results .reader_list .user-question .speaker_reply p {
-  color: #0066be;
+  color: $primary-color;
 }
 
 .webinar-question-results .reader_list .user-question p {
@@ -14642,7 +14642,7 @@ img.change-password-image {
 }
 
 .webinar-top-sec .webinar-top-btn.ignored {
-  background: #f58289;
+  background: $light-pink;
 }
 
 .webinar-top-sec .webinar-top-btn.answered {
@@ -14672,11 +14672,11 @@ img.change-password-image {
 
 .webinar-question-results .reader_list .reader_list_footer.ignore-footer button {
   background: $white;
-  color: #f58289;
+  color: $light-pink;
 }
 
 .webinar-question-results .reader_list .reader_list_footer button.ignored {
-  background: #f58289;
+  background: $light-pink;
 }
 
 .webinar-question-results .reader_list .reader_list_footer button.answer {
