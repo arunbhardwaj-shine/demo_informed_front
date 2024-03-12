@@ -17,7 +17,8 @@ import {
 } from "react-bootstrap";
 
 const SpcRender = () => {
-  const { state } = useLocation();
+  // const { state } = useLocation();
+  const state = JSON.parse(localStorage.getItem('spc_state'));
   const navigate = useNavigate();
   const handleNext =(obj) => {
     console.log(obj);

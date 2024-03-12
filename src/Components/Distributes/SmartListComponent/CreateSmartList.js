@@ -272,11 +272,11 @@ const CreateSmartList = () => {
       });
   };
 
-  useEffect(() => {
-    if (typeof creator !== "undefined" && creator != "") {
+  // useEffect(() => {
+    // if (typeof creator !== "undefined" && creator != "") {
       // setCreatorName(creator);
-    }
-  }, [smartListName]);
+    // }
+  // }, [smartListName]);
 
   const downloadFile = () => {
     let user_id = localStorage.getItem("user_id");

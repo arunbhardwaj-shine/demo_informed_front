@@ -1098,9 +1098,9 @@ const NewReaders = () => {
     setChangeUpdateFlag(changeUpdateFlag);
   };
   const handleTimeLine = (data) => {
-    // window.open("/timeline-detail");
     localStorage.setItem("myData", data);
-    navigate("/timeline-detail");
+    window.open("/timeline-detail");
+    // navigate("/timeline-detail");
     // const windowProps = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=1200, height=800`;
     //  newWindow = window.open("/timeline-detail", " ", "");
     //  newWindow.opener.postMessage({readerId:data}," ")
