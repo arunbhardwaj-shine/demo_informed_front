@@ -28,15 +28,17 @@ export default function TemplateFive({ children, formData }) {
   };
   return (
     <>
-      <div className="motivate_outer octa-academy">
+      <div className="octa-academy">
         <div
-          className="motivate_inner"
+          className="octa-academy_inner"
           // style={{ background: `${eventData?.headerImageUrl}` }}
         >
-          <div className="top_header">
+          <div className="top_header"  style={{
+                 backgroundImage: `url("${formData?.content?.headerImageUrl}")`
+              }}>
             <h2
               style={{
-                color: eventData?.HeaderHeadingOne?.color , backgroundImage: `url("${formData?.content?.headerImageUrl}")`
+                color: eventData?.HeaderHeadingOne?.color
               }}
               dangerouslySetInnerHTML={{
                 __html: eventData?.HeaderHeadingOne?.value
