@@ -473,7 +473,6 @@ const WebinarEmail = () => {
                       aria-labelledby="dropdownMenuButton2"
                     >
                       <h4>Filter By</h4>
-
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
@@ -488,7 +487,6 @@ const WebinarEmail = () => {
                                   <Accordion.Header className="card-header">
                                     {key}
                                   </Accordion.Header>
-
                                   <Accordion.Body className="card-body">
                                     <ul>
                                       {filterdata[key]?.length
@@ -522,8 +520,7 @@ const WebinarEmail = () => {
                                                         ]?.includes(item)
                                                           ? true
                                                           : false
-                                                    }                                          
-
+                                                    }                                      
                                                     onChange={(e) =>
                                                       handleOnFilterChange(
                                                         e,
@@ -680,8 +677,6 @@ const WebinarEmail = () => {
                 </div>
               </div>
             ) : null}
-
-
             <div className="email-result">
               <div className="col email-result-block">
                 {!deletestatus && (
@@ -749,7 +744,6 @@ const WebinarEmail = () => {
                                         <th>List</th>
                                         <td>{data?.smart_list_name ? data?.smart_list_name : "N/A"}</td>
                                       </tr>
-
                                     </tbody>
                                   </table>
                                 </div>
@@ -949,8 +943,7 @@ const WebinarEmail = () => {
                                             (getDraftEmailSendStatus) =>
                                               !getDraftEmailSendStatus
                                           );
-                                        }}
-                                     
+                                        }}                                     
                                       >
                                         Send
                                       </button>
@@ -1140,12 +1133,10 @@ const WebinarEmail = () => {
                                 </clipPath>
                               </defs>
                             </svg>
-
                             <span>{viewEmailData?.email_sent}</span>
                           </div>
                         </div>
                       </li>
-
                       <li
                         onClick={() => {
                           getReaderData("open", "", "Email open");
@@ -1225,8 +1216,7 @@ const WebinarEmail = () => {
                                     fill="#39CABC"
                                   />
                                 </svg>
-
-                                <span>{ctrName[item] + "(" + ((ctrName[item] / viewEmailData?.email_read) * 100).toFixed(2) + "%)"}</span>
+                                <span>{ctrName[item] + "(" + ((ctrName[item] / viewEmailData?.email_read) * 100)?.toFixed(2) + "%)"}</span>
                               </div>
                             </div>
                           </div>
@@ -1256,9 +1246,6 @@ const WebinarEmail = () => {
             )}
           </Modal.Body>
         </Modal>
-
-
-
       </div>
       <div>
         <Modal
@@ -1323,7 +1310,6 @@ const WebinarEmail = () => {
                             </tr>
                           </>
                         ))}
-
                       </tbody>
                     </table>
                   </>) : readerDetailsData?.length == 0 ? (
@@ -1335,7 +1321,6 @@ const WebinarEmail = () => {
                       </td>
                     </tr>
                   ) : null}
-
               </div>
             }
           </Modal.Body>
@@ -1352,5 +1337,4 @@ const WebinarEmail = () => {
     </>
   );
 };
-
 export default WebinarEmail;

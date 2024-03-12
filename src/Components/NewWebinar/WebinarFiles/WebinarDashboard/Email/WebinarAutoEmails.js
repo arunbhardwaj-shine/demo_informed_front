@@ -101,12 +101,8 @@ const WebinarAutoEmails = () => {
       let body = {
         eventId: eventId
       }
-
       const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_TEMPLATE_LIST, body)
-      console.log("response-->", response)
       setTemplates(response?.data?.data)
-
-
       loader("hide")
     } catch (err) {
       loader("hide")
@@ -380,7 +376,6 @@ const WebinarAutoEmails = () => {
 
   const searchHcp = async (e) => {
     e.preventDefault();
-    console.log("in search hcp")
     if (name == "" && email == "") {
       toast.warning("Please enter name or email first");
     } else {
@@ -399,7 +394,6 @@ const WebinarAutoEmails = () => {
           } else {
             toast.warning(res?.data?.message);
           }
-
           loader("hide");
         })
         .catch((err) => {
@@ -409,7 +403,6 @@ const WebinarAutoEmails = () => {
   }
 
   const selectHcp = (index) => {
-    console.log("in select hcp")
     let arr = [];
     arr = searchedUsers;
     let added_user_id = arr[index]?.profile_user_id;
