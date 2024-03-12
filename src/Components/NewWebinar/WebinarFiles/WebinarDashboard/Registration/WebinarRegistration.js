@@ -1136,6 +1136,16 @@ const WebinarRegistration = () => {
             ? updatedBody?.logoTwoImageUrl
             : template?.logoTwoImageUrl
         );
+        setFile(
+          updatedBody?.headerImageUrl
+            ? updatedBody?.headerImageUrl
+            : template?.headerImageUrl
+        );
+        setFoot(
+          updatedBody?.footerImageUrl
+            ? updatedBody?.footerImageUrl
+            : template?.footerImageUrl
+        );
         // console.log(Object.keys(updatedBody.eventDetails)?.length>0);
 
         if(Object.keys(updatedBody.eventDetails)?.length>0){
@@ -1217,6 +1227,8 @@ const WebinarRegistration = () => {
         setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
         setLogoOne(updatedBody?.logoOneImageUrl ? updatedBody?.logoOneImageUrl : "");
         setLogoTwo(updatedBody?.logoTwoImageUrl ? updatedBody?.logoTwoImageUrl : "");
+        setFile(updatedBody?.headerImageUrl ? updatedBody?.headerImageUrl : "");
+        setFoot(updatedBody?.footerImageUrl ? updatedBody?.footerImageUrl : "");
         // console.log(updatedBody);
         if(Object.keys(updatedBody.eventDetails)?.length>0){
         
