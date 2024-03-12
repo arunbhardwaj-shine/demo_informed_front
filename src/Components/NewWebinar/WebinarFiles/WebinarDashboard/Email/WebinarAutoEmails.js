@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import { Col,Modal } from "react-bootstrap";
+import { Col, Modal } from "react-bootstrap";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
 import { loader } from "../../../../../loader"
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
+import AddNewContactModal from "../../../../../Model/AddNewContactModal";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -38,8 +40,8 @@ const WebinarAutoEmails = () => {
   const [isOpenSend, setIsOpensend] = useState(false);
   const editorRef = useRef(null);
   const [templateSaving, setTemplateSaving] = useState("");
-  const [email,setEmail]=useState("")
-  const [name,setName]=useState("")
+  const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
   const [selectedHcp, setSelectedHcp] = useState([]);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -67,10 +69,28 @@ const WebinarAutoEmails = () => {
   const [addListOpen, setAddListOpen] = useState(false);
   const [reRender, setReRender] = useState(0);
   const [hcpsSelected, setHcpsSelected] = useState([]);
+  const [totalData, setTotalData] = useState({});
+  const [countryall, setCountryall] = useState([]);
+  const [irtCountry, setIRTCountry] = useState([]);
+  const [role, setRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
+   
+ 
+
 
   useEffect(() => {
     getTemplateListData();
   }, [language]);
+
+  useEffect(() => {
+    loader("show");
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+      axiosFun();
+    }
+   
+
+    getalCountry();
+  }, []);
 
   const getTemplateListData = async () => {
     try {
@@ -79,8 +99,8 @@ const WebinarAutoEmails = () => {
         eventId: eventId
       }
 
-      const response=await postData(ENDPOINT.WEBINAR_EMAIL_GET_TEMPLATE_LIST,body)
-      console.log("response-->",response)
+      const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_TEMPLATE_LIST, body)
+      console.log("response-->", response)
       setTemplates(response?.data?.data)
 
 
@@ -90,6 +110,90 @@ const WebinarAutoEmails = () => {
       console.log("--err", err)
     }
   }
+
+  const getalCountry = async () => {
+    const body = {
+      user_id: localStorage.getItem("user_id"),
+      language: "",
+      ibu: "",
+    };
+
+    await axios
+      .post(`distributes/filters_list`, body)
+      .then((res) => {
+        if (res.data.status_code == 200) {
+          let country = res.data.response.data.country;
+
+          let arr = [];
+
+          Object.entries(country).map(([index, item]) => {
+            let label = item;
+            if (index == "B&H") {
+              label = "Bosnia and Herzegovina";
+            }
+            arr.push({
+              value: item,
+              label: label,
+            });
+          });
+
+          setCountryall(arr);
+
+          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+            let investigator_type =
+              res?.data?.response?.data?.investigator_type;
+            let newType = [];
+            Object.keys(investigator_type)?.map((item, i) => {
+              newType.push({ label: item, value: item });
+            });
+            let irt_inverstigator_type =
+              res?.data?.response?.data?.irt_inverstigator_type;
+            let newIrtType = [];
+            Object.keys(irt_inverstigator_type)?.map((item, i) => {
+              newIrtType.push({ label: item, value: item });
+            });
+            setRole(newType);
+            setIrtRole(newIrtType);
+
+            let institution_type =
+              res?.data?.response?.data?.institution_type;
+
+            let newInstitution = [];
+            Object.keys(institution_type)?.map((item, i) => {
+              newInstitution.push({ label: item, value: item });
+            });
+
+            setInstitutionType(newInstitution);
+          }
+          setTotalData(res.data.response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const axiosFun = async () => {
+    try {
+      const result = await axios.get(`emailapi/get_site`);
+
+      let country = result?.data?.response?.data?.site_country_data;
+      let arr = [];
+      Object.entries(country).map(([index, item]) => {
+        let label = item;
+        if (index == "B&H") {
+          label = "Bosnia and Herzegovina";
+        }
+        arr.push({
+          value: item,
+          label: label,
+        });
+      });
+      setIRTCountry(arr);
+    } catch (err) {
+      console.log("-err", err);
+    }
+  };
 
 
   const changeLanguage = (e) => {
@@ -147,6 +251,7 @@ const WebinarAutoEmails = () => {
 
       return;
     } else {
+      setValidationError({})
       setIsOpensend(true);
     }
   };
@@ -205,6 +310,15 @@ const WebinarAutoEmails = () => {
   const searchHcp = async (e) => {
     e.preventDefault();
     console.log("in search hcp")
+    if (name == "" && email == "") {
+      toast.warning("Please enter name or email first");
+    } else {
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        name: name,
+        email: email,
+      };
+    }
   }
 
   const selectHcp = (index) => {
@@ -234,6 +348,38 @@ const WebinarAutoEmails = () => {
   const sendsampeap = (event) => {
     setHcpsSelected(selectedHcp);
     console.log("in send sample")
+  }
+
+  const closeClicked = () => {
+    console.log("in close clicked")
+    setIsOpenAdd(false);
+    setIsOpensend(true);
+    setHpc([
+      {
+        firstname: "",
+        lastname: "",
+        email: "",
+        contact_type: "",
+        country: "",
+        role:
+          localStorage.getItem("user_id") ==
+            "56Ek4feL/1A8mZgIKQWEqg=="
+            ? irtRole?.[0]?.value
+            : "",
+        optIrt:
+          localStorage.getItem("user_id") ==
+            "56Ek4feL/1A8mZgIKQWEqg=="
+            ? "yes"
+            : "",
+        institutionType: "",
+      },
+    ]);
+    setActiveManual("active");
+    setActiveExcel("");
+  }
+
+  const setHpcList = (list) => {
+    setHpc(list)
   }
 
   return (
@@ -372,7 +518,7 @@ const WebinarAutoEmails = () => {
                                   : "form-control"
                               }
                               id="email-desc"
-                              onChange={(e) =>setEmailSubject(e?.target?.value)}
+                              onChange={(e) => setEmailSubject(e?.target?.value)}
                               value={emailSubject}
                             />
                             {validationError?.emailSubject ? (
@@ -723,7 +869,7 @@ const WebinarAutoEmails = () => {
                         <label htmlFor="hcp-email">Email </label>
                         <input
                           type="mail"
-                          onChange={(e) =>setEmail(e?.target?.value)}
+                          onChange={(e) => setEmail(e?.target?.value)}
                           className="form-control"
                           id=""
                         />
@@ -857,6 +1003,19 @@ const WebinarAutoEmails = () => {
           )}
         </Modal.Footer>
       </Modal>
+      <AddNewContactModal
+        show={isOpenAdd}
+        closeClicked={closeClicked}
+        activeManual={activeManual}
+        hpc={hpc}
+        setHpc={setHpcList}
+        totalData={totalData}
+        countryall={countryall}
+        irtCountry={irtCountry}
+        irtRole={irtRole}
+        role={role}
+        institutionType={institutionType}
+      />
     </>)
 
 }
