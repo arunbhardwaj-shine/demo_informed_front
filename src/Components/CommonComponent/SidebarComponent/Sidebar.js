@@ -1099,7 +1099,7 @@ const Sidebar = () => {
                 </li>
               ) : null}
 
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+              {/* {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
                 <li
                 className={
                   location.pathname == "/new-readers-reviews"
@@ -1124,7 +1124,7 @@ const Sidebar = () => {
                   <p>New Readers</p>
                 </Link>
                 </li>
-              ) : null}
+              ) : null} */}
                 
             </ul>
           ) : 
