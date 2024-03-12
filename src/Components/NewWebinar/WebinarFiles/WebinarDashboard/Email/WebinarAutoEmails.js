@@ -78,9 +78,6 @@ const WebinarAutoEmails = () => {
   const [role, setRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
 
-
-
-
   useEffect(() => {
     getTemplateListData();
   }, [language]);
@@ -90,8 +87,6 @@ const WebinarAutoEmails = () => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       axiosFun();
     }
-
-
     getalCountry();
   }, []);
 
@@ -109,22 +104,18 @@ const WebinarAutoEmails = () => {
       console.log("--err", err)
     }
   }
-
   const getalCountry = async () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       language: "",
       ibu: "",
     };
-
     await axios
       .post(`distributes/filters_list`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           let country = res.data.response.data.country;
-
           let arr = [];
-
           Object.entries(country).map(([index, item]) => {
             let label = item;
             if (index == "B&H") {
@@ -135,9 +126,7 @@ const WebinarAutoEmails = () => {
               label: label,
             });
           });
-
           setCountryall(arr);
-
           if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
             let investigator_type =
               res?.data?.response?.data?.investigator_type;
@@ -153,15 +142,12 @@ const WebinarAutoEmails = () => {
             });
             setRole(newType);
             setIrtRole(newIrtType);
-
             let institution_type =
               res?.data?.response?.data?.institution_type;
-
             let newInstitution = [];
             Object.keys(institution_type)?.map((item, i) => {
               newInstitution.push({ label: item, value: item });
             });
-
             setInstitutionType(newInstitution);
           }
           setTotalData(res.data.response.data);
@@ -175,7 +161,6 @@ const WebinarAutoEmails = () => {
   const axiosFun = async () => {
     try {
       const result = await axios.get(`emailapi/get_site`);
-
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -193,8 +178,6 @@ const WebinarAutoEmails = () => {
       console.log("-err", err);
     }
   };
-
-
   const changeLanguage = (e) => {
     setLanguage(e?.value);
     setTemplateClicked(false);
@@ -218,7 +201,6 @@ const WebinarAutoEmails = () => {
     } else {
       setApproveClicked(true);
     }
-
     let template_id = templateId;
     if (
       typeof template_id != "undefined" &&
@@ -254,7 +236,6 @@ const WebinarAutoEmails = () => {
       toast.warning("Template not selected.");
     }
   }
-
   const createTemplate=async(e)=>{
     e.preventDefault()
     let error={}
@@ -294,7 +275,6 @@ const WebinarAutoEmails = () => {
     } else {
       setApproveClicked(false);
     }
-
     setIndexClickedReminder();
     setTemplateName(template?.subject);
   };
@@ -322,7 +302,6 @@ const WebinarAutoEmails = () => {
       setIsOpensend(true);
     }
   };
-
   const addTracking = function (editor) {
     console.log("in add tracking")
   }
@@ -341,7 +320,6 @@ const WebinarAutoEmails = () => {
       // document
       //   .querySelector("#mail-view")
       //   .setAttribute("custom-atr", "non-scroll");
-
       const mailViewElement = document.querySelector("#mail-view");
       if (mailViewElement) {
         mailViewElement.setAttribute("custom-atr", "non-scroll");
@@ -401,7 +379,6 @@ const WebinarAutoEmails = () => {
         });
     }
   }
-
   const selectHcp = (index) => {
     let arr = [];
     arr = searchedUsers;
@@ -416,12 +393,10 @@ const WebinarAutoEmails = () => {
       toast.error("User with same email already added in list.");
     }
   };
-
   const deleteSelected = (index) => {
     let arr = [];
     arr = selectedHcp;
     arr.splice(index, 1);
-
     setSelectedHcp(arr);
     setReRender(reRender + 1);
   };
@@ -466,7 +441,6 @@ const WebinarAutoEmails = () => {
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -582,7 +556,6 @@ const WebinarAutoEmails = () => {
                 <h2>Auto Email</h2>
               </div>
               <div className="template_builder-option">
-
                 {localStorage.getItem("user_id") ==
                   "B7SHpAc XDXSH NXkN0rdQ==" && (
                     <div className="template_language">
@@ -646,8 +619,7 @@ const WebinarAutoEmails = () => {
                           alt="Preview"
                         />
                       </div>
-                      <h4>Triggered emails</h4>{" "}
-                     
+                      <h4>Triggered emails</h4>{" "}                     
                     </div>
                     <div className="mail_trigger_content">
                       {typeof templates !== "undefined" && templates.length > 0
@@ -674,7 +646,6 @@ const WebinarAutoEmails = () => {
                                   <p>
                                     When New content add to the user library
                                   </p>
-
                                   {indexClicked !== index ? (
                                     <button
                                       onClick={() =>
@@ -816,16 +787,13 @@ const WebinarAutoEmails = () => {
                                   meta
                                 ) {
                                   const input = document.createElement("input");
-
                                   if (meta.filetype === "media") {
                                     input.setAttribute("type", "file");
                                     input.setAttribute("accept", "video/*");
-
                                     input.onchange = async () => {
                                       const file = input.files[0];
                                       if (file) {
                                         let uploadedImageUrl;
-
                                         try {
                                           if (
                                             meta &&
@@ -842,7 +810,6 @@ const WebinarAutoEmails = () => {
                                             uploadedImageUrl =
                                               await uploadImageToServer(file);
                                           }
-
                                           if (uploadedImageUrl) {
                                             callback(uploadedImageUrl, {
                                               width: 500,
