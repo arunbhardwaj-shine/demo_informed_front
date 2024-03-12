@@ -665,13 +665,17 @@ const ReaderEdit = () => {
           ibu: userInputs?.ibu,
           userType: userInputs?.userType,
           institute: userInputs?.institution,
+
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
+        console.log(state);
         navigate("/reader-review", {
           state: {
             data: data,
             flag: 1,
+            status: state.status
+
           },
         });
       } catch (err) {
@@ -927,7 +931,8 @@ const ReaderEdit = () => {
                   <div className="header-btn-left">
                     <Link
                       className="btn btn-primary btn-bordered back-btn"
-                      to="/readers-view"
+                      // to="/readers-view"
+                      to={state.status === '1' ? "/new-readers-reviews" : "/readers-view"}
                     >
                       <svg
                         width="14"
@@ -958,7 +963,7 @@ const ReaderEdit = () => {
                   </ul>
                 </Col>
                 <Col md="2">
-                  <div className="header-btn">
+                  <div className="header-btn justify-content-end align-items-center">
                     {/* <button className="btn btn-primary btn-bordered move-draft">
                       Cancel
                     </button> */}
