@@ -28,7 +28,7 @@ export default function TemplateFive({ children, formData }) {
   };
   return (
     <>
-      <div className="octa-academy">
+      <div className="octa-academy-template">
         <div
           className="octa-academy_inner"
           // style={{ background: `${eventData?.headerImageUrl}` }}
@@ -36,7 +36,7 @@ export default function TemplateFive({ children, formData }) {
           <div className="top_header"  style={{
                  backgroundImage: `url("${formData?.content?.headerImageUrl}")`
               }}>
-            <h2
+            <h3
               style={{
                 color: eventData?.HeaderHeadingOne?.color
               }}
@@ -45,7 +45,7 @@ export default function TemplateFive({ children, formData }) {
                   ? eventData?.HeaderHeadingOne?.value
                   : "",
               }}
-            ></h2>
+            ></h3>
             <h2
               style={{
                 color: eventData?.HeaderHeadingTwo?.color,
@@ -64,7 +64,7 @@ export default function TemplateFive({ children, formData }) {
                   <div className="invertor-metting">
                     <div className="meeting-logo"></div>
                     <div className="logo-top">
-                      <h5
+                      <h4
                         style={{
                           color: eventData?.HeadingOne?.color,
                         }}
@@ -73,7 +73,7 @@ export default function TemplateFive({ children, formData }) {
                             ? eventData?.HeadingOne?.value
                             : "",
                         }}
-                      ></h5>
+                      ></h4>
                       <h5
                         style={{
                           color: eventData?.HeadingTwo?.color,
@@ -84,7 +84,7 @@ export default function TemplateFive({ children, formData }) {
                             : "",
                         }}
                       ></h5>
-                      <h5
+                      <h6
                         style={{
                           color: eventData?.EventDate?.color,
                         }}
@@ -93,8 +93,8 @@ export default function TemplateFive({ children, formData }) {
                             ? eventData?.EventDate?.value
                             : "",
                         }}
-                      ></h5>
-                      <h5
+                      ></h6>
+                      <h6
                         style={{
                           color: eventData?.EventTimeAndLocation?.color,
                         }}
@@ -103,8 +103,8 @@ export default function TemplateFive({ children, formData }) {
                             ? eventData?.EventTimeAndLocation?.value
                             : "",
                         }}
-                      ></h5>
-                      <h5
+                      ></h6>
+                      <h6 className="event-statement"
                         style={{
                           color: eventData?.pageTitle?.color,
                         }}
@@ -113,7 +113,7 @@ export default function TemplateFive({ children, formData }) {
                             ? eventData?.pageTitle?.value
                             : "",
                         }}
-                      ></h5>
+                      ></h6>
                     </div>
                   </div>
                 </div>

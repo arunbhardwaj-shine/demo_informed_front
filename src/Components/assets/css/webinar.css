@@ -4328,14 +4328,16 @@ l .vwd .factor-season-left h2 {
 
 /***Webinar template 1 End***/
 /***Webinar template 2***/
-.motivate_outer {
+.motivate_outer, .octa-academy-template {
   max-width: 740px;
   margin: 10px auto;
   border: 2px solid #04b39a;
   border-radius: 20px;
   overflow: hidden;
 }
-
+.octa-academy-template {
+  border: 2px solid #6eb9b0;
+}
 .motivate_outer .consent-form-list.attend-sec li .checkmark {
   height: 18px;
   width: 18px;
@@ -4435,11 +4437,11 @@ l .vwd .factor-season-left h2 {
 }
 
 .consent-form .split-button-dropup>div:nth-child(4) {
-  max-height: 220px;
+  max-height: 180px;
 }
 
 .consent-form .split-button-dropup>div:nth-child(4)>div {
-  max-height: 190px;
+  max-height: 150px;
   font-size: 16px;
 }
 
