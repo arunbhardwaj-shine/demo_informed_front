@@ -4,7 +4,7 @@ import Select, { createFilter } from 'react-select';
 import { toast } from "react-toastify";
 
 const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc, 
-    totalData, countryall,irtCountry,irtRole,role,institutionType }) => {
+    totalData, countryall,irtCountry,irtRole,role,institutionType,saveClicked }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     
     const [siteNameAll, setSiteNameAll] = useState([]);
@@ -506,9 +506,9 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                                                         <DropdownButton
                                                                             className="dropdown-basic-button split-button-dropup"
                                                                             title={
-                                                                                hpc[i].contact_type != "" &&
-                                                                                    hpc[i].contact_type != "undefined"
-                                                                                    ? hpc[i].contact_type
+                                                                                hpc[i]?.contact_type != "" &&
+                                                                                    hpc[i]?.contact_type != "undefined"
+                                                                                    ? hpc[i]?.contact_type
                                                                                     : "Select Type"
                                                                             }
                                                                             onSelect={(event) =>
@@ -518,7 +518,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                                                             <Dropdown.Item
                                                                                 eventKey="HCP"
                                                                                 className={
-                                                                                    hpc[i].contact_type == "HCP"
+                                                                                    hpc[i]?.contact_type == "HCP"
                                                                                         ? "active"
                                                                                         : ""
                                                                                 }
@@ -528,7 +528,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                                                             <Dropdown.Item
                                                                                 eventKey="Staff"
                                                                                 className={
-                                                                                    hpc[i].contact_type == "Staff"
+                                                                                    hpc[i]?.contact_type == "Staff"
                                                                                         ? "active"
                                                                                         : ""
                                                                                 }
@@ -538,7 +538,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                                                             <Dropdown.Item
                                                                                 eventKey="Test Users"
                                                                                 className={
-                                                                                    hpc[i].contact_type == "Test Users"
+                                                                                    hpc[i]?.contact_type == "Test Users"
                                                                                         ? "active"
                                                                                         : ""
                                                                                 }
@@ -566,12 +566,12 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                                                         }
                                                                         value={
                                                                             irtCountry.findIndex(
-                                                                                (el) => el.value == val?.country
+                                                                                (el) => el?.value == val?.country
                                                                             ) == -1
                                                                                 ? ""
                                                                                 : irtCountry[
-                                                                                irtCountry.findIndex(
-                                                                                    (el) => el.value == val?.country
+                                                                                irtCountry?.findIndex(
+                                                                                    (el) => el?.value == val?.country
                                                                                 )
                                                                                 ]
                                                                         }
@@ -587,13 +587,13 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                                                             onCountryChange(event, i)
                                                                         }
                                                                         value={
-                                                                            countryall.findIndex(
-                                                                                (el) => el.value == val?.country
+                                                                            countryall?.findIndex(
+                                                                                (el) => el?.value == val?.country
                                                                             ) == -1
                                                                                 ? ""
                                                                                 : countryall[
-                                                                                countryall.findIndex(
-                                                                                    (el) => el.value == val?.country
+                                                                                countryall?.findIndex(
+                                                                                    (el) => el?.value == val?.country
                                                                                 )
                                                                                 ]
                                                                         }
@@ -619,19 +619,19 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                                                                 onSiteNumberChange(event, i)
                                                                             }
                                                                             value={
-                                                                                siteNumberAll[hpc[i].siteNumberIndex]
+                                                                                siteNumberAll[hpc[i]?.siteNumberIndex]
                                                                                     ? siteNumberAll[
-                                                                                    hpc[i].siteNumberIndex
+                                                                                    hpc[i]?.siteNumberIndex
                                                                                     ]
                                                                                     : ""
                                                                             }
                                                                             placeholder={
                                                                                 typeof siteNumberAll[
-                                                                                    hpc[i].siteNumberIndex
+                                                                                    hpc[i]?.siteNumberIndex
                                                                                 ] === "undefined"
                                                                                     ? "Select Site Number"
                                                                                     : siteNumberAll[
-                                                                                    hpc[i].siteNumberIndex
+                                                                                    hpc[i]?.siteNumberIndex
                                                                                     ]
                                                                             }
                                                                         />
@@ -649,16 +649,16 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                                                                 onSiteNameChange(event, i)
                                                                             }
                                                                             value={
-                                                                                siteNameAll[hpc[i].siteNameIndex]
-                                                                                    ? siteNameAll[hpc[i].siteNameIndex]
+                                                                                siteNameAll[hpc[i]?.siteNameIndex]
+                                                                                    ? siteNameAll[hpc[i]?.siteNameIndex]
                                                                                     : ""
                                                                             }
                                                                             placeholder={
                                                                                 typeof siteNameAll[
-                                                                                    hpc[i].siteNameIndex
+                                                                                    hpc[i]?.siteNameIndex
                                                                                 ] === "undefined"
                                                                                     ? "Select Site Name"
-                                                                                    : siteNameAll[hpc[i].siteNameIndex]
+                                                                                    : siteNameAll[hpc[i]?.siteNameIndex]
                                                                             }
                                                                         />
                                                                     </div>
@@ -717,7 +717,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                     <button
                         type="button"
                         className="btn btn-primary save btn-filled"
-                    //   onClick={saveClicked}
+                      onClick={saveClicked}
                     >
                         Save
                     </button>

@@ -318,6 +318,22 @@ const WebinarAutoEmails = () => {
         name: name,
         email: email,
       };
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+      loader("show");
+      await axios
+        .post(`emailapi/search_hcp`, body)
+        .then((res) => {
+          if (res?.data?.response) {
+            setSearchedUsers(res?.data?.response?.data);
+          } else {
+            toast.warning(res?.data?.message);
+          }
+
+          loader("hide");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
 
@@ -381,6 +397,107 @@ const WebinarAutoEmails = () => {
   const setHpcList = (list) => {
     setHpc(list)
   }
+
+  const saveClicked = async () => {
+    if (activeManual == "active") {
+      const body_data = hpc.map((data) => {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+
+          return {
+            first_name: data?.firstname,
+            last_name: data?.lastname,
+            email: data?.email,
+            country: data?.country,
+            contact_type: data?.contact_type,
+            siteNumber: data?.siteNumber ? data?.siteNumber : "",
+            siteName: data?.siteName ? data?.siteName : "",
+            investigator_type: data?.role,
+            siteIrt: data?.optIrt == "yes" ? 1 : 0,
+            institution_type: data?.institutionType
+              ? data?.institutionType
+              : "",
+          };
+        } else {
+          return {
+            first_name: data?.firstname,
+            last_name: data?.lastname,
+            email: data?.email,
+            country: data?.country,
+            contact_type: data?.contact_type,
+          };
+        }
+      });
+      const body = {
+        data: body_data,
+        user_id: localStorage.getItem("user_id"),
+        smart_list_id: "",
+      };
+
+      const status = body?.data?.map((data) => {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+          if (data?.first_name == "") {
+            return "Please enter the first name";
+          } else if (data?.last_name == "") {
+            return "Please enter the last name";
+          }
+        }
+        if (data?.email == "") {
+          return "Please enter the email atleast";
+        } else if (data?.institution_type == "") {
+          return "Please select the institution type";
+        }
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+          if (data?.country == "") {
+            return "Please select country";
+          }
+        }
+        if (data?.email != "") {
+          let email = data?.email;
+          let useremail = email?.trim();
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (regex.test(String(useremail).toLowerCase())) {
+            let prev_obj = selectedHcp?.find((x) => x?.email === useremail);
+            if (typeof prev_obj != "undefined") {
+              return "User with same email already added in list.";
+            } else {
+              return "true";
+            }
+          } else {
+            return "Email format is not valid";
+          }
+        }
+        return "true";
+      });
+      status.sort();
+      if (status.every((element) => element == "true")) {
+        loader("show");
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        await axios
+          .post(`distributes/add_new_readers_in_list`, body)
+          .then((res) => {
+            if (res?.data?.status_code === 200) {
+              toast.success("User added successfuly");
+
+              res?.data?.response?.data?.map((data) => {
+                setSelectedHcp((oldArray) => [...oldArray, data]);
+              });
+              setIsOpenAdd(false);
+              setIsOpensend(true);
+            } else {
+              toast.warning(res?.data?.message);
+              loader("hide");
+            }
+            loader("hide");
+          })
+          .catch((err) => {
+            toast.error("Something went wrong");
+            loader("hide");
+          });
+      } else {
+        toast.warning(status[0]);
+      }
+    }
+  };
 
   return (
     <>
@@ -1015,6 +1132,7 @@ const WebinarAutoEmails = () => {
         irtRole={irtRole}
         role={role}
         institutionType={institutionType}
+        saveClicked={saveClicked}
       />
     </>)
 
