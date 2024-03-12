@@ -25,7 +25,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
     const onFirstNameChange = (e, i) => {
         const { value } = e.target;
         const list = [...hpc];
-        const name = hpc[i].firstname;
+        const name = hpc[i]?.firstname;
         list[i].firstname = value;
         setHpc(list);
     };
@@ -140,8 +140,8 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                     consetValue = "Bosnia and Herzegovina";
                 }
                 const matchingKeys = Object.entries(totalData?.site_country_data)
-                    .filter(([key, value]) => value === consetValue)
-                    .map(([key, value]) => key);
+                    ?.filter(([key, value]) => value === consetValue)
+                    ?.map(([key, value]) => key);
                 const filteredSiteNames = matchingKeys?.map((key) => ({
                     label: totalData?.site_data[key],
                     value: totalData?.site_data[key],
@@ -196,8 +196,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
       const onSiteNameChange = (e, i) => {
         if (e == null) {
           const list = [...hpc];
-          list[i].siteName = "";
-    
+          list[i].siteName = "";    
           setHpc(list);
         } else {
           const value = e?.value;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import { Col, Modal } from "react-bootstrap";
+import { Button, Col, Modal } from "react-bootstrap";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
@@ -22,6 +22,9 @@ const WebinarAutoEmails = () => {
   );
   const [templateClicked, setTemplateClicked] = useState(false);
   const [templateName, setTemplateName] = useState("");
+  const [newTemplateName, setNewTemplateName] = useState("")
+  const [newTemplateSubject, setNewTemplateSubject] = useState("");
+  const [createNewTemplate, setCreateNewTemplate] = useState(false)
   const [templates, setTemplates] = useState([]);
   const [indexClicked, setIndexClicked] = useState();
   const [emailSubject, setEmailSubject] = useState("");
@@ -74,8 +77,8 @@ const WebinarAutoEmails = () => {
   const [irtCountry, setIRTCountry] = useState([]);
   const [role, setRole] = useState([]);
   const [institutionType, setInstitutionType] = useState([]);
-   
- 
+
+
 
 
   useEffect(() => {
@@ -87,7 +90,7 @@ const WebinarAutoEmails = () => {
     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
       axiosFun();
     }
-   
+
 
     getalCountry();
   }, []);
@@ -206,14 +209,82 @@ const WebinarAutoEmails = () => {
     setTemplateClicked(false);
     setValidationError({})
     setSourceCode("");
+    setNewTemplateName("")
+    setNewTemplateSubject("")
+    setCreateNewTemplate(false)
   };
 
   const updateTemplate = async (e, status = 0) => {
     e.preventDefault();
     console.log("in update template")
+    if (approveClicked) {
+      setApproveClicked(false);
+    } else {
+      setApproveClicked(true);
+    }
+
+    let template_id = templateId;
+    if (
+      typeof template_id != "undefined" &&
+      template_id != "" &&
+      template_id != 0
+    ) {
+      if (editorRef.current) {
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          source_code: editorRef.current.getContent(),
+          template_id: templateId,
+          name: templateName,
+          status: status === 0 ? 2 : status === 1 ? 3 : 4,
+          language: tempLang,
+        };
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+        loader("show");
+        // await axios
+        //   .post(`emailapi/add_update_template`, body)
+        //   .then((res) => {
+        //     if (res.data.status_code == 200) {
+        //       getTemplateListData();
+        //       toast.success("Template updated");
+        //       loader("hide");
+        //     }
+        //   })
+        //   .catch((err) => {
+        //     loader("hide");
+        //     toast.error("Something went wrong");
+        //   });
+      }
+    } else {
+      toast.warning("Template not selected.");
+    }
+  }
+
+  const createTemplate=async(e)=>{
+    e.preventDefault()
+    let error={}
+    if(newTemplateName==""){
+      error.newTemplateName="Please enter template name"
+      setValidationError(error)
+      return
+    }else if(newTemplateSubject==""){
+      error.newTemplateSubject="Please enter template subject"
+      setValidationError(error)
+      return
+    }else if(templateSaving==""){
+      toast.warning("Template can't be empty")
+      return
+    }else{
+      console.log("in create template name",newTemplateName)
+      console.log("in create template subject",newTemplateSubject)
+      console.log("in create template",templateSaving)
+    }
+
   }
 
   const viewButtonClicked = (template, index) => {
+    setCreateNewTemplate(false)
+    setNewTemplateName("")
+    setNewTemplateSubject("")
     setEmailSubject("");
     setEmailDescription("");
     setApproveClicked(false);
@@ -338,10 +409,11 @@ const WebinarAutoEmails = () => {
   }
 
   const selectHcp = (index) => {
+    console.log("in select hcp")
     let arr = [];
     arr = searchedUsers;
     let added_user_id = arr[index]?.profile_user_id;
-    let prev_obj = selectedHcp.find((x) => x?.profile_user_id === added_user_id);
+    let prev_obj = selectedHcp?.find((x) => x?.profile_user_id === added_user_id);
     if (typeof prev_obj == "undefined") {
       const removedArray = arr?.splice(index, 1);
       setSelectedHcp((oldArray) => [...oldArray, removedArray[0]]);
@@ -367,7 +439,6 @@ const WebinarAutoEmails = () => {
   }
 
   const closeClicked = () => {
-    console.log("in close clicked")
     setIsOpenAdd(false);
     setIsOpensend(true);
     setHpc([
@@ -400,7 +471,7 @@ const WebinarAutoEmails = () => {
 
   const saveClicked = async () => {
     if (activeManual == "active") {
-      const body_data = hpc.map((data) => {
+      const body_data = hpc?.map((data) => {
         if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
 
           return {
@@ -456,7 +527,7 @@ const WebinarAutoEmails = () => {
           let useremail = email?.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (regex.test(String(useremail).toLowerCase())) {
-            let prev_obj = selectedHcp?.find((x) => x?.email === useremail);
+            let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() == useremail?.toLowerCase());
             if (typeof prev_obj != "undefined") {
               return "User with same email already added in list.";
             } else {
@@ -499,6 +570,15 @@ const WebinarAutoEmails = () => {
     }
   };
 
+  const CreateNewTemplateClicked=(e)=>{
+    e.preventDefault()
+    setIndexClicked();
+    setTemplateClicked(false);
+    setValidationError({})
+    setSourceCode("");
+    setCreateNewTemplate(true)
+  }
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -526,7 +606,7 @@ const WebinarAutoEmails = () => {
                   )}
               </div>
               <div className="top-right-action">
-                {templateClicked ? (
+                {templateClicked ||createNewTemplate? (
                   <div className="header-btn">
                     <button
                       className="btn btn-primary btn-bordered"
@@ -534,24 +614,36 @@ const WebinarAutoEmails = () => {
                     >
                       Cancel
                     </button>
-                    {templateName == "Reset password" ||
-                      templateName == "Welcome mail" ? null : (
+                    {(templateName == "Reset password" ||
+                      templateName == "Welcome mail")||createNewTemplate ? null : (
                       <button
                         className="btn btn-primary btn-filled next"
                         onClick={(e) => {
-                          updateTemplate(e);
-                          e.preventDefault();
+                          updateTemplate(e)
                         }}
                       >
                         Save
                       </button>
                     )}
+                    {createNewTemplate?(
+                       <button
+                       className="btn btn-primary btn-filled next"
+                       onClick={(e) => {
+                        createTemplate(e)
+                       }}
+                     >
+                       Create
+                     </button>
+                    ):null}
                   </div>
                 ) : null}
               </div>
             </div>
             <div className="auto_mail_trigger">
               <div className="row">
+                <div className="col-sm-12 col-md-12 d-flex justify-content-end">
+                <Button onClick={(e) => CreateNewTemplateClicked(e)}>Create New Template</Button>
+                </div>
                 <div className="auto_mail_trigger_left col-sm-4 col-md-4">
                   <div className="auto_mail_trigger_box">
                     <div className="mail_trigger_left d-flex align-items-center">
@@ -561,7 +653,8 @@ const WebinarAutoEmails = () => {
                           alt="Preview"
                         />
                       </div>
-                      <h4>Triggered emails</h4>
+                      <h4>Triggered emails</h4>{" "}
+                     
                     </div>
                     <div className="mail_trigger_content">
                       {typeof templates !== "undefined" && templates.length > 0
@@ -610,7 +703,7 @@ const WebinarAutoEmails = () => {
 
                 </div>
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
-                  {!templateClicked ? (
+                  {!templateClicked && !createNewTemplate ? (
                     <div className="mail_trigger_right_dummy">
                       <div className="mail_trigger_dummy_content d-flex justify-content-center">
                         <img src={path_image + "auto_mail.svg"} alt="" />
@@ -935,6 +1028,150 @@ const WebinarAutoEmails = () => {
                         </div>
                       </form>
                     </div>
+                  ) : null}
+
+                  {createNewTemplate ? (
+                    <div className="email-form">
+                      <form>
+                        <div className="form-inline row justify-content-between align-items-center">
+                          <div className="form-group col-12 col-md-6">
+                            <label htmlFor="exampleInputEmail1">
+                              Template name{" "}
+                              <span className="astrick">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className={
+                                validationError?.emailSubject
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
+                              id="email-desc"
+                              onChange={(e) => setNewTemplateName(e?.target?.value)}
+                              value={newTemplateName}
+                            />
+                            {validationError?.newTemplateName ? (
+                              <div className="login-validation">
+                                {validationError?.newTemplateName}
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="form-group right-side col-12 col-md-6">
+                            <label htmlFor="exampleInputEmail1">
+                              Template subject{" "}
+                              <span className="astrick">*</span>{" "}
+                            </label>
+                            <input
+                              type="text"
+                              className={
+                                validationError?.emailDescription
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
+                              id="email-address"
+                              onChange={(e) => setNewTemplateSubject(e?.target?.value)}
+                              value={newTemplateSubject}
+                            />
+                            {validationError?.newTemplateSubject ? (
+                              <div className="login-validation">
+                                {validationError?.newTemplateSubject}
+                              </div>
+                            ) : null}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <Editor
+                          apiKey="g2adjiwgk9zbu2xzir736ppgxzuciishwhkpnplf46rni4g8"
+                          onInit={(evt, editor) =>
+                            (editorRef.current = editor)
+                          }
+                          initialValue={""}
+                          init={{
+                            height: "100vh",
+                            menubar:
+                              "file edit view insert format tools table help",
+                            plugins:
+                              "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                            toolbar:
+                              "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                            content_style:
+                              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                            init_instance_callback: (editor) =>
+                              addTracking(editor),
+                            file_picker_callback: function (
+                              callback,
+                              value,
+                              meta
+                            ) {
+                              const input = document.createElement("input");
+                              input.setAttribute("type", "file");
+                              input.setAttribute("accept", "image/*");
+
+                              // Create a loading indicator element (e.g., a spinner)
+                              const loadingIndicator =
+                                document.createElement("div");
+                              loadingIndicator.className =
+                                "loading-indicator";
+                              loadingIndicator.textContent = "Uploading..."; // You can use a spinner icon or any text you prefer
+
+                              input.onchange = async () => {
+                                document.body.appendChild(loadingIndicator); // Show loading indicator
+
+                                const file = input.files[0];
+                                if (file) {
+                                  let uploadedImageUrl;
+
+                                  try {
+                                    if (meta && meta.width && meta.height) {
+                                      uploadedImageUrl =
+                                        await uploadImageToServer(
+                                          file,
+                                          meta.width,
+                                          meta.height
+                                        );
+                                    } else {
+                                      uploadedImageUrl =
+                                        await uploadImageToServer(file);
+                                    }
+
+                                    if (uploadedImageUrl) {
+                                      callback(uploadedImageUrl, {
+                                        width: 500,
+                                        height: 500,
+                                      });
+                                      loader("hide");
+                                    } else {
+                                      console.error(
+                                        "Failed to upload image"
+                                      );
+                                    }
+                                  } catch (error) {
+                                    console.error(
+                                      "Error uploading image:",
+                                      error
+                                    );
+                                  } finally {
+                                    document.body.removeChild(
+                                      loadingIndicator
+                                    ); // Hide loading indicator
+                                  }
+                                }
+                              };
+
+                              input.click();
+                            },
+                          }}
+                          onEditorChange={(content) => {
+                            setTemplateSaving(content);
+                          }}
+                          
+                         />
+                          </div>
+                      </form>
+                    </div>
+
+
+
                   ) : null}
                 </div>
               </div>
