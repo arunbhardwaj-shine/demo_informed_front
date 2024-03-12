@@ -5897,7 +5897,9 @@ input.viewer-toolbar-current-page-input {
   .library-content-box-layuot {
     padding: 0 30px;
   }
-
+  .library-content-box-layuot.new-reader{
+    padding: 0 8px;
+  }
   .create-change-content {
     max-width: calc(100% - 60px);
     margin: 0 auto 40px;
