@@ -24,6 +24,8 @@ import Select, { createFilter } from "react-select";
 import { ProgressBar } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { saveNewTemplate } from "../CommonComponent/Validations";
+import html2canvas from 'html2canvas';
+import domtoimage from "dom-to-image";
 
 
 var dxr = 0;
@@ -1630,13 +1632,20 @@ const TemplateBuilder = (props) => {
     }
   };
 
-  const generate_thumb = useCallback(() => {
+  const generate_thumb = useCallback(async () => {
     if (ref.current === null) {
       return;
     }
     loader("show");
-    toPng(ref.current, { pixelRatio: 1 })
-      .then((dataUrl) => {
+    console.log(ref.current,"ref.currentref.current");
+    // toPng(ref.current, { pixelRatio: 1 })
+    // const dataUrl2 = await domtoimage.toPng(ref.current, { cacheBust: true });
+    // console.log(dataUrl2);
+    // domtoimage.toPng(ref.current, { cacheBust: true })
+    // domtoimage.toPng(ref.current, { cacheBust: true })
+    html2canvas(ref.current,{ useCORS: true, proxy: 'https://docintel.s3-eu-west-1.amazonaws.com' })
+      .then((canvasurl) => {
+        const dataUrl = canvasurl.toDataURL('image/png');
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         if (dataUrl) {
           const body = {
@@ -1791,7 +1800,7 @@ const TemplateBuilder = (props) => {
       ""
     );
 
-    var modifiedStringforsrc = modifiedContent?.replace(
+    var modifiedStringforsrc = modifiedStringagain?.replace(
       '<p><img style="display: none;" src="Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
       ""
     );
