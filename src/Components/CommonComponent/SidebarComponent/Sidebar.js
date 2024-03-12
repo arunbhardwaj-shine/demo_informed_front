@@ -236,9 +236,10 @@ const Sidebar = () => {
   const isActiveChatPage = location.pathname === '/webinar/live-stream/chat-link'
   const isActiveSurveyPage = location.pathname === '/webinar/live-stream/survey/question-data'
 
-  const isActiveEmail = location.pathname === '/webinar/email'
+  const isActiveEmail = location.pathname === '/webinar/email'||location.pathname ==='/webinar/email/create-new-email'
   const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
   const isActiveSmartlist = location.pathname === '/webinar/email/smartlist'
+  
 
   return (
     <>
@@ -255,7 +256,8 @@ const Sidebar = () => {
             window.location.pathname === "/webinar/live-stream/settings"|| 
             window.location.pathname === "/webinar/live-stream/speaker-zone" ||
             window.location.pathname == "/webinar/email/auto-emails"||
-            window.location.pathname == "/webinar/email/smartlist"? (
+            window.location.pathname == "/webinar/email/smartlist"||
+           window.location.pathname === '/webinar/email/create-new-email'? (
             <>
 
               {/* <button className="toggle_btn" onClick={() => toggleClassToBody()}>
@@ -289,7 +291,8 @@ const Sidebar = () => {
               window.location.pathname === "/webinar/live-stream/settings"  ||
                window.location.pathname === "/webinar/live-stream/speaker-zone"||
                window.location.pathname === "/webinar/email/auto-emails"||
-               window.location.pathname === "/webinar/email/smartlist") && (
+               window.location.pathname === "/webinar/email/smartlist"||
+               window.location.pathname === "/webinar/email/create-new-email" ) && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
               </button>
@@ -1127,7 +1130,8 @@ const Sidebar = () => {
               window.location.pathname === "/webinar/live-stream/speaker-zone" ||
               window.location.pathname == "/webinar/analytics"||
               window.location.pathname == "/webinar/email/auto-emails"||
-              window.location.pathname == "/webinar/email/smartlist" ?
+              window.location.pathname == "/webinar/email/smartlist" ||
+              window.location.pathname == "/webinar/email/create-new-email"?
               (
                 <ul>
                   <li
@@ -1165,7 +1169,8 @@ const Sidebar = () => {
                     className={
                       location.pathname == "/webinar/email" || 
                       location.pathname == "/webinar/email/auto-emails" || 
-                      location.pathname == "/webinar/email/smartlist"
+                      location.pathname == "/webinar/email/smartlist"||
+                      location.pathname == "/webinar/email/create-new-email"
                         ? "active sub-links"
                         : "side_li sub-links"
                     }

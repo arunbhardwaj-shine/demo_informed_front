@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Col, Accordion, Button, Modal } from "react-bootstrap";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { loader } from "../../../../../loader";
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
@@ -55,14 +55,14 @@ const WebinarEmail = () => {
         beta: 25,
         depth: 70,
       },
-      
+
     },
     title: {
       text: "Mail campaign stats",
     },
     xAxis: {
       categories: [],
-      
+
     },
     yAxis: {
       title: {
@@ -72,21 +72,21 @@ const WebinarEmail = () => {
     exporting: {
       enabled: false,
     },
-    tooltip: {    
-     
-        formatter: function () {
-          return (
-            "<span ><div className=" +
-            this.series.name +
-            '>'
-            // <span style="font-weight: bold">'
-             +
-           this.x+
-            " <strong >"  +":"+
-            Highcharts.numberFormat(this.y, 0) +
-            "</strong></div></span>"
-          );
-        },         
+    tooltip: {
+
+      formatter: function () {
+        return (
+          "<span ><div className=" +
+          this.series.name +
+          '>'
+          // <span style="font-weight: bold">'
+          +
+          this.x +
+          " <strong >" + ":" +
+          Highcharts.numberFormat(this.y, 0) +
+          "</strong></div></span>"
+        );
+      },
     },
     plotOptions: {
       series: {
@@ -117,7 +117,7 @@ const WebinarEmail = () => {
               this.series.name +
               // '><span style="font-weight: 400">' +  
               this.x
-              +" <strong >" +
+              + " <strong >" +
               Highcharts.numberFormat(this.y, 0) +
               "</strong></div></span>"
             );
@@ -135,7 +135,6 @@ const WebinarEmail = () => {
 
   useEffect(() => {
     getWebinarCompaignList()
-    getFilterList()
   }, [])
 
   const getWebinarCompaignList = async (filter = "") => {
@@ -145,23 +144,22 @@ const WebinarEmail = () => {
         eventId: eventId,
       };
       const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
-      let filterData=[]      
-      if(search!=""){
-        filterData=response?.data?.data?.filter((item,index)=>item?.subject?.includes(search))
-      }else{
-        filterData =response?.data?.data
+      let filterData = []
+      if (search != "") {
+        filterData = response?.data?.data?.filter((item, index) => item?.subject?.includes(search))
+      } else {
+        filterData = response?.data?.data
       }
       setEmailListData(filterData)
       setTotalEmailListData(response?.data?.data)
-      // if(Object.keys(filterData)?.length==0){
-
-      //   getFilterList()
-      // }
+      if(Object.keys(filterdata)?.length==0){
+        getFilterList()
+      }
       loader("hide")
     } catch (err) {
       loader("hide")
       console.log("--err", err)
-    } 
+    }
   }
   const getFilterList = async () => {
     try {
@@ -259,7 +257,7 @@ const WebinarEmail = () => {
     setFilterObject({});
     setEmailListData([]);
     setTotalEmailListData([])
-    getWebinarCompaignList()    
+    getWebinarCompaignList()
     setShowFilter(false);
   };
   const createNewEmail = () => {
@@ -283,8 +281,8 @@ const WebinarEmail = () => {
     let id = data?.auto_id;
     if (typeof data !== "undefined") {
       // let valueupdate =JSON.parse(JSON.stringify(options)) ;
-      let valueupdate =options ;
-      valueupdate.xAxis.categories=["Emails sent", "Emails opened"]
+      let valueupdate = options;
+      valueupdate.xAxis.categories = ["Emails sent", "Emails opened"]
       valueupdate.series[0].data = [
         { y: data?.email_sent, color: "#8a4e9c" },
         { y: data?.email_read, color: "#ffbe2c" },
@@ -297,7 +295,7 @@ const WebinarEmail = () => {
           color: colorArray?.[index]
         }
         valueupdate.series[0].data.push(obj);
-      })    
+      })
       setCTRName(data?.labels_value);
       setOptions(valueupdate);
       setviewEmailData(data);
@@ -324,7 +322,7 @@ const WebinarEmail = () => {
     } catch (err) {
       loader("hide")
       console.log("--err", err)
-    } 
+    }
   }
 
   const showConfirmationPopup = (id) => {
@@ -360,11 +358,11 @@ const WebinarEmail = () => {
       setEmailListData(updatedRes);
       hideConfirmationModal();
       loader("hide");
-     
+
     } catch (err) {
       loader("hide");
       console.log("--err", err)
-    } 
+    }
   }
 
   const hideConfirmationModal = () => {
@@ -524,20 +522,7 @@ const WebinarEmail = () => {
                                                         ]?.includes(item)
                                                           ? true
                                                           : false
-                                                    }
-                                                    // defaultChecked={
-                                                    //   key == "contactType" &&
-                                                    //   item == "HCP"
-                                                    //     ? true
-                                                    //     : filterObject?.hasOwnProperty(
-                                                    //         key
-                                                    //       )
-                                                    //     ? filterObject[
-                                                    //         key
-                                                    //       ]?.indexOf(item) !==
-                                                    //       -1
-                                                    //     : false
-                                                    // }
+                                                    }                                          
 
                                                     onChange={(e) =>
                                                       handleOnFilterChange(
@@ -554,14 +539,7 @@ const WebinarEmail = () => {
                                                   />
                                                   {typeof item == "object"
                                                     ? item?.title
-                                                    : item}
-                                                  {/* {key == "draft" &&
-                                                      typeof item  == "string" && item == "0"
-                                                      ? "live"
-                                                      : key == "draft" &&  typeof item  == "string" &&
-                                                        item == "1"
-                                                      ? "draft" &&  typeof item  == "string"
-                                                      : item} */}
+                                                    : item}                                                 
                                                   <span className="checkmark"></span>
                                                 </label>
                                               ) : null}
@@ -710,8 +688,7 @@ const WebinarEmail = () => {
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <Link
-                        // to="/EmailArticleSelect" 
-                        to=""
+                        to="/webinar/email/create-new-email"                        
                         onClick={createNewEmail}>
                         <img src={path_image + "add-button.svg"} alt="" />
                       </Link>
@@ -1249,7 +1226,7 @@ const WebinarEmail = () => {
                                   />
                                 </svg>
 
-                                <span>{ctrName[item]+"("+((ctrName[item]/viewEmailData?.email_read)*100).toFixed(2)+"%)"}</span>
+                                <span>{ctrName[item] + "(" + ((ctrName[item] / viewEmailData?.email_read) * 100).toFixed(2) + "%)"}</span>
                               </div>
                             </div>
                           </div>
@@ -1262,7 +1239,7 @@ const WebinarEmail = () => {
                 <div className="chart-description">
                   <div className="chart-description-view">
                     <HighchartsReact
-                    key={campaignId}
+                      key={campaignId}
                       highcharts={Highcharts}
                       options={options}
                     />

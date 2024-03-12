@@ -175,6 +175,7 @@ import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Li
 import WebinarEmail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarEmail";
 import WebinarAutoEmails from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarAutoEmails";
 import WebinarSmartlist from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSmartlist";
+import WebinarCreateNewEmail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarCreateNewEmail";
 import Analytics from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/Analytics";
 import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
 import SpeakerZone from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/SpeakerZone";
@@ -192,6 +193,7 @@ import SurveyData from "./Components/survey/SurveyData";
 import SurveyQuestionFormData from "./Components/survey/SurveyQuestionFormData";
 import LicenseRenewListing from "./Components/License/Content/LicenseRenewListing";
 import LicenseRenew from "./Components/License/Content/LicenseRenew";
+
 
 let platform = 0;
 let show = 0;
@@ -627,6 +629,10 @@ const Routing = () => {
         <Route
           path="/webinar/email/smartlist"
           element={<LoginLayout component={WebinarSmartlist} />}
+        />
+         <Route
+          path="/webinar/email/create-new-email"
+          element={<LoginLayout component={WebinarCreateNewEmail} />}
         />
         <Route
           path="/webinar/analytics"
