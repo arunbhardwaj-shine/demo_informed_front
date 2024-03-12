@@ -244,7 +244,7 @@ const Header = () => {
                 </li>
                 <li
                   className={
-                    window.location.pathname == "/readers-view" ||
+                    window.location.pathname == "/readers-view" ||  window.location.pathname == "/new-readers-reviews" ||
                     window.location.pathname == "/readers-list" ||
                     window.location.pathname == "/reader-add" ||
                     window.location.pathname == "/reader-edit" ||
