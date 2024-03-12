@@ -8,6 +8,7 @@ const SmartListFilter = () => {
   const location = useLocation();
   const { smartListName } = location.state;
   const { creatorName } = location.state;
+  const { ibu } = location?.state ? location?.state : "";
   const [filterList, setFilterList] = useState([]);
 
   useEffect(() => {
@@ -42,6 +43,7 @@ const SmartListFilter = () => {
                     filters={filterList}
                     listname={smartListName}
                     creator={creatorName}
+                    ibu = {ibu}
                     action="create"
                   />
                 )}

@@ -807,6 +807,7 @@ const Table = (props, ref) => {
         submit_type: props.upload_by_filter,
         new_users_list: new_user_id_array,
         creator_name: typeof props.creator !== "undefined" ? props.creator : "",
+        ibu: typeof props?.ibu !== "undefined" && props?.ibu != "" ? props?.ibu : "",
       };
     } else if (
       typeof props != "undefined" &&
@@ -830,6 +831,7 @@ const Table = (props, ref) => {
         submit_type: props.upload_by_filter,
         new_users_list: new_user_id_array,
         creator_name: typeof props.creator !== "undefined" ? props.creator : "",
+        ibu: typeof props?.ibu !== "undefined" && props?.ibu != "" ? props?.ibu : "",
       };
     }
 

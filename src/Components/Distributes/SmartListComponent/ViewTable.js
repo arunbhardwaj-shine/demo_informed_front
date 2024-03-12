@@ -514,6 +514,7 @@ const ViewTable = (props) => {
         submit_type: props.upload_by_filter,
         new_users_list: [],
         creator_name: props.creatorName,
+        ibu: props?.ibu ? props?.ibu:"",
       };
 
       if (props.upload_by_filter == 1) {
