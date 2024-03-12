@@ -70,6 +70,7 @@ import ReadersTimeLineLayout from "./Components/Readers/ReadersView/ReadersTimeL
 import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReadersList";
 import ReaderLayout from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
+import NewReaderReview from "./Components/Readers/ReadersView/NewReaderReview";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
@@ -431,6 +432,10 @@ const Routing = () => {
         <Route
           path="/reader-add"
           element={<LoginLayout component={ReaderAdd} />}
+        />
+        <Route
+          path="/new-readers-reviews"
+          element={<LoginLayout component={NewReaderReview} />}
         />
         <Route
           path="/reader-review"
