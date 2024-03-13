@@ -658,5 +658,240 @@
                 "required": "yes"
             }
         ]
+    },
+
+    {
+        "templateId": 5,
+        "templateName": "Octa Academy Template",
+        "headerImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/KDPmRbYfSuN16CflTC3raGxe1eaHPi10hw79KimX.png",
+        "bodyText": "",
+        "pageTitle": "This event is aimed only at professionals in the health area. To register, please fill out the following information",
+        "eventDetails": {
+            "HeaderHeadingOne": {
+                "title": "Header Heading One",
+                "type": "text",
+                "value": "Octapharma Academy",
+                "color": "#000"
+            },
+            "HeaderHeadingTwo": {
+                "title": "Header Heading Two",
+                "type": "text",
+                "value": "REGISTRATION<br/><span>Virtual event</span>",
+                "color": "#000"
+            },
+            "HeadingOne": {
+                "title": "Heading One",
+                "type": "text",
+                "value": "COURSE IN THE MODERN MANAGEMENT OF HEMOPHILIA",
+                "color": "#6eb9b0"
+            },
+            "HeadingTwo": {
+                "title": "Heading Two",
+                "type": "text",
+                "value": "Treatment of hemophilia A:Current challenges and future opportunities",
+                "color": "#6eb9b0"
+            },
+            "EventDate": {
+                "title": "Event Date",
+                "type": "text",
+                "value": "March 15, 2024",
+                "color": "#000"
+            },
+            "EventTimeAndLocation": {
+                "title": "Event Time And Location",
+                "type": "textArea",
+                "value": "March 15 9:00 hrs - 18:00 hrs Bogotá, Colombia (local time)",
+                "color": "#000"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "This event is aimed only at professionals in the health area. To register, please fill out the following information",
+                "color": "#000"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#04b39a"
+            }
+            
+        },
+        "labelColor": "",
+        "optionColor": "",
+        "body": [
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "my participation during the live symposium that is recorded for live streaming and on-demand use*",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "receive emails about this event and other Octapharma activities during ISTH 2022 (these may be promotional in nature)",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "consent"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "Select a country",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            }
+        ]
+    },
+
+    {
+        "templateId": 6,
+        "templateName": "ISTH Template",
+        "logoImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/7AyNtkOQyP6P1UBYmCr1swxCQ5gOgGVZJBvKa30I.png",
+        "templateOneImageUrl" : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/5gyCn1B5r4vA2tjtB5kYQCwUQDS9g862eNf4UH9S.jpg",
+        "templateTwoImageUrl" : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/b57G72RnWroCby3PZvM9F5lKbkTRVYYZLioBGKLk.jpg",
+        "bodyText": "",
+        "pageTitle": "To register to our symposia live stream fill in all your details below:",
+        "eventDetails": {
+            "heading": {
+                "title": "Main Header",
+                "type": "text",
+                "value": "ISTH 2023 Symposia Live Stream",
+                "color": "#ffffff"
+            },
+            "HeaderHeadingOne": {
+                "title": "Header Heading",
+                "type": "text",
+                "value": "Registration to watch our ISTH 2023 symposia",
+                "color": "#001489"
+            },
+            "Specialization": {
+                "title": "Specialization",
+                "type": "text",
+                "value": "For healthcare professionals only.",
+                "color": "#000"
+            },
+            "EventDateAndTime": {
+                "title": "Event Date And Time",
+                "type": "text",
+                "value": "Monday, June 26 2023 | 01:15 - 2:30 pm ET <br/>Tuesday, June 27 2023 | 01:15 - 2:30 pm ET",
+                "color": "#000"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register to our symposia live stream fill in all your details below:",
+                "color": "#001489"
+            },
+            "footerMessage": {
+                "title": "Footer Message",
+                "type": "textArea",
+                "value": "These symposia have been organized and funded by Octapharma and are intended for healthcare professionals only. Discussions about products will take place. The symposia will be live streamed on the one source, Octapharma's Haematology platform. To attend, you can register directly using your one source account. If you do not have an account yet, your registration for this event will create a new one source login. By registering to one source you will gain access to the relevant content in accordance with the data privacy of <a target='_blank' href='Octapharma AG'>Octapharma AG<a/> and <a target='_blank' href='Docintel.app'>Docintel.app<a/> operating this page.",
+                "color": "#001489"
+            },
+            "footerText": {
+                "title": "Footer Text",
+                "type": "textArea",
+                "value": "528_HAEREG_ISTH 2023<br/>Date of preparation: May 2023",
+                "color": "#001489"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#04b39a"
+            }
+            
+        },
+        "labelColor": "",
+        "optionColor": "",
+        "body": [
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both symposia",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Final Results of the WIL-31 Study - A New Treatment Standard for von Willebrand Disease Patients with Severe Bleeding?",
+                        "extension": [],
+                        "checked": ""
+                    },
+                    {
+                        "optionLabel": "Bringing Together Two Worlds - Scientific and Clinical Insights For All-Round Bleed Protection in haemophilia A",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "consent"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "Select a country",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            }
+        ]
     }
 ]

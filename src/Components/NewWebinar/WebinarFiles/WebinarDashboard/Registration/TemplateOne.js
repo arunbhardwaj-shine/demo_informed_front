@@ -49,7 +49,7 @@ export default function TemplateOne({children,formData}) {
                 <div className="col-sm-8 col-md-8">
                   <div className="factor-season-left">
                     <div className="factor__logo">
-                    <img  src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:"https://webinar.docintel.app/Webinar/images/logo.png"}`}alt="Factor logo" />
+                    <img  src={`${formData?.content?.logoImageUrl?formData?.content?.logoImageUrl:""}`}alt="Factor logo" />
 
                       {/* <img src="https://webinar.docintel.app/Webinar/images/logo.png" alt="Factor logo" /> */}
                     </div>
