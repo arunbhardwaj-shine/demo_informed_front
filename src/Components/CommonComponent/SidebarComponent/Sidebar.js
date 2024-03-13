@@ -236,9 +236,10 @@ const Sidebar = () => {
   const isActiveChatPage = location.pathname === '/webinar/live-stream/chat-link'
   const isActiveSurveyPage = location.pathname === '/webinar/live-stream/survey/question-data'
 
-  const isActiveEmail = location.pathname === '/webinar/email'
-  const isActiveAutomail = location.pathname === '/webinar/email/auto-email'
+  const isActiveEmail = location.pathname === '/webinar/email'||location.pathname ==='/webinar/email/create-new-email'
+  const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
   const isActiveSmartlist = location.pathname === '/webinar/email/smartlist'
+  
 
   return (
     <>
@@ -248,9 +249,15 @@ const Sidebar = () => {
             window.location.pathname == "/webinar/registration" ||
             window.location.pathname == "/webinar/email" ||
             window.location.pathname == "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/webinar/live-stream/survey/question-data" || window.location.pathname == "/webinar/live-stream/chat-link" ||
-            window.location.pathname == "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/settings"
-            || window.location.pathname === "/webinar/live-stream/speaker-zone" ? (
+            window.location.pathname == "/webinar/live-stream/polls-layout" ||
+             window.location.pathname == "/webinar/live-stream/survey/question-data" || 
+             window.location.pathname == "/webinar/live-stream/chat-link" ||
+            window.location.pathname == "/webinar/analytics" || 
+            window.location.pathname === "/webinar/live-stream/settings"|| 
+            window.location.pathname === "/webinar/live-stream/speaker-zone" ||
+            window.location.pathname == "/webinar/email/auto-emails"||
+            window.location.pathname == "/webinar/email/smartlist"||
+           window.location.pathname === '/webinar/email/create-new-email'? (
             <>
 
               {/* <button className="toggle_btn" onClick={() => toggleClassToBody()}>
@@ -276,9 +283,16 @@ const Sidebar = () => {
             window.location.pathname === "/webinar/registration" ||
             window.location.pathname === "/webinar/email" ||
             window.location.pathname === "/webinar/live-stream" ||
-            window.location.pathname == "/webinar/live-stream/polls-layout" || window.location.pathname == "/webinar/live-stream/survey/question-data" || window.location.pathname == "/webinar/live-stream/chat-link" ||
-            window.location.pathname === "/webinar/analytics" || window.location.pathname === "/webinar/live-stream/contact-dm" || window.location.pathname === "/webinar/live-stream/settings"
-            || window.location.pathname === "/webinar/live-stream/speaker-zone") && (
+            window.location.pathname == "/webinar/live-stream/polls-layout" ||
+             window.location.pathname == "/webinar/live-stream/survey/question-data" ||
+              window.location.pathname == "/webinar/live-stream/chat-link" ||
+            window.location.pathname === "/webinar/analytics" ||
+             window.location.pathname === "/webinar/live-stream/contact-dm" ||
+              window.location.pathname === "/webinar/live-stream/settings"  ||
+               window.location.pathname === "/webinar/live-stream/speaker-zone"||
+               window.location.pathname === "/webinar/email/auto-emails"||
+               window.location.pathname === "/webinar/email/smartlist"||
+               window.location.pathname === "/webinar/email/create-new-email" ) && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
               </button>
@@ -1002,7 +1016,7 @@ const Sidebar = () => {
             window.location.pathname == "/site" ||
             window.location.pathname == "/add-site" ||
             window.location.pathname == "/edit-site" ||
-            window.location.pathname == "/site-listing" ||
+            window.location.pathname == "/site-listing" ||  window.location.pathname == "/new-readers-reviews" ||
             window.location.pathname == "/timeline-detail" ? (
             <ul>
               <li
@@ -1102,6 +1116,34 @@ const Sidebar = () => {
                   </Link>
                 </li>
               ) : null}
+
+              {/* {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                <li
+                className={
+                  location.pathname == "/new-readers-reviews"
+                    ? "active"
+                    : "side_li"
+                }
+              >
+                <Link to={"/new-readers-reviews"}>
+                  <svg
+                    width="25"
+                    height="22"
+                    viewBox="0 0 25 22"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14.4843 4.36793C15.594 5.0637 16.3721 6.24109 16.5138 7.60777C16.9664 7.81923 17.4687 7.94083 18.0012 7.94083C19.9453 7.94083 21.5211 6.36509 21.5211 4.42125C21.5211 2.47711 19.9453 0.901367 18.0012 0.901367C16.0756 0.901966 14.5137 2.44955 14.4843 4.36793ZM12.1784 11.5748C14.1225 11.5748 15.6982 9.99878 15.6982 8.05494C15.6982 6.1111 14.1222 4.53536 12.1784 4.53536C10.2345 4.53536 8.65788 6.1114 8.65788 8.05524C8.65788 9.99908 10.2345 11.5748 12.1784 11.5748ZM13.6714 11.8147H10.6847C8.19962 11.8147 6.17791 13.8367 6.17791 16.3218V19.9744L6.18719 20.0316L6.43878 20.1104C8.81033 20.8513 10.8707 21.0984 12.5665 21.0984C15.8788 21.0984 17.7987 20.1541 17.917 20.0939L18.1521 19.975H18.1773V16.3218C18.1782 13.8367 16.1565 11.8147 13.6714 11.8147ZM19.4949 8.18104H16.5312C16.4991 9.36681 15.993 10.4346 15.1924 11.2025C17.4013 11.8594 19.0174 13.9077 19.0174 16.3272V17.4528C21.9437 17.3455 23.6299 16.5162 23.7411 16.4605L23.9762 16.3413H24.0013V12.6875C24.0013 10.2028 21.9796 8.18104 19.4949 8.18104ZM6.00209 7.94143C6.69067 7.94143 7.33133 7.74045 7.87405 7.39811C8.04657 6.27284 8.64979 5.28954 9.51149 4.61982C9.51508 4.55393 9.52137 4.48864 9.52137 4.42215C9.52137 2.47801 7.94533 0.902266 6.00209 0.902266C4.05765 0.902266 2.48221 2.47801 2.48221 4.42215C2.48221 6.36539 4.05765 7.94143 6.00209 7.94143ZM9.16316 11.2025C8.36645 10.4385 7.86207 9.3764 7.82523 8.19781C7.71531 8.18972 7.60658 8.18104 7.49457 8.18104H4.50812C2.02306 8.18104 0.00134277 10.2028 0.00134277 12.6875V16.3407L0.0106277 16.397L0.262219 16.4764C2.16473 17.0703 3.86267 17.344 5.33747 17.4303V16.3272C5.33807 13.9077 6.95365 11.86 9.16316 11.2025Z"
+                      fill="#0066BE"
+                      fillOpacity="0.6"
+                    />
+                  </svg>
+                  <p>New Readers</p>
+                </Link>
+                </li>
+              ) : null} */}
+                
             </ul>
           ) :
             window.location.pathname == "/webinar/invitees" ||
@@ -1114,7 +1156,10 @@ const Sidebar = () => {
               window.location.pathname == "/webinar/live-stream/contact-dm" ||
               window.location.pathname === "/webinar/live-stream/settings" ||
               window.location.pathname === "/webinar/live-stream/speaker-zone" ||
-              window.location.pathname == "/webinar/analytics" ?
+              window.location.pathname == "/webinar/analytics"||
+              window.location.pathname == "/webinar/email/auto-emails"||
+              window.location.pathname == "/webinar/email/smartlist" ||
+              window.location.pathname == "/webinar/email/create-new-email"?
               (
                 <ul>
                   <li
@@ -1150,7 +1195,10 @@ const Sidebar = () => {
                   </li>
                   <li
                     className={
-                      location.pathname == "/webinar/email" || location.pathname == "/webinar/auto-emails" || location.pathname == "/webinar/smartlist"
+                      location.pathname == "/webinar/email" || 
+                      location.pathname == "/webinar/email/auto-emails" || 
+                      location.pathname == "/webinar/email/smartlist"||
+                      location.pathname == "/webinar/email/create-new-email"
                         ? "active sub-links"
                         : "side_li sub-links"
                     }
@@ -1205,7 +1253,8 @@ const Sidebar = () => {
                           <li className={isActiveAutomail ? 'active' : 'side_li'}
                           // className="side_li"
                           >
-                            <Link to="/webinar/email/auto-email">
+                            {console.log("isActiveAutomail",isActiveAutomail)}
+                            <Link to="/webinar/email/auto-emails">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <g clip-path="url(#clip0_3765_722)">
                                   <path

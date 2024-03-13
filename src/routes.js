@@ -70,6 +70,7 @@ import ReadersTimeLineLayout from "./Components/Readers/ReadersView/ReadersTimeL
 import MarketingNewReaders from "./Components/Readers/ReadersView/MarketingReadersList";
 import ReaderLayout from "./Components/Readers/ReaderEdit/ReaderEdit";
 import ReaderAdd from "./Components/Readers/AddReader/AddReader";
+import NewReaderReview from "./Components/Readers/ReadersView/NewReaderReview";
 import ReadersListAdd from "./Components/Readers/ReadersList/ReadersListAdd";
 import ReaderReview from "./Components/Readers/ReaderReview/ReaderReview";
 import TimelineDetail from "./Components/Readers/Timeline/TimelineDetail";
@@ -175,6 +176,7 @@ import LiveStream from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Li
 import WebinarEmail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarEmail";
 import WebinarAutoEmails from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarAutoEmails";
 import WebinarSmartlist from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarSmartlist";
+import WebinarCreateNewEmail from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Email/WebinarCreateNewEmail";
 import Analytics from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Analytics/Analytics";
 import ContactDM from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/ContactDM";
 import SpeakerZone from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/SpeakerZone";
@@ -192,6 +194,7 @@ import SurveyData from "./Components/survey/SurveyData";
 import SurveyQuestionFormData from "./Components/survey/SurveyQuestionFormData";
 import LicenseRenewListing from "./Components/License/Content/LicenseRenewListing";
 import LicenseRenew from "./Components/License/Content/LicenseRenew";
+
 
 let platform = 0;
 let show = 0;
@@ -431,6 +434,10 @@ const Routing = () => {
           element={<LoginLayout component={ReaderAdd} />}
         />
         <Route
+          path="/new-readers-reviews"
+          element={<LoginLayout component={NewReaderReview} />}
+        />
+        <Route
           path="/reader-review"
           element={<LoginLayout component={ReaderReview} />}
         />
@@ -627,6 +634,10 @@ const Routing = () => {
         <Route
           path="/webinar/email/smartlist"
           element={<LoginLayout component={WebinarSmartlist} />}
+        />
+         <Route
+          path="/webinar/email/create-new-email"
+          element={<LoginLayout component={WebinarCreateNewEmail} />}
         />
         <Route
           path="/webinar/analytics"

@@ -31,7 +31,7 @@ import TimelineDetail from "../Timeline/TimelineDetail";
 import axios from "axios";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const NewReaders = () => {
+const NewReadersReview = () => {
   let obj = {};
   const limit = 24;
   const navigate = useNavigate();
@@ -231,6 +231,7 @@ const NewReaders = () => {
     try {
       loader("show");
       const res = await getData(ENDPOINT.READERSFILTER);
+      console.log(res,'resres')
       setCountry(res?.data?.data?.data?.country);
       setFilterData(res?.data?.data?.data);
       setApiFilterData(res?.data?.data?.data);
@@ -292,6 +293,7 @@ const NewReaders = () => {
           ...data,
           ...obj,
           status: ["Registered"],
+          search: search,
           "contact Type": ["HCP"],
         };
       } else if (
@@ -302,12 +304,15 @@ const NewReaders = () => {
           ...data,
           ...obj,
           status: ["Registered"],
+          search: search,
         };
       } else {
-        payload = { ...data, ...obj };
+        payload = { ...data, ...obj, search};
       }
 
-      const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
+      // const res = await postData(ENDPOINT.READER_LIST_DATA, payload);
+      const res = await postData(ENDPOINT.PROFILES_READER, payload);
+      console.log(res?.data?.data,'data')
       if (spcFlag == 0) {
         let body = {
           user_id: localStorage.getItem("user_id"),
@@ -335,7 +340,7 @@ const NewReaders = () => {
       }
 
       if (totalCount != res?.data?.data?.total) {
-        if (res?.data?.data?.result?.length <= 0) {
+        if (res?.data?.data?.length <= 0) {
           setCount(0);
         } else {
           setCount(res?.data?.data?.total);
@@ -346,10 +351,10 @@ const NewReaders = () => {
       let total_results = 0;
       if (page != 1) {
         total_results =
-          res?.data?.data?.result?.length + readerDataList?.length;
+          res?.data?.data?.length + readerDataList?.length;
         setReaderDataList((oldArray) => [
           ...oldArray,
-          ...res?.data?.data?.result,
+          ...res?.data?.data,
         ]);
 
         setConsetCountry({
@@ -357,8 +362,8 @@ const NewReaders = () => {
           ...res?.data?.data?.otherCountry,
         });
       } else {
-        total_results = res?.data?.data?.result?.length;
-        setReaderDataList(res?.data?.data?.result);
+        total_results = res?.data?.data?.length;
+        setReaderDataList(res?.data?.data);
         setConsetCountry(res?.data?.data?.otherCountry);
       }
 
@@ -370,7 +375,7 @@ const NewReaders = () => {
 
       if (
         parseInt(res?.data?.data?.total) > total_results &&
-        res?.data?.data?.result?.length != 0
+        res?.data?.data?.length != 0
       ) {
         setIsLoaded(true);
       } else {
@@ -416,7 +421,10 @@ const NewReaders = () => {
       }
 
       // let payload = { ...data, ...filterObject };
-      const res = await postFormData(ENDPOINT.READER_DOWNLOAD, payload, {
+      // const res = await postFormData(ENDPOINT.READER_DOWNLOAD, payload, {
+      //   responseType: "blob",
+      // });
+      const res = await postFormData(ENDPOINT.NEW_READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
       console.log("Response from CRM:", res);
@@ -1098,9 +1106,9 @@ const NewReaders = () => {
     setChangeUpdateFlag(changeUpdateFlag);
   };
   const handleTimeLine = (data) => {
+    // window.open("/timeline-detail");
     localStorage.setItem("myData", data);
-    window.open("/timeline-detail");
-    // navigate("/timeline-detail");
+    navigate("/timeline-detail");
     // const windowProps = `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, width=1200, height=800`;
     //  newWindow = window.open("/timeline-detail", " ", "");
     //  newWindow.opener.postMessage({readerId:data}," ")
@@ -1691,6 +1699,7 @@ const NewReaders = () => {
       };
       let payload = { ...data, ...obj };
       const res = await postData(ENDPOINT.READER_REFRESH, payload);
+      // const res = await postData(ENDPOINT.PROFILES_READER, payload);
       setCount(res?.data?.data?.total);
 
       setRefreshFlag(false);
@@ -1716,7 +1725,8 @@ const NewReaders = () => {
                   "56Ek4feL/1A8mZgIKQWEqg==" ? (
                     <h4>
                       Total USER |{" "}
-                      <span>{totalCountFlag ? totalCount : 0}</span>
+                      {/* <span>{totalCountFlag ? totalCount : 0}</span> */}
+                      <span>{readerDataList?.length}</span>
                     </h4>
                   ) : (
                     <h4>
@@ -1724,87 +1734,13 @@ const NewReaders = () => {
                     </h4>
                   )}
 
-                  {(
-                    (Object.keys(filterObject)?.length == 2 &&
-                    localStorage.getItem("user_id") !=
-                      "B7SHpAc XDXSH NXkN0rdQ=="&&
-                      filterObject?.["status"] == "Registered" &&
-                      filterObject?.["contact Type"] == "HCP") ||
-                    (Object.keys(filterObject)?.length == 3 &&
-                      filterObject?.["status"]?.includes("Registered") &&
-                      filterObject?.["contact Type"]?.includes("HCP") &&
-                      filterObject?.["Content Owners"]?.includes(
-                        defaultOwner
-                      )) ||
-                      (Object.keys(filterObject)?.length == 3&&
-                      localStorage.getItem("user_id") ==
-                      "B7SHpAc XDXSH NXkN0rdQ=="&&
-                      filterObject?.["status"]?.includes("Registered") &&
-                      filterObject?.["contact Type"]?.includes("HCP")&&
-                        filterObject?.["Content Owners"]?.includes(
-                        "All"
-                      ))||
-                    (localStorage.getItem("user_id") ==
-                      "b3APser7L8OELDIG8ee2HQ==" &&
-                      (Object.keys(filterObject)?.length == 0 ||
-                        (Object.keys(filterObject)?.length <= 1 &&
-                          filterObject?.["contact Type"]?.includes("HCP")))) ||
-                    (localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" &&
-                      Object.keys(filterObject)?.length <= 0)
-                      ? true
-                      : false
-                  ) ? (
-                    <div className="refresh-button">
-                      <button
-                        className={refreshFlag ? "refresh-rotate" : "refresh"}
-                        onClick={() => {
-                          Refresh(localStorage.getItem("user_id") ==
-                          "B7SHpAc XDXSH NXkN0rdQ=="?{
-                            status: "Registered",
-                            "contact Type": "HCP",
-                            "Content Owners":"All"
-                          }:{
-                            status: "Registered",
-                            "contact Type": "HCP",
-                          });
-                        }}
-                      >
-                        <svg
-                          fill="#fff"
-                          height="800px"
-                          width="800px"
-                          version="1.1"
-                          id="Layer_1"
-                          xmlns="http://www.w3.org/2000/svg"
-                          // xmlns:xlink="http://www.w3.org/1999/xlink"
-                          viewBox="0 0 383.748 383.748"
-                          // xml:space="preserve"
-                        >
-                          <g>
-                            <path
-                              d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
-		C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
-		L2.081,34.641v113.365h113.91L62.772,95.042z"
-                            />
-                            <path
-                              d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
-		c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
-		c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"
-                            />
-                          </g>
-                        </svg>
-                      </button>
-                    </div>
-                  ) : null}
                 </div>
-
                 <div className="top-right-action library_content_view">
                   <div className="search-bar">
                     <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                       <input
                         className="form-control me-2"
-                        type="text"
+                        type="search"
                         placeholder="Search by email or name"
                         aria-label="Search"
                         id="email_search"
@@ -1832,6 +1768,7 @@ const NewReaders = () => {
                       </button>
                     </form>
                   </div>
+
                   <div className="filter-by nav-item dropdown">
                     <button
                       ref={buttonRef}
@@ -2122,6 +2059,7 @@ const NewReaders = () => {
                     )}
                   </div>
                 </div>
+                
               </div>
               {Object.keys(filterObject)?.length && filterApplyflag == 1 ? (
                 <div className="apply-filter">
@@ -2210,96 +2148,21 @@ const NewReaders = () => {
                   </div>
                 </div>
               ) : null}
+              
             </div>
 
-            {/* {Object.keys(filterObject)?.length && filterApplyflag == 1 ? (
-              <div className="apply-filter">
-                <div className="filter-block">
-                  <div className="filter-block-left full">
-                    {Object.keys(filterObject)?.map((key, index) => {
-                      return (
-                        <>
-                          {filterObject[key]?.length ? (
-                            <div className="filter-div">
-                              <div className="filter-div-title">
-                                <span>{key} |</span>
-                              </div>
-                              <div className="filter-div-list">
-                                {filterObject[key]?.includes("All") ? (
-                                  <div className="filter-result">
-                                    {"All"}
-                                    <img
-                                      src={path_image + "filter-close.svg"}
-                                      onClick={(event) => {
-                                        removeindividualfilter(key, "All");
-                                      }}
-                                      alt="Close-filter"
-                                    />
-                                  </div>
-                                ) : (
-                                  <>
-                                    {" "}
-                                    {filterObject[key]?.map((item, index) => (
-                                      <div
-                                        className="filter-result"
-                                        id={item}
-                                        rt={index}
-                                        b
-                                      >
-                                        {key == "draft" && item == "0"
-                                          ? "live"
-                                          : key == "draft" && item == "1"
-                                          ? "draft"
-                                          : key == "Registered For Title"
-                                          ? filterdata?.[
-                                              "Registered For Title"
-                                            ]?.find(
-                                              (element) => element.id == item
-                                            )?.title
-                                          : item}
-                                        <img
-                                          src={path_image + "filter-close.svg"}
-                                          onClick={(event) => {
-                                            removeindividualfilter(key, item);
-                                          }}
-                                          alt="Close-filter"
-                                        />
-                                      </div>
-                                    ))}
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                          ) : null}
-                        </>
-                      );
-                    })}
-                  </div>
-                  <div className="clear-filter">
-                    <Button
-                      className="btn btn-outline-primary btn-bordered"
-                      onClick={clearFilter}
-                    >
-                      Remove All
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            ) : null} */}
+            <div className="library-content-box-layuot readerlist new-reader d-flex">
 
-            <div className="library-content-box-layuot readerlist d-flex">
-              {/* <h4>
-                <span>Total HCP</span> | {totalCountFlag ? totalCount : 0}
-              </h4> */}
-              {readerDataList?.length || updateflag ? (
-                readerDataList.map((data, index) => {
+              {readerDataList || updateflag ? (
+                 readerDataList.map((data, index) => {
+                
                   return (
                     <>
                       <div className="doc-content-main-box col" key={index}>
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
-                            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?`${data?.first_name} ${data?.last_name} ` :data?.first_name ? data?.first_name : data?.name}
+                            {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="?`${data?.firstName} ${data?.lastName} ` :data?.firstName ? data?.firstName : data?.name}
                             </h4>
                           </div>
                         </div>
@@ -2313,7 +2176,7 @@ const NewReaders = () => {
                           >
                             <Tab
                               eventKey="personal-details"
-                              title="Personal Details"
+                              // title="Personal Details"
                               className="flex-column justify-content-between"
                             >
                               <div className="tab-panel d-flex flex-column justify-content-between">
@@ -2387,8 +2250,8 @@ const NewReaders = () => {
                                           Institution
                                         </h6>
                                         <h6>
-                                          {data?.institute
-                                            ? data?.institute
+                                          {data?.institution
+                                            ? data?.institution
                                             : "N/A"}
                                         </h6>
                                       </li>
@@ -2545,7 +2408,7 @@ const NewReaders = () => {
                                       <Link
                                         to="/reader-edit"
                                         className="btn btn-primary btn-filled"
-                                        state={{ id: data?.id }}
+                                        state={{ id: data?.id, status: '1' }}
                                       >
                                         Edit
                                       </Link>
@@ -2556,834 +2419,7 @@ const NewReaders = () => {
                                 )}
                               </div>
                             </Tab>
-                            <Tab
-                              eventKey="usage"
-                              title="Usage"
-                              className="flex-column justify-content-between"
-                            >
-                              <div className="data-main-box tab-panel d-flex flex-column justify-content-between">
-                                <ul className="tab-mail-list data">
-                                  {!data?.ipFlag ? (
-                                    <>
-                                      {" "}
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Emails sent
-                                          <LinkWithTooltip
-                                            tooltip="Number of emails sent to this user"
-                                            href="#"
-                                          >
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-                                        <div className="data-progress send">
-                                          <ProgressBar
-                                            variant="default"
-                                            now={100}
-                                            label={
-                                              emailStats.findIndex(
-                                                (el) => el.userId == data?.id
-                                              ) !== -1
-                                                ? emailStats[
-                                                    emailStats.findIndex(
-                                                      (el) =>
-                                                        el.userId == data?.id
-                                                    )
-                                                  ]?.emailSent
-                                                : "Loading"
-                                            }
-                                          />
-                                        </div>
-                                      </li>
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Emails opened
-                                          <LinkWithTooltip
-                                            tooltip="Number of emails opened by this user."
-                                            href="#"
-                                          >
-                                            <img
-                                              src={
-                                                path_image +
-                                                "info_circle_icon.svg"
-                                              }
-                                              alt="refresh-btn"
-                                            />
-                                          </LinkWithTooltip>
-                                        </h6>
-                                        <div className="data-progress open">
-                                          <ProgressBar
-                                            variant="default"
-                                            now={15}
-                                            label={
-                                              emailStats.findIndex(
-                                                (el) => el.userId == data?.id
-                                              ) !== -1
-                                                ? emailStats[
-                                                    emailStats.findIndex(
-                                                      (el) =>
-                                                        el.userId == data?.id
-                                                    )
-                                                  ]?.emailOpen
-                                                : "Loading"
-                                            }
-                                          />
-                                        </div>
-                                      </li>
-                                    </>
-                                  ) : (
-                                    ""
-                                  )}
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Content delivered
-                                      <LinkWithTooltip
-                                        tooltip="Content in a HCPs Docintel account."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress delivered">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={2}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.contentDeliverd
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Content with RTR
-                                      <LinkWithTooltip
-                                        tooltip="Number of unique content where HCP have read a little or a lot."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress rtr">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={5}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.rtr
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      QR openings/Article
-                                      <LinkWithTooltip
-                                        tooltip="Number of opening from Qr code counts for specific article."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress qr-opening">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={11}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.qr
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      GO openings/Article
-                                      <LinkWithTooltip
-                                        tooltip="Number of opening from inforMedGO counts for specific article."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress go-opening">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={25}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.go
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <h6 className="tab-content-title">
-                                      Content openings
-                                      <LinkWithTooltip
-                                        tooltip="Total Number of article opening."
-                                        href="#"
-                                      >
-                                        <img
-                                          src={
-                                            path_image + "info_circle_icon.svg"
-                                          }
-                                          alt="refresh-btn"
-                                        />
-                                      </LinkWithTooltip>
-                                    </h6>
-                                    <div className="data-progress content-opening">
-                                      <ProgressBar
-                                        variant="default"
-                                        now={19}
-                                        label={
-                                          emailStats.findIndex(
-                                            (el) => el.userId == data?.id
-                                          ) !== -1
-                                            ? emailStats[
-                                                emailStats.findIndex(
-                                                  (el) => el.userId == data?.id
-                                                )
-                                              ]?.contentOpening
-                                            : "Loading"
-                                        }
-                                      />
-                                    </div>
-                                  </li>
-                                  {!data?.ipFlag ? (
-                                    <li className="last-activity">
-                                      <h6 className="tab-content-title">
-                                        Last content activity
-                                        <LinkWithTooltip
-                                          tooltip="Last activity performed by user."
-                                          href="#"
-                                        >
-                                          <img
-                                            src={
-                                              path_image +
-                                              "info_circle_icon.svg"
-                                            }
-                                            alt="refresh-btn"
-                                          />
-                                        </LinkWithTooltip>
-                                      </h6>
-                                      <div className="data-progress content-opening">
-                                        <ProgressBar
-                                          variant="default"
-                                          now={19}
-                                          label={
-                                            emailStats.findIndex(
-                                              (el) => el.userId == data?.id
-                                            ) !== -1
-                                              ? emailStats[
-                                                  emailStats.findIndex(
-                                                    (el) =>
-                                                      el.userId == data?.id
-                                                  )
-                                                ]?.LastActivity
-                                              : "Loading"
-                                          }
-                                        />
-                                      </div>
-                                    </li>
-                                  ) : (
-                                    ""
-                                  )}
-                                </ul>
-                              </div>
-                              <div className="data-main-footer-sec">
-                                <div className="data-main-footer-sec-inner">
-                                  <div className="footer-btn d-flex justify-content-end">
-                                    <button
-                                      className="btn btn-primary btn-bordered"
-                                      onClick={() => handleTimeLine(data?.id)}
-                                    >
-                                      See time line
-                                    </button>
-                                    {/* <Link
-                                      className="btn btn-primary btn-bordered"
-                                      to="/timeline-detail"
-                                      state={{ readerId: data?.id }}
-                                    >
-                                      See time line
-                                    </Link> */}
-                                  </div>
-                                </div>
-                              </div>
-                            </Tab>
-                            {!data?.ipFlag ? (
-                              <Tab eventKey="change-tab" title="Change">
-                                <div className="data-main-box change-tab-main-box">
-                                  <ul className="tab-mail-list data change">
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && change ? (
-                                      <>
-                                        {/*console.log(
-                                        types.findIndex(
-                                          (el) =>
-                                          el.label.toLowerCase() == data?.user_status.toLowerCase()
-                                        ))*/}
-                                        {/*<li>
-                                          <h6 className="tab-content-title">
-                                            User Status
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={types}
-                                                defaultValue={
-                                                  types[
-                                                    types.findIndex(
-                                                      (el) =>
-                                                        el.label.toLowerCase() ==
-                                                        data?.user_status?.toLowerCase()
-                                                    )
-                                                  ]
-                                                }
-                                                onChange={(event) =>
-                                                  onUserChange(event, data.id)
-                                                }
-                                                id={"user_type_" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Blinded
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-
-                                              options={change?.blind_type}
-
-                                              value={
-                                                  changeBlindedType?.[
-                                                    changeBlindedType.findIndex(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )
-                                                  ]?.value == "blinded"
-                                                    ? change?.blind_type[0]
-                                                    : changeBlindedType?.[
-                                                        changeBlindedType.findIndex(
-                                                          (el) =>
-                                                            el.index == data.id
-                                                        )
-                                                      ]?.value == "unblinded"
-                                                    ? change?.blind_type[1]
-                                                    : data?.binded === "Yes"
-                                                    ? change?.blind_type[0]
-                                                    : change?.blind_type[1]
-                                                }
-                                                onChange={(event) =>
-                                                  onBlindedChange(
-                                                    event,
-                                                    data.id
-                                                  )
-                                                }
-                                                id={"blinded_type" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>*/}
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Institution
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={institutionData}
-                                                defaultValue={
-                                                  institutionData?.[
-                                                    institutionData.findIndex(
-                                                      (el) =>
-                                                        el.value ==
-                                                        data?.institute
-                                                    )
-                                                  ]
-                                                }
-                                                onChange={(e) =>
-                                                  institutionFun(
-                                                    e,
-                                                    data.id,
-                                                    index
-                                                  )
-                                                }
-                                                id={"irt_type" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            IRT mandatory training
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={change?.irt}
-                                                value={
-                                                  changeIRTType?.[
-                                                    changeIRTType.findIndex(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )
-                                                  ]?.value == 1
-                                                    ? change?.irt[0]
-                                                    : changeIRTType?.[
-                                                        changeIRTType.findIndex(
-                                                          (el) =>
-                                                            el.index == data.id
-                                                        )
-                                                      ]?.value == 0
-                                                    ? change?.irt[1]
-                                                    : data?.irt === "Yes"
-                                                    ? change?.irt[0]
-                                                    : change?.irt[1]
-                                                }
-                                                onChange={(event) => {
-                                                  onIrtChange(
-                                                    event,
-                                                    data.id,
-                                                    index
-                                                  );
-                                                }}
-                                                id={"irt_type" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            IRT role
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              {(
-                                                changeIRTType.filter(
-                                                  (el) => el.index == data.id
-                                                )?.length
-                                                  ? changeIRTType.filter(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )?.[0]?.value
-                                                  : data?.irt == "Yes"
-                                                  ? true
-                                                  : false
-                                              ) ? (
-                                                <Select
-                                                  options={change?.userIrtRoles}
-                                                  value={
-                                                    selectedRole[index] !=
-                                                      undefined &&
-                                                    selectedRole[index] != true
-                                                      ? selectedRole[index]
-                                                      : selectedRole[index] ==
-                                                        true
-                                                      ? null
-                                                      : // change
-                                                        //     ?.userIrtRoles?.[0]
-                                                        change?.userIrtRoles.find(
-                                                          (roleObj) =>
-                                                            roleObj.value ===
-                                                            data?.role
-                                                        )
-                                                  }
-                                                  onChange={(event) =>
-                                                    onRoleChange(
-                                                      event,
-                                                      data.id,
-                                                      index
-                                                    )
-                                                  }
-                                                  id={"role_" + data?.id}
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  isClearable
-                                                  placeholder="Select Role"
-                                                />
-                                              ) : (
-                                                <Select
-                                                  options={change?.role}
-                                                  value={
-                                                    selectedRole[index] !=
-                                                      undefined &&
-                                                    selectedRole[index] != true
-                                                      ? selectedRole[index]
-                                                      : selectedRole[index] ==
-                                                        true
-                                                      ? null
-                                                      : change?.role.find(
-                                                          (roleObj) =>
-                                                            roleObj.value ===
-                                                            data?.role
-                                                        )
-                                                  }
-                                                  onChange={(event) =>
-                                                    onRoleChange(
-                                                      event,
-                                                      data.id,
-                                                      index
-                                                    )
-                                                  }
-                                                  id={"role_" + data?.id}
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  isClearable
-                                                  placeholder="Select Role"
-                                                />
-                                              )}
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Country
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              {(
-                                                changeIRTType.filter(
-                                                  (el) => el.index == data.id
-                                                )?.length
-                                                  ? changeIRTType.filter(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )?.[0]?.value
-                                                  : data?.irt == "Yes"
-                                                  ? true
-                                                  : false
-                                              ) ? (
-                                                <Select
-                                                  ref={defaultCountry}
-                                                  options={irtCountry}
-                                                  value={
-                                                    selectedCountry[index] !==
-                                                    undefined
-                                                      ? selectedCountry[index]
-                                                      : data?.country === "B&H"
-                                                      ? countryAll.find(
-                                                          (el) =>
-                                                            el.value ===
-                                                            "Bosnia and Herzegovina"
-                                                        )
-                                                      : irtCountry.find(
-                                                          (el) =>
-                                                            el.value ===
-                                                            data?.country
-                                                        )
-                                                  }
-                                                  onChange={(event) =>
-                                                    onCountryChange(
-                                                      event,
-                                                      data.id,
-                                                      index
-                                                    )
-                                                  }
-                                                  id={data.id}
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  isClearable
-                                                  placeholder="Select country"
-                                                />
-                                              ) : (
-                                                <Select
-                                                  ref={defaultCountry}
-                                                  options={countryAll}
-                                                  value={
-                                                    selectedCountry[index] !==
-                                                    undefined
-                                                      ? selectedCountry[index]
-                                                      : data?.country === "B&H"
-                                                      ? countryAll.find(
-                                                          (el) =>
-                                                            el.value ===
-                                                            "Bosnia and Herzegovina"
-                                                        )
-                                                      : countryAll.find(
-                                                          (el) =>
-                                                            el.value ===
-                                                            data?.country
-                                                        )
-                                                  }
-                                                  onChange={(event) =>
-                                                    onCountryChange(
-                                                      event,
-                                                      data.id,
-                                                      index
-                                                    )
-                                                  }
-                                                  id={data.id}
-                                                  className="dropdown-basic-button split-button-dropup"
-                                                  isClearable
-                                                  placeholder="Select country"
-                                                />
-                                              )}
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Site number
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={
-                                                  siteNumber[index] != undefined
-                                                    ? siteNumber[index]
-                                                    : siteNumber?.all
-                                                }
-                                                value={
-                                                  selectedSiteNumber[index] !=
-                                                    undefined &&
-                                                  selectedSiteNumber[index] !=
-                                                    true
-                                                    ? selectedSiteNumber[index]
-                                                    : selectedSiteNumber[
-                                                        index
-                                                      ] == true
-                                                    ? null
-                                                    : change?.siteNumber[
-                                                        change?.siteNumber.findIndex(
-                                                          (el) =>
-                                                            el.label.toLowerCase() ===
-                                                            data?.siteNumber?.toLowerCase()
-                                                        )
-                                                      ]
-                                                }
-                                                onChange={(event) =>
-                                                  onSiteNumberChange(
-                                                    event,
-                                                    data.id,
-                                                    index
-                                                  )
-                                                }
-                                                placeholder="Select Site Number"
-                                                id={
-                                                  "siteNumber_type" + data?.id
-                                                }
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Site name
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={
-                                                  siteName[index] != undefined
-                                                    ? siteName[index]
-                                                    : siteName?.all
-                                                }
-                                                value={
-                                                  selectedSiteName[index] !=
-                                                    undefined &&
-                                                  selectedSiteName[index] !=
-                                                    true
-                                                    ? selectedSiteName[index]
-                                                    : selectedSiteName[index] ==
-                                                      true
-                                                    ? null
-                                                    : change?.siteName[
-                                                        change?.siteName.findIndex(
-                                                          (el) =>
-                                                            el.label.toLowerCase() ===
-                                                            data?.siteName?.toLowerCase()
-                                                        )
-                                                      ]
-                                                }
-                                                placeholder="Select Site Name"
-                                                onChange={(event) =>
-                                                  onSiteNameChange(
-                                                    event,
-                                                    data.id,
-                                                    index
-                                                  )
-                                                }
-                                                id={"siteName_type" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>
-                                      </>
-                                    ) : apiCallStatus ? (
-                                      <>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            User status
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={types}
-                                                defaultValue={
-                                                  types[
-                                                    types.findIndex(
-                                                      (el) =>
-                                                        el.label.toLowerCase() ==
-                                                        data?.user_status?.toLowerCase()
-                                                    )
-                                                  ]
-                                                }
-                                                onChange={(event) =>
-                                                  onUserChange(event, data.id)
-                                                }
-                                                id={"user_type_" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Country
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={countryAll}
-                                                defaultValue={
-                                                  countryAll[
-                                                    data?.country == "B&H"
-                                                      ? countryAll.findIndex(
-                                                          (el) =>
-                                                            el.value ==
-                                                            "Bosnia and Herzegovina"
-                                                        )
-                                                      : countryAll.findIndex(
-                                                          (el) =>
-                                                            el.value ==
-                                                            data?.country
-                                                        )
-                                                  ]
-                                                }
-                                                onChange={(event) =>
-                                                  onCountryChange(
-                                                    event,
-                                                    data.id
-                                                  )
-                                                }
-                                                id={data.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>
-                                      </>
-                                    ) : (
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          width: "100%",
-                                          height: "100%",
-                                        }}
-                                      >
-                                        <Spinner
-                                          color="#53aff4"
-                                          size={32}
-                                          speed={1}
-                                          animating={true}
-                                        />
-                                      </div>
-                                    )}
-                                  </ul>
-
-                                  {apiCallStatus ? (
-                                    <div className="data-main-footer-sec">
-                                      <div className="footer-btn d-flex justify-content-end">
-                                        <Button
-                                          className="btn btn-primary btn-filled update"
-                                          onClick={(e) =>
-                                            updateReaderDetails(data?.id, index)
-                                          }
-                                          id={data?.id}
-                                        >
-                                          Update
-                                        </Button>
-                                      </div>
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </Tab>
-                            ) : (
-                              ""
-                            )}
+                           
                           </Tabs>
                         </div>
                       </div>
@@ -3435,4 +2471,4 @@ const NewReaders = () => {
   );
 };
 
-export default NewReaders;
+export default NewReadersReview;

@@ -24,6 +24,7 @@ export const ENDPOINT = {
   LIBRARYGETSINGLESPC: `/library/getSpcById`,
   LIBRARYSPCDELETE: `/library/deletespc`,
   READER_LIST_DATA: `/reader/reader`,
+  PROFILES_READER : `/reader/profile-reader`,
   MARKETING_READER_LIST_DATA: `/reader/marketing_reader`,
   SPC_PRO_DELETE: `/library/spcProductDelete/`,
   SPC_HELPER_LISTING: `/library/spc-helper-listing`,
@@ -73,6 +74,7 @@ export const ENDPOINT = {
   CONTENT: "analytics/content",
   TRENDING_TOPIC: "analytics/topic",
   READER_DOWNLOAD: `/reader/reader-file`,
+  NEW_READER_DOWNLOAD: `/reader/new-readers-file`,
   MARKETING_READER_DOWNLOAD: `/reader/marketing_reader_file`,
   GETREADERTIMELINEDETAIL: `/reader/get-reader-detail`,
   COUNTRY_REGISTRATION: `analytics/country`,
@@ -178,4 +180,8 @@ export const ENDPOINT = {
   STORE_SURVEY_DATA:"auth/store-survey-data",
   GET_SURVEY_DATA:"auth/get-survey-data",
   WEBINAR_EMAIL_COMPAIGN_LIST:"/webinarEmail/get-campaign-list",
+  WEBINAR_EMAIL_GET_READERS_LIST:"/webinarEmail/get-readers-list",
+  WEBINAR_EMAIL_GET_FILTER_LIST:"/webinarEmail/get-filter-list",
+  WEBINAR_EMAIL_DELETE_COMPAIGN:"/webinarEmail/delete-list",
+  WEBINAR_EMAIL_GET_TEMPLATE_LIST:"/webinarEmail/get-templates-list"
 };

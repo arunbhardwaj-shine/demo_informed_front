@@ -17,6 +17,7 @@ import * as XLSX from "xlsx";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import Select from "react-select";
 
 var new_object;
 var draft_object;
@@ -30,6 +31,7 @@ const SelectSmartList = (props) => {
   const [PdfSelected, setPdfSelected] = useState(0);
   const [TemplateId, setTemplateId] = useState(0);
   const [getselecedlistid, setselecedlistid] = useState(0);
+  const [customIbu, setCustomIbu] = useState("");
   const [apiCallStatus, setApiCallStatus] = useState(false);
   const [smartListSelected, setSmartListSelected] = useState({});
   const [showAlertPopup, setShowAlertPopup] = useState(false);
@@ -58,6 +60,16 @@ const SelectSmartList = (props) => {
 
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
+  const [ibu, setIbu] = useState([
+    {
+      label: "Critical Care",
+      value: "Critical Care",
+    },
+    { label: "Haematology", value: "Haematology" },
+    { label: "Immunotherapy", value: "Immunotherapy" },
+  ]);
+
   useEffect(() => {
     getSmartListData(1);
   }, []);
@@ -308,21 +320,27 @@ const SelectSmartList = (props) => {
     }, 1000);
     let error = {};
 
-    if (getCreatedListName === "") {
-      error.getCreatedListName = "Please enter the smart list name first.";
+    if (getCreatedListName.trim() === "") {
+      error.getCreatedListName = "Please enter the smart list name";
       // toast.warning("Please enter the smart list name first.");
       // return false;
     }
-    if (creatorName === "") {
+    if (creatorName.trim() === "") {
       error.creatorName = "Please enter the creator name";
       // return false;
     }
+
+    if (localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' && customIbu.trim() === "") {
+      error.ibu = "Please enter the ibu";
+      // return false;
+    }
+
     if (selectedFile === null) {
       error.selectedFile = "Please upload file first";
     }
     if (Object.keys(error)?.length) {
       setValidationError(error);
-      toast.error(error[Object.keys(error)[0]]);
+      // toast.error(error[Object.keys(error)[0]]);
       return;
     }
 
@@ -331,6 +349,7 @@ const SelectSmartList = (props) => {
     formData.append("user_id", user_id);
     formData.append("smart_list_name", getCreatedListName);
     formData.append("creator_name", creatorName);
+    formData.append("ibu", customIbu);
     formData.append("reader_file", selectedFile);
 
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -368,6 +387,7 @@ const SelectSmartList = (props) => {
         }
         setCreatedListName("");
         setCreatorName("");
+        setCustomIbu("");
         //   loader("hide");
       })
       .catch((err) => {
@@ -375,6 +395,7 @@ const SelectSmartList = (props) => {
         setShowProgressBar(false);
         setCreatedListName("");
         setCreatorName("");
+        setCustomIbu("");
         loader("hide");
         toast.error("Something went wrong.");
         setFileUploadPopup(false);
@@ -388,6 +409,11 @@ const SelectSmartList = (props) => {
   const handleCreatorName = async (event) => {
     setCreatorName(event.target.value);
   };
+
+  const handleIBUChange = async(value) => {
+    setCustomIbu(value);
+  }
+
 
   const downloadFile = () => {
     // let link = document.createElement("a");
@@ -922,7 +948,7 @@ const SelectSmartList = (props) => {
                 <h2>STEP1</h2>
                 <div className="create-smart-step-box">
                   <form>
-                    <div className="row justify-content-between align-items-end">
+                    <div className="row justify-content-between align-items-start">
                       <div className="form-group col">
                         <label htmlFor="smart-list-name">
                           Enter smart list name<span>*</span>
@@ -963,6 +989,34 @@ const SelectSmartList = (props) => {
                           </div>
                         ) : null}
                       </div>
+
+                        {
+                          localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
+                          <div className="form-group col">
+                            <label htmlFor="creator-name">
+                              IBU <span>*</span>
+                            </label>
+                            <Select
+                              options={ibu}
+                              placeholder="Select IBU"
+                              name="ibu"
+                              className={
+                                validationError?.ibu
+                                  ? "dropdown-basic-button split-button-dropup error"
+                                  : "dropdown-basic-button split-button-dropup"
+                              }
+                              isClearable
+                              onChange={(e) => handleIBUChange(e?.value)}
+                            />
+                            {validationError?.ibu ? (
+                              <div className="login-validation">
+                                {validationError?.ibu}
+                              </div>
+                            ) : null}
+                          </div>
+                          :
+                          null
+                        }
 
                       {
                         /*<div className="form-group col-sm-12">
