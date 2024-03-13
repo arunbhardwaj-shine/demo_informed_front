@@ -138,6 +138,8 @@
     
     {
         "templateId": 2,
+        "placeholderTextColor":"#1a4b99",
+        "typedTextColor":"#1a4b99",
         "templateName": "Motivate Investigators Template",
         "title": "Registration",
         "pageTitle": "To register please fill in all your details below.",
@@ -380,6 +382,8 @@
         "headerImageUrl": "",
         "footerImageUrl": "",
         "labelColor": "#263474",
+        "placeholderTextColor":"#263474",
+        "typedTextColor":"#263474",
         "optionColor": "#263474",
         "backgroundColor": "#ffffff",
         "eventDetails": {
@@ -568,6 +572,8 @@
         "headerImageUrl": "",
         "footerImageUrl": "",
         "labelColor": "#2068B3",
+        "placeholderTextColor":"#97b6d8",
+        "typedTextColor":"#97b6da",
         "optionColor": "#2068B3",
         "backgroundColor": "",
         "eventDetails": {
@@ -662,10 +668,14 @@
 
     {
         "templateId": 5,
+        "labelColor": "#00529f",
+        "placeholderTextColor":"#1a4b99",
+        "typedTextColor":"#1a4b99",
         "templateName": "Octa Academy Template",
         "headerImageUrl": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/KDPmRbYfSuN16CflTC3raGxe1eaHPi10hw79KimX.png",
         "bodyText": "",
         "pageTitle": "This event is aimed only at professionals in the health area. To register, please fill out the following information",
+        
         "eventDetails": {
             "HeaderHeadingOne": {
                 "title": "Header Heading One",
@@ -717,7 +727,6 @@
             }
             
         },
-        "labelColor": "",
         "optionColor": "",
         "body": [
             {
@@ -799,13 +808,13 @@
                 "title": "Specialization",
                 "type": "text",
                 "value": "For healthcare professionals only.",
-                "color": "#000"
+                "color": "#001489"
             },
             "EventDateAndTime": {
                 "title": "Event Date And Time",
                 "type": "text",
                 "value": "Monday, June 26 2023 | 01:15 - 2:30 pm ET <br/>Tuesday, June 27 2023 | 01:15 - 2:30 pm ET",
-                "color": "#000"
+                "color": "#001489"
             },
             "pageTitle": {
                 "title": "Registration Title",
@@ -833,9 +842,43 @@
             }
             
         },
-        "labelColor": "",
+        "labelColor": "#001489",
+        "placeholderTextColor":"#97b8da",
+        "typedTextColor":"#97b8da",
         "optionColor": "",
         "body": [
+           
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "Select a country",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
             {
                 "label": "I consent to:",
                 "inputType": "checkbox",
@@ -860,37 +903,6 @@
                 "required": "",
                 "extension": "",
                 "name": "consent"
-            },
-            {
-                "label": "Country",
-                "inputType": "selection",
-                "placeholder": "Select a country",
-                "option": [
-                    {
-                        "optionLabel": "  ",
-                        "extension": [],
-                        "checked": ""
-                    }
-                ],
-                "required": "yes",
-                "extension": "",
-                "name": "country"
-            },
-            {
-                "label": "Name",
-                "name": "userName",
-                "inputType": "text",
-                "placeholder": "Please enter name",
-                "option": [],
-                "required": "yes"
-            },
-            {
-                "label": "Email",
-                "name": "userEmail",
-                "inputType": "email",
-                "placeholder": "Please enter email",
-                "option": [],
-                "required": "yes"
             }
         ]
     }
