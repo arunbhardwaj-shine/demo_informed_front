@@ -175,7 +175,7 @@ const TimelineDetail = (props) => {
               <Row className="justify-content-end align-items-center">
                 <Col md="6">
                   <div className="page-title d-flex align-items-center">
-                    <Link
+                    {/* <Link
                       className="btn btn-primary btn-bordered back-btn"
                       to="/readers-view"
                     >
@@ -191,13 +191,13 @@ const TimelineDetail = (props) => {
                           fill="#97B6CF"
                         />
                       </svg>
-                    </Link>
+                    </Link> */}
                     <h2>Timeline</h2>
                   </div>
                 </Col>
                 <Col md="4"></Col>
                 <Col md="2">
-                  <div className="header-btn">
+                  <div className="header-btn d-flex justify-content-end">
                     <button className="btn print" onClick={(e) => printPage()}>
                       <svg
                         width="24"

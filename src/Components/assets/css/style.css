@@ -110,6 +110,7 @@ header nav.navbar {
   padding: 12px 59px;
   background: var(--white);
   filter: drop-shadow(0px 4px 29px rgba(0, 102, 190, 0.1));
+  min-height:84px;
 }
 
 header {
@@ -589,6 +590,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   line-height: 19px;
   color: var(--dark-blue);
   font-weight: 500;
+  margin:0 0 7px;
 }
 
 .filter-div .filter-result {
@@ -1583,6 +1585,7 @@ ul.tabnav-link li {
 .header-btn {
   text-align: right;
   display: flex;
+  justify-content: flex-end;
 }
 
 .btn.btn-primary {
@@ -4922,7 +4925,9 @@ form#add_hcp_form .row:not(:first-child) {
 .create-smart-step-box .form-group.col {
   max-width: 456px;
 }
-
+.create-smart-step-box .form-group .split-button-dropup>div:nth-child(3) {
+  padding: 6px 50px 7px 15px;
+}
 .create-smart-step-box .form-group-content {
   display: flex;
   justify-content: flex-end;
