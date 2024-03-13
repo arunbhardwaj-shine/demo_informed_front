@@ -12,7 +12,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { Modal } from "react-bootstrap";
 import AddNewContactModal from "../../../../../Model/AddNewContactModal";
 import { connect } from "react-redux";
-import {getWebinarEmailData,getWebinarCampaignId} from '../../../../../actions'
+import { getWebinarEmailData, getWebinarCampaignId } from '../../../../../actions'
 var dxr = 0;
 var state_object = {};
 
@@ -340,8 +340,8 @@ const WebinarCreateNewEmail = (props) => {
             return finalTags?.innerHTML == null ? finalTags : finalTags?.innerHTML;
         });
 
-        if (validator.allValid()) {
-            // console.log(PdfSelected);
+        // if (validator.allValid()) {
+            
             props?.getWebinarEmailData({
                 //uniqueId: uniqueId,
                 status: getIsApprovedStatus,
@@ -356,11 +356,11 @@ const WebinarCreateNewEmail = (props) => {
                 campaign_id: campaign_id_st,
             });
 
-            navigate("/SelectHCP");
-        } else {
-            validator.showMessages();
-            setRenderAfterValidation(renderAfterValidation + 1);
-        }
+            navigate("/webinar/email/selectHCP");
+        // } else {
+        //     validator.showMessages();
+        //     setRenderAfterValidation(renderAfterValidation + 1);
+        // }
     };
     const templateClicked = (template, e) => {
         const div = document.querySelector("img.select_mm");
@@ -784,213 +784,213 @@ const WebinarCreateNewEmail = (props) => {
 
     const saveClicked = async () => {
         if (activeManual == "active") {
-          const body_data = hpc?.map((data) => {
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-              return {
-                first_name: data?.firstname,
-                last_name: data?.lastname,
-                email: data?.email,
-                country: data?.country,
-                // contact_type: data?.contact_type,
-                siteNumber: data?.siteNumber ? data?.siteNumber : "",
-                siteName: data?.siteName ? data?.siteName : "",
-                investigator_type: data?.role,
-                siteIrt: data?.optIrt == "yes" ? 1 : 0,
-                institution_type: data?.institutionType
-                  ? data?.institutionType
-                  : "",
-              };
-            } else {
-              return {
-                first_name: data?.firstname,
-                last_name: data?.lastname,
-                email: data?.email,
-                country: data?.country,
-                contact_type: data?.contact_type,
-              };
-            }
-          });
-    
-          const body = {
-            data: body_data,
-            user_id: localStorage.getItem("user_id"),
-            smart_list_id: "",
-          };
-    
-          const status = body?.data?.map((data, index) => {
-            console.log(data);
-            if (
-              data?.email == "" ||
-              data?.institution_type == "" ||
-              ((data?.last_name == "" ||
-                data?.first_name == "" ||
-                data?.country == "") &&
-                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==")
-            ) {
-              if (
-                data?.first_name == "" &&
-                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ) {
-                setValidationError({
-                  newHcpFirstName: "Please enter the first name",
-                  index: index,
-                });
-                return;
-              }
-              if (
-                data?.last_name == "" &&
-                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-              ) {
-                setValidationError({
-                  newHcpLastName: "Please enter the last name",
-                  index: index,
-                });
-                return;
-              }
-              if (data?.email == "") {
-                setValidationError({
-                  newHcpEmail: "Please enter the email atleast",
-                  index: index,
-                });
-    
-                return;
-              }
-    
-              if (data?.institution_type == "") {
-                setValidationError({
-                  newHcpInstitution: "Please Select the institution ",
-                  index: index,
-                });
-                return;
-              }
-    
-              if (
-                data?.country == "" &&
-                (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==")
-              ) {
-                setValidationError({
-                  newHcpCountry: "Please select the country",
-                  index: index,
-                });
-                return;
-              }
-    
-              if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-                if (data?.institution_type == "") {
-                  setValidationError({
-                    newHcpInstitution: "Please enter the institution ",
-                    index: index,
-                  });
-                  return;
-                }
-              }
-            } else if (data?.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
-              setValidationError({
-                newHcpCountry: "Please select the country",
-                index: index,
-              });
-              return;
-            }
-            else if (data?.email != "") {
-              let email = data?.email;
-              let useremail = email?.trim();
-              var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-              if (regex.test(String(useremail).toLowerCase())) {
-                let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
-                if (typeof prev_obj != "undefined") {
-                  setValidationError({
-                    newHcpEmail: "User with same email already added in list.",
-                    index: index,
-                  });
-    
-                  return;
-                }
-              } else {
-                setValidationError({
-                  newHcpEmail: "Email format is not valid",
-                  index: index,
-                });
-    
-                return;
-              }
-              return "true";
-            } else {
-              return "true";
-            }
-          });
-          status.sort();
-          if (status.every((element) => element == "true")) {
-            loader("show");
-            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-            await axios
-              .post(`distributes/add_new_readers_in_list`, body)
-              .then((res) => {
-                if (res?.data?.status_code === 200) {
-                  toast.success("User added successfuly");
-    
-                  res?.data?.response?.data?.map((data) => {
-                    setSelectedHcp((oldArray) => [...oldArray, data]);
-                  });
-                  setIsOpenAdd(false);
-                  setIsOpensend(true);
+            const body_data = hpc?.map((data) => {
+                if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+                    return {
+                        first_name: data?.firstname,
+                        last_name: data?.lastname,
+                        email: data?.email,
+                        country: data?.country,
+                        // contact_type: data?.contact_type,
+                        siteNumber: data?.siteNumber ? data?.siteNumber : "",
+                        siteName: data?.siteName ? data?.siteName : "",
+                        investigator_type: data?.role,
+                        siteIrt: data?.optIrt == "yes" ? 1 : 0,
+                        institution_type: data?.institutionType
+                            ? data?.institutionType
+                            : "",
+                    };
                 } else {
-                  toast.warning(res?.data?.message);
-                  loader("hide");
+                    return {
+                        first_name: data?.firstname,
+                        last_name: data?.lastname,
+                        email: data?.email,
+                        country: data?.country,
+                        contact_type: data?.contact_type,
+                    };
                 }
-                loader("hide");
-                //setSelectedHcp(res.data.response.data);
-              })
-              .catch((err) => {
-                toast.error("Something went wrong");
-                loader("hide");
-              });
-          } else {
-            const filteredArray = status?.filter((value) => value !== "true");
-            toast.warning(filteredArray?.[0]);
-            // toast.warning(status[0]);
-          }
+            });
+
+            const body = {
+                data: body_data,
+                user_id: localStorage.getItem("user_id"),
+                smart_list_id: "",
+            };
+
+            const status = body?.data?.map((data, index) => {
+                console.log(data);
+                if (
+                    data?.email == "" ||
+                    data?.institution_type == "" ||
+                    ((data?.last_name == "" ||
+                        data?.first_name == "" ||
+                        data?.country == "") &&
+                        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==")
+                ) {
+                    if (
+                        data?.first_name == "" &&
+                        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                    ) {
+                        setValidationError({
+                            newHcpFirstName: "Please enter the first name",
+                            index: index,
+                        });
+                        return;
+                    }
+                    if (
+                        data?.last_name == "" &&
+                        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                    ) {
+                        setValidationError({
+                            newHcpLastName: "Please enter the last name",
+                            index: index,
+                        });
+                        return;
+                    }
+                    if (data?.email == "") {
+                        setValidationError({
+                            newHcpEmail: "Please enter the email atleast",
+                            index: index,
+                        });
+
+                        return;
+                    }
+
+                    if (data?.institution_type == "") {
+                        setValidationError({
+                            newHcpInstitution: "Please Select the institution ",
+                            index: index,
+                        });
+                        return;
+                    }
+
+                    if (
+                        data?.country == "" &&
+                        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==")
+                    ) {
+                        setValidationError({
+                            newHcpCountry: "Please select the country",
+                            index: index,
+                        });
+                        return;
+                    }
+
+                    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+                        if (data?.institution_type == "") {
+                            setValidationError({
+                                newHcpInstitution: "Please enter the institution ",
+                                index: index,
+                            });
+                            return;
+                        }
+                    }
+                } else if (data?.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+                    setValidationError({
+                        newHcpCountry: "Please select the country",
+                        index: index,
+                    });
+                    return;
+                }
+                else if (data?.email != "") {
+                    let email = data?.email;
+                    let useremail = email?.trim();
+                    var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                    if (regex.test(String(useremail).toLowerCase())) {
+                        let prev_obj = selectedHcp?.find((x) => x?.email?.toLowerCase() === useremail?.toLowerCase());
+                        if (typeof prev_obj != "undefined") {
+                            setValidationError({
+                                newHcpEmail: "User with same email already added in list.",
+                                index: index,
+                            });
+
+                            return;
+                        }
+                    } else {
+                        setValidationError({
+                            newHcpEmail: "Email format is not valid",
+                            index: index,
+                        });
+
+                        return;
+                    }
+                    return "true";
+                } else {
+                    return "true";
+                }
+            });
+            status.sort();
+            if (status.every((element) => element == "true")) {
+                loader("show");
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+                await axios
+                    .post(`distributes/add_new_readers_in_list`, body)
+                    .then((res) => {
+                        if (res?.data?.status_code === 200) {
+                            toast.success("User added successfuly");
+
+                            res?.data?.response?.data?.map((data) => {
+                                setSelectedHcp((oldArray) => [...oldArray, data]);
+                            });
+                            setIsOpenAdd(false);
+                            setIsOpensend(true);
+                        } else {
+                            toast.warning(res?.data?.message);
+                            loader("hide");
+                        }
+                        loader("hide");
+                        //setSelectedHcp(res.data.response.data);
+                    })
+                    .catch((err) => {
+                        toast.error("Something went wrong");
+                        loader("hide");
+                    });
+            } else {
+                const filteredArray = status?.filter((value) => value !== "true");
+                toast.warning(filteredArray?.[0]);
+                // toast.warning(status[0]);
+            }
         } else {
-          let formData = new FormData();
-          let user_id = localStorage.getItem("user_id");
-          formData.append("user_id", user_id);
-          formData.append("smart_list_id", "");
-          formData.append("reader_file", selectedFile);
-    
-          console.log(formData);
-    
-          if (selectedFile) {
-            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-            loader("show");
-            await axios
-              .post(`distributes/update_reader_list`, formData)
-              .then((res) => {
-                if (res?.data?.status_code === 200) {
-                  toast.success("User added successfuly");
-    
-                  res?.data?.response?.data?.map((data) => {
-                    setSelectedHcp((oldArray) => [...oldArray, data]);
-                  });
-    
-                  loader("hide");
-                  setIsOpenAdd(false);
-                  setActiveManual("active");
-                  setActiveExcel("");
-                  setSelectedFile(null);
-                  setIsOpensend(true);
-                } else {
-                  toast.warning(res?.data?.message);
-                  loader("hide");
-                }
-              })
-              .catch((err) => {
-                console.log("something went wrong");
-              });
-            setIsOpenTagModal(false);
-          } else {
-            toast.error("Please add a excel file");
-          }
+            let formData = new FormData();
+            let user_id = localStorage.getItem("user_id");
+            formData.append("user_id", user_id);
+            formData.append("smart_list_id", "");
+            formData.append("reader_file", selectedFile);
+
+            console.log(formData);
+
+            if (selectedFile) {
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+                loader("show");
+                await axios
+                    .post(`distributes/update_reader_list`, formData)
+                    .then((res) => {
+                        if (res?.data?.status_code === 200) {
+                            toast.success("User added successfuly");
+
+                            res?.data?.response?.data?.map((data) => {
+                                setSelectedHcp((oldArray) => [...oldArray, data]);
+                            });
+
+                            loader("hide");
+                            setIsOpenAdd(false);
+                            setActiveManual("active");
+                            setActiveExcel("");
+                            setSelectedFile(null);
+                            setIsOpensend(true);
+                        } else {
+                            toast.warning(res?.data?.message);
+                            loader("hide");
+                        }
+                    })
+                    .catch((err) => {
+                        console.log("something went wrong");
+                    });
+                setIsOpenTagModal(false);
+            } else {
+                toast.error("Please add a excel file");
+            }
         }
-      };
+    };
 
     const hideTemplatePopup = () => {
         setTemplatePopup(false);
@@ -1048,152 +1048,152 @@ const WebinarCreateNewEmail = (props) => {
 
     const hideNewTemplatePopup = () => {
         setNewTemplatePopup(false);
-      };
+    };
 
-      const savenewtemplate = async (e) => {
+    const savenewtemplate = async (e) => {
         e.preventDefault();
         let template_name = document.getElementById("template_name").value;
         let template_id = props?.getWebinarEmailData
-          ? templateId
-          : props?.getWebinarDraftData?.template_id;
+            ? templateId
+            : props?.getWebinarDraftData?.template_id;
         let source =
-          typeof templateSaving != "undefined" && templateSaving != ""
-            ? templateSaving
-            : template;
+            typeof templateSaving != "undefined" && templateSaving != ""
+                ? templateSaving
+                : template;
         if (
-          typeof template_id != "undefined" &&
-          template_id != "" &&
-          template_id != 0
+            typeof template_id != "undefined" &&
+            template_id != "" &&
+            template_id != 0
         ) {
-          if (template_name !== "" && template_name?.trim()?.length > 0) {
-            const body = {
-              user_id: localStorage.getItem("user_id"),
-              source_code: source,
-              template_id: "",
-              name: template_name,
-              status: 1,
-              language: 2,
-            };
-    
-            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-            loader("show");
-            // await axios
-            //   .post(`emailapi/add_update_template`, body)
-            //   .then((res) => {
-            //     if (res.data.status_code === 200) {
-            //       getTemplateListData(1);
-            //       setTemplateId(res.data.response.data.last_id);
-            //       templateIdRef.current = res.data.response.data.last_id;
-            //     } else {
-            //       loader("hide");
-            //       toast.warning("Template not selected.");
-            //     }
-            //   })
-            //   .catch((err) => {
-            //     loader("hide");
-            //     toast.error("Something went wrong");
-            //   });
-            setNewTemplatePopup(false);
-            setTemplatePopup(false);
-          } else {
-            toast.warning("Please enter template name.");
-          }
+            if (template_name !== "" && template_name?.trim()?.length > 0) {
+                const body = {
+                    user_id: localStorage.getItem("user_id"),
+                    source_code: source,
+                    template_id: "",
+                    name: template_name,
+                    status: 1,
+                    language: 2,
+                };
+
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+                loader("show");
+                // await axios
+                //   .post(`emailapi/add_update_template`, body)
+                //   .then((res) => {
+                //     if (res.data.status_code === 200) {
+                //       getTemplateListData(1);
+                //       setTemplateId(res.data.response.data.last_id);
+                //       templateIdRef.current = res.data.response.data.last_id;
+                //     } else {
+                //       loader("hide");
+                //       toast.warning("Template not selected.");
+                //     }
+                //   })
+                //   .catch((err) => {
+                //     loader("hide");
+                //     toast.error("Something went wrong");
+                //   });
+                setNewTemplatePopup(false);
+                setTemplatePopup(false);
+            } else {
+                toast.warning("Please enter template name.");
+            }
         } else {
-          toast.warning("Template not selected.");
+            toast.warning("Template not selected.");
         }
-      };
-      const closeModal = () => {
+    };
+    const closeModal = () => {
         setIsOpenTagModal(false);
-      };
+    };
 
-      const tagClicked = (dd) => {
+    const tagClicked = (dd) => {
         if (!tagClickedFirst?.includes(dd)) {
-          setTagClickedFirst((oldArray) => [...oldArray, dd]);
+            setTagClickedFirst((oldArray) => [...oldArray, dd]);
         } else {
-          toast.error("Tag already in list.");
+            toast.error("Tag already in list.");
         }
-      };
+    };
 
-      const removeTagFinal = (index) => {
+    const removeTagFinal = (index) => {
         const tags = finalTags;
         const tagsClickedFirst = tagClickedFirst;
         tags?.splice(index, 1);
         tagsClickedFirst?.splice(index, 1);
         setFinalTags(tags);
-        setTagClickedFirst(tagsClickedFirst);    
+        setTagClickedFirst(tagsClickedFirst);
         setTagsReRender(tagsReRender + 1);
-      };
+    };
 
-      const newTagChanged = (e) => {
+    const newTagChanged = (e) => {
         setNewTag(e?.target?.value);
         e.target.value = "";
         const new_atg = document.getElementById("new-tag");
         new_atg.value = "";
         //console.log(new_atg);
-      };
+    };
 
-      const addTag = async () => {
+    const addTag = async () => {
         if (typeof newTag == "undefined" || newTag?.trim()?.length == 0) {
-          toast.error("Please input a tag");
+            toast.error("Please input a tag");
         } else {
-          let temp_tags = tagClickedFirst?.map((data) => {
-            return data?.toLowerCase();
-          });
-          let alltemp_tags = [];
-    
-          if (typeof allTags != "undefined") {
-            Object.entries(allTags)?.map((data) => {
-              return alltemp_tags?.push(...data);
+            let temp_tags = tagClickedFirst?.map((data) => {
+                return data?.toLowerCase();
             });
-            alltemp_tags = alltemp_tags?.map((data) => {
-              return data.toLowerCase();
-            });
-            // console.log(alltemp_tags);
-          }
-    
-          if (
-            !temp_tags?.includes(newTag?.toLowerCase()) &&
-            !alltemp_tags?.includes(newTag?.toLowerCase())
-          ) {
-            setTagClickedFirst((oldArray) => [...oldArray, newTag]);
-    
-            const body = {
-              user_id: localStorage.getItem("user_id"),
-              tags: newTag,
-            };
-    
-            //console.log(body);
-            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-            // loader("show");
-            // await axios
-            //   .post(`emailapi/save_tags`, body)
-            //   .then((res) => {
-            //     loader("hide");
-            //   })
-            //   .catch((err) => {
-            //     loader("hide");
-            //     console.log(err);
-            //   });
-            
-          } else {
-            toast.error("Tag already in list.");
-          }
-          setNewTag("");
-          setTagsCounter(tagsCounter + 1);
-        }
-      };
+            let alltemp_tags = [];
 
-      const saveButtonClicked = () => {
+            if (typeof allTags != "undefined") {
+                Object.entries(allTags)?.map((data) => {
+                    return alltemp_tags?.push(...data);
+                });
+                alltemp_tags = alltemp_tags?.map((data) => {
+                    return data.toLowerCase();
+                });
+                // console.log(alltemp_tags);
+            }
+
+            if (
+                !temp_tags?.includes(newTag?.toLowerCase()) &&
+                !alltemp_tags?.includes(newTag?.toLowerCase())
+            ) {
+                setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+
+                const body = {
+                    user_id: localStorage.getItem("user_id"),
+                    tags: newTag,
+                };
+
+                //console.log(body);
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+                // loader("show");
+                // await axios
+                //   .post(`emailapi/save_tags`, body)
+                //   .then((res) => {
+                //     loader("hide");
+                //   })
+                //   .catch((err) => {
+                //     loader("hide");
+                //     console.log(err);
+                //   });
+
+            } else {
+                toast.error("Tag already in list.");
+            }
+            setNewTag("");
+            setTagsCounter(tagsCounter + 1);
+        }
+    };
+
+    const saveButtonClicked = () => {
         if (typeof finalTags != "undefined" && finalTags?.length > 0) {
-          let prev_tags = finalTags;
-          let new_tags = prev_tags?.concat(tagClickedFirst);
-          const uniqueTags = new_tags?.filter((x, i, a) => a?.indexOf(x) == i);
-          setFinalTags(uniqueTags);
+            let prev_tags = finalTags;
+            let new_tags = prev_tags?.concat(tagClickedFirst);
+            const uniqueTags = new_tags?.filter((x, i, a) => a?.indexOf(x) == i);
+            setFinalTags(uniqueTags);
         } else {
-          setFinalTags(tagClickedFirst);
+            setFinalTags(tagClickedFirst);
         }
         closeModal();
-      };
+    };
     return (
         <>
             <Col className="right-sidebar custom-change">
@@ -1216,20 +1216,20 @@ const WebinarCreateNewEmail = (props) => {
                                 <div className="col-12 col-md-9">
                                     <ul className="tabnav-link">
                                         <li className="active active-main">
-                                            <a href="">Create Your Email</a>
+                                            <a href="javascript:void(0)">Create Your Email</a>
                                         </li>
                                         <li className="">
-                                            <a href="">
+                                            <a href="javascript:void(0)">
                                                 {localStorage.getItem("user_id") == userId
                                                     ? "Select Users"
                                                     : "Select HCPs"}
                                             </a>
                                         </li>
-                                        <li className="">
-                                            <a href="">Verify your list</a>
+                                        <li className="javascript:void(0)">
+                                            <a href="javascript:void(0)">Verify your list</a>
                                         </li>
                                         <li className="">
-                                            <a href="">Verify your Email</a>
+                                            <a href="javascript:void(0)">Verify your Email</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -1245,12 +1245,12 @@ const WebinarCreateNewEmail = (props) => {
                                         <button
                                             className="btn btn-primary btn-filled next"
                                             onClick={nextClicked}
-                                            disabled={
-                                                typeof emailSubject == "undefined" ||
-                                                emailSubject.trim().length == 0 ||
-                                                typeof templateId == "undefined" ||
-                                                templateId == ""
-                                            }
+                                            // disabled={
+                                            //     typeof emailSubject == "undefined" ||
+                                            //     emailSubject?.trim()?.length == 0 ||
+                                            //     typeof templateId == "undefined" ||
+                                            //     templateId == ""
+                                            // }
                                         >
                                             Next
                                         </button>
@@ -1949,143 +1949,140 @@ const WebinarCreateNewEmail = (props) => {
                 </div>
                 {/*Modal for Template action end*/}
 
-                 {/*Modal for save new template start*/}
-      <div className="save_new_template_action">
-        <Modal
-          className="modal send-confirm"
-          id="save_new_template_action_modal"
-          show={getNewTemplatePopup}
-        >
-          <Modal.Header>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              onClick={hideNewTemplatePopup}
-            ></button>
-          </Modal.Header>
+                {/*Modal for save new template start*/}
+                <div className="save_new_template_action">
+                    <Modal
+                        className="modal send-confirm"
+                        id="save_new_template_action_modal"
+                        show={getNewTemplatePopup}
+                    >
+                        <Modal.Header>
+                            <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                onClick={hideNewTemplatePopup}
+                            ></button>
+                        </Modal.Header>
 
-          <Modal.Body>
-            <form>
-              <div className="form-group">
-                <label>Enter new template name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="template_name"
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn btn-primary btn-filled"
-                onClick={savenewtemplate}
-              >
-                Save
-              </button>
-            </form>
-          </Modal.Body>
-        </Modal>
-      </div>
-      {/*Modal for save new template end*/}
-
-      <Modal id="tagsModal" show={isOpenTagModal}>
-          <Modal.Header>
-            <h5 className="modal-title" id="staticBackdropLabel">
-              Add Tags
-            </h5>
-            <button
-              type="button"
-              className="btn-close"
-              onClick={closeModal}
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="select-tags">
-              <h6>Select Tag :</h6>
-              <div className="tag-lists">
-                <div className="tag-lists-view">
-                  {allTags
-                    ? Object.values(allTags)?.map((data, index) => {
-                      return (
-                        <>
-                          <div key={index} onClick={() => tagClicked(data)}>
-                            {data}{" "}
-                          </div>
-                        </>
-                      );
-                    })
-                    : ""}
+                        <Modal.Body>
+                            <form>
+                                <div className="form-group">
+                                    <label>Enter new template name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="template_name"
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary btn-filled"
+                                    onClick={savenewtemplate}
+                                >
+                                    Save
+                                </button>
+                            </form>
+                        </Modal.Body>
+                    </Modal>
                 </div>
-              </div>
-            </div>
-            <div className="selected-tags">
-              <h6>
-                Selected Tag <span>| {tagClickedFirst.length}</span>
-              </h6>
+                {/*Modal for save new template end*/}
 
-              <div className="total-selected">
-                {tagClickedFirst?.map((data, index) => {
-                  return (
-                    <>
-                      <div className="tag-cross" key={index}>
-                        {data?.innerHTML || data}
-                        <img
-                          src={path_image + "filter-close.svg"}
-                          alt="Close-filter"
-                          onClick={() => removeTagFinal(index)}
-                        />
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <form>
-              <div className="form-group">
-                <label htmlFor="new-tag">New Tag</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="new-tag"
-                  value={newTag}
-                  onChange={(e) => newTagChanged(e)}
-                />
+                <Modal id="tagsModal" show={isOpenTagModal}>
+                    <Modal.Header>
+                        <h5 className="modal-title" id="staticBackdropLabel">
+                            Add Tags
+                        </h5>
+                        <button
+                            type="button"
+                            className="btn-close"
+                            onClick={closeModal}
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="select-tags">
+                            <h6>Select Tag :</h6>
+                            <div className="tag-lists">
+                                <div className="tag-lists-view">
+                                    {allTags
+                                        ? Object.values(allTags)?.map((data, index) => {
+                                            return (
+                                                <>
+                                                    <div key={index} onClick={() => tagClicked(data)}>
+                                                        {data}{" "}
+                                                    </div>
+                                                </>
+                                            );
+                                        })
+                                        : ""}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="selected-tags">
+                            <h6>
+                                Selected Tag <span>| {tagClickedFirst?.length}</span>
+                            </h6>
 
-                <button
-                  onClick={addTag}
-                  type="button"
-                  className="btn btn-primary add btn-bordered"
-                >
-                  Add
-                </button>
-              </div>
-            </form>
-            <button
-              type="button"
-              className="btn btn-primary save btn-filled"
-              onClick={saveButtonClicked}
-            >
-              Save
-            </button>
-          </Modal.Footer>
-        </Modal>
+                            <div className="total-selected">
+                                {tagClickedFirst?.map((data, index) => {
+                                    return (
+                                        <>
+                                            <div className="tag-cross" key={index}>
+                                                {data?.innerHTML || data}
+                                                <img
+                                                    src={path_image + "filter-close.svg"}
+                                                    alt="Close-filter"
+                                                    onClick={() => removeTagFinal(index)}
+                                                />
+                                            </div>
+                                        </>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <form>
+                            <div className="form-group">
+                                <label htmlFor="new-tag">New Tag</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="new-tag"
+                                    value={newTag}
+                                    onChange={(e) => newTagChanged(e)}
+                                />
+                                <button
+                                    onClick={addTag}
+                                    type="button"
+                                    className="btn btn-primary add btn-bordered"
+                                >
+                                    Add
+                                </button>
+                            </div>
+                        </form>
+                        <button
+                            type="button"
+                            className="btn btn-primary save btn-filled"
+                            onClick={saveButtonClicked}
+                        >
+                            Save
+                        </button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </>)
-
 }
 
 const mapStateToProps = (state) => {
     dxr = state.getWebinarEmailData?.eventId;
     state_object = state.getWebinarEmailData;
     return state;
-  };
+};
 
 export default connect(mapStateToProps, {
     getWebinarEmailData: getWebinarEmailData,
     getWebinarCampaignId: getWebinarCampaignId,
-  })(WebinarCreateNewEmail);
-  
+})(WebinarCreateNewEmail);

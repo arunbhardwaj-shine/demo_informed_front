@@ -75,3 +75,10 @@ export const getWebinarCampaignId = (data) => {
     payload: data,
   };
 };
+
+export const getWebinarSelected = (data) => {
+  return {
+    type: "GET_WEBINAR_SELECTED",
+    payload: data,
+  };
+};

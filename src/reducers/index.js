@@ -103,6 +103,15 @@ const getWebinarCampaignId = (webinarUniqueId = JSON.parse(localStorage.getItem(
   return webinarUniqueId;
 };
 
+const getWebinarSelected =(webinarSelected=JSON.parse(localStorage.getItem('getWebinarSelected')),action) => {
+  if (action.type === "GET_WEBINAR_SELECTED") {
+    localStorage.setItem('getWebinarSelected', JSON.stringify(action.payload));
+    return action.payload;
+  }
+  return webinarSelected;
+
+}
+
 export default combineReducers({
   listId: getListId,
   updatedData: getUpdatedData,
@@ -114,5 +123,6 @@ export default combineReducers({
   getWebinarEmailData:getWebinarEmailData,
   getWebinarSelectedSmartListData:getWebinarSelectedSmartListData,
   getWebinarDraftData:getWebinarDraftData,
-  getWebinarCampaignId:getWebinarCampaignId
+  getWebinarCampaignId:getWebinarCampaignId,
+  getWebinarSelected:getWebinarSelected
 });
