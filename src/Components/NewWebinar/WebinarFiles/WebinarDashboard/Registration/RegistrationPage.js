@@ -2471,7 +2471,7 @@ console.log(label,'label')
       // className="col-sm-12 col-md-12 consent-form-list attend-sec"
       className={`${(label?.includes("consent") ? "col-sm-12 col-md-12 consent-form-list attend-sec" : "col-sm-6 col-md-6 consent-form-list attend-sec"
    ) }
-        }`}
+        `}
       style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
     >
       <label
