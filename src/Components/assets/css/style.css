@@ -11950,7 +11950,7 @@ button.event_sort_btn.svg_active svg {
   padding: 0px 3px 15px;
 }
 .octa-academy_inner {
-  background: #fff;
+  background: var(--white);
 }
 .octa-academy_inner .motivation-body .logo-top h6 {
   font-size: 20px;
@@ -12025,7 +12025,7 @@ button.event_sort_btn.svg_active svg {
   background: #2c3a99;
 }
 .register-popup-view .consent-form .split-button-dropup div:nth-child(3)>div div[class*="-singleValue"] {
-color:#ffffff;
+color:var(--white);
 }
 .octa-academy-template .invertor-metting .logo-top h5 {
   font-weight: 400;
@@ -12265,7 +12265,6 @@ color:#ffffff;
 
 .poll-question .poll-question-create .answer-option .options .row textraea.form-control {
   border-radius: 14px;
-  ;
 }
 
 input[type="time" i] {
