@@ -37,7 +37,8 @@ const template = {
   2:['logoOne',"logoTwo"],
   3:['logo','header','footer'],
   4:[],
-  5:['header']
+  5:['header'],
+  6:['logo','templateOne','templateTwo']
 }
 const WebinarRegistration = () => {
   const { eventIdContext, handleEventId } = useSidebar();
@@ -77,6 +78,8 @@ const WebinarRegistration = () => {
   );
   const [logo, setLogo] = useState();
   const [logoOne, setLogoOne] = useState();
+  const [templateOne, setTemplateOne] = useState();
+  const [templateTwo, setTemplateTwo] = useState();
   const [logoTwo, setLogoTwo] = useState();
   const [file, setFile] = useState();
   const [foot, setFoot] = useState();
@@ -103,6 +106,8 @@ const WebinarRegistration = () => {
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",
+    templateOneImageUrl: "",
+    templateTwoImageUrl: "",
     headerImageUrl: "",
     body: [],
     footerImageUrl: "",
@@ -122,6 +127,8 @@ const WebinarRegistration = () => {
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",
+    templateOneImageUrl: "",
+    templateTwoImageUrl: "",
     headerImageUrl: "",
     body: [],
     footerImageUrl: "",
@@ -383,6 +390,8 @@ const WebinarRegistration = () => {
       setActiveIndex(tempId ? tempId : 0);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
+      setTemplateOne(newFormData?.templateOneImageUrl ? newFormData?.templateOneImageUrl : "");
+      setTemplateTwo(newFormData?.templateTwoImageUrl ? newFormData?.templateTwoImageUrl : "");
       setApiStatus(true);
     } catch (err) {
       setApiStatus(true);
@@ -484,6 +493,16 @@ const WebinarRegistration = () => {
               `Invalid file extension of logoTwo. Please select a valid extension file.`
             );
           }
+          else if (isSelectedName === "templateOneImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of templateOne. Please select a valid extension file.`
+            );
+          }
+          else if (isSelectedName === "templateTwoImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of templateTwo. Please select a valid extension file.`
+            );
+          }
         } else {
           setErrorMsg("");
         }
@@ -507,6 +526,14 @@ const WebinarRegistration = () => {
         if (isSelectedName === "logoTwoImageUrl") {
           const imgElement = document.querySelector(".logoTwo-img");
           setLogoTwo(URL.createObjectURL(file));
+        }
+        if (isSelectedName === "templateOneImageUrl") {
+          const imgElement = document.querySelector(".templateOne-img");
+          setTemplateOne(URL.createObjectURL(file));
+        }
+        if (isSelectedName === "templateTwoImageUrl") {
+          const imgElement = document.querySelector(".templateTwo-img");
+          setTemplateTwo(URL.createObjectURL(file));
         }
 
         try {
@@ -1082,6 +1109,16 @@ const WebinarRegistration = () => {
     setFormData({ ...formData, logoTwoImageUrl: "" });
   };
 
+  const handleDeleteTemplateOneImage = () => {
+    setTemplateOne("")
+    setFormData({ ...formData, templateOneImageUrl: "" });
+  };
+
+  const handleDeleteTemplateTwoImage = () => {
+    setTemplateTwo("")
+    setFormData({ ...formData, templateTwoImageUrl: "" });
+  };
+
   const onColorChange = (e, isSelectedName) => {
     if (isSelectedName == "labelColor") {
       setFormData({ ...formData, labelColor: e?.target?.value });
@@ -1145,6 +1182,16 @@ const WebinarRegistration = () => {
           updatedBody?.footerImageUrl
             ? updatedBody?.footerImageUrl
             : template?.footerImageUrl
+        );
+        setTemplateOne(
+          updatedBody?.templateOneImageUrl
+            ? updatedBody?.templateOneImageUrl
+            : template?.templateOneImageUrl
+        );
+        setTemplateTwo(
+          updatedBody?.templateTwoImageUrl
+            ? updatedBody?.templateTwoImageUrl
+            : template?.templateTwoImageUrl
         );
         // console.log(Object.keys(updatedBody.eventDetails)?.length>0);
 
@@ -1227,6 +1274,8 @@ const WebinarRegistration = () => {
         setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
         setLogoOne(updatedBody?.logoOneImageUrl ? updatedBody?.logoOneImageUrl : "");
         setLogoTwo(updatedBody?.logoTwoImageUrl ? updatedBody?.logoTwoImageUrl : "");
+        setTemplateOne(updatedBody?.templateOneImageUrl ? updatedBody?.templateOneImageUrl : "");
+        setTemplateTwo(updatedBody?.templateTwoImageUrl ? updatedBody?.templateTwoImageUrl : "");
         setFile(updatedBody?.headerImageUrl ? updatedBody?.headerImageUrl : "");
         setFoot(updatedBody?.footerImageUrl ? updatedBody?.footerImageUrl : "");
         // console.log(updatedBody);
@@ -3225,6 +3274,128 @@ const WebinarRegistration = () => {
                             onClick={(e) => {
                               e.stopPropagation();
                               handleDeleteLogoTwoImage(e, "logoTwoImageUrl");
+                            }}
+                          >
+                            <img
+                              title="Delete"
+                              src={path_image + "delete-icon.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    </div>
+                    :''}
+
+                  {template[formData?.templateId]?.includes("templateOne")?
+                    <div className="form-group d-flex align-items-center less-spacer">
+                    <label>Upload First Template</label>
+                    <div
+                      className="logo-section"
+                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                    >
+                      {!templateOne && (
+                        <>
+                          <div>
+                            <h5>Upload your file</h5>
+                            <h6>(Recommended size 300 x 140)</h6>
+                          </div>
+                          <Button className="upload-img"
+                            onClick={(e) =>
+                              handleFileSelect(e, "templateOneImageUrl")
+                            }
+                          >
+                            Choose Your File
+                          </Button>
+                        </>
+                      )}
+
+                      <img className="templateOne-img" src={templateOne} />
+                      <div className="logo-text header-text">
+                        {templateOne && (
+                          <button
+                            className="btn btn-outline-primary"
+                            title="Edit user"
+                            type="button"
+                          >
+                            <img
+                              src={path + "edit-button.svg"}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleFileSelect(e, "templateOneImageUrl");
+                              }}
+                            />
+                          </button>
+                        )}
+
+                        {templateOne && (
+                          <button
+                            className="dlt_btn_event btn-voilet"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteTemplateOneImage(e, "templateOneImageUrl");
+                            }}
+                          >
+                            <img
+                              title="Delete"
+                              src={path_image + "delete-icon.svg"}
+                              alt="Delete Row"
+                            />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    </div>
+                    :''}
+
+                  {template[formData?.templateId]?.includes("templateTwo")?
+                    <div className="form-group d-flex align-items-center less-spacer">
+                    <label>Upload Second Template</label>
+                    <div
+                      className="logo-section"
+                      // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                    >
+                      {!templateTwo && (
+                        <>
+                          <div>
+                            <h5>Upload your file</h5>
+                            <h6>(Recommended size 300 x 140)</h6>
+                          </div>
+                          <Button className="upload-img"
+                            onClick={(e) =>
+                              handleFileSelect(e, "templateTwoImageUrl")
+                            }
+                          >
+                            Choose Your File
+                          </Button>
+                        </>
+                      )}
+
+                      <img className="templateTwo-img" src={templateTwo} />
+                      <div className="logo-text header-text">
+                        {templateTwo && (
+                          <button
+                            className="btn btn-outline-primary"
+                            title="Edit user"
+                            type="button"
+                          >
+                            <img
+                              src={path + "edit-button.svg"}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleFileSelect(e, "templateTwoImageUrl");
+                              }}
+                            />
+                          </button>
+                        )}
+
+                        {templateTwo && (
+                          <button
+                            className="dlt_btn_event btn-voilet"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteTemplateTwoImage(e, "templateTwoImageUrl");
                             }}
                           >
                             <img

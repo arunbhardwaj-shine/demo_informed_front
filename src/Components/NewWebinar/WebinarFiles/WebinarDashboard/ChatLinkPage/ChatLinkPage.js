@@ -1053,14 +1053,14 @@ const ChatLinkPage = () => {
                             ) : formData?.templateId == 4 ||
                               formData?.templateId == 5 ||
                               formData?.templateId == 6 ||
-                              formData?.templateId === 7 ||
-                              formData?.templateId === 8 ? (
+                              formData?.templateId === 7  ? (
                               <>
                                 <div
                                   className="head-sec template2"
                                   style={{
                                     backgroundImage: `url(${formData?.headerImage})`,
-                                  }}
+                                  }} 
+                                  
                                 ></div>
                                 <div className="event_title">
                                   <h2
@@ -1074,7 +1074,31 @@ const ChatLinkPage = () => {
                                   />
                                 </div>
                               </>
-                            ) : (
+                            ):  formData?.templateId === 8 ? (
+                              <>
+                                <div
+                                  className="head-sec template2"
+                                > <img
+                                src={
+                                  formData?.headerImage
+                                    ? formData?.headerImage
+                                    : ""
+                                }
+                             
+                              /></div>
+                                <div className="event_title">
+                                  <h2
+                                    className="top-title"
+                                    style={{ color: formData?.textColor }}
+                                    dangerouslySetInnerHTML={{
+                                      __html: formData?.formHeading
+                                        ? formData?.formHeading
+                                        : "Type your question here!",
+                                    }}
+                                  />
+                                </div>
+                              </>
+                            ): (
                               <div
                                 className="head-sec"
                                 style={{
@@ -1206,7 +1230,7 @@ const ChatLinkPage = () => {
                                     dangerouslySetInnerHTML={{
                                       __html: formData?.footerTextOne
                                         ? formData?.footerTextOne
-                                        : "Visit <a target='_blank' href='https://onesource.octapharma.com'>One Source</a>, Octapharma’s online haematology platform for healthcare professionals, to be up to date with the latest news and events, and to hear leading experts share their opinions about treating patients with bleeding disorders.",
+                                        : "",
                                     }}
                                   />
                                 </div>
