@@ -2465,7 +2465,7 @@ const FormField6 = ({
       />  
     );
   }
-console.log(label,'label')
+// console.log(label,'label')
   return (
     <div
       // className="col-sm-12 col-md-12 consent-form-list attend-sec"
