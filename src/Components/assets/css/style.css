@@ -3988,9 +3988,37 @@ form#add_hcp_form .row:not(:first-child) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 80px;
+  margin-bottom: 0px;
 }
-
+.select-smart-list .table-title {
+  margin-bottom: 80px;
+  flex-wrap: wrap;
+}
+.select-smart-list .filter_btn_div {
+  flex: 0 0 100%;
+}
+.select-smart-list .filter_btn_div {
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 25px 0 0;
+}
+.search-hcp .select-smart-list .dropdown-menu.filter-options .accordion .card-header button {
+  padding: 11px 15px;
+  background: var(--white) url("../images/dropdown-arrow.svg") no-repeat;
+  background-size: 16px;
+    background-position: right center;
+}
+.search-hcp .select-smart-list .accordion .accordion-item .accordion-body {
+  border-top: 0;
+  padding: 1rem 10px 1rem 5px;
+}
+.select-smart-list .filter_btn_div .apply-filter {
+  margin: 0;
+  flex: 1 1;
+  padding: 0;
+}
 .selected-hcp-list .table tr.seprator-add td {
   padding: 0 0 1px;
   border-bottom: 1px dashed var(--light-blue);

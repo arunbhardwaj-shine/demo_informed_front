@@ -3802,6 +3802,7 @@ input[type="number"] {
   border-radius: 13px;
   padding: 16px;
   min-width: 317px;
+  max-width: 317px;
 
   h5 {
     font-weight: 500;
@@ -3901,7 +3902,26 @@ input[type="number"] {
     }
   }
 }
-
+.timeline-left-user-detail .mail {
+  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+  border-radius: 30px;
+  background: #ffffff;
+  padding: 4px;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  @include flex-middle;
+}
+.timeline-left-user-detail .mail:hover {
+  background: $primary-color;
+}
+.timeline-left-user-detail .mail svg {
+  width: 20px;
+  height: auto;
+}
+.timeline-left-user-detail .mail:hover svg path{
+  fill:$white;
+}
 .timeline-right-list {
   flex: 1 1;
   padding-left: 45px;
