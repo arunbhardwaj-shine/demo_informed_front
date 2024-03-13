@@ -186,7 +186,10 @@ const Header = () => {
               // to={"/library-content"}
               to={"/home"}
             >
-              <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
+              {
+                window.location.pathname === "/spc-render" ||  window.location.pathname === "/timeline-detail" ? "" : 
+                <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
+              }
             </Link>
             {/* <button
               className="navbar-toggler"

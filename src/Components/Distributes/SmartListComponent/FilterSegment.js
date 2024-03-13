@@ -1302,7 +1302,7 @@ const FilterSegment = (props) => {
               </div>
             </div>
             <div className="col-12 col-md-6">
-              <div className="header-btn">
+              <div className="header-btn d-flex justify-content-end">
                 <button
                   className="btn btn-primary btn-bordered light"
                   onClick={closeClicked}
@@ -1357,7 +1357,7 @@ const FilterSegment = (props) => {
             </div>
 
             <div className="col-12 col-md-3">
-              <div className="header-btn">
+              <div className="header-btn d-flex justify-content-end">
                 <button
                   className="btn btn-primary btn-bordered light"
                   onClick={closeCancelClicked}
@@ -3483,6 +3483,7 @@ const FilterSegment = (props) => {
                 upload_by_filter="1"
                 filter_payload={getpayload}
                 creator={props.creator}
+                ibu={props.ibu}
                 sendDataToParent={sendDataToParent}
               />
             </div>

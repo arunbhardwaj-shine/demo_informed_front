@@ -24,6 +24,7 @@ const SmartList = (props) => {
   const [filterdata, setFilterData] = useState([]);
   const [getfiltername, setFilterName] = useState([]);
   const [getFilterCreator, setFilterCreator] = useState([]);
+  const [getFilterIbu, setFilterIbu] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
   const [filter, setFilter] = useState("");
   const [updateflag, setUpdateFlag] = useState(0);
@@ -63,12 +64,13 @@ const SmartList = (props) => {
       .post(`distributes/get_smart_list?page=` + page, body)
       .then((res) => {
         setLoading(false);
-        setSmartListData(res.data.response.data);
+        setSmartListData(res?.data?.response?.data);
         if (flag == 0) {
-          setFilterData(res.data.response.filter);
-          setPrevSmartListData(res.data.response.data);
+          console.log(flag,"flaggetSmartListDataflag")
+          setFilterData(res?.data?.response?.filter);
+          setPrevSmartListData(res?.data?.response?.data);
         }
-        setUserDetails(res.data.response.userdetails);
+        setUserDetails(res?.data?.response?.userdetails);
         loader("hide");
       })
       .catch((err) => {
@@ -233,6 +235,28 @@ const SmartList = (props) => {
     setUpdateFlag(up);
   };
 
+  const handleIBUChange = (ibu) => {
+    let get_creator_index = getFilterIbu.indexOf(ibu);
+    if (get_creator_index !== -1) {
+      getFilterIbu.splice(get_creator_index, 1);
+      setFilterIbu(getFilterIbu);
+    } else {
+      getFilterIbu.push(ibu);
+      setFilterIbu(getFilterIbu);
+    }
+
+    let getfilter = getFilterIbu;
+    if (getfilter.hasOwnProperty("ibu")) {
+      getfilter.name = getFilterIbu;
+    } else {
+      getfilter = Object.assign({ ibu: getFilterIbu }, filter);
+    }
+    setFilter(getfilter);
+
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
   const handleOnFilterDate = (fdate) => {
     let date_index = filterdate.indexOf(fdate);
     if (date_index !== -1) {
@@ -282,6 +306,7 @@ const SmartList = (props) => {
     });
     setFilterName([]);
     setFilterCreator([]);
+    setFilterIbu([]);
     setFilterDate([]);
     setFilter([]);
     let up = updateflag + 1;
@@ -306,6 +331,8 @@ const SmartList = (props) => {
       handleOnFilterDate(item);
     } else if (src == "creator") {
       handleCreatorChange(item);
+    }else if (src == "ibu") {
+      handleIBUChange(item);
     }
     if (filterapplied) {
       getSmartListData(1);
@@ -458,6 +485,45 @@ const SmartList = (props) => {
                             </Accordion.Item>
                           )}
 
+                        {filterdata.hasOwnProperty("ibu") && localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' &&
+                          filterdata.ibu.length > 0 && (
+                            <Accordion.Item className="card" eventKey="3">
+                              <Accordion.Header className="card-header">
+                              IBU
+                              </Accordion.Header>
+                              <Accordion.Body className="card-body">
+                                <ul>
+                                  {Object.entries(filterdata.ibu).map(
+                                    ([index, item]) => (
+                                      <li key={item}>
+                                        <label className="select-multiple-option">
+                                          <input
+                                            type="checkbox"
+                                            id={`custom-checkbox-ibu-${index}`}
+                                            name="ibu[]"
+                                            value={item}
+                                            checked={
+                                              updateflag > 0 &&
+                                              typeof getFilterIbu !==
+                                                "undefined" &&
+                                                getFilterIbu.indexOf(item) !==
+                                                -1
+                                            }
+                                            onChange={() =>
+                                              handleIBUChange(item)
+                                            }
+                                          />
+                                          {item}
+                                          <span className="checkmark"></span>
+                                        </label>
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+                              </Accordion.Body>
+                            </Accordion.Item>
+                          )}  
+
                         {filterdata.hasOwnProperty("creator") &&
                           filterdata.creator.length > 0 && (
                             <Accordion.Item className="card" eventKey="1">
@@ -606,6 +672,7 @@ const SmartList = (props) => {
             {updateflag > 0 &&
               (getfiltername.length > 0 ||
                 getFilterCreator.length > 0 ||
+                getFilterIbu.length > 0 ||
                 filterdate.length > 0) && (
                 <div className="apply-filter">
                   <h6>Applied filters</h6>
@@ -624,6 +691,33 @@ const SmartList = (props) => {
                                   className="filter-result"
                                   onClick={(event) =>
                                     removeindividualfilter("name", item)
+                                  }
+                                >
+                                  {item}
+                                  <img
+                                    src={path_image + "filter-close.svg"}
+                                    alt="Close-filter"
+                                  />
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {getFilterIbu.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>IBU |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(getFilterIbu).map(
+                              ([index, item]) => (
+                                <div
+                                  key={item}
+                                  className="filter-result"
+                                  onClick={(event) =>
+                                    removeindividualfilter("ibu", item)
                                   }
                                 >
                                   {item}
@@ -704,23 +798,25 @@ const SmartList = (props) => {
 
             <div className="smart-list-result">
               <div className="col smartlist-result-block">
-                {getfiltername.length == 0 &&
-                  getFilterCreator.length == 0 &&
-                  filterdate.length == 0 &&
+                {
+                // getfiltername.length == 0 &&
+                //   getFilterCreator.length == 0 &&
+                //   getFilterIbu.length == 0 &&
+                //   filterdate.length == 0 &&
                   !deletestatus && (
                     <div className="smartlist_box_block">
                       <div className="smartlist-add smartlist-view">
-                        {typeof getUserDetails !== "undefined" && (
+                        {/* {typeof getUserDetails !== "undefined" && ( */}
                           <>
                             <Link
                               to="/CreateSmartList"
-                              state={{ creator: getUserDetails.name }}
+                              state={{ creator: getUserDetails?.name }}
                             >
                               <img src={path_image + "add-button.svg"} alt="" />
                             </Link>
                             <p>Create New Smart List</p>
                           </>
-                        )}
+                        {/* )} */}
                       </div>
                     </div>
                   )}
