@@ -12024,9 +12024,9 @@ button.event_sort_btn.svg_active svg {
 .octa-academy-template .consent-form-list.attend-sec li .checkmark::after {
   background: #2c3a99;
 }
-.register-popup-view .consent-form .split-button-dropup div:nth-child(3)>div div[class*="-singleValue"] {
+/* .register-popup-view .consent-form .split-button-dropup div:nth-child(3)>div div[class*="-singleValue"] {
 color:var(--white);
-}
+} */
 .octa-academy-template .invertor-metting .logo-top h5 {
   font-weight: 400;
   font-family: "Poppins", sans-serif;
