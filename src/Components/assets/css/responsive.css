@@ -1281,7 +1281,6 @@
   }
 
   .create-smart-list {
-    margin-bottom: 60px;
     padding: 9px 9px 9px 20px;
   }
 
@@ -1911,6 +1910,9 @@
     .create_smart_list {
       margin-top: 30px;
     }
+        .select-smart-list .filter_btn_div .apply-filter .filter-block {
+          padding: 4px 16px;
+        }
 .verify-email-detail .form-buttons.right-side {
   margin: 0 0 10px;
   display: flex;

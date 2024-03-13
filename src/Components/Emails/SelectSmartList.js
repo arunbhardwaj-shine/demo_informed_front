@@ -17,6 +17,7 @@ import * as XLSX from "xlsx";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import Accordion from "react-bootstrap/Accordion";
 import Select from "react-select";
 
 var new_object;
@@ -58,10 +59,23 @@ const SelectSmartList = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [getloadmore, setloadmore] = useState(0);
 
+  const [showfilter, setShowFilter] = useState(false);
+  const [filterdata, setFilterData] = useState([]);
+  const [updateflag, setUpdateFlag] = useState(0);
+  const [getFilterIbu, setFilterIbu] = useState([]);
+  const [filter, setFilter] = useState("");
+  const [filterapplied, setFilterApply] = useState(false);
+  const [prevsmartListData, setPrevSmartListData] = useState([]);
+
   const inputElement = useRef();
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
   const [ibu, setIbu] = useState([
+    {
+      label: "All",
+      value: "All",
+    },
     {
       label: "Critical Care",
       value: "Critical Care",
@@ -79,14 +93,18 @@ const SelectSmartList = (props) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: "",
-      filter: "",
+      filter: filter,
       paging: "32",
     };
     loader("show");
     axios
       .post(`distributes/get_smart_list?page=` + page, body)
       .then((res) => {
-        setSendListData(res.data.response.data);
+        setSendListData(res?.data?.response?.data);
+        if(filterdata?.length == 0){
+            setFilterData(res?.data?.response?.filter);
+            setPrevSmartListData(res?.data?.response?.data);
+        }
         loader("hide");
         setApiCallStatus(true);
       })
@@ -414,7 +432,6 @@ const SelectSmartList = (props) => {
     setCustomIbu(value);
   }
 
-
   const downloadFile = () => {
     // let link = document.createElement("a");
     // link.href = "https://webinar.informed.pro/sample.xls";
@@ -449,6 +466,81 @@ const SelectSmartList = (props) => {
     getSmartListData(2);
     setloadmore(1);
   };
+
+  const clearFilter = () => {
+    document.querySelectorAll("input").forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+    setFilterIbu([]);
+    setFilter([]);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+    if (filterapplied) {
+      setSendListData(prevsmartListData);
+    }
+    setShowFilter(false);
+  };
+
+  const applyFilter = () => {
+    setFilterApply(true);
+    getSmartListData(1);
+    setShowFilter(false);
+  };
+
+  const handleIBUFilterChange = (ibu) => {
+    let getfilter = ''
+    if(ibu == 'All'){
+      ibu = ['All','Critical Care','Haematology','Immunotherapy'];
+      let get_creator_index = getFilterIbu.indexOf('All');
+      getFilterIbu.length = 0;
+      if(get_creator_index != -1){
+        setFilterIbu([]);
+      }else{
+        // let ibuToAdd = ibu.filter(item => !getFilterIbu.includes(item));
+        getFilterIbu.push(...ibu);
+        setFilterIbu(getFilterIbu);
+      }
+    }else{
+      let get_creator_index = getFilterIbu.indexOf(ibu);
+      if (get_creator_index !== -1) {
+
+        getFilterIbu.splice(get_creator_index, 1);        
+        let index = getFilterIbu.indexOf('All');
+        if (index !== -1) {
+          getFilterIbu.splice(index, 1);
+        }
+        setFilterIbu(getFilterIbu);
+      } else {
+        getFilterIbu.push(ibu);
+        setFilterIbu(getFilterIbu);
+      }
+    }
+    
+    getfilter = getFilterIbu;
+    if (getfilter?.hasOwnProperty("ibu")) {
+      getfilter.ibu = getFilterIbu;
+    } else {
+      // getfilter = Object.assign({ ibu: getFilterIbu }, filter);
+      getfilter = Object.assign({}, filter, { ibu: getFilterIbu });
+    }
+    setFilter(getfilter);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
+  const removeindividualfilter = (src, item) => {
+    loader("show");
+    if (src == "ibu") {
+      handleIBUFilterChange(item);
+    }
+    if (filterapplied) {
+      getSmartListData(1);
+    } else {
+      loader("hide");
+    }
+    setShowFilter(false);
+  };
+
 
   return (
     <>
@@ -532,6 +624,7 @@ const SelectSmartList = (props) => {
             <section className="search-hcp">
               <div className="select-smart-list">
                 <div className="table-title">
+
                   <div className="create-smart-list">
                     <p>
                       {localStorage.getItem("user_id") == userId
@@ -558,6 +651,178 @@ const SelectSmartList = (props) => {
                       Upload excel file
                     </button>
                   </div>
+
+                  {
+                    localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
+                    <div className="filter_btn_div">
+                        
+
+                        {updateflag > 0 &&
+                          (
+                            getFilterIbu.length > 0 ) && (
+                            <div className="apply-filter">
+                              <div className="filter-block">
+                                <div className="filter-block-left full">
+                                  {getFilterIbu.length > 0 && (
+                                    <div className="filter-div">
+                                      <div className="filter-div-title">
+                                        <span>IBU |</span>
+                                      </div>
+                                      <div className="filter-div-list">
+                                        {Object.entries(getFilterIbu).map(
+                                          ([index, item]) => (
+                                            <div
+                                              key={item}
+                                              className="filter-result"
+                                              onClick={(event) =>
+                                                removeindividualfilter("ibu", item)
+                                              }
+                                            >
+                                              {item}
+                                              <img
+                                                src={path_image + "filter-close.svg"}
+                                                alt="Close-filter"
+                                              />
+                                            </div>
+                                          )
+                                        )}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                          <div className="filter-by nav-item dropdown">
+                          <button
+                          ref={buttonRef}
+                            className="btn btn-secondary dropdown"
+                            type="button"
+                            id="dropdownMenuButton2"
+                            onClick={() => setShowFilter((showfilter) => !showfilter)}
+                          >
+                            Filter By
+                            {showfilter ? (
+                              <svg
+                                className="close-arrow"
+                                width="13"
+                                height="12"
+                                viewBox="0 0 13 12"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <rect
+                                  width="2.09896"
+                                  height="15.1911"
+                                  rx="1.04948"
+                                  transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                                  fill="#0066BE"
+                                />
+                                <rect
+                                  width="2.09896"
+                                  height="15.1911"
+                                  rx="1.04948"
+                                  transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                                  fill="#0066BE"
+                                />
+                              </svg>
+                            ) : (
+                              <svg
+                                className="filter-arrow"
+                                width="16"
+                                height="14"
+                                viewBox="0 0 16 14"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                                  fill="#97B6CF"
+                                />
+                                <path
+                                  d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                                  fill="#97B6CF"
+                                />
+                                <path
+                                  d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                                  fill="#97B6CF"
+                                />
+                              </svg>
+                            )}
+                          </button>
+
+                          {showfilter && (
+                            <div
+                            ref={filterRef}
+                              className="dropdown-menu filter-options"
+                              aria-labelledby="dropdownMenuButton2"
+                            >
+                              <h4>Filter By</h4>
+                              <Accordion flush>
+                              
+                                {filterdata?.hasOwnProperty("ibu") && localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' &&
+                                  filterdata?.ibu?.length > 0 && (
+                                    <Accordion.Item className="card" eventKey="3">
+                                      <Accordion.Header className="card-header">
+                                      IBU
+                                      </Accordion.Header>
+                                      <Accordion.Body className="card-body">
+                                        <ul>
+                                          {Object.entries(filterdata.ibu).map(
+                                            ([index, item]) => (
+                                              <li key={item}>
+                                                <label className="select-multiple-option">
+                                                  <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-ibu-${index}`}
+                                                    name="ibu[]"
+                                                    value={item}
+                                                    checked={
+                                                      updateflag > 0 &&
+                                                      typeof getFilterIbu !==
+                                                        "undefined" &&
+                                                        getFilterIbu.indexOf(item) !==
+                                                        -1
+                                                    }
+                                                    onChange={() =>
+                                                      handleIBUFilterChange(item)
+                                                    }
+                                                  />
+                                                  {item}
+                                                  <span className="checkmark"></span>
+                                                </label>
+                                              </li>
+                                            )
+                                          )}
+                                        </ul>
+                                      </Accordion.Body>
+                                    </Accordion.Item>
+                                  )}  
+
+                              
+
+                                
+                              </Accordion>
+                              <div className="filter-footer">
+                                <button
+                                  className="btn btn-primary btn-bordered"
+                                  onClick={clearFilter}
+                                >
+                                  Clear
+                                </button>
+                                <button
+                                  className="btn btn-primary btn-filled"
+                                  onClick={applyFilter}
+                                >
+                                  Apply
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                     </div>
+                    : null  
+                  }
                 </div>
                 {/*
               <div className="col smartlist-refresh_div">
@@ -572,9 +837,9 @@ const SelectSmartList = (props) => {
 
                 <div className="col smartlist-result-block">
                   {
-                    apiCallStatus && SendListData.length > 0
+                    apiCallStatus && SendListData?.length > 0
                       ?
-                      SendListData.map((template) => {
+                      SendListData?.map((template) => {
                         return (
                           <div className="smartlist_box_block">
                             <div className="smartlist-view email_box">
@@ -667,13 +932,13 @@ const SelectSmartList = (props) => {
                       })
                       :
                       apiCallStatus ? (
-                        <div class="no_found"><p>No Data Found</p></div>
+                        <div className="no_found"><p>No Data Found</p></div>
                       ) : null
                   }
                 </div>
 
                 {typeof SendListData !== "undefined" &&
-                  SendListData.length == 32 &&
+                  SendListData?.length == 32 &&
                   getloadmore === 0 && (
                     <div className="load_more">
                       <button

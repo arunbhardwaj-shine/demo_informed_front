@@ -46,6 +46,10 @@ const CreateSmartList = () => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [ibu, setIbu] = useState([
     {
+      label: "All",
+      value: "All",
+    },
+    {
       label: "Critical Care",
       value: "Critical Care",
     },
